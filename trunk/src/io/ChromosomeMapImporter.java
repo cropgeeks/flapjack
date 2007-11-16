@@ -33,7 +33,7 @@ public class ChromosomeMapImporter
 			Marker marker = new Marker(tokens[0], position);
 
 			// Retrieve the map it should be added to
-			ChromosomeMap map = dataSet.getChromosomeMap(tokens[1], true);
+			ChromosomeMap map = dataSet.getMapByName(tokens[1], true);
 			// And add it
 			map.addMarker(marker);
 		}
