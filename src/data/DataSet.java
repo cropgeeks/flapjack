@@ -8,31 +8,65 @@ public class DataSet
 
 	private Vector<Line> lines = new Vector<Line>();
 
+	private StateTable stateTable = new StateTable();
+
 	public DataSet()
 	{
 	}
 
-	public void addLine(Line line)
+	public StateTable getStateTable()
 	{
+		return stateTable;
+	}
+
+	public Line createLine(String name)
+	{
+		// TODO: Check for duplicate lines
+		Line line = new Line(name);
+
+		// This ensures each line has a set of (empty) loci data for each map
+		for (ChromosomeMap map: chromosomes)
+			line.initializeMap(map);
+
 		lines.add(line);
+
+		return line;
 	}
 
 	/**
 	 * Returns the chromosome map with the given name, or creates a new map with
 	 * this name if it could not be found.
 	 */
-	public ChromosomeMap getChromosomeMap(String name, boolean create)
+	public ChromosomeMap getMapByName(String mapName, boolean create)
 	{
 		for (ChromosomeMap map: chromosomes)
-			if (map.getName().equals(name))
+			if (map.getName().equals(mapName))
 				return map;
 
-		ChromosomeMap map = new ChromosomeMap(name);
+		ChromosomeMap map = new ChromosomeMap(mapName);
 		chromosomes.add(map);
 
 //		System.out.println("Added map " + map + " to dataset");
 
 		return map;
+	}
+
+	public ChromosomeMap getMapByMarkerName(String markerName)
+	{
+		for (ChromosomeMap map: chromosomes)
+			if (map.containsMarker(markerName))
+				return map;
+
+		return null;
+	}
+
+	public int getMapIndexByMarkerName(String markerName)
+	{
+		for (ChromosomeMap map: chromosomes)
+			if (map.containsMarker(markerName))
+				return chromosomes.indexOf(map);
+
+		return -1;
 	}
 
 	public void printChromosomeMaps()
@@ -49,5 +83,18 @@ public class DataSet
 	{
 		for (ChromosomeMap map: chromosomes)
 			map.sort();
+	}
+
+	public void printSummary()
+	{
+		for (ChromosomeMap map: chromosomes)
+		{
+			System.out.println("Map " + map);
+
+			for (Line line: lines)
+			{
+				line.printSummary(map);
+			}
+		}
 	}
 }
