@@ -14,23 +14,17 @@ public class Marker implements Comparable<Marker>
 	}
 
 	public String toString()
-	{
-		return name;
-	}
+		{ return name; }
 
 	public String getName()
-	{
-		return name;
-	}
+		{ return name; }
 
 	public float getPosition()
-	{
-		return position;
-	}
+		{ return position; }
 
 	public int compareTo(Marker marker)
 	{
-		if (marker.position < position)
+		if (marker.position > position)
 			return -1;
 		else if (marker.position == position)
 			return 0;
