@@ -33,6 +33,18 @@ public class DataSet
 		return line;
 	}
 
+	public ChromosomeMap getMapByIndex(int index)
+		throws ArrayIndexOutOfBoundsException
+	{
+		return chromosomes.get(index);
+	}
+
+	public Line getLineByIndex(int index)
+		throws ArrayIndexOutOfBoundsException
+	{
+		return lines.get(index);
+	}
+
 	/**
 	 * Returns the chromosome map with the given name, or creates a new map with
 	 * this name if it could not be found.
@@ -69,10 +81,14 @@ public class DataSet
 		return -1;
 	}
 
-	public void printChromosomeMaps()
+	public int countChromosomeMaps()
 	{
-		for (ChromosomeMap map: chromosomes)
-			map.print();
+		return chromosomes.size();
+	}
+
+	public int countLines()
+	{
+		return lines.size();
 	}
 
 	/**
@@ -83,18 +99,5 @@ public class DataSet
 	{
 		for (ChromosomeMap map: chromosomes)
 			map.sort();
-	}
-
-	public void printSummary()
-	{
-		for (ChromosomeMap map: chromosomes)
-		{
-			System.out.println("Map " + map);
-
-			for (Line line: lines)
-			{
-				line.printSummary(map);
-			}
-		}
 	}
 }

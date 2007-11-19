@@ -29,8 +29,6 @@ public class GenotypeDataImporter
 		// first element as it's a redundant column header)
 		String[] markers = str.split("\t");
 
-		System.out.println("Found " + (markers.length-1) + " markers in the genotype file");
-
 		while ((str = in.readLine()) != null)
 		{
 			String[] values = str.split("\t");
@@ -54,33 +52,24 @@ public class GenotypeDataImporter
 					// Work out how many times it appears
 					int[] indices = map.getMarkerLocations(markerName);
 					// Determine its various states
-					short[] states = getStateCodes(values[i]);
+					short stateCode = getStateCode(values[i]);
 
 					// Then apply them to each instance of the marker
 					for (int lociIndex: indices)
-						line.setLoci(mapIndex, lociIndex, states);
+						line.setLoci(mapIndex, lociIndex, stateCode);
 				}
 			}
-
-//			line.print();
-
-
 		}
-
-		dataSet.printSummary();
-		stateTable.print();
 
 		in.close();
 	}
 
-	private short[] getStateCodes(String str)
+	private short getStateCode(String str)
 	{
 		String[] tokens = str.split("/");
-		short[] states = new short[tokens.length];
 
-		for (int i = 0; i < tokens.length; i++)
-			states[i] = stateTable.getStateCode(tokens[i], true);
+		short stateCode = stateTable.getStateCode(tokens, true);
 
-		return states;
+		return stateCode;
 	}
 }

@@ -4,7 +4,7 @@ import java.util.*;
 
 import flapjack.io.*;
 
-public class ChromosomeMap
+public class ChromosomeMap implements Iterable<Marker>
 {
 	private String name;
 
@@ -27,6 +27,15 @@ public class ChromosomeMap
 	public String getName()
 	{
 		return name;
+	}
+
+	public Iterator<Marker> iterator()
+		{ return markers.iterator(); }
+
+	public Marker getMarkerByIndex(int index)
+		throws ArrayIndexOutOfBoundsException
+	{
+		return markers.get(index);
 	}
 
 	public int countLoci()
@@ -56,21 +65,6 @@ public class ChromosomeMap
 		names.put(marker.getName(), "");
 
 		markers.add(marker);
-	}
-
-	public void print()
-	{
-		System.out.println("Chromosome " + name + " with " + markers.size() + " loci");
-
-		for (Marker marker: markers)
-			System.out.println("  " + marker.getName() + "\t" + marker.getPosition());
-
-//		Enumeration<String> keys = names.keys();
-//		while (keys.hasMoreElements())
-//		{
-//			String key = keys.nextElement();
-//			System.out.println(key + ": " + names.get(key));
-//		}
 	}
 
 	void sort()

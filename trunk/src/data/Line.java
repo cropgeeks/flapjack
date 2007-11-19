@@ -13,6 +13,11 @@ public class Line
 		this.name = name;
 	}
 
+	public String getName()
+	{
+		return name;
+	}
+
 	void initializeMap(ChromosomeMap map)
 	{
 		GenotypeData genoData = new GenotypeData(map);
@@ -23,29 +28,17 @@ public class Line
 	/**
 	 * Sets state information for a given loci position within a chromosome map.
 	 */
-	public void setLoci(int mapIndex, int lociIndex, short[] states)
+	public void setLoci(int mapIndex, int lociIndex, short stateCode)
 	{
-		genotypes.get(mapIndex).setLoci(lociIndex, states);
+		genotypes.get(mapIndex).setLoci(lociIndex, stateCode);
 	}
 
-	public void print()
+	public GenotypeData getGenotypeDataByMap(ChromosomeMap map)
 	{
-		System.out.print("Line " + name + " with " + genotypes.size() + " maps");
-
 		for (GenotypeData data: genotypes)
-			data.print();
-	}
-
-	void printSummary(ChromosomeMap map)
-	{
-		System.out.print(name + "\t");
-
-		for (GenotypeData data: genotypes)
-		{
 			if (data.isGenotypeDataForMap(map))
-			{
-				data.print();
-			}
-		}
+				return data;
+
+		return null;
 	}
 }
