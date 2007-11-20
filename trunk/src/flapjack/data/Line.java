@@ -13,10 +13,11 @@ public class Line
 		this.name = name;
 	}
 
+	public String toString()
+		{ return name; }
+
 	public String getName()
-	{
-		return name;
-	}
+		{ return name; }
 
 	void initializeMap(ChromosomeMap map)
 	{

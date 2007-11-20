@@ -34,4 +34,10 @@ public class GenotypeData
 	{
 		return this.map == map;
 	}
+
+	/**
+	 * Returns the raw data array for quick access elsewhere (eg rendering).
+	 */
+	public short[] getLociData()
+		{ return loci; }
 }

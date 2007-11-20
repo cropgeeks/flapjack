@@ -1,52 +1,47 @@
 package flapjack.gui;
 
-import java.io.*;
-
-import flapjack.data.*;
-import flapjack.io.*;
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
 
 public class Flapjack
 {
+	private static WinMain winMain;
+
 	public static void main(String[] args)
 		throws Exception
 	{
-		getDataSet();
+		new Flapjack();
 	}
 
-	public static DataSet getDataSet()
-		throws IOException, DataFormatException
+	Flapjack()
 	{
-		DataSet dataSet = new DataSet();
+		try
+		{
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		}
+		catch (Exception e) {}
 
+		winMain = new WinMain();
 
-//		File mapFile = new File("..\\Data\\GVT_MAP_TEST.txt");
-		File mapFile = new File("..\\Data\\NEW_MAP_DATA_FOR_IAIN.txt");
+		winMain.addWindowListener(new WindowAdapter()
+		{
+			public void windowClosing(WindowEvent e)
+			{
+				shutdown();
+			}
 
-		ChromosomeMapImporter mapImporter = new ChromosomeMapImporter(mapFile, dataSet);
+			public void windowOpened(WindowEvent e)
+			{
 
-		long s = System.currentTimeMillis();
-		mapImporter.importMap();
-		long e = System.currentTimeMillis();
+			}
+		});
 
-		System.out.println("Map loaded in " + (e-s) + "ms");
-
-
-
-//		File genoFile = new File("..\\Data\\9574c52737e9bb23192d9537f269efd4.txt");
-		File genoFile = new File("..\\Data\\NEW_GENOTYPE_DATA_FOR_IAIN.txt");
-
-		GenotypeDataImporter genoImporter = new GenotypeDataImporter(genoFile, dataSet);
-
-		s = System.currentTimeMillis();
-		genoImporter.importGenotypeData();
-		e = System.currentTimeMillis();
-
-		System.out.println("Genotype data loaded in " + (e-s) + "ms");
-
-
-		new DataSetTest(dataSet).printDataSet();
-
-		return dataSet;
+		winMain.setVisible(true);
 	}
 
+	private void shutdown()
+	{
+		System.exit(0);
+	}
 }

@@ -62,6 +62,8 @@ public class GenotypeDataImporter
 		}
 
 		in.close();
+
+		dataSet.fake();
 	}
 
 	private short getStateCode(String str)
