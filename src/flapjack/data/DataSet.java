@@ -100,4 +100,12 @@ public class DataSet
 		for (ChromosomeMap map: chromosomes)
 			map.sort();
 	}
+
+	public void fake()
+	{
+		Random r = new Random();
+
+//		for (int i = 0; i < 500000; i++)
+//			lines.add(lines.get(r.nextInt(100)));
+	}
 }
