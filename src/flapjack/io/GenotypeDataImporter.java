@@ -29,8 +29,17 @@ public class GenotypeDataImporter
 		// first element as it's a redundant column header)
 		String[] markers = str.split("\t");
 
+		int lineNum = 0;
+		long s = System.currentTimeMillis();
+
 		while ((str = in.readLine()) != null)
 		{
+			if ((++lineNum) % 100 == 0)
+			{
+				System.out.println("Reading line " + lineNum + " (" + (System.currentTimeMillis()-s) + "ms)");
+				s = System.currentTimeMillis();
+			}
+
 			String[] values = str.split("\t");
 
 			Line line = dataSet.createLine(values[0]);
@@ -40,19 +49,21 @@ public class GenotypeDataImporter
 				String markerName = markers[i];
 
 				// TODO: What if a marker exists in more than one map?
-				ChromosomeMap map = dataSet.getMapByMarkerName(markerName);
 				int mapIndex = dataSet.getMapIndexByMarkerName(markerName);
 
-				// TODO: Why are so many markers found in the genotype file that
-				// were not in the map file?
-
 				// Assuming a map is found that contains this marker...
-				if (map != null)
+				if (mapIndex != -1)
 				{
+					ChromosomeMap map = dataSet.getMapByIndex(mapIndex);
+
+					// TODO: Why are so many markers found in the genotype file that
+					// were not in the map file?
+
 					// Work out how many times it appears
 					int[] indices = map.getMarkerLocations(markerName);
+
 					// Determine its various states
-					short stateCode = getStateCode(values[i]);
+					int stateCode = stateTable.getStateCode(values[i], true);
 
 					// Then apply them to each instance of the marker
 					for (int lociIndex: indices)
@@ -64,14 +75,5 @@ public class GenotypeDataImporter
 		in.close();
 
 		dataSet.fake();
-	}
-
-	private short getStateCode(String str)
-	{
-		String[] tokens = str.split("/");
-
-		short stateCode = stateTable.getStateCode(tokens, true);
-
-		return stateCode;
 	}
 }

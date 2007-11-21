@@ -29,7 +29,8 @@ public class WinMain extends JFrame
 
 
 //		File mapFile = new File("..\\Data\\GVT_MAP_TEST.txt");
-		File mapFile = new File("..\\Data\\NEW_MAP_DATA_FOR_IAIN.txt");
+//		File mapFile = new File("..\\Data\\NEW_MAP_DATA_FOR_IAIN.txt");
+		File mapFile = new File("..\\Data\\5000.map");
 
 		ChromosomeMapImporter mapImporter = new ChromosomeMapImporter(mapFile, dataSet);
 
@@ -42,7 +43,8 @@ public class WinMain extends JFrame
 
 
 //		File genoFile = new File("..\\Data\\9574c52737e9bb23192d9537f269efd4.txt");
-		File genoFile = new File("..\\Data\\NEW_GENOTYPE_DATA_FOR_IAIN.txt");
+//		File genoFile = new File("..\\Data\\NEW_GENOTYPE_DATA_FOR_IAIN.txt");
+		File genoFile = new File("..\\Data\\data_5000_10000.txt");
 
 		GenotypeDataImporter genoImporter = new GenotypeDataImporter(genoFile, dataSet);
 

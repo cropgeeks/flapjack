@@ -16,6 +16,8 @@ class GenotypeCanvas extends JPanel
 	// For faster rendering, maintain a local cache of the data to be drawn
 	private Vector<GenotypeData> genotypeLines;
 
+	private volatile boolean isPainting = false;
+
 	// The number of lines and the number of markers being drawn
 	int nLines, nMarkers;
 	// Also referred to as:
@@ -40,7 +42,6 @@ class GenotypeCanvas extends JPanel
 		this.dataSet = dataSet;
 		this.map = map;
 
-		setBackground(Color.white);
 		setOpaque(false);
 
 		cacheLines();
@@ -105,9 +106,16 @@ class GenotypeCanvas extends JPanel
 	public Dimension getPreferredSize()
 		{ return dimension; }
 
+
+
 	public void paintComponent(Graphics g)
 	{
 		super.paintComponent(g);
+
+		// TODO: Does this make a difference?
+		if (isPainting)
+			return;
+		isPainting = true;
 
 		// These are the index positions within the dataset that we'll start
 		// drawing from
@@ -127,21 +135,39 @@ class GenotypeCanvas extends JPanel
 			yIndexEnd = boxTotalY-1;
 
 
+		g.setColor(Color.white);
+		g.fillRect(0, 0, canvasW, canvasH);
+
+		long s = System.nanoTime();
 
 		for (int yIndex = yIndexStart, y = (boxH*yIndexStart); yIndex <= yIndexEnd; yIndex++, y += boxH)
 		{
 			GenotypeData data = genotypeLines.get(yIndex);
-			short[] loci = data.getLociData();
+			byte[] loci = data.getLociData();
 
 
 			for (int xIndex = xIndexStart, x = pX; xIndex <= xIndexEnd; xIndex++, x += boxW)
 			{
-				g.setColor(
-					dataSet.getStateTable().getAlleleState(loci[xIndex]).getColor());
+				if (loci[xIndex] > 0)
+				{
+					g.setColor(
+						dataSet.getStateTable().getAlleleState(loci[xIndex]).getColor());
 
-				g.fillRect(x, y, boxW, boxH);
-//				g.drawString("" + loci[xIndex], x+2, y+boxH-3);
+					g.fillRect(x, y, boxW, boxH);
+
+//					g.setColor(Color.black);
+//					g.drawString("" + loci[xIndex], x+2, y+boxH-3);
+				}
 			}
 		}
+
+
+
+		long e = System.nanoTime();
+
+		System.out.println("Render time: " + ((e-s)/1000000f) + "ms");
+
+
+		isPainting = false;
 	}
 }

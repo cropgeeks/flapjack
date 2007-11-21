@@ -29,7 +29,7 @@ public class Line
 	/**
 	 * Sets state information for a given loci position within a chromosome map.
 	 */
-	public void setLoci(int mapIndex, int lociIndex, short stateCode)
+	public void setLoci(int mapIndex, int lociIndex, int stateCode)
 	{
 		genotypes.get(mapIndex).setLoci(lociIndex, stateCode);
 	}
