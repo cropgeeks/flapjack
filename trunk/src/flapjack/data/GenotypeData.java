@@ -7,7 +7,7 @@ public class GenotypeData
 	// A reference to the chromsome this data applies to
 	private ChromosomeMap map;
 
-	private short[] loci;
+	private byte[] loci;
 
 	public GenotypeData(ChromosomeMap map)
 	{
@@ -17,15 +17,15 @@ public class GenotypeData
 		int size = map.countLoci();
 
 		// Initialize the array to the correct size
-		loci = new short[size];
+		loci = new byte[size];
 	}
 
-	void setLoci(int index, short stateCode)
+	void setLoci(int index, int stateCode)
 	{
-		loci[index] = stateCode;
+		loci[index] = (byte) stateCode;
 	}
 
-	short getState(int index)
+	int getState(int index)
 	{
 		return loci[index];
 	}
@@ -38,6 +38,6 @@ public class GenotypeData
 	/**
 	 * Returns the raw data array for quick access elsewhere (eg rendering).
 	 */
-	public short[] getLociData()
+	public byte[] getLociData()
 		{ return loci; }
 }

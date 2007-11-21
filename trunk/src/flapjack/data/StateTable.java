@@ -19,28 +19,26 @@ public class StateTable
 		return states.size();
 	}
 
-	public AlleleState getAlleleState(short code)
+	public AlleleState getAlleleState(int code)
 	{
 		return states.get(code);
 	}
 
-	public short getStateCode(String[] stateArray, boolean create)
+	public int getStateCode(String rawData, boolean create)
 	{
 		// If there's no state information, return our default "unknown" code
-		if (stateArray.length == 0 || stateArray[0].length() == 0)
+		if (rawData.length() == 0)
 			return 0;
 
-		AlleleState newState = new AlleleState(stateArray);
-
-		for (short i = 0; i < states.size(); i++)
-			if (states.get(i).matchesAlleleState(newState))
+		for (int i = 0; i < states.size(); i++)
+			if (states.get(i).matchesAlleleState(rawData))
 				return i;
 
 		if (create == false)
 			return -1;
 
 		// If it wasn't found and needs to be created, then add it
-		states.add(newState);
-		return (short) (states.size() - 1);
+		states.add(new AlleleState(rawData));
+		return states.size() - 1;
 	}
 }

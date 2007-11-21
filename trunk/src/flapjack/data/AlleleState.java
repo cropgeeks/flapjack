@@ -5,6 +5,8 @@ import java.awt.*;
 public class AlleleState
 {
 	private String[] states;
+	private String rawData;
+
 	private boolean isHomozygous = true;
 
 	// TODO: Store color data
@@ -16,14 +18,17 @@ public class AlleleState
 	public AlleleState()
 	{
 		states = new String[] { "UNKNOWN" };
+		rawData = "";
 
 		r = g = b = 255;
 		color = new Color(r, g, b);
 	}
 
-	public AlleleState(String[] states)
+	public AlleleState(String rawData)
 	{
-		this.states = states;
+		this.rawData = rawData;
+
+		states = rawData.split("/");
 
 		if (states.length > 1)
 			isHomozygous = false;
@@ -50,27 +55,29 @@ public class AlleleState
 
 	public String toString()
 	{
-		String str = states[0];
-
-		for (int i = 1; i < states.length; i++)
-			str += "/" + states[i];
-
-		return str;
+		return rawData;
 	}
 
 	/**
 	 * Returns true if this allele state contains the same information as the
 	 * other allele state.
 	 */
-	boolean matchesAlleleState(AlleleState code)
+/*	boolean matchesAlleleState(String[] otherStates)
 	{
-		if (states.length != code.states.length)
+		if (states.length != otherStates.length)
 			return false;
 
 		for (int i = 0; i < states.length; i++)
-			if (states[i].equals(code.states[i]) == false)
+			if (states[i].equals(otherStates[i]) == false)
 				return false;
 
 		return true;
 	}
+*/
+
+	boolean matchesAlleleState(String rawData)
+	{
+		return this.rawData.equals(rawData);
+	}
+
 }

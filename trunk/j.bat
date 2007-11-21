@@ -1,3 +1,3 @@
 @echo off
 
-java -Xmx256m -cp .;classes flapjack.gui.Flapjack %1
+java -Xmx512m -cp .;classes flapjack.gui.Flapjack %1
