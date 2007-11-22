@@ -6,7 +6,7 @@ import javax.swing.*;
 
 public class Flapjack
 {
-	private static WinMain winMain;
+	public static WinMain winMain;
 
 	public static void main(String[] args)
 		throws Exception

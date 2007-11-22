@@ -25,7 +25,7 @@ public class GenotypeData
 		loci[index] = (byte) stateCode;
 	}
 
-	int getState(int index)
+	public int getState(int index)
 	{
 		return loci[index];
 	}

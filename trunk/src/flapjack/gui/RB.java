@@ -16,10 +16,12 @@ public class RB
 	public static String getString(String key)
 		{ return bundle.getString(key); }
 
-	public static String format(String text, Object... args)
+	public static String format(String key, Object... args)
 	{
-//		MessageFormat msg = new MessageFormat(text, Prefs.locale);
-		MessageFormat msg = new MessageFormat(text, Locale.getDefault());
+		String str = bundle.getString(key);
+
+//		MessageFormat msg = new MessageFormat(str, Prefs.locale);
+		MessageFormat msg = new MessageFormat(str, Locale.getDefault());
 
 
 		return msg.format(args);

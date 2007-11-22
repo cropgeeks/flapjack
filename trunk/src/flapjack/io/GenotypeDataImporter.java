@@ -10,6 +10,9 @@ public class GenotypeDataImporter
 	private DataSet dataSet;
 	private StateTable stateTable;
 
+	private int lineCount;
+	private int markerCount;
+
 	public GenotypeDataImporter(File file, DataSet dataSet)
 	{
 		this.file = file;
@@ -18,15 +21,18 @@ public class GenotypeDataImporter
 		stateTable = dataSet.getStateTable();
 	}
 
+	public File getFile()
+		{ return file; }
+
+	public int getLineCount()
+		{ return lineCount; }
+
+	public int getMarkerCount()
+		{ return markerCount; }
+
 	public void importGenotypeData()
 		throws IOException, DataFormatException
 	{
-		long ss = System.currentTimeMillis();
-		int lineCount = sbrn.commons.file.FileUtils.countLines(file, 16384);
-		System.out.println("Lines = " + lineCount + " in " + (System.currentTimeMillis()-ss) + "ms");
-
-
-
 		BufferedReader in = new BufferedReader(new FileReader(file));
 
 		String str = in.readLine();
@@ -41,7 +47,6 @@ public class GenotypeDataImporter
 		for (int i = 1; i < markers.length; i++)
 			mapIndex[i] = dataSet.getMapIndexByMarkerName(markers[i]);
 
-		lineCount = 0;
 		long s = System.currentTimeMillis();
 
 		while ((str = in.readLine()) != null)
@@ -77,12 +82,12 @@ public class GenotypeDataImporter
 					// Then apply them to each instance of the marker
 					for (int lociIndex: indices)
 						line.setLoci(mapIndex[i], lociIndex, stateCode);
+
+					markerCount++;
 				}
 			}
 		}
 
 		in.close();
-
-		dataSet.fake();
 	}
 }

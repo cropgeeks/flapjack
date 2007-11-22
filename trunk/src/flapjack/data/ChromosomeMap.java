@@ -16,7 +16,7 @@ public class ChromosomeMap implements Iterable<Marker>
 
 	public ChromosomeMap(String name)
 	{
-		this.name = name;
+		this.name = new String(name);
 	}
 
 	public String toString()
