@@ -10,7 +10,7 @@ public class Line
 
 	public Line(String name)
 	{
-		this.name = name;
+		this.name = new String(name);
 	}
 
 	public String toString()

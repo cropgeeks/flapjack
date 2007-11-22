@@ -9,7 +9,7 @@ public class Marker implements Comparable<Marker>
 
 	public Marker(String name, float position)
 	{
-		this.name = name;
+		this.name = new String(name);
 		this.position = position;
 	}
 

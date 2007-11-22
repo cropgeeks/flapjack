@@ -26,7 +26,7 @@ public class AlleleState
 
 	public AlleleState(String rawData)
 	{
-		this.rawData = rawData;
+		this.rawData = new String(rawData);
 
 		states = rawData.split("/");
 

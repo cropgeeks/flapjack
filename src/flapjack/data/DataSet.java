@@ -92,6 +92,18 @@ public class DataSet
 	}
 
 	/**
+	 * Returns the total number of markers across all maps.
+	 */
+	public int countMarkers()
+	{
+		int count = 0;
+		for (ChromosomeMap map: chromosomes)
+			count += map.countLoci();
+
+		return count;
+	}
+
+	/**
 	 * Sorts the markers within each chromosome map so that they are held in
 	 * ascending position order.
 	 */
@@ -99,13 +111,5 @@ public class DataSet
 	{
 		for (ChromosomeMap map: chromosomes)
 			map.sort();
-	}
-
-	public void fake()
-	{
-		Random r = new Random();
-
-//		for (int i = 0; i < 500000; i++)
-//			lines.add(lines.get(r.nextInt(100)));
 	}
 }
