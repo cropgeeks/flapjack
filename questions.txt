@@ -1,0 +1,13 @@
+Data formatting:
+ - what to do if a marker (with the same name) exists at more than one place on
+   the same chromosome map
+ - what to do if a marker (with the same name) exists on more than one map
+ - what to do if a line with the same name is found more than once
+
+
+Is A/T the same as T/A? If so, can we include both in the lookup table (fast)
+or include code to combine them (slow, but could reduce lookup entry numbers)
+
+Is 127/255 lookup table entries enough (all that we can store in a single byte).
+Going to two bytes 2^16 (65535) will use double the memory.
+

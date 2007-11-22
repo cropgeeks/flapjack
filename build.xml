@@ -1,19 +1,17 @@
 <project name="Flapjack" default="compile" basedir=".">
 
 	<property name="src" location="src"/>
-	<!--<property name="lib" location="lib"/>-->
+	<property name="lib" location="lib"/>
 	<property name="classes"   location="classes"/>
 	
 	<target name="init">
 	</target>
 
 	<path id="project.classpath">
-		<!--
 		<fileset dir="${lib}">
 			<include name="**/*.jar"/>
 			<exclude name="**/${jarfile}"/>
 		</fileset>
-		-->
 	</path>
 
 	<target name="compile" depends="init">
