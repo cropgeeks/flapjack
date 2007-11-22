@@ -3,10 +3,12 @@ package flapjack.gui.visualization;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import javax.swing.event.*;
 
 import flapjack.data.*;
 
-public class GenotypeDisplayPanel extends JPanel implements AdjustmentListener
+public class GenotypeDisplayPanel extends JPanel
+	implements AdjustmentListener, ChangeListener
 {
 	private DataSet dataSet;
 	private ChromosomeMap map;
@@ -17,6 +19,10 @@ public class GenotypeDisplayPanel extends JPanel implements AdjustmentListener
 
 	private ListPanel listPanel;
 	private GenotypeCanvas canvas;
+
+	private JSlider sizeSlider;
+
+	static int BS = 10;
 
 	public GenotypeDisplayPanel()
 	{
@@ -32,6 +38,10 @@ public class GenotypeDisplayPanel extends JPanel implements AdjustmentListener
 
 		setLayout(new BorderLayout());
 		add(sp);
+
+		JPanel panel = new JPanel();
+		panel.add(sizeSlider);
+		add(panel, BorderLayout.SOUTH);
 	}
 
 	private void createControls()
@@ -48,6 +58,10 @@ public class GenotypeDisplayPanel extends JPanel implements AdjustmentListener
 
 		sp.setRowHeaderView(listPanel);
 		sp.setViewportView(canvas);
+
+		sizeSlider = new JSlider(1, 40, 11);
+		sizeSlider.addChangeListener(this);
+		stateChanged(null);
 	}
 
 	public void adjustmentValueChanged(AdjustmentEvent e)
@@ -64,5 +78,17 @@ public class GenotypeDisplayPanel extends JPanel implements AdjustmentListener
 		hBar.setBlockIncrement(xIncrement);
 		vBar.setUnitIncrement(yIncrement);
 		vBar.setBlockIncrement(yIncrement);
+	}
+
+	public void stateChanged(ChangeEvent e)
+	{
+		int size = sizeSlider.getValue();
+
+		System.out.println("slider size = " + size);
+
+		listPanel.computeDimensions(size);
+		canvas.computeDimensions(size);
+
+		repaint();
 	}
 }

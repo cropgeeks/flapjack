@@ -18,7 +18,6 @@ class ListPanel extends JPanel
 		this.dataSet = dataSet;
 
 		createControls();
-		computeDimensions();
 
 		setLayout(new BorderLayout());
 		add(lineList);
@@ -29,14 +28,21 @@ class ListPanel extends JPanel
 		model = new DefaultListModel();
 		lineList = new JList(model);
 		lineList.setCellRenderer(new ListRenderer());
-
-		for (int i = 0; i < dataSet.countLines(); i++)
-			model.add(i, (i+1) + " " + dataSet.getLineByIndex(i));
 	}
 
-	void computeDimensions()
+	private void populateList()
 	{
-		font = new Font("Monospaced", Font.PLAIN, 11);
+		model.clear();
+
+		for (int i = 0; i < dataSet.countLines(); i++)
+			model.add(i, dataSet.getLineByIndex(i));
+	}
+
+	void computeDimensions(int size)
+	{
+		font = new Font("Monospaced", Font.PLAIN, size);
+
+		populateList();
 	}
 
 	static class ListRenderer extends JLabel implements ListCellRenderer
