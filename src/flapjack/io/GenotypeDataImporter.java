@@ -21,6 +21,12 @@ public class GenotypeDataImporter
 	public void importGenotypeData()
 		throws IOException, DataFormatException
 	{
+		long ss = System.currentTimeMillis();
+		int lineCount = sbrn.commons.file.FileUtils.countLines(file, 16384);
+		System.out.println("Lines = " + lineCount + " in " + (System.currentTimeMillis()-ss) + "ms");
+
+
+
 		BufferedReader in = new BufferedReader(new FileReader(file));
 
 		String str = in.readLine();
@@ -29,15 +35,23 @@ public class GenotypeDataImporter
 		// first element as it's a redundant column header)
 		String[] markers = str.split("\t");
 
-		int lineNum = 0;
+		// Now work out the map indices of these markers
+		// TODO: What if a marker exists in more than one map?
+		int[] mapIndex = new int[markers.length];
+		for (int i = 1; i < markers.length; i++)
+			mapIndex[i] = dataSet.getMapIndexByMarkerName(markers[i]);
+
+		lineCount = 0;
 		long s = System.currentTimeMillis();
 
 		while ((str = in.readLine()) != null)
 		{
-			if ((++lineNum) % 100 == 0)
+			if ((++lineCount) % 100 == 0)
 			{
-				System.out.println("Reading line " + lineNum + " (" + (System.currentTimeMillis()-s) + "ms)");
+				System.out.println("Reading line " + lineCount + " (" + (System.currentTimeMillis()-s) + "ms)");
 				s = System.currentTimeMillis();
+
+				System.gc();
 			}
 
 			String[] values = str.split("\t");
@@ -46,28 +60,23 @@ public class GenotypeDataImporter
 
 			for (int i = 1; i < values.length; i++)
 			{
-				String markerName = markers[i];
-
-				// TODO: What if a marker exists in more than one map?
-				int mapIndex = dataSet.getMapIndexByMarkerName(markerName);
-
 				// Assuming a map is found that contains this marker...
-				if (mapIndex != -1)
+				if (mapIndex[i] != -1)
 				{
-					ChromosomeMap map = dataSet.getMapByIndex(mapIndex);
+					ChromosomeMap map = dataSet.getMapByIndex(mapIndex[i]);
 
 					// TODO: Why are so many markers found in the genotype file that
 					// were not in the map file?
 
 					// Work out how many times it appears
-					int[] indices = map.getMarkerLocations(markerName);
+					int[] indices = map.getMarkerLocations(markers[i]);
 
 					// Determine its various states
 					int stateCode = stateTable.getStateCode(values[i], true);
 
 					// Then apply them to each instance of the marker
 					for (int lociIndex: indices)
-						line.setLoci(mapIndex, lociIndex, stateCode);
+						line.setLoci(mapIndex[i], lociIndex, stateCode);
 				}
 			}
 		}
