@@ -8,7 +8,7 @@ import javax.swing.event.*;
 import flapjack.data.*;
 
 public class GenotypeDisplayPanel extends JPanel
-	implements AdjustmentListener, ChangeListener
+	implements AdjustmentListener, ChangeListener, MouseWheelListener
 {
 	private DataSet dataSet;
 	private ChromosomeMap map;
@@ -17,8 +17,9 @@ public class GenotypeDisplayPanel extends JPanel
 	private JScrollBar hBar, vBar;
 	private JViewport view;
 
-	private ListPanel listPanel;
-	private GenotypeCanvas canvas;
+	ListPanel listPanel;
+	GenotypeCanvas canvas;
+	OverviewDialog overviewDialog;
 
 	private JSlider sizeSlider;
 
@@ -35,6 +36,7 @@ public class GenotypeDisplayPanel extends JPanel
 
 		createControls();
 
+		setBackground(Color.white);
 
 		setLayout(new BorderLayout());
 		add(sp);
@@ -47,6 +49,7 @@ public class GenotypeDisplayPanel extends JPanel
 	private void createControls()
 	{
 		sp = new JScrollPane();
+		sp.addMouseWheelListener(this);
 		view = sp.getViewport();
 		hBar = sp.getHorizontalScrollBar();
 		vBar = sp.getVerticalScrollBar();
@@ -58,10 +61,16 @@ public class GenotypeDisplayPanel extends JPanel
 
 		sp.setRowHeaderView(listPanel);
 		sp.setViewportView(canvas);
+		sp.getViewport().setBackground(Color.white);
 
 		sizeSlider = new JSlider(1, 40, 11);
 		sizeSlider.addChangeListener(this);
 		stateChanged(null);
+	}
+
+	public void setOverviewDialog(OverviewDialog overviewDialog)
+	{
+		this.overviewDialog = overviewDialog;
 	}
 
 	public void adjustmentValueChanged(AdjustmentEvent e)
@@ -90,5 +99,43 @@ public class GenotypeDisplayPanel extends JPanel
 		canvas.computeDimensions(size);
 
 		repaint();
+	}
+
+	public void mouseWheelMoved(MouseWheelEvent e)
+	{
+		if (e.isControlDown())
+		{
+			sizeSlider.setValue(sizeSlider.getValue() + e.getWheelRotation());
+		}
+	}
+
+	DataSet getDataSet()
+	{
+		return dataSet;
+	}
+
+	ChromosomeMap getMap()
+	{
+		return map;
+	}
+
+	void forceOverviewUpdate()
+	{
+		canvas.updateOverviewSelectionBox();
+	}
+
+	void updateOverviewSelectionBox(int xIndex, int xW, int yIndex, int yH)
+	{
+		if (overviewDialog != null)
+			overviewDialog.updateOverviewSelectionBox(xIndex, xW, yIndex, yH);
+	}
+
+	void jumpToPosition(int xIndex, int yIndex)
+	{
+		int x = xIndex * canvas.boxW - (canvas.boxW);
+		int y = yIndex * canvas.boxH - (canvas.boxH);
+
+		hBar.setValue(x);
+		vBar.setValue(y);
 	}
 }

@@ -104,7 +104,7 @@ public class DataLoadingDialog extends JDialog implements Runnable
 					lineLabel.setText("  " + nf.format(genoImporter.getLineCount()));
 					mrksLabel.setText("  " + nf.format(genoImporter.getMarkerCount()));
 
-					try { Thread.sleep(500); }
+					try { Thread.sleep(100); }
 					catch (InterruptedException e) {}
 				}
 			}
