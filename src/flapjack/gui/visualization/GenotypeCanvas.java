@@ -12,14 +12,12 @@ class GenotypeCanvas extends JPanel
 {
 	private GenotypeDisplayPanel gdPanel;
 
-	private DataSet dataSet;
-	private ChromosomeMap map;
+	DataSet dataSet;
+	ChromosomeMap map;
 
 	// For faster rendering, maintain a local cache of the data to be drawn
-	private Vector<GenotypeData> genotypeLines;
+	Vector<GenotypeData> genotypeLines;
 
-	// The number of lines and the number of markers being drawn
-	int nLines, nMarkers;
 	// Also referred to as:
 	int boxTotalX, boxTotalY;
 	// Width and height of the main drawing canvas
@@ -37,6 +35,8 @@ class GenotypeCanvas extends JPanel
 	private Dimension dimension;
 
 	boolean renderLive = false;
+
+	private BufferedImage image = null;
 
 	GenotypeCanvas(GenotypeDisplayPanel gdPanel, DataSet dataSet, ChromosomeMap map)
 	{
@@ -98,29 +98,32 @@ class GenotypeCanvas extends JPanel
 		FontMetrics fm = new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB)
 			.getGraphics().getFontMetrics(font);
 
-		boxW = size;
+		boxW = size*2;
 		boxH = fm.getHeight();
 
 		// Once we have suitable width/height values, the scrollbars can be made
 		// to lock to those so we never have to draw less than a full box
 		gdPanel.computeScrollbarAdjustmentValues(boxW, boxH);
 
-		boxTotalY = nLines = genotypeLines.size();
-		boxTotalX = nMarkers = map.countLoci();
+		boxTotalX = map.countLoci();
+		boxTotalY = genotypeLines.size();
 
 		canvasW = (boxTotalX * boxW) + (boxW);// - 1);
-		canvasH = boxTotalY * boxH;
+		canvasH = (boxTotalY * boxH);
+
+		setSize(dimension = new Dimension(canvasW, canvasH));
+
+		/////////////////////////
 
 		image = null;
 
 		System.out.println("boxW = " + boxW + ", boxH = " + boxH);
 		System.out.println("canvasW = " + canvasW + ", canvasH = " + canvasH);
 
-		int bufferSize = canvasW * canvasH;
+		long bufferSize = (long)canvasW * (long)canvasH;
 		System.out.println("Canvas buffer requires: " + (bufferSize/1024f/1024f) + " MB");
 
-		dimension = new Dimension(canvasW, canvasH);
-		setSize(dimension);
+		repaint();
 	}
 
 	// Compute real-time variables, that change as the viewpoint is moved across
@@ -133,7 +136,13 @@ class GenotypeCanvas extends JPanel
 		pX = viewPosition.x;
 		pY = viewPosition.y;
 
-//		repaint();
+		updateOverviewSelectionBox();
+		repaint();
+	}
+
+	void updateOverviewSelectionBox()
+	{
+		gdPanel.updateOverviewSelectionBox((pX/boxW), boxCountX, (pY/boxH), boxCountY);
 	}
 
 	public Dimension getSize()
@@ -141,7 +150,6 @@ class GenotypeCanvas extends JPanel
 
 	public Dimension getPreferredSize()
 		{ return dimension; }
-
 
 
 	public void paintComponent(Graphics graphics)
@@ -158,6 +166,30 @@ class GenotypeCanvas extends JPanel
 		long e = System.nanoTime();
 
 		System.out.println("Render time: " + ((e-s)/1000000f) + "ms");
+	}
+
+	private void renderImage(Graphics2D g)
+	{
+		if (image == null)
+		{
+	//		final GenotypeCanvas canvas = this;
+
+	//		Runnable r = new Runnable() {
+	//			public void run() {
+	//				image = new BufferFactory(canvas, canvasW, canvasH).getImage();
+	//			}
+	//		};
+
+			image = new BufferedImage(canvasW, canvasH, BufferedImage.TYPE_BYTE_INDEXED);
+
+//			g.drawImage(imgBuffer, x, y, x+w, y+h, x, y, x+w, y+h, null);
+
+			Graphics2D g2d = image.createGraphics();
+			renderAll(g2d);
+			g2d.dispose();
+		}
+
+		g.drawImage(image, 0, 0, image.getWidth(), image.getHeight(), this);
 	}
 
 	private void renderRegion(Graphics2D g)
@@ -182,27 +214,9 @@ class GenotypeCanvas extends JPanel
 		render(g, xIndexStart, xIndexEnd, yIndexStart, yIndexEnd);
 	}
 
-	private BufferedImage image;
-
-	private void renderImage(Graphics2D g)
+	void renderAll(Graphics2D g)
 	{
-		if (image == null)
-		{
-			image = new BufferedImage(canvasW, canvasH, BufferedImage.TYPE_BYTE_INDEXED);
-			Graphics buffG = image.createGraphics();
-
-			render(buffG, 0, boxTotalX-1, 0, boxTotalY-1);
-
-			buffG.dispose();
-		}
-
-		g.drawImage(image, 0, 0, null);
-
-
-//		if (img == null)
-//			ImagePanel();
-//		g.drawImage(img, 0, 0, null);
-
+		render(g, 0, boxTotalX-1, 0, boxTotalY-1);
 	}
 
 	private void render(Graphics g, int xS, int xE, int yS, int yE)
@@ -213,14 +227,17 @@ class GenotypeCanvas extends JPanel
 		for (int yIndex = yS, y = (boxH*yS); yIndex <= yE; yIndex++, y += boxH)
 		{
 			GenotypeData data = genotypeLines.get(yIndex);
-			byte[] loci = data.getLociData();
+//			byte[] loci = data.getLociData();
 
 			for (int xIndex = xS, x = pX; xIndex <= xE; xIndex++, x += boxW)
 			{
-				if (loci[xIndex] > 0)
+//				if (loci[xIndex] > 0)
+				if (data.getState(xIndex) > 0)
 				{
+//					g.setColor(
+//						dataSet.getStateTable().getAlleleState(loci[xIndex]).getColor());
 					g.setColor(
-						dataSet.getStateTable().getAlleleState(loci[xIndex]).getColor());
+						dataSet.getStateTable().getAlleleState(data.getState(xIndex)).getColor());
 
 					g.fillRect(x, y, boxW, boxH);
 
@@ -236,65 +253,4 @@ class GenotypeCanvas extends JPanel
 			}
 		}
 	}
-
-
-	BufferedImage img;
-	int box = GenotypeDisplayPanel.BS;
-
-
-	Color[] colors = new Color[] {Color.BLACK, Color.BLUE, Color.CYAN, Color.GREEN};
-
-	int w;
-	int h;
-
-	void ImagePanel()
-	{
-		int yMax = boxTotalY;
-		int xMax = boxTotalX;
-
-		this.w = box*xMax;
-		this.h = box*yMax;
-
-		System.out.println(w + "x" + h);
-
-//		w = 15002;
-//		h = 3000;
-
-//		System.out.println(w + "x" + h);
-
-		setSize(w, h);
-
-		System.out.println("Size: "+(3*yMax*xMax*box/1024/1024)+" MB");
-
-
-		img = new BufferedImage(this.w, this.h, BufferedImage.TYPE_BYTE_INDEXED);
-		Graphics g = img.getGraphics();
-
-
-		g.setColor(Color.white);
-		g.fillRect(0, 0, w, h);
-		g.setColor(Color.black);
-
-		Random r = new Random();
-
-		for(int i=0; i<xMax; i++)
-		{
-			for(int j=0; j<yMax; j++) {
-				int x = i*box;
-				int y = j*box;
-
-				int c = r.nextInt(3);
-				g.setColor(colors[c]);
-
-				g.fillRect(x, y, box, box);
-
-				if (x % 50 == 0)
-					g.drawString(""+ x, x, 50);
-
-			}
-			//System.out.println(i);
-		}
-		g.dispose();
-	}
-
 }
