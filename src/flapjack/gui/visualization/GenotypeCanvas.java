@@ -18,6 +18,9 @@ class GenotypeCanvas extends JPanel
 	// For faster rendering, maintain a local cache of the data to be drawn
 	Vector<GenotypeData> genotypeLines;
 
+	// The current color model
+	ColorTable cTable;
+
 	// Also referred to as:
 	int boxTotalX, boxTotalY;
 	// Width and height of the main drawing canvas
@@ -29,7 +32,9 @@ class GenotypeCanvas extends JPanel
 
 	// These are the x and y pixel positions on the canvas that currently appear
 	// in the top left corner of the current view
-	int pX, pY;
+	int pX1, pY1;
+	// And bottom right hand corder
+	int pX2, pY2;
 
 	// Holds the current dimensions of the canvas in an AWT friendly format
 	private Dimension dimension;
@@ -108,10 +113,12 @@ class GenotypeCanvas extends JPanel
 		boxTotalX = map.countLoci();
 		boxTotalY = genotypeLines.size();
 
-		canvasW = (boxTotalX * boxW) + (boxW);// - 1);
+		canvasW = (boxTotalX * boxW);// + (boxW);// - 1);
 		canvasH = (boxTotalY * boxH);
 
 		setSize(dimension = new Dimension(canvasW, canvasH));
+
+		cTable = new ColorTable(dataSet.getStateTable(), boxW, boxH);
 
 		/////////////////////////
 
@@ -133,8 +140,11 @@ class GenotypeCanvas extends JPanel
 		boxCountX = 1 + (int) ((float) viewSize.getWidth()  / boxW);
 		boxCountY = 1 + (int) ((float) viewSize.getHeight() / boxH);
 
-		pX = viewPosition.x;
-		pY = viewPosition.y;
+		pX1 = viewPosition.x;
+		pY1 = viewPosition.y;
+
+		pX2 = pX1 + viewSize.width;
+		pY2 = pY1 + viewSize.height;
 
 		updateOverviewSelectionBox();
 		repaint();
@@ -142,7 +152,7 @@ class GenotypeCanvas extends JPanel
 
 	void updateOverviewSelectionBox()
 	{
-		gdPanel.updateOverviewSelectionBox((pX/boxW), boxCountX, (pY/boxH), boxCountY);
+		gdPanel.updateOverviewSelectionBox((pX1/boxW), boxCountX, (pY1/boxH), boxCountY);
 	}
 
 	public Dimension getSize()
@@ -189,15 +199,23 @@ class GenotypeCanvas extends JPanel
 			g2d.dispose();
 		}
 
-		g.drawImage(image, 0, 0, image.getWidth(), image.getHeight(), this);
+		BufferedImage image2 = new BufferedImage(pX2-pX1, pY2-pY1, BufferedImage.TYPE_BYTE_INDEXED);
+		Graphics2D g2d = image2.createGraphics();
+		g2d.drawImage(image, 0, 0, pX2-pX1, pY2-pY1, pX1, pY1, pX2, pY2, null);
+		g2d.dispose();
+
+
+		System.out.println(pX1 + "," + pY1 + "-" + pX2 + "," + pY2);
+
+		g.drawImage(image2, pX1, pY1, Color.black, null);
 	}
 
 	private void renderRegion(Graphics2D g)
 	{
 		// These are the index positions within the dataset that we'll start
 		// drawing from
-		int xIndexStart = pX / boxW;
-		int yIndexStart = pY / boxH;
+		int xIndexStart = pX1 / boxW;
+		int yIndexStart = pY1 / boxH;
 
 		// The end indices are calculated as the:
 		//   (the start index) + (the number that can be drawn on screen)
@@ -219,27 +237,33 @@ class GenotypeCanvas extends JPanel
 		render(g, 0, boxTotalX-1, 0, boxTotalY-1);
 	}
 
-	private void render(Graphics g, int xS, int xE, int yS, int yE)
+	private void render(Graphics2D g, int xS, int xE, int yS, int yE)
 	{
+		StateTable table = dataSet.getStateTable();
+
 		g.setColor(Color.white);
 		g.fillRect(0, 0, canvasW, canvasH);
 
 		for (int yIndex = yS, y = (boxH*yS); yIndex <= yE; yIndex++, y += boxH)
 		{
 			GenotypeData data = genotypeLines.get(yIndex);
-//			byte[] loci = data.getLociData();
 
-			for (int xIndex = xS, x = pX; xIndex <= xE; xIndex++, x += boxW)
+			for (int xIndex = xS, x = (boxW*xS); xIndex <= xE; xIndex++, x += boxW)
 			{
-//				if (loci[xIndex] > 0)
-				if (data.getState(xIndex) > 0)
-				{
-//					g.setColor(
-//						dataSet.getStateTable().getAlleleState(loci[xIndex]).getColor());
-					g.setColor(
-						dataSet.getStateTable().getAlleleState(data.getState(xIndex)).getColor());
+				int state = data.getState(xIndex);
 
-					g.fillRect(x, y, boxW, boxH);
+				if (state > 0)
+				{
+//					AlleleState state = table.getAlleleState(data.getState(xIndex));
+
+//					g.setPaint(new GradientPaint(x, y, state.getBrightColor(), x+boxW, y+boxH, state.getDarkColor()));
+//					g.setColor(table.getAlleleState(data.getState(xIndex)).getColor());
+
+//					g.fillRect(x, y, boxW, boxH);
+					g.drawImage(cTable.get(state).getImage(), x, y, null);
+
+//					g.setColor(Color.white);
+//					g.drawRect(x, y, boxW, boxH);
 
 //					if (dataSet.getStateTable().getAlleleState(loci[xIndex]).isHomozygous() == false)
 //					{
@@ -248,7 +272,7 @@ class GenotypeCanvas extends JPanel
 //					}
 
 //					g.setColor(Color.black);
-//					g.drawString("" + loci[xIndex], x+2, y+boxH-3);
+//					g.drawString("" + data.getState(xIndex), x+2, y+boxH-3);
 				}
 			}
 		}

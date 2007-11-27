@@ -203,9 +203,9 @@ public class OverviewDialog extends JDialog
 				g.drawImage(image, 0, 0, null);
 
 				// Then draw the tracking rectangle
-				((Graphics2D) g).setPaint(new Color(0, 50, 50, 50));
+				((Graphics2D) g).setPaint(new Color(50, 50, 0, 50));
 				g.fillRect(boxX, boxY, boxW, boxH);
-				g.setColor(Color.blue);
+				g.setColor(Color.red);
 				g.drawRect(boxX, boxY, boxW, boxH);
 			}
 

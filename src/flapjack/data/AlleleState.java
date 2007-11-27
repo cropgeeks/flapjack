@@ -1,7 +1,5 @@
 package flapjack.data;
 
-import java.awt.*;
-
 public class AlleleState
 {
 	private String[] states;
@@ -9,19 +7,10 @@ public class AlleleState
 
 	private boolean isHomozygous = true;
 
-	// TODO: Store color data
-	// private Color color;
-
-	private int r, g, b;
-	private Color color;
-
 	public AlleleState()
 	{
 		states = new String[] { "UNKNOWN" };
 		rawData = "";
-
-		r = g = b = 255;
-		color = new Color(r, g, b);
 	}
 
 	public AlleleState(String rawData)
@@ -32,23 +21,7 @@ public class AlleleState
 
 		if (states.length > 1)
 			isHomozygous = false;
-
-		createColor();
 	}
-
-	private void createColor()
-	{
-		java.util.Random rnd = new java.util.Random();
-
-		r = rnd.nextInt(255);
-		g = rnd.nextInt(255);
-		b = rnd.nextInt(255);
-
-		color = new Color(r, g, b);
-	}
-
-	public Color getColor()
-		{ return color; }
 
 	public boolean isHomozygous()
 		{ return isHomozygous; }
