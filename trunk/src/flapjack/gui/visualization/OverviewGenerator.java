@@ -82,9 +82,12 @@ class OverviewGenerator extends Thread
 				// This is where we save the time...
 				if ((int)x != lastX || (int)y != lastY)
 				{
-					if (data.getState(xIndex) > 0)
+					int state = data.getState(xIndex);
+
+					if (state > 0)
 					{
-						g.setColor(table.getAlleleState(data.getState(xIndex)).getColor());
+//						g.setColor(table.getAlleleState(data.getState(xIndex)).getColor());
+						g.setColor(canvas.cTable.get(state).getColor());
 						g.fillRect((int)x, (int)y, xWidth, yHeight);
 
 						lastX = (int)x;
