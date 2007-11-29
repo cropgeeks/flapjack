@@ -24,7 +24,7 @@ public class OverviewDialog extends JDialog
 
 	public OverviewDialog(GenotypeDisplayPanel gdPanel)
 	{
-		super(Flapjack.winMain, "Overview", false);
+		super(Flapjack.winMain, RB.getString("gui.visualization.OverviewDialog.title"), false);
 
 		this.gdPanel = gdPanel;
 

@@ -21,7 +21,7 @@ class GenotypeCanvas extends JPanel
 	// The current color model
 	ColorTable cTable;
 
-	// Also referred to as:
+	// The total number of boxes (allele states) in the dataset
 	int boxTotalX, boxTotalY;
 	// Width and height of the main drawing canvas
 	int canvasW, canvasH;
@@ -33,7 +33,7 @@ class GenotypeCanvas extends JPanel
 	// These are the x and y pixel positions on the canvas that currently appear
 	// in the top left corner of the current view
 	int pX1, pY1;
-	// And bottom right hand corder
+	// And bottom right hand corner
 	int pX2, pY2;
 
 	// Holds the current dimensions of the canvas in an AWT friendly format
@@ -61,26 +61,36 @@ class GenotypeCanvas extends JPanel
 
 				System.out.println("Rendering to offscreen buffer = " + (!renderLive));
 
-				if (renderLive)
-					setOpaque(false);
-				else
-					setOpaque(true);
+//				if (renderLive)
+//					setOpaque(true);
+//				else
+//					setOpaque(false);
+
+				// setOpaque false is the default in JComponent
 
 				repaint();
 			}
 		});
 
-/*		addMouseMotionListener(new MouseMotionAdapter() {
-			public void mouseMoved(MouseEvent e)
-			{
-				System.out.println(e.getPoint().x + ", " + e.getPoint().y);
-			}
-		});
-*/
+		addMouseMotionListener(new CanvasMouseListener(this));
 
 		cacheLines();
-//		computeDimensions();
+
+//		setToolTipText("wibble");
 	}
+
+/*	CanvasToolTip tt = new CanvasToolTip();
+
+	public JToolTip createToolTip()
+	{
+		return tt;
+	}
+
+	public String getToolTipText(MouseEvent e)
+	{
+		return "" + (e.getPoint().x / boxW) + (e.getPoint().y / boxH);
+	}
+*/
 
 	private void cacheLines()
 	{
@@ -251,17 +261,27 @@ class GenotypeCanvas extends JPanel
 			for (int xIndex = xS, x = (boxW*xS); xIndex <= xE; xIndex++, x += boxW)
 			{
 				int state = data.getState(xIndex);
+//				int compState = genotypeLines.get(10).getState(xIndex);
 
 				if (state > 0)
 				{
-//					AlleleState state = table.getAlleleState(data.getState(xIndex));
+//					AlleleState as = table.getAlleleState(data.getState(xIndex));
 
-//					g.setPaint(new GradientPaint(x, y, state.getBrightColor(), x+boxW, y+boxH, state.getDarkColor()));
+//					g.setPaint(new GradientPaint(x, y, cTable.get(state).getBrightColor(), x+boxW, y+boxH, cTable.get(state).getDarkColor()));
 //					g.setColor(table.getAlleleState(data.getState(xIndex)).getColor());
 
 //					g.fillRect(x, y, boxW, boxH);
 					g.drawImage(cTable.get(state).getImage(), x, y, null);
 
+/*					if (y == 10 || state == compState)
+					{
+						g.drawImage(cTable.get(1).getImage(), x, y, null);
+					}
+					else
+					{
+						g.drawImage(cTable.get(2).getImage(), x, y, null);
+					}
+*/
 //					g.setColor(Color.white);
 //					g.drawRect(x, y, boxW, boxH);
 

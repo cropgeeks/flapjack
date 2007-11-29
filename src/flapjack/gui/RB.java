@@ -5,12 +5,17 @@ import java.util.*;
 
 public class RB
 {
+	static Locale locale = null;
+
 	private static ResourceBundle bundle = null;
 
-	static
+	public static void init()
 	{
+		if (locale == null)
+			locale = Locale.getDefault();
+
 //		bundle = ResourceBundle.getBundle("res.text.flapjack", Prefs.locale);
-		bundle = ResourceBundle.getBundle("res.text.flapjack", Locale.getDefault());
+		bundle = ResourceBundle.getBundle("res.text.flapjack", locale);
 	}
 
 	public static String getString(String key)
@@ -21,8 +26,7 @@ public class RB
 		String str = bundle.getString(key);
 
 //		MessageFormat msg = new MessageFormat(str, Prefs.locale);
-		MessageFormat msg = new MessageFormat(str, Locale.getDefault());
-
+		MessageFormat msg = new MessageFormat(str, locale);
 
 		return msg.format(args);
 	}
