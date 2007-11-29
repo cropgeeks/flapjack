@@ -35,13 +35,21 @@ class ColoredAlleleState
 		image = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
 		Graphics2D g = image.createGraphics();
 
-		g.setColor(Color.white);
-		g.fillRect(0, 0, w, h);
+//		g.setColor(Color.white);
+//		g.fillRect(0, 0, w, h);
 
 		g.setPaint(new GradientPaint(0, 0, colorB, w, h, colorD));
 
+		Rectangle2D.Float r = null;
+
 //		RoundRectangle2D.Float r = new RoundRectangle2D.Float(1, 1, w-1, h-1, 7, 7);
-		Rectangle2D.Float r = new Rectangle2D.Float(0, 0, w, h);
+//		Rectangle2D.Float r = new Rectangle2D.Float(0, 0, w, h);
+
+		if (w > 7 && h > 7)
+			r = new Rectangle2D.Float(1, 1, w-1, h-1);
+		else
+			r = new Rectangle2D.Float(0, 0, w, h);
+
 		g.fill(r);
 
 //		r = new Rectangle2D.Float(0, 0, w-1, h-1);

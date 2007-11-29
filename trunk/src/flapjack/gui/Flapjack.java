@@ -2,6 +2,7 @@ package flapjack.gui;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.*;
 import javax.swing.*;
 
 public class Flapjack
@@ -11,6 +12,13 @@ public class Flapjack
 	public static void main(String[] args)
 		throws Exception
 	{
+		if (args.length == 1 && args[0].equals("de"))
+			RB.locale = Locale.GERMAN;
+		else if (args.length == 1 && args[0].equals("pirate"))
+			RB.locale = new Locale("en", "GB", "Pirate");
+
+		RB.init();
+
 		new Flapjack();
 	}
 
