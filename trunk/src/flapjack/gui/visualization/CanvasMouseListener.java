@@ -13,6 +13,39 @@ class CanvasMouseListener extends MouseInputAdapter
 	CanvasMouseListener(GenotypeCanvas canvas)
 	{
 		this.canvas = canvas;
+
+		canvas.addMouseListener(this);
+		canvas.addMouseMotionListener(this);
+	}
+
+	public void mouseClicked(MouseEvent e)
+	{
+		if (e.isControlDown() && e.getClickCount() == 2)// && canvas.boxH == 16)
+		{
+			canvas.removeMouseListener(this);
+			new MineSweeper(canvas);
+		}
+
+		else if (e.getClickCount() == 2)
+		{
+			if (canvas.renderMode == 0)
+				canvas.renderMode = 1;
+			else
+				canvas.renderMode = 0;
+
+			System.out.println("Drawing to buffer = " + (canvas.renderMode == 1));
+
+//				if (canvas.renderLive)
+//					canvas.setOpaque(true);
+//				else
+//					canvas.setOpaque(false);
+
+			// setOpaque false is the default in JComponent
+
+			canvas.repaint();
+		}
+
+
 	}
 
 	public void mouseMoved(MouseEvent e)
