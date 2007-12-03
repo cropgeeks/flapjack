@@ -63,7 +63,7 @@ class OverviewGenerator extends Thread
 		// Height of each Y element
 		yHeight = 1 + (int) ((yScale >= 1) ? yScale : 1);
 
-		StateTable table = canvas.dataSet.getStateTable();
+//		StateTable table = canvas.dataSet.getStateTable();
 
 		// What were the x and y positions of the last point drawn? If the next
 		// point to be drawn ISN'T different, then we won't bother drawing it,

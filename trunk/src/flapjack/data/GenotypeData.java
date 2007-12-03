@@ -40,4 +40,7 @@ public class GenotypeData
 	 */
 	public byte[] getLociData()
 		{ return loci; }
+
+	public int countLoci()
+		{ return loci.length; }
 }

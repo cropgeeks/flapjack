@@ -38,6 +38,7 @@ class MineSweeper extends MouseAdapter
 
 		canvas.addMouseListener(this);
 		canvas.addMouseMotionListener(this);
+//		canvas.sett
 
 		init();
 	}

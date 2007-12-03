@@ -19,6 +19,7 @@ public class GenotypeDisplayPanel extends JPanel
 
 	ListPanel listPanel;
 	GenotypeCanvas canvas;
+	RowOverview rowPanel;
 	OverviewDialog overviewDialog;
 
 	private JSlider sizeSlider;
@@ -41,9 +42,13 @@ public class GenotypeDisplayPanel extends JPanel
 		setLayout(new BorderLayout());
 		add(sp);
 
-		JPanel panel = new JPanel();
-		panel.add(sizeSlider);
-		add(panel, BorderLayout.SOUTH);
+		JPanel p1 = new JPanel();
+		p1.add(sizeSlider);
+
+		JPanel p2 = new JPanel(new BorderLayout());
+		p2.add(rowPanel);
+		p2.add(p1, BorderLayout.SOUTH);
+		add(p2, BorderLayout.SOUTH);
 	}
 
 	private void createControls()
@@ -58,6 +63,7 @@ public class GenotypeDisplayPanel extends JPanel
 
 		listPanel = new ListPanel(dataSet);
 		canvas = new GenotypeCanvas(this, dataSet, map);
+		rowPanel = new RowOverview(canvas);
 
 		sp.setRowHeaderView(listPanel);
 		sp.setViewportView(canvas);
@@ -137,5 +143,19 @@ public class GenotypeDisplayPanel extends JPanel
 
 		hBar.setValue(x);
 		vBar.setValue(y);
+	}
+
+	void overRow(int rowIndex)
+	{
+		GenotypeData data = null;
+
+		try
+		{
+			Line line = dataSet.getLineByIndex(rowIndex);
+			data = line.getGenotypeDataByMap(map);
+		}
+		catch (ArrayIndexOutOfBoundsException e) {}
+
+		rowPanel.setGenotypeData(data);
 	}
 }
