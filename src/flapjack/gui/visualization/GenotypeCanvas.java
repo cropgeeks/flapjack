@@ -39,9 +39,12 @@ class GenotypeCanvas extends JPanel
 	// Holds the current dimensions of the canvas in an AWT friendly format
 	private Dimension dimension;
 
-	boolean renderLive = false;
+	// Rendering mode: 0 (real-time), 1 (buffered), 2 (minesweeper)
+	int renderMode = 0;
 
 	private BufferedImage image = null;
+
+	MineSweeper mineSweeper;
 
 	GenotypeCanvas(GenotypeDisplayPanel gdPanel, DataSet dataSet, ChromosomeMap map)
 	{
@@ -49,30 +52,9 @@ class GenotypeCanvas extends JPanel
 		this.dataSet = dataSet;
 		this.map = map;
 
+		setOpaque(false);
 
-		renderLive = true;
-		setOpaque(!renderLive);
-
-
-		addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e)
-			{
-				renderLive = !renderLive;
-
-				System.out.println("Rendering to offscreen buffer = " + (!renderLive));
-
-//				if (renderLive)
-//					setOpaque(true);
-//				else
-//					setOpaque(false);
-
-				// setOpaque false is the default in JComponent
-
-				repaint();
-			}
-		});
-
-		addMouseMotionListener(new CanvasMouseListener(this));
+		new CanvasMouseListener(this);
 
 		cacheLines();
 
@@ -179,10 +161,15 @@ class GenotypeCanvas extends JPanel
 		Graphics2D g = (Graphics2D) graphics;
 
 		long s = System.nanoTime();
-		if (renderLive)
-			renderRegion(g);
-		else
-			renderImage(g);
+		switch (renderMode)
+		{
+			case 0: renderRegion(g);
+				break;
+			case 1: renderImage(g);
+				break;
+			case 2: mineSweeper.render(g);
+				break;
+		}
 		long e = System.nanoTime();
 
 		System.out.println("Render time: " + ((e-s)/1000000f) + "ms");
@@ -220,7 +207,7 @@ class GenotypeCanvas extends JPanel
 		g.drawImage(image2, pX1, pY1, Color.black, null);
 	}
 
-	private void renderRegion(Graphics2D g)
+	void renderRegion(Graphics2D g)
 	{
 		// These are the index positions within the dataset that we'll start
 		// drawing from

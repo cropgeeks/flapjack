@@ -45,9 +45,9 @@ class ColoredAlleleState
 //		RoundRectangle2D.Float r = new RoundRectangle2D.Float(1, 1, w-1, h-1, 7, 7);
 //		Rectangle2D.Float r = new Rectangle2D.Float(0, 0, w, h);
 
-		if (w > 7 && h > 7)
-			r = new Rectangle2D.Float(1, 1, w-1, h-1);
-		else
+//		if (w > 7 && h > 7)
+//			r = new Rectangle2D.Float(1, 1, w-1, h-1);
+//		else
 			r = new Rectangle2D.Float(0, 0, w, h);
 
 		g.fill(r);
