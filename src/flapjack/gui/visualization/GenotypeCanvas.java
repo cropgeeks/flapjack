@@ -42,6 +42,9 @@ class GenotypeCanvas extends JPanel
 	// Rendering mode: 0 (real-time), 1 (buffered), 2 (minesweeper)
 	int renderMode = 0;
 
+	// The tooltip object
+	CanvasToolTip tt = new CanvasToolTip();
+
 	private BufferedImage image = null;
 
 	MineSweeper mineSweeper;
@@ -54,25 +57,19 @@ class GenotypeCanvas extends JPanel
 
 		setOpaque(false);
 
-		new CanvasMouseListener(this);
+		new CanvasMouseListener(this, gdPanel);
 
 		cacheLines();
 
-//		setToolTipText("wibble");
+		setToolTipText("");
 	}
-
-/*	CanvasToolTip tt = new CanvasToolTip();
 
 	public JToolTip createToolTip()
-	{
-		return tt;
-	}
+		{ return tt; }
 
 	public String getToolTipText(MouseEvent e)
-	{
-		return "" + (e.getPoint().x / boxW) + (e.getPoint().y / boxH);
-	}
-*/
+		{ return (e.getPoint().x / boxW) + ", " + (e.getPoint().y / boxH); }
+
 
 	private void cacheLines()
 	{

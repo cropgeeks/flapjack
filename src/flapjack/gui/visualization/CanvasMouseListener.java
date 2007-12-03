@@ -9,10 +9,12 @@ import javax.swing.event.*;
 class CanvasMouseListener extends MouseInputAdapter
 {
 	private GenotypeCanvas canvas;
+	private GenotypeDisplayPanel gdPanel;
 
-	CanvasMouseListener(GenotypeCanvas canvas)
+	CanvasMouseListener(GenotypeCanvas canvas, GenotypeDisplayPanel gdPanel)
 	{
 		this.canvas = canvas;
+		this.gdPanel = gdPanel;
 
 		canvas.addMouseListener(this);
 		canvas.addMouseMotionListener(this);
@@ -56,29 +58,33 @@ class CanvasMouseListener extends MouseInputAdapter
 		int xIndex = x / canvas.boxW;
 		int yIndex = y / canvas.boxH;
 
+		gdPanel.overRow(yIndex);
+
 //		System.out.println("xIndex = " + xIndex + ", yIndex = " + yIndex);
 	}
 }
 
 class CanvasToolTip extends JToolTip
 {
-	Color bgColor = new JLabel().createToolTip().getBackground();
+	Color bgColor = (Color) UIManager.get("ToolTip.background");// new JLabel().createToolTip().getBackground();
 
 	int w, h;
 
 	CanvasToolTip()
 	{
 		w = 100;
-		h = 100;
+		h = 25;
 	}
 
-	public Dimension getPreferredSize()
-	{
-		return new Dimension(w, h);
-	}
+//	public Dimension getPreferredSize()
+//	{
+//		return new Dimension(w, h);
+//	}
 
 	public void paintComponent(Graphics graphics)
 	{
+		super.paintComponent(graphics);
+
 		Graphics2D g = (Graphics2D) graphics;
 
 		g.setPaint(new GradientPaint(0, 0, Color.red.brighter(), w, h, Color.red.darker()));
@@ -90,6 +96,6 @@ class CanvasToolTip extends JToolTip
 
 		r = new Rectangle2D.Float(0, 0, w, h);
 
-		g.fill(r);
+//		g.fill(r);
 	}
 }
