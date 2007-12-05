@@ -22,9 +22,9 @@ public class OverviewDialog extends JDialog
 
 	private OverviewGenerator imager = null;
 
-	public OverviewDialog(GenotypeDisplayPanel gdPanel)
+	public OverviewDialog(JFrame parent, GenotypeDisplayPanel gdPanel)
 	{
-		super(Flapjack.winMain, RB.getString("gui.visualization.OverviewDialog.title"), false);
+		super(parent, RB.getString("gui.visualization.OverviewDialog.title"), false);
 
 		this.gdPanel = gdPanel;
 
