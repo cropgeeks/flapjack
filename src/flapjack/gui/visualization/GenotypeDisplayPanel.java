@@ -19,7 +19,7 @@ public class GenotypeDisplayPanel extends JPanel
 
 	ListPanel listPanel;
 	GenotypeCanvas canvas;
-	RowOverview rowPanel;
+	RowPanel rowPanel;
 	OverviewDialog overviewDialog;
 
 	private JSlider sizeSlider;
@@ -48,6 +48,7 @@ public class GenotypeDisplayPanel extends JPanel
 		JPanel p2 = new JPanel(new BorderLayout());
 		p2.add(rowPanel);
 		p2.add(p1, BorderLayout.SOUTH);
+
 		add(p2, BorderLayout.SOUTH);
 	}
 
@@ -63,7 +64,7 @@ public class GenotypeDisplayPanel extends JPanel
 
 		listPanel = new ListPanel(dataSet);
 		canvas = new GenotypeCanvas(this, dataSet, map);
-		rowPanel = new RowOverview(canvas);
+		rowPanel = new RowPanel(canvas);
 
 		sp.setRowHeaderView(listPanel);
 		sp.setViewportView(canvas);
@@ -71,6 +72,7 @@ public class GenotypeDisplayPanel extends JPanel
 
 		sizeSlider = new JSlider(1, 40, 11);
 		sizeSlider.addChangeListener(this);
+
 		stateChanged(null);
 	}
 
@@ -85,6 +87,8 @@ public class GenotypeDisplayPanel extends JPanel
 		// the new dimensions of the canvas being passed to it (window size
 		// changes will cause scrollbar movement events)
 		canvas.computeForRedraw(view.getExtentSize(), view.getViewPosition());
+
+		rowPanel.repaint();
 	}
 
 	void computeScrollbarAdjustmentValues(int xIncrement, int yIncrement)
@@ -103,6 +107,8 @@ public class GenotypeDisplayPanel extends JPanel
 
 		listPanel.computeDimensions(size);
 		canvas.computeDimensions(size);
+
+		rowPanel.computeDimensions(listPanel.getWidth(), vBar.isVisible() ? vBar.getWidth() : 0);
 
 		repaint();
 	}
@@ -134,6 +140,8 @@ public class GenotypeDisplayPanel extends JPanel
 	{
 		if (overviewDialog != null)
 			overviewDialog.updateOverviewSelectionBox(xIndex, xW, yIndex, yH);
+
+		rowPanel.updateOverviewSelectionBox(xIndex, xW);
 	}
 
 	void jumpToPosition(int xIndex, int yIndex)
@@ -145,7 +153,7 @@ public class GenotypeDisplayPanel extends JPanel
 		vBar.setValue(y);
 	}
 
-	void overRow(int rowIndex)
+	void overRow(int colIndex, int rowIndex)
 	{
 		GenotypeData data = null;
 

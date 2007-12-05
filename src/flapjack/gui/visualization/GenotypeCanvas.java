@@ -204,22 +204,25 @@ class GenotypeCanvas extends JPanel
 		g.drawImage(image2, pX1, pY1, Color.black, null);
 	}
 
+	int xIndexStart, xIndexEnd;
+	int yIndexStart, yIndexEnd;
+
 	void renderRegion(Graphics2D g)
 	{
 		// These are the index positions within the dataset that we'll start
 		// drawing from
-		int xIndexStart = pX1 / boxW;
-		int yIndexStart = pY1 / boxH;
+		xIndexStart = pX1 / boxW;
+		yIndexStart = pY1 / boxH;
 
 		// The end indices are calculated as the:
 		//   (the start index) + (the number that can be drawn on screen)
 		// with a check to set the end index to the last value in the array if
 		// the calculated index would go out of bounds
-		int xIndexEnd = xIndexStart + boxCountX;
+		xIndexEnd = xIndexStart + boxCountX;
 		if (xIndexEnd >= boxTotalX)
 			xIndexEnd = boxTotalX-1;
 
-		int yIndexEnd = yIndexStart + boxCountY;
+		yIndexEnd = yIndexStart + boxCountY;
 		if (yIndexEnd >= boxTotalY)
 			yIndexEnd = boxTotalY-1;
 
@@ -228,7 +231,14 @@ class GenotypeCanvas extends JPanel
 
 	void renderAll(Graphics2D g)
 	{
-		render(g, 0, boxTotalX-1, 0, boxTotalY-1);
+		xIndexStart = 0;
+		xIndexEnd = boxTotalX-1;
+		yIndexStart = 0;
+		yIndexEnd = boxTotalY-1;
+
+//		render(g, 0, boxTotalX-1, 0, boxTotalY-1);
+
+		render(g, xIndexStart, xIndexEnd, yIndexStart, yIndexEnd);
 	}
 
 	private void render(Graphics2D g, int xS, int xE, int yS, int yE)

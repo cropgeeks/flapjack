@@ -9,6 +9,8 @@ public class Flapjack
 {
 	public static WinMain winMain;
 
+	public static int DATASET = 1;
+
 	public static void main(String[] args)
 		throws Exception
 	{
@@ -16,6 +18,9 @@ public class Flapjack
 			RB.locale = Locale.GERMAN;
 		else if (args.length == 1 && args[0].equals("pirate"))
 			RB.locale = new Locale("en", "GB", "Pirate");
+
+		else if (args.length == 1)
+			DATASET = Integer.parseInt(args[0]);
 
 		RB.init();
 
