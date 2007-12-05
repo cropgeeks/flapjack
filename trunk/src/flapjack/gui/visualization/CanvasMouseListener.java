@@ -58,7 +58,7 @@ class CanvasMouseListener extends MouseInputAdapter
 		int xIndex = x / canvas.boxW;
 		int yIndex = y / canvas.boxH;
 
-		gdPanel.overRow(yIndex);
+		gdPanel.overRow(xIndex, yIndex);
 
 //		System.out.println("xIndex = " + xIndex + ", yIndex = " + yIndex);
 	}

@@ -88,6 +88,8 @@ public class GenotypeDataImporter
 			}
 		}
 
+		System.out.println(dataSet.countLines() + " lines by " + dataSet.countMarkers() + " loci");
+
 		in.close();
 	}
 }

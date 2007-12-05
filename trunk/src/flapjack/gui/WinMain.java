@@ -35,16 +35,32 @@ public class WinMain extends JFrame
 	public static DataSet getDataSet()
 		throws IOException, DataFormatException
 	{
+		File mapFile = null;
+		File genoFile = null;
 
-//		File mapFile = new File("..\\Data\\GVT_MAP_TEST.txt");
-		File mapFile = new File("..\\Data\\NEW_MAP_DATA_FOR_IAIN.txt");
-//		File mapFile = new File("..\\Data\\5000.map");
-
-
-//		File genoFile = new File("..\\Data\\9574c52737e9bb23192d9537f269efd4.txt");
-		File genoFile = new File("..\\Data\\NEW_GENOTYPE_DATA_FOR_IAIN.txt");
-//		File genoFile = new File("..\\Data\\data_5000_100.txt");
-
+		switch (Flapjack.DATASET)
+		{
+			case 1:
+				mapFile = new File("data\\GVT_MAP_TEST.txt");
+				genoFile = new File("data\\9574c52737e9bb23192d9537f269efd4.txt");
+				break;
+			case 2:
+				mapFile = new File("data\\NEW_MAP_DATA_FOR_IAIN.txt");
+				genoFile = new File("data\\NEW_GENOTYPE_DATA_FOR_IAIN.txt");
+				break;
+			case 3:
+				mapFile = new File("data\\5000.map");
+				genoFile = new File("data\\data_5000_100.txt");
+				break;
+			case 4:
+				mapFile = new File("data\\5000.map");
+				genoFile = new File("data\\data_5000_1000.txt");
+				break;
+			case 5:
+				mapFile = new File("data\\5000.map");
+				genoFile = new File("data\\data_5000_10000.txt");
+				break;
+		}
 
 		return new DataLoadingDialog(mapFile, genoFile).getDataSet();
 	}
