@@ -19,8 +19,11 @@ public class Flapjack
 		else if (args.length == 1 && args[0].equals("pirate"))
 			RB.locale = new Locale("en", "GB", "Pirate");
 
-		else if (args.length == 1)
+		else if (args.length > 1)
+		{
 			DATASET = Integer.parseInt(args[0]);
+			flapjack.gui.visualization.GenotypeDisplayPanel.mapIndex = Integer.parseInt(args[1]) - 1;
+		}
 
 		RB.init();
 

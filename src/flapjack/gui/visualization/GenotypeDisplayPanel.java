@@ -13,6 +13,8 @@ public class GenotypeDisplayPanel extends JPanel
 	private DataSet dataSet;
 	private ChromosomeMap map;
 
+	public static int mapIndex = 0;
+
 	private JScrollPane sp;
 	private JScrollBar hBar, vBar;
 	private JViewport view;
@@ -20,18 +22,18 @@ public class GenotypeDisplayPanel extends JPanel
 	ListPanel listPanel;
 	GenotypeCanvas canvas;
 	RowPanel rowPanel;
+	ColPanel colPanel;
 	OverviewDialog overviewDialog;
 
 	private JSlider sizeSlider;
 
-	static int BS = 10;
 
 	public GenotypeDisplayPanel()
 	{
 		try
 		{
 			dataSet = flapjack.gui.WinMain.getDataSet();
-			map = dataSet.getMapByIndex(0);
+			map = dataSet.getMapByIndex(mapIndex);
 		}
 		catch (Exception e) {}
 
@@ -40,16 +42,23 @@ public class GenotypeDisplayPanel extends JPanel
 		setBackground(Color.white);
 
 		setLayout(new BorderLayout());
-		add(sp);
+
+		JPanel centerPanel = new JPanel(new BorderLayout());
+		centerPanel.add(sp);
+		centerPanel.add(rowPanel, BorderLayout.SOUTH);
+		centerPanel.add(colPanel, BorderLayout.EAST);
+		add(centerPanel);
 
 		JPanel p1 = new JPanel();
 		p1.add(sizeSlider);
 
-		JPanel p2 = new JPanel(new BorderLayout());
-		p2.add(rowPanel);
-		p2.add(p1, BorderLayout.SOUTH);
+//		JPanel p2 = new JPanel(new BorderLayout());
+//		p2.add(rowPanel);
+//		p2.add(p1, BorderLayout.SOUTH);
 
-		add(p2, BorderLayout.SOUTH);
+//		add(p2, BorderLayout.SOUTH);
+		add(p1, BorderLayout.SOUTH);
+//		add(colPanel, BorderLayout.EAST);
 	}
 
 	private void createControls()
@@ -65,6 +74,7 @@ public class GenotypeDisplayPanel extends JPanel
 		listPanel = new ListPanel(dataSet);
 		canvas = new GenotypeCanvas(this, dataSet, map);
 		rowPanel = new RowPanel(canvas);
+		colPanel = new ColPanel(canvas);
 
 		sp.setRowHeaderView(listPanel);
 		sp.setViewportView(canvas);
@@ -73,7 +83,14 @@ public class GenotypeDisplayPanel extends JPanel
 		sizeSlider = new JSlider(1, 40, 11);
 		sizeSlider.addChangeListener(this);
 
-		stateChanged(null);
+		listPanel.computeDimensions(11);
+		canvas.computeDimensions(11);
+
+		addComponentListener(new ComponentAdapter() {
+			public void componentResized(ComponentEvent e) {
+				computeRowColSizes();
+			}
+		});
 	}
 
 	public void setOverviewDialog(OverviewDialog overviewDialog)
@@ -89,6 +106,7 @@ public class GenotypeDisplayPanel extends JPanel
 		canvas.computeForRedraw(view.getExtentSize(), view.getViewPosition());
 
 		rowPanel.repaint();
+		colPanel.repaint();
 	}
 
 	void computeScrollbarAdjustmentValues(int xIncrement, int yIncrement)
@@ -108,9 +126,18 @@ public class GenotypeDisplayPanel extends JPanel
 		listPanel.computeDimensions(size);
 		canvas.computeDimensions(size);
 
-		rowPanel.computeDimensions(listPanel.getWidth(), vBar.isVisible() ? vBar.getWidth() : 0);
+		validate();
+
+		computeRowColSizes();
 
 		repaint();
+	}
+
+	void computeRowColSizes()
+	{
+		int cWidth = colPanel.getWidth();
+		rowPanel.computeDimensions(listPanel.getWidth(), vBar.isVisible() ? (cWidth+vBar.getWidth()) : cWidth);
+		colPanel.computeDimensions(listPanel.getHeight(), hBar.isVisible() ? hBar.getHeight() : 0);
 	}
 
 	public void mouseWheelMoved(MouseWheelEvent e)
@@ -142,6 +169,7 @@ public class GenotypeDisplayPanel extends JPanel
 			overviewDialog.updateOverviewSelectionBox(xIndex, xW, yIndex, yH);
 
 		rowPanel.updateOverviewSelectionBox(xIndex, xW);
+		colPanel.updateOverviewSelectionBox(yIndex, yH);
 	}
 
 	void jumpToPosition(int xIndex, int yIndex)
@@ -165,5 +193,6 @@ public class GenotypeDisplayPanel extends JPanel
 		catch (ArrayIndexOutOfBoundsException e) {}
 
 		rowPanel.setGenotypeData(data);
+		colPanel.setLociIndex(colIndex);
 	}
 }

@@ -21,7 +21,7 @@ public class WinMain extends JFrame
 
 		gdPanel = new GenotypeDisplayPanel();
 
-		overviewDialog = new OverviewDialog(gdPanel);
+		overviewDialog = new OverviewDialog(this, gdPanel);
 		overviewDialog.setVisible(true);
 		gdPanel.setOverviewDialog(overviewDialog);
 
@@ -59,6 +59,14 @@ public class WinMain extends JFrame
 			case 5:
 				mapFile = new File("data\\5000.map");
 				genoFile = new File("data\\data_5000_10000.txt");
+				break;
+			case 6:
+				mapFile = new File("data\\5000.map");
+				genoFile = new File("data\\data_5000_50000.txt");
+				break;
+			case 7:
+				mapFile = new File("data\\illumina.map");
+				genoFile = new File("data\\illumina.data");
 				break;
 		}
 

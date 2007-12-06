@@ -5,4 +5,4 @@ set lib=lib
 set fjcp=%lib%\
 set fjcp=%fjcp%;%lib%\sbrn-commons.jar
 
-java -Xmx512m -cp .;classes;%fjcp% flapjack.gui.Flapjack %1
+java -Xmx768m -cp .;classes;%fjcp% flapjack.gui.Flapjack %1 %2 %3 %4 %5
