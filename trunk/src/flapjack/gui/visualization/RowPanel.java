@@ -40,7 +40,7 @@ class RowPanel extends JPanel
 
 	void setGenotypeData(GenotypeData data)
 	{
-		if (this.data != data)
+		if (this.data != data && canvas.locked == false)
 		{
 			this.data = data;
 			repaint();

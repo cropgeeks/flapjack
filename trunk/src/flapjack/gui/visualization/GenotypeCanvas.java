@@ -21,6 +21,8 @@ class GenotypeCanvas extends JPanel
 	// The current color model
 	ColorTable cTable;
 
+	boolean locked = false;
+
 	// The total number of boxes (allele states) in the dataset
 	int boxTotalX, boxTotalY;
 	// Width and height of the main drawing canvas
@@ -68,7 +70,16 @@ class GenotypeCanvas extends JPanel
 		{ return tt; }
 
 	public String getToolTipText(MouseEvent e)
-		{ return (e.getPoint().x / boxW) + ", " + (e.getPoint().y / boxH); }
+	{
+		int xIndex = (int) (e.getPoint().x / boxW);
+		int yIndex = (int) (e.getPoint().y / boxH);
+
+		ChromosomeMap map = dataSet.getMapByIndex(gdPanel.mapIndex);
+
+		return (e.getPoint().x / boxW) + ", " + (e.getPoint().y / boxH)
+			+ "    " + dataSet.getLineByIndex(yIndex) + " - "
+			+ map + " - " + map.getMarkerByIndex(xIndex);
+	}
 
 
 	private void cacheLines()

@@ -47,7 +47,10 @@ class CanvasMouseListener extends MouseInputAdapter
 			canvas.repaint();
 		}
 
-
+		else if (e.getClickCount() == 1)
+		{
+			canvas.locked = !canvas.locked;
+		}
 	}
 
 	public void mouseMoved(MouseEvent e)
@@ -61,6 +64,11 @@ class CanvasMouseListener extends MouseInputAdapter
 		gdPanel.overRow(xIndex, yIndex);
 
 //		System.out.println("xIndex = " + xIndex + ", yIndex = " + yIndex);
+	}
+
+	public void mouseExited(MouseEvent e)
+	{
+		gdPanel.overRow(-1, -1);
 	}
 }
 

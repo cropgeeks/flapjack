@@ -52,6 +52,22 @@ class ColoredAlleleState
 
 		g.fill(r);
 
+
+		if (true && h >= 10)
+		{
+			//Font font = new Font("Monospaced", Font.PLAIN, h);
+			Font font = g.getFont().deriveFont(Font.PLAIN, h-3);
+			g.setFont(font);
+			FontMetrics fm = g.getFontMetrics();
+
+			Rectangle2D bounds = fm.getStringBounds(state.toString(), g);
+
+			g.setColor(Color.black);
+			g.drawString(state.toString(),
+				(int)((float)w/2-bounds.getWidth()/2),
+				h - fm.getMaxDescent());
+		}
+
 //		r = new Rectangle2D.Float(0, 0, w-1, h-1);
 //		g.setColor(Color.black);
 //		g.draw(r);
@@ -65,7 +81,9 @@ class ColoredAlleleState
 
 	private void createColor()
 	{
-		int value = state.toString().charAt(0);
+		int value = 0;
+		for (int i = 0; i < state.toString().length(); i++)
+			value += state.toString().charAt(i);
 
 		java.util.Random rnd = new java.util.Random(value+555);
 
