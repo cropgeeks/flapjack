@@ -3,22 +3,73 @@ package flapjack.data;
 import java.io.*;
 import java.text.*;
 
-public class DataSetTest
+import junit.framework.*;
+
+import flapjack.io.*;
+
+import sbrn.commons.file.*;
+
+public class DataSetTest extends TestCase
 {
 	private DataSet dataSet;
 	private StateTable stateTable;
 
 	private BufferedWriter out;
 
-	public DataSetTest(DataSet dataSet)
+	public static void main(String[] args)
 	{
-		this.dataSet = dataSet;
-		this.stateTable = dataSet.getStateTable();
-
-//		out = new BufferedWriter(new PrintWriter(System.out));
-		try { out = new BufferedWriter(new FileWriter("t.txt")); }
-		catch (IOException e) { System.out.println(e); }
+		org.junit.runner.JUnitCore.main("flapjack.data.DataSetTest");
 	}
+
+	private void load(File file1, File file2)
+		throws Exception
+	{
+		dataSet = new DataSet();
+		stateTable = dataSet.getStateTable();
+
+		// Load the test data into the application
+		ChromosomeMapImporter mapImporter
+			= new ChromosomeMapImporter(file1, dataSet);
+		GenotypeDataImporter genoImporter
+			= new GenotypeDataImporter(file2, dataSet);
+
+		mapImporter.importMap();
+		genoImporter.importGenotypeData();
+	}
+
+	public void testLoading100x5000()
+		throws Exception
+	{
+		File mapFile = new File("tests\\5000.map");
+		File genoFile = new File("tests\\100x5000.data");
+		load(mapFile, genoFile);
+
+		File file1 = new File("tests\\100x5000.test");
+		File file2 = new File("tests\\100x5000.junit");
+
+		out = new BufferedWriter(new FileWriter(file1));
+		printDataSet();
+
+		assertEquals(FileUtils.readFile(file1), FileUtils.readFile(file2));
+	}
+
+/*
+	public void testLoadingIllumina()
+		throws Exception
+	{
+		File mapFile = new File("tests\\illumina.map");
+		File genoFile = new File("tests\\illumina.data");
+		load(mapFile, genoFile);
+
+		File file1 = new File("tests\\illumina.test");
+		File file2 = new File("tests\\illumina.junit");
+
+		out = new BufferedWriter(new FileWriter(file1));
+		printDataSet();
+
+		assertEquals(FileUtils.readFile(file1), FileUtils.readFile(file2));
+	}
+*/
 
 	public void printDataSet()
 		throws IOException
