@@ -21,6 +21,7 @@ public class GenotypeDisplayPanel extends JPanel
 
 	ListPanel listPanel;
 	GenotypeCanvas canvas;
+	MapCanvas mapCanvas;
 	RowPanel rowPanel;
 	ColPanel colPanel;
 	OverviewDialog overviewDialog;
@@ -45,6 +46,7 @@ public class GenotypeDisplayPanel extends JPanel
 
 		JPanel centerPanel = new JPanel(new BorderLayout());
 		centerPanel.add(sp);
+		centerPanel.add(mapCanvas, BorderLayout.NORTH);
 		centerPanel.add(rowPanel, BorderLayout.SOUTH);
 		centerPanel.add(colPanel, BorderLayout.EAST);
 		add(centerPanel);
@@ -75,16 +77,20 @@ public class GenotypeDisplayPanel extends JPanel
 		canvas = new GenotypeCanvas(this, dataSet, map);
 		rowPanel = new RowPanel(canvas);
 		colPanel = new ColPanel(canvas);
+		mapCanvas = new MapCanvas(canvas);
+		mapCanvas.setChromosomeMap(map);
 
 		sp.setRowHeaderView(listPanel);
 		sp.setViewportView(canvas);
 		sp.getViewport().setBackground(Color.white);
 
-		sizeSlider = new JSlider(1, 40, 11);
+		sizeSlider = new JSlider(1, 25, 11);
 		sizeSlider.addChangeListener(this);
 
 		listPanel.computeDimensions(11);
 		canvas.computeDimensions(11);
+
+		stateChanged(null);
 
 		addComponentListener(new ComponentAdapter() {
 			public void componentResized(ComponentEvent e) {
@@ -107,6 +113,7 @@ public class GenotypeDisplayPanel extends JPanel
 
 		rowPanel.repaint();
 		colPanel.repaint();
+		mapCanvas.repaint();
 	}
 
 	void computeScrollbarAdjustmentValues(int xIncrement, int yIncrement)
@@ -136,8 +143,13 @@ public class GenotypeDisplayPanel extends JPanel
 	void computeRowColSizes()
 	{
 		int cWidth = colPanel.getWidth();
+
+		System.out.println("cWidth = " + cWidth);
+
 		rowPanel.computeDimensions(listPanel.getWidth(), vBar.isVisible() ? (cWidth+vBar.getWidth()) : cWidth);
 		colPanel.computeDimensions(listPanel.getHeight(), hBar.isVisible() ? hBar.getHeight() : 0);
+
+		mapCanvas.computeDimensions(listPanel.getWidth(), vBar.isVisible() ? (cWidth+vBar.getWidth()) : cWidth);
 	}
 
 	public void mouseWheelMoved(MouseWheelEvent e)
@@ -170,6 +182,8 @@ public class GenotypeDisplayPanel extends JPanel
 
 		rowPanel.updateOverviewSelectionBox(xIndex, xW);
 		colPanel.updateOverviewSelectionBox(yIndex, yH);
+
+		mapCanvas.updateLociIndices(xIndex, xIndex+xW-1);
 	}
 
 	void jumpToPosition(int xIndex, int yIndex)
@@ -194,5 +208,6 @@ public class GenotypeDisplayPanel extends JPanel
 
 		rowPanel.setGenotypeData(data);
 		colPanel.setLociIndex(colIndex);
+		mapCanvas.setLociIndex(colIndex);
 	}
 }

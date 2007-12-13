@@ -53,7 +53,7 @@ class ColoredAlleleState
 		g.fill(r);
 
 
-		if (true && h >= 10)
+		if (true == false && h >= 10)
 		{
 			//Font font = new Font("Monospaced", Font.PLAIN, h);
 			Font font = g.getFont().deriveFont(Font.PLAIN, h-3);

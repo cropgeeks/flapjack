@@ -14,6 +14,8 @@ public class ChromosomeMap implements Iterable<Marker>
 	// unique entries. Stores <name>, <index> (in markers Vector)
 	private Hashtable<String,String> names = new Hashtable<String,String>();
 
+	private float length;
+
 	public ChromosomeMap(String name)
 	{
 		this.name = new String(name);
@@ -27,6 +29,15 @@ public class ChromosomeMap implements Iterable<Marker>
 	public String getName()
 	{
 		return name;
+	}
+
+	/**
+	 * Returns the length of this map (0.0 to position of final marker).
+	 * @return the length of this map
+	 */
+	public float getLength()
+	{
+		return length;
 	}
 
 	public Iterator<Marker> iterator()
@@ -70,6 +81,10 @@ public class ChromosomeMap implements Iterable<Marker>
 	void sort()
 	{
 		Collections.sort(markers);
+
+		length = markers.get(markers.size()-1).getPosition();
+
+		System.out.println("Map " + name + " has length " + length);
 
 		// Once the vector is sorted, we can update the hashtable to quickly
 		// find index positions given a marker name
