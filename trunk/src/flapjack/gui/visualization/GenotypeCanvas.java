@@ -58,12 +58,13 @@ class GenotypeCanvas extends JPanel
 		this.map = map;
 
 		setOpaque(false);
+		setBackground(Color.white);
 
 		new CanvasMouseListener(this, gdPanel);
 
 		cacheLines();
 
-		setToolTipText("");
+//		setToolTipText("");
 	}
 
 	public JToolTip createToolTip()
@@ -212,7 +213,7 @@ class GenotypeCanvas extends JPanel
 
 		System.out.println(pX1 + "," + pY1 + "-" + pX2 + "," + pY2);
 
-		g.drawImage(image2, pX1, pY1, Color.black, null);
+		g.drawImage(image2, pX1, pY1, Color.white, null);
 	}
 
 	int xIndexStart, xIndexEnd;
