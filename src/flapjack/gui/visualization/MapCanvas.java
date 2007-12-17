@@ -6,6 +6,7 @@ import java.text.*;
 import javax.swing.*;
 
 import flapjack.data.*;
+import flapjack.gui.*;
 
 class MapCanvas extends JPanel
 {
@@ -18,6 +19,7 @@ class MapCanvas extends JPanel
 
 	private Canvas2D mapCanvas;
 
+	private BufferFactory bufferFactory;
 	private BufferedImage image;
 
 	private int h = 55;
@@ -52,6 +54,11 @@ class MapCanvas extends JPanel
 		xScale = canvas.canvasW / map.getLength();
 
 		image = null;
+
+		if (bufferFactory != null)
+			bufferFactory.killMe = true;
+
+		bufferFactory = new BufferFactory(canvas.canvasW, h);
 	}
 
 	void updateLociIndices(int canvas1, int canvas2)
@@ -95,19 +102,12 @@ class MapCanvas extends JPanel
 
 			if (image == null)
 			{
-				long bufferSize = (long) (canvas.canvasW * h);
-				System.out.println("Map buffer: " + (bufferSize/1024f/1024f));
+				String str = RB.getString("gui.visualization.MapCanvas.buffer");
+				int strW = g.getFontMetrics().stringWidth(str);
 
-				try
-				{
-					image = new BufferedImage(canvas.canvasW, h, BufferedImage.TYPE_BYTE_GRAY);
-				}
-				catch (Throwable t) { return; }
+				g.drawString(str, (int)(getWidth()/2-strW/2), 25);
 
-				Graphics2D g2d = image.createGraphics();
-
-				drawCanvas(g2d);
-				g2d.dispose();
+				return;
 			}
 
 			// Cut out the area of the main buffer we want to draw
@@ -137,6 +137,40 @@ class MapCanvas extends JPanel
 			System.out.println("MAP Render time: " + ((e-s)/1000000f) + "ms");
 		}
 
+
+	}
+
+	private class BufferFactory extends Thread
+	{
+		private BufferedImage buffer;
+
+		private boolean killMe = false;
+		private int w, h;
+
+		BufferFactory(int w, int h)
+		{
+			this.w = w;
+			this.h = h;
+
+			start();
+		}
+
+		public void run()
+		{
+//			setPriority(Thread.MIN_PRIORITY);
+
+			try
+			{
+				buffer = new BufferedImage(w, h, BufferedImage.TYPE_BYTE_GRAY);
+			}
+			catch (Throwable t) { return; }
+
+			Graphics2D g2d = buffer.createGraphics();
+
+			drawCanvas(g2d);
+			g2d.dispose();
+		}
+
 		private void drawCanvas(Graphics2D g)
 		{
 			// Enable anti-aliased graphics to smooth the line jaggies
@@ -158,11 +192,21 @@ class MapCanvas extends JPanel
 			map2 = map.countLoci()-1;
 
 			// Draw each marker
-			for (int i = map1; i <= map2; i++)
+			for (int i = map1; i <= map2 && !killMe; i++)
 				drawLoci(g, i, false);
-		}
 
-		private void drawLoci(Graphics2D g, int i, boolean showDetails)
+			if (!killMe)
+				bufferAvailable(buffer);
+		}
+	}
+
+	private void bufferAvailable(BufferedImage image)
+	{
+		this.image = image;
+		repaint();
+	}
+
+	private void drawLoci(Graphics2D g, int i, boolean showDetails)
 		{
 			Marker m = map.getMarkerByIndex(i);
 
@@ -180,7 +224,6 @@ class MapCanvas extends JPanel
 			g.drawLine(xMap, 10, xMap, 20);
 			g.drawLine(xMap, 20, xBox, h-5);
 		}
-	}
 
 	/**
 	 * Optimises the start and end indices for the map based on which markers
