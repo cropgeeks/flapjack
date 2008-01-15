@@ -6,23 +6,21 @@ import javax.swing.*;
 
 import flapjack.data.*;
 
-class ColPanel extends JPanel
+class ColCanvas extends JPanel
 {
 	private GenotypeCanvas canvas;
 
 	private int lociIndex = -1;
 
-	private ColCanvas colCanvas = new ColCanvas();
-
 	// Starting index being displayed on the main canvas, and the number of boxes
 	private int yIndex, yCount;
 
-	ColPanel(GenotypeCanvas canvas)
+	ColCanvas(GenotypeCanvas canvas)
 	{
 		this.canvas = canvas;
 
 		setLayout(new BorderLayout());
-		add(colCanvas);
+		add(new Canvas2D());
 	}
 
 	void computeDimensions(int h1, int h2)
@@ -45,9 +43,9 @@ class ColPanel extends JPanel
 		}
 	}
 
-	private class ColCanvas extends JPanel
+	private class Canvas2D extends JPanel
 	{
-		ColCanvas()
+		Canvas2D()
 		{
 			setBackground(Color.white);
 			setPreferredSize(new Dimension(45, 0));
@@ -62,7 +60,7 @@ class ColPanel extends JPanel
 			if (lociIndex == -1) // TODO: or is > than number of loci
 				return;
 
-			int boxTotalY = canvas.genotypeLines.size();
+			int boxTotalY = canvas.boxTotalY;
 
 			// Scaling factors
 			float yScale = getHeight() / (float) boxTotalY;

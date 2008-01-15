@@ -10,7 +10,7 @@ import flapjack.data.*;
 
 class GenotypeCanvas extends JPanel
 {
-	private GenotypeDisplayPanel gdPanel;
+	private GenotypePanel gPanel;
 
 	DataSet dataSet;
 	ChromosomeMap map;
@@ -39,7 +39,7 @@ class GenotypeCanvas extends JPanel
 	int pX2, pY2;
 
 	// Holds the current dimensions of the canvas in an AWT friendly format
-	private Dimension dimension;
+	private Dimension dimension = new Dimension();
 
 	// Rendering mode: 0 (real-time), 1 (buffered), 2 (minesweeper)
 	int renderMode = 0;
@@ -51,18 +51,14 @@ class GenotypeCanvas extends JPanel
 
 	MineSweeper mineSweeper;
 
-	GenotypeCanvas(GenotypeDisplayPanel gdPanel, DataSet dataSet, ChromosomeMap map)
+	GenotypeCanvas(GenotypePanel gPanel)
 	{
-		this.gdPanel = gdPanel;
-		this.dataSet = dataSet;
-		this.map = map;
+		this.gPanel = gPanel;
 
 		setOpaque(false);
 		setBackground(Color.white);
 
-		new CanvasMouseListener(this, gdPanel);
-
-		cacheLines();
+		new CanvasMouseListener(this, gPanel);
 
 //		setToolTipText("");
 	}
@@ -75,16 +71,18 @@ class GenotypeCanvas extends JPanel
 		int xIndex = (int) (e.getPoint().x / boxW);
 		int yIndex = (int) (e.getPoint().y / boxH);
 
-		ChromosomeMap map = dataSet.getMapByIndex(gdPanel.mapIndex);
-
 		return (e.getPoint().x / boxW) + ", " + (e.getPoint().y / boxH)
 			+ "    " + dataSet.getLineByIndex(yIndex) + " - "
 			+ map + " - " + map.getMarkerByIndex(xIndex);
 	}
 
-
-	private void cacheLines()
+	void setData(DataSet dataSet, ChromosomeMap map)
 	{
+		this.dataSet = dataSet;
+		this.map = map;
+
+
+		// Now cache as much data as possible to help speed rendering
 		genotypeLines = new Vector<GenotypeData>(dataSet.countLines());
 
 		for (int i = 0; i < dataSet.countLines(); i++)
@@ -100,6 +98,9 @@ class GenotypeCanvas extends JPanel
 	// box-drawing size needs to be changed
 	void computeDimensions(int size)
 	{
+		if (dataSet == null)
+			return;
+
 		Font font = new Font("Monospaced", Font.PLAIN, size);
 		FontMetrics fm = new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB)
 			.getGraphics().getFontMetrics(font);
@@ -109,7 +110,7 @@ class GenotypeCanvas extends JPanel
 
 		// Once we have suitable width/height values, the scrollbars can be made
 		// to lock to those so we never have to draw less than a full box
-		gdPanel.computeScrollbarAdjustmentValues(boxW, boxH);
+		gPanel.computeScrollbarAdjustmentValues(boxW, boxH);
 
 		boxTotalX = map.countLoci();
 		boxTotalY = genotypeLines.size();
@@ -153,11 +154,11 @@ class GenotypeCanvas extends JPanel
 
 	void updateOverviewSelectionBox()
 	{
-		gdPanel.updateOverviewSelectionBox((pX1/boxW), boxCountX, (pY1/boxH), boxCountY);
-	}
+		if (dataSet == null)
+			return;
 
-	public Dimension getSize()
-		{ return dimension; }
+		gPanel.updateOverviewSelectionBox((pX1/boxW), boxCountX, (pY1/boxH), boxCountY);
+	}
 
 	public Dimension getPreferredSize()
 		{ return dimension; }
@@ -166,6 +167,9 @@ class GenotypeCanvas extends JPanel
 	public void paintComponent(Graphics graphics)
 	{
 		super.paintComponent(graphics);
+
+		if (dataSet == null)
+			return;
 
 		Graphics2D g = (Graphics2D) graphics;
 

@@ -9,12 +9,12 @@ import javax.swing.event.*;
 class CanvasMouseListener extends MouseInputAdapter
 {
 	private GenotypeCanvas canvas;
-	private GenotypeDisplayPanel gdPanel;
+	private GenotypePanel gPanel;
 
-	CanvasMouseListener(GenotypeCanvas canvas, GenotypeDisplayPanel gdPanel)
+	CanvasMouseListener(GenotypeCanvas canvas, GenotypePanel gPanel)
 	{
 		this.canvas = canvas;
-		this.gdPanel = gdPanel;
+		this.gPanel = gPanel;
 
 		canvas.addMouseListener(this);
 		canvas.addMouseMotionListener(this);
@@ -55,20 +55,25 @@ class CanvasMouseListener extends MouseInputAdapter
 
 	public void mouseMoved(MouseEvent e)
 	{
-		int x = e.getPoint().x;
-		int y = e.getPoint().y;
+		try
+		{
+			int x = e.getPoint().x;
+			int y = e.getPoint().y;
 
-		int xIndex = x / canvas.boxW;
-		int yIndex = y / canvas.boxH;
+			int xIndex = x / canvas.boxW;
+			int yIndex = y / canvas.boxH;
 
-		gdPanel.overRow(xIndex, yIndex);
+			gPanel.overRow(xIndex, yIndex);
 
-//		System.out.println("xIndex = " + xIndex + ", yIndex = " + yIndex);
+//			System.out.println("xIndex = " + xIndex + ", yIndex = " + yIndex);
+		}
+		// Catching divide-by-zero if the canvas has no data (and hence size)
+		catch (ArithmeticException ae) {}
 	}
 
 	public void mouseExited(MouseEvent e)
 	{
-		gdPanel.overRow(-1, -1);
+		gPanel.overRow(-1, -1);
 	}
 }
 

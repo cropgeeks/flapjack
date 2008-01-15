@@ -22,7 +22,7 @@ public class Flapjack
 		else if (args.length > 1)
 		{
 			DATASET = Integer.parseInt(args[0]);
-			flapjack.gui.visualization.GenotypeDisplayPanel.mapIndex = Integer.parseInt(args[1]) - 1;
+			flapjack.gui.visualization.GenotypePanel.mapIndex = Integer.parseInt(args[1]) - 1;
 		}
 
 		RB.init();
@@ -34,7 +34,9 @@ public class Flapjack
 	{
 		try
 		{
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+//			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+
+			UIManager.setLookAndFeel("org.fife.plaf.Office2003.Office2003LookAndFeel");
 		}
 		catch (Exception e) {}
 
