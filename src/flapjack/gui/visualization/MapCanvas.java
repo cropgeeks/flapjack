@@ -17,8 +17,6 @@ class MapCanvas extends JPanel
 	private GenotypeData data;
 	private ChromosomeMap map;
 
-	private Canvas2D mapCanvas;
-
 	private BufferFactory bufferFactory;
 	private BufferedImage image;
 
@@ -44,7 +42,7 @@ class MapCanvas extends JPanel
 		this.canvas = canvas;
 
 		setLayout(new BorderLayout());
-		add(mapCanvas = new Canvas2D());
+		add(new Canvas2D());
 	}
 
 	void computeDimensions(int w1, int w2)
@@ -81,6 +79,31 @@ class MapCanvas extends JPanel
 		}
 	}
 
+	private void bufferAvailable(BufferedImage image)
+	{
+		this.image = image;
+		repaint();
+	}
+
+	private void drawLoci(Graphics2D g, int i, boolean showDetails)
+	{
+		Marker m = map.getMarkerByIndex(i);
+
+		int xMap = (int) (m.getPosition() * xScale);
+		int xBox = (int) (i * canvas.boxW + (canvas.boxW/2));
+
+		if (showDetails)
+		{
+			String posStr = m.getName() + "  (" + d.format(m.getPosition()) + ")";
+			int strWidth  = g.getFontMetrics().stringWidth(posStr);
+
+			g.drawString(posStr, xMap-(int)(strWidth/2f), 8);
+		}
+
+		g.drawLine(xMap, 10, xMap, 20);
+		g.drawLine(xMap, 20, xBox, h-5);
+	}
+
 	private class Canvas2D extends JPanel
 	{
 		Canvas2D()
@@ -92,14 +115,12 @@ class MapCanvas extends JPanel
 		{
 			super.paintComponent(graphics);
 
-			long s = System.nanoTime();
-
-
 			Graphics2D g = (Graphics2D) graphics;
 
 			if (map == null)
 				return;
 
+			// If the bg image is currently null, display some text instead
 			if (image == null)
 			{
 				String str = RB.getString("gui.visualization.MapCanvas.buffer");
@@ -111,9 +132,10 @@ class MapCanvas extends JPanel
 			}
 
 			// Cut out the area of the main buffer we want to draw
-			BufferedImage image2 = new BufferedImage(getWidth(), h, BufferedImage.TYPE_INT_RGB);
+			int canvasW = 1 + canvas.pX2-canvas.pX1;
+			BufferedImage image2 = new BufferedImage(canvasW, h, BufferedImage.TYPE_INT_RGB);
 			Graphics2D g2d = image2.createGraphics();
-			g2d.drawImage(image, 0, 0, getWidth(), h, canvas.pX1, 0, canvas.pX2, h, null);
+			g2d.drawImage(image, 0, 0, canvasW, h, canvas.pX1, 0, canvas.pX2, h, null);
 			g2d.dispose();
 
 			// And dump it to the screen
@@ -131,13 +153,7 @@ class MapCanvas extends JPanel
 				g.setColor(Color.red);
 				drawLoci(g, lociIndex, true);
 			}
-
-
-			long e = System.nanoTime();
-			System.out.println("MAP Render time: " + ((e-s)/1000000f) + "ms");
 		}
-
-
 	}
 
 	private class BufferFactory extends Thread
@@ -157,8 +173,6 @@ class MapCanvas extends JPanel
 
 		public void run()
 		{
-//			setPriority(Thread.MIN_PRIORITY);
-
 			try
 			{
 				buffer = new BufferedImage(w, h, BufferedImage.TYPE_BYTE_GRAY);
@@ -200,30 +214,6 @@ class MapCanvas extends JPanel
 		}
 	}
 
-	private void bufferAvailable(BufferedImage image)
-	{
-		this.image = image;
-		repaint();
-	}
-
-	private void drawLoci(Graphics2D g, int i, boolean showDetails)
-		{
-			Marker m = map.getMarkerByIndex(i);
-
-			int xMap = (int) (m.getPosition() * xScale);
-			int xBox = (int) (i * canvas.boxW + (canvas.boxW/2));
-
-			if (showDetails)
-			{
-				String posStr = m.getName() + "  (" + d.format(m.getPosition()) + ")";
-				int strWidth  = g.getFontMetrics().stringWidth(posStr);
-
-				g.drawString(posStr, xMap-(int)(strWidth/2f), 8);
-			}
-
-			g.drawLine(xMap, 10, xMap, 20);
-			g.drawLine(xMap, 20, xBox, h-5);
-		}
 
 	/**
 	 * Optimises the start and end indices for the map based on which markers

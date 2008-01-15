@@ -6,29 +6,26 @@ import javax.swing.*;
 
 import flapjack.data.*;
 
-class RowPanel extends JPanel
+class RowCanvas extends JPanel
 {
 	private GenotypeCanvas canvas;
 
 	private GenotypeData data;
 
-	private RowCanvas rowCanvas = new RowCanvas();
 
 	// Starting index being displayed on the main canvas, and the number of boxes
 	private int xIndex, xCount;
 
-	RowPanel(GenotypeCanvas canvas)
+	RowCanvas(GenotypeCanvas canvas)
 	{
 		this.canvas = canvas;
 
 		setLayout(new BorderLayout());
-		add(rowCanvas);
+		add(new Canvas2D());
 	}
 
 	void computeDimensions(int w1, int w2)
 	{
-		System.out.println("border: "+  w1 +", " + w2);
-
 		setBorder(BorderFactory.createEmptyBorder(5, w1, 5, w2));
 	}
 
@@ -47,9 +44,9 @@ class RowPanel extends JPanel
 		}
 	}
 
-	private class RowCanvas extends JPanel
+	private class Canvas2D extends JPanel
 	{
-		RowCanvas()
+		Canvas2D()
 		{
 			setBackground(Color.white);
 			setPreferredSize(new Dimension(0, 15));
@@ -64,7 +61,7 @@ class RowPanel extends JPanel
 			if (data == null)
 				return;
 
-			int boxTotalX = data.countLoci();
+			int boxTotalX = canvas.boxTotalX;
 
 			// Scaling factors
 			float xScale = getWidth() / (float) boxTotalX;

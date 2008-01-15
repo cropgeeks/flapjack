@@ -12,64 +12,60 @@ import flapjack.io.*;
 
 public class WinMain extends JFrame
 {
-	private GenotypeDisplayPanel gdPanel;
-	private OverviewDialog overviewDialog;
+	private WinMainMenuBar menubar;
+
+	private JSplitPane splitPane;
+
+	// We maintain just one GenotypePanel that is used to display any dataset
+	// as it would require too much memory to assign one per dataset
+	private GenotypePanel gPanel;
+
+	// The user's project
+	private Project project = new Project();
+
 
 	WinMain()
 	{
 		setTitle(RB.getString("gui.WinMain.title"));
 
-		gdPanel = new GenotypeDisplayPanel();
+		menubar = new WinMainMenuBar(this);
+		setJMenuBar(menubar);
 
-		overviewDialog = new OverviewDialog(this, gdPanel);
-		overviewDialog.setVisible(true);
-		gdPanel.setOverviewDialog(overviewDialog);
+		splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
+		splitPane.setDividerLocation(150);
+		splitPane.setLeftComponent(new JLabel("left", JLabel.CENTER));
+		splitPane.setRightComponent(new JLabel("right", JLabel.CENTER));
 
-		add(gdPanel);
+		gPanel = new GenotypePanel(this);
+
+		add(splitPane);
 
 		setSize(800, 600);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 	}
 
-	public static DataSet getDataSet()
-		throws IOException, DataFormatException
+	void importFile()
 	{
-		File mapFile = null;
-		File genoFile = null;
+		DataImportDialog dialog = new DataImportDialog();
 
-		switch (Flapjack.DATASET)
+		if (dialog.isOK())
 		{
-			case 1:
-				mapFile = new File("data\\GVT_MAP_TEST.txt");
-				genoFile = new File("data\\9574c52737e9bb23192d9537f269efd4.txt");
-				break;
-			case 2:
-				mapFile = new File("data\\NEW_MAP_DATA_FOR_IAIN.txt");
-				genoFile = new File("data\\NEW_GENOTYPE_DATA_FOR_IAIN.txt");
-				break;
-			case 3:
-				mapFile = new File("data\\5000.map");
-				genoFile = new File("data\\data_5000_100.txt");
-				break;
-			case 4:
-				mapFile = new File("data\\5000.map");
-				genoFile = new File("data\\data_5000_1000.txt");
-				break;
-			case 5:
-				mapFile = new File("data\\5000.map");
-				genoFile = new File("data\\data_5000_10000.txt");
-				break;
-			case 6:
-				mapFile = new File("data\\5000.map");
-				genoFile = new File("data\\data_5000_50000.txt");
-				break;
-			case 7:
-				mapFile = new File("data\\illumina.map");
-				genoFile = new File("data\\illumina.data");
-				break;
-		}
+			File mapFile  = dialog.getMapFile();
+			File genoFile = dialog.getGenotypeFile();
 
-		return new DataLoadingDialog(mapFile, genoFile).getDataSet();
+			DataSet dataSet = new DataLoadingDialog(mapFile, genoFile).getDataSet();
+
+			if (dataSet != null)
+			{
+				project.addDataSet(dataSet);
+
+				gPanel.setData(dataSet);
+
+				int location = splitPane.getDividerLocation();
+				splitPane.setRightComponent(gPanel);
+				splitPane.setDividerLocation(location);
+			}
+		}
 	}
 }

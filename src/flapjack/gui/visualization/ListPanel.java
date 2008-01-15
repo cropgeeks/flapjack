@@ -13,10 +13,8 @@ class ListPanel extends JPanel
 	private DefaultListModel model;
 	private static Font font;
 
-	ListPanel(DataSet dataSet)
+	ListPanel()
 	{
-		this.dataSet = dataSet;
-
 		createControls();
 
 		setLayout(new BorderLayout());
@@ -30,8 +28,17 @@ class ListPanel extends JPanel
 		lineList.setCellRenderer(new ListRenderer());
 	}
 
+	void setData(DataSet dataSet)
+	{
+		this.dataSet = dataSet;
+		populateList();
+	}
+
 	private void populateList()
 	{
+		if (dataSet == null)
+			return;
+
 		model.clear();
 
 		for (int i = 0; i < dataSet.countLines(); i++)
