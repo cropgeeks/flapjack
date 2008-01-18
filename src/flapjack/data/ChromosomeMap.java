@@ -16,29 +16,51 @@ public class ChromosomeMap implements Iterable<Marker>
 
 	private float length;
 
+	public ChromosomeMap()
+	{
+	}
+
 	public ChromosomeMap(String name)
 	{
 		this.name = new String(name);
 	}
+
+
+	// Methods required for XML serialization
+
+	public String getName()
+		{ return name; }
+
+	public void setName(String name)
+		{ this.name = name; }
+
+	public float getLength()
+		{ return length; }
+
+	public void setLength(float length)
+		{ this.length = length; }
+
+	public Vector<Marker> getMarkers()
+		{ return markers; }
+
+	public void setMarkers(Vector<Marker> markers)
+		{ this.markers = markers; }
+
+	public Hashtable<String,String> getNames()
+		{ return names; }
+
+	public void setNames(Hashtable<String,String> names)
+	{ this.names = names; }
+
+
+	// Other methods
 
 	public String toString()
 	{
 		return name;
 	}
 
-	public String getName()
-	{
-		return name;
-	}
 
-	/**
-	 * Returns the length of this map (0.0 to position of final marker).
-	 * @return the length of this map
-	 */
-	public float getLength()
-	{
-		return length;
-	}
 
 	public Iterator<Marker> iterator()
 		{ return markers.iterator(); }

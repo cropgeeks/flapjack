@@ -7,7 +7,7 @@ import junit.framework.*;
 
 import flapjack.io.*;
 
-import sbrn.commons.file.*;
+import scri.commons.file.*;
 
 public class DataSetTest extends TestCase
 {

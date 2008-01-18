@@ -65,6 +65,7 @@ class CanvasMouseListener extends MouseInputAdapter
 
 			gPanel.overRow(xIndex, yIndex);
 
+
 //			System.out.println("xIndex = " + xIndex + ", yIndex = " + yIndex);
 		}
 		// Catching divide-by-zero if the canvas has no data (and hence size)

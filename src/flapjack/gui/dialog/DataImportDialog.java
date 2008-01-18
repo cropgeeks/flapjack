@@ -7,7 +7,7 @@ import javax.swing.*;
 
 import flapjack.gui.*;
 
-import sbrn.commons.gui.*;
+import scri.commons.gui.*;
 
 public class DataImportDialog extends JDialog implements ActionListener
 {

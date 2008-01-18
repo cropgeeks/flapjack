@@ -9,10 +9,23 @@ public class StateTable
 
 	private Vector<AlleleState> states = new Vector<AlleleState>();
 
+
 	public StateTable()
 	{
 		states.add(new AlleleState());
 	}
+
+
+	// Methods required for XML serialization
+
+	public Vector<AlleleState> getStates()
+		{ return states; }
+
+	public void setStates(Vector<AlleleState> states)
+		{ this.states = states; }
+
+
+	// Other methods
 
 	public int size()
 	{

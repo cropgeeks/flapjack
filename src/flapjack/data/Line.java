@@ -8,15 +8,34 @@ public class Line
 
 	private Vector<GenotypeData> genotypes = new Vector<GenotypeData>();
 
+	public Line()
+	{
+	}
+
 	public Line(String name)
 	{
 		this.name = new String(name);
 	}
 
-	public String toString()
-		{ return name; }
+
+	// Methods required for XML serialization
 
 	public String getName()
+		{ return name; }
+
+	public void setName(String name)
+		{ this.name = name; }
+
+	public Vector<GenotypeData> getGenotypes()
+		{ return genotypes; }
+
+	public void setGenotypes(Vector<GenotypeData> genotypes)
+		{ this.genotypes = genotypes; }
+
+
+	// Other methods
+
+	public String toString()
 		{ return name; }
 
 	void initializeMap(ChromosomeMap map)

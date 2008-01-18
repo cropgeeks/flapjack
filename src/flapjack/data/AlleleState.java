@@ -9,8 +9,7 @@ public class AlleleState
 
 	public AlleleState()
 	{
-		states = new String[] { "UNKNOWN" };
-		rawData = "";
+		this("UNKNOWN");
 	}
 
 	public AlleleState(String rawData)
@@ -23,8 +22,25 @@ public class AlleleState
 			isHomozygous = false;
 	}
 
+	// Methods required for XML serialization
+
+	public String[] getStates()
+		{ return states; }
+
+	public void setStates(String[] states)
+		{ this.states = states; }
+
+	public String getRawData()
+		{ return rawData; }
+
+	public void setRawData(String rawData)
+		{ this.rawData = rawData; }
+
 	public boolean isHomozygous()
 		{ return isHomozygous; }
+
+
+	// Other methods
 
 	public String toString()
 	{

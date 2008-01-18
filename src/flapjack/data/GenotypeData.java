@@ -2,16 +2,22 @@ package flapjack.data;
 
 import java.util.*;
 
+import scri.commons.MatrixXML;
+
 public class GenotypeData
 {
 	// A reference to the chromsome this data applies to
-	private ChromosomeMap map;
+	private String mapName;
 
 	private byte[] loci;
 
+	public GenotypeData()
+	{
+	}
+
 	public GenotypeData(ChromosomeMap map)
 	{
-		this.map = map;
+		mapName = map.getName();
 
 		// How many markers do we need to hold data for?
 		int size = map.countLoci();
@@ -19,6 +25,30 @@ public class GenotypeData
 		// Initialize the array to the correct size
 		loci = new byte[size];
 	}
+
+
+	// Methods required for XML serialization
+
+	public String getMapName()
+		{ return mapName; }
+
+	public void setMapName(String mapName)
+		{ this.mapName = mapName; }
+
+/*	public String getLoci()
+		{ return MatrixXML.arrayToString(loci); }
+
+	public void setLoci(String lociArray)
+		{ this.loci = MatrixXML.stringToByteArray(lociArray); }
+*/
+	public byte[] getLoci()
+		{ return loci; }
+
+	public void setLoci(byte[] loci)
+		{ this.loci = loci; }
+
+
+	// Other methods
 
 	void setLoci(int index, int stateCode)
 	{
@@ -32,14 +62,8 @@ public class GenotypeData
 
 	boolean isGenotypeDataForMap(ChromosomeMap map)
 	{
-		return this.map == map;
+		return mapName.equals(map.getName());
 	}
-
-	/**
-	 * Returns the raw data array for quick access elsewhere (eg rendering).
-	 */
-	public byte[] getLociData()
-		{ return loci; }
 
 	public int countLoci()
 		{ return loci.length; }

@@ -10,29 +10,31 @@ public class Project
 	private File filename;
 
 	// The datasets within the project
-	private LinkedList<DataSet> datasets = new LinkedList<DataSet>();
+	private Vector<DataSet> dataSets = new Vector<DataSet>();
 
 	public Project()
 	{
 	}
 
-/*	public LinkedList<DataSet> getDatasets()
-	{
-		return datasets;
-	}
 
-	public void setDatasets(LinkedList<DataSet> datasets)
-	{
-		this.datasets = datasets;
-	}
-*/
+	// Methods required for XML serialization
+
+	public Vector<DataSet> getDataSets()
+		{ return dataSets; }
+
+	public void setDataSets(Vector<DataSet> dataSets)
+		{ this.dataSets = dataSets; }
+
+
+	// Other methods
+
 	public void addDataSet(DataSet dataSet)
 	{
-		this.datasets.add(dataSet);
+		this.dataSets.add(dataSet);
 	}
 
 	void removeDataSet(DataSet dataSet)
 	{
-		datasets.remove(dataSet);
+		dataSets.remove(dataSet);
 	}
 }

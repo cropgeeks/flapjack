@@ -7,7 +7,7 @@ import javax.swing.*;
 
 import flapjack.gui.*;
 
-import sbrn.commons.gui.*;
+import scri.commons.gui.*;
 
 public class NBDataImportPanel extends javax.swing.JPanel implements ActionListener
 {
@@ -18,7 +18,7 @@ public class NBDataImportPanel extends javax.swing.JPanel implements ActionListe
 		mapButton.addActionListener(this);
 		genoButton.addActionListener(this);
 
-		mapText.setText("data\\5000.map");
+		mapText.setText("data\\100.map");
 		genoText.setText("data\\data_5000_100.txt");
 
 		// Apply localized text
@@ -61,8 +61,7 @@ public class NBDataImportPanel extends javax.swing.JPanel implements ActionListe
 	{
 		if (mapText.getText().length() == 0 || genoText.getText().length() == 0)
 		{
-			MsgBox.msg("You must enter locations for both the map file and the genotype file.", MsgBox.WAR);
-
+			MsgBox.msg(RB.getString("gui.dialog.NBDataImportPanel.warn1"), MsgBox.WAR);
 			return false;
 		}
 

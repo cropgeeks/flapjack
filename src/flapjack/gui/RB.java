@@ -9,7 +9,7 @@ public class RB
 
 	private static ResourceBundle bundle = null;
 
-	public static void init()
+	public static void initialize()
 	{
 		if (locale == null)
 			locale = Locale.getDefault();
