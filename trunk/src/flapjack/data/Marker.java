@@ -7,20 +7,36 @@ public class Marker implements Comparable<Marker>
 	private String name;
 	private float position;
 
+	public Marker()
+	{
+	}
+
 	public Marker(String name, float position)
 	{
 		this.name = new String(name);
 		this.position = position;
 	}
 
-	public String toString()
-		{ return name; }
+
+	// Methods required for XML serialization
 
 	public String getName()
 		{ return name; }
 
+	public void setName(String name)
+		{ this.name = name; }
+
 	public float getPosition()
 		{ return position; }
+
+	public void setPosition(float position)
+		{ this.position = position; }
+
+
+	// Other methods
+
+	public String toString()
+		{ return name; }
 
 	public int compareTo(Marker marker)
 	{

@@ -3,6 +3,7 @@
 	<property name="src" location="src"/>
 	<property name="res" location="res"/>
 	<property name="lib" location="lib"/>
+	<property name="lib-devel" location="lib-devel"/>
 	<property name="classes" location="classes"/>
 	
 	<property name="jarfile" value="${lib}/flapjack.jar"/>
@@ -14,6 +15,9 @@
 		<fileset dir="${lib}">
 			<include name="**/*.jar"/>
 			<exclude name="**/${jarfile}"/>
+		</fileset>
+		<fileset dir="${lib-devel}">
+			<include name="**/*.jar"/>
 		</fileset>
 	</path>
 
@@ -30,7 +34,12 @@
 			<manifest>
 				<attribute name="Main-Class" value="flapjack.gui.Flapjack"/>
 				<attribute name="Class-Path"
-					value="res sbrn-commons.jar"/>
+					value="res
+						castor-1.1.2.1-xml.jar
+						commons-logging-1.1.1.jar
+						office-2.0.jar
+						scri-commons.jar
+						swing-layout-1.0.3.jar"/>
 			</manifest>
 		</jar>
 	</target>

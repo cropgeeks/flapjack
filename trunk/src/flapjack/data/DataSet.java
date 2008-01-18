@@ -14,10 +14,29 @@ public class DataSet
 	{
 	}
 
+
+	// Methods required for XML serialization
+
+	public Vector<ChromosomeMap> getChromosomeMaps()
+		{ return chromosomes; }
+
+	public void setChromosomeMaps(Vector<ChromosomeMap> chromosomes)
+		{ this.chromosomes = chromosomes; }
+
+	public Vector<Line> getLines()
+		{ return lines; }
+
+	public void setLines(Vector<Line> lines)
+		{ this.lines = lines; }
+
 	public StateTable getStateTable()
-	{
-		return stateTable;
-	}
+		{ return stateTable; }
+
+	public void setStateTable(StateTable stateTable)
+		{ this.stateTable = stateTable; }
+
+
+	// Other methods
 
 	public Line createLine(String name)
 	{

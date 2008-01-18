@@ -39,7 +39,7 @@ public class GenotypePanel extends JPanel
 
 		JPanel centerPanel = new JPanel(new BorderLayout());
 		centerPanel.add(sp);
-//		centerPanel.add(mapCanvas, BorderLayout.NORTH);
+		centerPanel.add(mapCanvas, BorderLayout.NORTH);
 		centerPanel.add(rowCanvas, BorderLayout.SOUTH);
 		centerPanel.add(colCanvas, BorderLayout.EAST);
 
@@ -77,10 +77,6 @@ public class GenotypePanel extends JPanel
 		sizeSlider = new JSlider(1, 25, 11);
 		sizeSlider.addChangeListener(this);
 
-		listPanel.computeDimensions(11);
-		canvas.computeDimensions(11);
-
-//		stateChanged(null);
 
 		addComponentListener(new ComponentAdapter() {
 			public void componentResized(ComponentEvent e) {
@@ -113,9 +109,9 @@ public class GenotypePanel extends JPanel
 		// changes will cause scrollbar movement events)
 		canvas.computeForRedraw(view.getExtentSize(), view.getViewPosition());
 
-//		rowCanvas.repaint();
-//		colCanvas.repaint();
-//		mapCanvas.repaint();
+		rowCanvas.repaint();
+		colCanvas.repaint();
+		mapCanvas.repaint();
 	}
 
 	void computeScrollbarAdjustmentValues(int xIncrement, int yIncrement)
@@ -149,7 +145,7 @@ public class GenotypePanel extends JPanel
 		rowCanvas.computeDimensions(listPanel.getWidth(), vBar.isVisible() ? (cWidth+vBar.getWidth()) : cWidth);
 		colCanvas.computeDimensions(listPanel.getHeight(), hBar.isVisible() ? hBar.getHeight() : 0);
 
-//		mapCanvas.computeDimensions(listPanel.getWidth(), vBar.isVisible() ? (cWidth+vBar.getWidth()) : cWidth);
+		mapCanvas.computeDimensions(listPanel.getWidth(), vBar.isVisible() ? (cWidth+vBar.getWidth()) : cWidth);
 	}
 
 	public void mouseWheelMoved(MouseWheelEvent e)
@@ -167,14 +163,13 @@ public class GenotypePanel extends JPanel
 
 	void updateOverviewSelectionBox(int xIndex, int xW, int yIndex, int yH)
 	{
-/*		if (overviewDialog != null)
+		if (overviewDialog != null)
 			overviewDialog.updateOverviewSelectionBox(xIndex, xW, yIndex, yH);
 
 		rowCanvas.updateOverviewSelectionBox(xIndex, xW);
 		colCanvas.updateOverviewSelectionBox(yIndex, yH);
 
 		mapCanvas.updateLociIndices(xIndex, xIndex+xW-1);
-*/
 	}
 
 	void jumpToPosition(int xIndex, int yIndex)
@@ -194,11 +189,13 @@ public class GenotypePanel extends JPanel
 		{
 			Line line = dataSet.getLineByIndex(rowIndex);
 			data = line.getGenotypeDataByMap(map);
+
+			System.out.println(data.getState(colIndex));
 		}
 		catch (ArrayIndexOutOfBoundsException e) {}
 
-//		rowCanvas.setGenotypeData(data);
-//		colCanvas.setLociIndex(colIndex);
-//		mapCanvas.setLociIndex(colIndex);
+		rowCanvas.setGenotypeData(data);
+		colCanvas.setLociIndex(colIndex);
+		mapCanvas.setLociIndex(colIndex);
 	}
 }

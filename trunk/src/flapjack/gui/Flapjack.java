@@ -2,11 +2,15 @@ package flapjack.gui;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.*;
 import java.util.*;
 import javax.swing.*;
 
 public class Flapjack
 {
+	private static File prefsFile = new File(System.getProperty("user.home"), "flapjack.xml");
+	private static Prefs prefs = new Prefs();
+
 	public static WinMain winMain;
 
 	public static int DATASET = 1;
@@ -25,7 +29,10 @@ public class Flapjack
 			flapjack.gui.visualization.GenotypePanel.mapIndex = Integer.parseInt(args[1]) - 1;
 		}
 
-		RB.init();
+		prefs.loadPreferences(prefsFile, Prefs.class);
+
+		Icons.initialize();
+		RB.initialize();
 
 		new Flapjack();
 	}
@@ -51,7 +58,6 @@ public class Flapjack
 
 			public void windowOpened(WindowEvent e)
 			{
-
 			}
 		});
 
@@ -60,6 +66,9 @@ public class Flapjack
 
 	private void shutdown()
 	{
+		prefs.isFirstRun = false;
+		prefs.savePreferences(prefsFile, Prefs.class);
+
 		System.exit(0);
 	}
 }

@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
+                         "http://castor.org/mapping.dtd">
+
+<mapping>
+
+	<!-- Project -->
+	<class name="flapjack.data.Project" auto-complete="true">
+		<field name="dataSets" type="flapjack.data.DataSet" collection="vector"/>
+	</class>
+
+	<!-- DataSet -->
+	<class name="flapjack.data.DataSet" auto-complete="true">
+		<field name="chromosomeMaps" type="flapjack.data.ChromosomeMap" collection="vector"/>
+		<field name="lines" type="flapjack.data.Line" collection="vector"/>
+	</class>
+
+	<!-- ChromosomeMap -->
+	<class name="flapjack.data.ChromosomeMap" auto-complete="true">
+		<field name="name" type="string">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="markers" type="flapjack.data.Marker" collection="vector"/>
+	</class>
+
+	<!-- Marker -->
+	<class name="flapjack.data.Marker" auto-complete="true">
+		<field name="name" type="string">
+			<bind-xml node="attribute"/>
+		</field>
+	</class>
+
+	<!-- Line -->
+	<class name="flapjack.data.Line" auto-complete="true">
+		<field name="name" type="string">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="genotypes" type="flapjack.data.GenotypeData" collection="vector"/>
+	</class>
+
+	<!-- GenotypeData -->
+	<class name="flapjack.data.GenotypeData" auto-complete="true">
+		<field name="mapName" type="string">
+			<bind-xml node="attribute"/>
+		</field>
+	</class>
+
+	<!-- StateTable -->
+	<class name="flapjack.data.StateTable" auto-complete="true">
+		<field name="states" type="flapjack.data.AlleleState" collection="vector"/>
+	</class>
+
+	<!-- AlleleState -->
+	<class name="flapjack.data.AlleleState" auto-complete="true"/>
+
+</mapping>

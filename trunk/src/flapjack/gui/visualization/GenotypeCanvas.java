@@ -98,9 +98,6 @@ class GenotypeCanvas extends JPanel
 	// box-drawing size needs to be changed
 	void computeDimensions(int size)
 	{
-		if (dataSet == null)
-			return;
-
 		Font font = new Font("Monospaced", Font.PLAIN, size);
 		FontMetrics fm = new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB)
 			.getGraphics().getFontMetrics(font);
@@ -154,9 +151,6 @@ class GenotypeCanvas extends JPanel
 
 	void updateOverviewSelectionBox()
 	{
-		if (dataSet == null)
-			return;
-
 		gPanel.updateOverviewSelectionBox((pX1/boxW), boxCountX, (pY1/boxH), boxCountY);
 	}
 
@@ -167,9 +161,6 @@ class GenotypeCanvas extends JPanel
 	public void paintComponent(Graphics graphics)
 	{
 		super.paintComponent(graphics);
-
-		if (dataSet == null)
-			return;
 
 		Graphics2D g = (Graphics2D) graphics;
 
