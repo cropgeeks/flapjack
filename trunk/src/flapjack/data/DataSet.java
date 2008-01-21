@@ -8,7 +8,7 @@ public class DataSet
 
 	private Vector<Line> lines = new Vector<Line>();
 
-	private StateTable stateTable = new StateTable();
+	private StateTable stateTable = new StateTable(0);
 
 	public DataSet()
 	{
