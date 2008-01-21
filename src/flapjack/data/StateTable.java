@@ -9,8 +9,11 @@ public class StateTable
 
 	private Vector<AlleleState> states = new Vector<AlleleState>();
 
-
 	public StateTable()
+	{
+	}
+
+	public StateTable(int notused)
 	{
 		states.add(new AlleleState());
 	}
