@@ -7,7 +7,7 @@ public class Project
 {
 	// Temporary object used to track the (most recent) file this project was
 	// opened from
-	private File filename;
+	public File filename;
 
 	// The datasets within the project
 	private Vector<DataSet> dataSets = new Vector<DataSet>();

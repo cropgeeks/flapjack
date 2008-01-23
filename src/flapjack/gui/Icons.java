@@ -8,6 +8,10 @@ public class Icons
 	public static ImageIcon NOICON;
 
 	public static ImageIcon FILEIMPORT;
+	public static ImageIcon FILESAVE;
+	public static ImageIcon FILESAVEAS;
+
+	public static ImageIcon WINERROR, WININFORMATION, WINQUESTION, WINWARNING;
 
 	private Icons()
 	{

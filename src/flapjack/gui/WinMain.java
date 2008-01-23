@@ -93,6 +93,13 @@ public class WinMain extends JFrame
 		});
 	}
 
+	void fileSave(boolean saveAs)
+	{
+		if (ProjectSerializer.save(project, saveAs))
+		{
+		}
+	}
+
 	void fileImport()
 	{
 		DataImportDialog dialog = new DataImportDialog();
@@ -104,29 +111,9 @@ public class WinMain extends JFrame
 
 			DataSet dataSet = new DataLoadingDialog(mapFile, genoFile).getDataSet();
 
-			System.out.println("RAW STATE TABLE");
-			for (int i = 0; i < dataSet.getStateTable().size(); i++)
-				System.out.println("  " + i + ": " + dataSet.getStateTable().getAlleleState(i));
-
 			if (dataSet != null)
 			{
 				project.addDataSet(dataSet);
-
-				try
-				{
-					ProjectSerializer.save(project);
-
-					project = ProjectSerializer.load();
-				}
-				catch (Exception e) { e.printStackTrace(); }
-
-				dataSet = project.getDataSets().lastElement();
-
-
-				System.out.println("AFTER XML STATE TABLE");
-				for (int i = 0; i < dataSet.getStateTable().size(); i++)
-					System.out.println("  " + i + ": " + dataSet.getStateTable().getAlleleState(i));
-
 
 				gPanel.setData(dataSet);
 

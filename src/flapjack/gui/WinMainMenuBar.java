@@ -8,6 +8,8 @@ public class WinMainMenuBar extends JMenuBar
 	private WinMain winMain;
 
 	private JMenu mFile;
+	private JMenuItem mFileSave;
+	private JMenuItem mFileSaveAs;
 	private JMenuItem mFileImport;
 	private JMenuItem mFileExit;
 
@@ -25,9 +27,14 @@ public class WinMainMenuBar extends JMenuBar
 		mFile = new JMenu(RB.getString("gui.WinMainMenuBar.mFile"));
 		mFile.setMnemonic(KeyEvent.VK_F);
 
+		mFileSave = getItem(Actions.fileSave, KeyEvent.VK_S, KeyEvent.VK_S, InputEvent.CTRL_MASK);
+		mFileSaveAs = getItem(Actions.fileSaveAs, KeyEvent.VK_A, 0, 0);
 		mFileImport = getItem(Actions.fileImport, KeyEvent.VK_I, 0, 0);
 		mFileExit = getItem(Actions.fileExit, KeyEvent.VK_X, 0, 0);
 
+		mFile.add(mFileSave);
+		mFile.add(mFileSaveAs);
+		mFile.addSeparator();
 		mFile.add(mFileImport);
 		mFile.addSeparator();
 		mFile.add(mFileExit);
