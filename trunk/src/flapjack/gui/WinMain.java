@@ -93,11 +93,39 @@ public class WinMain extends JFrame
 		});
 	}
 
+	void fileNew()
+	{
+		if (ProjectSerializer.okToContinue(project) == false)
+			return;
+	}
+
+	void fileOpen()
+	{
+		if (ProjectSerializer.okToContinue(project) == false)
+			return;
+
+		Project openedProject = ProjectSerializer.open(null);
+		if (openedProject != null)
+		{
+			project = openedProject;
+
+			gPanel.setData(project.getDataSets().get(0));
+
+			int location = splitPane.getDividerLocation();
+			splitPane.setRightComponent(gPanel);
+			splitPane.setDividerLocation(location);
+		}
+	}
+
 	void fileSave(boolean saveAs)
 	{
+		setCursor(new Cursor(Cursor.WAIT_CURSOR));
+
 		if (ProjectSerializer.save(project, saveAs))
 		{
 		}
+
+		setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 	}
 
 	void fileImport()

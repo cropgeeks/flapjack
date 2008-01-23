@@ -61,7 +61,9 @@ public class NBDataImportPanel extends javax.swing.JPanel implements ActionListe
 	{
 		if (mapText.getText().length() == 0 || genoText.getText().length() == 0)
 		{
-			MsgBox.msg(RB.getString("gui.dialog.NBDataImportPanel.warn1"), MsgBox.WAR);
+			TaskDialog.warning(
+				RB.getString("gui.dialog.NBDataImportPanel.warn1"),
+				RB.getString("gui.text.ok"));
 			return false;
 		}
 
