@@ -6,6 +6,8 @@ import java.io.*;
 import java.util.*;
 import javax.swing.*;
 
+import scri.commons.gui.*;
+
 public class Flapjack
 {
 	private static File prefsFile = new File(System.getProperty("user.home"), "flapjack.xml");
@@ -41,9 +43,12 @@ public class Flapjack
 	{
 		try
 		{
-//			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-
 			UIManager.setLookAndFeel("org.fife.plaf.Office2003.Office2003LookAndFeel");
+
+			UIManager.put("OptionPane.errorIcon", Icons.WINERROR);
+			UIManager.put("OptionPane.informationIcon", Icons.WININFORMATION);
+			UIManager.put("OptionPane.warningIcon", Icons.WINWARNING);
+			UIManager.put("OptionPane.questionIcon", Icons.WINQUESTION);
 		}
 		catch (Exception e) {}
 
@@ -60,6 +65,9 @@ public class Flapjack
 			{
 			}
 		});
+
+		MsgBox.initialize(winMain, "Flapjack");
+		TaskDialog.initialize(winMain, "Flapjack");
 
 		winMain.setVisible(true);
 	}

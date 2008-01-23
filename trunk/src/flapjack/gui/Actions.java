@@ -7,6 +7,8 @@ public class Actions
 {
 	private WinMain winMain;
 
+	public static AbstractAction fileSave;
+	public static AbstractAction fileSaveAs;
 	public static AbstractAction fileImport;
 	public static AbstractAction fileExit;
 
@@ -19,6 +21,18 @@ public class Actions
 
 	private void createActions()
 	{
+		fileSave = new AbstractAction(RB.getString("gui.Actions.fileSave"), Icons.FILESAVE) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.fileSave(false);
+			}
+		};
+
+		fileSaveAs = new AbstractAction(RB.getString("gui.Actions.fileSaveAs"), Icons.FILESAVEAS) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.fileSave(true);
+			}
+		};
+
 		fileImport = new AbstractAction(RB.getString("gui.Actions.fileImport"), Icons.FILEIMPORT) {
 			public void actionPerformed(ActionEvent e) {
 				winMain.fileImport();
