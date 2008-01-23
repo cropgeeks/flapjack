@@ -21,6 +21,9 @@ public class RB
 	public static String getString(String key)
 		{ return bundle.getString(key); }
 
+	public static int getIndex(String key)
+		{ return Integer.parseInt(getString(key + "Index")); }
+
 	public static String format(String key, Object... args)
 	{
 		String str = bundle.getString(key);

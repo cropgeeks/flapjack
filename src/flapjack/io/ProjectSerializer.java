@@ -9,6 +9,8 @@ import org.exolab.castor.xml.*;
 
 import flapjack.data.*;
 import flapjack.gui.*;
+import flapjack.other.Filters;
+import static flapjack.other.Filters.*;
 
 import scri.commons.gui.*;
 
@@ -38,7 +40,9 @@ public class ProjectSerializer
 		catch (Exception e)
 		{
 			e.printStackTrace();
-			MsgBox.msg(RB.format("io.ProjectSerializer.xml", e), MsgBox.ERR);
+			TaskDialog.error(
+				RB.format("io.ProjectSerializer.xml", e),
+				RB.format("gui.text.close"));
 
 			return false;
 		}
@@ -51,14 +55,10 @@ public class ProjectSerializer
 			saveAs = true;
 
 		// Show the file selection prompt, quitting if the user goes no further
-		if ((saveAs && showSaveAsDialog(project)) == false)
+		if (saveAs && (showSaveAsDialog(project) == false))
 			return false;
 
-		return save(project);
-	}
 
-	public static boolean save(Project project)
-	{
 		try
 		{
 			if (initialize() == false)
@@ -94,68 +94,118 @@ public class ProjectSerializer
 		}
 		catch (IOException e)
 		{
-			MsgBox.msg(RB.format("io.ProjectSerializer.io", project.filename,
-				e.getMessage()), MsgBox.ERR);
-
+			TaskDialog.error(
+				RB.format("io.ProjectSerializer.io", project.filename, e.getMessage()),
+				RB.getString("gui.text.close"));
 		}
 		catch (MappingException e)
 		{
 			e.printStackTrace();
-			MsgBox.msg(RB.format("io.ProjectSerializer.xml", e.getMessage()),
-				MsgBox.ERR);
+			TaskDialog.error(
+				RB.format("io.ProjectSerializer.xml", e.getMessage()),
+				RB.getString("gui.text.close"));
 		}
 		catch (XMLException e)
 		{
 			e.printStackTrace();
-			MsgBox.msg(RB.format("io.ProjectSerializer.xml", e.getMessage()),
-				MsgBox.ERR);
+			TaskDialog.error(
+				RB.format("io.ProjectSerializer.xml", e.getMessage()),
+				RB.getString("gui.text.close"));
 		}
 
 		return false;
 	}
 
-	public static Project load()
-		throws Exception
+	public static Project open(File filename)
 	{
-		initialize();
+		// Prompt for the file to open if we haven't been given one
+		if (filename == null)
+			// And quit if the user doesn't pick one
+			if ((filename = showOpenDialog()) == null)
+				return null;
 
-		long s = System.currentTimeMillis();
+
+		try
+		{
+			if (initialize() == false)
+				return null;
+
+			long s = System.currentTimeMillis();
 
 
-		Reader reader = new FileReader("test.xml");
+			BufferedReader in = new BufferedReader(new FileReader(filename));
 
-		Unmarshaller unmarshaller = new Unmarshaller(mapping);
+			Unmarshaller unmarshaller = new Unmarshaller(mapping);
 
-		Project p = (Project) unmarshaller.unmarshal(reader);
-		reader.close();
+			Project project = (Project) unmarshaller.unmarshal(in);
+			in.close();
 
-		long e = System.currentTimeMillis();
-		System.out.println("Project deserialized in " + (e-s) + "ms");
+			long e = System.currentTimeMillis();
+			System.out.println("Project deserialized in " + (e-s) + "ms");
 
-		return p;
+			return project;
+		}
+		catch (IOException e)
+		{
+			TaskDialog.error(
+				RB.format("io.ProjectSerializer.io", filename, e.getMessage()),
+				RB.getString("gui.text.close"));
+		}
+		catch (MappingException e)
+		{
+			e.printStackTrace();
+			TaskDialog.error(
+				RB.format("io.ProjectSerializer.xml", e.getMessage()),
+				RB.getString("gui.text.close"));
+		}
+		catch (XMLException e)
+		{
+			e.printStackTrace();
+			TaskDialog.error(
+				RB.format("io.ProjectSerializer.xml", e.getMessage()),
+				RB.getString("gui.text.close"));
+		}
+
+		return null;
+	}
+
+	private static File showOpenDialog()
+	{
+		JFileChooser fc = new JFileChooser();
+		fc.setDialogTitle(RB.getString("io.ProjectSerializer.openDialog"));
+		fc.setCurrentDirectory(new File(Prefs.guiCurrentDir));
+
+		Filters.setFilters(fc, XML, XML);
+
+		if (fc.showOpenDialog(Flapjack.winMain) == JFileChooser.APPROVE_OPTION)
+		{
+			File file = fc.getSelectedFile();
+			Prefs.guiCurrentDir = fc.getCurrentDirectory().getPath();
+
+			return file;
+		}
+		else
+			return null;
 	}
 
 	private static boolean showSaveAsDialog(Project project)
 	{
 		JFileChooser fc = new JFileChooser();
-		fc.setDialogTitle("Save Project As");
-//		fc.setAcceptAllFileFilterUsed(false);
+		fc.setDialogTitle(RB.getString("io.ProjectSerializer.saveDialog"));
+		fc.setAcceptAllFileFilterUsed(false);
 
 		// If the project has never been saved it won't have a filename object
 		if (project.filename != null)
 			fc.setSelectedFile(project.filename);
 		else
-			fc.setSelectedFile(new File(Prefs.guiCurrentDir));
-//		else
-//			fc.setSelectedFile(new File(Prefs.gui_dir, "project "
-//					+ Prefs.gui_project_count + ".topali"));
+			fc.setSelectedFile(new File(Prefs.guiCurrentDir,
+				"Flapjack " + Prefs.guiProjectCount + ".xml"));
 
-//		Filters.setFilters(fc, TOP, TOP);
+		Filters.setFilters(fc, XML, XML);
 
 		while (fc.showSaveDialog(Flapjack.winMain) == JFileChooser.APPROVE_OPTION)
 		{
-//			File file = Filters.getSelectedFileForSaving(fc);
-			File file = fc.getSelectedFile();
+			File file = Filters.getSelectedFileForSaving(fc);
 
 			// Confirm overwrite
 			if (file.exists())
@@ -171,18 +221,44 @@ public class ProjectSerializer
 
 				if (response == 1)
 					continue;
-				else if (response == 2 || response == JOptionPane.CLOSED_OPTION)
+				else if (response == -1 || response == 2)
 					return false;
 			}
 
 			// Otherwise it's ok to save...
-			Prefs.guiCurrentDir = "" + fc.getCurrentDirectory();
-//			Prefs.gui_project_count++;
+			Prefs.guiCurrentDir = fc.getCurrentDirectory().getPath();
+			Prefs.guiProjectCount++;
 			project.filename = file;
 
 			return true;
 		}
 
 		return false;
+	}
+
+	public static boolean okToContinue(Project project)
+	{
+		if (project != null)
+		{
+			if (Actions.fileSave.isEnabled())
+			{
+				String msg = RB.getString("io.ProjectSerializer.notSaved");
+				String[] options = new String[] {
+					RB.getString("io.ProjectSerializer.save"),
+					RB.getString("io.ProjectSerializer.dontSave"),
+					RB.getString("gui.text.cancel") };
+
+				int response = TaskDialog.show(msg, MsgBox.WAR, 0, options);
+
+				if (response == 0)
+					return save(project, false);
+				else if (response == 1)
+					return true;
+				else if (response == -1 || response == 2)
+					return false;
+			}
+		}
+
+		return true;
 	}
 }
