@@ -43,12 +43,15 @@ public class Flapjack
 	{
 		try
 		{
-			UIManager.setLookAndFeel("org.fife.plaf.Office2003.Office2003LookAndFeel");
+			if (SystemUtils.isWindows())
+			{
+				UIManager.setLookAndFeel("org.fife.plaf.Office2003.Office2003LookAndFeel");
 
-			UIManager.put("OptionPane.errorIcon", Icons.WINERROR);
-			UIManager.put("OptionPane.informationIcon", Icons.WININFORMATION);
-			UIManager.put("OptionPane.warningIcon", Icons.WINWARNING);
-			UIManager.put("OptionPane.questionIcon", Icons.WINQUESTION);
+				UIManager.put("OptionPane.errorIcon", Icons.WINERROR);
+				UIManager.put("OptionPane.informationIcon", Icons.WININFORMATION);
+				UIManager.put("OptionPane.warningIcon", Icons.WINWARNING);
+				UIManager.put("OptionPane.questionIcon", Icons.WINQUESTION);
+			}
 		}
 		catch (Exception e) {}
 
