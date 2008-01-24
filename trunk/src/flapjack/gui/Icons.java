@@ -7,11 +7,14 @@ public class Icons
 {
 	public static ImageIcon NOICON;
 
+	public static ImageIcon EMPTY;
 	public static ImageIcon FILENEW;
 	public static ImageIcon FILEOPEN;
 	public static ImageIcon FILESAVE;
 	public static ImageIcon FILESAVEAS;
 	public static ImageIcon FILEIMPORT;
+	public static ImageIcon FOLDER;
+	public static ImageIcon FOLDEROPEN;
 
 	public static ImageIcon WINERROR, WININFORMATION, WINQUESTION, WINWARNING;
 

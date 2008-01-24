@@ -7,18 +7,13 @@ import javax.swing.*;
 
 import flapjack.data.*;
 import flapjack.gui.dialog.*;
-import flapjack.gui.visualization.*;
 import flapjack.io.*;
 
 public class WinMain extends JFrame
 {
 	private WinMainMenuBar menubar;
 
-	private JSplitPane splitPane;
-
-	// We maintain just one GenotypePanel that is used to display any dataset
-	// as it would require too much memory to assign one per dataset
-	private GenotypePanel gPanel;
+	private NavPanel navPanel;
 
 	// The user's project
 	private Project project = new Project();
@@ -31,15 +26,11 @@ public class WinMain extends JFrame
 		menubar = new WinMainMenuBar(this);
 		setJMenuBar(menubar);
 
-		splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
-		splitPane.setDividerLocation(150);
-		splitPane.setLeftComponent(new JLabel("left", JLabel.CENTER));
-		splitPane.setRightComponent(new JLabel("right", JLabel.CENTER));
+		navPanel = new NavPanel();
 
-		gPanel = new GenotypePanel(this);
 
-		add(splitPane);
 
+		add(navPanel);
 
 		setSize(Prefs.guiWinMainWidth, Prefs.guiWinMainHeight);
 		setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
@@ -109,11 +100,7 @@ public class WinMain extends JFrame
 		{
 			project = openedProject;
 
-			gPanel.setData(project.getDataSets().get(0));
-
-			int location = splitPane.getDividerLocation();
-			splitPane.setRightComponent(gPanel);
-			splitPane.setDividerLocation(location);
+			// TODO: Pass to navPanel
 		}
 	}
 
@@ -142,12 +129,7 @@ public class WinMain extends JFrame
 			if (dataSet != null)
 			{
 				project.addDataSet(dataSet);
-
-				gPanel.setData(dataSet);
-
-				int location = splitPane.getDividerLocation();
-				splitPane.setRightComponent(gPanel);
-				splitPane.setDividerLocation(location);
+				navPanel.addDataSetNode(dataSet);
 			}
 		}
 	}

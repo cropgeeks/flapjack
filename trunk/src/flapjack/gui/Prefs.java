@@ -21,4 +21,7 @@ public class Prefs extends XMLPreferences
 	public static int guiWinMainX = 0;
 	public static int guiWinMainY = 0;
 	public static boolean guiWinMainMaximized = false;
+
+	// The current location of the main splits pane divider
+	public static int guiNavSplitsLocation = 150;
 }

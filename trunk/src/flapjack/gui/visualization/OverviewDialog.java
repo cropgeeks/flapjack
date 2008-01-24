@@ -21,9 +21,9 @@ public class OverviewDialog extends JDialog
 	private BufferFactory bufferFactory = null;
 	private BufferedImage image = null;
 
-	public OverviewDialog(JFrame parent, GenotypePanel gPanel, GenotypeCanvas canvas)
+	public OverviewDialog(GenotypePanel gPanel, GenotypeCanvas canvas)
 	{
-		super(parent, RB.getString("gui.visualization.OverviewDialog.title"), false);
+		super(Flapjack.winMain, RB.getString("gui.visualization.OverviewDialog.title"), false);
 
 		this.gPanel = gPanel;
 		this.canvas = canvas;

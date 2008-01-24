@@ -33,9 +33,9 @@ public class GenotypePanel extends JPanel
 	private int size = 11;
 
 
-	public GenotypePanel(WinMain winMain)
+	public GenotypePanel()
 	{
-		createControls(winMain);
+		createControls();
 
 		JPanel centerPanel = new JPanel(new BorderLayout());
 		centerPanel.add(sp);
@@ -51,7 +51,7 @@ public class GenotypePanel extends JPanel
 		add(sliderPanel, BorderLayout.SOUTH);
 	}
 
-	private void createControls(WinMain winMain)
+	private void createControls()
 	{
 		sp = new JScrollPane();
 		sp.addMouseWheelListener(this);
@@ -67,7 +67,7 @@ public class GenotypePanel extends JPanel
 		colCanvas = new ColCanvas(canvas);
 		mapCanvas = new MapCanvas(canvas);
 
-		overviewDialog = new OverviewDialog(winMain, this, canvas);
+		overviewDialog = new OverviewDialog(this, canvas);
 
 
 		sp.setRowHeaderView(listPanel);
@@ -89,7 +89,7 @@ public class GenotypePanel extends JPanel
 		return overviewDialog;
 	}
 
-	public void setData(DataSet dataSet)
+	public void setDataSet(DataSet dataSet)
 	{
 		this.dataSet = dataSet;
 		map = dataSet.getMapByIndex(mapIndex);
