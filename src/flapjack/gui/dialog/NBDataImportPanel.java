@@ -18,8 +18,8 @@ public class NBDataImportPanel extends javax.swing.JPanel implements ActionListe
 		mapButton.addActionListener(this);
 		genoButton.addActionListener(this);
 
-		mapText.setText("data\\100.map");
-		genoText.setText("data\\data_5000_100.txt");
+		mapText.setText("data\\illumina.map");
+		genoText.setText("data\\illumina.data");
 
 		// Apply localized text
 		mapLabel.setText(RB.getString("gui.dialog.NBDataImportPanel.mapLabel"));

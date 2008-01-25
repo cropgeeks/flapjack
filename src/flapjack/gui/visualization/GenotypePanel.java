@@ -14,8 +14,6 @@ public class GenotypePanel extends JPanel
 	private DataSet dataSet;
 	private ChromosomeMap map;
 
-	public static int mapIndex = 0;
-
 	// The various (main) components that make up the display panel
 	private ListPanel listPanel;
 	private GenotypeCanvas canvas;
@@ -25,6 +23,8 @@ public class GenotypePanel extends JPanel
 	private OverviewDialog overviewDialog;
 
 	// Secondary components needed by the panel
+	private JTabbedPane tabs;
+	private JPanel displayPanel;
 	private JSlider sizeSlider;
 	private JScrollPane sp;
 	private JScrollBar hBar, vBar;
@@ -46,13 +46,20 @@ public class GenotypePanel extends JPanel
 		JPanel sliderPanel = new JPanel();
 		sliderPanel.add(sizeSlider);
 
+		displayPanel = new JPanel(new BorderLayout());
+		displayPanel.add(centerPanel);
+		displayPanel.add(sliderPanel, BorderLayout.SOUTH);
+
 		setLayout(new BorderLayout());
-		add(centerPanel);
-		add(sliderPanel, BorderLayout.SOUTH);
+		add(tabs);
 	}
 
 	private void createControls()
 	{
+		tabs = new JTabbedPane();
+		tabs.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
+		tabs.addChangeListener(this);
+
 		sp = new JScrollPane();
 		sp.addMouseWheelListener(this);
 		view = sp.getViewport();
@@ -92,14 +99,33 @@ public class GenotypePanel extends JPanel
 	public void setDataSet(DataSet dataSet)
 	{
 		this.dataSet = dataSet;
+
+		// Remove all existing tabs
+		tabs.removeAll();
+
+		// Recreate them, one tab per chromosome
+		for (int i = 0; i < dataSet.countChromosomeMaps(); i++)
+		{
+			String name = dataSet.getMapByIndex(i).getName();
+			int loci = dataSet.getMapByIndex(i).countLoci();
+
+			tabs.addTab(name, Icons.CHROMOSOME, null);
+			tabs.setToolTipTextAt(i, name + " (" + loci + ")");
+		}
+
+		computePanelSizes();
+	}
+
+	private void displayMap(int mapIndex)
+	{
 		map = dataSet.getMapByIndex(mapIndex);
 
 		canvas.setData(dataSet, map);
 		listPanel.setData(dataSet);
-
 		mapCanvas.setChromosomeMap(map);
 
-		stateChanged(null);
+		tabs.setComponentAt(mapIndex, displayPanel);
+		computePanelSizes();
 	}
 
 	public void adjustmentValueChanged(AdjustmentEvent e)
@@ -124,6 +150,28 @@ public class GenotypePanel extends JPanel
 
 	public void stateChanged(ChangeEvent e)
 	{
+		if (e.getSource() == sizeSlider)
+		{
+			computePanelSizes();
+			repaint();
+		}
+
+		else if (e.getSource() == tabs)
+		{
+			int index = tabs.getSelectedIndex();
+
+			if (index == -1)
+				return;
+
+			for (int i = 0; i < tabs.getTabCount(); i++)
+				tabs.setComponentAt(i, null);
+
+			displayMap(index);
+		}
+	}
+
+	private void computePanelSizes()
+	{
 		size = sizeSlider.getValue();
 
 		listPanel.computeDimensions(size);
@@ -136,7 +184,7 @@ public class GenotypePanel extends JPanel
 		repaint();
 	}
 
-	void computeRowColSizes()
+	private void computeRowColSizes()
 	{
 		int cWidth = colCanvas.getWidth();
 

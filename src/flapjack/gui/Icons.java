@@ -7,6 +7,7 @@ public class Icons
 {
 	public static ImageIcon NOICON;
 
+	public static ImageIcon CHROMOSOME;
 	public static ImageIcon EMPTY;
 	public static ImageIcon FILENEW;
 	public static ImageIcon FILEOPEN;
