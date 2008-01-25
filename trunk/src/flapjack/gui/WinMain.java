@@ -12,6 +12,7 @@ import flapjack.io.*;
 public class WinMain extends JFrame
 {
 	private WinMainMenuBar menubar;
+	private WinMainToolBar toolbar;
 
 	private NavPanel navPanel;
 
@@ -25,12 +26,13 @@ public class WinMain extends JFrame
 		setIconImage(Icons.FLAPJACK.getImage());
 
 		menubar = new WinMainMenuBar(this);
+		toolbar = new WinMainToolBar();
 		setJMenuBar(menubar);
 
 		navPanel = new NavPanel();
 
 
-
+		add(toolbar, BorderLayout.NORTH);
 		add(navPanel);
 
 		setSize(Prefs.guiWinMainWidth, Prefs.guiWinMainHeight);
@@ -143,7 +145,7 @@ public class WinMain extends JFrame
 
 	void viewOverview()
 	{
-		navPanel.getGenotypePanel().getOverviewDialog().setVisible(true);
+		navPanel.getGenotypePanel().toggleOverviewDialog();
 	}
 
 	void helpAbout()

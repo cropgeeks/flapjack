@@ -89,7 +89,8 @@ public class GenotypePanel extends JPanel
 		});
 	}
 
-	public OverviewDialog getOverviewDialog()
+	/** Toggles showing the overview dialog. */
+	public void toggleOverviewDialog()
 	{
 		// Lazy load the overview dialog - if the user never views it, why
 		// bother holding it in memory and having it using up CPU time with all
@@ -97,7 +98,7 @@ public class GenotypePanel extends JPanel
 		if (overviewDialog == null)
 			overviewDialog = new OverviewDialog(this, canvas);
 
-		return overviewDialog;
+		overviewDialog.setVisible(!overviewDialog.isVisible());
 	}
 
 	public void setDataSet(DataSet dataSet)
