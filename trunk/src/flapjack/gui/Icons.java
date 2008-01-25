@@ -13,6 +13,7 @@ public class Icons
 	public static ImageIcon FILESAVE;
 	public static ImageIcon FILESAVEAS;
 	public static ImageIcon FILEIMPORT;
+	public static ImageIcon FLAPJACK;
 	public static ImageIcon FOLDER;
 	public static ImageIcon FOLDEROPEN;
 

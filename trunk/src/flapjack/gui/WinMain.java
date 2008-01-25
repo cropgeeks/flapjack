@@ -22,6 +22,7 @@ public class WinMain extends JFrame
 	WinMain()
 	{
 		setTitle(RB.getString("gui.WinMain.title"));
+		setIconImage(Icons.FLAPJACK.getImage());
 
 		menubar = new WinMainMenuBar(this);
 		setJMenuBar(menubar);
