@@ -17,6 +17,7 @@ public class Icons
 	public static ImageIcon FLAPJACK;
 	public static ImageIcon FOLDER;
 	public static ImageIcon FOLDEROPEN;
+	public static ImageIcon GERMINATE;
 
 	public static ImageIcon WINERROR, WININFORMATION, WINQUESTION, WINWARNING;
 

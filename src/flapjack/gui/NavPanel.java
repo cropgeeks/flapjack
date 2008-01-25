@@ -11,6 +11,8 @@ import flapjack.data.*;
 import flapjack.gui.navpanel.*;
 import flapjack.gui.visualization.*;
 
+import scri.commons.gui.*;
+
 /**
  * Navigation panel that is responsible for control of the tree-control that
  * forms the left-hand side column of the main interface; selections of which
@@ -102,10 +104,16 @@ class NavPanel extends JPanel
 	{
 		EmptyPanel()
 		{
-			setBackground(Color.white);
-			setLayout(new BorderLayout());
+			DoeLayout layout = new DoeLayout();
+			layout.getPanel().setBackground(Color.white);
 
-			add(new JLabel(RB.getString("gui.NavPanel.emptyPanel"), JLabel.CENTER));
+			layout.add(new JLabel(Icons.GERMINATE, JLabel.CENTER),
+				0, 0, 1, 1, new Insets(5, 5, 5, 5));
+			layout.add(new JLabel(RB.getString("gui.NavPanel.emptyPanel"),
+				JLabel.CENTER), 0, 1, 1, 1, new Insets(5, 5, 5, 5));
+
+			setLayout(new BorderLayout());
+			add(layout.getPanel());
 		}
 	}
 }
