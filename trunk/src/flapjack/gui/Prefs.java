@@ -15,13 +15,19 @@ public class Prefs extends XMLPreferences
 	// How many projects have been created
 	public static int guiProjectCount = 1;
 
-	// The current width, height, location and maximized status of the main window
+	// The width, height, location and maximized status of the main window
 	public static int guiWinMainWidth = 800;
 	public static int guiWinMainHeight = 600;
 	public static int guiWinMainX = 0;
 	public static int guiWinMainY = 0;
 	public static boolean guiWinMainMaximized = false;
 
-	// The current location of the main splits pane divider
+	// The location of the main splits pane divider
 	public static int guiNavSplitsLocation = 150;
+
+	// The width, height and location of the overview dialog
+	public static int guiOverviewWidth = 300;
+	public static int guiOverviewHeight = 300;
+	public static int guiOverviewX = 0;
+	public static int guiOverviewY = 0;
 }

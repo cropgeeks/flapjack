@@ -15,8 +15,6 @@ public class Flapjack
 
 	public static WinMain winMain;
 
-	public static int DATASET = 1;
-
 	public static void main(String[] args)
 		throws Exception
 	{
