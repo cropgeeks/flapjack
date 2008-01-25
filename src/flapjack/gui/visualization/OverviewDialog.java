@@ -31,24 +31,25 @@ public class OverviewDialog extends JDialog
 		setLayout(new BorderLayout());
 		add(viewCanvas);
 
+		setSize(Prefs.guiOverviewWidth, Prefs.guiOverviewHeight);
 
-		setSize(300, 300);
+		// Work out the current screen's width and height
+		int scrnW = Toolkit.getDefaultToolkit().getScreenSize().width;
+		int scrnH = Toolkit.getDefaultToolkit().getScreenSize().height;
+
+		// Determine where on screen (TODO: on which monitor?) to display
+		if (Prefs.guiOverviewX > (scrnW-50) || Prefs.guiOverviewY > (scrnH-50))
+			setLocationRelativeTo(Flapjack.winMain);
+		else
+			setLocation(Prefs.guiOverviewX, Prefs.guiOverviewY);
 
 		addListeners();
-
-
-//		setSize(Prefs.gui_odialog_w, Prefs.gui_odialog_h);
-//		if (Prefs.gui_odialog_x == -1)
-//			setLocationRelativeTo(winMain);
-//		else
-//			setLocation(Prefs.gui_odialog_x, Prefs.gui_odialog_y);
 	}
 
 	private void addListeners()
 	{
 		addWindowListener(new WindowAdapter()
 		{
-			@Override
 			public void windowOpened(WindowEvent e)
 			{
 				createImage();
@@ -57,10 +58,20 @@ public class OverviewDialog extends JDialog
 
 		addComponentListener(new ComponentAdapter()
 		{
-			@Override
 			public void componentResized(ComponentEvent e)
 			{
+				Prefs.guiOverviewWidth = getSize().width;
+				Prefs.guiOverviewHeight = getSize().height;
+				Prefs.guiOverviewX = getLocation().x;
+				Prefs.guiOverviewY = getLocation().y;
+
 				createImage();
+			}
+
+			public void componentMoved(ComponentEvent e)
+			{
+				Prefs.guiOverviewX = getLocation().x;
+				Prefs.guiOverviewY = getLocation().y;
 			}
 		});
 	}

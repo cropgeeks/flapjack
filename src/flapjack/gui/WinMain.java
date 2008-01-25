@@ -140,4 +140,20 @@ public class WinMain extends JFrame
 		WindowEvent evt = new WindowEvent(this, WindowEvent.WINDOW_CLOSING);
 		processWindowEvent(evt);
 	}
+
+	void viewOverview()
+	{
+		navPanel.getGenotypePanel().getOverviewDialog().setVisible(true);
+	}
+
+	void helpAbout()
+	{
+		scri.commons.gui.TaskDialog.info("Flapjack - Genotype Visualization Tool 2.0"
+			+ "\n\nCopyright (C) 2008 Plant Bioinformatics Group"
+			+ "\nScottish Crop Research Institute"
+			+ "\n\nIain Milne, Micha Bayer, Paul Shaw, Linda Cardle, David Marshall"
+			+ "\n\nEnglish language files: Iain Milne"
+			+ "\nDeutsche Übersetzungen: Micha Bayer, Dominik Lindner",
+			RB.getString("gui.text.close"));
+	}
 }

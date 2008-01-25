@@ -50,6 +50,9 @@ class NavPanel extends JPanel
 		add(splitPane);
 	}
 
+	GenotypePanel getGenotypePanel()
+		{ return gPanel; }
+
 	public void propertyChange(PropertyChangeEvent e)
 	{
 		if (e.getSource() == splitPane)

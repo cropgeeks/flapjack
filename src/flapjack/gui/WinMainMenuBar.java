@@ -15,6 +15,12 @@ public class WinMainMenuBar extends JMenuBar
 	private JMenuItem mFileImport;
 	private JMenuItem mFileExit;
 
+	private JMenu mView;
+	private JMenuItem mViewOverview;
+
+	private JMenu mHelp;
+	private JMenuItem mHelpAbout;
+
 	WinMainMenuBar(WinMain winMain)
 	{
 		new Actions(winMain);
@@ -22,6 +28,8 @@ public class WinMainMenuBar extends JMenuBar
 		setBorderPainted(false);
 
 		createFileMenu();
+		createViewMenu();
+		createHelpMenu();
 	}
 
 	private void createFileMenu()
@@ -47,6 +55,30 @@ public class WinMainMenuBar extends JMenuBar
 		mFile.add(mFileExit);
 
 		add(mFile);
+	}
+
+	private void createViewMenu()
+	{
+		mView = new JMenu(RB.getString("gui.WinMainMenuBar.mView"));
+		mView.setMnemonic(KeyEvent.VK_V);
+
+		mViewOverview = getItem(Actions.viewOverview, KeyEvent.VK_O, KeyEvent.VK_F7, 0);
+
+		mView.add(mViewOverview);
+
+		add(mView);
+	}
+
+	private void createHelpMenu()
+	{
+		mHelp = new JMenu(RB.getString("gui.WinMainMenuBar.mHelp"));
+		mHelp.setMnemonic(KeyEvent.VK_H);
+
+		mHelpAbout = getItem(Actions.helpAbout, KeyEvent.VK_A, 0, 0);
+
+		mHelp.add(mHelpAbout);
+
+		add(mHelp);
 	}
 
 	public static JMenuItem getItem(Action action, int mnemonic, int accelerator, int keymask)

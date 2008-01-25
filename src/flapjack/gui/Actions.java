@@ -14,6 +14,10 @@ public class Actions
 	public static AbstractAction fileImport;
 	public static AbstractAction fileExit;
 
+	public static AbstractAction viewOverview;
+
+	public static AbstractAction helpAbout;
+
 	Actions(WinMain winMain)
 	{
 		this.winMain = winMain;
@@ -58,6 +62,20 @@ public class Actions
 		fileExit = new AbstractAction(RB.getString("gui.Actions.fileExit")) {
 			public void actionPerformed(ActionEvent e) {
 				winMain.fileExit();
+			}
+		};
+
+
+		viewOverview = new AbstractAction(RB.getString("gui.Actions.viewOverview")) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.viewOverview();
+			}
+		};
+
+
+		helpAbout = new AbstractAction(RB.getString("gui.Actions.helpAbout")) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.helpAbout();
 			}
 		};
 	}

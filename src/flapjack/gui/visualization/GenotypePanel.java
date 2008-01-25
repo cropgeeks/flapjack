@@ -74,9 +74,6 @@ public class GenotypePanel extends JPanel
 		colCanvas = new ColCanvas(canvas);
 		mapCanvas = new MapCanvas(canvas);
 
-		overviewDialog = new OverviewDialog(this, canvas);
-
-
 		sp.setRowHeaderView(listPanel);
 		sp.setViewportView(canvas);
 		sp.getViewport().setBackground(Color.white);
@@ -92,7 +89,14 @@ public class GenotypePanel extends JPanel
 		});
 	}
 
-	public OverviewDialog getOverviewDialog() {
+	public OverviewDialog getOverviewDialog()
+	{
+		// Lazy load the overview dialog - if the user never views it, why
+		// bother holding it in memory and having it using up CPU time with all
+		// its drawing operations
+		if (overviewDialog == null)
+			overviewDialog = new OverviewDialog(this, canvas);
+
 		return overviewDialog;
 	}
 
