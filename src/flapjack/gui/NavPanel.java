@@ -34,13 +34,14 @@ class NavPanel extends JPanel
 
 	NavPanel()
 	{
-		root = new DefaultMutableTreeNode("root");
-		treeModel = new DefaultTreeModel(root);
+		resetModel();
 
 		tree = new JTree(treeModel);
 		tree.addTreeSelectionListener(this);
 		tree.setCellRenderer(new TreeRenderer());
 		tree.setRootVisible(false);
+		tree.getSelectionModel().setSelectionMode(
+			TreeSelectionModel.SINGLE_TREE_SELECTION);
 
 		splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 		splitPane.addPropertyChangeListener(this);
@@ -59,6 +60,23 @@ class NavPanel extends JPanel
 	{
 		if (e.getSource() == splitPane)
 			Prefs.guiNavSplitsLocation = splitPane.getDividerLocation();
+	}
+
+	private void resetModel()
+	{
+		root = new DefaultMutableTreeNode("root");
+		treeModel = new DefaultTreeModel(root);
+	}
+
+	void setProject(Project project)
+	{
+		resetModel();
+		tree.setModel(treeModel);
+
+		for (int i = 0; i < project.getDataSets().size(); i++)
+			addDataSetNode(project.getDataSets().get(i));
+
+		Actions.projectSaved();
 	}
 
 	void addDataSetNode(DataSet dataSet)
@@ -100,6 +118,9 @@ class NavPanel extends JPanel
 		splitPane.setDividerLocation(location);
 	}
 
+	/**
+	 * Panel used for display when no other tree components have been selected.
+	 */
 	private static class EmptyPanel extends JPanel
 	{
 		EmptyPanel()

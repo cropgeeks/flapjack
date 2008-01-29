@@ -23,6 +23,20 @@ public class Actions
 		this.winMain = winMain;
 
 		createActions();
+
+		// Set initial states for actions that shouldn't be enabled at the start
+
+		// Flapjack starts with a new (unmodified) project already created so
+		// you can't save it as there's nothing (yet) to be saved
+		fileSave.setEnabled(false);
+	}
+
+	public static void projectSaved() {
+		fileSave.setEnabled(false);
+	}
+
+	public static void projectModified() {
+		fileSave.setEnabled(true);
 	}
 
 	private void createActions()
@@ -32,8 +46,6 @@ public class Actions
 				winMain.fileNew();
 			}
 		};
-
-		fileNew.setEnabled(false);
 
 		fileOpen = new AbstractAction(RB.getString("gui.Actions.fileOpen"), Icons.FILEOPEN) {
 			public void actionPerformed(ActionEvent e) {
@@ -78,5 +90,11 @@ public class Actions
 				winMain.helpAbout();
 			}
 		};
+	}
+
+	/** Called whenever the focus on the navigation tree changes. **/
+	public static void resetActions()
+	{
+
 	}
 }

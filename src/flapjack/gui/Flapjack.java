@@ -6,6 +6,8 @@ import java.io.*;
 import java.util.*;
 import javax.swing.*;
 
+import flapjack.io.ProjectSerializer;
+
 import scri.commons.gui.*;
 
 public class Flapjack
@@ -54,6 +56,9 @@ public class Flapjack
 		{
 			public void windowClosing(WindowEvent e)
 			{
+				if (winMain.okToExit() == false)
+					return;
+
 				shutdown();
 			}
 

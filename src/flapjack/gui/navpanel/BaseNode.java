@@ -19,7 +19,7 @@ public abstract class BaseNode extends DefaultMutableTreeNode
 		this.dataSet = dataSet;
 	}
 
-	public abstract void setMenus();
+	public abstract void setActions();
 
 	public abstract JComponent getPanel();
 
