@@ -3,6 +3,10 @@ package flapjack.gui;
 import java.text.*;
 import java.util.*;
 
+/**
+ * ResourceBundle utility class that holds all the resource strings for the
+ * application.
+ */
 public class RB
 {
 	static Locale locale = null;
@@ -18,19 +22,50 @@ public class RB
 		bundle = ResourceBundle.getBundle("res.text.flapjack", locale);
 	}
 
+	/**
+	 * Returns the string associated with the given key. If the key isn't found
+	 * in the resource bundle, the method simply returns the key.
+	 * @param key the key to search for
+	 * @return the string associated with the given key
+	 */
 	public static String getString(String key)
-		{ return bundle.getString(key); }
+	{
+		try
+		{
+			return bundle.getString(key);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			return key;
+		}
+	}
 
 	public static int getIndex(String key)
 		{ return Integer.parseInt(getString(key + "Index")); }
 
+	/**
+	 * Returns the string associated with the given key, formatted with the
+	 * given message parameters. If the key isn't found in the resource bundle,
+	 * the method simply returns the key.
+	 * @param key the key to search for
+	 * @param args the message's parameters
+	 * @return the string associated with the given key
+	 */
 	public static String format(String key, Object... args)
 	{
-		String str = bundle.getString(key);
+		try
+		{
+			String str = bundle.getString(key);
 
-//		MessageFormat msg = new MessageFormat(str, Prefs.locale);
-		MessageFormat msg = new MessageFormat(str, locale);
+			MessageFormat msg = new MessageFormat(str, locale);
 
-		return msg.format(args);
+			return msg.format(args);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			return key;
+		}
 	}
 }
