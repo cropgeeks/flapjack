@@ -22,7 +22,7 @@ public class TreeRenderer extends JLabel implements TreeCellRenderer
 			setIcon(isExpanded ? Icons.FOLDEROPEN : Icons.FOLDER);
 
 		else if (value instanceof VisualizationNode)
-			setIcon(Icons.EMPTY);
+			setIcon(Icons.VISUALIZATION);
 
 
 		this.selected = selected;

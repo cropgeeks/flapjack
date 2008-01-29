@@ -18,6 +18,7 @@ public class Icons
 	public static ImageIcon FOLDER;
 	public static ImageIcon FOLDEROPEN;
 	public static ImageIcon GERMINATE;
+	public static ImageIcon VISUALIZATION;
 
 	public static ImageIcon WINERROR, WININFORMATION, WINQUESTION, WINWARNING;
 
