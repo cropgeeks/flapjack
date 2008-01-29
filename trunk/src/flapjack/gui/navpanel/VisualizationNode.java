@@ -19,7 +19,7 @@ public class VisualizationNode extends BaseNode
 
 	public String toString()
 	{
-		return "visualization";
+		return "Visualization";
 	}
 
 	public void setActions()
