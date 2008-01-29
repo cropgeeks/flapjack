@@ -12,8 +12,17 @@ import flapjack.gui.*;
 import flapjack.io.*;
 
 import scri.commons.file.*;
+import scri.commons.gui.*;
 
-public class DataLoadingDialog extends JDialog implements Runnable
+// TODO: This dialog allows itself to be closed during the loading operation
+// which cancels the load in terms of data appearing in the interface, but the
+// actual loading thread (in the background) will still run to completion.
+
+/**
+ * Dialog that appears during the importing of data. Shows a progress bar and
+ * information/stats on the loading process and the data being read.
+ */
+public class DataImportingDialog extends JDialog implements Runnable
 {
 	private DataSet dataSet = new DataSet();
 
@@ -27,12 +36,13 @@ public class DataLoadingDialog extends JDialog implements Runnable
 
 	private JLabel mapsLabel, mrksLabel, lineLabel;
 	private JProgressBar pBar;
+	private boolean isOK = false;
 
-	public DataLoadingDialog(File mapFile, File genoFile)
+	public DataImportingDialog(File mapFile, File genoFile)
 	{
 		super(
 			Flapjack.winMain,
-			RB.getString("gui.dialog.DataLoadingDialog.title"),
+			RB.getString("gui.dialog.DataImportingDialog.title"),
 			true
 		);
 
@@ -48,7 +58,6 @@ public class DataLoadingDialog extends JDialog implements Runnable
 		});
 
 		pack();
-		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		setLocationRelativeTo(Flapjack.winMain);
 		setResizable(false);
 		setVisible(true);
@@ -68,13 +77,13 @@ public class DataLoadingDialog extends JDialog implements Runnable
 
 		JPanel labelPanel = new JPanel(new GridLayout(3, 2));
 		labelPanel.add(
-			new JLabel(RB.getString("gui.dialog.DataLoadingDialog.maps")));
+			new JLabel(RB.getString("gui.dialog.DataImportingDialog.maps")));
 		labelPanel.add(mapsLabel);
 		labelPanel.add(
-			new JLabel(RB.getString("gui.dialog.DataLoadingDialog.line")));
+			new JLabel(RB.getString("gui.dialog.DataImportingDialog.line")));
 		labelPanel.add(lineLabel);
 		labelPanel.add(
-			new JLabel(RB.getString("gui.dialog.DataLoadingDialog.mrks")));
+			new JLabel(RB.getString("gui.dialog.DataImportingDialog.mrks")));
 		labelPanel.add(mrksLabel);
 
 
@@ -85,8 +94,11 @@ public class DataLoadingDialog extends JDialog implements Runnable
 		return panel;
 	}
 
-	public DataSet getDataSet()
-	{
+	public boolean isOK() {
+		return isOK;
+	}
+
+	public DataSet getDataSet() {
 		return dataSet;
 	}
 
@@ -136,11 +148,25 @@ public class DataLoadingDialog extends JDialog implements Runnable
 
 			System.out.println("Genotype data loaded in " + (e-s) + "ms");
 
-			setVisible(false);
+			isOK = true;
+		}
+		catch (IOException e)
+		{
+			TaskDialog.error(
+				RB.format("gui.dialog.DataImportingDialog.ioException", e.getMessage()),
+				RB.getString("gui.text.close"));
+
+			e.printStackTrace();
 		}
 		catch (Exception e)
 		{
+			TaskDialog.error(
+				RB.format("gui.dialog.DataImportingDialog.exception", e),
+				RB.getString("gui.text.close"));
+
 			e.printStackTrace();
 		}
+
+		setVisible(false);
 	}
 }

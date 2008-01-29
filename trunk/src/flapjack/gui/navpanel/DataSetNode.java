@@ -18,7 +18,7 @@ public class DataSetNode extends BaseNode
 		return "DataSet " + dataSet.countLines() + "x" + dataSet.countMarkers();
 	}
 
-	public void setMenus()
+	public void setActions()
 	{
 	}
 

@@ -22,7 +22,7 @@ public class VisualizationNode extends BaseNode
 		return "visualization";
 	}
 
-	public void setMenus()
+	public void setActions()
 	{
 	}
 

@@ -95,7 +95,7 @@ public class ProjectSerializer
 		catch (IOException e)
 		{
 			TaskDialog.error(
-				RB.format("io.ProjectSerializer.io", project.filename, e.getMessage()),
+				RB.format("io.ProjectSerializer.ioException", project.filename, e.getMessage()),
 				RB.getString("gui.text.close"));
 		}
 		catch (MappingException e)
@@ -148,7 +148,7 @@ public class ProjectSerializer
 		catch (IOException e)
 		{
 			TaskDialog.error(
-				RB.format("io.ProjectSerializer.io", filename, e.getMessage()),
+				RB.format("io.ProjectSerializer.ioException", filename, e.getMessage()),
 				RB.getString("gui.text.close"));
 		}
 		catch (MappingException e)
@@ -236,13 +236,19 @@ public class ProjectSerializer
 		return false;
 	}
 
-	public static boolean okToContinue(Project project)
+	public static boolean okToContinue(Project project, boolean useExitMessage)
 	{
 		if (project != null)
 		{
 			if (Actions.fileSave.isEnabled())
 			{
-				String msg = RB.getString("io.ProjectSerializer.notSaved");
+				String msg = null;
+
+				if (useExitMessage)
+					msg = RB.getString("io.ProjectSerializer.notSavedExit");
+				else
+					msg = RB.getString("io.ProjectSerializer.notSaved");
+
 				String[] options = new String[] {
 					RB.getString("io.ProjectSerializer.save"),
 					RB.getString("io.ProjectSerializer.dontSave"),

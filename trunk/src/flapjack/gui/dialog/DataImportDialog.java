@@ -66,18 +66,15 @@ public class DataImportDialog extends JDialog implements ActionListener
 			setVisible(false);
 	}
 
-	public boolean isOK()
-	{
+	public boolean isOK() {
 		return isOK;
 	}
 
-	public File getMapFile()
-	{
+	public File getMapFile() {
 		return nbPanel.getMapFile();
 	}
 
-	public File getGenotypeFile()
-	{
+	public File getGenotypeFile() {
 		return nbPanel.getGenotypeFile();
 	}
 }

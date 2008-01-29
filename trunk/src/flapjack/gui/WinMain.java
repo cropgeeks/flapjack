@@ -87,23 +87,30 @@ public class WinMain extends JFrame
 		});
 	}
 
+	boolean okToExit()
+	{
+		return ProjectSerializer.okToContinue(project, true);
+	}
+
 	void fileNew()
 	{
-		if (ProjectSerializer.okToContinue(project) == false)
+		if (ProjectSerializer.okToContinue(project, false) == false)
 			return;
+
+		project = new Project();
+		navPanel.setProject(project);
 	}
 
 	void fileOpen()
 	{
-		if (ProjectSerializer.okToContinue(project) == false)
+		if (ProjectSerializer.okToContinue(project, false) == false)
 			return;
 
 		Project openedProject = ProjectSerializer.open(null);
 		if (openedProject != null)
 		{
 			project = openedProject;
-
-			// TODO: Pass to navPanel
+			navPanel.setProject(project);
 		}
 	}
 
@@ -113,6 +120,7 @@ public class WinMain extends JFrame
 
 		if (ProjectSerializer.save(project, saveAs))
 		{
+			Actions.projectSaved();
 		}
 
 		setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
@@ -127,12 +135,16 @@ public class WinMain extends JFrame
 			File mapFile  = dialog.getMapFile();
 			File genoFile = dialog.getGenotypeFile();
 
-			DataSet dataSet = new DataLoadingDialog(mapFile, genoFile).getDataSet();
+			DataImportingDialog dialog2 = new DataImportingDialog(mapFile, genoFile);
 
-			if (dataSet != null)
+			if (dialog2.isOK())
 			{
+				DataSet dataSet = dialog2.getDataSet();
+
 				project.addDataSet(dataSet);
 				navPanel.addDataSetNode(dataSet);
+
+				Actions.projectModified();
 			}
 		}
 	}
@@ -151,7 +163,8 @@ public class WinMain extends JFrame
 	void helpAbout()
 	{
 		scri.commons.gui.TaskDialog.info("Flapjack - Genotype Visualization Tool 2.0"
-			+ "\n\nCopyright (C) 2008 Plant Bioinformatics Group"
+			+ "\n\nCopyright (C) 2008"
+			+ "\nPlant Bioinformatics Group"
 			+ "\nScottish Crop Research Institute"
 			+ "\n\nIain Milne, Micha Bayer, Paul Shaw, Linda Cardle, David Marshall"
 			+ "\n\nEnglish language files: Iain Milne"
