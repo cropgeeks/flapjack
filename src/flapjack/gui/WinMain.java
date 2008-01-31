@@ -10,6 +10,8 @@ import flapjack.gui.dialog.*;
 import flapjack.gui.visualization.*;
 import flapjack.io.*;
 
+import scri.commons.gui.*;
+
 public class WinMain extends JFrame
 {
 	private WinMainMenuBar menubar;
@@ -41,8 +43,8 @@ public class WinMain extends JFrame
 
 
 		// Work out the current screen's width and height
-		int scrnW = Toolkit.getDefaultToolkit().getScreenSize().width;
-		int scrnH = Toolkit.getDefaultToolkit().getScreenSize().height;
+		int scrnW = SwingUtils.getVirtualScreenDimension().width;
+		int scrnH = SwingUtils.getVirtualScreenDimension().height;
 
 		// Determine where on screen (TODO: on which monitor?) to display
 		if (Prefs.isFirstRun || Prefs.guiWinMainX > (scrnW-50) || Prefs.guiWinMainY > (scrnH-50))
