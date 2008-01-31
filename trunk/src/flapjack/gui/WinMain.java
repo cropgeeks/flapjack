@@ -7,6 +7,7 @@ import javax.swing.*;
 
 import flapjack.data.*;
 import flapjack.gui.dialog.*;
+import flapjack.gui.visualization.*;
 import flapjack.io.*;
 
 public class WinMain extends JFrame
@@ -29,7 +30,7 @@ public class WinMain extends JFrame
 		toolbar = new WinMainToolBar();
 		setJMenuBar(menubar);
 
-		navPanel = new NavPanel();
+		navPanel = new NavPanel(this);
 
 
 		add(toolbar, BorderLayout.NORTH);
@@ -157,7 +158,7 @@ public class WinMain extends JFrame
 
 	void viewOverview()
 	{
-		navPanel.getGenotypePanel().toggleOverviewDialog();
+		OverviewManager.toggleOverviewDialog();
 	}
 
 	void helpAbout()

@@ -20,7 +20,6 @@ public class GenotypePanel extends JPanel
 	private MapCanvas mapCanvas;
 	private RowCanvas rowCanvas;
 	private ColCanvas colCanvas;
-	private OverviewDialog overviewDialog;
 
 	// Secondary components needed by the panel
 	private JTabbedPane tabs;
@@ -33,9 +32,9 @@ public class GenotypePanel extends JPanel
 	private int size = 11;
 
 
-	public GenotypePanel()
+	public GenotypePanel(WinMain winMain)
 	{
-		createControls();
+		createControls(winMain);
 
 		JPanel centerPanel = new JPanel(new BorderLayout());
 		centerPanel.add(sp);
@@ -54,7 +53,7 @@ public class GenotypePanel extends JPanel
 		add(tabs);
 	}
 
-	private void createControls()
+	private void createControls(WinMain winMain)
 	{
 		tabs = new JTabbedPane();
 		tabs.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
@@ -74,6 +73,8 @@ public class GenotypePanel extends JPanel
 		colCanvas = new ColCanvas(canvas);
 		mapCanvas = new MapCanvas(canvas);
 
+		OverviewManager.initialize(winMain, this, canvas);
+
 		sp.setRowHeaderView(listPanel);
 		sp.setViewportView(canvas);
 		sp.getViewport().setBackground(Color.white);
@@ -87,18 +88,6 @@ public class GenotypePanel extends JPanel
 				computeRowColSizes();
 			}
 		});
-	}
-
-	/** Toggles showing the overview dialog. */
-	public void toggleOverviewDialog()
-	{
-		// Lazy load the overview dialog - if the user never views it, why
-		// bother holding it in memory and having it using up CPU time with all
-		// its drawing operations
-		if (overviewDialog == null)
-			overviewDialog = new OverviewDialog(this, canvas);
-
-		overviewDialog.setVisible(!overviewDialog.isVisible());
 	}
 
 	public void setDataSet(DataSet dataSet)
@@ -131,6 +120,9 @@ public class GenotypePanel extends JPanel
 
 		tabs.setComponentAt(mapIndex, displayPanel);
 		computePanelSizes();
+
+		// Once everything else is updated/displayed, then update the overview
+		OverviewManager.createImage();
 	}
 
 	public void adjustmentValueChanged(AdjustmentEvent e)
@@ -216,8 +208,7 @@ public class GenotypePanel extends JPanel
 
 	void updateOverviewSelectionBox(int xIndex, int xW, int yIndex, int yH)
 	{
-		if (overviewDialog != null)
-			overviewDialog.updateOverviewSelectionBox(xIndex, xW, yIndex, yH);
+		OverviewManager.updateOverviewSelectionBox(xIndex, xW, yIndex, yH);
 
 		rowCanvas.updateOverviewSelectionBox(xIndex, xW);
 		colCanvas.updateOverviewSelectionBox(yIndex, yH);
