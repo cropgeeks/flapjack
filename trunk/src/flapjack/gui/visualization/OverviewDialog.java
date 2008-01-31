@@ -8,6 +8,8 @@ import javax.swing.event.*;
 import flapjack.data.*;
 import flapjack.gui.*;
 
+import scri.commons.gui.*;
+
 public class OverviewDialog extends JDialog
 {
 	public OverviewDialog(WinMain winMain, OverviewCanvas canvas)
@@ -20,8 +22,8 @@ public class OverviewDialog extends JDialog
 		setSize(Prefs.guiOverviewWidth, Prefs.guiOverviewHeight);
 
 		// Work out the current screen's width and height
-		int scrnW = Toolkit.getDefaultToolkit().getScreenSize().width;
-		int scrnH = Toolkit.getDefaultToolkit().getScreenSize().height;
+		int scrnW = SwingUtils.getVirtualScreenDimension().width;
+		int scrnH = SwingUtils.getVirtualScreenDimension().height;
 
 		// Determine where on screen (TODO: on which monitor?) to display
 		if (Prefs.guiOverviewX > (scrnW-50) || Prefs.guiOverviewY > (scrnH-50))
