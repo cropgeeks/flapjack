@@ -4,6 +4,7 @@ import java.awt.*;
 import javax.swing.*;
 
 import flapjack.data.*;
+import flapjack.gui.*;
 import flapjack.gui.visualization.*;
 
 public class VisualizationNode extends BaseNode
@@ -24,6 +25,8 @@ public class VisualizationNode extends BaseNode
 
 	public void setActions()
 	{
+		System.out.println("setting to true");
+		Actions.viewOverview.setEnabled(true);
 	}
 
 	public JPanel getPanel()

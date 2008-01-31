@@ -25,9 +25,11 @@ public class Prefs extends XMLPreferences
 	// The location of the main splits pane divider
 	public static int guiNavSplitsLocation = 150;
 
-	// The width, height and location of the overview dialog
+	// The width, height and location of the overview dialog/panel
+	public static boolean guiOverviewDialog = false;
 	public static int guiOverviewWidth = 300;
 	public static int guiOverviewHeight = 300;
 	public static int guiOverviewX = 0;
 	public static int guiOverviewY = 0;
+	public static int guiOverviewSplitsLocation = 355;
 }

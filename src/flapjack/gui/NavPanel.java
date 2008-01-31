@@ -25,14 +25,15 @@ class NavPanel extends JPanel
 	private DefaultTreeModel treeModel;
 	private DefaultMutableTreeNode root;
 
-	private JSplitPane splitPane;
-	private EmptyPanel emptyPanel = new EmptyPanel();
+	private JSplitPane hSplitPane, vSplitPane;
+
+	private IntroPanel introPanel = new IntroPanel();
 
 	// We maintain just one GenotypePanel that is used to display any dataset
 	// as it would require too much memory to assign one per dataset
-	private GenotypePanel gPanel = new GenotypePanel();
+	private GenotypePanel gPanel;
 
-	NavPanel()
+	NavPanel(WinMain winMain)
 	{
 		resetModel();
 
@@ -43,14 +44,23 @@ class NavPanel extends JPanel
 		tree.getSelectionModel().setSelectionMode(
 			TreeSelectionModel.SINGLE_TREE_SELECTION);
 
-		splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
-		splitPane.addPropertyChangeListener(this);
-		splitPane.setDividerLocation(Prefs.guiNavSplitsLocation);
-		splitPane.setLeftComponent(new JScrollPane(tree));
-		splitPane.setRightComponent(emptyPanel);
+		gPanel = new GenotypePanel(winMain);
+
+		vSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
+		vSplitPane.setResizeWeight(1);
+		vSplitPane.addPropertyChangeListener(this);
+		vSplitPane.setDividerLocation(Prefs.guiOverviewSplitsLocation);
+		vSplitPane.setTopComponent(new JScrollPane(tree));
+		vSplitPane.setBottomComponent(OverviewManager.getPanel());
+
+		hSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
+		hSplitPane.addPropertyChangeListener(this);
+		hSplitPane.setDividerLocation(Prefs.guiNavSplitsLocation);
+		hSplitPane.setLeftComponent(vSplitPane);
+		hSplitPane.setRightComponent(introPanel);
 
 		setLayout(new BorderLayout());
-		add(splitPane);
+		add(hSplitPane);
 	}
 
 	GenotypePanel getGenotypePanel()
@@ -58,8 +68,11 @@ class NavPanel extends JPanel
 
 	public void propertyChange(PropertyChangeEvent e)
 	{
-		if (e.getSource() == splitPane)
-			Prefs.guiNavSplitsLocation = splitPane.getDividerLocation();
+		if (e.getSource() == hSplitPane)
+			Prefs.guiNavSplitsLocation = hSplitPane.getDividerLocation();
+
+		else if (e.getSource() == vSplitPane)
+			Prefs.guiOverviewSplitsLocation = vSplitPane.getDividerLocation();
 	}
 
 	private void resetModel()
@@ -108,22 +121,34 @@ class NavPanel extends JPanel
 	{
 		BaseNode node = (BaseNode) tree.getLastSelectedPathComponent();
 
-		int location = splitPane.getDividerLocation();
+		// Reset the Actions to their default state
+		Actions.resetActions();
+
+		int location = hSplitPane.getDividerLocation();
 
 		if (node != null)
-			splitPane.setRightComponent(node.getPanel());
-		else
-			splitPane.setRightComponent(emptyPanel);
+		{
+			// Display the node
+			hSplitPane.setRightComponent(node.getPanel());
 
-		splitPane.setDividerLocation(location);
+			// Enable the appropriate actions for it
+			node.setActions();
+		}
+		else
+			hSplitPane.setRightComponent(introPanel);
+
+		hSplitPane.setDividerLocation(location);
+
+		// If we're viewing a visualization node, then enable the overview
+		OverviewManager.setVisible(node instanceof VisualizationNode);
 	}
 
 	/**
 	 * Panel used for display when no other tree components have been selected.
 	 */
-	private static class EmptyPanel extends JPanel
+	private static class IntroPanel extends JPanel
 	{
-		EmptyPanel()
+		IntroPanel()
 		{
 			DoeLayout layout = new DoeLayout();
 			layout.getPanel().setBackground(Color.white);

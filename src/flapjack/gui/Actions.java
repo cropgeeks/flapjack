@@ -25,6 +25,7 @@ public class Actions
 		createActions();
 
 		// Set initial states for actions that shouldn't be enabled at the start
+		resetActions();
 
 		// Flapjack starts with a new (unmodified) project already created so
 		// you can't save it as there's nothing (yet) to be saved
@@ -95,6 +96,6 @@ public class Actions
 	/** Called whenever the focus on the navigation tree changes. **/
 	public static void resetActions()
 	{
-
+		viewOverview.setEnabled(false);
 	}
 }
