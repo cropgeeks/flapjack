@@ -104,16 +104,17 @@ public class WinMain extends JFrame
 		navPanel.setProject(project);
 	}
 
-	void fileOpen()
+	void fileOpen(File file)
 	{
 		if (ProjectSerializer.okToContinue(project, false) == false)
 			return;
 
-		Project openedProject = ProjectSerializer.open(null);
+		Project openedProject = ProjectSerializer.open(file);
 		if (openedProject != null)
 		{
 			project = openedProject;
 			navPanel.setProject(project);
+			menubar.createRecentMenu(project.filename);
 		}
 	}
 
@@ -124,6 +125,7 @@ public class WinMain extends JFrame
 		if (ProjectSerializer.save(project, saveAs))
 		{
 			Actions.projectSaved();
+			menubar.createRecentMenu(project.filename);
 		}
 
 		setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
