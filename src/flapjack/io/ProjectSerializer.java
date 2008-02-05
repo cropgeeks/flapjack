@@ -116,12 +116,12 @@ public class ProjectSerializer
 		return false;
 	}
 
-	public static Project open(File filename)
+	public static Project open(File file)
 	{
 		// Prompt for the file to open if we haven't been given one
-		if (filename == null)
+		if (file == null)
 			// And quit if the user doesn't pick one
-			if ((filename = showOpenDialog()) == null)
+			if ((file = showOpenDialog()) == null)
 				return null;
 
 
@@ -133,11 +133,12 @@ public class ProjectSerializer
 			long s = System.currentTimeMillis();
 
 
-			BufferedReader in = new BufferedReader(new FileReader(filename));
+			BufferedReader in = new BufferedReader(new FileReader(file));
 
 			Unmarshaller unmarshaller = new Unmarshaller(mapping);
 
 			Project project = (Project) unmarshaller.unmarshal(in);
+			project.filename = file;
 			in.close();
 
 			long e = System.currentTimeMillis();
@@ -148,7 +149,7 @@ public class ProjectSerializer
 		catch (IOException e)
 		{
 			TaskDialog.error(
-				RB.format("io.ProjectSerializer.ioException", filename, e.getMessage()),
+				RB.format("io.ProjectSerializer.ioException", file, e.getMessage()),
 				RB.getString("gui.text.close"));
 		}
 		catch (MappingException e)

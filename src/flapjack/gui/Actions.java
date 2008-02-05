@@ -50,7 +50,7 @@ public class Actions
 
 		fileOpen = new AbstractAction(RB.getString("gui.Actions.fileOpen"), Icons.FILEOPEN) {
 			public void actionPerformed(ActionEvent e) {
-				winMain.fileOpen();
+				winMain.fileOpen(null);
 			}
 		};
 

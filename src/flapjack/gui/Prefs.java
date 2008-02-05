@@ -15,6 +15,12 @@ public class Prefs extends XMLPreferences
 	// How many projects have been created
 	public static int guiProjectCount = 1;
 
+	// The locations of the last four accessed projects
+	public static String guiRecentProject1;
+	public static String guiRecentProject2;
+	public static String guiRecentProject3;
+	public static String guiRecentProject4;
+
 	// The width, height, location and maximized status of the main window
 	public static int guiWinMainWidth = 800;
 	public static int guiWinMainHeight = 600;
