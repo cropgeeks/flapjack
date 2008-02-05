@@ -85,19 +85,33 @@ class MapCanvas extends JPanel
 		repaint();
 	}
 
+	// Draws the loci at index i, optionally adding textual information
 	private void drawLoci(Graphics2D g, int i, boolean showDetails)
 	{
 		Marker m = map.getMarkerByIndex(i);
 
+		// The position of the marker on the map
 		int xMap = (int) (m.getPosition() * xScale);
+		// Its position on the main canvas (its "box" representation)
 		int xBox = (int) (i * canvas.boxW + (canvas.boxW/2));
 
 		if (showDetails)
 		{
-			String posStr = m.getName() + "  (" + d.format(m.getPosition()) + ")";
-			int strWidth  = g.getFontMetrics().stringWidth(posStr);
+			String str = m.getName() + "  (" + d.format(m.getPosition()) + ")";
+			int strWidth  = g.getFontMetrics().stringWidth(str);
 
-			g.drawString(posStr, xMap-(int)(strWidth/2f), 8);
+			// Work out where the left and right hand edges of the text will be
+			int leftPos = xMap-(int)(strWidth/2f);
+			int rghtPos = xMap+(int)(strWidth/2f);
+
+			// If we're offscreen to the left, adjust...
+			if (leftPos < canvas.pX1)
+				leftPos = canvas.pX1;
+			// Similarly if we're offscreen to the right...
+			if (rghtPos > canvas.pX2)
+				leftPos = canvas.pX2-strWidth;
+
+			g.drawString(str, leftPos, 8);
 		}
 
 		g.drawLine(xMap, 10, xMap, 20);
@@ -146,7 +160,7 @@ class MapCanvas extends JPanel
 			// area appropriate to what the main canvas is viewing
 			g.translate(0-canvas.pX1, 0);
 
-			// Change to red, and redraw the currently highlighted on
+			// Change to red, and redraw the currently highlighted one
 			if (lociIndex >=0 && lociIndex < map.countLoci())
 			{
 				g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
