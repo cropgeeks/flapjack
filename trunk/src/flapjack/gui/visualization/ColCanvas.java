@@ -76,12 +76,16 @@ class ColCanvas extends JPanel
 				// This is where we save the time...
 				if ((int)y != lastY)
 				{
-					GenotypeData data = canvas.genotypeLines.get(yIndex);
+//					GenotypeData data = canvas.genotypeLines.get(yIndex);
 
 					int x = 0;
 					for (int xIndex = lociIndex-1; xIndex < lociIndex+2; xIndex++, x+=15)
 					{
-						int state = data.getState(xIndex);
+						if (xIndex < 0 || xIndex >= canvas.view.getMarkerCount())
+							continue;
+
+						int state = canvas.view.getState(yIndex, xIndex);
+//						int state = data.getState(xIndex);
 
 						if (state > 0)
 						{

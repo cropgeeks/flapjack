@@ -14,6 +14,8 @@ public class GenotypePanel extends JPanel
 	private DataSet dataSet;
 	private ChromosomeMap map;
 
+	private GTView view;
+
 	// The various (main) components that make up the display panel
 	private ListPanel listPanel;
 	private GenotypeCanvas canvas;
@@ -27,7 +29,7 @@ public class GenotypePanel extends JPanel
 	private JSlider sizeSlider;
 	private JScrollPane sp;
 	private JScrollBar hBar, vBar;
-	private JViewport view;
+	private JViewport viewport;
 
 	private int size = 11;
 
@@ -61,7 +63,7 @@ public class GenotypePanel extends JPanel
 
 		sp = new JScrollPane();
 		sp.addMouseWheelListener(this);
-		view = sp.getViewport();
+		viewport = sp.getViewport();
 		hBar = sp.getHorizontalScrollBar();
 		vBar = sp.getVerticalScrollBar();
 		hBar.addAdjustmentListener(this);
@@ -79,7 +81,7 @@ public class GenotypePanel extends JPanel
 		sp.setViewportView(canvas);
 		sp.getViewport().setBackground(Color.white);
 
-		sizeSlider = new JSlider(1, 25, 11);
+		sizeSlider = new JSlider(1, 25, 7);
 		sizeSlider.addChangeListener(this);
 
 
@@ -114,8 +116,12 @@ public class GenotypePanel extends JPanel
 	{
 		map = dataSet.getMapByIndex(mapIndex);
 
-		canvas.setData(dataSet, map);
-		listPanel.setData(dataSet);
+		view = new GTView(dataSet, map);
+		view.initialize();
+
+		canvas.setView(view);
+		listPanel.setView(view);
+//		listPanel.setData(dataSet);
 		mapCanvas.setChromosomeMap(map);
 
 		tabs.setComponentAt(mapIndex, displayPanel);
@@ -130,7 +136,7 @@ public class GenotypePanel extends JPanel
 		// Each time the scollbars are moved, the canvas must be redrawn, with
 		// the new dimensions of the canvas being passed to it (window size
 		// changes will cause scrollbar movement events)
-		canvas.computeForRedraw(view.getExtentSize(), view.getViewPosition());
+		canvas.computeForRedraw(viewport.getExtentSize(), viewport.getViewPosition());
 
 		rowCanvas.repaint();
 		colCanvas.repaint();
@@ -234,7 +240,7 @@ public class GenotypePanel extends JPanel
 			Line line = dataSet.getLineByIndex(rowIndex);
 			data = line.getGenotypeDataByMap(map);
 
-			System.out.println(data.getState(colIndex));
+//			System.out.println(data.getState(colIndex));
 		}
 		catch (ArrayIndexOutOfBoundsException e) {}
 
