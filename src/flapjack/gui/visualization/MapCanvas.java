@@ -14,9 +14,6 @@ class MapCanvas extends JPanel
 
 	private GenotypeCanvas canvas;
 
-	private GenotypeData data;
-	private ChromosomeMap map;
-
 	private BufferFactory bufferFactory;
 	private BufferedImage image;
 
@@ -49,7 +46,7 @@ class MapCanvas extends JPanel
 	{
 		setBorder(BorderFactory.createEmptyBorder(5, w1, 0, w2));
 
-		xScale = canvas.canvasW / map.getLength();
+		xScale = canvas.canvasW / canvas.view.getMapLength();
 
 		image = null;
 
@@ -63,11 +60,6 @@ class MapCanvas extends JPanel
 	{
 		this.canvas1 = canvas1;
 		this.canvas2 = canvas2;
-	}
-
-	void setChromosomeMap(ChromosomeMap map)
-	{
-		this.map = map;
 	}
 
 	void setLociIndex(int lociIndex)
@@ -88,7 +80,7 @@ class MapCanvas extends JPanel
 	// Draws the loci at index i, optionally adding textual information
 	private void drawLoci(Graphics2D g, int i, boolean showDetails)
 	{
-		Marker m = map.getMarkerByIndex(i);
+		Marker m = canvas.view.getMarker(i);
 
 		// The position of the marker on the map
 		int xMap = (int) (m.getPosition() * xScale);
@@ -131,9 +123,6 @@ class MapCanvas extends JPanel
 
 			Graphics2D g = (Graphics2D) graphics;
 
-			if (map == null)
-				return;
-
 			// If the bg image is currently null, display some text instead
 			if (image == null)
 			{
@@ -161,7 +150,7 @@ class MapCanvas extends JPanel
 			g.translate(0-canvas.pX1, 0);
 
 			// Change to red, and redraw the currently highlighted one
-			if (lociIndex >=0 && lociIndex < map.countLoci())
+			if (lociIndex >=0 && lociIndex < canvas.view.getMarkerCount())
 			{
 				g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 				g.setColor(Color.red);
@@ -217,7 +206,7 @@ class MapCanvas extends JPanel
 //			determineMarkers();
 
 			map1 = 0;
-			map2 = map.countLoci()-1;
+			map2 = canvas.view.getMarkerCount()-1;
 
 			// Draw each marker
 			for (int i = map1; i <= map2 && !killMe; i++)

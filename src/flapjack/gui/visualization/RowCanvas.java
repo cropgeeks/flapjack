@@ -10,8 +10,7 @@ class RowCanvas extends JPanel
 {
 	private GenotypeCanvas canvas;
 
-	private GenotypeData data;
-
+	private int lineIndex = -1;
 
 	// Starting index being displayed on the main canvas, and the number of boxes
 	private int xIndex, xCount;
@@ -35,11 +34,11 @@ class RowCanvas extends JPanel
 		this.xCount = xCount;
 	}
 
-	void setGenotypeData(GenotypeData data)
+	void setLineIndex(int lineIndex)
 	{
-		if (this.data != data && canvas.locked == false)
+		if (this.lineIndex != lineIndex && canvas.locked == false)
 		{
-			this.data = data;
+			this.lineIndex = lineIndex;
 			repaint();
 		}
 	}
@@ -58,7 +57,7 @@ class RowCanvas extends JPanel
 
 			Graphics2D g = (Graphics2D) graphics;
 
-			if (data == null)
+			if (lineIndex == -1)
 				return;
 
 			int boxTotalX = canvas.boxTotalX;
@@ -77,7 +76,7 @@ class RowCanvas extends JPanel
 				// This is where we save the time...
 				if ((int)x != lastX)
 				{
-					int state = data.getState(xIndex);
+					int state = canvas.view.getState(lineIndex, xIndex);
 
 					if (state > 0)
 					{

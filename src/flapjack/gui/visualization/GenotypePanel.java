@@ -121,8 +121,6 @@ public class GenotypePanel extends JPanel
 
 		canvas.setView(view);
 		listPanel.setView(view);
-//		listPanel.setData(dataSet);
-		mapCanvas.setChromosomeMap(map);
 
 		tabs.setComponentAt(mapIndex, displayPanel);
 		computePanelSizes();
@@ -191,8 +189,6 @@ public class GenotypePanel extends JPanel
 	{
 		int cWidth = colCanvas.getWidth();
 
-		System.out.println("cWidth = " + cWidth);
-
 		rowCanvas.computeDimensions(listPanel.getWidth(), vBar.isVisible() ? (cWidth+vBar.getWidth()) : cWidth);
 		colCanvas.computeDimensions(listPanel.getHeight(), hBar.isVisible() ? hBar.getHeight() : 0);
 
@@ -233,18 +229,7 @@ public class GenotypePanel extends JPanel
 
 	void overRow(int colIndex, int rowIndex)
 	{
-		GenotypeData data = null;
-
-		try
-		{
-			Line line = dataSet.getLineByIndex(rowIndex);
-			data = line.getGenotypeDataByMap(map);
-
-//			System.out.println(data.getState(colIndex));
-		}
-		catch (ArrayIndexOutOfBoundsException e) {}
-
-		rowCanvas.setGenotypeData(data);
+		rowCanvas.setLineIndex(rowIndex);
 		colCanvas.setLociIndex(colIndex);
 		mapCanvas.setLociIndex(colIndex);
 	}

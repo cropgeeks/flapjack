@@ -57,7 +57,7 @@ class ColCanvas extends JPanel
 
 			Graphics2D g = (Graphics2D) graphics;
 
-			if (lociIndex == -1) // TODO: or is > than number of loci
+			if (lociIndex == -1)
 				return;
 
 			int boxTotalY = canvas.boxTotalY;
