@@ -85,4 +85,15 @@ public class GTView
 	{
 		return dataSet.getStateTable();
 	}
+
+	public float getMapLength()
+	{
+		return map.getLength();
+	}
+
+	public Marker getMarker(int index)
+	{
+		// TODO: needs changed once we have a wrapper array for marker data
+		return map.getMarkerByIndex(index);
+	}
 }
