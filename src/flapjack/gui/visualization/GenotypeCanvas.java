@@ -12,11 +12,14 @@ class GenotypeCanvas extends JPanel
 {
 	private GenotypePanel gPanel;
 
-	DataSet dataSet;
-	ChromosomeMap map;
+	// The "view" being rendered
+	GTView view;
+
+//	DataSet dataSet;
+//	ChromosomeMap map;
 
 	// For faster rendering, maintain a local cache of the data to be drawn
-	Vector<GenotypeData> genotypeLines;
+//	Vector<GenotypeData> genotypeLines;
 
 	// The current color model
 	ColorTable cTable;
@@ -63,7 +66,7 @@ class GenotypeCanvas extends JPanel
 //		setToolTipText("");
 	}
 
-	public JToolTip createToolTip()
+/*	public JToolTip createToolTip()
 		{ return tt; }
 
 	public String getToolTipText(MouseEvent e)
@@ -75,23 +78,11 @@ class GenotypeCanvas extends JPanel
 			+ "    " + dataSet.getLineByIndex(yIndex) + " - "
 			+ map + " - " + map.getMarkerByIndex(xIndex);
 	}
+*/
 
-	void setData(DataSet dataSet, ChromosomeMap map)
+	void setView(GTView view)
 	{
-		this.dataSet = dataSet;
-		this.map = map;
-
-
-		// Now cache as much data as possible to help speed rendering
-		genotypeLines = new Vector<GenotypeData>(dataSet.countLines());
-
-		for (int i = 0; i < dataSet.countLines(); i++)
-		{
-			Line line = dataSet.getLineByIndex(i);
-			GenotypeData data = line.getGenotypeDataByMap(map);
-
-			genotypeLines.add(data);
-		}
+		this.view = view;
 	}
 
 	// Compute canvas related dimensions that only change if the data or the
@@ -109,15 +100,15 @@ class GenotypeCanvas extends JPanel
 		// to lock to those so we never have to draw less than a full box
 		gPanel.computeScrollbarAdjustmentValues(boxW, boxH);
 
-		boxTotalX = map.countLoci();
-		boxTotalY = genotypeLines.size();
+		boxTotalX = view.getMarkerCount();
+		boxTotalY = view.getLineCount();
 
 		canvasW = (boxTotalX * boxW);// + (boxW);// - 1);
 		canvasH = (boxTotalY * boxH);
 
 		setSize(dimension = new Dimension(canvasW, canvasH));
 
-		cTable = new ColorTable(dataSet.getStateTable(), boxW, boxH);
+		cTable = new ColorTable(view.getStateTable(), boxW, boxH);
 
 		/////////////////////////
 
@@ -250,18 +241,21 @@ class GenotypeCanvas extends JPanel
 
 	private void render(Graphics2D g, int xS, int xE, int yS, int yE)
 	{
-		StateTable table = dataSet.getStateTable();
+		StateTable table = view.getStateTable();
 
 		g.setColor(Color.white);
 		g.fillRect(0, 0, canvasW, canvasH);
 
 		for (int yIndex = yS, y = (boxH*yS); yIndex <= yE; yIndex++, y += boxH)
 		{
-			GenotypeData data = genotypeLines.get(yIndex);
+//			GenotypeData data = genotypeLines.get(yIndex);
 
 			for (int xIndex = xS, x = (boxW*xS); xIndex <= xE; xIndex++, x += boxW)
 			{
-				int state = data.getState(xIndex);
+//				int state = data.getState(xIndex);
+
+				int state = view.getState(yIndex, xIndex);
+
 //				int compState = genotypeLines.get(10).getState(xIndex);
 
 				if (state > 0)

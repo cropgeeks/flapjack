@@ -217,7 +217,7 @@ class OverviewCanvas extends JPanel
 			float y = 0;
 			for (int yIndex = 0; yIndex < boxTotalY && !killMe; yIndex++)
 			{
-				GenotypeData data = canvas.genotypeLines.get(yIndex);
+//				GenotypeData data = canvas.genotypeLines.get(yIndex);
 
 				float x = 0;
 				for (int xIndex = 0; xIndex < boxTotalX && !killMe; xIndex++)
@@ -225,7 +225,8 @@ class OverviewCanvas extends JPanel
 					// This is where we save the time...
 					if ((int)x != lastX || (int)y != lastY)
 					{
-						int state = data.getState(xIndex);
+						int state = canvas.view.getState(yIndex, xIndex);
+//						int state = data.getState(xIndex);
 
 						if (state > 0)
 						{

@@ -7,7 +7,7 @@ import flapjack.data.*;
 
 class ListPanel extends JPanel
 {
-	private DataSet dataSet;
+	private GTView view;
 
 	private JList lineList;
 	private DefaultListModel model;
@@ -28,21 +28,21 @@ class ListPanel extends JPanel
 		lineList.setCellRenderer(new ListRenderer());
 	}
 
-	void setData(DataSet dataSet)
+	void setView(GTView view)
 	{
-		this.dataSet = dataSet;
+		this.view = view;
 		populateList();
 	}
 
 	private void populateList()
 	{
-		if (dataSet == null)
-			return;
+//		if (view == null)
+//			return;
 
 		model.clear();
 
-		for (int i = 0; i < dataSet.countLines(); i++)
-			model.add(i, dataSet.getLineByIndex(i));
+		for (int i = 0; i < view.getLineCount(); i++)
+			model.add(i, view.getLine(i));
 	}
 
 	void computeDimensions(int size)
