@@ -57,8 +57,10 @@ class RowCanvas extends JPanel
 
 			Graphics2D g = (Graphics2D) graphics;
 
-			if (lineIndex == -1)
+			// Quit if the line index is out of bounds or beyond the canvas size
+			if (lineIndex < 0 || lineIndex >= canvas.view.getLineCount())
 				return;
+
 
 			int boxTotalX = canvas.boxTotalX;
 

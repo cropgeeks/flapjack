@@ -8,7 +8,7 @@ public class GTView
 	// This saves having to query every line for the data by first telling it
 	// what map we're looking it - this object simply holds data for all the
 	// lines, but only for the map in question
-	Vector<GenotypeData> genotypeLines;
+	private Vector<GenotypeData> genotypeLines;
 
 	private DataSet dataSet;
 	private ChromosomeMap map;
@@ -17,6 +17,15 @@ public class GTView
 	// dataset's vector of lines
 	private Vector<Integer> lines;
 
+	// Contains the name of the map above - stored in the xml so we can
+	// reassociate the map properly (via Java references after deserialization)
+	// because Castor's reference="true" feature isn't working (08/02/2008)
+	private String mapName;
+
+
+	public GTView()
+	{
+	}
 
 	/**
 	 * Creates a new view object that will view the map within the dataset.
@@ -25,10 +34,9 @@ public class GTView
 	{
 		this.dataSet = dataSet;
 		this.map = map;
-	}
 
-	public void initialize()
-	{
+		mapName = map.getName();
+
 		lines = new Vector<Integer>(dataSet.countLines());
 
 		// Normal order
@@ -36,11 +44,38 @@ public class GTView
 		// Reverse order
 //		for (int i = dataSet.countLines()-1; i >= 0; i--)
 			lines.add(i);
-
-		cacheLines();
 	}
 
-	void cacheLines()
+
+	// Methods required for XML serialization
+
+	public String getMapName()
+		{ return mapName; }
+
+	public void setMapName(String mapName)
+		{ this.mapName = mapName; }
+
+	public Vector<Integer> getLines()
+		{ return lines; }
+
+	public void setLines(Vector<Integer> lines)
+		{ this.lines = lines; }
+
+
+	// Other methods
+
+	void recreateReferences(DataSet dataSet, ChromosomeMap map)
+	{
+		// Because we can't currently (08/02/2008) use Castor for storing
+		// references between objects within the XML, we need to scan through
+		// all the views for the datasets and reassociate their dataSet/map
+		// object references
+
+		this.dataSet = dataSet;
+		this.map = map;
+	}
+
+	public void cacheLines()
 	{
 		// Now cache as much data as possible to help speed rendering
 		genotypeLines = new Vector<GenotypeData>(lines.size());
@@ -95,5 +130,10 @@ public class GTView
 	{
 		// TODO: needs changed once we have a wrapper array for marker data
 		return map.getMarkerByIndex(index);
+	}
+
+	public ChromosomeMap getChromosomeMap()
+	{
+		return map;
 	}
 }

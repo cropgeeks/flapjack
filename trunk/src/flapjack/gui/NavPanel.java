@@ -98,20 +98,27 @@ class NavPanel extends JPanel
 		DataSetNode dataSetNode = new DataSetNode(dataSet);
 		treeModel.insertNodeInto(dataSetNode, root, root.getChildCount());
 
-		// Add a child node for selecting the visualization panel
-		BaseNode selectedNode = addVisualizationNode(dataSetNode);
+		// Add child nodes for selecting the various views
+		BaseNode selectedNode = null;
+		for (int i = 0; i < dataSet.getViewSets().size(); i++)
+		{
+			BaseNode node = addVisualizationNode(dataSetNode, i);
 
+			if (selectedNode == null)
+				selectedNode = node;
+		}
 
 		// Update the tree with the new node(s)
 		tree.setSelectionPath(new TreePath(selectedNode.getPath()));
 		tree.scrollPathToVisible(new TreePath(selectedNode.getPath()));
 	}
 
-	private BaseNode addVisualizationNode(DataSetNode dataSetNode)
+	private BaseNode addVisualizationNode(DataSetNode dataSetNode, int i)
 	{
 		DataSet dataSet = dataSetNode.getDataSet();
+		GTViewSet viewSet = dataSet.getViewSets().get(i);
 
-		VisualizationNode node = new VisualizationNode(dataSet, gPanel);
+		VisualizationNode node = new VisualizationNode(dataSet, viewSet, gPanel);
 		dataSetNode.add(node);
 
 		return node;
