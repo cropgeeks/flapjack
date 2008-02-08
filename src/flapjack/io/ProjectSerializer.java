@@ -138,7 +138,10 @@ public class ProjectSerializer
 			Unmarshaller unmarshaller = new Unmarshaller(mapping);
 
 			Project project = (Project) unmarshaller.unmarshal(in);
+
 			project.filename = file;
+			project.runPostLoadingTasks();
+
 			in.close();
 
 			long e = System.currentTimeMillis();

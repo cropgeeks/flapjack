@@ -1,6 +1,7 @@
 package flapjack.gui.visualization;
 
 import java.awt.*;
+import java.awt.color.*;
 import java.awt.geom.*;
 import java.awt.image.*;
 
@@ -13,6 +14,9 @@ class ColoredAlleleState
 	// AWT representation of this color, plus brighter and darker versions
 	private Color color, colorB, colorD;
 	private BufferedImage image;
+
+	// Greyscale representation of the image
+	private BufferedImage gsImage;
 
 	int w, h;
 
@@ -74,10 +78,17 @@ class ColoredAlleleState
 
 //		g.fillRect(0, 0, w, h);
 		g.dispose();
+
+
+//		ColorConvertOp op = new ColorConvertOp(ColorSpace.getInstance(ColorSpace.CS_GRAY), null);
+//		gsImage = op.filter(image, null);
 	}
 
 	public BufferedImage getImage()
 		{ return image; }
+
+	public BufferedImage getGSImage()
+		{ return gsImage; }
 
 	private void createColor()
 	{

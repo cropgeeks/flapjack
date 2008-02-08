@@ -13,6 +13,7 @@
 	<class name="flapjack.data.DataSet" auto-complete="true">
 		<field name="chromosomeMaps" type="flapjack.data.ChromosomeMap" collection="vector"/>
 		<field name="lines" type="flapjack.data.Line" collection="vector"/>
+		<field name="viewSets" type="flapjack.data.GTViewSet" collection="vector"/>
 	</class>
 
 	<!-- ChromosomeMap -->
@@ -53,4 +54,19 @@
 	<!-- AlleleState -->
 	<class name="flapjack.data.AlleleState" auto-complete="true"/>
 
+	<!-- GTViewSet -->
+	<class name="flapjack.data.GTViewSet">
+		<field name="name" type="string">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="views" type="flapjack.data.GTView" collection="vector"/>
+	</class>
+
+	<!-- GTView -->
+	<class name="flapjack.data.GTView">
+		<field name="mapName" type="string">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="lines" type="integer" collection="vector"/>
+	</class>
 </mapping>

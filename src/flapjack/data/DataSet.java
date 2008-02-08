@@ -4,11 +4,13 @@ import java.util.*;
 
 public class DataSet
 {
+	// Data information
 	private Vector<ChromosomeMap> chromosomes = new Vector<ChromosomeMap>();
-
 	private Vector<Line> lines = new Vector<Line>();
 
+	// View information
 	private StateTable stateTable = new StateTable(0);
+	private Vector<GTViewSet> viewSets = new Vector<GTViewSet>();
 
 	public DataSet()
 	{
@@ -35,8 +37,24 @@ public class DataSet
 	public void setStateTable(StateTable stateTable)
 		{ this.stateTable = stateTable; }
 
+	public Vector<GTViewSet> getViewSets()
+		{ return viewSets; }
+
+	public void setViewSets(Vector<GTViewSet> viewSets)
+		{ this.viewSets = viewSets; }
+
 
 	// Other methods
+
+	void runPostLoadingTasks()
+	{
+		// Because we can't currently (08/02/2008) use Castor for storing
+		// references between objects within the XML, we need to scan through
+		// all the views for the datasets and reassociate their dataSet/map
+		// object references
+		for (GTViewSet viewSet: viewSets)
+			viewSet.recreateReferences(this);
+	}
 
 	public Line createLine(String name)
 	{

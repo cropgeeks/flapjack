@@ -11,9 +11,7 @@ import flapjack.gui.*;
 public class GenotypePanel extends JPanel
 	implements AdjustmentListener, ChangeListener, MouseWheelListener
 {
-	private DataSet dataSet;
-	private ChromosomeMap map;
-
+	private GTViewSet viewSet;
 	private GTView view;
 
 	// The various (main) components that make up the display panel
@@ -92,18 +90,20 @@ public class GenotypePanel extends JPanel
 		});
 	}
 
-	public void setDataSet(DataSet dataSet)
+	public void setViewSet(GTViewSet viewSet)
 	{
-		this.dataSet = dataSet;
+		this.viewSet = viewSet;
 
 		// Remove all existing tabs
 		tabs.removeAll();
 
 		// Recreate them, one tab per chromosome
-		for (int i = 0; i < dataSet.countChromosomeMaps(); i++)
+		for (int i = 0; i < viewSet.getChromosomeCount(); i++)
 		{
-			String name = dataSet.getMapByIndex(i).getName();
-			int loci = dataSet.getMapByIndex(i).countLoci();
+			GTView view = viewSet.getView(i);
+
+			String name = view.getChromosomeMap().getName();
+			int loci = view.getMarkerCount();
 
 			tabs.addTab(name, Icons.CHROMOSOME, null);
 			tabs.setToolTipTextAt(i, name + " (" + loci + ")");
@@ -114,10 +114,12 @@ public class GenotypePanel extends JPanel
 
 	private void displayMap(int mapIndex)
 	{
-		map = dataSet.getMapByIndex(mapIndex);
+//		map = dataSet.getMapByIndex(mapIndex);
 
-		view = new GTView(dataSet, map);
-		view.initialize();
+//		view = new GTView(dataSet, map);
+//		view.initialize();
+
+		view = viewSet.getView(mapIndex);
 
 		canvas.setView(view);
 		listPanel.setView(view);
