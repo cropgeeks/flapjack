@@ -150,6 +150,22 @@ public class DataImportingDialog extends JDialog implements Runnable
 			GTViewSet viewSet = new GTViewSet(dataSet, "Default View");
 			dataSet.getViewSets().add(viewSet);
 
+			// Create (and fudge) a reverse view of the dataset
+			GTViewSet viewSet2 = new GTViewSet(dataSet, "Reversed View");
+			for (GTView view: viewSet2.getViews())
+				new flapjack.analysis.ReverseLines(view).run();
+			dataSet.getViewSets().add(viewSet2);
+
+			// Create (and fudge) a similarity sort view of the dataset
+			GTViewSet viewSet3 = new GTViewSet(dataSet, "Similarity Sort");
+			for (GTView view: viewSet3.getViews())
+			{
+				view.cacheLines();
+				new flapjack.analysis.SimilaritySort(view).run();
+			}
+			dataSet.getViewSets().add(viewSet3);
+
+
 			System.out.println("Genotype data loaded in " + (e-s) + "ms");
 
 			isOK = true;
