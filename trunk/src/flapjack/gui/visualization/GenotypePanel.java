@@ -143,7 +143,7 @@ public class GenotypePanel extends JPanel
 		mapCanvas.repaint();
 	}
 
-	void computeScrollbarAdjustmentValues(int xIncrement, int yIncrement)
+	void setScrollbarAdjustmentValues(int xIncrement, int yIncrement)
 	{
 		hBar.setUnitIncrement(xIncrement);
 		hBar.setBlockIncrement(xIncrement);
@@ -220,6 +220,7 @@ public class GenotypePanel extends JPanel
 		mapCanvas.updateLociIndices(xIndex, xIndex+xW-1);
 	}
 
+	// Jumps to a position relative to a x/y index within the dataset array
 	void jumpToPosition(int xIndex, int yIndex)
 	{
 		int x = xIndex * canvas.boxW - (canvas.boxW);
@@ -229,10 +230,28 @@ public class GenotypePanel extends JPanel
 		vBar.setValue(y);
 	}
 
+	// Moves the scroll bars by the given amount in the x and y directions
+	void moveBy(int x, int y)
+	{
+		hBar.setValue(hBar.getValue() + x);
+		vBar.setValue(vBar.getValue() + y);
+	}
+
 	void overRow(int colIndex, int rowIndex)
 	{
 		rowCanvas.setLineIndex(rowIndex);
 		colCanvas.setLociIndex(colIndex);
 		mapCanvas.setLociIndex(colIndex);
+	}
+
+	// Called whenever the view's data has changed, and components need to be
+	// repainted with the new information
+	void viewUpdated(boolean refreshOverview)
+	{
+		listPanel.setView(view);
+		canvas.repaint();
+
+		if (refreshOverview)
+			OverviewManager.createImage();
 	}
 }

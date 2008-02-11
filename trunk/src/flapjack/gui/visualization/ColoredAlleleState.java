@@ -52,7 +52,7 @@ class ColoredAlleleState
 
 
 		// For future reference: color-convert op that modifies an existing
-		// image and changes it to grayscale - SLOW
+		// image and changes it to greyscale - SLOW
 
 //		ColorConvertOp op = new ColorConvertOp(
 //			ColorSpace.getInstance(ColorSpace.CS_GRAY), null);
