@@ -135,4 +135,21 @@ public class GTView
 	{
 		return map;
 	}
+
+	public void moveLine(int fromIndex, int toIndex)
+	{
+		// Check we're not out of bounds
+		if (toIndex < 0 || fromIndex < 0)
+			return;
+		if (toIndex >= lines.size() || fromIndex >= lines.size())
+			return;
+
+		// Swap the lines
+		int oldValue = lines.get(fromIndex);
+		lines.set(fromIndex, lines.get(toIndex));
+		lines.set(toIndex, oldValue);
+
+		// Remember to update the lines cache
+		cacheLines();
+	}
 }

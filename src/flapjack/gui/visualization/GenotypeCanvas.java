@@ -98,7 +98,7 @@ class GenotypeCanvas extends JPanel
 
 		// Once we have suitable width/height values, the scrollbars can be made
 		// to lock to those so we never have to draw less than a full box
-		gPanel.computeScrollbarAdjustmentValues(boxW, boxH);
+		gPanel.setScrollbarAdjustmentValues(boxW, boxH);
 
 		boxTotalX = view.getMarkerCount();
 		boxTotalY = view.getLineCount();
@@ -248,46 +248,17 @@ class GenotypeCanvas extends JPanel
 
 		for (int yIndex = yS, y = (boxH*yS); yIndex <= yE; yIndex++, y += boxH)
 		{
-//			GenotypeData data = genotypeLines.get(yIndex);
-
 			for (int xIndex = xS, x = (boxW*xS); xIndex <= xE; xIndex++, x += boxW)
 			{
-//				int state = data.getState(xIndex);
-
 				int state = view.getState(yIndex, xIndex);
-
-//				int compState = genotypeLines.get(10).getState(xIndex);
+//				int compState = view.getState(0, xIndex);
 
 				if (state > 0)
 				{
-//					AlleleState as = table.getAlleleState(data.getState(xIndex));
-
-//					g.setPaint(new GradientPaint(x, y, cTable.get(state).getBrightColor(), x+boxW, y+boxH, cTable.get(state).getDarkColor()));
-//					g.setColor(table.getAlleleState(data.getState(xIndex)).getColor());
-
-//					g.fillRect(x, y, boxW, boxH);
-					g.drawImage(cTable.get(state).getImage(), x, y, null);
-
-/*					if (y == 10 || state == compState)
-					{
-						g.drawImage(cTable.get(1).getImage(), x, y, null);
-					}
-					else
-					{
-						g.drawImage(cTable.get(2).getImage(), x, y, null);
-					}
-*/
-//					g.setColor(Color.white);
-//					g.drawRect(x, y, boxW, boxH);
-
-//					if (dataSet.getStateTable().getAlleleState(loci[xIndex]).isHomozygous() == false)
-//					{
-//						g.setColor(Color.black);
-//						g.drawRect(x, y, boxW, boxH);
-//					}
-
-//					g.setColor(Color.black);
-//					g.drawString("" + data.getState(xIndex), x+2, y+boxH-3);
+//					if (state != compState || yIndex == 0)
+						g.drawImage(cTable.get(state).getImage(), x, y, null);
+//					else
+//						g.drawImage(cTable.get(state).getGSImage(), x, y, null);
 				}
 			}
 		}

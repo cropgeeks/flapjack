@@ -11,6 +11,10 @@ class CanvasMouseListener extends MouseInputAdapter
 	private GenotypeCanvas canvas;
 	private GenotypePanel gPanel;
 
+	private Point dragPoint;
+
+	private int selectedLine = -1;
+
 	CanvasMouseListener(GenotypeCanvas canvas, GenotypePanel gPanel)
 	{
 		this.canvas = canvas;
@@ -22,6 +26,9 @@ class CanvasMouseListener extends MouseInputAdapter
 
 	public void mouseClicked(MouseEvent e)
 	{
+		if (SwingUtilities.isRightMouseButton(e))
+			return;
+
 		if (e.isControlDown() && e.getClickCount() == 2)// && canvas.boxH == 16)
 		{
 			canvas.removeMouseListener(this);
@@ -53,23 +60,80 @@ class CanvasMouseListener extends MouseInputAdapter
 		}
 	}
 
+	public void mousePressed(MouseEvent e)
+	{
+		if (SwingUtilities.isLeftMouseButton(e))
+		{
+			if (e.isControlDown())
+				selectedLine = e.getPoint().y / canvas.boxH;
+			else
+				dragPoint = e.getPoint();
+		}
+	}
+
+	public void mouseReleased(MouseEvent e)
+	{
+		dragPoint = null;
+		selectedLine = -1;
+
+		gPanel.viewUpdated(true);
+
+		canvas.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+	}
+
+	public void mouseDragged(MouseEvent e)
+	{
+		int x = e.getPoint().x;
+		int y = e.getPoint().y;
+
+		// Moving lines...
+		if (selectedLine != -1)
+		{
+			// this.selectedLine is its old position...this will be its new one
+			int newLine = e.getPoint().y / canvas.boxH;
+
+			// Force the new line position to be either at the top or the bottom
+			// of the dataset, IF the cursor has gone beyond the limits
+			if (newLine < 0)
+				newLine = 0;
+			else if (newLine >= canvas.view.getLineCount())
+				newLine = canvas.view.getLineCount()-1;
+
+			if (newLine != selectedLine)
+			{
+				// Move the line
+				canvas.view.moveLine(selectedLine, newLine);
+				selectedLine = newLine;
+
+				// Update the view
+				gPanel.viewUpdated(false);
+
+				// And ensure wherever the line now is, it's still visible
+				canvas.scrollRectToVisible(new Rectangle(x-5, y-5, 10, 10));
+			}
+		}
+
+		// Dragging the canvas...
+		if (dragPoint != null)
+		{
+			canvas.setCursor(new Cursor(Cursor.HAND_CURSOR));
+
+			int diffX = dragPoint.x - x;
+			int diffY = dragPoint.y - y;
+
+			gPanel.moveBy(diffX, diffY);
+		}
+	}
+
 	public void mouseMoved(MouseEvent e)
 	{
-		try
-		{
-			int x = e.getPoint().x;
-			int y = e.getPoint().y;
+		int x = e.getPoint().x;
+		int y = e.getPoint().y;
 
-			int xIndex = x / canvas.boxW;
-			int yIndex = y / canvas.boxH;
+		int xIndex = x / canvas.boxW;
+		int yIndex = y / canvas.boxH;
 
-			gPanel.overRow(xIndex, yIndex);
-
-
-//			System.out.println("xIndex = " + xIndex + ", yIndex = " + yIndex);
-		}
-		// Catching divide-by-zero if the canvas has no data (and hence size)
-		catch (ArithmeticException ae) {}
+		gPanel.overRow(xIndex, yIndex);
 	}
 
 	public void mouseExited(MouseEvent e)
