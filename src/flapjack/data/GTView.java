@@ -39,10 +39,9 @@ public class GTView
 
 		lines = new Vector<Integer>(dataSet.countLines());
 
-		// Normal order
+		// For each (original) line in the dataset, we add the index of it to
+		// are mapping for this view
 		for (int i = 0; i < dataSet.countLines(); i++)
-		// Reverse order
-//		for (int i = dataSet.countLines()-1; i >= 0; i--)
 			lines.add(i);
 	}
 

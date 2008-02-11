@@ -13,12 +13,16 @@ class ColoredAlleleState
 
 	// AWT representation of this color, plus brighter and darker versions
 	private Color color, colorB, colorD;
-	private BufferedImage image;
+	private Color gsColor;
 
-	// Greyscale representation of the image
+	// Buffered image used to draw this allele to the canvas
+	// This version is the normal view
+	private BufferedImage image;
+	// And this is the greyscale representation of it
 	private BufferedImage gsImage;
 
-	int w, h;
+	// Width and height of the image
+	private int w, h;
 
 	ColoredAlleleState(AlleleState state, int w, int h)
 	{
@@ -30,19 +34,40 @@ class ColoredAlleleState
 		if (state.toString().length() > 0)
 		{
 			createColor();
-			createBuffer();
+
+			image = createBuffer(colorB, colorD);
+			gsImage = createBuffer(getGSColor(colorB), getGSColor(colorD));
 		}
 	}
 
-	private void createBuffer()
+	private Color getGSColor(Color color)
 	{
-		image = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
+		// Cheap and simple conversion - average of the three colours
+//		int gs = (int) ((color.getRed()+color.getGreen()+color.getBlue())/3);
+
+		// Luminance conversion - reflects human vision better (apparently)
+		int gs = (int) (0.3*color.getRed()+0.59*color.getGreen()+0.11*color.getBlue());
+
+		return new Color(gs, gs, gs);
+
+
+		// For future reference: color-convert op that modifies an existing
+		// image and changes it to grayscale - SLOW
+
+//		ColorConvertOp op = new ColorConvertOp(
+//			ColorSpace.getInstance(ColorSpace.CS_GRAY), null);
+//		image = op.filter(image, null);
+	}
+
+	private BufferedImage createBuffer(Color c1, Color c2)
+	{
+		BufferedImage image = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
 		Graphics2D g = image.createGraphics();
 
 //		g.setColor(Color.white);
 //		g.fillRect(0, 0, w, h);
 
-		g.setPaint(new GradientPaint(0, 0, colorB, w, h, colorD));
+		g.setPaint(new GradientPaint(0, 0, c1, w, h, c2));
 
 		Rectangle2D.Float r = null;
 
@@ -79,9 +104,7 @@ class ColoredAlleleState
 //		g.fillRect(0, 0, w, h);
 		g.dispose();
 
-
-//		ColorConvertOp op = new ColorConvertOp(ColorSpace.getInstance(ColorSpace.CS_GRAY), null);
-//		gsImage = op.filter(image, null);
+		return image;
 	}
 
 	public BufferedImage getImage()
@@ -105,6 +128,8 @@ class ColoredAlleleState
 		color = new Color(r, g, b);
 		colorB = color.brighter();
 		colorD = color.darker();
+
+		gsColor = getGSColor(color);
 	}
 
 	public Color getColor()
