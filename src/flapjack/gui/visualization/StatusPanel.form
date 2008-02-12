@@ -18,8 +18,8 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="label2" min="-2" max="-2" attributes="0"/>
-                  <Component id="label3" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="label1" min="-2" max="-2" attributes="0"/>
+                  <Component id="label2" alignment="0" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
@@ -39,12 +39,12 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="label2" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="label1" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="lineLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="label3" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="label2" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="markerLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -58,12 +58,12 @@
   <SubComponents>
     <Component class="javax.swing.JSlider" name="sizeSlider">
     </Component>
-    <Component class="javax.swing.JLabel" name="label2">
+    <Component class="javax.swing.JLabel" name="label1">
       <Properties>
         <Property name="text" type="java.lang.String" value="Line:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="label3">
+    <Component class="javax.swing.JLabel" name="label2">
       <Properties>
         <Property name="text" type="java.lang.String" value="Marker:"/>
       </Properties>
