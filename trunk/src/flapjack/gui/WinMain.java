@@ -109,7 +109,9 @@ public class WinMain extends JFrame
 		if (ProjectSerializer.okToContinue(project, false) == false)
 			return;
 
-		Project openedProject = ProjectSerializer.open(file);
+		SaveLoadDialog dialog = new SaveLoadDialog(false);
+		Project openedProject = dialog.open(file);
+
 		if (openedProject != null)
 		{
 			project = openedProject;
@@ -118,17 +120,19 @@ public class WinMain extends JFrame
 		}
 	}
 
-	void fileSave(boolean saveAs)
+	public boolean fileSave(boolean saveAs)
 	{
-		setCursor(new Cursor(Cursor.WAIT_CURSOR));
+		SaveLoadDialog dialog = new SaveLoadDialog(true);
 
-		if (ProjectSerializer.save(project, saveAs))
+		if (dialog.save(project, saveAs))
 		{
 			Actions.projectSaved();
 			menubar.createRecentMenu(project.filename);
+
+			return true;
 		}
 
-		setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+		return false;
 	}
 
 	void fileImport()
