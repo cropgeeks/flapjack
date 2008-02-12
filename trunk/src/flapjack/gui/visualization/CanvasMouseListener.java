@@ -73,11 +73,16 @@ class CanvasMouseListener extends MouseInputAdapter
 
 	public void mouseReleased(MouseEvent e)
 	{
+		// If a line was moved during the mouse movement, reset it and update
+		// the overview images
+		if (selectedLine != -1)
+		{
+			selectedLine = -1;
+			OverviewManager.createImage();
+		}
+
+		// Reset any dragging variables
 		dragPoint = null;
-		selectedLine = -1;
-
-		gPanel.viewUpdated(true);
-
 		canvas.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 	}
 
@@ -103,10 +108,12 @@ class CanvasMouseListener extends MouseInputAdapter
 			{
 				// Move the line
 				canvas.view.moveLine(selectedLine, newLine);
+				gPanel.listPanel.moveLine(selectedLine, newLine);
+
 				selectedLine = newLine;
 
 				// Update the view
-				gPanel.viewUpdated(false);
+				canvas.repaint();
 
 				// And ensure wherever the line now is, it's still visible
 				canvas.scrollRectToVisible(new Rectangle(x-5, y-5, 10, 10));

@@ -176,6 +176,8 @@ class MapCanvas extends JPanel
 
 		public void run()
 		{
+			setPriority(Thread.MIN_PRIORITY);
+
 			try
 			{
 				buffer = new BufferedImage(w, h, BufferedImage.TYPE_BYTE_GRAY);

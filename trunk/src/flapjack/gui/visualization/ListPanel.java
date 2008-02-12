@@ -52,6 +52,18 @@ class ListPanel extends JPanel
 		populateList();
 	}
 
+	void moveLine(int fromIndex, int toIndex)
+	{
+		// TODO: this is a slow operation on very large lists. Not sure why as
+		// the same operation performed on a raw Vector is very fast, so
+		// something in the way JList handles changes to its data must be the
+		// reason why it's slow.
+
+		Line line = (Line) model.get(fromIndex);
+		model.set(fromIndex, model.get(toIndex));
+		model.set(toIndex, line);
+	}
+
 	static class ListRenderer extends JLabel implements ListCellRenderer
 	{
 		public ListRenderer()
