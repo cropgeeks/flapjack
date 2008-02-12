@@ -9,6 +9,7 @@ import org.exolab.castor.xml.*;
 
 import flapjack.data.*;
 import flapjack.gui.*;
+import flapjack.gui.dialog.SaveLoadDialog;
 import flapjack.other.Filters;
 import static flapjack.other.Filters.*;
 
@@ -48,7 +49,7 @@ public class ProjectSerializer
 		}
 	}
 
-	public static boolean save(Project project, boolean saveAs)
+	public static boolean querySave(Project project, boolean saveAs)
 	{
 		// If the project has never been saved, then we have to prompt for file
 		if (project.filename == null)
@@ -58,7 +59,11 @@ public class ProjectSerializer
 		if (saveAs && (showSaveAsDialog(project) == false))
 			return false;
 
+		return true;
+	}
 
+	public static boolean save(Project project)
+	{
 		try
 		{
 			if (initialize() == false)
@@ -109,14 +114,14 @@ public class ProjectSerializer
 		{
 			e.printStackTrace();
 			TaskDialog.error(
-				RB.format("io.ProjectSerializer.xml", e.getMessage()),
+				RB.format("io.ProjectSerializer.xmlWriteException", e.getMessage()),
 				RB.getString("gui.text.close"));
 		}
 
 		return false;
 	}
 
-	public static Project open(File file)
+	public static File queryOpen(File file)
 	{
 		// Prompt for the file to open if we haven't been given one
 		if (file == null)
@@ -124,7 +129,11 @@ public class ProjectSerializer
 			if ((file = showOpenDialog()) == null)
 				return null;
 
+		return file;
+	}
 
+	public static Project open(File file)
+	{
 		try
 		{
 			if (initialize() == false)
@@ -166,7 +175,7 @@ public class ProjectSerializer
 		{
 			e.printStackTrace();
 			TaskDialog.error(
-				RB.format("io.ProjectSerializer.xml", e.getMessage()),
+				RB.format("io.ProjectSerializer.xmlReadException", e.getMessage()),
 				RB.getString("gui.text.close"));
 		}
 
@@ -261,7 +270,8 @@ public class ProjectSerializer
 				int response = TaskDialog.show(msg, MsgBox.WAR, 0, options);
 
 				if (response == 0)
-					return save(project, false);
+					// TODO: This is messy - find a better way of handling
+					return Flapjack.winMain.fileSave(false);
 				else if (response == 1)
 					return true;
 				else if (response == -1 || response == 2)
