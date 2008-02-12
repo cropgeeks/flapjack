@@ -15,21 +15,22 @@ public class GenotypePanel extends JPanel
 	private GTView view;
 
 	// The various (main) components that make up the display panel
-	ListPanel listPanel;
 	private GenotypeCanvas canvas;
 	private MapCanvas mapCanvas;
 	private RowCanvas rowCanvas;
 	private ColCanvas colCanvas;
 
+	ListPanel listPanel;
+	StatusPanel statusPanel;
+
 	// Secondary components needed by the panel
 	private JTabbedPane tabs;
 	private JPanel displayPanel;
-	private JSlider sizeSlider;
 	private JScrollPane sp;
 	private JScrollBar hBar, vBar;
 	private JViewport viewport;
 
-	private int size = 11;
+//	private int size = 11;
 
 
 	public GenotypePanel(WinMain winMain)
@@ -42,12 +43,9 @@ public class GenotypePanel extends JPanel
 		centerPanel.add(rowCanvas, BorderLayout.SOUTH);
 		centerPanel.add(colCanvas, BorderLayout.EAST);
 
-		JPanel sliderPanel = new JPanel();
-		sliderPanel.add(sizeSlider);
-
 		displayPanel = new JPanel(new BorderLayout());
 		displayPanel.add(centerPanel);
-		displayPanel.add(sliderPanel, BorderLayout.SOUTH);
+		displayPanel.add(statusPanel, BorderLayout.SOUTH);
 
 		setLayout(new BorderLayout());
 		add(tabs);
@@ -68,20 +66,18 @@ public class GenotypePanel extends JPanel
 		vBar.addAdjustmentListener(this);
 
 		canvas = new GenotypeCanvas(this);
-		listPanel = new ListPanel();
 		rowCanvas = new RowCanvas(canvas);
 		colCanvas = new ColCanvas(canvas);
 		mapCanvas = new MapCanvas(canvas);
+
+		listPanel = new ListPanel();
+		statusPanel = new StatusPanel(this);
 
 		OverviewManager.initialize(winMain, this, canvas);
 
 		sp.setRowHeaderView(listPanel);
 		sp.setViewportView(canvas);
 		sp.getViewport().setBackground(Color.white);
-
-		sizeSlider = new JSlider(1, 25, 7);
-		sizeSlider.addChangeListener(this);
-
 
 		addComponentListener(new ComponentAdapter() {
 			public void componentResized(ComponentEvent e) {
@@ -123,6 +119,7 @@ public class GenotypePanel extends JPanel
 
 		canvas.setView(view);
 		listPanel.setView(view);
+		statusPanel.setView(view);
 
 		tabs.setComponentAt(mapIndex, displayPanel);
 		computePanelSizes();
@@ -153,7 +150,7 @@ public class GenotypePanel extends JPanel
 
 	public void stateChanged(ChangeEvent e)
 	{
-		if (e.getSource() == sizeSlider)
+		if (e.getSource() == statusPanel.getSlider())
 		{
 			computePanelSizes();
 			repaint();
@@ -175,7 +172,7 @@ public class GenotypePanel extends JPanel
 
 	private void computePanelSizes()
 	{
-		size = sizeSlider.getValue();
+		int size = statusPanel.getSlider().getValue();
 
 		listPanel.computeDimensions(size);
 		canvas.computeDimensions(size);
@@ -201,7 +198,8 @@ public class GenotypePanel extends JPanel
 	{
 		if (e.isControlDown())
 		{
-			sizeSlider.setValue(sizeSlider.getValue() + e.getWheelRotation());
+			int currentValue = statusPanel.getSlider().getValue();
+			statusPanel.getSlider().setValue(currentValue + e.getWheelRotation());
 		}
 	}
 
@@ -242,5 +240,8 @@ public class GenotypePanel extends JPanel
 		rowCanvas.setLineIndex(rowIndex);
 		colCanvas.setLociIndex(colIndex);
 		mapCanvas.setLociIndex(colIndex);
+
+		statusPanel.setLineIndex(rowIndex);
+		statusPanel.setMarkerIndex(colIndex);
 	}
 }
