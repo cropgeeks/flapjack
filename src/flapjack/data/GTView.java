@@ -149,7 +149,9 @@ public class GTView
 		lines.set(fromIndex, lines.get(toIndex));
 		lines.set(toIndex, oldValue);
 
-		// Remember to update the lines cache
-		cacheLines();
+		// And swap the cache too
+		GenotypeData oldData = genotypeLines.get(fromIndex);
+		genotypeLines.set(fromIndex, genotypeLines.get(toIndex));
+		genotypeLines.set(toIndex, oldData);
 	}
 }

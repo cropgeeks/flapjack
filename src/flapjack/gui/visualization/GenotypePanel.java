@@ -15,7 +15,7 @@ public class GenotypePanel extends JPanel
 	private GTView view;
 
 	// The various (main) components that make up the display panel
-	private ListPanel listPanel;
+	ListPanel listPanel;
 	private GenotypeCanvas canvas;
 	private MapCanvas mapCanvas;
 	private RowCanvas rowCanvas;
@@ -242,16 +242,5 @@ public class GenotypePanel extends JPanel
 		rowCanvas.setLineIndex(rowIndex);
 		colCanvas.setLociIndex(colIndex);
 		mapCanvas.setLociIndex(colIndex);
-	}
-
-	// Called whenever the view's data has changed, and components need to be
-	// repainted with the new information
-	void viewUpdated(boolean refreshOverview)
-	{
-		listPanel.setView(view);
-		canvas.repaint();
-
-		if (refreshOverview)
-			OverviewManager.createImage();
 	}
 }
