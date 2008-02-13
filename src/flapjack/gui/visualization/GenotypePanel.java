@@ -15,8 +15,10 @@ public class GenotypePanel extends JPanel
 	private GTView view;
 
 	// The various (main) components that make up the display panel
+	// Non-private components will also be . accessed by other components rather
+	// than passing messages through this class all the time
 	private GenotypeCanvas canvas;
-	private MapCanvas mapCanvas;
+	MapCanvas mapCanvas;
 	private RowCanvas rowCanvas;
 	private ColCanvas colCanvas;
 

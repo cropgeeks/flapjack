@@ -11,9 +11,11 @@ class CanvasMouseListener extends MouseInputAdapter
 	private GenotypeCanvas canvas;
 	private GenotypePanel gPanel;
 
-	private Point dragPoint;
+	// Deals with interative issues
+	private InteractiveHandler iHandler = new InteractiveHandler();
+	// Deals with navigation issues
+	private NavigationHandler nHandler = new NavigationHandler();
 
-	private int selectedLine = -1;
 
 	CanvasMouseListener(GenotypeCanvas canvas, GenotypePanel gPanel)
 	{
@@ -65,80 +67,28 @@ class CanvasMouseListener extends MouseInputAdapter
 		if (SwingUtilities.isLeftMouseButton(e))
 		{
 			if (e.isControlDown())
-				selectedLine = e.getPoint().y / canvas.boxH;
+				iHandler.mousePressed(e);
 			else
-				dragPoint = e.getPoint();
+				nHandler.mousePressed(e);
 		}
 	}
 
 	public void mouseReleased(MouseEvent e)
 	{
-		// If a line was moved during the mouse movement, reset it and update
-		// the overview images
-		if (selectedLine != -1)
-		{
-			selectedLine = -1;
-			OverviewManager.createImage();
-		}
-
-		// Reset any dragging variables
-		dragPoint = null;
-		canvas.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+		iHandler.mouseReleased(e);
+		nHandler.mouseReleased(e);
 	}
 
 	public void mouseDragged(MouseEvent e)
 	{
-		int x = e.getPoint().x;
-		int y = e.getPoint().y;
-
-		// Moving lines...
-		if (selectedLine != -1)
-		{
-			// this.selectedLine is its old position...this will be its new one
-			int newLine = e.getPoint().y / canvas.boxH;
-
-			// Force the new line position to be either at the top or the bottom
-			// of the dataset, IF the cursor has gone beyond the limits
-			if (newLine < 0)
-				newLine = 0;
-			else if (newLine >= canvas.view.getLineCount())
-				newLine = canvas.view.getLineCount()-1;
-
-			if (newLine != selectedLine)
-			{
-				// Move the line
-				canvas.view.moveLine(selectedLine, newLine);
-				gPanel.listPanel.moveLine(selectedLine, newLine);
-
-				selectedLine = newLine;
-
-				// Update the view
-				canvas.repaint();
-
-				// And ensure wherever the line now is, it's still visible
-				canvas.scrollRectToVisible(new Rectangle(x-5, y-5, 10, 10));
-			}
-		}
-
-		// Dragging the canvas...
-		if (dragPoint != null)
-		{
-			canvas.setCursor(new Cursor(Cursor.HAND_CURSOR));
-
-			int diffX = dragPoint.x - x;
-			int diffY = dragPoint.y - y;
-
-			gPanel.moveBy(diffX, diffY);
-		}
+		iHandler.mouseDragged(e);
+		nHandler.mouseDragged(e);
 	}
 
 	public void mouseMoved(MouseEvent e)
 	{
-		int x = e.getPoint().x;
-		int y = e.getPoint().y;
-
-		int xIndex = x / canvas.boxW;
-		int yIndex = y / canvas.boxH;
+		int xIndex = e.getPoint().x / canvas.boxW;
+		int yIndex = e.getPoint().y / canvas.boxH;
 
 		gPanel.overRow(xIndex, yIndex);
 	}
@@ -146,6 +96,133 @@ class CanvasMouseListener extends MouseInputAdapter
 	public void mouseExited(MouseEvent e)
 	{
 		gPanel.overRow(-1, -1);
+	}
+
+	/** Inner class to handle interactive mouse events (moving lines etc). */
+	private class InteractiveHandler
+	{
+		private boolean isLineSelected = false;
+		private int selectedLine = -1;
+		private boolean isMarkerSelected = false;
+		private int selectedMarker = -1;
+
+		void mousePressed(MouseEvent e)
+		{
+			selectedLine = e.getPoint().y / canvas.boxH;
+			selectedMarker = e.getPoint().x / canvas.boxW;
+		}
+
+		void mouseReleased(MouseEvent e)
+		{
+			// If a line was moved during the mouse movement, reset it and update
+			// the overview images
+			if (selectedLine != -1)
+			{
+				isLineSelected = false;
+				selectedLine = -1;
+				OverviewManager.createImage();
+			}
+
+			if (selectedMarker != -1)
+			{
+				isMarkerSelected = false;
+				selectedMarker = -1;
+				OverviewManager.createImage();
+				gPanel.mapCanvas.createImage();
+			}
+		}
+
+		void mouseDragged(MouseEvent e)
+		{
+			int x = e.getPoint().x;
+			int y = e.getPoint().y;
+
+			// Moving lines...
+			if (selectedLine != -1 && !isMarkerSelected)
+			{
+				// this.selectedLine is its old position...this will be its new one
+				int newLine = e.getPoint().y / canvas.boxH;
+
+				// Force the new line position to be either at the top or the bottom
+				// of the dataset, IF the cursor has gone beyond the limits
+				if (newLine < 0)
+					newLine = 0;
+				else if (newLine >= canvas.view.getLineCount())
+					newLine = canvas.view.getLineCount()-1;
+
+				if (newLine != selectedLine)
+				{
+					// Move the line
+					canvas.view.moveLine(selectedLine, newLine);
+					gPanel.listPanel.moveLine(selectedLine, newLine);
+
+					// Update the view
+					selectedLine = newLine;
+					canvas.repaint();
+
+					// And ensure wherever the line now is, it's still visible
+					canvas.scrollRectToVisible(new Rectangle(x-5, y-5, 10, 10));
+					isLineSelected = true;
+				}
+			}
+
+			// Moving markers...
+			if (selectedMarker != -1 && !isLineSelected)
+			{
+				int newMarker = e.getPoint().x / canvas.boxW;
+
+				if (newMarker < 0)
+					newMarker = 0;
+				else if (newMarker >= canvas.view.getMarkerCount())
+					newMarker = canvas.view.getMarkerCount()-1;
+
+				if (newMarker != selectedMarker)
+				{
+					// Move the marker
+					canvas.view.moveMarker(selectedMarker, newMarker);
+
+					// Update the view
+					selectedMarker = newMarker;
+					canvas.repaint();
+
+					// And ensure wherever the marker now is, it's still visible
+					canvas.scrollRectToVisible(new Rectangle(x-5, y-5, 10, 10));
+					isMarkerSelected = true;
+				}
+			}
+		}
+	}
+
+	/** Inner class to handle navigation mouse events (dragging the canvas etc). */
+	private class NavigationHandler
+	{
+		private Point dragPoint;
+
+		void mousePressed(MouseEvent e)
+		{
+			dragPoint = e.getPoint();
+		}
+
+		void mouseReleased(MouseEvent e)
+		{
+			// Reset any dragging variables
+			dragPoint = null;
+			canvas.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+		}
+
+		void mouseDragged(MouseEvent e)
+		{
+			// Dragging the canvas...
+			if (dragPoint != null)
+			{
+				canvas.setCursor(new Cursor(Cursor.HAND_CURSOR));
+
+				int diffX = dragPoint.x - e.getPoint().x;
+				int diffY = dragPoint.y - e.getPoint().y;
+
+				gPanel.moveBy(diffX, diffY);
+			}
+		}
 	}
 }
 
