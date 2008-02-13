@@ -48,6 +48,11 @@ class MapCanvas extends JPanel
 
 		xScale = canvas.canvasW / canvas.view.getMapLength();
 
+		createImage();
+	}
+
+	void createImage()
+	{
 		image = null;
 
 		if (bufferFactory != null)

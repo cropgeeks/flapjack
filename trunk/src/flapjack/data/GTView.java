@@ -16,6 +16,8 @@ public class GTView
 	// Holds the index positions of the lines as they appear in the actual
 	// dataset's vector of lines
 	private Vector<Integer> lines;
+	// Same for the marker positions
+	private Vector<Integer> markers;
 
 	// Contains the name of the map above - stored in the xml so we can
 	// reassociate the map properly (via Java references after deserialization)
@@ -37,12 +39,16 @@ public class GTView
 
 		mapName = map.getName();
 
-		lines = new Vector<Integer>(dataSet.countLines());
-
 		// For each (original) line in the dataset, we add the index of it to
 		// are mapping for this view
+		lines = new Vector<Integer>(dataSet.countLines());
 		for (int i = 0; i < dataSet.countLines(); i++)
 			lines.add(i);
+
+		// For each (original) marker in the dataset...
+		markers = new Vector<Integer>(dataSet.countMarkers());
+		for (int i = 0; i < dataSet.countMarkers(); i++)
+			markers.add(i);
 	}
 
 
@@ -59,6 +65,12 @@ public class GTView
 
 	public void setLines(Vector<Integer> lines)
 		{ this.lines = lines; }
+
+	public Vector<Integer> getMarkers()
+		{ return markers; }
+
+	public void setMarkers(Vector<Integer> markers)
+		{ this.markers = markers; }
 
 
 	// Other methods
@@ -102,7 +114,7 @@ public class GTView
 	 */
 	public int getState(int line, int marker)
 	{
-		return genotypeLines.get(line).getState(marker);
+		return genotypeLines.get(line).getState(markers.get(marker));
 	}
 
 	public int getMarkerCount()
@@ -127,8 +139,7 @@ public class GTView
 
 	public Marker getMarker(int index)
 	{
-		// TODO: needs changed once we have a wrapper array for marker data
-		return map.getMarkerByIndex(index);
+		return map.getMarkerByIndex(markers.get(index));
 	}
 
 	public ChromosomeMap getChromosomeMap()
@@ -153,5 +164,19 @@ public class GTView
 		GenotypeData oldData = genotypeLines.get(fromIndex);
 		genotypeLines.set(fromIndex, genotypeLines.get(toIndex));
 		genotypeLines.set(toIndex, oldData);
+	}
+
+	public void moveMarker(int fromIndex, int toIndex)
+	{
+		// Check we're not out of bounds
+		if (toIndex < 0 || fromIndex < 0)
+			return;
+		if (toIndex >= markers.size() || fromIndex >= markers.size())
+			return;
+
+		// Swap the lines
+		int oldValue = markers.get(fromIndex);
+		markers.set(fromIndex, markers.get(toIndex));
+		markers.set(toIndex, oldValue);
 	}
 }
