@@ -152,9 +152,20 @@ class CanvasMouseListener extends MouseInputAdapter
 
 				if (newLine != selectedLine)
 				{
-					// Move the line
-					canvas.view.moveLine(selectedLine, newLine);
-					gPanel.listPanel.moveLine(selectedLine, newLine);
+					// Moving up...
+					if (newLine < selectedLine)
+						for (int i = selectedLine; i > newLine; i--)
+						{
+							canvas.view.moveLine(i, i-1);
+							gPanel.listPanel.moveLine(i, i-1);
+						}
+					// Moving down...
+					else if (newLine > selectedLine)
+						for (int i = selectedLine; i < newLine; i++)
+						{
+							canvas.view.moveLine(i, i+1);
+							gPanel.listPanel.moveLine(i, i+1);
+						}
 
 					// Update the view
 					selectedLine = newLine;
@@ -178,8 +189,14 @@ class CanvasMouseListener extends MouseInputAdapter
 
 				if (newMarker != selectedMarker)
 				{
-					// Move the marker
-					canvas.view.moveMarker(selectedMarker, newMarker);
+					// Moving left...
+					if (newMarker < selectedMarker)
+						for (int i = selectedMarker; i > newMarker; i--)
+							canvas.view.moveMarker(i, i-1);
+					// Moving right...
+					else if (newMarker > selectedMarker)
+						for (int i = selectedMarker; i < newMarker; i++)
+							canvas.view.moveMarker(i, i+1);
 
 					// Update the view
 					selectedMarker = newMarker;
