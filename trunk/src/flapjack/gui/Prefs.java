@@ -37,5 +37,8 @@ public class Prefs extends XMLPreferences
 	public static int guiOverviewHeight = 300;
 	public static int guiOverviewX = 0;
 	public static int guiOverviewY = 0;
-	public static int guiOverviewSplitsLocation = 355;
+	public static int guiOverviewSplitsLocation = 375;
+
+	// The type of back-buffer we want to use for faster rendering
+	public static int guiBackBufferType = java.awt.image.BufferedImage.TYPE_INT_RGB;
 }

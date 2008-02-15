@@ -16,6 +16,7 @@ public class WinMain extends JFrame
 {
 	private WinMainMenuBar menubar;
 	private WinMainToolBar toolbar;
+	private WinMainStatusBar statusbar;
 
 	private NavPanel navPanel;
 
@@ -30,6 +31,7 @@ public class WinMain extends JFrame
 
 		menubar = new WinMainMenuBar(this);
 		toolbar = new WinMainToolBar();
+		statusbar = new WinMainStatusBar();
 		setJMenuBar(menubar);
 
 		navPanel = new NavPanel(this);
@@ -37,6 +39,7 @@ public class WinMain extends JFrame
 
 		add(toolbar, BorderLayout.NORTH);
 		add(navPanel);
+		add(statusbar, BorderLayout.SOUTH);
 
 		setSize(Prefs.guiWinMainWidth, Prefs.guiWinMainHeight);
 		setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);

@@ -37,25 +37,6 @@ class CanvasMouseListener extends MouseInputAdapter
 			new MineSweeper(canvas);
 		}
 
-		else if (e.getClickCount() == 2)
-		{
-			if (canvas.renderMode == 0)
-				canvas.renderMode = 1;
-			else
-				canvas.renderMode = 0;
-
-			System.out.println("Drawing to buffer = " + (canvas.renderMode == 1));
-
-//				if (canvas.renderLive)
-//					canvas.setOpaque(true);
-//				else
-//					canvas.setOpaque(false);
-
-			// setOpaque false is the default in JComponent
-
-			canvas.repaint();
-		}
-
 		else if (e.getClickCount() == 1)
 		{
 			canvas.locked = !canvas.locked;
@@ -114,21 +95,16 @@ class CanvasMouseListener extends MouseInputAdapter
 
 		void mouseReleased(MouseEvent e)
 		{
-			// If a line was moved during the mouse movement, reset it and update
-			// the overview images
-			if (selectedLine != -1)
-			{
-				isLineSelected = false;
-				selectedLine = -1;
-				OverviewManager.createImage();
-			}
-
 			if (selectedMarker != -1)
-			{
-				isMarkerSelected = false;
-				selectedMarker = -1;
-				OverviewManager.createImage();
 				gPanel.mapCanvas.createImage();
+
+			if (selectedLine != -1 || selectedMarker != -1)
+			{
+				isLineSelected = isMarkerSelected = false;
+				selectedLine = selectedMarker = -1;
+
+				OverviewManager.createImage();
+				canvas.resetBufferedState(true);
 			}
 		}
 
@@ -169,7 +145,7 @@ class CanvasMouseListener extends MouseInputAdapter
 
 					// Update the view
 					selectedLine = newLine;
-					canvas.repaint();
+					canvas.resetBufferedState(false);
 
 					// And ensure wherever the line now is, it's still visible
 					canvas.scrollRectToVisible(new Rectangle(x-5, y-5, 10, 10));
@@ -200,7 +176,7 @@ class CanvasMouseListener extends MouseInputAdapter
 
 					// Update the view
 					selectedMarker = newMarker;
-					canvas.repaint();
+					canvas.resetBufferedState(false);
 
 					// And ensure wherever the marker now is, it's still visible
 					canvas.scrollRectToVisible(new Rectangle(x-5, y-5, 10, 10));

@@ -26,6 +26,7 @@ class ListPanel extends JPanel
 		model = new DefaultListModel();
 		lineList = new JList(model);
 		lineList.setCellRenderer(new ListRenderer());
+		lineList.setEnabled(false);
 	}
 
 	void setView(GTView view)

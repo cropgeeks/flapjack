@@ -33,12 +33,10 @@ class MineSweeper extends MouseAdapter
 	{
 		this.canvas = canvas;
 
-		canvas.renderMode = 2;
 		canvas.mineSweeper = this;
 
 		canvas.addMouseListener(this);
 		canvas.addMouseMotionListener(this);
-//		canvas.sett
 
 		init();
 	}
@@ -199,7 +197,7 @@ class MineSweeper extends MouseAdapter
 
 	void render(Graphics2D g)
 	{
-		canvas.renderRegion(g);
+//		canvas.renderRegion(g);
 
 		for (int x = 0; x < grid.length; x++)
 			for (int y = 0; y < grid[x].length; y++)

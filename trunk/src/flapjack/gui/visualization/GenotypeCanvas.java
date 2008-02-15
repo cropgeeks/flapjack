@@ -3,23 +3,22 @@ package flapjack.gui.visualization;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.*;
+import java.lang.management.*;
 import java.util.*;
 import javax.swing.*;
 
 import flapjack.data.*;
+import flapjack.gui.*;
 
 class GenotypeCanvas extends JPanel
 {
+	// Memory bean used for monitoring available memory
+	private MemoryMXBean mxBean = ManagementFactory.getMemoryMXBean();
+
 	private GenotypePanel gPanel;
 
 	// The "view" being rendered
 	GTView view;
-
-//	DataSet dataSet;
-//	ChromosomeMap map;
-
-	// For faster rendering, maintain a local cache of the data to be drawn
-//	Vector<GenotypeData> genotypeLines;
 
 	// The current color model
 	ColorTable cTable;
@@ -41,16 +40,19 @@ class GenotypeCanvas extends JPanel
 	// And bottom right hand corner
 	int pX2, pY2;
 
+	// Starting and ending indices of the x (marker) and y (line) data that will
+	// be drawn during the next repaint operation
+	private int xIndexStart, xIndexEnd;
+	private int yIndexStart, yIndexEnd;
+
 	// Holds the current dimensions of the canvas in an AWT friendly format
 	private Dimension dimension = new Dimension();
-
-	// Rendering mode: 0 (real-time), 1 (buffered), 2 (minesweeper)
-	int renderMode = 0;
 
 	// The tooltip object
 	CanvasToolTip tt = new CanvasToolTip();
 
-	private BufferedImage image = null;
+	private BufferFactory bufferFactory;
+	private BufferedImage imageFull;
 
 	MineSweeper mineSweeper;
 
@@ -112,15 +114,7 @@ class GenotypeCanvas extends JPanel
 
 		/////////////////////////
 
-		image = null;
-
-		System.out.println("boxW = " + boxW + ", boxH = " + boxH);
-		System.out.println("canvasW = " + canvasW + ", canvasH = " + canvasH);
-
-		long bufferSize = (long)canvasW * (long)canvasH;
-		System.out.println("Canvas buffer requires: " + (bufferSize/1024f/1024f) + " MB");
-
-		repaint();
+		resetBufferedState(true);
 	}
 
 	// Compute real-time variables, that change as the viewpoint is moved across
@@ -148,7 +142,6 @@ class GenotypeCanvas extends JPanel
 	public Dimension getPreferredSize()
 		{ return dimension; }
 
-
 	public void paintComponent(Graphics graphics)
 	{
 		super.paintComponent(graphics);
@@ -156,15 +149,16 @@ class GenotypeCanvas extends JPanel
 		Graphics2D g = (Graphics2D) graphics;
 
 		long s = System.nanoTime();
-		switch (renderMode)
-		{
-			case 0: renderRegion(g);
-				break;
-			case 1: renderImage(g);
-				break;
-			case 2: mineSweeper.render(g);
-				break;
-		}
+
+		if (imageFull == null)
+			renderRegion(g);
+		else
+			renderImage(g);
+
+		// Post (main-canvas) rendering operations
+		if (mineSweeper != null)
+			mineSweeper.render(g);
+
 		long e = System.nanoTime();
 
 		System.out.println("Render time: " + ((e-s)/1000000f) + "ms");
@@ -172,38 +166,13 @@ class GenotypeCanvas extends JPanel
 
 	private void renderImage(Graphics2D g)
 	{
-		if (image == null)
-		{
-	//		final GenotypeCanvas canvas = this;
-
-	//		Runnable r = new Runnable() {
-	//			public void run() {
-	//				image = new BufferFactory(canvas, canvasW, canvasH).getImage();
-	//			}
-	//		};
-
-			image = new BufferedImage(canvasW, canvasH, BufferedImage.TYPE_BYTE_INDEXED);
-
-//			g.drawImage(imgBuffer, x, y, x+w, y+h, x, y, x+w, y+h, null);
-
-			Graphics2D g2d = image.createGraphics();
-			renderAll(g2d);
-			g2d.dispose();
-		}
-
-		BufferedImage image2 = new BufferedImage(pX2-pX1, pY2-pY1, BufferedImage.TYPE_BYTE_INDEXED);
-		Graphics2D g2d = image2.createGraphics();
-		g2d.drawImage(image, 0, 0, pX2-pX1, pY2-pY1, pX1, pY1, pX2, pY2, null);
+		BufferedImage imageCrop = new BufferedImage(pX2-pX1, pY2-pY1, Prefs.guiBackBufferType);
+		Graphics2D g2d = imageCrop.createGraphics();
+		g2d.drawImage(imageFull, 0, 0, pX2-pX1, pY2-pY1, pX1, pY1, pX2, pY2, null);
 		g2d.dispose();
 
-
-		System.out.println(pX1 + "," + pY1 + "-" + pX2 + "," + pY2);
-
-		g.drawImage(image2, pX1, pY1, Color.white, null);
+		g.drawImage(imageCrop, pX1, pY1, Color.white, null);
 	}
-
-	int xIndexStart, xIndexEnd;
-	int yIndexStart, yIndexEnd;
 
 	void renderRegion(Graphics2D g)
 	{
@@ -224,22 +193,20 @@ class GenotypeCanvas extends JPanel
 		if (yIndexEnd >= boxTotalY)
 			yIndexEnd = boxTotalY-1;
 
-		render(g, xIndexStart, xIndexEnd, yIndexStart, yIndexEnd);
+		render(g, new ImageMonitor(), xIndexStart, xIndexEnd, yIndexStart, yIndexEnd);
 	}
 
-	void renderAll(Graphics2D g)
+	void renderAll(Graphics2D g, ImageMonitor monitor)
 	{
 		xIndexStart = 0;
-		xIndexEnd = boxTotalX-1;
+		xIndexEnd   = boxTotalX-1;
 		yIndexStart = 0;
-		yIndexEnd = boxTotalY-1;
+		yIndexEnd   = boxTotalY-1;
 
-//		render(g, 0, boxTotalX-1, 0, boxTotalY-1);
-
-		render(g, xIndexStart, xIndexEnd, yIndexStart, yIndexEnd);
+		render(g, monitor, xIndexStart, xIndexEnd, yIndexStart, yIndexEnd);
 	}
 
-	private void render(Graphics2D g, int xS, int xE, int yS, int yE)
+	private void render(Graphics2D g, ImageMonitor monitor, int xS, int xE, int yS, int yE)
 	{
 		StateTable table = view.getStateTable();
 
@@ -250,6 +217,9 @@ class GenotypeCanvas extends JPanel
 		{
 			for (int xIndex = xS, x = (boxW*xS); xIndex <= xE; xIndex++, x += boxW)
 			{
+				if (monitor.killMe)
+					break;
+
 				int state = view.getState(yIndex, xIndex);
 //				int compState = view.getState(0, xIndex);
 
@@ -262,5 +232,98 @@ class GenotypeCanvas extends JPanel
 				}
 			}
 		}
+	}
+
+	// Will stop the creation of any back-buffer, and optionally start working
+	// on a new buffer (on the assumption that the view has changed in some way)
+	void resetBufferedState(boolean createNewBuffer)
+	{
+		WinMainStatusBar.setRenderState(0);
+
+		// TODO: do we want to be calling flush?
+		if (imageFull != null)
+			imageFull.flush();
+		imageFull = null;
+
+		if (bufferFactory != null)
+		{
+			bufferFactory.monitor.killMe = true;
+			bufferFactory.interrupt();
+		}
+
+		if (createNewBuffer)
+			bufferFactory = new BufferFactory();
+
+		repaint();
+	}
+
+	private class BufferFactory extends Thread
+	{
+		private ImageMonitor monitor;
+		private BufferedImage buffer;
+
+		BufferFactory()
+		{
+			monitor = new ImageMonitor();
+			start();
+		}
+
+		public void run()
+		{
+			setPriority(Thread.MIN_PRIORITY);
+
+			// Wait for 2 seconds before starting anything - gives the user time
+			// to stop arsing about with the interface
+			try { Thread.sleep(2000); }
+			catch (InterruptedException e) {}
+
+			if (monitor.killMe)
+				return;
+
+			System.runFinalization();
+			System.gc();
+
+
+			// Determine how much memory we need for the back buffer (in bytes)
+			long bufferSize = (long)canvasW * (long)canvasH * 3;
+			long available = mxBean.getHeapMemoryUsage().getMax()
+				- mxBean.getHeapMemoryUsage().getUsed();
+
+			System.out.println("RGB buffer requires: " + (bufferSize/1024f/1024f) + " MB ("
+				+ (available/1024f/1024f) + " MB available)");
+
+			if (bufferSize > 0.75 * available)
+			{
+				WinMainStatusBar.setRenderState(3);
+				return;
+			}
+
+			try	{
+				buffer = new BufferedImage(canvasW, canvasH, Prefs.guiBackBufferType);
+			}
+			catch (Throwable t)	{
+				// Catch out-of-memory errors
+				WinMainStatusBar.setRenderState(4);
+				return;
+			}
+
+			WinMainStatusBar.setRenderState(1);
+
+			// Assuming everything is ok, draw the entire canvas onto the buffer
+			Graphics2D g2d = buffer.createGraphics();
+			renderAll(g2d, monitor);
+			g2d.dispose();
+
+			if (!monitor.killMe)
+			{
+				WinMainStatusBar.setRenderState(2);
+				imageFull = buffer;
+			}
+		}
+	}
+
+	private static class ImageMonitor
+	{
+		boolean killMe = false;
 	}
 }
