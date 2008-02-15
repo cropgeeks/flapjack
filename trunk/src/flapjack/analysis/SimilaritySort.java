@@ -25,8 +25,10 @@ public class SimilaritySort
 		// Work out what those scores are
 		for (int i = 0; i < view.getLineCount(); i++)
 		{
-			int score = getScore(i, 0);
-			scores.add(new LineScore(i, score));
+			SimilarityScore ss = new SimilarityScore(view, 0, i, SimilarityScore.SIMPLE);
+
+			SimilarityScore.Score score = ss.getScore();
+			scores.add(new LineScore(i, score.score, score.nComparisons));
 		}
 
 		// Now sort the array based on those scores
@@ -36,38 +38,55 @@ public class SimilaritySort
 			lines.set(i, scores.get(i).index);
 
 		System.out.println("Similarity sort in " + (System.currentTimeMillis()-s) + "ms");
-	}
 
-	// Calculates a score for a line by giving it 1 point for each matching
-	// allele state it has with the comparison line
-	private int getScore(int lineIndex, int comparisonIndex)
-	{
-		int score = 0;
 
-		for (int i = 0; i < view.getMarkerCount(); i++)
-			if (view.getState(lineIndex, i) == view.getState(comparisonIndex, i))
-				score++;
+		// Quick all-by-all test
+/*		s = System.currentTimeMillis();
+		int count = 0;
+		for (int i = 0; i < view.getLineCount(); i++)
+			for (int j = i; j < view.getLineCount(); j++)
+			{
+				SimilarityScore ss = new SimilarityScore(view, i, j, SimilarityScore.JACCARD);
+				ss.getScore();
+				count++;
+			}
 
-		return score;
+		System.out.println("Matrix in " + (System.currentTimeMillis()-s) + "ms");
+		System.out.println("Matrix ran " + count + " comparisons");
+*/
 	}
 
 	private static class LineScore implements Comparable<LineScore>
 	{
 		int index;
-		int score;
+		float score;
+		float nComparisons;
 
-		LineScore(int index, int score)
+		LineScore(int index, float score, float nComparisons)
 		{
 			this.index = index;
 			this.score = score;
+			this.nComparisons = nComparisons;
 		}
 
 		public int compareTo(LineScore other)
 		{
+			// Double nested sort - sort on score ratio first, but if the score
+			// matches, also sort on the number of comparisons that were
+			// possible, so a line with 3/3 will score less than one with 4/4
+			// (even though they both have a ratio of 1.0)
+
 			if (score > other.score)
 				return -1;
 			else if (score == other.score)
-				return 0;
+			{
+				if (nComparisons > other.nComparisons)
+					return -1;
+				else if (nComparisons == other.nComparisons)
+					return 0;
+				else
+					return 1;
+			}
 			else
 				return 1;
 		}
