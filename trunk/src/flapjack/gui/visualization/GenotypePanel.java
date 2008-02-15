@@ -21,7 +21,6 @@ public class GenotypePanel extends JPanel
 	MapCanvas mapCanvas;
 	private RowCanvas rowCanvas;
 	private ColCanvas colCanvas;
-
 	ListPanel listPanel;
 	StatusPanel statusPanel;
 
@@ -32,8 +31,7 @@ public class GenotypePanel extends JPanel
 	private JScrollBar hBar, vBar;
 	private JViewport viewport;
 
-//	private int size = 11;
-
+	private boolean isUpdatingView = false;
 
 	public GenotypePanel(WinMain winMain)
 	{
@@ -95,6 +93,10 @@ public class GenotypePanel extends JPanel
 		// Remove all existing tabs
 		tabs.removeAll();
 
+		// Store the viewset's selected map before updating the tabs, because
+		// the tab-code will set the value with 0 before it gets used properly
+		int selectedIndex = viewSet.getViewIndex();
+
 		// Recreate them, one tab per chromosome
 		for (int i = 0; i < viewSet.getChromosomeCount(); i++)
 		{
@@ -107,16 +109,18 @@ public class GenotypePanel extends JPanel
 			tabs.setToolTipTextAt(i, name + " (" + loci + ")");
 		}
 
-		computePanelSizes();
+		// Now set the tabs to the actual index we're interested in
+		tabs.setSelectedIndex(selectedIndex);
 	}
 
 	private void displayMap(int mapIndex)
 	{
-//		map = dataSet.getMapByIndex(mapIndex);
+		System.out.println("Displaying map");
 
-//		view = new GTView(dataSet, map);
-//		view.initialize();
+		isUpdatingView = true;
 
+		viewSet.setViewIndex(mapIndex);
+		System.out.println("Setting viewset index to " + mapIndex);
 		view = viewSet.getView(mapIndex);
 
 		canvas.setView(view);
@@ -124,10 +128,14 @@ public class GenotypePanel extends JPanel
 		statusPanel.setView(view);
 
 		tabs.setComponentAt(mapIndex, displayPanel);
-		computePanelSizes();
+
+		statusPanel.getSlider().setValue(view.getZoom());
+		hBar.setValue(view.getScrollX());
+		vBar.setValue(view.getScrollY());
 
 		// Once everything else is updated/displayed, then update the overview
 		OverviewManager.createImage();
+		isUpdatingView = false;
 	}
 
 	public void adjustmentValueChanged(AdjustmentEvent e)
@@ -137,9 +145,13 @@ public class GenotypePanel extends JPanel
 		// changes will cause scrollbar movement events)
 		canvas.computeForRedraw(viewport.getExtentSize(), viewport.getViewPosition());
 
-		rowCanvas.repaint();
-		colCanvas.repaint();
-		mapCanvas.repaint();
+		if (e.getValueIsAdjusting() == false && isUpdatingView == false)
+		{
+			view.setScrollX(hBar.getValue());
+			view.setScrollY(vBar.getValue());
+
+			System.out.println("scrollbars moved");
+		}
 	}
 
 	void setScrollbarAdjustmentValues(int xIncrement, int yIncrement)
@@ -153,10 +165,7 @@ public class GenotypePanel extends JPanel
 	public void stateChanged(ChangeEvent e)
 	{
 		if (e.getSource() == statusPanel.getSlider())
-		{
 			computePanelSizes();
-			repaint();
-		}
 
 		else if (e.getSource() == tabs)
 		{
@@ -172,12 +181,14 @@ public class GenotypePanel extends JPanel
 		}
 	}
 
+	// When changing the zoom level...
 	private void computePanelSizes()
 	{
-		int size = statusPanel.getSlider().getValue();
+		int zoom = statusPanel.getSlider().getValue();
+		view.setZoom(zoom);
 
-		listPanel.computeDimensions(size);
-		canvas.computeDimensions(size);
+		listPanel.computeDimensions(zoom);
+		canvas.computeDimensions(zoom);
 
 		validate();
 
@@ -186,13 +197,13 @@ public class GenotypePanel extends JPanel
 		repaint();
 	}
 
+	// When resizing the window or changing the zoom level...
 	private void computeRowColSizes()
 	{
 		int cWidth = colCanvas.getWidth();
 
 		rowCanvas.computeDimensions(listPanel.getWidth(), vBar.isVisible() ? (cWidth+vBar.getWidth()) : cWidth);
 		colCanvas.computeDimensions(listPanel.getHeight(), hBar.isVisible() ? hBar.getHeight() : 0);
-
 		mapCanvas.computeDimensions(listPanel.getWidth(), vBar.isVisible() ? (cWidth+vBar.getWidth()) : cWidth);
 	}
 
@@ -216,7 +227,6 @@ public class GenotypePanel extends JPanel
 
 		rowCanvas.updateOverviewSelectionBox(xIndex, xW);
 		colCanvas.updateOverviewSelectionBox(yIndex, yH);
-
 		mapCanvas.updateLociIndices(xIndex, xIndex+xW-1);
 	}
 

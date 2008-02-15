@@ -24,6 +24,9 @@ public class GTView
 	// because Castor's reference="true" feature isn't working (08/02/2008)
 	private String mapName;
 
+	// The positions of the scrollbars, and the current zoom level
+	private int scrollX, scrollY, zoom = 7;
+
 
 	public GTView()
 	{
@@ -71,6 +74,24 @@ public class GTView
 
 	public void setMarkers(Vector<Integer> markers)
 		{ this.markers = markers; }
+
+	public int getScrollX()
+		{ return scrollX; }
+
+	public void setScrollX(int scrollX)
+		{ this.scrollX = scrollX; }
+
+	public int getScrollY()
+		{ return scrollY; }
+
+	public void setScrollY(int scrollY)
+		{ this.scrollY = scrollY; }
+
+	public int getZoom()
+		{ return zoom; }
+
+	public void setZoom(int zoom)
+		{ this.zoom = zoom; }
 
 
 	// Other methods

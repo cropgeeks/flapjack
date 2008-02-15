@@ -32,6 +32,8 @@ class RowCanvas extends JPanel
 	{
 		this.xIndex = xIndex;
 		this.xCount = xCount;
+
+		repaint();
 	}
 
 	void setLineIndex(int lineIndex)
