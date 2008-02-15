@@ -112,6 +112,8 @@ public class WinMain extends JFrame
 		if (ProjectSerializer.okToContinue(project, false) == false)
 			return;
 
+		navPanel.getGenotypePanel().resetBufferedState(false);
+
 		SaveLoadDialog dialog = new SaveLoadDialog(false);
 		Project openedProject = dialog.open(file);
 
@@ -121,6 +123,8 @@ public class WinMain extends JFrame
 			navPanel.setProject(project);
 			menubar.createRecentMenu(project.filename);
 		}
+		else
+			navPanel.getGenotypePanel().resetBufferedState(true);
 	}
 
 	public boolean fileSave(boolean saveAs)
@@ -144,6 +148,8 @@ public class WinMain extends JFrame
 
 		if (dialog.isOK())
 		{
+			navPanel.getGenotypePanel().resetBufferedState(false);
+
 			File mapFile  = dialog.getMapFile();
 			File genoFile = dialog.getGenotypeFile();
 

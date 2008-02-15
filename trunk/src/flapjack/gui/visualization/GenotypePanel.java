@@ -246,4 +246,9 @@ public class GenotypePanel extends JPanel
 		statusPanel.setLineIndex(rowIndex);
 		statusPanel.setMarkerIndex(colIndex);
 	}
+
+	public void resetBufferedState(boolean state)
+	{
+		canvas.resetBufferedState(state);
+	}
 }
