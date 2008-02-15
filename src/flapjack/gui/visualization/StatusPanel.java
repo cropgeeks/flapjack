@@ -26,7 +26,6 @@ class StatusPanel extends JPanel
 
 		sizeSlider.setMinimum(1);
 		sizeSlider.setMaximum(25);
-		sizeSlider.setValue(7);
 		sizeSlider.addChangeListener(gPanel);
 	}
 

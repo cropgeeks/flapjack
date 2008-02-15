@@ -65,6 +65,8 @@ class MapCanvas extends JPanel
 	{
 		this.canvas1 = canvas1;
 		this.canvas2 = canvas2;
+
+		repaint();
 	}
 
 	void setLociIndex(int lociIndex)

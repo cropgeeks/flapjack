@@ -11,6 +11,7 @@ public class GTViewSet
 	private Vector<GTView> views = new Vector<GTView>();
 
 	private String name;
+	private int viewIndex;
 
 	public GTViewSet()
 	{
@@ -32,6 +33,12 @@ public class GTViewSet
 
 	public void setName(String name)
 		{ this.name = name; }
+
+	public int getViewIndex()
+		{ return viewIndex; }
+
+	public void setViewIndex(int viewIndex)
+		{ this.viewIndex = viewIndex; }
 
 	public Vector<GTView> getViews()
 		{ return views; }

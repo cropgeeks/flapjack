@@ -59,12 +59,24 @@
 		<field name="name" type="string">
 			<bind-xml node="attribute"/>
 		</field>
+		<field name="viewIndex" type="int">
+			<bind-xml node="attribute"/>
+		</field>
 		<field name="views" type="flapjack.data.GTView" collection="vector"/>
 	</class>
 
 	<!-- GTView -->
 	<class name="flapjack.data.GTView">
 		<field name="mapName" type="string">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="scrollX" type="int">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="scrollY" type="int">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="zoom" type="int">
 			<bind-xml node="attribute"/>
 		</field>
 		<field name="lines" type="integer" collection="vector"/>

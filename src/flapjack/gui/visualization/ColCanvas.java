@@ -32,6 +32,8 @@ class ColCanvas extends JPanel
 	{
 		this.yIndex = yIndex;
 		this.yCount = yCount;
+
+		repaint();
 	}
 
 	void setLociIndex(int lociIndex)
