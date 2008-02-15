@@ -26,7 +26,7 @@
                   <Component id="markerLabel" max="32767" attributes="1"/>
                   <Component id="lineLabel" alignment="0" min="-2" max="-2" attributes="1"/>
               </Group>
-              <EmptySpace pref="49" max="32767" attributes="0"/>
+              <EmptySpace pref="47" max="32767" attributes="0"/>
               <Component id="sizeSlider" min="-2" pref="157" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -37,7 +37,7 @@
           <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
+                  <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="label1" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="lineLabel" alignment="3" min="-2" max="-2" attributes="0"/>

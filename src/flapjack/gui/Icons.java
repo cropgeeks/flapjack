@@ -7,6 +7,7 @@ public class Icons
 {
 	public static ImageIcon NOICON;
 
+	public static ImageIcon BLUEBLOB;
 	public static ImageIcon CHROMOSOME;
 	public static ImageIcon EMPTY;
 	public static ImageIcon FILENEW;
@@ -17,7 +18,9 @@ public class Icons
 	public static ImageIcon FLAPJACK;
 	public static ImageIcon FOLDER;
 	public static ImageIcon FOLDEROPEN;
+	public static ImageIcon GREYBLOB;
 	public static ImageIcon GERMINATE;
+	public static ImageIcon REDBLOB;
 	public static ImageIcon VISUALIZATION;
 
 	public static ImageIcon WINERROR, WININFORMATION, WINQUESTION, WINWARNING;
@@ -29,7 +32,6 @@ public class Icons
 	public static void initialize()
 	{
 		Icons icons = new Icons();
-//		Class<? extends Icons> c = icons.getClass();
 		Class c = icons.getClass();
 
 		try
