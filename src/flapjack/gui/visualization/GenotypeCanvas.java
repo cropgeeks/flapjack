@@ -22,6 +22,8 @@ class GenotypeCanvas extends JPanel
 
 	// The current color model
 	ColorTable cTable;
+	// Transparancy intensity for animation effects
+	int alphaEffect = 0;
 
 	boolean locked = false;
 
@@ -159,6 +161,14 @@ class GenotypeCanvas extends JPanel
 		if (mineSweeper != null)
 			mineSweeper.render(g);
 
+		if (view.hideMarker != -1)
+		{
+			g.setPaint(new Color(255, 255, 255, alphaEffect));
+
+			int mX = boxW * view.hideMarker;
+			g.fillRect(mX, 0, boxW, canvasH);
+		}
+
 		long e = System.nanoTime();
 
 //		System.out.println("Render time: " + ((e-s)/1000000f) + "ms");
@@ -208,8 +218,6 @@ class GenotypeCanvas extends JPanel
 
 	private void render(Graphics2D g, ImageMonitor monitor, int xS, int xE, int yS, int yE)
 	{
-		StateTable table = view.getStateTable();
-
 		g.setColor(Color.white);
 		g.fillRect(0, 0, canvasW, canvasH);
 
@@ -283,7 +291,22 @@ class GenotypeCanvas extends JPanel
 			System.runFinalization();
 			System.gc();
 
+			// Run everything under try/catch conditions due to changes in the
+			// view that may invalidate what this thread is trying to access
+			try
+			{
+				createBuffer();
+			}
+			catch (ArrayIndexOutOfBoundsException e)
+			{
+				System.out.println("GenotypeCanvas (buffer): " + e.getMessage());
+				WinMainStatusBar.setRenderState(0);
+			}
+		}
 
+		private void createBuffer()
+			throws ArrayIndexOutOfBoundsException
+		{
 			// Determine how much memory we need for the back buffer (in bytes)
 			long bufferSize = (long)canvasW * (long)canvasH * 3;
 			long available = mxBean.getHeapMemoryUsage().getMax()

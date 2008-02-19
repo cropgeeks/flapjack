@@ -185,6 +185,21 @@ class MapCanvas extends JPanel
 		{
 			setPriority(Thread.MIN_PRIORITY);
 
+			// Run everything under try/catch conditions due to changes in the
+			// view that may invalidate what this thread is trying to access
+			try
+			{
+				createBuffer();
+			}
+			catch (ArrayIndexOutOfBoundsException e)
+			{
+				System.out.println("MapCanvas: " + e.getMessage());
+			}
+		}
+
+		private void createBuffer()
+			throws ArrayIndexOutOfBoundsException
+		{
 			try
 			{
 				buffer = new BufferedImage(w, h, BufferedImage.TYPE_BYTE_GRAY);
@@ -198,6 +213,7 @@ class MapCanvas extends JPanel
 		}
 
 		private void drawCanvas(Graphics2D g)
+			throws ArrayIndexOutOfBoundsException
 		{
 			// Enable anti-aliased graphics to smooth the line jaggies
 			g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);

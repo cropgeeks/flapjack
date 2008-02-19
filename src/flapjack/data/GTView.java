@@ -27,6 +27,7 @@ public class GTView
 	// The positions of the scrollbars, and the current zoom level
 	private int scrollX, scrollY, zoom = 7;
 
+	public int hideMarker = -1;
 
 	public GTView()
 	{
@@ -140,7 +141,7 @@ public class GTView
 
 	public int getMarkerCount()
 	{
-		return map.countLoci();
+		return markers.size();
 	}
 
 	public int getLineCount()
@@ -199,5 +200,13 @@ public class GTView
 		int oldValue = markers.get(fromIndex);
 		markers.set(fromIndex, markers.get(toIndex));
 		markers.set(toIndex, oldValue);
+	}
+
+	public void hideMarker(int index)
+	{
+		if (index < 0 || index >= markers.size())
+			return;
+
+		markers.remove(index);
 	}
 }

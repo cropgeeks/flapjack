@@ -84,6 +84,19 @@ public class GenotypePanel extends JPanel
 		});
 	}
 
+	// Called whenever the underlying data of a view has changed in such a way
+	// that we need to update the view's components to reflect this
+	void refreshView()
+	{
+		canvas.setView(view);
+		listPanel.setView(view);
+		statusPanel.setView(view);
+
+		computePanelSizes();
+
+		OverviewManager.createImage();
+	}
+
 	public void setViewSet(GTViewSet viewSet)
 	{
 		this.viewSet = viewSet;
@@ -116,31 +129,8 @@ public class GenotypePanel extends JPanel
 		viewSet.setViewIndex(mapIndex);
 		view = viewSet.getView(mapIndex);
 
-//		canvas.setView(view);
-//		listPanel.setView(view);
-//		statusPanel.setView(view);
-
 		refreshView();
-
 		tabs.setComponentAt(mapIndex, displayPanel);
-
-
-
-		// Once everything else is updated/displayed, then update the overview
-//		OverviewManager.createImage();
-	}
-
-	// Called whenever the underlying data of a view has changed in such a way
-	// that we need to update the view's components to reflect this
-	void refreshView()
-	{
-		canvas.setView(view);
-		listPanel.setView(view);
-		statusPanel.setView(view);
-
-		computePanelSizes();
-
-		OverviewManager.createImage();
 	}
 
 	public void adjustmentValueChanged(AdjustmentEvent e)
@@ -161,24 +151,24 @@ public class GenotypePanel extends JPanel
 
 	public void stateChanged(ChangeEvent e)
 	{
+		// When the slider is moved...
 		if (e.getSource() == statusPanel.getSlider())
 			computePanelSizes();
 
+		// When a tab is selected...
 		else if (e.getSource() == tabs)
 		{
-			int index = tabs.getSelectedIndex();
+			if (tabs.getSelectedIndex() != -1)
+			{
+				for (int i = 0; i < tabs.getTabCount(); i++)
+					tabs.setComponentAt(i, null);
 
-			if (index == -1)
-				return;
-
-			for (int i = 0; i < tabs.getTabCount(); i++)
-				tabs.setComponentAt(i, null);
-
-			displayMap(index);
+				displayMap(tabs.getSelectedIndex());
+			}
 		}
 	}
 
-	// When changing the zoom level...
+	// When changing data or the zoom level...
 	private void computePanelSizes()
 	{
 		int zoom = statusPanel.getSlider().getValue();
@@ -190,8 +180,6 @@ public class GenotypePanel extends JPanel
 		validate();
 
 		computeRowColSizes();
-
-//		repaint();
 	}
 
 	// When resizing the window or changing the zoom level...
