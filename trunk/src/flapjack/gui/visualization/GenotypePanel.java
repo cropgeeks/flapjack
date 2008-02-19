@@ -31,8 +31,6 @@ public class GenotypePanel extends JPanel
 	private JScrollBar hBar, vBar;
 	private JViewport viewport;
 
-	private boolean isUpdatingView = false;
-
 	public GenotypePanel(WinMain winMain)
 	{
 		createControls(winMain);
@@ -103,10 +101,10 @@ public class GenotypePanel extends JPanel
 			GTView view = viewSet.getView(i);
 
 			String name = view.getChromosomeMap().getName();
-			int loci = view.getMarkerCount();
+			int markerCount = view.getMarkerCount();
 
 			tabs.addTab(name, Icons.CHROMOSOME, null);
-			tabs.setToolTipTextAt(i, name + " (" + loci + ")");
+			tabs.setToolTipTextAt(i, name + " (" + markerCount + ")");
 		}
 
 		// Now set the tabs to the actual index we're interested in
@@ -115,27 +113,34 @@ public class GenotypePanel extends JPanel
 
 	private void displayMap(int mapIndex)
 	{
-		System.out.println("Displaying map");
-
-		isUpdatingView = true;
-
 		viewSet.setViewIndex(mapIndex);
-		System.out.println("Setting viewset index to " + mapIndex);
 		view = viewSet.getView(mapIndex);
 
+//		canvas.setView(view);
+//		listPanel.setView(view);
+//		statusPanel.setView(view);
+
+		refreshView();
+
+		tabs.setComponentAt(mapIndex, displayPanel);
+
+
+
+		// Once everything else is updated/displayed, then update the overview
+//		OverviewManager.createImage();
+	}
+
+	// Called whenever the underlying data of a view has changed in such a way
+	// that we need to update the view's components to reflect this
+	void refreshView()
+	{
 		canvas.setView(view);
 		listPanel.setView(view);
 		statusPanel.setView(view);
 
-		tabs.setComponentAt(mapIndex, displayPanel);
+		computePanelSizes();
 
-		statusPanel.getSlider().setValue(view.getZoom());
-		hBar.setValue(view.getScrollX());
-		vBar.setValue(view.getScrollY());
-
-		// Once everything else is updated/displayed, then update the overview
 		OverviewManager.createImage();
-		isUpdatingView = false;
 	}
 
 	public void adjustmentValueChanged(AdjustmentEvent e)
@@ -144,14 +149,6 @@ public class GenotypePanel extends JPanel
 		// the new dimensions of the canvas being passed to it (window size
 		// changes will cause scrollbar movement events)
 		canvas.computeForRedraw(viewport.getExtentSize(), viewport.getViewPosition());
-
-		if (e.getValueIsAdjusting() == false && isUpdatingView == false)
-		{
-			view.setScrollX(hBar.getValue());
-			view.setScrollY(vBar.getValue());
-
-			System.out.println("scrollbars moved");
-		}
 	}
 
 	void setScrollbarAdjustmentValues(int xIncrement, int yIncrement)
@@ -194,7 +191,7 @@ public class GenotypePanel extends JPanel
 
 		computeRowColSizes();
 
-		repaint();
+//		repaint();
 	}
 
 	// When resizing the window or changing the zoom level...
