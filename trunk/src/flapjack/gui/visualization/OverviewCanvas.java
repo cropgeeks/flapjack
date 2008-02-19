@@ -192,8 +192,26 @@ class OverviewCanvas extends JPanel
 		{
 			setPriority(Thread.MIN_PRIORITY);
 
-			buffer = new BufferedImage(w, h, BufferedImage.TYPE_BYTE_INDEXED);
-			Graphics2D g = buffer.createGraphics();
+			// Run everything under try/catch conditions due to changes in the
+			// view that may invalidate what this thread is trying to access
+			try
+			{
+				createBuffer();
+			}
+			catch (ArrayIndexOutOfBoundsException e)
+			{
+				System.out.println("OverviewCanvas: " + e.getMessage());
+			}
+		}
+
+		private void createBuffer()
+			throws ArrayIndexOutOfBoundsException
+		{
+			try
+			{
+				buffer = new BufferedImage(w, h, BufferedImage.TYPE_BYTE_INDEXED);
+			}
+			catch (Throwable t) { return; }
 
 
 			// Scaling factors
@@ -205,7 +223,7 @@ class OverviewCanvas extends JPanel
 			// Height of each Y element
 			yHeight = 1 + (int) ((yScale >= 1) ? yScale : 1);
 
-
+			Graphics2D g = buffer.createGraphics();
 			g.setColor(Color.white);
 			g.fillRect(0, 0, w, h);
 
