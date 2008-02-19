@@ -162,22 +162,28 @@ class OverviewCanvas extends JPanel
 
 	private class BufferFactory extends Thread
 	{
-		// Width and height of the image to be created
-		private int w, h;
+		private GTView view;
+		private ColorTable cTable;
 
 		private BufferedImage buffer;
-
-		// Give up drawing if set to true
 		boolean killMe = false;
 
-		private float xScale, yScale;
-
+		private int w, h;
+		private int boxTotalX, boxTotalY;
 		private int xWidth, yHeight;
+		private float xScale, yScale;
 
 		BufferFactory(int w, int h)
 		{
 			this.w = w;
 			this.h = h;
+
+			// Make private references to certain values now, as they MAY change
+			// while the buffer is still being created, which creates a cock-up
+			boxTotalX = canvas.boxTotalX;
+			boxTotalY = canvas.boxTotalY;
+			view = canvas.view;
+			cTable = canvas.cTable;
 
 			start();
 		}
@@ -189,13 +195,6 @@ class OverviewCanvas extends JPanel
 			buffer = new BufferedImage(w, h, BufferedImage.TYPE_BYTE_INDEXED);
 			Graphics2D g = buffer.createGraphics();
 
-			g.setColor(Color.white);
-			g.fillRect(0, 0, w, h);
-
-
-			int boxTotalX = canvas.boxTotalX;
-			int boxTotalY = canvas.boxTotalY;
-
 
 			// Scaling factors
 			xScale = w / (float) boxTotalX;
@@ -206,7 +205,9 @@ class OverviewCanvas extends JPanel
 			// Height of each Y element
 			yHeight = 1 + (int) ((yScale >= 1) ? yScale : 1);
 
-	//		StateTable table = canvas.dataSet.getStateTable();
+
+			g.setColor(Color.white);
+			g.fillRect(0, 0, w, h);
 
 			// What were the x and y positions of the last point drawn? If the next
 			// point to be drawn ISN'T different, then we won't bother drawing it,
@@ -217,21 +218,17 @@ class OverviewCanvas extends JPanel
 			float y = 0;
 			for (int yIndex = 0; yIndex < boxTotalY && !killMe; yIndex++)
 			{
-//				GenotypeData data = canvas.genotypeLines.get(yIndex);
-
 				float x = 0;
 				for (int xIndex = 0; xIndex < boxTotalX && !killMe; xIndex++)
 				{
 					// This is where we save the time...
 					if ((int)x != lastX || (int)y != lastY)
 					{
-						int state = canvas.view.getState(yIndex, xIndex);
-//						int state = data.getState(xIndex);
+						int state = view.getState(yIndex, xIndex);
 
 						if (state > 0)
 						{
-	//						g.setColor(table.getAlleleState(data.getState(xIndex)).getColor());
-							g.setColor(canvas.cTable.get(state).getColor());
+							g.setColor(cTable.get(state).getColor());
 							g.fillRect((int)x, (int)y, xWidth, yHeight);
 
 							lastX = (int)x;

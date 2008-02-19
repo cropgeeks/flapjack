@@ -48,9 +48,9 @@ public class GTView
 		for (int i = 0; i < dataSet.countLines(); i++)
 			lines.add(i);
 
-		// For each (original) marker in the dataset...
-		markers = new Vector<Integer>(dataSet.countMarkers());
-		for (int i = 0; i < dataSet.countMarkers(); i++)
+		// For each (original) marker in the map...
+		markers = new Vector<Integer>(map.countLoci());
+		for (int i = 0; i < map.countLoci(); i++)
 			markers.add(i);
 	}
 
