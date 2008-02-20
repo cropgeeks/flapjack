@@ -65,7 +65,7 @@ class GenotypeCanvas extends JPanel
 		setOpaque(false);
 		setBackground(Color.white);
 
-		new CanvasMouseListener(this, gPanel);
+		new CanvasMouseListener(gPanel, this);
 
 //		setToolTipText("");
 	}
@@ -143,6 +143,12 @@ class GenotypeCanvas extends JPanel
 
 	public Dimension getPreferredSize()
 		{ return dimension; }
+
+	int getMarker(Point mousePoint)
+		{ return mousePoint.x / boxW; }
+
+	int getLine(Point mousePoint)
+		{ return mousePoint.y / boxH; }
 
 	public void paintComponent(Graphics graphics)
 	{
