@@ -12,7 +12,7 @@ import scri.commons.gui.*;
 
 public class Flapjack
 {
-	private static File prefsFile = new File(System.getProperty("user.home"), "flapjack.xml");
+	private static File prefsFile = new File(System.getProperty("user.home"), ".flapjack.xml");
 	private static Prefs prefs = new Prefs();
 
 	public static WinMain winMain;
