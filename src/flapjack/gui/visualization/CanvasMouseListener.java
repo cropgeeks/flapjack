@@ -8,8 +8,11 @@ import javax.swing.event.*;
 
 class CanvasMouseListener extends MouseInputAdapter
 {
-	private GenotypeCanvas canvas;
 	private GenotypePanel gPanel;
+	private GenotypeCanvas canvas;
+
+	// Deals with pop-up menus
+	private CanvasMenu canvasMenu;
 
 	// Deals with interative issues
 	private InteractiveHandler iHandler = new InteractiveHandler();
@@ -17,10 +20,12 @@ class CanvasMouseListener extends MouseInputAdapter
 	private NavigationHandler nHandler = new NavigationHandler();
 
 
-	CanvasMouseListener(GenotypeCanvas canvas, GenotypePanel gPanel)
+	CanvasMouseListener(GenotypePanel gPanel, GenotypeCanvas canvas)
 	{
-		this.canvas = canvas;
 		this.gPanel = gPanel;
+		this.canvas = canvas;
+
+		canvasMenu = new CanvasMenu(gPanel, canvas);
 
 		canvas.addMouseListener(this);
 		canvas.addMouseMotionListener(this);
@@ -31,19 +36,20 @@ class CanvasMouseListener extends MouseInputAdapter
 		if (SwingUtilities.isRightMouseButton(e))
 			return;
 
-		if (e.isControlDown() && e.getClickCount() == 2)// && canvas.boxH == 16)
+		if (e.isControlDown() && e.isAltDown() && e.getClickCount() == 2)
 		{
 			canvas.removeMouseListener(this);
 			new MineSweeper(canvas);
 		}
 
-		else if (e.getClickCount() == 1)
+		else if (e.getClickCount() == 2)
 		{
-//			canvas.locked = !canvas.locked;
-
-			canvas.view.hideMarker = e.getPoint().x / canvas.boxW;
+			canvas.view.hideMarker = canvas.getMarker(e.getPoint());
 			new CanvasAnimator(gPanel, canvas);
 		}
+
+//		else if (e.getClickCount() == 1)
+//			canvas.locked = !canvas.locked;
 	}
 
 	public void mousePressed(MouseEvent e)
@@ -59,6 +65,9 @@ class CanvasMouseListener extends MouseInputAdapter
 
 	public void mouseReleased(MouseEvent e)
 	{
+		if (e.isPopupTrigger())
+			canvasMenu.handlePopup(e);
+
 		iHandler.mouseReleased(e);
 		nHandler.mouseReleased(e);
 	}
@@ -71,15 +80,18 @@ class CanvasMouseListener extends MouseInputAdapter
 
 	public void mouseMoved(MouseEvent e)
 	{
-		int xIndex = e.getPoint().x / canvas.boxW;
-		int yIndex = e.getPoint().y / canvas.boxH;
+		int xIndex = canvas.getMarker(e.getPoint());
+		int yIndex = canvas.getLine(e.getPoint());
 
 		gPanel.overRow(xIndex, yIndex);
 	}
 
 	public void mouseExited(MouseEvent e)
 	{
-		gPanel.overRow(-1, -1);
+		// Remove highlighting if the mouse has left the canvas, but not if it
+		// over the canvas but "off" the canvas due to being in the popup menu
+		if (canvasMenu.isShowingMenu() == false)
+			gPanel.overRow(-1, -1);
 	}
 
 	/** Inner class to handle interactive mouse events (moving lines etc). */
@@ -92,8 +104,8 @@ class CanvasMouseListener extends MouseInputAdapter
 
 		void mousePressed(MouseEvent e)
 		{
-			selectedLine = e.getPoint().y / canvas.boxH;
-			selectedMarker = e.getPoint().x / canvas.boxW;
+			selectedLine = e.getY() / canvas.boxH;
+			selectedMarker = e.getX() / canvas.boxW;
 		}
 
 		void mouseReleased(MouseEvent e)
@@ -120,7 +132,7 @@ class CanvasMouseListener extends MouseInputAdapter
 			if (selectedLine != -1 && !isMarkerSelected)
 			{
 				// this.selectedLine is its old position...this will be its new one
-				int newLine = e.getPoint().y / canvas.boxH;
+				int newLine = y / canvas.boxH;
 
 				// Force the new line position to be either at the top or the bottom
 				// of the dataset, IF the cursor has gone beyond the limits
@@ -159,7 +171,7 @@ class CanvasMouseListener extends MouseInputAdapter
 			// Moving markers...
 			if (selectedMarker != -1 && !isLineSelected)
 			{
-				int newMarker = e.getPoint().x / canvas.boxW;
+				int newMarker = x / canvas.boxW;
 
 				if (newMarker < 0)
 					newMarker = 0;

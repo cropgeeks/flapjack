@@ -5,7 +5,7 @@ import java.io.*;
 import java.util.*;
 import javax.swing.*;
 
-class WinMainMenuBar extends JMenuBar
+public class WinMainMenuBar extends JMenuBar
 {
 	private WinMain winMain;
 
@@ -19,7 +19,7 @@ class WinMainMenuBar extends JMenuBar
 	private JMenuItem mFileExit;
 
 	private JMenu mView;
-	private JMenuItem mViewOverview;
+	private JCheckBoxMenuItem mViewOverview;
 
 	private JMenu mHelp;
 	private JMenuItem mHelpAbout;
@@ -73,7 +73,7 @@ class WinMainMenuBar extends JMenuBar
 		mView = new JMenu(RB.getString("gui.WinMainMenuBar.mView"));
 		mView.setMnemonic(KeyEvent.VK_V);
 
-		mViewOverview = getItem(Actions.viewOverview, KeyEvent.VK_O, KeyEvent.VK_F7, 0);
+		mViewOverview = getCheckedItem(Actions.viewOverview, KeyEvent.VK_O, KeyEvent.VK_F7, 0, Prefs.guiOverviewDialog);
 
 		mView.add(mViewOverview);
 
@@ -99,8 +99,18 @@ class WinMainMenuBar extends JMenuBar
 
 		if (accelerator != 0)
 			item.setAccelerator(KeyStroke.getKeyStroke(accelerator, keymask));
-		// if (p != null)
-		// item.addMouseListener(textListener);
+
+		return item;
+	}
+
+	public static JCheckBoxMenuItem getCheckedItem(Action action, int mnemonic, int accelerator, int keymask, boolean state)
+	{
+		JCheckBoxMenuItem item = new JCheckBoxMenuItem(action);
+		item.setMnemonic(mnemonic);
+		item.setState(state);
+
+		if (accelerator != 0)
+			item.setAccelerator(KeyStroke.getKeyStroke(accelerator, keymask));
 
 		return item;
 	}
