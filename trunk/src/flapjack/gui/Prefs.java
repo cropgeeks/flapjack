@@ -41,4 +41,6 @@ public class Prefs extends XMLPreferences
 
 	// The type of back-buffer we want to use for faster rendering
 	public static int guiBackBufferType = java.awt.image.BufferedImage.TYPE_INT_RGB;
+
+	public static boolean visShowGenotypes = false;
 }
