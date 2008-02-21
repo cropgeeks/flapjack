@@ -6,6 +6,7 @@ import java.awt.geom.*;
 import java.awt.image.*;
 
 import flapjack.data.*;
+import flapjack.gui.*;
 
 class ColoredAlleleState
 {
@@ -82,7 +83,7 @@ class ColoredAlleleState
 		g.fill(r);
 
 
-		if (true == false && h >= 10)
+		if (Prefs.visShowGenotypes && h >= 10)
 		{
 			//Font font = new Font("Monospaced", Font.PLAIN, h);
 			Font font = g.getFont().deriveFont(Font.PLAIN, h-3);
