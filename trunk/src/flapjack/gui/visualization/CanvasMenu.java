@@ -13,8 +13,10 @@ class CanvasMenu
 	private JPopupMenu menu = new JPopupMenu();
 
 	private JCheckBoxMenuItem mLock;
+	private JMenuItem mSortLines;
 
 	private AbstractAction aLock;
+	private AbstractAction aSortLines;
 
 	CanvasMenu(GenotypePanel gPanel, GenotypeCanvas canvas)
 	{
@@ -35,11 +37,23 @@ class CanvasMenu
 				canvas.locked = !canvas.locked;
 			}
 		};
+
+		aSortLines = new AbstractAction(RB.getString("gui.Actions.canvasSortLines")) {
+			public void actionPerformed(ActionEvent e) {
+
+				int line = canvas.highlightY;
+				new flapjack.analysis.SimilaritySort(canvas.view, line).run();
+
+				gPanel.refreshView();
+				gPanel.jumpToPosition(0, 0);
+			}
+		};
 	}
 
 	private void createItems()
 	{
 		mLock = WinMainMenuBar.getCheckedItem(aLock, KeyEvent.VK_L, 0, 0, canvas.locked);
+		mSortLines = WinMainMenuBar.getItem(aSortLines, KeyEvent.VK_S, 0, 0);
 	}
 
 	void handlePopup(MouseEvent e)
@@ -47,6 +61,8 @@ class CanvasMenu
 		menu = new JPopupMenu();
 
 		menu.add(mLock);
+		menu.addSeparator();
+		menu.add(mSortLines);
 
 		menu.show(e.getComponent(), e.getX(), e.getY());
 	}

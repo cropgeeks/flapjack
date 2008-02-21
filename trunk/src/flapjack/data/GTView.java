@@ -209,4 +209,10 @@ public class GTView
 
 		markers.remove(index);
 	}
+
+	public void printLines()
+	{
+		for (int i: lines)
+			System.out.println(i + ": " + (dataSet.getLineByIndex(i).getName()));
+	}
 }

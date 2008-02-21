@@ -16,6 +16,8 @@ class CanvasAnimator extends Thread
 
 	public void run()
 	{
+		canvas.resetBufferedState(false);
+
 		for (int i = 1; i <= 20; i++)
 		{
 			canvas.alphaEffect = (int) (i * 12.75);

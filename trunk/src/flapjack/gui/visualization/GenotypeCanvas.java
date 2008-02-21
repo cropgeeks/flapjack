@@ -26,6 +26,9 @@ class GenotypeCanvas extends JPanel
 	int alphaEffect = 0;
 
 	boolean locked = false;
+	// Marker and line to be highlighted
+	int highlightX = -1;
+	int highlightY = -1;
 
 	// The total number of boxes (allele states) in the dataset
 	int boxTotalX, boxTotalY;
@@ -141,6 +144,17 @@ class GenotypeCanvas extends JPanel
 		gPanel.updateOverviewSelectionBox((pX1/boxW), boxCountX, (pY1/boxH), boxCountY);
 	}
 
+	// Called as the mouse moves over the canvas - we want to highlight this
+	void setHighlightedIndices(int rowIndex, int colIndex)
+	{
+		if (rowIndex != highlightY || colIndex != highlightX)
+		{
+			highlightY = rowIndex;
+			highlightX = colIndex;
+//			repaint();
+		}
+	}
+
 	public Dimension getPreferredSize()
 		{ return dimension; }
 
@@ -174,6 +188,24 @@ class GenotypeCanvas extends JPanel
 			int mX = boxW * view.hideMarker;
 			g.fillRect(mX, 0, boxW, canvasH);
 		}
+
+		// TODO: think about this - the image on screen really needs buffered at
+		// this point, as constant repaints on a complicated canvas is too slow
+/*		if (highlightX != -1 || highlightY != -1)
+		{
+			g.setColor(Color.black);
+
+			int mx1 = boxW * highlightX;
+			int mx2 = mx1 + boxW - 1;
+			int my1 = boxH * highlightY;
+			int my2 = my1 + boxH - 1;
+
+			g.drawLine(mx1, 0, mx1, canvasH);
+			g.drawLine(mx2, 0, mx2, canvasH);
+			g.drawLine(0, my1, canvasW, my1);
+			g.drawLine(0, my2, canvasW, my2);
+		}
+*/
 
 		long e = System.nanoTime();
 

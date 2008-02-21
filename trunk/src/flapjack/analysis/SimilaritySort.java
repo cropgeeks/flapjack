@@ -7,37 +7,48 @@ import flapjack.data.*;
 public class SimilaritySort
 {
 	private GTView view;
+	private int line;
 
-	public SimilaritySort(GTView view)
+	public SimilaritySort(GTView view, int line)
 	{
 		this.view = view;
+		this.line = line;
 	}
 
 	public void run()
 	{
 		long s = System.currentTimeMillis();
 
-		Vector<Integer> lines = view.getLines();
+		Vector<Integer> lines = new Vector<Integer>(); //view.getLines();
 
 		// Create an array to hold the score for each line
 		Vector<LineScore> scores = new Vector<LineScore>(lines.size());
 
+		System.out.println("Sorting using line " + line + " as comparison line");
+
 		// Work out what those scores are
 		for (int i = 0; i < view.getLineCount(); i++)
 		{
-			SimilarityScore ss = new SimilarityScore(view, 0, i, SimilarityScore.SIMPLE);
+			SimilarityScore ss = new SimilarityScore(view, line, i, SimilarityScore.SIMPLE);
 
 			SimilarityScore.Score score = ss.getScore();
-			scores.add(new LineScore(i, score.score, score.nComparisons));
+			scores.add(new LineScore(view.getLines().get(i), score.score, score.nComparisons));
+
+//			if (i <5)
+//				System.out.println("Score for " + view.getLine(i).getName() + " is " + score.score + " with " + score.nComparisons + " comparisons possible");
 		}
 
 		// Now sort the array based on those scores
 		Collections.sort(scores);
 
 		for (int i = 0; i < scores.size(); i++)
-			lines.set(i, scores.get(i).index);
+//			lines.set(i, scores.get(i).index);
+			lines.add(scores.get(i).index);
+		view.setLines(lines);
+		view.cacheLines();
 
 		System.out.println("Similarity sort in " + (System.currentTimeMillis()-s) + "ms");
+
 
 
 		// Quick all-by-all test
