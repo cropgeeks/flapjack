@@ -190,6 +190,8 @@ public class GenotypePanel extends JPanel
 		rowCanvas.computeDimensions(listPanel.getWidth(), vBar.isVisible() ? (cWidth+vBar.getWidth()) : cWidth);
 		colCanvas.computeDimensions(listPanel.getHeight(), hBar.isVisible() ? hBar.getHeight() : 0);
 		mapCanvas.computeDimensions(listPanel.getWidth(), vBar.isVisible() ? (cWidth+vBar.getWidth()) : cWidth);
+
+//		statusPanel.computeDimensions(listPanel.getWidth());
 	}
 
 	public void mouseWheelMoved(MouseWheelEvent e)
@@ -232,6 +234,7 @@ public class GenotypePanel extends JPanel
 		vBar.setValue(vBar.getValue() + y);
 	}
 
+	// Called as the mouse moves over the canvas...
 	void overRow(int colIndex, int rowIndex)
 	{
 		canvas.setHighlightedIndices(rowIndex, colIndex);
@@ -240,8 +243,7 @@ public class GenotypePanel extends JPanel
 		colCanvas.setLociIndex(colIndex);
 		mapCanvas.setLociIndex(colIndex);
 
-		statusPanel.setLineIndex(rowIndex);
-		statusPanel.setMarkerIndex(colIndex);
+		statusPanel.setIndices(rowIndex, colIndex);
 	}
 
 	public void resetBufferedState(boolean state)
