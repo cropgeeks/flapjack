@@ -64,7 +64,7 @@ class CanvasMenu
 	{
 		mLock = WinMainMenuBar.getCheckedItem(aLock, KeyEvent.VK_L, 0, 0, canvas.locked);
 		mSortLines = WinMainMenuBar.getItem(aSortLines, KeyEvent.VK_S, 0, 0);
-		mShowGenotypes = WinMainMenuBar.getCheckedItem(aShowGenotypes, KeyEvent.VK_G, 0, 0, Prefs.visShowGenotypes);
+		mShowGenotypes = WinMainMenuBar.getCheckedItem(aShowGenotypes, KeyEvent.VK_O, 0, 0, Prefs.visShowGenotypes);
 	}
 
 	void handlePopup(MouseEvent e)
