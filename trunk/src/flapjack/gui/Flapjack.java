@@ -47,6 +47,12 @@ public class Flapjack
 				UIManager.put("OptionPane.warningIcon", Icons.WINWARNING);
 				UIManager.put("OptionPane.questionIcon", Icons.WINQUESTION);
 			}
+
+			else if (SystemUtils.isMacOS())
+				UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+
+			else
+				UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		}
 		catch (Exception e) {}
 

@@ -209,14 +209,37 @@ class GenotypeCanvas extends JPanel
 
 		long e = System.nanoTime();
 
-//		System.out.println("Render time: " + ((e-s)/1000000f) + "ms");
+		System.out.println("Render time: " + ((e-s)/1000000f) + "ms");
 	}
 
+	// This method takes the full back-buffered image (already pre-created by
+	// this point) and cuts out a section of it that is pasted into a 2nd buffer
+	// which is then drawn to the screen. The extra buffer is needed to reduce
+	// a strange smearing effect that happens if you draw the cut-out section
+	// directly to the screen
 	private void renderImage(Graphics2D g)
 	{
-		BufferedImage imageCrop = new BufferedImage(pX2-pX1, pY2-pY1, Prefs.guiBackBufferType);
+		// Width and height of the area to be copied (start by assuming we'll
+		// copy everything that fits on screen
+		int w = pX2-pX1;
+		int h = pY2-pY1;
+
+		// Bottom right-hand corner of the source image we're copying from
+		int x = pX2;
+		int y = pY2;
+
+		// But modifiy for cases where the width/height of the canvas is smaller
+		// than the current screen size
+		if (canvasW < w)
+			w = x = canvasW;
+		if (canvasH < h)
+			h = y = canvasH;
+
+		// Make an image to hold the copy
+		BufferedImage imageCrop = new BufferedImage(w, h, Prefs.guiBackBufferType);
+
 		Graphics2D g2d = imageCrop.createGraphics();
-		g2d.drawImage(imageFull, 0, 0, pX2-pX1, pY2-pY1, pX1, pY1, pX2, pY2, null);
+		g2d.drawImage(imageFull, 0, 0, w, h, pX1, pY1, x, y, null);
 		g2d.dispose();
 
 		g.drawImage(imageCrop, pX1, pY1, Color.white, null);
