@@ -6,6 +6,8 @@ import java.awt.geom.*;
 import javax.swing.*;
 import javax.swing.event.*;
 
+import flapjack.gui.Actions;
+
 class CanvasMouseListener extends MouseInputAdapter
 {
 	private GenotypePanel gPanel;
@@ -120,6 +122,8 @@ class CanvasMouseListener extends MouseInputAdapter
 
 				OverviewManager.createImage();
 				canvas.resetBufferedState(true);
+
+				Actions.projectModified();
 			}
 		}
 
