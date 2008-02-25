@@ -141,14 +141,15 @@ class MapCanvas extends JPanel
 				return;
 			}
 
-			int w = 1 + canvas.pX2-canvas.pX1;
+			int w = canvas.pX2-canvas.pX1;
+			int x = canvas.pX2;
 			if (canvas.canvasW < w)
-				w = canvas.canvasW;
+				w = x = canvas.canvasW;
 
 			// Cut out the area of the main buffer we want to draw
 			BufferedImage image2 = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
 			Graphics2D g2d = image2.createGraphics();
-			g2d.drawImage(image, 0, 0, w, h, canvas.pX1, 0, w, h, null);
+			g2d.drawImage(image, 0, 0, w, h, canvas.pX1, 0, x, h, null);
 			g2d.dispose();
 
 			// And dump it to the screen
