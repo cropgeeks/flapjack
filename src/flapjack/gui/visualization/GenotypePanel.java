@@ -86,7 +86,7 @@ public class GenotypePanel extends JPanel
 
 	// Called whenever the underlying data of a view has changed in such a way
 	// that we need to update the view's components to reflect this
-	void refreshView()
+	public void refreshView()
 	{
 		canvas.setView(view);
 		listPanel.setView(view);
@@ -96,6 +96,9 @@ public class GenotypePanel extends JPanel
 
 		OverviewManager.createImage();
 	}
+
+	public GTViewSet getViewSet()
+		{ return viewSet; }
 
 	public void setViewSet(GTViewSet viewSet)
 	{
@@ -218,13 +221,19 @@ public class GenotypePanel extends JPanel
 	}
 
 	// Jumps to a position relative to a x/y index within the dataset array
-	void jumpToPosition(int xIndex, int yIndex)
+	public void jumpToPosition(int lineIndex, int markerIndex)
 	{
-		int x = xIndex * canvas.boxW - (canvas.boxW);
-		int y = yIndex * canvas.boxH - (canvas.boxH);
+		if (lineIndex != -1)
+		{
+			int y = lineIndex * canvas.boxH - (canvas.boxH);
+			vBar.setValue(y);
+		}
 
-		hBar.setValue(x);
-		vBar.setValue(y);
+		if (markerIndex != -1)
+		{
+			int x = markerIndex * canvas.boxW - (canvas.boxW);
+			hBar.setValue(x);
+		}
 	}
 
 	// Moves the scroll bars by the given amount in the x and y directions

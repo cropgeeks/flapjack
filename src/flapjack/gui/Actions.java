@@ -16,6 +16,8 @@ public class Actions
 
 	public static AbstractAction viewOverview;
 
+	public static AbstractAction dataSortLines;
+
 	public static AbstractAction helpAbout;
 
 	Actions(WinMain winMain)
@@ -86,6 +88,13 @@ public class Actions
 		};
 
 
+		dataSortLines = new AbstractAction(RB.getString("gui.Actions.dataSortLines")) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.dataSortLines();
+			}
+		};
+
+
 		helpAbout = new AbstractAction(RB.getString("gui.Actions.helpAbout")) {
 			public void actionPerformed(ActionEvent e) {
 				winMain.helpAbout();
@@ -97,5 +106,7 @@ public class Actions
 	public static void resetActions()
 	{
 		viewOverview.setEnabled(false);
+
+		dataSortLines.setEnabled(false);
 	}
 }

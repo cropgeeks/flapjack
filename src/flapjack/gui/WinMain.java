@@ -7,6 +7,7 @@ import javax.swing.*;
 
 import flapjack.data.*;
 import flapjack.gui.dialog.*;
+import flapjack.gui.dialog.analysis.*;
 import flapjack.gui.visualization.*;
 import flapjack.io.*;
 
@@ -19,6 +20,7 @@ public class WinMain extends JFrame
 	private WinMainStatusBar statusbar;
 
 	private NavPanel navPanel;
+	private GenotypePanel gPanel;
 
 	// The user's project
 	private Project project = new Project();
@@ -35,6 +37,7 @@ public class WinMain extends JFrame
 		setJMenuBar(menubar);
 
 		navPanel = new NavPanel(this);
+		gPanel = navPanel.getGenotypePanel();
 
 
 		add(toolbar, BorderLayout.NORTH);
@@ -112,7 +115,7 @@ public class WinMain extends JFrame
 		if (ProjectSerializer.okToContinue(project, false) == false)
 			return;
 
-		navPanel.getGenotypePanel().resetBufferedState(false);
+		gPanel.resetBufferedState(false);
 
 		SaveLoadDialog dialog = new SaveLoadDialog(false);
 		Project openedProject = dialog.open(file);
@@ -124,7 +127,7 @@ public class WinMain extends JFrame
 			menubar.createRecentMenu(project.filename);
 		}
 		else
-			navPanel.getGenotypePanel().resetBufferedState(true);
+			gPanel.resetBufferedState(true);
 	}
 
 	public boolean fileSave(boolean saveAs)
@@ -148,7 +151,7 @@ public class WinMain extends JFrame
 
 		if (dialog.isOK())
 		{
-			navPanel.getGenotypePanel().resetBufferedState(false);
+			gPanel.resetBufferedState(false);
 
 			File mapFile  = dialog.getMapFile();
 			File genoFile = dialog.getGenotypeFile();
@@ -176,6 +179,14 @@ public class WinMain extends JFrame
 	void viewOverview()
 	{
 		OverviewManager.toggleOverviewDialog();
+	}
+
+	void dataSortLines()
+	{
+		SortLinesDialog dialog = new SortLinesDialog(gPanel);
+
+		if (dialog.isOK())
+			new SortingLinesProgressDialog().runSort(gPanel);
 	}
 
 	void helpAbout()

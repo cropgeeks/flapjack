@@ -126,7 +126,7 @@ class OverviewCanvas extends JPanel
 			int xIndex = (int) (x / bufferFactory.xScale);
 			int yIndex = (int) (y / bufferFactory.yScale);
 
-			gPanel.jumpToPosition(xIndex, yIndex);
+			gPanel.jumpToPosition(yIndex, xIndex);
 		}
 
 		public void paintComponent(Graphics g)

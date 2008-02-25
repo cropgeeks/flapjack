@@ -26,9 +26,6 @@ class GenotypeCanvas extends JPanel
 	int alphaEffect = 0;
 
 	boolean locked = false;
-	// Marker and line to be highlighted
-	int highlightX = -1;
-	int highlightY = -1;
 
 	// The total number of boxes (allele states) in the dataset
 	int boxTotalX, boxTotalY;
@@ -147,10 +144,10 @@ class GenotypeCanvas extends JPanel
 	// Called as the mouse moves over the canvas - we want to highlight this
 	void setHighlightedIndices(int rowIndex, int colIndex)
 	{
-		if (rowIndex != highlightY || colIndex != highlightX)
+		if (rowIndex != view.selectedLine || colIndex != view.selectedMarker)
 		{
-			highlightY = rowIndex;
-			highlightX = colIndex;
+			view.selectedLine = rowIndex;
+			view.selectedMarker = colIndex;
 //			repaint();
 		}
 	}
