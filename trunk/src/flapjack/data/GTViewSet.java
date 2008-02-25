@@ -70,4 +70,9 @@ public class GTViewSet
 	{
 		return views.get(index);
 	}
+
+	public GTView getSelectedView()
+	{
+		return views.get(viewIndex);
+	}
 }

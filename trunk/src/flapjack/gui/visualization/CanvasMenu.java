@@ -17,7 +17,6 @@ class CanvasMenu
 	private JCheckBoxMenuItem mShowGenotypes;
 
 	private AbstractAction aLock;
-	private AbstractAction aSortLines;
 	private AbstractAction aShowGenotypes;
 
 	CanvasMenu(GenotypePanel gPanel, GenotypeCanvas canvas)
@@ -40,17 +39,6 @@ class CanvasMenu
 			}
 		};
 
-		aSortLines = new AbstractAction(RB.getString("gui.Actions.canvasSortLines")) {
-			public void actionPerformed(ActionEvent e)
-			{
-				int line = canvas.highlightY;
-				new flapjack.analysis.SimilaritySort(canvas.view, line).run();
-
-				gPanel.refreshView();
-				gPanel.jumpToPosition(0, 0);
-			}
-		};
-
 		aShowGenotypes = new AbstractAction(RB.getString("gui.Actions.canvasShowGenotypes")) {
 			public void actionPerformed(ActionEvent e)
 			{
@@ -63,7 +51,7 @@ class CanvasMenu
 	private void createItems()
 	{
 		mLock = WinMainMenuBar.getCheckedItem(aLock, KeyEvent.VK_L, 0, 0, canvas.locked);
-		mSortLines = WinMainMenuBar.getItem(aSortLines, KeyEvent.VK_S, 0, 0);
+		mSortLines = WinMainMenuBar.getItem(Actions.dataSortLines, KeyEvent.VK_S, 0, 0);
 		mShowGenotypes = WinMainMenuBar.getCheckedItem(aShowGenotypes, KeyEvent.VK_O, 0, 0, Prefs.visShowGenotypes);
 	}
 

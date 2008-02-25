@@ -27,6 +27,10 @@ public class GTView
 	// The positions of the scrollbars, and the current zoom level
 	private int scrollX, scrollY, zoom = 7;
 
+	// Marker and line to be highlighted
+	public int selectedLine = -1;
+	public int selectedMarker = -1;
+
 	public int hideMarker = -1;
 
 	public GTView()

@@ -21,6 +21,9 @@ public class WinMainMenuBar extends JMenuBar
 	private JMenu mView;
 	private JCheckBoxMenuItem mViewOverview;
 
+	private JMenu mData;
+	private JMenuItem mDataSortLines;
+
 	private JMenu mHelp;
 	private JMenuItem mHelpAbout;
 
@@ -34,6 +37,7 @@ public class WinMainMenuBar extends JMenuBar
 
 		createFileMenu();
 		createViewMenu();
+		createDataMenu();
 		createHelpMenu();
 	}
 
@@ -78,6 +82,18 @@ public class WinMainMenuBar extends JMenuBar
 		mView.add(mViewOverview);
 
 		add(mView);
+	}
+
+	private void createDataMenu()
+	{
+		mData = new JMenu(RB.getString("gui.WinMainMenuBar.mData"));
+		mData.setMnemonic(KeyEvent.VK_D);
+
+		mDataSortLines = getItem(Actions.dataSortLines, KeyEvent.VK_S, 0, 0);
+
+		mData.add(mDataSortLines);
+
+		add(mData);
 	}
 
 	private void createHelpMenu()

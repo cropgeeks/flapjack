@@ -32,6 +32,7 @@ public class VisualizationNode extends BaseNode
 	public void setActions()
 	{
 		Actions.viewOverview.setEnabled(true);
+		Actions.dataSortLines.setEnabled(true);
 	}
 
 	public JPanel getPanel()
