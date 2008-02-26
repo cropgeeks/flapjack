@@ -12,10 +12,13 @@ import flapjack.gui.visualization.*;
 
 public class SortingLinesProgressDialog extends JDialog
 {
+	private JProgressBar pBar;
 	private GenotypePanel gPanel;
 
 	// Runnable object that will be active while the dialog is visible
 	private Runnable runnable;
+	// Which will be running this sort
+	private SimilaritySort sort;
 
 	public SortingLinesProgressDialog()
 	{
@@ -24,11 +27,16 @@ public class SortingLinesProgressDialog extends JDialog
 			RB.getString("gui.dialog.analysis.SortingLinesProgressDialog.title"),
 			true);
 
-		add(new NBSortingLinesProgressPanel());
+		NBSortingLinesProgressPanel panel = new NBSortingLinesProgressPanel();
+		pBar = panel.getProgressBar();
+
+		add(panel);
 
 		addWindowListener(new WindowAdapter() {
-			public void windowOpened(WindowEvent e) {
-				new Thread(runnable).start();
+			public void windowOpened(WindowEvent e)
+			{
+				new Thread(new SortThread()).start();
+				new Thread(new MonitorThread()).start();
 			}
 		});
 
@@ -41,7 +49,7 @@ public class SortingLinesProgressDialog extends JDialog
 	public void runSort(GenotypePanel gPanel)
 	{
 		this.gPanel = gPanel;
-		runnable = new SortThread();
+		pBar.setMaximum(gPanel.getView().getLineCount());
 
 		setVisible(true);
 	}
@@ -58,14 +66,11 @@ public class SortingLinesProgressDialog extends JDialog
 	{
 		public void run()
 		{
-			try { Thread.sleep(500); }
-			catch (Exception e) {}
-
-			GTView view = gPanel.getViewSet().getSelectedView();
-
+			GTView view = gPanel.getView();
 			int line = view.selectedLine;
-			new SimilaritySort(view, line).run();
 
+			sort = new SimilaritySort(view, line);
+			sort.doSort();
 
 			Runnable r = new Runnable() {
 				public void run() {
@@ -74,6 +79,26 @@ public class SortingLinesProgressDialog extends JDialog
 			};
 
 			SwingUtilities.invokeLater(r);
+		}
+	}
+
+	private class MonitorThread implements Runnable
+	{
+		public void run()
+		{
+			while (isVisible())
+			{
+				Runnable r = new Runnable() {
+					public void run() {
+						pBar.setValue(sort.getLinesScored());
+					}
+				};
+
+				SwingUtilities.invokeLater(r);
+
+				try { Thread.sleep(250); }
+				catch (InterruptedException e) {}
+			}
 		}
 	}
 }

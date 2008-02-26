@@ -9,13 +9,18 @@ public class SimilaritySort
 	private GTView view;
 	private int line;
 
+	private int linesScored = 0;
+
 	public SimilaritySort(GTView view, int line)
 	{
 		this.view = view;
 		this.line = line;
 	}
 
-	public void run()
+	public int getLinesScored()
+		{ return linesScored; }
+
+	public void doSort()
 	{
 		long s = System.currentTimeMillis();
 
@@ -27,7 +32,7 @@ public class SimilaritySort
 		System.out.println("Sorting using line " + line + " as comparison line");
 
 		// Work out what those scores are
-		for (int i = 0; i < view.getLineCount(); i++)
+		for (int i = 0; i < view.getLineCount(); i++, linesScored++)
 		{
 			SimilarityScore ss = new SimilarityScore(view, line, i, SimilarityScore.SIMPLE);
 
