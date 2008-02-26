@@ -206,7 +206,7 @@ class MapCanvas extends JPanel
 		{
 			try
 			{
-				buffer = new BufferedImage(w, h, BufferedImage.TYPE_BYTE_GRAY);
+				buffer = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
 			}
 			catch (Throwable t) { return; }
 

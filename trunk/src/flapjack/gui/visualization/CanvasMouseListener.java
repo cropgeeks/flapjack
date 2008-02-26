@@ -56,6 +56,9 @@ class CanvasMouseListener extends MouseInputAdapter
 
 	public void mousePressed(MouseEvent e)
 	{
+		if (e.isPopupTrigger())
+			canvasMenu.handlePopup(e);
+
 		if (SwingUtilities.isLeftMouseButton(e))
 		{
 			if (e.isControlDown())
