@@ -100,6 +100,9 @@ public class GenotypePanel extends JPanel
 	public GTViewSet getViewSet()
 		{ return viewSet; }
 
+	public GTView getView()
+		{ return view; }
+
 	public void setViewSet(GTViewSet viewSet)
 	{
 		this.viewSet = viewSet;
