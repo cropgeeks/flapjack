@@ -73,7 +73,7 @@ class WinMainToolBar extends JToolBar
 
 		button.setMargin(new Insets(1, 1, 1, 1));
 		button.setIcon(icon);
-//		button.setFocusPainted(false);
+		button.setFocusPainted(false);
 
 		return button;
 	}
