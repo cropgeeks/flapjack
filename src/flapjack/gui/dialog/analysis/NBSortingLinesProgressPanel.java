@@ -1,30 +1,27 @@
-/*
- * NBSaveLoadPanel.java
- *
- * Created on 12 February 2008, 08:48
- */
+package flapjack.gui.dialog.analysis;
 
-package flapjack.gui.dialog;
+import javax.swing.*;
 
+import flapjack.gui.dialog.*;
 import flapjack.gui.*;
 
 /**
  *
  * @author  imilne
  */
-public class NBSaveLoadPanel extends javax.swing.JPanel
+class NBSortingLinesProgressPanel extends javax.swing.JPanel
 {
 
-	/** Creates new form NBSaveLoadPanel */
-	public NBSaveLoadPanel(boolean isSaving)
+	/** Creates new form NBSortingLinesProgressPanel */
+	public NBSortingLinesProgressPanel()
 	{
 		initComponents();
 
-		if (isSaving)
-			label.setText(RB.getString("gui.dialog.NBSaveLoadPanel.saving"));
-		else
-			label.setText(RB.getString("gui.dialog.NBSaveLoadPanel.loading"));
+		label.setText(RB.getString("gui.dialog.analysis.NBSortingLinesProgressPanel.label"));
 	}
+
+	JProgressBar getProgressBar()
+		{ return pBar; }
 
 	/** This method is called from within the constructor to
 	 * initialize the form.
@@ -35,10 +32,8 @@ public class NBSaveLoadPanel extends javax.swing.JPanel
     private void initComponents()
     {
 
-        pBar = new javax.swing.JProgressBar();
         label = new javax.swing.JLabel();
-
-        pBar.setIndeterminate(true);
+        pBar = new javax.swing.JProgressBar();
 
         label.setText("Loading project - please be patient...");
 
@@ -46,15 +41,17 @@ public class NBSaveLoadPanel extends javax.swing.JPanel
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(0, 400, Short.MAX_VALUE)
             .add(layout.createSequentialGroup()
                 .addContainerGap()
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(pBar, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 320, Short.MAX_VALUE)
+                    .add(pBar, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE)
                     .add(label))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(0, 66, Short.MAX_VALUE)
             .add(layout.createSequentialGroup()
                 .addContainerGap()
                 .add(label)
@@ -62,12 +59,13 @@ public class NBSaveLoadPanel extends javax.swing.JPanel
                 .add(pBar, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-    }// </editor-fold>//GEN-END:initComponents
+    }// </editor-fold>
 
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
+    // Variables declaration - do not modify
     private javax.swing.JLabel label;
     private javax.swing.JProgressBar pBar;
-    // End of variables declaration//GEN-END:variables
+    // End of variables declaration
+
 
 }

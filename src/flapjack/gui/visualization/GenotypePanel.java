@@ -167,7 +167,7 @@ public class GenotypePanel extends JPanel
 			if (tabs.getSelectedIndex() != -1)
 			{
 				for (int i = 0; i < tabs.getTabCount(); i++)
-					tabs.setComponentAt(i, null);
+					tabs.setComponentAt(i, new JPanel());
 
 				displayMap(tabs.getSelectedIndex());
 			}
