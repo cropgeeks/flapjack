@@ -1,5 +1,6 @@
 package flapjack.gui;
 
+import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 import java.util.*;
@@ -8,6 +9,7 @@ import javax.swing.*;
 public class WinMainMenuBar extends JMenuBar
 {
 	private WinMain winMain;
+	private int menuShortcut;
 
 	private JMenu mFile;
 	private JMenu mFileRecent;
@@ -31,6 +33,9 @@ public class WinMainMenuBar extends JMenuBar
 	{
 		this.winMain = winMain;
 
+		// Returns value for "CTRL" under most OSs, and the "apple" key for OS X
+		menuShortcut = Toolkit.getDefaultToolkit().getMenuShortcutKeyMask();
+
 		new Actions(winMain);
 
 		setBorderPainted(false);
@@ -46,9 +51,9 @@ public class WinMainMenuBar extends JMenuBar
 		mFile = new JMenu(RB.getString("gui.WinMainMenuBar.mFile"));
 		mFile.setMnemonic(KeyEvent.VK_F);
 
-		mFileNew = getItem(Actions.fileNew, KeyEvent.VK_N, KeyEvent.VK_N, InputEvent.CTRL_MASK);
-		mFileOpen = getItem(Actions.fileOpen, KeyEvent.VK_O, KeyEvent.VK_O, InputEvent.CTRL_MASK);
-		mFileSave = getItem(Actions.fileSave, KeyEvent.VK_S, KeyEvent.VK_S, InputEvent.CTRL_MASK);
+		mFileNew = getItem(Actions.fileNew, KeyEvent.VK_N, KeyEvent.VK_N, menuShortcut);
+		mFileOpen = getItem(Actions.fileOpen, KeyEvent.VK_O, KeyEvent.VK_O, menuShortcut);
+		mFileSave = getItem(Actions.fileSave, KeyEvent.VK_S, KeyEvent.VK_S, menuShortcut);
 		mFileSaveAs = getItem(Actions.fileSaveAs, KeyEvent.VK_A, 0, 0);
 		mFileImport = getItem(Actions.fileImport, KeyEvent.VK_I, 0, 0);
 		mFileExit = getItem(Actions.fileExit, KeyEvent.VK_X, 0, 0);
