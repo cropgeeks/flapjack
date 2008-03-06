@@ -1,4 +1,4 @@
-package flapjack.gui.visualization;
+package flapjack.gui.visualization.colors;
 
 import java.awt.*;
 import java.awt.color.*;
@@ -8,7 +8,7 @@ import java.awt.image.*;
 import flapjack.data.*;
 import flapjack.gui.*;
 
-class ColoredAlleleState
+public class ColoredAlleleState
 {
 	private AlleleState state;
 

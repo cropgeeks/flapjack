@@ -9,6 +9,7 @@ import javax.swing.*;
 
 import flapjack.data.*;
 import flapjack.gui.*;
+import flapjack.gui.visualization.colors.*;
 
 class GenotypeCanvas extends JPanel
 {
