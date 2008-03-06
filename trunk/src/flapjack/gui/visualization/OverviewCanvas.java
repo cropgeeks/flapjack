@@ -8,6 +8,7 @@ import javax.swing.event.*;
 
 import flapjack.data.*;
 import flapjack.gui.*;
+import flapjack.gui.visualization.colors.*;
 
 class OverviewCanvas extends JPanel
 {

@@ -1,14 +1,14 @@
-package flapjack.gui.visualization;
+package flapjack.gui.visualization.colors;
 
 import java.util.*;
 
 import flapjack.data.*;
 
-class ColorTable
+public class ColorTable
 {
 	private Vector<ColoredAlleleState> states = new Vector<ColoredAlleleState>();
 
-	ColorTable(StateTable stateTable, int w, int h)
+	public ColorTable(StateTable stateTable, int w, int h)
 	{
 		for (int i = 0; i < stateTable.size(); i++)
 		{
@@ -18,7 +18,7 @@ class ColorTable
 		}
 	}
 
-	ColoredAlleleState get(int index)
+	public ColoredAlleleState get(int index)
 	{
 		return states.get(index);
 	}
