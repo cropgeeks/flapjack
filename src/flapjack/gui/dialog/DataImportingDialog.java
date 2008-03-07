@@ -150,8 +150,9 @@ public class DataImportingDialog extends JDialog implements Runnable
 			GTViewSet viewSet = new GTViewSet(dataSet, "Default View");
 			dataSet.getViewSets().add(viewSet);
 
-
 			System.out.println("Genotype data loaded in " + (e-s) + "ms");
+
+			displayDuplicates();
 
 			isOK = true;
 		}
@@ -173,5 +174,20 @@ public class DataImportingDialog extends JDialog implements Runnable
 		}
 
 		setVisible(false);
+	}
+
+	private void displayDuplicates()
+	{
+		if (mapImporter.getDuplicates().size() == 0)
+			return;
+
+		Runnable r = new Runnable() {
+			public void run() {
+				new DuplicateMarkersDialog(mapImporter.getDuplicates());
+			}
+		};
+
+		try { SwingUtilities.invokeAndWait(r); }
+		catch (Exception e) {}
 	}
 }
