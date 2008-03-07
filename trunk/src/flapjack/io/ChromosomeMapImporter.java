@@ -1,6 +1,7 @@
 package flapjack.io;
 
 import java.io.*;
+import java.util.*;
 
 import flapjack.data.*;
 
@@ -8,6 +9,8 @@ public class ChromosomeMapImporter
 {
 	private File file;
 	private DataSet dataSet;
+
+	private LinkedList<String> duplicates = new LinkedList<String>();
 
 	public ChromosomeMapImporter(File file, DataSet dataSet)
 	{
@@ -36,8 +39,7 @@ public class ChromosomeMapImporter
 			int mapIndex = dataSet.getMapIndexByMarkerName(marker.getName());
 			if (mapIndex != -1)
 			{
-				System.out.println("Duplicate marker error: " + marker + " ("
-					+ tokens[1] + ") already found in "
+				duplicates.add(marker.getName() + "\t" + tokens[1] + "\t"
 					+ dataSet.getMapByIndex(mapIndex).getName());
 			}
 			else
@@ -53,4 +55,7 @@ public class ChromosomeMapImporter
 
 		dataSet.sortChromosomeMaps();
 	}
+
+	public LinkedList<String> getDuplicates()
+		{ return duplicates; }
 }
