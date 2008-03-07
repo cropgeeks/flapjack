@@ -100,15 +100,6 @@ public class DataSet
 		return map;
 	}
 
-	public ChromosomeMap getMapByMarkerName(String markerName)
-	{
-		for (ChromosomeMap map: chromosomes)
-			if (map.containsMarker(markerName))
-				return map;
-
-		return null;
-	}
-
 	public int getMapIndexByMarkerName(String markerName)
 	{
 		for (ChromosomeMap map: chromosomes)

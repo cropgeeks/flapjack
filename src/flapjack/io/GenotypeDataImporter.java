@@ -33,6 +33,8 @@ public class GenotypeDataImporter
 	public void importGenotypeData()
 		throws IOException, DataFormatException
 	{
+		long s = System.currentTimeMillis();
+
 		BufferedReader in = new BufferedReader(new FileReader(file));
 
 		String str = in.readLine();
@@ -41,13 +43,21 @@ public class GenotypeDataImporter
 		// first element as it's a redundant column header)
 		String[] markers = str.split("\t");
 
-		// Now work out the map indices of these markers
+		// Now work out the map indices of these markers and the indices within
+		// the map itself. This speeds up loading by pre-caching this data so we
+		// don't need to search per line, rather just once per file
 		// TODO: What if a marker exists in more than one map?
 		int[] mapIndex = new int[markers.length];
-		for (int i = 1; i < markers.length; i++)
-			mapIndex[i] = dataSet.getMapIndexByMarkerName(markers[i]);
+		int[] markerIndex = new int[markers.length];
 
-		long s = System.currentTimeMillis();
+		for (int i = 1; i < markers.length; i++)
+		{
+			mapIndex[i] = dataSet.getMapIndexByMarkerName(markers[i]);
+			markerIndex[i] = dataSet.getMapByIndex(mapIndex[i]).getMarkerIndex(markers[i]);
+		}
+
+		System.out.println("Map/marker cache created in " + (System.currentTimeMillis()-s) + "ms");
+		s = System.currentTimeMillis();
 
 		while ((str = in.readLine()) != null)
 		{
@@ -70,18 +80,11 @@ public class GenotypeDataImporter
 				{
 					ChromosomeMap map = dataSet.getMapByIndex(mapIndex[i]);
 
-					// TODO: Why are so many markers found in the genotype file that
-					// were not in the map file?
-
-					// Work out how many times it appears
-					int[] indices = map.getMarkerLocations(markers[i]);
-
 					// Determine its various states
 					int stateCode = stateTable.getStateCode(values[i], true);
 
-					// Then apply them to each instance of the marker
-					for (int lociIndex: indices)
-						line.setLoci(mapIndex[i], lociIndex, stateCode);
+					// Then apply them to the marker data
+					line.setLoci(mapIndex[i], markerIndex[i], stateCode);
 
 					markerCount++;
 				}
