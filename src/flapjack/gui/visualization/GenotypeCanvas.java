@@ -22,7 +22,7 @@ class GenotypeCanvas extends JPanel
 	GTView view;
 
 	// The current color model
-	ColorTable cTable;
+	ColorScheme cScheme;
 	// Transparancy intensity for animation effects
 	int alphaEffect = 0;
 
@@ -113,7 +113,18 @@ class GenotypeCanvas extends JPanel
 
 		setSize(dimension = new Dimension(canvasW, canvasH));
 
-		cTable = new ColorTable(view.getStateTable(), boxW, boxH);
+		System.out.println("Canvas: color scheme is " + view.getColorScheme());
+
+		switch (view.getColorScheme())
+		{
+			case ColorScheme.NUCLEOTIDE:
+				cScheme = new NucleotideColorScheme(view, boxW, boxH);
+				break;
+
+			default:
+				cScheme = new RandomColorScheme(view, boxW, boxH);
+				break;
+		}
 
 		/////////////////////////
 
@@ -287,13 +298,14 @@ class GenotypeCanvas extends JPanel
 				if (monitor.killMe)
 					break;
 
-				int state = view.getState(yIndex, xIndex);
+//				int state = view.getState(yIndex, xIndex);
 //				int compState = view.getState(0, xIndex);
 
-				if (state > 0)
+//				if (state > 0)
 				{
 //					if (state != compState || yIndex == 0)
-						g.drawImage(cTable.get(state).getImage(), x, y, null);
+					g.drawImage(cScheme.getImage(yIndex, xIndex), x, y, null);
+//						g.drawImage(cTable.get(state).getImage(), x, y, null);
 //					else
 //						g.drawImage(cTable.get(state).getGSImage(), x, y, null);
 				}

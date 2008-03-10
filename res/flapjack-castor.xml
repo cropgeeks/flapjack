@@ -79,6 +79,9 @@
 		<field name="zoom" type="int">
 			<bind-xml node="attribute"/>
 		</field>
+		<field name="colorScheme" type="int">
+			<bind-xml node="attribute"/>
+		</field>
 		<field name="lines" type="integer" collection="vector"/>
 		<field name="markers" type="integer" collection="vector"/>
 	</class>

@@ -80,15 +80,10 @@ class RowCanvas extends JPanel
 				// This is where we save the time...
 				if ((int)x != lastX)
 				{
-					int state = canvas.view.getState(lineIndex, xIndex);
+					g.setColor(canvas.cScheme.getColor(lineIndex, xIndex));
+					g.fillRect((int)x, 0, xWidth, 15);
 
-					if (state > 0)
-					{
-						g.setColor(canvas.cTable.get(state).getColor());
-						g.fillRect((int)x, 0, xWidth, 15);
-
-						lastX = (int)x;
-					}
+					lastX = (int)x;
 				}
 
 				x += xScale;

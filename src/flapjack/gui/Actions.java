@@ -3,6 +3,8 @@ package flapjack.gui;
 import java.awt.event.*;
 import javax.swing.*;
 
+import flapjack.gui.visualization.colors.*;
+
 public class Actions
 {
 	private WinMain winMain;
@@ -17,6 +19,8 @@ public class Actions
 	public static AbstractAction viewOverview;
 
 	public static AbstractAction dataSortLines;
+	public static AbstractAction dataColorRandom;
+	public static AbstractAction dataColorNucleotide;
 
 	public static AbstractAction helpAbout;
 
@@ -94,6 +98,18 @@ public class Actions
 			}
 		};
 
+		dataColorRandom = new AbstractAction(RB.getString("gui.Actions.dataColorRandom")) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.dataColor(ColorScheme.RANDOM);
+			}
+		};
+
+		dataColorNucleotide = new AbstractAction(RB.getString("gui.Actions.dataColorNucleotide")) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.dataColor(ColorScheme.NUCLEOTIDE);
+			}
+		};
+
 
 		helpAbout = new AbstractAction(RB.getString("gui.Actions.helpAbout")) {
 			public void actionPerformed(ActionEvent e) {
@@ -108,5 +124,7 @@ public class Actions
 		viewOverview.setEnabled(false);
 
 		dataSortLines.setEnabled(false);
+		dataColorRandom.setEnabled(false);
+		dataColorNucleotide.setEnabled(false);
 	}
 }

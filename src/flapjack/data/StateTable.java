@@ -46,6 +46,11 @@ public class StateTable
 		if (rawData.length() == 0)
 			return 0;
 
+		// TODO: offer a choice of what the blank/unknown char will be
+		// Replace "-" dash characters with the unknown state
+		if (rawData.equals("-"))
+			return 0;
+
 		for (int i = 0; i < states.size(); i++)
 			if (states.get(i).matchesAlleleState(rawData))
 				return i;

@@ -32,7 +32,10 @@ public class VisualizationNode extends BaseNode
 	public void setActions()
 	{
 		Actions.viewOverview.setEnabled(true);
+
 		Actions.dataSortLines.setEnabled(true);
+		Actions.dataColorRandom.setEnabled(true);
+		Actions.dataColorNucleotide.setEnabled(true);
 	}
 
 	public JPanel getPanel()

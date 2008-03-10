@@ -8,7 +8,7 @@ import java.awt.image.*;
 import flapjack.data.*;
 import flapjack.gui.*;
 
-public class ColoredAlleleState
+public class ColorState
 {
 	private AlleleState state;
 
@@ -25,23 +25,46 @@ public class ColoredAlleleState
 	// Width and height of the image
 	private int w, h;
 
-	ColoredAlleleState(AlleleState state, int w, int h)
+	ColorState(AlleleState state, Color color, int w, int h)
 	{
 		this.state = state;
+		this.color = color;
 		this.w = w;
 		this.h = h;
 
-		// Don't create colors et al for the UNKNOWN state
-		if (state.toString().length() > 0)
-		{
-			createColor();
+		if (color == null)
+			createRandomColor();
 
-			image = createBuffer(colorB, colorD);
-			gsImage = createBuffer(getGSColor(colorB), getGSColor(colorD));
-		}
+		createBuffers();
 	}
 
-	private Color getGSColor(Color color)
+	private void createBuffers()
+	{
+		colorB = color.brighter();
+		colorD = color.darker();
+		gsColor = getGreyScaleColor(color);
+
+		image = createBuffer(colorB, colorD);
+		gsImage = createBuffer(getGreyScaleColor(colorB), getGreyScaleColor(colorD));
+	}
+
+	private void createRandomColor()
+	{
+		int value = 0;
+		for (int i = 0; i < state.toString().length(); i++)
+			value += state.toString().charAt(i);
+
+		java.util.Random rnd = new java.util.Random(value+555);
+
+		int r = rnd.nextInt(255);
+		int g = rnd.nextInt(255);
+		int b = rnd.nextInt(255);
+
+		color = new Color(r, g, b);
+
+	}
+
+	private Color getGreyScaleColor(Color color)
 	{
 		// Cheap and simple conversion - average of the three colours
 //		int gs = (int) ((color.getRed()+color.getGreen()+color.getBlue())/3);
@@ -65,10 +88,11 @@ public class ColoredAlleleState
 		BufferedImage image = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
 		Graphics2D g = image.createGraphics();
 
-//		g.setColor(Color.white);
-//		g.fillRect(0, 0, w, h);
-
-		g.setPaint(new GradientPaint(0, 0, c1, w, h, c2));
+		// Don't apply gradients for white backgrounds
+		if (color == Color.white)
+			g.setColor(color);
+		else
+			g.setPaint(new GradientPaint(0, 0, c1, w, h, c2));
 
 		Rectangle2D.Float r = null;
 
@@ -83,9 +107,8 @@ public class ColoredAlleleState
 		g.fill(r);
 
 
-		if (Prefs.visShowGenotypes && h >= 10)
+		if (Prefs.visShowGenotypes && h >= 10 && !state.isUnknown())
 		{
-			//Font font = new Font("Monospaced", Font.PLAIN, h);
 			Font font = g.getFont().deriveFont(Font.PLAIN, h-3);
 			g.setFont(font);
 			FontMetrics fm = g.getFontMetrics();
@@ -113,25 +136,6 @@ public class ColoredAlleleState
 
 	public BufferedImage getGSImage()
 		{ return gsImage; }
-
-	private void createColor()
-	{
-		int value = 0;
-		for (int i = 0; i < state.toString().length(); i++)
-			value += state.toString().charAt(i);
-
-		java.util.Random rnd = new java.util.Random(value+555);
-
-		int r = rnd.nextInt(255);
-		int g = rnd.nextInt(255);
-		int b = rnd.nextInt(255);
-
-		color = new Color(r, g, b);
-		colorB = color.brighter();
-		colorD = color.darker();
-
-		gsColor = getGSColor(color);
-	}
 
 	public Color getColor()
 		{ return color; }
