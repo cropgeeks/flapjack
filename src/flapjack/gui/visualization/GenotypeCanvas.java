@@ -52,7 +52,7 @@ class GenotypeCanvas extends JPanel
 	private Dimension dimension = new Dimension();
 
 	// The tooltip object
-	CanvasToolTip tt = new CanvasToolTip();
+//	CanvasToolTip tt = new CanvasToolTip();
 
 	private BufferFactory bufferFactory;
 	private BufferedImage imageFull;

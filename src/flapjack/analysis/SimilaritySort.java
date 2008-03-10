@@ -34,7 +34,7 @@ public class SimilaritySort
 		// Work out what those scores are
 		for (int i = 0; i < view.getLineCount(); i++, linesScored++)
 		{
-			SimilarityScore ss = new SimilarityScore(view, line, i, SimilarityScore.SIMPLE);
+			SimilarityScore ss = new SimilarityScore(view, line, i);
 
 			SimilarityScore.Score score = ss.getScore();
 			scores.add(new LineScore(view.getLines().get(i), score.score, score.nComparisons));
