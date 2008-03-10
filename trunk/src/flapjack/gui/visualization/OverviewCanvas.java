@@ -164,7 +164,7 @@ class OverviewCanvas extends JPanel
 	private class BufferFactory extends Thread
 	{
 		private GTView view;
-		private ColorTable cTable;
+		private ColorScheme cScheme;
 
 		private BufferedImage buffer;
 		boolean killMe = false;
@@ -184,7 +184,7 @@ class OverviewCanvas extends JPanel
 			boxTotalX = canvas.boxTotalX;
 			boxTotalY = canvas.boxTotalY;
 			view = canvas.view;
-			cTable = canvas.cTable;
+			cScheme = canvas.cScheme;
 
 			start();
 		}
@@ -243,16 +243,11 @@ class OverviewCanvas extends JPanel
 					// This is where we save the time...
 					if ((int)x != lastX || (int)y != lastY)
 					{
-						int state = view.getState(yIndex, xIndex);
+						g.setColor(cScheme.getColor(yIndex, xIndex));
+						g.fillRect((int)x, (int)y, xWidth, yHeight);
 
-						if (state > 0)
-						{
-							g.setColor(cTable.get(state).getColor());
-							g.fillRect((int)x, (int)y, xWidth, yHeight);
-
-							lastX = (int)x;
-							lastY = (int)y;
-						}
+						lastX = (int)x;
+						lastY = (int)y;
 					}
 
 					x += xScale;

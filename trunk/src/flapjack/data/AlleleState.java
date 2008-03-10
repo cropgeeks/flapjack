@@ -14,7 +14,7 @@ public class AlleleState
 
 	public AlleleState(String rawData)
 	{
-		this.rawData = new String(rawData);
+		this.rawData = new String(rawData.toUpperCase());
 
 		states = rawData.split("/");
 
@@ -69,4 +69,6 @@ public class AlleleState
 		return this.rawData.equals(rawData);
 	}
 
+	public boolean isUnknown()
+		{ return rawData.equals("UNKNOWN"); }
 }

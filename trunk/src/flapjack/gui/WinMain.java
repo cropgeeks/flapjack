@@ -189,6 +189,12 @@ public class WinMain extends JFrame
 			new SortingLinesProgressDialog().runSort(gPanel);
 	}
 
+	void dataColor(int colorScheme)
+	{
+		gPanel.getView().setColorScheme(colorScheme);
+		gPanel.refreshView();
+	}
+
 	void helpAbout()
 	{
 		scri.commons.gui.TaskDialog.info("Flapjack - Genotype Visualization Tool 2.0"

@@ -25,6 +25,9 @@ public class WinMainMenuBar extends JMenuBar
 
 	private JMenu mData;
 	private JMenuItem mDataSortLines;
+	private JMenu mDataColor;
+	private JMenuItem mDataColorRandom;
+	private JMenuItem mDataColorNucleotide;
 
 	private JMenu mHelp;
 	private JMenuItem mHelpAbout;
@@ -58,7 +61,7 @@ public class WinMainMenuBar extends JMenuBar
 		mFileImport = getItem(Actions.fileImport, KeyEvent.VK_I, 0, 0);
 		mFileExit = getItem(Actions.fileExit, KeyEvent.VK_X, 0, 0);
 
-		mFileRecent = new JMenu(RB.getString("gui.Actions.fileRecent"));
+		mFileRecent = new JMenu(RB.getString("gui.WinMainMenuBar.mFileRecent"));
 		mFileRecent.setMnemonic(KeyEvent.VK_R);
 		createRecentMenu(null);
 
@@ -93,10 +96,23 @@ public class WinMainMenuBar extends JMenuBar
 	{
 		mData = new JMenu(RB.getString("gui.WinMainMenuBar.mData"));
 		mData.setMnemonic(KeyEvent.VK_D);
+		mDataColor = new JMenu(RB.getString("gui.WinMainMenuBar.mDataColor"));
+		mDataColor.setMnemonic(KeyEvent.VK_C);
 
 		mDataSortLines = getItem(Actions.dataSortLines, KeyEvent.VK_S, 0, 0);
+		mDataColorRandom = getRadioItem(Actions.dataColorRandom, KeyEvent.VK_R, 0, 0);
+		mDataColorNucleotide = getRadioItem(Actions.dataColorNucleotide, KeyEvent.VK_N, 0, 0);
+
+		mDataColor.add(mDataColorRandom);
+		mDataColor.add(mDataColorNucleotide);
+
+		ButtonGroup group = new ButtonGroup();
+		group.add(mDataColorRandom);
+		group.add(mDataColorNucleotide);
 
 		mData.add(mDataSortLines);
+		mData.addSeparator();
+		mData.add(mDataColor);
 
 		add(mData);
 	}
@@ -129,6 +145,17 @@ public class WinMainMenuBar extends JMenuBar
 		JCheckBoxMenuItem item = new JCheckBoxMenuItem(action);
 		item.setMnemonic(mnemonic);
 		item.setState(state);
+
+		if (accelerator != 0)
+			item.setAccelerator(KeyStroke.getKeyStroke(accelerator, keymask));
+
+		return item;
+	}
+
+	public static JRadioButtonMenuItem getRadioItem(Action action, int mnemonic, int accelerator, int keymask)
+	{
+		JRadioButtonMenuItem item = new JRadioButtonMenuItem(action);
+		item.setMnemonic(mnemonic);
 
 		if (accelerator != 0)
 			item.setAccelerator(KeyStroke.getKeyStroke(accelerator, keymask));
