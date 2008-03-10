@@ -10,7 +10,7 @@ public class Prefs extends XMLPreferences
 	public static boolean isFirstRun = true;
 
 	// The last used directory location in file chooser dialogs
-	public static String guiCurrentDir = new String();
+	public static String guiCurrentDir = "";
 
 	// How many projects have been created
 	public static int guiProjectCount = 1;

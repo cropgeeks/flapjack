@@ -73,7 +73,7 @@ public class WinMainStatusBar extends JPanel
 					Thread.sleep(750);
 				}
 			}
-			catch (Exception e) {}
+			catch (InterruptedException e) {}
 		}
 	}
 

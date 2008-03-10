@@ -7,21 +7,14 @@ import flapjack.data.*;
  */
 public class SimilarityScore
 {
-	public static int SIMPLE  = 0;
-	public static int JACCARD = 1;
-
 	private GTView view;
 	private int index1, index2;
-	private int method = 1;
 
-	private int a, b, c, d;
-
-	public SimilarityScore(GTView view, int index1, int index2, int method)
+	public SimilarityScore(GTView view, int index1, int index2)
 	{
 		this.view = view;
 		this.index1 = index1;
 		this.index2 = index2;
-		this.method = method;
 	}
 
 	public Score getScore()

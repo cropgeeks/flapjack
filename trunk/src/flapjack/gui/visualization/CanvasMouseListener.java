@@ -241,6 +241,7 @@ class CanvasMouseListener extends MouseInputAdapter
 	}
 }
 
+/*
 class CanvasToolTip extends JToolTip
 {
 	Color bgColor = (Color) UIManager.get("ToolTip.background");// new JLabel().createToolTip().getBackground();
@@ -276,3 +277,4 @@ class CanvasToolTip extends JToolTip
 //		g.fill(r);
 	}
 }
+*/
