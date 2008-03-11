@@ -42,5 +42,10 @@ public class Prefs extends XMLPreferences
 	// The type of back-buffer we want to use for faster rendering
 	public static int guiBackBufferType = java.awt.image.BufferedImage.TYPE_INT_RGB;
 
+	// String matches for missing data and heterozygous values when importing
+	public static String ioMissingData = "-";
+	public static String ioHeteroSeparator = "/";
+
+	// Should the visualization canvas overlay the raw data?
 	public static boolean visShowGenotypes = false;
 }

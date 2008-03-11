@@ -21,11 +21,18 @@ public class NBDataImportPanel extends javax.swing.JPanel implements ActionListe
 		mapText.setText("data\\illumina.map");
 		genoText.setText("data\\illumina.data");
 
+		missingText.setText(Prefs.ioMissingData);
+		heteroText.setText(Prefs.ioHeteroSeparator);
+
 		// Apply localized text
+		filePanel.setBorder(BorderFactory.createTitledBorder(RB.getString("gui.dialog.NBDataImportPanel.filePanel")));
 		mapLabel.setText(RB.getString("gui.dialog.NBDataImportPanel.mapLabel"));
 		mapButton.setText(RB.getString("gui.text.browse"));
 		genoLabel.setText(RB.getString("gui.dialog.NBDataImportPanel.genoLabel"));
 		genoButton.setText(RB.getString("gui.text.browse"));
+		optionPanel.setBorder(BorderFactory.createTitledBorder(RB.getString("gui.dialog.NBDataImportPanel.optionPanel")));
+		missingLabel.setText(RB.getString("gui.dialog.NBDataImportPanel.missingLabel"));
+		heteroLabel.setText(RB.getString("gui.dialog.NBDataImportPanel.hetroLabel"));
 	}
 
 	public void actionPerformed(ActionEvent e)
@@ -67,6 +74,9 @@ public class NBDataImportPanel extends javax.swing.JPanel implements ActionListe
 			return false;
 		}
 
+		Prefs.ioMissingData = missingText.getText();
+		Prefs.ioHeteroSeparator = heteroText.getText();
+
 		return true;
 	}
 
@@ -89,12 +99,20 @@ public class NBDataImportPanel extends javax.swing.JPanel implements ActionListe
     private void initComponents()
     {
 
+        filePanel = new javax.swing.JPanel();
         mapLabel = new javax.swing.JLabel();
         mapText = new javax.swing.JTextField();
         mapButton = new javax.swing.JButton();
         genoLabel = new javax.swing.JLabel();
         genoText = new javax.swing.JTextField();
         genoButton = new javax.swing.JButton();
+        optionPanel = new javax.swing.JPanel();
+        missingLabel = new javax.swing.JLabel();
+        heteroLabel = new javax.swing.JLabel();
+        missingText = new javax.swing.JTextField();
+        heteroText = new javax.swing.JTextField();
+
+        filePanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Data files to import:"));
 
         mapLabel.setDisplayedMnemonic('m');
         mapLabel.setLabelFor(mapText);
@@ -108,50 +126,116 @@ public class NBDataImportPanel extends javax.swing.JPanel implements ActionListe
 
         genoButton.setText("Browse...");
 
+        org.jdesktop.layout.GroupLayout filePanelLayout = new org.jdesktop.layout.GroupLayout(filePanel);
+        filePanel.setLayout(filePanelLayout);
+        filePanelLayout.setHorizontalGroup(
+            filePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(filePanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .add(filePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(genoLabel)
+                    .add(mapLabel))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(filePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
+                    .add(mapText, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 232, Short.MAX_VALUE)
+                    .add(genoText, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 232, Short.MAX_VALUE))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(filePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(mapButton)
+                    .add(genoButton))
+                .addContainerGap())
+        );
+        filePanelLayout.setVerticalGroup(
+            filePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(filePanelLayout.createSequentialGroup()
+                .add(filePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(mapButton)
+                    .add(mapLabel)
+                    .add(mapText, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .add(8, 8, 8)
+                .add(filePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(genoLabel)
+                    .add(genoButton)
+                    .add(genoText, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
+
+        optionPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Additional options:"));
+
+        missingLabel.setDisplayedMnemonic('d');
+        missingLabel.setLabelFor(missingText);
+        missingLabel.setText("Missing data string:");
+
+        heteroLabel.setDisplayedMnemonic('h');
+        heteroLabel.setLabelFor(heteroText);
+        heteroLabel.setText("Heterozygous separator string:");
+
+        missingText.setColumns(4);
+
+        heteroText.setColumns(4);
+
+        org.jdesktop.layout.GroupLayout optionPanelLayout = new org.jdesktop.layout.GroupLayout(optionPanel);
+        optionPanel.setLayout(optionPanelLayout);
+        optionPanelLayout.setHorizontalGroup(
+            optionPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(optionPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .add(missingLabel)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                .add(missingText, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 49, Short.MAX_VALUE)
+                .add(heteroLabel)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                .add(heteroText, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        optionPanelLayout.setVerticalGroup(
+            optionPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(optionPanelLayout.createSequentialGroup()
+                .add(optionPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(missingLabel)
+                    .add(missingText, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(heteroText, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(heteroLabel))
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(layout.createSequentialGroup()
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(genoLabel)
-                    .add(mapLabel))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
-                    .add(genoText, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 261, Short.MAX_VALUE)
-                    .add(mapText, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 261, Short.MAX_VALUE))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(mapButton)
-                    .add(genoButton))
+                    .add(org.jdesktop.layout.GroupLayout.LEADING, filePanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .add(org.jdesktop.layout.GroupLayout.LEADING, optionPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
                 .addContainerGap()
-                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(mapLabel)
-                    .add(mapButton)
-                    .add(mapText, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .add(filePanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(genoLabel)
-                    .add(genoButton)
-                    .add(genoText, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .add(optionPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel filePanel;
     private javax.swing.JButton genoButton;
     private javax.swing.JLabel genoLabel;
     private javax.swing.JTextField genoText;
+    private javax.swing.JLabel heteroLabel;
+    private javax.swing.JTextField heteroText;
     private javax.swing.JButton mapButton;
     private javax.swing.JLabel mapLabel;
     private javax.swing.JTextField mapText;
+    private javax.swing.JLabel missingLabel;
+    private javax.swing.JTextField missingText;
+    private javax.swing.JPanel optionPanel;
     // End of variables declaration//GEN-END:variables
 
 }

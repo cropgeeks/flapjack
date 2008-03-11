@@ -47,7 +47,8 @@ public class DataImportingDialog extends JDialog implements Runnable
 		);
 
 		mapImporter  = new ChromosomeMapImporter(mapFile, dataSet);
-		genoImporter = new GenotypeDataImporter(genoFile, dataSet);
+		genoImporter = new GenotypeDataImporter(genoFile, dataSet,
+			Prefs.ioMissingData, Prefs.ioHeteroSeparator);
 
 		add(createControls());
 

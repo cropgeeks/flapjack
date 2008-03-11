@@ -40,15 +40,10 @@ public class StateTable
 		return states.get(code);
 	}
 
-	public int getStateCode(String rawData, boolean create)
+	public int getStateCode(String rawData, boolean create, String missingString, String heteroString)
 	{
 		// If there's no state information, return our default "unknown" code
-		if (rawData.length() == 0)
-			return 0;
-
-		// TODO: offer a choice of what the blank/unknown char will be
-		// Replace "-" dash characters with the unknown state
-		if (rawData.equals("-"))
+		if (rawData.equals(missingString))
 			return 0;
 
 		for (int i = 0; i < states.size(); i++)
@@ -59,7 +54,7 @@ public class StateTable
 			return -1;
 
 		// If it wasn't found and needs to be created, then add it
-		states.add(new AlleleState(rawData));
+		states.add(new AlleleState(rawData, heteroString));
 		return states.size() - 1;
 	}
 }

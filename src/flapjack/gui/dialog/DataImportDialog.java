@@ -48,7 +48,7 @@ public class DataImportDialog extends JDialog implements ActionListener
 		p1.add(bCancel);
 
 		JPanel p2 = new JPanel(new FlowLayout(FlowLayout.RIGHT, 0, 0));
-		p2.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+		p2.setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 10));
 		p2.add(p1);
 
 		return p2;
