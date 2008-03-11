@@ -10,13 +10,18 @@ public class GenotypeDataImporter
 	private DataSet dataSet;
 	private StateTable stateTable;
 
+	private String ioMissingData;
+	private String ioHeteroSeparator;
+
 	private int lineCount;
 	private int markerCount;
 
-	public GenotypeDataImporter(File file, DataSet dataSet)
+	public GenotypeDataImporter(File file, DataSet dataSet, String ioMissingData, String ioHeteroSeparator)
 	{
 		this.file = file;
 		this.dataSet = dataSet;
+		this.ioMissingData = ioMissingData;
+		this.ioHeteroSeparator = ioHeteroSeparator;
 
 		stateTable = dataSet.getStateTable();
 	}
@@ -81,7 +86,8 @@ public class GenotypeDataImporter
 					ChromosomeMap map = dataSet.getMapByIndex(mapIndex[i]);
 
 					// Determine its various states
-					int stateCode = stateTable.getStateCode(values[i], true);
+					int stateCode = stateTable.getStateCode(values[i], true,
+						ioMissingData, ioHeteroSeparator);
 
 					// Then apply them to the marker data
 					line.setLoci(mapIndex[i], markerIndex[i], stateCode);

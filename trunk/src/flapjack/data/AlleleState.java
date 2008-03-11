@@ -9,14 +9,14 @@ public class AlleleState
 
 	public AlleleState()
 	{
-		this("UNKNOWN");
+		this("", "/");
 	}
 
-	public AlleleState(String rawData)
+	public AlleleState(String rawData, String ioHeteroString)
 	{
 		this.rawData = new String(rawData.toUpperCase());
 
-		states = rawData.split("/");
+		states = rawData.split(ioHeteroString);
 
 		if (states.length > 1)
 			isHomozygous = false;
@@ -38,6 +38,9 @@ public class AlleleState
 
 	public boolean isHomozygous()
 		{ return isHomozygous; }
+
+	public void setHomozygous(boolean isHomozygous)
+		{ this.isHomozygous = isHomozygous; }
 
 
 	// Other methods
@@ -70,5 +73,5 @@ public class AlleleState
 	}
 
 	public boolean isUnknown()
-		{ return rawData.equals("UNKNOWN"); }
+		{ return rawData.equals(""); }
 }
