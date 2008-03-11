@@ -36,7 +36,7 @@ class StatusPanel extends JPanel
 	{
 		label1 = new JLabel(RB.getString("gui.visualization.StatusPanel.line"));
 		label2 = new JLabel(RB.getString("gui.visualization.StatusPanel.marker"));
-		label3 = new JLabel("Genotype:");
+		label3 = new JLabel(RB.getString("gui.visualization.StatusPanel.genotype"));
 
 		lineLabel = new JLabel();
 		lineLabel.setForeground(Color.red);
