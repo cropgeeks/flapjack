@@ -24,9 +24,6 @@ public class GTView
 	// because Castor's reference="true" feature isn't working (08/02/2008)
 	private String mapName;
 
-	// Color model in use
-	private int colorScheme;
-
 	// The positions of the scrollbars, and the current zoom level
 	private int scrollX, scrollY, zoom = 7;
 
@@ -100,12 +97,6 @@ public class GTView
 
 	public void setZoom(int zoom)
 		{ this.zoom = zoom; }
-
-	public int getColorScheme()
-		{ return colorScheme; }
-
-	public void setColorScheme(int colorScheme)
-		{ this.colorScheme = colorScheme; }
 
 
 	// Other methods

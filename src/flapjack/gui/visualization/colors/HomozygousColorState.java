@@ -43,7 +43,7 @@ public class HomozygousColorState extends ColorState
 
 		if (Prefs.visShowGenotypes && h >= 7)
 		{
-			String str = state.getState(0);
+			String str = state.toString();
 
 			Font font = g.getFont().deriveFont(Font.PLAIN, h-3);
 			g.setFont(font);

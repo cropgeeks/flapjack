@@ -191,7 +191,7 @@ public class WinMain extends JFrame
 
 	void dataColor(int colorScheme)
 	{
-		gPanel.getView().setColorScheme(colorScheme);
+		gPanel.getViewSet().setColorScheme(colorScheme);
 		gPanel.refreshView();
 	}
 
