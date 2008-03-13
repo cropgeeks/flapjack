@@ -16,13 +16,13 @@ public class RandomColorScheme extends ColorScheme
 
 		// Use white for the default unknown state
 		AlleleState state = stateTable.getAlleleState(0);
-		states.add(new ColorState(state, Color.white, w, h));
+		states.add(new SimpleColorState(state, Color.white, w, h));
 
 		// And random colors for everything else
 		for (int i = 1; i < stateTable.size(); i++)
 		{
 			state = stateTable.getAlleleState(i);
-			states.add(new ColorState(state, null, w, h));
+			states.add(new HomozygousColorState(state, null, w, h));
 		}
 	}
 

@@ -9,7 +9,6 @@ public class AlleleState
 
 	public AlleleState()
 	{
-		this("", "/");
 	}
 
 	public AlleleState(String rawData, String ioHeteroString)
@@ -48,6 +47,11 @@ public class AlleleState
 	public String toString()
 	{
 		return rawData;
+	}
+
+	public String getState(int index)
+	{
+		return states[index];
 	}
 
 	/**

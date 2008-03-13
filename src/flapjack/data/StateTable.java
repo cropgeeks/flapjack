@@ -15,7 +15,7 @@ public class StateTable
 
 	public StateTable(int notused)
 	{
-		states.add(new AlleleState());
+		states.add(new AlleleState("", "/"));
 	}
 
 
