@@ -113,8 +113,7 @@ class GenotypeCanvas extends JPanel
 
 		setSize(dimension = new Dimension(canvasW, canvasH));
 
-		System.out.println("Canvas: color scheme is " + view.getColorScheme());
-
+		long s = System.currentTimeMillis();
 		switch (view.getColorScheme())
 		{
 			case ColorScheme.NUCLEOTIDE:
@@ -125,6 +124,7 @@ class GenotypeCanvas extends JPanel
 				cScheme = new RandomColorScheme(view, boxW, boxH);
 				break;
 		}
+		System.out.println("Color scheme created in " + (System.currentTimeMillis()-s) + "ms");
 
 		/////////////////////////
 
