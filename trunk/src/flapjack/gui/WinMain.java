@@ -52,7 +52,7 @@ public class WinMain extends JFrame
 		int scrnW = SwingUtils.getVirtualScreenDimension().width;
 		int scrnH = SwingUtils.getVirtualScreenDimension().height;
 
-		// Determine where on screen (TODO: on which monitor?) to display
+		// Determine where on screen to display
 		if (Prefs.isFirstRun || Prefs.guiWinMainX > (scrnW-50) || Prefs.guiWinMainY > (scrnH-50))
 			setLocationRelativeTo(null);
 		else
