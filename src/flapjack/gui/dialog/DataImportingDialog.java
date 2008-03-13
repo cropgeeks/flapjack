@@ -153,7 +153,8 @@ public class DataImportingDialog extends JDialog implements Runnable
 
 			System.out.println("Genotype data loaded in " + (e-s) + "ms");
 
-			displayDuplicates();
+			if (Prefs.warnDuplicateMarkers)
+				displayDuplicates();
 
 			isOK = true;
 		}

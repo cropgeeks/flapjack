@@ -147,8 +147,13 @@ public class WinMain extends JFrame
 
 	void fileImport()
 	{
-		DataImportDialog dialog = new DataImportDialog();
+		// Start by offering various import options
+		ImportOptionsDialog optionsDialog = new ImportOptionsDialog();
+		if (optionsDialog.isOK() == false)
+			return;
 
+		// Importing from file...
+		DataImportDialog dialog = new DataImportDialog();
 		if (dialog.isOK())
 		{
 			gPanel.resetBufferedState(false);

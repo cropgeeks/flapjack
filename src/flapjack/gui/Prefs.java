@@ -42,6 +42,12 @@ public class Prefs extends XMLPreferences
 	// The type of back-buffer we want to use for faster rendering
 	public static int guiBackBufferType = java.awt.image.BufferedImage.TYPE_INT_RGB;
 
+	// Method to use when importing data
+	public static int guiImportMethod = 0;
+
+	// Warning messages
+	public static boolean warnDuplicateMarkers = true;
+
 	// String matches for missing data and heterozygous values when importing
 	public static String ioMissingData = "-";
 	public static String ioHeteroSeparator = "/";

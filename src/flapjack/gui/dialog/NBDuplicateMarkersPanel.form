@@ -15,12 +15,15 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="0" attributes="0">
+          <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="label1" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Component id="label2" alignment="0" max="32767" attributes="1"/>
-                  <Component id="jScrollPane2" alignment="0" min="0" pref="0" max="32767" attributes="1"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
+                      <Component id="label1" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="label2" alignment="0" max="32767" attributes="1"/>
+                      <Component id="jScrollPane2" alignment="0" min="0" pref="0" max="32767" attributes="1"/>
+                  </Group>
+                  <Component id="checkWarn" alignment="0" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="32767" attributes="0"/>
           </Group>
@@ -35,6 +38,8 @@
               <Component id="label2" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="jScrollPane2" min="-2" pref="139" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Component id="checkWarn" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
@@ -68,5 +73,11 @@
         </Component>
       </SubComponents>
     </Container>
+    <Component class="javax.swing.JCheckBox" name="checkWarn">
+      <Properties>
+        <Property name="mnemonic" type="int" value="100"/>
+        <Property name="text" type="java.lang.String" value="Don&apos;t warn me about duplicate markers again"/>
+      </Properties>
+    </Component>
   </SubComponents>
 </Form>
