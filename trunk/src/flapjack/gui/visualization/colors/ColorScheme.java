@@ -10,8 +10,8 @@ import flapjack.data.*;
  */
 public abstract class ColorScheme
 {
-	public static final int RANDOM = 0;
-	public static final int NUCLEOTIDE = 1;
+	public static final int NUCLEOTIDE = 0;
+	public static final int RANDOM = 1;
 
 	protected GTView view;
 	protected StateTable stateTable;
