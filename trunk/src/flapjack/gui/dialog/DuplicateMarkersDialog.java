@@ -66,7 +66,10 @@ public class DuplicateMarkersDialog extends JDialog implements ActionListener
 	public void actionPerformed(ActionEvent e)
 	{
 		if (e.getSource() == bClose)
+		{
+			Prefs.warnDuplicateMarkers = !nbPanel.isCheckboxSelected();
 			setVisible(false);
+		}
 
 		else if (e.getSource() == bClipboard)
 		{

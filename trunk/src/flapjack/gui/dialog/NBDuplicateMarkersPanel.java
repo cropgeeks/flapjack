@@ -44,7 +44,11 @@ public class NBDuplicateMarkersPanel extends javax.swing.JPanel
 
 		label1.setText(RB.getString("gui.dialog.NBDuplicateMarkersDialog.label1"));
 		label2.setText(RB.getString("gui.dialog.NBDuplicateMarkersDialog.label2"));
+		checkWarn.setText(RB.getString("gui.dialog.NBDuplicateMarkersDialog.checkWarn"));
 	}
+
+	boolean isCheckboxSelected()
+		{ return checkWarn.isSelected(); }
 
 	/** This method is called from within the constructor to
 	 * initialize the form.
@@ -59,6 +63,7 @@ public class NBDuplicateMarkersPanel extends javax.swing.JPanel
         label2 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         table = new javax.swing.JTable();
+        checkWarn = new javax.swing.JCheckBox();
 
         label1.setText("The imported data contains one or more duplicated markers.");
 
@@ -77,16 +82,21 @@ public class NBDuplicateMarkersPanel extends javax.swing.JPanel
         table.setEnabled(false);
         jScrollPane2.setViewportView(table);
 
+        checkWarn.setMnemonic('d');
+        checkWarn.setText("Don't warn me about duplicate markers again");
+
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
                 .addContainerGap()
-                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
-                    .add(label1)
-                    .add(label2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .add(jScrollPane2, 0, 0, Short.MAX_VALUE))
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
+                        .add(label1)
+                        .add(label2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .add(jScrollPane2, 0, 0, Short.MAX_VALUE))
+                    .add(checkWarn))
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -98,12 +108,15 @@ public class NBDuplicateMarkersPanel extends javax.swing.JPanel
                 .add(label2)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                 .add(jScrollPane2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 139, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                .add(checkWarn)
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JCheckBox checkWarn;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel label1;
     private javax.swing.JLabel label2;
