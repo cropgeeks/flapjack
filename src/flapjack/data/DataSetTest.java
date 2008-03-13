@@ -37,6 +37,22 @@ public class DataSetTest extends TestCase
 		genoImporter.importGenotypeData();
 	}
 
+	public void testLoadingTiny()
+		throws Exception
+	{
+		File mapFile = new File("tests\\tiny.map");
+		File genoFile = new File("tests\\tiny.data");
+		load(mapFile, genoFile);
+
+		File file1 = new File("tests\\tiny.test");
+		File file2 = new File("tests\\tiny.junit");
+
+		out = new BufferedWriter(new FileWriter(file1));
+		printDataSet();
+
+		assertEquals(FileUtils.readFile(file1), FileUtils.readFile(file2));
+	}
+
 	public void testLoading100x5000()
 		throws Exception
 	{
