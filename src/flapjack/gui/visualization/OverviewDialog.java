@@ -25,7 +25,7 @@ public class OverviewDialog extends JDialog
 		int scrnW = SwingUtils.getVirtualScreenDimension().width;
 		int scrnH = SwingUtils.getVirtualScreenDimension().height;
 
-		// Determine where on screen (TODO: on which monitor?) to display
+		// Determine where on screen to display
 		if (Prefs.guiOverviewX > (scrnW-50) || Prefs.guiOverviewY > (scrnH-50))
 			setLocationRelativeTo(Flapjack.winMain);
 		else

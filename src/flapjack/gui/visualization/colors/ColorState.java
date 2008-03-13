@@ -47,7 +47,6 @@ public abstract class ColorState
 			value += state.toString().charAt(i);
 
 		// TODO: Offer this seed to the user to tweak...
-		System.out.println("RND: " + visRndSeed);
 		java.util.Random rnd = new java.util.Random(value+visRndSeed);
 
 		int r = rnd.nextInt(255);

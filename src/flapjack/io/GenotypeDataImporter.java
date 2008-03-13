@@ -51,7 +51,6 @@ public class GenotypeDataImporter
 		// Now work out the map indices of these markers and the indices within
 		// the map itself. This speeds up loading by pre-caching this data so we
 		// don't need to search per line, rather just once per file
-		// TODO: What if a marker exists in more than one map?
 		int[] mapIndex = new int[markers.length];
 		int[] markerIndex = new int[markers.length];
 

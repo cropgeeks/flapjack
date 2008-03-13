@@ -36,23 +36,23 @@ public class WinMainStatusBar extends JPanel
 		{
 			case 0:
 				renderIcon.setIcon(Icons.GREYBLOB);
-				renderIcon.setToolTipText("Rendering in real-time");
+				renderIcon.setToolTipText(RB.getString("gui.WinMainStatusBar.tip0"));
 				break;
 			case 1:
 				animateThread = new AnimateThread();
-				renderIcon.setToolTipText("Generating offscreen-buffer...");
+				renderIcon.setToolTipText(RB.getString("gui.WinMainStatusBar.tip1"));
 				break;
 			case 2:
 				renderIcon.setIcon(Icons.BLUEBLOB);
-				renderIcon.setToolTipText("Rendering using offscreen-buffer");
+				renderIcon.setToolTipText(RB.getString("gui.WinMainStatusBar.tip2"));
 				break;
 			case 3:
 				renderIcon.setIcon(Icons.REDBLOB);
-				renderIcon.setToolTipText("Rendering in real-time (not enough free memory for offscreen-buffer)");
+				renderIcon.setToolTipText(RB.getString("gui.WinMainStatusBar.tip3"));
 				break;
 			case 4:
 				renderIcon.setIcon(Icons.REDBLOB);
-				renderIcon.setToolTipText("Rendering in real-time (out-of-memory error attempting to create offscreen-buffer");
+				renderIcon.setToolTipText(RB.getString("gui.WinMainStatusBar.tip4"));
 				break;
 		}
 	}
