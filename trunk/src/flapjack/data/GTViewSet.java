@@ -13,6 +13,9 @@ public class GTViewSet
 	private String name;
 	private int viewIndex;
 
+	// Color model in use
+	private int colorScheme;
+
 	public GTViewSet()
 	{
 	}
@@ -27,6 +30,9 @@ public class GTViewSet
 		for (int i = 0; i < dataSet.countChromosomeMaps(); i++)
 			views.add(new GTView(dataSet, dataSet.getMapByIndex(i)));
 	}
+
+
+	// Methods required for XML serialization
 
 	public String getName()
 		{ return name; }
@@ -46,6 +52,14 @@ public class GTViewSet
 	public void setViews(Vector<GTView> views)
 		{ this.views = views; }
 
+	public int getColorScheme()
+		{ return colorScheme; }
+
+	public void setColorScheme(int colorScheme)
+		{ this.colorScheme = colorScheme; }
+
+
+	// Other methods
 
 	void recreateReferences(DataSet dataSet)
 	{

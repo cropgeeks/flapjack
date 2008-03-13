@@ -19,6 +19,7 @@ class GenotypeCanvas extends JPanel
 	private GenotypePanel gPanel;
 
 	// The "view" being rendered
+	private GTViewSet viewSet;
 	GTView view;
 
 	// The current color model
@@ -85,8 +86,9 @@ class GenotypeCanvas extends JPanel
 	}
 */
 
-	void setView(GTView view)
+	void setView(GTViewSet viewSet, GTView view)
 	{
+		this.viewSet = viewSet;
 		this.view = view;
 	}
 
@@ -114,7 +116,7 @@ class GenotypeCanvas extends JPanel
 		setSize(dimension = new Dimension(canvasW, canvasH));
 
 		long s = System.currentTimeMillis();
-		switch (view.getColorScheme())
+		switch (viewSet.getColorScheme())
 		{
 			case ColorScheme.NUCLEOTIDE:
 				cScheme = new NucleotideColorScheme(view, boxW, boxH);

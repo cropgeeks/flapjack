@@ -10,6 +10,8 @@ import flapjack.gui.*;
 
 public abstract class ColorState
 {
+	protected static final int visRndSeed = (int) (Math.random() * 1000);
+
 	protected AlleleState state;
 
 	// AWT representation of this color
@@ -45,7 +47,8 @@ public abstract class ColorState
 			value += state.toString().charAt(i);
 
 		// TODO: Offer this seed to the user to tweak...
-		java.util.Random rnd = new java.util.Random(value+555);
+		System.out.println("RND: " + visRndSeed);
+		java.util.Random rnd = new java.util.Random(value+visRndSeed);
 
 		int r = rnd.nextInt(255);
 		int g = rnd.nextInt(255);
