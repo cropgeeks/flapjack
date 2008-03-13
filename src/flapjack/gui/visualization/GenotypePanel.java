@@ -135,8 +135,8 @@ public class GenotypePanel extends JPanel
 		viewSet.setViewIndex(mapIndex);
 		view = viewSet.getView(mapIndex);
 
-		refreshView();
 		tabs.setComponentAt(mapIndex, displayPanel);
+		refreshView();
 	}
 
 	public void adjustmentValueChanged(AdjustmentEvent e)
