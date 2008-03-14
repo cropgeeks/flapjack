@@ -10,6 +10,11 @@ public class GTViewSet
 {
 	private Vector<GTView> views = new Vector<GTView>();
 
+	// Because the line info is the same across all views, it gets stored here
+	// Holds the index positions of the lines as they appear in the actual
+	// dataset's vector of lines
+	private Vector<Integer> lines;
+
 	private String name;
 	private int viewIndex;
 
@@ -27,12 +32,24 @@ public class GTViewSet
 	{
 		this.name = name;
 
+		// For each (original) line in the dataset, we add the index of it to
+		// the mapping for this viewset
+		lines = new Vector<Integer>(dataSet.countLines());
+		for (int i = 0; i < dataSet.countLines(); i++)
+			lines.add(i);
+
 		for (int i = 0; i < dataSet.countChromosomeMaps(); i++)
-			views.add(new GTView(dataSet, dataSet.getMapByIndex(i)));
+			views.add(new GTView(dataSet, dataSet.getMapByIndex(i), lines));
 	}
 
 
 	// Methods required for XML serialization
+
+	public Vector<Integer> getLines()
+		{ return lines; }
+
+	public void setLines(Vector<Integer> lines)
+		{ this.lines = lines; }
 
 	public String getName()
 		{ return name; }
@@ -66,7 +83,7 @@ public class GTViewSet
 		for (GTView view: views)
 		{
 			ChromosomeMap map = dataSet.getMapByName(view.getMapName(), false);
-			view.recreateReferences(dataSet, map);
+			view.recreateReferences(dataSet, map, lines);
 		}
 	}
 

@@ -15,6 +15,7 @@ public class GTView
 
 	// Holds the index positions of the lines as they appear in the actual
 	// dataset's vector of lines
+	// NOTE: this is a reference to the vector held by the owning GTViewSet
 	private Vector<Integer> lines;
 	// Same for the marker positions
 	private Vector<Integer> markers;
@@ -40,18 +41,13 @@ public class GTView
 	/**
 	 * Creates a new view object that will view the map within the dataset.
 	 */
-	public GTView(DataSet dataSet, ChromosomeMap map)
+	public GTView(DataSet dataSet, ChromosomeMap map, Vector<Integer> lines)
 	{
 		this.dataSet = dataSet;
 		this.map = map;
+		this.lines = lines;
 
 		mapName = map.getName();
-
-		// For each (original) line in the dataset, we add the index of it to
-		// are mapping for this view
-		lines = new Vector<Integer>(dataSet.countLines());
-		for (int i = 0; i < dataSet.countLines(); i++)
-			lines.add(i);
 
 		// For each (original) marker in the map...
 		markers = new Vector<Integer>(map.countLoci());
@@ -67,12 +63,6 @@ public class GTView
 
 	public void setMapName(String mapName)
 		{ this.mapName = mapName; }
-
-	public Vector<Integer> getLines()
-		{ return lines; }
-
-	public void setLines(Vector<Integer> lines)
-		{ this.lines = lines; }
 
 	public Vector<Integer> getMarkers()
 		{ return markers; }
@@ -101,7 +91,7 @@ public class GTView
 
 	// Other methods
 
-	void recreateReferences(DataSet dataSet, ChromosomeMap map)
+	void recreateReferences(DataSet dataSet, ChromosomeMap map, Vector<Integer> lines)
 	{
 		// Because we can't currently (08/02/2008) use Castor for storing
 		// references between objects within the XML, we need to scan through
@@ -110,10 +100,16 @@ public class GTView
 
 		this.dataSet = dataSet;
 		this.map = map;
+		this.lines = lines;
 	}
+
+	public Vector<Integer> getLines()
+		{ return lines; }
 
 	public void cacheLines()
 	{
+		long s = System.currentTimeMillis();
+
 		// Now cache as much data as possible to help speed rendering
 		genotypeLines = new Vector<GenotypeData>(lines.size());
 
@@ -124,6 +120,8 @@ public class GTView
 
 			genotypeLines.add(data);
 		}
+
+		System.out.println("Line render cache created in " + (System.currentTimeMillis()-s) + "ms");
 	}
 
 	public Line getLine(int index)
@@ -212,11 +210,5 @@ public class GTView
 			return;
 
 		markers.remove(index);
-	}
-
-	public void printLines()
-	{
-		for (int i: lines)
-			System.out.println(i + ": " + (dataSet.getLineByIndex(i).getName()));
 	}
 }

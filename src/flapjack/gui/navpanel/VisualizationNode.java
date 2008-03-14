@@ -18,10 +18,6 @@ public class VisualizationNode extends BaseNode
 
 		this.viewSet = viewSet;
 		this.gPanel = gPanel;
-
-		// Cache the data within the views ready for rendering
-		for (int i = 0; i < viewSet.getChromosomeCount(); i++)
-			viewSet.getView(i).cacheLines();
 	}
 
 	public String toString()
