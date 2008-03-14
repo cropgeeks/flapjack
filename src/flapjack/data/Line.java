@@ -6,15 +6,20 @@ public class Line
 {
 	private String name;
 
+	// A unique key assigned to every line
+	// TODO: use the primary key from a Germinate DB import
+	private int key;
+
 	private Vector<GenotypeData> genotypes = new Vector<GenotypeData>();
 
 	public Line()
 	{
 	}
 
-	public Line(String name)
+	public Line(String name, int key)
 	{
 		this.name = new String(name);
+		this.key = key;
 	}
 
 
@@ -25,6 +30,12 @@ public class Line
 
 	public void setName(String name)
 		{ this.name = name; }
+
+	public int getKey()
+		{ return key; }
+
+	public void setKey(int key)
+		{ this.key = key; }
 
 	public Vector<GenotypeData> getGenotypes()
 		{ return genotypes; }

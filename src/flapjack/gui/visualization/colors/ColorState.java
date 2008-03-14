@@ -78,6 +78,12 @@ public abstract class ColorState
 	public BufferedImage getImage()
 		{ return image; }
 
+	public BufferedImage getGreyScaleImage()
+		{ return gsImage; }
+
 	public Color getColor()
 		{ return color; }
+
+	public Color getGreyScaleColor()
+		{ return gsColor; }
 }

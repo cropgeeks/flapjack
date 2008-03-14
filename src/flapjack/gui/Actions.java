@@ -21,6 +21,8 @@ public class Actions
 	public static AbstractAction dataSortLines;
 	public static AbstractAction dataColorRandom;
 	public static AbstractAction dataColorNucleotide;
+	public static AbstractAction dataColorNucleotideSim;
+	public static AbstractAction dataColorNucleotideSimGS;
 
 	public static AbstractAction helpAbout;
 
@@ -110,6 +112,18 @@ public class Actions
 			}
 		};
 
+		dataColorNucleotideSim = new AbstractAction(RB.getString("gui.Actions.dataColorNucleotideSim")) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.dataColor(ColorScheme.NUCLEOTIDE_SIMILARITY);
+			}
+		};
+
+		dataColorNucleotideSimGS = new AbstractAction(RB.getString("gui.Actions.dataColorNucleotideSimGS")) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.dataColor(ColorScheme.NUCLEOTIDE_SIMILARITY_GS);
+			}
+		};
+
 
 		helpAbout = new AbstractAction(RB.getString("gui.Actions.helpAbout")) {
 			public void actionPerformed(ActionEvent e) {
@@ -126,5 +140,7 @@ public class Actions
 		dataSortLines.setEnabled(false);
 		dataColorRandom.setEnabled(false);
 		dataColorNucleotide.setEnabled(false);
+		dataColorNucleotideSim.setEnabled(false);
+		dataColorNucleotideSimGS.setEnabled(false);
 	}
 }

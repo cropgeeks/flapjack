@@ -28,6 +28,8 @@ public class WinMainMenuBar extends JMenuBar
 	private JMenu mDataColor;
 	private JMenuItem mDataColorRandom;
 	private JMenuItem mDataColorNucleotide;
+	private JMenuItem mDataColorNucleotideSim;
+	private JMenuItem mDataColorNucleotideSimGS;
 
 	private JMenu mHelp;
 	private JMenuItem mHelpAbout;
@@ -100,15 +102,16 @@ public class WinMainMenuBar extends JMenuBar
 		mDataColor.setMnemonic(KeyEvent.VK_C);
 
 		mDataSortLines = getItem(Actions.dataSortLines, KeyEvent.VK_S, 0, 0);
-		mDataColorRandom = getRadioItem(Actions.dataColorRandom, KeyEvent.VK_R, 0, 0);
-		mDataColorNucleotide = getRadioItem(Actions.dataColorNucleotide, KeyEvent.VK_N, 0, 0);
+		mDataColorRandom = getItem(Actions.dataColorRandom, KeyEvent.VK_R, 0, 0);
+		mDataColorNucleotide = getItem(Actions.dataColorNucleotide, KeyEvent.VK_N, 0, 0);
+		mDataColorNucleotideSim = getItem(Actions.dataColorNucleotideSim, KeyEvent.VK_2, 0, 0);
+		mDataColorNucleotideSimGS = getItem(Actions.dataColorNucleotideSimGS, KeyEvent.VK_G, 0, 0);
 
-		mDataColor.add(mDataColorRandom);
 		mDataColor.add(mDataColorNucleotide);
-
-		ButtonGroup group = new ButtonGroup();
-		group.add(mDataColorRandom);
-		group.add(mDataColorNucleotide);
+		mDataColor.add(mDataColorNucleotideSim);
+		mDataColor.add(mDataColorNucleotideSimGS);
+		mDataColor.addSeparator();
+		mDataColor.add(mDataColorRandom);
 
 		mData.add(mDataSortLines);
 		mData.addSeparator();

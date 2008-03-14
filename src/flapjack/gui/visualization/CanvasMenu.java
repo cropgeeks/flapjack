@@ -16,8 +16,10 @@ class CanvasMenu
 	private JMenuItem mSortLines;
 	private JCheckBoxMenuItem mShowGenotypes;
 	private JMenu mColor;
-	private JRadioButtonMenuItem mColorRandom;
-	private JRadioButtonMenuItem mColorNucleotide;
+	private JMenuItem mColorRandom;
+	private JMenuItem mColorNucleotide;
+	private JMenuItem mColorNucleotideSim;
+	private JMenuItem mColorNucleotideSimGS;
 
 	private AbstractAction aLock;
 	private AbstractAction aShowGenotypes;
@@ -57,17 +59,18 @@ class CanvasMenu
 		mSortLines = WinMainMenuBar.getItem(Actions.dataSortLines, KeyEvent.VK_S, 0, 0);
 		mShowGenotypes = WinMainMenuBar.getCheckedItem(aShowGenotypes, KeyEvent.VK_O, 0, 0, Prefs.visShowGenotypes);
 
-		mColorRandom = WinMainMenuBar.getRadioItem(Actions.dataColorRandom, KeyEvent.VK_R, 0, 0);
-		mColorNucleotide = WinMainMenuBar.getRadioItem(Actions.dataColorNucleotide, KeyEvent.VK_N, 0, 0);
-
-		ButtonGroup group = new ButtonGroup();
-		group.add(mColorRandom);
-		group.add(mColorNucleotide);
+		mColorRandom = WinMainMenuBar.getItem(Actions.dataColorRandom, KeyEvent.VK_R, 0, 0);
+		mColorNucleotide = WinMainMenuBar.getItem(Actions.dataColorNucleotide, KeyEvent.VK_N, 0, 0);
+		mColorNucleotideSim = WinMainMenuBar.getItem(Actions.dataColorNucleotideSim, KeyEvent.VK_2, 0, 0);
+		mColorNucleotideSimGS = WinMainMenuBar.getItem(Actions.dataColorNucleotideSimGS, KeyEvent.VK_G, 0, 0);
 
 		mColor = new JMenu(RB.getString("gui.WinMainMenuBar.mDataColor"));
 		mColor.setMnemonic(KeyEvent.VK_C);
-		mColor.add(mColorRandom);
 		mColor.add(mColorNucleotide);
+		mColor.add(mColorNucleotideSim);
+		mColor.add(mColorNucleotideSimGS);
+		mColor.addSeparator();
+		mColor.add(mColorRandom);
 	}
 
 	void handlePopup(MouseEvent e)
