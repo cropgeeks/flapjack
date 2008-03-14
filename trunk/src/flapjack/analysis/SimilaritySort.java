@@ -24,12 +24,16 @@ public class SimilaritySort
 	{
 		long s = System.currentTimeMillis();
 
-		Vector<Integer> lines = new Vector<Integer>(); //view.getLines();
+		// Access the line data - we HAVE to use this reference and CANNOT
+		// reassign it, otherwise all the other views that refer to it will no
+		// longer point to the correct object
+		Vector<Integer> lines = view.getLines();
 
 		// Create an array to hold the score for each line
 		Vector<LineScore> scores = new Vector<LineScore>(lines.size());
 
 		System.out.println("Sorting using line " + line + " as comparison line");
+
 
 		// Work out what those scores are
 		for (int i = 0; i < view.getLineCount(); i++, linesScored++)
@@ -46,11 +50,9 @@ public class SimilaritySort
 		// Now sort the array based on those scores
 		Collections.sort(scores);
 
+		lines.clear();
 		for (int i = 0; i < scores.size(); i++)
-//			lines.set(i, scores.get(i).index);
 			lines.add(scores.get(i).index);
-		view.setLines(lines);
-		view.cacheLines();
 
 		System.out.println("Similarity sort in " + (System.currentTimeMillis()-s) + "ms");
 

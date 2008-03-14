@@ -10,10 +10,12 @@ public class NucleotideColorScheme extends ColorScheme
 {
 	private Vector<ColorState> states = new Vector<ColorState>();
 
-	private static final Color COLOR_A = new Color(153, 255, 153);
-	private static final Color COLOR_C = new Color(255, 204, 153);
-	private static final Color COLOR_G = new Color(255, 153, 153);
-	private static final Color COLOR_T = new Color(153, 153, 255);
+	private static final Color COLOR_A = new Color(120, 255, 120);
+	private static final Color COLOR_C = new Color(255, 160, 120);
+	private static final Color COLOR_G = new Color(255, 120, 120);
+	private static final Color COLOR_T = new Color(120, 120, 255);
+
+	private static final Color COLOR_HET = new Color(100, 100, 100);
 
 	public NucleotideColorScheme(GTView view, int w, int h)
 	{
@@ -49,32 +51,32 @@ public class NucleotideColorScheme extends ColorScheme
 			else
 			{
 				if (state.getState(0).equals("A") && state.getState(1).equals("G"))
-					c = new HeterozygeousColorState(state, Color.blue, COLOR_A, COLOR_G, w, h);
+					c = new HeterozygeousColorState(state, COLOR_HET, COLOR_A, COLOR_G, w, h);
 				else if (state.getState(0).equals("A") && state.getState(1).equals("C"))
-					c = new HeterozygeousColorState(state, Color.blue, COLOR_A, COLOR_C, w, h);
+					c = new HeterozygeousColorState(state, COLOR_HET, COLOR_A, COLOR_C, w, h);
 				else if (state.getState(0).equals("A") && state.getState(1).equals("T"))
-					c = new HeterozygeousColorState(state, Color.blue, COLOR_A, COLOR_T, w, h);
+					c = new HeterozygeousColorState(state, COLOR_HET, COLOR_A, COLOR_T, w, h);
 
 				else if (state.getState(0).equals("G") && state.getState(1).equals("A"))
-					c = new HeterozygeousColorState(state, Color.blue, COLOR_G, COLOR_A, w, h);
+					c = new HeterozygeousColorState(state, COLOR_HET, COLOR_G, COLOR_A, w, h);
 				else if (state.getState(0).equals("G") && state.getState(1).equals("C"))
-					c = new HeterozygeousColorState(state, Color.blue, COLOR_G, COLOR_C, w, h);
+					c = new HeterozygeousColorState(state, COLOR_HET, COLOR_G, COLOR_C, w, h);
 				else if (state.getState(0).equals("G") && state.getState(1).equals("T"))
-					c = new HeterozygeousColorState(state, Color.blue, COLOR_G, COLOR_T, w, h);
+					c = new HeterozygeousColorState(state, COLOR_HET, COLOR_G, COLOR_T, w, h);
 
 				else if (state.getState(0).equals("C") && state.getState(1).equals("A"))
-					c = new HeterozygeousColorState(state, Color.blue, COLOR_C, COLOR_A, w, h);
+					c = new HeterozygeousColorState(state, COLOR_HET, COLOR_C, COLOR_A, w, h);
 				else if (state.getState(0).equals("C") && state.getState(1).equals("G"))
-					c = new HeterozygeousColorState(state, Color.blue, COLOR_C, COLOR_G, w, h);
+					c = new HeterozygeousColorState(state, COLOR_HET, COLOR_C, COLOR_G, w, h);
 				else if (state.getState(0).equals("C") && state.getState(1).equals("T"))
-					c = new HeterozygeousColorState(state, Color.blue, COLOR_C, COLOR_T, w, h);
+					c = new HeterozygeousColorState(state, COLOR_HET, COLOR_C, COLOR_T, w, h);
 
 				else if (state.getState(0).equals("T") && state.getState(1).equals("A"))
-					c = new HeterozygeousColorState(state, Color.blue, COLOR_T, COLOR_A, w, h);
+					c = new HeterozygeousColorState(state, COLOR_HET, COLOR_T, COLOR_A, w, h);
 				else if (state.getState(0).equals("T") && state.getState(1).equals("G"))
-					c = new HeterozygeousColorState(state, Color.blue, COLOR_T, COLOR_G, w, h);
+					c = new HeterozygeousColorState(state, COLOR_HET, COLOR_T, COLOR_G, w, h);
 				else if (state.getState(0).equals("T") && state.getState(1).equals("C"))
-					c = new HeterozygeousColorState(state, Color.blue, COLOR_T, COLOR_C, w, h);
+					c = new HeterozygeousColorState(state, COLOR_HET, COLOR_T, COLOR_C, w, h);
 
 
 				// Use a fixed (RED) color for any further unknown states
