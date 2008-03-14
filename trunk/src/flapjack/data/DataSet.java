@@ -59,7 +59,7 @@ public class DataSet
 	public Line createLine(String name)
 	{
 		// TODO: Check for duplicate lines
-		Line line = new Line(name);
+		Line line = new Line(name, lines.size());
 
 		// This ensures each line has a set of (empty) loci data for each map
 		for (ChromosomeMap map: chromosomes)

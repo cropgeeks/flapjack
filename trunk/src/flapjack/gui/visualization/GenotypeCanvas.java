@@ -120,13 +120,20 @@ class GenotypeCanvas extends JPanel
 		long s = System.currentTimeMillis();
 		switch (viewSet.getColorScheme())
 		{
-			case ColorScheme.NUCLEOTIDE:
-				cScheme = new NucleotideColorScheme(view, boxW, boxH);
+			case ColorScheme.NUCLEOTIDE_SIMILARITY:
+				cScheme = new TwoColorScheme(view, boxW, boxH);
 				break;
 
-			default:
+			case ColorScheme.NUCLEOTIDE_SIMILARITY_GS:
+				cScheme = new NucleotideGreyScaleColorScheme(view, boxW, boxH);
+				break;
+
+			case ColorScheme.RANDOM:
 				cScheme = new RandomColorScheme(view, boxW, boxH);
 				break;
+
+			default: // ColorScheme.NUCLEOTIDE
+				cScheme = new NucleotideColorScheme(view, boxW, boxH);
 		}
 		System.out.println("Color scheme created in " + (System.currentTimeMillis()-s) + "ms");
 

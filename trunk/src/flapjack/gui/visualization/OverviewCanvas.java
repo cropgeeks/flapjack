@@ -139,7 +139,7 @@ class OverviewCanvas extends JPanel
 				// Paint the image of the alignment
 				g.drawImage(image, 0, 0, null);
 
-				((Graphics2D) g).setPaint(new Color(255, 255, 255, 100));
+				((Graphics2D) g).setPaint(new Color(255, 255, 255, 50));
 				g.fillRect(0, 0, w, h);
 
 				// Then draw the tracking rectangle

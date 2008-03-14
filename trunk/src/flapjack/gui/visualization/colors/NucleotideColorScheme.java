@@ -8,14 +8,14 @@ import flapjack.data.*;
 
 public class NucleotideColorScheme extends ColorScheme
 {
-	private Vector<ColorState> states = new Vector<ColorState>();
+	protected Vector<ColorState> states = new Vector<ColorState>();
 
-	private static final Color COLOR_A = new Color(120, 255, 120);
-	private static final Color COLOR_C = new Color(255, 160, 120);
-	private static final Color COLOR_G = new Color(255, 120, 120);
-	private static final Color COLOR_T = new Color(120, 120, 255);
+	protected static final Color COLOR_A = new Color(120, 255, 120);
+	protected static final Color COLOR_C = new Color(255, 160, 120);
+	protected static final Color COLOR_G = new Color(255, 120, 120);
+	protected static final Color COLOR_T = new Color(120, 120, 255);
 
-	private static final Color COLOR_HET = new Color(100, 100, 100);
+	protected static final Color COLOR_HET = new Color(100, 100, 100);
 
 	public NucleotideColorScheme(GTView view, int w, int h)
 	{
