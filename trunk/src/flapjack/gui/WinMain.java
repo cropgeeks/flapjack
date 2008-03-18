@@ -186,12 +186,12 @@ public class WinMain extends JFrame
 		OverviewManager.toggleOverviewDialog();
 	}
 
-	void dataSortLines()
+	void dataSortLines(int sortMethod)
 	{
 		SortLinesDialog dialog = new SortLinesDialog(gPanel);
 
 		if (dialog.isOK())
-			new SortingLinesProgressDialog().runSort(gPanel);
+			new SortingLinesProgressDialog().runSort(gPanel, sortMethod);
 	}
 
 	void dataColor(int colorScheme)

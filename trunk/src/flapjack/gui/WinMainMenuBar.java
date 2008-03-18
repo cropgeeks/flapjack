@@ -24,12 +24,14 @@ public class WinMainMenuBar extends JMenuBar
 	private JCheckBoxMenuItem mViewOverview;
 
 	private JMenu mData;
-	private JMenuItem mDataSortLines;
 	private JMenu mDataColor;
 	private JMenuItem mDataColorRandom;
 	private JMenuItem mDataColorNucleotide;
 	private JMenuItem mDataColorNucleotideSim;
 	private JMenuItem mDataColorNucleotideSimGS;
+	private JMenu mDataSortLines;
+	private JMenuItem mDataSortLinesBySimilarity;
+	private JMenuItem mDataSortLinesByLocus;
 
 	private JMenu mHelp;
 	private JMenuItem mHelpAbout;
@@ -100,8 +102,10 @@ public class WinMainMenuBar extends JMenuBar
 		mData.setMnemonic(KeyEvent.VK_D);
 		mDataColor = new JMenu(RB.getString("gui.WinMainMenuBar.mDataColor"));
 		mDataColor.setMnemonic(KeyEvent.VK_C);
+		mDataSortLines = new JMenu(RB.getString("gui.WinMainMenuBar.mDataSortLines"));
+		mDataSortLines.setMnemonic(KeyEvent.VK_S);
 
-		mDataSortLines = getItem(Actions.dataSortLines, KeyEvent.VK_S, 0, 0);
+
 		mDataColorRandom = getItem(Actions.dataColorRandom, KeyEvent.VK_R, 0, 0);
 		mDataColorNucleotide = getItem(Actions.dataColorNucleotide, KeyEvent.VK_N, 0, 0);
 		mDataColorNucleotideSim = getItem(Actions.dataColorNucleotideSim, KeyEvent.VK_2, 0, 0);
@@ -113,9 +117,15 @@ public class WinMainMenuBar extends JMenuBar
 		mDataColor.addSeparator();
 		mDataColor.add(mDataColorRandom);
 
-		mData.add(mDataSortLines);
-		mData.addSeparator();
+		mDataSortLinesBySimilarity = getItem(Actions.dataSortLinesBySimilarity, KeyEvent.VK_S, 0, 0);
+		mDataSortLinesByLocus = getItem(Actions.dataSortLinesBySimilarity, KeyEvent.VK_L, 0, 0);
+
+		mDataSortLines.add(mDataSortLinesBySimilarity);
+		mDataSortLines.add(mDataSortLinesByLocus);
+
 		mData.add(mDataColor);
+		mData.addSeparator();
+		mData.add(mDataSortLines);
 
 		add(mData);
 	}
