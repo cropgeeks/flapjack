@@ -18,7 +18,7 @@ public class SortingLinesProgressDialog extends JDialog
 	// Runnable object that will be active while the dialog is visible
 	private Runnable runnable;
 	// Which will be running this sort
-	private SimilaritySort sort;
+	private ILineSorter sort;
 
 	public SortingLinesProgressDialog()
 	{
@@ -46,10 +46,20 @@ public class SortingLinesProgressDialog extends JDialog
 		setResizable(false);
 	}
 
-	public void runSort(GenotypePanel gPanel)
+	public void runSort(GenotypePanel gPanel, int method)
 	{
 		this.gPanel = gPanel;
-		pBar.setMaximum(gPanel.getView().getLineCount());
+
+		GTView view = gPanel.getView();
+		int line = view.selectedLine;
+		int loci = view.selectedMarker;
+
+		if (method == 0)
+			sort = new SortLinesBySimilarity(view, line);
+		else if (method == 1)
+			sort = new SortLinesByLocus(view, line, loci);
+
+		pBar.setMaximum(sort.getMaximum());
 
 		setVisible(true);
 	}
@@ -66,10 +76,6 @@ public class SortingLinesProgressDialog extends JDialog
 	{
 		public void run()
 		{
-			GTView view = gPanel.getView();
-			int line = view.selectedLine;
-
-			sort = new SimilaritySort(view, line);
 			sort.doSort();
 
 			Runnable r = new Runnable() {
@@ -90,7 +96,7 @@ public class SortingLinesProgressDialog extends JDialog
 			{
 				Runnable r = new Runnable() {
 					public void run() {
-						pBar.setValue(sort.getLinesScored());
+						pBar.setValue(sort.getValue());
 					}
 				};
 

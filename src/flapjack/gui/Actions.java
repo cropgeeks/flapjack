@@ -18,11 +18,12 @@ public class Actions
 
 	public static AbstractAction viewOverview;
 
-	public static AbstractAction dataSortLines;
 	public static AbstractAction dataColorRandom;
 	public static AbstractAction dataColorNucleotide;
 	public static AbstractAction dataColorNucleotideSim;
 	public static AbstractAction dataColorNucleotideSimGS;
+	public static AbstractAction dataSortLinesBySimilarity;
+	public static AbstractAction dataSortLinesByLocus;
 
 	public static AbstractAction helpAbout;
 
@@ -94,9 +95,15 @@ public class Actions
 		};
 
 
-		dataSortLines = new AbstractAction(RB.getString("gui.Actions.dataSortLines")) {
+		dataSortLinesBySimilarity = new AbstractAction(RB.getString("gui.Actions.dataSortLinesBySimilarity")) {
 			public void actionPerformed(ActionEvent e) {
-				winMain.dataSortLines();
+				winMain.dataSortLines(0);
+			}
+		};
+
+		dataSortLinesByLocus = new AbstractAction(RB.getString("gui.Actions.dataSortLinesByLocus")) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.dataSortLines(1);
 			}
 		};
 
@@ -137,10 +144,11 @@ public class Actions
 	{
 		viewOverview.setEnabled(false);
 
-		dataSortLines.setEnabled(false);
 		dataColorRandom.setEnabled(false);
 		dataColorNucleotide.setEnabled(false);
 		dataColorNucleotideSim.setEnabled(false);
 		dataColorNucleotideSimGS.setEnabled(false);
+		dataSortLinesBySimilarity.setEnabled(false);
+		dataSortLinesByLocus.setEnabled(false);
 	}
 }

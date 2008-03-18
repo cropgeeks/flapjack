@@ -13,13 +13,15 @@ class CanvasMenu
 	private JPopupMenu menu = new JPopupMenu();
 
 	private JCheckBoxMenuItem mLock;
-	private JMenuItem mSortLines;
 	private JCheckBoxMenuItem mShowGenotypes;
 	private JMenu mColor;
 	private JMenuItem mColorRandom;
 	private JMenuItem mColorNucleotide;
 	private JMenuItem mColorNucleotideSim;
 	private JMenuItem mColorNucleotideSimGS;
+	private JMenu mSortLines;
+	private JMenuItem mSortLinesBySimilarity;
+	private JMenuItem mSortLinesByLocus;
 
 	private AbstractAction aLock;
 	private AbstractAction aShowGenotypes;
@@ -56,8 +58,8 @@ class CanvasMenu
 	private void createItems()
 	{
 		mLock = WinMainMenuBar.getCheckedItem(aLock, KeyEvent.VK_L, 0, 0, canvas.locked);
-		mSortLines = WinMainMenuBar.getItem(Actions.dataSortLines, KeyEvent.VK_S, 0, 0);
 		mShowGenotypes = WinMainMenuBar.getCheckedItem(aShowGenotypes, KeyEvent.VK_O, 0, 0, Prefs.visShowGenotypes);
+
 
 		mColorRandom = WinMainMenuBar.getItem(Actions.dataColorRandom, KeyEvent.VK_R, 0, 0);
 		mColorNucleotide = WinMainMenuBar.getItem(Actions.dataColorNucleotide, KeyEvent.VK_N, 0, 0);
@@ -71,6 +73,15 @@ class CanvasMenu
 		mColor.add(mColorNucleotideSimGS);
 		mColor.addSeparator();
 		mColor.add(mColorRandom);
+
+
+		mSortLinesBySimilarity = WinMainMenuBar.getItem(Actions.dataSortLinesBySimilarity, KeyEvent.VK_S, 0, 0);
+		mSortLinesByLocus = WinMainMenuBar.getItem(Actions.dataSortLinesByLocus, KeyEvent.VK_L, 0, 0);
+
+		mSortLines = new JMenu(RB.getString("gui.WinMainMenuBar.mDataSortLines"));
+		mSortLines.setMnemonic(KeyEvent.VK_S);
+		mSortLines.add(mSortLinesBySimilarity);
+		mSortLines.add(mSortLinesByLocus);
 	}
 
 	void handlePopup(MouseEvent e)

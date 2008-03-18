@@ -29,7 +29,8 @@ public class VisualizationNode extends BaseNode
 	{
 		Actions.viewOverview.setEnabled(true);
 
-		Actions.dataSortLines.setEnabled(true);
+		Actions.dataSortLinesBySimilarity.setEnabled(true);
+		Actions.dataSortLinesByLocus.setEnabled(true);
 		Actions.dataColorRandom.setEnabled(true);
 		Actions.dataColorNucleotide.setEnabled(true);
 		Actions.dataColorNucleotideSim.setEnabled(true);

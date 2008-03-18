@@ -4,20 +4,23 @@ import java.util.*;
 
 import flapjack.data.*;
 
-public class SimilaritySort
+public class SortLinesBySimilarity implements ILineSorter
 {
 	private GTView view;
 	private int line;
 
 	private int linesScored = 0;
 
-	public SimilaritySort(GTView view, int line)
+	public SortLinesBySimilarity(GTView view, int line)
 	{
 		this.view = view;
 		this.line = line;
 	}
 
-	public int getLinesScored()
+	public int getMaximum()
+		{ return view.getLineCount(); }
+
+	public int getValue()
 		{ return linesScored; }
 
 	public void doSort()
