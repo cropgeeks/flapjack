@@ -46,13 +46,10 @@ public class DuplicateMarkersDialog extends JDialog implements ActionListener
 
 	private JPanel createButtons()
 	{
-		JButton tmp = new JButton(RB.getString("gui.text.cancel"));
-
-		bClose = new JButton(RB.getString("gui.text.close"));
+		bClose = SwingUtils.getButton(RB.getString("gui.text.close"));
 		bClose.addActionListener(this);
-		bClose.setPreferredSize(tmp.getPreferredSize());
 
-		bClipboard = new JButton(RB.getString("gui.dialog.DuplicateMarkersDialog.clipboard"));
+		bClipboard = SwingUtils.getButton(RB.getString("gui.dialog.DuplicateMarkersDialog.clipboard"));
 		bClipboard.addActionListener(this);
 
 		JPanel p2 = new JPanel(new FlowLayout(FlowLayout.RIGHT, 5, 0));
