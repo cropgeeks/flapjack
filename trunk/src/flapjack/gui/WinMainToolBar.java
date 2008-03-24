@@ -44,13 +44,26 @@ class WinMainToolBar extends JToolBar
 		add(new JLabel(" "));
 
 		add(fileNew);
+		addSeparator(false);
 		add(fileOpen);
-		addSeparator();
+		addSeparator(true);
 		add(fileSave);
-		addSeparator();
+		addSeparator(true);
 		add(fileImport);
 
 		add(new JLabel(" "));
+	}
+
+	private void addSeparator(boolean separator)
+	{
+		if (SystemUtils.isMacOS())
+		{
+			add(new JLabel(" "));
+			if (separator)
+				add(new JLabel(" "));
+		}
+		else if (separator)
+			addSeparator();
 	}
 
 	// Utility method to help create the buttons. Sets their text, tooltip, and
@@ -69,9 +82,6 @@ class WinMainToolBar extends JToolBar
 		button.setToolTipText(tt);
 		button.setIcon(icon);
 		button.setFocusPainted(false);
-
-		if (SystemUtils.isWindows())
-			button.setBorderPainted(false);
 
 		if (SystemUtils.isMacOS() == false)
 			button.setMargin(new Insets(1, 1, 1, 1));

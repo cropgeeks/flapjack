@@ -6,6 +6,8 @@ import java.io.*;
 import java.util.*;
 import javax.swing.*;
 
+import scri.commons.gui.*;
+
 public class WinMainMenuBar extends JMenuBar
 {
 	private WinMain winMain;
@@ -20,8 +22,11 @@ public class WinMainMenuBar extends JMenuBar
 	private JMenuItem mFileImport;
 	private JMenuItem mFileExit;
 
-	private JMenu mView;
-	private JCheckBoxMenuItem mViewOverview;
+	private JMenu mEdit;
+
+	private JMenu mViz;
+	public static JCheckBoxMenuItem mVizOverview;
+	private JMenuItem mVizExportImage;
 
 	private JMenu mData;
 	private JMenu mDataColor;
@@ -32,6 +37,11 @@ public class WinMainMenuBar extends JMenuBar
 	private JMenu mDataSortLines;
 	private JMenuItem mDataSortLinesBySimilarity;
 	private JMenuItem mDataSortLinesByLocus;
+
+	private JMenu mWnd;
+	private JMenuItem mWndMinimize;
+	private JMenuItem mWndZoom;
+	static JCheckBoxMenuItem mWndFlapjack;
 
 	private JMenu mHelp;
 	private JMenuItem mHelpAbout;
@@ -48,8 +58,11 @@ public class WinMainMenuBar extends JMenuBar
 		setBorderPainted(false);
 
 		createFileMenu();
-		createViewMenu();
+		createEditMenu();
+		createVizMenu();
 		createDataMenu();
+		if (SystemUtils.isMacOS())
+			createWndMenu();
 		createHelpMenu();
 	}
 
@@ -78,22 +91,37 @@ public class WinMainMenuBar extends JMenuBar
 		mFile.add(mFileImport);
 		mFile.addSeparator();
 		mFile.add(mFileRecent);
-		mFile.addSeparator();
-		mFile.add(mFileExit);
+		// We don't add these options to OS X as they are auto-added by Apple
+		if (SystemUtils.isMacOS() == false)
+		{
+			mFile.addSeparator();
+			mFile.add(mFileExit);
+		}
 
 		add(mFile);
 	}
 
-	private void createViewMenu()
+	private void createEditMenu()
 	{
-		mView = new JMenu(RB.getString("gui.WinMainMenuBar.mView"));
-		mView.setMnemonic(KeyEvent.VK_V);
+		mEdit = new JMenu(RB.getString("gui.WinMainMenuBar.mEdit"));
+		mEdit.setMnemonic(KeyEvent.VK_E);
 
-		mViewOverview = getCheckedItem(Actions.viewOverview, KeyEvent.VK_O, KeyEvent.VK_F7, 0, Prefs.guiOverviewDialog);
+		add(mEdit);
+	}
 
-		mView.add(mViewOverview);
+	private void createVizMenu()
+	{
+		mViz = new JMenu(RB.getString("gui.WinMainMenuBar.mViz"));
+		mViz.setMnemonic(KeyEvent.VK_V);
 
-		add(mView);
+		mVizOverview = getCheckedItem(Actions.vizOverview, KeyEvent.VK_S, KeyEvent.VK_F7, 0, Prefs.guiOverviewDialog);
+		mVizExportImage = getItem(Actions.vizExportImage, KeyEvent.VK_E, 0, 0);
+
+		mViz.add(mVizExportImage);
+		mViz.addSeparator();
+		mViz.add(mVizOverview);
+
+		add(mViz);
 	}
 
 	private void createDataMenu()
@@ -130,6 +158,23 @@ public class WinMainMenuBar extends JMenuBar
 		add(mData);
 	}
 
+	private void createWndMenu()
+	{
+		mWnd = new JMenu(RB.getString("gui.WinMainMenuBar.mWnd"));
+		mWnd.setMnemonic(KeyEvent.VK_W);
+
+		mWndMinimize = getItem(Actions.wndMinimize, KeyEvent.VK_M, KeyEvent.VK_M, menuShortcut);
+		mWndZoom = getItem(Actions.wndZoom, KeyEvent.VK_Z, 0, 0);
+		mWndFlapjack = getCheckedItem(Actions.wndFlapjack, KeyEvent.VK_F, 0, 0, true);
+
+		mWnd.add(mWndMinimize);
+		mWnd.add(mWndZoom);
+		mWnd.addSeparator();
+		mWnd.add(mWndFlapjack);
+
+		add(mWnd);
+	}
+
 	private void createHelpMenu()
 	{
 		mHelp = new JMenu(RB.getString("gui.WinMainMenuBar.mHelp"));
@@ -137,41 +182,43 @@ public class WinMainMenuBar extends JMenuBar
 
 		mHelpAbout = getItem(Actions.helpAbout, KeyEvent.VK_A, 0, 0);
 
-		mHelp.add(mHelpAbout);
+		// We don't add this option to OS X as it is auto-added by Apple
+		if (SystemUtils.isMacOS() == false)
+			mHelp.add(mHelpAbout);
 
 		add(mHelp);
 	}
 
-	public static JMenuItem getItem(Action action, int mnemonic, int accelerator, int keymask)
+	public static JMenuItem getItem(Action action, int mnemonic, int keymask, int modifiers)
 	{
 		JMenuItem item = new JMenuItem(action);
 		item.setMnemonic(mnemonic);
 
-		if (accelerator != 0)
-			item.setAccelerator(KeyStroke.getKeyStroke(accelerator, keymask));
+		if (keymask != 0)
+			item.setAccelerator(KeyStroke.getKeyStroke(keymask, modifiers));
 
 		return item;
 	}
 
-	public static JCheckBoxMenuItem getCheckedItem(Action action, int mnemonic, int accelerator, int keymask, boolean state)
+	public static JCheckBoxMenuItem getCheckedItem(Action action, int mnemonic, int keymask, int modifiers, boolean state)
 	{
 		JCheckBoxMenuItem item = new JCheckBoxMenuItem(action);
 		item.setMnemonic(mnemonic);
 		item.setState(state);
 
-		if (accelerator != 0)
-			item.setAccelerator(KeyStroke.getKeyStroke(accelerator, keymask));
+		if (keymask != 0)
+			item.setAccelerator(KeyStroke.getKeyStroke(keymask, modifiers));
 
 		return item;
 	}
 
-	public static JRadioButtonMenuItem getRadioItem(Action action, int mnemonic, int accelerator, int keymask)
+	public static JRadioButtonMenuItem getRadioItem(Action action, int mnemonic, int keymask, int modifiers)
 	{
 		JRadioButtonMenuItem item = new JRadioButtonMenuItem(action);
 		item.setMnemonic(mnemonic);
 
-		if (accelerator != 0)
-			item.setAccelerator(KeyStroke.getKeyStroke(accelerator, keymask));
+		if (keymask != 0)
+			item.setAccelerator(KeyStroke.getKeyStroke(keymask, modifiers));
 
 		return item;
 	}

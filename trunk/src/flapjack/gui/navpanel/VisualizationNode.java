@@ -27,7 +27,8 @@ public class VisualizationNode extends BaseNode
 
 	public void setActions()
 	{
-		Actions.viewOverview.setEnabled(true);
+		Actions.vizOverview.setEnabled(true);
+		Actions.vizExportImage.setEnabled(true);
 
 		Actions.dataSortLinesBySimilarity.setEnabled(true);
 		Actions.dataSortLinesByLocus.setEnabled(true);

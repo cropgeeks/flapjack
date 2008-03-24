@@ -76,9 +76,18 @@ class OverviewCanvas extends JPanel
 		if (bufferFactory != null)
 			bufferFactory.killMe = true;
 		// Before starting a new one
-		bufferFactory = new BufferFactory(w, h);
+		bufferFactory = new BufferFactory(w, h, false);
 
 		repaint();
+	}
+
+	public BufferedImage exportImage(int w, int h)
+	{
+		BufferFactory tmpFactory = new BufferFactory(w, h, true);
+
+		tmpFactory.run();
+
+		return tmpFactory.buffer;
 	}
 
 	private void bufferAvailable(BufferedImage image)
@@ -168,16 +177,18 @@ class OverviewCanvas extends JPanel
 
 		private BufferedImage buffer;
 		boolean killMe = false;
+		boolean isExporting = false;
 
 		private int w, h;
 		private int boxTotalX, boxTotalY;
 		private int xWidth, yHeight;
 		private float xScale, yScale;
 
-		BufferFactory(int w, int h)
+		BufferFactory(int w, int h, boolean isExporting)
 		{
 			this.w = w;
 			this.h = h;
+			this.isExporting = isExporting;
 
 			// Make private references to certain values now, as they MAY change
 			// while the buffer is still being created, which creates a cock-up
@@ -186,7 +197,8 @@ class OverviewCanvas extends JPanel
 			view = canvas.view;
 			cScheme = canvas.cScheme;
 
-			start();
+			if (!isExporting)
+				start();
 		}
 
 		public void run()
@@ -210,7 +222,10 @@ class OverviewCanvas extends JPanel
 		{
 			try
 			{
-				buffer = new BufferedImage(w, h, BufferedImage.TYPE_BYTE_INDEXED);
+				if (isExporting)
+					buffer = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
+				else
+					buffer = new BufferedImage(w, h, BufferedImage.TYPE_BYTE_INDEXED);
 			}
 			catch (Throwable t) { return; }
 
@@ -256,7 +271,7 @@ class OverviewCanvas extends JPanel
 				y += yScale;
 			}
 
-			if (!killMe)
+			if (!killMe && !isExporting)
 			{
 				// Once complete, let the dialog know its image is ready
 				bufferAvailable(buffer);
