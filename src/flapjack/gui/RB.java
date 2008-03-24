@@ -18,7 +18,6 @@ public class RB
 		if (locale == null)
 			locale = Locale.getDefault();
 
-//		bundle = ResourceBundle.getBundle("res.text.flapjack", Prefs.locale);
 		bundle = ResourceBundle.getBundle("res.text.flapjack", locale);
 	}
 

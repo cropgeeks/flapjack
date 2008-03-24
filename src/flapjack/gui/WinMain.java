@@ -181,7 +181,15 @@ public class WinMain extends JFrame
 		processWindowEvent(evt);
 	}
 
-	void viewOverview()
+	void vizExportImage()
+	{
+		GTView view = gPanel.getView();
+		ExportImageDialog dialog = new ExportImageDialog(view);
+
+//		gPanel.exportImage();
+	}
+
+	void vizOverview()
 	{
 		OverviewManager.toggleOverviewDialog();
 	}

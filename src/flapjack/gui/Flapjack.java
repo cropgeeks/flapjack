@@ -10,6 +10,8 @@ import flapjack.io.ProjectSerializer;
 
 import scri.commons.gui.*;
 
+import apple.dts.samplecode.osxadapter.*;
+
 public class Flapjack
 {
 	private static File prefsFile = new File(System.getProperty("user.home"), ".flapjack.xml");
@@ -20,10 +22,12 @@ public class Flapjack
 	public static void main(String[] args)
 		throws Exception
 	{
+		// OS X: This has to be set before anything else
+		System.setProperty("com.apple.mrj.application.apple.menu.about.name", "Flapjack");
+
+		// Override the locale for testing purposes only
 		if (args.length == 1 && args[0].equals("de"))
 			RB.locale = Locale.GERMAN;
-		else if (args.length == 1 && args[0].equals("pirate"))
-			RB.locale = new Locale("en", "GB", "Pirate");
 
 
 		prefs.loadPreferences(prefsFile, Prefs.class);
@@ -49,7 +53,10 @@ public class Flapjack
 			}
 
 			else if (SystemUtils.isMacOS())
+			{
+				handleOSXStupidities();
 				UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+			}
 
 			else
 				UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -71,6 +78,14 @@ public class Flapjack
 			public void windowOpened(WindowEvent e)
 			{
 			}
+
+			public void windowIconified(WindowEvent e) {
+				WinMainMenuBar.mWndFlapjack.setSelected(false);
+			}
+
+			public void windowDeiconified(WindowEvent e) {
+				WinMainMenuBar.mWndFlapjack.setSelected(true);
+			}
 		});
 
 		MsgBox.initialize(winMain, "Flapjack");
@@ -85,5 +100,64 @@ public class Flapjack
 		prefs.savePreferences(prefsFile, Prefs.class);
 
 		System.exit(0);
+	}
+
+
+	// --------------------------------------------------
+	// Methods required for better native support on OS X
+
+	private void handleOSXStupidities()
+	{
+		try
+		{
+			// Register handlers to deal with the System menu about/quit options
+			OSXAdapter.setAboutHandler(this,
+				getClass().getDeclaredMethod("osxAbout", (Class[])null));
+			OSXAdapter.setQuitHandler(this,
+				getClass().getDeclaredMethod("osxShutdown", (Class[])null));
+
+			// Dock the menu bar at the top of the screen
+			System.setProperty("apple.laf.useScreenMenuBar", "true");
+		}
+		catch (Exception e) {}
+	}
+
+	/** "About Flapjack" on the OS X system menu. */
+	public void osxAbout()
+	{
+		winMain.helpAbout();
+	}
+
+	/** Called by a forced CMD-Q quit from the OS. Return false to cancel. */
+	public boolean osxShutdown()
+	{
+		if (winMain.okToExit() == false)
+			return false;
+
+		shutdown();
+		return true;
+	}
+
+	static void osxMinimize()
+	{
+		winMain.setExtendedState(Frame.ICONIFIED);
+	}
+
+	static void osxZoom()
+	{
+		if (winMain.getExtendedState() == Frame.NORMAL)
+			winMain.setExtendedState(Frame.MAXIMIZED_BOTH);
+		else
+			winMain.setExtendedState(Frame.NORMAL);
+	}
+
+	static void osxFlapjack()
+	{
+		if (Prefs.guiWinMainMaximized)
+			winMain.setExtendedState(Frame.MAXIMIZED_BOTH);
+		else
+			winMain.setExtendedState(Frame.NORMAL);
+
+		WinMainMenuBar.mWndFlapjack.setSelected(true);
 	}
 }

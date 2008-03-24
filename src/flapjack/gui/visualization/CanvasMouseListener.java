@@ -8,6 +8,8 @@ import javax.swing.event.*;
 
 import flapjack.gui.Actions;
 
+import scri.commons.gui.*;
+
 class CanvasMouseListener extends MouseInputAdapter
 {
 	private GenotypePanel gPanel;
@@ -20,6 +22,8 @@ class CanvasMouseListener extends MouseInputAdapter
 	private InteractiveHandler iHandler = new InteractiveHandler();
 	// Deals with navigation issues
 	private NavigationHandler nHandler = new NavigationHandler();
+
+	private boolean isOSX = SystemUtils.isMacOS();
 
 
 	CanvasMouseListener(GenotypePanel gPanel, GenotypeCanvas canvas)
@@ -61,7 +65,7 @@ class CanvasMouseListener extends MouseInputAdapter
 
 		if (SwingUtilities.isLeftMouseButton(e))
 		{
-			if (e.isControlDown())
+			if (isOSX && e.isMetaDown() || !isOSX && e.isControlDown())
 				iHandler.mousePressed(e);
 			else
 				nHandler.mousePressed(e);

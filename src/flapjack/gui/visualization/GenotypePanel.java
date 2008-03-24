@@ -2,11 +2,14 @@ package flapjack.gui.visualization;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.*;
 import javax.swing.*;
 import javax.swing.event.*;
 
 import flapjack.data.*;
 import flapjack.gui.*;
+
+import scri.commons.gui.*;
 
 public class GenotypePanel extends JPanel
 	implements AdjustmentListener, ChangeListener, MouseWheelListener
@@ -261,5 +264,18 @@ public class GenotypePanel extends JPanel
 	public void resetBufferedState(boolean state)
 	{
 		canvas.resetBufferedState(state);
+	}
+
+	public void exportImage()
+	{
+		BufferedImage image = OverviewManager.exportImage();
+
+		try {
+				javax.imageio.ImageIO.write(image, "png", new java.io.File("test.png"));
+		}
+		catch (Exception e)
+		{
+			System.out.println(e);
+		}
 	}
 }

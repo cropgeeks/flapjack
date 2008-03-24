@@ -1,6 +1,7 @@
 package flapjack.gui.visualization;
 
 import java.awt.event.*;
+import java.awt.image.*;
 
 import flapjack.gui.*;
 
@@ -66,8 +67,6 @@ public class OverviewManager
 		dialog.setVisible(Prefs.guiOverviewDialog);
 	}
 
-
-
 	public static OverviewPanel getPanel() {
 		return panel;
 	}
@@ -82,5 +81,10 @@ public class OverviewManager
 	{
 		dCanvas.updateOverviewSelectionBox(xIndex, xW, yIndex, yH);
 		pCanvas.updateOverviewSelectionBox(xIndex, xW, yIndex, yH);
+	}
+
+	static BufferedImage exportImage()
+	{
+		return pCanvas.exportImage(2000, 2000);
 	}
 }

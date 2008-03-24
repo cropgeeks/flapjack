@@ -5,6 +5,8 @@ import javax.swing.*;
 
 import flapjack.gui.visualization.colors.*;
 
+import scri.commons.gui.*;
+
 public class Actions
 {
 	private WinMain winMain;
@@ -16,7 +18,8 @@ public class Actions
 	public static AbstractAction fileImport;
 	public static AbstractAction fileExit;
 
-	public static AbstractAction viewOverview;
+	public static AbstractAction vizOverview;
+	public static AbstractAction vizExportImage;
 
 	public static AbstractAction dataColorRandom;
 	public static AbstractAction dataColorNucleotide;
@@ -24,6 +27,10 @@ public class Actions
 	public static AbstractAction dataColorNucleotideSimGS;
 	public static AbstractAction dataSortLinesBySimilarity;
 	public static AbstractAction dataSortLinesByLocus;
+
+	public static AbstractAction wndMinimize;
+	public static AbstractAction wndZoom;
+	public static AbstractAction wndFlapjack;
 
 	public static AbstractAction helpAbout;
 
@@ -49,33 +56,41 @@ public class Actions
 		fileSave.setEnabled(true);
 	}
 
+	private ImageIcon getIcon(ImageIcon icon)
+	{
+		if (SystemUtils.isMacOS())
+			return null;
+		else
+			return icon;
+	}
+
 	private void createActions()
 	{
-		fileNew = new AbstractAction(RB.getString("gui.Actions.fileNew"), Icons.FILENEW) {
+		fileNew = new AbstractAction(RB.getString("gui.Actions.fileNew"), getIcon(Icons.FILENEW)) {
 			public void actionPerformed(ActionEvent e) {
 				winMain.fileNew();
 			}
 		};
 
-		fileOpen = new AbstractAction(RB.getString("gui.Actions.fileOpen"), Icons.FILEOPEN) {
+		fileOpen = new AbstractAction(RB.getString("gui.Actions.fileOpen"), getIcon(Icons.FILEOPEN)) {
 			public void actionPerformed(ActionEvent e) {
 				winMain.fileOpen(null);
 			}
 		};
 
-		fileSave = new AbstractAction(RB.getString("gui.Actions.fileSave"), Icons.FILESAVE) {
+		fileSave = new AbstractAction(RB.getString("gui.Actions.fileSave"), getIcon(Icons.FILESAVE)) {
 			public void actionPerformed(ActionEvent e) {
 				winMain.fileSave(false);
 			}
 		};
 
-		fileSaveAs = new AbstractAction(RB.getString("gui.Actions.fileSaveAs"), Icons.FILESAVEAS) {
+		fileSaveAs = new AbstractAction(RB.getString("gui.Actions.fileSaveAs"), getIcon(Icons.FILESAVEAS)) {
 			public void actionPerformed(ActionEvent e) {
 				winMain.fileSave(true);
 			}
 		};
 
-		fileImport = new AbstractAction(RB.getString("gui.Actions.fileImport"), Icons.FILEIMPORT) {
+		fileImport = new AbstractAction(RB.getString("gui.Actions.fileImport"), getIcon(Icons.FILEIMPORT)) {
 			public void actionPerformed(ActionEvent e) {
 				winMain.fileImport();
 			}
@@ -88,9 +103,15 @@ public class Actions
 		};
 
 
-		viewOverview = new AbstractAction(RB.getString("gui.Actions.viewOverview")) {
+		vizOverview = new AbstractAction(RB.getString("gui.Actions.vizOverview")) {
 			public void actionPerformed(ActionEvent e) {
-				winMain.viewOverview();
+				winMain.vizOverview();
+			}
+		};
+
+		vizExportImage = new AbstractAction(RB.getString("gui.Actions.vizExportImage")) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.vizExportImage();
 			}
 		};
 
@@ -132,6 +153,25 @@ public class Actions
 		};
 
 
+		wndMinimize = new AbstractAction(RB.getString("gui.Actions.wndMinimize")) {
+			public void actionPerformed(ActionEvent e) {
+				Flapjack.osxMinimize();
+			}
+		};
+
+		wndZoom = new AbstractAction(RB.getString("gui.Actions.wndZoom")) {
+			public void actionPerformed(ActionEvent e) {
+				Flapjack.osxZoom();
+			}
+		};
+
+		wndFlapjack = new AbstractAction(RB.getString("gui.Actions.wndFlapjack")) {
+			public void actionPerformed(ActionEvent e) {
+				Flapjack.osxFlapjack();
+			}
+		};
+
+
 		helpAbout = new AbstractAction(RB.getString("gui.Actions.helpAbout")) {
 			public void actionPerformed(ActionEvent e) {
 				winMain.helpAbout();
@@ -142,7 +182,8 @@ public class Actions
 	/** Called whenever the focus on the navigation tree changes. **/
 	public static void resetActions()
 	{
-		viewOverview.setEnabled(false);
+		vizOverview.setEnabled(false);
+		vizExportImage.setEnabled(false);
 
 		dataColorRandom.setEnabled(false);
 		dataColorNucleotide.setEnabled(false);

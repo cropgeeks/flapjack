@@ -88,6 +88,8 @@ public class TwoColorScheme extends ColorScheme
 		// Otherwise do the comparison
 		int compState = view.getState(lineIndex, marker);
 
+		if (state == 0)
+			return aStates.get(0).getColor();
 		if (state == compState)
 			return COLOR_A;
 		else

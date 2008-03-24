@@ -113,8 +113,8 @@ class MapCanvas extends JPanel
 			g.drawString(str, leftPos, 8);
 		}
 
-		g.drawLine(xMap, 10, xMap, 20);
-		g.drawLine(xMap, 20, xBox, h-5);
+		g.drawLine(xMap, 12, xMap, 22);
+		g.drawLine(xMap, 22, xBox, h-5);
 	}
 
 	private class Canvas2D extends JPanel
@@ -129,6 +129,8 @@ class MapCanvas extends JPanel
 			super.paintComponent(graphics);
 
 			Graphics2D g = (Graphics2D) graphics;
+
+			g.setFont(new Font("Dialog", Font.PLAIN, 11));
 
 			// If the bg image is currently null, display some text instead
 			if (image == null)
@@ -227,9 +229,9 @@ class MapCanvas extends JPanel
 
 			// Draw the white rectangle representing the map
 			g.setColor(Color.white);
-			g.fillRect(0, 10, canvas.canvasW, 10);
+			g.fillRect(0, 12, canvas.canvasW, 10);
 			g.setColor(Color.lightGray);
-			g.drawRect(0, 10, canvas.canvasW-1, 10);
+			g.drawRect(0, 12, canvas.canvasW-1, 10);
 
 			// Determine which markers to draw (to hopefully speed things up)
 //			determineMarkers();
