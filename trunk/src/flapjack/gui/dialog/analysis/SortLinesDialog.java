@@ -43,9 +43,9 @@ public class SortLinesDialog extends JDialog implements ActionListener
 
 	private JPanel createButtons()
 	{
-		bOK = new JButton(RB.getString("gui.text.ok"));
+		bOK = SwingUtils.getButton(RB.getString("gui.text.ok"));
 		bOK.addActionListener(this);
-		bCancel = new JButton(RB.getString("gui.text.cancel"));
+		bCancel = SwingUtils.getButton(RB.getString("gui.text.cancel"));
 		bCancel.addActionListener(this);
 
 		JPanel p1 = new JPanel(new GridLayout(1, 2, 5, 5));

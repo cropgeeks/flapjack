@@ -38,9 +38,9 @@ public class DataImportDialog extends JDialog implements ActionListener
 
 	private JPanel createButtons()
 	{
-		bImport = new JButton(RB.getString("gui.dialog.DataImportDialog.import"));
+		bImport = SwingUtils.getButton(RB.getString("gui.dialog.DataImportDialog.import"));
 		bImport.addActionListener(this);
-		bCancel = new JButton(RB.getString("gui.text.cancel"));
+		bCancel = SwingUtils.getButton(RB.getString("gui.text.cancel"));
 		bCancel.addActionListener(this);
 
 		JPanel p1 = new JPanel(new GridLayout(1, 2, 5, 5));
