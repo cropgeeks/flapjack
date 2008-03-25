@@ -186,7 +186,8 @@ public class WinMain extends JFrame
 		GTView view = gPanel.getView();
 		ExportImageDialog dialog = new ExportImageDialog(view);
 
-//		gPanel.exportImage();
+		if (dialog.isOK())
+			new ExportingImageDialog(gPanel, dialog.getFile());
 	}
 
 	void vizOverview()

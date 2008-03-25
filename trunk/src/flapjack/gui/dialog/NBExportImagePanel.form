@@ -19,25 +19,24 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="0" attributes="0">
+          <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="21" pref="21" max="21" attributes="0"/>
-                      <Component id="label1" min="-2" max="-2" attributes="0"/>
-                  </Group>
                   <Component id="rOverview" alignment="0" min="-2" max="-2" attributes="0"/>
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="21" pref="21" max="21" attributes="0"/>
                       <Component id="label2" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <Component id="rView" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Component id="selectLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="21" pref="21" max="21" attributes="0"/>
+                      <Component id="label1" min="-2" max="-2" attributes="0"/>
+                  </Group>
                   <Component id="rWindow" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="jLabel1" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="rView" alignment="0" min="-2" max="-2" attributes="0"/>
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="21" pref="21" max="21" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="label3" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="widthLabel" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
@@ -49,6 +48,7 @@
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="slider" min="-2" pref="119" max="-2" attributes="1"/>
                           </Group>
+                          <Component id="label3" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="equalCheck" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -66,16 +66,16 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="selectLabel" min="-2" max="-2" attributes="0"/>
+              <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="rWindow" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="label1" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="7" max="-2" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="rView" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="label2" min="-2" max="-2" attributes="0"/>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="rOverview" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="label3" min="-2" max="-2" attributes="0"/>
@@ -91,8 +91,8 @@
               <Component id="equalCheck" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="memLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="memLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="memLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="32767" attributes="0"/>
           </Group>
@@ -100,9 +100,22 @@
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="javax.swing.JLabel" name="selectLabel">
+    <Component class="javax.swing.JLabel" name="label3">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Select a method for exporting:"/>
+        <Property name="text" type="java.lang.String" value="(creates an overview image using the dimensions specified below)"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="memLabel1">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Estimated memory required for exporting:"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JSlider" name="slider">
+    </Component>
+    <Component class="javax.swing.JLabel" name="widthLabel">
+      <Properties>
+        <Property name="displayedMnemonic" type="int" value="119"/>
+        <Property name="text" type="java.lang.String" value="Width (pixels):"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JRadioButton" name="rWindow">
@@ -115,6 +128,33 @@
         <Property name="displayedMnemonicIndex" type="int" value="7"/>
       </Properties>
     </Component>
+    <Component class="javax.swing.JLabel" name="label1">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="(creates a high-quality image showing exactly what you currently see)"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="heightLabel">
+      <Properties>
+        <Property name="displayedMnemonic" type="int" value="104"/>
+        <Property name="text" type="java.lang.String" value="Height (pixels):"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="memLabel2">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="&lt;memory&gt;"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="label2">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="(creates a high-quality image showing everything Flapjack is currently rendering)"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JCheckBox" name="equalCheck">
+      <Properties>
+        <Property name="mnemonic" type="int" value="112"/>
+        <Property name="text" type="java.lang.String" value="set pixel size equal to no. of markers by no. of lines"/>
+      </Properties>
+    </Component>
     <Component class="javax.swing.JRadioButton" name="rView">
       <Properties>
         <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
@@ -123,6 +163,10 @@
         <Property name="mnemonic" type="int" value="97"/>
         <Property name="text" type="java.lang.String" value="Export all of the current view"/>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JSpinner" name="widthSpin">
+    </Component>
+    <Component class="javax.swing.JSpinner" name="heightSpin">
     </Component>
     <Component class="javax.swing.JRadioButton" name="rOverview">
       <Properties>
@@ -133,53 +177,9 @@
         <Property name="text" type="java.lang.String" value="Export a scaled-to-fit image of all of the data:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="widthLabel">
+    <Component class="javax.swing.JLabel" name="jLabel1">
       <Properties>
-        <Property name="displayedMnemonic" type="int" value="119"/>
-        <Property name="text" type="java.lang.String" value="Width (pixels):"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JLabel" name="heightLabel">
-      <Properties>
-        <Property name="displayedMnemonic" type="int" value="104"/>
-        <Property name="text" type="java.lang.String" value="Height (pixels):"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JLabel" name="memLabel1">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Estimated memory required for exporting:"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JLabel" name="memLabel2">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="&lt;memory&gt;"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JSpinner" name="widthSpin">
-    </Component>
-    <Component class="javax.swing.JSpinner" name="heightSpin">
-    </Component>
-    <Component class="javax.swing.JSlider" name="slider">
-    </Component>
-    <Component class="javax.swing.JCheckBox" name="equalCheck">
-      <Properties>
-        <Property name="mnemonic" type="int" value="112"/>
-        <Property name="text" type="java.lang.String" value="set pixel size equal to no. of markers by no. of lines"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JLabel" name="label1">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="(creates a high-quality image showing exactly what you currently see)"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JLabel" name="label2">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="(creates a high-quality image showing everything Flapjack is currently rendering)"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JLabel" name="label3">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="(creates an overview image using the dimensions specified below)"/>
+        <Property name="text" type="java.lang.String" value="Select a method of exporting:"/>
       </Properties>
     </Component>
   </SubComponents>

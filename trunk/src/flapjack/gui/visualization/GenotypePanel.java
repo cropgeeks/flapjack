@@ -265,17 +265,4 @@ public class GenotypePanel extends JPanel
 	{
 		canvas.resetBufferedState(state);
 	}
-
-	public void exportImage()
-	{
-		BufferedImage image = OverviewManager.exportImage();
-
-		try {
-				javax.imageio.ImageIO.write(image, "png", new java.io.File("test.png"));
-		}
-		catch (Exception e)
-		{
-			System.out.println(e);
-		}
-	}
 }
