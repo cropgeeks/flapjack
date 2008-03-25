@@ -54,4 +54,10 @@ public class Prefs extends XMLPreferences
 
 	// Should the visualization canvas overlay the raw data?
 	public static boolean visShowGenotypes = false;
+
+	// Method used when exporting images
+	public static int guiExportImageMethod = 0;
+	// Image size to use when exporting
+	public static int guiExportImageX;
+	public static int guiExportImageY;
 }

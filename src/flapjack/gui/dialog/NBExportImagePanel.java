@@ -6,6 +6,7 @@ import javax.swing.*;
 import javax.swing.event.*;
 
 import flapjack.data.*;
+import flapjack.gui.*;
 
 class NBExportImagePanel extends JPanel implements ChangeListener, ActionListener
 {
@@ -25,13 +26,19 @@ class NBExportImagePanel extends JPanel implements ChangeListener, ActionListene
 
 		lineMarkerRatio = (float)lines / (float)markers;
 
+		rWindow.addActionListener(this);
+		rWindow.setSelected(Prefs.guiExportImageMethod == 0);
+		rView.addActionListener(this);
+		rView.setSelected(Prefs.guiExportImageMethod == 1);
+		rOverview.addActionListener(this);
+		rOverview.setSelected(Prefs.guiExportImageMethod == 2);
 		equalCheck.addActionListener(this);
 
-		widthModel  = new SpinnerNumberModel(markers, 1, 5 * markers, 1);
-		heightModel = new SpinnerNumberModel(lines, 1, 5 * lines, 1);
-
+		widthModel = new SpinnerNumberModel(markers, 1, 5 * markers, 1);
 		widthSpin.setModel(widthModel);
 		widthSpin.addChangeListener(this);
+
+		heightModel = new SpinnerNumberModel(lines, 1, 5 * lines, 1);
 		heightSpin.setModel(heightModel);
 		heightSpin.addChangeListener(this);
 
@@ -42,7 +49,8 @@ class NBExportImagePanel extends JPanel implements ChangeListener, ActionListene
 		slider.addChangeListener(this);
 
 		setMemoryText();
-		setCheckBoxStates();
+		setCheckBoxState();
+		setEnabledStates();
     }
 
     public void stateChanged(ChangeEvent e)
@@ -82,7 +90,7 @@ class NBExportImagePanel extends JPanel implements ChangeListener, ActionListene
     	slider.addChangeListener(this);
 
     	setMemoryText();
-    	setCheckBoxStates();
+    	setCheckBoxState();
     }
 
     private void setMemoryText()
@@ -93,7 +101,7 @@ class NBExportImagePanel extends JPanel implements ChangeListener, ActionListene
     	long memory = w * h * 3;
 
     	if (memory < Math.pow(1024, 2))
-    		memLabel2.setText((long)(memory/1024f) + " KB");
+    		memLabel2.setText((long)(memory/1024f) + " kB");
 
     	else if (memory < Math.pow(1024, 3))
     		memLabel2.setText(d.format(memory/1024f/1024f) + " MB");
@@ -106,12 +114,48 @@ class NBExportImagePanel extends JPanel implements ChangeListener, ActionListene
     {
     	if (e.getSource() == equalCheck && equalCheck.isSelected())
     		widthModel.setValue(markers);
+
+    	else if (e.getSource() instanceof JRadioButton)
+    		setEnabledStates();
     }
 
-	private void setCheckBoxStates()
+	private void setCheckBoxState()
 	{
 		long w = slider.getValue();
     	equalCheck.setSelected(w == markers);
+	}
+
+	private void setEnabledStates()
+	{
+		boolean state = true;
+
+		if (rWindow.isSelected() || rView.isSelected())
+			state = false;
+
+		widthLabel.setEnabled(state);
+		widthSpin.setEnabled(state);
+		heightLabel.setEnabled(state);
+		heightSpin.setEnabled(state);
+		slider.setEnabled(state);
+		equalCheck.setEnabled(state);
+	}
+
+	boolean isOK()
+	{
+		// Which method was picked?
+		if (rWindow.isSelected())
+			Prefs.guiExportImageMethod = 0;
+		else if (rView.isSelected())
+			Prefs.guiExportImageMethod = 1;
+		else
+			Prefs.guiExportImageMethod = 2;
+
+		// What image dimension was selected?
+		Prefs.guiExportImageX = widthModel.getNumber().intValue();
+		Prefs.guiExportImageY = heightModel.getNumber().intValue();
+
+		// TODO: Other checks for available memory
+		return true;
 	}
 
     /** This method is called from within the constructor to
@@ -123,28 +167,45 @@ class NBExportImagePanel extends JPanel implements ChangeListener, ActionListene
     private void initComponents() {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
-        selectLabel = new javax.swing.JLabel();
-        rWindow = new javax.swing.JRadioButton();
-        rView = new javax.swing.JRadioButton();
-        rOverview = new javax.swing.JRadioButton();
-        widthLabel = new javax.swing.JLabel();
-        heightLabel = new javax.swing.JLabel();
+        label3 = new javax.swing.JLabel();
         memLabel1 = new javax.swing.JLabel();
+        slider = new javax.swing.JSlider();
+        widthLabel = new javax.swing.JLabel();
+        rWindow = new javax.swing.JRadioButton();
+        label1 = new javax.swing.JLabel();
+        heightLabel = new javax.swing.JLabel();
         memLabel2 = new javax.swing.JLabel();
+        label2 = new javax.swing.JLabel();
+        equalCheck = new javax.swing.JCheckBox();
+        rView = new javax.swing.JRadioButton();
         widthSpin = new javax.swing.JSpinner();
         heightSpin = new javax.swing.JSpinner();
-        slider = new javax.swing.JSlider();
-        equalCheck = new javax.swing.JCheckBox();
-        label1 = new javax.swing.JLabel();
-        label2 = new javax.swing.JLabel();
-        label3 = new javax.swing.JLabel();
+        rOverview = new javax.swing.JRadioButton();
+        jLabel1 = new javax.swing.JLabel();
 
-        selectLabel.setText("Select a method for exporting:");
+        label3.setText("(creates an overview image using the dimensions specified below)");
+
+        memLabel1.setText("Estimated memory required for exporting:");
+
+        widthLabel.setDisplayedMnemonic('w');
+        widthLabel.setText("Width (pixels):");
 
         buttonGroup1.add(rWindow);
         rWindow.setMnemonic('o');
         rWindow.setText("Export only what can currently be seen");
         rWindow.setDisplayedMnemonicIndex(7);
+
+        label1.setText("(creates a high-quality image showing exactly what you currently see)");
+
+        heightLabel.setDisplayedMnemonic('h');
+        heightLabel.setText("Height (pixels):");
+
+        memLabel2.setText("<memory>");
+
+        label2.setText("(creates a high-quality image showing everything Flapjack is currently rendering)");
+
+        equalCheck.setMnemonic('p');
+        equalCheck.setText("set pixel size equal to no. of markers by no. of lines");
 
         buttonGroup1.add(rView);
         rView.setMnemonic('a');
@@ -154,24 +215,7 @@ class NBExportImagePanel extends JPanel implements ChangeListener, ActionListene
         rOverview.setMnemonic('s');
         rOverview.setText("Export a scaled-to-fit image of all of the data:");
 
-        widthLabel.setDisplayedMnemonic('w');
-        widthLabel.setText("Width (pixels):");
-
-        heightLabel.setDisplayedMnemonic('h');
-        heightLabel.setText("Height (pixels):");
-
-        memLabel1.setText("Estimated memory required for exporting:");
-
-        memLabel2.setText("<memory>");
-
-        equalCheck.setMnemonic('p');
-        equalCheck.setText("set pixel size equal to no. of markers by no. of lines");
-
-        label1.setText("(creates a high-quality image showing exactly what you currently see)");
-
-        label2.setText("(creates a high-quality image showing everything Flapjack is currently rendering)");
-
-        label3.setText("(creates an overview image using the dimensions specified below)");
+        jLabel1.setText("Select a method of exporting:");
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
         this.setLayout(layout);
@@ -180,20 +224,19 @@ class NBExportImagePanel extends JPanel implements ChangeListener, ActionListene
             .add(layout.createSequentialGroup()
                 .addContainerGap()
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(layout.createSequentialGroup()
-                        .add(21, 21, 21)
-                        .add(label1))
                     .add(rOverview)
                     .add(layout.createSequentialGroup()
                         .add(21, 21, 21)
                         .add(label2))
-                    .add(rView)
-                    .add(selectLabel)
+                    .add(layout.createSequentialGroup()
+                        .add(21, 21, 21)
+                        .add(label1))
                     .add(rWindow)
+                    .add(jLabel1)
+                    .add(rView)
                     .add(layout.createSequentialGroup()
                         .add(21, 21, 21)
                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(label3)
                             .add(layout.createSequentialGroup()
                                 .add(widthLabel)
                                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
@@ -204,6 +247,7 @@ class NBExportImagePanel extends JPanel implements ChangeListener, ActionListene
                                 .add(heightSpin, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                                 .add(18, 18, 18)
                                 .add(slider, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 119, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                            .add(label3)
                             .add(equalCheck)))
                     .add(layout.createSequentialGroup()
                         .add(memLabel1)
@@ -215,16 +259,16 @@ class NBExportImagePanel extends JPanel implements ChangeListener, ActionListene
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
                 .addContainerGap()
-                .add(selectLabel)
+                .add(jLabel1)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                 .add(rWindow)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(label1)
-                .add(7, 7, 7)
+                .add(18, 18, 18)
                 .add(rView)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(label2)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                .add(18, 18, 18)
                 .add(rOverview)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(label3)
@@ -239,8 +283,8 @@ class NBExportImagePanel extends JPanel implements ChangeListener, ActionListene
                 .add(equalCheck)
                 .add(18, 18, 18)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(memLabel1)
-                    .add(memLabel2))
+                    .add(memLabel2)
+                    .add(memLabel1))
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -251,6 +295,7 @@ class NBExportImagePanel extends JPanel implements ChangeListener, ActionListene
     private javax.swing.JCheckBox equalCheck;
     private javax.swing.JLabel heightLabel;
     private javax.swing.JSpinner heightSpin;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel label1;
     private javax.swing.JLabel label2;
     private javax.swing.JLabel label3;
@@ -259,7 +304,6 @@ class NBExportImagePanel extends JPanel implements ChangeListener, ActionListene
     private javax.swing.JRadioButton rOverview;
     private javax.swing.JRadioButton rView;
     private javax.swing.JRadioButton rWindow;
-    private javax.swing.JLabel selectLabel;
     private javax.swing.JSlider slider;
     private javax.swing.JLabel widthLabel;
     private javax.swing.JSpinner widthSpin;

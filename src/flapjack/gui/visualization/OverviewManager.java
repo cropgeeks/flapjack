@@ -83,8 +83,8 @@ public class OverviewManager
 		pCanvas.updateOverviewSelectionBox(xIndex, xW, yIndex, yH);
 	}
 
-	static BufferedImage exportImage()
+	public static BufferedImage getExportableImage(int w, int h)
 	{
-		return pCanvas.exportImage(2000, 2000);
+		return pCanvas.exportImage(w, h);
 	}
 }
