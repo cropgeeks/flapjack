@@ -265,4 +265,24 @@ public class GenotypePanel extends JPanel
 	{
 		canvas.resetBufferedState(state);
 	}
+
+	// Returns the back-buffer used by the canvas if it has buffered the entire
+	// view's area
+	public BufferedImage getCanvasBuffer()
+		{ return canvas.imageFull; }
+
+	public long computeCanvasBufferInBytes()
+	{
+		return (long)canvas.canvasW * (long)canvas.canvasH * 3;
+	}
+
+	// Returns the back-buffer used by the canvas to buffer the current window
+	// (that is, viewport on the view)
+	public BufferedImage getCanvasViewPortBuffer()
+		{ return canvas.imageViewPort; }
+
+	public long computeCanvasViewPortBufferInBytes()
+	{
+		return (long)viewport.getWidth() * (long)viewport.getHeight() * 3;
+	}
 }

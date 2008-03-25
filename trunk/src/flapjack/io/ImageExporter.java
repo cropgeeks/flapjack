@@ -21,7 +21,7 @@ public class ImageExporter
 	}
 
 	public void doExport()
-		throws IOException
+		throws Exception
 	{
 		switch (Prefs.guiExportImageMethod)
 		{
@@ -37,20 +37,40 @@ public class ImageExporter
 	}
 
 	private void exportCurrentWindow()
+		throws Exception
 	{
+		image = gPanel.getCanvasViewPortBuffer();
+
+		if (image == null)
+			throw new RuntimeException("Unable to create allocated image: "
+				+ "it may be too large to fit in available memory");
+
+		ImageIO.write(image, "png", file);
 	}
 
 	private void exportEntireView()
+		throws Exception
 	{
+		image = gPanel.getCanvasBuffer();
+
+		if (image == null)
+			throw new RuntimeException("Unable to create allocated image: "
+				+ "it may be too large to fit in available memory");
+
+		ImageIO.write(image, "png", file);
 	}
 
 	private void exportOverview()
-		throws IOException
+		throws Exception
 	{
 		int w = Prefs.guiExportImageX;
 		int h = Prefs.guiExportImageY;
 
 		image = OverviewManager.getExportableImage(w, h);
+
+		if (image == null)
+			throw new RuntimeException("Unable to create allocated image: "
+				+ "it may be too large to fit in available memory");
 
 		ImageIO.write(image, "png", file);
 	}

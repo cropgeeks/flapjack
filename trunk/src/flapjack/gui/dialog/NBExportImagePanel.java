@@ -6,31 +6,38 @@ import javax.swing.*;
 import javax.swing.event.*;
 
 import flapjack.data.*;
+import flapjack.gui.visualization.*;
 import flapjack.gui.*;
 
 class NBExportImagePanel extends JPanel implements ChangeListener, ActionListener
 {
 	private DecimalFormat d = new DecimalFormat("0.00");
+	private GenotypePanel gPanel;
 
 	private int lines, markers;
 	private float lineMarkerRatio;
 
 	SpinnerNumberModel widthModel, heightModel;
 
-    public NBExportImagePanel(GTView view)
+    public NBExportImagePanel(GenotypePanel gPanel, MouseAdapter dcl)
     {
 		initComponents();
 
-		lines = view.getLineCount();
-		markers = view.getMarkerCount();
+		this.gPanel = gPanel;
+
+		lines = gPanel.getView().getLineCount();
+		markers = gPanel.getView().getMarkerCount();
 
 		lineMarkerRatio = (float)lines / (float)markers;
 
 		rWindow.addActionListener(this);
+		rWindow.addMouseListener(dcl);
 		rWindow.setSelected(Prefs.guiExportImageMethod == 0);
 		rView.addActionListener(this);
+		rView.addMouseListener(dcl);
 		rView.setSelected(Prefs.guiExportImageMethod == 1);
 		rOverview.addActionListener(this);
+		rOverview.addMouseListener(dcl);
 		rOverview.setSelected(Prefs.guiExportImageMethod == 2);
 		equalCheck.addActionListener(this);
 
@@ -44,7 +51,7 @@ class NBExportImagePanel extends JPanel implements ChangeListener, ActionListene
 
 		// The slider is tied to the value of the width input field
 		slider.setMinimum(1);
-		slider.setMaximum(5 * view.getMarkerCount());
+		slider.setMaximum(5 * markers);
 		slider.setValue(markers);
 		slider.addChangeListener(this);
 
@@ -95,10 +102,19 @@ class NBExportImagePanel extends JPanel implements ChangeListener, ActionListene
 
     private void setMemoryText()
     {
-    	long w = widthModel.getNumber().longValue();
-    	long h = heightModel.getNumber().longValue();
+    	long memory = 0;
 
-    	long memory = w * h * 3;
+    	if (rWindow.isSelected())
+    		memory = gPanel.computeCanvasViewPortBufferInBytes();
+    	else if (rView.isSelected())
+    		memory = gPanel.computeCanvasBufferInBytes();
+    	else
+    	{
+    		long w = widthModel.getNumber().longValue();
+    		long h = heightModel.getNumber().longValue();
+
+    		memory = w * h * 3;
+    	}
 
     	if (memory < Math.pow(1024, 2))
     		memLabel2.setText((long)(memory/1024f) + " kB");
@@ -116,7 +132,10 @@ class NBExportImagePanel extends JPanel implements ChangeListener, ActionListene
     		widthModel.setValue(markers);
 
     	else if (e.getSource() instanceof JRadioButton)
+    	{
     		setEnabledStates();
+    		setMemoryText();
+    	}
     }
 
 	private void setCheckBoxState()
