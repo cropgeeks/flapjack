@@ -61,8 +61,7 @@ public class WinMainMenuBar extends JMenuBar
 		createEditMenu();
 		createVizMenu();
 		createDataMenu();
-		if (SystemUtils.isMacOS())
-			createWndMenu();
+		createWndMenu();
 		createHelpMenu();
 	}
 
@@ -172,7 +171,8 @@ public class WinMainMenuBar extends JMenuBar
 		mWnd.addSeparator();
 		mWnd.add(mWndFlapjack);
 
-		add(mWnd);
+		if (SystemUtils.isMacOS())
+			add(mWnd);
 	}
 
 	private void createHelpMenu()

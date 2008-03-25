@@ -5,8 +5,8 @@ import java.awt.event.*;
 import java.io.*;
 import javax.swing.*;
 
-import flapjack.data.*;
 import flapjack.gui.*;
+import flapjack.gui.visualization.*;
 import flapjack.other.Filters;
 import static flapjack.other.Filters.*;
 
@@ -21,7 +21,7 @@ public class ExportImageDialog extends JDialog implements ActionListener
 
 	private NBExportImagePanel nbPanel;
 
-	public ExportImageDialog(GTView view)
+	public ExportImageDialog(GenotypePanel gPanel)
 	{
 		super(
 			Flapjack.winMain,
@@ -29,7 +29,7 @@ public class ExportImageDialog extends JDialog implements ActionListener
 			true
 		);
 
-		nbPanel = new NBExportImagePanel(view);
+		nbPanel = new NBExportImagePanel(gPanel, new DblClickListener());
 
 		add(nbPanel);
 		add(createButtons(), BorderLayout.SOUTH);
@@ -125,5 +125,16 @@ public class ExportImageDialog extends JDialog implements ActionListener
 		}
 
 		return false;
+	}
+
+	private class DblClickListener extends MouseAdapter
+	{
+		public void mouseClicked(MouseEvent e)
+		{
+			if (e.getClickCount() != 2)
+				return;
+
+			bOK.doClick();
+		}
 	}
 }

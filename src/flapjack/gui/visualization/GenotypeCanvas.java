@@ -56,7 +56,10 @@ class GenotypeCanvas extends JPanel
 //	CanvasToolTip tt = new CanvasToolTip();
 
 	private BufferFactory bufferFactory;
-	private BufferedImage imageFull;
+	// This buffer holds the entire view area (if possible)
+	BufferedImage imageFull;
+	// This buffer holds the current viewport (visible) area
+	BufferedImage imageViewPort;
 
 	MineSweeper mineSweeper;
 
@@ -192,10 +195,7 @@ class GenotypeCanvas extends JPanel
 
 		long s = System.nanoTime();
 
-		if (imageFull == null)
-			renderRegion(g);
-		else
-			renderImage(g);
+		renderViewport(g);
 
 		// Post (main-canvas) rendering operations
 		if (mineSweeper != null)
@@ -211,6 +211,7 @@ class GenotypeCanvas extends JPanel
 
 		// TODO: think about this - the image on screen really needs buffered at
 		// this point, as constant repaints on a complicated canvas is too slow
+		// (also see TODO: for renderViewport)
 /*		if (highlightX != -1 || highlightY != -1)
 		{
 			g.setColor(Color.black);
@@ -232,6 +233,33 @@ class GenotypeCanvas extends JPanel
 		System.out.println("Render time: " + ((e-s)/1000000f) + "ms");
 	}
 
+	// TODO: this needs cached/cleared so only a genuine redraw causes it to
+	// recreated. That way surface animation/popups/etc can use the existing
+	// viewport buffer to help speed rendering
+	private void renderViewport(Graphics2D g)
+	{
+		int w = pX2-pX1, h = pY2-pY1;
+
+		if (canvasW < w) w = canvasW;
+		if (canvasH < h) h = canvasH;
+
+		// imageViewPort is (yet another) buffer that caches the visible area
+		// What would have been drawn to screen is drawn to the buffer first
+		imageViewPort = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
+		Graphics2D gImage = (Graphics2D) imageViewPort.getGraphics();
+
+		if (imageFull == null)
+		{
+			gImage.translate(-pX1, -pY1);
+			renderRegion(gImage);
+		}
+		else
+			renderImage(gImage);
+
+		gImage.dispose();
+		g.drawImage(imageViewPort, pX1, pY1, null);
+	}
+
 	// This method takes the full back-buffered image (already pre-created by
 	// this point) and cuts out a section of it that is pasted into a 2nd buffer
 	// which is then drawn to the screen. The extra buffer is needed to reduce
@@ -241,28 +269,18 @@ class GenotypeCanvas extends JPanel
 	{
 		// Width and height of the area to be copied (start by assuming we'll
 		// copy everything that fits on screen
-		int w = pX2-pX1;
-		int h = pY2-pY1;
+		int w = pX2-pX1, h = pY2-pY1;
 
 		// Bottom right-hand corner of the source image we're copying from
-		int x = pX2;
-		int y = pY2;
+		int x = pX2, y = pY2;
 
 		// But modifiy for cases where the width/height of the canvas is smaller
 		// than the current screen size
-		if (canvasW < w)
-			w = x = canvasW;
-		if (canvasH < h)
-			h = y = canvasH;
+		if (canvasW < w) w = x = canvasW;
+		if (canvasH < h) h = y = canvasH;
 
-		// Make an image to hold the copy
-		BufferedImage imageCrop = new BufferedImage(w, h, Prefs.guiBackBufferType);
-
-		Graphics2D g2d = imageCrop.createGraphics();
-		g2d.drawImage(imageFull, 0, 0, w, h, pX1, pY1, x, y, null);
-		g2d.dispose();
-
-		g.drawImage(imageCrop, pX1, pY1, Color.white, null);
+		// Now paste the crop onto the viewport buffer
+		g.drawImage(imageFull, 0, 0, w, h, pX1, pY1, x, y, null);
 	}
 
 	void renderRegion(Graphics2D g)
@@ -299,8 +317,8 @@ class GenotypeCanvas extends JPanel
 
 	private void render(Graphics2D g, ImageMonitor monitor, int xS, int xE, int yS, int yE)
 	{
-		g.setColor(Color.white);
-		g.fillRect(0, 0, canvasW, canvasH);
+//		g.setColor(Color.white);
+//		g.fillRect(0, 0, canvasW, canvasH);
 
 		for (int yIndex = yS, y = (boxH*yS); yIndex <= yE; yIndex++, y += boxH)
 		{

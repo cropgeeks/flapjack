@@ -61,8 +61,6 @@ public class ExportingImageDialog extends JDialog
 				}
 				catch (Exception e)
 				{
-					System.out.println(e);
-
 					exception = e;
 				}
 
