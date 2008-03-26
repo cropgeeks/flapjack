@@ -25,11 +25,6 @@ public class Flapjack
 		// OS X: This has to be set before anything else
 		System.setProperty("com.apple.mrj.application.apple.menu.about.name", "Flapjack");
 
-		// Override the locale for testing purposes only
-		if (args.length == 1 && args[0].equals("de"))
-			RB.locale = Locale.GERMAN;
-
-
 		prefs.loadPreferences(prefsFile, Prefs.class);
 
 		Icons.initialize();
@@ -111,6 +106,8 @@ public class Flapjack
 		try
 		{
 			// Register handlers to deal with the System menu about/quit options
+			OSXAdapter.setPreferencesHandler(this,
+				getClass().getDeclaredMethod("osxPreferences", (Class[])null));
 			OSXAdapter.setAboutHandler(this,
 				getClass().getDeclaredMethod("osxAbout", (Class[])null));
 			OSXAdapter.setQuitHandler(this,
@@ -122,13 +119,19 @@ public class Flapjack
 		catch (Exception e) {}
 	}
 
+	/** "Preferences" on the OS X system menu. */
+	public void osxPreferences()
+	{
+		winMain.helpPrefs();
+	}
+
 	/** "About Flapjack" on the OS X system menu. */
 	public void osxAbout()
 	{
 		winMain.helpAbout();
 	}
 
-	/** Called by a forced CMD-Q quit from the OS. Return false to cancel. */
+	/** "Quit Flapjack" on the OS X system menu. */
 	public boolean osxShutdown()
 	{
 		if (winMain.okToExit() == false)

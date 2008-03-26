@@ -21,6 +21,9 @@ public class Prefs extends XMLPreferences
 	public static String guiRecentProject3;
 	public static String guiRecentProject4;
 
+	// Display localised text in...
+	public static String localeText = "auto";
+
 	// The width, height, location and maximized status of the main window
 	public static int guiWinMainWidth = 800;
 	public static int guiWinMainHeight = 600;
@@ -39,9 +42,6 @@ public class Prefs extends XMLPreferences
 	public static int guiOverviewY = 0;
 	public static int guiOverviewSplitsLocation = 375;
 
-	// The type of back-buffer we want to use for faster rendering
-	public static int guiBackBufferType = java.awt.image.BufferedImage.TYPE_INT_RGB;
-
 	// Method to use when importing data
 	public static int guiImportMethod = 0;
 
@@ -52,12 +52,17 @@ public class Prefs extends XMLPreferences
 	public static String ioMissingData = "-";
 	public static String ioHeteroSeparator = "/";
 
-	// Should the visualization canvas overlay the raw data?
-	public static boolean visShowGenotypes = false;
-
 	// Method used when exporting images
 	public static int guiExportImageMethod = 0;
 	// Image size to use when exporting
 	public static int guiExportImageX;
 	public static int guiExportImageY;
+
+	// Attempt to use back-buffering to improve performance?
+	public static boolean visBackBuffer = true;
+	// The type of back-buffer we want to use for faster rendering
+	public static int visBackBufferType = java.awt.image.BufferedImage.TYPE_INT_RGB;
+
+	// Should the visualization canvas overlay the raw data?
+	public static boolean visShowGenotypes = false;
 }

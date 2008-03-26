@@ -91,6 +91,9 @@ public class GenotypePanel extends JPanel
 	// that we need to update the view's components to reflect this
 	public void refreshView()
 	{
+		if (viewSet == null)
+			return;
+
 		canvas.setView(viewSet, view);
 		listPanel.setView(view);
 		statusPanel.setView(view);

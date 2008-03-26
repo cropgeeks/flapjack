@@ -8,6 +8,7 @@ import javax.swing.*;
 import flapjack.data.*;
 import flapjack.gui.dialog.*;
 import flapjack.gui.dialog.analysis.*;
+import flapjack.gui.dialog.prefs.*;
 import flapjack.gui.visualization.*;
 import flapjack.io.*;
 
@@ -227,5 +228,11 @@ public class WinMain extends JFrame
 			+ "\n\nEnglish language files: Iain Milne"
 			+ "\nDeutsche Übersetzungen: Micha Bayer, Dominik Lindner",
 			RB.getString("gui.text.close"));
+	}
+
+	void helpPrefs()
+	{
+		if (new PreferencesDialog().isOK())
+			gPanel.refreshView();
 	}
 }

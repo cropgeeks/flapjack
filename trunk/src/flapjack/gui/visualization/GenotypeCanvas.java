@@ -385,7 +385,7 @@ class GenotypeCanvas extends JPanel
 			try { Thread.sleep(2000); }
 			catch (InterruptedException e) {}
 
-			if (monitor.killMe)
+			if (monitor.killMe || Prefs.visBackBuffer == false)
 				return;
 
 			System.runFinalization();
@@ -407,8 +407,13 @@ class GenotypeCanvas extends JPanel
 		private void createBuffer()
 			throws ArrayIndexOutOfBoundsException
 		{
+			// 3-bits per pixel or 1-bit per pixel depending on the image type
+			int multiplier = 3;
+			if (Prefs.visBackBufferType == BufferedImage.TYPE_BYTE_INDEXED)
+				multiplier = 1;
+
 			// Determine how much memory we need for the back buffer (in bytes)
-			long bufferSize = (long)canvasW * (long)canvasH * 3;
+			long bufferSize = (long)canvasW * (long)canvasH * multiplier;
 			long available = mxBean.getHeapMemoryUsage().getMax()
 				- mxBean.getHeapMemoryUsage().getUsed();
 
@@ -422,7 +427,7 @@ class GenotypeCanvas extends JPanel
 			}
 
 			try	{
-				buffer = new BufferedImage(canvasW, canvasH, Prefs.guiBackBufferType);
+				buffer = new BufferedImage(canvasW, canvasH, Prefs.visBackBufferType);
 			}
 			catch (Throwable t)	{
 				// Catch out-of-memory errors

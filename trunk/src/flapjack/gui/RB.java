@@ -15,7 +15,13 @@ public class RB
 
 	public static void initialize()
 	{
-		if (locale == null)
+		if (Prefs.localeText.equals("en_GB"))
+			locale = Locale.UK;
+		else if (Prefs.localeText.equals("en_US"))
+			locale = Locale.US;
+		else if (Prefs.localeText.equals("de"))
+			locale = Locale.GERMAN;
+		else
 			locale = Locale.getDefault();
 
 		bundle = ResourceBundle.getBundle("res.text.flapjack", locale);
