@@ -18,8 +18,12 @@ public class NBDataImportPanel extends javax.swing.JPanel implements ActionListe
 		mapButton.addActionListener(this);
 		genoButton.addActionListener(this);
 
-		mapText.setText("data\\illumina.map");
-		genoText.setText("data\\illumina.data");
+		// Development hack to save me time...
+		if (System.getProperty("user.name").equals("imilne"))
+		{
+			mapText.setText("data" + System.getProperty("file.separator") + "illumina.map");
+			genoText.setText("data" + System.getProperty("file.separator") + "illumina.data");
+		}
 
 		missingText.setText(Prefs.ioMissingData);
 		heteroText.setText(Prefs.ioHeteroSeparator);

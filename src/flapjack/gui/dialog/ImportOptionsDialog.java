@@ -44,15 +44,12 @@ public class ImportOptionsDialog extends JDialog implements ActionListener
 		bCancel = SwingUtils.getButton(RB.getString("gui.text.cancel"));
 		bCancel.addActionListener(this);
 
-		JPanel p1 = new JPanel(new GridLayout(1, 2, 5, 5));
+		JPanel p1 = new JPanel(new FlowLayout(FlowLayout.RIGHT, 5, 0));
+		p1.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 5));
 		p1.add(bOK);
 		p1.add(bCancel);
 
-		JPanel p2 = new JPanel(new FlowLayout(FlowLayout.RIGHT, 0, 0));
-		p2.setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 10));
-		p2.add(p1);
-
-		return p2;
+		return p1;
 	}
 
 	public void actionPerformed(ActionEvent e)
