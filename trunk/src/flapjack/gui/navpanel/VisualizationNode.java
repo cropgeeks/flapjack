@@ -29,13 +29,13 @@ public class VisualizationNode extends BaseNode
 	{
 		Actions.vizOverview.setEnabled(true);
 		Actions.vizExportImage.setEnabled(true);
+		Actions.vizColorRandom.setEnabled(true);
+		Actions.vizColorNucleotide.setEnabled(true);
+		Actions.vizColorNucleotideSim.setEnabled(true);
+		Actions.vizColorNucleotideSimGS.setEnabled(true);
 
 		Actions.dataSortLinesBySimilarity.setEnabled(true);
 		Actions.dataSortLinesByLocus.setEnabled(true);
-		Actions.dataColorRandom.setEnabled(true);
-		Actions.dataColorNucleotide.setEnabled(true);
-		Actions.dataColorNucleotideSim.setEnabled(true);
-		Actions.dataColorNucleotideSimGS.setEnabled(true);
 	}
 
 	public JPanel getPanel()

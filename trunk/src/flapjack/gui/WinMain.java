@@ -194,18 +194,27 @@ public class WinMain extends JFrame
 		OverviewManager.toggleOverviewDialog();
 	}
 
+	void vizColor(int colorScheme)
+	{
+		gPanel.getViewSet().setColorScheme(colorScheme);
+		gPanel.refreshView();
+	}
+
+	void vizOverlayGenotypes()
+	{
+		Prefs.visShowGenotypes = !Prefs.visShowGenotypes;
+		WinMainMenuBar.mVizOverlayGenotypes.setSelected(Prefs.visShowGenotypes);
+		CanvasMenu.mShowGenotypes.setSelected(Prefs.visShowGenotypes);
+
+		gPanel.refreshView();
+	}
+
 	void dataSortLines(int sortMethod)
 	{
 		SortLinesDialog dialog = new SortLinesDialog(gPanel);
 
 		if (dialog.isOK())
 			new SortingLinesProgressDialog().runSort(gPanel, sortMethod);
-	}
-
-	void dataColor(int colorScheme)
-	{
-		gPanel.getViewSet().setColorScheme(colorScheme);
-		gPanel.refreshView();
 	}
 
 	void helpAbout()

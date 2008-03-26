@@ -20,11 +20,12 @@ public class Actions
 
 	public static AbstractAction vizOverview;
 	public static AbstractAction vizExportImage;
+	public static AbstractAction vizColorRandom;
+	public static AbstractAction vizColorNucleotide;
+	public static AbstractAction vizColorNucleotideSim;
+	public static AbstractAction vizColorNucleotideSimGS;
+	public static AbstractAction vizOverlayGenotypes;
 
-	public static AbstractAction dataColorRandom;
-	public static AbstractAction dataColorNucleotide;
-	public static AbstractAction dataColorNucleotideSim;
-	public static AbstractAction dataColorNucleotideSimGS;
 	public static AbstractAction dataSortLinesBySimilarity;
 	public static AbstractAction dataSortLinesByLocus;
 
@@ -115,6 +116,36 @@ public class Actions
 			}
 		};
 
+		vizColorRandom = new AbstractAction(RB.getString("gui.Actions.vizColorRandom")) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.vizColor(ColorScheme.RANDOM);
+			}
+		};
+
+		vizColorNucleotide = new AbstractAction(RB.getString("gui.Actions.vizColorNucleotide")) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.vizColor(ColorScheme.NUCLEOTIDE);
+			}
+		};
+
+		vizColorNucleotideSim = new AbstractAction(RB.getString("gui.Actions.vizColorNucleotideSim")) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.vizColor(ColorScheme.NUCLEOTIDE_SIMILARITY);
+			}
+		};
+
+		vizColorNucleotideSimGS = new AbstractAction(RB.getString("gui.Actions.vizColorNucleotideSimGS")) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.vizColor(ColorScheme.NUCLEOTIDE_SIMILARITY_GS);
+			}
+		};
+
+		vizOverlayGenotypes = new AbstractAction(RB.getString("gui.Actions.vizOverlayGenotypes")) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.vizOverlayGenotypes();
+			}
+		};
+
 
 		dataSortLinesBySimilarity = new AbstractAction(RB.getString("gui.Actions.dataSortLinesBySimilarity")) {
 			public void actionPerformed(ActionEvent e) {
@@ -125,30 +156,6 @@ public class Actions
 		dataSortLinesByLocus = new AbstractAction(RB.getString("gui.Actions.dataSortLinesByLocus")) {
 			public void actionPerformed(ActionEvent e) {
 				winMain.dataSortLines(1);
-			}
-		};
-
-		dataColorRandom = new AbstractAction(RB.getString("gui.Actions.dataColorRandom")) {
-			public void actionPerformed(ActionEvent e) {
-				winMain.dataColor(ColorScheme.RANDOM);
-			}
-		};
-
-		dataColorNucleotide = new AbstractAction(RB.getString("gui.Actions.dataColorNucleotide")) {
-			public void actionPerformed(ActionEvent e) {
-				winMain.dataColor(ColorScheme.NUCLEOTIDE);
-			}
-		};
-
-		dataColorNucleotideSim = new AbstractAction(RB.getString("gui.Actions.dataColorNucleotideSim")) {
-			public void actionPerformed(ActionEvent e) {
-				winMain.dataColor(ColorScheme.NUCLEOTIDE_SIMILARITY);
-			}
-		};
-
-		dataColorNucleotideSimGS = new AbstractAction(RB.getString("gui.Actions.dataColorNucleotideSimGS")) {
-			public void actionPerformed(ActionEvent e) {
-				winMain.dataColor(ColorScheme.NUCLEOTIDE_SIMILARITY_GS);
 			}
 		};
 
@@ -184,11 +191,11 @@ public class Actions
 	{
 		vizOverview.setEnabled(false);
 		vizExportImage.setEnabled(false);
+		vizColorRandom.setEnabled(false);
+		vizColorNucleotide.setEnabled(false);
+		vizColorNucleotideSim.setEnabled(false);
+		vizColorNucleotideSimGS.setEnabled(false);
 
-		dataColorRandom.setEnabled(false);
-		dataColorNucleotide.setEnabled(false);
-		dataColorNucleotideSim.setEnabled(false);
-		dataColorNucleotideSimGS.setEnabled(false);
 		dataSortLinesBySimilarity.setEnabled(false);
 		dataSortLinesByLocus.setEnabled(false);
 	}

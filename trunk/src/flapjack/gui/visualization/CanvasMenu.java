@@ -5,7 +5,7 @@ import javax.swing.*;
 
 import flapjack.gui.*;
 
-class CanvasMenu
+public class CanvasMenu
 {
 	private GenotypePanel gPanel;
 	private GenotypeCanvas canvas;
@@ -13,7 +13,7 @@ class CanvasMenu
 	private JPopupMenu menu = new JPopupMenu();
 
 	private JCheckBoxMenuItem mLock;
-	private JCheckBoxMenuItem mShowGenotypes;
+	public static JCheckBoxMenuItem mShowGenotypes;
 	private JMenu mColor;
 	private JMenuItem mColorRandom;
 	private JMenuItem mColorNucleotide;
@@ -24,7 +24,6 @@ class CanvasMenu
 	private JMenuItem mSortLinesByLocus;
 
 	private AbstractAction aLock;
-	private AbstractAction aShowGenotypes;
 
 	CanvasMenu(GenotypePanel gPanel, GenotypeCanvas canvas)
 	{
@@ -45,28 +44,19 @@ class CanvasMenu
 				canvas.locked = !canvas.locked;
 			}
 		};
-
-		aShowGenotypes = new AbstractAction(RB.getString("gui.Actions.canvasShowGenotypes")) {
-			public void actionPerformed(ActionEvent e)
-			{
-				Prefs.visShowGenotypes = !Prefs.visShowGenotypes;
-				gPanel.refreshView();
-			}
-		};
 	}
 
 	private void createItems()
 	{
 		mLock = WinMainMenuBar.getCheckedItem(aLock, KeyEvent.VK_L, 0, 0, canvas.locked);
-		mShowGenotypes = WinMainMenuBar.getCheckedItem(aShowGenotypes, KeyEvent.VK_O, 0, 0, Prefs.visShowGenotypes);
+		mShowGenotypes = WinMainMenuBar.getCheckedItem(Actions.vizOverlayGenotypes, KeyEvent.VK_O, KeyEvent.VK_G, 0, Prefs.visShowGenotypes);
 
+		mColorRandom = WinMainMenuBar.getItem(Actions.vizColorRandom, KeyEvent.VK_R, 0, 0);
+		mColorNucleotide = WinMainMenuBar.getItem(Actions.vizColorNucleotide, KeyEvent.VK_N, 0, 0);
+		mColorNucleotideSim = WinMainMenuBar.getItem(Actions.vizColorNucleotideSim, KeyEvent.VK_2, 0, 0);
+		mColorNucleotideSimGS = WinMainMenuBar.getItem(Actions.vizColorNucleotideSimGS, KeyEvent.VK_G, 0, 0);
 
-		mColorRandom = WinMainMenuBar.getItem(Actions.dataColorRandom, KeyEvent.VK_R, 0, 0);
-		mColorNucleotide = WinMainMenuBar.getItem(Actions.dataColorNucleotide, KeyEvent.VK_N, 0, 0);
-		mColorNucleotideSim = WinMainMenuBar.getItem(Actions.dataColorNucleotideSim, KeyEvent.VK_2, 0, 0);
-		mColorNucleotideSimGS = WinMainMenuBar.getItem(Actions.dataColorNucleotideSimGS, KeyEvent.VK_G, 0, 0);
-
-		mColor = new JMenu(RB.getString("gui.WinMainMenuBar.mDataColor"));
+		mColor = new JMenu(RB.getString("gui.WinMainMenuBar.mVizColor"));
 		mColor.setMnemonic(KeyEvent.VK_C);
 		mColor.add(mColorNucleotide);
 		mColor.add(mColorNucleotideSim);
