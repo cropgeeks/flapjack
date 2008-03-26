@@ -1,5 +1,6 @@
 package flapjack.gui.visualization;
 
+import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
@@ -9,6 +10,8 @@ public class CanvasMenu
 {
 	private GenotypePanel gPanel;
 	private GenotypeCanvas canvas;
+
+	private int menuShortcut;
 
 	private JPopupMenu menu = new JPopupMenu();
 
@@ -30,6 +33,9 @@ public class CanvasMenu
 		this.gPanel = gPanel;
 		this.canvas = canvas;
 
+		// Returns value for "CTRL" under most OSs, and the "apple" key for OS X
+		menuShortcut = Toolkit.getDefaultToolkit().getMenuShortcutKeyMask();
+
 		createActions();
 		createItems();
 	}
@@ -49,7 +55,7 @@ public class CanvasMenu
 	private void createItems()
 	{
 		mLock = WinMainMenuBar.getCheckedItem(aLock, KeyEvent.VK_L, 0, 0, canvas.locked);
-		mShowGenotypes = WinMainMenuBar.getCheckedItem(Actions.vizOverlayGenotypes, KeyEvent.VK_O, KeyEvent.VK_G, 0, Prefs.visShowGenotypes);
+		mShowGenotypes = WinMainMenuBar.getCheckedItem(Actions.vizOverlayGenotypes, KeyEvent.VK_O, KeyEvent.VK_G, menuShortcut, Prefs.visShowGenotypes);
 
 		mColorRandom = WinMainMenuBar.getItem(Actions.vizColorRandom, KeyEvent.VK_R, 0, 0);
 		mColorNucleotide = WinMainMenuBar.getItem(Actions.vizColorNucleotide, KeyEvent.VK_N, 0, 0);

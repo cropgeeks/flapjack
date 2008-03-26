@@ -34,6 +34,7 @@ public class Actions
 	public static AbstractAction wndFlapjack;
 
 	public static AbstractAction helpAbout;
+	public static AbstractAction helpPrefs;
 
 	Actions(WinMain winMain)
 	{
@@ -182,6 +183,12 @@ public class Actions
 		helpAbout = new AbstractAction(RB.getString("gui.Actions.helpAbout")) {
 			public void actionPerformed(ActionEvent e) {
 				winMain.helpAbout();
+			}
+		};
+
+		helpPrefs = new AbstractAction(RB.getString("gui.Actions.helpPrefs")) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.helpPrefs();
 			}
 		};
 	}
