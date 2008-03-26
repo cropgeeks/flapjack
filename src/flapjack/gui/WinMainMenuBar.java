@@ -27,13 +27,14 @@ public class WinMainMenuBar extends JMenuBar
 	private JMenu mViz;
 	public static JCheckBoxMenuItem mVizOverview;
 	private JMenuItem mVizExportImage;
+	private JMenu mVizColor;
+	private JMenuItem mVizColorRandom;
+	private JMenuItem mVizColorNucleotide;
+	private JMenuItem mVizColorNucleotideSim;
+	private JMenuItem mVizColorNucleotideSimGS;
+	static  JCheckBoxMenuItem mVizOverlayGenotypes;
 
 	private JMenu mData;
-	private JMenu mDataColor;
-	private JMenuItem mDataColorRandom;
-	private JMenuItem mDataColorNucleotide;
-	private JMenuItem mDataColorNucleotideSim;
-	private JMenuItem mDataColorNucleotideSimGS;
 	private JMenu mDataSortLines;
 	private JMenuItem mDataSortLinesBySimilarity;
 	private JMenuItem mDataSortLinesByLocus;
@@ -41,7 +42,7 @@ public class WinMainMenuBar extends JMenuBar
 	private JMenu mWnd;
 	private JMenuItem mWndMinimize;
 	private JMenuItem mWndZoom;
-	static JCheckBoxMenuItem mWndFlapjack;
+	static  JCheckBoxMenuItem mWndFlapjack;
 
 	private JMenu mHelp;
 	private JMenuItem mHelpAbout;
@@ -113,11 +114,27 @@ public class WinMainMenuBar extends JMenuBar
 		mViz = new JMenu(RB.getString("gui.WinMainMenuBar.mViz"));
 		mViz.setMnemonic(KeyEvent.VK_V);
 
+		mVizColor = new JMenu(RB.getString("gui.WinMainMenuBar.mVizColor"));
+		mVizColor.setMnemonic(KeyEvent.VK_C);
+
 		mVizOverview = getCheckedItem(Actions.vizOverview, KeyEvent.VK_S, KeyEvent.VK_F7, 0, Prefs.guiOverviewDialog);
 		mVizExportImage = getItem(Actions.vizExportImage, KeyEvent.VK_E, 0, 0);
+		mVizColorRandom = getItem(Actions.vizColorRandom, KeyEvent.VK_R, 0, 0);
+		mVizColorNucleotide = getItem(Actions.vizColorNucleotide, KeyEvent.VK_N, 0, 0);
+		mVizColorNucleotideSim = getItem(Actions.vizColorNucleotideSim, KeyEvent.VK_2, 0, 0);
+		mVizColorNucleotideSimGS = getItem(Actions.vizColorNucleotideSimGS, KeyEvent.VK_G, 0, 0);
+		mVizOverlayGenotypes = getCheckedItem(Actions.vizOverlayGenotypes, KeyEvent.VK_O, KeyEvent.VK_G, menuShortcut, Prefs.visShowGenotypes);
+
+		mVizColor.add(mVizColorNucleotide);
+		mVizColor.add(mVizColorNucleotideSim);
+		mVizColor.add(mVizColorNucleotideSimGS);
+		mVizColor.addSeparator();
+		mVizColor.add(mVizColorRandom);
 
 		mViz.add(mVizExportImage);
 		mViz.addSeparator();
+		mViz.add(mVizColor);
+		mViz.add(mVizOverlayGenotypes);
 		mViz.add(mVizOverview);
 
 		add(mViz);
@@ -127,31 +144,15 @@ public class WinMainMenuBar extends JMenuBar
 	{
 		mData = new JMenu(RB.getString("gui.WinMainMenuBar.mData"));
 		mData.setMnemonic(KeyEvent.VK_D);
-		mDataColor = new JMenu(RB.getString("gui.WinMainMenuBar.mDataColor"));
-		mDataColor.setMnemonic(KeyEvent.VK_C);
+
 		mDataSortLines = new JMenu(RB.getString("gui.WinMainMenuBar.mDataSortLines"));
 		mDataSortLines.setMnemonic(KeyEvent.VK_S);
-
-
-		mDataColorRandom = getItem(Actions.dataColorRandom, KeyEvent.VK_R, 0, 0);
-		mDataColorNucleotide = getItem(Actions.dataColorNucleotide, KeyEvent.VK_N, 0, 0);
-		mDataColorNucleotideSim = getItem(Actions.dataColorNucleotideSim, KeyEvent.VK_2, 0, 0);
-		mDataColorNucleotideSimGS = getItem(Actions.dataColorNucleotideSimGS, KeyEvent.VK_G, 0, 0);
-
-		mDataColor.add(mDataColorNucleotide);
-		mDataColor.add(mDataColorNucleotideSim);
-		mDataColor.add(mDataColorNucleotideSimGS);
-		mDataColor.addSeparator();
-		mDataColor.add(mDataColorRandom);
-
 		mDataSortLinesBySimilarity = getItem(Actions.dataSortLinesBySimilarity, KeyEvent.VK_S, 0, 0);
 		mDataSortLinesByLocus = getItem(Actions.dataSortLinesBySimilarity, KeyEvent.VK_L, 0, 0);
 
 		mDataSortLines.add(mDataSortLinesBySimilarity);
 		mDataSortLines.add(mDataSortLinesByLocus);
 
-		mData.add(mDataColor);
-		mData.addSeparator();
 		mData.add(mDataSortLines);
 
 		add(mData);
