@@ -28,6 +28,7 @@ public class Actions
 
 	public static AbstractAction dataSortLinesBySimilarity;
 	public static AbstractAction dataSortLinesByLocus;
+	public static AbstractAction dataFind;
 
 	public static AbstractAction wndMinimize;
 	public static AbstractAction wndZoom;
@@ -160,6 +161,12 @@ public class Actions
 			}
 		};
 
+		dataFind = new AbstractAction(RB.getString("gui.Actions.dataFind"), getIcon(Icons.FIND)) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.dataFind();
+			}
+		};
+
 
 		wndMinimize = new AbstractAction(RB.getString("gui.Actions.wndMinimize")) {
 			public void actionPerformed(ActionEvent e) {
@@ -202,8 +209,10 @@ public class Actions
 		vizColorNucleotide.setEnabled(false);
 		vizColorNucleotideSim.setEnabled(false);
 		vizColorNucleotideSimGS.setEnabled(false);
+		vizOverlayGenotypes.setEnabled(false);
 
 		dataSortLinesBySimilarity.setEnabled(false);
 		dataSortLinesByLocus.setEnabled(false);
+		dataFind.setEnabled(false);
 	}
 }

@@ -23,6 +23,8 @@ public class WinMain extends JFrame
 	private NavPanel navPanel;
 	private GenotypePanel gPanel;
 
+	private FindDialog findDialog;
+
 	// The user's project
 	private Project project = new Project();
 
@@ -216,6 +218,15 @@ public class WinMain extends JFrame
 
 		if (dialog.isOK())
 			new SortingLinesProgressDialog().runSort(gPanel, sortMethod);
+	}
+
+	void dataFind()
+	{
+		if (findDialog == null)
+			findDialog = new FindDialog(gPanel);
+
+		findDialog.setVisible(true);
+		Prefs.guiFindDialogShown = true;
 	}
 
 	void helpAbout()

@@ -58,6 +58,14 @@ public class Prefs extends XMLPreferences
 	public static int guiExportImageX;
 	public static int guiExportImageY;
 
+	// Finding stuff...
+	public static boolean guiFindDialogShown = false;
+	public static int guiFindDialogX = 0;
+	public static int guiFindDialogY = 0;
+	public static int guiFindMethod = 0;
+	public static boolean guiFindAllChromo = true;
+	public static boolean guiFindRegular = true;
+
 	// Attempt to use back-buffering to improve performance?
 	public static boolean visBackBuffer = true;
 	// The type of back-buffer we want to use for faster rendering

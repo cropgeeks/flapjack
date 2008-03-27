@@ -33,9 +33,11 @@ public class VisualizationNode extends BaseNode
 		Actions.vizColorNucleotide.setEnabled(true);
 		Actions.vizColorNucleotideSim.setEnabled(true);
 		Actions.vizColorNucleotideSimGS.setEnabled(true);
+		Actions.vizOverlayGenotypes.setEnabled(true);
 
 		Actions.dataSortLinesBySimilarity.setEnabled(true);
 		Actions.dataSortLinesByLocus.setEnabled(true);
+		Actions.dataFind.setEnabled(true);
 	}
 
 	public JPanel getPanel()

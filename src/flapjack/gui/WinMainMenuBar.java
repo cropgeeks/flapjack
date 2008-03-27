@@ -38,6 +38,7 @@ public class WinMainMenuBar extends JMenuBar
 	private JMenu mDataSortLines;
 	private JMenuItem mDataSortLinesBySimilarity;
 	private JMenuItem mDataSortLinesByLocus;
+	private JMenuItem mDataFind;
 
 	private JMenu mWnd;
 	private JMenuItem mWndMinimize;
@@ -150,11 +151,14 @@ public class WinMainMenuBar extends JMenuBar
 		mDataSortLines.setMnemonic(KeyEvent.VK_S);
 		mDataSortLinesBySimilarity = getItem(Actions.dataSortLinesBySimilarity, KeyEvent.VK_S, 0, 0);
 		mDataSortLinesByLocus = getItem(Actions.dataSortLinesBySimilarity, KeyEvent.VK_L, 0, 0);
+		mDataFind = getItem(Actions.dataFind, KeyEvent.VK_F, KeyEvent.VK_F, menuShortcut);
 
 		mDataSortLines.add(mDataSortLinesBySimilarity);
 		mDataSortLines.add(mDataSortLinesByLocus);
 
 		mData.add(mDataSortLines);
+		mData.addSeparator();
+		mData.add(mDataFind);
 
 		add(mData);
 	}
