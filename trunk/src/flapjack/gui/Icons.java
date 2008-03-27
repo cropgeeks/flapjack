@@ -10,6 +10,7 @@ public class Icons
 	public static ImageIcon BLUEBLOB;
 	public static ImageIcon CHROMOSOME;
 	public static ImageIcon EMPTY;
+	public static ImageIcon FIND;
 	public static ImageIcon FILENEW;
 	public static ImageIcon FILEOPEN;
 	public static ImageIcon FILESAVE;
@@ -22,6 +23,7 @@ public class Icons
 	public static ImageIcon GERMINATE;
 	public static ImageIcon REDBLOB;
 	public static ImageIcon VISUALIZATION;
+	public static ImageIcon WEB;
 
 	public static ImageIcon WINERROR, WININFORMATION, WINQUESTION, WINWARNING;
 
