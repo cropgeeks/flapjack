@@ -4,17 +4,26 @@ import java.util.regex.*;
 
 import flapjack.data.*;
 
-public class FindLine extends StringFinder
+public class FindMarker extends StringFinder
 {
+	private GTViewSet viewSet;
 	private GTView view;
 
-	// Current line index within the view
+	// Current marker index within the view
 	private int index = 0;
+	// Current view index across the viewSet
+	private int viewIndex = 0;
 
-	public FindLine(GTView view, boolean findNext, boolean matchCase, boolean useRegex)
+	public FindMarker(GTViewSet viewSet, boolean findNext, boolean matchCase, boolean useRegex)
 	{
 		super(findNext, matchCase, useRegex);
 
+		this.viewSet = viewSet;
+		this.view = viewSet.getView(0);
+	}
+
+	public void setView(GTView view)
+	{
 		this.view = view;
 	}
 
@@ -30,17 +39,17 @@ public class FindLine extends StringFinder
 		// it means we didn't find a match
 		int searchCount = 0;
 
-		while (searchCount < view.getLineCount())
+		while (searchCount < view.getMarkerCount())
 		{
 			// If we've reached the end of the data, reset to the start...
-			if (index >= view.getLineCount())
+			if (index >= view.getMarkerCount())
 				index = 0;
 			// Or, if we're searching backwards and have reached the start...
 			else if (index < 0)
-				index = view.getLineCount()-1;
+				index = view.getMarkerCount()-1;
 
-			Line line = view.getLine(index);
-			if (matches(line.getName(), str))
+			Marker marker = view.getMarker(index);
+			if (matches(marker.getName(), str))
 				return index;
 
 			searchCount++;

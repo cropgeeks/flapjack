@@ -109,6 +109,7 @@ public class FindDialog extends JDialog implements ActionListener
 
 		// Objects used to perform the searching
 		FindLine lineFinder;
+		FindMarker markerFinder;
 
 		// The viewset/view currently in focus
 		GTViewSet viewSet = null;
@@ -142,7 +143,9 @@ public class FindDialog extends JDialog implements ActionListener
 				lineFinder = new FindLine(view,
 					findNext, Prefs.guiFindMatchCase, Prefs.guiFindUseRegex);
 
-				// TODO: markerFinder = new .....
+				// Create new marker finder
+				markerFinder = new FindMarker(viewSet,
+					findNext, Prefs.guiFindMatchCase, Prefs.guiFindUseRegex);
 			}
 		}
 
@@ -163,11 +166,6 @@ public class FindDialog extends JDialog implements ActionListener
 				}
 			}
 
-			// Update the finder's settings before starting
-			lineFinder.setFindNext(findNext);
-			lineFinder.setMatchCase(Prefs.guiFindMatchCase);
-			lineFinder.setUseRegex(Prefs.guiFindUseRegex);
-
 			isSearching = true;
 			setLabel("", null);
 
@@ -175,28 +173,48 @@ public class FindDialog extends JDialog implements ActionListener
 				findLine();
 			else
 				findMarker();
+
+			isSearching = false;
 		}
 
 		private void findLine()
 		{
+			// Update the finder's settings before starting
+			lineFinder.setFindNext(findNext);
+			lineFinder.setMatchCase(Prefs.guiFindMatchCase);
+			lineFinder.setUseRegex(Prefs.guiFindUseRegex);
+
 			int index = lineFinder.getIndex(nbPanel.getSearchStr());
 
 			if (index == -1)
 				setLabel(RB.getString("gui.dialog.FindDialog.notFound"), Color.red);
 			else
 			{
+				jumpToPosition(index, -1);
+
 				Line line = gPanel.getView().getLine(index);
 				setLabel(RB.format("gui.dialog.FindDialog.foundLine", line.getName(), (index+1)), null);
-
-				jumpToPosition(index, -1);
 			}
-
-			isSearching = false;
 		}
 
 		private void findMarker()
 		{
-			isSearching = false;
+			// Update the finder's settings before starting
+			markerFinder.setFindNext(findNext);
+			markerFinder.setMatchCase(Prefs.guiFindMatchCase);
+			markerFinder.setUseRegex(Prefs.guiFindUseRegex);
+
+			int index = markerFinder.getIndex(nbPanel.getSearchStr());
+
+			if (index == -1)
+				setLabel(RB.getString("gui.dialog.FindDialog.notFound"), Color.red);
+			else
+			{
+				jumpToPosition(-1, index);
+
+				Marker marker = gPanel.getView().getMarker(index);
+				setLabel(RB.format("gui.dialog.FindDialog.foundMarker", marker.getName(), (index+1)), null);
+			}
 		}
 
 
