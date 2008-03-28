@@ -81,7 +81,7 @@ public class NucleotideColorScheme extends ColorScheme
 
 				// Use a fixed (RED) color for any further unknown states
 				else
-					c = new HomozygousColorState(state, Color.red, w, h);
+					c = new HeterozygeousColorState(state, Color.red, Color.red, Color.red, w, h);
 			}
 
 			states.add(c);
