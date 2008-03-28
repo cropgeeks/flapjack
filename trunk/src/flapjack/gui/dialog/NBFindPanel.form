@@ -27,8 +27,8 @@
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="findCombo" pref="304" max="32767" attributes="0"/>
-                          <Component id="searchCombo" alignment="0" pref="304" max="32767" attributes="1"/>
+                          <Component id="findCombo" pref="249" max="32767" attributes="0"/>
+                          <Component id="searchCombo" alignment="0" pref="249" max="32767" attributes="1"/>
                       </Group>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
@@ -161,7 +161,7 @@
         </Component>
         <Component class="javax.swing.JLabel" name="link">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Click here for further details on searching using regular expressions"/>
+            <Property name="text" type="java.lang.String" value="View information on searching using regular expressions"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JCheckBox" name="checkCase">

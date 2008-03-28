@@ -28,6 +28,7 @@ class NBFindPanel extends JPanel implements ActionListener
 		checkChromo.setSelected(Prefs.guiFindAllChromo);
 		checkChromo.setEnabled(Prefs.guiFindMethod == 1);
 		checkChromo.addActionListener(this);
+		checkChromo.setVisible(false);
 		checkCase.setText(RB.getString("gui.dialog.NBFindPanel.checkCase"));
 		checkCase.setSelected(Prefs.guiFindMatchCase);
 		checkCase.addActionListener(this);
@@ -146,7 +147,7 @@ class NBFindPanel extends JPanel implements ActionListener
         checkRegular.setMnemonic('r');
         checkRegular.setText("Use regular expression pattern matching");
 
-        link.setText("Click here for further details on searching using regular expressions");
+        link.setText("View information on searching using regular expressions");
 
         checkCase.setMnemonic('m');
         checkCase.setText("Match case");
@@ -197,8 +198,8 @@ class NBFindPanel extends JPanel implements ActionListener
                             .add(findLabel))
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(findCombo, 0, 304, Short.MAX_VALUE)
-                            .add(searchCombo, 0, 304, Short.MAX_VALUE)))
+                            .add(findCombo, 0, 249, Short.MAX_VALUE)
+                            .add(searchCombo, 0, 249, Short.MAX_VALUE)))
                     .add(layout.createSequentialGroup()
                         .add(foundLabel1)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
