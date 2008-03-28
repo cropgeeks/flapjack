@@ -64,7 +64,8 @@ public class Prefs extends XMLPreferences
 	public static int guiFindDialogY = 0;
 	public static int guiFindMethod = 0;
 	public static boolean guiFindAllChromo = true;
-	public static boolean guiFindRegular = true;
+	public static boolean guiFindMatchCase = false;
+	public static boolean guiFindUseRegex = false;
 
 	// Attempt to use back-buffering to improve performance?
 	public static boolean visBackBuffer = true;
