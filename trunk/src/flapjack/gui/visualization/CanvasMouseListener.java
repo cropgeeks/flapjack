@@ -92,12 +92,13 @@ class CanvasMouseListener extends MouseInputAdapter
 		int xIndex = canvas.getMarker(e.getPoint());
 		int yIndex = canvas.getLine(e.getPoint());
 
-		gPanel.overRow(xIndex, yIndex);
+		if (canvasMenu.isShowingMenu() == false)
+			gPanel.overRow(xIndex, yIndex);
 	}
 
 	public void mouseExited(MouseEvent e)
 	{
-		// Remove highlighting if the mouse has left the canvas, but not if it
+		// Remove highlighting if the mouse has left the canvas, but not if it's
 		// over the canvas but "off" the canvas due to being in the popup menu
 		if (canvasMenu.isShowingMenu() == false)
 			gPanel.overRow(-1, -1);
