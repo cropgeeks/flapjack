@@ -15,18 +15,25 @@ class NBFindPanel extends JPanel implements ActionListener
 	{
 		initComponents();
 
+		link.setIcon(Icons.WEB);
+
 		findLabel.setText(RB.getString("gui.dialog.NBFindPanel.findLabel"));
 		searchLabel.setText(RB.getString("gui.dialog.NBFindPanel.searchLabel"));
 		panel.setBorder(BorderFactory.createTitledBorder(
 			RB.getString("gui.dialog.NBFindPanel.panelTitle")));
 		foundLabel1.setText(RB.getString("gui.dialog.NBFindPanel.foundLabel1"));
-		foundLabel2.setText("...");
+		foundLabel2.setText("");
 
 		checkChromo.setText(RB.getString("gui.dialog.NBFindPanel.checkChromo"));
 		checkChromo.setSelected(Prefs.guiFindAllChromo);
 		checkChromo.setEnabled(Prefs.guiFindMethod == 1);
+		checkChromo.addActionListener(this);
+		checkCase.setText(RB.getString("gui.dialog.NBFindPanel.checkCase"));
+		checkCase.setSelected(Prefs.guiFindMatchCase);
+		checkCase.addActionListener(this);
 		checkRegular.setText(RB.getString("gui.dialog.NBFindPanel.checkRegular"));
-		checkRegular.setSelected(Prefs.guiFindRegular);
+		checkRegular.setSelected(Prefs.guiFindUseRegex);
+		checkRegular.addActionListener(this);
 
 		searchCombo.addItem(RB.getString("gui.dialog.NBFindPanel.lines"));
 		searchCombo.addItem(RB.getString("gui.dialog.NBFindPanel.markers"));
@@ -38,14 +45,11 @@ class NBFindPanel extends JPanel implements ActionListener
 
 	public void actionPerformed(ActionEvent e)
 	{
-		if (e.getSource() == searchCombo)
-			checkChromo.setEnabled(searchCombo.getSelectedIndex() == 1);
-	}
+		checkChromo.setEnabled(searchCombo.getSelectedIndex() == 1);
 
-	void isOK()
-	{
 		Prefs.guiFindAllChromo = checkChromo.isSelected();
-		Prefs.guiFindRegular = checkRegular.isSelected();
+		Prefs.guiFindMatchCase = checkCase.isSelected();
+		Prefs.guiFindUseRegex = checkRegular.isSelected();
 		Prefs.guiFindMethod = searchCombo.getSelectedIndex();
 	}
 
@@ -76,7 +80,6 @@ class NBFindPanel extends JPanel implements ActionListener
 		link.setText(RB.getString("gui.dialog.NBFindPanel.link"));
 		link.setForeground(Color.blue);
 		link.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		link.setIcon(Icons.WEB);
 
 		link.addMouseListener(new MouseAdapter()
 		{
@@ -92,6 +95,16 @@ class NBFindPanel extends JPanel implements ActionListener
 				catch (Exception e) {}
 			}
 		});
+	}
+
+	String getSearchStr()
+	{
+		String str = (String) findCombo.getSelectedItem();
+
+		if (str == null)
+			return "";
+		else
+			return str;
 	}
 
     /** This method is called from within the constructor to
@@ -110,6 +123,7 @@ class NBFindPanel extends JPanel implements ActionListener
         checkChromo = new javax.swing.JCheckBox();
         checkRegular = new javax.swing.JCheckBox();
         link = new javax.swing.JLabel();
+        checkCase = new javax.swing.JCheckBox();
         foundLabel1 = new javax.swing.JLabel();
         foundLabel2 = new javax.swing.JLabel();
 
@@ -134,6 +148,9 @@ class NBFindPanel extends JPanel implements ActionListener
 
         link.setText("Click here for further details on searching using regular expressions");
 
+        checkCase.setMnemonic('m');
+        checkCase.setText("Match case");
+
         org.jdesktop.layout.GroupLayout panelLayout = new org.jdesktop.layout.GroupLayout(panel);
         panel.setLayout(panelLayout);
         panelLayout.setHorizontalGroup(
@@ -141,10 +158,11 @@ class NBFindPanel extends JPanel implements ActionListener
             .add(panelLayout.createSequentialGroup()
                 .addContainerGap()
                 .add(panelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(checkChromo)
+                    .add(checkCase)
                     .add(panelLayout.createSequentialGroup()
                         .add(21, 21, 21)
                         .add(link))
-                    .add(checkChromo)
                     .add(checkRegular))
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -153,13 +171,15 @@ class NBFindPanel extends JPanel implements ActionListener
             .add(panelLayout.createSequentialGroup()
                 .add(checkChromo)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(checkCase)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(checkRegular)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(link)
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        foundLabel1.setText("Found:");
+        foundLabel1.setText("Search result:");
 
         foundLabel2.setText("<>");
 
@@ -170,6 +190,7 @@ class NBFindPanel extends JPanel implements ActionListener
             .add(layout.createSequentialGroup()
                 .addContainerGap()
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(panel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .add(layout.createSequentialGroup()
                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                             .add(searchLabel)
@@ -178,10 +199,9 @@ class NBFindPanel extends JPanel implements ActionListener
                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                             .add(findCombo, 0, 304, Short.MAX_VALUE)
                             .add(searchCombo, 0, 304, Short.MAX_VALUE)))
-                    .add(panel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .add(layout.createSequentialGroup()
                         .add(foundLabel1)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(foundLabel2)))
                 .addContainerGap())
         );
@@ -207,12 +227,13 @@ class NBFindPanel extends JPanel implements ActionListener
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JCheckBox checkCase;
     private javax.swing.JCheckBox checkChromo;
     private javax.swing.JCheckBox checkRegular;
-    private javax.swing.JComboBox findCombo;
+    javax.swing.JComboBox findCombo;
     private javax.swing.JLabel findLabel;
     private javax.swing.JLabel foundLabel1;
-    private javax.swing.JLabel foundLabel2;
+    javax.swing.JLabel foundLabel2;
     private javax.swing.JLabel link;
     private javax.swing.JPanel panel;
     private javax.swing.JComboBox searchCombo;

@@ -19,7 +19,8 @@
           <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
+                  <Component id="panel" alignment="0" max="32767" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="searchLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="findLabel" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -30,10 +31,9 @@
                           <Component id="searchCombo" alignment="0" pref="304" max="32767" attributes="1"/>
                       </Group>
                   </Group>
-                  <Component id="panel" alignment="0" max="32767" attributes="0"/>
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="foundLabel1" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Component id="foundLabel2" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -83,6 +83,9 @@
           <StringArray count="0"/>
         </Property>
       </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
+      </AuxValues>
     </Component>
     <Component class="javax.swing.JLabel" name="searchLabel">
       <Properties>
@@ -112,14 +115,15 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="0" attributes="0">
+              <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="checkChromo" min="-2" max="-2" attributes="0"/>
+                      <Component id="checkCase" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="21" pref="21" max="21" attributes="0"/>
                           <Component id="link" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <Component id="checkChromo" min="-2" max="-2" attributes="0"/>
                       <Component id="checkRegular" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
@@ -130,6 +134,8 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <Component id="checkChromo" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="checkCase" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="checkRegular" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
@@ -158,17 +164,26 @@
             <Property name="text" type="java.lang.String" value="Click here for further details on searching using regular expressions"/>
           </Properties>
         </Component>
+        <Component class="javax.swing.JCheckBox" name="checkCase">
+          <Properties>
+            <Property name="mnemonic" type="int" value="109"/>
+            <Property name="text" type="java.lang.String" value="Match case"/>
+          </Properties>
+        </Component>
       </SubComponents>
     </Container>
     <Component class="javax.swing.JLabel" name="foundLabel1">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Found:"/>
+        <Property name="text" type="java.lang.String" value="Search result:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="foundLabel2">
       <Properties>
         <Property name="text" type="java.lang.String" value="&lt;&gt;"/>
       </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
+      </AuxValues>
     </Component>
   </SubComponents>
 </Form>

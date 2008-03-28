@@ -48,7 +48,9 @@
 	
 	<target name="javadoc">
 		<javadoc destdir="docs/api" author="true" version="true" use="true">
-			<fileset dir="${src}" defaultexcludes="yes"/>
+			<fileset dir="${src}" defaultexcludes="yes">
+				<include name="**/*.java"/>
+			</fileset>
 			<classpath refid="project.classpath"/>
 		</javadoc>
 	</target>
@@ -63,7 +65,7 @@
 			<formatter type="plain" usefile="false"/>
 
 			<test name="flapjack.data.DataSetTest"/>
-			
+			<test name="flapjack.analysis.FindLineTest"/>
 		</junit>
 	</target>
 	
