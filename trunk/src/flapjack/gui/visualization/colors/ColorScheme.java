@@ -11,8 +11,9 @@ import flapjack.data.*;
 public abstract class ColorScheme
 {
 	public static final int NUCLEOTIDE = 1;
-	public static final int NUCLEOTIDE_SIMILARITY = 2;
-	public static final int NUCLEOTIDE_SIMILARITY_GS = 3;
+	public static final int LINE_SIMILARITY = 2;
+	public static final int LINE_SIMILARITY_GS = 3;
+	public static final int SIMPLE_TWO_COLOR = 4;
 
 	public static final int RANDOM = 50;
 

@@ -22,8 +22,9 @@ public class Actions
 	public static AbstractAction vizExportImage;
 	public static AbstractAction vizColorRandom;
 	public static AbstractAction vizColorNucleotide;
-	public static AbstractAction vizColorNucleotideSim;
-	public static AbstractAction vizColorNucleotideSimGS;
+	public static AbstractAction vizColorLineSim;
+	public static AbstractAction vizColorLineSimGS;
+	public static AbstractAction vizColorSimple2Color;
 	public static AbstractAction vizOverlayGenotypes;
 
 	public static AbstractAction dataSortLinesBySimilarity;
@@ -130,15 +131,21 @@ public class Actions
 			}
 		};
 
-		vizColorNucleotideSim = new AbstractAction(RB.getString("gui.Actions.vizColorNucleotideSim")) {
+		vizColorLineSim = new AbstractAction(RB.getString("gui.Actions.vizColorLineSim")) {
 			public void actionPerformed(ActionEvent e) {
-				winMain.vizColor(ColorScheme.NUCLEOTIDE_SIMILARITY);
+				winMain.vizColor(ColorScheme.LINE_SIMILARITY);
 			}
 		};
 
-		vizColorNucleotideSimGS = new AbstractAction(RB.getString("gui.Actions.vizColorNucleotideSimGS")) {
+		vizColorLineSimGS = new AbstractAction(RB.getString("gui.Actions.vizColorLineSimGS")) {
 			public void actionPerformed(ActionEvent e) {
-				winMain.vizColor(ColorScheme.NUCLEOTIDE_SIMILARITY_GS);
+				winMain.vizColor(ColorScheme.LINE_SIMILARITY_GS);
+			}
+		};
+
+		vizColorSimple2Color = new AbstractAction(RB.getString("gui.Actions.vizColorSimple2Color")) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.vizColor(ColorScheme.SIMPLE_TWO_COLOR);
 			}
 		};
 
@@ -207,8 +214,9 @@ public class Actions
 		vizExportImage.setEnabled(false);
 		vizColorRandom.setEnabled(false);
 		vizColorNucleotide.setEnabled(false);
-		vizColorNucleotideSim.setEnabled(false);
-		vizColorNucleotideSimGS.setEnabled(false);
+		vizColorLineSim.setEnabled(false);
+		vizColorLineSimGS.setEnabled(false);
+		vizColorSimple2Color.setEnabled(false);
 		vizOverlayGenotypes.setEnabled(false);
 
 		dataSortLinesBySimilarity.setEnabled(false);

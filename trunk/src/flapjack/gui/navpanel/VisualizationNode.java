@@ -31,8 +31,9 @@ public class VisualizationNode extends BaseNode
 		Actions.vizExportImage.setEnabled(true);
 		Actions.vizColorRandom.setEnabled(true);
 		Actions.vizColorNucleotide.setEnabled(true);
-		Actions.vizColorNucleotideSim.setEnabled(true);
-		Actions.vizColorNucleotideSimGS.setEnabled(true);
+		Actions.vizColorLineSim.setEnabled(true);
+		Actions.vizColorLineSimGS.setEnabled(true);
+		Actions.vizColorSimple2Color.setEnabled(true);
 		Actions.vizOverlayGenotypes.setEnabled(true);
 
 		Actions.dataSortLinesBySimilarity.setEnabled(true);

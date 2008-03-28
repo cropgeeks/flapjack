@@ -72,6 +72,14 @@ public class Flapjack
 
 			public void windowOpened(WindowEvent e)
 			{
+				String message = "This is Flapjack version 0.08.03.28\n\n"
+					+ "Any comments, feature requests, bug reports, etc can be "
+					+ "emailed to flapjack@germinate.org.uk\n\n"
+					+ "Please note that Flapjack is currently UNLICENSED and is "
+					+ "for development, testing, or evaulation purposes only.\n"
+					+ "Do not redistribute without the express permission of the "
+					+ "Scottish Crop Research Institute.";
+				TaskDialog.info(message, RB.getString("gui.text.close"));
 			}
 
 			public void windowIconified(WindowEvent e) {

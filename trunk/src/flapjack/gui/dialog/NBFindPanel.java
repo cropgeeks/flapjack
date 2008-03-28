@@ -56,6 +56,7 @@ class NBFindPanel extends JPanel implements ActionListener
 
 	private void initLinkLabel()
 	{
+		String html = "http://java.sun.com/javase/6/docs/api/java/util/regex/Pattern.html";
 		boolean makeLinkLabel = true;
 
 		// The Mac can't (yet) run Java 6 so don't even bother trying...
@@ -70,13 +71,13 @@ class NBFindPanel extends JPanel implements ActionListener
 		}
 
 		if (makeLinkLabel)
-			makeLinkLabel();
+			makeLinkLabel(html);
 		else
-			link.setText(RB.getString("gui.dialog.NBFindPanel.hint"));
+			link.setText(RB.format("gui.dialog.NBFindPanel.hint", html));
 	}
 
 	// Turns the label into a blue mouse-over clickable link to a website
-	private void makeLinkLabel()
+	private void makeLinkLabel(final String html)
 	{
 		link.setText(RB.getString("gui.dialog.NBFindPanel.link"));
 		link.setForeground(Color.blue);
@@ -90,7 +91,7 @@ class NBFindPanel extends JPanel implements ActionListener
 				{
 					Desktop desktop = Desktop.getDesktop();
 
-		        	URI uri = new URI("http://java.sun.com/javase/6/docs/api/java/util/regex/Pattern.html");
+		        	URI uri = new URI(html);
 		        	desktop.browse(uri);
 				}
 				catch (Exception e) {}
