@@ -242,7 +242,7 @@ class GenotypeCanvas extends JPanel
 	// viewport buffer to help speed rendering
 	private void renderViewport(Graphics2D g)
 	{
-		int w = pX2-pX1, h = pY2-pY1;
+		int w = pX2-pX1+1, h = pY2-pY1+1;
 
 		if (canvasW < w) w = canvasW;
 		if (canvasH < h) h = canvasH;
