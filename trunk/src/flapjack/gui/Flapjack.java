@@ -6,8 +6,6 @@ import java.io.*;
 import java.util.*;
 import javax.swing.*;
 
-import flapjack.io.ProjectSerializer;
-
 import scri.commons.gui.*;
 
 import apple.dts.samplecode.osxadapter.*;
@@ -79,7 +77,7 @@ public class Flapjack
 					+ "for development, testing, or evaulation purposes only.\n"
 					+ "Do not redistribute without the express permission of the "
 					+ "Scottish Crop Research Institute.";
-				TaskDialog.info(message, RB.getString("gui.text.close"));
+//				TaskDialog.info(message, RB.getString("gui.text.close"));
 			}
 
 			public void windowIconified(WindowEvent e) {
@@ -99,7 +97,7 @@ public class Flapjack
 
 	private void shutdown()
 	{
-		prefs.isFirstRun = false;
+		Prefs.isFirstRun = false;
 		prefs.savePreferences(prefsFile, Prefs.class);
 
 		System.exit(0);

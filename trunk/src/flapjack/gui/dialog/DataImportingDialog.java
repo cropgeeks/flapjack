@@ -9,6 +9,7 @@ import javax.swing.*;
 
 import flapjack.data.*;
 import flapjack.gui.*;
+import flapjack.gui.visualization.colors.*;
 import flapjack.io.*;
 
 import scri.commons.file.*;
@@ -150,6 +151,11 @@ public class DataImportingDialog extends JDialog implements Runnable
 			// Create (and add) a default view of the dataset
 			GTViewSet viewSet = new GTViewSet(dataSet, "Default View");
 			dataSet.getViewSets().add(viewSet);
+
+			// Try to guess a suitable colour scheme - 2 states (+ unknown) can
+			// probably use the two colour model
+			if (dataSet.getStateTable().getStates().size() == 3)
+				viewSet.setColorScheme(ColorScheme.SIMPLE_TWO_COLOR);
 
 			System.out.println("Genotype data loaded in " + (e-s) + "ms");
 

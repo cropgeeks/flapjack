@@ -143,7 +143,8 @@ class MapCanvas extends JPanel
 				return;
 			}
 
-			int w = canvas.pX2-canvas.pX1;
+//			int w = canvas.pX2-canvas.pX1+1;
+			int w = getWidth();
 			int x = canvas.pX2;
 			if (canvas.canvasW < w)
 				w = x = canvas.canvasW;

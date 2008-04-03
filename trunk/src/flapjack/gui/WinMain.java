@@ -234,7 +234,7 @@ public class WinMain extends JFrame
 			+ "\nScottish Crop Research Institute"
 			+ "\n\nIain Milne, Micha Bayer, Paul Shaw, Linda Cardle, David Marshall"
 			+ "\n\nEnglish language files: Iain Milne"
-			+ "\nDeutsche Übersetzungen: Micha Bayer, Dominik Lindner",
+			+ "\nDeutsche \\u00DCbersetzungen: Micha Bayer, Dominik Lindner",
 			RB.getString("gui.text.close"));
 	}
 
