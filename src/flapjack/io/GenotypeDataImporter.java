@@ -57,7 +57,10 @@ public class GenotypeDataImporter
 		for (int i = 1; i < markers.length; i++)
 		{
 			mapIndex[i] = dataSet.getMapIndexByMarkerName(markers[i]);
-			markerIndex[i] = dataSet.getMapByIndex(mapIndex[i]).getMarkerIndex(markers[i]);
+
+			// Check at this point that the marker exists in the map
+			if (mapIndex[i] != -1)
+				markerIndex[i] = dataSet.getMapByIndex(mapIndex[i]).getMarkerIndex(markers[i]);
 		}
 
 		System.out.println("Map/marker cache created in " + (System.currentTimeMillis()-s) + "ms");
@@ -79,7 +82,7 @@ public class GenotypeDataImporter
 
 			for (int i = 1; i < values.length; i++)
 			{
-				// Assuming a map is found that contains this marker...
+				// Assuming a map was found that contains this marker...
 				if (mapIndex[i] != -1)
 				{
 					ChromosomeMap map = dataSet.getMapByIndex(mapIndex[i]);
