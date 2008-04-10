@@ -106,7 +106,7 @@ public class DataImportingDialog extends JDialog implements Runnable
 
 	private void loadData()
 	{
-		final NumberFormat nf = NumberFormat.getInstance(Locale.getDefault());
+		final NumberFormat nf = NumberFormat.getInstance();
 
 		Runnable r = new Runnable() {
 			public void run()

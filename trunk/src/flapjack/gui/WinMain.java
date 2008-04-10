@@ -3,6 +3,8 @@ package flapjack.gui;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
+import java.lang.management.*;
+import java.text.*;
 import javax.swing.*;
 
 import flapjack.data.*;
@@ -270,13 +272,19 @@ public class WinMain extends JFrame
 
 	void helpAbout()
 	{
-		scri.commons.gui.TaskDialog.info("Flapjack - Genotype Visualization Tool 2.0"
-			+ "\n\nCopyright (C) 2008"
+		String javaVer = System.getProperty("java.version");
+		long freeMem = (ManagementFactory.getMemoryMXBean().getHeapMemoryUsage().getMax()
+				- ManagementFactory.getMemoryMXBean().getHeapMemoryUsage().getUsed());
+	
+		NumberFormat nf = NumberFormat.getInstance();
+		
+		scri.commons.gui.TaskDialog.info("Flapjack - Version 0.08.04.10"
+			+ "\n\nCopyright \u00A9 2007-2008"
 			+ "\nPlant Bioinformatics Group"
 			+ "\nScottish Crop Research Institute"
 			+ "\n\nIain Milne, Micha Bayer, Paul Shaw, Linda Cardle, David Marshall"
-			+ "\n\nEnglish language files: Iain Milne"
-			+ "\nDeutsche \\u00DCbersetzungen: Micha Bayer, Dominik Lindner",
+			+ "\n\nJava version: " + javaVer
+			+ "\nMemory available to JVM: " + nf.format((long)(freeMem/1024f/1024f)) + "MB",
 			RB.getString("gui.text.close"));
 	}
 }
