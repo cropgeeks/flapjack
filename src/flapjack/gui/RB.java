@@ -9,22 +9,22 @@ import java.util.*;
  */
 public class RB
 {
-	static Locale locale = null;
+//	public static Locale locale = null;
 
 	private static ResourceBundle bundle = null;
 
 	public static void initialize()
 	{
 		if (Prefs.localeText.equals("en_GB"))
-			locale = Locale.UK;
+			Locale.setDefault(Locale.UK);
 		else if (Prefs.localeText.equals("en_US"))
-			locale = Locale.US;
+			Locale.setDefault(Locale.US);
 		else if (Prefs.localeText.equals("de"))
-			locale = Locale.GERMAN;
-		else
-			locale = Locale.getDefault();
+			Locale.setDefault(Locale.GERMAN);
+//		else
+//			locale = Locale.getDefault();
 
-		bundle = ResourceBundle.getBundle("res.text.flapjack", locale);
+		bundle = ResourceBundle.getBundle("res.text.flapjack");
 	}
 
 	/**
@@ -63,7 +63,7 @@ public class RB
 		{
 			String str = bundle.getString(key);
 
-			MessageFormat msg = new MessageFormat(str, locale);
+			MessageFormat msg = new MessageFormat(str);
 
 			return msg.format(args);
 		}
