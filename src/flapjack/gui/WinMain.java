@@ -12,6 +12,7 @@ import flapjack.gui.dialog.prefs.*;
 import flapjack.gui.visualization.*;
 import flapjack.io.*;
 
+import scri.commons.file.*;
 import scri.commons.gui.*;
 
 public class WinMain extends JFrame
@@ -155,20 +156,50 @@ public class WinMain extends JFrame
 		if (optionsDialog.isOK() == false)
 			return;
 
+		File mapFile = null, datFile = null;
+
 		// Importing from file...
-		DataImportDialog dialog = new DataImportDialog();
-		if (dialog.isOK())
+		if (Prefs.guiImportMethod == 0)
 		{
-			gPanel.resetBufferedState(false);
-
-			File mapFile  = dialog.getMapFile();
-			File genoFile = dialog.getGenotypeFile();
-
-			DataImportingDialog dialog2 = new DataImportingDialog(mapFile, genoFile);
-
-			if (dialog2.isOK())
+			DataImportDialog dialog = new DataImportDialog();
+			if (dialog.isOK())
 			{
-				DataSet dataSet = dialog2.getDataSet();
+				gPanel.resetBufferedState(false);
+
+				mapFile  = dialog.getMapFile();
+				datFile = dialog.getGenotypeFile();
+			}
+		}
+
+		// Importing from a Flapjack-provided sample fileset
+		else if (Prefs.guiImportMethod == 2)
+		{
+			File dir = SystemUtils.getTempUserDirectory("flapjack");
+			mapFile = new File(dir, "sample.map");
+			datFile = new File(dir, "sample.dat");
+
+			try
+			{
+				FileUtils.writeFile(mapFile, getClass().getResourceAsStream("/res/samples/sample.map"));
+				FileUtils.writeFile(datFile, getClass().getResourceAsStream("/res/samples/sample.dat"));
+			}
+			catch (Exception e)
+			{
+				System.out.println(e);
+				TaskDialog.error(RB.format("gui.WinMain.readJarError", e),
+					RB.getString("gui.text.close"));
+				return;
+			}
+		}
+
+		// Regardless of option, open these files...
+		if (Prefs.guiImportMethod == 0 || Prefs.guiImportMethod == 2)
+		{
+			DataImportingDialog dialog = new DataImportingDialog(mapFile, datFile);
+
+			if (dialog.isOK())
+			{
+				DataSet dataSet = dialog.getDataSet();
 
 				project.addDataSet(dataSet);
 				navPanel.addDataSetNode(dataSet);
@@ -226,6 +257,17 @@ public class WinMain extends JFrame
 		Prefs.guiFindDialogShown = true;
 	}
 
+	void helpPrefs()
+	{
+		if (new PreferencesDialog().isOK())
+			gPanel.refreshView();
+	}
+
+	void helpUpdate()
+	{
+		Install4j.checkForUpdate(false);
+	}
+
 	void helpAbout()
 	{
 		scri.commons.gui.TaskDialog.info("Flapjack - Genotype Visualization Tool 2.0"
@@ -236,11 +278,5 @@ public class WinMain extends JFrame
 			+ "\n\nEnglish language files: Iain Milne"
 			+ "\nDeutsche \\u00DCbersetzungen: Micha Bayer, Dominik Lindner",
 			RB.getString("gui.text.close"));
-	}
-
-	void helpPrefs()
-	{
-		if (new PreferencesDialog().isOK())
-			gPanel.refreshView();
 	}
 }

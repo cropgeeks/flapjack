@@ -28,6 +28,12 @@
 		</javac>
 	</target>
 	
+	<target name="clean">
+		<delete includeemptydirs="true">
+			<fileset dir="${classes}" includes="**/*"/>
+		</delete>
+	</target>
+	
 	<target name="jar" depends="compile">
 		<jar jarfile="${jarfile}">
 			<fileset dir="${classes}"/>
@@ -38,6 +44,7 @@
 					value="res
 						castor-1.1.2.1-xml.jar
 						commons-logging-1.1.1.jar
+						i4jruntime.jar
 						mysql-connector-java-5.1.5-bin.jar
 						office-2.0.jar
 						osxadapter.jar

@@ -7,11 +7,13 @@ import flapjack.gui.*;
 class NBGeneralPanel extends JPanel implements IPrefsTab
 {
 	private DefaultComboBoxModel displayModel;
+	private DefaultComboBoxModel updateModel;
 
     public NBGeneralPanel()
     {
         initComponents();
 
+		// Interface settings
         displayLabel.setText(RB.getString("gui.dialog.prefs.NBGeneralPanel.displayLabel"));
         displayHint.setText(RB.getString("gui.dialog.prefs.NBGeneralPanel.displayHint"));
 
@@ -21,6 +23,19 @@ class NBGeneralPanel extends JPanel implements IPrefsTab
         displayModel.addElement(RB.getString("gui.dialog.prefs.NBGeneralPanel.en_US"));
         displayModel.addElement(RB.getString("gui.dialog.prefs.NBGeneralPanel.de"));
         displayCombo.setModel(displayModel);
+
+
+        // Update settings
+        updateLabel.setText(RB.getString("gui.dialog.prefs.NBGeneralPanel.updateLabel"));
+
+        updateModel = new DefaultComboBoxModel();
+        updateModel.addElement(RB.getString("gui.dialog.prefs.NBGeneralPanel.updateNever"));
+        updateModel.addElement(RB.getString("gui.dialog.prefs.NBGeneralPanel.updateStartup"));
+        updateModel.addElement(RB.getString("gui.dialog.prefs.NBGeneralPanel.updateDaily"));
+        updateModel.addElement(RB.getString("gui.dialog.prefs.NBGeneralPanel.updateWeekly"));
+        updateModel.addElement(RB.getString("gui.dialog.prefs.NBGeneralPanel.updateMonthly"));
+        updateCombo.setModel(updateModel);
+
 
         initSettings();
     }
@@ -40,6 +55,7 @@ class NBGeneralPanel extends JPanel implements IPrefsTab
 	private void initSettings()
     {
     	displayCombo.setSelectedIndex(getLocaleIndex());
+    	updateCombo.setSelectedIndex(Prefs.guiUpdateSchedule);
     }
 
 	public void applySettings()
@@ -51,6 +67,8 @@ class NBGeneralPanel extends JPanel implements IPrefsTab
 			case 3:  Prefs.localeText = "de";    break;
 			default: Prefs.localeText = "auto";
 		}
+
+		Prefs.guiUpdateSchedule = updateCombo.getSelectedIndex();
 	}
 
 	public void setDefaults()
@@ -68,6 +86,8 @@ class NBGeneralPanel extends JPanel implements IPrefsTab
         displayLabel = new javax.swing.JLabel();
         displayCombo = new javax.swing.JComboBox();
         displayHint = new javax.swing.JLabel();
+        updateLabel = new javax.swing.JLabel();
+        updateCombo = new javax.swing.JComboBox();
 
         displayLabel.setDisplayedMnemonic('i');
         displayLabel.setLabelFor(displayCombo);
@@ -75,17 +95,23 @@ class NBGeneralPanel extends JPanel implements IPrefsTab
 
         displayHint.setText("(Restart Flapjack to apply)");
 
+        updateLabel.setDisplayedMnemonic('c');
+        updateLabel.setText("Check for updates at startup:");
+
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
                 .addContainerGap()
-                .add(displayLabel)
-                .add(18, 18, 18)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(displayLabel)
+                    .add(updateLabel))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(displayCombo, 0, 181, Short.MAX_VALUE)
                     .add(displayHint)
-                    .add(displayCombo, 0, 128, Short.MAX_VALUE))
+                    .add(updateCombo, 0, 181, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -97,7 +123,11 @@ class NBGeneralPanel extends JPanel implements IPrefsTab
                     .add(displayCombo, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(displayHint)
-                .addContainerGap(128, Short.MAX_VALUE))
+                .add(18, 18, 18)
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(updateLabel)
+                    .add(updateCombo, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(90, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -105,5 +135,7 @@ class NBGeneralPanel extends JPanel implements IPrefsTab
     private javax.swing.JComboBox displayCombo;
     private javax.swing.JLabel displayHint;
     private javax.swing.JLabel displayLabel;
+    private javax.swing.JComboBox updateCombo;
+    private javax.swing.JLabel updateLabel;
     // End of variables declaration//GEN-END:variables
 }
