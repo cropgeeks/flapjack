@@ -48,6 +48,7 @@ public class WinMainMenuBar extends JMenuBar
 
 	private JMenu mHelp;
 	private JMenuItem mHelpPrefs;
+	private JMenuItem mHelpUpdate;
 	private JMenuItem mHelpAbout;
 
 	WinMainMenuBar(WinMain winMain)
@@ -153,7 +154,7 @@ public class WinMainMenuBar extends JMenuBar
 		mDataSortLines = new JMenu(RB.getString("gui.WinMainMenuBar.mDataSortLines"));
 		mDataSortLines.setMnemonic(KeyEvent.VK_S);
 		mDataSortLinesBySimilarity = getItem(Actions.dataSortLinesBySimilarity, KeyEvent.VK_S, 0, 0);
-		mDataSortLinesByLocus = getItem(Actions.dataSortLinesBySimilarity, KeyEvent.VK_L, 0, 0);
+		mDataSortLinesByLocus = getItem(Actions.dataSortLinesByLocus, KeyEvent.VK_L, 0, 0);
 		mDataFind = getItem(Actions.dataFind, KeyEvent.VK_F, KeyEvent.VK_F, menuShortcut);
 
 		mDataSortLines.add(mDataSortLinesBySimilarity);
@@ -190,12 +191,21 @@ public class WinMainMenuBar extends JMenuBar
 		mHelp.setMnemonic(KeyEvent.VK_H);
 
 		mHelpPrefs = getItem(Actions.helpPrefs, KeyEvent.VK_P, 0, 0);
+		mHelpUpdate = getItem(Actions.helpUpdate, KeyEvent.VK_C, 0, 0);
 		mHelpAbout = getItem(Actions.helpAbout, KeyEvent.VK_A, 0, 0);
 
 		// We don't add this option to OS X as it is auto-added by Apple
 		if (SystemUtils.isMacOS() == false)
 		{
 			mHelp.add(mHelpPrefs);
+			mHelp.addSeparator();
+		}
+
+		mHelp.add(mHelpUpdate);
+
+		// We don't add this option to OS X as it is auto-added by Apple
+		if (SystemUtils.isMacOS() == false)
+		{
 			mHelp.addSeparator();
 			mHelp.add(mHelpAbout);
 		}

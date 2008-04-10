@@ -45,6 +45,9 @@ public class Prefs extends XMLPreferences
 	// Method to use when importing data
 	public static int guiImportMethod = 0;
 
+	// When to check for updates
+	public static int guiUpdateSchedule = Install4j.STARTUP;
+
 	// Warning messages
 	public static boolean warnDuplicateMarkers = true;
 

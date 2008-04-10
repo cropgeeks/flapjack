@@ -25,6 +25,8 @@ public class Flapjack
 
 		prefs.loadPreferences(prefsFile, Prefs.class);
 
+		Install4j.doStartUpCheck();
+
 		Icons.initialize();
 		RB.initialize();
 
