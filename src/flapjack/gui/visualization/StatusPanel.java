@@ -63,7 +63,7 @@ class StatusPanel extends JPanel
 		JPanel f1 = new JPanel(new BorderLayout(10, 0));
 		f1.add(p1, BorderLayout.WEST);
 		f1.add(p2);
-		f1.setPreferredSize(new Dimension(200, f1.getPreferredSize().height));
+		f1.setPreferredSize(new Dimension(250, f1.getPreferredSize().height));
 
 
 		// Right hand side labels
