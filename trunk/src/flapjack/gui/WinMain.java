@@ -44,7 +44,6 @@ public class WinMain extends JFrame
 
 		navPanel = new NavPanel(this);
 		gPanel = navPanel.getGenotypePanel();
-		findDialog = new FindDialog(this, gPanel);
 
 		add(toolbar, BorderLayout.NORTH);
 		add(navPanel);
@@ -255,6 +254,9 @@ public class WinMain extends JFrame
 
 	void dataFind()
 	{
+		if (findDialog == null)
+			findDialog = new FindDialog(this, gPanel);
+
 		findDialog.setVisible(true);
 		Prefs.guiFindDialogShown = true;
 	}
