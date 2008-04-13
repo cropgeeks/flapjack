@@ -96,6 +96,7 @@ class NBGeneralPanel extends JPanel implements IPrefsTab
         displayHint.setText("(Restart Flapjack to apply)");
 
         updateLabel.setDisplayedMnemonic('c');
+        updateLabel.setLabelFor(updateCombo);
         updateLabel.setText("Check for updates at startup:");
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
