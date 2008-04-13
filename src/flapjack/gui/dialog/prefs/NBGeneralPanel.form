@@ -76,6 +76,9 @@
     <Component class="javax.swing.JLabel" name="updateLabel">
       <Properties>
         <Property name="displayedMnemonic" type="int" value="99"/>
+        <Property name="labelFor" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+          <ComponentRef name="updateCombo"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Check for updates at startup:"/>
       </Properties>
     </Component>
