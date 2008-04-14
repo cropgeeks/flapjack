@@ -13,6 +13,7 @@ public class Filters extends FileFilter
 	public static final int PNG = 1;
 	public static final int XML = 2;
 	public static final int TXT = 3;
+	public static final int ZIP = 4;
 
 	private Hashtable<String, Object> filters = new Hashtable<String, Object>();
 
@@ -46,6 +47,11 @@ public class Filters extends FileFilter
 			case TXT:
 				filter.addExtension("txt", TXT);
 				filter.setDescription(RB.getString("other.Filters.txt"));
+				break;
+
+			case ZIP:
+				filter.addExtension("zip", ZIP);
+				filter.setDescription(RB.getString("other.Filters.zip"));
 				break;
 		}
 

@@ -56,6 +56,7 @@ class NBGeneralPanel extends JPanel implements IPrefsTab
     {
     	displayCombo.setSelectedIndex(getLocaleIndex());
     	updateCombo.setSelectedIndex(Prefs.guiUpdateSchedule);
+    	checkCompress.setSelected(Prefs.guiSaveCompressed);
     }
 
 	public void applySettings()
@@ -69,6 +70,7 @@ class NBGeneralPanel extends JPanel implements IPrefsTab
 		}
 
 		Prefs.guiUpdateSchedule = updateCombo.getSelectedIndex();
+		Prefs.guiSaveCompressed = checkCompress.isSelected();
 	}
 
 	public void setDefaults()
@@ -88,6 +90,7 @@ class NBGeneralPanel extends JPanel implements IPrefsTab
         displayHint = new javax.swing.JLabel();
         updateLabel = new javax.swing.JLabel();
         updateCombo = new javax.swing.JComboBox();
+        checkCompress = new javax.swing.JCheckBox();
 
         displayLabel.setDisplayedMnemonic('i');
         displayLabel.setLabelFor(displayCombo);
@@ -95,9 +98,12 @@ class NBGeneralPanel extends JPanel implements IPrefsTab
 
         displayHint.setText("(Restart Flapjack to apply)");
 
-        updateLabel.setDisplayedMnemonic('c');
+        updateLabel.setDisplayedMnemonic('n');
         updateLabel.setLabelFor(updateCombo);
-        updateLabel.setText("Check for updates at startup:");
+        updateLabel.setText("Check for newer Flapjack versions:");
+
+        checkCompress.setMnemonic('c');
+        checkCompress.setText("Compress Flapjack projects files to save disk space");
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
         this.setLayout(layout);
@@ -106,13 +112,16 @@ class NBGeneralPanel extends JPanel implements IPrefsTab
             .add(layout.createSequentialGroup()
                 .addContainerGap()
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(displayLabel)
-                    .add(updateLabel))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(displayCombo, 0, 181, Short.MAX_VALUE)
-                    .add(displayHint)
-                    .add(updateCombo, 0, 181, Short.MAX_VALUE))
+                    .add(checkCompress)
+                    .add(layout.createSequentialGroup()
+                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(displayLabel)
+                            .add(updateLabel))
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(displayCombo, 0, 156, Short.MAX_VALUE)
+                            .add(displayHint)
+                            .add(updateCombo, 0, 156, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -128,11 +137,14 @@ class NBGeneralPanel extends JPanel implements IPrefsTab
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(updateLabel)
                     .add(updateCombo, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(90, Short.MAX_VALUE))
+                .add(18, 18, 18)
+                .add(checkCompress)
+                .addContainerGap(49, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JCheckBox checkCompress;
     private javax.swing.JComboBox displayCombo;
     private javax.swing.JLabel displayHint;
     private javax.swing.JLabel displayLabel;
