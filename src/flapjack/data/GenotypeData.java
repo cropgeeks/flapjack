@@ -4,7 +4,7 @@ import java.util.*;
 
 import scri.commons.MatrixXML;
 
-public class GenotypeData
+public class GenotypeData extends XMLRoot
 {
 	// A reference to the chromsome this data applies to
 	private String mapName;

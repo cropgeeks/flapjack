@@ -6,14 +6,17 @@ import java.util.*;
  * Represents a "set" of views for the genotype visualizations - basically one
  * view per chromosome for the set.
  */
-public class GTViewSet
+public class GTViewSet extends XMLRoot
 {
+	// Track a reference to the owning dataSet
+	private DataSet dataSet;
+
 	private Vector<GTView> views = new Vector<GTView>();
 
 	// Because the line info is the same across all views, it gets stored here
 	// Holds the index positions of the lines as they appear in the actual
 	// dataset's vector of lines
-	private Vector<Integer> lines;
+	Vector<Integer> lines;
 
 	private String name;
 	private int viewIndex;
@@ -30,6 +33,7 @@ public class GTViewSet
 	 */
 	public GTViewSet(DataSet dataSet, String name)
 	{
+		this.dataSet = dataSet;
 		this.name = name;
 
 		// For each (original) line in the dataset, we add the index of it to
@@ -39,11 +43,17 @@ public class GTViewSet
 			lines.add(i);
 
 		for (int i = 0; i < dataSet.countChromosomeMaps(); i++)
-			views.add(new GTView(dataSet, dataSet.getMapByIndex(i), lines));
+			views.add(new GTView(this, dataSet.getMapByIndex(i)));
 	}
 
 
 	// Methods required for XML serialization
+
+	public DataSet getDataSet()
+		{ return dataSet; }
+
+	public void setDataSet(DataSet dataSet)
+		{ this.dataSet = dataSet; }
 
 	public Vector<Integer> getLines()
 		{ return lines; }
@@ -77,15 +87,6 @@ public class GTViewSet
 
 
 	// Other methods
-
-	void recreateReferences(DataSet dataSet)
-	{
-		for (GTView view: views)
-		{
-			ChromosomeMap map = dataSet.getMapByName(view.getMapName(), false);
-			view.recreateReferences(dataSet, map, lines);
-		}
-	}
 
 	public void addView(GTView view)
 	{

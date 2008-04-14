@@ -2,7 +2,7 @@ package flapjack.data;
 
 import java.util.*;
 
-public class GTView
+public class GTView extends XMLRoot
 {
 	// For faster rendering, maintain a local cache of the data to be drawn
 	// This saves having to query every line for the data by first telling it
@@ -10,20 +10,14 @@ public class GTView
 	// lines, but only for the map in question
 	private Vector<GenotypeData> genotypeLines;
 
-	private DataSet dataSet;
+	// This view forms part of the viewSet:
+	private GTViewSet viewSet;
+	// ...specifically being a view upon the chromosome:
 	private ChromosomeMap map;
 
-	// Holds the index positions of the lines as they appear in the actual
-	// dataset's vector of lines
-	// NOTE: this is a reference to the vector held by the owning GTViewSet
-	private Vector<Integer> lines;
-	// Same for the marker positions
+	// Holds the index positions of the markers as they appear in the actual
+	// dataset's vector of markers
 	private Vector<Integer> markers;
-
-	// Contains the name of the map above - stored in the xml so we can
-	// reassociate the map properly (via Java references after deserialization)
-	// because Castor's reference="true" feature isn't working (08/02/2008)
-	private String mapName;
 
 	// The positions of the scrollbars, and the current zoom level
 	private int scrollX, scrollY, zoom = 7;
@@ -41,13 +35,10 @@ public class GTView
 	/**
 	 * Creates a new view object that will view the map within the dataset.
 	 */
-	public GTView(DataSet dataSet, ChromosomeMap map, Vector<Integer> lines)
+	public GTView(GTViewSet viewSet, ChromosomeMap map)
 	{
-		this.dataSet = dataSet;
+		this.viewSet = viewSet;
 		this.map = map;
-		this.lines = lines;
-
-		mapName = map.getName();
 
 		// For each (original) marker in the map...
 		markers = new Vector<Integer>(map.countLoci());
@@ -58,11 +49,17 @@ public class GTView
 
 	// Methods required for XML serialization
 
-	public String getMapName()
-		{ return mapName; }
+	public GTViewSet getViewSet()
+		{ return viewSet; }
 
-	public void setMapName(String mapName)
-		{ this.mapName = mapName; }
+	public void setViewSet(GTViewSet viewSet)
+		{ this.viewSet = viewSet; }
+
+	public ChromosomeMap getChromosomeMap()
+		{ return map; }
+
+	public void setChromosomeMap(ChromosomeMap map)
+		{ this.map = map; }
 
 	public Vector<Integer> getMarkers()
 		{ return markers; }
@@ -91,31 +88,21 @@ public class GTView
 
 	// Other methods
 
-	void recreateReferences(DataSet dataSet, ChromosomeMap map, Vector<Integer> lines)
-	{
-		// Because we can't currently (08/02/2008) use Castor for storing
-		// references between objects within the XML, we need to scan through
-		// all the views for the datasets and reassociate their dataSet/map
-		// object references
-
-		this.dataSet = dataSet;
-		this.map = map;
-		this.lines = lines;
-	}
-
 	public Vector<Integer> getLines()
-		{ return lines; }
+		{ return viewSet.lines; }
 
 	public void cacheLines()
 	{
 		long s = System.currentTimeMillis();
 
 		// Now cache as much data as possible to help speed rendering
-		genotypeLines = new Vector<GenotypeData>(lines.size());
+		genotypeLines = new Vector<GenotypeData>(viewSet.lines.size());
 
-		for (int i = 0; i < lines.size(); i++)
+		DataSet dataSet = viewSet.getDataSet();
+
+		for (int i = 0; i < viewSet.lines.size(); i++)
 		{
-			Line line = dataSet.getLineByIndex(lines.get(i));
+			Line line = dataSet.getLineByIndex(viewSet.lines.get(i));
 			GenotypeData data = line.getGenotypeDataByMap(map);
 
 			genotypeLines.add(data);
@@ -126,7 +113,7 @@ public class GTView
 
 	public Line getLine(int index)
 	{
-		return dataSet.getLineByIndex(lines.get(index));
+		return viewSet.getDataSet().getLineByIndex(viewSet.lines.get(index));
 	}
 
 	/**
@@ -148,12 +135,12 @@ public class GTView
 
 	public int getLineCount()
 	{
-		return lines.size();
+		return viewSet.lines.size();
 	}
 
 	public StateTable getStateTable()
 	{
-		return dataSet.getStateTable();
+		return viewSet.getDataSet().getStateTable();
 	}
 
 	public float getMapLength()
@@ -166,23 +153,18 @@ public class GTView
 		return map.getMarkerByIndex(markers.get(index));
 	}
 
-	public ChromosomeMap getChromosomeMap()
-	{
-		return map;
-	}
-
 	public void moveLine(int fromIndex, int toIndex)
 	{
 		// Check we're not out of bounds
 		if (toIndex < 0 || fromIndex < 0)
 			return;
-		if (toIndex >= lines.size() || fromIndex >= lines.size())
+		if (toIndex >= viewSet.lines.size() || fromIndex >= viewSet.lines.size())
 			return;
 
 		// Swap the lines
-		int oldValue = lines.get(fromIndex);
-		lines.set(fromIndex, lines.get(toIndex));
-		lines.set(toIndex, oldValue);
+		int oldValue = viewSet.lines.get(fromIndex);
+		viewSet.lines.set(fromIndex, viewSet.lines.get(toIndex));
+		viewSet.lines.set(toIndex, oldValue);
 
 		// And swap the cache too
 		GenotypeData oldData = genotypeLines.get(fromIndex);

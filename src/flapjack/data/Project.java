@@ -3,7 +3,7 @@ package flapjack.data;
 import java.io.*;
 import java.util.*;
 
-public class Project
+public class Project extends XMLRoot
 {
 	// Temporary object used to track the (most recent) file this project was
 	// opened from
@@ -27,16 +27,6 @@ public class Project
 
 
 	// Other methods
-
-	/**
-	 * Called after a project has been loaded to carry out any further tasks
-	 * that may be needed to fully reinstate the project into its working state.
-	 */
-	public void runPostLoadingTasks()
-	{
-		for (DataSet dataSet: dataSets)
-			dataSet.runPostLoadingTasks();
-	}
 
 	public void addDataSet(DataSet dataSet)
 	{

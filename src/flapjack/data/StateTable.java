@@ -2,7 +2,7 @@ package flapjack.data;
 
 import java.util.*;
 
-public class StateTable
+public class StateTable extends XMLRoot
 {
 	// TODO: What to do about storing (potentially?) redundant data, eg having a
 	// state for A/T and another for T/A

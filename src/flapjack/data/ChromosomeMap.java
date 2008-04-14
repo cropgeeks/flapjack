@@ -4,7 +4,7 @@ import java.util.*;
 
 import flapjack.io.*;
 
-public class ChromosomeMap implements Iterable<Marker>
+public class ChromosomeMap extends XMLRoot implements Iterable<Marker>
 {
 	private String name;
 
