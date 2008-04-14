@@ -4,20 +4,26 @@
 
 <mapping>
 
+	<class name="flapjack.data.XMLRoot" identity="guid">
+		<field name="guid" type="string">
+			<bind-xml node="attribute"/>
+		</field>
+	</class>
+
 	<!-- Project -->
-	<class name="flapjack.data.Project" auto-complete="true">
+	<class name="flapjack.data.Project" extends="flapjack.data.XMLRoot" auto-complete="true">
 		<field name="dataSets" type="flapjack.data.DataSet" collection="vector"/>
 	</class>
 
 	<!-- DataSet -->
-	<class name="flapjack.data.DataSet" auto-complete="true">
+	<class name="flapjack.data.DataSet" extends="flapjack.data.XMLRoot" auto-complete="true">
 		<field name="chromosomeMaps" type="flapjack.data.ChromosomeMap" collection="vector"/>
 		<field name="lines" type="flapjack.data.Line" collection="vector"/>
 		<field name="viewSets" type="flapjack.data.GTViewSet" collection="vector"/>
 	</class>
 
 	<!-- ChromosomeMap -->
-	<class name="flapjack.data.ChromosomeMap" auto-complete="true">
+	<class name="flapjack.data.ChromosomeMap" extends="flapjack.data.XMLRoot" auto-complete="true">
 		<field name="name" type="string">
 			<bind-xml node="attribute"/>
 		</field>
@@ -25,14 +31,14 @@
 	</class>
 
 	<!-- Marker -->
-	<class name="flapjack.data.Marker" auto-complete="true">
+	<class name="flapjack.data.Marker" extends="flapjack.data.XMLRoot" auto-complete="true">
 		<field name="name" type="string">
 			<bind-xml node="attribute"/>
 		</field>
 	</class>
 
 	<!-- Line -->
-	<class name="flapjack.data.Line" auto-complete="true">
+	<class name="flapjack.data.Line" extends="flapjack.data.XMLRoot" auto-complete="true">
 		<field name="name" type="string">
 			<bind-xml node="attribute"/>
 		</field>
@@ -40,22 +46,25 @@
 	</class>
 
 	<!-- GenotypeData -->
-	<class name="flapjack.data.GenotypeData" auto-complete="true">
+	<class name="flapjack.data.GenotypeData" extends="flapjack.data.XMLRoot" auto-complete="true">
 		<field name="mapName" type="string">
 			<bind-xml node="attribute"/>
 		</field>
 	</class>
 
 	<!-- StateTable -->
-	<class name="flapjack.data.StateTable" auto-complete="true">
+	<class name="flapjack.data.StateTable" extends="flapjack.data.XMLRoot" auto-complete="true">
 		<field name="states" type="flapjack.data.AlleleState" collection="vector"/>
 	</class>
 
 	<!-- AlleleState -->
-	<class name="flapjack.data.AlleleState" auto-complete="true"/>
+	<class name="flapjack.data.AlleleState" extends="flapjack.data.XMLRoot" auto-complete="true"/>
 
 	<!-- GTViewSet -->
-	<class name="flapjack.data.GTViewSet">
+	<class name="flapjack.data.GTViewSet" extends="flapjack.data.XMLRoot">
+		<field name="dataSet" type="flapjack.data.DataSet">
+			<bind-xml reference="true" node="attribute"/>
+		</field>
 		<field name="name" type="string">
 			<bind-xml node="attribute"/>
 		</field>
@@ -70,9 +79,12 @@
 	</class>
 
 	<!-- GTView -->
-	<class name="flapjack.data.GTView">
-		<field name="mapName" type="string">
-			<bind-xml node="attribute"/>
+	<class name="flapjack.data.GTView" extends="flapjack.data.XMLRoot">
+		<field name="viewSet" type="flapjack.data.GTViewSet">
+			<bind-xml reference="true" node="attribute"/>
+		</field>
+		<field name="chromosomeMap" type="flapjack.data.ChromosomeMap">
+			<bind-xml reference="true" node="attribute"/>
 		</field>
 		<field name="scrollX" type="int">
 			<bind-xml node="attribute"/>

@@ -2,7 +2,9 @@ package flapjack.data;
 
 import java.util.*;
 
-public class DataSet
+import scri.commons.gui.SystemUtils;
+
+public class DataSet extends XMLRoot
 {
 	// Data information
 	private Vector<ChromosomeMap> chromosomes = new Vector<ChromosomeMap>();
@@ -45,16 +47,6 @@ public class DataSet
 
 
 	// Other methods
-
-	void runPostLoadingTasks()
-	{
-		// Because we can't currently (08/02/2008) use Castor for storing
-		// references between objects within the XML, we need to scan through
-		// all the views for the datasets and reassociate their dataSet/map
-		// object references
-		for (GTViewSet viewSet: viewSets)
-			viewSet.recreateReferences(this);
-	}
 
 	public Line createLine(String name)
 	{

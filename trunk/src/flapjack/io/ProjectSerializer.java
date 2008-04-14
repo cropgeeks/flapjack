@@ -143,7 +143,6 @@ public class ProjectSerializer
 			Project project = (Project) unmarshaller.unmarshal(in);
 
 			project.filename = file;
-			project.runPostLoadingTasks();
 
 			in.close();
 

@@ -2,7 +2,7 @@ package flapjack.data;
 
 import java.util.*;
 
-public class Line
+public class Line extends XMLRoot
 {
 	private String name;
 

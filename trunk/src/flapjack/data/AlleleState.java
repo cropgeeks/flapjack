@@ -1,6 +1,6 @@
 package flapjack.data;
 
-public class AlleleState
+public class AlleleState extends XMLRoot
 {
 	private String[] states;
 	private String rawData;
