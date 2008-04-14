@@ -21,15 +21,6 @@ public class ProjectSerializer
 
 	private static boolean initialize()
 	{
-		org.exolab.castor.util.LocalConfiguration.getInstance().getProperties()
-			.setProperty("org.exolab.castor.parser", "org.xml.sax.helpers.XMLReaderAdapter");
-
-//		org.exolab.castor.util.LocalConfiguration.getInstance().getProperties()
-//			.setProperty("org.exolab.castor.indent", "true");
-
-		org.exolab.castor.util.LocalConfiguration.getInstance().getProperties()
-			.setProperty("org.exolab.castor.xml.serializer.factory", "org.exolab.castor.xml.XercesJDK5XMLSerializerFactory");
-
 		try
 		{
 			mapping = new Mapping();
@@ -49,20 +40,20 @@ public class ProjectSerializer
 		}
 	}
 
-	public static boolean querySave(Project project, boolean saveAs)
+	public static boolean querySave(Project project, boolean saveAs, boolean compress)
 	{
 		// If the project has never been saved, then we have to prompt for file
 		if (project.filename == null)
 			saveAs = true;
 
 		// Show the file selection prompt, quitting if the user goes no further
-		if (saveAs && (showSaveAsDialog(project) == false))
+		if (saveAs && (showSaveAsDialog(project, compress) == false))
 			return false;
 
 		return true;
 	}
 
-	public static boolean save(Project project)
+	public static boolean save(Project project, boolean compress)
 	{
 		try
 		{
@@ -72,23 +63,27 @@ public class ProjectSerializer
 			long s = System.currentTimeMillis();
 
 
-/*			// Open an output stream to the zip...
-			ZipOutputStream zOut = new ZipOutputStream(new BufferedOutputStream(
-				new FileOutputStream(project.filename)));
-			// And another for Castor to write to within the zip...
-			BufferedWriter cOut = new BufferedWriter(new OutputStreamWriter(zOut));
+			BufferedWriter cOut = null;
 
-			// Write a single "flapjack.xml" entry to the zip file
-			zOut.putNextEntry(new ZipEntry("flapjack.xml"));
-*/
-			BufferedWriter cOut = new BufferedWriter(new FileWriter(project.filename));
+			if (compress)
+			{
+				// Open an output stream to the zip...
+				ZipOutputStream zOut = new ZipOutputStream(new BufferedOutputStream(
+					new FileOutputStream(project.filename)));
+				// And another for Castor to write to within the zip...
+				cOut = new BufferedWriter(new OutputStreamWriter(zOut));
+
+				// Write a single "flapjack.xml" entry to the zip file
+				zOut.putNextEntry(new ZipEntry("flapjack.xml"));
+			}
+			else
+				cOut = new BufferedWriter(new FileWriter(project.filename));
 
 			// And marshall it as xml
 			Marshaller marshaller = new Marshaller(cOut);
 			marshaller.setMapping(mapping);
 			marshaller.marshal(project);
 
-//			zOut.close();
 			cOut.close();
 
 
@@ -145,13 +140,13 @@ public class ProjectSerializer
 			BufferedReader in = new BufferedReader(new FileReader(file));
 
 			Unmarshaller unmarshaller = new Unmarshaller(mapping);
-
 			Project project = (Project) unmarshaller.unmarshal(in);
 
 			project.filename = file;
 			project.runPostLoadingTasks();
 
 			in.close();
+
 
 			long e = System.currentTimeMillis();
 			System.out.println("Project deserialized in " + (e-s) + "ms");
@@ -188,7 +183,7 @@ public class ProjectSerializer
 		fc.setDialogTitle(RB.getString("io.ProjectSerializer.openDialog"));
 		fc.setCurrentDirectory(new File(Prefs.guiCurrentDir));
 
-		Filters.setFilters(fc, XML, XML);
+		Filters.setFilters(fc, -1, XML, ZIP);
 
 		if (fc.showOpenDialog(Flapjack.winMain) == JFileChooser.APPROVE_OPTION)
 		{
@@ -201,7 +196,7 @@ public class ProjectSerializer
 			return null;
 	}
 
-	private static boolean showSaveAsDialog(Project project)
+	private static boolean showSaveAsDialog(Project project, boolean compress)
 	{
 		JFileChooser fc = new JFileChooser();
 		fc.setDialogTitle(RB.getString("io.ProjectSerializer.saveDialog"));
@@ -211,10 +206,16 @@ public class ProjectSerializer
 		if (project.filename != null)
 			fc.setSelectedFile(project.filename);
 		else
+		{
+			String extension = compress ? ".zip" : ".xml";
 			fc.setSelectedFile(new File(Prefs.guiCurrentDir,
-				"Flapjack " + Prefs.guiProjectCount + ".xml"));
+				"Flapjack " + Prefs.guiProjectCount + extension));
+		}
 
-		Filters.setFilters(fc, XML, XML);
+		if (compress)
+			Filters.setFilters(fc, ZIP, ZIP);
+		else
+			Filters.setFilters(fc, XML, XML);
 
 		while (fc.showSaveDialog(Flapjack.winMain) == JFileChooser.APPROVE_OPTION)
 		{

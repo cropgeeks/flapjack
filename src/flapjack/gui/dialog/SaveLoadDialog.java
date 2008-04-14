@@ -67,13 +67,15 @@ public class SaveLoadDialog extends JDialog
 
 	public boolean save(final Project project, boolean saveAs)
 	{
-		if (ProjectSerializer.querySave(project, saveAs) == false)
+		final boolean gz = Prefs.guiSaveCompressed;
+
+		if (ProjectSerializer.querySave(project, saveAs, gz) == false)
 			return false;
 
 		runnable = new Runnable() {
 			public void run()
 			{
-				wasSaved = ProjectSerializer.save(project);
+				wasSaved = ProjectSerializer.save(project, gz);
 				setVisible(false);
 			}
 		};

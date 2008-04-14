@@ -15,6 +15,9 @@ public class Prefs extends XMLPreferences
 	// How many projects have been created
 	public static int guiProjectCount = 1;
 
+	// Should projects be saved in a compressed format?
+	public static boolean guiSaveCompressed = true;
+
 	// The locations of the last four accessed projects
 	public static String guiRecentProject1;
 	public static String guiRecentProject2;

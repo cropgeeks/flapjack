@@ -163,13 +163,13 @@ public class WinMain extends JFrame
 		if (Prefs.guiImportMethod == 0)
 		{
 			DataImportDialog dialog = new DataImportDialog();
-			if (dialog.isOK())
-			{
-				gPanel.resetBufferedState(false);
+			if (dialog.isOK() == false)
+				return;
 
-				mapFile  = dialog.getMapFile();
-				datFile = dialog.getGenotypeFile();
-			}
+			gPanel.resetBufferedState(false);
+
+			mapFile  = dialog.getMapFile();
+			datFile = dialog.getGenotypeFile();
 		}
 
 		// Importing from a Flapjack-provided sample fileset
@@ -277,9 +277,9 @@ public class WinMain extends JFrame
 		String javaVer = System.getProperty("java.version");
 		long freeMem = (ManagementFactory.getMemoryMXBean().getHeapMemoryUsage().getMax()
 				- ManagementFactory.getMemoryMXBean().getHeapMemoryUsage().getUsed());
-	
+
 		NumberFormat nf = NumberFormat.getInstance();
-		
+
 		scri.commons.gui.TaskDialog.info("Flapjack - Version 0.08.04.10"
 			+ "\n\nCopyright \u00A9 2007-2008"
 			+ "\nPlant Bioinformatics Group"
