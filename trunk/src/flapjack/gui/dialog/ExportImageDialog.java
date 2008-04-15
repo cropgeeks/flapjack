@@ -7,8 +7,7 @@ import javax.swing.*;
 
 import flapjack.gui.*;
 import flapjack.gui.visualization.*;
-import flapjack.other.Filters;
-import static flapjack.other.Filters.*;
+import flapjack.other.*;
 
 import scri.commons.gui.*;
 
@@ -91,11 +90,13 @@ public class ExportImageDialog extends JDialog implements ActionListener
 		// TODO: Determine a proper filename to use
 		fc.setSelectedFile(new File(Prefs.guiCurrentDir, "Image.png"));
 
-		Filters.setFilters(fc, PNG, PNG);
+		FileNameExtensionFilter filter = new FileNameExtensionFilter(
+			RB.getString("other.Filters.png"), "png");
+		fc.setFileFilter(filter);
 
 		while (fc.showSaveDialog(Flapjack.winMain) == JFileChooser.APPROVE_OPTION)
 		{
-			file = Filters.getSelectedFileForSaving(fc);
+			file = FileNameExtensionFilter.getSelectedFileForSaving(fc);
 
 			// Confirm overwrite
 			if (file.exists())

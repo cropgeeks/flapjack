@@ -81,7 +81,7 @@
 	
 	<target name="osx" depends="jar">
 		<exec executable="scp">
-			<arg line="${flapjack.jar} 143.234.127.110:Java/Flapjack/"/>
+			<arg line="lib/flapjack.jar 143.234.127.110:Java/Flapjack/"/>
 		</exec>
 	</target>
 

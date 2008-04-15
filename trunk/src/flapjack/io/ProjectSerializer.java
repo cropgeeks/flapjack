@@ -10,8 +10,7 @@ import org.exolab.castor.xml.*;
 import flapjack.data.*;
 import flapjack.gui.*;
 import flapjack.gui.dialog.SaveLoadDialog;
-import flapjack.other.Filters;
-import static flapjack.other.Filters.*;
+import flapjack.other.*;
 
 import scri.commons.gui.*;
 
@@ -47,7 +46,7 @@ public class ProjectSerializer
 			saveAs = true;
 
 		// Show the file selection prompt, quitting if the user goes no further
-		if (saveAs && (showSaveAsDialog(project, compress) == false))
+		if (saveAs && (showSaveAsDialog(project) == false))
 			return false;
 
 		return true;
@@ -136,12 +135,21 @@ public class ProjectSerializer
 
 			long s = System.currentTimeMillis();
 
+			Project project = null;
+			BufferedReader in = null;
 
-			BufferedReader in = new BufferedReader(new FileReader(file));
+			if (isFileCompressed(file))
+			{
+				ZipFile zipFile = new ZipFile(file);
+				InputStream zin = zipFile.getInputStream(
+					new ZipEntry("flapjack.xml"));
+				in = new BufferedReader(new InputStreamReader(zin));
+			}
+			else
+				in = new BufferedReader(new FileReader(file));
 
 			Unmarshaller unmarshaller = new Unmarshaller(mapping);
-			Project project = (Project) unmarshaller.unmarshal(in);
-
+			project = (Project) unmarshaller.unmarshal(in);
 			project.filename = file;
 
 			in.close();
@@ -151,6 +159,12 @@ public class ProjectSerializer
 			System.out.println("Project deserialized in " + (e-s) + "ms");
 
 			return project;
+		}
+		catch (DataFormatException e)
+		{
+			TaskDialog.error(
+				RB.format("io.ProjectSerializer.flapjackException", file, e.getMessage()),
+				RB.getString("gui.text.close"));
 		}
 		catch (IOException e)
 		{
@@ -182,7 +196,9 @@ public class ProjectSerializer
 		fc.setDialogTitle(RB.getString("io.ProjectSerializer.openDialog"));
 		fc.setCurrentDirectory(new File(Prefs.guiCurrentDir));
 
-		Filters.setFilters(fc, -1, XML, ZIP);
+		FileNameExtensionFilter filter = new FileNameExtensionFilter(
+			RB.getString("other.Filters.project"), "flapjack");
+		fc.addChoosableFileFilter(filter);
 
 		if (fc.showOpenDialog(Flapjack.winMain) == JFileChooser.APPROVE_OPTION)
 		{
@@ -195,7 +211,7 @@ public class ProjectSerializer
 			return null;
 	}
 
-	private static boolean showSaveAsDialog(Project project, boolean compress)
+	private static boolean showSaveAsDialog(Project project)
 	{
 		JFileChooser fc = new JFileChooser();
 		fc.setDialogTitle(RB.getString("io.ProjectSerializer.saveDialog"));
@@ -205,20 +221,16 @@ public class ProjectSerializer
 		if (project.filename != null)
 			fc.setSelectedFile(project.filename);
 		else
-		{
-			String extension = compress ? ".zip" : ".xml";
 			fc.setSelectedFile(new File(Prefs.guiCurrentDir,
-				"Flapjack " + Prefs.guiProjectCount + extension));
-		}
+				"Flapjack " + Prefs.guiProjectCount + ".flapjack"));
 
-		if (compress)
-			Filters.setFilters(fc, ZIP, ZIP);
-		else
-			Filters.setFilters(fc, XML, XML);
+		FileNameExtensionFilter filter = new FileNameExtensionFilter(
+			RB.getString("other.Filters.project"), "flapjack");
+		fc.addChoosableFileFilter(filter);
 
 		while (fc.showSaveDialog(Flapjack.winMain) == JFileChooser.APPROVE_OPTION)
 		{
-			File file = Filters.getSelectedFileForSaving(fc);
+			File file = FileNameExtensionFilter.getSelectedFileForSaving(fc);
 
 			// Confirm overwrite
 			if (file.exists())
@@ -280,5 +292,40 @@ public class ProjectSerializer
 		}
 
 		return true;
+	}
+
+	// Returns true/false on a test of whether the file is compressed or not.
+	// Will also throw a Flapjack-specific exception if the file doesn't appear
+	// to be in any format that Flapjack should be able to read.
+	private static boolean isFileCompressed(File file)
+		throws DataFormatException, IOException
+	{
+		// Is the file zipped in a flapjack-like format?
+		try
+		{
+			ZipFile zipFile = new ZipFile(file);
+			if (zipFile.getEntry("flapjack.xml") != null)
+				return true;
+			else
+				throw new DataFormatException("The file is compressed but does "
+					+ "not contain a 'flapjack.xml' zip entry.");
+		}
+		catch (ZipException e) {}
+		catch (IOException e) {}
+
+		// Failing it being a compatible zip, try a quick is-it-xml test?
+		try
+		{
+			BufferedReader in = new BufferedReader(new FileReader(file));
+			String str = in.readLine();
+			in.close();
+
+			if (str.startsWith("<?xml version=\"1.0\" encoding=\"UTF-8\"?>"))
+				return false;
+		}
+		catch (Exception e) {}
+
+		throw new DataFormatException("The file does not appear to be in an "
+			+ "XML format.");
 	}
 }
