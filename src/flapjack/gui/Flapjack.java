@@ -30,10 +30,14 @@ public class Flapjack
 		Icons.initialize();
 		RB.initialize();
 
-		new Flapjack();
+		// Start the GUI (either with or without an initial project)
+		if (args.length == 1 && args[0] != null)
+			new Flapjack(new File(args[0]));
+		else
+			new Flapjack(null);
 	}
 
-	Flapjack()
+	Flapjack(final File initialProject)
 	{
 		try
 		{
@@ -80,6 +84,10 @@ public class Flapjack
 					+ "Do not redistribute without the express permission of the "
 					+ "Scottish Crop Research Institute.";
 //				TaskDialog.info(message, RB.getString("gui.text.close"));
+
+				// Do we want to open an initial project?
+				if (initialProject != null)
+					winMain.fileOpen(initialProject);
 			}
 
 			public void windowIconified(WindowEvent e) {
