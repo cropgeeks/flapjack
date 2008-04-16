@@ -21,6 +21,15 @@ public class ChromosomeMap extends XMLRoot implements Iterable<Marker>
 		this.name = new String(name);
 	}
 
+	void validate()
+		throws NullPointerException
+	{
+		if (name == null)
+			throw new NullPointerException();
+		for (Marker marker: markers)
+			marker.validate();
+	}
+
 
 	// Methods required for XML serialization
 

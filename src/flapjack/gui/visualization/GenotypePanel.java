@@ -184,7 +184,6 @@ public class GenotypePanel extends JPanel
 	private void computePanelSizes()
 	{
 		int zoom = statusPanel.getSlider().getValue();
-		view.setZoom(zoom);
 
 		listPanel.computeDimensions(zoom);
 		canvas.computeDimensions(zoom);

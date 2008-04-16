@@ -18,6 +18,19 @@ public class DataSet extends XMLRoot
 	{
 	}
 
+	void validate()
+		throws NullPointerException
+	{
+		for (ChromosomeMap map: chromosomes)
+			map.validate();
+		for (Line line: lines)
+			line.validate();
+
+		stateTable.validate();
+		for (GTViewSet viewSet: viewSets)
+			viewSet.validate();
+	}
+
 
 	// Methods required for XML serialization
 

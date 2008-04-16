@@ -16,6 +16,13 @@ public class Project extends XMLRoot
 	{
 	}
 
+	public void validate()
+	{
+		System.out.print("Validating project...");
+		for (DataSet dataSet: dataSets)
+			dataSet.validate();
+		System.out.println("ok");
+	}
 
 	// Methods required for XML serialization
 

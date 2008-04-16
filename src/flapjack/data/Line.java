@@ -22,6 +22,16 @@ public class Line extends XMLRoot
 		this.key = key;
 	}
 
+	void validate()
+		throws NullPointerException
+	{
+		if (name == null)
+			throw new NullPointerException();
+
+		for (GenotypeData data: genotypes)
+			data.validate();
+	}
+
 
 	// Methods required for XML serialization
 
