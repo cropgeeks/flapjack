@@ -154,6 +154,15 @@ public class ProjectSerializer
 
 			in.close();
 
+			// Validate what was loaded (it could be nonsense)
+			// (especially if coming from an older project format)
+			try { project.validate(); }
+			catch (NullPointerException e)
+			{
+				throw new DataFormatException(
+					RB.getString("io.DataFormatException.validationError"));
+			}
+
 
 			long e = System.currentTimeMillis();
 			System.out.println("Project deserialized in " + (e-s) + "ms");
@@ -307,8 +316,8 @@ public class ProjectSerializer
 			if (zipFile.getEntry("flapjack.xml") != null)
 				return true;
 			else
-				throw new DataFormatException("The file is compressed but does "
-					+ "not contain a 'flapjack.xml' zip entry.");
+				throw new DataFormatException(
+					RB.getString("io.DataFormatException.zipError"));
 		}
 		catch (ZipException e) {}
 		catch (IOException e) {}
@@ -325,7 +334,7 @@ public class ProjectSerializer
 		}
 		catch (Exception e) {}
 
-		throw new DataFormatException("The file does not appear to be in an "
-			+ "XML format.");
+		throw new DataFormatException(
+			RB.getString("io.DataFormatException.xmlError"));
 	}
 }

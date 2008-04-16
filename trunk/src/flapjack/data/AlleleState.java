@@ -21,6 +21,13 @@ public class AlleleState extends XMLRoot
 			isHomozygous = false;
 	}
 
+	void validate()
+		throws NullPointerException
+	{
+		if (states == null || rawData == null)
+			throw new NullPointerException();
+	}
+
 	// Methods required for XML serialization
 
 	public String[] getStates()

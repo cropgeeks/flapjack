@@ -152,9 +152,9 @@ public class DataImportingDialog extends JDialog implements Runnable
 			GTViewSet viewSet = new GTViewSet(dataSet, "Default View");
 			dataSet.getViewSets().add(viewSet);
 
-			// Try to guess a suitable colour scheme - 2 states (+ unknown) can
+			// Try to guess a suitable colour scheme - 2 (hz) states can
 			// probably use the two colour model
-			if (dataSet.getStateTable().getStates().size() == 3)
+			if (dataSet.getStateTable().getHomozygousStateCount() == 2)
 				viewSet.setColorScheme(ColorScheme.SIMPLE_TWO_COLOR);
 
 			System.out.println("Genotype data loaded in " + (e-s) + "ms");

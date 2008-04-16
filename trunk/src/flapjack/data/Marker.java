@@ -17,6 +17,13 @@ public class Marker extends XMLRoot implements Comparable<Marker>
 		this.position = position;
 	}
 
+	void validate()
+		throws NullPointerException
+	{
+		if (name == null)
+			throw new NullPointerException();
+	}
+
 
 	// Methods required for XML serialization
 

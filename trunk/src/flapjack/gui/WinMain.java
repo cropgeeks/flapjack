@@ -280,7 +280,7 @@ public class WinMain extends JFrame
 
 		NumberFormat nf = NumberFormat.getInstance();
 
-		scri.commons.gui.TaskDialog.info("Flapjack - Version 0.08.04.10"
+		scri.commons.gui.TaskDialog.info("Flapjack - Genotype Visualization"
 			+ "\n\nCopyright \u00A9 2007-2008"
 			+ "\nPlant Bioinformatics Group"
 			+ "\nScottish Crop Research Institute"

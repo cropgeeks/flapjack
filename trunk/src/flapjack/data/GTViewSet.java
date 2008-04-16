@@ -46,6 +46,16 @@ public class GTViewSet extends XMLRoot
 			views.add(new GTView(this, dataSet.getMapByIndex(i)));
 	}
 
+	void validate()
+		throws NullPointerException
+	{
+		if (dataSet == null || name == null || lines == null)
+			throw new NullPointerException();
+
+		for (GTView view: views)
+			view.validate();
+	}
+
 
 	// Methods required for XML serialization
 

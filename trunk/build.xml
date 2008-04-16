@@ -84,5 +84,19 @@
 			<arg line="lib/flapjack.jar 143.234.127.110:Java/Flapjack/"/>
 		</exec>
 	</target>
+	
+	<taskdef name="install4j"
+		classname="com.install4j.Install4JTask"
+		classpath="C:\Java\Apps\install4j\bin\ant.jar"/>
+	
+	<target name="install4j">
+		<delete>
+			<fileset dir="installer" includes="**/*.exe"/>
+			<fileset dir="installer" includes="**/*.sh"/>
+			<fileset dir="installer" includes="**/*.dmg"/>
+		</delete>
+		<input message="Enter the version number:" addproperty="version"/>
+		<install4j projectfile="installer/flapjack.install4j" release="${version}"/>
+	</target>
 
 </project>

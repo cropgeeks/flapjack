@@ -19,9 +19,6 @@ public class GTView extends XMLRoot
 	// dataset's vector of markers
 	private Vector<Integer> markers;
 
-	// The positions of the scrollbars, and the current zoom level
-	private int scrollX, scrollY, zoom = 7;
-
 	// Marker and line to be highlighted
 	public int selectedLine = -1;
 	public int selectedMarker = -1;
@@ -46,6 +43,13 @@ public class GTView extends XMLRoot
 			markers.add(i);
 	}
 
+	void validate()
+		throws NullPointerException
+	{
+		if (viewSet == null || map == null)
+			throw new NullPointerException();
+	}
+
 
 	// Methods required for XML serialization
 
@@ -67,23 +71,6 @@ public class GTView extends XMLRoot
 	public void setMarkers(Vector<Integer> markers)
 		{ this.markers = markers; }
 
-	public int getScrollX()
-		{ return scrollX; }
-
-	public void setScrollX(int scrollX)
-		{ this.scrollX = scrollX; }
-
-	public int getScrollY()
-		{ return scrollY; }
-
-	public void setScrollY(int scrollY)
-		{ this.scrollY = scrollY; }
-
-	public int getZoom()
-		{ return zoom; }
-
-	public void setZoom(int zoom)
-		{ this.zoom = zoom; }
 
 
 	// Other methods
@@ -93,8 +80,6 @@ public class GTView extends XMLRoot
 
 	public void cacheLines()
 	{
-		long s = System.currentTimeMillis();
-
 		// Now cache as much data as possible to help speed rendering
 		genotypeLines = new Vector<GenotypeData>(viewSet.lines.size());
 
@@ -107,8 +92,6 @@ public class GTView extends XMLRoot
 
 			genotypeLines.add(data);
 		}
-
-		System.out.println("Line render cache created in " + (System.currentTimeMillis()-s) + "ms");
 	}
 
 	public Line getLine(int index)

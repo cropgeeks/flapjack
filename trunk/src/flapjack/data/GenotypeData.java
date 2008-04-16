@@ -2,12 +2,10 @@ package flapjack.data;
 
 import java.util.*;
 
-import scri.commons.MatrixXML;
-
 public class GenotypeData extends XMLRoot
 {
 	// A reference to the chromsome this data applies to
-	private String mapName;
+	private ChromosomeMap map;
 
 	private byte[] loci;
 
@@ -17,7 +15,7 @@ public class GenotypeData extends XMLRoot
 
 	public GenotypeData(ChromosomeMap map)
 	{
-		mapName = map.getName();
+		this.map = map;
 
 		// How many markers do we need to hold data for?
 		int size = map.countLoci();
@@ -26,21 +24,22 @@ public class GenotypeData extends XMLRoot
 		loci = new byte[size];
 	}
 
+	void validate()
+		throws NullPointerException
+	{
+		if (map == null || loci == null)
+			throw new NullPointerException();
+	}
+
 
 	// Methods required for XML serialization
 
-	public String getMapName()
-		{ return mapName; }
+	public ChromosomeMap getChromosomeMap()
+		{ return map; }
 
-	public void setMapName(String mapName)
-		{ this.mapName = mapName; }
+	public void setChromosomeMap(ChromosomeMap map)
+		{ this.map = map; }
 
-/*	public String getLoci()
-		{ return MatrixXML.arrayToString(loci); }
-
-	public void setLoci(String lociArray)
-		{ this.loci = MatrixXML.stringToByteArray(lociArray); }
-*/
 	public byte[] getLoci()
 		{ return loci; }
 
@@ -62,7 +61,7 @@ public class GenotypeData extends XMLRoot
 
 	boolean isGenotypeDataForMap(ChromosomeMap map)
 	{
-		return mapName.equals(map.getName());
+		return this.map == map;
 	}
 
 	public int countLoci()

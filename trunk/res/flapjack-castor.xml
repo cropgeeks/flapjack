@@ -47,8 +47,8 @@
 
 	<!-- GenotypeData -->
 	<class name="flapjack.data.GenotypeData" extends="flapjack.data.XMLRoot" auto-complete="true">
-		<field name="mapName" type="string">
-			<bind-xml node="attribute"/>
+		<field name="chromosomeMap" type="flapjack.data.ChromosomeMap">
+			<bind-xml reference="true" node="attribute"/>
 		</field>
 	</class>
 
@@ -85,15 +85,6 @@
 		</field>
 		<field name="chromosomeMap" type="flapjack.data.ChromosomeMap">
 			<bind-xml reference="true" node="attribute"/>
-		</field>
-		<field name="scrollX" type="int">
-			<bind-xml node="attribute"/>
-		</field>
-		<field name="scrollY" type="int">
-			<bind-xml node="attribute"/>
-		</field>
-		<field name="zoom" type="int">
-			<bind-xml node="attribute"/>
 		</field>
 		<field name="markers" type="integer" collection="vector"/>
 	</class>

@@ -18,6 +18,13 @@ public class StateTable extends XMLRoot
 		states.add(new AlleleState("", "/"));
 	}
 
+	void validate()
+		throws NullPointerException
+	{
+		for (AlleleState state: states)
+			state.validate();
+	}
+
 
 	// Methods required for XML serialization
 
@@ -56,5 +63,20 @@ public class StateTable extends XMLRoot
 		// If it wasn't found and needs to be created, then add it
 		states.add(new AlleleState(rawData, heteroString));
 		return states.size() - 1;
+	}
+
+	public int getHomozygousStateCount()
+	{
+		int count = 0;
+
+		// Don't count the first (unknown) state
+		for (int i = 1; i < states.size(); i++)
+			if (states.get(i).isHomozygous())
+			{
+				System.out.println(states.get(i));
+				count++;
+			}
+
+		return count;
 	}
 }
