@@ -23,8 +23,6 @@ public class GTView extends XMLRoot
 	public int selectedLine = -1;
 	public int selectedMarker = -1;
 
-	public int hideMarker = -1;
-
 	public GTView()
 	{
 	}

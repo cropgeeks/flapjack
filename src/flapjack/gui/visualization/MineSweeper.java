@@ -7,7 +7,7 @@ import java.util.*;
 
 import flapjack.data.*;
 
-class MineSweeper extends MouseAdapter
+class MineSweeper extends MouseAdapter implements IOverlayRenderer
 {
 	private GenotypeCanvas canvas;
 
@@ -31,10 +31,11 @@ class MineSweeper extends MouseAdapter
 
 	MineSweeper(GenotypeCanvas canvas)
 	{
+		// TODO: Stick in an option to disable minesweeper!
+
 		this.canvas = canvas;
 
-		canvas.mineSweeper = this;
-
+		canvas.overlays.add(this);
 		canvas.addMouseListener(this);
 		canvas.addMouseMotionListener(this);
 
@@ -195,10 +196,8 @@ class MineSweeper extends MouseAdapter
 		}
 	}
 
-	void render(Graphics2D g)
+	public void render(Graphics2D g)
 	{
-//		canvas.renderRegion(g);
-
 		for (int x = 0; x < grid.length; x++)
 			for (int y = 0; y < grid[x].length; y++)
 			{
