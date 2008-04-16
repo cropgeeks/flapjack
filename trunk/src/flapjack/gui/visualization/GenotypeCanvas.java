@@ -24,8 +24,6 @@ class GenotypeCanvas extends JPanel
 
 	// The current color model
 	ColorScheme cScheme;
-	// Transparancy intensity for animation effects
-	int alphaEffect = 0;
 
 	boolean locked = false;
 
@@ -61,7 +59,10 @@ class GenotypeCanvas extends JPanel
 	// This buffer holds the current viewport (visible) area
 	BufferedImage imageViewPort;
 
-	MineSweeper mineSweeper;
+	// A list of renderers that will perform further drawing once the main
+	// canvas has been drawn (eg animators, minesweeper, etc)
+	LinkedList<IOverlayRenderer> overlays = new LinkedList<IOverlayRenderer>();
+
 
 	GenotypeCanvas(GenotypePanel gPanel)
 	{
@@ -202,16 +203,10 @@ class GenotypeCanvas extends JPanel
 		renderViewport(g);
 
 		// Post (main-canvas) rendering operations
-		if (mineSweeper != null)
-			mineSweeper.render(g);
+		for (IOverlayRenderer renderer: overlays)
+			renderer.render(g);
 
-		if (view.hideMarker != -1)
-		{
-			g.setPaint(new Color(255, 255, 255, alphaEffect));
 
-			int mX = boxW * view.hideMarker;
-			g.fillRect(mX, 0, boxW, canvasH);
-		}
 
 		// TODO: think about this - the image on screen really needs buffered at
 		// this point, as constant repaints on a complicated canvas is too slow
