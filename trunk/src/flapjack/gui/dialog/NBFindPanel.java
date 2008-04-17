@@ -2,6 +2,7 @@ package flapjack.gui.dialog;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.lang.reflect.*;
 import java.net.*;
 import javax.swing.*;
 
@@ -59,30 +60,20 @@ class NBFindPanel extends JPanel implements ActionListener
 		String html = "http://java.sun.com/javase/6/docs/api/java/util/regex/Pattern.html";
 		boolean makeLinkLabel = true;
 
-		// The Mac can't (yet) run Java 6 so don't even bother trying...
-		if (SystemUtils.isMacOS())
-			makeLinkLabel = false;
-
-		// ...checking for browser support
-		else if (Desktop.isDesktopSupported())
-		{
-			Desktop desktop = Desktop.getDesktop();
-			makeLinkLabel = desktop.isSupported(Desktop.Action.BROWSE);
-		}
-
-		if (makeLinkLabel)
-			makeLinkLabel(html);
-		else
-			link.setText(RB.format("gui.dialog.NBFindPanel.hint", html));
-	}
-
-	// Turns the label into a blue mouse-over clickable link to a website
-	private void makeLinkLabel(final String html)
-	{
+		// Turns the label into a blue mouse-over clickable link to a website
 		link.setText(RB.getString("gui.dialog.NBFindPanel.link"));
 		link.setForeground(Color.blue);
 		link.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
+		if (SystemUtils.isMacOS())
+			makeJava5OSXLinkLabel(html);
+		else
+			makeJava6LinkLabel(html);
+	}
+
+	// Active the link using the Java 6 Desktop support object
+	private void makeJava6LinkLabel(final String html)
+	{
 		link.addMouseListener(new MouseAdapter()
 		{
 			public void mouseClicked(MouseEvent event)
@@ -93,6 +84,27 @@ class NBFindPanel extends JPanel implements ActionListener
 
 		        	URI uri = new URI(html);
 		        	desktop.browse(uri);
+				}
+				catch (Exception e) {}
+			}
+		});
+	}
+
+	// Active the link using OSX Java 5 compatible code
+	// See: http://www.centerkey.com/java/browser/
+	private void makeJava5OSXLinkLabel(final String html)
+	{
+		link.addMouseListener(new MouseAdapter()
+		{
+			public void mouseClicked(MouseEvent event)
+			{
+				try
+				{
+					Class<?> fileMgr = Class.forName("com.apple.eio.FileManager");
+					Method openURL = fileMgr.getDeclaredMethod("openURL",
+						new Class[] {String.class});
+
+					openURL.invoke(null, new Object[] {html});
 				}
 				catch (Exception e) {}
 			}
