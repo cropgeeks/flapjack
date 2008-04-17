@@ -76,6 +76,12 @@
 		</field>
 		<field name="lines" type="integer" collection="vector"/>
 		<field name="views" type="flapjack.data.GTView" collection="vector"/>
+		<field name="comparisonLine" type="flapjack.data.Line">
+			<bind-xml reference="true" node="attribute"/>
+		</field>
+		<field name="comparisonLineIndex" type="integer">
+			<bind-xml node="attribute"/>
+		</field>
 	</class>
 
 	<!-- GTView -->

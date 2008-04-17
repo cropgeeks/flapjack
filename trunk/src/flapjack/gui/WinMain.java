@@ -12,6 +12,7 @@ import flapjack.gui.dialog.*;
 import flapjack.gui.dialog.analysis.*;
 import flapjack.gui.dialog.prefs.*;
 import flapjack.gui.visualization.*;
+import flapjack.gui.visualization.colors.*;
 import flapjack.io.*;
 
 import scri.commons.file.*;
@@ -231,8 +232,14 @@ public class WinMain extends JFrame
 
 	void vizColor(int colorScheme)
 	{
+		if (colorScheme == ColorScheme.LINE_SIMILARITY ||
+			colorScheme == ColorScheme.LINE_SIMILARITY_GS)
+			gPanel.getView().initializeComparisonLine();
+
 		gPanel.getViewSet().setColorScheme(colorScheme);
 		gPanel.refreshView();
+
+		Actions.projectModified();
 	}
 
 	void vizOverlayGenotypes()

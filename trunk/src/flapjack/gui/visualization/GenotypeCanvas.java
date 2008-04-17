@@ -175,10 +175,10 @@ class GenotypeCanvas extends JPanel
 	// Called as the mouse moves over the canvas - we want to highlight this
 	void setHighlightedIndices(int rowIndex, int colIndex)
 	{
-		if (rowIndex != view.selectedLine || colIndex != view.selectedMarker)
+		if (rowIndex != view.mouseOverLine || colIndex != view.mouseOverMarker)
 		{
-			view.selectedLine = rowIndex;
-			view.selectedMarker = colIndex;
+			view.mouseOverLine = rowIndex;
+			view.mouseOverMarker = colIndex;
 //			repaint();
 		}
 	}
