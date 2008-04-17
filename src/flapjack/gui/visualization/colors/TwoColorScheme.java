@@ -8,9 +8,6 @@ import flapjack.data.*;
 
 public class TwoColorScheme extends ColorScheme
 {
-	// The index of the line to compare all other lines with
-	private int lineIndex;
-
 	private Vector<ColorState> aStates = new Vector<ColorState>();
 	private Vector<ColorState> bStates = new Vector<ColorState>();
 	// TODO: Once we have proper highlighting, there'll be no need for this style?
@@ -23,9 +20,6 @@ public class TwoColorScheme extends ColorScheme
 	public TwoColorScheme(GTView view, int w, int h)
 	{
 		super(view);
-
-		if (view.selectedLine != -1)
-			lineIndex = view.selectedLine;
 
 		for (int i = 0; i < stateTable.size(); i++)
 		{
@@ -65,11 +59,11 @@ public class TwoColorScheme extends ColorScheme
 		int state = view.getState(line, marker);
 
 		// If it's the index line, return the darker version
-		if (line == lineIndex)
+		if (line == view.getComparisonLineIndex())
 			return aStatesDark.get(state).getImage();
 
 		// Otherwise do the comparison
-		int compState = view.getState(lineIndex, marker);
+		int compState = view.getState(view.getComparisonLineIndex(), marker);
 
 		if (state == compState)
 			return aStates.get(state).getImage();
@@ -82,11 +76,11 @@ public class TwoColorScheme extends ColorScheme
 		int state = view.getState(line, marker);
 
 		// If it's the index line, return the darker version
-		if (line == lineIndex)
+		if (line == view.getComparisonLineIndex())
 			return COLOR_A_DRK;
 
 		// Otherwise do the comparison
-		int compState = view.getState(lineIndex, marker);
+		int compState = view.getState(view.getComparisonLineIndex(), marker);
 
 		if (state == 0)
 			return aStates.get(0).getColor();

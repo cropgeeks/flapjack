@@ -51,8 +51,8 @@ public class SortingLinesProgressDialog extends JDialog
 		this.gPanel = gPanel;
 
 		GTView view = gPanel.getView();
-		int line = view.selectedLine;
-		int loci = view.selectedMarker;
+		int line = view.mouseOverLine;
+		int loci = view.mouseOverMarker;
 
 		if (method == 0)
 			sort = new SortLinesBySimilarity(view, line);
@@ -68,6 +68,8 @@ public class SortingLinesProgressDialog extends JDialog
 	{
 		gPanel.refreshView();
 		gPanel.jumpToPosition(0, -1);
+
+		Actions.projectModified();
 
 		setVisible(false);
 	}

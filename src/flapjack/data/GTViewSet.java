@@ -24,6 +24,11 @@ public class GTViewSet extends XMLRoot
 	// Color model in use
 	private int colorScheme;
 
+	// For comparisons between lines, we need to know the line itself:
+	Line comparisonLine;
+	// And its current index
+	int comparisonLineIndex;
+
 	public GTViewSet()
 	{
 	}
@@ -94,6 +99,18 @@ public class GTViewSet extends XMLRoot
 
 	public void setColorScheme(int colorScheme)
 		{ this.colorScheme = colorScheme; }
+
+	public Line getComparisonLine()
+		{ return comparisonLine; }
+
+	public void setComparisonLine(Line comparisonLine)
+		{ this.comparisonLine = comparisonLine; }
+
+	public int getComparisonLineIndex()
+		{ return comparisonLineIndex; }
+
+	public void setComparisonLineIndex(int comparisonLineIndex)
+		{ this.comparisonLineIndex = comparisonLineIndex; }
 
 
 	// Other methods

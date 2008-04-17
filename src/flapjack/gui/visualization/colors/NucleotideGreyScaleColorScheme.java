@@ -8,21 +8,15 @@ import flapjack.data.*;
 
 public class NucleotideGreyScaleColorScheme extends NucleotideColorScheme
 {
-	// The index of the line to compare all other lines with
-	private int lineIndex;
-
 	public NucleotideGreyScaleColorScheme(GTView view, int w, int h)
 	{
 		super(view, w, h);
-
-		if (view.selectedLine != -1)
-			lineIndex = view.selectedLine;
 	}
 
 	public BufferedImage getImage(int line, int marker)
 	{
 		int state = view.getState(line, marker);
-		int compState = view.getState(lineIndex, marker);
+		int compState = view.getState(view.getComparisonLineIndex(), marker);
 
 		if (state == compState)
 			return states.get(state).getImage();
@@ -33,7 +27,7 @@ public class NucleotideGreyScaleColorScheme extends NucleotideColorScheme
 	public Color getColor(int line, int marker)
 	{
 		int state = view.getState(line, marker);
-		int compState = view.getState(lineIndex, marker);
+		int compState = view.getState(view.getComparisonLineIndex(), marker);
 
 		if (state == compState)
 			return states.get(state).getColor();

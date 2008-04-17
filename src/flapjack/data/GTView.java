@@ -19,9 +19,9 @@ public class GTView extends XMLRoot
 	// dataset's vector of markers
 	private Vector<Integer> markers;
 
-	// Marker and line to be highlighted
-	public int selectedLine = -1;
-	public int selectedMarker = -1;
+	// Marker and line currently under the mouse (-1 if not)
+	public int mouseOverLine = -1;
+	public int mouseOverMarker = -1;
 
 	public GTView()
 	{
@@ -147,6 +147,12 @@ public class GTView extends XMLRoot
 		viewSet.lines.set(fromIndex, viewSet.lines.get(toIndex));
 		viewSet.lines.set(toIndex, oldValue);
 
+		// But also check and deal with the comparison line being moved
+		if (viewSet.comparisonLineIndex == fromIndex)
+			viewSet.comparisonLineIndex = toIndex;
+		else if (viewSet.comparisonLineIndex == toIndex)
+			viewSet.comparisonLineIndex = fromIndex;
+
 		// And swap the cache too
 		GenotypeData oldData = genotypeLines.get(fromIndex);
 		genotypeLines.set(fromIndex, genotypeLines.get(toIndex));
@@ -174,4 +180,35 @@ public class GTView extends XMLRoot
 
 		markers.remove(index);
 	}
+
+	public void initializeComparisonLine()
+	{
+		// When we want to do line comparisons, we need to track both the line's
+		// index and the actual line (reference). That way, if its index is
+		// changed by external methods (sorting), the full list can be searched
+		// to find where it is now
+
+		// Internal methods for reordering lines can maintain the tracking ok
+
+		if (mouseOverLine != -1)
+			viewSet.comparisonLineIndex = mouseOverLine;
+		else
+			viewSet.comparisonLineIndex = 0;
+
+		viewSet.comparisonLine = getLine(viewSet.comparisonLineIndex);
+	}
+
+	/**
+	 * Should be called to ensures the comparison line index value is still
+	 * correct after major changes to the ordering of lines within the view.
+	 */
+	public void updateComparisonLine()
+	{
+		for (int index: viewSet.lines)
+			if (getLine(index) == viewSet.comparisonLine)
+				viewSet.comparisonLineIndex = index;
+	}
+
+	public int getComparisonLineIndex()
+		{ return viewSet.comparisonLineIndex; }
 }

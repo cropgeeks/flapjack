@@ -33,13 +33,13 @@ class NBSortLinesPanel extends javax.swing.JPanel
 
 		selectedLine.setModel(lineModel);
 
-		if (view.selectedLine != -1)
-			selectedLine.setSelectedIndex(view.selectedLine);
+		if (view.mouseOverLine != -1)
+			selectedLine.setSelectedIndex(view.mouseOverLine);
 	}
 
 	boolean isOK()
 	{
-		view.selectedLine = selectedLine.getSelectedIndex();
+		view.mouseOverLine = selectedLine.getSelectedIndex();
 
 		return true;
 	}
