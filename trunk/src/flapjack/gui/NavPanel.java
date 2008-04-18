@@ -164,6 +164,8 @@ class NavPanel extends JPanel
 				0, 0, 1, 1, new Insets(5, 5, 5, 5));
 			layout.add(new JLabel(RB.getString("gui.NavPanel.emptyPanel"),
 				JLabel.CENTER), 0, 1, 1, 1, new Insets(5, 5, 5, 5));
+			layout.add(new JLabel(RB.getString("gui.NavPanel.introLabel"),
+				JLabel.CENTER), 0, 2, 1, 1, new Insets(15, 5, 5, 5));
 
 			setLayout(new BorderLayout());
 			add(layout.getPanel());
