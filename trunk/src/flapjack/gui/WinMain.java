@@ -232,9 +232,10 @@ public class WinMain extends JFrame
 
 	void vizColor(int colorScheme)
 	{
-		if (colorScheme == ColorScheme.LINE_SIMILARITY ||
-			colorScheme == ColorScheme.LINE_SIMILARITY_GS)
-			gPanel.getView().initializeComparisonLine();
+		// Set the initial index positions for similarity colouring (if needbe)
+		if (colorScheme == ColorScheme.LINE_SIMILARITY || colorScheme == ColorScheme.LINE_SIMILARITY_GS ||
+			colorScheme == ColorScheme.MARKER_SIMILARITY || colorScheme == ColorScheme.MARKER_SIMILARITY_GS)
+			gPanel.getView().initializeComparisons();
 
 		gPanel.getViewSet().setColorScheme(colorScheme);
 		gPanel.refreshView();

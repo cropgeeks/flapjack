@@ -24,6 +24,8 @@ public class Actions
 	public static AbstractAction vizColorNucleotide;
 	public static AbstractAction vizColorLineSim;
 	public static AbstractAction vizColorLineSimGS;
+	public static AbstractAction vizColorMarkerSim;
+	public static AbstractAction vizColorMarkerSimGS;
 	public static AbstractAction vizColorSimple2Color;
 	public static AbstractAction vizOverlayGenotypes;
 
@@ -144,6 +146,18 @@ public class Actions
 			}
 		};
 
+		vizColorMarkerSim = new AbstractAction(RB.getString("gui.Actions.vizColorMarkerSim")) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.vizColor(ColorScheme.MARKER_SIMILARITY);
+			}
+		};
+
+		vizColorMarkerSimGS = new AbstractAction(RB.getString("gui.Actions.vizColorMarkerSimGS")) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.vizColor(ColorScheme.MARKER_SIMILARITY_GS);
+			}
+		};
+
 		vizColorSimple2Color = new AbstractAction(RB.getString("gui.Actions.vizColorSimple2Color")) {
 			public void actionPerformed(ActionEvent e) {
 				winMain.vizColor(ColorScheme.SIMPLE_TWO_COLOR);
@@ -223,6 +237,8 @@ public class Actions
 		vizColorNucleotide.setEnabled(false);
 		vizColorLineSim.setEnabled(false);
 		vizColorLineSimGS.setEnabled(false);
+		vizColorMarkerSim.setEnabled(false);
+		vizColorMarkerSimGS.setEnabled(false);
 		vizColorSimple2Color.setEnabled(false);
 		vizOverlayGenotypes.setEnabled(false);
 

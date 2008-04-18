@@ -66,7 +66,7 @@ public class SortLinesByLocus implements ILineSorter
 
 		// Because we've reordered the view (without it knowing), we MUST let
 		// it know that it has to search for its comparison line's new position
-		view.updateComparisonLine();
+		view.updateComparisons();
 
 		System.out.println("Similarity sort in " + (System.currentTimeMillis()-s) + "ms");
 
