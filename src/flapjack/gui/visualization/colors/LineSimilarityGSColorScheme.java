@@ -6,9 +6,9 @@ import java.util.*;
 
 import flapjack.data.*;
 
-public class NucleotideGreyScaleColorScheme extends NucleotideColorScheme
+public class LineSimilarityGSColorScheme extends NucleotideColorScheme
 {
-	public NucleotideGreyScaleColorScheme(GTView view, int w, int h)
+	public LineSimilarityGSColorScheme(GTView view, int w, int h)
 	{
 		super(view, w, h);
 	}

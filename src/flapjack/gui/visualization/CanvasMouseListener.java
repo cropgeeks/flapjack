@@ -92,6 +92,9 @@ class CanvasMouseListener extends MouseInputAdapter
 		int xIndex = canvas.getMarker(e.getPoint());
 		int yIndex = canvas.getLine(e.getPoint());
 
+		// Uncomment for experimental effect of dynamic line similarity highting
+//		Actions.vizColorLineSim.actionPerformed(null);
+
 		if (canvasMenu.isShowingMenu() == false)
 			gPanel.overRow(xIndex, yIndex);
 	}

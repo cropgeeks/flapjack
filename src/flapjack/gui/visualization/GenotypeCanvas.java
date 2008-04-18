@@ -125,11 +125,19 @@ class GenotypeCanvas extends JPanel
 		switch (viewSet.getColorScheme())
 		{
 			case ColorScheme.LINE_SIMILARITY:
-				cScheme = new TwoColorScheme(view, boxW, boxH);
+				cScheme = new LineSimilarityColorScheme(view, boxW, boxH);
 				break;
 
 			case ColorScheme.LINE_SIMILARITY_GS:
-				cScheme = new NucleotideGreyScaleColorScheme(view, boxW, boxH);
+				cScheme = new LineSimilarityGSColorScheme(view, boxW, boxH);
+				break;
+
+			case ColorScheme.MARKER_SIMILARITY:
+				cScheme = new MarkerSimilarityColorScheme(view, boxW, boxH);
+				break;
+
+			case ColorScheme.MARKER_SIMILARITY_GS:
+				cScheme = new MarkerSimilarityGSColorScheme(view, boxW, boxH);
 				break;
 
 			case ColorScheme.SIMPLE_TWO_COLOR:

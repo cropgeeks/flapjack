@@ -23,6 +23,11 @@ public class GTView extends XMLRoot
 	public int mouseOverLine = -1;
 	public int mouseOverMarker = -1;
 
+	// For comparisons between markers, we need to know the marker itself:
+	private Marker comparisonMarker;
+	// And its current index
+	private int comparisonMarkerIndex;
+
 	public GTView()
 	{
 	}
@@ -69,6 +74,17 @@ public class GTView extends XMLRoot
 	public void setMarkers(Vector<Integer> markers)
 		{ this.markers = markers; }
 
+	public Marker getComparisonMarker()
+		{ return comparisonMarker; }
+
+	public void setComparisonMarker(Marker comparisonMarker)
+		{ this.comparisonMarker = comparisonMarker; }
+
+	public int getComparisonMarkerIndex()
+		{ return comparisonMarkerIndex; }
+
+	public void setComparisonMarkerIndex(int comparisonMarkerIndex)
+		{ this.comparisonMarkerIndex = comparisonMarkerIndex; }
 
 
 	// Other methods
@@ -167,6 +183,12 @@ public class GTView extends XMLRoot
 		if (toIndex >= markers.size() || fromIndex >= markers.size())
 			return;
 
+		// But also check and deal with the comparison marker being moved
+		if (comparisonMarkerIndex == fromIndex)
+			comparisonMarkerIndex = toIndex;
+		else if (comparisonMarkerIndex == toIndex)
+			comparisonMarkerIndex = fromIndex;
+
 		// Swap the lines
 		int oldValue = markers.get(fromIndex);
 		markers.set(fromIndex, markers.get(toIndex));
@@ -181,7 +203,7 @@ public class GTView extends XMLRoot
 		markers.remove(index);
 	}
 
-	public void initializeComparisonLine()
+	public void initializeComparisons()
 	{
 		// When we want to do line comparisons, we need to track both the line's
 		// index and the actual line (reference). That way, if its index is
@@ -196,17 +218,28 @@ public class GTView extends XMLRoot
 			viewSet.comparisonLineIndex = 0;
 
 		viewSet.comparisonLine = getLine(viewSet.comparisonLineIndex);
+
+		if (mouseOverMarker != -1)
+			comparisonMarkerIndex = mouseOverMarker;
+		else
+			comparisonMarkerIndex = 0;
+
+		comparisonMarker = getMarker(comparisonMarkerIndex);
 	}
 
 	/**
 	 * Should be called to ensures the comparison line index value is still
 	 * correct after major changes to the ordering of lines within the view.
 	 */
-	public void updateComparisonLine()
+	public void updateComparisons()
 	{
 		for (int index: viewSet.lines)
 			if (getLine(index) == viewSet.comparisonLine)
 				viewSet.comparisonLineIndex = index;
+
+		for (int index: markers)
+			if (getMarker(index) == comparisonMarker)
+				comparisonMarkerIndex = index;
 	}
 
 	public int getComparisonLineIndex()

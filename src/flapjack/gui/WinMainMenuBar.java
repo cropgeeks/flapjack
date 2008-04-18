@@ -32,6 +32,8 @@ public class WinMainMenuBar extends JMenuBar
 	private JMenuItem mVizColorNucleotide;
 	private JMenuItem mVizColorLineSim;
 	private JMenuItem mVizColorLineSimGS;
+	private JMenuItem mVizColorMarkerSim;
+	private JMenuItem mVizColorMarkerSimGS;
 	private JMenuItem mVizColorSimple2Color;
 	static  JCheckBoxMenuItem mVizOverlayGenotypes;
 
@@ -125,15 +127,21 @@ public class WinMainMenuBar extends JMenuBar
 		mVizExportImage = getItem(Actions.vizExportImage, KeyEvent.VK_E, 0, 0);
 		mVizColorRandom = getItem(Actions.vizColorRandom, KeyEvent.VK_R, 0, 0);
 		mVizColorNucleotide = getItem(Actions.vizColorNucleotide, KeyEvent.VK_N, 0, 0);
-		mVizColorLineSim = getItem(Actions.vizColorLineSim, KeyEvent.VK_2, 0, 0);
+		mVizColorLineSim = getItem(Actions.vizColorLineSim, KeyEvent.VK_L, 0, 0);
+		mVizColorLineSim.setDisplayedMnemonicIndex(17);
 		mVizColorLineSimGS = getItem(Actions.vizColorLineSimGS, KeyEvent.VK_G, 0, 0);
+		mVizColorMarkerSim = getItem(Actions.vizColorMarkerSim, KeyEvent.VK_K, 0, 0);
+		mVizColorMarkerSim.setDisplayedMnemonicIndex(17);
+		mVizColorMarkerSimGS = getItem(Actions.vizColorMarkerSimGS, KeyEvent.VK_G, 0, 0);
 		mVizColorSimple2Color = getItem(Actions.vizColorSimple2Color, KeyEvent.VK_S, 0, 0);
 		mVizOverlayGenotypes = getCheckedItem(Actions.vizOverlayGenotypes, KeyEvent.VK_O, KeyEvent.VK_G, menuShortcut, Prefs.visShowGenotypes);
 
 		mVizColor.add(mVizColorNucleotide);
 		mVizColor.add(mVizColorSimple2Color);
 		mVizColor.add(mVizColorLineSim);
-		mVizColor.add(mVizColorLineSimGS);
+//		mVizColor.add(mVizColorLineSimGS);
+		mVizColor.add(mVizColorMarkerSim);
+//		mVizColor.add(mVizColorMarkerSimGS);
 		mVizColor.addSeparator();
 		mVizColor.add(mVizColorRandom);
 

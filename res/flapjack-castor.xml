@@ -93,5 +93,11 @@
 			<bind-xml reference="true" node="attribute"/>
 		</field>
 		<field name="markers" type="integer" collection="vector"/>
+		<field name="comparisonMarker" type="flapjack.data.Marker">
+			<bind-xml reference="true" node="attribute"/>
+		</field>
+		<field name="comparisonMarkerIndex" type="integer">
+			<bind-xml node="attribute"/>
+		</field>
 	</class>
 </mapping>
