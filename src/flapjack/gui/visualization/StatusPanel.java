@@ -16,7 +16,7 @@ class StatusPanel extends JPanel
 
 	private JLabel label1, label2, label3;
 	private JLabel lineLabel, markerLabel, alleleLabel;
-    private JSlider sizeSlider;
+    private JSlider sizeSliderX, sizeSliderY;
 
 	StatusPanel(GenotypePanel gPanel)
 	{
@@ -45,8 +45,10 @@ class StatusPanel extends JPanel
 		alleleLabel = new JLabel();
 		alleleLabel.setForeground(Color.red);
 
-		sizeSlider = new JSlider(1, 25, 7);
-		sizeSlider.addChangeListener(gPanel);
+		sizeSliderX = new JSlider(1, 25, 7);
+		sizeSliderX.addChangeListener(gPanel);
+		sizeSliderY = new JSlider(1, 25, 7);
+		sizeSliderY.addChangeListener(gPanel);
 	}
 
 	private void layoutControls()
@@ -86,8 +88,10 @@ class StatusPanel extends JPanel
 
 
 		// Panel for the slider
+//		JPanel sliderPanel = new JPanel(new GridLayout(2, 1, 0, 0));
 		JPanel sliderPanel = new JPanel(new FlowLayout());
-		sliderPanel.add(sizeSlider);
+//		sliderPanel.add(sizeSliderX);
+		sliderPanel.add(sizeSliderY);
 
 
 		// Final layout
@@ -96,8 +100,11 @@ class StatusPanel extends JPanel
 		add(sliderPanel, BorderLayout.EAST);
 	}
 
-	JSlider getSlider()
-		{ return sizeSlider; }
+	JSlider getSliderX()
+		{ return sizeSliderX; }
+
+	JSlider getSliderY()
+		{ return sizeSliderY; }
 
 	void setView(GTView view)
 	{

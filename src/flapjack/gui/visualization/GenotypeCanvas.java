@@ -100,13 +100,13 @@ class GenotypeCanvas extends JPanel
 
 	// Compute canvas related dimensions that only change if the data or the
 	// box-drawing size needs to be changed
-	void computeDimensions(int size)
+	void computeDimensions(int sizeX, int sizeY)
 	{
-		Font font = new Font("Monospaced", Font.PLAIN, size);
+		Font font = new Font("Monospaced", Font.PLAIN, sizeY);
 		FontMetrics fm = new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB)
 			.getGraphics().getFontMetrics(font);
 
-		boxW = size*2;
+		boxW = sizeY*2;
 		boxH = fm.getHeight();
 
 		// Once we have suitable width/height values, the scrollbars can be made

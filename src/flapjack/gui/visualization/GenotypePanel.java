@@ -164,7 +164,8 @@ public class GenotypePanel extends JPanel
 	public void stateChanged(ChangeEvent e)
 	{
 		// When the slider is moved...
-		if (e.getSource() == statusPanel.getSlider())
+		if (e.getSource() == statusPanel.getSliderX() ||
+			e.getSource() == statusPanel.getSliderY())
 			computePanelSizes();
 
 		// When a tab is selected...
@@ -183,10 +184,11 @@ public class GenotypePanel extends JPanel
 	// When changing data or the zoom level...
 	private void computePanelSizes()
 	{
-		int zoom = statusPanel.getSlider().getValue();
+		int zoomX = statusPanel.getSliderX().getValue();
+		int zoomY = statusPanel.getSliderY().getValue();
 
-		listPanel.computeDimensions(zoom);
-		canvas.computeDimensions(zoom);
+		listPanel.computeDimensions(zoomY);
+		canvas.computeDimensions(zoomX, zoomY);
 
 		validate();
 
@@ -209,8 +211,8 @@ public class GenotypePanel extends JPanel
 	{
 		if (e.isControlDown())
 		{
-			int currentValue = statusPanel.getSlider().getValue();
-			statusPanel.getSlider().setValue(currentValue + e.getWheelRotation());
+			int currentValue = statusPanel.getSliderY().getValue();
+			statusPanel.getSliderY().setValue(currentValue + e.getWheelRotation());
 		}
 	}
 
