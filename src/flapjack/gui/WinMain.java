@@ -112,6 +112,7 @@ public class WinMain extends JFrame
 		if (ProjectSerializer.okToContinue(project, false) == false)
 			return;
 
+		gPanel.resetBufferedState(false);
 		project = new Project();
 		navPanel.setProject(project);
 	}
