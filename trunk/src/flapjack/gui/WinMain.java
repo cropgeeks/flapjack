@@ -35,7 +35,7 @@ public class WinMain extends JFrame
 
 	WinMain()
 	{
-		setTitle(RB.getString("gui.WinMain.title"));
+		setTitle(RB.getString("gui.WinMain.title") + " - " + Install4j.VERSION);
 		setIconImage(Icons.FLAPJACK.getImage());
 
 		menubar = new WinMainMenuBar(this);
@@ -289,7 +289,7 @@ public class WinMain extends JFrame
 
 		NumberFormat nf = NumberFormat.getInstance();
 
-		scri.commons.gui.TaskDialog.info("Flapjack - Genotype Visualization"
+		scri.commons.gui.TaskDialog.info("Flapjack - Version " + Install4j.VERSION
 			+ "\n\nCopyright \u00A9 2007-2008"
 			+ "\nPlant Bioinformatics Group"
 			+ "\nScottish Crop Research Institute"

@@ -12,6 +12,8 @@ public class Install4j
 {
 	private static String URL = "http://bioinf.scri.ac.uk/flapjack/installers/updates.xml";
 
+	public static String VERSION = "";
+
 	public static final int NEVER = 0;
 	public static final int STARTUP = 1;
 	public static final int DAILY = 2;
@@ -24,6 +26,8 @@ public class Install4j
 	 */
 	static void doStartUpCheck()
 	{
+		getVersion();
+
 		try
 		{
 			switch (Prefs.guiUpdateSchedule)
@@ -67,5 +71,19 @@ public class Install4j
 			ApplicationLauncher.launchApplication("418", null, block, null);
 		}
 		catch (IOException e) {}
+	}
+
+	private static void getVersion()
+	{
+		try
+		{
+			com.install4j.api.ApplicationRegistry.ApplicationInfo info =
+//				com.install4j.api.ApplicationRegistry.getApplicationInfoById("9131-7045-2417-5931");
+				com.install4j.api.ApplicationRegistry.getApplicationInfoByDir(new File("."));
+
+			VERSION = info.getVersion();
+		}
+		catch (Exception e) {}
+		catch (Throwable e) {}
 	}
 }
