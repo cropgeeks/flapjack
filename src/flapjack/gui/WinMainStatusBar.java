@@ -7,7 +7,7 @@ import javax.swing.*;
 
 public class WinMainStatusBar extends JPanel implements Runnable
 {
-	private JLabel infoLabel;
+	private JLabel tipsLabel, helpLabel;
 	private Vector<String> helpHints = new Vector<String>();
 
 	private static AnimateThread animateThread;
@@ -28,8 +28,12 @@ public class WinMainStatusBar extends JPanel implements Runnable
 		}
 		catch (Exception e) { System.out.println(e); }
 
-		infoLabel = new JLabel();
-		infoLabel.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
+		tipsLabel = new JLabel(RB.getString("gui.StatusBar.helpText"));
+		helpLabel = new JLabel();
+		JPanel helpPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 0));
+		helpPanel.add(tipsLabel);
+		helpPanel.add(helpLabel);
+
 
 		renderIcon = new JLabel();
 		setRenderState(0);
@@ -40,7 +44,7 @@ public class WinMainStatusBar extends JPanel implements Runnable
 		setLayout(new BorderLayout());
 		setBorder(BorderFactory.createEmptyBorder(1, 2, 2, 2));
 
-		add(infoLabel, BorderLayout.WEST);
+		add(helpPanel, BorderLayout.WEST);
 		add(new LinePanel(), BorderLayout.NORTH);
 		add(renderPanel, BorderLayout.EAST);
 
@@ -94,13 +98,13 @@ public class WinMainStatusBar extends JPanel implements Runnable
 			fontColor = bgColor;
 
 			int index = rnd.nextInt(helpHints.size());
-			infoLabel.setText(helpHints.get(index));
+			helpLabel.setText(helpHints.get(index));
 
 			// Fade from bgColor to black
 			for (int i = 0; i < 16 || fontColor > 0f; i++)
 			{
 				int c = (int) fontColor;
-				infoLabel.setForeground(new Color(c, c, c));
+				helpLabel.setForeground(new Color(c, c, c));
 
 				fontColor -= step;
 
@@ -117,7 +121,7 @@ public class WinMainStatusBar extends JPanel implements Runnable
 			for (int i = 0; i < 16 || fontColor < bgColor; i++)
 			{
 				int c = (int) fontColor;
-				infoLabel.setForeground(new Color(c, c, c));
+				helpLabel.setForeground(new Color(c, c, c));
 
 				fontColor += step;
 

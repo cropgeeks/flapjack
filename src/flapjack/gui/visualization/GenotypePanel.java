@@ -209,7 +209,10 @@ public class GenotypePanel extends JPanel
 
 	public void mouseWheelMoved(MouseWheelEvent e)
 	{
-		if (e.isControlDown())
+		// CTRL (or CMD) keyboard shortcut
+		int shortcut = Toolkit.getDefaultToolkit().getMenuShortcutKeyMask();
+
+		if (e.getModifiers() == shortcut)
 		{
 			int currentValue = statusPanel.getSliderY().getValue();
 			statusPanel.getSliderY().setValue(currentValue + e.getWheelRotation());
