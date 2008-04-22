@@ -145,9 +145,8 @@ public class GTViewSet extends XMLRoot
 	{
 		int[] array = new int[lines.size()];
 
-		int i = 0;
-		for (int value: lines)
-			array[i++] = value;
+		for (int i = 0; i < array.length; i++)
+			array[i] = lines.get(i);
 
 		return array;
 	}

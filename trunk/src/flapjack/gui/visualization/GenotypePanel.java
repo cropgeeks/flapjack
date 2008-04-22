@@ -318,14 +318,19 @@ public class GenotypePanel extends JPanel
 
 	public void processUndoRedo(boolean undo)
 	{
+		IUndoState state = null;
+
 		if (undo)
-			viewSet.getUndoManager().processUndo();
+			state = viewSet.getUndoManager().processUndo();
 		else
-			viewSet.getUndoManager().processRedo();
+			state = viewSet.getUndoManager().processRedo();
+
+		if (state instanceof MovedMarkersState)
+			returnToView(state);
+		else
+			refreshView();
 
 		setEditActions();
-		refreshView();
-
 		Actions.projectModified();
 	}
 
@@ -334,5 +339,18 @@ public class GenotypePanel extends JPanel
 		viewSet.getUndoManager().addUndoState(state);
 
 		setEditActions();
+	}
+
+	// An undo/redo operation that affected markers should first ensure the
+	// panel is showing the correct chromosomes (GTView) for that move
+	private void returnToView(IUndoState state)
+	{
+		MovedMarkersState mms = (MovedMarkersState) state;
+		GTView returnToView = mms.getView();
+
+		int index = viewSet.getViews().indexOf(returnToView);
+
+		viewSet.setViewIndex(index);
+		setViewSet(viewSet);
 	}
 }

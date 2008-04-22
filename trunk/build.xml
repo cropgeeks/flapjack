@@ -90,7 +90,7 @@
 		classname="com.install4j.Install4JTask"
 		classpath="C:\Java\Apps\install4j\bin\ant.jar"/>
 	
-	<target name="install4j">
+	<target name="install4j" depends="jar">
 		<delete>
 			<fileset dir="installer" includes="**/*.exe"/>
 			<fileset dir="installer" includes="**/*.sh"/>
