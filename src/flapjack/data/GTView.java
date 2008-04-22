@@ -244,4 +244,22 @@ public class GTView extends XMLRoot
 
 	public int getComparisonLineIndex()
 		{ return viewSet.comparisonLineIndex; }
+
+	public int[] getMarkersAsArray()
+	{
+		int[] array = new int[markers.size()];
+
+		for (int i = 0; i < array.length; i++)
+			array[i] = markers.get(i);
+
+		return array;
+	}
+
+	public void setMarkersFromArray(int[] array)
+	{
+		markers.clear();
+
+		for (int i: array)
+			markers.add(i);
+	}
 }

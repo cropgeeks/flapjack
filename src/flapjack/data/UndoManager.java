@@ -52,14 +52,17 @@ public class UndoManager
 	}
 
 	/**
-	 * Pops the last undo state off the stack and runs it.
+	 * Peeks at the stack for the next undo state, runs it, and returns it,
+	 * leaving the element on the stack.
 	 */
-	public void processUndo()
+	public IUndoState processUndo()
 	{
 		IUndoState state = stack.get(stackPointer);
 		state.applyUndoState();
 
 		stackPointer--;
+
+		return state;
 	}
 
 	public boolean canRedo()
@@ -78,13 +81,16 @@ public class UndoManager
 	}
 
 	/**
-	 * Pops the last redo state off the stack and runs it.
+	 * Peeks at the stack for the next redo state, runs it, and returns it,
+	 * leaving the element on the stack.
 	 */
-	public void processRedo()
+	public IUndoState processRedo()
 	{
 		stackPointer++;
 
 		IUndoState state = stack.get(stackPointer);
 		state.applyRedoState();
+
+		return state;
 	}
 }

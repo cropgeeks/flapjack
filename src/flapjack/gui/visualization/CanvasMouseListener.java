@@ -117,16 +117,21 @@ class CanvasMouseListener extends MouseInputAdapter
 		private int selectedMarker = -1;
 
 		private MovedLinesState movedLinesState;
+		private MovedMarkersState movedMarkersState;
 
 		void mousePressed(MouseEvent e)
 		{
 			selectedLine = e.getY() / canvas.boxH;
 			selectedMarker = e.getX() / canvas.boxW;
 
-			// Create a new state on initial mouse down
+			// Create new states on initial mouse down
 			movedLinesState = new MovedLinesState(canvas.viewSet,
 				RB.getString("gui.visualization.MovedLinesState.movedLines"));
 			movedLinesState.createUndoState();
+
+			movedMarkersState = new MovedMarkersState(canvas.view,
+				RB.getString("gui.visualization.MovedMarkersState.movedMarkers"));
+			movedMarkersState.createUndoState();
 		}
 
 		void mouseReleased(MouseEvent e)
@@ -143,6 +148,8 @@ class CanvasMouseListener extends MouseInputAdapter
 				if (isMarkerMoving)
 				{
 					// If markers were moved, track their new state
+					movedMarkersState.createRedoState();
+					gPanel.addUndoState(movedMarkersState);
 
 					// The map only needs to be updated if markers moved
 					gPanel.mapCanvas.createImage();
