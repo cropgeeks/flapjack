@@ -23,8 +23,8 @@ public class WinMainMenuBar extends JMenuBar
 	private JMenuItem mFileExit;
 
 	private JMenu mEdit;
-	private JMenuItem mEditUndo;
-	private JMenuItem mEditRedo;
+	public static JMenuItem mEditUndo;
+	public static JMenuItem mEditRedo;
 
 	private JMenu mViz;
 	public static JCheckBoxMenuItem mVizOverview;

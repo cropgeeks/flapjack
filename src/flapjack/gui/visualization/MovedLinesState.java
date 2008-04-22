@@ -6,20 +6,22 @@ import flapjack.gui.*;
 public class MovedLinesState implements IUndoState
 {
 	private GTViewSet viewSet;
+	private String menuStr;
 
 	// The state (that is, "order") of the lines before they were moved about
 	private int[] undoLines;
 	// And the state after the movement was finished
 	private int[] redoLines;
 
-	public MovedLinesState(GTViewSet viewSet)
+	public MovedLinesState(GTViewSet viewSet, String menuStr)
 	{
 		this.viewSet = viewSet;
+		this.menuStr = menuStr;
 	}
 
 	public String getMenuString()
 	{
-		return "";
+		return menuStr;
 	}
 
 	public void createUndoState()
