@@ -45,7 +45,10 @@ public class UndoManager
 
 	public String getNextUndoString()
 	{
-		return stack.get(stackPointer).getMenuString();
+		if (canUndo())
+			return stack.get(stackPointer).getMenuString();
+		else
+			return "";
 	}
 
 	/**
@@ -68,7 +71,10 @@ public class UndoManager
 
 	public String getNextRedoString()
 	{
-		return stack.get(stackPointer+1).getMenuString();
+		if (canRedo())
+			return stack.get(stackPointer+1).getMenuString();
+		else
+			return "";
 	}
 
 	/**

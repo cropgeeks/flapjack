@@ -299,11 +299,21 @@ public class GenotypePanel extends JPanel
 	// history of the view currently being displayed
 	void setEditActions()
 	{
-		boolean undo = viewSet.getUndoManager().canUndo();
-		Actions.editUndo.setEnabled(undo);
+		UndoManager manager = viewSet.getUndoManager();
 
-		boolean redo = viewSet.getUndoManager().canRedo();
+		boolean undo = manager.canUndo();
+		Actions.editUndo.setEnabled(undo);
+		String undoStr = RB.format("gui.Actions.editUndo",
+			manager.getNextUndoString());
+		WinMainMenuBar.mEditUndo.setText(undoStr);
+		WinMainToolBar.editUndo.setToolTipText(undoStr.trim());
+
+		boolean redo = manager.canRedo();
 		Actions.editRedo.setEnabled(redo);
+		String redoStr = RB.format("gui.Actions.editRedo",
+			manager.getNextRedoString());
+		WinMainMenuBar.mEditRedo.setText(redoStr);
+		WinMainToolBar.editRedo.setToolTipText(redoStr.trim());
 	}
 
 	public void processUndoRedo(boolean undo)
@@ -319,7 +329,7 @@ public class GenotypePanel extends JPanel
 		Actions.projectModified();
 	}
 
-	void addUndoState(IUndoState state)
+	public void addUndoState(IUndoState state)
 	{
 		viewSet.getUndoManager().addUndoState(state);
 

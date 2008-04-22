@@ -57,7 +57,7 @@ public class UndoManagerTest extends TestCase
 
 	public void testAddingUndoState1()
 	{
-		MovedLinesState state = new MovedLinesState(viewSet);
+		MovedLinesState state = new MovedLinesState(viewSet, null);
 		state.createUndoState();
 		// simulate moving lines with a forced update
 		viewSet.setLinesFromArray(new int[] { 4, 3, 2, 1, 0 });
@@ -75,7 +75,7 @@ public class UndoManagerTest extends TestCase
 
 	public void testAddingUndoState2()
 	{
-		MovedLinesState state = new MovedLinesState(viewSet);
+		MovedLinesState state = new MovedLinesState(viewSet, null);
 		state.createUndoState();
 		// simulate moving lines with a forced update
 		viewSet.setLinesFromArray(new int[] { 2, 4, 0, 1, 3 });

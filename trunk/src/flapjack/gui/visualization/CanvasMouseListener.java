@@ -7,7 +7,7 @@ import javax.swing.*;
 import javax.swing.event.*;
 
 import flapjack.data.*;
-import flapjack.gui.Actions;
+import flapjack.gui.*;
 
 import scri.commons.gui.*;
 
@@ -124,7 +124,8 @@ class CanvasMouseListener extends MouseInputAdapter
 			selectedMarker = e.getX() / canvas.boxW;
 
 			// Create a new state on initial mouse down
-			movedLinesState = new MovedLinesState(canvas.viewSet);
+			movedLinesState = new MovedLinesState(canvas.viewSet,
+				RB.getString("gui.visualization.MovedLinesState.movedLines"));
 			movedLinesState.createUndoState();
 		}
 
@@ -196,8 +197,6 @@ class CanvasMouseListener extends MouseInputAdapter
 					// Update the view
 					selectedLine = newLine;
 					canvas.resetBufferedState(false);
-
-					new MovedLinesState(canvas.viewSet).createUndoState();
 
 					// And ensure wherever the line now is, it's still visible
 					canvas.scrollRectToVisible(new Rectangle(x-5, y-5, 10, 10));

@@ -113,13 +113,13 @@ public class Actions
 		};
 
 
-		editUndo = new AbstractAction(RB.getString("gui.Actions.editUndo"), getIcon(Icons.UNDO)) {
+		editUndo = new AbstractAction(RB.format("gui.Actions.editUndo", ""), getIcon(Icons.UNDO)) {
 			public void actionPerformed(ActionEvent e) {
 				winMain.editUndoRedo(true);
 			}
 		};
 
-		editRedo = new AbstractAction(RB.getString("gui.Actions.editRedo"), getIcon(Icons.REDO)) {
+		editRedo = new AbstractAction(RB.format("gui.Actions.editRedo", ""), getIcon(Icons.REDO)) {
 			public void actionPerformed(ActionEvent e) {
 				winMain.editUndoRedo(false);
 			}
@@ -264,5 +264,24 @@ public class Actions
 		dataSortLinesBySimilarity.setEnabled(false);
 		dataSortLinesByLocus.setEnabled(false);
 		dataFind.setEnabled(false);
+
+
+		// Special case for the Edit->Undo/Redo options who have their text
+		// dynamically set - this resets the text to its default
+		// Note: it's an explicit setText() rather than putValue("Name", "X")
+		// on the Action, as the latter would also apply text to the toolbar
+		// buttons which isn't what we want to happen
+		if (WinMainMenuBar.mEditUndo != null)
+		{
+			WinMainMenuBar.mEditUndo.setText(
+				RB.format("gui.Actions.editUndo", ""));
+			WinMainMenuBar.mEditRedo.setText(
+				RB.format("gui.Actions.editRedo", ""));
+
+			WinMainToolBar.editUndo.setToolTipText(
+				RB.getString("gui.WinMainToolBar.editUndo"));
+			WinMainToolBar.editRedo.setToolTipText(
+				RB.getString("gui.WinMainToolBar.editRedo"));
+		}
 	}
 }

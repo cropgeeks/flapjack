@@ -5,15 +5,15 @@ import javax.swing.*;
 
 import scri.commons.gui.*;
 
-class WinMainToolBar extends JToolBar
+public class WinMainToolBar extends JToolBar
 {
 	private JButton fileNew;
 	private JButton fileOpen;
 	private JButton fileSave;
 	private JButton fileImport;
 
-	private JButton editUndo;
-	private JButton editRedo;
+	public static JButton editUndo;
+	public static JButton editRedo;
 
 	private JButton dataFind;
 

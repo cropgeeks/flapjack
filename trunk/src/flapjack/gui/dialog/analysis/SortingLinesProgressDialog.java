@@ -78,7 +78,14 @@ public class SortingLinesProgressDialog extends JDialog
 	{
 		public void run()
 		{
+			MovedLinesState state = new MovedLinesState(gPanel.getViewSet(),
+				RB.getString("gui.visualization.MovedLinesState.sortedLines"));
+
+			state.createUndoState();
 			sort.doSort();
+			state.createRedoState();
+
+			gPanel.addUndoState(state);
 
 			Runnable r = new Runnable() {
 				public void run() {
