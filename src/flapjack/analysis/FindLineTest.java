@@ -13,7 +13,7 @@ public class FindLineTest extends TestCase
 
 	public static void main(String[] args)
 	{
-		org.junit.runner.JUnitCore.main("flapjack.data.DataSetTest");
+		org.junit.runner.JUnitCore.main("flapjack.analysis.FindLineTest");
 	}
 
 	private void load()

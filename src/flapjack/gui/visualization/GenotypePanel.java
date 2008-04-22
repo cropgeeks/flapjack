@@ -141,6 +141,8 @@ public class GenotypePanel extends JPanel
 		viewSet.setViewIndex(mapIndex);
 		view = viewSet.getView(mapIndex);
 
+		setEditActions();
+
 		tabs.setComponentAt(mapIndex, displayPanel);
 		refreshView();
 	}
@@ -291,5 +293,36 @@ public class GenotypePanel extends JPanel
 	public long computeCanvasViewPortBufferInBytes()
 	{
 		return (long)viewport.getWidth() * (long)viewport.getHeight() * 3;
+	}
+
+	// Updates the state of the Edit menu's undo/redo actions based on the undo
+	// history of the view currently being displayed
+	void setEditActions()
+	{
+		boolean undo = viewSet.getUndoManager().canUndo();
+		Actions.editUndo.setEnabled(undo);
+
+		boolean redo = viewSet.getUndoManager().canRedo();
+		Actions.editRedo.setEnabled(redo);
+	}
+
+	public void processUndoRedo(boolean undo)
+	{
+		if (undo)
+			viewSet.getUndoManager().processUndo();
+		else
+			viewSet.getUndoManager().processRedo();
+
+		setEditActions();
+		refreshView();
+
+		Actions.projectModified();
+	}
+
+	void addUndoState(IUndoState state)
+	{
+		viewSet.getUndoManager().addUndoState(state);
+
+		setEditActions();
 	}
 }

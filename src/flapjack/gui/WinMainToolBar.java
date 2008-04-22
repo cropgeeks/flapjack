@@ -12,6 +12,11 @@ class WinMainToolBar extends JToolBar
 	private JButton fileSave;
 	private JButton fileImport;
 
+	private JButton editUndo;
+	private JButton editRedo;
+
+	private JButton dataFind;
+
 	WinMainToolBar()
 	{
 		setFloatable(false);
@@ -41,6 +46,24 @@ class WinMainToolBar extends JToolBar
 			RB.getString("gui.WinMainToolBar.fileImportTT"),
 			Icons.FILEIMPORT, Actions.fileImport);
 
+
+		// Edit, undo
+		editUndo = (JButton) getButton(false, null,
+			RB.getString("gui.WinMainToolBar.editUndo"),
+			Icons.UNDO, Actions.editUndo);
+
+		// Edit, redo
+		editRedo = (JButton) getButton(false, null,
+			RB.getString("gui.WinMainToolBar.editRedo"),
+			Icons.REDO, Actions.editRedo);
+
+
+		// Data find
+		dataFind = (JButton) getButton(false, null,
+			RB.getString("gui.WinMainToolBar.dataFind"),
+			Icons.FIND, Actions.dataFind);
+
+
 		add(new JLabel(" "));
 
 		add(fileNew);
@@ -50,6 +73,13 @@ class WinMainToolBar extends JToolBar
 		add(fileSave);
 		addSeparator(true);
 		add(fileImport);
+
+		addSeparator(true);
+		add(editUndo);
+		add(editRedo);
+
+		addSeparator(true);
+		add(dataFind);
 
 		add(new JLabel(" "));
 	}

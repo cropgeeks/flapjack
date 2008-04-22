@@ -18,6 +18,9 @@ public class Actions
 	public static AbstractAction fileImport;
 	public static AbstractAction fileExit;
 
+	public static AbstractAction editUndo;
+	public static AbstractAction editRedo;
+
 	public static AbstractAction vizOverview;
 	public static AbstractAction vizExportImage;
 	public static AbstractAction vizColorRandom;
@@ -106,6 +109,19 @@ public class Actions
 		fileExit = new AbstractAction(RB.getString("gui.Actions.fileExit")) {
 			public void actionPerformed(ActionEvent e) {
 				winMain.fileExit();
+			}
+		};
+
+
+		editUndo = new AbstractAction(RB.getString("gui.Actions.editUndo"), getIcon(Icons.UNDO)) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.editUndoRedo(true);
+			}
+		};
+
+		editRedo = new AbstractAction(RB.getString("gui.Actions.editRedo"), getIcon(Icons.REDO)) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.editUndoRedo(false);
 			}
 		};
 
@@ -231,6 +247,9 @@ public class Actions
 	/** Called whenever the focus on the navigation tree changes. **/
 	public static void resetActions()
 	{
+		editUndo.setEnabled(false);
+		editRedo.setEnabled(false);
+
 		vizOverview.setEnabled(false);
 		vizExportImage.setEnabled(false);
 		vizColorRandom.setEnabled(false);
