@@ -29,6 +29,8 @@ public class GTViewSet extends XMLRoot
 	// And its current index
 	int comparisonLineIndex;
 
+	private UndoManager undoManager = new UndoManager();
+
 	public GTViewSet()
 	{
 	}
@@ -134,4 +136,30 @@ public class GTViewSet extends XMLRoot
 	{
 		return views.get(viewIndex);
 	}
+
+	/**
+	 * Converts and returns the vector of line data into a primitive array of
+	 * ints.
+	 */
+	public int[] getLinesAsArray()
+	{
+		int[] array = new int[lines.size()];
+
+		int i = 0;
+		for (int value: lines)
+			array[i++] = value;
+
+		return array;
+	}
+
+	public void setLinesFromArray(int[] array)
+	{
+		lines.clear();
+
+		for (int i: array)
+			lines.add(i);
+	}
+
+	public UndoManager getUndoManager()
+		{ return undoManager; }
 }

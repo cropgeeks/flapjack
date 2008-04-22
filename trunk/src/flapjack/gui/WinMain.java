@@ -218,6 +218,11 @@ public class WinMain extends JFrame
 		processWindowEvent(evt);
 	}
 
+	void editUndoRedo(boolean undo)
+	{
+		gPanel.processUndoRedo(undo);
+	}
+
 	void vizExportImage()
 	{
 		ExportImageDialog dialog = new ExportImageDialog(gPanel);

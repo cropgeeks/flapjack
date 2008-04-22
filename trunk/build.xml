@@ -66,7 +66,7 @@
 	</target>
 	
 	<target name="test" depends="jar">
-		<junit printsummary="on">
+		<junit printsummary="on" haltonerror="true" haltonfailure="true">
 			<classpath refid="project.classpath"/>
 			<classpath>
 				<pathelement path="${jarfile}"/>
@@ -75,6 +75,7 @@
 			<formatter type="plain" usefile="false"/>
 
 			<test name="flapjack.data.DataSetTest"/>
+			<test name="flapjack.data.UndoManagerTest"/>
 			<test name="flapjack.analysis.FindLineTest"/>
 		</junit>
 	</target>

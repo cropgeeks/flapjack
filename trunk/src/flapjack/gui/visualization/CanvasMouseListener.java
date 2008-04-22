@@ -6,6 +6,7 @@ import java.awt.geom.*;
 import javax.swing.*;
 import javax.swing.event.*;
 
+import flapjack.data.*;
 import flapjack.gui.Actions;
 
 import scri.commons.gui.*;
@@ -110,27 +111,46 @@ class CanvasMouseListener extends MouseInputAdapter
 	/** Inner class to handle interactive mouse events (moving lines etc). */
 	private class InteractiveHandler
 	{
-		private boolean isLineSelected = false;
+		private boolean isLineMoving = false;
 		private int selectedLine = -1;
-		private boolean isMarkerSelected = false;
+		private boolean isMarkerMoving = false;
 		private int selectedMarker = -1;
+
+		private MovedLinesState movedLinesState;
 
 		void mousePressed(MouseEvent e)
 		{
 			selectedLine = e.getY() / canvas.boxH;
 			selectedMarker = e.getX() / canvas.boxW;
+
+			// Create a new state on initial mouse down
+			movedLinesState = new MovedLinesState(canvas.viewSet);
+			movedLinesState.createUndoState();
 		}
 
 		void mouseReleased(MouseEvent e)
 		{
-			if (selectedMarker != -1)
-				gPanel.mapCanvas.createImage();
-
-			if (selectedLine != -1 || selectedMarker != -1)
+			if (isLineMoving || isMarkerMoving)
 			{
-				isLineSelected = isMarkerSelected = false;
+				if (isLineMoving)
+				{
+					// If lines were moved, track their new state
+					movedLinesState.createRedoState();
+					gPanel.addUndoState(movedLinesState);
+				}
+
+				if (isMarkerMoving)
+				{
+					// If markers were moved, track their new state
+
+					// The map only needs to be updated if markers moved
+					gPanel.mapCanvas.createImage();
+				}
+
+				isLineMoving = isMarkerMoving = false;
 				selectedLine = selectedMarker = -1;
 
+				// The overview needs updated if lines *or* markers moved
 				OverviewManager.createImage();
 				canvas.resetBufferedState(true);
 
@@ -144,7 +164,7 @@ class CanvasMouseListener extends MouseInputAdapter
 			int y = e.getPoint().y;
 
 			// Moving lines...
-			if (selectedLine != -1 && !isMarkerSelected)
+			if (selectedLine != -1 && isMarkerMoving == false)
 			{
 				// this.selectedLine is its old position...this will be its new one
 				int newLine = y / canvas.boxH;
@@ -177,14 +197,16 @@ class CanvasMouseListener extends MouseInputAdapter
 					selectedLine = newLine;
 					canvas.resetBufferedState(false);
 
+					new MovedLinesState(canvas.viewSet).createUndoState();
+
 					// And ensure wherever the line now is, it's still visible
 					canvas.scrollRectToVisible(new Rectangle(x-5, y-5, 10, 10));
-					isLineSelected = true;
+					isLineMoving = true;
 				}
 			}
 
 			// Moving markers...
-			if (selectedMarker != -1 && !isLineSelected)
+			if (selectedMarker != -1 && isLineMoving == false)
 			{
 				int newMarker = x / canvas.boxW;
 
@@ -210,7 +232,7 @@ class CanvasMouseListener extends MouseInputAdapter
 
 					// And ensure wherever the marker now is, it's still visible
 					canvas.scrollRectToVisible(new Rectangle(x-5, y-5, 10, 10));
-					isMarkerSelected = true;
+					isMarkerMoving = true;
 				}
 			}
 		}

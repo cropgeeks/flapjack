@@ -22,6 +22,8 @@ public class Icons
 	public static ImageIcon GREYBLOB;
 	public static ImageIcon GERMINATE;
 	public static ImageIcon REDBLOB;
+	public static ImageIcon REDO;
+	public static ImageIcon UNDO;
 	public static ImageIcon VISUALIZATION;
 	public static ImageIcon WEB;
 

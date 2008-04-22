@@ -23,6 +23,8 @@ public class WinMainMenuBar extends JMenuBar
 	private JMenuItem mFileExit;
 
 	private JMenu mEdit;
+	private JMenuItem mEditUndo;
+	private JMenuItem mEditRedo;
 
 	private JMenu mViz;
 	public static JCheckBoxMenuItem mVizOverview;
@@ -111,6 +113,12 @@ public class WinMainMenuBar extends JMenuBar
 	{
 		mEdit = new JMenu(RB.getString("gui.WinMainMenuBar.mEdit"));
 		mEdit.setMnemonic(KeyEvent.VK_E);
+
+		mEditUndo = getItem(Actions.editUndo, KeyEvent.VK_U, KeyEvent.VK_Z, menuShortcut);
+		mEditRedo = getItem(Actions.editRedo, KeyEvent.VK_R, KeyEvent.VK_Y, menuShortcut);
+
+		mEdit.add(mEditUndo);
+		mEdit.add(mEditRedo);
 
 		add(mEdit);
 	}

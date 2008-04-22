@@ -19,7 +19,7 @@ class GenotypeCanvas extends JPanel
 	private GenotypePanel gPanel;
 
 	// The "view" being rendered
-	private GTViewSet viewSet;
+	GTViewSet viewSet;
 	GTView view;
 
 	// The current color model
