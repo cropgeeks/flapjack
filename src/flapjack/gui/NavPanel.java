@@ -27,6 +27,7 @@ class NavPanel extends JPanel
 
 	private JSplitPane hSplitPane, vSplitPane;
 
+	private NavPanelMenu menu;
 	private IntroPanel introPanel = new IntroPanel();
 
 	// We maintain just one GenotypePanel that is used to display any dataset
@@ -43,6 +44,9 @@ class NavPanel extends JPanel
 		tree.setRootVisible(false);
 		tree.getSelectionModel().setSelectionMode(
 			TreeSelectionModel.SINGLE_TREE_SELECTION);
+
+		menu = new NavPanelMenu(tree);
+		tree.addMouseListener(menu);
 
 		gPanel = new GenotypePanel(winMain);
 
@@ -113,6 +117,19 @@ class NavPanel extends JPanel
 		tree.scrollPathToVisible(new TreePath(selectedNode.getPath()));
 	}
 
+	void removeDataSetNode(DataSet dataSet)
+	{
+		// Search until we find the node for this data set, then remove it
+		for (int i = 0; i < root.getChildCount(); i++)
+		{
+			DefaultMutableTreeNode node = (DefaultMutableTreeNode) root.getChildAt(i);
+
+			if (node instanceof DataSetNode)
+				if (((DataSetNode)node).getDataSet() == dataSet)
+					treeModel.removeNodeFromParent(node);
+		}
+	}
+
 	private BaseNode addVisualizationNode(DataSetNode dataSetNode, int i)
 	{
 		DataSet dataSet = dataSetNode.getDataSet();
@@ -122,6 +139,13 @@ class NavPanel extends JPanel
 		dataSetNode.add(node);
 
 		return node;
+	}
+
+	// Returns the data set associated with the currently selected node
+	DataSet getDataSetForSelection()
+	{
+		BaseNode node = (BaseNode) tree.getLastSelectedPathComponent();
+		return node.getDataSet();
 	}
 
 	public void valueChanged(TreeSelectionEvent e)

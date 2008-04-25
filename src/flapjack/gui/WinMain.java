@@ -275,6 +275,31 @@ public class WinMain extends JFrame
 		Prefs.guiFindDialogShown = true;
 	}
 
+	void dataRenameDataSet()
+	{
+	}
+
+	void dataDeleteDataSet()
+	{
+		String msg = RB.getString("gui.WinMain.deleteDataSet");
+
+		String[] options = new String[] {
+			RB.getString("gui.WinMain.deleteButton"),
+			RB.getString("gui.text.cancel") };
+
+		if (TaskDialog.show(msg, MsgBox.QST, 1, options) == 0)
+		{
+			// Determine the selected data set...
+			DataSet dataSet = navPanel.getDataSetForSelection();
+
+			// ...and remove it from both the project and the GUI
+			project.removeDataSet(dataSet);
+			navPanel.removeDataSetNode(dataSet);
+
+			Actions.projectModified();
+		}
+	}
+
 	void helpPrefs()
 	{
 		if (new PreferencesDialog().isOK())

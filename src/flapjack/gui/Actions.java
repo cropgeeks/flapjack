@@ -35,6 +35,8 @@ public class Actions
 	public static AbstractAction dataSortLinesBySimilarity;
 	public static AbstractAction dataSortLinesByLocus;
 	public static AbstractAction dataFind;
+	public static AbstractAction dataRenameDataSet;
+	public static AbstractAction dataDeleteDataSet;
 
 	public static AbstractAction wndMinimize;
 	public static AbstractAction wndZoom;
@@ -205,6 +207,18 @@ public class Actions
 			}
 		};
 
+		dataRenameDataSet = new AbstractAction(RB.getString("gui.Actions.dataRenameDataSet"), getIcon(Icons.RENAME)) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.dataRenameDataSet();
+			}
+		};
+
+		dataDeleteDataSet = new AbstractAction(RB.getString("gui.Actions.dataDeleteDataSet"), getIcon(Icons.DELETE)) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.dataDeleteDataSet();
+			}
+		};
+
 
 		wndMinimize = new AbstractAction(RB.getString("gui.Actions.wndMinimize")) {
 			public void actionPerformed(ActionEvent e) {
@@ -231,13 +245,13 @@ public class Actions
 			}
 		};
 
-		helpUpdate = new AbstractAction(RB.getString("gui.Actions.helpUpdate")) {
+		helpUpdate = new AbstractAction(RB.getString("gui.Actions.helpUpdate"),  getIcon(Icons.CHECKUPDATE)) {
 			public void actionPerformed(ActionEvent e) {
 				winMain.helpUpdate();
 			}
 		};
 
-		helpPrefs = new AbstractAction(RB.getString("gui.Actions.helpPrefs")) {
+		helpPrefs = new AbstractAction(RB.getString("gui.Actions.helpPrefs"), getIcon(Icons.PREFERENCES)) {
 			public void actionPerformed(ActionEvent e) {
 				winMain.helpPrefs();
 			}
@@ -264,7 +278,8 @@ public class Actions
 		dataSortLinesBySimilarity.setEnabled(false);
 		dataSortLinesByLocus.setEnabled(false);
 		dataFind.setEnabled(false);
-
+		dataRenameDataSet.setEnabled(false);
+		dataDeleteDataSet.setEnabled(false);
 
 		// Special case for the Edit->Undo/Redo options who have their text
 		// dynamically set - this resets the text to its default

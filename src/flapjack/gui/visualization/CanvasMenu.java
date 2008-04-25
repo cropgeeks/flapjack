@@ -8,7 +8,6 @@ import flapjack.gui.*;
 
 public class CanvasMenu
 {
-	private GenotypePanel gPanel;
 	private GenotypeCanvas canvas;
 
 	private int menuShortcut;
@@ -32,9 +31,8 @@ public class CanvasMenu
 
 	private AbstractAction aLock;
 
-	CanvasMenu(GenotypePanel gPanel, GenotypeCanvas canvas)
+	CanvasMenu(GenotypeCanvas canvas)
 	{
-		this.gPanel = gPanel;
 		this.canvas = canvas;
 
 		// Returns value for "CTRL" under most OSs, and the "apple" key for OS X

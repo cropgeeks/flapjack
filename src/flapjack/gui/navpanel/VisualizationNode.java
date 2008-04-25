@@ -41,6 +41,8 @@ public class VisualizationNode extends BaseNode
 		Actions.dataSortLinesBySimilarity.setEnabled(true);
 		Actions.dataSortLinesByLocus.setEnabled(true);
 		Actions.dataFind.setEnabled(true);
+		Actions.dataRenameDataSet.setEnabled(true);
+		Actions.dataDeleteDataSet.setEnabled(true);
 	}
 
 	public JPanel getPanel()

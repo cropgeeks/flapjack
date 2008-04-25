@@ -4,6 +4,7 @@ import java.awt.*;
 import javax.swing.*;
 
 import flapjack.data.*;
+import flapjack.gui.*;
 
 public class DataSetNode extends BaseNode
 {
@@ -15,11 +16,13 @@ public class DataSetNode extends BaseNode
 	public String toString()
 	{
 		// TODO: Use a proper name for the dataset?
-		return "DataSet " + dataSet.countLines() + "x" + dataSet.countMarkers();
+		return dataSet.getName();
 	}
 
 	public void setActions()
 	{
+		Actions.dataRenameDataSet.setEnabled(true);
+		Actions.dataDeleteDataSet.setEnabled(true);
 	}
 
 	public JPanel getPanel()
