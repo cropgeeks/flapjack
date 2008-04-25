@@ -117,19 +117,6 @@ class NavPanel extends JPanel
 		tree.scrollPathToVisible(new TreePath(selectedNode.getPath()));
 	}
 
-	void removeDataSetNode(DataSet dataSet)
-	{
-		// Search until we find the node for this data set, then remove it
-		for (int i = 0; i < root.getChildCount(); i++)
-		{
-			DefaultMutableTreeNode node = (DefaultMutableTreeNode) root.getChildAt(i);
-
-			if (node instanceof DataSetNode)
-				if (((DataSetNode)node).getDataSet() == dataSet)
-					treeModel.removeNodeFromParent(node);
-		}
-	}
-
 	private BaseNode addVisualizationNode(DataSetNode dataSetNode, int i)
 	{
 		DataSet dataSet = dataSetNode.getDataSet();
@@ -141,11 +128,38 @@ class NavPanel extends JPanel
 		return node;
 	}
 
+	DataSetNode findDataSetNode(DataSet dataSet)
+	{
+		// Search until we find the node for this data set, then remove it
+		for (int i = 0; i < root.getChildCount(); i++)
+		{
+			DefaultMutableTreeNode node = (DefaultMutableTreeNode) root.getChildAt(i);
+
+			if (node instanceof DataSetNode)
+				if (((DataSetNode)node).getDataSet() == dataSet)
+					return (DataSetNode) node;
+		}
+
+		return null;
+	}
+
 	// Returns the data set associated with the currently selected node
 	DataSet getDataSetForSelection()
 	{
 		BaseNode node = (BaseNode) tree.getLastSelectedPathComponent();
 		return node.getDataSet();
+	}
+
+	void updateNodeFor(DataSet dataSet)
+	{
+		DataSetNode node = findDataSetNode(dataSet);
+		treeModel.nodeChanged(node);
+	}
+
+	void removeDataSetNode(DataSet dataSet)
+	{
+		DataSetNode node = findDataSetNode(dataSet);
+		treeModel.removeNodeFromParent(node);
 	}
 
 	public void valueChanged(TreeSelectionEvent e)
