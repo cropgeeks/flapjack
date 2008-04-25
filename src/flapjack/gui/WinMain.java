@@ -277,6 +277,17 @@ public class WinMain extends JFrame
 
 	void dataRenameDataSet()
 	{
+		DataSet dataSet = navPanel.getDataSetForSelection();
+
+		RenameDialog dialog = new RenameDialog(dataSet.getName());
+
+		if (dialog.isOK())
+		{
+			dataSet.setName(dialog.getNewName());
+			navPanel.updateNodeFor(dataSet);
+
+			Actions.projectModified();
+		}
 	}
 
 	void dataDeleteDataSet()
