@@ -148,6 +148,9 @@ public class DataImportingDialog extends JDialog implements Runnable
 			genoImporter.importGenotypeData();
 			e = System.currentTimeMillis();
 
+			dataSet.setName("DataSet " + dataSet.countLines() + "x" + dataSet.countMarkers());
+			System.out.println(dataSet.getName());
+
 			// Create (and add) a default view of the dataset
 			GTViewSet viewSet = new GTViewSet(dataSet, "Default View");
 			dataSet.getViewSets().add(viewSet);

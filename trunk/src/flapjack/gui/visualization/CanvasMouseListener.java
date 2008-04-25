@@ -32,7 +32,7 @@ class CanvasMouseListener extends MouseInputAdapter
 		this.gPanel = gPanel;
 		this.canvas = canvas;
 
-		canvasMenu = new CanvasMenu(gPanel, canvas);
+		canvasMenu = new CanvasMenu(canvas);
 
 		canvas.addMouseListener(this);
 		canvas.addMouseMotionListener(this);

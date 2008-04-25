@@ -8,7 +8,9 @@ public class Icons
 	public static ImageIcon NOICON;
 
 	public static ImageIcon BLUEBLOB;
+	public static ImageIcon CHECKUPDATE;
 	public static ImageIcon CHROMOSOME;
+	public static ImageIcon DELETE;
 	public static ImageIcon EMPTY;
 	public static ImageIcon FIND;
 	public static ImageIcon FILENEW;
@@ -21,8 +23,10 @@ public class Icons
 	public static ImageIcon FOLDEROPEN;
 	public static ImageIcon GREYBLOB;
 	public static ImageIcon GERMINATE;
+	public static ImageIcon PREFERENCES;
 	public static ImageIcon REDBLOB;
 	public static ImageIcon REDO;
+	public static ImageIcon RENAME;
 	public static ImageIcon UNDO;
 	public static ImageIcon VISUALIZATION;
 	public static ImageIcon WEB;

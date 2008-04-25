@@ -6,6 +6,8 @@ import scri.commons.gui.SystemUtils;
 
 public class DataSet extends XMLRoot
 {
+	private String name;
+
 	// Data information
 	private Vector<ChromosomeMap> chromosomes = new Vector<ChromosomeMap>();
 	private Vector<Line> lines = new Vector<Line>();
@@ -21,6 +23,9 @@ public class DataSet extends XMLRoot
 	void validate()
 		throws NullPointerException
 	{
+		if (name == null)
+			throw new NullPointerException();
+
 		for (ChromosomeMap map: chromosomes)
 			map.validate();
 		for (Line line: lines)
@@ -33,6 +38,12 @@ public class DataSet extends XMLRoot
 
 
 	// Methods required for XML serialization
+
+	public String getName()
+		{ return name; }
+
+	public void setName(String name)
+		{ this.name = name; }
 
 	public Vector<ChromosomeMap> getChromosomeMaps()
 		{ return chromosomes; }

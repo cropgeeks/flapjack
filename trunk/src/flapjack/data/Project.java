@@ -40,7 +40,7 @@ public class Project extends XMLRoot
 		this.dataSets.add(dataSet);
 	}
 
-	void removeDataSet(DataSet dataSet)
+	public void removeDataSet(DataSet dataSet)
 	{
 		dataSets.remove(dataSet);
 	}
