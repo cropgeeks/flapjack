@@ -123,14 +123,27 @@ class NavPanel extends JPanel
 		GTViewSet viewSet = dataSet.getViewSets().get(i);
 
 		VisualizationNode node = new VisualizationNode(dataSet, viewSet, gPanel);
-		dataSetNode.add(node);
+		treeModel.insertNodeInto(node, dataSetNode, dataSetNode.getChildCount());
 
 		return node;
 	}
 
-	DataSetNode findDataSetNode(DataSet dataSet)
+	// Finds and adds the latest GTViewSet from a DataSet into the tree, then
+	// selects it so it becomes visible too
+	void addedNewVisualizationNode(DataSet dataSet)
 	{
-		// Search until we find the node for this data set, then remove it
+		DataSetNode node = findDataSetNode(dataSet);
+		int index = dataSet.getViewSets().size() - 1;
+
+		BaseNode newNode = addVisualizationNode(node, index);
+
+		tree.setSelectionPath(new TreePath(newNode.getPath()));
+		tree.scrollPathToVisible(new TreePath(newNode.getPath()));
+	}
+
+	private DataSetNode findDataSetNode(DataSet dataSet)
+	{
+		// Search until we find the node for this data set
 		for (int i = 0; i < root.getChildCount(); i++)
 		{
 			DefaultMutableTreeNode node = (DefaultMutableTreeNode) root.getChildAt(i);
@@ -143,11 +156,40 @@ class NavPanel extends JPanel
 		return null;
 	}
 
+	private VisualizationNode findVisualizationNode(GTViewSet viewSet)
+	{
+		// A viewset must be hanging from a dataset
+		DataSetNode dataSetNode = findDataSetNode(viewSet.getDataSet());
+
+		// Search until we find the node for this view set
+		for (int i = 0; i < dataSetNode.getChildCount(); i++)
+		{
+			DefaultMutableTreeNode node = (DefaultMutableTreeNode) dataSetNode.getChildAt(i);
+
+			if (node instanceof VisualizationNode)
+				if (((VisualizationNode)node).getViewSet() == viewSet)
+					return (VisualizationNode) node;
+		}
+
+		return null;
+	}
+
 	// Returns the data set associated with the currently selected node
 	DataSet getDataSetForSelection()
 	{
 		BaseNode node = (BaseNode) tree.getLastSelectedPathComponent();
 		return node.getDataSet();
+	}
+
+	// Returns the view set associated with the currently selected node
+	GTViewSet getViewSetForSelection()
+	{
+		BaseNode node = (BaseNode) tree.getLastSelectedPathComponent();
+
+		if (node instanceof VisualizationNode)
+			return ((VisualizationNode)node).getViewSet();
+		else
+			return null;
 	}
 
 	void updateNodeFor(DataSet dataSet)
@@ -156,9 +198,22 @@ class NavPanel extends JPanel
 		treeModel.nodeChanged(node);
 	}
 
+	void updateNodeFor(GTViewSet viewSet)
+	{
+		VisualizationNode node = findVisualizationNode(viewSet);
+		treeModel.nodeChanged(node);
+	}
+
 	void removeDataSetNode(DataSet dataSet)
 	{
 		DataSetNode node = findDataSetNode(dataSet);
+		treeModel.removeNodeFromParent(node);
+	}
+
+	void removeVisualizationNode(GTViewSet viewSet)
+	{
+		VisualizationNode node = findVisualizationNode(viewSet);
+		System.out.println("node is: " + node);
 		treeModel.removeNodeFromParent(node);
 	}
 

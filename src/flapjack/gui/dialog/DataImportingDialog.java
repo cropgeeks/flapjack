@@ -47,6 +47,9 @@ public class DataImportingDialog extends JDialog implements Runnable
 			true
 		);
 
+		this.mapFile = mapFile;
+		this.genoFile = genoFile;
+
 		mapImporter  = new ChromosomeMapImporter(mapFile, dataSet);
 		genoImporter = new GenotypeDataImporter(genoFile, dataSet,
 			Prefs.ioMissingData, Prefs.ioHeteroSeparator);
@@ -148,11 +151,11 @@ public class DataImportingDialog extends JDialog implements Runnable
 			genoImporter.importGenotypeData();
 			e = System.currentTimeMillis();
 
-			dataSet.setName("DataSet " + dataSet.countLines() + "x" + dataSet.countMarkers());
-			System.out.println(dataSet.getName());
+			dataSet.setName(getDataSetName());
 
 			// Create (and add) a default view of the dataset
-			GTViewSet viewSet = new GTViewSet(dataSet, "Default View");
+			String name = RB.getString("gui.navpanel.VisualizationNode.defaultView");
+			GTViewSet viewSet = new GTViewSet(dataSet, name);
 			dataSet.getViewSets().add(viewSet);
 
 			// Try to guess a suitable colour scheme - 2 (hz) states can
@@ -200,5 +203,18 @@ public class DataImportingDialog extends JDialog implements Runnable
 
 		try { SwingUtilities.invokeAndWait(r); }
 		catch (Exception e) {}
+	}
+
+	private String getDataSetName()
+	{
+		String name = genoFile.getName();
+
+		// Strip away the extension (if there is one)
+		if (name.lastIndexOf(".") != -1)
+			name = name.substring(0, name.lastIndexOf("."));
+
+		name += " " + dataSet.countLines() + "x" + dataSet.countMarkers();
+
+		return name;
 	}
 }

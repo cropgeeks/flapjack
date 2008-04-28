@@ -20,6 +20,9 @@ public class VisualizationNode extends BaseNode
 		this.gPanel = gPanel;
 	}
 
+	public GTViewSet getViewSet()
+		{ return viewSet; }
+
 	public String toString()
 	{
 		return viewSet.getName();
@@ -37,6 +40,9 @@ public class VisualizationNode extends BaseNode
 		Actions.vizColorMarkerSimGS.setEnabled(true);
 		Actions.vizColorSimple2Color.setEnabled(true);
 		Actions.vizOverlayGenotypes.setEnabled(true);
+		Actions.vizNewView.setEnabled(true);
+		Actions.vizRenameView.setEnabled(true);
+		Actions.vizDeleteView.setEnabled(true);
 
 		Actions.dataSortLinesBySimilarity.setEnabled(true);
 		Actions.dataSortLinesByLocus.setEnabled(true);

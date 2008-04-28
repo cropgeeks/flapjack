@@ -31,6 +31,9 @@ public class Actions
 	public static AbstractAction vizColorMarkerSimGS;
 	public static AbstractAction vizColorSimple2Color;
 	public static AbstractAction vizOverlayGenotypes;
+	public static AbstractAction vizNewView;
+	public static AbstractAction vizRenameView;
+	public static AbstractAction vizDeleteView;
 
 	public static AbstractAction dataSortLinesBySimilarity;
 	public static AbstractAction dataSortLinesByLocus;
@@ -188,6 +191,24 @@ public class Actions
 			}
 		};
 
+		vizNewView = new AbstractAction(RB.getString("gui.Actions.vizNewView")) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.vizNewView();
+			}
+		};
+
+		vizRenameView = new AbstractAction(RB.getString("gui.Actions.vizRenameView"), getIcon(Icons.RENAME)) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.vizRenameView();
+			}
+		};
+
+		vizDeleteView = new AbstractAction(RB.getString("gui.Actions.vizDeleteView"), getIcon(Icons.DELETE)) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.vizDeleteView();
+			}
+		};
+
 
 		dataSortLinesBySimilarity = new AbstractAction(RB.getString("gui.Actions.dataSortLinesBySimilarity")) {
 			public void actionPerformed(ActionEvent e) {
@@ -274,6 +295,9 @@ public class Actions
 		vizColorMarkerSimGS.setEnabled(false);
 		vizColorSimple2Color.setEnabled(false);
 		vizOverlayGenotypes.setEnabled(false);
+		vizNewView.setEnabled(false);
+		vizRenameView.setEnabled(false);
+		vizDeleteView.setEnabled(false);
 
 		dataSortLinesBySimilarity.setEnabled(false);
 		dataSortLinesByLocus.setEnabled(false);
