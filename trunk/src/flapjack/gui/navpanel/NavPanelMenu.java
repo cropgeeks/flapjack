@@ -17,6 +17,9 @@ public class NavPanelMenu extends MouseInputAdapter
 
 	private JMenuItem dataRenameDataSet;
 	private JMenuItem dataDeleteDataSet;
+	private JMenuItem vizNewView;
+	private JMenuItem vizRenameView;
+	private JMenuItem vizDeleteView;
 
 	public NavPanelMenu(JTree tree)
 	{
@@ -32,11 +35,9 @@ public class NavPanelMenu extends MouseInputAdapter
 	{
 		dataRenameDataSet = WinMainMenuBar.getItem(Actions.dataRenameDataSet, KeyEvent.VK_N, 0, 0);
 		dataDeleteDataSet = WinMainMenuBar.getItem(Actions.dataDeleteDataSet, KeyEvent.VK_R, 0, 0);
-
-//		mLock = WinMainMenuBar.getCheckedItem(aLock, KeyEvent.VK_L, 0, 0, canvas.locked);
-//		mShowGenotypes = WinMainMenuBar.getCheckedItem(Actions.vizOverlayGenotypes, KeyEvent.VK_O, KeyEvent.VK_G, menuShortcut, Prefs.visShowGenotypes);
-//		mColorRandom = WinMainMenuBar.getItem(Actions.vizColorRandom, KeyEvent.VK_R, 0, 0);
-//		mColorNucleotide = WinMainMenuBar.getItem(Actions.vizColorNucleotide, KeyEvent.VK_N, 0, 0);
+		vizNewView = WinMainMenuBar.getItem(Actions.vizNewView, KeyEvent.VK_C, 0, 0);
+		vizRenameView = WinMainMenuBar.getItem(Actions.vizRenameView, KeyEvent.VK_R, 0, 0);
+		vizDeleteView = WinMainMenuBar.getItem(Actions.vizDeleteView, KeyEvent.VK_D, 0, 0);
 	}
 
 	void handlePopup(MouseEvent e)
@@ -50,14 +51,21 @@ public class NavPanelMenu extends MouseInputAdapter
 
 		BaseNode node = (BaseNode) tree.getLastSelectedPathComponent();
 
-		System.out.println(node);
-
 		menu = new JPopupMenu();
 
 		if (node instanceof DataSetNode)
 		{
 			menu.add(dataRenameDataSet);
 			menu.add(dataDeleteDataSet);
+			menu.addSeparator();
+			menu.add(vizNewView);
+		}
+
+		else if (node instanceof VisualizationNode)
+		{
+			menu.add(vizNewView);
+			menu.add(vizRenameView);
+			menu.add(vizDeleteView);
 		}
 
 		menu.show(e.getComponent(), e.getX(), e.getY());

@@ -262,4 +262,15 @@ public class GTView extends XMLRoot
 		for (int i: array)
 			markers.add(i);
 	}
+
+	GTView createClone(GTViewSet clonedViewSet)
+	{
+		GTView clone = new GTView(clonedViewSet, map);
+
+		clone.setMarkersFromArray(getMarkersAsArray());
+		clone.comparisonMarker = comparisonMarker;
+		clone.comparisonMarkerIndex = comparisonMarkerIndex;
+
+		return clone;
+	}
 }

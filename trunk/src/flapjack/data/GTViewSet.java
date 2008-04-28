@@ -161,4 +161,26 @@ public class GTViewSet extends XMLRoot
 
 	public UndoManager getUndoManager()
 		{ return undoManager; }
+
+	public String toString()
+		{ return name; }
+
+	public GTViewSet createClone(String cloneName)
+	{
+		GTViewSet clone = new GTViewSet(dataSet, cloneName);
+
+		clone.colorScheme = colorScheme;
+
+		// Copy over the line data
+		clone.setLinesFromArray(getLinesAsArray());
+		clone.comparisonLine = comparisonLine;
+		clone.comparisonLineIndex = comparisonLineIndex;
+
+		// Copy over the chromosomes views
+		clone.views.clear();
+		for (GTView view: views)
+			clone.views.add(view.createClone(clone));
+
+		return clone;
+	}
 }

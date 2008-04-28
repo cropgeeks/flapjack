@@ -21,6 +21,8 @@ public class DataSetNode extends BaseNode
 
 	public void setActions()
 	{
+		Actions.vizNewView.setEnabled(true);
+
 		Actions.dataRenameDataSet.setEnabled(true);
 		Actions.dataDeleteDataSet.setEnabled(true);
 	}

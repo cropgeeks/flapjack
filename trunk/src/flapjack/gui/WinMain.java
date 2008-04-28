@@ -258,6 +258,60 @@ public class WinMain extends JFrame
 		gPanel.refreshView();
 	}
 
+	void vizNewView()
+	{
+		DataSet dataSet = navPanel.getDataSetForSelection();
+		GTViewSet viewSet = navPanel.getViewSetForSelection();
+
+		NewViewDialog dialog = new NewViewDialog(dataSet, viewSet);
+
+		if (dialog.isOK())
+		{
+			GTViewSet newViewSet = dialog.getNewViewSet();
+
+			dataSet.getViewSets().add(newViewSet);
+			navPanel.addedNewVisualizationNode(dataSet);
+
+			Actions.projectModified();
+		}
+	}
+
+	void vizRenameView()
+	{
+		GTViewSet viewSet = navPanel.getViewSetForSelection();
+
+		RenameDialog dialog = new RenameDialog(viewSet.getName());
+
+		if (dialog.isOK())
+		{
+			viewSet.setName(dialog.getNewName());
+			navPanel.updateNodeFor(viewSet);
+
+			Actions.projectModified();
+		}
+	}
+
+	void vizDeleteView()
+	{
+		GTViewSet viewSet = navPanel.getViewSetForSelection();
+
+		String msg = RB.format("gui.WinMain.deleteViewSet",
+			viewSet.getName(), viewSet.getDataSet().getName());
+
+		String[] options = new String[] {
+			RB.getString("gui.WinMain.deleteViewSetButton"),
+			RB.getString("gui.text.cancel") };
+
+		if (TaskDialog.show(msg, MsgBox.QST, 1, options) == 0)
+		{
+			// Remove it from both the project and the GUI
+			viewSet.getDataSet().getViewSets().remove(viewSet);
+			navPanel.removeVisualizationNode(viewSet);
+
+			Actions.projectModified();
+		}
+	}
+
 	void dataSortLines(int sortMethod)
 	{
 		SortLinesDialog dialog = new SortLinesDialog(gPanel);
@@ -295,7 +349,7 @@ public class WinMain extends JFrame
 		String msg = RB.getString("gui.WinMain.deleteDataSet");
 
 		String[] options = new String[] {
-			RB.getString("gui.WinMain.deleteButton"),
+			RB.getString("gui.WinMain.deleteDataSetButton"),
 			RB.getString("gui.text.cancel") };
 
 		if (TaskDialog.show(msg, MsgBox.QST, 1, options) == 0)
