@@ -79,7 +79,7 @@ public class ExportingImageDialog extends JDialog
 
 		else
 		{
-			TaskDialog.error(RB.format("gui.dialog.ExportingImageDialog.exception", exception),
+			TaskDialog.error(RB.format("gui.dialog.ExportingImageDialog.exception", exception.getMessage()),
 				RB.getString("gui.text.close"));
 		}
 	}

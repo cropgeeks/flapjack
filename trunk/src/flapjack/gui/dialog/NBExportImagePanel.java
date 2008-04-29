@@ -25,6 +25,19 @@ class NBExportImagePanel extends JPanel implements ChangeListener, ActionListene
 
 		this.gPanel = gPanel;
 
+		//i18n
+		panel.setBorder(BorderFactory.createTitledBorder(RB.getString("gui.dialog.NBExportImagePanel.title")));
+		rWindow.setText(RB.getString("gui.dialog.NBExportImagePanel.rWindow"));
+		rWindowLabel.setText(RB.getString("gui.dialog.NBExportImagePanel.rWindowLabel"));
+		rView.setText(RB.getString("gui.dialog.NBExportImagePanel.rView"));
+		rViewLabel.setText(RB.getString("gui.dialog.NBExportImagePanel.rViewLabel"));
+		rOverview.setText(RB.getString("gui.dialog.NBExportImagePanel.rOverview"));
+		rOverviewLabel.setText(RB.getString("gui.dialog.NBExportImagePanel.rOverviewLabel"));
+		widthLabel.setText(RB.getString("gui.dialog.NBExportImagePanel.widthLabel"));
+		heightLabel.setText(RB.getString("gui.dialog.NBExportImagePanel.heightLabel"));
+		equalCheck.setText(RB.getString("gui.dialog.NBExportImagePanel.equalCheck"));
+		memLabel1.setText(RB.getString("gui.dialog.NBExportImagePanel.memLabel1"));
+
 		lines = gPanel.getView().getLineCount();
 		markers = gPanel.getView().getMarkerCount();
 
@@ -186,113 +199,110 @@ class NBExportImagePanel extends JPanel implements ChangeListener, ActionListene
     private void initComponents() {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
-        label3 = new javax.swing.JLabel();
-        memLabel1 = new javax.swing.JLabel();
-        slider = new javax.swing.JSlider();
-        widthLabel = new javax.swing.JLabel();
+        panel = new javax.swing.JPanel();
         rWindow = new javax.swing.JRadioButton();
-        label1 = new javax.swing.JLabel();
-        heightLabel = new javax.swing.JLabel();
-        memLabel2 = new javax.swing.JLabel();
-        label2 = new javax.swing.JLabel();
-        equalCheck = new javax.swing.JCheckBox();
+        rWindowLabel = new javax.swing.JLabel();
         rView = new javax.swing.JRadioButton();
-        widthSpin = new javax.swing.JSpinner();
-        heightSpin = new javax.swing.JSpinner();
+        rViewLabel = new javax.swing.JLabel();
         rOverview = new javax.swing.JRadioButton();
-        jLabel1 = new javax.swing.JLabel();
+        rOverviewLabel = new javax.swing.JLabel();
+        widthLabel = new javax.swing.JLabel();
+        widthSpin = new javax.swing.JSpinner();
+        heightLabel = new javax.swing.JLabel();
+        heightSpin = new javax.swing.JSpinner();
+        slider = new javax.swing.JSlider();
+        equalCheck = new javax.swing.JCheckBox();
+        memLabel1 = new javax.swing.JLabel();
+        memLabel2 = new javax.swing.JLabel();
 
-        label3.setText("(creates an overview image using the dimensions specified below)");
-
-        memLabel1.setText("Estimated memory required for exporting:");
-
-        widthLabel.setDisplayedMnemonic('w');
-        widthLabel.setText("Width (pixels):");
+        panel.setBorder(javax.swing.BorderFactory.createTitledBorder("Select a method of exporting:"));
 
         buttonGroup1.add(rWindow);
         rWindow.setMnemonic('o');
         rWindow.setText("Export only what can currently be seen");
         rWindow.setDisplayedMnemonicIndex(7);
 
-        label1.setText("(creates a high-quality image showing exactly what you currently see)");
-
-        heightLabel.setDisplayedMnemonic('h');
-        heightLabel.setText("Height (pixels):");
-
-        memLabel2.setText("<memory>");
-
-        label2.setText("(creates a high-quality image showing everything Flapjack is currently rendering)");
-
-        equalCheck.setMnemonic('p');
-        equalCheck.setText("set pixel size equal to no. of markers by no. of lines");
+        rWindowLabel.setText("(creates a high-quality image showing exactly what you currently see)");
 
         buttonGroup1.add(rView);
         rView.setMnemonic('a');
         rView.setText("Export all of the current view");
 
+        rViewLabel.setText("(creates a high-quality image showing everything Flapjack is currently rendering)");
+
         buttonGroup1.add(rOverview);
         rOverview.setMnemonic('s');
         rOverview.setText("Export a scaled-to-fit image of all of the data:");
 
-        jLabel1.setText("Select a method of exporting:");
+        rOverviewLabel.setText("(creates an overview image using the dimensions specified below)");
 
-        org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(layout.createSequentialGroup()
+        widthLabel.setDisplayedMnemonic('w');
+        widthLabel.setText("Width (pixels):");
+
+        heightLabel.setDisplayedMnemonic('h');
+        heightLabel.setText("Height (pixels):");
+
+        equalCheck.setMnemonic('p');
+        equalCheck.setText("set pixel size equal to no. of markers by no. of lines");
+
+        memLabel1.setText("Estimated memory required for exporting:");
+
+        memLabel2.setText("<memory>");
+
+        org.jdesktop.layout.GroupLayout panelLayout = new org.jdesktop.layout.GroupLayout(panel);
+        panel.setLayout(panelLayout);
+        panelLayout.setHorizontalGroup(
+            panelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(panelLayout.createSequentialGroup()
                 .addContainerGap()
-                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                .add(panelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(rOverview)
-                    .add(layout.createSequentialGroup()
+                    .add(panelLayout.createSequentialGroup()
                         .add(21, 21, 21)
-                        .add(label2))
-                    .add(layout.createSequentialGroup()
-                        .add(21, 21, 21)
-                        .add(label1))
-                    .add(rWindow)
-                    .add(jLabel1)
+                        .add(rViewLabel))
                     .add(rView)
-                    .add(layout.createSequentialGroup()
+                    .add(panelLayout.createSequentialGroup()
                         .add(21, 21, 21)
-                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(layout.createSequentialGroup()
+                        .add(rWindowLabel))
+                    .add(rWindow)
+                    .add(panelLayout.createSequentialGroup()
+                        .add(21, 21, 21)
+                        .add(panelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(panelLayout.createSequentialGroup()
                                 .add(widthLabel)
                                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                                 .add(widthSpin, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                .add(18, 18, 18)
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                                 .add(heightLabel)
                                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                                 .add(heightSpin, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                .add(18, 18, 18)
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                                 .add(slider, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 119, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                            .add(label3)
-                            .add(equalCheck)))
-                    .add(layout.createSequentialGroup()
+                            .add(equalCheck)
+                            .add(rOverviewLabel)))
+                    .add(panelLayout.createSequentialGroup()
                         .add(memLabel1)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(memLabel2)))
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(layout.createSequentialGroup()
+        panelLayout.setVerticalGroup(
+            panelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(panelLayout.createSequentialGroup()
                 .addContainerGap()
-                .add(jLabel1)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                 .add(rWindow)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(label1)
+                .add(rWindowLabel)
                 .add(18, 18, 18)
                 .add(rView)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(label2)
+                .add(rViewLabel)
                 .add(18, 18, 18)
                 .add(rOverview)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(label3)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.CENTER)
+                .add(rOverviewLabel)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                .add(panelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.CENTER)
                     .add(widthLabel)
                     .add(widthSpin, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(heightLabel)
@@ -301,9 +311,26 @@ class NBExportImagePanel extends JPanel implements ChangeListener, ActionListene
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(equalCheck)
                 .add(18, 18, 18)
-                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                .add(panelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(memLabel2)
                     .add(memLabel1))
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(layout.createSequentialGroup()
+                .addContainerGap()
+                .add(panel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(layout.createSequentialGroup()
+                .addContainerGap()
+                .add(panel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -314,15 +341,15 @@ class NBExportImagePanel extends JPanel implements ChangeListener, ActionListene
     private javax.swing.JCheckBox equalCheck;
     private javax.swing.JLabel heightLabel;
     private javax.swing.JSpinner heightSpin;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel label1;
-    private javax.swing.JLabel label2;
-    private javax.swing.JLabel label3;
     private javax.swing.JLabel memLabel1;
     private javax.swing.JLabel memLabel2;
+    private javax.swing.JPanel panel;
     private javax.swing.JRadioButton rOverview;
+    private javax.swing.JLabel rOverviewLabel;
     private javax.swing.JRadioButton rView;
+    private javax.swing.JLabel rViewLabel;
     private javax.swing.JRadioButton rWindow;
+    private javax.swing.JLabel rWindowLabel;
     private javax.swing.JSlider slider;
     private javax.swing.JLabel widthLabel;
     private javax.swing.JSpinner widthSpin;

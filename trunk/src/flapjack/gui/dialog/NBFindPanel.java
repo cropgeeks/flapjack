@@ -183,6 +183,7 @@ class NBFindPanel extends JPanel implements ActionListener
         panelLayout.setVerticalGroup(
             panelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(panelLayout.createSequentialGroup()
+                .addContainerGap()
                 .add(checkChromo)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(checkCase)
