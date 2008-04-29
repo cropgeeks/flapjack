@@ -58,7 +58,16 @@ class MapCanvas extends JPanel
 		if (bufferFactory != null)
 			bufferFactory.killMe = true;
 
-		bufferFactory = new BufferFactory(canvas.canvasW, h);
+		bufferFactory = new BufferFactory(canvas.canvasW, h, false);
+		bufferFactory.start();
+	}
+
+	BufferedImage createSavableImage()
+	{
+		BufferFactory tempFactory = new BufferFactory(canvas.canvasW, h, true);
+		tempFactory.run();
+
+		return tempFactory.buffer;
 	}
 
 	void updateLociIndices(int canvas1, int canvas2)
@@ -175,17 +184,18 @@ class MapCanvas extends JPanel
 
 	private class BufferFactory extends Thread
 	{
-		private BufferedImage buffer;
+		BufferedImage buffer;
 
+		// isTempBuffer = true when a buffer is being made for saving as an image
+		private boolean isTempBuffer = false;
 		private boolean killMe = false;
 		private int w, h;
 
-		BufferFactory(int w, int h)
+		BufferFactory(int w, int h, boolean isTempBuffer)
 		{
 			this.w = w;
 			this.h = h;
-
-			start();
+			this.isTempBuffer = isTempBuffer;
 		}
 
 		public void run()
@@ -225,7 +235,10 @@ class MapCanvas extends JPanel
 			// Enable anti-aliased graphics to smooth the line jaggies
 			g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-			g.setColor(getBackground());
+			if (isTempBuffer)
+				g.setColor(Color.white);
+			else
+				g.setColor(getBackground());
 			g.fillRect(0, 0, canvas.canvasW, h);
 
 			// Draw the white rectangle representing the map
@@ -244,7 +257,7 @@ class MapCanvas extends JPanel
 			for (int i = map1; i <= map2 && !killMe; i++)
 				drawLoci(g, i, false);
 
-			if (!killMe)
+			if (!killMe && !isTempBuffer)
 				bufferAvailable(buffer);
 		}
 	}

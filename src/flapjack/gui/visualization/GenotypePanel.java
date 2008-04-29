@@ -296,10 +296,10 @@ public class GenotypePanel extends JPanel
 	}
 
 	public BufferedImage getMapCanvasBuffer()
-		{ return mapCanvas.image; }
+		{ return mapCanvas.createSavableImage(); }
 
 	public BufferedImage getLineCanvasBuffer()
-		{ return listPanel.createImage(); }
+		{ return listPanel.createSavableImage(); }
 
 	// Updates the state of the Edit menu's undo/redo actions based on the undo
 	// history of the view currently being displayed

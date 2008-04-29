@@ -65,7 +65,7 @@ class ListPanel extends JPanel
 		model.set(toIndex, line);
 	}
 
-	BufferedImage createImage()
+	BufferedImage createSavableImage()
 	{
 		Dimension size = getPreferredSize();
 		BufferedImage image = new BufferedImage(size.width, size.height,
