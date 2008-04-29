@@ -86,7 +86,6 @@ class NBNewViewPanel extends javax.swing.JPanel implements ActionListener
         buttonGroup1.add(rCloneView);
         rCloneView.setMnemonic('c');
         rCloneView.setText("Create a new view that is a clone of an existing view");
-        rCloneView.setDisplayedMnemonicIndex(28);
 
         cloneCombo.setEnabled(false);
 
@@ -103,26 +102,27 @@ class NBNewViewPanel extends javax.swing.JPanel implements ActionListener
         panel.setLayout(panelLayout);
         panelLayout.setHorizontalGroup(
             panelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(panelLayout.createSequentialGroup()
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, panelLayout.createSequentialGroup()
                 .addContainerGap()
-                .add(panelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                .add(panelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
                     .add(rNewView)
                     .add(panelLayout.createSequentialGroup()
                         .add(4, 4, 4)
                         .add(nameLabel)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                        .add(nameText, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 149, Short.MAX_VALUE))
-                    .add(rCloneView)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(nameText))
                     .add(panelLayout.createSequentialGroup()
                         .add(21, 21, 21)
                         .add(cloneLabel)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(cloneCombo, 0, 198, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .add(cloneCombo, 0, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .add(rCloneView))
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panelLayout.setVerticalGroup(
             panelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(panelLayout.createSequentialGroup()
+                .addContainerGap()
                 .add(rNewView)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(rCloneView)
@@ -143,8 +143,8 @@ class NBNewViewPanel extends javax.swing.JPanel implements ActionListener
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
                 .addContainerGap()
-                .add(panel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .add(panel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)

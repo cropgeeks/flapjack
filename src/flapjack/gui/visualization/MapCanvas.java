@@ -15,7 +15,7 @@ class MapCanvas extends JPanel
 	private GenotypeCanvas canvas;
 
 	private BufferFactory bufferFactory;
-	private BufferedImage image;
+	BufferedImage image;
 
 	private int h = 55;
 

@@ -295,6 +295,12 @@ public class GenotypePanel extends JPanel
 		return (long)viewport.getWidth() * (long)viewport.getHeight() * 3;
 	}
 
+	public BufferedImage getMapCanvasBuffer()
+		{ return mapCanvas.image; }
+
+	public BufferedImage getLineCanvasBuffer()
+		{ return listPanel.createImage(); }
+
 	// Updates the state of the Edit menu's undo/redo actions based on the undo
 	// history of the view currently being displayed
 	void setEditActions()

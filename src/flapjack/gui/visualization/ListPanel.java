@@ -1,6 +1,7 @@
 package flapjack.gui.visualization;
 
 import java.awt.*;
+import java.awt.image.*;
 import javax.swing.*;
 
 import flapjack.data.*;
@@ -62,6 +63,22 @@ class ListPanel extends JPanel
 		Line line = (Line) model.get(fromIndex);
 		model.set(fromIndex, model.get(toIndex));
 		model.set(toIndex, line);
+	}
+
+	BufferedImage createImage()
+	{
+		Dimension size = getPreferredSize();
+		BufferedImage image = new BufferedImage(size.width, size.height,
+			BufferedImage.TYPE_INT_RGB);
+
+		// Paint a copy of this panel (forcing it background to white too)
+		Color background = lineList.getBackground();
+		lineList.setBackground(Color.white);
+		Graphics2D g = image.createGraphics();
+		paint(g);
+		lineList.setBackground(background);
+
+		return image;
 	}
 
 	static class ListRenderer extends JLabel implements ListCellRenderer
