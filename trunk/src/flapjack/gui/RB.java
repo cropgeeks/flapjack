@@ -58,6 +58,7 @@ public class RB
 		try
 		{
 			String str = bundle.getString(key).replaceAll("&", "");
+			str = str.replaceAll("'", "''");
 
 			MessageFormat msg = new MessageFormat(str);
 

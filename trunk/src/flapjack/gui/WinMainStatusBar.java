@@ -5,6 +5,8 @@ import java.awt.event.*;
 import java.util.*;
 import javax.swing.*;
 
+import scri.commons.gui.*;
+
 public class WinMainStatusBar extends JPanel implements Runnable
 {
 	private JLabel tipsLabel, helpLabel;
@@ -17,13 +19,18 @@ public class WinMainStatusBar extends JPanel implements Runnable
 	{
 		try
 		{
+			String ctrl = RB.getString("gui.StatusBar.ctrl");
+			String cmd  = RB.getString("gui.StatusBar.cmd");
+
 			int count = Integer.parseInt(RB.getString("gui.StatusBar.helpCount"));
+
 			for (int i = 1; i <= count; i++)
 			{
-				String txt = "gui.StatusBar.help" + i;
-				String hint = RB.getString(txt);
-
-				helpHints.add(hint);
+				String txt = ("gui.StatusBar.help" + i);
+				if (SystemUtils.isMacOS())
+					helpHints.add(RB.format(txt, cmd));
+				else
+					helpHints.add(RB.format(txt, ctrl));
 			}
 		}
 		catch (Exception e) { System.out.println(e); }
