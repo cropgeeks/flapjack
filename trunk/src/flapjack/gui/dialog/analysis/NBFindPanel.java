@@ -28,19 +28,24 @@ class NBFindPanel extends JPanel implements ActionListener
 		link.setIcon(Icons.WEB);
 
 		findLabel.setText(RB.getString("gui.dialog.NBFindPanel.findLabel"));
+		RB.setMnemonic(findLabel, "gui.dialog.NBFindPanel.findLabel");
 		searchLabel.setText(RB.getString("gui.dialog.NBFindPanel.searchLabel"));
+		RB.setMnemonic(searchLabel, "gui.dialog.NBFindPanel.searchLabel");
 		searchButton.setText(RB.getString("gui.dialog.NBFindPanel.searchButton"));
 		panel.setBorder(BorderFactory.createTitledBorder(
 			RB.getString("gui.dialog.NBFindPanel.panelTitle")));
 		resultLabel.setText(RB.format("gui.dialog.NBFindPanel.resultLabel2", 0));
+		RB.setMnemonic(resultLabel, "gui.dialog.NBFindPanel.resultLabel2");
 		hintLabel.setText(RB.getString("gui.dialog.NBFindPanel.hintLabel"));
 
 		checkCase.setText(RB.getString("gui.dialog.NBFindPanel.checkCase"));
 		checkCase.setSelected(Prefs.guiFindMatchCase);
 		checkCase.addActionListener(this);
+		RB.setMnemonic(checkCase, "gui.dialog.NBFindPanel.checkCase");
 		checkRegular.setText(RB.getString("gui.dialog.NBFindPanel.checkRegular"));
 		checkRegular.setSelected(Prefs.guiFindUseRegex);
 		checkRegular.addActionListener(this);
+		RB.setMnemonic(checkRegular, "gui.dialog.NBFindPanel.checkRegular");
 
 		searchCombo.addItem(RB.getString("gui.dialog.NBFindPanel.lines"));
 		searchCombo.addItem(RB.getString("gui.dialog.NBFindPanel.markers"));
@@ -213,25 +218,20 @@ class NBFindPanel extends JPanel implements ActionListener
         searchButton = new javax.swing.JButton();
         hintLabel = new javax.swing.JLabel();
 
-        findLabel.setDisplayedMnemonic('f');
         findLabel.setLabelFor(findCombo);
         findLabel.setText("Find what:");
 
         findCombo.setEditable(true);
 
-        searchLabel.setDisplayedMnemonic('s');
         searchLabel.setLabelFor(searchCombo);
         searchLabel.setText("Search within:");
 
         panel.setBorder(javax.swing.BorderFactory.createTitledBorder("Options:"));
 
-        checkRegular.setMnemonic('e');
         checkRegular.setText("Use regular expression pattern matching");
-        checkRegular.setDisplayedMnemonicIndex(12);
 
         link.setText("View information on searching using regular expressions");
 
-        checkCase.setMnemonic('m');
         checkCase.setText("Match case");
 
         org.jdesktop.layout.GroupLayout panelLayout = new org.jdesktop.layout.GroupLayout(panel);
@@ -260,7 +260,6 @@ class NBFindPanel extends JPanel implements ActionListener
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        resultLabel.setDisplayedMnemonic('r');
         resultLabel.setLabelFor(table);
         resultLabel.setText("Results:");
 

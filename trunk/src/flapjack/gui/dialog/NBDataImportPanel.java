@@ -31,12 +31,16 @@ public class NBDataImportPanel extends javax.swing.JPanel implements ActionListe
 		// Apply localized text
 		filePanel.setBorder(BorderFactory.createTitledBorder(RB.getString("gui.dialog.NBDataImportPanel.filePanel")));
 		mapLabel.setText(RB.getString("gui.dialog.NBDataImportPanel.mapLabel"));
+		RB.setMnemonic(mapLabel, "gui.dialog.NBDataImportPanel.mapLabel");
 		mapButton.setText(RB.getString("gui.text.browse"));
 		genoLabel.setText(RB.getString("gui.dialog.NBDataImportPanel.genoLabel"));
+		RB.setMnemonic(genoLabel, "gui.dialog.NBDataImportPanel.genoLabel");
 		genoButton.setText(RB.getString("gui.text.browse"));
 		optionPanel.setBorder(BorderFactory.createTitledBorder(RB.getString("gui.dialog.NBDataImportPanel.optionPanel")));
 		missingLabel.setText(RB.getString("gui.dialog.NBDataImportPanel.missingLabel"));
-		heteroLabel.setText(RB.getString("gui.dialog.NBDataImportPanel.hetroLabel"));
+		RB.setMnemonic(missingLabel, "gui.dialog.NBDataImportPanel.missingLabel");
+		heteroLabel.setText(RB.getString("gui.dialog.NBDataImportPanel.heteroLabel"));
+		RB.setMnemonic(heteroLabel, "gui.dialog.NBDataImportPanel.heteroLabel");
 	}
 
 	public void actionPerformed(ActionEvent e)
@@ -117,13 +121,11 @@ public class NBDataImportPanel extends javax.swing.JPanel implements ActionListe
 
         filePanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Data files to import:"));
 
-        mapLabel.setDisplayedMnemonic('m');
         mapLabel.setLabelFor(mapText);
         mapLabel.setText("Map file:");
 
         mapButton.setText("Browse...");
 
-        genoLabel.setDisplayedMnemonic('g');
         genoLabel.setLabelFor(genoText);
         genoLabel.setText("Genotype file:");
 
@@ -166,11 +168,9 @@ public class NBDataImportPanel extends javax.swing.JPanel implements ActionListe
 
         optionPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Additional options:"));
 
-        missingLabel.setDisplayedMnemonic('d');
         missingLabel.setLabelFor(missingText);
         missingLabel.setText("Missing data string:");
 
-        heteroLabel.setDisplayedMnemonic('h');
         heteroLabel.setLabelFor(heteroText);
         heteroLabel.setText("Heterozygous separator string:");
 

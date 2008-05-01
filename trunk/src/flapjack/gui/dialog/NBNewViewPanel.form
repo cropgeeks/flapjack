@@ -99,10 +99,8 @@
             <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
               <ComponentRef name="buttonGroup1"/>
             </Property>
-            <Property name="mnemonic" type="int" value="111"/>
             <Property name="selected" type="boolean" value="true"/>
             <Property name="text" type="java.lang.String" value="Create a new view using all of the original data set"/>
-            <Property name="displayedMnemonicIndex" type="int" value="35"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JRadioButton" name="rCloneView">
@@ -110,7 +108,6 @@
             <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
               <ComponentRef name="buttonGroup1"/>
             </Property>
-            <Property name="mnemonic" type="int" value="99"/>
             <Property name="text" type="java.lang.String" value="Create a new view that is a clone of an existing view"/>
           </Properties>
         </Component>
@@ -127,7 +124,6 @@
         </Component>
         <Component class="javax.swing.JLabel" name="nameLabel">
           <Properties>
-            <Property name="displayedMnemonic" type="int" value="110"/>
             <Property name="labelFor" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
               <ComponentRef name="nameText"/>
             </Property>
@@ -141,7 +137,6 @@
         </Component>
         <Component class="javax.swing.JLabel" name="cloneLabel">
           <Properties>
-            <Property name="displayedMnemonic" type="int" value="102"/>
             <Property name="labelFor" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
               <ComponentRef name="cloneCombo"/>
             </Property>

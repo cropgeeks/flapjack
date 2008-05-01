@@ -35,7 +35,6 @@
   <SubComponents>
     <Component class="javax.swing.JCheckBox" name="warnDuplicateMarkers">
       <Properties>
-        <Property name="mnemonic" type="int" value="100"/>
         <Property name="text" type="java.lang.String" value="Warn when duplicate markers are found during data import"/>
       </Properties>
     </Component>

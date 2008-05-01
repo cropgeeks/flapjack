@@ -73,7 +73,6 @@
   <SubComponents>
     <Component class="javax.swing.JLabel" name="findLabel">
       <Properties>
-        <Property name="displayedMnemonic" type="int" value="102"/>
         <Property name="labelFor" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
           <ComponentRef name="findCombo"/>
         </Property>
@@ -93,7 +92,6 @@
     </Component>
     <Component class="javax.swing.JLabel" name="searchLabel">
       <Properties>
-        <Property name="displayedMnemonic" type="int" value="115"/>
         <Property name="labelFor" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
           <ComponentRef name="searchCombo"/>
         </Property>
@@ -150,9 +148,7 @@
       <SubComponents>
         <Component class="javax.swing.JCheckBox" name="checkRegular">
           <Properties>
-            <Property name="mnemonic" type="int" value="101"/>
             <Property name="text" type="java.lang.String" value="Use regular expression pattern matching"/>
-            <Property name="displayedMnemonicIndex" type="int" value="12"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="link">
@@ -162,7 +158,6 @@
         </Component>
         <Component class="javax.swing.JCheckBox" name="checkCase">
           <Properties>
-            <Property name="mnemonic" type="int" value="109"/>
             <Property name="text" type="java.lang.String" value="Match case"/>
           </Properties>
         </Component>
@@ -170,7 +165,6 @@
     </Container>
     <Component class="javax.swing.JLabel" name="resultLabel">
       <Properties>
-        <Property name="displayedMnemonic" type="int" value="114"/>
         <Property name="labelFor" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
           <ComponentRef name="table"/>
         </Property>

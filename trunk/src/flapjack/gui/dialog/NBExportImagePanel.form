@@ -70,11 +70,11 @@
                                   <Component id="widthLabel" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="widthSpin" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace max="-2" attributes="0"/>
+                                  <EmptySpace type="separate" max="-2" attributes="0"/>
                                   <Component id="heightLabel" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="heightSpin" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace max="-2" attributes="0"/>
+                                  <EmptySpace type="separate" max="-2" attributes="0"/>
                                   <Component id="slider" min="-2" pref="119" max="-2" attributes="1"/>
                               </Group>
                               <Component id="equalCheck" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -110,8 +110,8 @@
                   <Group type="103" groupAlignment="2" attributes="0">
                       <Component id="widthLabel" alignment="2" min="-2" max="-2" attributes="0"/>
                       <Component id="widthSpin" alignment="2" min="-2" max="-2" attributes="0"/>
-                      <Component id="heightLabel" alignment="2" min="-2" max="-2" attributes="0"/>
                       <Component id="heightSpin" alignment="2" min="-2" max="-2" attributes="0"/>
+                      <Component id="heightLabel" alignment="2" min="-2" max="-2" attributes="0"/>
                       <Component id="slider" alignment="2" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
@@ -132,9 +132,7 @@
             <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
               <ComponentRef name="buttonGroup1"/>
             </Property>
-            <Property name="mnemonic" type="int" value="111"/>
             <Property name="text" type="java.lang.String" value="Export only what can currently be seen"/>
-            <Property name="displayedMnemonicIndex" type="int" value="7"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="rWindowLabel">
@@ -147,7 +145,6 @@
             <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
               <ComponentRef name="buttonGroup1"/>
             </Property>
-            <Property name="mnemonic" type="int" value="97"/>
             <Property name="text" type="java.lang.String" value="Export all of the current view"/>
           </Properties>
         </Component>
@@ -161,7 +158,6 @@
             <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
               <ComponentRef name="buttonGroup1"/>
             </Property>
-            <Property name="mnemonic" type="int" value="115"/>
             <Property name="text" type="java.lang.String" value="Export a scaled-to-fit image of all of the data:"/>
           </Properties>
         </Component>
@@ -172,7 +168,9 @@
         </Component>
         <Component class="javax.swing.JLabel" name="widthLabel">
           <Properties>
-            <Property name="displayedMnemonic" type="int" value="119"/>
+            <Property name="labelFor" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+              <ComponentRef name="widthSpin"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Width (pixels):"/>
           </Properties>
         </Component>
@@ -180,7 +178,9 @@
         </Component>
         <Component class="javax.swing.JLabel" name="heightLabel">
           <Properties>
-            <Property name="displayedMnemonic" type="int" value="104"/>
+            <Property name="labelFor" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+              <ComponentRef name="heightSpin"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Height (pixels):"/>
           </Properties>
         </Component>
@@ -191,7 +191,7 @@
         <Component class="javax.swing.JCheckBox" name="equalCheck">
           <Properties>
             <Property name="mnemonic" type="int" value="112"/>
-            <Property name="text" type="java.lang.String" value="set pixel size equal to no. of markers by no. of lines"/>
+            <Property name="text" type="java.lang.String" value="set dimension equal to no. of markers by no. of lines"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="memLabel1">

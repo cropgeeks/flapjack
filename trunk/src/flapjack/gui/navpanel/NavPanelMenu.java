@@ -33,11 +33,11 @@ public class NavPanelMenu extends MouseInputAdapter
 
 	private void createItems()
 	{
-		dataRenameDataSet = WinMainMenuBar.getItem(Actions.dataRenameDataSet, KeyEvent.VK_N, 0, 0);
-		dataDeleteDataSet = WinMainMenuBar.getItem(Actions.dataDeleteDataSet, KeyEvent.VK_R, 0, 0);
-		vizNewView = WinMainMenuBar.getItem(Actions.vizNewView, KeyEvent.VK_C, 0, 0);
-		vizRenameView = WinMainMenuBar.getItem(Actions.vizRenameView, KeyEvent.VK_R, 0, 0);
-		vizDeleteView = WinMainMenuBar.getItem(Actions.vizDeleteView, KeyEvent.VK_D, 0, 0);
+		dataRenameDataSet = WinMainMenuBar.getItem(Actions.dataRenameDataSet, "gui.Actions.dataRenameDataSet", 0, 0);
+		dataDeleteDataSet = WinMainMenuBar.getItem(Actions.dataDeleteDataSet, "gui.Actions.dataDeleteDataSet", 0, 0);
+		vizNewView = WinMainMenuBar.getItem(Actions.vizNewView, "gui.Actions.vizNewView", 0, 0);
+		vizRenameView = WinMainMenuBar.getItem(Actions.vizRenameView, "gui.Actions.vizRenameView", 0, 0);
+		vizDeleteView = WinMainMenuBar.getItem(Actions.vizDeleteView, "gui.Actions.vizDeleteView", 0, 0);
 	}
 
 	void handlePopup(MouseEvent e)

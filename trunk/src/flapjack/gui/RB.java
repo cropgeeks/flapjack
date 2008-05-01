@@ -2,6 +2,7 @@ package flapjack.gui;
 
 import java.text.*;
 import java.util.*;
+import javax.swing.*;
 
 /**
  * ResourceBundle utility class that holds all the resource strings for the
@@ -21,8 +22,6 @@ public class RB
 			Locale.setDefault(Locale.US);
 		else if (Prefs.localeText.equals("de"))
 			Locale.setDefault(Locale.GERMAN);
-//		else
-//			locale = Locale.getDefault();
 
 		bundle = ResourceBundle.getBundle("res.text.flapjack");
 	}
@@ -37,7 +36,7 @@ public class RB
 	{
 		try
 		{
-			return bundle.getString(key);
+			return bundle.getString(key).replaceAll("&", "");
 		}
 		catch (Exception e)
 		{
@@ -45,9 +44,6 @@ public class RB
 			return key;
 		}
 	}
-
-	public static int getIndex(String key)
-		{ return Integer.parseInt(getString(key + "Index")); }
 
 	/**
 	 * Returns the string associated with the given key, formatted with the
@@ -61,7 +57,7 @@ public class RB
 	{
 		try
 		{
-			String str = bundle.getString(key);
+			String str = bundle.getString(key).replaceAll("&", "");
 
 			MessageFormat msg = new MessageFormat(str);
 
@@ -72,5 +68,37 @@ public class RB
 			e.printStackTrace();
 			return key;
 		}
+	}
+
+	/* Sets the mnemonic (and optionally its index) for a label. */
+	public static void setMnemonic(JLabel label, String key)
+	{
+		try
+		{
+			String str = bundle.getString(key);
+
+			int i = str.indexOf("&");
+			char m = str.replaceAll("&", "").charAt(i);
+
+			label.setDisplayedMnemonic(m);
+			label.setDisplayedMnemonicIndex(i);
+		}
+		catch (Exception e) { System.out.println(e.getMessage() + " " + key); }
+	}
+
+	/* Sets the mnemonic (and optionally its index) for a button. */
+	public static void setMnemonic(AbstractButton button, String key)
+	{
+		try
+		{
+			String str = bundle.getString(key);
+
+			int i = str.indexOf("&");
+			char m = str.replaceAll("&", "").charAt(i);
+
+			button.setMnemonic(m);
+			button.setDisplayedMnemonicIndex(i);
+		}
+		catch (Exception e) { System.out.println(e.getMessage() + " " + key); }
 	}
 }
