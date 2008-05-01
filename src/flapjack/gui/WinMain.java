@@ -189,7 +189,7 @@ public class WinMain extends JFrame
 			catch (Exception e)
 			{
 				System.out.println(e);
-				TaskDialog.error(RB.format("gui.WinMain.readJarError", e),
+				TaskDialog.error(RB.format("gui.WinMain.readJarError", e.getMessage()),
 					RB.getString("gui.text.close"));
 				return;
 			}

@@ -44,9 +44,6 @@ class NBNewViewPanel extends javax.swing.JPanel implements ActionListener
 
 		rNewView.addActionListener(this);
 		rCloneView.addActionListener(this);
-
-		rCloneView.setMnemonic(KeyEvent.VK_C);
-		rCloneView.setDisplayedMnemonicIndex(28);
 	}
 
 	public void actionPerformed(ActionEvent e)
