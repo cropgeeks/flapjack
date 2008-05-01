@@ -1,9 +1,3 @@
-/*
- * NBDuplicateMarkersPanel.java
- *
- * Created on 07 March 2008, 13:49
- */
-
 package flapjack.gui.dialog;
 
 import java.util.*;
@@ -11,13 +5,8 @@ import javax.swing.table.*;
 
 import flapjack.gui.*;
 
-/**
- *
- * @author  imilne
- */
 public class NBDuplicateMarkersPanel extends javax.swing.JPanel
 {
-
 	/** Creates new form NBDuplicateMarkersPanel */
 	public NBDuplicateMarkersPanel(LinkedList<String> duplicates)
 	{
@@ -40,7 +29,10 @@ public class NBDuplicateMarkersPanel extends javax.swing.JPanel
 			data[i][2] = str[2];
 		}
 
-		table.setModel(new DefaultTableModel(data, columnNames));
+		table.setModel(new DefaultTableModel(data, columnNames) {
+			public boolean isCellEditable(int rowIndex, int mColIndex) {
+        		return false;
+        }});
 
 		label1.setText(RB.getString("gui.dialog.NBDuplicateMarkersDialog.label1"));
 		label2.setText(RB.getString("gui.dialog.NBDuplicateMarkersDialog.label2"));

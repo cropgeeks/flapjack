@@ -1,6 +1,7 @@
 package flapjack.analysis;
 
 import java.io.*;
+import java.util.*;
 
 import junit.framework.*;
 
@@ -31,38 +32,46 @@ public class FindLineTest extends TestCase
 		genoImporter.importGenotypeData();
 	}
 
-	public void testFindingMarkers()
+	public void testFindingLines()
 		throws Exception
 	{
 		load();
 
 		GTViewSet viewSet = new GTViewSet(dataSet, "Default View");
 
-		FindLine finder = new FindLine(viewSet.getView(0), true, false, false);
+		FindLine finder = new FindLine(viewSet.getView(0), false, false);
 
-		// Test basic string matching
-		assertEquals(finder.getIndex("LINE1"), 0);
-		assertEquals(finder.getIndex("LINE10"), 9);
-		assertEquals(finder.getIndex("LINE50"), 49);
-		assertEquals(finder.getIndex("LINE100"), 99);
-		assertEquals(finder.getIndex("NOSUCHLINE"), -1);
-		// This should test wrapping from the end to the start
-		assertEquals(finder.getIndex("LINE5"), 4);
-		assertEquals(finder.getIndex("LINE25"), 24);
-		// And go back now...
-		finder.setFindNext(false);
-		assertEquals(finder.getIndex("LINE20"), 19);
-		assertEquals(finder.getIndex("LINE1"), 0);
+		LinkedList<FindLine.Result> results = finder.search("LINE1");
+		assertEquals(results.get(0).line.getName(), "LINE1");
+
+		// Basic search for LINE10
+		results = finder.search("LINE10");
+		assertEquals(results.get(0).line.getName(), "LINE10");
+
+		// Basic search for LINE50
+		results = finder.search("LINE50");
+		assertEquals(results.get(0).line.getName(), "LINE50");
+
+		// Basic search for a line that doesn't exist
+		results = finder.search("NOSUCHLINE");
+		assertEquals(results.size(), 0);
 
 
-		// Reset the index
-		finder = new FindLine(viewSet.getView(0), true, false, true);
+		// Regular expressions
+		finder = new FindLine(viewSet.getView(0), false, true);
 
-		// Test regex pattern matching
-		assertEquals(finder.getIndex("LINE.*"), 0);
-		assertEquals(finder.getIndex("LINE9.*"), 8);
-		finder.setFindNext(false);
-		assertEquals(finder.getIndex("LINE5.*"), 4);
-		assertEquals(finder.getIndex("LINE.*"), 3);
+		// Should find all lines
+		results = finder.search("LINE.*");
+		assertEquals(results.size(), 100);
+		for (int i = 0; i < results.size(); i++)
+			assertEquals(results.get(i).line.getName(), "LINE" + (i+1));
+
+		// Find all lines with "3" as the first part of the number
+		results = finder.search("LINE3.*");
+		assertEquals(results.size(), 11);
+		assertEquals(results.get(0).line.getName(), "LINE3");
+		assertEquals(results.get(1).line.getName(), "LINE30");
+		assertEquals(results.get(2).line.getName(), "LINE31");
+		assertEquals(results.get(10).line.getName(), "LINE39");
 	}
 }
