@@ -273,4 +273,16 @@ public class GTView extends XMLRoot
 
 		return clone;
 	}
+
+	/**
+	 * Returns the index position of the given marker, or -1 if it wasn't found.
+	 */
+	public int indexOf(Marker marker)
+	{
+		for (int i = 0; i < markers.size(); i++)
+			if (map.getMarkerByIndex(markers.get(i)) == marker)
+				return i;
+
+		return -1;
+	}
 }

@@ -127,9 +127,24 @@ public class GTViewSet extends XMLRoot
 		return views.size();
 	}
 
+	/**
+	 * Returns the view at this index position.
+	 */
 	public GTView getView(int index)
 	{
 		return views.get(index);
+	}
+
+	/**
+	 * Returns the view that corresponds to this chromsome map.
+	 */
+	public GTView getView(ChromosomeMap map)
+	{
+		for (GTView view: views)
+			if (view.getChromosomeMap() == map)
+				return view;
+
+		return null;
 	}
 
 	public GTView getSelectedView()
@@ -182,5 +197,38 @@ public class GTViewSet extends XMLRoot
 			clone.views.add(view.createClone(clone));
 
 		return clone;
+	}
+
+	/**
+	 * Returns the total number of markers across all chromosomes of this set.
+	 */
+	public int getMarkerCount()
+	{
+		int count = 0;
+		for (GTView view: views)
+			count += view.getMarkerCount();
+
+		return count;
+	}
+
+	/**
+	 * Returns the index position of the given line, or -1 if it wasn't found.
+	 */
+	public int indexOf(Line line)
+	{
+		for (int i = 0; i < lines.size(); i++)
+			if (dataSet.getLineByIndex(lines.get(i)) == line)
+				return i;
+
+		return -1;
+	}
+
+	public int indexof(GTView view)
+	{
+		for (int i = 0; i < views.size(); i++)
+			if (views.get(i) == view)
+				return i;
+
+		return -1;
 	}
 }

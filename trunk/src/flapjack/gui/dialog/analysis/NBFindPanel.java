@@ -1,35 +1,40 @@
-package flapjack.gui.dialog;
+package flapjack.gui.dialog.analysis;
 
 import java.awt.*;
 import java.awt.event.*;
 import java.lang.reflect.*;
 import java.net.*;
+import java.util.*;
 import javax.swing.*;
+import javax.swing.table.*;
 
+import flapjack.data.*;
 import flapjack.gui.*;
 
 import scri.commons.gui.*;
 
 class NBFindPanel extends JPanel implements ActionListener
 {
-	NBFindPanel()
+	private FindDialog findDialog;
+	DefaultTableModel tableModel;
+	DefaultComboBoxModel findModel;
+
+	NBFindPanel(FindDialog findDialog)
 	{
+		this.findDialog = findDialog;
+
 		initComponents();
 
 		link.setIcon(Icons.WEB);
 
 		findLabel.setText(RB.getString("gui.dialog.NBFindPanel.findLabel"));
 		searchLabel.setText(RB.getString("gui.dialog.NBFindPanel.searchLabel"));
+		searchButton.setText(RB.getString("gui.dialog.NBFindPanel.searchButton"));
 		panel.setBorder(BorderFactory.createTitledBorder(
 			RB.getString("gui.dialog.NBFindPanel.panelTitle")));
-		foundLabel1.setText(RB.getString("gui.dialog.NBFindPanel.foundLabel1"));
-		foundLabel2.setText("");
+		resultLabel.setText(RB.format("gui.dialog.NBFindPanel.resultLabel2", 0));
+		hintLabel.setText(RB.getString("gui.dialog.NBFindPanel.hintLabel"));
 
-		checkChromo.setText(RB.getString("gui.dialog.NBFindPanel.checkChromo"));
-		checkChromo.setSelected(Prefs.guiFindAllChromo);
-		checkChromo.setEnabled(Prefs.guiFindMethod == 1);
-		checkChromo.addActionListener(this);
-		checkChromo.setVisible(false);
 		checkCase.setText(RB.getString("gui.dialog.NBFindPanel.checkCase"));
 		checkCase.setSelected(Prefs.guiFindMatchCase);
 		checkCase.addActionListener(this);
@@ -39,20 +44,85 @@ class NBFindPanel extends JPanel implements ActionListener
 
 		searchCombo.addItem(RB.getString("gui.dialog.NBFindPanel.lines"));
 		searchCombo.addItem(RB.getString("gui.dialog.NBFindPanel.markers"));
+		searchCombo.addItem(RB.getString("gui.dialog.NBFindPanel.markersAll"));
 		searchCombo.setSelectedIndex(Prefs.guiFindMethod);
 		searchCombo.addActionListener(this);
 
+		searchButton.addActionListener(this);
+
+		findModel = new DefaultComboBoxModel();
+		findCombo.setModel(findModel);
+
+		table.getSelectionModel().addListSelectionListener(findDialog);
+
+		updateFindHistory();
 		initLinkLabel();
 	}
 
 	public void actionPerformed(ActionEvent e)
 	{
-		checkChromo.setEnabled(searchCombo.getSelectedIndex() == 1);
-
-		Prefs.guiFindAllChromo = checkChromo.isSelected();
 		Prefs.guiFindMatchCase = checkCase.isSelected();
 		Prefs.guiFindUseRegex = checkRegular.isSelected();
 		Prefs.guiFindMethod = searchCombo.getSelectedIndex();
+
+		// Toggle between searching for lines/markers
+		if (e.getSource() == searchCombo)
+		{
+			updateFindHistory();
+			findDialog.setTableModel(null);
+			findDialog.runSearch();
+		}
+
+		else if (e.getSource() == searchButton || e.getSource() == findCombo)
+		{
+			updateFindHistory();
+			findDialog.runSearch();
+		}
+	}
+
+	// Maintains and updates the history of entries for the find combo box. The
+	// preferences tracks this as a single string (tab deliminated), so this
+	// method must convert to/from the string into a LinkedList.
+	private void updateFindHistory()
+	{
+		// Use a list to hold the preferences history for easier sorting
+		LinkedList<String> findHistory = new LinkedList<String>();
+
+		// Fill the list with the tab-deliminated history
+		if (Prefs.guiFindHistory != null)
+		{
+			String[] entries = Prefs.guiFindHistory.split("\t");
+			for (String entry: entries)
+				findHistory.add(entry);
+		}
+
+		// Now determine what's currently in the combo box (if anything)
+		String str = (String) findCombo.getSelectedItem();
+		if (str != null)
+		{
+			// If the search term already exists, remove it
+			int index = findHistory.indexOf(str);
+			if (index != -1)
+				findHistory.remove(index);
+
+			// Insert the term at the start of the list
+			findHistory.addFirst(str);
+		}
+
+		// Don't let the list get any larger than 20 elements
+		if (findHistory.size() > 20)
+			findHistory.removeLast();
+
+		// Now copy the list's elements into the combo box and the prefs history
+		Prefs.guiFindHistory = "";
+		findCombo.removeActionListener(this);
+		findModel.removeAllElements();
+		for (String entry: findHistory)
+		{
+			findModel.addElement(entry);
+			Prefs.guiFindHistory += entry + "\t";
+		}
+		findCombo.addActionListener(this);
 	}
 
 	private void initLinkLabel()
@@ -134,12 +204,14 @@ class NBFindPanel extends JPanel implements ActionListener
         searchLabel = new javax.swing.JLabel();
         searchCombo = new javax.swing.JComboBox();
         panel = new javax.swing.JPanel();
-        checkChromo = new javax.swing.JCheckBox();
         checkRegular = new javax.swing.JCheckBox();
         link = new javax.swing.JLabel();
         checkCase = new javax.swing.JCheckBox();
-        foundLabel1 = new javax.swing.JLabel();
-        foundLabel2 = new javax.swing.JLabel();
+        resultLabel = new javax.swing.JLabel();
+        spTable = new javax.swing.JScrollPane();
+        table = new javax.swing.JTable();
+        searchButton = new javax.swing.JButton();
+        hintLabel = new javax.swing.JLabel();
 
         findLabel.setDisplayedMnemonic('f');
         findLabel.setLabelFor(findCombo);
@@ -153,12 +225,9 @@ class NBFindPanel extends JPanel implements ActionListener
 
         panel.setBorder(javax.swing.BorderFactory.createTitledBorder("Options:"));
 
-        checkChromo.setMnemonic('c');
-        checkChromo.setText("Search across all chromosomes");
-        checkChromo.setDisplayedMnemonicIndex(18);
-
-        checkRegular.setMnemonic('r');
+        checkRegular.setMnemonic('e');
         checkRegular.setText("Use regular expression pattern matching");
+        checkRegular.setDisplayedMnemonicIndex(12);
 
         link.setText("View information on searching using regular expressions");
 
@@ -172,7 +241,6 @@ class NBFindPanel extends JPanel implements ActionListener
             .add(panelLayout.createSequentialGroup()
                 .addContainerGap()
                 .add(panelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(checkChromo)
                     .add(checkCase)
                     .add(panelLayout.createSequentialGroup()
                         .add(21, 21, 21)
@@ -184,8 +252,6 @@ class NBFindPanel extends JPanel implements ActionListener
             panelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(panelLayout.createSequentialGroup()
                 .addContainerGap()
-                .add(checkChromo)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(checkCase)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(checkRegular)
@@ -194,9 +260,27 @@ class NBFindPanel extends JPanel implements ActionListener
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        foundLabel1.setText("Search result:");
+        resultLabel.setDisplayedMnemonic('r');
+        resultLabel.setLabelFor(table);
+        resultLabel.setText("Results:");
 
-        foundLabel2.setText("<>");
+        table.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {},
+                {},
+                {},
+                {}
+            },
+            new String [] {
+
+            }
+        ));
+        table.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        spTable.setViewportView(table);
+
+        searchButton.setText("Search");
+
+        hintLabel.setText("Click on any result to view it within the main window");
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
         this.setLayout(layout);
@@ -212,12 +296,14 @@ class NBFindPanel extends JPanel implements ActionListener
                             .add(findLabel))
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(findCombo, 0, 249, Short.MAX_VALUE)
+                            .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
+                                .add(findCombo, 0, 174, Short.MAX_VALUE)
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                                .add(searchButton))
                             .add(searchCombo, 0, 249, Short.MAX_VALUE)))
-                    .add(layout.createSequentialGroup()
-                        .add(foundLabel1)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(foundLabel2)))
+                    .add(resultLabel)
+                    .add(spTable, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 321, Short.MAX_VALUE)
+                    .add(hintLabel))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -226,6 +312,7 @@ class NBFindPanel extends JPanel implements ActionListener
                 .addContainerGap()
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(findLabel)
+                    .add(searchButton)
                     .add(findCombo, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
@@ -234,24 +321,28 @@ class NBFindPanel extends JPanel implements ActionListener
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                 .add(panel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(foundLabel1)
-                    .add(foundLabel2))
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .add(resultLabel)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(spTable, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 168, Short.MAX_VALUE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(hintLabel)
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox checkCase;
-    private javax.swing.JCheckBox checkChromo;
     private javax.swing.JCheckBox checkRegular;
     javax.swing.JComboBox findCombo;
     private javax.swing.JLabel findLabel;
-    private javax.swing.JLabel foundLabel1;
-    javax.swing.JLabel foundLabel2;
+    private javax.swing.JLabel hintLabel;
     private javax.swing.JLabel link;
     private javax.swing.JPanel panel;
+    javax.swing.JLabel resultLabel;
+    javax.swing.JButton searchButton;
     private javax.swing.JComboBox searchCombo;
     private javax.swing.JLabel searchLabel;
+    private javax.swing.JScrollPane spTable;
+    javax.swing.JTable table;
     // End of variables declaration//GEN-END:variables
 }

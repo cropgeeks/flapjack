@@ -1,5 +1,6 @@
 package flapjack.analysis;
 
+import java.util.*;
 import java.util.regex.*;
 
 import flapjack.data.*;
@@ -9,58 +10,69 @@ public class FindMarker extends StringFinder
 	private GTViewSet viewSet;
 	private GTView view;
 
+	private boolean searchAllChromosomes;
+
 	// Current marker index within the view
 	private int index = 0;
 	// Current view index across the viewSet
 	private int viewIndex = 0;
 
-	public FindMarker(GTViewSet viewSet, boolean findNext, boolean matchCase, boolean useRegex)
+	public FindMarker(GTViewSet viewSet, boolean searchAllChromosomes, boolean matchCase, boolean useRegex)
 	{
-		super(findNext, matchCase, useRegex);
+		super(matchCase, useRegex);
 
 		this.viewSet = viewSet;
-		this.view = viewSet.getView(0);
+		this.searchAllChromosomes = searchAllChromosomes;
+
+		if (searchAllChromosomes)
+			viewIndex = 0;
+		else
+			viewIndex = viewSet.getViewIndex();
+
+		view = viewSet.getView(viewIndex);
 	}
 
-	public void setView(GTView view)
+	public LinkedList<Result> search(String str)
 	{
-		this.view = view;
-	}
+		LinkedList<Result> results = new LinkedList<Result>();
 
-	protected int search(String str)
-	{
-		// Modify the starting index based on previous results
-		if (foundMatch && findNext)
-			index++;
-		else if (foundMatch && !findNext)
-			index--;
-
-		// Maintain a count of the search. Once all lines have been looked at
+		// Maintain a count of the search. Once all markers have been looked at
 		// it means we didn't find a match
 		int searchCount = 0;
 
-		while (searchCount < view.getMarkerCount())
+		int max = view.getMarkerCount();
+		if (searchAllChromosomes)
+			max = viewSet.getMarkerCount();
+
+		while (searchCount < max)
 		{
-			// If we've reached the end of the data, reset to the start...
+			// If we've reached the end of this view, move on to the next one...
 			if (index >= view.getMarkerCount())
+			{
+				view = viewSet.getView(++viewIndex);
 				index = 0;
-			// Or, if we're searching backwards and have reached the start...
-			else if (index < 0)
-				index = view.getMarkerCount()-1;
+			}
 
 			Marker marker = view.getMarker(index);
 			if (matches(marker.getName(), str))
-				return index;
+				results.add(new Result(marker, view.getChromosomeMap()));
 
 			searchCount++;
-
-			// Move forward (or back) one index position
-			if (findNext)
-				index++;
-			else
-				index--;
+			index++;
 		}
 
-		return -1;
+		return results;
+	}
+
+	public static class Result
+	{
+		public Marker marker;
+		public ChromosomeMap map;
+
+		Result(Marker marker, ChromosomeMap map)
+		{
+			this.marker = marker;
+			this.map = map;
+		}
 	}
 }
