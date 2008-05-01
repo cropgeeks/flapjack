@@ -75,7 +75,6 @@
     </Container>
     <Component class="javax.swing.JCheckBox" name="checkWarn">
       <Properties>
-        <Property name="mnemonic" type="int" value="100"/>
         <Property name="text" type="java.lang.String" value="Don&apos;t warn me about duplicate markers again"/>
       </Properties>
     </Component>

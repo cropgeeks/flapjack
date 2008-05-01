@@ -313,9 +313,9 @@ public class Actions
 		if (WinMainMenuBar.mEditUndo != null)
 		{
 			WinMainMenuBar.mEditUndo.setText(
-				RB.format("gui.Actions.editUndo", ""));
+				RB.getString("gui.Actions.editUndo"));
 			WinMainMenuBar.mEditRedo.setText(
-				RB.format("gui.Actions.editRedo", ""));
+				RB.getString("gui.Actions.editRedo"));
 
 			WinMainToolBar.editUndo.setToolTipText(
 				RB.getString("gui.WinMainToolBar.editUndo"));

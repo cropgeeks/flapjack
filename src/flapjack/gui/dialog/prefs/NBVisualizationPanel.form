@@ -43,13 +43,11 @@
   <SubComponents>
     <Component class="javax.swing.JCheckBox" name="checkVisBackBuffer">
       <Properties>
-        <Property name="mnemonic" type="int" value="97"/>
         <Property name="text" type="java.lang.String" value="Attempt to back-buffer the main canvas to improve performance"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JCheckBox" name="checkVisBackBufferType">
       <Properties>
-        <Property name="mnemonic" type="int" value="117"/>
         <Property name="text" type="java.lang.String" value="Use an 8 bit colour buffer to reduce memory usage"/>
       </Properties>
     </Component>

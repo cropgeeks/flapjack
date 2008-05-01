@@ -307,19 +307,21 @@ public class GenotypePanel extends JPanel
 	{
 		UndoManager manager = viewSet.getUndoManager();
 
-		boolean undo = manager.canUndo();
-		Actions.editUndo.setEnabled(undo);
-		String undoStr = RB.format("gui.Actions.editUndo",
-			manager.getNextUndoString());
+		boolean canUndo = manager.canUndo();
+		Actions.editUndo.setEnabled(canUndo);
+		String undoStr = RB.getString("gui.Actions.editUndo");
+		if (canUndo)
+			undoStr = RB.format("gui.Actions.editUndoCanUndo", manager.getNextUndoString());
 		WinMainMenuBar.mEditUndo.setText(undoStr);
-		WinMainToolBar.editUndo.setToolTipText(undoStr.trim());
+		WinMainToolBar.editUndo.setToolTipText(undoStr);
 
-		boolean redo = manager.canRedo();
-		Actions.editRedo.setEnabled(redo);
-		String redoStr = RB.format("gui.Actions.editRedo",
-			manager.getNextRedoString());
+		boolean canRedo = manager.canRedo();
+		Actions.editRedo.setEnabled(canRedo);
+		String redoStr = RB.getString("gui.Actions.editRedo");
+		if (canRedo)
+			redoStr = RB.format("gui.Actions.editRedoCanRedo", manager.getNextRedoString());
 		WinMainMenuBar.mEditRedo.setText(redoStr);
-		WinMainToolBar.editRedo.setToolTipText(redoStr.trim());
+		WinMainToolBar.editRedo.setToolTipText(redoStr);
 	}
 
 	public void processUndoRedo(boolean undo)

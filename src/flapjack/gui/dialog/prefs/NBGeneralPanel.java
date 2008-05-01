@@ -15,6 +15,7 @@ class NBGeneralPanel extends JPanel implements IPrefsTab
 
 		// Interface settings
         displayLabel.setText(RB.getString("gui.dialog.prefs.NBGeneralPanel.displayLabel"));
+		RB.setMnemonic(displayLabel, "gui.dialog.prefs.NBGeneralPanel.displayLabel");
         displayHint.setText(RB.getString("gui.dialog.prefs.NBGeneralPanel.displayHint"));
 
         displayModel = new DefaultComboBoxModel();
@@ -27,6 +28,7 @@ class NBGeneralPanel extends JPanel implements IPrefsTab
 
         // Update settings
         updateLabel.setText(RB.getString("gui.dialog.prefs.NBGeneralPanel.updateLabel"));
+		RB.setMnemonic(updateLabel, "gui.dialog.prefs.NBGeneralPanel.updateLabel");
 
         updateModel = new DefaultComboBoxModel();
         updateModel.addElement(RB.getString("gui.dialog.prefs.NBGeneralPanel.updateNever"));
@@ -36,6 +38,9 @@ class NBGeneralPanel extends JPanel implements IPrefsTab
         updateModel.addElement(RB.getString("gui.dialog.prefs.NBGeneralPanel.updateMonthly"));
         updateCombo.setModel(updateModel);
 
+		
+		checkCompress.setText(RB.getString("gui.dialog.prefs.NBGeneralPanel.checkCompress"));
+		RB.setMnemonic(checkCompress, "gui.dialog.prefs.NBGeneralPanel.checkCompress");
 
         initSettings();
     }
@@ -92,17 +97,14 @@ class NBGeneralPanel extends JPanel implements IPrefsTab
         updateCombo = new javax.swing.JComboBox();
         checkCompress = new javax.swing.JCheckBox();
 
-        displayLabel.setDisplayedMnemonic('i');
         displayLabel.setLabelFor(displayCombo);
         displayLabel.setText("Interface display language:");
 
         displayHint.setText("(Restart Flapjack to apply)");
 
-        updateLabel.setDisplayedMnemonic('n');
         updateLabel.setLabelFor(updateCombo);
         updateLabel.setText("Check for newer Flapjack versions:");
 
-        checkCompress.setMnemonic('c');
         checkCompress.setText("Compress Flapjack projects files to save disk space");
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);

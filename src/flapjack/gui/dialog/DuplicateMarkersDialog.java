@@ -51,6 +51,7 @@ public class DuplicateMarkersDialog extends JDialog implements ActionListener
 
 		bClipboard = SwingUtils.getButton(RB.getString("gui.dialog.DuplicateMarkersDialog.clipboard"));
 		bClipboard.addActionListener(this);
+		RB.setMnemonic(bClipboard, "gui.dialog.DuplicateMarkersDialog.clipboard");
 
 		JPanel p1 = new JPanel(new FlowLayout(FlowLayout.RIGHT, 5, 0));
 		p1.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 5));

@@ -28,14 +28,20 @@ class NBExportImagePanel extends JPanel implements ChangeListener, ActionListene
 		//i18n
 		panel.setBorder(BorderFactory.createTitledBorder(RB.getString("gui.dialog.NBExportImagePanel.title")));
 		rWindow.setText(RB.getString("gui.dialog.NBExportImagePanel.rWindow"));
+		RB.setMnemonic(rWindow, "gui.dialog.NBExportImagePanel.rWindow");
 		rWindowLabel.setText(RB.getString("gui.dialog.NBExportImagePanel.rWindowLabel"));
 		rView.setText(RB.getString("gui.dialog.NBExportImagePanel.rView"));
+		RB.setMnemonic(rView, "gui.dialog.NBExportImagePanel.rView");
 		rViewLabel.setText(RB.getString("gui.dialog.NBExportImagePanel.rViewLabel"));
 		rOverview.setText(RB.getString("gui.dialog.NBExportImagePanel.rOverview"));
+		RB.setMnemonic(rOverview, "gui.dialog.NBExportImagePanel.rOverview");
 		rOverviewLabel.setText(RB.getString("gui.dialog.NBExportImagePanel.rOverviewLabel"));
 		widthLabel.setText(RB.getString("gui.dialog.NBExportImagePanel.widthLabel"));
+		RB.setMnemonic(widthLabel, "gui.dialog.NBExportImagePanel.widthLabel");
 		heightLabel.setText(RB.getString("gui.dialog.NBExportImagePanel.heightLabel"));
+		RB.setMnemonic(heightLabel, "gui.dialog.NBExportImagePanel.heightLabel");
 		equalCheck.setText(RB.getString("gui.dialog.NBExportImagePanel.equalCheck"));
+		RB.setMnemonic(equalCheck, "gui.dialog.NBExportImagePanel.equalCheck");
 		memLabel1.setText(RB.getString("gui.dialog.NBExportImagePanel.memLabel1"));
 
 		lines = gPanel.getView().getLineCount();
@@ -218,32 +224,28 @@ class NBExportImagePanel extends JPanel implements ChangeListener, ActionListene
         panel.setBorder(javax.swing.BorderFactory.createTitledBorder("Select a method of exporting:"));
 
         buttonGroup1.add(rWindow);
-        rWindow.setMnemonic('o');
         rWindow.setText("Export only what can currently be seen");
-        rWindow.setDisplayedMnemonicIndex(7);
 
         rWindowLabel.setText("(creates a high-quality image showing exactly what you currently see)");
 
         buttonGroup1.add(rView);
-        rView.setMnemonic('a');
         rView.setText("Export all of the current view");
 
         rViewLabel.setText("(creates a high-quality image showing everything Flapjack is currently rendering)");
 
         buttonGroup1.add(rOverview);
-        rOverview.setMnemonic('s');
         rOverview.setText("Export a scaled-to-fit image of all of the data:");
 
         rOverviewLabel.setText("(creates an overview image using the dimensions specified below)");
 
-        widthLabel.setDisplayedMnemonic('w');
+        widthLabel.setLabelFor(widthSpin);
         widthLabel.setText("Width (pixels):");
 
-        heightLabel.setDisplayedMnemonic('h');
+        heightLabel.setLabelFor(heightSpin);
         heightLabel.setText("Height (pixels):");
 
         equalCheck.setMnemonic('p');
-        equalCheck.setText("set pixel size equal to no. of markers by no. of lines");
+        equalCheck.setText("set dimension equal to no. of markers by no. of lines");
 
         memLabel1.setText("Estimated memory required for exporting:");
 
@@ -272,11 +274,11 @@ class NBExportImagePanel extends JPanel implements ChangeListener, ActionListene
                                 .add(widthLabel)
                                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                                 .add(widthSpin, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                .add(18, 18, 18)
                                 .add(heightLabel)
                                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                                 .add(heightSpin, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                .add(18, 18, 18)
                                 .add(slider, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 119, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                             .add(equalCheck)
                             .add(rOverviewLabel)))
@@ -305,8 +307,8 @@ class NBExportImagePanel extends JPanel implements ChangeListener, ActionListene
                 .add(panelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.CENTER)
                     .add(widthLabel)
                     .add(widthSpin, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(heightLabel)
                     .add(heightSpin, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(heightLabel)
                     .add(slider, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(equalCheck)

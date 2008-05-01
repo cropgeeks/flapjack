@@ -82,17 +82,17 @@ public class WinMainMenuBar extends JMenuBar
 	private void createFileMenu()
 	{
 		mFile = new JMenu(RB.getString("gui.WinMainMenuBar.mFile"));
-		mFile.setMnemonic(KeyEvent.VK_F);
+		RB.setMnemonic(mFile, "gui.WinMainMenuBar.mFile");
 
-		mFileNew = getItem(Actions.fileNew, KeyEvent.VK_N, KeyEvent.VK_N, menuShortcut);
-		mFileOpen = getItem(Actions.fileOpen, KeyEvent.VK_O, KeyEvent.VK_O, menuShortcut);
-		mFileSave = getItem(Actions.fileSave, KeyEvent.VK_S, KeyEvent.VK_S, menuShortcut);
-		mFileSaveAs = getItem(Actions.fileSaveAs, KeyEvent.VK_A, 0, 0);
-		mFileImport = getItem(Actions.fileImport, KeyEvent.VK_I, 0, 0);
-		mFileExit = getItem(Actions.fileExit, KeyEvent.VK_X, 0, 0);
+		mFileNew = getItem(Actions.fileNew, "gui.Actions.fileNew", KeyEvent.VK_N, menuShortcut);
+		mFileOpen = getItem(Actions.fileOpen, "gui.Actions.fileOpen", KeyEvent.VK_O, menuShortcut);
+		mFileSave = getItem(Actions.fileSave, "gui.Actions.fileSave", KeyEvent.VK_S, menuShortcut);
+		mFileSaveAs = getItem(Actions.fileSaveAs, "gui.Actions.fileSaveAs", 0, 0);
+		mFileImport = getItem(Actions.fileImport, "gui.Actions.fileImport", 0, 0);
+		mFileExit = getItem(Actions.fileExit, "gui.Actions.fileExit", 0, 0);
 
 		mFileRecent = new JMenu(RB.getString("gui.WinMainMenuBar.mFileRecent"));
-		mFileRecent.setMnemonic(KeyEvent.VK_R);
+		RB.setMnemonic(mFileRecent, "gui.WinMainMenuBar.mFileRecent");
 		createRecentMenu(null);
 
 		mFile.add(mFileNew);
@@ -117,10 +117,10 @@ public class WinMainMenuBar extends JMenuBar
 	private void createEditMenu()
 	{
 		mEdit = new JMenu(RB.getString("gui.WinMainMenuBar.mEdit"));
-		mEdit.setMnemonic(KeyEvent.VK_E);
+		RB.setMnemonic(mEdit, "gui.WinMainMenuBar.mEdit");
 
-		mEditUndo = getItem(Actions.editUndo, KeyEvent.VK_U, KeyEvent.VK_Z, menuShortcut);
-		mEditRedo = getItem(Actions.editRedo, KeyEvent.VK_R, KeyEvent.VK_Y, menuShortcut);
+		mEditUndo = getItem(Actions.editUndo, "gui.Actions.editUndo", KeyEvent.VK_Z, menuShortcut);
+		mEditRedo = getItem(Actions.editRedo, "gui.Actions.editRedo", KeyEvent.VK_Y, menuShortcut);
 
 		mEdit.add(mEditUndo);
 		mEdit.add(mEditRedo);
@@ -131,26 +131,24 @@ public class WinMainMenuBar extends JMenuBar
 	private void createVizMenu()
 	{
 		mViz = new JMenu(RB.getString("gui.WinMainMenuBar.mViz"));
-		mViz.setMnemonic(KeyEvent.VK_V);
+		RB.setMnemonic(mViz, "gui.WinMainMenuBar.mViz");
 
 		mVizColor = new JMenu(RB.getString("gui.WinMainMenuBar.mVizColor"));
-		mVizColor.setMnemonic(KeyEvent.VK_O);
+		RB.setMnemonic(mVizColor, "gui.WinMainMenuBar.mVizColor");
 
-		mVizOverview = getCheckedItem(Actions.vizOverview, KeyEvent.VK_S, KeyEvent.VK_F7, 0, Prefs.guiOverviewDialog);
-		mVizExportImage = getItem(Actions.vizExportImage, KeyEvent.VK_E, 0, 0);
-		mVizColorRandom = getItem(Actions.vizColorRandom, KeyEvent.VK_R, 0, 0);
-		mVizColorNucleotide = getItem(Actions.vizColorNucleotide, KeyEvent.VK_N, 0, 0);
-		mVizColorLineSim = getItem(Actions.vizColorLineSim, KeyEvent.VK_L, 0, 0);
-		mVizColorLineSim.setDisplayedMnemonicIndex(17);
-		mVizColorLineSimGS = getItem(Actions.vizColorLineSimGS, KeyEvent.VK_G, 0, 0);
-		mVizColorMarkerSim = getItem(Actions.vizColorMarkerSim, KeyEvent.VK_K, 0, 0);
-		mVizColorMarkerSim.setDisplayedMnemonicIndex(17);
-		mVizColorMarkerSimGS = getItem(Actions.vizColorMarkerSimGS, KeyEvent.VK_G, 0, 0);
-		mVizColorSimple2Color = getItem(Actions.vizColorSimple2Color, KeyEvent.VK_S, 0, 0);
-		mVizOverlayGenotypes = getCheckedItem(Actions.vizOverlayGenotypes, KeyEvent.VK_O, KeyEvent.VK_G, menuShortcut, Prefs.visShowGenotypes);
-		mVizNewView = getItem(Actions.vizNewView, KeyEvent.VK_C, 0, 0);
-		mVizRenameView = getItem(Actions.vizRenameView, KeyEvent.VK_R, 0, 0);
-		mVizDeleteView = getItem(Actions.vizDeleteView, KeyEvent.VK_D, 0, 0);
+		mVizOverview = getCheckedItem(Actions.vizOverview, "gui.Actions.vizOverview", KeyEvent.VK_F7, 0, Prefs.guiOverviewDialog);
+		mVizExportImage = getItem(Actions.vizExportImage, "gui.Actions.vizExportImage", 0, 0);
+		mVizColorRandom = getItem(Actions.vizColorRandom, "gui.Actions.vizColorRandom", 0, 0);
+		mVizColorNucleotide = getItem(Actions.vizColorNucleotide, "gui.Actions.vizColorNucleotide", 0, 0);
+		mVizColorLineSim = getItem(Actions.vizColorLineSim, "gui.Actions.vizColorLineSim", 0, 0);
+//		mVizColorLineSimGS = getItem(Actions.vizColorLineSimGS, KeyEvent.VK_G, 0, 0);
+		mVizColorMarkerSim = getItem(Actions.vizColorMarkerSim, "gui.Actions.vizColorMarkerSim", 0, 0);
+//		mVizColorMarkerSimGS = getItem(Actions.vizColorMarkerSimGS, KeyEvent.VK_G, 0, 0);
+		mVizColorSimple2Color = getItem(Actions.vizColorSimple2Color, "gui.Actions.vizColorSimple2Color", 0, 0);
+		mVizOverlayGenotypes = getCheckedItem(Actions.vizOverlayGenotypes, "gui.Actions.vizOverlayGenotypes", KeyEvent.VK_G, menuShortcut, Prefs.visShowGenotypes);
+		mVizNewView = getItem(Actions.vizNewView, "gui.Actions.vizNewView", 0, 0);
+		mVizRenameView = getItem(Actions.vizRenameView, "gui.Actions.vizRenameView", 0, 0);
+		mVizDeleteView = getItem(Actions.vizDeleteView, "gui.Actions.vizDeleteView", 0, 0);
 
 		mVizColor.add(mVizColorNucleotide);
 		mVizColor.add(mVizColorSimple2Color);
@@ -178,15 +176,15 @@ public class WinMainMenuBar extends JMenuBar
 	private void createDataMenu()
 	{
 		mData = new JMenu(RB.getString("gui.WinMainMenuBar.mData"));
-		mData.setMnemonic(KeyEvent.VK_D);
+		RB.setMnemonic(mData, "gui.WinMainMenuBar.mData");
 
 		mDataSortLines = new JMenu(RB.getString("gui.WinMainMenuBar.mDataSortLines"));
-		mDataSortLines.setMnemonic(KeyEvent.VK_S);
-		mDataSortLinesBySimilarity = getItem(Actions.dataSortLinesBySimilarity, KeyEvent.VK_S, 0, 0);
-		mDataSortLinesByLocus = getItem(Actions.dataSortLinesByLocus, KeyEvent.VK_L, 0, 0);
-		mDataFind = getItem(Actions.dataFind, KeyEvent.VK_F, KeyEvent.VK_F, menuShortcut);
-		mDataRenameDataSet = getItem(Actions.dataRenameDataSet, KeyEvent.VK_N, 0, 0);
-		mDataDeleteDataSet = getItem(Actions.dataDeleteDataSet, KeyEvent.VK_R, 0, 0);
+		RB.setMnemonic(mDataSortLines, "gui.WinMainMenuBar.mDataSortLines");
+		mDataSortLinesBySimilarity = getItem(Actions.dataSortLinesBySimilarity, "gui.Actions.dataSortLinesBySimilarity", 0, 0);
+		mDataSortLinesByLocus = getItem(Actions.dataSortLinesByLocus, "gui.Actions.dataSortLinesByLocus", 0, 0);
+		mDataFind = getItem(Actions.dataFind, "gui.Actions.dataFind", KeyEvent.VK_F, menuShortcut);
+		mDataRenameDataSet = getItem(Actions.dataRenameDataSet, "gui.Actions.dataRenameDataSet", 0, 0);
+		mDataDeleteDataSet = getItem(Actions.dataDeleteDataSet, "gui.Actions.dataDeleteDataSet", 0, 0);
 
 		mDataSortLines.add(mDataSortLinesBySimilarity);
 		mDataSortLines.add(mDataSortLinesByLocus);
@@ -204,11 +202,11 @@ public class WinMainMenuBar extends JMenuBar
 	private void createWndMenu()
 	{
 		mWnd = new JMenu(RB.getString("gui.WinMainMenuBar.mWnd"));
-		mWnd.setMnemonic(KeyEvent.VK_W);
+		RB.setMnemonic(mWnd, "gui.WinMainMenuBar.mWnd");
 
-		mWndMinimize = getItem(Actions.wndMinimize, KeyEvent.VK_M, KeyEvent.VK_M, menuShortcut);
-		mWndZoom = getItem(Actions.wndZoom, KeyEvent.VK_Z, 0, 0);
-		mWndFlapjack = getCheckedItem(Actions.wndFlapjack, KeyEvent.VK_F, 0, 0, true);
+		mWndMinimize = getItem(Actions.wndMinimize, "gui.Actions.wndMinimize", KeyEvent.VK_M, menuShortcut);
+		mWndZoom = getItem(Actions.wndZoom, "gui.Actions.wndZoom", 0, 0);
+		mWndFlapjack = getCheckedItem(Actions.wndFlapjack, "gui.Actions.wndFlapjack", 0, 0, true);
 
 		mWnd.add(mWndMinimize);
 		mWnd.add(mWndZoom);
@@ -222,11 +220,11 @@ public class WinMainMenuBar extends JMenuBar
 	private void createHelpMenu()
 	{
 		mHelp = new JMenu(RB.getString("gui.WinMainMenuBar.mHelp"));
-		mHelp.setMnemonic(KeyEvent.VK_H);
+		RB.setMnemonic(mHelp, "gui.WinMainMenuBar.mHelp");
 
-		mHelpPrefs = getItem(Actions.helpPrefs, KeyEvent.VK_P, 0, 0);
-		mHelpUpdate = getItem(Actions.helpUpdate, KeyEvent.VK_C, 0, 0);
-		mHelpAbout = getItem(Actions.helpAbout, KeyEvent.VK_A, 0, 0);
+		mHelpPrefs = getItem(Actions.helpPrefs, "gui.Actions.helpPrefs", 0, 0);
+		mHelpUpdate = getItem(Actions.helpUpdate, "gui.Actions.helpUpdate", 0, 0);
+		mHelpAbout = getItem(Actions.helpAbout, "gui.Actions.helpAbout", 0, 0);
 
 		// We don't add this option to OS X as it is auto-added by Apple
 		if (SystemUtils.isMacOS() == false)
@@ -247,10 +245,10 @@ public class WinMainMenuBar extends JMenuBar
 		add(mHelp);
 	}
 
-	public static JMenuItem getItem(Action action, int mnemonic, int keymask, int modifiers)
+	public static JMenuItem getItem(Action action, String key, int keymask, int modifiers)
 	{
 		JMenuItem item = new JMenuItem(action);
-		item.setMnemonic(mnemonic);
+		RB.setMnemonic(item, key);
 
 		if (keymask != 0)
 			item.setAccelerator(KeyStroke.getKeyStroke(keymask, modifiers));
@@ -258,22 +256,11 @@ public class WinMainMenuBar extends JMenuBar
 		return item;
 	}
 
-	public static JCheckBoxMenuItem getCheckedItem(Action action, int mnemonic, int keymask, int modifiers, boolean state)
+	public static JCheckBoxMenuItem getCheckedItem(Action action, String key, int keymask, int modifiers, boolean state)
 	{
 		JCheckBoxMenuItem item = new JCheckBoxMenuItem(action);
-		item.setMnemonic(mnemonic);
 		item.setState(state);
-
-		if (keymask != 0)
-			item.setAccelerator(KeyStroke.getKeyStroke(keymask, modifiers));
-
-		return item;
-	}
-
-	public static JRadioButtonMenuItem getRadioItem(Action action, int mnemonic, int keymask, int modifiers)
-	{
-		JRadioButtonMenuItem item = new JRadioButtonMenuItem(action);
-		item.setMnemonic(mnemonic);
+		RB.setMnemonic(item, key);
 
 		if (keymask != 0)
 			item.setAccelerator(KeyStroke.getKeyStroke(keymask, modifiers));

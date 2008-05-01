@@ -11,6 +11,7 @@ class NBWarningPanel extends JPanel implements IPrefsTab
         initComponents();
 
 		warnDuplicateMarkers.setText(RB.getString("gui.dialog.prefs.NBWarningPanel.warnDuplicateMarkers"));
+		RB.setMnemonic(warnDuplicateMarkers, "gui.dialog.prefs.NBWarningPanel.warnDuplicateMarkers");
 
 		initSettings();
     }
@@ -39,7 +40,6 @@ class NBWarningPanel extends JPanel implements IPrefsTab
 
         warnDuplicateMarkers = new javax.swing.JCheckBox();
 
-        warnDuplicateMarkers.setMnemonic('d');
         warnDuplicateMarkers.setText("Warn when duplicate markers are found during data import");
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);

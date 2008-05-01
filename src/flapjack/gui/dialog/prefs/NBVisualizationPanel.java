@@ -14,8 +14,10 @@ class NBVisualizationPanel extends JPanel implements IPrefsTab, ActionListener
 
 		checkVisBackBuffer.setText(RB.getString("gui.dialog.prefs.NBVisualizationPanel.checkVisBackBuffer"));
         checkVisBackBuffer.addActionListener(this);
+		RB.setMnemonic(checkVisBackBuffer, "gui.dialog.prefs.NBVisualizationPanel.checkVisBackBuffer");
 
         checkVisBackBufferType.setText(RB.getString("gui.dialog.prefs.NBVisualizationPanel.checkVisBackBufferType"));
+		RB.setMnemonic(checkVisBackBufferType, "gui.dialog.prefs.NBVisualizationPanel.checkVisBackBufferType");
 
         initSettings();
     }
@@ -54,10 +56,8 @@ class NBVisualizationPanel extends JPanel implements IPrefsTab, ActionListener
         checkVisBackBuffer = new javax.swing.JCheckBox();
         checkVisBackBufferType = new javax.swing.JCheckBox();
 
-        checkVisBackBuffer.setMnemonic('a');
         checkVisBackBuffer.setText("Attempt to back-buffer the main canvas to improve performance");
 
-        checkVisBackBufferType.setMnemonic('u');
         checkVisBackBufferType.setText("Use an 8 bit colour buffer to reduce memory usage");
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);

@@ -56,21 +56,19 @@ public class CanvasMenu
 
 	private void createItems()
 	{
-		mLock = WinMainMenuBar.getCheckedItem(aLock, KeyEvent.VK_L, 0, 0, canvas.locked);
-		mShowGenotypes = WinMainMenuBar.getCheckedItem(Actions.vizOverlayGenotypes, KeyEvent.VK_O, KeyEvent.VK_G, menuShortcut, Prefs.visShowGenotypes);
-		mColorRandom = WinMainMenuBar.getItem(Actions.vizColorRandom, KeyEvent.VK_R, 0, 0);
-		mColorNucleotide = WinMainMenuBar.getItem(Actions.vizColorNucleotide, KeyEvent.VK_N, 0, 0);
-		mColorLineSim = WinMainMenuBar.getItem(Actions.vizColorLineSim, KeyEvent.VK_L, 0, 0);
-		mColorLineSim.setDisplayedMnemonicIndex(17);
-		mColorLineSimGS = WinMainMenuBar.getItem(Actions.vizColorLineSimGS, KeyEvent.VK_G, 0, 0);
-		mColorMarkerSim = WinMainMenuBar.getItem(Actions.vizColorMarkerSim, KeyEvent.VK_M, 0, 0);
-		mColorMarkerSim.setDisplayedMnemonicIndex(17);
-		mColorMarkerSimGS = WinMainMenuBar.getItem(Actions.vizColorMarkerSimGS, KeyEvent.VK_G, 0, 0);
-		mColorSimple2Color = WinMainMenuBar.getItem(Actions.vizColorSimple2Color, KeyEvent.VK_S, 0, 0);
-		mFind = WinMainMenuBar.getItem(Actions.dataFind, KeyEvent.VK_F, KeyEvent.VK_F, menuShortcut);
+		mLock = WinMainMenuBar.getCheckedItem(aLock, "gui.Actions.canvasLock", 0, 0, canvas.locked);
+		mShowGenotypes = WinMainMenuBar.getCheckedItem(Actions.vizOverlayGenotypes, "gui.Actions.vizOverlayGenotypes", KeyEvent.VK_G, menuShortcut, Prefs.visShowGenotypes);
+		mColorRandom = WinMainMenuBar.getItem(Actions.vizColorRandom, "gui.Actions.vizColorRandom", 0, 0);
+		mColorNucleotide = WinMainMenuBar.getItem(Actions.vizColorNucleotide, "gui.Actions.vizColorNucleotide", 0, 0);
+		mColorLineSim = WinMainMenuBar.getItem(Actions.vizColorLineSim, "gui.Actions.vizColorLineSim", 0, 0);
+//		mColorLineSimGS = WinMainMenuBar.getItem(Actions.vizColorLineSimGS, KeyEvent.VK_G, 0, 0);
+		mColorMarkerSim = WinMainMenuBar.getItem(Actions.vizColorMarkerSim, "gui.Actions.vizColorMarkerSim", 0, 0);
+//		mColorMarkerSimGS = WinMainMenuBar.getItem(Actions.vizColorMarkerSimGS, KeyEvent.VK_G, 0, 0);
+		mColorSimple2Color = WinMainMenuBar.getItem(Actions.vizColorSimple2Color, "gui.Actions.vizColorSimple2Color", 0, 0);
+		mFind = WinMainMenuBar.getItem(Actions.dataFind, "gui.Actions.dataFind", KeyEvent.VK_F, menuShortcut);
 
 		mColor = new JMenu(RB.getString("gui.WinMainMenuBar.mVizColor"));
-		mColor.setMnemonic(KeyEvent.VK_C);
+		RB.setMnemonic(mColor, "gui.WinMainMenuBar.mVizColor");
 		mColor.add(mColorNucleotide);
 		mColor.add(mColorSimple2Color);
 		mColor.add(mColorLineSim);
@@ -80,11 +78,11 @@ public class CanvasMenu
 		mColor.addSeparator();
 		mColor.add(mColorRandom);
 
-		mSortLinesBySimilarity = WinMainMenuBar.getItem(Actions.dataSortLinesBySimilarity, KeyEvent.VK_S, 0, 0);
-		mSortLinesByLocus = WinMainMenuBar.getItem(Actions.dataSortLinesByLocus, KeyEvent.VK_L, 0, 0);
+		mSortLinesBySimilarity = WinMainMenuBar.getItem(Actions.dataSortLinesBySimilarity, "gui.Actions.dataSortLinesBySimilarity", 0, 0);
+		mSortLinesByLocus = WinMainMenuBar.getItem(Actions.dataSortLinesByLocus, "gui.Actions.dataSortLinesByLocus", 0, 0);
 
 		mSortLines = new JMenu(RB.getString("gui.WinMainMenuBar.mDataSortLines"));
-		mSortLines.setMnemonic(KeyEvent.VK_S);
+		RB.setMnemonic(mSortLines, "gui.WinMainMenuBar.mDataSortLines");
 		mSortLines.add(mSortLinesBySimilarity);
 		mSortLines.add(mSortLinesByLocus);
 	}

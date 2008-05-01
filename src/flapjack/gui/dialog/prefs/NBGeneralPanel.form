@@ -61,7 +61,6 @@
   <SubComponents>
     <Component class="javax.swing.JLabel" name="displayLabel">
       <Properties>
-        <Property name="displayedMnemonic" type="int" value="105"/>
         <Property name="labelFor" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
           <ComponentRef name="displayCombo"/>
         </Property>
@@ -82,7 +81,6 @@
     </Component>
     <Component class="javax.swing.JLabel" name="updateLabel">
       <Properties>
-        <Property name="displayedMnemonic" type="int" value="110"/>
         <Property name="labelFor" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
           <ComponentRef name="updateCombo"/>
         </Property>
@@ -98,7 +96,6 @@
     </Component>
     <Component class="javax.swing.JCheckBox" name="checkCompress">
       <Properties>
-        <Property name="mnemonic" type="int" value="99"/>
         <Property name="text" type="java.lang.String" value="Compress Flapjack projects files to save disk space"/>
       </Properties>
     </Component>
