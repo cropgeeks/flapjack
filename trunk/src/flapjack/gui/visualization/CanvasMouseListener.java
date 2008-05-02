@@ -52,7 +52,7 @@ class CanvasMouseListener extends MouseInputAdapter
 		else if (e.getClickCount() == 2)
 		{
 			int markerIndex = canvas.getMarker(e.getPoint());
-//			new CanvasAnimator(gPanel, canvas, markerIndex);
+//			new CanvasAnimator(gPanel, markerIndex);
 		}
 
 //		else if (e.getClickCount() == 1)

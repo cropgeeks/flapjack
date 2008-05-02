@@ -19,7 +19,7 @@ class NBFindPanel extends JPanel implements ActionListener
 	DefaultTableModel tableModel;
 	DefaultComboBoxModel findModel;
 
-	NBFindPanel(FindDialog findDialog)
+	NBFindPanel(final FindDialog findDialog)
 	{
 		this.findDialog = findDialog;
 

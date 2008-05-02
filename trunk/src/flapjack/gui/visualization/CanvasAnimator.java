@@ -11,13 +11,14 @@ class CanvasAnimator extends Thread implements IOverlayRenderer
 	private int alphaEffect = 0;
 	private int markerIndex = 0;
 
-	CanvasAnimator(GenotypePanel gPanel, GenotypeCanvas canvas, int markerIndex)
+	CanvasAnimator(GenotypePanel gPanel, int markerIndex)
 	{
 		this.gPanel = gPanel;
-		this.canvas = canvas;
 		this.markerIndex = markerIndex;
 
-		this.start();
+		canvas = gPanel.canvas;
+
+		start();
 	}
 
 	public void run()

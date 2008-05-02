@@ -27,6 +27,9 @@ public class FindDialog extends JDialog implements ListSelectionListener
 	// Tracks the viewSet in use at the time of the last search
 	private GTViewSet viewSet;
 
+	// Highlighters for when lines/markers are selected
+	private LMHighlighter lmHighlighter;
+
 	public FindDialog(JFrame parent, GenotypePanel gPanel)
 	{
 		super(parent, RB.getString("gui.dialog.FindDialog.title"), false);
@@ -240,6 +243,11 @@ public class FindDialog extends JDialog implements ListSelectionListener
 		if (e.getValueIsAdjusting() || nbPanel.table.getSelectedRow() == -1)
 			return;
 
+		processTableSelection();
+	}
+
+	void processTableSelection()
+	{
 		int row = nbPanel.table.getSelectedRow();
 		Object selected = nbPanel.tableModel.getValueAt(row, 0);
 
@@ -250,13 +258,17 @@ public class FindDialog extends JDialog implements ListSelectionListener
 			Object map = nbPanel.tableModel.getValueAt(row, 1);
 			displayMarker((Marker)selected, (ChromosomeMap) map);
 		}
+
+//		if (nbPanel.tableModel.getRowCount() == 1)
+//			nbPanel.table.getSelectionModel().clearSelection();
 	}
 
 	private void displayLine(Line line)
 	{
 		int lineIndex = viewSet.indexOf(line);
-
 		jumpToPosition(lineIndex, -1);
+
+		lmHighlighter = new LMHighlighter(gPanel, lineIndex, lmHighlighter, 0);
 	}
 
 	private void displayMarker(Marker marker, ChromosomeMap map)
@@ -275,6 +287,8 @@ public class FindDialog extends JDialog implements ListSelectionListener
 		}
 
 		jumpToPosition(-1, markerIndex);
+
+		lmHighlighter = new LMHighlighter(gPanel, markerIndex, lmHighlighter, 1);
 	}
 
 	// Do the jump in a separate thread so that changes to the view on the main
