@@ -73,16 +73,29 @@ public class FindDialog extends JDialog implements ListSelectionListener
 		addWindowListener(new WindowAdapter() {
 			public void windowActivated(WindowEvent e)
 			{
+				// When focus returns to the Find Dialog...
+
+				// If the view is different from what it was when the results
+				// were generated, then clear them, as they're now invalid
 				if (gPanel.getViewSet() != viewSet)
 				{
 					int count = nbPanel.tableModel.getRowCount();
 					setTableModel(null);
 
-/*					if (count > 0)
-						TaskDialog.info("The search results have been cleared because the data"
-							+ " being viewed has changed since these results were generated.",
-							RB.getString("gui.text.close"));
-*/
+					// And optionally inform the user about why
+					if (count > 0 && Prefs.warnFindDialogResultsCleared)
+					{
+						JCheckBox checkbox = new JCheckBox(
+							RB.getString("gui.dialog.FindDialog.focusCheckbox"));
+						RB.setMnemonic(checkbox, "gui.dialog.FindDialog.focusCheckbox");
+
+						TaskDialog.info(
+							RB.getString("gui.dialog.FindDialog.focusWarning"),
+							RB.getString("gui.text.close"),
+							checkbox);
+
+						Prefs.warnFindDialogResultsCleared = !checkbox.isSelected();
+					}
 				}
 			}
 		});
