@@ -45,7 +45,7 @@ public class GenotypeDataImporter
 		String str = in.readLine();
 
 		// Split the first line up into an array of marker names (we ignore the
-		// first element as it's a redundant column header)
+		// first element as it's a redundant column header: i=1 in loop below)
 		String[] markers = str.split("\t");
 
 		// Now work out the map indices of these markers and the indices within
@@ -66,14 +66,12 @@ public class GenotypeDataImporter
 		System.out.println("Map/marker cache created in " + (System.currentTimeMillis()-s) + "ms");
 		s = System.currentTimeMillis();
 
-		while ((str = in.readLine()) != null)
+		while ((str = in.readLine()) != null && str.length() > 0)
 		{
 			if ((++lineCount) % 100 == 0)
 			{
 				System.out.println("Reading line " + lineCount + " (" + (System.currentTimeMillis()-s) + "ms)");
 				s = System.currentTimeMillis();
-
-				System.gc();
 			}
 
 			String[] values = str.split("\t");
