@@ -58,8 +58,8 @@
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="1" attributes="0">
-                      <Component id="mapText" pref="233" max="32767" attributes="1"/>
-                      <Component id="genoText" alignment="1" pref="233" max="32767" attributes="1"/>
+                      <Component id="mapText" pref="230" max="32767" attributes="1"/>
+                      <Component id="genoText" alignment="1" pref="230" max="32767" attributes="1"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
@@ -138,11 +138,11 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="missingLabel" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
                   <Component id="missingText" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="50" max="32767" attributes="0"/>
+                  <EmptySpace pref="59" max="32767" attributes="0"/>
                   <Component id="heteroLabel" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
                   <Component id="heteroText" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -155,8 +155,8 @@
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="missingLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="missingText" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="heteroText" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="heteroLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="heteroText" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
