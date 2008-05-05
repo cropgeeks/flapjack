@@ -192,9 +192,21 @@ public class GenotypePanel extends JPanel
 		listPanel.computeDimensions(zoomY);
 		canvas.computeDimensions(zoomX, zoomY);
 
-		validate();
+		// TODO: Can this be done a better way?
+		// The listPanel needs to compute its width before computeRowColSizes()
+		// is called, but it won't do this properly unless it's visible, which
+		// it sometimes isn't when this method runs. Doing it this way causes
+		// it to run after everything else is done, which means the list *will*
+		// be visible, so the correct width is then computed. But it seems a
+		// horrible way of having to to it
+		Runnable r = new Runnable() {
+			public void run() {
+				validate();
+				computeRowColSizes();
+			}
+		};
 
-		computeRowColSizes();
+		SwingUtilities.invokeLater(r);
 	}
 
 	// When resizing the window or changing the zoom level...
@@ -205,8 +217,6 @@ public class GenotypePanel extends JPanel
 		rowCanvas.computeDimensions(listPanel.getWidth(), vBar.isVisible() ? (cWidth+vBar.getWidth()) : cWidth);
 		colCanvas.computeDimensions(listPanel.getHeight(), hBar.isVisible() ? hBar.getHeight() : 0);
 		mapCanvas.computeDimensions(listPanel.getWidth(), vBar.isVisible() ? (cWidth+vBar.getWidth()) : cWidth);
-
-//		statusPanel.computeDimensions(listPanel.getWidth());
 	}
 
 	public void mouseWheelMoved(MouseWheelEvent e)

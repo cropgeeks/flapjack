@@ -8,7 +8,7 @@ public class Line extends XMLRoot
 
 	// A unique key assigned to every line
 	// TODO: use the primary key from a Germinate DB import
-	private int key;
+	private int dbKey;
 
 	private Vector<GenotypeData> genotypes = new Vector<GenotypeData>();
 
@@ -16,10 +16,10 @@ public class Line extends XMLRoot
 	{
 	}
 
-	public Line(String name, int key)
+	public Line(String name, int dbKey)
 	{
 		this.name = new String(name);
-		this.key = key;
+		this.dbKey = dbKey;
 	}
 
 	void validate()
@@ -41,11 +41,11 @@ public class Line extends XMLRoot
 	public void setName(String name)
 		{ this.name = name; }
 
-	public int getKey()
-		{ return key; }
+	public int getDbKey()
+		{ return dbKey; }
 
-	public void setKey(int key)
-		{ this.key = key; }
+	public void setDbKey(int dbKey)
+		{ this.dbKey = dbKey; }
 
 	public Vector<GenotypeData> getGenotypes()
 		{ return genotypes; }
