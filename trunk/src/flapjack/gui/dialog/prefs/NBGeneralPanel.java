@@ -14,6 +14,7 @@ class NBGeneralPanel extends JPanel implements IPrefsTab
         initComponents();
 
 		// Interface settings
+		generalPanel.setBorder(BorderFactory.createTitledBorder(RB.getString("gui.dialog.prefs.NBGeneralPanel.generalPanelTitle")));
         displayLabel.setText(RB.getString("gui.dialog.prefs.NBGeneralPanel.displayLabel"));
 		RB.setMnemonic(displayLabel, "gui.dialog.prefs.NBGeneralPanel.displayLabel");
         displayHint.setText(RB.getString("gui.dialog.prefs.NBGeneralPanel.displayHint"));
@@ -38,7 +39,7 @@ class NBGeneralPanel extends JPanel implements IPrefsTab
         updateModel.addElement(RB.getString("gui.dialog.prefs.NBGeneralPanel.updateMonthly"));
         updateCombo.setModel(updateModel);
 
-		
+		projectPanel.setBorder(BorderFactory.createTitledBorder(RB.getString("gui.dialog.prefs.NBGeneralPanel.projectPanelTitle")));
 		checkCompress.setText(RB.getString("gui.dialog.prefs.NBGeneralPanel.checkCompress"));
 		RB.setMnemonic(checkCompress, "gui.dialog.prefs.NBGeneralPanel.checkCompress");
 
@@ -90,22 +91,77 @@ class NBGeneralPanel extends JPanel implements IPrefsTab
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        displayLabel = new javax.swing.JLabel();
+        generalPanel = new javax.swing.JPanel();
         displayCombo = new javax.swing.JComboBox();
-        displayHint = new javax.swing.JLabel();
-        updateLabel = new javax.swing.JLabel();
         updateCombo = new javax.swing.JComboBox();
+        displayLabel = new javax.swing.JLabel();
+        updateLabel = new javax.swing.JLabel();
+        displayHint = new javax.swing.JLabel();
+        projectPanel = new javax.swing.JPanel();
         checkCompress = new javax.swing.JCheckBox();
+
+        generalPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("General options:"));
 
         displayLabel.setLabelFor(displayCombo);
         displayLabel.setText("Interface display language:");
 
-        displayHint.setText("(Restart Flapjack to apply)");
-
         updateLabel.setLabelFor(updateCombo);
         updateLabel.setText("Check for newer Flapjack versions:");
 
+        displayHint.setText("(Restart Flapjack to apply)");
+
+        org.jdesktop.layout.GroupLayout generalPanelLayout = new org.jdesktop.layout.GroupLayout(generalPanel);
+        generalPanel.setLayout(generalPanelLayout);
+        generalPanelLayout.setHorizontalGroup(
+            generalPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(generalPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .add(generalPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(displayLabel)
+                    .add(updateLabel))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(generalPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(updateCombo, 0, 158, Short.MAX_VALUE)
+                    .add(displayHint)
+                    .add(displayCombo, 0, 158, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        generalPanelLayout.setVerticalGroup(
+            generalPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(generalPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .add(generalPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(displayLabel)
+                    .add(displayCombo, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(displayHint)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                .add(generalPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(updateLabel)
+                    .add(updateCombo, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        projectPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Project options:"));
+
         checkCompress.setText("Compress Flapjack projects files to save disk space");
+
+        org.jdesktop.layout.GroupLayout projectPanelLayout = new org.jdesktop.layout.GroupLayout(projectPanel);
+        projectPanel.setLayout(projectPanelLayout);
+        projectPanelLayout.setHorizontalGroup(
+            projectPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(projectPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .add(checkCompress)
+                .addContainerGap(77, Short.MAX_VALUE))
+        );
+        projectPanelLayout.setVerticalGroup(
+            projectPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(projectPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .add(checkCompress)
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
         this.setLayout(layout);
@@ -114,34 +170,18 @@ class NBGeneralPanel extends JPanel implements IPrefsTab
             .add(layout.createSequentialGroup()
                 .addContainerGap()
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(checkCompress)
-                    .add(layout.createSequentialGroup()
-                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(displayLabel)
-                            .add(updateLabel))
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(displayCombo, 0, 156, Short.MAX_VALUE)
-                            .add(displayHint)
-                            .add(updateCombo, 0, 156, Short.MAX_VALUE))))
+                    .add(generalPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .add(projectPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
                 .addContainerGap()
-                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(displayLabel)
-                    .add(displayCombo, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(displayHint)
-                .add(18, 18, 18)
-                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(updateLabel)
-                    .add(updateCombo, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .add(18, 18, 18)
-                .add(checkCompress)
-                .addContainerGap(49, Short.MAX_VALUE))
+                .add(generalPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                .add(projectPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -150,6 +190,8 @@ class NBGeneralPanel extends JPanel implements IPrefsTab
     private javax.swing.JComboBox displayCombo;
     private javax.swing.JLabel displayHint;
     private javax.swing.JLabel displayLabel;
+    private javax.swing.JPanel generalPanel;
+    private javax.swing.JPanel projectPanel;
     private javax.swing.JComboBox updateCombo;
     private javax.swing.JLabel updateLabel;
     // End of variables declaration//GEN-END:variables

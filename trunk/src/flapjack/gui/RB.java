@@ -6,7 +6,7 @@ import javax.swing.*;
 
 /**
  * ResourceBundle utility class that holds all the resource strings for the
- * application.
+ * application. Also handles special cases where we use '&' to mark mnemonics.
  */
 public class RB
 {
