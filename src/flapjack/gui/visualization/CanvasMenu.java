@@ -89,6 +89,17 @@ public class CanvasMenu
 
 	void handlePopup(MouseEvent e)
 	{
+		// Normal mouse-over the canvas would keep these indices up to date,
+		// but because we disable mouseover events while the menu is showing, we
+		// still need to make sure the x/y values are correct - this deals with
+		// the situation where the user can right click multiple times (showing
+		// the menu multiple times) before they actually pick an option from it
+		int xIndex = canvas.getMarker(e.getPoint());
+		int yIndex = canvas.getLine(e.getPoint());
+		canvas.setHighlightedIndices(yIndex, xIndex);
+
+
+		// Create and display the menu
 		menu = new JPopupMenu();
 
 		menu.add(mLock);
