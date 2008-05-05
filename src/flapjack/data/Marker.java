@@ -6,6 +6,7 @@ public class Marker extends XMLRoot implements Comparable<Marker>
 {
 	private String name;
 	private float position;
+	private int dbKey;
 
 	public Marker()
 	{
@@ -38,6 +39,12 @@ public class Marker extends XMLRoot implements Comparable<Marker>
 
 	public void setPosition(float position)
 		{ this.position = position; }
+
+	public int getDbKey()
+		{ return dbKey; }
+
+	public void setDbKey(int dbKey)
+		{ this.dbKey = dbKey; }
 
 
 	// Other methods

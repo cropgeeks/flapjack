@@ -121,7 +121,8 @@ class GenotypeCanvas extends JPanel
 
 		setSize(dimension = new Dimension(canvasW, canvasH));
 
-		long s = System.currentTimeMillis();
+		// TODO: track sizeX/Y (or something) so we only recreate color scheme
+		// when it reallys needs to be recreated
 		switch (viewSet.getColorScheme())
 		{
 			case ColorScheme.LINE_SIMILARITY:
@@ -151,7 +152,6 @@ class GenotypeCanvas extends JPanel
 			default: // ColorScheme.NUCLEOTIDE
 				cScheme = new NucleotideColorScheme(view, boxW, boxH);
 		}
-		System.out.println("Color scheme created in " + (System.currentTimeMillis()-s) + "ms");
 
 		/////////////////////////
 
