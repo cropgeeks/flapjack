@@ -181,7 +181,7 @@ public class DataImportingDialog extends JDialog implements Runnable
 		catch (Exception e)
 		{
 			TaskDialog.error(
-				RB.format("gui.dialog.DataImportingDialog.exception", e),
+				RB.format("gui.dialog.DataImportingDialog.exception", e.getMessage()),
 				RB.getString("gui.text.close"));
 
 			e.printStackTrace();

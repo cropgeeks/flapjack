@@ -4,6 +4,7 @@ import java.io.*;
 import java.util.*;
 
 import flapjack.data.*;
+import flapjack.gui.*;
 
 public class ChromosomeMapImporter
 {
@@ -24,16 +25,25 @@ public class ChromosomeMapImporter
 		BufferedReader in = new BufferedReader(new FileReader(file));
 
 		String str = null;
+		int linesRead = 1;
 
-		while ((str = in.readLine()) != null)
+		while ((str = in.readLine()) != null && str.length() > 0)
 		{
 			String[] tokens = str.split("\t");
 
+			if (tokens.length != 3)
+				throw new DataFormatException(RB.format("io.DataFormatException.mapTokenError", file, tokens.length, linesRead));
+
 			// Parse out the marker's position
-			float position = Float.parseFloat(tokens[2]);
+			float position = 0;
+			try { position = Float.parseFloat(tokens[2]); }
+			catch (Exception e)	{
+				throw new DataFormatException(RB.format("io.DataFormatException.parseDistanceError", file, tokens[2], linesRead));
+			}
 
 			// (And its name), using them to create a new marker
 			Marker marker = new Marker(tokens[0], position);
+
 
 			// Check to see if this marker names already exists (in any map)?
 			int mapIndex = dataSet.getMapIndexByMarkerName(marker.getName());
@@ -49,6 +59,8 @@ public class ChromosomeMapImporter
 				// And add it
 				map.addMarker(marker);
 			}
+
+			linesRead++;
 		}
 
 		in.close();
