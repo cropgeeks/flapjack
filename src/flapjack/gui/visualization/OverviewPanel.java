@@ -26,6 +26,10 @@ public class OverviewPanel extends JPanel
 	{
 		removeCanvas();
 
+		add(new TitlePanel(
+			RB.getString("gui.visualization.OverviewDialog.title")),
+			BorderLayout.NORTH);
+
 		add(canvas);
 		validate();
 	}
