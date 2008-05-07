@@ -33,13 +33,13 @@ class ListPanel extends JPanel
 	void setView(GTView view)
 	{
 		this.view = view;
-//		populateList();
+		populateList();
 	}
 
 	private void populateList()
 	{
-//		if (view == null)
-//			return;
+		if (view == null)
+			return;
 
 		model.clear();
 
@@ -50,7 +50,8 @@ class ListPanel extends JPanel
 	void computeDimensions(int size)
 	{
 		font = new Font("Monospaced", Font.PLAIN, size);
-		populateList();
+		lineList.setFont(font);
+//		populateList();
 	}
 
 	void moveLine(int fromIndex, int toIndex)

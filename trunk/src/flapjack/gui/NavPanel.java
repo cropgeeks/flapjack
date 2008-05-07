@@ -48,13 +48,17 @@ class NavPanel extends JPanel
 		menu = new NavPanelMenu(tree);
 		tree.addMouseListener(menu);
 
+		JPanel treePanel = new JPanel(new BorderLayout());
+		treePanel.add(new TitlePanel(RB.getString("gui.NavPanel.title")), BorderLayout.NORTH);
+		treePanel.add(new JScrollPane(tree));
+
 		gPanel = new GenotypePanel(winMain);
 
 		vSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
 		vSplitPane.setResizeWeight(1);
 		vSplitPane.addPropertyChangeListener(this);
 		vSplitPane.setDividerLocation(Prefs.guiOverviewSplitsLocation);
-		vSplitPane.setTopComponent(new JScrollPane(tree));
+		vSplitPane.setTopComponent(treePanel);
 		vSplitPane.setBottomComponent(OverviewManager.getPanel());
 
 		hSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);

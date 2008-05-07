@@ -71,6 +71,7 @@ public class DataImportingDialog extends JDialog implements Runnable
 	private JPanel createControls()
 	{
 		pBar = new JProgressBar();
+		pBar.setIndeterminate(true);
 		pBar.setPreferredSize(new Dimension(300, pBar.getPreferredSize().height));
 
 		mapsLabel = new JLabel();
@@ -116,7 +117,13 @@ public class DataImportingDialog extends JDialog implements Runnable
 			{
 				while (isVisible())
 				{
-					pBar.setValue(genoImporter.getLineCount());
+					int lineCount = genoImporter.getLineCount();
+
+					if (lineCount > 0)
+					{
+						pBar.setIndeterminate(false);
+						pBar.setValue(genoImporter.getLineCount());
+					}
 
 					lineLabel.setText("  " + nf.format(genoImporter.getLineCount()));
 					mrksLabel.setText("  " + nf.format(genoImporter.getMarkerCount()));
