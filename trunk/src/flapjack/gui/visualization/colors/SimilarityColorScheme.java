@@ -5,6 +5,7 @@ import java.awt.image.*;
 import java.util.*;
 
 import flapjack.data.*;
+import flapjack.gui.*;
 
 abstract class SimilarityColorScheme extends ColorScheme
 {
@@ -13,9 +14,8 @@ abstract class SimilarityColorScheme extends ColorScheme
 	// TODO: Once we have proper highlighting, there'll be no need for this style?
 	protected Vector<ColorState> aStatesDark = new Vector<ColorState>();
 
-	protected static final Color COLOR_A = new Color(255, 120, 120);
-	protected static final Color COLOR_B = new Color(120, 255, 120);
-	protected static final Color COLOR_A_DRK = new Color(255, 90, 90);
+	/** Empty constructor that is ONLY used for color customization purposes. */
+	public SimilarityColorScheme() {}
 
 	public SimilarityColorScheme(GTView view, int w, int h)
 	{
@@ -30,27 +30,34 @@ abstract class SimilarityColorScheme extends ColorScheme
 
 			// Use white for the default unknown state
 			if (state.isUnknown())
-				cA = cB = cADark = new SimpleColorState(state, Color.white, w, h);
+				cA = cB = cADark = new SimpleColorState(state, Prefs.visColorBackground, w, h);
 
 			// Homozygous states
 			else if (state.isHomozygous())
 			{
-				cA = new HomozygousColorState(state, COLOR_A, w, h);
-				cB = new HomozygousColorState(state, COLOR_B, w, h);
-				cADark = new HomozygousColorState(state, COLOR_A_DRK, w, h);
+				cA = new HomozygousColorState(state, Prefs.visColorSimilarityState1, w, h);
+				cB = new HomozygousColorState(state, Prefs.visColorSimilarityState2, w, h);
+				cADark = new HomozygousColorState(state, Prefs.visColorSimilarityState1Dark, w, h);
 			}
 
 			// Heterozygous states
 			else
 			{
-				cA = new HeterozygeousColorState(state, COLOR_A, COLOR_A, COLOR_A, w, h);
-				cB = new HeterozygeousColorState(state, COLOR_B, COLOR_B, COLOR_B, w, h);
-				cADark = new HeterozygeousColorState(state, COLOR_A_DRK, COLOR_A_DRK, COLOR_A_DRK, w, h);
+				cA = new HeterozygeousColorState(state, Prefs.visColorSimilarityState1, Prefs.visColorSimilarityState1, Prefs.visColorSimilarityState1, w, h);
+				cB = new HeterozygeousColorState(state, Prefs.visColorSimilarityState2, Prefs.visColorSimilarityState2, Prefs.visColorSimilarityState2, w, h);
+				cADark = new HeterozygeousColorState(state, Prefs.visColorSimilarityState1Dark, Prefs.visColorSimilarityState1Dark, Prefs.visColorSimilarityState1Dark, w, h);
 			}
 
 			aStates.add(cA);
 			bStates.add(cB);
 			aStatesDark.add(cADark);
 		}
+	}
+
+	public void setColorSummaries(Vector<ColorSummary> colors)
+	{
+		Prefs.visColorSimilarityState1Dark = colors.get(0).color;
+		Prefs.visColorSimilarityState1 = colors.get(1).color;
+		Prefs.visColorSimilarityState2 = colors.get(2).color;
 	}
 }

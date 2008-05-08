@@ -236,7 +236,12 @@ public class WinMain extends JFrame
 		OverviewManager.toggleOverviewDialog();
 	}
 
-	void vizColor(int colorScheme)
+	void vizColorCustomize()
+	{
+		new ColorDialog(this, gPanel);
+	}
+
+	public void vizColor(int colorScheme)
 	{
 		// Set the initial index positions for similarity colouring (if needbe)
 		if (colorScheme == ColorScheme.LINE_SIMILARITY || colorScheme == ColorScheme.LINE_SIMILARITY_GS ||

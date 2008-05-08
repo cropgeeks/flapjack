@@ -23,6 +23,7 @@ public class Actions
 
 	public static AbstractAction vizOverview;
 	public static AbstractAction vizExportImage;
+	public static AbstractAction vizColorCustomize;
 	public static AbstractAction vizColorRandom;
 	public static AbstractAction vizColorNucleotide;
 	public static AbstractAction vizColorLineSim;
@@ -140,6 +141,12 @@ public class Actions
 		vizExportImage = new AbstractAction(RB.getString("gui.Actions.vizExportImage")) {
 			public void actionPerformed(ActionEvent e) {
 				winMain.vizExportImage();
+			}
+		};
+
+		vizColorCustomize = new AbstractAction(RB.getString("gui.Actions.vizColorCustomize")) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.vizColorCustomize();
 			}
 		};
 
@@ -287,6 +294,7 @@ public class Actions
 
 		vizOverview.setEnabled(false);
 		vizExportImage.setEnabled(false);
+		vizColorCustomize.setEnabled(false);
 		vizColorRandom.setEnabled(false);
 		vizColorNucleotide.setEnabled(false);
 		vizColorLineSim.setEnabled(false);

@@ -72,7 +72,7 @@ class ListPanel extends JPanel
 		BufferedImage image = new BufferedImage(size.width, size.height,
 			BufferedImage.TYPE_INT_RGB);
 
-		// Paint a copy of this panel (forcing it background to white too)
+		// Paint a copy of this panel (forcing its background to white too)
 		Color background = lineList.getBackground();
 		lineList.setBackground(Color.white);
 		Graphics2D g = image.createGraphics();

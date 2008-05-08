@@ -30,6 +30,7 @@ public class WinMainMenuBar extends JMenuBar
 	public static JCheckBoxMenuItem mVizOverview;
 	private JMenuItem mVizExportImage;
 	private JMenu mVizColor;
+	private JMenuItem mVizColorCustomize;
 	private JMenuItem mVizColorRandom;
 	private JMenuItem mVizColorNucleotide;
 	private JMenuItem mVizColorLineSim;
@@ -138,6 +139,7 @@ public class WinMainMenuBar extends JMenuBar
 
 		mVizOverview = getCheckedItem(Actions.vizOverview, "gui.Actions.vizOverview", KeyEvent.VK_F7, 0, Prefs.guiOverviewDialog);
 		mVizExportImage = getItem(Actions.vizExportImage, "gui.Actions.vizExportImage", 0, 0);
+		mVizColorCustomize = getItem(Actions.vizColorCustomize, "gui.Actions.vizColorCustomize", 0, 0);
 		mVizColorRandom = getItem(Actions.vizColorRandom, "gui.Actions.vizColorRandom", 0, 0);
 		mVizColorNucleotide = getItem(Actions.vizColorNucleotide, "gui.Actions.vizColorNucleotide", 0, 0);
 		mVizColorLineSim = getItem(Actions.vizColorLineSim, "gui.Actions.vizColorLineSim", 0, 0);
@@ -158,6 +160,8 @@ public class WinMainMenuBar extends JMenuBar
 //		mVizColor.add(mVizColorMarkerSimGS);
 		mVizColor.addSeparator();
 		mVizColor.add(mVizColorRandom);
+		mVizColor.addSeparator();
+		mVizColor.add(mVizColorCustomize);
 
 		mViz.add(mVizExportImage);
 		mViz.addSeparator();

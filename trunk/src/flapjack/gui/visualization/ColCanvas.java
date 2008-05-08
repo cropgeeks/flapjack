@@ -5,6 +5,7 @@ import java.awt.image.*;
 import javax.swing.*;
 
 import flapjack.data.*;
+import flapjack.gui.*;
 
 class ColCanvas extends JPanel
 {
@@ -49,7 +50,7 @@ class ColCanvas extends JPanel
 	{
 		Canvas2D()
 		{
-			setBackground(Color.white);
+			setBackground(Prefs.visColorBackground);
 			setPreferredSize(new Dimension(45, 0));
 		}
 
@@ -100,9 +101,13 @@ class ColCanvas extends JPanel
 			int y1 = (int) (yIndex*yScale);
 			int y2 = (int) (yIndex*yScale + yCount*yScale);
 
-			g.setPaint(new Color(50, 50, 0, 50));
+			int cR = Prefs.visColorOverviewFill.getRed();
+			int cG = Prefs.visColorOverviewFill.getGreen();
+			int cB = Prefs.visColorOverviewFill.getBlue();
+			g.setPaint(new Color(cR, cG, cB, 50));
 			g.fillRect(0, y1, 45-1, y2-y1-1);
-			g.setColor(Color.red);
+
+			g.setColor(Prefs.visColorOverviewOutline);
 			g.drawRect(0, y1, 45-1, y2-y1-1);
 		}
 	}

@@ -5,17 +5,14 @@ import java.awt.image.*;
 import java.util.*;
 
 import flapjack.data.*;
+import flapjack.gui.*;
 
 public class NucleotideColorScheme extends ColorScheme
 {
 	protected Vector<ColorState> states = new Vector<ColorState>();
 
-	protected static final Color COLOR_A = new Color(120, 255, 120);
-	protected static final Color COLOR_C = new Color(255, 160, 120);
-	protected static final Color COLOR_G = new Color(255, 120, 120);
-	protected static final Color COLOR_T = new Color(120, 120, 255);
-
-	protected static final Color COLOR_HET = new Color(100, 100, 100);
+	/** Empty constructor that is ONLY used for color customization purposes. */
+	public NucleotideColorScheme() {}
 
 	public NucleotideColorScheme(GTView view, int w, int h)
 	{
@@ -28,60 +25,60 @@ public class NucleotideColorScheme extends ColorScheme
 
 			// Use white for the default unknown state
 			if (state.isUnknown())
-				c = new SimpleColorState(state, Color.white, w, h);
+				c = new SimpleColorState(state, Prefs.visColorBackground, w, h);
 
 			// Homozygous states
 			else if (state.isHomozygous())
 			{
 				if (state.getRawData().equals("A"))
-					c = new HomozygousColorState(state, COLOR_A, w, h);
+					c = new HomozygousColorState(state, Prefs.visColorNucleotideA, w, h);
 				else if (state.getRawData().equals("C"))
-					c = new HomozygousColorState(state, COLOR_C, w, h);
+					c = new HomozygousColorState(state, Prefs.visColorNucleotideC, w, h);
 				else if (state.getRawData().equals("G"))
-					c = new HomozygousColorState(state, COLOR_G, w, h);
+					c = new HomozygousColorState(state, Prefs.visColorNucleotideG, w, h);
 				else if (state.getRawData().equals("T"))
-					c = new HomozygousColorState(state, COLOR_T, w, h);
+					c = new HomozygousColorState(state, Prefs.visColorNucleotideT, w, h);
 
-				// Use a fixed (RED) color for any further unknown states
+				// Use a fixed color for any further unknown states
 				else
-					c = new HomozygousColorState(state, Color.red, w, h);
+					c = new HomozygousColorState(state, Prefs.visColorNucleotideOther, w, h);
 			}
 
 			// Heterozygous states
 			else
 			{
 				if (state.getState(0).equals("A") && state.getState(1).equals("G"))
-					c = new HeterozygeousColorState(state, COLOR_HET, COLOR_A, COLOR_G, w, h);
+					c = new HeterozygeousColorState(state, Prefs.visColorNucleotideHZ, Prefs.visColorNucleotideA, Prefs.visColorNucleotideG, w, h);
 				else if (state.getState(0).equals("A") && state.getState(1).equals("C"))
-					c = new HeterozygeousColorState(state, COLOR_HET, COLOR_A, COLOR_C, w, h);
+					c = new HeterozygeousColorState(state, Prefs.visColorNucleotideHZ, Prefs.visColorNucleotideA, Prefs.visColorNucleotideC, w, h);
 				else if (state.getState(0).equals("A") && state.getState(1).equals("T"))
-					c = new HeterozygeousColorState(state, COLOR_HET, COLOR_A, COLOR_T, w, h);
+					c = new HeterozygeousColorState(state, Prefs.visColorNucleotideHZ, Prefs.visColorNucleotideA, Prefs.visColorNucleotideT, w, h);
 
 				else if (state.getState(0).equals("G") && state.getState(1).equals("A"))
-					c = new HeterozygeousColorState(state, COLOR_HET, COLOR_G, COLOR_A, w, h);
+					c = new HeterozygeousColorState(state, Prefs.visColorNucleotideHZ, Prefs.visColorNucleotideG, Prefs.visColorNucleotideA, w, h);
 				else if (state.getState(0).equals("G") && state.getState(1).equals("C"))
-					c = new HeterozygeousColorState(state, COLOR_HET, COLOR_G, COLOR_C, w, h);
+					c = new HeterozygeousColorState(state, Prefs.visColorNucleotideHZ, Prefs.visColorNucleotideG, Prefs.visColorNucleotideC, w, h);
 				else if (state.getState(0).equals("G") && state.getState(1).equals("T"))
-					c = new HeterozygeousColorState(state, COLOR_HET, COLOR_G, COLOR_T, w, h);
+					c = new HeterozygeousColorState(state, Prefs.visColorNucleotideHZ, Prefs.visColorNucleotideG, Prefs.visColorNucleotideT, w, h);
 
 				else if (state.getState(0).equals("C") && state.getState(1).equals("A"))
-					c = new HeterozygeousColorState(state, COLOR_HET, COLOR_C, COLOR_A, w, h);
+					c = new HeterozygeousColorState(state, Prefs.visColorNucleotideHZ, Prefs.visColorNucleotideC, Prefs.visColorNucleotideA, w, h);
 				else if (state.getState(0).equals("C") && state.getState(1).equals("G"))
-					c = new HeterozygeousColorState(state, COLOR_HET, COLOR_C, COLOR_G, w, h);
+					c = new HeterozygeousColorState(state, Prefs.visColorNucleotideHZ, Prefs.visColorNucleotideC, Prefs.visColorNucleotideG, w, h);
 				else if (state.getState(0).equals("C") && state.getState(1).equals("T"))
-					c = new HeterozygeousColorState(state, COLOR_HET, COLOR_C, COLOR_T, w, h);
+					c = new HeterozygeousColorState(state, Prefs.visColorNucleotideHZ, Prefs.visColorNucleotideC, Prefs.visColorNucleotideT, w, h);
 
 				else if (state.getState(0).equals("T") && state.getState(1).equals("A"))
-					c = new HeterozygeousColorState(state, COLOR_HET, COLOR_T, COLOR_A, w, h);
+					c = new HeterozygeousColorState(state, Prefs.visColorNucleotideHZ, Prefs.visColorNucleotideT, Prefs.visColorNucleotideA, w, h);
 				else if (state.getState(0).equals("T") && state.getState(1).equals("G"))
-					c = new HeterozygeousColorState(state, COLOR_HET, COLOR_T, COLOR_G, w, h);
+					c = new HeterozygeousColorState(state, Prefs.visColorNucleotideHZ, Prefs.visColorNucleotideT, Prefs.visColorNucleotideG, w, h);
 				else if (state.getState(0).equals("T") && state.getState(1).equals("C"))
-					c = new HeterozygeousColorState(state, COLOR_HET, COLOR_T, COLOR_C, w, h);
+					c = new HeterozygeousColorState(state, Prefs.visColorNucleotideHZ, Prefs.visColorNucleotideT, Prefs.visColorNucleotideC, w, h);
 
 
-				// Use a fixed (RED) color for any further unknown states
+				// Use a fixed color for any further unknown states
 				else
-					c = new HeterozygeousColorState(state, Color.red, Color.red, Color.red, w, h);
+					c = new HeterozygeousColorState(state, Prefs.visColorNucleotideOther, Prefs.visColorNucleotideOther, Prefs.visColorNucleotideOther, w, h);
 			}
 
 			states.add(c);
@@ -98,5 +95,46 @@ public class NucleotideColorScheme extends ColorScheme
 	{
 		int state = view.getState(line, marker);
 		return states.get(state).getColor();
+	}
+
+	public int getModel()
+		{ return NUCLEOTIDE; }
+
+	public String toString()
+		{ return RB.getString("gui.Actions.vizColorNucleotide"); }
+
+	public String getDescription()
+	{
+		return RB.getString("gui.visualization.colors.NucleotideColorScheme");
+	}
+
+	public Vector<ColorSummary> getColorSummaries()
+	{
+		Vector<ColorSummary> colors = new Vector<ColorSummary>();
+
+		colors.add(new ColorSummary(Prefs.visColorNucleotideA,
+			RB.getString("gui.visualization.colors.NucleotideColorScheme.a")));
+		colors.add(new ColorSummary(Prefs.visColorNucleotideC,
+			RB.getString("gui.visualization.colors.NucleotideColorScheme.c")));
+		colors.add(new ColorSummary(Prefs.visColorNucleotideG,
+			RB.getString("gui.visualization.colors.NucleotideColorScheme.g")));
+		colors.add(new ColorSummary(Prefs.visColorNucleotideT,
+			RB.getString("gui.visualization.colors.NucleotideColorScheme.t")));
+		colors.add(new ColorSummary(Prefs.visColorNucleotideHZ,
+			RB.getString("gui.visualization.colors.NucleotideColorScheme.hz")));
+		colors.add(new ColorSummary(Prefs.visColorNucleotideOther,
+			RB.getString("gui.visualization.colors.NucleotideColorScheme.other")));
+
+		return colors;
+	}
+
+	public void setColorSummaries(Vector<ColorSummary> colors)
+	{
+		Prefs.visColorNucleotideA = colors.get(0).color;
+		Prefs.visColorNucleotideC = colors.get(1).color;
+		Prefs.visColorNucleotideG = colors.get(2).color;
+		Prefs.visColorNucleotideT = colors.get(3).color;
+		Prefs.visColorNucleotideHZ = colors.get(4).color;
+		Prefs.visColorNucleotideOther = colors.get(5).color;
 	}
 }

@@ -121,6 +121,7 @@ public class GTView extends XMLRoot
 	 * @return the state information at the position of the line and marker
 	 */
 	public int getState(int line, int marker)
+		throws ArrayIndexOutOfBoundsException
 	{
 		return genotypeLines.get(line).getState(markers.get(marker));
 	}
@@ -228,18 +229,34 @@ public class GTView extends XMLRoot
 	}
 
 	/**
-	 * Should be called to ensures the comparison line index value is still
-	 * correct after major changes to the ordering of lines within the view.
+	 * Should be called to ensure the comparison line/marker index values are
+	 * still correct after major changes to ordering of them within the view.
 	 */
 	public void updateComparisons()
 	{
-		for (int index: viewSet.lines)
-			if (getLine(index) == viewSet.comparisonLine)
-				viewSet.comparisonLineIndex = index;
+		try
+		{
+			for (int index: viewSet.lines)
+				if (getLine(index) == viewSet.comparisonLine)
+					viewSet.comparisonLineIndex = index;
+		}
+		catch (ArrayIndexOutOfBoundsException e)
+		{
+			viewSet.comparisonLine = null;
+			viewSet.comparisonLineIndex = -1;
+		}
 
-		for (int index: markers)
-			if (getMarker(index) == comparisonMarker)
-				comparisonMarkerIndex = index;
+		try
+		{
+			for (int index: markers)
+				if (getMarker(index) == comparisonMarker)
+					comparisonMarkerIndex = index;
+		}
+		catch (ArrayIndexOutOfBoundsException e)
+		{
+			comparisonMarker = null;
+			comparisonMarkerIndex = -1;
+		}
 	}
 
 	public int getComparisonLineIndex()

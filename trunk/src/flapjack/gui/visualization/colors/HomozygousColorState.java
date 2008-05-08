@@ -52,7 +52,7 @@ public class HomozygousColorState extends ColorState
 			Rectangle2D bounds = fm.getStringBounds(str, g);
 
 			g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-			g.setColor(Color.black);
+			g.setColor(Prefs.visColorText);
 			g.drawString(str,
 				(int)((float)w/2-bounds.getWidth()/2),
 				h - fm.getMaxDescent());
@@ -61,7 +61,7 @@ public class HomozygousColorState extends ColorState
 /*		if (state.isHomozygous() == false)
 		{
 			r = new Rectangle2D.Float(0, 0, w-1, h-1);
-			g.setColor(Color.black);
+			g.setColor(Prefs.visColorText);
 			g.draw(r);
 		}
 */
