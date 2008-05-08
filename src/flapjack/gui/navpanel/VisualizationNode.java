@@ -32,6 +32,7 @@ public class VisualizationNode extends BaseNode
 	{
 		Actions.vizOverview.setEnabled(true);
 		Actions.vizExportImage.setEnabled(true);
+		Actions.vizColorCustomize.setEnabled(true);
 		Actions.vizColorRandom.setEnabled(true);
 		Actions.vizColorNucleotide.setEnabled(true);
 		Actions.vizColorLineSim.setEnabled(true);

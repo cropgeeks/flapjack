@@ -66,7 +66,7 @@ public class HeterozygeousColorState extends ColorState
 			Rectangle2D bounds = fm.getStringBounds(str, g);
 
 			g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-			g.setColor(Color.black);
+			g.setColor(Prefs.visColorText);
 			g.drawString(str,
 				(int)((float)w/2-bounds.getWidth()/2),
 				h - fm.getMaxDescent());

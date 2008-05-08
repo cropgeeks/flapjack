@@ -23,6 +23,7 @@ public class Flapjack
 		// OS X: This has to be set before anything else
 		System.setProperty("com.apple.mrj.application.apple.menu.about.name", "Flapjack");
 
+		prefs.setDefaults();
 		prefs.loadPreferences(prefsFile, Prefs.class);
 
 		Install4j.doStartUpCheck();

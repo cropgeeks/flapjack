@@ -55,6 +55,7 @@ public class GenotypeData extends XMLRoot
 	}
 
 	public int getState(int index)
+		throws ArrayIndexOutOfBoundsException
 	{
 		return loci[index];
 	}

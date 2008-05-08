@@ -152,9 +152,13 @@ class OverviewCanvas extends JPanel
 				g.fillRect(0, 0, w, h);
 
 				// Then draw the tracking rectangle
-				((Graphics2D) g).setPaint(new Color(50, 50, 0, 50));
+				int cR = Prefs.visColorOverviewFill.getRed();
+				int cG = Prefs.visColorOverviewFill.getGreen();
+				int cB = Prefs.visColorOverviewFill.getBlue();
+				((Graphics2D) g).setPaint(new Color(cR, cG, cB, 50));
 				g.fillRect(boxX, boxY, boxW, boxH);
-				g.setColor(Color.red);
+
+				g.setColor(Prefs.visColorOverviewOutline);
 				g.drawRect(boxX, boxY, boxW, boxH);
 			}
 
@@ -240,7 +244,7 @@ class OverviewCanvas extends JPanel
 			yHeight = 1 + (int) ((yScale >= 1) ? yScale : 1);
 
 			Graphics2D g = buffer.createGraphics();
-			g.setColor(Color.white);
+			g.setColor(Prefs.visColorBackground);
 			g.fillRect(0, 0, w, h);
 
 			// What were the x and y positions of the last point drawn? If the next

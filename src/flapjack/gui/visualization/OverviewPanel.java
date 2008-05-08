@@ -12,7 +12,7 @@ public class OverviewPanel extends JPanel
 {
 	public OverviewPanel()
 	{
-		setBackground(Color.white);
+		setBackground(Prefs.visColorBackground);
 		setLayout(new BorderLayout());
 	}
 

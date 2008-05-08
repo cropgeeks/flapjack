@@ -69,7 +69,7 @@ class GenotypeCanvas extends JPanel
 		this.gPanel = gPanel;
 
 		setOpaque(false);
-		setBackground(Color.white);
+		setBackground(Prefs.visColorBackground);
 
 		new CanvasMouseListener(gPanel, this);
 
@@ -324,7 +324,7 @@ class GenotypeCanvas extends JPanel
 
 	private void render(Graphics2D g, ImageMonitor monitor, int xS, int xE, int yS, int yE)
 	{
-//		g.setColor(Color.white);
+//		g.setColor(Prefs.visColorBackground);
 //		g.fillRect(0, 0, canvasW, canvasH);
 
 		for (int yIndex = yS, y = (boxH*yS); yIndex <= yE; yIndex++, y += boxH)

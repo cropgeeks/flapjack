@@ -81,4 +81,57 @@ public class Prefs extends XMLPreferences
 
 	// Should the visualization canvas overlay the raw data?
 	public static boolean visShowGenotypes = false;
+
+	// Standard colors used regardless of scheme
+	public static Color visColorBackground;
+	public static Color visColorOverviewOutline;
+	public static Color visColorOverviewFill;
+	public static Color visColorText;
+
+	// Colors used by the nucleotide color scheme
+	public static Color visColorNucleotideA;
+	public static Color visColorNucleotideC;
+	public static Color visColorNucleotideG;
+	public static Color visColorNucleotideT;
+	public static Color visColorNucleotideHZ;
+	public static Color visColorNucleotideOther;
+
+	// Colors used by the simple two color scheme
+	public static Color visColorSimple2State1;
+	public static Color visColorSimple2State2;
+	public static Color visColorSimple2Other;
+
+	// Colors used by the similarity schemes
+	public static Color visColorSimilarityState1;
+	public static Color visColorSimilarityState1Dark;
+	public static Color visColorSimilarityState2;
+
+
+	static void setDefaults()
+	{
+		setColorDefaults();
+	}
+
+	public static void setColorDefaults()
+	{
+		visColorBackground = new Color(255, 255, 255);
+		visColorOverviewOutline = new Color(255, 0, 0);
+		visColorOverviewFill = new Color(50, 50, 0);
+		visColorText = new Color(0, 0, 0);
+
+		visColorNucleotideA = new Color(120, 255, 120);
+		visColorNucleotideC = new Color(255, 160, 120);
+		visColorNucleotideG = new Color(255, 120, 120);
+		visColorNucleotideT = new Color(120, 120, 255);
+		visColorNucleotideHZ = new Color(100, 100, 100);
+		visColorNucleotideOther = new Color(204, 204, 204);
+
+		visColorSimple2State1 = new Color(255, 120, 120);
+		visColorSimple2State2 = new Color(120, 255, 120);
+		visColorSimple2Other = new Color(204, 204, 204);
+
+		visColorSimilarityState1 = new Color(255, 120, 120);
+		visColorSimilarityState1Dark = new Color(255, 90, 90);
+		visColorSimilarityState2 = new Color(120, 255, 120);
+	}
 }

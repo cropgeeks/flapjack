@@ -5,6 +5,7 @@ import java.awt.image.*;
 import javax.swing.*;
 
 import flapjack.data.*;
+import flapjack.gui.*;
 
 class RowCanvas extends JPanel
 {
@@ -49,7 +50,7 @@ class RowCanvas extends JPanel
 	{
 		Canvas2D()
 		{
-			setBackground(Color.white);
+			setBackground(Prefs.visColorBackground);
 			setPreferredSize(new Dimension(0, 15));
 		}
 
@@ -93,9 +94,13 @@ class RowCanvas extends JPanel
 			int x1 = (int) (xIndex*xScale);
 			int x2 = (int) (xIndex*xScale + xCount*xScale);
 
-			g.setPaint(new Color(50, 50, 0, 50));
+			int cR = Prefs.visColorOverviewFill.getRed();
+			int cG = Prefs.visColorOverviewFill.getGreen();
+			int cB = Prefs.visColorOverviewFill.getBlue();
+			g.setPaint(new Color(cR, cG, cB, 50));
 			g.fillRect(x1, 0, x2-x1-1, 15-1);
-			g.setColor(Color.red);
+
+			g.setColor(Prefs.visColorOverviewOutline);
 			g.drawRect(x1, 0, x2-x1-1, 15-1);
 		}
 	}

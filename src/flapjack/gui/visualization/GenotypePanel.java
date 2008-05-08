@@ -78,7 +78,7 @@ public class GenotypePanel extends JPanel
 
 		sp.setRowHeaderView(listPanel);
 		sp.setViewportView(canvas);
-		sp.getViewport().setBackground(Color.white);
+		sp.getViewport().setBackground(Prefs.visColorBackground);
 
 		addComponentListener(new ComponentAdapter() {
 			public void componentResized(ComponentEvent e) {
