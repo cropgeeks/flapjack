@@ -18,12 +18,10 @@ public class NBDataImportPanel extends javax.swing.JPanel implements ActionListe
 		mapButton.addActionListener(this);
 		genoButton.addActionListener(this);
 
-		// Development hack to save me time...
-		if (System.getProperty("user.name").equals("imilne"))
-		{
-			mapText.setText("data" + System.getProperty("file.separator") + "illumina.map");
-			genoText.setText("data" + System.getProperty("file.separator") + "illumina.data");
-		}
+		mapText.setText(Prefs.guiCurrentMap);
+		mapText.setCaretPosition(0);
+		genoText.setText(Prefs.guiCurrentGeno);
+		genoText.setCaretPosition(0);
 
 		missingText.setText(Prefs.ioMissingData);
 		heteroText.setText(Prefs.ioHeteroSeparator);
@@ -90,11 +88,13 @@ public class NBDataImportPanel extends javax.swing.JPanel implements ActionListe
 
 	File getMapFile()
 	{
+		Prefs.guiCurrentMap = mapText.getText();
 		return new File(mapText.getText());
 	}
 
 	File getGenotypeFile()
 	{
+		Prefs.guiCurrentGeno = genoText.getText();
 		return new File(genoText.getText());
 	}
 

@@ -14,6 +14,9 @@ public class Prefs extends XMLPreferences
 
 	// The last used directory location in file chooser dialogs
 	public static String guiCurrentDir = "";
+	// Full paths to the last selected map and genotype files
+	public static String guiCurrentMap = "";
+	public static String guiCurrentGeno = "";
 
 	// How many projects have been created
 	public static int guiProjectCount = 1;
