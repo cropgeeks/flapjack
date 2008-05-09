@@ -9,6 +9,9 @@ public class Prefs extends XMLPreferences
 	// Is this the first time the program has ever been run (by this user)?
 	public static boolean isFirstRun = true;
 
+	// Unique Flapjack ID for this user
+	public static String flapjackID = SystemUtils.createGUID(32);
+
 	// The last used directory location in file chooser dialogs
 	public static String guiCurrentDir = "";
 

@@ -70,6 +70,10 @@ public class ColorDialog extends JDialog implements ActionListener
 		{
 			ColorScheme cs = (ColorScheme) nbPanel.schemeCombo.getSelectedItem();
 			winMain.vizColor(cs.getModel());
+
+			// Sillyness...if a shift/click was detected
+			if (((e.getModifiers() & ActionEvent.SHIFT_MASK) != 0) && cs instanceof RandomColorScheme)
+				new RandomDemo().start();
 		}
 
 		else if (e.getSource() == bDefaults)
@@ -82,6 +86,30 @@ public class ColorDialog extends JDialog implements ActionListener
 
 			if (TaskDialog.show(msg, MsgBox.WAR, 1, options) == 0)
 				nbPanel.resetColors();
+		}
+	}
+
+	private class RandomDemo extends Thread
+	{
+		// Sillyness - on a Shift/Click of the button if the random scheme has
+		// been selected, we loop 50 times, selecting a new scheme each time
+		public void run()
+		{
+			Runnable r = new Runnable() {
+				public void run() {
+					winMain.vizColor(ColorScheme.RANDOM);
+				}
+			};
+
+			for (int i = 0; i < 50; i++)
+			{
+				try
+				{
+					SwingUtilities.invokeAndWait(r);
+					Thread.sleep(100);
+				}
+				catch (Exception e) {}
+			}
 		}
 	}
 }

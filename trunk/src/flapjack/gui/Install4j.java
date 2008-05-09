@@ -1,6 +1,7 @@
 package flapjack.gui;
 
 import java.io.*;
+import java.net.*;
 
 import com.install4j.api.launcher.*;
 import com.install4j.api.update.*;
@@ -27,6 +28,7 @@ public class Install4j
 	static void doStartUpCheck()
 	{
 		getVersion();
+		pingServer();
 
 		try
 		{
@@ -85,5 +87,30 @@ public class Install4j
 		}
 		catch (Exception e) {}
 		catch (Throwable e) {}
+	}
+
+	private static void pingServer()
+	{
+		Runnable r = new Runnable() {
+			public void run()
+			{
+				try
+				{
+					// Nudges the cgi script to log the fact that a version of
+					// Flapjack has been run
+					URL url = new URL("http://bioinf.scri.ac.uk/cgi-bin/flapjack.cgi?id="
+						+ Prefs.flapjackID + "&version=" + VERSION);
+					HttpURLConnection c = (HttpURLConnection) url.openConnection();
+
+					c.getResponseCode();
+					c.disconnect();
+				}
+				catch (Exception e) {}
+			}
+		};
+
+		// We run this in a separate thread to avoid any waits due to lack of an
+		// internet connection or the server being non-responsive
+		new Thread(r).start();
 	}
 }
