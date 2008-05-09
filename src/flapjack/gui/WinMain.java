@@ -244,12 +244,30 @@ public class WinMain extends JFrame
 	public void vizColor(int colorScheme)
 	{
 		// Set the initial index positions for similarity colouring (if needbe)
-		if (colorScheme == ColorScheme.LINE_SIMILARITY || colorScheme == ColorScheme.LINE_SIMILARITY_GS ||
-			colorScheme == ColorScheme.MARKER_SIMILARITY || colorScheme == ColorScheme.MARKER_SIMILARITY_GS)
-			gPanel.getView().initializeComparisons();
+		if (colorScheme == ColorScheme.LINE_SIMILARITY || colorScheme == ColorScheme.LINE_SIMILARITY_GS)
+		{
+			SelectLMDialog dialog = new SelectLMDialog(gPanel.getView(), true);
+			if (dialog.isOK() == false)
+				return;
 
+			gPanel.getView().mouseOverLine = dialog.getSelectedIndex();
+			gPanel.getView().initializeComparisons();
+		}
+
+		else if (colorScheme == ColorScheme.MARKER_SIMILARITY || colorScheme == ColorScheme.MARKER_SIMILARITY_GS)
+		{
+			SelectLMDialog dialog = new SelectLMDialog(gPanel.getView(), false);
+			if (dialog.isOK() == false)
+				return;
+
+			gPanel.getView().mouseOverMarker = dialog.getSelectedIndex();
+			gPanel.getView().initializeComparisons();
+		}
+
+		// Update the seed for random colour schemes
 		else if (colorScheme == ColorScheme.RANDOM)
 			gPanel.getViewSet().setRandomColorSeed((int)(Math.random()*50000));
+
 
 		gPanel.getViewSet().setColorScheme(colorScheme);
 		gPanel.refreshView();
@@ -397,8 +415,10 @@ public class WinMain extends JFrame
 			+ "\nPlant Bioinformatics Group"
 			+ "\nScottish Crop Research Institute"
 			+ "\n\nIain Milne, Micha Bayer, Paul Shaw, Linda Cardle, David Marshall"
-			+ "\n\nJava version: " + javaVer
-			+ "\nMemory available to JVM: " + nf.format((long)(freeMem/1024f/1024f)) + "MB",
+			+ "\n\n\nJava version: " + javaVer
+			+ "\nMemory available to JVM: " + nf.format((long)(freeMem/1024f/1024f)) + "MB"
+			+ "\nCurrent Locale: " + java.util.Locale.getDefault()
+			+ "\nFlapjack ID: " + Prefs.flapjackID,
 			RB.getString("gui.text.close"));
 	}
 }
