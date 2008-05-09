@@ -34,26 +34,10 @@ public abstract class ColorState
 		this.w = w;
 		this.h = h;
 
-		if (color == null)
-			createRandomColor();
+//		if (color == null)
+//			createRandomColor();
 
 		gsColor = getGreyScale(color);
-	}
-
-	protected void createRandomColor()
-	{
-		int value = 0;
-		for (int i = 0; i < state.toString().length(); i++)
-			value += state.toString().charAt(i);
-
-		// TODO: Offer this seed to the user to tweak...
-		java.util.Random rnd = new java.util.Random(value+visRndSeed);
-
-		int r = rnd.nextInt(255);
-		int g = rnd.nextInt(255);
-		int b = rnd.nextInt(255);
-
-		color = new Color(r, g, b);
 	}
 
 	protected Color getGreyScale(Color color)

@@ -248,6 +248,9 @@ public class WinMain extends JFrame
 			colorScheme == ColorScheme.MARKER_SIMILARITY || colorScheme == ColorScheme.MARKER_SIMILARITY_GS)
 			gPanel.getView().initializeComparisons();
 
+		else if (colorScheme == ColorScheme.RANDOM)
+			gPanel.getViewSet().setRandomColorSeed((int)(Math.random()*50000));
+
 		gPanel.getViewSet().setColorScheme(colorScheme);
 		gPanel.refreshView();
 
