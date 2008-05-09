@@ -28,16 +28,12 @@ class NBColorPanel extends JPanel implements ActionListener
 		// i18n text
 		comboLabel.setText(RB.getString("gui.dialog.NBColorPanel.comboLabel"));
 		RB.setMnemonic(comboLabel, "gui.dialog.NBColorPanel.comboLabel");
-		bApply.setText(RB.getString("gui.dialog.NBColorPanel.bApply"));
-		RB.setMnemonic(bApply, "gui.dialog.NBColorPanel.bApply");
 		infoPanel.setBorder(BorderFactory.createTitledBorder(RB.getString("gui.dialog.NBColorPanel.infoPanel.title")));
 		colorPanel.setBorder(BorderFactory.createTitledBorder(RB.getString("gui.dialog.NBColorPanel.colorPanel.title")));
 		listLabel1.setText(RB.getString("gui.dialog.NBColorPanel.listLabel1"));
 		RB.setMnemonic(listLabel1, "gui.dialog.NBColorPanel.listLabel1");
 		listLabel2.setText(RB.getString("gui.dialog.NBColorPanel.listLabel2"));
 		RB.setMnemonic(listLabel2, "gui.dialog.NBColorPanel.listLabel2");
-
-		bApply.addActionListener(colorDialog);
 
 		// Set the cell renderers and mouse listeners on the colour lists
 		standardList.setCellRenderer(new ColorListRenderer());
@@ -85,6 +81,7 @@ class NBColorPanel extends JPanel implements ActionListener
 	{
 		ColorScheme cs = (ColorScheme) schemeCombo.getSelectedItem();
 		infoText.setText(cs.getDescription());
+		infoText.setCaretPosition(0);
 
 		schemeModel = new DefaultListModel();
 
@@ -158,8 +155,6 @@ class NBColorPanel extends JPanel implements ActionListener
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        comboLabel = new javax.swing.JLabel();
-        schemeCombo = new javax.swing.JComboBox();
         colorPanel = new javax.swing.JPanel();
         gridPanel = new javax.swing.JPanel();
         javax.swing.JPanel panel1 = new javax.swing.JPanel();
@@ -173,10 +168,8 @@ class NBColorPanel extends JPanel implements ActionListener
         infoPanel = new javax.swing.JPanel();
         javax.swing.JScrollPane sp1 = new javax.swing.JScrollPane();
         infoText = new javax.swing.JTextArea();
-        bApply = new javax.swing.JButton();
-
-        comboLabel.setLabelFor(schemeCombo);
-        comboLabel.setText("Colour scheme:");
+        comboLabel = new javax.swing.JLabel();
+        schemeCombo = new javax.swing.JComboBox();
 
         colorPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Customize (double click a colour to change it):"));
 
@@ -212,15 +205,15 @@ class NBColorPanel extends JPanel implements ActionListener
             colorPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(colorPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .add(gridPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 399, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .add(gridPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 421, Short.MAX_VALUE)
+                .addContainerGap())
         );
         colorPanelLayout.setVerticalGroup(
             colorPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(colorPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .add(gridPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 126, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .add(gridPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 119, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         infoPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Information:"));
@@ -234,24 +227,33 @@ class NBColorPanel extends JPanel implements ActionListener
         infoText.setWrapStyleWord(true);
         sp1.setViewportView(infoText);
 
+        comboLabel.setLabelFor(schemeCombo);
+        comboLabel.setText("Selected colour scheme:");
+
         org.jdesktop.layout.GroupLayout infoPanelLayout = new org.jdesktop.layout.GroupLayout(infoPanel);
         infoPanel.setLayout(infoPanelLayout);
         infoPanelLayout.setHorizontalGroup(
             infoPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(infoPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .add(sp1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 399, Short.MAX_VALUE)
+                .add(infoPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(infoPanelLayout.createSequentialGroup()
+                        .add(comboLabel)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                        .add(schemeCombo, 0, 295, Short.MAX_VALUE))
+                    .add(sp1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 421, Short.MAX_VALUE))
                 .addContainerGap())
         );
         infoPanelLayout.setVerticalGroup(
             infoPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(infoPanelLayout.createSequentialGroup()
-                .addContainerGap()
+                .add(infoPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(comboLabel)
+                    .add(schemeCombo, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                 .add(sp1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-
-        bApply.setText("Apply scheme to current view");
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
         this.setLayout(layout);
@@ -261,12 +263,6 @@ class NBColorPanel extends JPanel implements ActionListener
                 .addContainerGap()
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
                     .add(org.jdesktop.layout.GroupLayout.LEADING, colorPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .add(org.jdesktop.layout.GroupLayout.LEADING, layout.createSequentialGroup()
-                        .add(comboLabel)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(schemeCombo, 0, 176, Short.MAX_VALUE)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(bApply))
                     .add(org.jdesktop.layout.GroupLayout.LEADING, infoPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -274,21 +270,15 @@ class NBColorPanel extends JPanel implements ActionListener
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
                 .addContainerGap()
-                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.CENTER)
-                    .add(comboLabel)
-                    .add(schemeCombo, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(bApply))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                 .add(infoPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                .add(colorPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(colorPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    javax.swing.JButton bApply;
     private javax.swing.JPanel colorPanel;
     private javax.swing.JLabel comboLabel;
     private javax.swing.JPanel gridPanel;

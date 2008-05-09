@@ -23,6 +23,8 @@ public class GTViewSet extends XMLRoot
 
 	// Color model in use
 	private int colorScheme;
+	// A random seed that will be used if the random colour scheme is selected
+	private int randomColorSeed;
 
 	// For comparisons between lines, we need to know the line itself:
 	Line comparisonLine;
@@ -101,6 +103,12 @@ public class GTViewSet extends XMLRoot
 
 	public void setColorScheme(int colorScheme)
 		{ this.colorScheme = colorScheme; }
+
+	public int getRandomColorSeed()
+		{ return randomColorSeed; }
+
+	public void setRandomColorSeed(int randomColorSeed)
+		{ this.randomColorSeed = randomColorSeed; }
 
 	public Line getComparisonLine()
 		{ return comparisonLine; }

@@ -74,6 +74,9 @@
 		<field name="colorScheme" type="int">
 			<bind-xml node="attribute"/>
 		</field>
+		<field name="randomColorSeed" type="int">
+			<bind-xml node="attribute"/>
+		</field>
 		<field name="lines" type="integer" collection="vector"/>
 		<field name="views" type="flapjack.data.GTView" collection="vector"/>
 		<field name="comparisonLine" type="flapjack.data.Line">

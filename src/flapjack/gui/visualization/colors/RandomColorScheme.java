@@ -22,12 +22,31 @@ public class RandomColorScheme extends ColorScheme
 		AlleleState state = stateTable.getAlleleState(0);
 		states.add(new SimpleColorState(state, Prefs.visColorBackground, w, h));
 
+		int seed = view.getViewSet().getRandomColorSeed();
+
 		// And random colors for everything else
 		for (int i = 1; i < stateTable.size(); i++)
 		{
 			state = stateTable.getAlleleState(i);
-			states.add(new HomozygousColorState(state, null, w, h));
+
+			Color color = createRandomColor(state, seed);
+			states.add(new HomozygousColorState(state, color, w, h));
 		}
+	}
+
+	protected Color createRandomColor(AlleleState state, int seed)
+	{
+		int value = 0;
+		for (int i = 0; i < state.toString().length(); i++)
+			value += state.toString().charAt(i);
+
+		java.util.Random rnd = new java.util.Random(value+seed);
+
+		int r = rnd.nextInt(255);
+		int g = rnd.nextInt(255);
+		int b = rnd.nextInt(255);
+
+		return new Color(r, g, b);
 	}
 
 	public BufferedImage getImage(int line, int marker)
@@ -50,10 +69,7 @@ public class RandomColorScheme extends ColorScheme
 
 	public String getDescription()
 	{
-		return "This colour scheme applies entirely random colours to each "
-			+ "allele state found within your data. The colours are randomized "
-			+ "using a seed that is regenerated each time this scheme is "
-			+ "applied to the data.";
+		return RB.getString("gui.visualization.colors.RandomColorScheme");
 	}
 
 	public Vector<ColorSummary> getColorSummaries()

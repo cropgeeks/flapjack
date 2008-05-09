@@ -14,6 +14,7 @@ public class ColorDialog extends JDialog implements ActionListener
 {
 	private JButton bClose;
 	private JButton bDefaults;
+	private JButton bApply;
 
 	private WinMain winMain;
 	private NBColorPanel nbPanel;
@@ -47,9 +48,13 @@ public class ColorDialog extends JDialog implements ActionListener
 		bDefaults = SwingUtils.getButton(RB.getString("gui.dialog.ColorDialog.bDefaults"));
 		RB.setMnemonic(bDefaults, "gui.dialog.ColorDialog.bDefaults");
 		bDefaults.addActionListener(this);
+		bApply = SwingUtils.getButton(RB.getString("gui.dialog.ColorDialog.bApply"));
+		RB.setMnemonic(bApply, "gui.dialog.ColorDialog.bApply");
+		bApply.addActionListener(this);
 
 		JPanel p1 = new JPanel(new FlowLayout(FlowLayout.RIGHT, 5, 0));
 		p1.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 5));
+		p1.add(bApply);
 		p1.add(bDefaults);
 		p1.add(bClose);
 
@@ -61,7 +66,7 @@ public class ColorDialog extends JDialog implements ActionListener
 		if (e.getSource() == bClose)
 			setVisible(false);
 
-		else if (e.getSource() == nbPanel.bApply)
+		else if (e.getSource() == bApply)
 		{
 			ColorScheme cs = (ColorScheme) nbPanel.schemeCombo.getSelectedItem();
 			winMain.vizColor(cs.getModel());
