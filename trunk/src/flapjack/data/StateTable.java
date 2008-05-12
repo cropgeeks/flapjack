@@ -79,4 +79,29 @@ public class StateTable extends XMLRoot
 
 		return count;
 	}
+
+	/**
+	 * Returns an array with each element being the total number of alleles for
+	 * that state (where each index is equivalent to a state in the state table.
+	 */
+	public int[] getStatistics(GTView view)
+	{
+		// +1 because we use the last location to store the total count of
+		// alleles within this view (chromosome)
+		int[] statistics = new int[states.size()+1];
+
+		view.cacheLines();
+
+		for (int line = 0; line < view.getLineCount(); line++)
+			for (int marker = 0; marker < view.getMarkerCount(); marker++)
+			{
+				int state = view.getState(line, marker);
+				statistics[state]++;
+
+				// Track the total
+				statistics[statistics.length-1]++;
+			}
+
+		return statistics;
+	}
 }

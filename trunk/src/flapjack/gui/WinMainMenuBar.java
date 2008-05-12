@@ -48,6 +48,7 @@ public class WinMainMenuBar extends JMenuBar
 	private JMenuItem mDataSortLinesBySimilarity;
 	private JMenuItem mDataSortLinesByLocus;
 	private JMenuItem mDataFind;
+	private JMenuItem mDataStatistics;
 	private JMenuItem mDataRenameDataSet;
 	private JMenuItem mDataDeleteDataSet;
 
@@ -187,6 +188,7 @@ public class WinMainMenuBar extends JMenuBar
 		mDataSortLinesBySimilarity = getItem(Actions.dataSortLinesBySimilarity, "gui.Actions.dataSortLinesBySimilarity", 0, 0);
 		mDataSortLinesByLocus = getItem(Actions.dataSortLinesByLocus, "gui.Actions.dataSortLinesByLocus", 0, 0);
 		mDataFind = getItem(Actions.dataFind, "gui.Actions.dataFind", KeyEvent.VK_F, menuShortcut);
+		mDataStatistics = getItem(Actions.dataStatistics, "gui.Actions.dataStatistics", 0, 0);
 		mDataRenameDataSet = getItem(Actions.dataRenameDataSet, "gui.Actions.dataRenameDataSet", 0, 0);
 		mDataDeleteDataSet = getItem(Actions.dataDeleteDataSet, "gui.Actions.dataDeleteDataSet", 0, 0);
 
@@ -196,6 +198,7 @@ public class WinMainMenuBar extends JMenuBar
 		mData.add(mDataSortLines);
 		mData.addSeparator();
 		mData.add(mDataFind);
+		mData.add(mDataStatistics);
 		mData.addSeparator();
 		mData.add(mDataRenameDataSet);
 		mData.add(mDataDeleteDataSet);

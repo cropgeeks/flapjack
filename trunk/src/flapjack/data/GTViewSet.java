@@ -239,4 +239,15 @@ public class GTViewSet extends XMLRoot
 
 		return -1;
 	}
+
+	/** Returns the total number of alleles references by this viewset.
+	 */
+	public int getAlleleCount()
+	{
+		int total = 0;
+		for (GTView view: views)
+			total += view.getMarkerCount() * view.getLineCount();
+
+		return total;
+	}
 }

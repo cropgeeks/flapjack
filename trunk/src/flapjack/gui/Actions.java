@@ -39,6 +39,7 @@ public class Actions
 	public static AbstractAction dataSortLinesBySimilarity;
 	public static AbstractAction dataSortLinesByLocus;
 	public static AbstractAction dataFind;
+	public static AbstractAction dataStatistics;
 	public static AbstractAction dataRenameDataSet;
 	public static AbstractAction dataDeleteDataSet;
 
@@ -235,6 +236,12 @@ public class Actions
 			}
 		};
 
+		dataStatistics = new AbstractAction(RB.getString("gui.Actions.dataStatistics")) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.dataStatistics();
+			}
+		};
+
 		dataRenameDataSet = new AbstractAction(RB.getString("gui.Actions.dataRenameDataSet"), getIcon(Icons.RENAME)) {
 			public void actionPerformed(ActionEvent e) {
 				winMain.dataRenameDataSet();
@@ -310,6 +317,7 @@ public class Actions
 		dataSortLinesBySimilarity.setEnabled(false);
 		dataSortLinesByLocus.setEnabled(false);
 		dataFind.setEnabled(false);
+		dataStatistics.setEnabled(false);
 		dataRenameDataSet.setEnabled(false);
 		dataDeleteDataSet.setEnabled(false);
 
