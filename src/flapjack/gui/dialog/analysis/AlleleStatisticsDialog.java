@@ -16,7 +16,7 @@ public class AlleleStatisticsDialog extends JDialog implements ActionListener
 
 	private NBAlleleStatisticsPanel nbPanel;
 
-	public AlleleStatisticsDialog(GTViewSet viewSet)
+	public AlleleStatisticsDialog(GTViewSet viewSet, Vector<int[]> results)
 	{
 		super(
 			Flapjack.winMain,
@@ -24,7 +24,6 @@ public class AlleleStatisticsDialog extends JDialog implements ActionListener
 			true
 		);
 
-		Vector<int[]> results = getStatistics(viewSet);
 		nbPanel = new NBAlleleStatisticsPanel(viewSet, results);
 
 		add(nbPanel);
@@ -54,21 +53,5 @@ public class AlleleStatisticsDialog extends JDialog implements ActionListener
 	public void actionPerformed(ActionEvent e)
 	{
 		setVisible(false);
-	}
-
-	private Vector<int[]> getStatistics(GTViewSet viewSet)
-	{
-		StateTable stateTable = viewSet.getDataSet().getStateTable();
-
-		int viewCount = viewSet.getViews().size();
-		int stateCount = stateTable.size();
-
-		Vector<int[]> results = new Vector<int[]>(viewCount);
-
-		int i = 0;
-		for (GTView view: viewSet.getViews())
-			results.add(stateTable.getStatistics(view));
-
-		return results;
 	}
 }
