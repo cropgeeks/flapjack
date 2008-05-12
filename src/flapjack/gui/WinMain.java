@@ -355,6 +355,11 @@ public class WinMain extends JFrame
 		Prefs.guiFindDialogShown = true;
 	}
 
+	void dataStatistics()
+	{
+		new AlleleStatisticsDialog(gPanel.getViewSet());
+	}
+
 	void dataRenameDataSet()
 	{
 		DataSet dataSet = navPanel.getDataSetForSelection();
