@@ -357,7 +357,12 @@ public class WinMain extends JFrame
 
 	void dataStatistics()
 	{
-		new AlleleStatisticsDialog(gPanel.getViewSet());
+		GTViewSet viewSet = gPanel.getViewSet();
+
+		StatisticsProgressDialog dialog = new StatisticsProgressDialog(viewSet);
+
+		if (dialog.isOK())
+			new AlleleStatisticsDialog(viewSet, dialog.getResults());
 	}
 
 	void dataRenameDataSet()
