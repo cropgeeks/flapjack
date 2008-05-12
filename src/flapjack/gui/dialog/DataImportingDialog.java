@@ -56,9 +56,15 @@ public class DataImportingDialog extends JDialog implements Runnable
 
 		add(createControls());
 
-		addWindowListener(new WindowAdapter() {
+		addWindowListener(new WindowAdapter()
+		{
 			public void windowOpened(WindowEvent e) {
 				loadData();
+			}
+
+			public void windowClosing(WindowEvent e) {
+				mapImporter.cancelImport();
+				genoImporter.cancelImport();
 			}
 		});
 
