@@ -16,6 +16,8 @@ public class GenotypeDataImporter
 	private int lineCount;
 	private int markerCount;
 
+	private boolean isOK = true;
+
 	public GenotypeDataImporter(File file, DataSet dataSet, String ioMissingData, String ioHeteroSeparator)
 	{
 		this.file = file;
@@ -25,6 +27,9 @@ public class GenotypeDataImporter
 
 		stateTable = dataSet.getStateTable();
 	}
+
+	public void cancelImport()
+		{ isOK = false; }
 
 	public File getFile()
 		{ return file; }
@@ -54,7 +59,7 @@ public class GenotypeDataImporter
 		int[] mapIndex = new int[markers.length];
 		int[] markerIndex = new int[markers.length];
 
-		for (int i = 1; i < markers.length; i++)
+		for (int i = 1; i < markers.length && isOK; i++)
 		{
 			mapIndex[i] = dataSet.getMapIndexByMarkerName(markers[i]);
 
@@ -66,7 +71,7 @@ public class GenotypeDataImporter
 		System.out.println("Map/marker cache created in " + (System.currentTimeMillis()-s) + "ms");
 		s = System.currentTimeMillis();
 
-		while ((str = in.readLine()) != null && str.length() > 0)
+		while ((str = in.readLine()) != null && str.length() > 0 && isOK)
 		{
 			if ((++lineCount) % 100 == 0)
 			{

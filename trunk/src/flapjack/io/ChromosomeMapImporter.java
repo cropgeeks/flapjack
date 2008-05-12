@@ -13,11 +13,16 @@ public class ChromosomeMapImporter
 
 	private LinkedList<String> duplicates = new LinkedList<String>();
 
+	private boolean isOK = true;
+
 	public ChromosomeMapImporter(File file, DataSet dataSet)
 	{
 		this.file = file;
 		this.dataSet = dataSet;
 	}
+
+	public void cancelImport()
+		{ isOK = false; }
 
 	public void importMap()
 		throws IOException, DataFormatException
@@ -27,7 +32,7 @@ public class ChromosomeMapImporter
 		String str = null;
 		int linesRead = 1;
 
-		while ((str = in.readLine()) != null && str.length() > 0)
+		while ((str = in.readLine()) != null && str.length() > 0 && isOK)
 		{
 			String[] tokens = str.split("\t");
 
@@ -65,7 +70,8 @@ public class ChromosomeMapImporter
 
 		in.close();
 
-		dataSet.sortChromosomeMaps();
+		if (isOK)
+			dataSet.sortChromosomeMaps();
 	}
 
 	public LinkedList<String> getDuplicates()
