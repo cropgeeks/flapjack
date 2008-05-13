@@ -66,18 +66,17 @@
 	</target>
 	
 	<target name="test" depends="jar">
-		<junit printsummary="on" haltonerror="true" haltonfailure="true">
+		<junit printsummary="on" haltonerror="true" haltonfailure="true" dir="." fork="true">
 			<classpath refid="project.classpath"/>
 			<classpath>
 				<pathelement path="${jarfile}"/>
 			</classpath>
 
 			<formatter type="plain" usefile="false"/>
-
-			<test name="flapjack.data.DataSetTest"/>
-			<test name="flapjack.data.UndoManagerTest"/>
-			<test name="flapjack.analysis.FindLineTest"/>
-			<test name="flapjack.analysis.AlleleStatisticsTest"/>
+			
+			<batchtest>
+				<fileset dir="${classes}" includes="**/*Test.class"/>
+			</batchtest>
 		</junit>
 	</target>
 	
