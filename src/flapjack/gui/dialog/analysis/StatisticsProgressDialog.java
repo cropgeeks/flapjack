@@ -5,6 +5,7 @@ import java.awt.event.*;
 import java.util.*;
 import javax.swing.*;
 
+import flapjack.analysis.*;
 import flapjack.data.*;
 import flapjack.gui.*;
 
@@ -13,10 +14,10 @@ public class StatisticsProgressDialog extends JDialog implements Runnable
 	private GTViewSet viewSet;
 
 	private NBStatisticsProgressPanel nbPanel;
-
-	private Vector<int[]> results;
-	private int alleleCount = 0;
 	private boolean isOK = true;
+
+	// Class that will gather the actual statistics for us
+	private AlleleStatistics statistics;
 
 	public StatisticsProgressDialog(GTViewSet viewSet)
 	{
@@ -29,12 +30,16 @@ public class StatisticsProgressDialog extends JDialog implements Runnable
 
 		add(nbPanel = new NBStatisticsProgressPanel());
 
-		addWindowListener(new WindowAdapter() {
-			public void windowOpened(WindowEvent e) {
-				getStatistics();
+		addWindowListener(new WindowAdapter()
+		{
+			public void windowOpened(WindowEvent e)
+			{
+				computeStatistics();
 			}
-			public void windowClosing(WindowEvent e) {
+			public void windowClosing(WindowEvent e)
+			{
 				isOK = false;
+				statistics.cancel();
 			}
 		});
 
@@ -48,74 +53,41 @@ public class StatisticsProgressDialog extends JDialog implements Runnable
 		{ return isOK; }
 
 	public Vector<int[]> getResults()
-	{
-		return results;
-	}
+		{ return statistics.getResults(); }
 
-	private void getStatistics()
+	private void computeStatistics()
 	{
-		new Thread(new MonitorThread()).start();
+		nbPanel.pBar.setMaximum(viewSet.getAlleleCount());
+
 		new Thread(this).start();
+		new MonitorThread().start();
 	}
 
 	public void run()
 	{
-		StateTable stateTable = viewSet.getDataSet().getStateTable();
-
-		nbPanel.pBar.setMaximum(viewSet.getAlleleCount());
-
-		int viewCount = viewSet.getViews().size();
-
-		results = new Vector<int[]>(viewCount);
-
-		// TODO: This could be multi-core optimized
-		for (GTView view: viewSet.getViews())
-			results.add(getStatistics(view));
+		statistics = new AlleleStatistics(viewSet);
+		statistics.computeStatistics();
 
 		setVisible(false);
 	}
 
-	// Returns an array with each element being the total number of alleles for
-	// that state (where each index is equivalent to a state in the state table.
-	int[] getStatistics(GTView view)
-	{
-		int stateCount = viewSet.getDataSet().getStateTable().size();
-
-		// +1 because we use the last location to store the total count of
-		// alleles within this view (chromosome)
-		int[] statistics = new int[stateCount+1];
-
-		view.cacheLines();
-
-		for (int line = 0; line < view.getLineCount(); line++)
-			for (int marker = 0; marker < view.getMarkerCount() && isOK; marker++)
-			{
-				int state = view.getState(line, marker);
-				statistics[state]++;
-
-				// Track the total
-				statistics[statistics.length-1]++;
-				alleleCount++;
-			}
-
-		return statistics;
-	}
-
-	private class MonitorThread implements Runnable
+	private class MonitorThread extends Thread
 	{
 		public void run()
 		{
 			while (isVisible())
 			{
 				Runnable r = new Runnable() {
-					public void run() {
-						nbPanel.pBar.setValue(alleleCount);
+					public void run()
+					{
+						if (statistics != null)
+							nbPanel.pBar.setValue(statistics.getAlleleCount());
 					}
 				};
 
 				SwingUtilities.invokeLater(r);
 
-				try { Thread.sleep(50); }
+				try { Thread.sleep(100); }
 				catch (InterruptedException e) {}
 			}
 		}
