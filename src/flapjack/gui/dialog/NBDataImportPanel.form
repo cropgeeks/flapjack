@@ -53,16 +53,17 @@
               <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="genoLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="mapLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
-                          <Component id="mapLabel" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
                           <Component id="mapText" pref="224" max="32767" attributes="1"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="mapButton" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
-                          <Component id="genoLabel" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
                           <Component id="genoText" pref="224" max="32767" attributes="1"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="genoButton" min="-2" max="-2" attributes="0"/>
@@ -78,14 +79,14 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="mapLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="mapText" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="mapButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="mapText" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="genoLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="genoText" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="genoButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="genoText" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
