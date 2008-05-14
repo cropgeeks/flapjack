@@ -67,4 +67,16 @@ public class GenotypeData extends XMLRoot
 
 	public int countLoci()
 		{ return loci.length; }
+
+	// Collapses all instances of s2 to have the same value of s1 (basically
+	// overwrites all s2 values to be the same as s1)
+	void collapseStates(int s1, int s2)
+	{
+		byte b1 = (byte) s1;
+		byte b2 = (byte) s2;
+
+		for (int i = 0; i < loci.length; i++)
+			if (loci[i] == b2)
+				loci[i] = b1;
+	}
 }

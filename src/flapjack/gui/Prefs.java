@@ -64,6 +64,7 @@ public class Prefs extends XMLPreferences
 	// String matches for missing data and heterozygous values when importing
 	public static String ioMissingData = "-";
 	public static String ioHeteroSeparator = "/";
+	public static boolean ioHeteroCollapse = true;
 
 	// Method used when exporting images
 	public static int guiExportImageMethod = 0;

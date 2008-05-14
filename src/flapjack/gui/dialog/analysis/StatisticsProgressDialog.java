@@ -75,16 +75,16 @@ public class StatisticsProgressDialog extends JDialog implements Runnable
 	{
 		public void run()
 		{
+			Runnable r = new Runnable() {
+				public void run()
+				{
+					if (statistics != null)
+						nbPanel.pBar.setValue(statistics.getAlleleCount());
+				}
+			};
+
 			while (isVisible())
 			{
-				Runnable r = new Runnable() {
-					public void run()
-					{
-						if (statistics != null)
-							nbPanel.pBar.setValue(statistics.getAlleleCount());
-					}
-				};
-
 				SwingUtilities.invokeLater(r);
 
 				try { Thread.sleep(100); }

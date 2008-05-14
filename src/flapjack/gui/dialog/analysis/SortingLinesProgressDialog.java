@@ -101,17 +101,17 @@ public class SortingLinesProgressDialog extends JDialog
 	{
 		public void run()
 		{
+			Runnable r = new Runnable() {
+				public void run() {
+					pBar.setValue(sort.getValue());
+				}
+			};
+
 			while (isVisible())
 			{
-				Runnable r = new Runnable() {
-					public void run() {
-						pBar.setValue(sort.getValue());
-					}
-				};
-
 				SwingUtilities.invokeLater(r);
 
-				try { Thread.sleep(250); }
+				try { Thread.sleep(100); }
 				catch (InterruptedException e) {}
 			}
 		}

@@ -63,20 +63,24 @@ public class AlleleState extends XMLRoot
 
 	/**
 	 * Returns true if this allele state contains the same information as the
-	 * other allele state.
+	 * other allele state. (eg, A/A/T has 2 As and 1 T and should match A/T/A
+	 * or T/A/A).
 	 */
-/*	boolean matchesAlleleState(String[] otherStates)
+	public boolean matches(AlleleState other)
 	{
+		String[] otherStates = other.states;
+
 		if (states.length != otherStates.length)
 			return false;
 
+		// Count the number of times each allele appears and compare that count
+		// between the two AlleleState objects
 		for (int i = 0; i < states.length; i++)
-			if (states[i].equals(otherStates[i]) == false)
+			if (countState(states[i]) == other.countState(states[i]) == false)
 				return false;
 
 		return true;
 	}
-*/
 
 	boolean matchesAlleleState(String rawData)
 	{
@@ -85,4 +89,16 @@ public class AlleleState extends XMLRoot
 
 	public boolean isUnknown()
 		{ return rawData.equals(""); }
+
+	// Returns a count of the number of times this allele appears in this data
+	// (eg, will return 2 for A/A/T on a search of A)
+	private int countState(String allele)
+	{
+		int count = 0;
+		for (String s: states)
+			if (s.equals(allele))
+				count++;
+
+		return count;
+	}
 }
