@@ -2,6 +2,7 @@ package flapjack.gui;
 
 import java.io.*;
 import java.net.*;
+import java.util.*;
 
 import com.install4j.api.launcher.*;
 import com.install4j.api.update.*;
@@ -96,10 +97,26 @@ public class Install4j
 			{
 				try
 				{
+					// Safely encode the URL's parameters
+					String id = URLEncoder.encode(Prefs.flapjackID, "UTF-8");
+					String version = URLEncoder.encode(VERSION, "UTF-8");
+					String locale = URLEncoder.encode("" + Locale.getDefault(), "UTF-8");
+					String os = URLEncoder.encode(System.getProperty("os.name"), "UTF-8");
+					String user = URLEncoder.encode(System.getProperty("user.name"), "UTF-8");
+
+					String addr = "http://bioinf.scri.ac.uk/cgi-bin/flapjack/flapjack.cgi"
+						+ "?id=" + id
+						+ "&version=" + version
+						+ "&locale=" + locale
+						+ "&os=" + os;
+
+					// We DO NOT log usernames from non-SCRI addresses
+					if (Flapjack.isSCRIUser())
+						addr += "&user=" + user;
+
 					// Nudges the cgi script to log the fact that a version of
 					// Flapjack has been run
-					URL url = new URL("http://bioinf.scri.ac.uk/cgi-bin/flapjack.cgi?id="
-						+ Prefs.flapjackID + "&version=" + VERSION);
+					URL url = new URL(addr);
 					HttpURLConnection c = (HttpURLConnection) url.openConnection();
 
 					c.getResponseCode();
