@@ -3,6 +3,7 @@ package flapjack.gui;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
+import java.net.*;
 import java.util.*;
 import javax.swing.*;
 
@@ -95,6 +96,23 @@ public class Flapjack
 		TaskDialog.initialize(winMain, "Flapjack");
 
 		winMain.setVisible(true);
+	}
+
+	// Checks to see if the IP address of the current user is an SCRI one
+	static boolean isSCRIUser()
+	{
+		try
+		{
+			String addr = InetAddress.getLocalHost().getHostAddress();
+
+			if (addr.startsWith("143.234.96.")  || addr.startsWith("143.234.97.") ||
+				addr.startsWith("143.234.98.")  || addr.startsWith("143.234.99.") ||
+				addr.startsWith("143.234.100.") || addr.startsWith("143.234.101."))
+				return true;
+		}
+		catch (UnknownHostException e) {}
+
+		return false;
 	}
 
 	private void shutdown()
