@@ -104,4 +104,9 @@ public class StateTable extends XMLRoot
 
 		return statistics;
 	}
+
+	public void deleteState(int index)
+	{
+		states.remove(index);
+	}
 }

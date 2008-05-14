@@ -74,6 +74,16 @@ public class Line extends XMLRoot
 		genotypes.get(mapIndex).setLoci(lociIndex, stateCode);
 	}
 
+	/**
+	 * Collapses all genotype data (across all chromosomes) so that all
+	 * instances of the s2 state are replaced by the s1 state.
+	 */
+	public void collapseStates(int s1, int s2)
+	{
+		for (GenotypeData data: genotypes)
+			data.collapseStates(s1, s2);
+	}
+
 	public GenotypeData getGenotypeDataByMap(ChromosomeMap map)
 	{
 		for (GenotypeData data: genotypes)

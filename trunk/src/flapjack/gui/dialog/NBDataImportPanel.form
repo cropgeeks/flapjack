@@ -18,8 +18,8 @@
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="1" attributes="0">
-                  <Component id="optionPanel" alignment="0" max="32767" attributes="0"/>
-                  <Component id="filePanel" alignment="0" max="32767" attributes="0"/>
+                  <Component id="optionPanel" alignment="0" max="32767" attributes="1"/>
+                  <Component id="filePanel" alignment="0" max="32767" attributes="1"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -50,21 +50,23 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="0" attributes="0">
+              <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="genoLabel" min="-2" max="-2" attributes="0"/>
-                      <Component id="mapLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="1" attributes="0">
-                      <Component id="mapText" pref="230" max="32767" attributes="1"/>
-                      <Component id="genoText" alignment="1" pref="230" max="32767" attributes="1"/>
-                  </Group>
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="mapButton" min="-2" max="-2" attributes="0"/>
-                      <Component id="genoButton" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="mapLabel" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
+                          <Component id="mapText" pref="224" max="32767" attributes="1"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="mapButton" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="genoLabel" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="genoText" pref="224" max="32767" attributes="1"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="genoButton" min="-2" max="-2" attributes="0"/>
+                      </Group>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -79,7 +81,7 @@
                       <Component id="mapText" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="mapButton" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="genoLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="genoText" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -135,16 +137,23 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="0" attributes="0">
+              <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="missingLabel" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="missingText" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="59" max="32767" attributes="0"/>
-                  <Component id="heteroLabel" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="heteroText" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="checkHetero" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="heteroLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="missingLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="missingText" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="heteroText" alignment="0" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
+                  </Group>
+                  <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -152,11 +161,16 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
+                  <Component id="checkHetero" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="heteroLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="heteroText" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="missingLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="missingText" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="heteroLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="heteroText" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
@@ -164,14 +178,6 @@
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JLabel" name="missingLabel">
-          <Properties>
-            <Property name="labelFor" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
-              <ComponentRef name="missingText"/>
-            </Property>
-            <Property name="text" type="java.lang.String" value="Missing data string:"/>
-          </Properties>
-        </Component>
         <Component class="javax.swing.JLabel" name="heteroLabel">
           <Properties>
             <Property name="labelFor" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
@@ -180,12 +186,25 @@
             <Property name="text" type="java.lang.String" value="Heterozygous separator string:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="missingText">
+        <Component class="javax.swing.JTextField" name="heteroText">
           <Properties>
             <Property name="columns" type="int" value="4"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="heteroText">
+        <Component class="javax.swing.JCheckBox" name="checkHetero">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Don&apos;t distinguish between heterozyous alleles (treats A/T the same as T/A)"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="missingLabel">
+          <Properties>
+            <Property name="labelFor" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+              <ComponentRef name="missingText"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Missing data string:"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="missingText">
           <Properties>
             <Property name="columns" type="int" value="4"/>
           </Properties>

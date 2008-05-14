@@ -148,6 +148,7 @@ public class DataImportingDialog extends JDialog implements Runnable
 	{
 		try
 		{
+			// Read the map
 			long s = System.currentTimeMillis();
 			mapImporter.importMap();
 			long e = System.currentTimeMillis();
@@ -159,10 +160,27 @@ public class DataImportingDialog extends JDialog implements Runnable
 			int lineCount = FileUtils.countLines(genoImporter.getFile(), 16384);
 			pBar.setMaximum(lineCount);
 
-
+			// Read the genotype data
 			s = System.currentTimeMillis();
 			genoImporter.importGenotypeData();
 			e = System.currentTimeMillis();
+
+			System.out.println("Genotype data loaded in " + (e-s) + "ms");
+
+
+			// Collapse heterozyous states
+			if (Prefs.ioHeteroCollapse)
+			{
+				s = System.currentTimeMillis();
+
+				pBar.setIndeterminate(true);
+				CollapseHeterozygotes c = new CollapseHeterozygotes(dataSet);
+				c.collapse();
+
+				e = System.currentTimeMillis();
+				System.out.println("Genotypes collapsed in " + (e-s) + "ms");
+			}
+
 
 			dataSet.setName(getDataSetName());
 
@@ -175,8 +193,6 @@ public class DataImportingDialog extends JDialog implements Runnable
 			// probably use the two colour model
 			if (dataSet.getStateTable().getHomozygousStateCount() == 2)
 				viewSet.setColorScheme(ColorScheme.SIMPLE_TWO_COLOR);
-
-			System.out.println("Genotype data loaded in " + (e-s) + "ms");
 
 			if (Prefs.warnDuplicateMarkers)
 				displayDuplicates();
