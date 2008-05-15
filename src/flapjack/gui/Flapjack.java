@@ -56,13 +56,19 @@ public class Flapjack
 			else if (SystemUtils.isMacOS())
 			{
 				handleOSXStupidities();
-				UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 			}
 
 			else
+			{
+				// Try for nimbus...
+				try { UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel"); }
+				catch (Exception e) {}
+				// Otherwise...
 				UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+			}
 		}
 		catch (Exception e) {}
+
 
 		winMain = new WinMain();
 
@@ -103,14 +109,26 @@ public class Flapjack
 	{
 		try
 		{
-			String addr = InetAddress.getLocalHost().getHostAddress();
+			// Need to check over all network interfaces (LAN/wireless/etc) to
+			// try and find a match...
+			Enumeration<NetworkInterface> e = NetworkInterface.getNetworkInterfaces();
 
-			if (addr.startsWith("143.234.96.")  || addr.startsWith("143.234.97.") ||
-				addr.startsWith("143.234.98.")  || addr.startsWith("143.234.99.") ||
-				addr.startsWith("143.234.100.") || addr.startsWith("143.234.101."))
-				return true;
+			while (e != null & e.hasMoreElements())
+			{
+				// And each interface can have multiple IPs...
+				Enumeration<InetAddress> e2 = e.nextElement().getInetAddresses();
+				while (e2.hasMoreElements())
+				{
+					String addr = e2.nextElement().getHostAddress();
+
+					if (addr.startsWith("143.234.96.")  || addr.startsWith("143.234.97.") ||
+						addr.startsWith("143.234.98.")  || addr.startsWith("143.234.99.") ||
+						addr.startsWith("143.234.100.") || addr.startsWith("143.234.101."))
+						return true;
+				}
+			}
 		}
-		catch (UnknownHostException e) {}
+		catch (Exception e) {}
 
 		return false;
 	}
