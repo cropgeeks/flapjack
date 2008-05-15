@@ -22,10 +22,11 @@ public class GenotypePanel extends JPanel
 	// than passing messages through this class all the time
 	GenotypeCanvas canvas;
 	MapCanvas mapCanvas;
+	QTLCanvas qtlCanvas;
 	private RowCanvas rowCanvas;
 	private ColCanvas colCanvas;
 	ListPanel listPanel;
-	StatusPanel statusPanel;
+	NBStatusPanel statusPanel;
 
 	// Secondary components needed by the panel
 	private JTabbedPane tabs;
@@ -38,9 +39,13 @@ public class GenotypePanel extends JPanel
 	{
 		createControls(winMain);
 
+		JPanel topPanel = new JPanel(new BorderLayout());
+//		topPanel.add(qtlCanvas, BorderLayout.NORTH);
+		topPanel.add(mapCanvas, BorderLayout.CENTER);
+
 		JPanel centerPanel = new JPanel(new BorderLayout());
 		centerPanel.add(sp);
-		centerPanel.add(mapCanvas, BorderLayout.NORTH);
+		centerPanel.add(topPanel, BorderLayout.NORTH);
 		centerPanel.add(rowCanvas, BorderLayout.SOUTH);
 		centerPanel.add(colCanvas, BorderLayout.EAST);
 
@@ -70,9 +75,11 @@ public class GenotypePanel extends JPanel
 		rowCanvas = new RowCanvas(canvas);
 		colCanvas = new ColCanvas(canvas);
 		mapCanvas = new MapCanvas(canvas);
+		qtlCanvas = new QTLCanvas(canvas);
 
 		listPanel = new ListPanel();
-		statusPanel = new StatusPanel(this);
+//		statusPanel = new StatusPanel(this);
+		statusPanel = new NBStatusPanel(this);
 
 		OverviewManager.initialize(winMain, this, canvas);
 
@@ -165,13 +172,8 @@ public class GenotypePanel extends JPanel
 
 	public void stateChanged(ChangeEvent e)
 	{
-		// When the slider is moved...
-		if (e.getSource() == statusPanel.getSliderX() ||
-			e.getSource() == statusPanel.getSliderY())
-			computePanelSizes();
-
 		// When a tab is selected...
-		else if (e.getSource() == tabs)
+		if (e.getSource() == tabs)
 		{
 			if (tabs.getSelectedIndex() != -1)
 			{
@@ -184,10 +186,10 @@ public class GenotypePanel extends JPanel
 	}
 
 	// When changing data or the zoom level...
-	private void computePanelSizes()
+	void computePanelSizes()
 	{
-		int zoomX = statusPanel.getSliderX().getValue();
-		int zoomY = statusPanel.getSliderY().getValue();
+		int zoomX = statusPanel.getZoomX();
+		int zoomY = statusPanel.getZoomY();
 
 		listPanel.computeDimensions(zoomY);
 		canvas.computeDimensions(zoomX, zoomY);
@@ -217,6 +219,7 @@ public class GenotypePanel extends JPanel
 		rowCanvas.computeDimensions(listPanel.getWidth(), vBar.isVisible() ? (cWidth+vBar.getWidth()) : cWidth);
 		colCanvas.computeDimensions(listPanel.getHeight(), hBar.isVisible() ? hBar.getHeight() : 0);
 		mapCanvas.computeDimensions(listPanel.getWidth(), vBar.isVisible() ? (cWidth+vBar.getWidth()) : cWidth);
+		qtlCanvas.computeDimensions(listPanel.getWidth(), vBar.isVisible() ? (cWidth+vBar.getWidth()) : cWidth);
 	}
 
 	public void mouseWheelMoved(MouseWheelEvent e)
@@ -224,10 +227,10 @@ public class GenotypePanel extends JPanel
 		// CTRL (or CMD) keyboard shortcut
 		int shortcut = Toolkit.getDefaultToolkit().getMenuShortcutKeyMask();
 
-		if (e.getModifiers() == shortcut)
+		if (e.getModifiers() == shortcut && Prefs.visLinkSliders)
 		{
-			int currentValue = statusPanel.getSliderY().getValue();
-			statusPanel.getSliderY().setValue(currentValue + e.getWheelRotation());
+			int currentValue = statusPanel.getZoomY();
+			statusPanel.setZoomY(currentValue + e.getWheelRotation());
 		}
 	}
 
@@ -243,6 +246,7 @@ public class GenotypePanel extends JPanel
 		rowCanvas.updateOverviewSelectionBox(xIndex, xW);
 		colCanvas.updateOverviewSelectionBox(yIndex, yH);
 		mapCanvas.updateLociIndices(xIndex, xIndex+xW-1);
+		qtlCanvas.updateView();
 	}
 
 	// Jumps to a position relative to a x/y index within the dataset array
