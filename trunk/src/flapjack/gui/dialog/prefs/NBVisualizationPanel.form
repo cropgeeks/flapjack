@@ -27,7 +27,7 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Component id="panel" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="78" max="32767" attributes="0"/>
+              <EmptySpace pref="55" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -50,6 +50,7 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="checkVisBackBuffer" min="-2" max="-2" attributes="0"/>
                       <Component id="checkVisBackBufferType" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="checkVisAdvancedZoom" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
@@ -62,7 +63,9 @@
                   <Component id="checkVisBackBuffer" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="checkVisBackBufferType" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="checkVisAdvancedZoom" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -76,6 +79,11 @@
         <Component class="javax.swing.JCheckBox" name="checkVisBackBufferType">
           <Properties>
             <Property name="text" type="java.lang.String" value="Use an 8 bit colour buffer to reduce memory usage"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JCheckBox" name="checkVisAdvancedZoom">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Enable advanced canvas zoom controls"/>
           </Properties>
         </Component>
       </SubComponents>

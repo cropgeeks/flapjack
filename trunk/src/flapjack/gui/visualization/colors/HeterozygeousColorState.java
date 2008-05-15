@@ -61,7 +61,7 @@ public class HeterozygeousColorState extends ColorState
 		g.fill(new Polygon(x, y, 3));
 
 
-		if (Prefs.visShowGenotypes && h >= 7)
+		if (Prefs.visShowGenotypes && h >= 7 && Prefs.visLinkSliders)
 		{
 			Font font = g.getFont().deriveFont(Font.PLAIN, (h-h/2));
 			g.setColor(Prefs.visColorText);

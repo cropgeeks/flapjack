@@ -81,6 +81,11 @@ public class Prefs extends XMLPreferences
 	public static boolean guiFindUseRegex = true;
 	public static String guiFindHistory = ".*";
 
+	// Link the x/y zoom sliders?
+	public static boolean visLinkSliders = true;
+	// Which is an option only visible when advanced zoom controls are used
+	public static boolean visAdvancedZoom = false;
+
 	// Attempt to use back-buffering to improve performance?
 	public static boolean visBackBuffer = true;
 	// The type of back-buffer we want to use for faster rendering

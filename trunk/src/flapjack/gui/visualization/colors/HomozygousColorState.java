@@ -41,7 +41,7 @@ public class HomozygousColorState extends ColorState
 		g.fill(r);
 
 
-		if (Prefs.visShowGenotypes && h >= 7)
+		if (Prefs.visShowGenotypes && h >= 7 && Prefs.visLinkSliders)
 		{
 			String str = state.toString();
 

@@ -106,7 +106,12 @@ class GenotypeCanvas extends JPanel
 		FontMetrics fm = new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB)
 			.getGraphics().getFontMetrics(font);
 
-		boxW = sizeY*2;
+		// If the zoom is linked, always use the vertical component for x and y
+		if (Prefs.visLinkSliders)
+			boxW = sizeY*2;
+		else
+			boxW = sizeX*2;
+
 		boxH = fm.getHeight();
 
 		// Once we have suitable width/height values, the scrollbars can be made
