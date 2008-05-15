@@ -14,7 +14,7 @@ public class Install4j
 {
 	private static String URL = "http://bioinf.scri.ac.uk/flapjack/installers/updates.xml";
 
-	public static String VERSION = "";
+	public static String VERSION = "x.xx.xx.xx";
 
 	public static final int NEVER = 0;
 	public static final int STARTUP = 1;
