@@ -11,37 +11,37 @@ class ColCanvas extends JPanel
 {
 	private GenotypeCanvas canvas;
 
-	private int lociIndex = -1;
+	private int markerIndex = -1;
 
-	// Starting index being displayed on the main canvas, and the number of boxes
-	private int yIndex, yCount;
+	// Index of the top-most visible line being displayed on the main canvas
+	private int lineIndex;
+	// How many lines are currently on screen
+	private int lineCount;
+
+	private int w = 45;
 
 	ColCanvas(GenotypeCanvas canvas)
 	{
 		this.canvas = canvas;
 
 		setLayout(new BorderLayout());
+		setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 5));
 		add(new Canvas2D());
 	}
 
-	void computeDimensions(int h1, int h2)
+	void updateOverviewSelectionBox(int lineIndex, int lineCount)
 	{
-		setBorder(BorderFactory.createEmptyBorder(0, 5, h2, 5));
-	}
-
-	void updateOverviewSelectionBox(int yIndex, int yCount)
-	{
-		this.yIndex = yIndex;
-		this.yCount = yCount;
+		this.lineIndex = lineIndex;
+		this.lineCount = lineCount;
 
 		repaint();
 	}
 
-	void setLociIndex(int lociIndex)
+	void setMarkerIndex(int markerIndex)
 	{
-		if (this.lociIndex != lociIndex && canvas.locked == false)
+		if (this.markerIndex != markerIndex && canvas.locked == false)
 		{
-			this.lociIndex = lociIndex;
+			this.markerIndex = markerIndex;
 			repaint();
 		}
 	}
@@ -50,25 +50,30 @@ class ColCanvas extends JPanel
 	{
 		Canvas2D()
 		{
-			setBackground(Prefs.visColorBackground);
-			setPreferredSize(new Dimension(45, 0));
+			setPreferredSize(new Dimension(w, 0));
 		}
 
 		public void paintComponent(Graphics graphics)
 		{
 			super.paintComponent(graphics);
-
 			Graphics2D g = (Graphics2D) graphics;
 
+			// Calculate the required offset and width
+			int height = (canvas.pY2-canvas.pY1);
+
+			// Paint the background
+			g.setColor(Prefs.visColorBackground);
+			g.fillRect(0, 0, 45, height);
+
 			// Quit if the line index is out of bounds or beyond the canvas size
-			if (lociIndex < 0 || lociIndex >= canvas.view.getMarkerCount())
+			if (markerIndex < 0 || markerIndex >= canvas.view.getMarkerCount())
 				return;
 
 
 			int boxTotalY = canvas.boxTotalY;
 
 			// Scaling factors
-			float yScale = getHeight() / (float) boxTotalY;
+			float yScale = height / (float) boxTotalY;
 
 			// Width of each Y element
 			int yHeight = 1 + (int) ((yScale >= 1) ? yScale : 1);
@@ -82,13 +87,13 @@ class ColCanvas extends JPanel
 				if ((int)y != lastY)
 				{
 					int x = 0;
-					for (int xIndex = lociIndex-1; xIndex < lociIndex+2; xIndex++, x+=15)
+					for (int xIndex = markerIndex-1; xIndex < markerIndex+2; xIndex++, x+=15)
 					{
 						if (xIndex < 0 || xIndex >= canvas.view.getMarkerCount())
 							continue;
 
 						g.setColor(canvas.cScheme.getColor(yIndex, xIndex));
-						g.fillRect(x, (int)y, 15, yHeight);
+						g.fillRect(x, Math.round(y), w/3, yHeight);
 
 						lastY = (int)y;
 					}
@@ -98,17 +103,20 @@ class ColCanvas extends JPanel
 			}
 
 
-			int y1 = (int) (yIndex*yScale);
-			int y2 = (int) (yIndex*yScale + yCount*yScale);
+			// Draw the outline fill
+			float y1 = lineIndex * yScale;
+			float y2 = y1 + lineCount * yScale;
+			if (lineCount > boxTotalY || y2 > height)
+				y2 = height;
 
 			int cR = Prefs.visColorOverviewFill.getRed();
 			int cG = Prefs.visColorOverviewFill.getGreen();
 			int cB = Prefs.visColorOverviewFill.getBlue();
 			g.setPaint(new Color(cR, cG, cB, 50));
-			g.fillRect(0, y1, 45-1, y2-y1-1);
+			g.fillRect(0, Math.round(y1), w-1, Math.round(y2-y1));
 
 			g.setColor(Prefs.visColorOverviewOutline);
-			g.drawRect(0, y1, 45-1, y2-y1-1);
+			g.drawRect(0, Math.round(y1), w-1, Math.round(y2-y1));
 		}
 	}
 }

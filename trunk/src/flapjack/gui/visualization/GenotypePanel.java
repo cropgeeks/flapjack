@@ -22,7 +22,7 @@ public class GenotypePanel extends JPanel
 	// than passing messages through this class all the time
 	GenotypeCanvas canvas;
 	MapCanvas mapCanvas;
-	QTLCanvas qtlCanvas;
+	private QTLCanvas qtlCanvas;
 	private RowCanvas rowCanvas;
 	private ColCanvas colCanvas;
 	ListPanel listPanel;
@@ -72,10 +72,10 @@ public class GenotypePanel extends JPanel
 		vBar.addAdjustmentListener(this);
 
 		canvas = new GenotypeCanvas(this);
-		rowCanvas = new RowCanvas(canvas);
+		rowCanvas = new RowCanvas(this, canvas);
 		colCanvas = new ColCanvas(canvas);
-		mapCanvas = new MapCanvas(canvas);
-		qtlCanvas = new QTLCanvas(canvas);
+		mapCanvas = new MapCanvas(this, canvas);
+		qtlCanvas = new QTLCanvas(this, canvas);
 
 		listPanel = new ListPanel();
 //		statusPanel = new StatusPanel(this);
@@ -86,12 +86,6 @@ public class GenotypePanel extends JPanel
 		sp.setRowHeaderView(listPanel);
 		sp.setViewportView(canvas);
 		sp.getViewport().setBackground(Prefs.visColorBackground);
-
-		addComponentListener(new ComponentAdapter() {
-			public void componentResized(ComponentEvent e) {
-				computeRowColSizes();
-			}
-		});
 	}
 
 	// Called whenever the underlying data of a view has changed in such a way
@@ -193,33 +187,8 @@ public class GenotypePanel extends JPanel
 
 		listPanel.computeDimensions(zoomY);
 		canvas.computeDimensions(zoomX, zoomY);
-
-		// TODO: Can this be done a better way?
-		// The listPanel needs to compute its width before computeRowColSizes()
-		// is called, but it won't do this properly unless it's visible, which
-		// it sometimes isn't when this method runs. Doing it this way causes
-		// it to run after everything else is done, which means the list *will*
-		// be visible, so the correct width is then computed. But it seems a
-		// horrible way of having to to it
-		Runnable r = new Runnable() {
-			public void run() {
-				validate();
-				computeRowColSizes();
-			}
-		};
-
-		SwingUtilities.invokeLater(r);
-	}
-
-	// When resizing the window or changing the zoom level...
-	private void computeRowColSizes()
-	{
-		int cWidth = colCanvas.getWidth();
-
-		rowCanvas.computeDimensions(listPanel.getWidth(), vBar.isVisible() ? (cWidth+vBar.getWidth()) : cWidth);
-		colCanvas.computeDimensions(listPanel.getHeight(), hBar.isVisible() ? hBar.getHeight() : 0);
-		mapCanvas.computeDimensions(listPanel.getWidth(), vBar.isVisible() ? (cWidth+vBar.getWidth()) : cWidth);
-		qtlCanvas.computeDimensions(listPanel.getWidth(), vBar.isVisible() ? (cWidth+vBar.getWidth()) : cWidth);
+		mapCanvas.createImage();
+		qtlCanvas.createImage();
 	}
 
 	public void mouseWheelMoved(MouseWheelEvent e)
@@ -245,7 +214,7 @@ public class GenotypePanel extends JPanel
 
 		rowCanvas.updateOverviewSelectionBox(xIndex, xW);
 		colCanvas.updateOverviewSelectionBox(yIndex, yH);
-		mapCanvas.updateLociIndices(xIndex, xIndex+xW-1);
+		mapCanvas.updateView();
 		qtlCanvas.updateView();
 	}
 
@@ -278,8 +247,8 @@ public class GenotypePanel extends JPanel
 		canvas.setHighlightedIndices(rowIndex, colIndex);
 
 		rowCanvas.setLineIndex(rowIndex);
-		colCanvas.setLociIndex(colIndex);
-		mapCanvas.setLociIndex(colIndex);
+		colCanvas.setMarkerIndex(colIndex);
+		mapCanvas.setMarkerIndex(colIndex);
 
 		statusPanel.setIndices(rowIndex, colIndex);
 	}

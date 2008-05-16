@@ -105,9 +105,7 @@ public class NBStatusPanel extends JPanel implements ActionListener, ChangeListe
 		{ sliderY.setValue(value); }
 
 	void setView(GTView view)
-	{
-		this.view = view;
-	}
+		{ this.view = view; }
 
 	void setIndices(int lineIndex, int markerIndex)
 	{

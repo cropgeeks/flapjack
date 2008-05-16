@@ -2,6 +2,7 @@ package flapjack.gui;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.lang.management.*;
 import java.util.*;
 import javax.swing.*;
 
@@ -14,6 +15,7 @@ public class WinMainStatusBar extends JPanel implements Runnable
 
 	private static AnimateThread animateThread;
 	private static JLabel renderIcon;
+	private JLabel threadLabel;
 
 	WinMainStatusBar()
 	{
@@ -37,15 +39,17 @@ public class WinMainStatusBar extends JPanel implements Runnable
 
 		tipsLabel = new JLabel(RB.getString("gui.StatusBar.helpText"));
 		helpLabel = new JLabel();
-		JPanel helpPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 0));
+		JPanel helpPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 2));
 		helpPanel.add(tipsLabel);
 		helpPanel.add(helpLabel);
 
+		threadLabel = new JLabel();
 
 		renderIcon = new JLabel();
 		setRenderState(0);
 
 		JPanel renderPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 5, 2));
+		renderPanel.add(threadLabel);
 		renderPanel.add(renderIcon);
 
 		setLayout(new BorderLayout());
@@ -56,6 +60,7 @@ public class WinMainStatusBar extends JPanel implements Runnable
 		add(renderPanel, BorderLayout.EAST);
 
 		new Thread(this).start();
+		new ThreadMonitor().start();
 
 //		setVisible(Prefs.gui_statusbar_visible);
 	}
@@ -158,6 +163,26 @@ public class WinMainStatusBar extends JPanel implements Runnable
 				}
 			}
 			catch (InterruptedException e) {}
+		}
+	}
+
+	private class ThreadMonitor extends Thread
+	{
+		public void run()
+		{
+			setPriority(Thread.MIN_PRIORITY);
+
+			int cores = Runtime.getRuntime().availableProcessors();
+			ThreadMXBean threads = ManagementFactory.getThreadMXBean();
+
+			while (true)
+			{
+				int current = threads.getThreadCount();
+				threadLabel.setText("Threads: " + current + " Cores: " + cores);
+
+				try { Thread.sleep(500); }
+				catch (Exception e) {}
+			}
 		}
 	}
 

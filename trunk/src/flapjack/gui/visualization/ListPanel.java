@@ -30,6 +30,9 @@ class ListPanel extends JPanel
 		lineList.setEnabled(false);
 	}
 
+	int getPanelWidth()
+		{ return isVisible() ? getWidth() : 0; }
+
 	void setView(GTView view)
 	{
 		this.view = view;
