@@ -31,8 +31,11 @@ public class NBStatusPanel extends JPanel implements ActionListener, ChangeListe
 		RB.setMnemonic(checkLink, "gui.visualization.StatusPanel.checkLink");
 
 		lineLabel.setForeground(Color.red);
+		lineLabel.setText(" ");
 		markerLabel.setForeground(Color.red);
+		markerLabel.setText(" ");
 		alleleLabel.setForeground(Color.red);
+		alleleLabel.setText(" ");
 
 		sliderX.addChangeListener(this);
 		sliderY.addChangeListener(this);
@@ -136,9 +139,13 @@ public class NBStatusPanel extends JPanel implements ActionListener, ChangeListe
 		else
 		{
 			int stateCode = view.getState(lineIndex, markerIndex);
-			AlleleState state = view.getStateTable().getAlleleState(stateCode);
-
-			alleleLabel.setText(state.getRawData());
+			if (stateCode == 0)
+				alleleLabel.setText(" ");
+			else
+			{
+				AlleleState state = view.getStateTable().getAlleleState(stateCode);
+				alleleLabel.setText(state.getRawData());
+			}
 		}
 	}
 
