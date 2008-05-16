@@ -9,6 +9,7 @@ import flapjack.gui.*;
 
 class QTLCanvas extends JPanel
 {
+	private GenotypePanel gPanel;
 	private GenotypeCanvas canvas;
 
 	private BufferFactory bufferFactory;
@@ -19,21 +20,14 @@ class QTLCanvas extends JPanel
 	// Scaling factor to convert between pixels and map positions
 	private float xScale;
 
-	QTLCanvas(GenotypeCanvas canvas)
+	QTLCanvas(GenotypePanel gPanel, GenotypeCanvas canvas)
 	{
+		this.gPanel = gPanel;
 		this.canvas = canvas;
 
 		setLayout(new BorderLayout());
+		setBorder(BorderFactory.createEmptyBorder(5, 0, 0, 0));
 		add(new Canvas2D());
-	}
-
-	void computeDimensions(int w1, int w2)
-	{
-		setBorder(BorderFactory.createEmptyBorder(5, w1, 0, w2));
-
-		xScale = canvas.canvasW / canvas.view.getMapLength();
-
-		createImage();
 	}
 
 	void updateView()
@@ -46,7 +40,10 @@ class QTLCanvas extends JPanel
 		image = null;
 
 		if (bufferFactory != null)
+		{
 			bufferFactory.killMe = true;
+			bufferFactory.interrupt();
+		}
 
 		bufferFactory = new BufferFactory(canvas.canvasW, h, false);
 		bufferFactory.start();
@@ -66,7 +63,7 @@ class QTLCanvas extends JPanel
 		repaint();
 	}
 
-	// Draws the loci at index i, optionally adding textual information
+	// Draws the loci at index i
 	private void drawLoci(Graphics2D g, int i)
 	{
 		Marker m = canvas.view.getMarker(i);
@@ -87,21 +84,18 @@ class QTLCanvas extends JPanel
 		public void paintComponent(Graphics graphics)
 		{
 			super.paintComponent(graphics);
-
 			Graphics2D g = (Graphics2D) graphics;
 
-			// If the bg image is currently null, display some text instead
+			// Calculate the required offset and width
+			int xOffset = gPanel.listPanel.getPanelWidth() + 1;
+			int width = (canvas.pX2-canvas.pX1);
+			g.translate(xOffset, 0);
+
+
 			if (image == null)
-			{
-				String str = RB.getString("gui.visualization.MapCanvas.buffer");
-				int strW = g.getFontMetrics().stringWidth(str);
-
-				g.drawString(str, (int)(getWidth()/2-strW/2), 25);
-
 				return;
-			}
 
-			int w = getWidth();
+			int w = width;
 			int x = canvas.pX2;
 			if (canvas.canvasW < w)
 				w = x = canvas.canvasW;
@@ -141,6 +135,9 @@ class QTLCanvas extends JPanel
 		{
 			setPriority(Thread.MIN_PRIORITY);
 
+			try { Thread.sleep(500); }
+			catch (InterruptedException e) {}
+
 			// Run everything under try/catch conditions due to changes in the
 			// view that may invalidate what this thread is trying to access
 			try
@@ -177,6 +174,9 @@ class QTLCanvas extends JPanel
 				g.setColor(getBackground());
 			g.fillRect(0, 0, canvas.canvasW, h);
 
+			int mkrCount = canvas.view.getMarkerCount();
+			xScale = canvas.canvasW / mkrCount;
+
 			// Draw the white rectangle representing the map
 			g.setColor(Color.white);
 			g.fillRect(0, 12, canvas.canvasW, 10);
@@ -184,7 +184,6 @@ class QTLCanvas extends JPanel
 			g.drawRect(0, 12, canvas.canvasW-1, 10);
 
 			// Draw each marker
-			int mkrCount = canvas.view.getMarkerCount();
 			for (int i = 0; i < mkrCount && !killMe; i++)
 				drawLoci(g, i);
 

@@ -314,42 +314,29 @@ class GenotypeCanvas extends JPanel
 		if (yIndexEnd >= boxTotalY)
 			yIndexEnd = boxTotalY-1;
 
-		render(g, new ImageMonitor(), xIndexStart, xIndexEnd, yIndexStart, yIndexEnd);
+		render(g, Boolean.FALSE, xIndexStart, xIndexEnd, yIndexStart, yIndexEnd);
 	}
 
-	void renderAll(Graphics2D g, ImageMonitor monitor)
+	void renderAll(Graphics2D g, Boolean killMe)
 	{
 		xIndexStart = 0;
 		xIndexEnd   = boxTotalX-1;
 		yIndexStart = 0;
 		yIndexEnd   = boxTotalY-1;
 
-		render(g, monitor, xIndexStart, xIndexEnd, yIndexStart, yIndexEnd);
+		render(g, killMe, xIndexStart, xIndexEnd, yIndexStart, yIndexEnd);
 	}
 
-	private void render(Graphics2D g, ImageMonitor monitor, int xS, int xE, int yS, int yE)
+	private void render(Graphics2D g, Boolean killMe, int xS, int xE, int yS, int yE)
 	{
-//		g.setColor(Prefs.visColorBackground);
-//		g.fillRect(0, 0, canvasW, canvasH);
-
 		for (int yIndex = yS, y = (boxH*yS); yIndex <= yE; yIndex++, y += boxH)
 		{
 			for (int xIndex = xS, x = (boxW*xS); xIndex <= xE; xIndex++, x += boxW)
 			{
-				if (monitor.killMe)
-					break;
+				if (killMe == Boolean.TRUE)
+					return;
 
-//				int state = view.getState(yIndex, xIndex);
-//				int compState = view.getState(0, xIndex);
-
-//				if (state > 0)
-				{
-//					if (state != compState || yIndex == 0)
-					g.drawImage(cScheme.getImage(yIndex, xIndex), x, y, null);
-//						g.drawImage(cTable.get(state).getImage(), x, y, null);
-//					else
-//						g.drawImage(cTable.get(state).getGSImage(), x, y, null);
-				}
+				g.drawImage(cScheme.getImage(yIndex, xIndex), x, y, null);
 			}
 		}
 	}
@@ -367,7 +354,7 @@ class GenotypeCanvas extends JPanel
 
 		if (bufferFactory != null)
 		{
-			bufferFactory.monitor.killMe = true;
+			bufferFactory.killMe = Boolean.TRUE;
 			bufferFactory.interrupt();
 		}
 
@@ -379,12 +366,11 @@ class GenotypeCanvas extends JPanel
 
 	private class BufferFactory extends Thread
 	{
-		private ImageMonitor monitor;
+		private Boolean killMe = Boolean.FALSE;
 		private BufferedImage buffer;
 
 		BufferFactory()
 		{
-			monitor = new ImageMonitor();
 			start();
 		}
 
@@ -397,11 +383,8 @@ class GenotypeCanvas extends JPanel
 			try { Thread.sleep(2000); }
 			catch (InterruptedException e) {}
 
-			if (monitor.killMe || Prefs.visBackBuffer == false)
+			if (killMe == Boolean.TRUE || Prefs.visBackBuffer == false)
 				return;
-
-			System.runFinalization();
-			System.gc();
 
 			// Run everything under try/catch conditions due to changes in the
 			// view that may invalidate what this thread is trying to access
@@ -451,19 +434,14 @@ class GenotypeCanvas extends JPanel
 
 			// Assuming everything is ok, draw the entire canvas onto the buffer
 			Graphics2D g2d = buffer.createGraphics();
-			renderAll(g2d, monitor);
+			renderAll(g2d, killMe);
 			g2d.dispose();
 
-			if (!monitor.killMe)
+			if (killMe == Boolean.FALSE)
 			{
 				WinMainStatusBar.setRenderState(2);
 				imageFull = buffer;
 			}
 		}
-	}
-
-	private static class ImageMonitor
-	{
-		boolean killMe = false;
 	}
 }

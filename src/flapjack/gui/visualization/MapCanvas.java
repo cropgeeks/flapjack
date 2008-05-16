@@ -12,6 +12,7 @@ class MapCanvas extends JPanel
 {
 	private DecimalFormat d = new DecimalFormat("0.0");
 
+	private GenotypePanel gPanel;
 	private GenotypeCanvas canvas;
 
 	private BufferFactory bufferFactory;
@@ -22,33 +23,17 @@ class MapCanvas extends JPanel
 	// Scaling factor to convert between pixels and map positions
 	private float xScale;
 
-	// The loci index of the marker currently under the mouse on the main canvas
-	private int lociIndex = -1;
+	// The index of the marker currently under the mouse on the main canvas
+	private int markerIndex = -1;
 
-	// Starting and ending indices of the loci currently being displayed on the
-	// main canvas
-	private int canvas1, canvas2;
-
-	// Starting and ending indices of the loci we want to display line data for,
-	// which may not be the same as only those visible
-	private int map1, map2;
-
-
-	MapCanvas(GenotypeCanvas canvas)
+	MapCanvas(GenotypePanel gPanel, GenotypeCanvas canvas)
 	{
+		this.gPanel = gPanel;
 		this.canvas = canvas;
 
 		setLayout(new BorderLayout());
+		setBorder(BorderFactory.createEmptyBorder(5, 0, 0, 0));
 		add(new Canvas2D());
-	}
-
-	void computeDimensions(int w1, int w2)
-	{
-		setBorder(BorderFactory.createEmptyBorder(5, w1, 0, w2));
-
-		xScale = canvas.canvasW / canvas.view.getMapLength();
-
-		createImage();
 	}
 
 	void createImage()
@@ -56,33 +41,36 @@ class MapCanvas extends JPanel
 		image = null;
 
 		if (bufferFactory != null)
+		{
 			bufferFactory.killMe = true;
+			bufferFactory.interrupt();
+		}
 
+		// Thread off the image creation...
 		bufferFactory = new BufferFactory(canvas.canvasW, h, false);
 		bufferFactory.start();
 	}
 
 	BufferedImage createSavableImage()
 	{
+		// Note that this *doesn't* happen in a new thread as the assumption is
+		// that this will be called by a threaded process anyway
 		BufferFactory tempFactory = new BufferFactory(canvas.canvasW, h, true);
 		tempFactory.run();
 
 		return tempFactory.buffer;
 	}
 
-	void updateLociIndices(int canvas1, int canvas2)
+	void updateView()
 	{
-		this.canvas1 = canvas1;
-		this.canvas2 = canvas2;
-
 		repaint();
 	}
 
-	void setLociIndex(int lociIndex)
+	void setMarkerIndex(int markerIndex)
 	{
-		if (this.lociIndex != lociIndex  && canvas.locked == false)
+		if (this.markerIndex != markerIndex  && canvas.locked == false)
 		{
-			this.lociIndex = lociIndex;
+			this.markerIndex = markerIndex;
 			repaint();
 		}
 	}
@@ -93,8 +81,8 @@ class MapCanvas extends JPanel
 		repaint();
 	}
 
-	// Draws the loci at index i, optionally adding textual information
-	private void drawLoci(Graphics2D g, int i, boolean showDetails)
+	// Draws the marker at index i, optionally adding textual information
+	private void drawMarker(Graphics2D g, int i, boolean showDetails)
 	{
 		Marker m = canvas.view.getMarker(i);
 
@@ -136,24 +124,18 @@ class MapCanvas extends JPanel
 		public void paintComponent(Graphics graphics)
 		{
 			super.paintComponent(graphics);
-
 			Graphics2D g = (Graphics2D) graphics;
 
-			g.setFont(new Font("Dialog", Font.PLAIN, 11));
+			// Calculate the required offset and width
+			int xOffset = gPanel.listPanel.getPanelWidth() + 1;
+			int width = (canvas.pX2-canvas.pX1);
+			g.translate(xOffset, 0);
 
-			// If the bg image is currently null, display some text instead
+
 			if (image == null)
-			{
-				String str = RB.getString("gui.visualization.MapCanvas.buffer");
-				int strW = g.getFontMetrics().stringWidth(str);
-
-				g.drawString(str, (int)(getWidth()/2-strW/2), 25);
-
 				return;
-			}
 
-//			int w = canvas.pX2-canvas.pX1+1;
-			int w = getWidth();
+			int w = width;
 			int x = canvas.pX2;
 			if (canvas.canvasW < w)
 				w = x = canvas.canvasW;
@@ -167,18 +149,25 @@ class MapCanvas extends JPanel
 			// And dump it to the screen
 			g.drawImage(image2, 0, 0, null);
 
-
 			// Translate the origin of the canvas so that we see (and draw) the
 			// area appropriate to what the main canvas is viewing
 			g.translate(0-canvas.pX1, 0);
 
 			// Change to red, and redraw the currently highlighted one
-			if (lociIndex >=0 && lociIndex < canvas.view.getMarkerCount())
+			if (markerIndex >=0 && markerIndex < canvas.view.getMarkerCount())
 			{
+				g.setFont(new Font("Dialog", Font.PLAIN, 11));
 				g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 				g.setColor(Color.red);
-				drawLoci(g, lociIndex, true);
+				drawMarker(g, markerIndex, true);
 			}
+
+			// Add blankers to hide the fact that we sometimes draw beyond the
+			// bounds of the visible canvas (but still in the visible panel)
+			g.translate(canvas.pX1-xOffset, 0);
+			g.setColor(getBackground());
+			g.fillRect(0, 0, xOffset, h);
+			g.fillRect(xOffset+width, 0, 100, h);
 		}
 	}
 
@@ -201,6 +190,12 @@ class MapCanvas extends JPanel
 		public void run()
 		{
 			setPriority(Thread.MIN_PRIORITY);
+
+			try { Thread.sleep(500); }
+			catch (InterruptedException e) {}
+
+			if (killMe)
+				return;
 
 			// Run everything under try/catch conditions due to changes in the
 			// view that may invalidate what this thread is trying to access
@@ -241,55 +236,21 @@ class MapCanvas extends JPanel
 				g.setColor(getBackground());
 			g.fillRect(0, 0, canvas.canvasW, h);
 
+			int mkrCount = canvas.view.getMarkerCount();
+			xScale = canvas.canvasW / mkrCount;
+
 			// Draw the white rectangle representing the map
 			g.setColor(Color.white);
 			g.fillRect(0, 12, canvas.canvasW, 10);
 			g.setColor(Color.lightGray);
 			g.drawRect(0, 12, canvas.canvasW-1, 10);
 
-			// Determine which markers to draw (to hopefully speed things up)
-//			determineMarkers();
-
-			map1 = 0;
-			map2 = canvas.view.getMarkerCount()-1;
-
 			// Draw each marker
-			for (int i = map1; i <= map2 && !killMe; i++)
-				drawLoci(g, i, false);
+			for (int i = 0; i < mkrCount && !killMe; i++)
+				drawMarker(g, i, false);
 
 			if (!killMe && !isTempBuffer)
 				bufferAvailable(buffer);
 		}
 	}
-
-
-	/**
-	 * Optimises the start and end indices for the map based on which markers
-	 * are currently visible and/or which map positions for markers (which may
-	 * be offscreen) are currently visible.
-	 *
-	 * Not currently used while back-buffering the entire map anyway
-	 */
-/*	private void determineMarkers()
-	{
-		// Map position leftmost visible on the screen
-		float pos1 = canvas1*canvas.boxW/xScale;
-		// Map position rightmost visible on the screen
-		float pos2 = canvas2*canvas.boxW/xScale;
-
-		map1 = -1;
-		map2 = -1;
-
-		for (int i = 0; i < map.countLoci(); i++)
-			if (map1 == -1 && map.getMarkerByIndex(i).getPosition() >= pos1)
-				map1 = i;
-
-		for (int i = map.countLoci()-1; i >= 0; i--)
-			if (map2 == -1 && map.getMarkerByIndex(i).getPosition() <= pos2)
-				map2 = i;
-
-		map1 = canvas1 < map1 ? canvas1 : map1;
-		map2 = canvas2 > map2 ? canvas2 : map2;
-	}
-*/
 }

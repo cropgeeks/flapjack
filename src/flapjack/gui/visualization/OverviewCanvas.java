@@ -17,7 +17,7 @@ class OverviewCanvas extends JPanel
 
 	private Canvas2D viewCanvas = new Canvas2D();
 
-	private int boxX, boxY, boxW, boxH;
+	private float boxX1, boxY1, boxX2, boxY2;
 
 	private BufferFactory bufferFactory = null;
 	private BufferedImage image = null;
@@ -29,6 +29,7 @@ class OverviewCanvas extends JPanel
 		this.canvas = canvas;
 
 		setLayout(new BorderLayout());
+		setBackground((Color)UIManager.get("Tree.background"));
 		add(viewCanvas);
 
 		addComponentListener(new ComponentAdapter()
@@ -45,19 +46,19 @@ class OverviewCanvas extends JPanel
 		if (bufferFactory == null)
 			return;
 
-		// Work out the x/y position for the outline box
-		boxX = (int) (bufferFactory.xScale * xIndex);
-		boxY = (int) (bufferFactory.yScale * yIndex);
+		// Work out the x1/y1 position for the outline box
+		boxX1 = bufferFactory.xScale * xIndex;
+		boxY1 = bufferFactory.yScale * yIndex;
 
-		// Work out the width/height for the outline box
-		if (xW >= canvas.boxTotalX)
-			boxW = viewCanvas.getWidth() - 1;
-		else
-			boxW = (int) (bufferFactory.xScale * xW);
-		if (yH >= canvas.boxTotalY)
-			boxH = viewCanvas.getHeight() - 1;
-		else
-			boxH = (int) (bufferFactory.yScale * yH + bufferFactory.yHeight);
+		// Work out the x2 position for the outline box
+		boxX2 = boxX1 + xW * bufferFactory.xScale;
+		if (xW > canvas.boxTotalX || boxX2 > viewCanvas.getWidth())
+			boxX2 = viewCanvas.getWidth();
+
+		// Work out the y2 position for the outline box
+		boxY2 = boxY1 + yH * bufferFactory.yScale;
+		if (yH > canvas.boxTotalY || boxY2 > viewCanvas.getHeight())
+			boxY2 = viewCanvas.getHeight();
 
 		repaint();
 	}
@@ -129,8 +130,8 @@ class OverviewCanvas extends JPanel
 			if (gPanel == null)
 				return;
 
-			int x = e.getX() - (int) (boxW / 2f);
-			int y = e.getY() - (int) (boxH / 2f);
+			int x = e.getX() - (int) ((boxX2-boxX1) / 2f);
+			int y = e.getY() - (int) ((boxY2-boxY1) / 2f);
 
 			// Compute mouse position (and adjust by wid/hgt of rectangle)
 			int xIndex = (int) (x / bufferFactory.xScale);
@@ -143,34 +144,26 @@ class OverviewCanvas extends JPanel
 		{
 			super.paintComponent(g);
 
-			if (image != null)
-			{
-				// Paint the image of the alignment
-				g.drawImage(image, 0, 0, null);
+			if (image == null)
+				return;
 
-				((Graphics2D) g).setPaint(new Color(255, 255, 255, 50));
-				g.fillRect(0, 0, w, h);
+			// Paint the image of the alignment
+			g.drawImage(image, 0, 0, null);
 
-				// Then draw the tracking rectangle
-				int cR = Prefs.visColorOverviewFill.getRed();
-				int cG = Prefs.visColorOverviewFill.getGreen();
-				int cB = Prefs.visColorOverviewFill.getBlue();
-				((Graphics2D) g).setPaint(new Color(cR, cG, cB, 50));
-				g.fillRect(boxX, boxY, boxW, boxH);
+			((Graphics2D) g).setPaint(new Color(255, 255, 255, 50));
+			g.fillRect(0, 0, w, h);
 
-				g.setColor(Prefs.visColorOverviewOutline);
-				g.drawRect(boxX, boxY, boxW, boxH);
-			}
+			// Then draw the tracking rectangle
+			int cR = Prefs.visColorOverviewFill.getRed();
+			int cG = Prefs.visColorOverviewFill.getGreen();
+			int cB = Prefs.visColorOverviewFill.getBlue();
+			((Graphics2D) g).setPaint(new Color(cR, cG, cB, 50));
 
-			else
-			{
-				String str = RB.getString("gui.visualization.OverviewDialog.buffer");
-				int strWidth = g.getFontMetrics().stringWidth(str);
-
-				g.setColor(Color.lightGray);
-				g.drawString(str, (int) (getWidth() / 2f - strWidth / 2f),
-						getHeight() / 2);
-			}
+			int boxW = Math.round(boxX2-boxX1) - 1;
+			int boxH = Math.round(boxY2-boxY1) - 1;
+			g.fillRect(Math.round(boxX1), Math.round(boxY1), boxW, boxH);
+			g.setColor(Prefs.visColorOverviewOutline);
+			g.drawRect(Math.round(boxX1), Math.round(boxY1), boxW, boxH);
 		}
 	}
 
