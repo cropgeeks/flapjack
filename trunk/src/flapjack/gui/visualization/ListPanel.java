@@ -5,6 +5,7 @@ import java.awt.image.*;
 import javax.swing.*;
 
 import flapjack.data.*;
+import flapjack.gui.*;
 
 class ListPanel extends JPanel
 {

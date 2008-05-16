@@ -81,6 +81,13 @@ public class Prefs extends XMLPreferences
 	public static boolean guiFindUseRegex = true;
 	public static String guiFindHistory = ".*";
 
+	public static boolean visShowLinePanel = true;
+	public static boolean visShowMapCanvas = true;
+	public static boolean visShowQTLCanvas = false;
+	public static boolean visShowRowCanvas = true;
+	public static boolean visShowColCanvas = true;
+	public static boolean visShowStatusPanel = true;
+
 	// Link the x/y zoom sliders?
 	public static boolean visLinkSliders = true;
 	// Which is an option only visible when advanced zoom controls are used

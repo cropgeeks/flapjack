@@ -27,7 +27,6 @@ public class WinMainMenuBar extends JMenuBar
 	public static JMenuItem mEditRedo;
 
 	private JMenu mViz;
-	public static JCheckBoxMenuItem mVizOverview;
 	private JMenuItem mVizExportImage;
 	private JMenu mVizColor;
 	private JMenuItem mVizColorCustomize;
@@ -42,6 +41,8 @@ public class WinMainMenuBar extends JMenuBar
 	private JMenuItem mVizNewView;
 	private JMenuItem mVizRenameView;
 	private JMenuItem mVizDeleteView;
+	private JMenuItem mVizToggleCanvas;
+	public static JCheckBoxMenuItem mVizOverview;
 
 	private JMenu mData;
 	private JMenu mDataSortLines;
@@ -138,7 +139,6 @@ public class WinMainMenuBar extends JMenuBar
 		mVizColor = new JMenu(RB.getString("gui.WinMainMenuBar.mVizColor"));
 		RB.setMnemonic(mVizColor, "gui.WinMainMenuBar.mVizColor");
 
-		mVizOverview = getCheckedItem(Actions.vizOverview, "gui.Actions.vizOverview", KeyEvent.VK_F7, 0, Prefs.guiOverviewDialog);
 		mVizExportImage = getItem(Actions.vizExportImage, "gui.Actions.vizExportImage", 0, 0);
 		mVizColorCustomize = getItem(Actions.vizColorCustomize, "gui.Actions.vizColorCustomize", 0, 0);
 		mVizColorRandom = getItem(Actions.vizColorRandom, "gui.Actions.vizColorRandom", 0, 0);
@@ -152,6 +152,8 @@ public class WinMainMenuBar extends JMenuBar
 		mVizNewView = getItem(Actions.vizNewView, "gui.Actions.vizNewView", 0, 0);
 		mVizRenameView = getItem(Actions.vizRenameView, "gui.Actions.vizRenameView", 0, 0);
 		mVizDeleteView = getItem(Actions.vizDeleteView, "gui.Actions.vizDeleteView", 0, 0);
+		mVizToggleCanvas = getItem(Actions.vizToggleCanvas, "gui.Actions.vizToggleCanvas", 0, 0);
+		mVizOverview = getCheckedItem(Actions.vizOverview, "gui.Actions.vizOverview", KeyEvent.VK_F7, 0, Prefs.guiOverviewDialog);
 
 		mVizColor.add(mVizColorNucleotide);
 		mVizColor.add(mVizColorSimple2Color);
@@ -173,6 +175,7 @@ public class WinMainMenuBar extends JMenuBar
 		mViz.add(mVizRenameView);
 		mViz.add(mVizDeleteView);
 		mViz.addSeparator();
+		mViz.add(mVizToggleCanvas);
 		mViz.add(mVizOverview);
 
 		add(mViz);

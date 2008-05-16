@@ -40,7 +40,7 @@ public class GenotypePanel extends JPanel
 		createControls(winMain);
 
 		JPanel topPanel = new JPanel(new BorderLayout());
-//		topPanel.add(qtlCanvas, BorderLayout.NORTH);
+		topPanel.add(qtlCanvas, BorderLayout.NORTH);
 		topPanel.add(mapCanvas, BorderLayout.CENTER);
 
 		JPanel centerPanel = new JPanel(new BorderLayout());
@@ -53,6 +53,7 @@ public class GenotypePanel extends JPanel
 		displayPanel.add(centerPanel);
 		displayPanel.add(statusPanel, BorderLayout.SOUTH);
 
+		setVisibleStates();
 		setLayout(new BorderLayout());
 		add(tabs);
 	}
@@ -78,12 +79,10 @@ public class GenotypePanel extends JPanel
 		qtlCanvas = new QTLCanvas(this, canvas);
 
 		listPanel = new ListPanel();
-//		statusPanel = new StatusPanel(this);
 		statusPanel = new NBStatusPanel(this);
 
 		OverviewManager.initialize(winMain, this, canvas);
 
-		sp.setRowHeaderView(listPanel);
 		sp.setViewportView(canvas);
 		sp.getViewport().setBackground(Prefs.visColorBackground);
 	}
@@ -343,5 +342,19 @@ public class GenotypePanel extends JPanel
 
 		viewSet.setViewIndex(index);
 		setViewSet(viewSet);
+	}
+
+	public void setVisibleStates()
+	{
+		mapCanvas.setVisible(Prefs.visShowMapCanvas);
+		qtlCanvas.setVisible(Prefs.visShowQTLCanvas);
+		rowCanvas.setVisible(Prefs.visShowRowCanvas);
+		colCanvas.setVisible(Prefs.visShowColCanvas);
+		statusPanel.setVisible(Prefs.visShowStatusPanel);
+
+		if (Prefs.visShowLinePanel)
+			sp.setRowHeaderView(listPanel);
+		else
+			sp.setRowHeaderView(null);
 	}
 }

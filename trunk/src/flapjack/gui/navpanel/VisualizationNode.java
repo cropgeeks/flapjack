@@ -30,7 +30,6 @@ public class VisualizationNode extends BaseNode
 
 	public void setActions()
 	{
-		Actions.vizOverview.setEnabled(true);
 		Actions.vizExportImage.setEnabled(true);
 		Actions.vizColorCustomize.setEnabled(true);
 		Actions.vizColorRandom.setEnabled(true);
@@ -44,6 +43,8 @@ public class VisualizationNode extends BaseNode
 		Actions.vizNewView.setEnabled(true);
 		Actions.vizRenameView.setEnabled(true);
 		Actions.vizDeleteView.setEnabled(true);
+		Actions.vizToggleCanvas.setEnabled(true);
+		Actions.vizOverview.setEnabled(true);
 
 		Actions.dataSortLinesBySimilarity.setEnabled(true);
 		Actions.dataSortLinesByLocus.setEnabled(true);
