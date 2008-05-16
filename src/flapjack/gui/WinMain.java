@@ -338,6 +338,11 @@ public class WinMain extends JFrame
 		}
 	}
 
+	void vizToggleCanvas()
+	{
+		new ToggleCanvasDialog(gPanel);
+	}
+
 	void dataSortLines(int sortMethod)
 	{
 		SortLinesDialog dialog = new SortLinesDialog(gPanel);

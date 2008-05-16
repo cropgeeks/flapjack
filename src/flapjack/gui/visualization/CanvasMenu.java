@@ -25,6 +25,7 @@ public class CanvasMenu
 	private JMenuItem mColorMarkerSim;
 	private JMenuItem mColorMarkerSimGS;
 	private JMenuItem mColorSimple2Color;
+	private JMenuItem mToggleCanvas;
 	private JMenu mSortLines;
 	private JMenuItem mSortLinesBySimilarity;
 	private JMenuItem mSortLinesByLocus;
@@ -67,6 +68,7 @@ public class CanvasMenu
 		mColorMarkerSim = WinMainMenuBar.getItem(Actions.vizColorMarkerSim, "gui.Actions.vizColorMarkerSim", 0, 0);
 //		mColorMarkerSimGS = WinMainMenuBar.getItem(Actions.vizColorMarkerSimGS, KeyEvent.VK_G, 0, 0);
 		mColorSimple2Color = WinMainMenuBar.getItem(Actions.vizColorSimple2Color, "gui.Actions.vizColorSimple2Color", 0, 0);
+		mToggleCanvas = WinMainMenuBar.getItem(Actions.vizToggleCanvas, "gui.Actions.vizToggleCanvas", 0, 0);
 		mFind = WinMainMenuBar.getItem(Actions.dataFind, "gui.Actions.dataFind", KeyEvent.VK_F, menuShortcut);
 
 		mColor = new JMenu(RB.getString("gui.WinMainMenuBar.mVizColor"));
@@ -109,6 +111,8 @@ public class CanvasMenu
 		menu.add(mLock);
 		menu.add(mShowGenotypes);
 		menu.add(mColor);
+		menu.addSeparator();
+		menu.add(mToggleCanvas);
 		menu.addSeparator();
 		menu.add(mSortLines);
 		menu.addSeparator();

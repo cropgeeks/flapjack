@@ -21,7 +21,6 @@ public class Actions
 	public static AbstractAction editUndo;
 	public static AbstractAction editRedo;
 
-	public static AbstractAction vizOverview;
 	public static AbstractAction vizExportImage;
 	public static AbstractAction vizColorCustomize;
 	public static AbstractAction vizColorRandom;
@@ -35,6 +34,8 @@ public class Actions
 	public static AbstractAction vizNewView;
 	public static AbstractAction vizRenameView;
 	public static AbstractAction vizDeleteView;
+	public static AbstractAction vizToggleCanvas;
+	public static AbstractAction vizOverview;
 
 	public static AbstractAction dataSortLinesBySimilarity;
 	public static AbstractAction dataSortLinesByLocus;
@@ -133,12 +134,6 @@ public class Actions
 		};
 
 
-		vizOverview = new AbstractAction(RB.getString("gui.Actions.vizOverview")) {
-			public void actionPerformed(ActionEvent e) {
-				winMain.vizOverview();
-			}
-		};
-
 		vizExportImage = new AbstractAction(RB.getString("gui.Actions.vizExportImage")) {
 			public void actionPerformed(ActionEvent e) {
 				winMain.vizExportImage();
@@ -214,6 +209,18 @@ public class Actions
 		vizDeleteView = new AbstractAction(RB.getString("gui.Actions.vizDeleteView"), getIcon(Icons.DELETE)) {
 			public void actionPerformed(ActionEvent e) {
 				winMain.vizDeleteView();
+			}
+		};
+
+		vizToggleCanvas = new AbstractAction(RB.getString("gui.Actions.vizToggleCanvas")) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.vizToggleCanvas();
+			}
+		};
+
+		vizOverview = new AbstractAction(RB.getString("gui.Actions.vizOverview")) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.vizOverview();
 			}
 		};
 
@@ -299,7 +306,6 @@ public class Actions
 		editUndo.setEnabled(false);
 		editRedo.setEnabled(false);
 
-		vizOverview.setEnabled(false);
 		vizExportImage.setEnabled(false);
 		vizColorCustomize.setEnabled(false);
 		vizColorRandom.setEnabled(false);
@@ -313,6 +319,8 @@ public class Actions
 		vizNewView.setEnabled(false);
 		vizRenameView.setEnabled(false);
 		vizDeleteView.setEnabled(false);
+		vizToggleCanvas.setEnabled(false);
+		vizOverview.setEnabled(false);
 
 		dataSortLinesBySimilarity.setEnabled(false);
 		dataSortLinesByLocus.setEnabled(false);
