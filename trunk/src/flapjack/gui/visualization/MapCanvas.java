@@ -129,6 +129,8 @@ class MapCanvas extends JPanel
 			// Calculate the required offset and width
 			int xOffset = gPanel.listPanel.getPanelWidth() + 1;
 			int width = (canvas.pX2-canvas.pX1);
+
+			g.setClip(xOffset, 0, width, h);
 			g.translate(xOffset, 0);
 
 
@@ -149,25 +151,18 @@ class MapCanvas extends JPanel
 			// And dump it to the screen
 			g.drawImage(image2, 0, 0, null);
 
-			// Translate the origin of the canvas so that we see (and draw) the
-			// area appropriate to what the main canvas is viewing
-			g.translate(0-canvas.pX1, 0);
-
 			// Change to red, and redraw the currently highlighted one
 			if (markerIndex >=0 && markerIndex < canvas.view.getMarkerCount())
 			{
+				// Translate the origin of the canvas so that we see (and draw)
+				// the area appropriate to what the main canvas is viewing
+				g.translate(0-canvas.pX1, 0);
+
 				g.setFont(new Font("Dialog", Font.PLAIN, 11));
 				g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 				g.setColor(Color.red);
 				drawMarker(g, markerIndex, true);
 			}
-
-			// Add blankers to hide the fact that we sometimes draw beyond the
-			// bounds of the visible canvas (but still in the visible panel)
-			g.translate(canvas.pX1-xOffset, 0);
-			g.setColor(getBackground());
-			g.fillRect(0, 0, xOffset, h);
-			g.fillRect(xOffset+width, 0, 100, h);
 		}
 	}
 
