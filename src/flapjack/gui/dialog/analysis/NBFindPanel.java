@@ -27,25 +27,21 @@ class NBFindPanel extends JPanel implements ActionListener
 
 		link.setIcon(Icons.WEB);
 
-		findLabel.setText(RB.getString("gui.dialog.NBFindPanel.findLabel"));
-		RB.setMnemonic(findLabel, "gui.dialog.NBFindPanel.findLabel");
-		searchLabel.setText(RB.getString("gui.dialog.NBFindPanel.searchLabel"));
-		RB.setMnemonic(searchLabel, "gui.dialog.NBFindPanel.searchLabel");
-		searchButton.setText(RB.getString("gui.dialog.NBFindPanel.searchButton"));
+		RB.setText(findLabel, "gui.dialog.NBFindPanel.findLabel");
+		RB.setText(searchLabel, "gui.dialog.NBFindPanel.searchLabel");
+		RB.setText(searchButton, "gui.dialog.NBFindPanel.searchButton");
 		panel.setBorder(BorderFactory.createTitledBorder(
 			RB.getString("gui.dialog.NBFindPanel.panelTitle")));
 		resultLabel.setText(RB.format("gui.dialog.NBFindPanel.resultLabel2", 0));
 		RB.setMnemonic(resultLabel, "gui.dialog.NBFindPanel.resultLabel2");
-		hintLabel.setText(RB.getString("gui.dialog.NBFindPanel.hintLabel"));
+		RB.setText(hintLabel, "gui.dialog.NBFindPanel.hintLabel");
 
-		checkCase.setText(RB.getString("gui.dialog.NBFindPanel.checkCase"));
+		RB.setText(checkCase, "gui.dialog.NBFindPanel.checkCase");
 		checkCase.setSelected(Prefs.guiFindMatchCase);
 		checkCase.addActionListener(this);
-		RB.setMnemonic(checkCase, "gui.dialog.NBFindPanel.checkCase");
-		checkRegular.setText(RB.getString("gui.dialog.NBFindPanel.checkRegular"));
+		RB.setText(checkRegular, "gui.dialog.NBFindPanel.checkRegular");
 		checkRegular.setSelected(Prefs.guiFindUseRegex);
 		checkRegular.addActionListener(this);
-		RB.setMnemonic(checkRegular, "gui.dialog.NBFindPanel.checkRegular");
 
 		searchCombo.addItem(RB.getString("gui.dialog.NBFindPanel.lines"));
 		searchCombo.addItem(RB.getString("gui.dialog.NBFindPanel.markers"));

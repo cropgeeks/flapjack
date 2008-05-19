@@ -29,19 +29,14 @@ public class NBDataImportPanel extends javax.swing.JPanel implements ActionListe
 
 		// Apply localized text
 		filePanel.setBorder(BorderFactory.createTitledBorder(RB.getString("gui.dialog.NBDataImportPanel.filePanel")));
-		mapLabel.setText(RB.getString("gui.dialog.NBDataImportPanel.mapLabel"));
-		RB.setMnemonic(mapLabel, "gui.dialog.NBDataImportPanel.mapLabel");
+		RB.setText(mapLabel, "gui.dialog.NBDataImportPanel.mapLabel");
 		mapButton.setText(RB.getString("gui.text.browse"));
-		genoLabel.setText(RB.getString("gui.dialog.NBDataImportPanel.genoLabel"));
-		RB.setMnemonic(genoLabel, "gui.dialog.NBDataImportPanel.genoLabel");
+		RB.setText(genoLabel, "gui.dialog.NBDataImportPanel.genoLabel");
 		genoButton.setText(RB.getString("gui.text.browse"));
 		optionPanel.setBorder(BorderFactory.createTitledBorder(RB.getString("gui.dialog.NBDataImportPanel.optionPanel")));
-		missingLabel.setText(RB.getString("gui.dialog.NBDataImportPanel.missingLabel"));
-		RB.setMnemonic(missingLabel, "gui.dialog.NBDataImportPanel.missingLabel");
-		heteroLabel.setText(RB.getString("gui.dialog.NBDataImportPanel.heteroLabel"));
-		RB.setMnemonic(heteroLabel, "gui.dialog.NBDataImportPanel.heteroLabel");
-		checkHetero.setText(RB.getString("gui.dialog.NBDataImportPanel.checkHetero"));
-		RB.setMnemonic(checkHetero, "gui.dialog.NBDataImportPanel.checkHetero");
+		RB.setText(missingLabel, "gui.dialog.NBDataImportPanel.missingLabel");
+		RB.setText(heteroLabel, "gui.dialog.NBDataImportPanel.heteroLabel");
+		RB.setText(checkHetero, "gui.dialog.NBDataImportPanel.checkHetero");
 	}
 
 	public void actionPerformed(ActionEvent e)

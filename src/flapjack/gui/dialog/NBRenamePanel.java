@@ -8,8 +8,7 @@ class NBRenamePanel extends javax.swing.JPanel
 	{
 		initComponents();
 
-		renameLabel.setText(RB.getString("gui.dialog.NBRenamePanel.renameLabel"));
-		RB.setMnemonic(renameLabel, "gui.dialog.NBRenamePanel.renameLabel");
+		RB.setText(renameLabel, "gui.dialog.NBRenamePanel.renameLabel");
 
 		renameText.setText(currentValue);
 		renameText.select(0, currentValue.length());

@@ -10,7 +10,7 @@ class NBStatisticsProgressPanel extends javax.swing.JPanel
 	{
 		initComponents();
 
-		label.setText(RB.getString("gui.dialog.analysis.NBStatisticsProgressPanel.label"));
+		RB.setText(label, "gui.dialog.analysis.NBStatisticsProgressPanel.label");
 	}
 
 	/** This method is called from within the constructor to

@@ -9,7 +9,7 @@ class NBExportingImagePanel extends javax.swing.JPanel
 	{
 		initComponents();
 
-		label.setText(RB.getString("gui.dialog.NBExportingImagePanel.label"));
+		RB.setText(label, "gui.dialog.NBExportingImagePanel.label");
 	}
 
 	/** This method is called from within the constructor to

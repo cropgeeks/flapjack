@@ -16,20 +16,17 @@ class NBImportOptionsPanel extends javax.swing.JPanel
 		panel.setBorder(BorderFactory.createTitledBorder(
 			RB.getString("gui.dialog.NBImportOptionsPanel.instruction")));
 
-		rFromFile.setText(RB.getString("gui.dialog.NBImportOptionsPanel.rFromFile"));
+		RB.setText(rFromFile, "gui.dialog.NBImportOptionsPanel.rFromFile");
 		rFromFile.setSelected(Prefs.guiImportMethod == 0);
 		rFromFile.addMouseListener(dcl);
-		RB.setMnemonic(rFromFile, "gui.dialog.NBImportOptionsPanel.rFromFile");
 
-		rFromDB.setText(RB.getString("gui.dialog.NBImportOptionsPanel.rFromDB"));
+		RB.setText(rFromDB, "gui.dialog.NBImportOptionsPanel.rFromDB");
 		rFromDB.setSelected(Prefs.guiImportMethod == 1);
 //		rFromDB.addMouseListener(dcl);
-		RB.setMnemonic(rFromDB, "gui.dialog.NBImportOptionsPanel.rFromDB");
 
-		rFromSample.setText(RB.getString("gui.dialog.NBImportOptionsPanel.rFromSample"));
+		RB.setText(rFromSample, "gui.dialog.NBImportOptionsPanel.rFromSample");
 		rFromSample.setSelected(Prefs.guiImportMethod == 2);
 		rFromSample.addMouseListener(dcl);
-		RB.setMnemonic(rFromSample, "gui.dialog.NBImportOptionsPanel.rFromSample");
 	}
 
 	void isOK()

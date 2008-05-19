@@ -11,8 +11,7 @@ class NBSelectLMPanel extends javax.swing.JPanel
 
 		if (selectLines)
 		{
-			label.setText(RB.getString("gui.dialog.NBSelectLMPanel.lineLabel"));
-			RB.setMnemonic(label, "gui.dialog.NBSelectLMPanel.lineLabel");
+			RB.setText(label, "gui.dialog.NBSelectLMPanel.lineLabel");
 
 			for (int i = 0; i < view.getLineCount(); i++)
 				combo.addItem(view.getLine(i));
@@ -22,8 +21,7 @@ class NBSelectLMPanel extends javax.swing.JPanel
 		}
 		else
 		{
-			label.setText(RB.getString("gui.dialog.NBSelectLMPanel.markerLabel"));
-			RB.setMnemonic(label, "gui.dialog.NBSelectLMPanel.markerLabel");
+			RB.setText(label, "gui.dialog.NBSelectLMPanel.markerLabel");
 
 			for (int i = 0; i < view.getMarkerCount(); i++)
 				combo.addItem(view.getMarker(i));

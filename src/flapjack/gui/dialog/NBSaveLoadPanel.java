@@ -21,9 +21,9 @@ public class NBSaveLoadPanel extends javax.swing.JPanel
 		initComponents();
 
 		if (isSaving)
-			label.setText(RB.getString("gui.dialog.NBSaveLoadPanel.saving"));
+			RB.setText(label, "gui.dialog.NBSaveLoadPanel.saving");
 		else
-			label.setText(RB.getString("gui.dialog.NBSaveLoadPanel.loading"));
+			RB.setText(label, "gui.dialog.NBSaveLoadPanel.loading");
 	}
 
 	/** This method is called from within the constructor to

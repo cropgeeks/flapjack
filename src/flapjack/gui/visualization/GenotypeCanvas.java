@@ -126,8 +126,9 @@ class GenotypeCanvas extends JPanel
 
 		setSize(dimension = new Dimension(canvasW, canvasH));
 
-		// TODO: track sizeX/Y (or something) so we only recreate color scheme
-		// when it reallys needs to be recreated
+		// TODO: track sizeX/Y (or something) so we only recreate the color
+		// scheme when it really needs to be recreated
+		long s = System.currentTimeMillis();
 		switch (viewSet.getColorScheme())
 		{
 			case ColorScheme.LINE_SIMILARITY:
@@ -157,6 +158,7 @@ class GenotypeCanvas extends JPanel
 			default: // ColorScheme.NUCLEOTIDE
 				cScheme = new NucleotideColorScheme(view, boxW, boxH);
 		}
+		System.out.println("Color scheme: " + (System.currentTimeMillis()-s) + "ms");
 
 		/////////////////////////
 
@@ -242,7 +244,7 @@ class GenotypeCanvas extends JPanel
 
 		long e = System.nanoTime();
 
-//		System.out.println("Render time: " + ((e-s)/1000000f) + "ms");
+		System.out.println("Render time: " + ((e-s)/1000000f) + "ms");
 	}
 
 	// TODO: this needs cached/cleared so only a genuine redraw causes it to
@@ -258,7 +260,9 @@ class GenotypeCanvas extends JPanel
 		// imageViewPort is (yet another) buffer that caches the visible area
 		// What would have been drawn to screen is drawn to the buffer first
 		imageViewPort = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
-		Graphics2D gImage = (Graphics2D) imageViewPort.getGraphics();
+//		VolatileImage img = createVolatileImage(w, h);
+		Graphics2D gImage = imageViewPort.createGraphics();
+//		Graphics2D gImage = img.createGraphics();
 
 		if (imageFull == null)
 		{
@@ -270,6 +274,7 @@ class GenotypeCanvas extends JPanel
 
 		gImage.dispose();
 		g.drawImage(imageViewPort, pX1, pY1, null);
+//		g.drawImage(img, pX1, pY1, null);
 	}
 
 	// This method takes the full back-buffered image (already pre-created by
