@@ -22,13 +22,11 @@ public class NBStatusPanel extends JPanel implements ActionListener, ChangeListe
 
 		initComponents();
 
-		label1.setText(RB.getString("gui.visualization.StatusPanel.line"));
-		label2.setText(RB.getString("gui.visualization.StatusPanel.marker"));
-		label3.setText(RB.getString("gui.visualization.StatusPanel.genotype"));
-		horizontalLabel.setText(RB.getString("gui.visualization.StatusPanel.horizontalLabel"));
-		RB.setMnemonic(horizontalLabel, "gui.visualization.StatusPanel.horizontalLabel");
-		checkLink.setText(RB.getString("gui.visualization.StatusPanel.checkLink"));
-		RB.setMnemonic(checkLink, "gui.visualization.StatusPanel.checkLink");
+		RB.setText(label1, "gui.visualization.StatusPanel.line");
+		RB.setText(label2, "gui.visualization.StatusPanel.marker");
+		RB.setText(label3, "gui.visualization.StatusPanel.genotype");
+		RB.setText(horizontalLabel, "gui.visualization.StatusPanel.horizontalLabel");
+		RB.setText(checkLink, "gui.visualization.StatusPanel.checkLink");
 
 		lineLabel.setForeground(Color.red);
 		lineLabel.setText(" ");
@@ -49,14 +47,10 @@ public class NBStatusPanel extends JPanel implements ActionListener, ChangeListe
 	public static void setControlStates()
 	{
 		if (Prefs.visAdvancedZoom)
-		{
-			verticalLabel.setText(RB.getString("gui.visualization.StatusPanel.verticalLabel"));
-			RB.setMnemonic(verticalLabel, "gui.visualization.StatusPanel.verticalLabel");
-		}
+			RB.setText(verticalLabel, "gui.visualization.StatusPanel.verticalLabel");
 		else
 		{
-			verticalLabel.setText(RB.getString("gui.visualization.StatusPanel.zoomLabel"));
-			RB.setMnemonic(verticalLabel, "gui.visualization.StatusPanel.zoomLabel");
+			RB.setText(verticalLabel, "gui.visualization.StatusPanel.zoomLabel");
 			Prefs.visLinkSliders = true;
 		}
 

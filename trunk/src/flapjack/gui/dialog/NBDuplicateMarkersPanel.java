@@ -34,10 +34,9 @@ public class NBDuplicateMarkersPanel extends javax.swing.JPanel
         		return false;
         }});
 
-		label1.setText(RB.getString("gui.dialog.NBDuplicateMarkersDialog.label1"));
-		label2.setText(RB.getString("gui.dialog.NBDuplicateMarkersDialog.label2"));
-		checkWarn.setText(RB.getString("gui.dialog.NBDuplicateMarkersDialog.checkWarn"));
-		RB.setMnemonic(checkWarn, "gui.dialog.NBDuplicateMarkersDialog.checkWarn");
+		RB.setText(label1, "gui.dialog.NBDuplicateMarkersDialog.label1");
+		RB.setText(label2, "gui.dialog.NBDuplicateMarkersDialog.label2");
+		RB.setText(checkWarn, "gui.dialog.NBDuplicateMarkersDialog.checkWarn");
 	}
 
 	boolean isCheckboxSelected()

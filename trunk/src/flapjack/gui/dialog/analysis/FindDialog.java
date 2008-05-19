@@ -85,9 +85,8 @@ public class FindDialog extends JDialog implements ListSelectionListener
 					// And optionally inform the user about why
 					if (count > 0 && Prefs.warnFindDialogResultsCleared)
 					{
-						JCheckBox checkbox = new JCheckBox(
-							RB.getString("gui.dialog.FindDialog.focusCheckbox"));
-						RB.setMnemonic(checkbox, "gui.dialog.FindDialog.focusCheckbox");
+						JCheckBox checkbox = new JCheckBox();
+						RB.setText(checkbox, "gui.dialog.FindDialog.focusCheckbox");
 
 						TaskDialog.info(
 							RB.getString("gui.dialog.FindDialog.focusWarning"),

@@ -15,16 +15,11 @@ class NBNewViewPanel extends javax.swing.JPanel implements ActionListener
 		initComponents();
 
 		// i18n
-		panel.setBorder(BorderFactory.createTitledBorder(
-			RB.getString("gui.dialog.NBNewViewPanel.panelTitle")));
-		rNewView.setText(RB.getString("gui.dialog.NBNewViewPanel.rNewView"));
-		RB.setMnemonic(rNewView, "gui.dialog.NBNewViewPanel.rNewView");
-		rCloneView.setText(RB.getString("gui.dialog.NBNewViewPanel.rCloneView"));
-		RB.setMnemonic(rCloneView, "gui.dialog.NBNewViewPanel.rCloneView");
-		cloneLabel.setText(RB.getString("gui.dialog.NBNewViewPanel.cloneLabel"));
-		RB.setMnemonic(cloneLabel, "gui.dialog.NBNewViewPanel.cloneLabel");
-		nameLabel.setText(RB.getString("gui.dialog.NBNewViewPanel.nameLabel"));
-		RB.setMnemonic(nameLabel, "gui.dialog.NBNewViewPanel.nameLabel");
+		panel.setBorder(BorderFactory.createTitledBorder(RB.getString("gui.dialog.NBNewViewPanel.panelTitle")));
+		RB.setText(rNewView, "gui.dialog.NBNewViewPanel.rNewView");
+		RB.setText(rCloneView, "gui.dialog.NBNewViewPanel.rCloneView");
+		RB.setText(cloneLabel, "gui.dialog.NBNewViewPanel.cloneLabel");
+		RB.setText(nameLabel, "gui.dialog.NBNewViewPanel.nameLabel");
 
 		// Add existing view sets to the combo box model
 		for (GTViewSet viewSet: dataSet.getViewSets())

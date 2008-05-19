@@ -12,18 +12,14 @@ class NBVisualizationPanel extends JPanel implements IPrefsTab, ActionListener
 	public NBVisualizationPanel()
     {
         initComponents();
-		
+
 		panel.setBorder(BorderFactory.createTitledBorder(RB.getString("gui.dialog.prefs.NBVisualizationPanel.panelTitle")));
 
-		checkVisBackBuffer.setText(RB.getString("gui.dialog.prefs.NBVisualizationPanel.checkVisBackBuffer"));
-        RB.setMnemonic(checkVisBackBuffer, "gui.dialog.prefs.NBVisualizationPanel.checkVisBackBuffer");
-		checkVisBackBuffer.addActionListener(this);
+		RB.setText(checkVisBackBuffer, "gui.dialog.prefs.NBVisualizationPanel.checkVisBackBuffer");
+		RB.setText(checkVisBackBufferType, "gui.dialog.prefs.NBVisualizationPanel.checkVisBackBufferType");
+		RB.setText(checkVisAdvancedZoom, "gui.dialog.prefs.NBVisualizationPanel.checkVisAdvancedZoom");
 
-        checkVisBackBufferType.setText(RB.getString("gui.dialog.prefs.NBVisualizationPanel.checkVisBackBufferType"));
-		RB.setMnemonic(checkVisBackBufferType, "gui.dialog.prefs.NBVisualizationPanel.checkVisBackBufferType");
-		
-		checkVisAdvancedZoom.setText(RB.getString("gui.dialog.prefs.NBVisualizationPanel.checkVisAdvancedZoom"));
-		RB.setMnemonic(checkVisAdvancedZoom, "gui.dialog.prefs.NBVisualizationPanel.checkVisAdvancedZoom");
+		checkVisBackBuffer.addActionListener(this);
 
         initSettings();
     }
@@ -31,7 +27,7 @@ class NBVisualizationPanel extends JPanel implements IPrefsTab, ActionListener
     public void actionPerformed(ActionEvent e)
     {
     	if (e.getSource() == checkVisBackBuffer)
-    		checkVisBackBufferType.setEnabled(checkVisBackBuffer.isSelected());	
+    		checkVisBackBufferType.setEnabled(checkVisBackBuffer.isSelected());
     }
 
     private void initSettings()
@@ -47,7 +43,7 @@ class NBVisualizationPanel extends JPanel implements IPrefsTab, ActionListener
 		Prefs.visBackBuffer = checkVisBackBuffer.isSelected();
 		Prefs.visBackBufferType = checkVisBackBufferType.isSelected() ? TYPE_BYTE_INDEXED : TYPE_INT_RGB;
 		Prefs.visAdvancedZoom = checkVisAdvancedZoom.isSelected();
-		
+
 		NBStatusPanel.setControlStates();
 	}
 

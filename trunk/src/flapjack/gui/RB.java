@@ -84,6 +84,7 @@ public class RB
 			label.setDisplayedMnemonic(m);
 			label.setDisplayedMnemonicIndex(i);
 		}
+		catch (IndexOutOfBoundsException e) {}
 		catch (Exception e) { System.out.println(e.getMessage() + " " + key); }
 	}
 
@@ -100,6 +101,19 @@ public class RB
 			button.setMnemonic(m);
 			button.setDisplayedMnemonicIndex(i);
 		}
+		catch (IndexOutOfBoundsException e) {}
 		catch (Exception e) { System.out.println(e.getMessage() + " " + key); }
+	}
+
+	public static void setText(JLabel label, String key)
+	{
+		label.setText(getString(key));
+		setMnemonic(label, key);
+	}
+
+	public static void setText(AbstractButton button, String key)
+	{
+		button.setText(getString(key));
+		setMnemonic(button, key);
 	}
 }

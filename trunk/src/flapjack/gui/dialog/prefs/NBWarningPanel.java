@@ -9,14 +9,11 @@ class NBWarningPanel extends JPanel implements IPrefsTab
 	public NBWarningPanel()
     {
         initComponents();
-		
+
 		panel.setBorder(BorderFactory.createTitledBorder(RB.getString("gui.dialog.prefs.NBWarningPanel.panelTitle")));
 
-		warnDuplicateMarkers.setText(RB.getString("gui.dialog.prefs.NBWarningPanel.warnDuplicateMarkers"));
-		RB.setMnemonic(warnDuplicateMarkers, "gui.dialog.prefs.NBWarningPanel.warnDuplicateMarkers");
-		
-		warnFindDialogResultsCleared.setText(RB.getString("gui.dialog.prefs.NBWarningPanel.warnFindDialogResultsCleared"));
-		RB.setMnemonic(warnFindDialogResultsCleared, "gui.dialog.prefs.NBWarningPanel.warnFindDialogResultsCleared");
+		RB.setText(warnDuplicateMarkers, "gui.dialog.prefs.NBWarningPanel.warnDuplicateMarkers");
+		RB.setText(warnFindDialogResultsCleared, "gui.dialog.prefs.NBWarningPanel.warnFindDialogResultsCleared");
 
 		initSettings();
     }

@@ -18,19 +18,12 @@ class NBToggleCanvasPanel extends JPanel implements ActionListener
 
 		// i18n
 		panel.setBorder(BorderFactory.createTitledBorder(RB.getString("gui.dialog.NBToggleCanvasPanel.panel.title")));
-		checkLinePanel.setText(RB.getString("gui.dialog.NBToggleCanvasPanel.checkLinePanel"));
-		RB.setMnemonic(checkLinePanel, "gui.dialog.NBToggleCanvasPanel.checkLinePanel");
-		checkMapCanvas.setText(RB.getString("gui.dialog.NBToggleCanvasPanel.checkMapCanvas"));
-		RB.setMnemonic(checkMapCanvas, "gui.dialog.NBToggleCanvasPanel.checkMapCanvas");
-		checkQTLCanvas.setText(RB.getString("gui.dialog.NBToggleCanvasPanel.checkQTLCanvas"));
-		RB.setMnemonic(checkQTLCanvas, "gui.dialog.NBToggleCanvasPanel.checkQTLCanvas");
-		checkRowCanvas.setText(RB.getString("gui.dialog.NBToggleCanvasPanel.checkRowCanvas"));
-		RB.setMnemonic(checkRowCanvas, "gui.dialog.NBToggleCanvasPanel.checkRowCanvas");
-		checkColCanvas.setText(RB.getString("gui.dialog.NBToggleCanvasPanel.checkColCanvas"));
-		RB.setMnemonic(checkColCanvas, "gui.dialog.NBToggleCanvasPanel.checkColCanvas");
-		checkStatusPanel.setText(RB.getString("gui.dialog.NBToggleCanvasPanel.checkStatusPanel"));
-		RB.setMnemonic(checkStatusPanel, "gui.dialog.NBToggleCanvasPanel.checkStatusPanel");
-
+		RB.setText(checkLinePanel, "gui.dialog.NBToggleCanvasPanel.checkLinePanel");
+		RB.setText(checkMapCanvas, "gui.dialog.NBToggleCanvasPanel.checkMapCanvas");
+		RB.setText(checkQTLCanvas, "gui.dialog.NBToggleCanvasPanel.checkQTLCanvas");
+		RB.setText(checkRowCanvas, "gui.dialog.NBToggleCanvasPanel.checkRowCanvas");
+		RB.setText(checkColCanvas, "gui.dialog.NBToggleCanvasPanel.checkColCanvas");
+		RB.setText(checkStatusPanel, "gui.dialog.NBToggleCanvasPanel.checkStatusPanel");
 
 		checkLinePanel.addActionListener(this);
 		checkMapCanvas.addActionListener(this);

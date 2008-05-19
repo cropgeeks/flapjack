@@ -17,7 +17,7 @@ class NBSortingLinesProgressPanel extends javax.swing.JPanel
 	{
 		initComponents();
 
-		label.setText(RB.getString("gui.dialog.analysis.NBSortingLinesProgressPanel.label"));
+		RB.setText(label, "gui.dialog.analysis.NBSortingLinesProgressPanel.label");
 	}
 
 	JProgressBar getProgressBar()

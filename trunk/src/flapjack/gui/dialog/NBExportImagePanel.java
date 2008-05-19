@@ -27,22 +27,16 @@ class NBExportImagePanel extends JPanel implements ChangeListener, ActionListene
 
 		//i18n
 		panel.setBorder(BorderFactory.createTitledBorder(RB.getString("gui.dialog.NBExportImagePanel.title")));
-		rWindow.setText(RB.getString("gui.dialog.NBExportImagePanel.rWindow"));
-		RB.setMnemonic(rWindow, "gui.dialog.NBExportImagePanel.rWindow");
-		rWindowLabel.setText(RB.getString("gui.dialog.NBExportImagePanel.rWindowLabel"));
-		rView.setText(RB.getString("gui.dialog.NBExportImagePanel.rView"));
-		RB.setMnemonic(rView, "gui.dialog.NBExportImagePanel.rView");
-		rViewLabel.setText(RB.getString("gui.dialog.NBExportImagePanel.rViewLabel"));
-		rOverview.setText(RB.getString("gui.dialog.NBExportImagePanel.rOverview"));
-		RB.setMnemonic(rOverview, "gui.dialog.NBExportImagePanel.rOverview");
-		rOverviewLabel.setText(RB.getString("gui.dialog.NBExportImagePanel.rOverviewLabel"));
-		widthLabel.setText(RB.getString("gui.dialog.NBExportImagePanel.widthLabel"));
-		RB.setMnemonic(widthLabel, "gui.dialog.NBExportImagePanel.widthLabel");
-		heightLabel.setText(RB.getString("gui.dialog.NBExportImagePanel.heightLabel"));
-		RB.setMnemonic(heightLabel, "gui.dialog.NBExportImagePanel.heightLabel");
-		equalCheck.setText(RB.getString("gui.dialog.NBExportImagePanel.equalCheck"));
-		RB.setMnemonic(equalCheck, "gui.dialog.NBExportImagePanel.equalCheck");
-		memLabel1.setText(RB.getString("gui.dialog.NBExportImagePanel.memLabel1"));
+		RB.setText(rWindow, "gui.dialog.NBExportImagePanel.rWindow");
+		RB.setText(rWindowLabel, "gui.dialog.NBExportImagePanel.rWindowLabel");
+		RB.setText(rView, "gui.dialog.NBExportImagePanel.rView");
+		RB.setText(rViewLabel, "gui.dialog.NBExportImagePanel.rViewLabel");
+		RB.setText(rOverview, "gui.dialog.NBExportImagePanel.rOverview");
+		RB.setText(rOverviewLabel, "gui.dialog.NBExportImagePanel.rOverviewLabel");
+		RB.setText(widthLabel, "gui.dialog.NBExportImagePanel.widthLabel");
+		RB.setText(heightLabel, "gui.dialog.NBExportImagePanel.heightLabel");
+		RB.setText(equalCheck, "gui.dialog.NBExportImagePanel.equalCheck");
+		RB.setText(memLabel1, "gui.dialog.NBExportImagePanel.memLabel1");
 
 		lines = gPanel.getView().getLineCount();
 		markers = gPanel.getView().getMarkerCount();

@@ -25,11 +25,8 @@ class NBAlleleStatisticsPanel extends JPanel implements AdjustmentListener
 		// i18n
 		viewLabel.setText(RB.format("gui.dialog.analysis.NBAlleleStatisticsPanel.viewLabel", name, total));
 		tablePanel.setBorder(BorderFactory.createTitledBorder(RB.getString("gui.dialog.analysis.NBAlleleStatisticsPanel.tablePanel.title")));
-		tableLabel1.setText(RB.getString("gui.dialog.analysis.NBAlleleStatisticsPanel.tableLabel1"));
-		RB.setMnemonic(tableLabel1, "gui.dialog.analysis.NBAlleleStatisticsPanel.tableLabel1");
-		tableLabel2.setText(RB.getString("gui.dialog.analysis.NBAlleleStatisticsPanel.tableLabel2"));
-		RB.setMnemonic(tableLabel2, "gui.dialog.analysis.NBAlleleStatisticsPanel.tableLabel2");
-
+		RB.setText(tableLabel1, "gui.dialog.analysis.NBAlleleStatisticsPanel.tableLabel1");
+		RB.setText(tableLabel2, "gui.dialog.analysis.NBAlleleStatisticsPanel.tableLabel2");
 
 		createSumTable(viewSet, results);
 		createViewTable(viewSet, results);

@@ -26,14 +26,11 @@ class NBColorPanel extends JPanel implements ActionListener
 		initComponents();
 
 		// i18n text
-		comboLabel.setText(RB.getString("gui.dialog.NBColorPanel.comboLabel"));
-		RB.setMnemonic(comboLabel, "gui.dialog.NBColorPanel.comboLabel");
+		RB.setText(comboLabel, "gui.dialog.NBColorPanel.comboLabel");
 		infoPanel.setBorder(BorderFactory.createTitledBorder(RB.getString("gui.dialog.NBColorPanel.infoPanel.title")));
 		colorPanel.setBorder(BorderFactory.createTitledBorder(RB.getString("gui.dialog.NBColorPanel.colorPanel.title")));
-		listLabel1.setText(RB.getString("gui.dialog.NBColorPanel.listLabel1"));
-		RB.setMnemonic(listLabel1, "gui.dialog.NBColorPanel.listLabel1");
-		listLabel2.setText(RB.getString("gui.dialog.NBColorPanel.listLabel2"));
-		RB.setMnemonic(listLabel2, "gui.dialog.NBColorPanel.listLabel2");
+		RB.setText(listLabel1, "gui.dialog.NBColorPanel.listLabel1");
+		RB.setText(listLabel2, "gui.dialog.NBColorPanel.listLabel2");
 
 		// Set the cell renderers and mouse listeners on the colour lists
 		standardList.setCellRenderer(new ColorListRenderer());

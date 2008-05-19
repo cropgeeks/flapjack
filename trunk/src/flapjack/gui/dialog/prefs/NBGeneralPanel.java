@@ -15,9 +15,8 @@ class NBGeneralPanel extends JPanel implements IPrefsTab
 
 		// Interface settings
 		generalPanel.setBorder(BorderFactory.createTitledBorder(RB.getString("gui.dialog.prefs.NBGeneralPanel.generalPanelTitle")));
-        displayLabel.setText(RB.getString("gui.dialog.prefs.NBGeneralPanel.displayLabel"));
-		RB.setMnemonic(displayLabel, "gui.dialog.prefs.NBGeneralPanel.displayLabel");
-        displayHint.setText(RB.getString("gui.dialog.prefs.NBGeneralPanel.displayHint"));
+		RB.setText(displayLabel, "gui.dialog.prefs.NBGeneralPanel.displayLabel");
+		RB.setText(displayHint, "gui.dialog.prefs.NBGeneralPanel.displayHint");
 
         displayModel = new DefaultComboBoxModel();
         displayModel.addElement(RB.getString("gui.dialog.prefs.NBGeneralPanel.auto"));
@@ -28,8 +27,7 @@ class NBGeneralPanel extends JPanel implements IPrefsTab
 
 
         // Update settings
-        updateLabel.setText(RB.getString("gui.dialog.prefs.NBGeneralPanel.updateLabel"));
-		RB.setMnemonic(updateLabel, "gui.dialog.prefs.NBGeneralPanel.updateLabel");
+        RB.setText(updateLabel, "gui.dialog.prefs.NBGeneralPanel.updateLabel");
 
         updateModel = new DefaultComboBoxModel();
         updateModel.addElement(RB.getString("gui.dialog.prefs.NBGeneralPanel.updateNever"));
@@ -40,8 +38,7 @@ class NBGeneralPanel extends JPanel implements IPrefsTab
         updateCombo.setModel(updateModel);
 
 		projectPanel.setBorder(BorderFactory.createTitledBorder(RB.getString("gui.dialog.prefs.NBGeneralPanel.projectPanelTitle")));
-		checkCompress.setText(RB.getString("gui.dialog.prefs.NBGeneralPanel.checkCompress"));
-		RB.setMnemonic(checkCompress, "gui.dialog.prefs.NBGeneralPanel.checkCompress");
+		RB.setText(checkCompress, "gui.dialog.prefs.NBGeneralPanel.checkCompress");
 
         initSettings();
     }
