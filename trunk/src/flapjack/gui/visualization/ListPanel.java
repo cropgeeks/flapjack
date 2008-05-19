@@ -32,7 +32,7 @@ class ListPanel extends JPanel
 	}
 
 	int getPanelWidth()
-		{ return isVisible() ? getWidth() : 0; }
+		{ return Prefs.visShowLinePanel ? getWidth() : 0; }
 
 	void setView(GTView view)
 	{
