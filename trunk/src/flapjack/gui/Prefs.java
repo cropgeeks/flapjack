@@ -100,6 +100,8 @@ public class Prefs extends XMLPreferences
 
 	// Should the visualization canvas overlay the raw data?
 	public static boolean visShowGenotypes = false;
+	// Should the visualization canvas highlight heterozygotes?
+	public static boolean visHighlightHZ = true;
 
 	// Standard colors used regardless of scheme
 	public static Color visColorBackground;

@@ -27,8 +27,14 @@ public class SimpleColorState extends ColorState
 
 		Rectangle2D.Float r = new Rectangle2D.Float(0, 0, w, h);
 		g.fill(r);
-		g.dispose();
 
+		if (Prefs.visHighlightHZ)
+		{
+			g.setPaint(new Color(20, 20, 20, alpha));
+			g.fillRect(0, 0, w, h);
+		}
+
+		g.dispose();
 		return image;
 	}
 }
