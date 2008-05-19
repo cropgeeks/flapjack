@@ -40,6 +40,7 @@ public class VisualizationNode extends BaseNode
 		Actions.vizColorMarkerSimGS.setEnabled(true);
 		Actions.vizColorSimple2Color.setEnabled(true);
 		Actions.vizOverlayGenotypes.setEnabled(true);
+		Actions.vizHighlightHZ.setEnabled(true);
 		Actions.vizNewView.setEnabled(true);
 		Actions.vizRenameView.setEnabled(true);
 		Actions.vizDeleteView.setEnabled(true);

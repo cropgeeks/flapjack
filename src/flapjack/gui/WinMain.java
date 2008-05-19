@@ -284,6 +284,15 @@ public class WinMain extends JFrame
 		gPanel.refreshView();
 	}
 
+	void vizHighlightHZ()
+	{
+		Prefs.visHighlightHZ = !Prefs.visHighlightHZ;
+		WinMainMenuBar.mVizHighlightHZ.setSelected(Prefs.visHighlightHZ);
+		CanvasMenu.mHighlightHZ.setSelected(Prefs.visHighlightHZ);
+
+		gPanel.refreshView();
+	}
+
 	void vizNewView()
 	{
 		DataSet dataSet = navPanel.getDataSetForSelection();

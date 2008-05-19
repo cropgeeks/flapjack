@@ -31,6 +31,7 @@ public class Actions
 	public static AbstractAction vizColorMarkerSimGS;
 	public static AbstractAction vizColorSimple2Color;
 	public static AbstractAction vizOverlayGenotypes;
+	public static AbstractAction vizHighlightHZ;
 	public static AbstractAction vizNewView;
 	public static AbstractAction vizRenameView;
 	public static AbstractAction vizDeleteView;
@@ -194,6 +195,12 @@ public class Actions
 			}
 		};
 
+		vizHighlightHZ = new AbstractAction(RB.getString("gui.Actions.vizHighlightHZ")) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.vizHighlightHZ();
+			}
+		};
+
 		vizNewView = new AbstractAction(RB.getString("gui.Actions.vizNewView")) {
 			public void actionPerformed(ActionEvent e) {
 				winMain.vizNewView();
@@ -316,6 +323,7 @@ public class Actions
 		vizColorMarkerSimGS.setEnabled(false);
 		vizColorSimple2Color.setEnabled(false);
 		vizOverlayGenotypes.setEnabled(false);
+		vizHighlightHZ.setEnabled(false);
 		vizNewView.setEnabled(false);
 		vizRenameView.setEnabled(false);
 		vizDeleteView.setEnabled(false);

@@ -38,6 +38,7 @@ public class WinMainMenuBar extends JMenuBar
 	private JMenuItem mVizColorMarkerSimGS;
 	private JMenuItem mVizColorSimple2Color;
 	static  JCheckBoxMenuItem mVizOverlayGenotypes;
+	static  JCheckBoxMenuItem mVizHighlightHZ;
 	private JMenuItem mVizNewView;
 	private JMenuItem mVizRenameView;
 	private JMenuItem mVizDeleteView;
@@ -149,6 +150,7 @@ public class WinMainMenuBar extends JMenuBar
 //		mVizColorMarkerSimGS = getItem(Actions.vizColorMarkerSimGS, KeyEvent.VK_G, 0, 0);
 		mVizColorSimple2Color = getItem(Actions.vizColorSimple2Color, "gui.Actions.vizColorSimple2Color", 0, 0);
 		mVizOverlayGenotypes = getCheckedItem(Actions.vizOverlayGenotypes, "gui.Actions.vizOverlayGenotypes", KeyEvent.VK_G, menuShortcut, Prefs.visShowGenotypes);
+		mVizHighlightHZ = getCheckedItem(Actions.vizHighlightHZ, "gui.Actions.vizHighlightHZ", KeyEvent.VK_H, menuShortcut, Prefs.visHighlightHZ);
 		mVizNewView = getItem(Actions.vizNewView, "gui.Actions.vizNewView", 0, 0);
 		mVizRenameView = getItem(Actions.vizRenameView, "gui.Actions.vizRenameView", 0, 0);
 		mVizDeleteView = getItem(Actions.vizDeleteView, "gui.Actions.vizDeleteView", 0, 0);
@@ -170,6 +172,7 @@ public class WinMainMenuBar extends JMenuBar
 		mViz.addSeparator();
 		mViz.add(mVizColor);
 		mViz.add(mVizOverlayGenotypes);
+		mViz.add(mVizHighlightHZ);
 		mViz.addSeparator();
 		mViz.add(mVizNewView);
 		mViz.add(mVizRenameView);

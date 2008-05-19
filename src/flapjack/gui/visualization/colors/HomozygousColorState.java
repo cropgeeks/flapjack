@@ -58,17 +58,14 @@ public class HomozygousColorState extends ColorState
 				h - fm.getMaxDescent());
 		}
 
-/*		if (state.isHomozygous() == false)
+
+		if (Prefs.visHighlightHZ)
 		{
-			r = new Rectangle2D.Float(0, 0, w-1, h-1);
-			g.setColor(Prefs.visColorText);
-			g.draw(r);
+			g.setPaint(new Color(20, 20, 20, alpha));
+			g.fillRect(0, 0, w, h);
 		}
-*/
 
-//		g.fillRect(0, 0, w, h);
 		g.dispose();
-
 		return image;
 	}
 }

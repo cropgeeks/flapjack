@@ -10,8 +10,6 @@ import flapjack.gui.*;
 
 public abstract class ColorState
 {
-	protected static final int visRndSeed = (int) (Math.random() * 1000);
-
 	protected AlleleState state;
 
 	// AWT representation of this color
@@ -26,6 +24,9 @@ public abstract class ColorState
 
 	// Width and height of the image
 	protected int w, h;
+
+	// Alpha transparency effect to (potentially) apply to the final image
+	protected int alpha = 200;
 
 	ColorState(AlleleState state, Color c, int w, int h)
 	{
