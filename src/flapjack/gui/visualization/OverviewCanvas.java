@@ -23,6 +23,8 @@ class OverviewCanvas extends JPanel
 	private BufferedImage image = null;
 	private int w, h;
 
+	private Rectangle clip = null;
+
 	public OverviewCanvas(GenotypePanel gPanel, GenotypeCanvas canvas)
 	{
 		this.gPanel = gPanel;
@@ -94,6 +96,7 @@ class OverviewCanvas extends JPanel
 	private void bufferAvailable(BufferedImage image)
 	{
 		this.image = image;
+//		new ClipAnimator().start();
 
 		// Force the main canvas to send its view size dimensions so we can draw
 		// the highlighting box on top of the new back buffer's image
@@ -146,6 +149,9 @@ class OverviewCanvas extends JPanel
 
 			if (image == null)
 				return;
+
+			if (clip != null)
+				g.setClip(clip);
 
 			// Paint the image of the alignment
 			g.drawImage(image, 0, 0, null);
@@ -285,5 +291,24 @@ class OverviewCanvas extends JPanel
 		// being skipped due to overlaps: eg with width of 1.2:
 		// 1.2 (1) 2.4 (2) 3.6 (3) 4.8 (4) 6.0 (6)
 		// position 5 was skipped
+	}
+
+	private class ClipAnimator extends Thread
+	{
+		public void run()
+		{
+			for (int i = 0; i <= 30; i++)
+			{
+				int rectH = (int) (i*(h/30f));
+
+				clip = new Rectangle(0, 0, w, rectH);
+				viewCanvas.repaint();
+
+				try { Thread.sleep(500/30); }
+				catch (Exception e) {}
+			}
+
+			clip = null;
+		}
 	}
 }
