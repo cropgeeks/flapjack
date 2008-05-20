@@ -58,6 +58,8 @@ class GenotypeCanvas extends JPanel
 	BufferedImage imageFull;
 	// This buffer holds the current viewport (visible) area
 	BufferedImage imageViewPort;
+	// TRUE if we really MUST redraw, rather than just copying from the buffer
+	private boolean redraw = true;
 
 	// A list of renderers that will perform further drawing once the main
 	// canvas has been drawn (eg animators, minesweeper, etc)
@@ -128,9 +130,20 @@ class GenotypeCanvas extends JPanel
 
 		// TODO: track sizeX/Y (or something) so we only recreate the color
 		// scheme when it really needs to be recreated
+		updateColorScheme();
+
+		resetBufferedState(true);
+	}
+
+	void updateColorScheme()
+	{
 		long s = System.currentTimeMillis();
+
 		switch (viewSet.getColorScheme())
 		{
+			case ColorScheme.NUCLEOTIDE:
+				cScheme = new NucleotideColorScheme(view, boxW, boxH);
+
 			case ColorScheme.LINE_SIMILARITY:
 				cScheme = new LineSimilarityColorScheme(view, boxW, boxH);
 				break;
@@ -158,11 +171,10 @@ class GenotypeCanvas extends JPanel
 			default: // ColorScheme.NUCLEOTIDE
 				cScheme = new NucleotideColorScheme(view, boxW, boxH);
 		}
+
 		System.out.println("Color scheme: " + (System.currentTimeMillis()-s) + "ms");
 
-		/////////////////////////
-
-		resetBufferedState(true);
+		redraw = true;
 	}
 
 	// Compute real-time variables, that change as the viewpoint is moved across
@@ -179,6 +191,8 @@ class GenotypeCanvas extends JPanel
 		pY2 = pY1 + viewSize.height;
 
 		updateOverviewSelectionBox();
+
+		redraw = true;
 		repaint();
 	}
 
@@ -222,17 +236,16 @@ class GenotypeCanvas extends JPanel
 			renderer.render(g);
 
 
-
 		// TODO: think about this - the image on screen really needs buffered at
 		// this point, as constant repaints on a complicated canvas is too slow
 		// (also see TODO: for renderViewport)
-/*		if (highlightX != -1 || highlightY != -1)
+/*		if (view.mouseOverMarker != -1 || view.mouseOverLine != -1)
 		{
 			g.setColor(Color.black);
 
-			int mx1 = boxW * highlightX;
+			int mx1 = boxW * view.mouseOverMarker;
 			int mx2 = mx1 + boxW - 1;
-			int my1 = boxH * highlightY;
+			int my1 = boxH * view.mouseOverLine;
 			int my2 = my1 + boxH - 1;
 
 			g.drawLine(mx1, 0, mx1, canvasH);
@@ -247,41 +260,44 @@ class GenotypeCanvas extends JPanel
 		System.out.println("Render time: " + ((e-s)/1000000f) + "ms");
 	}
 
-	// TODO: this needs cached/cleared so only a genuine redraw causes it to
-	// recreated. That way surface animation/popups/etc can use the existing
-	// viewport buffer to help speed rendering
 	private void renderViewport(Graphics2D g)
 	{
-		int w = pX2-pX1+1, h = pY2-pY1+1;
-
-		if (canvasW < w) w = canvasW;
-		if (canvasH < h) h = canvasH;
-
-		// imageViewPort is (yet another) buffer that caches the visible area
-		// What would have been drawn to screen is drawn to the buffer first
-		imageViewPort = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
-//		VolatileImage img = createVolatileImage(w, h);
-		Graphics2D gImage = imageViewPort.createGraphics();
-//		Graphics2D gImage = img.createGraphics();
-
-		if (imageFull == null)
+		if (redraw)
 		{
-			gImage.translate(-pX1, -pY1);
-			renderRegion(gImage);
-		}
-		else
-			renderImage(gImage);
+			int w = pX2-pX1+1, h = pY2-pY1+1;
 
-		gImage.dispose();
+			if (canvasW < w) w = canvasW;
+			if (canvasH < h) h = canvasH;
+
+			// Only make a new buffer if we really really need to, as this has
+			// a noticeable effect on performance
+			if (imageViewPort == null ||
+				imageViewPort.getWidth() != w || imageViewPort.getHeight() != h)
+			{
+				imageViewPort = (BufferedImage) createImage(w, h);
+			}
+
+			Graphics2D gImage = imageViewPort.createGraphics();
+
+			// Either draw what should be visible onto the screen buffer...
+			if (imageFull == null)
+			{
+				gImage.translate(-pX1, -pY1);
+				renderRegion(gImage);
+			}
+			// Or copy what should be visible from the full data buffer...
+			else
+				renderImage(gImage);
+
+			gImage.dispose();
+		}
+
 		g.drawImage(imageViewPort, pX1, pY1, null);
-//		g.drawImage(img, pX1, pY1, null);
+		redraw = false;
 	}
 
 	// This method takes the full back-buffered image (already pre-created by
-	// this point) and cuts out a section of it that is pasted into a 2nd buffer
-	// which is then drawn to the screen. The extra buffer is needed to reduce
-	// a strange smearing effect that happens if you draw the cut-out section
-	// directly to the screen
+	// this point) and cuts out the section of it that needs to be seen
 	private void renderImage(Graphics2D g)
 	{
 		// Width and height of the area to be copied (start by assuming we'll
@@ -296,7 +312,7 @@ class GenotypeCanvas extends JPanel
 		if (canvasW < w) w = x = canvasW;
 		if (canvasH < h) h = y = canvasH;
 
-		// Now paste the crop onto the viewport buffer
+		// Now paste the crop onto the graphics object
 		g.drawImage(imageFull, 0, 0, w, h, pX1, pY1, x, y, null);
 	}
 
@@ -366,6 +382,7 @@ class GenotypeCanvas extends JPanel
 		if (createNewBuffer)
 			bufferFactory = new BufferFactory();
 
+		redraw = true;
 		repaint();
 	}
 

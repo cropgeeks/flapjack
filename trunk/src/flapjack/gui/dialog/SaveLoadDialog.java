@@ -39,7 +39,6 @@ public class SaveLoadDialog extends JDialog
 		pack();
 		setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 		setLocationRelativeTo(Flapjack.winMain);
-		setCursor(new Cursor(Cursor.WAIT_CURSOR));
 		setResizable(false);
 	}
 

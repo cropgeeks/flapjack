@@ -26,7 +26,7 @@ public abstract class ColorState
 	protected int w, h;
 
 	// Alpha transparency effect to (potentially) apply to the final image
-	protected int alpha = 200;
+	protected static int alpha = 200;
 
 	ColorState(AlleleState state, Color c, int w, int h)
 	{
@@ -71,4 +71,9 @@ public abstract class ColorState
 
 	public Color getGreyScaleColor()
 		{ return gsColor; }
+
+	public static void setAlpha(int newAlpha)
+	{
+		alpha = newAlpha;
+	}
 }

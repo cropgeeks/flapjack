@@ -132,6 +132,7 @@ public class WinMain extends JFrame
 			project = openedProject;
 			navPanel.setProject(project);
 			menubar.createRecentMenu(project.filename);
+			new DataOpenedAnimator(gPanel);
 		}
 		else
 			gPanel.resetBufferedState(true);
@@ -206,6 +207,7 @@ public class WinMain extends JFrame
 
 				project.addDataSet(dataSet);
 				navPanel.addDataSetNode(dataSet);
+				new DataOpenedAnimator(gPanel);
 
 				Actions.projectModified();
 			}
@@ -290,7 +292,7 @@ public class WinMain extends JFrame
 		WinMainMenuBar.mVizHighlightHZ.setSelected(Prefs.visHighlightHZ);
 		CanvasMenu.mHighlightHZ.setSelected(Prefs.visHighlightHZ);
 
-		gPanel.refreshView();
+		new HZHighlighter(gPanel);
 	}
 
 	void vizNewView()

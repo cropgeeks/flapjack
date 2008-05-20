@@ -59,7 +59,7 @@ public class HomozygousColorState extends ColorState
 		}
 
 
-		if (Prefs.visHighlightHZ)
+		if (Prefs.visHighlightHZ || alpha < 200)
 		{
 			g.setPaint(new Color(20, 20, 20, alpha));
 			g.fillRect(0, 0, w, h);
