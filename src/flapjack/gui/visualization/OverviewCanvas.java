@@ -202,6 +202,12 @@ class OverviewCanvas extends JPanel
 		{
 			setPriority(Thread.MIN_PRIORITY);
 
+			try { Thread.sleep(500); }
+			catch (InterruptedException e) {}
+
+			if (killMe)
+				return;
+
 			// Run everything under try/catch conditions due to changes in the
 			// view that may invalidate what this thread is trying to access
 			try

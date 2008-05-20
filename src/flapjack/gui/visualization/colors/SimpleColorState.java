@@ -28,7 +28,7 @@ public class SimpleColorState extends ColorState
 		Rectangle2D.Float r = new Rectangle2D.Float(0, 0, w, h);
 		g.fill(r);
 
-		if (Prefs.visHighlightHZ)
+		if (Prefs.visHighlightHZ || alpha < 200)
 		{
 			g.setPaint(new Color(20, 20, 20, alpha));
 			g.fillRect(0, 0, w, h);
