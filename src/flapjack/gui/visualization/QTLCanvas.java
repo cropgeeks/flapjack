@@ -15,7 +15,7 @@ class QTLCanvas extends JPanel
 	private BufferFactory bufferFactory;
 	BufferedImage image;
 
-	private int h = 25;
+	private int h = 20;
 
 	// Scaling factor to convert between pixels and map positions
 	private float xScale;
@@ -61,17 +61,6 @@ class QTLCanvas extends JPanel
 	{
 		this.image = image;
 		repaint();
-	}
-
-	// Draws the loci at index i
-	private void drawLoci(Graphics2D g, int i)
-	{
-		Marker m = canvas.view.getMarker(i);
-
-		// The position of the marker on the map
-		int xMap = (int) (m.getPosition() * xScale);
-
-		g.drawLine(xMap, 12, xMap, 22);
 	}
 
 	private class Canvas2D extends JPanel
@@ -175,17 +164,34 @@ class QTLCanvas extends JPanel
 			g.fillRect(0, 0, canvas.canvasW, h);
 
 			int mkrCount = canvas.view.getMarkerCount();
-			xScale = canvas.canvasW / mkrCount;
+			xScale = canvas.canvasW / canvas.view.getMapLength();
 
-			// Draw the white rectangle representing the map
-			g.setColor(Color.white);
-			g.fillRect(0, 12, canvas.canvasW, 10);
+			// Draw a white line representing the map
+			BasicStroke s = new BasicStroke(1, BasicStroke.CAP_BUTT,
+				BasicStroke.JOIN_MITER, 10, new float[] { 5,2 }, 0);
+
 			g.setColor(Color.lightGray);
-			g.drawRect(0, 12, canvas.canvasW-1, 10);
+			g.setStroke(s);
+			g.drawLine(0, 10, canvas.canvasW, 10);
+			g.setStroke(new BasicStroke(1));
 
-			// Draw each marker
-			for (int i = 0; i < mkrCount && !killMe; i++)
-				drawLoci(g, i);
+
+			ChromosomeMap map = canvas.view.getChromosomeMap();
+
+			for (QTL qtl: map.getQTLs())
+			{
+				g.setColor(Color.white);
+				int minX = Math.round(xScale * qtl.getRangeMin());
+				int maxX = Math.round(xScale * qtl.getRangeMax());
+				g.fillRect(minX, 5, (maxX-minX+1), 10);
+				g.setColor(Color.lightGray);
+				g.drawRect(minX, 5, (maxX-minX+1), 10);
+
+				int x = Math.round(xScale * qtl.getPosition());
+				g.drawLine(x, 2, x, 18);
+			}
+
+
 
 			if (!killMe && !isTempBuffer)
 				bufferAvailable(buffer);
