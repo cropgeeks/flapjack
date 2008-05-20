@@ -181,6 +181,7 @@ public class DataImportingDialog extends JDialog implements Runnable
 				System.out.println("Genotypes collapsed in " + (e-s) + "ms");
 			}
 
+			fakeQTLs(dataSet.getMapByIndex(0).getQTLs());
 
 			dataSet.setName(getDataSetName());
 
@@ -245,5 +246,12 @@ public class DataImportingDialog extends JDialog implements Runnable
 		name += " " + dataSet.countLines() + "x" + dataSet.countMarkers();
 
 		return name;
+	}
+
+	private void fakeQTLs(Vector<QTL> qtls)
+	{
+		qtls.add(new QTL("TestA", 5f, 3f, 7f, 39.31f));
+		qtls.add(new QTL("TestB", 141f, 138f, 141.5f, 39.31f));
+		qtls.add(new QTL("TestC", 28f, 24f, 30f, 19.96f));
 	}
 }

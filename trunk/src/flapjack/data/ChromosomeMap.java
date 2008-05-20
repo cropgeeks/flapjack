@@ -9,6 +9,7 @@ public class ChromosomeMap extends XMLRoot implements Iterable<Marker>
 	private String name;
 
 	private Vector<Marker> markers = new Vector<Marker>();
+	private Vector<QTL> qtls = new Vector<QTL>();
 
 	private float length;
 
@@ -50,6 +51,9 @@ public class ChromosomeMap extends XMLRoot implements Iterable<Marker>
 
 	public void setMarkers(Vector<Marker> markers)
 		{ this.markers = markers; }
+
+	public Vector<QTL> getQTLs()
+		{ return qtls; }
 
 
 	// Other methods

@@ -87,9 +87,9 @@ class MapCanvas extends JPanel
 		Marker m = canvas.view.getMarker(i);
 
 		// The position of the marker on the map
-		int xMap = (int) (m.getPosition() * xScale);
+		int xMap = Math.round(m.getPosition() * xScale);
 		// Its position on the main canvas (its "box" representation)
-		int xBox = (int) (i * canvas.boxW + (canvas.boxW/2));
+		int xBox = Math.round(i * canvas.boxW + (canvas.boxW/2));
 
 		if (showDetails)
 		{
@@ -232,7 +232,7 @@ class MapCanvas extends JPanel
 			g.fillRect(0, 0, canvas.canvasW, h);
 
 			int mkrCount = canvas.view.getMarkerCount();
-			xScale = canvas.canvasW / mkrCount;
+			xScale = canvas.canvasW / canvas.view.getMapLength();
 
 			// Draw the white rectangle representing the map
 			g.setColor(Color.white);
