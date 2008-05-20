@@ -143,6 +143,7 @@ class GenotypeCanvas extends JPanel
 		{
 			case ColorScheme.NUCLEOTIDE:
 				cScheme = new NucleotideColorScheme(view, boxW, boxH);
+				break;
 
 			case ColorScheme.LINE_SIMILARITY:
 				cScheme = new LineSimilarityColorScheme(view, boxW, boxH);
