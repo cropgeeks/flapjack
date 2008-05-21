@@ -31,7 +31,7 @@ public abstract class ColorScheme
 	ColorScheme(GTView view)
 	{
 		this.view = view;
-		stateTable = view.getStateTable();
+		stateTable = view.getViewSet().getDataSet().getStateTable();
 	}
 
 	public abstract BufferedImage getImage(int line, int marker);

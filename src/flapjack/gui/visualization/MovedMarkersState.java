@@ -9,13 +9,13 @@ public class MovedMarkersState implements IUndoState
 	private String menuStr;
 
 	// The state (that is, "order") of the markers before they were moved about
-	private int[] undoMarkers;
+	private MarkerInfo[] undoMarkers;
 	// The comparisonMarker (and index) before the move
 	private Marker undoComparisonMarker;
 	private int undoComparisonMarkerIndex;
 
 	// And the state after the movement was finished
-	private int[] redoMarkers;
+	private MarkerInfo[] redoMarkers;
 	// The comparisonMarker (and index) after the move
 	private Marker redoComparisonMarker;
 	private int redoComparisonMarkerIndex;

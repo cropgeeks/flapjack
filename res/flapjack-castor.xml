@@ -95,7 +95,7 @@
 		<field name="chromosomeMap" type="flapjack.data.ChromosomeMap">
 			<bind-xml reference="true" node="attribute"/>
 		</field>
-		<field name="markers" type="integer" collection="vector"/>
+		<field name="markers" type="flapjack.data.MarkerInfo" collection="vector"/>
 		<field name="comparisonMarker" type="flapjack.data.Marker">
 			<bind-xml reference="true" node="attribute"/>
 		</field>
@@ -103,4 +103,11 @@
 			<bind-xml node="attribute"/>
 		</field>
 	</class>
+
+	<class name="flapjack.data.MarkerInfo" extends="flapjack.data.XMLRoot" auto-complete="true">
+		<field name="marker" type="flapjack.data.Marker">
+			<bind-xml reference="true" node="attribute"/>
+		</field>
+	</class>
+
 </mapping>
