@@ -137,7 +137,9 @@ public class NBStatusPanel extends JPanel implements ActionListener, ChangeListe
 				alleleLabel.setText(" ");
 			else
 			{
-				AlleleState state = view.getStateTable().getAlleleState(stateCode);
+				StateTable st = view.getViewSet().getDataSet().getStateTable();
+				AlleleState state = st.getAlleleState(stateCode);
+
 				alleleLabel.setText(state.getRawData());
 			}
 		}

@@ -17,7 +17,7 @@ public class GTView extends XMLRoot
 
 	// Holds the index positions of the markers as they appear in the actual
 	// dataset's vector of markers
-	private Vector<Integer> markers;
+	private Vector<MarkerInfo> markers;
 
 	// Marker and line currently under the mouse (-1 if not)
 	public int mouseOverLine = -1;
@@ -41,15 +41,18 @@ public class GTView extends XMLRoot
 		this.map = map;
 
 		// For each (original) marker in the map...
-		markers = new Vector<Integer>(map.countLoci());
+		markers = new Vector<MarkerInfo>(map.countLoci());
 		for (int i = 0; i < map.countLoci(); i++)
-			markers.add(i);
+		{
+			Marker m = map.getMarkerByIndex(i);
+			markers.add(new MarkerInfo(m, i));
+		}
 	}
 
 	void validate()
 		throws NullPointerException
 	{
-		if (viewSet == null || map == null)
+		if (viewSet == null || map == null || markers == null)
 			throw new NullPointerException();
 	}
 
@@ -68,10 +71,10 @@ public class GTView extends XMLRoot
 	public void setChromosomeMap(ChromosomeMap map)
 		{ this.map = map; }
 
-	public Vector<Integer> getMarkers()
+	public Vector<MarkerInfo> getMarkers()
 		{ return markers; }
 
-	public void setMarkers(Vector<Integer> markers)
+	public void setMarkers(Vector<MarkerInfo> markers)
 		{ this.markers = markers; }
 
 	public Marker getComparisonMarker()
@@ -123,7 +126,7 @@ public class GTView extends XMLRoot
 	public int getState(int line, int marker)
 		throws ArrayIndexOutOfBoundsException
 	{
-		return genotypeLines.get(line).getState(markers.get(marker));
+		return genotypeLines.get(line).getState(markers.get(marker).index);
 	}
 
 	public int getMarkerCount()
@@ -136,11 +139,6 @@ public class GTView extends XMLRoot
 		return viewSet.lines.size();
 	}
 
-	public StateTable getStateTable()
-	{
-		return viewSet.getDataSet().getStateTable();
-	}
-
 	public float getMapLength()
 	{
 		return map.getLength();
@@ -148,7 +146,7 @@ public class GTView extends XMLRoot
 
 	public Marker getMarker(int index)
 	{
-		return map.getMarkerByIndex(markers.get(index));
+		return markers.get(index).marker;
 	}
 
 	public void moveLine(int fromIndex, int toIndex)
@@ -191,7 +189,7 @@ public class GTView extends XMLRoot
 			comparisonMarkerIndex = fromIndex;
 
 		// Swap the lines
-		int oldValue = markers.get(fromIndex);
+		MarkerInfo oldValue = markers.get(fromIndex);
 		markers.set(fromIndex, markers.get(toIndex));
 		markers.set(toIndex, oldValue);
 	}
@@ -248,9 +246,9 @@ public class GTView extends XMLRoot
 
 		try
 		{
-			for (int index: markers)
-				if (getMarker(index) == comparisonMarker)
-					comparisonMarkerIndex = index;
+			for (MarkerInfo mi: markers)
+				if (mi.marker == comparisonMarker)
+					comparisonMarkerIndex = mi.index;
 		}
 		catch (ArrayIndexOutOfBoundsException e)
 		{
@@ -262,9 +260,9 @@ public class GTView extends XMLRoot
 	public int getComparisonLineIndex()
 		{ return viewSet.comparisonLineIndex; }
 
-	public int[] getMarkersAsArray()
+	public MarkerInfo[] getMarkersAsArray()
 	{
-		int[] array = new int[markers.size()];
+		MarkerInfo[] array = new MarkerInfo[markers.size()];
 
 		for (int i = 0; i < array.length; i++)
 			array[i] = markers.get(i);
@@ -272,12 +270,12 @@ public class GTView extends XMLRoot
 		return array;
 	}
 
-	public void setMarkersFromArray(int[] array)
+	public void setMarkersFromArray(MarkerInfo[] array)
 	{
 		markers.clear();
 
-		for (int i: array)
-			markers.add(i);
+		for (MarkerInfo mi: array)
+			markers.add(mi);
 	}
 
 	GTView createClone(GTViewSet clonedViewSet)
@@ -292,12 +290,13 @@ public class GTView extends XMLRoot
 	}
 
 	/**
-	 * Returns the index position of the given marker, or -1 if it wasn't found.
+	 * Returns the VIEW index position of the given marker, or -1 if it wasn't
+	 * found.
 	 */
 	public int indexOf(Marker marker)
 	{
 		for (int i = 0; i < markers.size(); i++)
-			if (map.getMarkerByIndex(markers.get(i)) == marker)
+			if (markers.get(i).marker == marker)
 				return i;
 
 		return -1;
