@@ -16,7 +16,7 @@ public class GTViewSet extends XMLRoot
 	// Because the line info is the same across all views, it gets stored here
 	// Holds the index positions of the lines as they appear in the actual
 	// dataset's vector of lines
-	Vector<Integer> lines;
+	Vector<LineInfo> lines;
 
 	private String name;
 	private int viewIndex;
@@ -47,9 +47,12 @@ public class GTViewSet extends XMLRoot
 
 		// For each (original) line in the dataset, we add the index of it to
 		// the mapping for this viewset
-		lines = new Vector<Integer>(dataSet.countLines());
+		lines = new Vector<LineInfo>(dataSet.countLines());
 		for (int i = 0; i < dataSet.countLines(); i++)
-			lines.add(i);
+		{
+			Line line = dataSet.getLineByIndex(i);
+			lines.add(new LineInfo(line, i));
+		}
 
 		for (int i = 0; i < dataSet.countChromosomeMaps(); i++)
 			views.add(new GTView(this, dataSet.getMapByIndex(i)));
@@ -74,10 +77,10 @@ public class GTViewSet extends XMLRoot
 	public void setDataSet(DataSet dataSet)
 		{ this.dataSet = dataSet; }
 
-	public Vector<Integer> getLines()
+	public Vector<LineInfo> getLines()
 		{ return lines; }
 
-	public void setLines(Vector<Integer> lines)
+	public void setLines(Vector<LineInfo> lines)
 		{ this.lines = lines; }
 
 	public String getName()
@@ -164,9 +167,9 @@ public class GTViewSet extends XMLRoot
 	 * Converts and returns the vector of line data into a primitive array of
 	 * ints.
 	 */
-	public int[] getLinesAsArray()
+	public LineInfo[] getLinesAsArray()
 	{
-		int[] array = new int[lines.size()];
+		LineInfo[] array = new LineInfo[lines.size()];
 
 		for (int i = 0; i < array.length; i++)
 			array[i] = lines.get(i);
@@ -174,12 +177,12 @@ public class GTViewSet extends XMLRoot
 		return array;
 	}
 
-	public void setLinesFromArray(int[] array)
+	public void setLinesFromArray(LineInfo[] array)
 	{
 		lines.clear();
 
-		for (int i: array)
-			lines.add(i);
+		for (LineInfo li: array)
+			lines.add(li);
 	}
 
 	public UndoManager getUndoManager()
@@ -225,7 +228,7 @@ public class GTViewSet extends XMLRoot
 	public int indexOf(Line line)
 	{
 		for (int i = 0; i < lines.size(); i++)
-			if (dataSet.getLineByIndex(lines.get(i)) == line)
+			if (lines.get(i).line == line)
 				return i;
 
 		return -1;

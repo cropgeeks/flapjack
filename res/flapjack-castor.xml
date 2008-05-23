@@ -77,7 +77,7 @@
 		<field name="randomColorSeed" type="int">
 			<bind-xml node="attribute"/>
 		</field>
-		<field name="lines" type="integer" collection="vector"/>
+		<field name="lines" type="flapjack.data.LineInfo" collection="vector"/>
 		<field name="views" type="flapjack.data.GTView" collection="vector"/>
 		<field name="comparisonLine" type="flapjack.data.Line">
 			<bind-xml reference="true" node="attribute"/>
@@ -104,6 +104,14 @@
 		</field>
 	</class>
 
+	<!-- LineInfo -->
+	<class name="flapjack.data.LineInfo" extends="flapjack.data.XMLRoot" auto-complete="true">
+		<field name="line" type="flapjack.data.Line">
+			<bind-xml reference="true" node="attribute"/>
+		</field>
+	</class>
+
+	<!-- MarkerInfo -->
 	<class name="flapjack.data.MarkerInfo" extends="flapjack.data.XMLRoot" auto-complete="true">
 		<field name="marker" type="flapjack.data.Marker">
 			<bind-xml reference="true" node="attribute"/>

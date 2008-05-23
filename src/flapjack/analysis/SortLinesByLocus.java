@@ -31,10 +31,8 @@ public class SortLinesByLocus implements ILineSorter
 	{
 		long s = System.currentTimeMillis();
 
-		// Access the line data - we HAVE to use this reference and CANNOT
-		// reassign it, otherwise all the other views that refer to it will no
-		// longer point to the correct object
-		Vector<Integer> lines = view.getLines();
+		// Store a local reference to the line ordering for quicker access
+		Vector<LineInfo> lines = view.getLines();
 
 		// Create an array to hold the score for each line
 		Vector<LineScore> scores = new Vector<LineScore>(lines.size());
@@ -51,35 +49,35 @@ public class SortLinesByLocus implements ILineSorter
 			if (state == 0 || state == comparisonState)
 				score = -1;
 
-			scores.add(new LineScore(view.getLines().get(i), score));
-
-			if (i < 10)
-				System.out.println("Score for " + view.getLine(i).getName() + " is " + score + "(" + state + ")");
+			scores.add(new LineScore(lines.get(i), score));
 		}
 
 		// Now sort the array based on those scores
 		Collections.sort(scores);
 
-		lines.clear();
+		// Then create a new line ordering for the view
+		LineInfo[] lineOrder = new LineInfo[scores.size()];
 		for (int i = 0; i < scores.size(); i++)
-			lines.add(scores.get(i).index);
+			lineOrder[i] = scores.get(i).lineInfo;
+
+		// And pass that order back to the view
+		view.getViewSet().setLinesFromArray(lineOrder);
 
 		// Because we've reordered the view (without it knowing), we MUST let
 		// it know that it has to search for its comparison line's new position
 		view.updateComparisons();
 
 		System.out.println("Similarity sort in " + (System.currentTimeMillis()-s) + "ms");
-
 	}
 
 	private static class LineScore implements Comparable<LineScore>
 	{
-		int index;
+		LineInfo lineInfo;
 		int score;
 
-		LineScore(int index, int score)
+		LineScore(LineInfo lineInfo, int score)
 		{
-			this.index = index;
+			this.lineInfo = lineInfo;
 			this.score = score;
 		}
 

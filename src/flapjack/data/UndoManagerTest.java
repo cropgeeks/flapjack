@@ -60,7 +60,7 @@ public class UndoManagerTest extends TestCase
 		MovedLinesState state = new MovedLinesState(viewSet, null);
 		state.createUndoState();
 		// simulate moving lines with a forced update
-		viewSet.setLinesFromArray(new int[] { 4, 3, 2, 1, 0 });
+		viewSet.setLinesFromArray(createArray(new int[] { 4, 3, 2, 1, 0 }));
 		state.createRedoState();
 		manager.addUndoState(state);
 
@@ -68,8 +68,8 @@ public class UndoManagerTest extends TestCase
 		assertEquals(manager.canUndo(), true);
 		assertEquals(manager.canRedo(), false);
 
-		int[] lines = viewSet.getLinesAsArray();
-		int[] expected = new int[] { 4, 3, 2, 1, 0 };
+		LineInfo[] lines = viewSet.getLinesAsArray();
+		LineInfo[] expected = createArray(new int[] { 4, 3, 2, 1, 0 });
 		assertEquals(compareArrays(lines, expected), true);
 	}
 
@@ -78,7 +78,7 @@ public class UndoManagerTest extends TestCase
 		MovedLinesState state = new MovedLinesState(viewSet, null);
 		state.createUndoState();
 		// simulate moving lines with a forced update
-		viewSet.setLinesFromArray(new int[] { 2, 4, 0, 1, 3 });
+		viewSet.setLinesFromArray(createArray(new int[] { 2, 4, 0, 1, 3 }));
 		state.createRedoState();
 		manager.addUndoState(state);
 
@@ -86,8 +86,8 @@ public class UndoManagerTest extends TestCase
 		assertEquals(manager.canUndo(), true);
 		assertEquals(manager.canRedo(), false);
 
-		int[] lines = viewSet.getLinesAsArray();
-		int[] expected = new int[] { 2, 4, 0, 1, 3 };
+		LineInfo[] lines = viewSet.getLinesAsArray();
+		LineInfo[] expected = createArray(new int[] { 2, 4, 0, 1, 3 });
 		assertEquals(compareArrays(lines, expected), true);
 	}
 
@@ -95,8 +95,8 @@ public class UndoManagerTest extends TestCase
 	{
 		manager.processUndo();
 
-		int[] lines = viewSet.getLinesAsArray();
-		int[] expected = new int[] { 4, 3, 2, 1, 0 };
+		LineInfo[] lines = viewSet.getLinesAsArray();
+		LineInfo[] expected = createArray(new int[] { 4, 3, 2, 1, 0 });
 		assertEquals(compareArrays(lines, expected), true);
 
 		assertEquals(manager.getStack().size(), 2);
@@ -108,8 +108,8 @@ public class UndoManagerTest extends TestCase
 	{
 		manager.processRedo();
 
-		int[] lines = viewSet.getLinesAsArray();
-		int[] expected = new int[] { 2, 4, 0, 1, 3 };
+		LineInfo[] lines = viewSet.getLinesAsArray();
+		LineInfo[] expected = createArray(new int[] { 2, 4, 0, 1, 3 });
 		assertEquals(compareArrays(lines, expected), true);
 
 		assertEquals(manager.getStack().size(), 2);
@@ -122,8 +122,8 @@ public class UndoManagerTest extends TestCase
 		manager.processUndo();
 		manager.processUndo();
 
-		int[] lines = viewSet.getLinesAsArray();
-		int[] expected = new int[] { 0, 1, 2, 3, 4 };
+		LineInfo[] lines = viewSet.getLinesAsArray();
+		LineInfo[] expected = createArray(new int[] { 0, 1, 2, 3, 4 });
 		assertEquals(compareArrays(lines, expected), true);
 
 		assertEquals(manager.getStack().size(), 2);
@@ -144,13 +144,24 @@ public class UndoManagerTest extends TestCase
 		assertEquals(manager.canRedo(), false);
 	}
 
-	private boolean compareArrays(int[] array1, int[] array2)
+	// Quick method to make (fake) LineInfo arrays storing the index positions
+	// we want to test (the Line info doesn't matter, hence null)
+	private LineInfo[] createArray(int[] indices)
+	{
+		LineInfo[] array = new LineInfo[indices.length];
+		for (int i = 0; i < array.length; i++)
+			array[i] = new LineInfo(null, indices[i]);
+
+		return array;
+	}
+
+	private boolean compareArrays(LineInfo[] array1, LineInfo[] array2)
 	{
 		if (array1.length != array2.length)
 			return false;
 
 		for (int i = 0; i < array1.length; i++)
-			if (array1[i] != array2[i])
+			if (array1[i].index != array2[i].index)
 				return false;
 
 		return true;

@@ -27,16 +27,13 @@ public class SortLinesBySimilarity implements ILineSorter
 	{
 		long s = System.currentTimeMillis();
 
-		// Access the line data - we HAVE to use this reference and CANNOT
-		// reassign it, otherwise all the other views that refer to it will no
-		// longer point to the correct object
-		Vector<Integer> lines = view.getLines();
+		// Store a local reference to the line ordering for quicker access
+		Vector<LineInfo> lines = view.getLines();
 
 		// Create an array to hold the score for each line
 		Vector<LineScore> scores = new Vector<LineScore>(lines.size());
 
 		System.out.println("Sorting using line " + line + " as comparison line");
-
 
 		// Work out what those scores are
 		for (int i = 0; i < view.getLineCount(); i++, linesScored++)
@@ -44,25 +41,25 @@ public class SortLinesBySimilarity implements ILineSorter
 			SimilarityScore ss = new SimilarityScore(view, line, i);
 
 			SimilarityScore.Score score = ss.getScore();
-			scores.add(new LineScore(view.getLines().get(i), score.score, score.nComparisons));
-
-//			if (i <5)
-//				System.out.println("Score for " + view.getLine(i).getName() + " is " + score.score + " with " + score.nComparisons + " comparisons possible");
+			scores.add(new LineScore(lines.get(i), score.score, score.nComparisons));
 		}
 
 		// Now sort the array based on those scores
 		Collections.sort(scores);
 
-		lines.clear();
+		// Then create a new line ordering for the view
+		LineInfo[] lineOrder = new LineInfo[scores.size()];
 		for (int i = 0; i < scores.size(); i++)
-			lines.add(scores.get(i).index);
+			lineOrder[i] = scores.get(i).lineInfo;
+
+		// And pass that order back to the view
+		view.getViewSet().setLinesFromArray(lineOrder);
 
 		// Because we've reordered the view (without it knowing), we MUST let
 		// it know that it has to search for its comparison line's new position
 		view.updateComparisons();
 
 		System.out.println("Similarity sort in " + (System.currentTimeMillis()-s) + "ms");
-
 
 
 		// Quick all-by-all test
@@ -83,13 +80,13 @@ public class SortLinesBySimilarity implements ILineSorter
 
 	private static class LineScore implements Comparable<LineScore>
 	{
-		int index;
+		LineInfo lineInfo;
 		float score;
 		float nComparisons;
 
-		LineScore(int index, float score, float nComparisons)
+		LineScore(LineInfo lineInfo, float score, float nComparisons)
 		{
-			this.index = index;
+			this.lineInfo = lineInfo;
 			this.score = score;
 			this.nComparisons = nComparisons;
 		}
