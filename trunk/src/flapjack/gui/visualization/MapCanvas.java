@@ -185,6 +185,7 @@ class MapCanvas extends JPanel
 		public void run()
 		{
 			setPriority(Thread.MIN_PRIORITY);
+			setName("MapCanvas BufferFactory");
 
 			try { Thread.sleep(500); }
 			catch (InterruptedException e) {}

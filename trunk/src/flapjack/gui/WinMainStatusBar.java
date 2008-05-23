@@ -101,6 +101,8 @@ public class WinMainStatusBar extends JPanel implements Runnable
 
 	public void run()
 	{
+		Thread.currentThread().setName("StatusBar Tips");
+
 		Random rnd = new Random();
 
 		float step = (bgColor / 15f);
@@ -171,6 +173,7 @@ public class WinMainStatusBar extends JPanel implements Runnable
 		public void run()
 		{
 			setPriority(Thread.MIN_PRIORITY);
+			setName("Flapjack Thread Monitor");
 
 			int cores = Runtime.getRuntime().availableProcessors();
 			ThreadMXBean threads = ManagementFactory.getThreadMXBean();
