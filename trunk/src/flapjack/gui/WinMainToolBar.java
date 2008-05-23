@@ -112,9 +112,10 @@ public class WinMainToolBar extends JToolBar
 		button.setToolTipText(tt);
 		button.setIcon(icon);
 		button.setFocusPainted(false);
+		button.setFocusable(false);
 
 		if (SystemUtils.isMacOS() == false)
-			button.setMargin(new Insets(1, 1, 1, 1));
+			button.setMargin(new Insets(2, 1, 2, 1));
 
 		return button;
 	}

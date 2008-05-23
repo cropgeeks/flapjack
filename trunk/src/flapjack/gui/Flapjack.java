@@ -43,7 +43,11 @@ public class Flapjack
 	{
 		try
 		{
-			if (SystemUtils.isWindows())
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+			UIManager.put("TextArea.font", UIManager.get("TextField.font"));
+
+			// Use the office look for Windows (but not for Vista)
+			if (SystemUtils.isWindows() && !SystemUtils.isWindowsVista())
 			{
 				UIManager.setLookAndFeel("org.fife.plaf.Office2003.Office2003LookAndFeel");
 
@@ -53,19 +57,11 @@ public class Flapjack
 				UIManager.put("OptionPane.questionIcon", Icons.WINQUESTION);
 			}
 
+			// Keep Apple happy...
 			else if (SystemUtils.isMacOS())
-			{
 				handleOSXStupidities();
-			}
 
-			else
-			{
-				// Try for nimbus...
-				try { UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel"); }
-				catch (Exception e) {}
-				// Otherwise...
-				UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-			}
+//			UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
 		}
 		catch (Exception e) {}
 

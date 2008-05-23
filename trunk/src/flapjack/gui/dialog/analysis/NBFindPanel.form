@@ -16,7 +16,7 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="panel" alignment="0" max="32767" attributes="0"/>
@@ -36,8 +36,8 @@
                       </Group>
                   </Group>
                   <Component id="resultLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Component id="spTable" alignment="0" pref="321" max="32767" attributes="0"/>
                   <Component id="hintLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="spTable" alignment="0" pref="321" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -57,13 +57,13 @@
                   <Component id="searchLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="searchCombo" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="panel" min="-2" max="-2" attributes="0"/>
-              <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="resultLabel" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
               <Component id="spTable" pref="168" max="32767" attributes="0"/>
-              <EmptySpace min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
               <Component id="hintLabel" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" max="-2" attributes="0"/>
           </Group>
