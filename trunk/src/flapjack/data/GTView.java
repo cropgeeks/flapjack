@@ -92,7 +92,7 @@ public class GTView extends XMLRoot
 
 	// Other methods
 
-	public Vector<Integer> getLines()
+	public Vector<LineInfo> getLines()
 		{ return viewSet.lines; }
 
 	public void cacheLines()
@@ -104,7 +104,7 @@ public class GTView extends XMLRoot
 
 		for (int i = 0; i < viewSet.lines.size(); i++)
 		{
-			Line line = dataSet.getLineByIndex(viewSet.lines.get(i));
+			Line line = viewSet.lines.get(i).line;
 			GenotypeData data = line.getGenotypeDataByMap(map);
 
 			genotypeLines.add(data);
@@ -113,7 +113,7 @@ public class GTView extends XMLRoot
 
 	public Line getLine(int index)
 	{
-		return viewSet.getDataSet().getLineByIndex(viewSet.lines.get(index));
+		return viewSet.lines.get(index).line;
 	}
 
 	/**
@@ -158,7 +158,7 @@ public class GTView extends XMLRoot
 			return;
 
 		// Swap the lines
-		int oldValue = viewSet.lines.get(fromIndex);
+		LineInfo oldValue = viewSet.lines.get(fromIndex);
 		viewSet.lines.set(fromIndex, viewSet.lines.get(toIndex));
 		viewSet.lines.set(toIndex, oldValue);
 
@@ -234,9 +234,12 @@ public class GTView extends XMLRoot
 	{
 		try
 		{
-			for (int index: viewSet.lines)
-				if (getLine(index) == viewSet.comparisonLine)
-					viewSet.comparisonLineIndex = index;
+			for (int i = 0; i < viewSet.lines.size(); i++)
+				if (viewSet.lines.get(i).line == viewSet.comparisonLine)
+				{
+					viewSet.comparisonLineIndex = i;
+					break;
+				}
 		}
 		catch (ArrayIndexOutOfBoundsException e)
 		{
@@ -246,9 +249,12 @@ public class GTView extends XMLRoot
 
 		try
 		{
-			for (MarkerInfo mi: markers)
-				if (mi.marker == comparisonMarker)
-					comparisonMarkerIndex = mi.index;
+			for (int i = 0; i < markers.size(); i++)
+				if (markers.get(i).marker == comparisonMarker)
+				{
+					comparisonMarkerIndex = i;
+					break;
+				}
 		}
 		catch (ArrayIndexOutOfBoundsException e)
 		{
