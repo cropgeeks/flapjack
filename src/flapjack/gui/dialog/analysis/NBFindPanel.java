@@ -297,8 +297,8 @@ class NBFindPanel extends JPanel implements ActionListener
                                 .add(searchButton))
                             .add(searchCombo, 0, 249, Short.MAX_VALUE)))
                     .add(resultLabel)
-                    .add(spTable, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 321, Short.MAX_VALUE)
-                    .add(hintLabel))
+                    .add(hintLabel)
+                    .add(spTable, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 321, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
