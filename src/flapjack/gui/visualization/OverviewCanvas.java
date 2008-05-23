@@ -207,6 +207,7 @@ class OverviewCanvas extends JPanel
 		public void run()
 		{
 			setPriority(Thread.MIN_PRIORITY);
+			setName("OverviewCanvas BufferFactory");
 
 			try { Thread.sleep(500); }
 			catch (InterruptedException e) {}

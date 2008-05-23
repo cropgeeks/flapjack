@@ -400,6 +400,7 @@ class GenotypeCanvas extends JPanel
 		public void run()
 		{
 			setPriority(Thread.MIN_PRIORITY);
+			setName("GenotypeCanvas BufferFactory");
 
 			// Wait for 2 seconds before starting anything - gives the user time
 			// to stop arsing about with the interface

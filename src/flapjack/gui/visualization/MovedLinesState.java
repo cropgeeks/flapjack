@@ -9,13 +9,13 @@ public class MovedLinesState implements IUndoState
 	private String menuStr;
 
 	// The state (that is, "order") of the lines before they were moved about
-	private int[] undoLines;
+	private LineInfo[] undoLines;
 	// The comparisonLine (and index) before the move
 	private Line undoComparisonLine;
 	private int undoComparisonLineIndex;
 
 	// And the state after the movement was finished
-	private int[] redoLines;
+	private LineInfo[] redoLines;
 	// The comparisonLine (and index) after the move
 	private Line redoComparisonLine;
 	private int redoComparisonLineIndex;
