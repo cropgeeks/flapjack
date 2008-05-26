@@ -21,6 +21,8 @@ public class HeterozygeousColorState extends ColorState
 
 		image = createBuffer(state1, state2);
 		gsImage = createBuffer(getGreyScale(state1), getGreyScale(state2));
+
+		createUnselectedImage(w, h);
 	}
 
 	private BufferedImage createBuffer(Color c1, Color c2)

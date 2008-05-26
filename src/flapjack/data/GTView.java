@@ -307,4 +307,9 @@ public class GTView extends XMLRoot
 
 		return -1;
 	}
+
+	public boolean isMarkerSelected(int index)
+	{
+		return markers.get(index).selected;
+	}
 }

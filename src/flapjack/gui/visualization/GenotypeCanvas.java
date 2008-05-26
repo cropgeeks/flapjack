@@ -358,7 +358,15 @@ class GenotypeCanvas extends JPanel
 				if (killMe == Boolean.TRUE)
 					return;
 
-				g.drawImage(cScheme.getImage(yIndex, xIndex), x, y, null);
+				// "Allowed" states for an enabled/selected allele
+				if (Prefs.guiMouseMode == Constants.NAVIGATION ||
+					(Prefs.guiMouseMode == Constants.MARKER_SELECTION && view.isMarkerSelected(xIndex)))
+				{
+					g.drawImage(cScheme.getSelectedImage(yIndex, xIndex), x, y, null);
+				}
+				// Otherwise, draw it disabled/unselected
+				else
+					g.drawImage(cScheme.getUnselectedImage(yIndex, xIndex), x, y, null);
 			}
 		}
 	}
