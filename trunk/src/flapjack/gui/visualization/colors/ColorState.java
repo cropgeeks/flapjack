@@ -21,6 +21,8 @@ public abstract class ColorState
 	protected BufferedImage image;
 	// And this is the greyscale representation of it
 	protected BufferedImage gsImage;
+	// And this is the non-selected representation of it
+	protected BufferedImage unSelImage;
 
 	// Width and height of the image
 	protected int w, h;
@@ -60,11 +62,26 @@ public abstract class ColorState
 //		image = op.filter(image, null);
 	}
 
+	// Creates a copy of the main image, but with a faded overlay that can be
+	// used to display non-selected allele states
+	protected void createUnselectedImage(int w, int h)
+	{
+		unSelImage = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
+		Graphics2D g = unSelImage.createGraphics();
+		g.drawImage(image, 0, 0, null);
+		g.setPaint(new Color(255, 255, 255, 200));
+		g.fillRect(0, 0, w, h);
+		g.dispose();
+	}
+
 	public BufferedImage getImage()
 		{ return image; }
 
 	public BufferedImage getGreyScaleImage()
 		{ return gsImage; }
+
+	public BufferedImage getUnselectedImage()
+		{ return unSelImage; }
 
 	public Color getColor()
 		{ return color; }

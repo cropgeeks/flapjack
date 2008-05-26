@@ -34,7 +34,9 @@ public abstract class ColorScheme
 		stateTable = view.getViewSet().getDataSet().getStateTable();
 	}
 
-	public abstract BufferedImage getImage(int line, int marker);
+	public abstract BufferedImage getSelectedImage(int line, int marker);
+
+	public abstract BufferedImage getUnselectedImage(int line, int marker);
 
 	public abstract Color getColor(int line, int marker);
 

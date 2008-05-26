@@ -16,6 +16,8 @@ public class HomozygousColorState extends ColorState
 
 		image = createBuffer(color);
 		gsImage = createBuffer(getGreyScale(color));
+
+		createUnselectedImage(w, h);
 	}
 
 	private BufferedImage createBuffer(Color c)

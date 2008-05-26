@@ -49,10 +49,16 @@ public class RandomColorScheme extends ColorScheme
 		return new Color(r, g, b);
 	}
 
-	public BufferedImage getImage(int line, int marker)
+	public BufferedImage getSelectedImage(int line, int marker)
 	{
 		int state = view.getState(line, marker);
 		return states.get(state).getImage();
+	}
+
+	public BufferedImage getUnselectedImage(int line, int marker)
+	{
+		int state = view.getState(line, marker);
+		return states.get(state).getUnselectedImage();
 	}
 
 	public Color getColor(int line, int marker)

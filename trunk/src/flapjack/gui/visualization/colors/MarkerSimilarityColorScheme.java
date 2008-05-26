@@ -17,21 +17,31 @@ public class MarkerSimilarityColorScheme extends SimilarityColorScheme
 		super(view, w, h);
 	}
 
-	public BufferedImage getImage(int line, int marker)
+	public ColorState getState(int line, int marker)
 	{
 		int state = view.getState(line, marker);
 
 		// If it's the index marker, return the darker version
 		if (marker == view.getComparisonMarkerIndex())
-			return aStatesDark.get(state).getImage();
+			return aStatesDark.get(state);
 
 		// Otherwise do the comparison
 		int compState = view.getState(line, view.getComparisonMarkerIndex());
 
 		if (state == compState)
-			return aStates.get(state).getImage();
+			return aStates.get(state);
 		else
-			return bStates.get(state).getImage();
+			return bStates.get(state);
+	}
+
+	public BufferedImage getSelectedImage(int line, int marker)
+	{
+		return getState(line, marker).getImage();
+	}
+
+	public BufferedImage getUnselectedImage(int line, int marker)
+	{
+		return getState(line, marker).getUnselectedImage();
 	}
 
 	public Color getColor(int line, int marker)
