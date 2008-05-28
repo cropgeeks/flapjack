@@ -82,7 +82,7 @@ public class Flapjack
 			{
 				// Do we want to open an initial project?
 				if (initialProject != null)
-					winMain.fileOpen(initialProject);
+					winMain.mFile.fileOpen(initialProject);
 			}
 
 			public void windowIconified(WindowEvent e) {
@@ -162,13 +162,13 @@ public class Flapjack
 	/** "Preferences" on the OS X system menu. */
 	public void osxPreferences()
 	{
-		winMain.helpPrefs();
+		winMain.mHelp.helpPrefs();
 	}
 
 	/** "About Flapjack" on the OS X system menu. */
 	public void osxAbout()
 	{
-		winMain.helpAbout();
+		winMain.mHelp.helpAbout();
 	}
 
 	/** "Quit Flapjack" on the OS X system menu. */

@@ -332,7 +332,7 @@ public class WinMainMenuBar extends JMenuBar
 				item.setMnemonic(KeyEvent.VK_0 + vk);
 				item.addActionListener(new AbstractAction() {
 					public void actionPerformed(ActionEvent e) {
-						winMain.fileOpen(new File(entry));
+						winMain.mFile.fileOpen(new File(entry));
 					}
 				});
 
