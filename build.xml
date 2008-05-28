@@ -35,7 +35,7 @@
 		</delete>
 	</target>
 	
-	<target name="jar" depends="compile">
+	<target name="jar" depends="clean, compile">
 		<jar jarfile="${flapjack.jar}">
 			<fileset dir="${classes}"/>
 			<fileset file="res/castor.properties"/>

@@ -292,7 +292,7 @@ public class ProjectSerializer
 
 				if (response == 0)
 					// TODO: This is messy - find a better way of handling
-					return Flapjack.winMain.fileSave(false);
+					return Flapjack.winMain.mFile.fileSave(false);
 				else if (response == 1)
 					return true;
 				else if (response == -1 || response == 2)

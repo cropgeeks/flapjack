@@ -89,31 +89,31 @@ public class Actions
 	{
 		fileNew = new AbstractAction(RB.getString("gui.Actions.fileNew"), getIcon(Icons.FILENEW)) {
 			public void actionPerformed(ActionEvent e) {
-				winMain.fileNew();
+				winMain.mFile.fileNew();
 			}
 		};
 
 		fileOpen = new AbstractAction(RB.getString("gui.Actions.fileOpen"), getIcon(Icons.FILEOPEN)) {
 			public void actionPerformed(ActionEvent e) {
-				winMain.fileOpen(null);
+				winMain.mFile.fileOpen(null);
 			}
 		};
 
 		fileSave = new AbstractAction(RB.getString("gui.Actions.fileSave"), getIcon(Icons.FILESAVE)) {
 			public void actionPerformed(ActionEvent e) {
-				winMain.fileSave(false);
+				winMain.mFile.fileSave(false);
 			}
 		};
 
 		fileSaveAs = new AbstractAction(RB.getString("gui.Actions.fileSaveAs"), getIcon(Icons.FILESAVEAS)) {
 			public void actionPerformed(ActionEvent e) {
-				winMain.fileSave(true);
+				winMain.mFile.fileSave(true);
 			}
 		};
 
 		fileImport = new AbstractAction(RB.getString("gui.Actions.fileImport"), getIcon(Icons.FILEIMPORT)) {
 			public void actionPerformed(ActionEvent e) {
-				winMain.fileImport();
+				winMain.mFile.fileImport();
 			}
 		};
 
@@ -126,159 +126,159 @@ public class Actions
 
 		editUndo = new AbstractAction(RB.format("gui.Actions.editUndo", ""), getIcon(Icons.UNDO)) {
 			public void actionPerformed(ActionEvent e) {
-				winMain.editUndoRedo(true);
+				winMain.mEdit.editUndoRedo(true);
 			}
 		};
 
 		editRedo = new AbstractAction(RB.format("gui.Actions.editRedo", ""), getIcon(Icons.REDO)) {
 			public void actionPerformed(ActionEvent e) {
-				winMain.editUndoRedo(false);
+				winMain.mEdit.editUndoRedo(false);
 			}
 		};
 
 		editModeNavigation = new AbstractAction(RB.format("gui.Actions.editModeNavigation", "")) {
 			public void actionPerformed(ActionEvent e) {
-				winMain.editMode(Constants.NAVIGATION);
+				winMain.mEdit.editMode(Constants.NAVIGATION);
 			}
 		};
 
 		editModeMarker = new AbstractAction(RB.format("gui.Actions.editModeMarker", "")) {
 			public void actionPerformed(ActionEvent e) {
-				winMain.editMode(Constants.MARKERMODE);
+				winMain.mEdit.editMode(Constants.MARKERMODE);
 			}
 		};
 
 
 		vizExportImage = new AbstractAction(RB.getString("gui.Actions.vizExportImage")) {
 			public void actionPerformed(ActionEvent e) {
-				winMain.vizExportImage();
+				winMain.mViz.vizExportImage();
 			}
 		};
 
 		vizColorCustomize = new AbstractAction(RB.getString("gui.Actions.vizColorCustomize")) {
 			public void actionPerformed(ActionEvent e) {
-				winMain.vizColorCustomize();
+				winMain.mViz.vizColorCustomize();
 			}
 		};
 
 		vizColorRandom = new AbstractAction(RB.getString("gui.Actions.vizColorRandom")) {
 			public void actionPerformed(ActionEvent e) {
-				winMain.vizColor(ColorScheme.RANDOM);
+				winMain.mViz.vizColor(ColorScheme.RANDOM);
 			}
 		};
 
 		vizColorNucleotide = new AbstractAction(RB.getString("gui.Actions.vizColorNucleotide")) {
 			public void actionPerformed(ActionEvent e) {
-				winMain.vizColor(ColorScheme.NUCLEOTIDE);
+				winMain.mViz.vizColor(ColorScheme.NUCLEOTIDE);
 			}
 		};
 
 		vizColorLineSim = new AbstractAction(RB.getString("gui.Actions.vizColorLineSim")) {
 			public void actionPerformed(ActionEvent e) {
-				winMain.vizColor(ColorScheme.LINE_SIMILARITY);
+				winMain.mViz.vizColor(ColorScheme.LINE_SIMILARITY);
 			}
 		};
 
 		vizColorLineSimGS = new AbstractAction(RB.getString("gui.Actions.vizColorLineSimGS")) {
 			public void actionPerformed(ActionEvent e) {
-				winMain.vizColor(ColorScheme.LINE_SIMILARITY_GS);
+				winMain.mViz.vizColor(ColorScheme.LINE_SIMILARITY_GS);
 			}
 		};
 
 		vizColorMarkerSim = new AbstractAction(RB.getString("gui.Actions.vizColorMarkerSim")) {
 			public void actionPerformed(ActionEvent e) {
-				winMain.vizColor(ColorScheme.MARKER_SIMILARITY);
+				winMain.mViz.vizColor(ColorScheme.MARKER_SIMILARITY);
 			}
 		};
 
 		vizColorMarkerSimGS = new AbstractAction(RB.getString("gui.Actions.vizColorMarkerSimGS")) {
 			public void actionPerformed(ActionEvent e) {
-				winMain.vizColor(ColorScheme.MARKER_SIMILARITY_GS);
+				winMain.mViz.vizColor(ColorScheme.MARKER_SIMILARITY_GS);
 			}
 		};
 
 		vizColorSimple2Color = new AbstractAction(RB.getString("gui.Actions.vizColorSimple2Color")) {
 			public void actionPerformed(ActionEvent e) {
-				winMain.vizColor(ColorScheme.SIMPLE_TWO_COLOR);
+				winMain.mViz.vizColor(ColorScheme.SIMPLE_TWO_COLOR);
 			}
 		};
 
 		vizOverlayGenotypes = new AbstractAction(RB.getString("gui.Actions.vizOverlayGenotypes")) {
 			public void actionPerformed(ActionEvent e) {
-				winMain.vizOverlayGenotypes();
+				winMain.mViz.vizOverlayGenotypes();
 			}
 		};
 
 		vizHighlightHZ = new AbstractAction(RB.getString("gui.Actions.vizHighlightHZ")) {
 			public void actionPerformed(ActionEvent e) {
-				winMain.vizHighlightHZ();
+				winMain.mViz.vizHighlightHZ();
 			}
 		};
 
 		vizNewView = new AbstractAction(RB.getString("gui.Actions.vizNewView")) {
 			public void actionPerformed(ActionEvent e) {
-				winMain.vizNewView();
+				winMain.mViz.vizNewView();
 			}
 		};
 
 		vizRenameView = new AbstractAction(RB.getString("gui.Actions.vizRenameView"), getIcon(Icons.RENAME)) {
 			public void actionPerformed(ActionEvent e) {
-				winMain.vizRenameView();
+				winMain.mViz.vizRenameView();
 			}
 		};
 
 		vizDeleteView = new AbstractAction(RB.getString("gui.Actions.vizDeleteView"), getIcon(Icons.DELETE)) {
 			public void actionPerformed(ActionEvent e) {
-				winMain.vizDeleteView();
+				winMain.mViz.vizDeleteView();
 			}
 		};
 
 		vizToggleCanvas = new AbstractAction(RB.getString("gui.Actions.vizToggleCanvas")) {
 			public void actionPerformed(ActionEvent e) {
-				winMain.vizToggleCanvas();
+				winMain.mViz.vizToggleCanvas();
 			}
 		};
 
 		vizOverview = new AbstractAction(RB.getString("gui.Actions.vizOverview")) {
 			public void actionPerformed(ActionEvent e) {
-				winMain.vizOverview();
+				winMain.mViz.vizOverview();
 			}
 		};
 
 
 		dataSortLinesBySimilarity = new AbstractAction(RB.getString("gui.Actions.dataSortLinesBySimilarity")) {
 			public void actionPerformed(ActionEvent e) {
-				winMain.dataSortLines(0);
+				winMain.mData.dataSortLines(0);
 			}
 		};
 
 		dataSortLinesByLocus = new AbstractAction(RB.getString("gui.Actions.dataSortLinesByLocus")) {
 			public void actionPerformed(ActionEvent e) {
-				winMain.dataSortLines(1);
+				winMain.mData.dataSortLines(1);
 			}
 		};
 
 		dataFind = new AbstractAction(RB.getString("gui.Actions.dataFind"), getIcon(Icons.FIND)) {
 			public void actionPerformed(ActionEvent e) {
-				winMain.dataFind();
+				winMain.mData.dataFind();
 			}
 		};
 
 		dataStatistics = new AbstractAction(RB.getString("gui.Actions.dataStatistics")) {
 			public void actionPerformed(ActionEvent e) {
-				winMain.dataStatistics();
+				winMain.mData.dataStatistics();
 			}
 		};
 
 		dataRenameDataSet = new AbstractAction(RB.getString("gui.Actions.dataRenameDataSet"), getIcon(Icons.RENAME)) {
 			public void actionPerformed(ActionEvent e) {
-				winMain.dataRenameDataSet();
+				winMain.mData.dataRenameDataSet();
 			}
 		};
 
 		dataDeleteDataSet = new AbstractAction(RB.getString("gui.Actions.dataDeleteDataSet"), getIcon(Icons.DELETE)) {
 			public void actionPerformed(ActionEvent e) {
-				winMain.dataDeleteDataSet();
+				winMain.mData.dataDeleteDataSet();
 			}
 		};
 
@@ -304,19 +304,19 @@ public class Actions
 
 		helpAbout = new AbstractAction(RB.getString("gui.Actions.helpAbout")) {
 			public void actionPerformed(ActionEvent e) {
-				winMain.helpAbout();
+				winMain.mHelp.helpAbout();
 			}
 		};
 
 		helpUpdate = new AbstractAction(RB.getString("gui.Actions.helpUpdate"),  getIcon(Icons.CHECKUPDATE)) {
 			public void actionPerformed(ActionEvent e) {
-				winMain.helpUpdate();
+				winMain.mHelp.helpUpdate();
 			}
 		};
 
 		helpPrefs = new AbstractAction(RB.getString("gui.Actions.helpPrefs"), getIcon(Icons.PREFERENCES)) {
 			public void actionPerformed(ActionEvent e) {
-				winMain.helpPrefs();
+				winMain.mHelp.helpPrefs();
 			}
 		};
 	}

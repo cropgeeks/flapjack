@@ -69,7 +69,7 @@ public class ColorDialog extends JDialog implements ActionListener
 		else if (e.getSource() == bApply)
 		{
 			ColorScheme cs = (ColorScheme) nbPanel.schemeCombo.getSelectedItem();
-			winMain.vizColor(cs.getModel());
+			winMain.mViz.vizColor(cs.getModel());
 
 			// Sillyness...if a shift/click was detected
 			if (((e.getModifiers() & ActionEvent.SHIFT_MASK) != 0) && cs instanceof RandomColorScheme)
@@ -97,7 +97,7 @@ public class ColorDialog extends JDialog implements ActionListener
 		{
 			Runnable r = new Runnable() {
 				public void run() {
-					winMain.vizColor(ColorScheme.RANDOM);
+					winMain.mViz.vizColor(ColorScheme.RANDOM);
 				}
 			};
 
