@@ -360,7 +360,7 @@ class GenotypeCanvas extends JPanel
 
 				// "Allowed" states for an enabled/selected allele
 				if (Prefs.guiMouseMode == Constants.NAVIGATION ||
-					(Prefs.guiMouseMode == Constants.MARKER_SELECTION && view.isMarkerSelected(xIndex)))
+					(Prefs.guiMouseMode == Constants.MARKERMODE && view.isMarkerSelected(xIndex)))
 				{
 					g.drawImage(cScheme.getSelectedImage(yIndex, xIndex), x, y, null);
 				}

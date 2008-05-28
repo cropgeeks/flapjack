@@ -14,6 +14,8 @@ public class WinMainToolBar extends JToolBar
 
 	public static JButton editUndo;
 	public static JButton editRedo;
+	static JToggleButton editModeNavigation;
+	static JToggleButton editModeMarker;
 
 	private JButton dataFind;
 
@@ -57,6 +59,18 @@ public class WinMainToolBar extends JToolBar
 			RB.getString("gui.WinMainToolBar.editRedo"),
 			Icons.REDO, Actions.editRedo);
 
+		// Edit, navigation mode
+		editModeNavigation = (JToggleButton) getButton(true, null,
+			RB.getString("gui.WinMainToolBar.editModeNavigation"),
+			Icons.NAVIGATIONMODE, Actions.editModeNavigation);
+		editModeNavigation.setSelected(Prefs.guiMouseMode == Constants.NAVIGATION);
+
+		// Edit, marker selection mode
+		editModeMarker = (JToggleButton) getButton(true, null,
+			RB.getString("gui.WinMainToolBar.editModeMarker"),
+			Icons.MARKERMODE, Actions.editModeMarker);
+		editModeMarker.setSelected(Prefs.guiMouseMode == Constants.MARKERMODE);
+
 
 		// Data find
 		dataFind = (JButton) getButton(false, null,
@@ -80,6 +94,10 @@ public class WinMainToolBar extends JToolBar
 
 		addSeparator(true);
 		add(dataFind);
+
+		addSeparator(true);
+		add(editModeNavigation);
+		add(editModeMarker);
 
 		add(new JLabel(" "));
 	}

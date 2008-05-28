@@ -23,6 +23,8 @@ class CanvasMouseListener extends MouseInputAdapter
 	private InteractiveHandler iHandler = new InteractiveHandler();
 	// Deals with navigation issues
 	private NavigationHandler nHandler = new NavigationHandler();
+	// Deals with selection issues
+	private SelectionHandler sHandler = new SelectionHandler();
 
 	private boolean isOSX = SystemUtils.isMacOS();
 
@@ -66,10 +68,15 @@ class CanvasMouseListener extends MouseInputAdapter
 
 		if (SwingUtilities.isLeftMouseButton(e))
 		{
-			if (isOSX && e.isMetaDown() || !isOSX && e.isControlDown())
-				iHandler.mousePressed(e);
-			else
+			if (Prefs.guiMouseMode == Constants.NAVIGATION)
 				nHandler.mousePressed(e);
+			else if (Prefs.guiMouseMode == Constants.MARKERMODE)
+			{
+				if (isOSX && e.isMetaDown() || !isOSX && e.isControlDown())
+					iHandler.mousePressed(e);
+				else
+					sHandler.mousePressed(e);
+			}
 		}
 	}
 
@@ -78,14 +85,22 @@ class CanvasMouseListener extends MouseInputAdapter
 		if (e.isPopupTrigger())
 			canvasMenu.handlePopup(e);
 
-		iHandler.mouseReleased(e);
 		nHandler.mouseReleased(e);
+
+		if (isOSX && e.isMetaDown() || !isOSX && e.isControlDown())
+			iHandler.mouseReleased(e);
+		else
+			sHandler.mouseReleased(e);
 	}
 
 	public void mouseDragged(MouseEvent e)
 	{
-		iHandler.mouseDragged(e);
 		nHandler.mouseDragged(e);
+
+		if (isOSX && e.isMetaDown() || !isOSX && e.isControlDown())
+			iHandler.mouseDragged(e);
+		else
+			sHandler.mouseDragged(e);
 	}
 
 	public void mouseMoved(MouseEvent e)
@@ -272,6 +287,86 @@ class CanvasMouseListener extends MouseInputAdapter
 				int diffY = dragPoint.y - e.getPoint().y;
 
 				gPanel.moveBy(diffX, diffY);
+			}
+		}
+	}
+
+	private class SelectionHandler
+	{
+		private int selectedMarker = -1;
+		private int firstSelected = -1;
+		private boolean selectionState;
+
+
+		void mousePressed(MouseEvent e)
+		{
+			// What marker is at the location clicked on
+			int index = canvas.getMarker(e.getPoint());
+
+			// Check that the index is valid
+			if (index < 0 || index > canvas.view.getMarkerCount())
+				return;
+
+			firstSelected = selectedMarker = index;
+			selectionState = canvas.view.toggleMarkerState(selectedMarker);
+
+			canvas.resetBufferedState(false);
+		}
+
+		void mouseReleased(MouseEvent e)
+		{
+			if (selectedMarker == -1)
+				return;
+
+			selectedMarker = -1;
+			canvas.resetBufferedState(true);
+
+			Actions.projectModified();
+		}
+
+		void mouseDragged(MouseEvent e)
+		{
+			int x = e.getPoint().x;
+			int y = e.getPoint().y;
+
+			if (selectedMarker != -1)
+			{
+				int newMarker = canvas.getMarker(e.getPoint());
+
+				if (newMarker < 0)
+					newMarker = 0;
+				else if (newMarker >= canvas.view.getMarkerCount())
+					newMarker = canvas.view.getMarkerCount()-1;
+
+				if (newMarker != selectedMarker)
+				{
+					// Moving left...
+					if (newMarker < selectedMarker)
+						for (int i = selectedMarker; i >= newMarker; i--)
+						{
+							if (i <= firstSelected)
+								canvas.view.setMarkerState(i, selectionState);
+							else
+								canvas.view.setMarkerState(i, !selectionState);
+						}
+
+					// Moving right...
+					else if (newMarker > selectedMarker)
+						for (int i = selectedMarker; i <= newMarker; i++)
+						{
+							if (i >= firstSelected)
+								canvas.view.setMarkerState(i, selectionState);
+							else
+								canvas.view.setMarkerState(i, !selectionState);
+						}
+
+					// Update the view
+					selectedMarker = newMarker;
+					canvas.resetBufferedState(false);
+
+					// And ensure wherever the marker now is, it's still visible
+					canvas.scrollRectToVisible(new Rectangle(x-5, y-5, 10, 10));
+				}
 			}
 		}
 	}

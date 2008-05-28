@@ -20,6 +20,8 @@ public class Actions
 
 	public static AbstractAction editUndo;
 	public static AbstractAction editRedo;
+	public static AbstractAction editModeNavigation;
+	public static AbstractAction editModeMarker;
 
 	public static AbstractAction vizExportImage;
 	public static AbstractAction vizColorCustomize;
@@ -131,6 +133,18 @@ public class Actions
 		editRedo = new AbstractAction(RB.format("gui.Actions.editRedo", ""), getIcon(Icons.REDO)) {
 			public void actionPerformed(ActionEvent e) {
 				winMain.editUndoRedo(false);
+			}
+		};
+
+		editModeNavigation = new AbstractAction(RB.format("gui.Actions.editModeNavigation", "")) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.editMode(Constants.NAVIGATION);
+			}
+		};
+
+		editModeMarker = new AbstractAction(RB.format("gui.Actions.editModeMarker", "")) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.editMode(Constants.MARKERMODE);
 			}
 		};
 
@@ -312,6 +326,8 @@ public class Actions
 	{
 		editUndo.setEnabled(false);
 		editRedo.setEnabled(false);
+		editModeNavigation.setEnabled(false);
+		editModeMarker.setEnabled(false);
 
 		vizExportImage.setEnabled(false);
 		vizColorCustomize.setEnabled(false);

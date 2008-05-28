@@ -25,6 +25,8 @@ public class WinMainMenuBar extends JMenuBar
 	private JMenu mEdit;
 	public static JMenuItem mEditUndo;
 	public static JMenuItem mEditRedo;
+	static  JCheckBoxMenuItem mEditModeNavigation;
+	static  JCheckBoxMenuItem mEditModeMarker;
 
 	private JMenu mViz;
 	private JMenuItem mVizExportImage;
@@ -125,9 +127,14 @@ public class WinMainMenuBar extends JMenuBar
 
 		mEditUndo = getItem(Actions.editUndo, "gui.Actions.editUndo", KeyEvent.VK_Z, menuShortcut);
 		mEditRedo = getItem(Actions.editRedo, "gui.Actions.editRedo", KeyEvent.VK_Y, menuShortcut);
+		mEditModeNavigation = getCheckedItem(Actions.editModeNavigation, "gui.Actions.editModeNavigation", 0, 0, Prefs.guiMouseMode == Constants.NAVIGATION);
+		mEditModeMarker = getCheckedItem(Actions.editModeMarker, "gui.Actions.editModeMarker", 0, 0, Prefs.guiMouseMode == Constants.MARKERMODE);
 
 		mEdit.add(mEditUndo);
 		mEdit.add(mEditRedo);
+		mEdit.addSeparator();
+		mEdit.add(mEditModeNavigation);
+		mEdit.add(mEditModeMarker);
 
 		add(mEdit);
 	}
