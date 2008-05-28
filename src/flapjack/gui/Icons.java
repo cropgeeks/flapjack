@@ -23,6 +23,9 @@ public class Icons
 	public static ImageIcon FOLDEROPEN;
 	public static ImageIcon GREYBLOB;
 	public static ImageIcon GERMINATE;
+	public static ImageIcon LINEMODE;
+	public static ImageIcon MARKERMODE;
+	public static ImageIcon NAVIGATIONMODE;
 	public static ImageIcon PREFERENCES;
 	public static ImageIcon REDBLOB;
 	public static ImageIcon REDO;

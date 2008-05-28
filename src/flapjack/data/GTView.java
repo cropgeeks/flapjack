@@ -312,4 +312,20 @@ public class GTView extends XMLRoot
 	{
 		return markers.get(index).selected;
 	}
+
+	/**
+	 * Toggles and returns the selection state of the marker at the given index.
+	 */
+	public boolean toggleMarkerState(int index)
+	{
+		MarkerInfo mi = markers.get(index);
+
+		mi.selected = !mi.selected;
+		return mi.selected;
+	}
+
+	public void setMarkerState(int index, boolean selectionState)
+	{
+		markers.get(index).selected = selectionState;
+	}
 }
