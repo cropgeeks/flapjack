@@ -21,7 +21,7 @@ public class RB
 		else if (Prefs.localeText.equals("en_US"))
 			Locale.setDefault(Locale.US);
 		else if (Prefs.localeText.equals("de"))
-			Locale.setDefault(Locale.GERMAN);
+			Locale.setDefault(Locale.GERMANY);
 
 		bundle = ResourceBundle.getBundle("res.text.flapjack");
 	}
