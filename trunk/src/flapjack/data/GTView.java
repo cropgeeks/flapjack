@@ -328,4 +328,14 @@ public class GTView extends XMLRoot
 	{
 		markers.get(index).selected = selectionState;
 	}
+
+	public int getSelectedMarkerCount()
+	{
+		int count = 0;
+		for (MarkerInfo mi: markers)
+			if (mi.selected)
+				count++;
+
+		return count;
+	}
 }

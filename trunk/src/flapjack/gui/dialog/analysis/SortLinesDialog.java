@@ -49,7 +49,7 @@ public class SortLinesDialog extends JDialog implements ActionListener
 		bCancel.addActionListener(this);
 
 		JPanel p1 = new JPanel(new FlowLayout(FlowLayout.RIGHT, 5, 0));
-		p1.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 5));
+		p1.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 5));
 		p1.add(bOK);
 		p1.add(bCancel);
 
@@ -70,5 +70,10 @@ public class SortLinesDialog extends JDialog implements ActionListener
 
 	public boolean isOK() {
 		return isOK;
+	}
+
+	public boolean[] getSelectedChromosomes()
+	{
+		return nbPanel.getSelectedChromosomes();
 	}
 }
