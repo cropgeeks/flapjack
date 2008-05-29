@@ -23,6 +23,7 @@ public class Icons
 	public static ImageIcon FOLDEROPEN;
 	public static ImageIcon GREYBLOB;
 	public static ImageIcon GERMINATE;
+	public static ImageIcon INVERT;
 	public static ImageIcon LINEMODE;
 	public static ImageIcon MARKERMODE;
 	public static ImageIcon NAVIGATIONMODE;
@@ -30,6 +31,8 @@ public class Icons
 	public static ImageIcon REDBLOB;
 	public static ImageIcon REDO;
 	public static ImageIcon RENAME;
+	public static ImageIcon SELECTALL;
+	public static ImageIcon SELECTNONE;
 	public static ImageIcon UNDO;
 	public static ImageIcon VISUALIZATION;
 	public static ImageIcon WEB;

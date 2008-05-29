@@ -27,6 +27,10 @@ public class WinMainMenuBar extends JMenuBar
 	public static JMenuItem mEditRedo;
 	static  JCheckBoxMenuItem mEditModeNavigation;
 	static  JCheckBoxMenuItem mEditModeMarker;
+	private JMenu mEditSelectMarkers;
+	private JMenuItem mEditSelectMarkersAll;
+	private JMenuItem mEditSelectMarkersNone;
+	private JMenuItem mEditSelectMarkersInvert;
 
 	private JMenu mViz;
 	private JMenuItem mVizExportImage;
@@ -125,16 +129,28 @@ public class WinMainMenuBar extends JMenuBar
 		mEdit = new JMenu(RB.getString("gui.WinMainMenuBar.mEdit"));
 		RB.setMnemonic(mEdit, "gui.WinMainMenuBar.mEdit");
 
+		mEditSelectMarkers = new JMenu(RB.getString("gui.WinMainMenuBar.mEditSelectMarkers"));
+		RB.setMnemonic(mEditSelectMarkers, "gui.WinMainMenuBar.mEditSelectMarkers");
+
 		mEditUndo = getItem(Actions.editUndo, "gui.Actions.editUndo", KeyEvent.VK_Z, menuShortcut);
 		mEditRedo = getItem(Actions.editRedo, "gui.Actions.editRedo", KeyEvent.VK_Y, menuShortcut);
 		mEditModeNavigation = getCheckedItem(Actions.editModeNavigation, "gui.Actions.editModeNavigation", 0, 0, Prefs.guiMouseMode == Constants.NAVIGATION);
 		mEditModeMarker = getCheckedItem(Actions.editModeMarker, "gui.Actions.editModeMarker", 0, 0, Prefs.guiMouseMode == Constants.MARKERMODE);
+		mEditSelectMarkersAll = getItem(Actions.editSelectMarkersAll, "gui.Actions.editSelectMarkersAll", 0, 0);
+		mEditSelectMarkersNone = getItem(Actions.editSelectMarkersNone, "gui.Actions.editSelectMarkersNone", 0, 0);
+		mEditSelectMarkersInvert = getItem(Actions.editSelectMarkersInvert, "gui.Actions.editSelectMarkersInvert", 0, 0);
+
+		mEditSelectMarkers.add(mEditSelectMarkersAll);
+		mEditSelectMarkers.add(mEditSelectMarkersNone);
+		mEditSelectMarkers.add(mEditSelectMarkersInvert);
 
 		mEdit.add(mEditUndo);
 		mEdit.add(mEditRedo);
 		mEdit.addSeparator();
 		mEdit.add(mEditModeNavigation);
 		mEdit.add(mEditModeMarker);
+		mEdit.addSeparator();
+		mEdit.add(mEditSelectMarkers);
 
 		add(mEdit);
 	}
