@@ -22,6 +22,9 @@ public class Actions
 	public static AbstractAction editRedo;
 	public static AbstractAction editModeNavigation;
 	public static AbstractAction editModeMarker;
+	public static AbstractAction editSelectMarkersAll;
+	public static AbstractAction editSelectMarkersNone;
+	public static AbstractAction editSelectMarkersInvert;
 
 	public static AbstractAction vizExportImage;
 	public static AbstractAction vizColorCustomize;
@@ -145,6 +148,24 @@ public class Actions
 		editModeMarker = new AbstractAction(RB.format("gui.Actions.editModeMarker", "")) {
 			public void actionPerformed(ActionEvent e) {
 				winMain.mEdit.editMode(Constants.MARKERMODE);
+			}
+		};
+
+		editSelectMarkersAll = new AbstractAction(RB.format("gui.Actions.editSelectMarkersAll", ""), getIcon(Icons.SELECTALL)) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.mEdit.editSelectMarkers(Constants.SELECT_ALL);
+			}
+		};
+
+		editSelectMarkersNone = new AbstractAction(RB.format("gui.Actions.editSelectMarkersNone", ""), getIcon(Icons.SELECTNONE)) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.mEdit.editSelectMarkers(Constants.SELECT_NONE);
+			}
+		};
+
+		editSelectMarkersInvert = new AbstractAction(RB.format("gui.Actions.editSelectMarkersInvert", ""), getIcon(Icons.INVERT)) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.mEdit.editSelectMarkers(Constants.SELECT_INVERT);
 			}
 		};
 
@@ -328,6 +349,9 @@ public class Actions
 		editRedo.setEnabled(false);
 		editModeNavigation.setEnabled(false);
 		editModeMarker.setEnabled(false);
+		editSelectMarkersAll.setEnabled(false);
+		editSelectMarkersNone.setEnabled(false);
+		editSelectMarkersInvert.setEnabled(false);
 
 		vizExportImage.setEnabled(false);
 		vizColorCustomize.setEnabled(false);
