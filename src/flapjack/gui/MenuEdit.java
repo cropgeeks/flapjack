@@ -34,24 +34,38 @@ class MenuEdit
 	{
 		GTView view = gPanel.getView();
 
+		// Track the undo state before doing anything
+		SelectedMarkersState state = new SelectedMarkersState(view);
+		state.createUndoState();
+
 		// Select All
 		if (selectionType == Constants.SELECT_ALL)
 		{
+			state.setMenuString(RB.getString("gui.visualization.SelectedMarkersState.selectedAll"));
+
 			for (int i = 0; i < view.getMarkerCount(); i++)
 				view.setMarkerState(i, true);
 		}
 		// Select None
 		else if (selectionType == Constants.SELECT_NONE)
 		{
+			state.setMenuString(RB.getString("gui.visualization.SelectedMarkersState.selectedNone"));
+
 			for (int i = 0; i < view.getMarkerCount(); i++)
 				view.setMarkerState(i, false);
 		}
 		// Invert
 		if (selectionType == Constants.SELECT_INVERT)
 		{
+			state.setMenuString(RB.getString("gui.visualization.SelectedMarkersState.selectedInvert"));
+
 			for (int i = 0; i < view.getMarkerCount(); i++)
 				view.toggleMarkerState(i);
 		}
+
+		// And the redo state after the operation
+		state.createRedoState();
+		gPanel.addUndoState(state);
 
 		editMode(Constants.MARKERMODE);
 	}

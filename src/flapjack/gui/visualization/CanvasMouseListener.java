@@ -297,6 +297,7 @@ class CanvasMouseListener extends MouseInputAdapter
 		private int firstSelected = -1;
 		private boolean selectionState;
 
+		private SelectedMarkersState markerStates;
 
 		void mousePressed(MouseEvent e)
 		{
@@ -306,6 +307,10 @@ class CanvasMouseListener extends MouseInputAdapter
 			// Check that the index is valid
 			if (index < 0 || index > canvas.view.getMarkerCount())
 				return;
+
+			markerStates = new SelectedMarkersState(canvas.view,
+				RB.getString("gui.visualization.SelectedMarkersState.selected"));
+			markerStates.createUndoState();
 
 			firstSelected = selectedMarker = index;
 			selectionState = canvas.view.toggleMarkerState(selectedMarker);
@@ -320,6 +325,9 @@ class CanvasMouseListener extends MouseInputAdapter
 
 			selectedMarker = -1;
 			canvas.resetBufferedState(true);
+
+			markerStates.createRedoState();
+			gPanel.addUndoState(markerStates);
 
 			Actions.projectModified();
 		}

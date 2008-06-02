@@ -12,6 +12,12 @@ public interface IUndoState
 {
 	public String getMenuString();
 
+	/**
+	 * Returns the view that this operation relates to (or null if not view
+	 * specific).
+	 */
+	public GTView getView();
+
 	/** Creates ('remembers') the state before the action will happen. */
 	public void createUndoState();
 
