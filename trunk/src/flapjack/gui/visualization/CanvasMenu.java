@@ -29,7 +29,6 @@ public class CanvasMenu
 	private JMenuItem mToggleCanvas;
 	private JMenu mSortLines;
 	private JMenuItem mSortLinesBySimilarity;
-	private JMenuItem mSortLinesByLocus;
 	private JMenuItem mFind;
 	private JMenu mSelectMarkers;
 	private JMenuItem mSelectMarkersAll;
@@ -101,12 +100,10 @@ public class CanvasMenu
 		mSelectMarkers.add(mSelectMarkersInvert);
 
 		mSortLinesBySimilarity = WinMainMenuBar.getItem(Actions.dataSortLinesBySimilarity, "gui.Actions.dataSortLinesBySimilarity", 0, 0);
-		mSortLinesByLocus = WinMainMenuBar.getItem(Actions.dataSortLinesByLocus, "gui.Actions.dataSortLinesByLocus", 0, 0);
 
 		mSortLines = new JMenu(RB.getString("gui.WinMainMenuBar.mDataSortLines"));
 		RB.setMnemonic(mSortLines, "gui.WinMainMenuBar.mDataSortLines");
 		mSortLines.add(mSortLinesBySimilarity);
-		mSortLines.add(mSortLinesByLocus);
 	}
 
 	void handlePopup(MouseEvent e)

@@ -27,7 +27,11 @@ class MenuData
 		SortLinesDialog dialog = new SortLinesDialog(gPanel);
 
 		if (dialog.isOK())
-			new SortingLinesProgressDialog().runSort(gPanel, sortMethod);
+		{
+			boolean[] chromosomes = dialog.getSelectedChromosomes();
+
+			new SortingLinesProgressDialog(chromosomes).runSort(gPanel, sortMethod);
+		}
 	}
 
 	void dataFind()
