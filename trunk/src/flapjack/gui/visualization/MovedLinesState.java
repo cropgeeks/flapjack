@@ -27,6 +27,9 @@ public class MovedLinesState implements IUndoState
 		this.menuStr = menuStr;
 	}
 
+	public GTView getView()
+		{ return null; }
+
 	public String getMenuString()
 	{
 		return menuStr;

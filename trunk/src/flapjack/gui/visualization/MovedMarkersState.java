@@ -29,7 +29,7 @@ public class MovedMarkersState implements IUndoState
 	public String getMenuString()
 		{ return menuStr; }
 
-	GTView getView()
+	public GTView getView()
 		{ return view; }
 
 	public void createUndoState()

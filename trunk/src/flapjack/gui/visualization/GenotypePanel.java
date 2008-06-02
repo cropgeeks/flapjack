@@ -315,7 +315,7 @@ public class GenotypePanel extends JPanel
 		else
 			state = viewSet.getUndoManager().processRedo();
 
-		if (state instanceof MovedMarkersState)
+		if (state.getView() != null)
 			returnToView(state);
 		else
 			refreshView();
@@ -335,8 +335,7 @@ public class GenotypePanel extends JPanel
 	// panel is showing the correct chromosomes (GTView) for that move
 	private void returnToView(IUndoState state)
 	{
-		MovedMarkersState mms = (MovedMarkersState) state;
-		GTView returnToView = mms.getView();
+		GTView returnToView = state.getView();
 
 		int index = viewSet.getViews().indexOf(returnToView);
 
