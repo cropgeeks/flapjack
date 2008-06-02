@@ -54,7 +54,6 @@ public class VisualizationNode extends BaseNode
 		Actions.vizOverview.setEnabled(true);
 
 		Actions.dataSortLinesBySimilarity.setEnabled(true);
-		Actions.dataSortLinesByLocus.setEnabled(true);
 		Actions.dataFind.setEnabled(true);
 		Actions.dataStatistics.setEnabled(true);
 		Actions.dataRenameDataSet.setEnabled(true);

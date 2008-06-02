@@ -44,7 +44,6 @@ public class Actions
 	public static AbstractAction vizOverview;
 
 	public static AbstractAction dataSortLinesBySimilarity;
-	public static AbstractAction dataSortLinesByLocus;
 	public static AbstractAction dataFind;
 	public static AbstractAction dataStatistics;
 	public static AbstractAction dataRenameDataSet;
@@ -273,12 +272,6 @@ public class Actions
 			}
 		};
 
-		dataSortLinesByLocus = new AbstractAction(RB.getString("gui.Actions.dataSortLinesByLocus")) {
-			public void actionPerformed(ActionEvent e) {
-				winMain.mData.dataSortLines(1);
-			}
-		};
-
 		dataFind = new AbstractAction(RB.getString("gui.Actions.dataFind"), getIcon(Icons.FIND)) {
 			public void actionPerformed(ActionEvent e) {
 				winMain.mData.dataFind();
@@ -371,7 +364,6 @@ public class Actions
 		vizOverview.setEnabled(false);
 
 		dataSortLinesBySimilarity.setEnabled(false);
-		dataSortLinesByLocus.setEnabled(false);
 		dataFind.setEnabled(false);
 		dataStatistics.setEnabled(false);
 		dataRenameDataSet.setEnabled(false);

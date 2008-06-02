@@ -258,7 +258,7 @@ class GenotypeCanvas extends JPanel
 
 		long e = System.nanoTime();
 
-		System.out.println("Render time: " + ((e-s)/1000000f) + "ms");
+//		System.out.println("Render time: " + ((e-s)/1000000f) + "ms");
 	}
 
 	private void renderViewport(Graphics2D g)

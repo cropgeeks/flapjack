@@ -15,17 +15,22 @@ public class SortingLinesProgressDialog extends JDialog
 	private JProgressBar pBar;
 	private GenotypePanel gPanel;
 
+	// Which chromosomes should be used during this sort?
+	private boolean[] chromosomes;
+
 	// Runnable object that will be active while the dialog is visible
 	private Runnable runnable;
 	// Which will be running this sort
 	private ILineSorter sort;
 
-	public SortingLinesProgressDialog()
+	public SortingLinesProgressDialog(boolean[] chromosomes)
 	{
 		super(
 			Flapjack.winMain,
 			RB.getString("gui.dialog.analysis.SortingLinesProgressDialog.title"),
 			true);
+
+		this.chromosomes = chromosomes;
 
 		NBSortingLinesProgressPanel panel = new NBSortingLinesProgressPanel();
 		pBar = panel.getProgressBar();
@@ -50,14 +55,13 @@ public class SortingLinesProgressDialog extends JDialog
 	{
 		this.gPanel = gPanel;
 
+		GTViewSet viewSet = gPanel.getViewSet();
 		GTView view = gPanel.getView();
 		int line = view.mouseOverLine;
 		int loci = view.mouseOverMarker;
 
 		if (method == 0)
-			sort = new SortLinesBySimilarity(view, line);
-		else if (method == 1)
-			sort = new SortLinesByLocus(view, line, loci);
+			sort = new SortLinesBySimilarity(viewSet, line, chromosomes);
 
 		pBar.setMaximum(sort.getMaximum());
 

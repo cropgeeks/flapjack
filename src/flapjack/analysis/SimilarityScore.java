@@ -7,14 +7,20 @@ import flapjack.data.*;
  */
 public class SimilarityScore
 {
-	private GTView view;
-	private int index1, index2;
+	private GTViewSet viewSet;
+	private int compLine, currLine;
+	private boolean[] chromosomes;
 
-	public SimilarityScore(GTView view, int index1, int index2)
+	/**
+	 * @param compLine the comparison line to compare the current line against
+	 * @param currLine the current line to compute a score for
+	 */
+	public SimilarityScore(GTViewSet viewSet, int compLine, int currLine, boolean[] chromosomes)
 	{
-		this.view = view;
-		this.index1 = index1;
-		this.index2 = index2;
+		this.viewSet = viewSet;
+		this.compLine = compLine;
+		this.currLine = currLine;
+		this.chromosomes = chromosomes;
 	}
 
 	public Score getScore()
@@ -22,31 +28,44 @@ public class SimilarityScore
 		float nComparisons = 0;
 		float score = 0;
 
-		// For every marker across the genotype...
-		for (int marker = 0; marker < view.getMarkerCount(); marker++)
+		for (int viewIndex = 0; viewIndex < viewSet.getChromosomeCount(); viewIndex++)
 		{
-			int state1 = view.getState(index1, marker);
-			int state2 = view.getState(index2, marker);
-
-			// If either has no information, skip it
-			if (state1 == 0 || state2 == 0)
+			// Don't use chromosomes that aren't selected
+			if(chromosomes[viewIndex] == false)
 				continue;
 
-			// TODO: skip hetrozy?
+			GTView view = viewSet.getView(viewIndex);
+			view.cacheLines();
 
-			// Increment the score if they match
-			if (state1 == state2)
-				score++;
+			// For every marker across the genotype...
+			for (int marker = 0; marker < view.getMarkerCount(); marker++)
+			{
+				// Don't count markers that aren't selected
+				if (view.isMarkerSelected(marker) == false)
+					continue;
 
-			// And count it as a comparison, regardless
-			nComparisons++;
+				int state1 = view.getState(compLine, marker);
+				int state2 = view.getState(currLine, marker);
+
+				// If either has no information, skip it
+				if (state1 == 0 || state2 == 0)
+					continue;
+
+				// TODO: skip heterozy?
+
+				// Increment the score if they match
+				if (state1 == state2)
+					score++;
+
+				// And count it as a comparison, regardless
+				nComparisons++;
+			}
 		}
 
 		// TODO: a line with no data, will score 0/0 - problems?
 
 		// The final score is the ratio of matches to comparable markers
 		return new Score(score/nComparisons, nComparisons);
-//		return score/nComparisons;
 	}
 
 	static class Score

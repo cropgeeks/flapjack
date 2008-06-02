@@ -6,19 +6,21 @@ import flapjack.data.*;
 
 public class SortLinesBySimilarity implements ILineSorter
 {
-	private GTView view;
+	private GTViewSet viewSet;
 	private int line;
+	private boolean[] chromosomes;
 
 	private int linesScored = 0;
 
-	public SortLinesBySimilarity(GTView view, int line)
+	public SortLinesBySimilarity(GTViewSet viewSet, int line, boolean[] chromosomes)
 	{
-		this.view = view;
+		this.viewSet = viewSet;
 		this.line = line;
+		this.chromosomes = chromosomes;
 	}
 
 	public int getMaximum()
-		{ return view.getLineCount(); }
+		{ return viewSet.getView(0).getLineCount(); }
 
 	public int getValue()
 		{ return linesScored; }
@@ -26,6 +28,9 @@ public class SortLinesBySimilarity implements ILineSorter
 	public void doSort()
 	{
 		long s = System.currentTimeMillis();
+
+		// Access the first chromosome (just to get at the lines data)
+		GTView view = viewSet.getView(0);
 
 		// Store a local reference to the line ordering for quicker access
 		Vector<LineInfo> lines = view.getLines();
@@ -38,7 +43,7 @@ public class SortLinesBySimilarity implements ILineSorter
 		// Work out what those scores are
 		for (int i = 0; i < view.getLineCount(); i++, linesScored++)
 		{
-			SimilarityScore ss = new SimilarityScore(view, line, i);
+			SimilarityScore ss = new SimilarityScore(viewSet, line, i, chromosomes);
 
 			SimilarityScore.Score score = ss.getScore();
 			scores.add(new LineScore(lines.get(i), score.score, score.nComparisons));
@@ -61,21 +66,6 @@ public class SortLinesBySimilarity implements ILineSorter
 
 		System.out.println("Similarity sort in " + (System.currentTimeMillis()-s) + "ms");
 
-
-		// Quick all-by-all test
-/*		s = System.currentTimeMillis();
-		int count = 0;
-		for (int i = 0; i < view.getLineCount(); i++)
-			for (int j = i; j < view.getLineCount(); j++)
-			{
-				SimilarityScore ss = new SimilarityScore(view, i, j, SimilarityScore.JACCARD);
-				ss.getScore();
-				count++;
-			}
-
-		System.out.println("Matrix in " + (System.currentTimeMillis()-s) + "ms");
-		System.out.println("Matrix ran " + count + " comparisons");
-*/
 	}
 
 	private static class LineScore implements Comparable<LineScore>
