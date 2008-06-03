@@ -1,6 +1,7 @@
 package flapjack.gui;
 
 import java.awt.*;
+import java.awt.dnd.*;
 import java.awt.event.*;
 import java.beans.*;
 import javax.swing.*;
@@ -66,6 +67,9 @@ class NavPanel extends JPanel
 		hSplitPane.setDividerLocation(Prefs.guiNavSplitsLocation);
 		hSplitPane.setLeftComponent(vSplitPane);
 		hSplitPane.setRightComponent(introPanel);
+
+		FileDropAdapter dropAdapter = new FileDropAdapter(winMain);
+		setDropTarget(new DropTarget(this, dropAdapter));
 
 		setLayout(new BorderLayout());
 		add(hSplitPane);
