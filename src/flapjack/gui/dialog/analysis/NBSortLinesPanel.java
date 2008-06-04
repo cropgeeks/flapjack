@@ -34,7 +34,7 @@ class NBSortLinesPanel extends javax.swing.JPanel
 
 		selectedLine.setModel(lineModel);
 
-		if (view.mouseOverLine != -1)
+		if (view.mouseOverLine >= 0 && view.mouseOverLine < view.getLineCount())
 			selectedLine.setSelectedIndex(view.mouseOverLine);
 
 		createLinkLabels();
