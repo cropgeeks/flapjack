@@ -16,9 +16,9 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
               <Component id="panel" max="32767" attributes="0"/>
-              <EmptySpace min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -27,7 +27,7 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Component id="panel" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="78" max="32767" attributes="0"/>
+              <EmptySpace pref="55" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -50,8 +50,9 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="warnDuplicateMarkers" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Component id="warnFindDialogResultsCleared" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="warnEditMarkerMode" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace max="-2" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -63,6 +64,8 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="warnFindDialogResultsCleared" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
+                  <Component id="warnEditMarkerMode" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -76,6 +79,11 @@
         <Component class="javax.swing.JCheckBox" name="warnDuplicateMarkers">
           <Properties>
             <Property name="text" type="java.lang.String" value="When duplicate markers are found during data import"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JCheckBox" name="warnEditMarkerMode">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="When switching to &apos;marker mode&apos;"/>
           </Properties>
         </Component>
       </SubComponents>

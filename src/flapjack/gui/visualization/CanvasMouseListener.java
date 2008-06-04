@@ -40,6 +40,11 @@ class CanvasMouseListener extends MouseInputAdapter
 		canvas.addMouseMotionListener(this);
 	}
 
+	private boolean isMetaClick(MouseEvent e)
+	{
+		return isOSX && e.isMetaDown() || !isOSX && e.isControlDown();
+	}
+
 	public void mouseClicked(MouseEvent e)
 	{
 		if (SwingUtilities.isRightMouseButton(e))
@@ -68,15 +73,12 @@ class CanvasMouseListener extends MouseInputAdapter
 
 		if (SwingUtilities.isLeftMouseButton(e))
 		{
-			if (Prefs.guiMouseMode == Constants.NAVIGATION)
+			if (isMetaClick(e))
+				iHandler.mousePressed(e);
+			else if (Prefs.guiMouseMode == Constants.NAVIGATION)
 				nHandler.mousePressed(e);
 			else if (Prefs.guiMouseMode == Constants.MARKERMODE)
-			{
-				if (isOSX && e.isMetaDown() || !isOSX && e.isControlDown())
-					iHandler.mousePressed(e);
-				else
-					sHandler.mousePressed(e);
-			}
+				sHandler.mousePressed(e);
 		}
 	}
 
@@ -86,18 +88,15 @@ class CanvasMouseListener extends MouseInputAdapter
 			canvasMenu.handlePopup(e);
 
 		nHandler.mouseReleased(e);
-
-		if (isOSX && e.isMetaDown() || !isOSX && e.isControlDown())
-			iHandler.mouseReleased(e);
-		else
-			sHandler.mouseReleased(e);
+		iHandler.mouseReleased(e);
+		sHandler.mouseReleased(e);
 	}
 
 	public void mouseDragged(MouseEvent e)
 	{
 		nHandler.mouseDragged(e);
 
-		if (isOSX && e.isMetaDown() || !isOSX && e.isControlDown())
+		if (isMetaClick(e))
 			iHandler.mouseDragged(e);
 		else
 			sHandler.mouseDragged(e);

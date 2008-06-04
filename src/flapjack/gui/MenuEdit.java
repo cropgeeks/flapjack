@@ -1,7 +1,11 @@
 package flapjack.gui;
 
+import javax.swing.*;
+
 import flapjack.data.*;
 import flapjack.gui.visualization.*;
+
+import scri.commons.gui.*;
 
 class MenuEdit
 {
@@ -28,6 +32,20 @@ class MenuEdit
 		WinMainToolBar.editModeMarker.setSelected(newMode == Constants.MARKERMODE);
 
 		gPanel.resetBufferedState(true);
+
+		// Popup the warning dialog with markermode info...
+		if (newMode == Constants.MARKERMODE && Prefs.warnEditMarkerMode)
+		{
+			JCheckBox checkbox = new JCheckBox();
+			RB.setText(checkbox, "gui.MenuEdit.warnEditMarkerMode");
+
+			TaskDialog.info(
+				RB.getString("gui.MenuEdit.editMarkerMode"),
+				RB.getString("gui.text.close"),
+				checkbox);
+
+			Prefs.warnEditMarkerMode = !checkbox.isSelected();
+		}
 	}
 
 	void editSelectMarkers(int selectionType)

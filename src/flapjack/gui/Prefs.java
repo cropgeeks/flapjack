@@ -60,6 +60,7 @@ public class Prefs extends XMLPreferences
 	// Warning messages
 	public static boolean warnDuplicateMarkers = true;
 	public static boolean warnFindDialogResultsCleared = true;
+	public static boolean warnEditMarkerMode = true;
 
 	// String matches for missing data and heterozygous values when importing
 	public static String ioMissingData = "-";
