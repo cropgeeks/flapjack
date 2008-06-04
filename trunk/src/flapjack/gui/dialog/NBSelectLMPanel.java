@@ -16,7 +16,7 @@ class NBSelectLMPanel extends javax.swing.JPanel
 			for (int i = 0; i < view.getLineCount(); i++)
 				combo.addItem(view.getLine(i));
 
-			if (view.mouseOverLine != -1)
+			if (view.mouseOverLine >= 0 && view.mouseOverLine < view.getLineCount())
 				combo.setSelectedIndex(view.mouseOverLine);
 		}
 		else
@@ -26,7 +26,7 @@ class NBSelectLMPanel extends javax.swing.JPanel
 			for (int i = 0; i < view.getMarkerCount(); i++)
 				combo.addItem(view.getMarker(i));
 
-			if (view.mouseOverMarker != -1)
+			if (view.mouseOverMarker >= 0 && view.mouseOverMarker < view.getMarkerCount())
 				combo.setSelectedIndex(view.mouseOverMarker);
 		}
 	}
