@@ -11,4 +11,4 @@ set fjcp=%fjcp%;%lib%\office-2.0.jar
 set fjcp=%fjcp%;%lib%\scri-commons.jar
 set fjcp=%fjcp%;%lib%\swing-layout-1.0.3.jar
 
-java -Xmx768m -cp .;res;classes;%fjcp% flapjack.gui.Flapjack %1 %2 %3 %4 %5
+java -Xmx768m -cp .;config;res;classes;%fjcp% flapjack.gui.Flapjack %1 %2 %3 %4 %5

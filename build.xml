@@ -3,10 +3,12 @@
 	<property name="src" location="src"/>
 	<property name="res" location="res"/>
 	<property name="lib" location="lib"/>
+	<property name="config" location="config"/>
 	<property name="lib-devel" location="lib-devel"/>
 	<property name="classes" location="classes"/>
 	
 	<property name="flapjack.jar" value="${lib}/flapjack.jar"/>
+	<property name="flapjack-resources.jar" value="${lib}/flapjack-resources.jar"/>
 	
 	<target name="init">
 	</target>
@@ -32,20 +34,25 @@
 		<delete includeemptydirs="true">
 			<fileset dir="${classes}" includes="**/*"/>
 			<fileset file="${flapjack.jar}"/>
+			<fileset file="${flapjack-resources.jar}"/>
 		</delete>
 	</target>
 	
 	<target name="jar" depends="clean, compile">
-		<jar jarfile="${flapjack.jar}">
-			<fileset dir="${classes}"/>
-			<fileset file="res/castor.properties"/>
+		<jar jarfile="${flapjack-resources.jar}">
 			<zipfileset dir="${res}" prefix="res"/>
+		</jar>
+		<jar jarfile="${flapjack.jar}">
+			<fileset dir="${classes}"/>			
+			<zipfileset dir="${config}" prefix="config"/>
+			<!-- castor.properties must be top level otherwise it's not seen -->
+			<fileset file="config/castor.properties"/>
 			<manifest>
 				<attribute name="Main-Class" value="flapjack.gui.Flapjack"/>
 				<attribute name="Class-Path"
-					value="res
-						castor-1.2-xml.jar
+					value="castor-1.2-xml.jar
 						commons-logging-1.1.1.jar
+						flapjack-resources.jar
 						i4jruntime.jar
 						mysql-connector-java-5.1.5-bin.jar
 						office-2.0.jar
@@ -82,7 +89,7 @@
 	
 	<target name="osx" depends="jar">
 		<exec executable="scp">
-			<arg line="lib/flapjack.jar 143.234.127.110:Java/Flapjack/"/>
+			<arg line="lib/*.jar 143.234.127.110:Java/Flapjack/"/>
 		</exec>
 	</target>
 	

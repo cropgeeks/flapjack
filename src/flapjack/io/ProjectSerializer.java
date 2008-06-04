@@ -24,7 +24,7 @@ public class ProjectSerializer
 		{
 			mapping = new Mapping();
 			mapping.loadMapping(
-				new ProjectSerializer().getClass().getResource("/res/flapjack-castor.xml"));
+				new ProjectSerializer().getClass().getResource("/config/flapjack-castor.xml"));
 
 			return true;
 		}
