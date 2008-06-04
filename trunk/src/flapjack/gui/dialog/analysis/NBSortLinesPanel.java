@@ -98,6 +98,10 @@ class NBSortLinesPanel extends javax.swing.JPanel
 
 		table.getColumnModel().getColumn(0).setPreferredWidth(30);
 		table.setDefaultRenderer(String.class, new StringRenderer());
+
+		// Ensure the single selection is actually visible when first displayed
+		Rectangle r = table.getCellRect(viewSet.getViewIndex(), 0, true);
+		table.scrollRectToVisible(r);
 	}
 
 	boolean isOK()
