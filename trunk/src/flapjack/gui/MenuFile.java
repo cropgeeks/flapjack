@@ -4,7 +4,6 @@ import java.io.*;
 
 import flapjack.data.*;
 import flapjack.gui.dialog.*;
-import flapjack.gui.navpanel.*;
 import flapjack.gui.visualization.*;
 import flapjack.io.*;
 

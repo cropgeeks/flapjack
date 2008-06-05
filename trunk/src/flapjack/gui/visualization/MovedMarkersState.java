@@ -1,7 +1,6 @@
 package flapjack.gui.visualization;
 
 import flapjack.data.*;
-import flapjack.gui.*;
 
 public class MovedMarkersState implements IUndoState
 {

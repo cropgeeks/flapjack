@@ -5,7 +5,6 @@ import java.text.*;
 import javax.swing.*;
 import javax.swing.event.*;
 
-import flapjack.data.*;
 import flapjack.gui.visualization.*;
 import flapjack.gui.*;
 

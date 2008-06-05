@@ -1,10 +1,8 @@
 package flapjack.gui.visualization;
 
 import java.awt.*;
-import java.awt.image.*;
 import javax.swing.*;
 
-import flapjack.data.*;
 import flapjack.gui.*;
 
 class ColCanvas extends JPanel

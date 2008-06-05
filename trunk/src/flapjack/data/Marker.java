@@ -1,7 +1,5 @@
 package flapjack.data;
 
-import java.util.*;
-
 public class Marker extends XMLRoot implements Comparable<Marker>
 {
 	private String name;

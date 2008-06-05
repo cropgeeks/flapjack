@@ -2,8 +2,6 @@ package flapjack.data;
 
 import java.util.*;
 
-import scri.commons.gui.SystemUtils;
-
 public class DataSet extends XMLRoot
 {
 	private String name;

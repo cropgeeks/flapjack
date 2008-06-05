@@ -1,7 +1,6 @@
 package flapjack.gui;
 
 import java.awt.*;
-import java.awt.event.*;
 import java.lang.management.*;
 import java.util.*;
 import javax.swing.*;

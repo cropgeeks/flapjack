@@ -5,8 +5,6 @@ import java.awt.event.*;
 import java.awt.image.*;
 import java.util.*;
 
-import flapjack.data.*;
-
 class MineSweeper extends MouseAdapter implements IOverlayRenderer
 {
 	private GenotypeCanvas canvas;

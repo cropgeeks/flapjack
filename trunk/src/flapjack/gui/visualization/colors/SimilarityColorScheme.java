@@ -1,7 +1,5 @@
 package flapjack.gui.visualization.colors;
 
-import java.awt.*;
-import java.awt.image.*;
 import java.util.*;
 
 import flapjack.data.*;

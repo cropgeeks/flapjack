@@ -3,7 +3,6 @@ package flapjack.gui;
 import flapjack.data.*;
 import flapjack.gui.dialog.*;
 import flapjack.gui.dialog.analysis.*;
-import flapjack.gui.navpanel.*;
 import flapjack.gui.visualization.*;
 
 import scri.commons.gui.*;

@@ -1,7 +1,6 @@
 package flapjack.gui.visualization;
 
 import java.awt.*;
-import java.awt.event.*;
 import java.awt.image.*;
 import java.lang.management.*;
 import java.util.*;

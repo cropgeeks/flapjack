@@ -2,20 +2,14 @@ package flapjack.gui;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.io.*;
-
 
 import javax.swing.*;
 
 import flapjack.data.*;
-import flapjack.gui.dialog.*;
 import flapjack.gui.dialog.analysis.*;
-import flapjack.gui.dialog.prefs.*;
 import flapjack.gui.visualization.*;
-import flapjack.gui.visualization.colors.*;
 import flapjack.io.*;
 
-import scri.commons.file.*;
 import scri.commons.gui.*;
 
 public class WinMain extends JFrame

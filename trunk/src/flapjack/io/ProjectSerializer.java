@@ -9,7 +9,6 @@ import org.exolab.castor.xml.*;
 
 import flapjack.data.*;
 import flapjack.gui.*;
-import flapjack.gui.dialog.SaveLoadDialog;
 import flapjack.other.*;
 
 import scri.commons.gui.*;

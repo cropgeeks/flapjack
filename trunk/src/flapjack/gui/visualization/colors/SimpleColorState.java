@@ -1,7 +1,6 @@
 package flapjack.gui.visualization.colors;
 
 import java.awt.*;
-import java.awt.color.*;
 import java.awt.geom.*;
 import java.awt.image.*;
 

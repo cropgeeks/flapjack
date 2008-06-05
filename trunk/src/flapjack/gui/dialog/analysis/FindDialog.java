@@ -1,6 +1,5 @@
 package flapjack.gui.dialog.analysis;
 
-import java.awt.*;
 import java.awt.event.*;
 import java.text.*;
 import java.util.*;

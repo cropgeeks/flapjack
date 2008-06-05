@@ -4,7 +4,6 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import javax.swing.*;
-import javax.swing.event.*;
 
 import flapjack.data.*;
 import flapjack.gui.*;

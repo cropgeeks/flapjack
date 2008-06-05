@@ -1,7 +1,6 @@
 package flapjack.gui.visualization;
 
 import java.awt.*;
-import javax.swing.*;
 
 /**
  * Line/Marker (LM) highligher class.
