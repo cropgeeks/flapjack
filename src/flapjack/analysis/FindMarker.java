@@ -1,7 +1,6 @@
 package flapjack.analysis;
 
 import java.util.*;
-import java.util.regex.*;
 
 import flapjack.data.*;
 

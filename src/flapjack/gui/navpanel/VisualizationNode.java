@@ -1,6 +1,5 @@
 package flapjack.gui.navpanel;
 
-import java.awt.*;
 import javax.swing.*;
 
 import flapjack.data.*;

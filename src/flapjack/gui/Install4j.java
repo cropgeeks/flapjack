@@ -111,7 +111,7 @@ public class Install4j
 						+ "&os=" + os;
 
 					// We DO NOT log usernames from non-SCRI addresses
-					if (Flapjack.isSCRIUser())
+					if (FlapjackUtils.isSCRIUser())
 						addr += "&user=" + user;
 
 					// Nudges the cgi script to log the fact that a version of

@@ -1,7 +1,5 @@
 package flapjack.data;
 
-import java.util.*;
-
 public class GenotypeData extends XMLRoot
 {
 	// A reference to the chromsome this data applies to

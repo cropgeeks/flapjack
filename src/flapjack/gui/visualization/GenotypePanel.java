@@ -9,8 +9,6 @@ import javax.swing.event.*;
 import flapjack.data.*;
 import flapjack.gui.*;
 
-import scri.commons.gui.*;
-
 public class GenotypePanel extends JPanel
 	implements AdjustmentListener, ChangeListener, MouseWheelListener
 {

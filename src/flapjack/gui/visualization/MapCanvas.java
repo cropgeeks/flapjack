@@ -6,7 +6,6 @@ import java.text.*;
 import javax.swing.*;
 
 import flapjack.data.*;
-import flapjack.gui.*;
 
 class MapCanvas extends JPanel
 {

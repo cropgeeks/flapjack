@@ -50,7 +50,6 @@ public class Icons
 
 		try
 		{
-			long s = System.currentTimeMillis();
 			Field[] fields = c.getFields();
 			for (Field field : fields)
 			{

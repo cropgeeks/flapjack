@@ -2,7 +2,6 @@ package flapjack.gui.visualization;
 
 import java.awt.*;
 import java.awt.geom.*;
-import javax.swing.*;
 
 import flapjack.gui.*;
 

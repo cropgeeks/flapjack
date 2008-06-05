@@ -1,12 +1,9 @@
 package flapjack.gui.visualization.colors;
 
 import java.awt.*;
-import java.awt.color.*;
-import java.awt.geom.*;
 import java.awt.image.*;
 
 import flapjack.data.*;
-import flapjack.gui.*;
 
 public abstract class ColorState
 {

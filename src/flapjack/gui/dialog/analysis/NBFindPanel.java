@@ -8,7 +8,6 @@ import java.util.*;
 import javax.swing.*;
 import javax.swing.table.*;
 
-import flapjack.data.*;
 import flapjack.gui.*;
 
 import scri.commons.gui.*;

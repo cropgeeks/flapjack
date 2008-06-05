@@ -1,7 +1,5 @@
 package flapjack.io;
 
-import java.io.*;
-
 import flapjack.data.*;
 
 public class CollapseHeterozygotes

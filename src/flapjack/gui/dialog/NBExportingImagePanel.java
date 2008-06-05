@@ -1,6 +1,5 @@
 package flapjack.gui.dialog;
 
-import flapjack.gui.dialog.*;
 import flapjack.gui.*;
 
 class NBExportingImagePanel extends javax.swing.JPanel
