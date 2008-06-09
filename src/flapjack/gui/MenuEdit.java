@@ -23,6 +23,7 @@ class MenuEdit
 
 	void editMode(int newMode)
 	{
+		boolean wasInMarkerMode = (Prefs.guiMouseMode == newMode);
 		Prefs.guiMouseMode = newMode;
 
 		WinMainMenuBar.mEditModeNavigation.setSelected(newMode == Constants.NAVIGATION);
@@ -34,7 +35,9 @@ class MenuEdit
 		gPanel.resetBufferedState(true);
 
 		// Popup the warning dialog with markermode info...
-		if (newMode == Constants.MARKERMODE && Prefs.warnEditMarkerMode)
+		// (only if required, and only if we have changed into marker mode)
+		if (Prefs.warnEditMarkerMode &&
+			wasInMarkerMode == false && newMode == Constants.MARKERMODE)
 		{
 			JCheckBox checkbox = new JCheckBox();
 			RB.setText(checkbox, "gui.MenuEdit.warnEditMarkerMode");
