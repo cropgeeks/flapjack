@@ -108,7 +108,7 @@ public class NBStatusPanel extends JPanel implements ActionListener, ChangeListe
 	{
 		// Current line under the mouse
 		if (lineIndex < 0 || lineIndex >= view.getLineCount())
-			lineLabel.setText("");
+			lineLabel.setText(" ");
 		else
 		{
 			String position = (lineIndex+1) + "/" + view.getLineCount();
@@ -117,7 +117,7 @@ public class NBStatusPanel extends JPanel implements ActionListener, ChangeListe
 
 		// Current marker under the mouse
 		if (markerIndex < 0 || markerIndex >= view.getMarkerCount())
-			markerLabel.setText("");
+			markerLabel.setText(" ");
 		else
 		{
 			Marker m = view.getMarker(markerIndex);
@@ -128,7 +128,7 @@ public class NBStatusPanel extends JPanel implements ActionListener, ChangeListe
 		if (lineIndex < 0 || lineIndex >= view.getLineCount() ||
 			markerIndex < 0 || markerIndex >= view.getMarkerCount())
 		{
-			alleleLabel.setText("");
+			alleleLabel.setText(" ");
 		}
 		else
 		{

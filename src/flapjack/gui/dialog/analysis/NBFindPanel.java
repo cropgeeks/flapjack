@@ -2,8 +2,6 @@ package flapjack.gui.dialog.analysis;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.lang.reflect.*;
-import java.net.*;
 import java.util.*;
 import javax.swing.*;
 import javax.swing.table.*;
@@ -127,56 +125,17 @@ class NBFindPanel extends JPanel implements ActionListener
 
 	private void initLinkLabel()
 	{
-		String html = "http://java.sun.com/javase/6/docs/api/java/util/regex/Pattern.html";
-		boolean makeLinkLabel = true;
+		final String html = "http://java.sun.com/javase/6/docs/api/java/util/regex/Pattern.html";
 
 		// Turns the label into a blue mouse-over clickable link to a website
 		link.setText(RB.getString("gui.dialog.NBFindPanel.link"));
 		link.setForeground(Color.blue);
 		link.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
-		if (SystemUtils.isMacOS())
-			makeJava5OSXLinkLabel(html);
-		else
-			makeJava6LinkLabel(html);
-	}
-
-	// Active the link using the Java 6 Desktop support object
-	private void makeJava6LinkLabel(final String html)
-	{
-		link.addMouseListener(new MouseAdapter()
-		{
+		link.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent event)
 			{
-				try
-				{
-					Desktop desktop = Desktop.getDesktop();
-
-		        	URI uri = new URI(html);
-		        	desktop.browse(uri);
-				}
-				catch (Exception e) {}
-			}
-		});
-	}
-
-	// Active the link using OSX Java 5 compatible code
-	// See: http://www.centerkey.com/java/browser/
-	private void makeJava5OSXLinkLabel(final String html)
-	{
-		link.addMouseListener(new MouseAdapter()
-		{
-			public void mouseClicked(MouseEvent event)
-			{
-				try
-				{
-					Class<?> fileMgr = Class.forName("com.apple.eio.FileManager");
-					Method openURL = fileMgr.getDeclaredMethod("openURL",
-						new Class[] {String.class});
-
-					openURL.invoke(null, new Object[] {html});
-				}
-				catch (Exception e) {}
+				FlapjackUtils.visitURL(html);
 			}
 		});
 	}

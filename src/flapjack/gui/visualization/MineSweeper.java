@@ -26,12 +26,15 @@ class MineSweeper extends MouseAdapter implements IOverlayRenderer
 	private boolean gameOverLost;
 	private boolean gameOverWon;
 
+	private CanvasMouseListener mouseListener;
 
-	MineSweeper(GenotypeCanvas canvas)
+
+	MineSweeper(GenotypeCanvas canvas, CanvasMouseListener mouseListener)
 	{
 		// TODO: Stick in an option to disable minesweeper!
 
 		this.canvas = canvas;
+		this.mouseListener = mouseListener;
 
 		canvas.overlays.add(this);
 		canvas.addMouseListener(this);
@@ -135,7 +138,18 @@ class MineSweeper extends MouseAdapter implements IOverlayRenderer
 
 	public void mouseClicked(MouseEvent e)
 	{
-		if (e.isControlDown() && e.getClickCount() == 2)
+		// Disable and return to normal mode
+		if (e.isControlDown() && e.isAltDown() && e.getClickCount() == 2)
+		{
+			canvas.removeMouseListener(this);
+			canvas.removeMouseMotionListener(this);
+			canvas.overlays.remove(this);
+
+			canvas.addMouseListener(mouseListener);
+		}
+
+		// Reset the game
+		else if (e.isAltDown() && e.getClickCount() == 2)
 			init();
 	}
 

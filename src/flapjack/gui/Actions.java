@@ -53,6 +53,8 @@ public class Actions
 	public static AbstractAction wndZoom;
 	public static AbstractAction wndFlapjack;
 
+	public static AbstractAction helpContents;
+	public static AbstractAction helpLicence;
 	public static AbstractAction helpAbout;
 	public static AbstractAction helpUpdate;
 	public static AbstractAction helpPrefs;
@@ -315,6 +317,18 @@ public class Actions
 			}
 		};
 
+
+		helpContents = new AbstractAction(RB.getString("gui.Actions.helpContents"), getIcon(Icons.HELP)) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.mHelp.helpContents();
+			}
+		};
+
+		helpLicence = new AbstractAction(RB.getString("gui.Actions.helpLicence")) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.mHelp.helpLicence();
+			}
+		};
 
 		helpAbout = new AbstractAction(RB.getString("gui.Actions.helpAbout")) {
 			public void actionPerformed(ActionEvent e) {

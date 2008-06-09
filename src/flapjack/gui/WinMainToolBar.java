@@ -19,6 +19,8 @@ public class WinMainToolBar extends JToolBar
 
 	private JButton dataFind;
 
+	private JButton helpContents;
+
 	WinMainToolBar()
 	{
 		setFloatable(false);
@@ -78,6 +80,11 @@ public class WinMainToolBar extends JToolBar
 			Icons.FIND, Actions.dataFind);
 
 
+		helpContents = (JButton) getButton(false, null,
+			RB.getString("gui.WinMainToolBar.helpContents"),
+			Icons.HELP, Actions.helpContents);
+
+
 		add(new JLabel(" "));
 
 		add(fileNew);
@@ -98,6 +105,9 @@ public class WinMainToolBar extends JToolBar
 		addSeparator(true);
 		add(editModeNavigation);
 		add(editModeMarker);
+
+		addSeparator(true);
+		add(helpContents);
 
 		add(new JLabel(" "));
 	}

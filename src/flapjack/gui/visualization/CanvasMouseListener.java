@@ -51,7 +51,7 @@ class CanvasMouseListener extends MouseInputAdapter
 		if (e.isControlDown() && e.isAltDown() && e.getClickCount() == 2)
 		{
 			canvas.removeMouseListener(this);
-			new MineSweeper(canvas);
+			new MineSweeper(canvas, this);
 		}
 
 		else if (e.getClickCount() == 2)
