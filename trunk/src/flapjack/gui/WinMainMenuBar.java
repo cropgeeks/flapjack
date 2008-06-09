@@ -65,6 +65,8 @@ public class WinMainMenuBar extends JMenuBar
 	static  JCheckBoxMenuItem mWndFlapjack;
 
 	private JMenu mHelp;
+	private JMenuItem mHelpContents;
+	private JMenuItem mHelpLicence;
 	private JMenuItem mHelpPrefs;
 	private JMenuItem mHelpUpdate;
 	private JMenuItem mHelpAbout;
@@ -255,9 +257,15 @@ public class WinMainMenuBar extends JMenuBar
 		mHelp = new JMenu(RB.getString("gui.WinMainMenuBar.mHelp"));
 		RB.setMnemonic(mHelp, "gui.WinMainMenuBar.mHelp");
 
+		mHelpContents = getItem(Actions.helpContents, "gui.Actions.helpContents", KeyEvent.VK_F1, 0);
+		mHelpLicence = getItem(Actions.helpLicence, "gui.Actions.helpLicence", 0, 0);
 		mHelpPrefs = getItem(Actions.helpPrefs, "gui.Actions.helpPrefs", 0, 0);
 		mHelpUpdate = getItem(Actions.helpUpdate, "gui.Actions.helpUpdate", 0, 0);
 		mHelpAbout = getItem(Actions.helpAbout, "gui.Actions.helpAbout", 0, 0);
+
+		mHelp.add(mHelpContents);
+		mHelp.add(mHelpLicence);
+		mHelp.addSeparator();
 
 		// We don't add this option to OS X as it is auto-added by Apple
 		if (SystemUtils.isMacOS() == false)

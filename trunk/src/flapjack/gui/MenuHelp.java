@@ -2,6 +2,7 @@ package flapjack.gui;
 
 import java.lang.management.*;
 import java.text.*;
+import javax.swing.*;
 
 import flapjack.gui.dialog.prefs.*;
 import flapjack.gui.visualization.*;
@@ -15,6 +16,20 @@ class MenuHelp
 	void setComponents(GenotypePanel gPanel)
 	{
 		this.gPanel = gPanel;
+	}
+
+	void helpContents()
+	{
+		JButton bHelp = new JButton();
+		FlapjackUtils.setHelp(bHelp, "index");
+		bHelp.doClick();
+	}
+
+	void helpLicence()
+	{
+		JButton bHelp = new JButton();
+		FlapjackUtils.setHelp(bHelp, "licence");
+		bHelp.doClick();
 	}
 
 	void helpPrefs()
