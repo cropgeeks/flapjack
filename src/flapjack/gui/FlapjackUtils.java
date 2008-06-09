@@ -73,26 +73,36 @@ public class FlapjackUtils
 		try
 		{
 			if (SystemUtils.isMacOS() == false)
-			{
-				Desktop desktop = Desktop.getDesktop();
-
-		    	URI uri = new URI(html);
-		    	desktop.browse(uri);
-			}
+				visitURL6(html);
 			else
-			{
-				// See: http://www.centerkey.com/java/browser/
-
-				Class<?> fileMgr = Class.forName("com.apple.eio.FileManager");
-				Method openURL = fileMgr.getDeclaredMethod("openURL",
-					new Class[] {String.class});
-
-				openURL.invoke(null, new Object[] {html});
-			}
+				visitURL5(html);
 		}
 		catch (Exception e)
 		{
 			System.out.println(e);
 		}
+	}
+
+	// Java6 method for visiting a URL
+	private static void visitURL6(String html)
+		throws Exception
+	{
+		Desktop desktop = Desktop.getDesktop();
+
+		URI uri = new URI(html);
+		desktop.browse(uri);
+	}
+
+	// Java5 (OS X only) method for visiting a URL
+	private static void visitURL5(String html)
+		throws Exception
+	{
+		// See: http://www.centerkey.com/java/browser/
+
+		Class<?> fileMgr = Class.forName("com.apple.eio.FileManager");
+		Method openURL = fileMgr.getDeclaredMethod("openURL",
+			new Class[] {String.class});
+
+		openURL.invoke(null, new Object[] {html});
 	}
 }
