@@ -130,6 +130,10 @@ public class Prefs extends XMLPreferences
 	public static Color visColorSimilarityState1Dark;
 	public static Color visColorSimilarityState2;
 
+	// Colors used by the allele frequency scheme
+	public static Color visColorLoFreqState;
+	public static Color visColorHiFreqState;
+
 
 	static void setDefaults()
 	{
@@ -157,5 +161,8 @@ public class Prefs extends XMLPreferences
 		visColorSimilarityState1 = new Color(255, 120, 120);
 		visColorSimilarityState1Dark = new Color(255, 90, 90);
 		visColorSimilarityState2 = new Color(120, 255, 120);
+
+		visColorLoFreqState = new Color(102, 102, 255);
+		visColorHiFreqState = new Color(204, 255, 204);
 	}
 }

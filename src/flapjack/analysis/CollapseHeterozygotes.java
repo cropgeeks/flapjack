@@ -1,4 +1,4 @@
-package flapjack.io;
+package flapjack.analysis;
 
 import flapjack.data.*;
 

@@ -44,6 +44,7 @@ class NBColorPanel extends JPanel implements ActionListener
 		comboModel.addElement(new SimpleTwoColorScheme());
 		comboModel.addElement(new LineSimilarityColorScheme());
 		comboModel.addElement(new MarkerSimilarityColorScheme());
+		comboModel.addElement(new AlleleFrequencyColorScheme());
 		comboModel.addElement(new RandomColorScheme());
 		schemeCombo.setModel(comboModel);
 		schemeCombo.addActionListener(this);
