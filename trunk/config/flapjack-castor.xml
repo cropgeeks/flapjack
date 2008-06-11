@@ -35,6 +35,7 @@
 		<field name="name" type="string">
 			<bind-xml node="attribute"/>
 		</field>
+		<field name="frequencies" type="float" collection="array"/>
 	</class>
 
 	<!-- Line -->
@@ -72,6 +73,9 @@
 			<bind-xml node="attribute"/>
 		</field>
 		<field name="colorScheme" type="int">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="alleleFrequencyThreshold" type="float">
 			<bind-xml node="attribute"/>
 		</field>
 		<field name="randomColorSeed" type="int">

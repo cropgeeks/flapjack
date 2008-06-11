@@ -164,6 +164,10 @@ class GenotypeCanvas extends JPanel
 				cScheme = new SimpleTwoColorScheme(view, boxW, boxH);
 				break;
 
+			case ColorScheme.ALLELE_FREQUENCY:
+				cScheme = new AlleleFrequencyColorScheme(view, boxW, boxH);
+				break;
+
 			case ColorScheme.RANDOM:
 				cScheme = new RandomColorScheme(view, boxW, boxH);
 				break;

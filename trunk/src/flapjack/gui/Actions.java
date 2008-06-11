@@ -35,6 +35,7 @@ public class Actions
 	public static AbstractAction vizColorMarkerSim;
 	public static AbstractAction vizColorMarkerSimGS;
 	public static AbstractAction vizColorSimple2Color;
+	public static AbstractAction vizColorAlleleFreq;
 	public static AbstractAction vizOverlayGenotypes;
 	public static AbstractAction vizHighlightHZ;
 	public static AbstractAction vizNewView;
@@ -225,6 +226,12 @@ public class Actions
 			}
 		};
 
+		vizColorAlleleFreq = new AbstractAction(RB.getString("gui.Actions.vizColorAlleleFreq")) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.mViz.vizColor(ColorScheme.ALLELE_FREQUENCY);
+			}
+		};
+
 		vizOverlayGenotypes = new AbstractAction(RB.getString("gui.Actions.vizOverlayGenotypes")) {
 			public void actionPerformed(ActionEvent e) {
 				winMain.mViz.vizOverlayGenotypes();
@@ -369,6 +376,7 @@ public class Actions
 		vizColorMarkerSim.setEnabled(false);
 		vizColorMarkerSimGS.setEnabled(false);
 		vizColorSimple2Color.setEnabled(false);
+		vizColorAlleleFreq.setEnabled(false);
 		vizOverlayGenotypes.setEnabled(false);
 		vizHighlightHZ.setEnabled(false);
 		vizNewView.setEnabled(false);

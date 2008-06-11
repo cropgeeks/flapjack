@@ -23,6 +23,8 @@ public class GTViewSet extends XMLRoot
 
 	// Color model in use
 	private int colorScheme;
+	// Cutoff threshold if using the allele frequency color scheme
+	private float alleleFrequencyThreshold = 0.1f;
 	// A random seed that will be used if the random colour scheme is selected
 	private int randomColorSeed;
 
@@ -125,6 +127,12 @@ public class GTViewSet extends XMLRoot
 	public void setComparisonLineIndex(int comparisonLineIndex)
 		{ this.comparisonLineIndex = comparisonLineIndex; }
 
+	public float getAlleleFrequencyThreshold()
+		{ return alleleFrequencyThreshold; }
+
+	public void setAlleleFrequencyThreshold(float alleleFrequencyThreshold)
+		{ this.alleleFrequencyThreshold = alleleFrequencyThreshold; }
+
 
 	// Other methods
 
@@ -195,7 +203,10 @@ public class GTViewSet extends XMLRoot
 	{
 		GTViewSet clone = new GTViewSet(dataSet, cloneName);
 
+		// Copy over the color data
 		clone.colorScheme = colorScheme;
+		clone.alleleFrequencyThreshold = alleleFrequencyThreshold;
+		clone.randomColorSeed = randomColorSeed;
 
 		// Copy over the line data
 		clone.setLinesFromArray(getLinesAsArray());

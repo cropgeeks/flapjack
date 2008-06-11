@@ -43,6 +43,7 @@ public class WinMainMenuBar extends JMenuBar
 	private JMenuItem mVizColorMarkerSim;
 	private JMenuItem mVizColorMarkerSimGS;
 	private JMenuItem mVizColorSimple2Color;
+	private JMenuItem mVizColorAlleleFreq;
 	static  JCheckBoxMenuItem mVizOverlayGenotypes;
 	static  JCheckBoxMenuItem mVizHighlightHZ;
 	private JMenuItem mVizNewView;
@@ -173,6 +174,7 @@ public class WinMainMenuBar extends JMenuBar
 		mVizColorMarkerSim = getItem(Actions.vizColorMarkerSim, "gui.Actions.vizColorMarkerSim", 0, 0);
 //		mVizColorMarkerSimGS = getItem(Actions.vizColorMarkerSimGS, KeyEvent.VK_G, 0, 0);
 		mVizColorSimple2Color = getItem(Actions.vizColorSimple2Color, "gui.Actions.vizColorSimple2Color", 0, 0);
+		mVizColorAlleleFreq = getItem(Actions.vizColorAlleleFreq, "gui.Actions.vizColorAlleleFreq", 0, 0);
 		mVizOverlayGenotypes = getCheckedItem(Actions.vizOverlayGenotypes, "gui.Actions.vizOverlayGenotypes", KeyEvent.VK_G, menuShortcut, Prefs.visShowGenotypes);
 		mVizHighlightHZ = getCheckedItem(Actions.vizHighlightHZ, "gui.Actions.vizHighlightHZ", KeyEvent.VK_H, menuShortcut, Prefs.visHighlightHZ);
 		mVizNewView = getItem(Actions.vizNewView, "gui.Actions.vizNewView", 0, 0);
@@ -187,6 +189,7 @@ public class WinMainMenuBar extends JMenuBar
 //		mVizColor.add(mVizColorLineSimGS);
 		mVizColor.add(mVizColorMarkerSim);
 //		mVizColor.add(mVizColorMarkerSimGS);
+		mVizColor.add(mVizColorAlleleFreq);
 		mVizColor.addSeparator();
 		mVizColor.add(mVizColorRandom);
 		mVizColor.addSeparator();

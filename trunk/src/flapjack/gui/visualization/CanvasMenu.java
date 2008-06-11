@@ -26,6 +26,7 @@ public class CanvasMenu
 	private JMenuItem mColorMarkerSim;
 	private JMenuItem mColorMarkerSimGS;
 	private JMenuItem mColorSimple2Color;
+	private JMenuItem mColorAlleleFreq;
 	private JMenuItem mToggleCanvas;
 	private JMenu mSortLines;
 	private JMenuItem mSortLinesBySimilarity;
@@ -69,11 +70,12 @@ public class CanvasMenu
 		mColorCustomize = WinMainMenuBar.getItem(Actions.vizColorCustomize, "gui.Actions.vizColorCustomize", 0, 0);
 		mColorRandom = WinMainMenuBar.getItem(Actions.vizColorRandom, "gui.Actions.vizColorRandom", 0, 0);
 		mColorNucleotide = WinMainMenuBar.getItem(Actions.vizColorNucleotide, "gui.Actions.vizColorNucleotide", 0, 0);
+		mColorSimple2Color = WinMainMenuBar.getItem(Actions.vizColorSimple2Color, "gui.Actions.vizColorSimple2Color", 0, 0);
 		mColorLineSim = WinMainMenuBar.getItem(Actions.vizColorLineSim, "gui.Actions.vizColorLineSim", 0, 0);
 //		mColorLineSimGS = WinMainMenuBar.getItem(Actions.vizColorLineSimGS, KeyEvent.VK_G, 0, 0);
 		mColorMarkerSim = WinMainMenuBar.getItem(Actions.vizColorMarkerSim, "gui.Actions.vizColorMarkerSim", 0, 0);
 //		mColorMarkerSimGS = WinMainMenuBar.getItem(Actions.vizColorMarkerSimGS, KeyEvent.VK_G, 0, 0);
-		mColorSimple2Color = WinMainMenuBar.getItem(Actions.vizColorSimple2Color, "gui.Actions.vizColorSimple2Color", 0, 0);
+		mColorAlleleFreq = WinMainMenuBar.getItem(Actions.vizColorAlleleFreq, "gui.Actions.vizColorAlleleFreq", 0, 0);
 		mToggleCanvas = WinMainMenuBar.getItem(Actions.vizToggleCanvas, "gui.Actions.vizToggleCanvas", 0, 0);
 		mFind = WinMainMenuBar.getItem(Actions.dataFind, "gui.Actions.dataFind", KeyEvent.VK_F, menuShortcut);
 		mSelectMarkersAll = WinMainMenuBar.getItem(Actions.editSelectMarkersAll, "gui.Actions.editSelectMarkersAll", 0, 0);
@@ -88,6 +90,7 @@ public class CanvasMenu
 //		mColor.add(mColorLineSimGS);
 		mColor.add(mColorMarkerSim);
 //		mColor.add(mColorMarkerSimGS);
+		mColor.add(mColorAlleleFreq);
 		mColor.addSeparator();
 		mColor.add(mColorRandom);
 		mColor.addSeparator();

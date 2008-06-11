@@ -22,6 +22,9 @@ public class MarkerInfo extends XMLRoot
 		this.index = index;
 	}
 
+
+	// Methods required for XML serialization
+
 	public Marker getMarker()
 		{ return marker; }
 
@@ -39,4 +42,7 @@ public class MarkerInfo extends XMLRoot
 
 	public void setSelected(boolean selected)
 		{ this.selected = selected; }
+
+
+	// Other methods
 }

@@ -2,6 +2,7 @@ package flapjack.io;
 
 import java.io.*;
 
+import flapjack.analysis.*;
 import flapjack.data.*;
 import flapjack.gui.*;
 
@@ -57,31 +58,17 @@ public class CreateProject
 			new ChromosomeMapImporter(mapFile, dataSet);
 		mapImporter.importMap();
 
-		// Remove duplicate allele states
-		CollapseHeterozygotes c = new CollapseHeterozygotes(dataSet);
-		c.collapse();
-
 		// Read the data file
 		GenotypeDataImporter genoImporter =
 			new GenotypeDataImporter(datFile, dataSet, "-", "/");
 		genoImporter.importGenotypeData();
 
-
-		// Set a default view; name the dataset; and add to the project
-		GTViewSet viewSet = new GTViewSet(dataSet, "Default View");
-		dataSet.getViewSets().add(viewSet);
-		dataSet.setName(getDataSetName(dataSet, datFile.getName()));
+		PostImportOperations pio = new PostImportOperations(dataSet);
+		pio.collapseHeterozygotes();
+		pio.calculateMarkerFrequencies();
+		pio.createDefaultView();
 
 		project.addDataSet(dataSet);
-	}
-
-	private static String getDataSetName(DataSet dataSet, String name)
-	{
-		if (name.lastIndexOf(".") != -1)
-			name = name.substring(0, name.lastIndexOf("."));
-		name += " " + dataSet.countLines() + "x" + dataSet.countMarkers();
-
-		return name;
 	}
 
 	private static boolean saveProject()

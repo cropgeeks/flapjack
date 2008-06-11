@@ -92,4 +92,12 @@ public class Line extends XMLRoot
 
 		return null;
 	}
+
+	/**
+	 * Returns the allele (state) for the given chromosome and marker indicies.
+	 */
+	public int getState(int chromosome, int marker)
+	{
+		return genotypes.get(chromosome).getState(marker);
+	}
 }

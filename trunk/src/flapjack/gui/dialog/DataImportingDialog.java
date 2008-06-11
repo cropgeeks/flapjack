@@ -7,9 +7,9 @@ import java.io.*;
 import java.util.*;
 import javax.swing.*;
 
+import flapjack.analysis.*;
 import flapjack.data.*;
 import flapjack.gui.*;
-import flapjack.gui.visualization.colors.*;
 import flapjack.io.*;
 
 import scri.commons.file.*;
@@ -37,6 +37,7 @@ public class DataImportingDialog extends JDialog implements Runnable
 
 	private JLabel mapsLabel, mrksLabel, lineLabel;
 	private JProgressBar pBar;
+	private boolean isIndeterminate = false;
 	private boolean isOK = false;
 
 	public DataImportingDialog(File mapFile, File genoFile)
@@ -125,11 +126,10 @@ public class DataImportingDialog extends JDialog implements Runnable
 				{
 					int lineCount = genoImporter.getLineCount();
 
+					pBar.setIndeterminate(isIndeterminate);
+
 					if (lineCount > 0)
-					{
-						pBar.setIndeterminate(false);
 						pBar.setValue(genoImporter.getLineCount());
-					}
 
 					lineLabel.setText("  " + nf.format(genoImporter.getLineCount()));
 					mrksLabel.setText("  " + nf.format(genoImporter.getMarkerCount()));
@@ -149,11 +149,7 @@ public class DataImportingDialog extends JDialog implements Runnable
 		try
 		{
 			// Read the map
-			long s = System.currentTimeMillis();
 			mapImporter.importMap();
-			long e = System.currentTimeMillis();
-
-			System.out.println("Map loaded in " + (e-s) + "ms");
 
 			mapsLabel.setText("  " + dataSet.countChromosomeMaps());
 
@@ -161,39 +157,24 @@ public class DataImportingDialog extends JDialog implements Runnable
 			pBar.setMaximum(lineCount);
 
 			// Read the genotype data
-			s = System.currentTimeMillis();
 			genoImporter.importGenotypeData();
-			e = System.currentTimeMillis();
 
-			System.out.println("Genotype data loaded in " + (e-s) + "ms");
+			// Post-import stuff...
+			PostImportOperations pio = new PostImportOperations(dataSet);
 
+			isIndeterminate = true;
+
+			pio.setName(genoFile);
 
 			// Collapse heterozyous states
 			if (Prefs.ioHeteroCollapse)
-			{
-				s = System.currentTimeMillis();
+				pio.collapseHeterozygotes();
 
-				pBar.setIndeterminate(true);
-				CollapseHeterozygotes c = new CollapseHeterozygotes(dataSet);
-				c.collapse();
 
-				e = System.currentTimeMillis();
-				System.out.println("Genotypes collapsed in " + (e-s) + "ms");
-			}
+//			fakeQTLs(dataSet.getMapByIndex(0).getQTLs());
 
-			fakeQTLs(dataSet.getMapByIndex(0).getQTLs());
-
-			dataSet.setName(getDataSetName());
-
-			// Create (and add) a default view of the dataset
-			String name = RB.getString("gui.navpanel.VisualizationNode.defaultView");
-			GTViewSet viewSet = new GTViewSet(dataSet, name);
-			dataSet.getViewSets().add(viewSet);
-
-			// Try to guess a suitable colour scheme - 2 (hz) states can
-			// probably use the two colour model
-			if (dataSet.getStateTable().getHomozygousStateCount() == 2)
-				viewSet.setColorScheme(ColorScheme.SIMPLE_TWO_COLOR);
+			pio.calculateMarkerFrequencies();
+			pio.createDefaultView();
 
 			if (Prefs.warnDuplicateMarkers)
 				displayDuplicates();
@@ -235,18 +216,7 @@ public class DataImportingDialog extends JDialog implements Runnable
 		catch (Exception e) {}
 	}
 
-	private String getDataSetName()
-	{
-		String name = genoFile.getName();
 
-		// Strip away the extension (if there is one)
-		if (name.lastIndexOf(".") != -1)
-			name = name.substring(0, name.lastIndexOf("."));
-
-		name += " " + dataSet.countLines() + "x" + dataSet.countMarkers();
-
-		return name;
-	}
 
 	private void fakeQTLs(Vector<QTL> qtls)
 	{
