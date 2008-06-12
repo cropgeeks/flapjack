@@ -24,7 +24,7 @@ public class GTViewSet extends XMLRoot
 	// Color model in use
 	private int colorScheme;
 	// Cutoff threshold if using the allele frequency color scheme
-	private float alleleFrequencyThreshold = 0.1f;
+	private float alleleFrequencyThreshold = 0.05f;
 	// A random seed that will be used if the random colour scheme is selected
 	private int randomColorSeed;
 
