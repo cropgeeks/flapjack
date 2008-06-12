@@ -176,7 +176,7 @@ class GenotypeCanvas extends JPanel
 				cScheme = new NucleotideColorScheme(view, boxW, boxH);
 		}
 
-		System.out.println("Color scheme: " + (System.currentTimeMillis()-s) + "ms");
+//		System.out.println("Color scheme: " + (System.currentTimeMillis()-s) + "ms");
 
 		redraw = true;
 	}

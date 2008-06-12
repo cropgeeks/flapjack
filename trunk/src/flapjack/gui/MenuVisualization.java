@@ -60,6 +60,10 @@ public class MenuVisualization
 			gPanel.getView().initializeComparisons();
 		}
 
+		// Display the threshold dialog for allele frequency colouring
+		else if (colorScheme == ColorScheme.ALLELE_FREQUENCY)
+			new AlleleFrequencyDialog(gPanel);
+
 		// Update the seed for random colour schemes
 		else if (colorScheme == ColorScheme.RANDOM)
 			gPanel.getViewSet().setRandomColorSeed((int)(Math.random()*50000));

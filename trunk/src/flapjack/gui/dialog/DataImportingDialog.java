@@ -117,30 +117,7 @@ public class DataImportingDialog extends JDialog implements Runnable
 
 	private void loadData()
 	{
-		final NumberFormat nf = NumberFormat.getInstance();
-
-		Runnable r = new Runnable() {
-			public void run()
-			{
-				while (isVisible())
-				{
-					int lineCount = genoImporter.getLineCount();
-
-					pBar.setIndeterminate(isIndeterminate);
-
-					if (lineCount > 0)
-						pBar.setValue(genoImporter.getLineCount());
-
-					lineLabel.setText("  " + nf.format(genoImporter.getLineCount()));
-					mrksLabel.setText("  " + nf.format(genoImporter.getMarkerCount()));
-
-					try { Thread.sleep(100); }
-					catch (InterruptedException e) {}
-				}
-			}
-		};
-
-		new Thread(r).start();
+		new Thread(new MonitorThread()).start();
 		new Thread(this).start();
 	}
 
@@ -223,5 +200,37 @@ public class DataImportingDialog extends JDialog implements Runnable
 		qtls.add(new QTL("TestA", 5f, 3f, 7f, 39.31f));
 		qtls.add(new QTL("TestB", 141f, 138f, 141.5f, 39.31f));
 		qtls.add(new QTL("TestC", 28f, 24f, 30f, 19.96f));
+	}
+
+	private class MonitorThread implements Runnable
+	{
+		public void run()
+		{
+			final NumberFormat nf = NumberFormat.getInstance();
+
+			Runnable r = new Runnable()
+			{
+				public void run()
+				{
+					int lineCount = genoImporter.getLineCount();
+
+					pBar.setIndeterminate(isIndeterminate);
+
+					if (lineCount > 0)
+						pBar.setValue(genoImporter.getLineCount());
+
+					lineLabel.setText("  " + nf.format(genoImporter.getLineCount()));
+					mrksLabel.setText("  " + nf.format(genoImporter.getMarkerCount()));
+				}
+			};
+
+			while (isVisible())
+			{
+				SwingUtilities.invokeLater(r);
+
+				try { Thread.sleep(100); }
+				catch (InterruptedException e) {}
+			}
+		}
 	}
 }
