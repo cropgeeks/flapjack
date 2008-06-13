@@ -47,7 +47,7 @@ public class FlapjackUtils
 	 */
 	public static void setHelp(final JButton button, String topic)
 	{
-		final String html = "http://bioinf.scri.ac.uk/flapjack/help/" + topic + ".html";
+		final String html = "http://bioinf.scri.ac.uk/flapjack/help/" + topic + ".shtml";
 
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
