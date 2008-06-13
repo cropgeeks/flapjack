@@ -52,9 +52,7 @@ class MenuHelp
 		NumberFormat nf = NumberFormat.getInstance();
 
 		TaskDialog.info("Flapjack - Version " + Install4j.VERSION
-			+ "\n\nCopyright \u00A9 2007-2008"
-			+ "\nPlant Bioinformatics Group"
-			+ "\nScottish Crop Research Institute"
+			+ "\n\nCopyright \u00A9 2007-2008, Plant Bioinformatics Group, SCRI"
 			+ "\n\nIain Milne, Micha Bayer, Paul Shaw, Linda Cardle, David Marshall"
 			+ "\n\n\nJava version: " + javaVer
 			+ "\nMemory available to JVM: " + nf.format((long)(freeMem/1024f/1024f)) + "MB"
