@@ -1,3 +1,5 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+
 <html>
 <head>
 <meta http-equiv="Content-Language" content="en-gb">
@@ -7,6 +9,9 @@
 
 </head>
 <body>
+
+<!--#include virtual="header.html" -->
+
 
 <h1>Allele Frequency Threshold</h1>
 
@@ -19,6 +24,9 @@ at a percentage less than the chosen threshold.</p>
 
 <p>A high frequency allele will be any allele within a given marker that occurs
 at a percentage greater than the chosen threshold.</p>
+
+
+<!--#include virtual="footer.html" -->
 
 </body>
 </html>

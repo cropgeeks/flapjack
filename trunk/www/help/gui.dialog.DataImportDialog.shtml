@@ -1,3 +1,5 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+
 <html>
 <head>
 <meta http-equiv="Content-Language" content="en-gb">
@@ -7,6 +9,9 @@
 
 </head>
 <body>
+
+<!--#include virtual="header.html" -->
+
 
 <h1>Import Data</h1>
 
@@ -53,6 +58,9 @@ alleles of the form A/T will be seen as homozygeous if listed as AT.<p></p>
 This specifies the string that is used to define missing genotype data. It can
 be left blank if no character is used within the genotype file.<p></p>
 </ul>
+
+
+<!--#include virtual="footer.html" -->
 
 </body>
 </html>
