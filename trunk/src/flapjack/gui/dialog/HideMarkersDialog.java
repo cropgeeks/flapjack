@@ -82,7 +82,7 @@ public class HideMarkersDialog extends JDialog implements ActionListener
 				RB.getString("gui.dialog.HideMarkersDialog.restore"),
 				RB.getString("gui.text.cancel") };
 
-		if (TaskDialog.show(msg, MsgBox.WAR, 1, options) != 0)
+		if (TaskDialog.show(msg, MsgBox.QST, 1, options) != 0)
 			return false;
 
 		// Create an undo state for the restore operation

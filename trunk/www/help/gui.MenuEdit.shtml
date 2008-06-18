@@ -1,0 +1,57 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+
+<html>
+<head>
+<meta http-equiv="Content-Language" content="en-gb">
+<link rel="stylesheet" href="styles.css" type="text/css">
+
+<title>Edit Menu</title>
+
+</head>
+<body>
+
+<!--#include virtual="header.html" -->
+
+
+<h1>Edit Menu</h1>
+
+<p>This reference page describes each item found within the <b>Edit</b> menu
+of Flapjack's main menu bar.</p>
+
+
+<h3>Undo</h3>
+<p>Undoes the last operation (if that operation is supported by the undo/redo
+system).</p>
+
+<h3>Redo</h3>
+<p>Redoes the last operation (if that operation is supported by the undo/redo
+system).</p>
+
+<h3>Navigation mode</h3>
+<p>Switches the Flapjack interface to Navigation Mode, meaning that
+most mouse interactive events upon the main canvas will affect navigation.</p>
+
+<h3>Marker mode</h3>
+<p>Switches the Flapjack interface to Marker Mode, meaning that
+most mouse interactive events upon the main canvas will affect markers.</p>
+
+<h3>Select markers</h3>
+<p>Opens a sub-menu displaying various options for selecting markers. Choosing
+any of these options will also switch Flapjack to Marker Mode.</p>
+
+<h5>Select all</h5>
+<p>Selects all of the markers within the current chromosome.</p>
+
+<h5>Select none</h5>
+<p>Selects none of the markers within the current chromosome.</p>
+
+<h5>Invert</h5>
+<p>Inverts the selection of markers within the current chromosome. Markers that
+are selected are de-selected, and markers that are not selected become selected.
+</p>
+
+
+<!--#include virtual="footer.html" -->
+
+</body>
+</html>

@@ -15,8 +15,8 @@
 
 <h1>Help Menu</h1>
 
-<p>This menu reference describes each menu item found within the <b>Help</b>
-menu of Flapjack's main menu bar.</p>
+<p>This reference page describes each item found within the <b>Help</b> menu
+of Flapjack's main menu bar.</p>
 
 
 <h3>Help contents</h3>
@@ -41,6 +41,7 @@ download and install it. You should save any open projects first.</p>
 version, copyright information, and the list of authors/contributors. Note that
 on Mac OS X, this option is remapped to <b>Flapjack > About Flapjack</b> on the
 system menu.</p>
+
 
 <!--#include virtual="footer.html" -->
 

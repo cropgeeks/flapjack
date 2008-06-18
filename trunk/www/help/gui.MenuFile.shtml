@@ -15,8 +15,8 @@
 
 <h1>File Menu</h1>
 
-<p>This menu reference describes each menu item found within the <b>File</b>
-menu of Flapjack's main menu bar.</p>
+<p>This reference page describes each item found within the <b>File</b> menu
+of Flapjack's main menu bar.</p>
 
 
 <h3>New project</h3>
@@ -46,6 +46,7 @@ options to open that project within Flapjack.</p>
 <h3>Exit</h3>
 <p>Closes Flapjack. Note that on Mac OS X, this option is remapped to
 <b>Flapjack > Quit</b> on the system menu.</p>
+
 
 <!--#include virtual="footer.html" -->
 
