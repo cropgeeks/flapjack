@@ -20,18 +20,19 @@ public class MarkerSimilarityColorScheme extends SimilarityColorScheme
 	public ColorState getState(int line, int marker)
 	{
 		int state = view.getState(line, marker);
+		int comparisonIndex = view.getComparisonMarkerIndex();
 
 		// If it's the index marker, return the darker version
-		if (marker == view.getComparisonMarkerIndex())
+		if (marker == comparisonIndex)
 			return aStatesDark.get(state);
 
-		// Otherwise do the comparison
-		int compState = view.getState(line, view.getComparisonMarkerIndex());
+		// Try to do the comparison
+		if (comparisonIndex != -1)
+			if (state == view.getState(line, comparisonIndex))
+				return aStates.get(state);
 
-		if (state == compState)
-			return aStates.get(state);
-		else
-			return bStates.get(state);
+		// If it's not the same, or we can't do a comparison...
+		return bStates.get(state);
 	}
 
 	public BufferedImage getSelectedImage(int line, int marker)
@@ -46,21 +47,7 @@ public class MarkerSimilarityColorScheme extends SimilarityColorScheme
 
 	public Color getColor(int line, int marker)
 	{
-		int state = view.getState(line, marker);
-
-		// If it's the index marker, return the darker version
-		if (marker == view.getComparisonMarkerIndex())
-			return Prefs.visColorSimilarityState1Dark;
-
-		// Otherwise do the comparison
-		int compState = view.getState(line, view.getComparisonMarkerIndex());
-
-		if (state == 0)
-			return aStates.get(0).getColor();
-		if (state == compState)
-			return Prefs.visColorSimilarityState1;
-		else
-			return Prefs.visColorSimilarityState2;
+		return getState(line, marker).getColor();
 	}
 
 	public int getModel()

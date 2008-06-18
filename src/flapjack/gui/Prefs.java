@@ -82,6 +82,8 @@ public class Prefs extends XMLPreferences
 	public static boolean guiFindUseRegex = true;
 	public static String guiFindHistory = ".*";
 
+	public static boolean guiHideSelectedMarkers = false;
+
 	public static int guiMouseMode = Constants.NAVIGATION;
 
 	public static boolean visShowLinePanel = true;

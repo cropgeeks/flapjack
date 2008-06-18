@@ -92,6 +92,8 @@ public class GenotypePanel extends JPanel
 		if (viewSet == null)
 			return;
 
+		view.updateComparisons();
+
 		canvas.setView(viewSet, view);
 		listPanel.setView(view);
 		statusPanel.setView(view);
@@ -127,7 +129,6 @@ public class GenotypePanel extends JPanel
 			int markerCount = view.getMarkerCount();
 
 			tabs.addTab(name, Icons.CHROMOSOME, null);
-			tabs.setToolTipTextAt(i, name + " (" + markerCount + ")");
 		}
 
 		// Now set the tabs to the actual index we're interested in
@@ -327,6 +328,7 @@ public class GenotypePanel extends JPanel
 		viewSet.getUndoManager().addUndoState(state);
 
 		setEditActions();
+		Actions.projectModified();
 	}
 
 	// An undo/redo operation that affected markers should first ensure the

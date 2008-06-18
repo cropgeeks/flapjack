@@ -3,6 +3,7 @@ package flapjack.gui;
 import javax.swing.*;
 
 import flapjack.data.*;
+import flapjack.gui.dialog.*;
 import flapjack.gui.visualization.*;
 
 import scri.commons.gui.*;
@@ -89,5 +90,26 @@ class MenuEdit
 		gPanel.addUndoState(state);
 
 		editMode(Constants.MARKERMODE);
+	}
+
+	void editHideMarkers()
+	{
+		HideMarkersDialog dialog = new HideMarkersDialog(gPanel);
+
+		if (dialog.isOK())
+		{
+			// Set the undo state...
+			HidMarkersState state = new HidMarkersState(gPanel.getView(),
+				RB.getString("gui.visualization.HidMarkersState.hidMarkers"));
+			state.createUndoState();
+
+			// Hide the markers
+			gPanel.getView().hideMarkers(Prefs.guiHideSelectedMarkers);
+			gPanel.refreshView();
+
+			// Set the redo state...
+			state.createRedoState();
+			gPanel.addUndoState(state);
+		}
 	}
 }
