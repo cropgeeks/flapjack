@@ -25,6 +25,7 @@ public class Actions
 	public static AbstractAction editSelectMarkersAll;
 	public static AbstractAction editSelectMarkersNone;
 	public static AbstractAction editSelectMarkersInvert;
+	public static AbstractAction editHideMarkers;
 
 	public static AbstractAction vizExportImage;
 	public static AbstractAction vizColorCustomize;
@@ -168,6 +169,12 @@ public class Actions
 		editSelectMarkersInvert = new AbstractAction(RB.format("gui.Actions.editSelectMarkersInvert", ""), getIcon(Icons.INVERT)) {
 			public void actionPerformed(ActionEvent e) {
 				winMain.mEdit.editSelectMarkers(Constants.SELECT_INVERT);
+			}
+		};
+
+		editHideMarkers = new AbstractAction(RB.format("gui.Actions.editHideMarkers", "")) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.mEdit.editHideMarkers();
 			}
 		};
 
@@ -366,6 +373,7 @@ public class Actions
 		editSelectMarkersAll.setEnabled(false);
 		editSelectMarkersNone.setEnabled(false);
 		editSelectMarkersInvert.setEnabled(false);
+		editHideMarkers.setEnabled(false);
 
 		vizExportImage.setEnabled(false);
 		vizColorCustomize.setEnabled(false);

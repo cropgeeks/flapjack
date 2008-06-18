@@ -18,15 +18,17 @@ public class GTView extends XMLRoot
 	// Holds the index positions of the markers as they appear in the actual
 	// dataset's vector of markers
 	private Vector<MarkerInfo> markers;
+	// Holds markers that we don't currently want visible
+	private Vector<MarkerInfo> hideMarkers = new Vector<MarkerInfo>();
 
 	// Marker and line currently under the mouse (-1 if not)
 	public int mouseOverLine = -1;
 	public int mouseOverMarker = -1;
 
 	// For comparisons between markers, we need to know the marker itself:
-	private Marker comparisonMarker;
+	private Marker comparisonMarker = null;
 	// And its current index
-	private int comparisonMarkerIndex;
+	private int comparisonMarkerIndex = -1;
 
 	public GTView()
 	{
@@ -76,6 +78,12 @@ public class GTView extends XMLRoot
 
 	public void setMarkers(Vector<MarkerInfo> markers)
 		{ this.markers = markers; }
+
+	public Vector<MarkerInfo> getHideMarkers()
+		{ return hideMarkers; }
+
+	public void setHideMarkers(Vector<MarkerInfo> hideMarkers)
+		{ this.hideMarkers = hideMarkers; }
 
 	public Marker getComparisonMarker()
 		{ return comparisonMarker; }
@@ -194,14 +202,6 @@ public class GTView extends XMLRoot
 		markers.set(toIndex, oldValue);
 	}
 
-	public void hideMarker(int index)
-	{
-		if (index < 0 || index >= markers.size())
-			return;
-
-		markers.remove(index);
-	}
-
 	public void initializeComparisons()
 	{
 		// When we want to do line comparisons, we need to track both the line's
@@ -232,63 +232,82 @@ public class GTView extends XMLRoot
 	 */
 	public void updateComparisons()
 	{
-		try
-		{
-			for (int i = 0; i < viewSet.lines.size(); i++)
-				if (viewSet.lines.get(i).line == viewSet.comparisonLine)
-				{
-					viewSet.comparisonLineIndex = i;
-					break;
-				}
-		}
-		catch (ArrayIndexOutOfBoundsException e)
-		{
-			viewSet.comparisonLine = null;
-			viewSet.comparisonLineIndex = -1;
-		}
+		// Try to find the new index for the comparison line
+		viewSet.comparisonLineIndex = -1;
 
-		try
-		{
-			for (int i = 0; i < markers.size(); i++)
-				if (markers.get(i).marker == comparisonMarker)
-				{
-					comparisonMarkerIndex = i;
-					break;
-				}
-		}
-		catch (ArrayIndexOutOfBoundsException e)
-		{
-			comparisonMarker = null;
-			comparisonMarkerIndex = -1;
-		}
+		for (int i = 0; i < viewSet.lines.size(); i++)
+			if (viewSet.lines.get(i).line == viewSet.comparisonLine)
+			{
+				viewSet.comparisonLineIndex = i;
+				break;
+			}
+
+
+		// Try to find the new index for the comparison marker
+		comparisonMarkerIndex = -1;
+
+		for (int i = 0; i < markers.size(); i++)
+			if (markers.get(i).marker == comparisonMarker)
+			{
+				comparisonMarkerIndex = i;
+				break;
+			}
 	}
 
 	public int getComparisonLineIndex()
 		{ return viewSet.comparisonLineIndex; }
 
-	public MarkerInfo[] getMarkersAsArray()
+	/**
+	 * Returns an array holding all the marker data from either the visible
+	 * list of markers when getVisible=true or the hidden list of markers when
+	 * getVisible=false.
+	 */
+	public MarkerInfo[] getMarkersAsArray(boolean getVisible)
 	{
-		MarkerInfo[] array = new MarkerInfo[markers.size()];
+		MarkerInfo[] array;
+		if (getVisible)
+			array = new MarkerInfo[markers.size()];
+		else
+			array = new MarkerInfo[hideMarkers.size()];
 
-		for (int i = 0; i < array.length; i++)
-			array[i] = markers.get(i);
+		if (getVisible)
+			for (int i = 0; i < array.length; i++)
+				array[i] = markers.get(i);
+		else
+			for (int i = 0; i < array.length; i++)
+				array[i] = hideMarkers.get(i);
 
 		return array;
 	}
 
-	public void setMarkersFromArray(MarkerInfo[] array)
+	/**
+	 * Takes an array of marker data and uses it to either populate the visible
+	 * list of markers when setVisible=true or the hidden list of of markers
+	 * when setVisible=false.
+	 */
+	public void setMarkersFromArray(MarkerInfo[] array, boolean setVisible)
 	{
-		markers.clear();
+		if (setVisible)
+			markers.clear();
+		else
+			hideMarkers.clear();
 
-		for (MarkerInfo mi: array)
-			markers.add(mi);
+		if (setVisible)
+			for (MarkerInfo mi: array)
+				markers.add(mi);
+		else
+			for (MarkerInfo mi: array)
+				hideMarkers.add(mi);
 	}
 
 	GTView createClone(GTViewSet clonedViewSet)
 	{
 		GTView clone = new GTView(clonedViewSet, map);
 
-		clone.setMarkersFromArray(getMarkersAsArray());
+		// Clone the visible markers
+		clone.setMarkersFromArray(getMarkersAsArray(true), true);
+		// Clone the hidden markers
+		clone.setMarkersFromArray(getMarkersAsArray(false), false);
 		clone.comparisonMarker = comparisonMarker;
 		clone.comparisonMarkerIndex = comparisonMarkerIndex;
 
@@ -337,5 +356,57 @@ public class GTView extends XMLRoot
 				count++;
 
 		return count;
+	}
+
+	public int getHiddenMarkerCount()
+	{
+		return hideMarkers.size();
+	}
+
+	/** Hides all selected or unselected markers, depending on the parameter. */
+	public void hideMarkers(boolean hideSelected)
+	{
+		for (int i = 0; i < markers.size(); i++)
+		{
+			// Don't hide what we don't want hidden (!!)
+			if (markers.get(i).selected != hideSelected)
+				continue;
+
+			// Hide, but always keep at least one marker visible
+			if (markers.size() > 1)
+			{
+				hideMarkers.add(markers.remove(i));
+				i--;
+			}
+			else
+				return;
+		}
+	}
+
+	/** Hides a single marker. */
+	public void hideMarker(int index)
+	{
+		if (index < 0 || index >= markers.size() || markers.size() == 1)
+			return;
+
+		hideMarkers.add(markers.remove(index));
+	}
+
+	/** Restores all hidden markers to the view. */
+	public void restoreHiddenMarkers()
+	{
+		while (hideMarkers.size() > 0)
+		{
+			MarkerInfo mi = hideMarkers.remove(0);
+			float position = mi.marker.getPosition();
+
+			int insertAt = 0;
+			// Search for the best position to restore this marker to
+			for (; insertAt < markers.size(); insertAt++)
+				if (markers.get(insertAt).marker.getPosition() >= position)
+					break;
+
+			markers.insertElementAt(mi, insertAt);
+		}
 	}
 }

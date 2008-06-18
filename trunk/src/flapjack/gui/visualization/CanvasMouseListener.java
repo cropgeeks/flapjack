@@ -54,10 +54,10 @@ class CanvasMouseListener extends MouseInputAdapter
 			new MineSweeper(canvas, this);
 		}
 
-		else if (e.getClickCount() == 2)
+		else if (e.getClickCount() == 2 && Prefs.guiMouseMode == Constants.MARKERMODE)
 		{
 			int markerIndex = canvas.getMarker(e.getPoint());
-//			new CanvasAnimator(gPanel, markerIndex);
+			new HideMarkerAnimator(gPanel, markerIndex);
 		}
 
 //		else if (e.getClickCount() == 1)
@@ -173,8 +173,6 @@ class CanvasMouseListener extends MouseInputAdapter
 				// The overview needs updated if lines *or* markers moved
 				OverviewManager.createImage();
 				canvas.resetBufferedState(true);
-
-				Actions.projectModified();
 			}
 		}
 
@@ -325,8 +323,6 @@ class CanvasMouseListener extends MouseInputAdapter
 
 			markerStates.createRedoState();
 			gPanel.addUndoState(markerStates);
-
-			Actions.projectModified();
 		}
 
 		void mouseDragged(MouseEvent e)

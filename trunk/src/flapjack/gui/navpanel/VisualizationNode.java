@@ -34,6 +34,7 @@ public class VisualizationNode extends BaseNode
 		Actions.editSelectMarkersAll.setEnabled(true);
 		Actions.editSelectMarkersNone.setEnabled(true);
 		Actions.editSelectMarkersInvert.setEnabled(true);
+		Actions.editHideMarkers.setEnabled(true);
 
 		Actions.vizExportImage.setEnabled(true);
 		Actions.vizColorCustomize.setEnabled(true);

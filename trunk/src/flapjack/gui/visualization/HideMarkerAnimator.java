@@ -3,7 +3,9 @@ package flapjack.gui.visualization;
 import java.awt.*;
 import javax.swing.*;
 
-class CanvasAnimator extends Thread implements IOverlayRenderer
+import flapjack.gui.*;
+
+class HideMarkerAnimator extends Thread implements IOverlayRenderer
 {
 	private GenotypePanel gPanel;
 	private GenotypeCanvas canvas;
@@ -11,18 +13,25 @@ class CanvasAnimator extends Thread implements IOverlayRenderer
 	private int alphaEffect = 0;
 	private int markerIndex = 0;
 
-	CanvasAnimator(GenotypePanel gPanel, int markerIndex)
+	HideMarkerAnimator(GenotypePanel gPanel, int markerIndex)
 	{
 		this.gPanel = gPanel;
 		this.markerIndex = markerIndex;
 
 		canvas = gPanel.canvas;
 
-		start();
+		// Don't do this if there's only one marker left
+		if (canvas.view.getMarkerCount() > 1)
+			start();
 	}
 
 	public void run()
 	{
+		// Check another instance isn't already running
+		for (IOverlayRenderer r: canvas.overlays)
+			if (r instanceof HideMarkerAnimator)
+				return;
+
 		canvas.resetBufferedState(false);
 		canvas.overlays.add(this);
 
@@ -35,8 +44,15 @@ class CanvasAnimator extends Thread implements IOverlayRenderer
 			catch (InterruptedException e) {}
 		}
 
+		HidMarkersState state = new HidMarkersState(canvas.view,
+			RB.getString("gui.visualization.HidMarkersState.hidMarkers"));
+		state.createUndoState();
+
 		canvas.view.hideMarker(markerIndex);
 		canvas.overlays.remove(this);
+
+		state.createRedoState();
+		gPanel.addUndoState(state);
 
 
 		// Updates from this non-AWT thread, must happen via SwingUtilities

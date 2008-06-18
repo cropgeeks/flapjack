@@ -31,6 +31,7 @@ public class WinMainMenuBar extends JMenuBar
 	private JMenuItem mEditSelectMarkersAll;
 	private JMenuItem mEditSelectMarkersNone;
 	private JMenuItem mEditSelectMarkersInvert;
+	private JMenuItem mEditHideMarkers;
 
 	private JMenu mViz;
 	private JMenuItem mVizExportImage;
@@ -136,11 +137,14 @@ public class WinMainMenuBar extends JMenuBar
 
 		mEditUndo = getItem(Actions.editUndo, "gui.Actions.editUndo", KeyEvent.VK_Z, menuShortcut);
 		mEditRedo = getItem(Actions.editRedo, "gui.Actions.editRedo", KeyEvent.VK_Y, menuShortcut);
-		mEditModeNavigation = getCheckedItem(Actions.editModeNavigation, "gui.Actions.editModeNavigation", 0, 0, Prefs.guiMouseMode == Constants.NAVIGATION);
-		mEditModeMarker = getCheckedItem(Actions.editModeMarker, "gui.Actions.editModeMarker", 0, 0, Prefs.guiMouseMode == Constants.MARKERMODE);
+		mEditModeNavigation = getCheckedItem(Actions.editModeNavigation, "gui.Actions.editModeNavigation",
+			KeyEvent.VK_1, InputEvent.ALT_MASK, Prefs.guiMouseMode == Constants.NAVIGATION);
+		mEditModeMarker = getCheckedItem(Actions.editModeMarker, "gui.Actions.editModeMarker",
+			KeyEvent.VK_2, InputEvent.ALT_MASK, Prefs.guiMouseMode == Constants.MARKERMODE);
 		mEditSelectMarkersAll = getItem(Actions.editSelectMarkersAll, "gui.Actions.editSelectMarkersAll", 0, 0);
 		mEditSelectMarkersNone = getItem(Actions.editSelectMarkersNone, "gui.Actions.editSelectMarkersNone", 0, 0);
 		mEditSelectMarkersInvert = getItem(Actions.editSelectMarkersInvert, "gui.Actions.editSelectMarkersInvert", 0, 0);
+		mEditHideMarkers = getItem(Actions.editHideMarkers, "gui.Actions.editHideMarkers", 0, 0);
 
 		mEditSelectMarkers.add(mEditSelectMarkersAll);
 		mEditSelectMarkers.add(mEditSelectMarkersNone);
@@ -153,6 +157,7 @@ public class WinMainMenuBar extends JMenuBar
 		mEdit.add(mEditModeMarker);
 		mEdit.addSeparator();
 		mEdit.add(mEditSelectMarkers);
+		mEdit.add(mEditHideMarkers);
 
 		add(mEdit);
 	}
@@ -175,13 +180,16 @@ public class WinMainMenuBar extends JMenuBar
 //		mVizColorMarkerSimGS = getItem(Actions.vizColorMarkerSimGS, KeyEvent.VK_G, 0, 0);
 		mVizColorSimple2Color = getItem(Actions.vizColorSimple2Color, "gui.Actions.vizColorSimple2Color", 0, 0);
 		mVizColorAlleleFreq = getItem(Actions.vizColorAlleleFreq, "gui.Actions.vizColorAlleleFreq", 0, 0);
-		mVizOverlayGenotypes = getCheckedItem(Actions.vizOverlayGenotypes, "gui.Actions.vizOverlayGenotypes", KeyEvent.VK_G, menuShortcut, Prefs.visShowGenotypes);
-		mVizHighlightHZ = getCheckedItem(Actions.vizHighlightHZ, "gui.Actions.vizHighlightHZ", KeyEvent.VK_H, menuShortcut, Prefs.visHighlightHZ);
+		mVizOverlayGenotypes = getCheckedItem(Actions.vizOverlayGenotypes, "gui.Actions.vizOverlayGenotypes",
+			KeyEvent.VK_G, menuShortcut, Prefs.visShowGenotypes);
+		mVizHighlightHZ = getCheckedItem(Actions.vizHighlightHZ, "gui.Actions.vizHighlightHZ",
+			KeyEvent.VK_H, menuShortcut, Prefs.visHighlightHZ);
 		mVizNewView = getItem(Actions.vizNewView, "gui.Actions.vizNewView", 0, 0);
 		mVizRenameView = getItem(Actions.vizRenameView, "gui.Actions.vizRenameView", 0, 0);
 		mVizDeleteView = getItem(Actions.vizDeleteView, "gui.Actions.vizDeleteView", 0, 0);
 		mVizToggleCanvas = getItem(Actions.vizToggleCanvas, "gui.Actions.vizToggleCanvas", 0, 0);
-		mVizOverview = getCheckedItem(Actions.vizOverview, "gui.Actions.vizOverview", KeyEvent.VK_F7, 0, Prefs.guiOverviewDialog);
+		mVizOverview = getCheckedItem(Actions.vizOverview, "gui.Actions.vizOverview",
+			KeyEvent.VK_F7, 0, Prefs.guiOverviewDialog);
 
 		mVizColor.add(mVizColorNucleotide);
 		mVizColor.add(mVizColorSimple2Color);

@@ -33,28 +33,28 @@ public class MovedMarkersState implements IUndoState
 
 	public void createUndoState()
 	{
-		undoMarkers = view.getMarkersAsArray();
+		undoMarkers = view.getMarkersAsArray(true);
 		undoComparisonMarker = view.getComparisonMarker();
 		undoComparisonMarkerIndex = view.getComparisonMarkerIndex();
 	}
 
 	public void applyUndoState()
 	{
-		view.setMarkersFromArray(undoMarkers);
+		view.setMarkersFromArray(undoMarkers, true);
 		view.setComparisonMarker(undoComparisonMarker);
 		view.setComparisonMarkerIndex(undoComparisonMarkerIndex);
 	}
 
 	public void createRedoState()
 	{
-		redoMarkers = view.getMarkersAsArray();
+		redoMarkers = view.getMarkersAsArray(true);
 		redoComparisonMarker = view.getComparisonMarker();
 		redoComparisonMarkerIndex = view.getComparisonMarkerIndex();
 	}
 
 	public void applyRedoState()
 	{
-		view.setMarkersFromArray(redoMarkers);
+		view.setMarkersFromArray(redoMarkers, true);
 		view.setComparisonMarker(redoComparisonMarker);
 		view.setComparisonMarkerIndex(redoComparisonMarkerIndex);
 	}
