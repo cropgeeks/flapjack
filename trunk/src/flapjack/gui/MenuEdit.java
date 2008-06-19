@@ -24,7 +24,8 @@ class MenuEdit
 
 	void editMode(int newMode)
 	{
-		boolean wasInMarkerMode = (Prefs.guiMouseMode == newMode);
+		boolean wasInMarkerMode = (Prefs.guiMouseMode == Constants.MARKERMODE);
+		boolean wasInLineMode = (Prefs.guiMouseMode == Constants.LINEMODE);
 		Prefs.guiMouseMode = newMode;
 
 		WinMainMenuBar.mEditModeNavigation.setSelected(newMode == Constants.NAVIGATION);
@@ -52,6 +53,22 @@ class MenuEdit
 				checkbox);
 
 			Prefs.warnEditMarkerMode = !checkbox.isSelected();
+		}
+
+		// Popup the warning dialog with markermode info...
+		// (only if required, and only if we have changed into marker mode)
+		if (Prefs.warnEditLineMode &&
+			wasInLineMode == false && newMode == Constants.LINEMODE)
+		{
+			JCheckBox checkbox = new JCheckBox();
+			RB.setText(checkbox, "gui.MenuEdit.warnEditLineMode");
+
+			TaskDialog.info(
+				RB.getString("gui.MenuEdit.editLineMode"),
+				RB.getString("gui.text.close"),
+				checkbox);
+
+			Prefs.warnEditLineMode = !checkbox.isSelected();
 		}
 	}
 
@@ -97,7 +114,7 @@ class MenuEdit
 
 	void editHideMarkers()
 	{
-		HideMarkersDialog dialog = new HideMarkersDialog(gPanel);
+		HideLMDialog dialog = new HideLMDialog(gPanel, true);
 
 		if (dialog.isOK())
 		{
@@ -154,5 +171,26 @@ class MenuEdit
 		gPanel.addUndoState(state);
 
 		editMode(Constants.LINEMODE);
+	}
+
+	void editHideLines()
+	{
+		HideLMDialog dialog = new HideLMDialog(gPanel, false);
+
+		if (dialog.isOK())
+		{
+			// Set the undo state...
+			HidLinesState state = new HidLinesState(gPanel.getViewSet(),
+				RB.getString("gui.visualization.HidLinesState.hidLines"));
+			state.createUndoState();
+
+			// Hide the markers
+			gPanel.getView().hideLines(Prefs.guiHideSelectedLines);
+			gPanel.refreshView();
+
+			// Set the redo state...
+			state.createRedoState();
+			gPanel.addUndoState(state);
+		}
 	}
 }

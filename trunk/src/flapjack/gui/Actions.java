@@ -30,6 +30,7 @@ public class Actions
 	public static AbstractAction editSelectLinesAll;
 	public static AbstractAction editSelectLinesNone;
 	public static AbstractAction editSelectLinesInvert;
+	public static AbstractAction editHideLines;
 
 	public static AbstractAction vizExportImage;
 	public static AbstractAction vizColorCustomize;
@@ -203,6 +204,12 @@ public class Actions
 		editSelectLinesInvert = new AbstractAction(RB.format("gui.Actions.editSelectLinesInvert", ""), getIcon(Icons.INVERT)) {
 			public void actionPerformed(ActionEvent e) {
 				winMain.mEdit.editSelectLines(Constants.SELECT_INVERT);
+			}
+		};
+
+		editHideLines = new AbstractAction(RB.format("gui.Actions.editHideLines", "")) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.mEdit.editHideLines();
 			}
 		};
 
@@ -406,6 +413,7 @@ public class Actions
 		editSelectLinesAll.setEnabled(false);
 		editSelectLinesNone.setEnabled(false);
 		editSelectLinesInvert.setEnabled(false);
+		editHideLines.setEnabled(false);
 
 		vizExportImage.setEnabled(false);
 		vizColorCustomize.setEnabled(false);

@@ -60,7 +60,7 @@ public class UndoManagerTest extends TestCase
 		MovedLinesState state = new MovedLinesState(viewSet, null);
 		state.createUndoState();
 		// simulate moving lines with a forced update
-		viewSet.setLinesFromArray(createArray(new int[] { 4, 3, 2, 1, 0 }));
+		viewSet.setLinesFromArray(createArray(new int[] { 4, 3, 2, 1, 0 }), true);
 		state.createRedoState();
 		manager.addUndoState(state);
 
@@ -68,7 +68,7 @@ public class UndoManagerTest extends TestCase
 		assertEquals(manager.canUndo(), true);
 		assertEquals(manager.canRedo(), false);
 
-		LineInfo[] lines = viewSet.getLinesAsArray();
+		LineInfo[] lines = viewSet.getLinesAsArray(true);
 		LineInfo[] expected = createArray(new int[] { 4, 3, 2, 1, 0 });
 		assertEquals(compareArrays(lines, expected), true);
 	}
@@ -78,7 +78,7 @@ public class UndoManagerTest extends TestCase
 		MovedLinesState state = new MovedLinesState(viewSet, null);
 		state.createUndoState();
 		// simulate moving lines with a forced update
-		viewSet.setLinesFromArray(createArray(new int[] { 2, 4, 0, 1, 3 }));
+		viewSet.setLinesFromArray(createArray(new int[] { 2, 4, 0, 1, 3 }), true);
 		state.createRedoState();
 		manager.addUndoState(state);
 
@@ -86,7 +86,7 @@ public class UndoManagerTest extends TestCase
 		assertEquals(manager.canUndo(), true);
 		assertEquals(manager.canRedo(), false);
 
-		LineInfo[] lines = viewSet.getLinesAsArray();
+		LineInfo[] lines = viewSet.getLinesAsArray(true);
 		LineInfo[] expected = createArray(new int[] { 2, 4, 0, 1, 3 });
 		assertEquals(compareArrays(lines, expected), true);
 	}
@@ -95,7 +95,7 @@ public class UndoManagerTest extends TestCase
 	{
 		manager.processUndo();
 
-		LineInfo[] lines = viewSet.getLinesAsArray();
+		LineInfo[] lines = viewSet.getLinesAsArray(true);
 		LineInfo[] expected = createArray(new int[] { 4, 3, 2, 1, 0 });
 		assertEquals(compareArrays(lines, expected), true);
 
@@ -108,7 +108,7 @@ public class UndoManagerTest extends TestCase
 	{
 		manager.processRedo();
 
-		LineInfo[] lines = viewSet.getLinesAsArray();
+		LineInfo[] lines = viewSet.getLinesAsArray(true);
 		LineInfo[] expected = createArray(new int[] { 2, 4, 0, 1, 3 });
 		assertEquals(compareArrays(lines, expected), true);
 
@@ -122,7 +122,7 @@ public class UndoManagerTest extends TestCase
 		manager.processUndo();
 		manager.processUndo();
 
-		LineInfo[] lines = viewSet.getLinesAsArray();
+		LineInfo[] lines = viewSet.getLinesAsArray(true);
 		LineInfo[] expected = createArray(new int[] { 0, 1, 2, 3, 4 });
 		assertEquals(compareArrays(lines, expected), true);
 

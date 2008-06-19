@@ -36,28 +36,28 @@ public class MovedLinesState implements IUndoState
 
 	public void createUndoState()
 	{
-		undoLines = viewSet.getLinesAsArray();
+		undoLines = viewSet.getLinesAsArray(true);
 		undoComparisonLine = viewSet.getComparisonLine();
 		undoComparisonLineIndex = viewSet.getComparisonLineIndex();
 	}
 
 	public void applyUndoState()
 	{
-		viewSet.setLinesFromArray(undoLines);
+		viewSet.setLinesFromArray(undoLines, true);
 		viewSet.setComparisonLine(undoComparisonLine);
 		viewSet.setComparisonLineIndex(undoComparisonLineIndex);
 	}
 
 	public void createRedoState()
 	{
-		redoLines = viewSet.getLinesAsArray();
+		redoLines = viewSet.getLinesAsArray(true);
 		redoComparisonLine = viewSet.getComparisonLine();
 		redoComparisonLineIndex = viewSet.getComparisonLineIndex();
 	}
 
 	public void applyRedoState()
 	{
-		viewSet.setLinesFromArray(redoLines);
+		viewSet.setLinesFromArray(redoLines, true);
 		viewSet.setComparisonLine(redoComparisonLine);
 		viewSet.setComparisonLineIndex(redoComparisonLineIndex);
 	}

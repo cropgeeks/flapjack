@@ -55,10 +55,17 @@ class CanvasMouseListener extends MouseInputAdapter
 			new MineSweeper(canvas, this);
 		}
 
+		// CTRL+dbl-click marker hiding
 		else if (e.getClickCount() == 2 && Prefs.guiMouseMode == Constants.MARKERMODE)
 		{
 			int markerIndex = canvas.getMarker(e.getPoint());
-			new HideMarkerAnimator(gPanel, markerIndex);
+			new HideLMAnimator(gPanel, markerIndex, true);
+		}
+		// CTRL+dbl-click line hiding
+		else if (e.getClickCount() == 2 && Prefs.guiMouseMode == Constants.LINEMODE)
+		{
+			int lineIndex = canvas.getLine(e.getPoint());
+			new HideLMAnimator(gPanel, lineIndex, false);
 		}
 	}
 

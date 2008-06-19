@@ -82,6 +82,7 @@
 			<bind-xml node="attribute"/>
 		</field>
 		<field name="lines" type="flapjack.data.LineInfo" collection="vector"/>
+		<field name="hideLines" type="flapjack.data.LineInfo" collection="vector"/>
 		<field name="views" type="flapjack.data.GTView" collection="vector"/>
 		<field name="comparisonLine" type="flapjack.data.Line">
 			<bind-xml reference="true" node="attribute"/>

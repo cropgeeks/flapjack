@@ -14,7 +14,8 @@ class NBWarningPanel extends JPanel implements IPrefsTab
 
 		RB.setText(warnDuplicateMarkers, "gui.dialog.prefs.NBWarningPanel.warnDuplicateMarkers");
 		RB.setText(warnFindDialogResultsCleared, "gui.dialog.prefs.NBWarningPanel.warnFindDialogResultsCleared");
-		RB.setText(warnEditMarkerMode, "gui.dialog.prefs.NBWarningPanel.warnEditMarkerMode");		
+		RB.setText(warnEditMarkerMode, "gui.dialog.prefs.NBWarningPanel.warnEditMarkerMode");
+		RB.setText(warnEditLineMode, "gui.dialog.prefs.NBWarningPanel.warnEditLineMode");	
 
 		initSettings();
     }
@@ -24,6 +25,7 @@ class NBWarningPanel extends JPanel implements IPrefsTab
     	warnDuplicateMarkers.setSelected(Prefs.warnDuplicateMarkers);
 		warnFindDialogResultsCleared.setSelected(Prefs.warnFindDialogResultsCleared);
 		warnEditMarkerMode.setSelected(Prefs.warnEditMarkerMode);
+		warnEditLineMode.setSelected(Prefs.warnEditLineMode);
     }
 
 	public void applySettings()
@@ -31,6 +33,7 @@ class NBWarningPanel extends JPanel implements IPrefsTab
 		Prefs.warnDuplicateMarkers = warnDuplicateMarkers.isSelected();
 		Prefs.warnFindDialogResultsCleared = warnFindDialogResultsCleared.isSelected();
 		Prefs.warnEditMarkerMode = warnEditMarkerMode.isSelected();
+		Prefs.warnEditLineMode = warnEditLineMode.isSelected();
 	}
 
 	public void setDefaults()
@@ -49,6 +52,7 @@ class NBWarningPanel extends JPanel implements IPrefsTab
         warnFindDialogResultsCleared = new javax.swing.JCheckBox();
         warnDuplicateMarkers = new javax.swing.JCheckBox();
         warnEditMarkerMode = new javax.swing.JCheckBox();
+        warnEditLineMode = new javax.swing.JCheckBox();
 
         panel.setBorder(javax.swing.BorderFactory.createTitledBorder("Inform me:"));
 
@@ -57,6 +61,8 @@ class NBWarningPanel extends JPanel implements IPrefsTab
         warnDuplicateMarkers.setText("When duplicate markers are found during data import");
 
         warnEditMarkerMode.setText("When switching to 'marker mode'");
+
+        warnEditLineMode.setText("When switching to 'line mode'");
 
         org.jdesktop.layout.GroupLayout panelLayout = new org.jdesktop.layout.GroupLayout(panel);
         panel.setLayout(panelLayout);
@@ -67,7 +73,8 @@ class NBWarningPanel extends JPanel implements IPrefsTab
                 .add(panelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(warnDuplicateMarkers)
                     .add(warnFindDialogResultsCleared)
-                    .add(warnEditMarkerMode))
+                    .add(warnEditMarkerMode)
+                    .add(warnEditLineMode))
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panelLayout.setVerticalGroup(
@@ -79,6 +86,8 @@ class NBWarningPanel extends JPanel implements IPrefsTab
                 .add(warnFindDialogResultsCleared)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(warnEditMarkerMode)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(warnEditLineMode)
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -96,13 +105,14 @@ class NBWarningPanel extends JPanel implements IPrefsTab
             .add(layout.createSequentialGroup()
                 .addContainerGap()
                 .add(panel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(55, Short.MAX_VALUE))
+                .addContainerGap(32, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel panel;
     private javax.swing.JCheckBox warnDuplicateMarkers;
+    private javax.swing.JCheckBox warnEditLineMode;
     private javax.swing.JCheckBox warnEditMarkerMode;
     private javax.swing.JCheckBox warnFindDialogResultsCleared;
     // End of variables declaration//GEN-END:variables
