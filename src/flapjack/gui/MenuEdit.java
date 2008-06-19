@@ -33,6 +33,9 @@ class MenuEdit
 		WinMainMenuBar.mEditModeMarker.setSelected(newMode == Constants.MARKERMODE);
 		WinMainToolBar.editModeMarker.setSelected(newMode == Constants.MARKERMODE);
 
+		WinMainMenuBar.mEditModeLine.setSelected(newMode == Constants.LINEMODE);
+		WinMainToolBar.editModeLine.setSelected(newMode == Constants.LINEMODE);
+
 		gPanel.resetBufferedState(true);
 
 		// Popup the warning dialog with markermode info...
@@ -111,5 +114,45 @@ class MenuEdit
 			state.createRedoState();
 			gPanel.addUndoState(state);
 		}
+	}
+
+	void editSelectLines(int selectionType)
+	{
+		GTView view = gPanel.getView();
+
+		// Track the undo state before doing anything
+		SelectedLinesState state = new SelectedLinesState(view);
+		state.createUndoState();
+
+		// Select All
+		if (selectionType == Constants.SELECT_ALL)
+		{
+			state.setMenuString(RB.getString("gui.visualization.SelectedLinesState.selectedAll"));
+
+			for (int i = 0; i < view.getLineCount(); i++)
+				view.setLineState(i, true);
+		}
+		// Select None
+		else if (selectionType == Constants.SELECT_NONE)
+		{
+			state.setMenuString(RB.getString("gui.visualization.SelectedLinesState.selectedNone"));
+
+			for (int i = 0; i < view.getLineCount(); i++)
+				view.setLineState(i, false);
+		}
+		// Invert
+		if (selectionType == Constants.SELECT_INVERT)
+		{
+			state.setMenuString(RB.getString("gui.visualization.SelectedLinesState.selectedInvert"));
+
+			for (int i = 0; i < view.getMarkerCount(); i++)
+				view.toggleLineState(i);
+		}
+
+		// And the redo state after the operation
+		state.createRedoState();
+		gPanel.addUndoState(state);
+
+		editMode(Constants.LINEMODE);
 	}
 }

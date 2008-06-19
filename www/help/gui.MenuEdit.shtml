@@ -50,6 +50,11 @@ any of these options will also switch Flapjack to Marker Mode.</p>
 are selected are de-selected, and markers that are not selected become selected.
 </p>
 
+<h3>Show/hide markers</h3>
+<p>Displays the <a href="gui.dialog.HideMarkerDialog.shtml">Show/Hide Marker</a>
+dialog that allows you to hide certain markers from being displayed, or to
+restore previously hidden markers.</p>
+
 
 <!--#include virtual="footer.html" -->
 

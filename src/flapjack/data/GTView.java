@@ -328,9 +328,10 @@ public class GTView extends XMLRoot
 	}
 
 	public boolean isMarkerSelected(int index)
-	{
-		return markers.get(index).selected;
-	}
+		{ return markers.get(index).selected; }
+
+	public boolean isLineSelected(int index)
+		{ return viewSet.lines.get(index).selected; }
 
 	/**
 	 * Toggles and returns the selection state of the marker at the given index.
@@ -343,10 +344,22 @@ public class GTView extends XMLRoot
 		return mi.selected;
 	}
 
-	public void setMarkerState(int index, boolean selectionState)
+	/**
+	 * Toggles and returns the selection state of the line at the given index.
+	 */
+	public boolean toggleLineState(int index)
 	{
-		markers.get(index).selected = selectionState;
+		LineInfo mi = viewSet.lines.get(index);
+
+		mi.selected = !mi.selected;
+		return mi.selected;
 	}
+
+	public void setMarkerState(int index, boolean selectionState)
+		{ markers.get(index).selected = selectionState; }
+
+	public void setLineState(int index, boolean selectionState)
+		{ viewSet.lines.get(index).selected = selectionState; }
 
 	public int getSelectedMarkerCount()
 	{
