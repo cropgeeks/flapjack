@@ -31,10 +31,6 @@ public class CanvasMenu
 	private JMenu mSortLines;
 	private JMenuItem mSortLinesBySimilarity;
 	private JMenuItem mFind;
-	private JMenu mSelectMarkers;
-	private JMenuItem mSelectMarkersAll;
-	private JMenuItem mSelectMarkersNone;
-	private JMenuItem mSelectMarkersInvert;
 
 
 	private AbstractAction aLock;
@@ -78,9 +74,6 @@ public class CanvasMenu
 		mColorAlleleFreq = WinMainMenuBar.getItem(Actions.vizColorAlleleFreq, "gui.Actions.vizColorAlleleFreq", 0, 0);
 		mToggleCanvas = WinMainMenuBar.getItem(Actions.vizToggleCanvas, "gui.Actions.vizToggleCanvas", 0, 0);
 		mFind = WinMainMenuBar.getItem(Actions.dataFind, "gui.Actions.dataFind", KeyEvent.VK_F, menuShortcut);
-		mSelectMarkersAll = WinMainMenuBar.getItem(Actions.editSelectMarkersAll, "gui.Actions.editSelectMarkersAll", 0, 0);
-		mSelectMarkersNone = WinMainMenuBar.getItem(Actions.editSelectMarkersNone, "gui.Actions.editSelectMarkersNone", 0, 0);
-		mSelectMarkersInvert = WinMainMenuBar.getItem(Actions.editSelectMarkersInvert, "gui.Actions.editSelectMarkersInvert", 0, 0);
 
 		mColor = new JMenu(RB.getString("gui.WinMainMenuBar.mVizColor"));
 		RB.setMnemonic(mColor, "gui.WinMainMenuBar.mVizColor");
@@ -95,12 +88,6 @@ public class CanvasMenu
 		mColor.add(mColorRandom);
 		mColor.addSeparator();
 		mColor.add(mColorCustomize);
-
-		mSelectMarkers = new JMenu(RB.getString("gui.WinMainMenuBar.mEditSelectMarkers"));
-		RB.setMnemonic(mSelectMarkers, "gui.WinMainMenuBar.mEditSelectMarkers");
-		mSelectMarkers.add(mSelectMarkersAll);
-		mSelectMarkers.add(mSelectMarkersNone);
-		mSelectMarkers.add(mSelectMarkersInvert);
 
 		mSortLinesBySimilarity = WinMainMenuBar.getItem(Actions.dataSortLinesBySimilarity, "gui.Actions.dataSortLinesBySimilarity", 0, 0);
 
@@ -129,11 +116,7 @@ public class CanvasMenu
 		menu.add(mHighlightHZ);
 		menu.add(mColor);
 		menu.addSeparator();
-		menu.add(mToggleCanvas);
-		menu.addSeparator();
-		menu.add(mSelectMarkers);
 		menu.add(mSortLines);
-		menu.addSeparator();
 		menu.add(mFind);
 
 		menu.show(e.getComponent(), e.getX(), e.getY());

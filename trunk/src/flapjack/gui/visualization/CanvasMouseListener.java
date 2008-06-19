@@ -22,7 +22,8 @@ class CanvasMouseListener extends MouseInputAdapter
 	// Deals with navigation issues
 	private NavigationHandler nHandler = new NavigationHandler();
 	// Deals with selection issues
-	private SelectionHandler sHandler = new SelectionHandler();
+	private MarkerSelectionHandler mrkrSelHandler = new MarkerSelectionHandler();
+	private LineSelectionHandler lineSelHandler = new LineSelectionHandler();
 
 	private boolean isOSX = SystemUtils.isMacOS();
 
@@ -59,9 +60,6 @@ class CanvasMouseListener extends MouseInputAdapter
 			int markerIndex = canvas.getMarker(e.getPoint());
 			new HideMarkerAnimator(gPanel, markerIndex);
 		}
-
-//		else if (e.getClickCount() == 1)
-//			canvas.locked = !canvas.locked;
 	}
 
 	public void mousePressed(MouseEvent e)
@@ -76,7 +74,9 @@ class CanvasMouseListener extends MouseInputAdapter
 			else if (Prefs.guiMouseMode == Constants.NAVIGATION)
 				nHandler.mousePressed(e);
 			else if (Prefs.guiMouseMode == Constants.MARKERMODE)
-				sHandler.mousePressed(e);
+				mrkrSelHandler.mousePressed(e);
+			else if (Prefs.guiMouseMode == Constants.LINEMODE)
+				lineSelHandler.mousePressed(e);
 		}
 	}
 
@@ -87,7 +87,8 @@ class CanvasMouseListener extends MouseInputAdapter
 
 		nHandler.mouseReleased(e);
 		iHandler.mouseReleased(e);
-		sHandler.mouseReleased(e);
+		mrkrSelHandler.mouseReleased(e);
+		lineSelHandler.mouseReleased(e);
 	}
 
 	public void mouseDragged(MouseEvent e)
@@ -96,8 +97,10 @@ class CanvasMouseListener extends MouseInputAdapter
 
 		if (isMetaClick(e))
 			iHandler.mouseDragged(e);
-		else
-			sHandler.mouseDragged(e);
+		else if (Prefs.guiMouseMode == Constants.MARKERMODE)
+			mrkrSelHandler.mouseDragged(e);
+		else if (Prefs.guiMouseMode == Constants.LINEMODE)
+			lineSelHandler.mouseDragged(e);
 	}
 
 	public void mouseMoved(MouseEvent e)
@@ -286,7 +289,7 @@ class CanvasMouseListener extends MouseInputAdapter
 		}
 	}
 
-	private class SelectionHandler
+	private class MarkerSelectionHandler
 	{
 		private int selectedMarker = -1;
 		private int firstSelected = -1;
@@ -365,7 +368,93 @@ class CanvasMouseListener extends MouseInputAdapter
 					selectedMarker = newMarker;
 					canvas.resetBufferedState(false);
 
-					// And ensure wherever the marker now is, it's still visible
+					// And ensure wherever the marker is now, it's still visible
+					canvas.scrollRectToVisible(new Rectangle(x-5, y-5, 10, 10));
+				}
+			}
+		}
+	}
+
+	private class LineSelectionHandler
+	{
+		private int selectedLine = -1;
+		private int firstSelected = -1;
+		private boolean selectionState;
+
+		private SelectedLinesState lineStates;
+
+		void mousePressed(MouseEvent e)
+		{
+			// What line is at the location clicked on
+			int index = canvas.getLine(e.getPoint());
+
+			// Check that the index is valid
+			if (index < 0 || index > canvas.view.getLineCount())
+				return;
+
+			lineStates = new SelectedLinesState(canvas.view,
+				RB.getString("gui.visualization.SelectedLinesState.selected"));
+			lineStates.createUndoState();
+
+			firstSelected = selectedLine = index;
+			selectionState = canvas.view.toggleLineState(selectedLine);
+
+			canvas.resetBufferedState(false);
+		}
+
+		void mouseReleased(MouseEvent e)
+		{
+			if (selectedLine == -1)
+				return;
+
+			selectedLine = -1;
+			canvas.resetBufferedState(true);
+
+			lineStates.createRedoState();
+			gPanel.addUndoState(lineStates);
+		}
+
+		void mouseDragged(MouseEvent e)
+		{
+			int x = e.getPoint().x;
+			int y = e.getPoint().y;
+
+			if (selectedLine != -1)
+			{
+				int newLine = canvas.getLine(e.getPoint());
+
+				if (newLine < 0)
+					newLine = 0;
+				else if (newLine >= canvas.view.getLineCount())
+					newLine = canvas.view.getLineCount()-1;
+
+				if (newLine != selectedLine)
+				{
+					// Moving up...
+					if (newLine < selectedLine)
+						for (int i = selectedLine; i >= newLine; i--)
+						{
+							if (i <= firstSelected)
+								canvas.view.setLineState(i, selectionState);
+							else
+								canvas.view.setLineState(i, !selectionState);
+						}
+
+					// Moving down...
+					else if (newLine > selectedLine)
+						for (int i = selectedLine; i <= newLine; i++)
+						{
+							if (i >= firstSelected)
+								canvas.view.setLineState(i, selectionState);
+							else
+								canvas.view.setLineState(i, !selectionState);
+						}
+
+					// Update the view
+					selectedLine = newLine;
+					canvas.resetBufferedState(false);
+
+					// And ensure wherever the line is now, it's still visible
 					canvas.scrollRectToVisible(new Rectangle(x-5, y-5, 10, 10));
 				}
 			}

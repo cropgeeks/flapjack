@@ -27,11 +27,16 @@ public class WinMainMenuBar extends JMenuBar
 	public static JMenuItem mEditRedo;
 	static  JCheckBoxMenuItem mEditModeNavigation;
 	static  JCheckBoxMenuItem mEditModeMarker;
+	static  JCheckBoxMenuItem mEditModeLine;
 	private JMenu mEditSelectMarkers;
 	private JMenuItem mEditSelectMarkersAll;
 	private JMenuItem mEditSelectMarkersNone;
 	private JMenuItem mEditSelectMarkersInvert;
 	private JMenuItem mEditHideMarkers;
+	private JMenu mEditSelectLines;
+	private JMenuItem mEditSelectLinesAll;
+	private JMenuItem mEditSelectLinesNone;
+	private JMenuItem mEditSelectLinesInvert;
 
 	private JMenu mViz;
 	private JMenuItem mVizExportImage;
@@ -134,6 +139,8 @@ public class WinMainMenuBar extends JMenuBar
 
 		mEditSelectMarkers = new JMenu(RB.getString("gui.WinMainMenuBar.mEditSelectMarkers"));
 		RB.setMnemonic(mEditSelectMarkers, "gui.WinMainMenuBar.mEditSelectMarkers");
+		mEditSelectLines = new JMenu(RB.getString("gui.WinMainMenuBar.mEditSelectLines"));
+		RB.setMnemonic(mEditSelectLines, "gui.WinMainMenuBar.mEditSelectLines");
 
 		mEditUndo = getItem(Actions.editUndo, "gui.Actions.editUndo", KeyEvent.VK_Z, menuShortcut);
 		mEditRedo = getItem(Actions.editRedo, "gui.Actions.editRedo", KeyEvent.VK_Y, menuShortcut);
@@ -141,23 +148,33 @@ public class WinMainMenuBar extends JMenuBar
 			KeyEvent.VK_1, InputEvent.ALT_MASK, Prefs.guiMouseMode == Constants.NAVIGATION);
 		mEditModeMarker = getCheckedItem(Actions.editModeMarker, "gui.Actions.editModeMarker",
 			KeyEvent.VK_2, InputEvent.ALT_MASK, Prefs.guiMouseMode == Constants.MARKERMODE);
+		mEditModeLine = getCheckedItem(Actions.editModeLine, "gui.Actions.editModeLine",
+			KeyEvent.VK_3, InputEvent.ALT_MASK, Prefs.guiMouseMode == Constants.LINEMODE);
 		mEditSelectMarkersAll = getItem(Actions.editSelectMarkersAll, "gui.Actions.editSelectMarkersAll", 0, 0);
 		mEditSelectMarkersNone = getItem(Actions.editSelectMarkersNone, "gui.Actions.editSelectMarkersNone", 0, 0);
 		mEditSelectMarkersInvert = getItem(Actions.editSelectMarkersInvert, "gui.Actions.editSelectMarkersInvert", 0, 0);
 		mEditHideMarkers = getItem(Actions.editHideMarkers, "gui.Actions.editHideMarkers", 0, 0);
+		mEditSelectLinesAll = getItem(Actions.editSelectLinesAll, "gui.Actions.editSelectLinesAll", 0, 0);
+		mEditSelectLinesNone = getItem(Actions.editSelectLinesNone, "gui.Actions.editSelectLinesNone", 0, 0);
+		mEditSelectLinesInvert = getItem(Actions.editSelectLinesInvert, "gui.Actions.editSelectLinesInvert", 0, 0);
 
 		mEditSelectMarkers.add(mEditSelectMarkersAll);
 		mEditSelectMarkers.add(mEditSelectMarkersNone);
 		mEditSelectMarkers.add(mEditSelectMarkersInvert);
+		mEditSelectLines.add(mEditSelectLinesAll);
+		mEditSelectLines.add(mEditSelectLinesNone);
+		mEditSelectLines.add(mEditSelectLinesInvert);
 
 		mEdit.add(mEditUndo);
 		mEdit.add(mEditRedo);
 		mEdit.addSeparator();
 		mEdit.add(mEditModeNavigation);
 		mEdit.add(mEditModeMarker);
+		mEdit.add(mEditModeLine);
 		mEdit.addSeparator();
 		mEdit.add(mEditSelectMarkers);
 		mEdit.add(mEditHideMarkers);
+		mEdit.add(mEditSelectLines);
 
 		add(mEdit);
 	}

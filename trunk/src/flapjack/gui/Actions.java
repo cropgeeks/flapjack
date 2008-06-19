@@ -22,10 +22,14 @@ public class Actions
 	public static AbstractAction editRedo;
 	public static AbstractAction editModeNavigation;
 	public static AbstractAction editModeMarker;
+	public static AbstractAction editModeLine;
 	public static AbstractAction editSelectMarkersAll;
 	public static AbstractAction editSelectMarkersNone;
 	public static AbstractAction editSelectMarkersInvert;
 	public static AbstractAction editHideMarkers;
+	public static AbstractAction editSelectLinesAll;
+	public static AbstractAction editSelectLinesNone;
+	public static AbstractAction editSelectLinesInvert;
 
 	public static AbstractAction vizExportImage;
 	public static AbstractAction vizColorCustomize;
@@ -154,6 +158,12 @@ public class Actions
 			}
 		};
 
+		editModeLine = new AbstractAction(RB.format("gui.Actions.editModeLine", "")) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.mEdit.editMode(Constants.LINEMODE);
+			}
+		};
+
 		editSelectMarkersAll = new AbstractAction(RB.format("gui.Actions.editSelectMarkersAll", ""), getIcon(Icons.SELECTALL)) {
 			public void actionPerformed(ActionEvent e) {
 				winMain.mEdit.editSelectMarkers(Constants.SELECT_ALL);
@@ -175,6 +185,24 @@ public class Actions
 		editHideMarkers = new AbstractAction(RB.format("gui.Actions.editHideMarkers", "")) {
 			public void actionPerformed(ActionEvent e) {
 				winMain.mEdit.editHideMarkers();
+			}
+		};
+
+		editSelectLinesAll = new AbstractAction(RB.format("gui.Actions.editSelectLinesAll", ""), getIcon(Icons.SELECTALL)) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.mEdit.editSelectLines(Constants.SELECT_ALL);
+			}
+		};
+
+		editSelectLinesNone = new AbstractAction(RB.format("gui.Actions.editSelectLinesNone", ""), getIcon(Icons.SELECTNONE)) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.mEdit.editSelectLines(Constants.SELECT_NONE);
+			}
+		};
+
+		editSelectLinesInvert = new AbstractAction(RB.format("gui.Actions.editSelectLinesInvert", ""), getIcon(Icons.INVERT)) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.mEdit.editSelectLines(Constants.SELECT_INVERT);
 			}
 		};
 
@@ -370,10 +398,14 @@ public class Actions
 		editRedo.setEnabled(false);
 		editModeNavigation.setEnabled(false);
 		editModeMarker.setEnabled(false);
+		editModeLine.setEnabled(false);
 		editSelectMarkersAll.setEnabled(false);
 		editSelectMarkersNone.setEnabled(false);
 		editSelectMarkersInvert.setEnabled(false);
 		editHideMarkers.setEnabled(false);
+		editSelectLinesAll.setEnabled(false);
+		editSelectLinesNone.setEnabled(false);
+		editSelectLinesInvert.setEnabled(false);
 
 		vizExportImage.setEnabled(false);
 		vizColorCustomize.setEnabled(false);

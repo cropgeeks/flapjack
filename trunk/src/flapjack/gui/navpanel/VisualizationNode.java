@@ -31,10 +31,14 @@ public class VisualizationNode extends BaseNode
 	{
 		Actions.editModeNavigation.setEnabled(true);
 		Actions.editModeMarker.setEnabled(true);
+		Actions.editModeLine.setEnabled(true);
 		Actions.editSelectMarkersAll.setEnabled(true);
 		Actions.editSelectMarkersNone.setEnabled(true);
 		Actions.editSelectMarkersInvert.setEnabled(true);
 		Actions.editHideMarkers.setEnabled(true);
+		Actions.editSelectLinesAll.setEnabled(true);
+		Actions.editSelectLinesNone.setEnabled(true);
+		Actions.editSelectLinesInvert.setEnabled(true);
 
 		Actions.vizExportImage.setEnabled(true);
 		Actions.vizColorCustomize.setEnabled(true);

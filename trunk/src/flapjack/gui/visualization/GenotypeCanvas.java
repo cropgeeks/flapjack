@@ -354,6 +354,10 @@ class GenotypeCanvas extends JPanel
 
 	private void render(Graphics2D g, Boolean killMe, int xS, int xE, int yS, int yE)
 	{
+		boolean navMode = Prefs.guiMouseMode == Constants.NAVIGATION;
+		boolean markerMode = Prefs.guiMouseMode == Constants.MARKERMODE;
+		boolean lineMode = Prefs.guiMouseMode == Constants.LINEMODE;
+
 		for (int yIndex = yS, y = (boxH*yS); yIndex <= yE; yIndex++, y += boxH)
 		{
 			for (int xIndex = xS, x = (boxW*xS); xIndex <= xE; xIndex++, x += boxW)
@@ -362,8 +366,8 @@ class GenotypeCanvas extends JPanel
 					return;
 
 				// "Allowed" states for an enabled/selected allele
-				if (Prefs.guiMouseMode == Constants.NAVIGATION ||
-					(Prefs.guiMouseMode == Constants.MARKERMODE && view.isMarkerSelected(xIndex)))
+				if (navMode || (markerMode && view.isMarkerSelected(xIndex)) ||
+					(lineMode && view.isLineSelected(yIndex)))
 				{
 					g.drawImage(cScheme.getSelectedImage(yIndex, xIndex), x, y, null);
 				}
