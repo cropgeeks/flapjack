@@ -37,6 +37,7 @@ public class WinMainMenuBar extends JMenuBar
 	private JMenuItem mEditSelectLinesAll;
 	private JMenuItem mEditSelectLinesNone;
 	private JMenuItem mEditSelectLinesInvert;
+	private JMenuItem mEditHideLines;
 
 	private JMenu mViz;
 	private JMenuItem mVizExportImage;
@@ -157,6 +158,7 @@ public class WinMainMenuBar extends JMenuBar
 		mEditSelectLinesAll = getItem(Actions.editSelectLinesAll, "gui.Actions.editSelectLinesAll", 0, 0);
 		mEditSelectLinesNone = getItem(Actions.editSelectLinesNone, "gui.Actions.editSelectLinesNone", 0, 0);
 		mEditSelectLinesInvert = getItem(Actions.editSelectLinesInvert, "gui.Actions.editSelectLinesInvert", 0, 0);
+		mEditHideLines = getItem(Actions.editHideLines, "gui.Actions.editHideLines", 0, 0);
 
 		mEditSelectMarkers.add(mEditSelectMarkersAll);
 		mEditSelectMarkers.add(mEditSelectMarkersNone);
@@ -175,6 +177,7 @@ public class WinMainMenuBar extends JMenuBar
 		mEdit.add(mEditSelectMarkers);
 		mEdit.add(mEditHideMarkers);
 		mEdit.add(mEditSelectLines);
+		mEdit.add(mEditHideLines);
 
 		add(mEdit);
 	}

@@ -20,18 +20,19 @@ public class LineSimilarityColorScheme extends SimilarityColorScheme
 	private ColorState getState(int line, int marker)
 	{
 		int state = view.getState(line, marker);
+		int comparisonIndex = view.getComparisonLineIndex();
 
 		// If it's the index line, return the darker version
-		if (line == view.getComparisonLineIndex())
+		if (line == comparisonIndex)
 			return aStatesDark.get(state);
 
-		// Otherwise do the comparison
-		int compState = view.getState(view.getComparisonLineIndex(), marker);
+		// Try to do the comparison
+		if (comparisonIndex != -1)
+			if (state == view.getState(comparisonIndex, marker))
+				return aStates.get(state);
 
-		if (state == compState)
-			return aStates.get(state);
-		else
-			return bStates.get(state);
+		// If it's not the same, or we can't do a comparison...
+		return bStates.get(state);
 	}
 
 	public BufferedImage getSelectedImage(int line, int marker)
@@ -46,21 +47,7 @@ public class LineSimilarityColorScheme extends SimilarityColorScheme
 
 	public Color getColor(int line, int marker)
 	{
-		int state = view.getState(line, marker);
-
-		// If it's the index line, return the darker version
-		if (line == view.getComparisonLineIndex())
-			return Prefs.visColorSimilarityState1Dark;
-
-		// Otherwise do the comparison
-		int compState = view.getState(view.getComparisonLineIndex(), marker);
-
-		if (state == 0)
-			return aStates.get(0).getColor();
-		if (state == compState)
-			return Prefs.visColorSimilarityState1;
-		else
-			return Prefs.visColorSimilarityState2;
+		return getState(line, marker).getColor();
 	}
 
 	public int getModel()

@@ -58,7 +58,7 @@ public class SortLinesBySimilarity implements ILineSorter
 			lineOrder[i] = scores.get(i).lineInfo;
 
 		// And pass that order back to the view
-		view.getViewSet().setLinesFromArray(lineOrder);
+		view.getViewSet().setLinesFromArray(lineOrder, true);
 
 		// Because we've reordered the view (without it knowing), we MUST let
 		// it know that it has to search for its comparison line's new position

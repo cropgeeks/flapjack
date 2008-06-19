@@ -17,6 +17,8 @@ public class GTViewSet extends XMLRoot
 	// Holds the index positions of the lines as they appear in the actual
 	// dataset's vector of lines
 	Vector<LineInfo> lines;
+	// Holds the lines that we don't currently want visible
+	Vector<LineInfo> hideLines = new Vector<LineInfo>();
 
 	private String name;
 	private int viewIndex;
@@ -84,6 +86,12 @@ public class GTViewSet extends XMLRoot
 
 	public void setLines(Vector<LineInfo> lines)
 		{ this.lines = lines; }
+
+	public Vector<LineInfo> getHideLines()
+		{ return hideLines; }
+
+	public void setHideLines(Vector<LineInfo> hideLines)
+		{ this.hideLines = hideLines; }
 
 	public String getName()
 		{ return name; }
@@ -175,22 +183,28 @@ public class GTViewSet extends XMLRoot
 	 * Converts and returns the vector of line data into a primitive array of
 	 * ints.
 	 */
-	public LineInfo[] getLinesAsArray()
+	public LineInfo[] getLinesAsArray(boolean getVisible)
 	{
-		LineInfo[] array = new LineInfo[lines.size()];
-
-		for (int i = 0; i < array.length; i++)
-			array[i] = lines.get(i);
-
-		return array;
+		if (getVisible)
+			return lines.toArray(new LineInfo[] {});
+		else
+			return hideLines.toArray(new LineInfo[] {});
 	}
 
-	public void setLinesFromArray(LineInfo[] array)
+	public void setLinesFromArray(LineInfo[] array, boolean setVisible)
 	{
-		lines.clear();
-
-		for (LineInfo li: array)
-			lines.add(li);
+		if (setVisible)
+		{
+			lines.clear();
+			for (LineInfo li: array)
+				lines.add(li);
+		}
+		else
+		{
+			hideLines.clear();
+			for (LineInfo li: array)
+				hideLines.add(li);
+		}
 	}
 
 	public UndoManager getUndoManager()
@@ -209,7 +223,9 @@ public class GTViewSet extends XMLRoot
 		clone.randomColorSeed = randomColorSeed;
 
 		// Copy over the line data
-		clone.setLinesFromArray(getLinesAsArray());
+		clone.setLinesFromArray(getLinesAsArray(true), true);
+		// Copy over the hidden line data
+		clone.setLinesFromArray(getLinesAsArray(false), false);
 		clone.comparisonLine = comparisonLine;
 		clone.comparisonLineIndex = comparisonLineIndex;
 

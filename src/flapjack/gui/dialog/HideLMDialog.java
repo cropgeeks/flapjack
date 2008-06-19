@@ -9,22 +9,28 @@ import flapjack.gui.visualization.*;
 
 import scri.commons.gui.*;
 
-public class HideMarkersDialog extends JDialog implements ActionListener
+public class HideLMDialog extends JDialog implements ActionListener
 {
 	private JButton bOK, bCancel, bHelp;
 	private boolean isOK = false;
 
-	private NBHideMarkersPanel nbPanel;
+	private String i18n = "lines";
+
+	private NBHideLMPanel nbPanel;
 	private GenotypePanel gPanel;
 
-	public HideMarkersDialog(GenotypePanel gPanel)
+	public HideLMDialog(GenotypePanel gPanel, boolean markers)
 	{
 		super(Flapjack.winMain, "", true);
 		this.gPanel = gPanel;
 
-		setTitle(RB.getString("gui.dialog.HideMarkersDialog.title"));
+		// Toggles the state of the i18n properties we look up
+		if (markers)
+			i18n = "markers";
 
-		nbPanel = new NBHideMarkersPanel(this, gPanel.getView());
+		setTitle(RB.getString("gui.dialog.HideLMDialog." + i18n + ".title"));
+
+		nbPanel = new NBHideLMPanel(this, gPanel.getView(), markers);
 
 		add(nbPanel);
 		add(createButtons(), BorderLayout.SOUTH);
@@ -46,7 +52,10 @@ public class HideMarkersDialog extends JDialog implements ActionListener
 		bCancel.addActionListener(this);
 		bHelp = SwingUtils.getButton(RB.getString("gui.text.help"));
 		RB.setText(bHelp, "gui.text.help");
-		FlapjackUtils.setHelp(bHelp, "gui.dialog.HideMarkersDialog");
+		if (i18n.equals("lines"))
+			FlapjackUtils.setHelp(bHelp, "gui.dialog.HideLinesDialog");
+		else
+			FlapjackUtils.setHelp(bHelp, "gui.dialog.HideMarkersDialog");
 
 		JPanel p1 = new JPanel(new FlowLayout(FlowLayout.RIGHT, 5, 0));
 		p1.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 5));
@@ -59,7 +68,7 @@ public class HideMarkersDialog extends JDialog implements ActionListener
 
 	public void actionPerformed(ActionEvent e)
 	{
-		if (e.getSource() == nbPanel.bRestore && !restoreHiddenMarkers())
+		if (e.getSource() == nbPanel.bRestore && !restore())
 			return;
 
 		else if (e.getSource() == bOK)
@@ -74,12 +83,47 @@ public class HideMarkersDialog extends JDialog implements ActionListener
 	public boolean isOK()
 		{ return isOK; }
 
-	private boolean restoreHiddenMarkers()
+	private boolean restore()
 	{
-		String msg = RB.getString("gui.dialog.HideMarkersDialog.restoreMsg");
+		if (i18n.equals("lines"))
+			return restoreHiddenLines();
+		else
+			return restoreHiddenMarkers();
+	}
+
+	private boolean restoreHiddenLines()
+	{
+		String msg = RB.getString("gui.dialog.HideLMDialog.lines.restoreMsg");
 
 		String[] options = new String[] {
-				RB.getString("gui.dialog.HideMarkersDialog.restore"),
+				RB.getString("gui.dialog.HideLMDialog.restore"),
+				RB.getString("gui.text.cancel") };
+
+		if (TaskDialog.show(msg, MsgBox.QST, 1, options) != 0)
+			return false;
+
+		// Create an undo state for the restore operation
+		HidLinesState state = new HidLinesState(gPanel.getViewSet(),
+			RB.getString("gui.visualization.HidLinesState.restoredLines"));
+		state.createUndoState();
+
+		// Do the restore
+		gPanel.getView().restoreHiddenLines();
+		gPanel.refreshView();
+
+		// Create a redo state
+		state.createRedoState();
+		gPanel.addUndoState(state);
+
+		return true;
+	}
+
+	private boolean restoreHiddenMarkers()
+	{
+		String msg = RB.getString("gui.dialog.HideLMDialog.markers.restoreMsg");
+
+		String[] options = new String[] {
+				RB.getString("gui.dialog.HideLMDialog.restore"),
 				RB.getString("gui.text.cancel") };
 
 		if (TaskDialog.show(msg, MsgBox.QST, 1, options) != 0)

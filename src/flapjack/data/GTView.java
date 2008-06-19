@@ -264,20 +264,10 @@ public class GTView extends XMLRoot
 	 */
 	public MarkerInfo[] getMarkersAsArray(boolean getVisible)
 	{
-		MarkerInfo[] array;
 		if (getVisible)
-			array = new MarkerInfo[markers.size()];
+			return markers.toArray(new MarkerInfo[] {});
 		else
-			array = new MarkerInfo[hideMarkers.size()];
-
-		if (getVisible)
-			for (int i = 0; i < array.length; i++)
-				array[i] = markers.get(i);
-		else
-			for (int i = 0; i < array.length; i++)
-				array[i] = hideMarkers.get(i);
-
-		return array;
+			return hideMarkers.toArray(new MarkerInfo[] {});
 	}
 
 	/**
@@ -288,16 +278,17 @@ public class GTView extends XMLRoot
 	public void setMarkersFromArray(MarkerInfo[] array, boolean setVisible)
 	{
 		if (setVisible)
+		{
 			markers.clear();
-		else
-			hideMarkers.clear();
-
-		if (setVisible)
 			for (MarkerInfo mi: array)
 				markers.add(mi);
+		}
 		else
+		{
+			hideMarkers.clear();
 			for (MarkerInfo mi: array)
 				hideMarkers.add(mi);
+		}
 	}
 
 	GTView createClone(GTViewSet clonedViewSet)
@@ -371,10 +362,21 @@ public class GTView extends XMLRoot
 		return count;
 	}
 
-	public int getHiddenMarkerCount()
+	public int getSelectedLineCount()
 	{
-		return hideMarkers.size();
+		int count = 0;
+		for (LineInfo li: viewSet.lines)
+			if (li.selected)
+				count++;
+
+		return count;
 	}
+
+	public int getHiddenMarkerCount()
+		{ return hideMarkers.size(); }
+
+	public int getHiddenLineCount()
+		{ return viewSet.hideLines.size(); }
 
 	/** Hides all selected or unselected markers, depending on the parameter. */
 	public void hideMarkers(boolean hideSelected)
@@ -396,13 +398,42 @@ public class GTView extends XMLRoot
 		}
 	}
 
+	/** Hides all selected or unselected lines, depending on the parameter. */
+	public void hideLines(boolean hideSelected)
+	{
+		for (int i = 0; i < viewSet.lines.size(); i++)
+		{
+			// Don't hide what we don't want hidden (!!)
+			if (viewSet.lines.get(i).selected != hideSelected)
+				continue;
+
+			// Hide, but always keep at least one line visible
+			if (viewSet.lines.size() > 1)
+			{
+				viewSet.hideLines.add(viewSet.lines.remove(i));
+				i--;
+			}
+			else
+				return;
+		}
+	}
+
 	/** Hides a single marker. */
 	public void hideMarker(int index)
 	{
-		if (index < 0 || index >= markers.size() || markers.size() == 1)
+		if (index < 0 || index >= markers.size())
 			return;
 
 		hideMarkers.add(markers.remove(index));
+	}
+
+	/** Hides a single line. */
+	public void hideLine(int index)
+	{
+		if (index < 0 || index >= viewSet.lines.size())
+			return;
+
+		viewSet.hideLines.add(viewSet.lines.remove(index));
 	}
 
 	/** Restores all hidden markers to the view. */
@@ -420,6 +451,16 @@ public class GTView extends XMLRoot
 					break;
 
 			markers.insertElementAt(mi, insertAt);
+		}
+	}
+
+	/** Restores all hidden lines to the view. */
+	public void restoreHiddenLines()
+	{
+		while (viewSet.hideLines.size() > 0)
+		{
+			LineInfo li = viewSet.hideLines.remove(0);
+			viewSet.lines.add(li);
 		}
 	}
 }

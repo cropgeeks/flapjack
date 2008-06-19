@@ -7,44 +7,82 @@ import flapjack.gui.*;
 
 import scri.commons.gui.*;
 
-class NBHideMarkersPanel extends JPanel
+/**
+ * This dialog handles BOTH lines and markers - hence all the if statements. But
+ * it's still quicker/easier to just combine it all into a single class, rather
+ * than having two practically identical (but separate) classes.
+ */
+class NBHideLMPanel extends JPanel
 {
-	public NBHideMarkersPanel(HideMarkersDialog dialog, GTView view)
+	private String i18n;
+
+	public NBHideLMPanel(HideLMDialog dialog, GTView view, boolean markers)
 	{
 		initComponents();
 
-		int total = view.getMarkerCount();
-		int selected = view.getSelectedMarkerCount();
-		int unselected = total - selected;
+		i18n = markers ? "markers" : "lines";
 
-		rHideSelected.setText(RB.format("gui.dialog.NBHideMarkersDialog.rHideSelected", selected, total));
-		rHideUnselected.setText(RB.format("gui.dialog.NBHideMarkersDialog.rHideUnselected", unselected, total));
-		RB.setMnemonic(rHideSelected, "gui.dialog.NBHideMarkersDialog.rHideSelected");
-		RB.setMnemonic(rHideUnselected, "gui.dialog.NBHideMarkersDialog.rHideUnselected");
+		int total, selected, unselected;
 
-		hidePanel.setBorder(BorderFactory.createTitledBorder(RB.getString("gui.dialog.NBHideMarkersDialog.hidePanel.title")));
-		RB.setText(hideLabel, "gui.dialog.NBHideMarkersDialog.hideLabel");
-		showPanel.setBorder(BorderFactory.createTitledBorder(RB.getString("gui.dialog.NBHideMarkersDialog.showPanel.title")));
-		RB.setText(showLabel, "gui.dialog.NBHideMarkersDialog.showLabel");
-		RB.setText(bRestore, "gui.dialog.NBHideMarkersDialog.bRestore");
+		if (i18n.equals("markers"))
+		{
+			total = view.getMarkerCount();
+			selected = view.getSelectedMarkerCount();
+		}
+		else
+		{
+			total = view.getLineCount();
+			selected = view.getSelectedLineCount();
+		}
+
+		unselected = total - selected;
+
+		rHideSelected.setText(RB.format("gui.dialog.NBHideLMPanel." + i18n + ".rHideSelected", selected, total));
+		rHideUnselected.setText(RB.format("gui.dialog.NBHideLMPanel." + i18n + ".rHideUnselected", unselected, total));
+		RB.setMnemonic(rHideSelected, "gui.dialog.NBHideLMPanel." + i18n + ".rHideSelected");
+		RB.setMnemonic(rHideUnselected, "gui.dialog.NBHideLMPanel." + i18n + ".rHideUnselected");
+
+		hidePanel.setBorder(BorderFactory.createTitledBorder(RB.getString("gui.dialog.NBHideLMPanel." + i18n + ".hidePanel.title")));
+		RB.setText(hideLabel, "gui.dialog.NBHideLMPanel." + i18n + ".hideLabel");
+		showPanel.setBorder(BorderFactory.createTitledBorder(RB.getString("gui.dialog.NBHideLMPanel." + i18n + ".showPanel.title")));
+		RB.setText(showLabel, "gui.dialog.NBHideLMPanel." + i18n + ".showLabel");
+		RB.setText(bRestore, "gui.dialog.NBHideLMPanel." + i18n + ".bRestore");
 
 		if (SystemUtils.isMacOS())
-			RB.setText(hideHint, "gui.dialog.NBHideMarkersDialog.hideHintOSX");
+			RB.setText(hideHint, "gui.dialog.NBHideLMPanel." + i18n + ".hideHintOSX");
 		else
-			RB.setText(hideHint, "gui.dialog.NBHideMarkersDialog.hideHint");
-		countLabel.setText(RB.format("gui.dialog.NBHideMarkersDialog.countLabel", view.getHiddenMarkerCount()));
+			RB.setText(hideHint, "gui.dialog.NBHideLMPanel." + i18n + ".hideHint");
 
-		rHideSelected.setSelected(Prefs.guiHideSelectedMarkers);
-		rHideUnselected.setSelected(!Prefs.guiHideSelectedMarkers);
+		if (i18n.equals("markers"))
+		{
+			rHideSelected.setSelected(Prefs.guiHideSelectedMarkers);
+			rHideUnselected.setSelected(!Prefs.guiHideSelectedMarkers);
+			countLabel.setText(RB.format("gui.dialog.NBHideLMPanel.countLabel",
+				view.getHiddenMarkerCount()));
+
+			if (view.getHiddenMarkerCount() == 0)
+				bRestore.setEnabled(false);
+		}
+		else
+		{
+			rHideSelected.setSelected(Prefs.guiHideSelectedLines);
+			rHideUnselected.setSelected(!Prefs.guiHideSelectedLines);
+			countLabel.setText(RB.format("gui.dialog.NBHideLMPanel.countLabel",
+				view.getHiddenLineCount()));
+
+			if (view.getHiddenLineCount() == 0)
+				bRestore.setEnabled(false);
+		}
 
 		bRestore.addActionListener(dialog);
-		if (view.getHiddenMarkerCount() == 0)
-			bRestore.setEnabled(false);
 	}
 
 	void isOK()
 	{
-		Prefs.guiHideSelectedMarkers = rHideSelected.isSelected();
+		if (i18n.equals("markers"))
+			Prefs.guiHideSelectedMarkers = rHideSelected.isSelected();
+		else
+			Prefs.guiHideSelectedLines = rHideSelected.isSelected();
 	}
 
     /** This method is called from within the constructor to

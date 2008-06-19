@@ -27,7 +27,7 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Component id="panel" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="55" max="32767" attributes="0"/>
+              <EmptySpace pref="32" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -51,6 +51,7 @@
                       <Component id="warnDuplicateMarkers" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Component id="warnFindDialogResultsCleared" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Component id="warnEditMarkerMode" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="warnEditLineMode" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
@@ -65,6 +66,8 @@
                   <Component id="warnFindDialogResultsCleared" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="warnEditMarkerMode" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="warnEditLineMode" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
@@ -84,6 +87,11 @@
         <Component class="javax.swing.JCheckBox" name="warnEditMarkerMode">
           <Properties>
             <Property name="text" type="java.lang.String" value="When switching to &apos;marker mode&apos;"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JCheckBox" name="warnEditLineMode">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="When switching to &apos;line mode&apos;"/>
           </Properties>
         </Component>
       </SubComponents>
