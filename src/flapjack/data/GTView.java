@@ -291,14 +291,15 @@ public class GTView extends XMLRoot
 		}
 	}
 
-	GTView createClone(GTViewSet clonedViewSet)
+	GTView createClone(GTViewSet clonedViewSet, boolean cloneHidden)
 	{
 		GTView clone = new GTView(clonedViewSet, map);
 
 		// Clone the visible markers
 		clone.setMarkersFromArray(getMarkersAsArray(true), true);
 		// Clone the hidden markers
-		clone.setMarkersFromArray(getMarkersAsArray(false), false);
+		if (cloneHidden)
+			clone.setMarkersFromArray(getMarkersAsArray(false), false);
 		clone.comparisonMarker = comparisonMarker;
 		clone.comparisonMarkerIndex = comparisonMarkerIndex;
 

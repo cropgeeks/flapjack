@@ -16,7 +16,7 @@
 <h1>Allele Frequency Threshold</h1>
 
 <p>After selecting the <b>by allele frequency</b> colour scheme, the <b>Allele
-Frequency Threshold</b> dialog appears, allowing you to choose the cutoff
+Frequency Threshold</b> dialog appears, allowing you to choose the cut-off
 threshold between low and high frequency alleles.</p>
 
 <p>A low frequency allele will be any allele within a given marker that occurs

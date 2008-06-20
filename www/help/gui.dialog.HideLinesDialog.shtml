@@ -38,7 +38,7 @@ selected set.<p></p>
 Line Mode before opening the <b>Show/Hide Lines</b> dialog.</p>
 
 <p>The third method of hiding markers is available for quickly hiding a single
-marker only. CTRL (or CMD on OS X) double-click a line
+line only. CTRL (or CMD on OS X) double-click a line
 on the canvas while in Line Mode, and it will be removed from the visible
 set.</p>
 

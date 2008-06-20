@@ -213,7 +213,7 @@ public class GTViewSet extends XMLRoot
 	public String toString()
 		{ return name; }
 
-	public GTViewSet createClone(String cloneName)
+	public GTViewSet createClone(String cloneName, boolean cloneHidden)
 	{
 		GTViewSet clone = new GTViewSet(dataSet, cloneName);
 
@@ -225,14 +225,15 @@ public class GTViewSet extends XMLRoot
 		// Copy over the line data
 		clone.setLinesFromArray(getLinesAsArray(true), true);
 		// Copy over the hidden line data
-		clone.setLinesFromArray(getLinesAsArray(false), false);
+		if (cloneHidden)
+			clone.setLinesFromArray(getLinesAsArray(false), false);
 		clone.comparisonLine = comparisonLine;
 		clone.comparisonLineIndex = comparisonLineIndex;
 
 		// Copy over the chromosomes views
 		clone.views.clear();
 		for (GTView view: views)
-			clone.views.add(view.createClone(clone));
+			clone.views.add(view.createClone(clone, cloneHidden));
 
 		return clone;
 	}

@@ -49,25 +49,31 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="1" attributes="0">
-                  <EmptySpace min="-2" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="rNewView" alignment="0" min="-2" max="-2" attributes="0"/>
+              <Group type="102" attributes="0">
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="rNewView" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="rCloneView" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="checkCloneHidden" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="cloneLabel" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="cloneCombo" max="32767" attributes="0"/>
+                                  </Group>
+                              </Group>
+                          </Group>
+                      </Group>
                       <Group type="102" alignment="0" attributes="1">
-                          <EmptySpace min="4" pref="4" max="-2" attributes="0"/>
                           <Component id="nameLabel" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="nameText" max="32767" attributes="0"/>
+                          <Component id="nameText" pref="180" max="32767" attributes="0"/>
                       </Group>
-                      <Group type="102" alignment="0" attributes="1">
-                          <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
-                          <Component id="cloneLabel" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="cloneCombo" max="32767" attributes="0"/>
-                      </Group>
-                      <Component id="rCloneView" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace max="32767" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -83,7 +89,9 @@
                       <Component id="cloneLabel" alignment="2" min="-2" max="-2" attributes="0"/>
                       <Component id="cloneCombo" alignment="2" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="checkCloneHidden" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="nameLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="nameText" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -141,6 +149,12 @@
               <ComponentRef name="cloneCombo"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Clone from:"/>
+            <Property name="enabled" type="boolean" value="false"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JCheckBox" name="checkCloneHidden">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Don&apos;t clone lines or markers that are currently hidden"/>
             <Property name="enabled" type="boolean" value="false"/>
           </Properties>
         </Component>

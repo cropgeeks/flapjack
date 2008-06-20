@@ -19,7 +19,8 @@ class NBNewViewPanel extends javax.swing.JPanel implements ActionListener
 		RB.setText(rNewView, "gui.dialog.NBNewViewPanel.rNewView");
 		RB.setText(rCloneView, "gui.dialog.NBNewViewPanel.rCloneView");
 		RB.setText(cloneLabel, "gui.dialog.NBNewViewPanel.cloneLabel");
-		RB.setText(nameLabel, "gui.dialog.NBNewViewPanel.nameLabel");
+		RB.setText(checkCloneHidden, "gui.dialog.NBNewViewPanel.checkCloneHidden");
+		RB.setText(nameLabel, "gui.dialog.NBNewViewPanel.nameLabel");		
 
 		// Add existing view sets to the combo box model
 		for (GTViewSet viewSet: dataSet.getViewSets())
@@ -38,7 +39,8 @@ class NBNewViewPanel extends javax.swing.JPanel implements ActionListener
 			rCloneView.setEnabled(false);
 
 		rNewView.addActionListener(this);
-		rCloneView.addActionListener(this);
+		rCloneView.addActionListener(this);		
+		checkCloneHidden.setSelected(!Prefs.guiCloneHidden);
 	}
 
 	public void actionPerformed(ActionEvent e)
@@ -46,11 +48,17 @@ class NBNewViewPanel extends javax.swing.JPanel implements ActionListener
 		boolean state = rCloneView.isSelected();
 		cloneLabel.setEnabled(state);
 		cloneCombo.setEnabled(state);
+		checkCloneHidden.setEnabled(state);
 	}
 
 	boolean createNewView()
 	{
 		return rNewView.isSelected();
+	}
+	
+	void isOK()
+	{
+		Prefs.guiCloneHidden = !checkCloneHidden.isSelected();
 	}
 
     /** This method is called from within the constructor to
@@ -70,6 +78,7 @@ class NBNewViewPanel extends javax.swing.JPanel implements ActionListener
         nameLabel = new javax.swing.JLabel();
         nameText = new javax.swing.JTextField();
         cloneLabel = new javax.swing.JLabel();
+        checkCloneHidden = new javax.swing.JCheckBox();
 
         panel.setBorder(javax.swing.BorderFactory.createTitledBorder("New view options:"));
 
@@ -89,26 +98,32 @@ class NBNewViewPanel extends javax.swing.JPanel implements ActionListener
         cloneLabel.setText("Clone from:");
         cloneLabel.setEnabled(false);
 
+        checkCloneHidden.setText("Don't clone lines or markers that are currently hidden");
+        checkCloneHidden.setEnabled(false);
+
         org.jdesktop.layout.GroupLayout panelLayout = new org.jdesktop.layout.GroupLayout(panel);
         panel.setLayout(panelLayout);
         panelLayout.setHorizontalGroup(
             panelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(org.jdesktop.layout.GroupLayout.TRAILING, panelLayout.createSequentialGroup()
+            .add(panelLayout.createSequentialGroup()
                 .addContainerGap()
-                .add(panelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
-                    .add(rNewView)
+                .add(panelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(panelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
+                        .add(rNewView)
+                        .add(rCloneView)
+                        .add(panelLayout.createSequentialGroup()
+                            .add(21, 21, 21)
+                            .add(panelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                                .add(checkCloneHidden)
+                                .add(panelLayout.createSequentialGroup()
+                                    .add(cloneLabel)
+                                    .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                    .add(cloneCombo, 0, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                     .add(panelLayout.createSequentialGroup()
-                        .add(4, 4, 4)
                         .add(nameLabel)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(nameText))
-                    .add(panelLayout.createSequentialGroup()
-                        .add(21, 21, 21)
-                        .add(cloneLabel)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(cloneCombo, 0, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .add(rCloneView))
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .add(nameText, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         panelLayout.setVerticalGroup(
             panelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -121,7 +136,9 @@ class NBNewViewPanel extends javax.swing.JPanel implements ActionListener
                 .add(panelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.CENTER)
                     .add(cloneLabel)
                     .add(cloneCombo, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .add(21, 21, 21)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(checkCloneHidden)
+                .add(18, 18, 18)
                 .add(panelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(nameLabel)
                     .add(nameText, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
@@ -149,6 +166,7 @@ class NBNewViewPanel extends javax.swing.JPanel implements ActionListener
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JCheckBox checkCloneHidden;
     javax.swing.JComboBox cloneCombo;
     private javax.swing.JLabel cloneLabel;
     private javax.swing.JLabel nameLabel;
