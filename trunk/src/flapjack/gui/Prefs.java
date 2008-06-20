@@ -74,6 +74,9 @@ public class Prefs extends XMLPreferences
 	public static int guiExportImageX;
 	public static int guiExportImageY;
 
+	// When cloning views, should Flapjack clone hidden lines/markers?
+	public static boolean guiCloneHidden = false;
+
 	// Finding stuff...
 	public static boolean guiFindDialogShown = false;
 	public static int guiFindDialogX = 0;

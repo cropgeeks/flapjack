@@ -13,7 +13,7 @@ public class NewViewDialog extends JDialog implements ActionListener
 {
 	private DataSet dataSet;
 
-	private JButton bOK, bCancel;
+	private JButton bOK, bCancel, bHelp;
 	private boolean isOK = false;
 
 	private NBNewViewPanel nbPanel;
@@ -47,11 +47,15 @@ public class NewViewDialog extends JDialog implements ActionListener
 		bOK.addActionListener(this);
 		bCancel = SwingUtils.getButton(RB.getString("gui.text.cancel"));
 		bCancel.addActionListener(this);
+		bHelp = SwingUtils.getButton(RB.getString("gui.text.help"));
+		RB.setText(bHelp, "gui.text.help");
+		FlapjackUtils.setHelp(bHelp, "gui.dialog.NewViewDialog");
 
 		JPanel p1 = new JPanel(new FlowLayout(FlowLayout.RIGHT, 5, 0));
 		p1.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 5));
 		p1.add(bOK);
 		p1.add(bCancel);
+		p1.add(bHelp);
 
 		return p1;
 	}
@@ -59,7 +63,10 @@ public class NewViewDialog extends JDialog implements ActionListener
 	public void actionPerformed(ActionEvent e)
 	{
 		if (e.getSource() == bOK)
+		{
+			nbPanel.isOK();
 			isOK = true;
+		}
 
 		setVisible(false);
 	}
@@ -82,7 +89,7 @@ public class NewViewDialog extends JDialog implements ActionListener
 		else
 		{
 			GTViewSet cloneFrom = (GTViewSet) nbPanel.cloneCombo.getSelectedItem();
-			viewSet = cloneFrom.createClone(name);
+			viewSet = cloneFrom.createClone(name, Prefs.guiCloneHidden);
 		}
 
 		return viewSet;

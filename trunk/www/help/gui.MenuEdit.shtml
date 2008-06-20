@@ -35,6 +35,10 @@ most mouse interactive events upon the main canvas will affect navigation.</p>
 <p>Switches the Flapjack interface to Marker Mode, meaning that
 most mouse interactive events upon the main canvas will affect markers.</p>
 
+<h3>Line mode</h3>
+<p>Switches the Flapjack interface to Line Mode, meaning that
+most mouse interactive events upon the main canvas will affect lines.</p>
+
 <h3>Select markers</h3>
 <p>Opens a sub-menu displaying various options for selecting markers. Choosing
 any of these options will also switch Flapjack to Marker Mode.</p>
@@ -43,17 +47,37 @@ any of these options will also switch Flapjack to Marker Mode.</p>
 <p>Selects all of the markers within the current chromosome.</p>
 
 <h5>Select none</h5>
-<p>Selects none of the markers within the current chromosome.</p>
+<p>Selects none of the markers within the current chromosome (deselects all).</p>
 
 <h5>Invert</h5>
 <p>Inverts the selection of markers within the current chromosome. Markers that
-are selected are de-selected, and markers that are not selected become selected.
+are selected are deselected, and markers that are not selected become selected.
 </p>
 
 <h3>Show/hide markers</h3>
-<p>Displays the <a href="gui.dialog.HideMarkerDialog.shtml">Show/Hide Marker</a>
+<p>Displays the <a href="gui.dialog.HideMarkersDialog.shtml">Show/Hide Markers</a>
 dialog that allows you to hide certain markers from being displayed, or to
 restore previously hidden markers.</p>
+
+<h3>Select lines</h3>
+<p>Opens a sub-menu displaying various options for selecting lines. Choosing
+any of these options will also switch Flapjack to Line Mode.</p>
+
+<h5>Select all</h5>
+<p>Selects all of the lines within the current view.</p>
+
+<h5>Select none</h5>
+<p>Selects none of the lines within the current view (deselects all).</p>
+
+<h5>Invert</h5>
+<p>Inverts the selection of lines within the current view. Lines that
+are selected are deselected, and lines that are not selected become selected.
+</p>
+
+<h3>Show/hide lines</h3>
+<p>Displays the <a href="gui.dialog.HideLinesDialog.shtml">Show/Hide Lines</a>
+dialog that allows you to hide certain lines from being displayed, or to
+restore previously hidden lines.</p>
 
 
 <!--#include virtual="footer.html" -->
