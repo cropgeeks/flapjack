@@ -9,13 +9,14 @@ class NBImportOptionsPanel extends javax.swing.JPanel
 {
 
 	/** Creates new form NBImportOptionsPanel */
-	public NBImportOptionsPanel(MouseAdapter dcl)
+	public NBImportOptionsPanel(MouseAdapter dcl, boolean secondaryOptions)
 	{
 		initComponents();
 
-		panel.setBorder(BorderFactory.createTitledBorder(
-			RB.getString("gui.dialog.NBImportOptionsPanel.instruction")));
-
+		panel1.setBorder(BorderFactory.createTitledBorder(
+			RB.getString("gui.dialog.NBImportOptionsPanel.panel1.title")));
+		RB.setText(label1, "gui.dialog.NBImportOptionsPanel.label1");
+		
 		RB.setText(rFromFile, "gui.dialog.NBImportOptionsPanel.rFromFile");
 		rFromFile.setSelected(Prefs.guiImportMethod == 0);
 		rFromFile.addMouseListener(dcl);
@@ -27,6 +28,29 @@ class NBImportOptionsPanel extends javax.swing.JPanel
 		RB.setText(rFromSample, "gui.dialog.NBImportOptionsPanel.rFromSample");
 		rFromSample.setSelected(Prefs.guiImportMethod == 2);
 		rFromSample.addMouseListener(dcl);
+		
+		
+		panel2.setBorder(BorderFactory.createTitledBorder(
+			RB.getString("gui.dialog.NBImportOptionsPanel.panel2.title")));
+		RB.setText(label2, "gui.dialog.NBImportOptionsPanel.label2");
+		
+		RB.setText(rTraitFile, "gui.dialog.NBImportOptionsPanel.rTraitFile");
+		rTraitFile.setSelected(Prefs.guiImportMethod == 20);
+		rTraitFile.addMouseListener(dcl);
+		
+		RB.setText(rQTLFile, "gui.dialog.NBImportOptionsPanel.rQTLFile");
+		rQTLFile.setSelected(Prefs.guiImportMethod == 21);
+//		rQTLFile.addMouseListener(dcl);
+		
+		
+		if (secondaryOptions == false)
+		{
+			if (Prefs.guiImportMethod >= 20)
+				rFromFile.setSelected(true);
+			
+			rTraitFile.setEnabled(false);
+//			rQTLFile.setEnabled(false);
+		}
 	}
 
 	void isOK()
@@ -37,6 +61,11 @@ class NBImportOptionsPanel extends javax.swing.JPanel
 			Prefs.guiImportMethod = 1;
 		else if (rFromSample.isSelected())
 			Prefs.guiImportMethod = 2;
+	
+		else if (rTraitFile.isSelected())
+			Prefs.guiImportMethod = 20;
+		else if (rQTLFile.isSelected())
+			Prefs.guiImportMethod = 21;
 	}
 
 	/** This method is called from within the constructor to
@@ -48,12 +77,17 @@ class NBImportOptionsPanel extends javax.swing.JPanel
     private void initComponents() {
 
         buttonGroup = new javax.swing.ButtonGroup();
-        panel = new javax.swing.JPanel();
+        panel1 = new javax.swing.JPanel();
         rFromFile = new javax.swing.JRadioButton();
         rFromDB = new javax.swing.JRadioButton();
         rFromSample = new javax.swing.JRadioButton();
+        label1 = new javax.swing.JLabel();
+        panel2 = new javax.swing.JPanel();
+        label2 = new javax.swing.JLabel();
+        rTraitFile = new javax.swing.JRadioButton();
+        rQTLFile = new javax.swing.JRadioButton();
 
-        panel.setBorder(javax.swing.BorderFactory.createTitledBorder("Import by:"));
+        panel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Primary data import options:"));
 
         buttonGroup.add(rFromFile);
         rFromFile.setText("Providing the map and genotype data from files located on disk");
@@ -65,22 +99,30 @@ class NBImportOptionsPanel extends javax.swing.JPanel
         buttonGroup.add(rFromSample);
         rFromSample.setText("Using the built-in example dataset bundled with Flapjack");
 
-        org.jdesktop.layout.GroupLayout panelLayout = new org.jdesktop.layout.GroupLayout(panel);
-        panel.setLayout(panelLayout);
-        panelLayout.setHorizontalGroup(
-            panelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(panelLayout.createSequentialGroup()
+        label1.setText("Import into Flapjack by:");
+
+        org.jdesktop.layout.GroupLayout panel1Layout = new org.jdesktop.layout.GroupLayout(panel1);
+        panel1.setLayout(panel1Layout);
+        panel1Layout.setHorizontalGroup(
+            panel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(panel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .add(panelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(rFromFile)
-                    .add(rFromDB)
-                    .add(rFromSample))
+                .add(panel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(panel1Layout.createSequentialGroup()
+                        .add(10, 10, 10)
+                        .add(panel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(rFromFile)
+                            .add(rFromDB)
+                            .add(rFromSample)))
+                    .add(label1))
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        panelLayout.setVerticalGroup(
-            panelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(panelLayout.createSequentialGroup()
+        panel1Layout.setVerticalGroup(
+            panel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(panel1Layout.createSequentialGroup()
                 .addContainerGap()
+                .add(label1)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                 .add(rFromFile)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(rFromDB)
@@ -89,20 +131,62 @@ class NBImportOptionsPanel extends javax.swing.JPanel
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        panel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Secondary data import options:"));
+
+        label2.setText("Additional information can also be provided for existing data sets:");
+
+        buttonGroup.add(rTraitFile);
+        rTraitFile.setText("Import trait information from a file located on disk");
+
+        buttonGroup.add(rQTLFile);
+        rQTLFile.setText("Import QTL information from a file located on disk");
+        rQTLFile.setEnabled(false);
+
+        org.jdesktop.layout.GroupLayout panel2Layout = new org.jdesktop.layout.GroupLayout(panel2);
+        panel2.setLayout(panel2Layout);
+        panel2Layout.setHorizontalGroup(
+            panel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(panel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .add(panel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(panel2Layout.createSequentialGroup()
+                        .add(10, 10, 10)
+                        .add(panel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(rTraitFile)
+                            .add(rQTLFile)))
+                    .add(label2))
+                .addContainerGap(28, Short.MAX_VALUE))
+        );
+        panel2Layout.setVerticalGroup(
+            panel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(panel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .add(label2)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                .add(rTraitFile)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(rQTLFile)
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(layout.createSequentialGroup()
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .add(panel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
+                    .add(org.jdesktop.layout.GroupLayout.LEADING, panel2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .add(org.jdesktop.layout.GroupLayout.LEADING, panel1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
                 .addContainerGap()
-                .add(panel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .add(panel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(panel2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -110,10 +194,15 @@ class NBImportOptionsPanel extends javax.swing.JPanel
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup;
-    private javax.swing.JPanel panel;
+    private javax.swing.JLabel label1;
+    private javax.swing.JLabel label2;
+    private javax.swing.JPanel panel1;
+    private javax.swing.JPanel panel2;
     private javax.swing.JRadioButton rFromDB;
     private javax.swing.JRadioButton rFromFile;
     private javax.swing.JRadioButton rFromSample;
+    private javax.swing.JRadioButton rQTLFile;
+    private javax.swing.JRadioButton rTraitFile;
     // End of variables declaration//GEN-END:variables
 
 }

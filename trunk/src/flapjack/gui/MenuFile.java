@@ -82,62 +82,83 @@ public class MenuFile
 
 	void fileImport()
 	{
+		boolean secondaryOptions =
+			winMain.getProject().getDataSets().size() > 0;
+
 		// Start by offering various import options
-		ImportOptionsDialog optionsDialog = new ImportOptionsDialog();
+		ImportOptionsDialog optionsDialog = new ImportOptionsDialog(secondaryOptions);
 		if (optionsDialog.isOK() == false)
 			return;
 
-		File mapFile = null, datFile = null;
 
-		// Importing from file...
-		if (Prefs.guiImportMethod == 0)
+		switch (Prefs.guiImportMethod)
 		{
-			DataImportDialog dialog = new DataImportDialog();
-			if (dialog.isOK() == false)
-				return;
+			// Import from file
+			case 0: importGenotypeData();
+				break;
 
-			gPanel.resetBufferedState(false);
+			// Import from Germinate
+			case 1:
+				break;
 
-			mapFile  = dialog.getMapFile();
-			datFile = dialog.getGenotypeFile();
+			// Importing from a Flapjack-provided sample fileset
+			case 2: importSampleData();
+				break;
+		}
+	}
+
+	// Pops up the Import Data dialog, then uses the returned map and dat file
+	// information to import data
+	private void importGenotypeData()
+	{
+		DataImportDialog dialog = new DataImportDialog();
+		if (dialog.isOK() == false)
+			return;
+
+		gPanel.resetBufferedState(false);
+
+		importGenotypeData(dialog.getMapFile(), dialog.getGenotypeFile());
+	}
+
+	// Extracts sample data from the jar file, writes it to a temp location,
+	// then imports it
+	private void importSampleData()
+	{
+		File dir = SystemUtils.getTempUserDirectory("flapjack");
+		File mapFile = new File(dir, "sample.map");
+		File datFile = new File(dir, "sample.dat");
+
+		try
+		{
+			FileUtils.writeFile(mapFile, getClass().getResourceAsStream("/res/samples/sample.map"));
+			FileUtils.writeFile(datFile, getClass().getResourceAsStream("/res/samples/sample.dat"));
+		}
+		catch (Exception e)
+		{
+			System.out.println(e);
+			TaskDialog.error(RB.format("gui.WinMain.readJarError", e.getMessage()),
+				RB.getString("gui.text.close"));
+			return;
 		}
 
-		// Importing from a Flapjack-provided sample fileset
-		else if (Prefs.guiImportMethod == 2)
+		importGenotypeData(mapFile, datFile);
+	}
+
+	// Given a map file and a genotype (dat) file, imports that data, showing a
+	// progress bar while doing so
+	private void importGenotypeData(File mapFile, File datFile)
+	{
+		DataImportingDialog dialog = new DataImportingDialog(mapFile, datFile);
+
+		if (dialog.isOK())
 		{
-			File dir = SystemUtils.getTempUserDirectory("flapjack");
-			mapFile = new File(dir, "sample.map");
-			datFile = new File(dir, "sample.dat");
+			DataSet dataSet = dialog.getDataSet();
 
-			try
-			{
-				FileUtils.writeFile(mapFile, getClass().getResourceAsStream("/res/samples/sample.map"));
-				FileUtils.writeFile(datFile, getClass().getResourceAsStream("/res/samples/sample.dat"));
-			}
-			catch (Exception e)
-			{
-				System.out.println(e);
-				TaskDialog.error(RB.format("gui.WinMain.readJarError", e.getMessage()),
-					RB.getString("gui.text.close"));
-				return;
-			}
-		}
+			winMain.getProject().addDataSet(dataSet);
+			navPanel.addDataSetNode(dataSet);
+			new DataOpenedAnimator(gPanel);
 
-		// Regardless of option, open these files...
-		if (Prefs.guiImportMethod == 0 || Prefs.guiImportMethod == 2)
-		{
-			DataImportingDialog dialog = new DataImportingDialog(mapFile, datFile);
-
-			if (dialog.isOK())
-			{
-				DataSet dataSet = dialog.getDataSet();
-
-				winMain.getProject().addDataSet(dataSet);
-				navPanel.addDataSetNode(dataSet);
-				new DataOpenedAnimator(gPanel);
-
-				Actions.projectModified();
-			}
+			Actions.projectModified();
 		}
 	}
 }
