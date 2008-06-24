@@ -15,7 +15,7 @@ public class ImportOptionsDialog extends JDialog implements ActionListener
 
 	private NBImportOptionsPanel nbPanel;
 
-	public ImportOptionsDialog()
+	public ImportOptionsDialog(boolean secondaryOptions)
 	{
 		super(
 			Flapjack.winMain,
@@ -23,7 +23,7 @@ public class ImportOptionsDialog extends JDialog implements ActionListener
 			true
 		);
 
-		nbPanel = new NBImportOptionsPanel(new DblClickListener());
+		nbPanel = new NBImportOptionsPanel(new DblClickListener(), secondaryOptions);
 
 		add(nbPanel);
 		add(createButtons(), BorderLayout.SOUTH);

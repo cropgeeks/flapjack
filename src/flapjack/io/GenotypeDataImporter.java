@@ -3,6 +3,7 @@ package flapjack.io;
 import java.io.*;
 
 import flapjack.data.*;
+import flapjack.gui.*;
 
 public class GenotypeDataImporter
 {
@@ -80,6 +81,11 @@ public class GenotypeDataImporter
 			}
 
 			String[] values = str.split("\t");
+
+			// Check for duplicate line names
+			for (Line line: dataSet.getLines())
+				if (line.getName().equals(values[0]))
+					throw new DataFormatException(RB.format("io.DataFormatException.duplicateLineError", values[0], lineCount));
 
 			Line line = dataSet.createLine(values[0]);
 

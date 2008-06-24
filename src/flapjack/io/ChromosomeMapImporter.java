@@ -2,6 +2,7 @@ package flapjack.io;
 
 import java.io.*;
 import java.util.*;
+import java.text.*;
 
 import flapjack.data.*;
 import flapjack.gui.*;
@@ -28,6 +29,7 @@ public class ChromosomeMapImporter
 		throws IOException, DataFormatException
 	{
 		BufferedReader in = new BufferedReader(new FileReader(file));
+		NumberFormat nf = NumberFormat.getInstance();
 
 		String str = null;
 		int linesRead = 1;
@@ -41,7 +43,7 @@ public class ChromosomeMapImporter
 
 			// Parse out the marker's position
 			float position = 0;
-			try { position = Float.parseFloat(tokens[2]); }
+			try { position = nf.parse(tokens[2]).floatValue(); }
 			catch (Exception e)	{
 				throw new DataFormatException(RB.format("io.DataFormatException.parseDistanceError", file, tokens[2], linesRead));
 			}
