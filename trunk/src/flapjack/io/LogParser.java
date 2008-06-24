@@ -68,6 +68,7 @@ public class LogParser
 			hashtable.put(id, user);
 		}
 
+		user.lastDate = tokens[0];
 		user.runCount++;
 	}
 
@@ -85,11 +86,12 @@ public class LogParser
 
 		for (User user: users)
 		{
-			System.out.println(user.id
+			System.out.println(user.id.substring(0, 12)
 				+ " " + user.runCount
 				+ "\t" + user.os
 				+ "\t" + user.countryCode
-				+ "\t" + user.username);
+				+ "\t" + user.username
+				+ "\t" + user.lastDate);
 		}
 	}
 
@@ -100,6 +102,7 @@ public class LogParser
 		String os;
 		String username;
 		String ip;
+		String lastDate;
 
 		String country;
 		String countryCode;
