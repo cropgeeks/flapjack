@@ -124,4 +124,25 @@
 		</field>
 	</class>
 
+	<!-- Trait -->
+	<class name="flapjack.data.Trait" extends="flapjack.data.XMLRoot" auto-complete="true">
+		<field name="name" type="string">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="categories" type="string" collection="vector"/>
+	</class>
+
+	<!-- TraitValue -->
+	<class name="flapjack.data.TraitValue" extends="flapjack.data.XMLRoot" auto-complete="true">
+		<field name="trait" type="flapjack.data.Trait">
+			<bind-xml reference="true" node="attribute"/>
+		</field>
+		<field name="value" type="float">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="defined" type="boolean">
+			<bind-xml node="attribute"/>
+		</field>
+	</class>
+
 </mapping>

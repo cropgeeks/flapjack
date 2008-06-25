@@ -1,6 +1,7 @@
 package flapjack.gui;
 
 import java.io.*;
+import javax.swing.*;
 
 import flapjack.data.*;
 import flapjack.gui.dialog.*;
@@ -82,8 +83,7 @@ public class MenuFile
 
 	void fileImport()
 	{
-		boolean secondaryOptions =
-			winMain.getProject().getDataSets().size() > 0;
+		boolean secondaryOptions = navPanel.getDataSetForSelection() != null;
 
 		// Start by offering various import options
 		ImportOptionsDialog optionsDialog = new ImportOptionsDialog(secondaryOptions);
@@ -103,6 +103,10 @@ public class MenuFile
 
 			// Importing from a Flapjack-provided sample fileset
 			case 2: importSampleData();
+				break;
+
+			// Import trait data
+			case 20: importTraitData();
 				break;
 		}
 	}
@@ -159,6 +163,41 @@ public class MenuFile
 			new DataOpenedAnimator(gPanel);
 
 			Actions.projectModified();
+		}
+	}
+
+	private void importTraitData()
+	{
+		DataSet dataSet = navPanel.getDataSetForSelection();
+
+		JFileChooser fc = new JFileChooser();
+		fc.setDialogTitle("Browse for Trait File");
+		fc.setCurrentDirectory(new File(Prefs.guiCurrentDir));
+
+		if (fc.showOpenDialog(winMain) != JFileChooser.APPROVE_OPTION)
+			return;
+
+		File file = fc.getSelectedFile();
+		Prefs.guiCurrentDir = fc.getCurrentDirectory().toString();
+
+		try
+		{
+			TraitImporter importer = new TraitImporter(file, dataSet);
+
+			long s = System.currentTimeMillis();
+			importer.importTraitData();
+			long e = System.currentTimeMillis();
+
+			System.out.println("Trait data read in " + (e-s) + "ms");
+
+			Actions.projectModified();
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			TaskDialog.error("Flapjack was unable to import trait data from "
+				+ file + "\n\nError details: " + e.getMessage(),
+				RB.getString("gui.text.close"));
 		}
 	}
 }

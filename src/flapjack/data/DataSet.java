@@ -10,6 +10,9 @@ public class DataSet extends XMLRoot
 	private Vector<ChromosomeMap> chromosomes = new Vector<ChromosomeMap>();
 	private Vector<Line> lines = new Vector<Line>();
 
+	// Trait information
+	private Vector<Trait> traits = new Vector<Trait>();
+
 	// View information
 	private StateTable stateTable = new StateTable(0);
 	private Vector<GTViewSet> viewSets = new Vector<GTViewSet>();
@@ -28,6 +31,8 @@ public class DataSet extends XMLRoot
 			map.validate();
 		for (Line line: lines)
 			line.validate();
+		for (Trait trait: traits)
+			trait.validate();
 
 		stateTable.validate();
 		for (GTViewSet viewSet: viewSets)
@@ -55,6 +60,12 @@ public class DataSet extends XMLRoot
 	public void setLines(Vector<Line> lines)
 		{ this.lines = lines; }
 
+	public Vector<Trait> getTraits()
+		{ return traits; }
+
+	public void setTraits(Vector<Trait> traits)
+		{ this.traits = traits; }
+
 	public StateTable getStateTable()
 		{ return stateTable; }
 
@@ -72,7 +83,6 @@ public class DataSet extends XMLRoot
 
 	public Line createLine(String name)
 	{
-		// TODO: Check for duplicate lines
 		Line line = new Line(name, lines.size());
 
 		// This ensures each line has a set of (empty) loci data for each map

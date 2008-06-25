@@ -12,6 +12,9 @@ public class Line extends XMLRoot
 
 	private Vector<GenotypeData> genotypes = new Vector<GenotypeData>();
 
+	// Trait information (one trait value per trait associated with this line)
+	private Vector<TraitValue> traitValues = new Vector<TraitValue>();
+
 	public Line()
 	{
 	}
@@ -30,6 +33,8 @@ public class Line extends XMLRoot
 
 		for (GenotypeData data: genotypes)
 			data.validate();
+		for (TraitValue traitValue: traitValues)
+			traitValue.validate();
 	}
 
 
@@ -52,6 +57,12 @@ public class Line extends XMLRoot
 
 	public void setGenotypes(Vector<GenotypeData> genotypes)
 		{ this.genotypes = genotypes; }
+
+	public Vector<TraitValue> getTraitValues()
+		{ return traitValues; }
+
+	public void setTraitValues(Vector<TraitValue> traitValues)
+		{ this.traitValues = traitValues; }
 
 
 	// Other methods
