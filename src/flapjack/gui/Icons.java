@@ -34,6 +34,7 @@ public class Icons
 	public static ImageIcon RENAME;
 	public static ImageIcon SELECTALL;
 	public static ImageIcon SELECTNONE;
+	public static ImageIcon TRAITS;
 	public static ImageIcon UNDO;
 	public static ImageIcon VISUALIZATION;
 	public static ImageIcon WEB;
