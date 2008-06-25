@@ -20,10 +20,10 @@ public class TreeRenderer extends JLabel implements TreeCellRenderer
 
 		if (value instanceof DataSetNode)
 			setIcon(isExpanded ? Icons.FOLDEROPEN : Icons.FOLDER);
-
 		else if (value instanceof VisualizationNode)
 			setIcon(Icons.VISUALIZATION);
-
+		else if (value instanceof TraitsNode)
+			setIcon(Icons.TRAITS);
 
 		this.selected = selected;
 

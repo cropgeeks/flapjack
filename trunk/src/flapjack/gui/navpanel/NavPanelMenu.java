@@ -68,6 +68,9 @@ public class NavPanelMenu extends MouseInputAdapter
 			menu.add(vizDeleteView);
 		}
 
+		else
+			return;
+
 		menu.show(e.getComponent(), e.getX(), e.getY());
 	}
 

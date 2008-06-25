@@ -55,8 +55,8 @@ public class TraitValue extends XMLRoot
 	public void setValue(float value)
 		{ this.value = value; }
 
-//	public boolean getIsDefined()
-//		{ return isDefined; }
+	public boolean isDefined()
+		{ return isDefined; }
 
 	public void setIsDefined(boolean isDefined)
 		{ this.isDefined = isDefined; }
@@ -64,6 +64,5 @@ public class TraitValue extends XMLRoot
 
 	// Other methods
 
-	public boolean isDefined()
-		{ return isDefined; }
+
 }

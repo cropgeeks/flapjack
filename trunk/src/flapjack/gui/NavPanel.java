@@ -109,6 +109,8 @@ class NavPanel extends JPanel
 		DataSetNode dataSetNode = new DataSetNode(dataSet);
 		treeModel.insertNodeInto(dataSetNode, root, root.getChildCount());
 
+		addTraitsNode(dataSetNode);
+
 		// Add child nodes for selecting the various views
 		BaseNode selectedNode = null;
 		for (int i = 0; i < dataSet.getViewSets().size(); i++)
@@ -122,6 +124,14 @@ class NavPanel extends JPanel
 		// Update the tree with the new node(s)
 		tree.setSelectionPath(new TreePath(selectedNode.getPath()));
 		tree.scrollPathToVisible(new TreePath(selectedNode.getPath()));
+	}
+
+	private BaseNode addTraitsNode(DataSetNode dataSetNode)
+	{
+		TraitsNode node = new TraitsNode(dataSetNode.getDataSet());
+		treeModel.insertNodeInto(node, dataSetNode, dataSetNode.getChildCount());
+
+		return node;
 	}
 
 	private BaseNode addVisualizationNode(DataSetNode dataSetNode, int i)
@@ -220,7 +230,6 @@ class NavPanel extends JPanel
 	void removeVisualizationNode(GTViewSet viewSet)
 	{
 		VisualizationNode node = findVisualizationNode(viewSet);
-		System.out.println("node is: " + node);
 		treeModel.removeNodeFromParent(node);
 	}
 
