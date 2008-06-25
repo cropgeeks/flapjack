@@ -185,7 +185,7 @@ class NavPanel extends JPanel
 	DataSet getDataSetForSelection()
 	{
 		BaseNode node = (BaseNode) tree.getLastSelectedPathComponent();
-		return node.getDataSet();
+		return (node == null) ? null: node.getDataSet();
 	}
 
 	// Returns the view set associated with the currently selected node
