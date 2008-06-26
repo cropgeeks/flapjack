@@ -181,25 +181,14 @@ public class MenuFile
 		File file = fc.getSelectedFile();
 		Prefs.guiCurrentDir = fc.getCurrentDirectory().toString();
 
-		try
+
+		TraitsImportingProgressDialog dialog =
+			new TraitsImportingProgressDialog(file, dataSet);
+
+		if (dialog.isOK())
 		{
-			TraitImporter importer = new TraitImporter(file, dataSet);
-
-			long s = System.currentTimeMillis();
-			importer.importTraitData();
-			long e = System.currentTimeMillis();
-
-			System.out.println("Trait data read in " + (e-s) + "ms");
-
 			navPanel.getTraitsPanel(dataSet).updateModel();
 			Actions.projectModified();
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-			TaskDialog.error("Flapjack was unable to import trait data from "
-				+ file + "\n\nError details: " + e.getMessage(),
-				RB.getString("gui.text.close"));
 		}
 	}
 }

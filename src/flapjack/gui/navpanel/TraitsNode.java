@@ -20,7 +20,7 @@ public class TraitsNode extends BaseNode
 
 	public String toString()
 	{
-		return "Trait Data";
+		return RB.getString("gui.navpanel.TraitsNode.node");
 	}
 
 	public void setActions()
