@@ -72,7 +72,7 @@ public class FlapjackUtils
 	{
 		try
 		{
-			if (SystemUtils.isMacOS() == false)
+			if (SystemUtils.jreVersion() >= 1.6)
 				visitURL6(html);
 			else
 				visitURL5(html);

@@ -9,6 +9,7 @@ import javax.swing.tree.*;
 
 import flapjack.data.*;
 import flapjack.gui.navpanel.*;
+import flapjack.gui.traits.*;
 import flapjack.gui.visualization.*;
 
 import scri.commons.gui.*;
@@ -231,6 +232,17 @@ class NavPanel extends JPanel
 	{
 		VisualizationNode node = findVisualizationNode(viewSet);
 		treeModel.removeNodeFromParent(node);
+	}
+
+	TraitsPanel getTraitsPanel(DataSet dataSet)
+	{
+		DataSetNode dataSetNode = findDataSetNode(dataSet);
+		TraitsNode traitsNode = (TraitsNode) dataSetNode.getChildAt(0);
+
+		tree.setSelectionPath(new TreePath(traitsNode.getPath()));
+		tree.scrollPathToVisible(new TreePath(traitsNode.getPath()));
+
+		return (TraitsPanel) traitsNode.getPanel();
 	}
 
 	public void valueChanged(TreeSelectionEvent e)
