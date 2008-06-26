@@ -5,6 +5,7 @@ import javax.swing.*;
 
 import flapjack.data.*;
 import flapjack.gui.dialog.*;
+import flapjack.gui.traits.*;
 import flapjack.gui.visualization.*;
 import flapjack.io.*;
 
@@ -190,6 +191,7 @@ public class MenuFile
 
 			System.out.println("Trait data read in " + (e-s) + "ms");
 
+			navPanel.getTraitsPanel(dataSet).updateModel();
 			Actions.projectModified();
 		}
 		catch (Exception e)

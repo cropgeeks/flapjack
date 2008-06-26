@@ -269,22 +269,11 @@ class NBAlleleStatisticsPanel extends JPanel implements AdjustmentListener
     // End of variables declaration//GEN-END:variables
 
 
-	public static class StatisticsRenderer extends JLabel implements TableCellRenderer
+	public static class StatisticsRenderer extends DefaultTableCellRenderer
 	{
-		private static Color bgColor = (Color)UIManager.get("Table.background");
-
 		public StatisticsRenderer()
 		{
-			super("", JLabel.RIGHT);
-			setOpaque(true);
-		}
-
-		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column)
-		{
-			setText(value.toString());
-			setBackground(bgColor);
-
-			return this;
+			setHorizontalAlignment(JLabel.RIGHT);
 		}
 	}
 }

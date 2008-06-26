@@ -58,11 +58,9 @@ public class TraitValue extends XMLRoot
 	public boolean isDefined()
 		{ return isDefined; }
 
-	public void setIsDefined(boolean isDefined)
+	public void setDefined(boolean isDefined)
 		{ this.isDefined = isDefined; }
 
 
 	// Other methods
-
-
 }

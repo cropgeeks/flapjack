@@ -71,6 +71,18 @@ public class Trait extends XMLRoot
 	public boolean traitIsNumerical()
 		{ return categories.size() == 0; }
 
-	public boolean traitIsCategorical()
-		{ return categories.size() > 0; }
+	/**
+	 * Returns a string suitable for display based on the categorical value
+	 * held by the passed trait value.
+	 */
+	public String format(TraitValue tv)
+	{
+		int index = (int) tv.getValue();
+
+		try { return categories.get(index); }
+		catch (ArrayIndexOutOfBoundsException e)
+		{
+			return "UNDEFINED";
+		}
+	}
 }
