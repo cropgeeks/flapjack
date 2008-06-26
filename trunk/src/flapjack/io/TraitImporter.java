@@ -19,6 +19,9 @@ public class TraitImporter
 	// name, and is a list of trait values, one per trait across the columns
 	private Hashtable<String, Vector<TraitValue>> hashtable;
 
+	private boolean isOK = true;
+	private int lineCount;
+
 	public TraitImporter(File file, DataSet dataSet)
 	{
 		this.file = file;
@@ -39,8 +42,8 @@ public class TraitImporter
 		for (int i = 1; i < traitNames.length; i++)
 			traits.add(new Trait(traitNames[i]));
 
-		int lineCount = 2;
-		while ((str = in.readLine()) != null && str.length() > 0)
+		lineCount = 2;
+		while ((str = in.readLine()) != null && str.length() > 0 && isOK)
 		{
 			String[] tokens = str.split("\t");
 
@@ -68,6 +71,8 @@ public class TraitImporter
 
 		in.close();
 
+		if (isOK == false)
+			return;
 
 		// If everything was read in correctly, apply the traits to the dataset
 		for (Trait trait: traits)
@@ -94,4 +99,10 @@ public class TraitImporter
 			}
 		}
 	}
+
+	public int getLineCount()
+		{ return lineCount; }
+
+	public void cancel()
+		{ isOK = false; }
 }
