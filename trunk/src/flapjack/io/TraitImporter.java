@@ -59,9 +59,15 @@ public class TraitImporter
 			{
 				// Fetch the trait for this column
 				Trait trait = traits.get(i-1);
-				float value = trait.computeValue(tokens[i]);
 
-				values.add(new TraitValue(trait, value));
+				// Check for non-defined
+				if (tokens[i].length() == 0)
+					values.add(new TraitValue(trait));
+				else
+				{
+					float value = trait.computeValue(tokens[i]);
+					values.add(new TraitValue(trait, value));
+				}
 			}
 
 			hashtable.put(lineName, values);
