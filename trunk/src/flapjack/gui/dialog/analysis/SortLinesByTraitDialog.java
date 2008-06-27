@@ -76,7 +76,8 @@ public class SortLinesByTraitDialog extends JDialog implements ActionListener
 	{
 		return new int[] {
 			nbPanel.combo1.getSelectedIndex(),
-			nbPanel.combo2.getSelectedIndex()-1
+			nbPanel.combo2.getSelectedIndex()-1,
+			nbPanel.combo3.getSelectedIndex()-1
 		};
 	}
 
@@ -84,7 +85,8 @@ public class SortLinesByTraitDialog extends JDialog implements ActionListener
 	{
 		return new boolean[] {
 			nbPanel.rAsc1.isSelected(),
-			nbPanel.rAsc2.isSelected()
+			nbPanel.rAsc2.isSelected(),
+			nbPanel.rAsc3.isSelected()
 		};
 	}
 }

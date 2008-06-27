@@ -176,7 +176,7 @@ public class MenuFile
 		}
 	}
 
-	private void importTraitData()
+	public void importTraitData()
 	{
 		DataSet dataSet = navPanel.getDataSetForSelection();
 
