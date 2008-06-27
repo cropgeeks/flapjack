@@ -64,8 +64,6 @@ public class SortLinesByTrait implements ILineSorter
 	{
 		LineInfo lineInfo;
 
-		private float[] v;
-		private boolean[] isDefined;
 		private TraitValue[] tv;
 
 		LineScore(LineInfo lineInfo)
@@ -77,8 +75,6 @@ public class SortLinesByTrait implements ILineSorter
 			Vector<TraitValue> traitValues = line.getTraitValues();
 
 			// Get the values
-			v = new float[traits.length];
-			isDefined = new boolean[traits.length];
 			tv = new TraitValue[traits.length];
 
 			for (int i = 0; i < traits.length; i++)
@@ -88,8 +84,6 @@ public class SortLinesByTrait implements ILineSorter
 					break;
 
 				tv[i] = traitValues.get(traits[i]);
-				v[i] = traitValues.get(traits[i]).getValue();
-				isDefined[i] = traitValues.get(traits[i]).isDefined();
 			}
 		}
 
@@ -114,37 +108,6 @@ public class SortLinesByTrait implements ILineSorter
 				return compareTo(other, i+1);
 
 			return result;
-
-/*			// If ascending, and this line has no value, then it must go 1st
-			if (asc[i] && !isDefined[i])
-				return -1;
-			// If ascending, and this line has a value but the other doesn't,
-			// then it must go 2nd
-			if (asc[i] && (isDefined[i] && !other.isDefined[i]))
-				return 1;
-
-			// If descending, and this line has no value, then it must go 2nd
-			if (!asc[i] && !isDefined[i])
-				return 1;
-			// If descending, and this line has a value but the other doesn't,
-			// then it must go 1st
-			if (!asc[i] && (isDefined[i] && !other.isDefined[i]))
-				return -1;
-
-
-			if ((asc[i] && v[i] < other.v[i]) || (!asc[i] && v[i] > other.v[i]))
-				return -1;
-
-			// If it's equal (and it's possile to compare another trait)...
-			else if (v[i] == other.v[i] && (i < traits.length-1) && traits[i+1] != -1)
-				return compareTo(other, i+1);
-			// Otherwise it's just equal
-			else if (v[i] == other.v[i])
-				return 0;
-
-			else
-				return 1;
-*/
 		}
 	}
 }
