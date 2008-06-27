@@ -36,6 +36,7 @@ public class MenuFile
 			return;
 
 		project = new Project();
+		winMain.setTitle(RB.getString("gui.WinMain.title") + " - " + Install4j.VERSION);
 
 		gPanel.resetBufferedState(false);
 		winMain.setProject(project);
@@ -60,6 +61,10 @@ public class MenuFile
 			navPanel.setProject(openedProject);
 			menubar.createRecentMenu(openedProject.filename);
 			new DataOpenedAnimator(gPanel);
+
+			winMain.setTitle(openedProject.filename.getName()
+				+ " - " + RB.getString("gui.WinMain.title")
+				+ " - " + Install4j.VERSION);
 		}
 		else
 			gPanel.resetBufferedState(true);
@@ -75,6 +80,10 @@ public class MenuFile
 		{
 			Actions.projectSaved();
 			menubar.createRecentMenu(project.filename);
+
+			winMain.setTitle(project.filename.getName()
+				+ " - " + RB.getString("gui.WinMain.title")
+				+ " - " + Install4j.VERSION);
 
 			return true;
 		}
