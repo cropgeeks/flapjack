@@ -51,6 +51,7 @@ public class Actions
 	public static AbstractAction vizOverview;
 
 	public static AbstractAction dataSortLinesBySimilarity;
+	public static AbstractAction dataSortLinesByTrait;
 	public static AbstractAction dataFind;
 	public static AbstractAction dataStatistics;
 	public static AbstractAction dataRenameDataSet;
@@ -319,7 +320,13 @@ public class Actions
 
 		dataSortLinesBySimilarity = new AbstractAction(RB.getString("gui.Actions.dataSortLinesBySimilarity")) {
 			public void actionPerformed(ActionEvent e) {
-				winMain.mData.dataSortLines(0);
+				winMain.mData.dataSortLines();
+			}
+		};
+
+		dataSortLinesByTrait = new AbstractAction(RB.getString("gui.Actions.dataSortLinesByTrait")) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.mData.dataSortLinesByTrait();
 			}
 		};
 
@@ -434,6 +441,7 @@ public class Actions
 		vizOverview.setEnabled(false);
 
 		dataSortLinesBySimilarity.setEnabled(false);
+		dataSortLinesByTrait.setEnabled(false);
 		dataFind.setEnabled(false);
 		dataStatistics.setEnabled(false);
 		dataRenameDataSet.setEnabled(false);
