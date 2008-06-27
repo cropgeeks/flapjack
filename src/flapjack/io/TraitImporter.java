@@ -45,7 +45,7 @@ public class TraitImporter
 		lineCount = 2;
 		while ((str = in.readLine()) != null && str.length() > 0 && isOK)
 		{
-			String[] tokens = str.split("\t");
+			String[] tokens = str.split("\t", -1);
 
 			// Fail if the data per line doesn't match the expected number
 			if (tokens.length != traits.size() + 1)
