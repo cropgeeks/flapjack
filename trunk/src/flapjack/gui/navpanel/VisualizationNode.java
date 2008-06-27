@@ -60,6 +60,7 @@ public class VisualizationNode extends BaseNode
 		Actions.vizOverview.setEnabled(true);
 
 		Actions.dataSortLinesBySimilarity.setEnabled(true);
+		Actions.dataSortLinesByTrait.setEnabled(true);
 		Actions.dataFind.setEnabled(true);
 		Actions.dataStatistics.setEnabled(true);
 		Actions.dataRenameDataSet.setEnabled(true);

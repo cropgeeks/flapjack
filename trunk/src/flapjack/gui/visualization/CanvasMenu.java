@@ -30,6 +30,7 @@ public class CanvasMenu
 	private JMenuItem mToggleCanvas;
 	private JMenu mSortLines;
 	private JMenuItem mSortLinesBySimilarity;
+	private JMenuItem mSortLinesByTrait;
 	private JMenuItem mFind;
 
 
@@ -90,10 +91,12 @@ public class CanvasMenu
 		mColor.add(mColorCustomize);
 
 		mSortLinesBySimilarity = WinMainMenuBar.getItem(Actions.dataSortLinesBySimilarity, "gui.Actions.dataSortLinesBySimilarity", 0, 0);
+		mSortLinesByTrait = WinMainMenuBar.getItem(Actions.dataSortLinesByTrait, "gui.Actions.dataSortLinesByTrait", 0, 0);
 
 		mSortLines = new JMenu(RB.getString("gui.WinMainMenuBar.mDataSortLines"));
 		RB.setMnemonic(mSortLines, "gui.WinMainMenuBar.mDataSortLines");
 		mSortLines.add(mSortLinesBySimilarity);
+		mSortLines.add(mSortLinesByTrait);
 	}
 
 	void handlePopup(MouseEvent e)

@@ -1,5 +1,6 @@
 package flapjack.gui;
 
+import flapjack.analysis.*;
 import flapjack.data.*;
 import flapjack.gui.dialog.*;
 import flapjack.gui.dialog.analysis.*;
@@ -21,7 +22,7 @@ class MenuData
 		gPanel = navPanel.getGenotypePanel();
 	}
 
-	void dataSortLines(int sortMethod)
+	void dataSortLines()
 	{
 		SortLinesDialog dialog = new SortLinesDialog(gPanel);
 
@@ -29,7 +30,27 @@ class MenuData
 		{
 			boolean[] chromosomes = dialog.getSelectedChromosomes();
 
-			new SortingLinesProgressDialog(chromosomes).runSort(gPanel, sortMethod);
+			GTViewSet viewSet = gPanel.getViewSet();
+			int line = gPanel.getView().mouseOverLine;
+
+			ILineSorter sort = new SortLinesBySimilarity(viewSet, line, chromosomes);
+			new SortingLinesProgressDialog(gPanel, sort).runSort();
+		}
+	}
+
+	void dataSortLinesByTrait()
+	{
+		SortLinesByTraitDialog dialog = new SortLinesByTraitDialog(gPanel);
+
+		if (dialog.isOK())
+		{
+			GTViewSet viewSet = gPanel.getViewSet();
+
+			int[] traits = dialog.getTraitIndices();
+			boolean[] asc = dialog.getAscendingIndices();
+
+			ILineSorter sort = new SortLinesByTrait(viewSet, traits, asc);
+			new SortingLinesProgressDialog(gPanel, sort).runSort();
 		}
 	}
 

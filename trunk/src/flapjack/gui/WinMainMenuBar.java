@@ -62,6 +62,7 @@ public class WinMainMenuBar extends JMenuBar
 	private JMenu mData;
 	private JMenu mDataSortLines;
 	private JMenuItem mDataSortLinesBySimilarity;
+	private JMenuItem mDataSortLinesByTrait;
 	private JMenuItem mDataFind;
 	private JMenuItem mDataStatistics;
 	private JMenuItem mDataRenameDataSet;
@@ -247,12 +248,14 @@ public class WinMainMenuBar extends JMenuBar
 		mDataSortLines = new JMenu(RB.getString("gui.WinMainMenuBar.mDataSortLines"));
 		RB.setMnemonic(mDataSortLines, "gui.WinMainMenuBar.mDataSortLines");
 		mDataSortLinesBySimilarity = getItem(Actions.dataSortLinesBySimilarity, "gui.Actions.dataSortLinesBySimilarity", 0, 0);
+		mDataSortLinesByTrait = getItem(Actions.dataSortLinesByTrait, "gui.Actions.dataSortLinesByTrait", 0, 0);
 		mDataFind = getItem(Actions.dataFind, "gui.Actions.dataFind", KeyEvent.VK_F, menuShortcut);
 		mDataStatistics = getItem(Actions.dataStatistics, "gui.Actions.dataStatistics", 0, 0);
 		mDataRenameDataSet = getItem(Actions.dataRenameDataSet, "gui.Actions.dataRenameDataSet", 0, 0);
 		mDataDeleteDataSet = getItem(Actions.dataDeleteDataSet, "gui.Actions.dataDeleteDataSet", 0, 0);
 
 		mDataSortLines.add(mDataSortLinesBySimilarity);
+		mDataSortLines.add(mDataSortLinesByTrait);
 
 		mData.add(mDataSortLines);
 		mData.addSeparator();
