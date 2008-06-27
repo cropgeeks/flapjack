@@ -34,9 +34,6 @@ class TraitsTableModel extends AbstractTableModel
 		columnNames[0] = RB.getString("gui.traits.TraitsTableModel.line");
 		for (int i = 1; i < columnNames.length; i++)
 			columnNames[i] = traits.get(i-1).getName();
-
-		for (int i = 0; i < columnNames.length; i++)
-			System.out.println(columnNames[i]);
 	}
 
 	public String getColumnName(int col)

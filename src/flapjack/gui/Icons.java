@@ -24,6 +24,7 @@ public class Icons
 	public static ImageIcon GREYBLOB;
 	public static ImageIcon GERMINATE;
 	public static ImageIcon HELP;
+	public static ImageIcon IMPORTTRAITS;
 	public static ImageIcon INVERT;
 	public static ImageIcon LINEMODE;
 	public static ImageIcon MARKERMODE;

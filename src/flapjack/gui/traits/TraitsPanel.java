@@ -1,6 +1,7 @@
 package flapjack.gui.traits;
 
 import java.awt.*;
+import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.table.*;
 
@@ -9,12 +10,14 @@ import flapjack.gui.*;
 
 import scri.commons.gui.*;
 
-public class TraitsPanel extends JPanel
+public class TraitsPanel extends JPanel implements ActionListener
 {
 	private DataSet dataSet;
 
 	private JTable table;
 	private TraitsTableModel model;
+
+	private NBTraitsControlPanel controls;
 
 	public TraitsPanel(DataSet dataSet)
 	{
@@ -26,11 +29,17 @@ public class TraitsPanel extends JPanel
 		table.setDefaultRenderer(String.class, new TraitsTableRenderer());
 		table.setDefaultRenderer(Float.class, new TraitsTableRenderer());
 
-		updateModel();
+		controls = new NBTraitsControlPanel();
+		controls.bImport.addActionListener(this);
+		controls.bRemove.addActionListener(this);
 
-		setLayout(new BorderLayout());
-		setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		setLayout(new BorderLayout(0, 0));
+		setBorder(BorderFactory.createEmptyBorder(1, 1, 0, 0));
+		add(new TitlePanel("Trait Data"), BorderLayout.NORTH);
 		add(new JScrollPane(table));
+		add(controls, BorderLayout.SOUTH);
+
+		updateModel();
 	}
 
 	public void updateModel()
@@ -51,6 +60,13 @@ public class TraitsPanel extends JPanel
 				column.setCellEditor(
 					new DefaultCellEditor(model.getCategoryComboBox(i)));
 		}
+
+		controls.statusLabel.setText(
+			RB.format("gui.traits.TraitsPanels.traitCount",
+			(table.getColumnCount()-1)));
+
+		// Enable/disable the "remove" button based on the trait count
+		controls.bRemove.setEnabled(table.getColumnCount()-1 > 0);
 	}
 
 	// This is done in a separate class to hide its implementation from OS X on
@@ -61,5 +77,35 @@ public class TraitsPanel extends JPanel
 		{
 			table.setRowSorter(new TableRowSorter<TraitsTableModel>(model));
 		}
+	}
+
+	public void actionPerformed(ActionEvent e)
+	{
+		if (e.getSource() == controls.bImport)
+			Flapjack.winMain.mFile.importTraitData();
+
+		else if (e.getSource() == controls.bRemove)
+		{
+			String msg = RB.getString("gui.traits.TraitsPanels.removeMsg");
+			String[] options = new String[] {
+					RB.getString("gui.traits.TraitsPanels.remove"),
+					RB.getString("gui.text.cancel") };
+
+			int response = TaskDialog.show(msg, MsgBox.QST, 1, options);
+
+			if (response == 0)
+				removeAllTraits();
+		}
+	}
+
+	private void removeAllTraits()
+	{
+		dataSet.getTraits().clear();
+
+		for (Line line: dataSet.getLines())
+			line.getTraitValues().clear();
+
+		updateModel();
+		Actions.projectModified();
 	}
 }
