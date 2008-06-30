@@ -24,6 +24,10 @@ public class RB
 			Locale.setDefault(Locale.GERMANY);
 
 		bundle = ResourceBundle.getBundle("res.text.flapjack");
+
+//		Enumeration keys = bundle.getKeys();
+//		while (keys.hasMoreElements())
+//			System.out.println(bundle.getString((String)keys.nextElement()));
 	}
 
 	/**
