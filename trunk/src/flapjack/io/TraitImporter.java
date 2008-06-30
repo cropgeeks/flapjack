@@ -92,7 +92,12 @@ public class TraitImporter
 			// If data *does* exist for this line
 			if (traitValues != null)
 				for (TraitValue tv: traitValues)
+				{
+					// First update the value with its normalized score
+					tv.computeNormal();
+					// Then add it
 					line.getTraitValues().add(tv);
+				}
 
 			// If it doesn't, then still add TraitValues, but use dummy ones
 			else

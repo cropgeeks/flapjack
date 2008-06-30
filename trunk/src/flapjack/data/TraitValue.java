@@ -7,6 +7,8 @@ public class TraitValue extends XMLRoot
 
 	// The actual value itself
 	private float value;
+	// And it's normalized value when compared against all other lines
+	private float normal;
 
 	// Some lines may need "dummy" trait data
 	private boolean isDefined;
@@ -55,6 +57,12 @@ public class TraitValue extends XMLRoot
 	public void setValue(float value)
 		{ this.value = value; }
 
+	public float getNormal()
+		{ return normal; }
+
+	public void setNormal(float normal)
+		{ this.normal = normal; }
+
 	public boolean isDefined()
 		{ return isDefined; }
 
@@ -99,5 +107,18 @@ public class TraitValue extends XMLRoot
 
 			return myCat.compareTo(otherCat);
 		}
+	}
+
+	/**
+	 * Uses the maximum and minimum values for all lines with this trait value,
+	 * (from its reference to the Trait object) to compute a normalized score
+	 * for this value.
+	 */
+	public void computeNormal()
+	{
+		float min = trait.min;
+		float max = trait.max;
+
+		normal = (value - min) / (max - min);
 	}
 }

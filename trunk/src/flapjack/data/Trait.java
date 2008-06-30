@@ -10,6 +10,11 @@ public class Trait extends XMLRoot
 	private String name;
 	private Vector<String> categories = new Vector<String>();
 
+	// Used while importing to track the highest and lowest values assignd to
+	// any of the trait values associated with this trait
+	float min = Float.MAX_VALUE;
+	float max = Float.MIN_VALUE;
+
 	public Trait()
 	{
 	}
@@ -49,6 +54,21 @@ public class Trait extends XMLRoot
 	 * then returned).
 	 */
 	public float computeValue(String token)
+	{
+		float value = getNumCatValue(token);
+
+		if (value < min)
+			min = value;
+		if (value > max)
+			max = value;
+
+		System.out.println(name + ": min now: " + min);
+		System.out.println(name + ": max now: " + max);
+
+		return value;
+	}
+
+	private float getNumCatValue(String token)
 	{
 		try
 		{

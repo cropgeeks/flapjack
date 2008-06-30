@@ -137,12 +137,6 @@
 		<field name="trait" type="flapjack.data.Trait">
 			<bind-xml reference="true" node="attribute"/>
 		</field>
-		<field name="value" type="float">
-			<bind-xml node="attribute"/>
-		</field>
-		<field name="defined" type="boolean">
-			<bind-xml node="attribute"/>
-		</field>
 	</class>
 
 </mapping>
