@@ -1,6 +1,7 @@
 package flapjack.gui;
 
 import java.io.*;
+import java.util.*;
 import javax.swing.*;
 
 import flapjack.data.*;
@@ -180,8 +181,9 @@ public class MenuFile
 	{
 		DataSet dataSet = navPanel.getDataSetForSelection();
 
+		// Open up a file browser
 		JFileChooser fc = new JFileChooser();
-		fc.setDialogTitle("Browse for Trait File");
+		fc.setDialogTitle(RB.getString("gui.MenuFile.traitBrowse"));
 		fc.setCurrentDirectory(new File(Prefs.guiCurrentDir));
 
 		if (fc.showOpenDialog(winMain) != JFileChooser.APPROVE_OPTION)
@@ -190,14 +192,18 @@ public class MenuFile
 		File file = fc.getSelectedFile();
 		Prefs.guiCurrentDir = fc.getCurrentDirectory().toString();
 
-
+		// Run the import under threaded conditions...
 		TraitsImportingProgressDialog dialog =
 			new TraitsImportingProgressDialog(file, dataSet);
 
-		if (dialog.isOK())
-		{
-			navPanel.getTraitsPanel(dataSet).updateModel();
-			Actions.projectModified();
-		}
+		if (dialog.isOK() == false)
+			return;
+
+		// Check to see if any of the views need traits assigned to them
+		for (GTViewSet viewSet: dataSet.getViewSets())
+			viewSet.assignTraits();
+
+		navPanel.getTraitsPanel(dataSet).updateModel();
+		Actions.projectModified();
 	}
 }

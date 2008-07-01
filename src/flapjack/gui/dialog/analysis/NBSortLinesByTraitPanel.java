@@ -25,7 +25,8 @@ class NBSortLinesByTraitPanel extends JPanel
 		RB.setText(rDes1, "gui.dialog.analysis.NBSortLinesByTraitPanel.descending");
 		RB.setText(rDes2, "gui.dialog.analysis.NBSortLinesByTraitPanel.descending");
 		RB.setText(rDes3, "gui.dialog.analysis.NBSortLinesByTraitPanel.descending");
-
+		RB.setText(checkAssign, "gui.dialog.analysis.NBSortLinesByTraitPanel.checkAssign");
+		
 
 		// Fill the combo boxes with the possible traits
 		DataSet dataSet = gPanel.getViewSet().getDataSet();
@@ -38,8 +39,16 @@ class NBSortLinesByTraitPanel extends JPanel
 			combo2.addItem(trait.getName());
 			combo3.addItem(trait.getName());
 		}
+		
+		checkAssign.setSelected(Prefs.guiAssignTraits);
 	}
-
+	
+	boolean isOK()
+	{
+		Prefs.guiAssignTraits = checkAssign.isSelected();
+		
+		return true;
+	}
 
     /** This method is called from within the constructor to
      * initialize the form.
@@ -65,6 +74,7 @@ class NBSortLinesByTraitPanel extends JPanel
         combo3 = new javax.swing.JComboBox();
         rAsc3 = new javax.swing.JRadioButton();
         rDes3 = new javax.swing.JRadioButton();
+        checkAssign = new javax.swing.JCheckBox();
 
         panel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Sort on this trait first:"));
 
@@ -81,7 +91,7 @@ class NBSortLinesByTraitPanel extends JPanel
             panel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(org.jdesktop.layout.GroupLayout.TRAILING, panel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .add(combo1, 0, 235, Short.MAX_VALUE)
+                .add(combo1, 0, 242, Short.MAX_VALUE)
                 .add(18, 18, 18)
                 .add(panel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(rDes1)
@@ -115,7 +125,7 @@ class NBSortLinesByTraitPanel extends JPanel
             panel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(org.jdesktop.layout.GroupLayout.TRAILING, panel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .add(combo2, 0, 235, Short.MAX_VALUE)
+                .add(combo2, 0, 242, Short.MAX_VALUE)
                 .add(18, 18, 18)
                 .add(panel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(rDes2)
@@ -149,7 +159,7 @@ class NBSortLinesByTraitPanel extends JPanel
             panel3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(org.jdesktop.layout.GroupLayout.TRAILING, panel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .add(combo3, 0, 235, Short.MAX_VALUE)
+                .add(combo3, 0, 242, Short.MAX_VALUE)
                 .add(18, 18, 18)
                 .add(panel3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(rDes3)
@@ -168,16 +178,19 @@ class NBSortLinesByTraitPanel extends JPanel
                 .addContainerGap())
         );
 
+        checkAssign.setText("Auto assign these traits to the traits heatmap once the sort is completed");
+
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
+            .add(layout.createSequentialGroup()
                 .addContainerGap()
-                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
-                    .add(org.jdesktop.layout.GroupLayout.LEADING, panel3, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .add(panel2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .add(panel1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(checkAssign)
+                    .add(panel3, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, panel2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, panel1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -188,8 +201,10 @@ class NBSortLinesByTraitPanel extends JPanel
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(panel2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(panel3, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .add(panel3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                .add(checkAssign)
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -198,6 +213,7 @@ class NBSortLinesByTraitPanel extends JPanel
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.ButtonGroup buttonGroup3;
+    private javax.swing.JCheckBox checkAssign;
     javax.swing.JComboBox combo1;
     javax.swing.JComboBox combo2;
     javax.swing.JComboBox combo3;

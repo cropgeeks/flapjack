@@ -60,7 +60,7 @@ public class SortLinesByTraitDialog extends JDialog implements ActionListener
 
 	public void actionPerformed(ActionEvent e)
 	{
-		if (e.getSource() == bOK)
+		if (e.getSource() == bOK && nbPanel.isOK())
 			isOK = true;
 
 		setVisible(false);

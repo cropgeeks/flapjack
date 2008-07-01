@@ -48,8 +48,9 @@ class MenuData
 
 			int[] traits = dialog.getTraitIndices();
 			boolean[] asc = dialog.getAscendingIndices();
+			boolean assign = Prefs.guiAssignTraits;
 
-			ILineSorter sort = new SortLinesByTrait(viewSet, traits, asc);
+			ILineSorter sort = new SortLinesByTrait(viewSet, traits, asc, assign);
 			new SortingLinesProgressDialog(gPanel, sort).runSort();
 		}
 	}
