@@ -35,6 +35,9 @@ public class GTViewSet extends XMLRoot
 	// And its current index
 	int comparisonLineIndex;
 
+	// If traits are being displayed, which ones?
+	private int[] traits = new int[] { -1, -1, -1 };
+
 	private UndoManager undoManager = new UndoManager();
 
 	public GTViewSet()
@@ -140,6 +143,12 @@ public class GTViewSet extends XMLRoot
 
 	public void setAlleleFrequencyThreshold(float alleleFrequencyThreshold)
 		{ this.alleleFrequencyThreshold = alleleFrequencyThreshold; }
+
+	public int[] getTraits()
+		{ return traits; }
+
+	public void setTraits(int[] traits)
+		{ this.traits = traits; }
 
 
 	// Other methods

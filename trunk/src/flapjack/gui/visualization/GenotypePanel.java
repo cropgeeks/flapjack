@@ -23,6 +23,7 @@ public class GenotypePanel extends JPanel
 	private QTLCanvas qtlCanvas;
 	private RowCanvas rowCanvas;
 	private ColCanvas colCanvas;
+	TraitCanvas traitCanvas;
 	ListPanel listPanel;
 	NBStatusPanel statusPanel;
 
@@ -46,6 +47,7 @@ public class GenotypePanel extends JPanel
 		centerPanel.add(topPanel, BorderLayout.NORTH);
 		centerPanel.add(rowCanvas, BorderLayout.SOUTH);
 		centerPanel.add(colCanvas, BorderLayout.EAST);
+		centerPanel.add(traitCanvas, BorderLayout.WEST);
 
 		displayPanel = new JPanel(new BorderLayout());
 		displayPanel.add(centerPanel);
@@ -75,6 +77,7 @@ public class GenotypePanel extends JPanel
 		colCanvas = new ColCanvas(canvas);
 		mapCanvas = new MapCanvas(this, canvas);
 		qtlCanvas = new QTLCanvas(this, canvas);
+		traitCanvas = new TraitCanvas(canvas);
 
 		listPanel = new ListPanel();
 		statusPanel = new NBStatusPanel(this);
@@ -214,6 +217,7 @@ public class GenotypePanel extends JPanel
 		colCanvas.updateOverviewSelectionBox(yIndex, yH);
 		mapCanvas.updateView();
 		qtlCanvas.updateView();
+		traitCanvas.repaint();
 	}
 
 	// Jumps to a position relative to a x/y index within the dataset array

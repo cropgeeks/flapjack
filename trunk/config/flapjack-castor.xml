@@ -90,6 +90,7 @@
 		<field name="comparisonLineIndex" type="integer">
 			<bind-xml node="attribute"/>
 		</field>
+		<field name="traits" type="integer" collection="array"/>
 	</class>
 
 	<!-- GTView -->
