@@ -62,9 +62,6 @@ public class Trait extends XMLRoot
 		if (value > max)
 			max = value;
 
-		System.out.println(name + ": min now: " + min);
-		System.out.println(name + ": max now: " + max);
-
 		return value;
 	}
 

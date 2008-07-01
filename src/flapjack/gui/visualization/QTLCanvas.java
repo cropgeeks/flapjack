@@ -75,7 +75,8 @@ class QTLCanvas extends JPanel
 			Graphics2D g = (Graphics2D) graphics;
 
 			// Calculate the required offset and width
-			int xOffset = gPanel.listPanel.getPanelWidth() + 1;
+			int xOffset = gPanel.traitCanvas.getPanelWidth()
+				+ gPanel.listPanel.getPanelWidth() + 1;
 			int width = (canvas.pX2-canvas.pX1);
 			g.translate(xOffset, 0);
 
