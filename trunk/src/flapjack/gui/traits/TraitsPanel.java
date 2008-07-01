@@ -100,10 +100,17 @@ public class TraitsPanel extends JPanel implements ActionListener
 
 	private void removeAllTraits()
 	{
+		// Remove the traits from the dataset
 		dataSet.getTraits().clear();
 
+		// Remove the trait values from the lines
 		for (Line line: dataSet.getLines())
 			line.getTraitValues().clear();
+
+		// Remove any trait display (column) indices from the views
+		for (GTViewSet viewSet: dataSet.getViewSets())
+			for (int i = 0; i < viewSet.getTraits().length; i++)
+				viewSet.getTraits()[i] = -1;
 
 		updateModel();
 		Actions.projectModified();

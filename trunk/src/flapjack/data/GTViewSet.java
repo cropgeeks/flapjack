@@ -63,6 +63,10 @@ public class GTViewSet extends XMLRoot
 
 		for (int i = 0; i < dataSet.countChromosomeMaps(); i++)
 			views.add(new GTView(this, dataSet.getMapByIndex(i)));
+
+		// For a genuine new view on a new data import, this will have no effect
+		// but for new (additional) views, traits may exist that can be used
+		assignTraits();
 	}
 
 	void validate()
@@ -231,6 +235,10 @@ public class GTViewSet extends XMLRoot
 		clone.alleleFrequencyThreshold = alleleFrequencyThreshold;
 		clone.randomColorSeed = randomColorSeed;
 
+		// Copy over the trait indices
+		for (int i = 0; i < traits.length; i++)
+			clone.traits[i] = traits[i];
+
 		// Copy over the line data
 		clone.setLinesFromArray(getLinesAsArray(true), true);
 		// Copy over the hidden line data
@@ -289,5 +297,20 @@ public class GTViewSet extends XMLRoot
 			total += view.getMarkerCount() * view.getLineCount();
 
 		return total;
+	}
+
+	/**
+	 * Maps trait column indices onto a view after trait data has been loaded.
+	 * Assuming enough traits are available, and no previous indices were set,
+	 * the viewSet will be told to display traits 0, 1, and 2.
+	 */
+	public void assignTraits()
+	{
+		int count = dataSet.getTraits().size();
+
+		// For each column - if it's not been assigned yet (and there is a
+		// trait available for that column)...
+		for (int i = 0; i < traits.length && traits[i] == -1 && i < count-1; i++)
+			traits[i] = i;
 	}
 }

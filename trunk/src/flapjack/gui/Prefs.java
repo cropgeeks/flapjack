@@ -77,6 +77,9 @@ public class Prefs extends XMLPreferences
 	// When cloning views, should Flapjack clone hidden lines/markers?
 	public static boolean guiCloneHidden = true;
 
+	// Auto assign traits to the heatmap after a sort-by-trait?
+	public static boolean guiAssignTraits = true;
+
 	// Finding stuff...
 	public static boolean guiFindDialogShown = false;
 	public static int guiFindDialogX = 0;

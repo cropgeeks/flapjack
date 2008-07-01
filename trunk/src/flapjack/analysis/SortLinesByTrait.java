@@ -12,14 +12,17 @@ public class SortLinesByTrait implements ILineSorter
 	private int[] traits;
 	private boolean[] asc;
 
+	// Auto assign the selected traits to the view's heatmap after the sort?
+	private boolean autoAssign;
+
 	private int linesScored = 0;
 
-	public SortLinesByTrait(GTViewSet viewSet, int[] traits, boolean[] asc)
+	public SortLinesByTrait(GTViewSet viewSet, int[] traits, boolean[] asc, boolean autoAssign)
 	{
 		this.viewSet = viewSet;
-
 		this.traits = traits;
 		this.asc = asc;
+		this.autoAssign = autoAssign;
 	}
 
 	public int getMaximum()
@@ -53,6 +56,10 @@ public class SortLinesByTrait implements ILineSorter
 
 		// And pass that order back to the view
 		view.getViewSet().setLinesFromArray(lineOrder, true);
+
+		// Assign the traits to the heatmap?
+		if (autoAssign)
+			view.getViewSet().setTraits(traits);
 
 		// Because we've reordered the view (without it knowing), we MUST let
 		// it know that it has to search for its comparison line's new position

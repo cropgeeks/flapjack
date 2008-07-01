@@ -23,9 +23,10 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="1" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="1" attributes="0">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="checkAssign" alignment="0" min="-2" max="-2" attributes="0"/>
                   <Component id="panel3" alignment="0" max="32767" attributes="0"/>
                   <Component id="panel2" alignment="1" max="32767" attributes="0"/>
                   <Component id="panel1" alignment="1" max="32767" attributes="0"/>
@@ -42,8 +43,10 @@
               <EmptySpace max="-2" attributes="0"/>
               <Component id="panel2" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="panel3" max="32767" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
+              <Component id="panel3" min="-2" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Component id="checkAssign" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -63,7 +66,7 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="1" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="combo1" pref="235" max="32767" attributes="0"/>
+                  <Component id="combo1" pref="242" max="32767" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="rDes1" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -138,7 +141,7 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="1" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="combo2" pref="235" max="32767" attributes="0"/>
+                  <Component id="combo2" pref="242" max="32767" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="rDes2" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -213,7 +216,7 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="1" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="combo3" pref="235" max="32767" attributes="0"/>
+                  <Component id="combo3" pref="242" max="32767" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="rDes3" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -274,5 +277,10 @@
         </Component>
       </SubComponents>
     </Container>
+    <Component class="javax.swing.JCheckBox" name="checkAssign">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Auto assign these traits to the traits heatmap once the sort is completed"/>
+      </Properties>
+    </Component>
   </SubComponents>
 </Form>
