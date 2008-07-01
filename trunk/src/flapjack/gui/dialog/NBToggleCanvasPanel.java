@@ -23,6 +23,7 @@ class NBToggleCanvasPanel extends JPanel implements ActionListener
 		RB.setText(checkQTLCanvas, "gui.dialog.NBToggleCanvasPanel.checkQTLCanvas");
 		RB.setText(checkRowCanvas, "gui.dialog.NBToggleCanvasPanel.checkRowCanvas");
 		RB.setText(checkColCanvas, "gui.dialog.NBToggleCanvasPanel.checkColCanvas");
+		RB.setText(checkTraitCanvas, "gui.dialog.NBToggleCanvasPanel.checkTraitCanvas");
 		RB.setText(checkStatusPanel, "gui.dialog.NBToggleCanvasPanel.checkStatusPanel");
 
 		checkLinePanel.addActionListener(this);
@@ -30,6 +31,7 @@ class NBToggleCanvasPanel extends JPanel implements ActionListener
 		checkQTLCanvas.addActionListener(this);
 		checkRowCanvas.addActionListener(this);
 		checkColCanvas.addActionListener(this);
+		checkTraitCanvas.addActionListener(this);
 		checkStatusPanel.addActionListener(this);
 
 		checkLinePanel.setSelected(Prefs.visShowLinePanel);
@@ -37,6 +39,7 @@ class NBToggleCanvasPanel extends JPanel implements ActionListener
 		checkQTLCanvas.setSelected(Prefs.visShowQTLCanvas);
 		checkRowCanvas.setSelected(Prefs.visShowRowCanvas);
 		checkColCanvas.setSelected(Prefs.visShowColCanvas);
+		checkTraitCanvas.setSelected(Prefs.visShowTraitCanvas);
 		checkStatusPanel.setSelected(Prefs.visShowStatusPanel);
 	}
 
@@ -47,6 +50,7 @@ class NBToggleCanvasPanel extends JPanel implements ActionListener
 		Prefs.visShowQTLCanvas = checkQTLCanvas.isSelected();
 		Prefs.visShowRowCanvas = checkRowCanvas.isSelected();
 		Prefs.visShowColCanvas = checkColCanvas.isSelected();
+		Prefs.visShowTraitCanvas = checkTraitCanvas.isSelected();
 		Prefs.visShowStatusPanel = checkStatusPanel.isSelected();
 
 		gPanel.setVisibleStates();
@@ -68,6 +72,7 @@ class NBToggleCanvasPanel extends JPanel implements ActionListener
         checkQTLCanvas = new javax.swing.JCheckBox();
         checkRowCanvas = new javax.swing.JCheckBox();
         checkColCanvas = new javax.swing.JCheckBox();
+        checkTraitCanvas = new javax.swing.JCheckBox();
         checkStatusPanel = new javax.swing.JCheckBox();
 
         panel.setBorder(javax.swing.BorderFactory.createTitledBorder("Only display:"));
@@ -81,6 +86,8 @@ class NBToggleCanvasPanel extends JPanel implements ActionListener
         checkRowCanvas.setText("The mouse-over line overview panel");
 
         checkColCanvas.setText("The mouse-over marker overview panel");
+
+        checkTraitCanvas.setText("The traits heatmap panel");
 
         checkStatusPanel.setText("The status bar and zoom controls");
 
@@ -96,6 +103,7 @@ class NBToggleCanvasPanel extends JPanel implements ActionListener
                     .add(checkQTLCanvas)
                     .add(checkRowCanvas)
                     .add(checkColCanvas)
+                    .add(checkTraitCanvas)
                     .add(checkStatusPanel))
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -112,6 +120,8 @@ class NBToggleCanvasPanel extends JPanel implements ActionListener
                 .add(checkRowCanvas)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(checkColCanvas)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(checkTraitCanvas)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(checkStatusPanel)
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -143,6 +153,7 @@ class NBToggleCanvasPanel extends JPanel implements ActionListener
     private javax.swing.JCheckBox checkQTLCanvas;
     private javax.swing.JCheckBox checkRowCanvas;
     private javax.swing.JCheckBox checkStatusPanel;
+    private javax.swing.JCheckBox checkTraitCanvas;
     private javax.swing.JPanel panel;
     // End of variables declaration//GEN-END:variables
 }
