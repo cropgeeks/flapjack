@@ -30,7 +30,18 @@ class TraitCanvas extends JPanel
 
 	int getPanelWidth()
 	{
-		return getWidth();
+		return isVisible() ? getWidth() : 0;
+	}
+
+	// Decides whether to show this panel or not, based on a) are there traits
+	// that *can* be shown, and b) does the user want to see the panel
+	void determineVisibility()
+	{
+		int traitCount = 0;
+		if (canvas.viewSet != null)
+			traitCount = canvas.viewSet.getDataSet().getTraits().size();
+
+		setVisible(traitCount > 0 && Prefs.visShowTraitCanvas);
 	}
 
 	private class Canvas2D extends JPanel

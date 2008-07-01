@@ -100,6 +100,7 @@ public class GenotypePanel extends JPanel
 		canvas.setView(viewSet, view);
 		listPanel.setView(view);
 		statusPanel.setView(view);
+		traitCanvas.determineVisibility();
 
 		computePanelSizes();
 
@@ -353,6 +354,7 @@ public class GenotypePanel extends JPanel
 		qtlCanvas.setVisible(Prefs.visShowQTLCanvas);
 		rowCanvas.setVisible(Prefs.visShowRowCanvas);
 		colCanvas.setVisible(Prefs.visShowColCanvas);
+		traitCanvas.determineVisibility();
 		statusPanel.setVisible(Prefs.visShowStatusPanel);
 
 		if (Prefs.visShowLinePanel)
