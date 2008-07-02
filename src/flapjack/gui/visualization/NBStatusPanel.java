@@ -16,15 +16,13 @@ public class NBStatusPanel extends JPanel implements ActionListener, ChangeListe
 	private GenotypePanel gPanel;
 	private GTView view;
 
-	public NBStatusPanel(GenotypePanel gPanel)
+	NBStatusPanel(GenotypePanel gPanel)
 	{
 		this.gPanel = gPanel;
 
 		initComponents();
 
 		RB.setText(label1, "gui.visualization.StatusPanel.line");
-		RB.setText(label2, "gui.visualization.StatusPanel.marker");
-		RB.setText(label3, "gui.visualization.StatusPanel.genotype");
 		RB.setText(horizontalLabel, "gui.visualization.StatusPanel.horizontalLabel");
 		RB.setText(checkLink, "gui.visualization.StatusPanel.checkLink");
 
@@ -40,6 +38,19 @@ public class NBStatusPanel extends JPanel implements ActionListener, ChangeListe
 		checkLink.addActionListener(this);
 
 		setControlStates();
+		setForMainUse();
+	}
+
+	void setForMainUse()
+	{
+		RB.setText(label2, "gui.visualization.StatusPanel.marker");
+		RB.setText(label3, "gui.visualization.StatusPanel.genotype");
+	}
+
+	void setForHeatmapUse()
+	{
+		RB.setText(label2, "gui.visualization.StatusPanel.trait");
+		RB.setText(label3, "gui.visualization.StatusPanel.value");
 	}
 
 	// Toggles the state of the slider controls based on whether or not advanced
@@ -143,6 +154,13 @@ public class NBStatusPanel extends JPanel implements ActionListener, ChangeListe
 				alleleLabel.setText(state.getRawData());
 			}
 		}
+	}
+
+	void setHeatmapValues(String line, String trait, String value)
+	{
+		lineLabel.setText(line);
+		markerLabel.setText(trait);
+		alleleLabel.setText(value);
 	}
 
     /** This method is called from within the constructor to

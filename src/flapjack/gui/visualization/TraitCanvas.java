@@ -2,6 +2,7 @@ package flapjack.gui.visualization;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.text.*;
 import java.util.*;
 import javax.swing.*;
 import javax.swing.event.*;
@@ -11,6 +12,9 @@ import flapjack.gui.*;
 
 class TraitCanvas extends JPanel
 {
+	private NumberFormat nf = NumberFormat.getInstance();
+
+	private GenotypePanel gPanel;
 	private GenotypeCanvas canvas;
 	private Canvas2D traitCanvas;
 
@@ -19,8 +23,9 @@ class TraitCanvas extends JPanel
 
 	private int mouseOverIndex = -1;
 
-	TraitCanvas(GenotypeCanvas canvas)
+	TraitCanvas(GenotypePanel gPanel, GenotypeCanvas canvas)
 	{
+		this.gPanel = gPanel;
 		this.canvas = canvas;
 
 		setLayout(new BorderLayout());
@@ -119,11 +124,20 @@ class TraitCanvas extends JPanel
 	private class MouseTracker extends MouseInputAdapter
 	{
 		public void mouseEntered(MouseEvent e)
-			{ mouseOverIndex = e.getPoint().x / boxW; }
+		{
+			gPanel.statusPanel.setForHeatmapUse();
+			mouseOverIndex = e.getPoint().x / boxW;
+		}
 
 		public void mouseExited(MouseEvent e)
-			{ mouseOverIndex = -1; }
+		{
+			gPanel.statusPanel.setForMainUse();
+			gPanel.statusPanel.setHeatmapValues(" ", " ", " ");
+			mouseOverIndex = -1;
+		}
 
+		// Works out which line/trait/value is under the mouse and displays this
+		// on the main status panel
 		public void mouseMoved(MouseEvent e)
 		{
 			int y = e.getPoint().y + canvas.pY1;
@@ -136,27 +150,22 @@ class TraitCanvas extends JPanel
 			// if the mouse isn't over an actual line
 			if (tIndex == -1 || yIndex > canvas.view.getLineCount()-1)
 			{
-				traitCanvas.setToolTipText(null);
+				gPanel.statusPanel.setHeatmapValues(" ", " ", " ");
 				return;
 			}
 
 			Line line = canvas.view.getLine(yIndex);
 			TraitValue tv = line.getTraitValues().get(tIndex);
 
-			String traitName = tv.getTrait().getName();
-			String tooltip = traitName;
+			String trait = tv.getTrait().getName();
+			String value = " ";
 
-			if (tv.isDefined())
-			{
-				if (tv.getTrait().traitIsNumerical())
-					tooltip += ": " + tv.getValue();
-				else
-					tooltip += ": " + tv.getTrait().format(tv);
+			if (tv.isDefined() && tv.getTrait().traitIsNumerical())
+				value = nf.format(tv.getValue());
+			else if (tv.isDefined())
+				value = tv.getTrait().format(tv);
 
-				tooltip += " (" + tv.getNormal() + ")";
-			}
-
-			traitCanvas.setToolTipText(tooltip);
+			gPanel.statusPanel.setHeatmapValues(line.getName(), trait, value);
 		}
 
 		public void mousePressed(MouseEvent e)
