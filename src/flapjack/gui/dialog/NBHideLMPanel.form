@@ -101,12 +101,12 @@
         </Component>
         <Component class="javax.swing.JLabel" name="hideLabel">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Note that the last available marker in the chromosome can never be set to hidden"/>
+            <Property name="text" type="java.lang.String" value="hideLabel"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="hideHint">
           <Properties>
-            <Property name="text" type="java.lang.String" value="(You can also use CTRL double-click (in Marker Mode) to hide individual markers)"/>
+            <Property name="text" type="java.lang.String" value="hideHint"/>
           </Properties>
         </Component>
       </SubComponents>
@@ -133,7 +133,7 @@
                           <Component id="countLabel" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
-                  <EmptySpace pref="133" max="32767" attributes="0"/>
+                  <EmptySpace pref="13" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
