@@ -89,14 +89,12 @@ class TraitCanvas extends JPanel
 
 			for (int i = 0; i < tIndex.length; i++)
 			{
-				int x = i * boxW;
+				// If there's no index for this location, skip it
+				if (tIndex[i] == -1)
+					continue;
 
 				for (int yIndex = yS, y = (boxH*yS); yIndex <= yE; yIndex++, y += boxH)
 				{
-					// If there's no index for this location, skip it
-					if (tIndex[i] == -1)
-						continue;
-
 					Line line = canvas.view.getLine(yIndex);
 					TraitValue tv = line.getTraitValues().get(tIndex[i]);
 
@@ -107,13 +105,12 @@ class TraitCanvas extends JPanel
 					float f1 = (float) (1.0 - tv.getNormal());
 					float f2 = (float) tv.getNormal();
 
-          			Color color = new Color(
-          				(int) (f1 * c1[0] + f2 * c2[0]),
+					g.setColor(new Color(
+	          			(int) (f1 * c1[0] + f2 * c2[0]),
           				(int) (f1 * c1[1] + f2 * c2[1]),
-          				(int) (f1 * c1[2] + f2 * c2[2]));
+          				(int) (f1 * c1[2] + f2 * c2[2])));
 
-					g.setColor(color);
-					g.fillRect(x, y, boxW, boxH);
+					g.fillRect(i*boxW, y, boxW, boxH);
 				}
 			}
 		}
@@ -208,6 +205,8 @@ class TraitCanvas extends JPanel
 				{
 					canvas.viewSet.getTraits()[colIndex] = traitIndex;
 					repaint();
+
+					Actions.projectModified();
 				}
 			});
 

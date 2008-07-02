@@ -95,6 +95,9 @@ public class TraitsImportingProgressDialog extends JDialog implements Runnable
 				{
 					if (importer != null)
 						nbPanel.pBar.setValue(importer.getLineCount());
+
+					if (nbPanel.pBar.getValue() == nbPanel.pBar.getMaximum())
+						nbPanel.pBar.setIndeterminate(true);
 				}
 			};
 

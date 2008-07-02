@@ -30,6 +30,12 @@ public class TraitImporter
 		hashtable = new Hashtable<String, Vector<TraitValue>>();
 	}
 
+	public int getLineCount()
+		{ return lineCount; }
+
+	public void cancel()
+		{ isOK = false; }
+
 	public void importTraitData()
 		throws IOException, DataFormatException
 	{
@@ -80,6 +86,43 @@ public class TraitImporter
 		if (isOK == false)
 			return;
 
+		// TODO: This *doesn't* have to run if we decide otherwise
+		sortCategoricalValues();
+
+		applyToDataSet();
+	}
+
+	// Pre-sorts all categorical traits so that the lookup table is ordered
+	// alphabetically by the category name
+	private void sortCategoricalValues()
+	{
+		// For each trait
+		for (int i = 0; i < traits.size(); i++)
+		{
+			Trait trait = traits.get(i);
+			if (trait.traitIsNumerical())
+				continue;
+
+			Vector<String> categories = trait.getCategories();
+
+			// Take a copy of the current category order
+			String[] oldCats = categories.toArray(new String[] {});
+			// Sort the categories
+			Collections.sort(categories);
+
+			// Now rewrite each trait value to have the new correct lookup value
+			Enumeration<String> e = hashtable.keys();
+			while (e.hasMoreElements())
+			{
+				TraitValue tv = hashtable.get(e.nextElement()).get(i);
+				float newVal = categories.indexOf(oldCats[(int)tv.getValue()]);
+				tv.setValue(newVal);
+			}
+		}
+	}
+
+	private void applyToDataSet()
+	{
 		// If everything was read in correctly, apply the traits to the dataset
 		for (Trait trait: traits)
 			dataSet.getTraits().add(trait);
@@ -110,10 +153,4 @@ public class TraitImporter
 			}
 		}
 	}
-
-	public int getLineCount()
-		{ return lineCount; }
-
-	public void cancel()
-		{ isOK = false; }
 }
