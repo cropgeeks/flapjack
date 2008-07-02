@@ -56,13 +56,13 @@ class CanvasMouseListener extends MouseInputAdapter
 		}
 
 		// CTRL+dbl-click marker hiding
-		else if (e.getClickCount() == 2 && Prefs.guiMouseMode == Constants.MARKERMODE)
+		else if (isMetaClick(e) && e.getClickCount() == 2 && Prefs.guiMouseMode == Constants.MARKERMODE)
 		{
 			int markerIndex = canvas.getMarker(e.getPoint());
 			new HideLMAnimator(gPanel, markerIndex, true);
 		}
 		// CTRL+dbl-click line hiding
-		else if (e.getClickCount() == 2 && Prefs.guiMouseMode == Constants.LINEMODE)
+		else if (isMetaClick(e) && e.getClickCount() == 2 && Prefs.guiMouseMode == Constants.LINEMODE)
 		{
 			int lineIndex = canvas.getLine(e.getPoint());
 			new HideLMAnimator(gPanel, lineIndex, false);
