@@ -115,9 +115,9 @@ class NBHideLMPanel extends JPanel
         buttonGroup1.add(rHideSelected);
         rHideSelected.setText("Hide all the markers that ARE currently selected");
 
-        hideLabel.setText("Note that the last available marker in the chromosome can never be set to hidden");
+        hideLabel.setText("hideLabel");
 
-        hideHint.setText("(You can also use CTRL double-click (in Marker Mode) to hide individual markers)");
+        hideHint.setText("hideHint");
 
         org.jdesktop.layout.GroupLayout hidePanelLayout = new org.jdesktop.layout.GroupLayout(hidePanel);
         hidePanel.setLayout(hidePanelLayout);
@@ -166,7 +166,7 @@ class NBHideLMPanel extends JPanel
                         .add(bRestore)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                         .add(countLabel)))
-                .addContainerGap(133, Short.MAX_VALUE))
+                .addContainerGap(13, Short.MAX_VALUE))
         );
         showPanelLayout.setVerticalGroup(
             showPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
