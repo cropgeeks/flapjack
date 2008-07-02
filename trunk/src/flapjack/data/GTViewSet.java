@@ -2,6 +2,8 @@ package flapjack.data;
 
 import java.util.*;
 
+import scri.commons.*;
+
 /**
  * Represents a "set" of views for the genotype visualizations - basically one
  * view per chromosome for the set.
@@ -148,14 +150,20 @@ public class GTViewSet extends XMLRoot
 	public void setAlleleFrequencyThreshold(float alleleFrequencyThreshold)
 		{ this.alleleFrequencyThreshold = alleleFrequencyThreshold; }
 
+	public String getTraitsString()
+		{ return MatrixXML.arrayToString(traits); }
+
+	public void setTraitsString(String traitsStr)
+		{ this.traits = MatrixXML.stringToIntArray(traitsStr); }
+
+
+	// Other methods
+
 	public int[] getTraits()
 		{ return traits; }
 
 	public void setTraits(int[] traits)
 		{ this.traits = traits; }
-
-
-	// Other methods
 
 	public void addView(GTView view)
 	{
@@ -310,7 +318,7 @@ public class GTViewSet extends XMLRoot
 
 		// For each column - if it's not been assigned yet (and there is a
 		// trait available for that column)...
-		for (int i = 0; i < traits.length && traits[i] == -1 && i < count-1; i++)
+		for (int i = 0; i < traits.length && traits[i] == -1 && i < count; i++)
 			traits[i] = i;
 	}
 }
