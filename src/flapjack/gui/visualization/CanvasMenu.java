@@ -17,6 +17,7 @@ public class CanvasMenu
 	private JCheckBoxMenuItem mLock;
 	public static JCheckBoxMenuItem mShowGenotypes;
 	public static JCheckBoxMenuItem mHighlightHZ;
+	private JMenuItem mSelectTraits;
 	private JMenu mColor;
 	private JMenuItem mColorCustomize;
 	private JMenuItem mColorRandom;
@@ -64,6 +65,7 @@ public class CanvasMenu
 		mLock = WinMainMenuBar.getCheckedItem(aLock, "gui.Actions.canvasLock", 0, 0, canvas.locked);
 		mShowGenotypes = WinMainMenuBar.getCheckedItem(Actions.vizOverlayGenotypes, "gui.Actions.vizOverlayGenotypes", KeyEvent.VK_G, menuShortcut, Prefs.visShowGenotypes);
 		mHighlightHZ = WinMainMenuBar.getCheckedItem(Actions.vizHighlightHZ, "gui.Actions.vizHighlightHZ", KeyEvent.VK_H, menuShortcut, Prefs.visHighlightHZ);
+		mSelectTraits = WinMainMenuBar.getItem(Actions.vizSelectTraits, "gui.Actions.vizSelectTraits", 0, 0);
 		mColorCustomize = WinMainMenuBar.getItem(Actions.vizColorCustomize, "gui.Actions.vizColorCustomize", 0, 0);
 		mColorRandom = WinMainMenuBar.getItem(Actions.vizColorRandom, "gui.Actions.vizColorRandom", 0, 0);
 		mColorNucleotide = WinMainMenuBar.getItem(Actions.vizColorNucleotide, "gui.Actions.vizColorNucleotide", 0, 0);
@@ -115,9 +117,11 @@ public class CanvasMenu
 		menu = new JPopupMenu();
 
 		menu.add(mLock);
+		menu.addSeparator();
+		menu.add(mColor);
 		menu.add(mShowGenotypes);
 		menu.add(mHighlightHZ);
-		menu.add(mColor);
+		menu.add(mSelectTraits);
 		menu.addSeparator();
 		menu.add(mSortLines);
 		menu.add(mFind);

@@ -53,6 +53,7 @@ public class VisualizationNode extends BaseNode
 		Actions.vizColorAlleleFreq.setEnabled(true);
 		Actions.vizOverlayGenotypes.setEnabled(true);
 		Actions.vizHighlightHZ.setEnabled(true);
+		Actions.vizSelectTraits.setEnabled(true);
 		Actions.vizNewView.setEnabled(true);
 		Actions.vizRenameView.setEnabled(true);
 		Actions.vizDeleteView.setEnabled(true);
