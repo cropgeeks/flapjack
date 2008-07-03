@@ -53,6 +53,7 @@ public class WinMainMenuBar extends JMenuBar
 	private JMenuItem mVizColorAlleleFreq;
 	static  JCheckBoxMenuItem mVizOverlayGenotypes;
 	static  JCheckBoxMenuItem mVizHighlightHZ;
+	private JMenuItem mVizSelectTraits;
 	private JMenuItem mVizNewView;
 	private JMenuItem mVizRenameView;
 	private JMenuItem mVizDeleteView;
@@ -206,6 +207,7 @@ public class WinMainMenuBar extends JMenuBar
 			KeyEvent.VK_G, menuShortcut, Prefs.visShowGenotypes);
 		mVizHighlightHZ = getCheckedItem(Actions.vizHighlightHZ, "gui.Actions.vizHighlightHZ",
 			KeyEvent.VK_H, menuShortcut, Prefs.visHighlightHZ);
+		mVizSelectTraits = getItem(Actions.vizSelectTraits, "gui.Actions.vizSelectTraits", 0, 0);
 		mVizNewView = getItem(Actions.vizNewView, "gui.Actions.vizNewView", 0, 0);
 		mVizRenameView = getItem(Actions.vizRenameView, "gui.Actions.vizRenameView", 0, 0);
 		mVizDeleteView = getItem(Actions.vizDeleteView, "gui.Actions.vizDeleteView", 0, 0);
@@ -230,6 +232,7 @@ public class WinMainMenuBar extends JMenuBar
 		mViz.add(mVizColor);
 		mViz.add(mVizOverlayGenotypes);
 		mViz.add(mVizHighlightHZ);
+		mViz.add(mVizSelectTraits);
 		mViz.addSeparator();
 		mViz.add(mVizNewView);
 		mViz.add(mVizRenameView);

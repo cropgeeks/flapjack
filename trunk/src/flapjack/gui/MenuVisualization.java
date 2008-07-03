@@ -93,6 +93,13 @@ public class MenuVisualization
 		new HZHighlighter(gPanel);
 	}
 
+	void vizSelectTraits()
+	{
+		SelectTraitsDialog dialog = new SelectTraitsDialog(gPanel.getViewSet());
+
+		gPanel.repaint();
+	}
+
 	void vizNewView()
 	{
 		DataSet dataSet = navPanel.getDataSetForSelection();
