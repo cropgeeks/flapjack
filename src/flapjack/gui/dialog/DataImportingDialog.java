@@ -85,6 +85,8 @@ public class DataImportingDialog extends JDialog implements Runnable
 		mrksLabel = new JLabel();
 		lineLabel = new JLabel();
 
+		int[] array = new int[5];
+		array[10] = 10;
 
 		JPanel panel = new JPanel(new BorderLayout(5, 10));
 

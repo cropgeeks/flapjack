@@ -5,6 +5,8 @@ import java.awt.event.*;
 import java.io.*;
 import javax.swing.*;
 
+import flapjack.gui.dialog.*;
+
 import scri.commons.gui.*;
 
 import apple.dts.samplecode.osxadapter.*;
@@ -39,6 +41,8 @@ public class Flapjack
 
 	Flapjack(final File initialProject)
 	{
+		Thread.setDefaultUncaughtExceptionHandler(new ErrorDialog());
+
 		try
 		{
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());

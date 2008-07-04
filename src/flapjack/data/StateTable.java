@@ -72,10 +72,7 @@ public class StateTable extends XMLRoot
 		// Don't count the first (unknown) state
 		for (int i = 1; i < states.size(); i++)
 			if (states.get(i).isHomozygous())
-			{
-				System.out.println(states.get(i));
 				count++;
-			}
 
 		return count;
 	}

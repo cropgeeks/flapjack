@@ -148,6 +148,8 @@ public class ProjectSerializer
 				in = new BufferedReader(new FileReader(file));
 
 			Unmarshaller unmarshaller = new Unmarshaller(mapping);
+			unmarshaller.setIgnoreExtraElements(true);
+
 			project = (Project) unmarshaller.unmarshal(in);
 			project.filename = file;
 
