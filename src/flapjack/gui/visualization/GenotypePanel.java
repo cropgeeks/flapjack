@@ -10,7 +10,7 @@ import flapjack.data.*;
 import flapjack.gui.*;
 
 public class GenotypePanel extends JPanel
-	implements AdjustmentListener, ChangeListener, MouseWheelListener
+	implements ActionListener, AdjustmentListener, ChangeListener, MouseWheelListener
 {
 	private GTViewSet viewSet;
 	private GTView view;
@@ -29,19 +29,38 @@ public class GenotypePanel extends JPanel
 
 	// Secondary components needed by the panel
 	private JTabbedPane tabs;
-	private JPanel displayPanel;
 	private JScrollPane sp;
 	private JScrollBar hBar, vBar;
 	private JViewport viewport;
+
+	// Top control panel labels/controls
+	private JComboBox combo;
+	private JLabel chromoLabel = new JLabel();
+	private JLabel lineLabel = new JLabel();
+	private JLabel markerLabel = new JLabel();
+
 
 	public GenotypePanel(WinMain winMain)
 	{
 		createControls(winMain);
 
+		// Controls along the top for selecting the chromosome etc
+		JPanel ctrlPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 2, 5));
+		ctrlPanel.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, ((Color)UIManager.get("Panel.background")).darker()));
+		ctrlPanel.add(new JLabel(" "));
+		ctrlPanel.add(chromoLabel);
+		ctrlPanel.add(new JLabel(" "));
+		ctrlPanel.add(combo);
+		ctrlPanel.add(new JLabel(" "));
+		ctrlPanel.add(lineLabel);
+		ctrlPanel.add(markerLabel);
+
+		// Scrolling components above the main display (qtl, map, etc)
 		JPanel topPanel = new JPanel(new BorderLayout());
 		topPanel.add(qtlCanvas, BorderLayout.NORTH);
 		topPanel.add(mapCanvas, BorderLayout.CENTER);
 
+		// The main genotype area
 		JPanel centerPanel = new JPanel(new BorderLayout());
 		centerPanel.add(sp);
 		centerPanel.add(topPanel, BorderLayout.NORTH);
@@ -49,13 +68,13 @@ public class GenotypePanel extends JPanel
 		centerPanel.add(colCanvas, BorderLayout.EAST);
 		centerPanel.add(traitCanvas, BorderLayout.WEST);
 
-		displayPanel = new JPanel(new BorderLayout());
-		displayPanel.add(centerPanel);
-		displayPanel.add(statusPanel, BorderLayout.SOUTH);
-
 		setVisibleStates();
+
 		setLayout(new BorderLayout());
-		add(tabs);
+//		add(tabs);
+		add(ctrlPanel, BorderLayout.NORTH);
+		add(centerPanel);
+		add(statusPanel, BorderLayout.SOUTH);
 	}
 
 	private void createControls(WinMain winMain)
@@ -63,6 +82,11 @@ public class GenotypePanel extends JPanel
 		tabs = new JTabbedPane();
 		tabs.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
 		tabs.addChangeListener(this);
+
+		combo = new JComboBox();
+		combo.addActionListener(this);
+		RB.setText(chromoLabel, "gui.visualization.GenotypePanel.chromoLabel");
+		chromoLabel.setLabelFor(combo);
 
 		sp = new JScrollPane();
 		sp.addMouseWheelListener(this);
@@ -103,6 +127,7 @@ public class GenotypePanel extends JPanel
 		traitCanvas.determineVisibility();
 
 		computePanelSizes();
+		setCtrlLabels();
 
 		OverviewManager.createImage();
 	}
@@ -124,6 +149,8 @@ public class GenotypePanel extends JPanel
 		// the tab-code will set the value with 0 before it gets used properly
 		int selectedIndex = viewSet.getViewIndex();
 
+		combo.removeAllItems();
+
 		// Recreate them, one tab per chromosome
 		for (int i = 0; i < viewSet.getChromosomeCount(); i++)
 		{
@@ -133,10 +160,12 @@ public class GenotypePanel extends JPanel
 			int markerCount = view.getMarkerCount();
 
 			tabs.addTab(name, Icons.CHROMOSOME, null);
+			combo.addItem(name);
 		}
 
 		// Now set the tabs to the actual index we're interested in
 		tabs.setSelectedIndex(selectedIndex);
+		combo.setSelectedIndex(selectedIndex);
 	}
 
 	private void displayMap(int mapIndex)
@@ -146,7 +175,7 @@ public class GenotypePanel extends JPanel
 
 		setEditActions();
 
-		tabs.setComponentAt(mapIndex, displayPanel);
+//		tabs.setComponentAt(mapIndex, displayPanel);
 		refreshView();
 	}
 
@@ -164,6 +193,12 @@ public class GenotypePanel extends JPanel
 		hBar.setBlockIncrement(xIncrement);
 		vBar.setUnitIncrement(yIncrement);
 		vBar.setBlockIncrement(yIncrement);
+	}
+
+	public void actionPerformed(ActionEvent e)
+	{
+		if (e.getSource() == combo && combo.getSelectedIndex() != -1)
+			displayMap(combo.getSelectedIndex());
 	}
 
 	public void stateChanged(ChangeEvent e)
@@ -361,5 +396,21 @@ public class GenotypePanel extends JPanel
 			sp.setRowHeaderView(listPanel);
 		else
 			sp.setRowHeaderView(null);
+	}
+
+	private void setCtrlLabels()
+	{
+		int lineCount = view.getLineCount();
+		int mrkrCount = view.getMarkerCount();
+
+		if (lineCount == 1)
+			lineLabel.setText(RB.getString("gui.visualization.GenotypePanel.lineLabel1"));
+		else
+			lineLabel.setText(RB.format("gui.visualization.GenotypePanel.lineLabel2", lineCount));
+
+		if (mrkrCount == 1)
+			markerLabel.setText(RB.getString("gui.visualization.GenotypePanel.markerLabel1"));
+		else
+			markerLabel.setText(RB.format("gui.visualization.GenotypePanel.markerLabel2", mrkrCount));
 	}
 }

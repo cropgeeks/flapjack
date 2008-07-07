@@ -9,6 +9,11 @@ import flapjack.gui.*;
 
 import scri.commons.gui.*;
 
+/**
+ * An error dialog that pops up on Thread.UncaughtExceptionHandler events.
+ * (Hopefully, testing would eliminate all cases where this might happen, but
+ * this is the real world...)
+ */
 public class ErrorDialog extends JDialog
 	implements ActionListener, Thread.UncaughtExceptionHandler
 {
@@ -21,20 +26,32 @@ public class ErrorDialog extends JDialog
 			RB.getString("gui.dialog.ErrorDialog.title"),
 			true
 		);
+
+		setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+		setResizable(false);
 	}
 
-	public void uncaughtException(Thread t, Throwable e)
+	public void uncaughtException(Thread thread, Throwable throwable)
 	{
-		add(new NBErrorPanel(t, e));
-		add(createButtons(), BorderLayout.SOUTH);
+		final Thread t = thread;
+		final Throwable e = throwable;
 
-		getRootPane().setDefaultButton(bOK);
-		setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+		// We open the dialog using SwingUtilities because the uncaughtException
+		// may have happened in a non EDT thread
+		Runnable r = new Runnable() {
+			public void run()
+			{
+				add(new NBErrorPanel(t, e));
+				add(createButtons(), BorderLayout.SOUTH);
+				getRootPane().setDefaultButton(bOK);
+				pack();
 
-		pack();
-		setLocationRelativeTo(Flapjack.winMain);
-		setResizable(false);
-		setVisible(true);
+				setLocationRelativeTo(Flapjack.winMain);
+				setVisible(true);
+			}
+		};
+
+		SwingUtilities.invokeLater(r);
 	}
 
 	private JPanel createButtons()
@@ -55,9 +72,11 @@ public class ErrorDialog extends JDialog
 
 	public void actionPerformed(ActionEvent e)
 	{
+		// Full exit/shutdown
 		if (e.getSource() == bOK)
 			System.exit(0);
 
+		// Copy the contends of the text area onto the system clipboard
 		else if (e.getSource() == bClipboard)
 		{
 			StringSelection selection = new StringSelection(
