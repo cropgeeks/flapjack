@@ -41,8 +41,6 @@ public class Flapjack
 
 	Flapjack(final File initialProject)
 	{
-		Thread.setDefaultUncaughtExceptionHandler(new ErrorDialog());
-
 		try
 		{
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -67,6 +65,7 @@ public class Flapjack
 		}
 		catch (Exception e) {}
 
+		Thread.setDefaultUncaughtExceptionHandler(new ErrorDialog());
 
 		winMain = new WinMain();
 
