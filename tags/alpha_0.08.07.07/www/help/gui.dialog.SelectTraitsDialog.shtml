@@ -1,0 +1,33 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+
+<html>
+<head>
+<meta http-equiv="Content-Language" content="en-gb">
+<link rel="stylesheet" href="styles.css" type="text/css">
+
+<title>Select Traits</title>
+
+</head>
+<body>
+
+<!--#include virtual="header.html" -->
+
+
+<h1>Select Traits</h1>
+
+<p>Use the <b>Select Traits</b> dialog to pick which traits should be
+displayed on the traits heatmap alongside the list of line names.</p>
+
+<p>Up to three traits can be selected by choosing each trait's name using the
+drop down lists. To <i>not</i> select a trait for display in a particular
+column, select the blank option at the top of that list.</p>
+
+<p><b>Trait 1</b> corresponds to the left-hand side column of the heatmap,
+<b>Trait 2</b> to the middle column, and </b>Trait 3</b> to the right-hand side
+column.</p>
+
+
+<!--#include virtual="footer.html" -->
+
+</body>
+</html>
