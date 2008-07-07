@@ -85,11 +85,6 @@ public class DataImportingDialog extends JDialog implements Runnable
 		mrksLabel = new JLabel();
 		lineLabel = new JLabel();
 
-		int[] array = new int[5];
-		array[10] = 10;
-
-		JPanel panel = new JPanel(new BorderLayout(5, 10));
-
 		JPanel labelPanel = new JPanel(new GridLayout(3, 2));
 		labelPanel.add(
 			new JLabel(RB.getString("gui.dialog.DataImportingDialog.maps")));
@@ -101,7 +96,7 @@ public class DataImportingDialog extends JDialog implements Runnable
 			new JLabel(RB.getString("gui.dialog.DataImportingDialog.mrks")));
 		labelPanel.add(mrksLabel);
 
-
+		JPanel panel = new JPanel(new BorderLayout(5, 10));
 		panel.add(labelPanel, BorderLayout.WEST);
 		panel.add(pBar, BorderLayout.SOUTH);
 

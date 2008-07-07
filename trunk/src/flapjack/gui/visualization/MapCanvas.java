@@ -110,10 +110,11 @@ class MapCanvas extends JPanel
 			g.drawString(str, leftPos, 8);
 		}
 
-		else if (canvas.view.isMarkerSelected(i))
-			g.setColor(Color.lightGray);
+//		else if (canvas.view.isMarkerSelected(i))
 		else
-			g.setPaint(new Color(192, 192, 192, 50));
+			g.setColor(Color.lightGray);
+//		else
+//			g.setPaint(new Color(192, 192, 192, 50));
 
 		g.drawLine(xMap, 12, xMap, 22);
 		g.drawLine(xMap, 22, xBox, h-5);
