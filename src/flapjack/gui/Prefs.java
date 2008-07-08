@@ -122,6 +122,8 @@ public class Prefs extends XMLPreferences
 	public static Color visColorOverviewOutline;
 	public static Color visColorOverviewFill;
 	public static Color visColorText;
+	public static Color visColorHeatmapHigh;
+	public static Color visColorHeatmapLow;
 
 	// Colors used by the nucleotide color scheme
 	public static Color visColorNucleotideA;
@@ -157,6 +159,8 @@ public class Prefs extends XMLPreferences
 		visColorOverviewOutline = new Color(255, 0, 0);
 		visColorOverviewFill = new Color(50, 50, 0);
 		visColorText = new Color(0, 0, 0);
+		visColorHeatmapLow = new Color(120, 255, 120);
+		visColorHeatmapHigh = new Color(255, 120, 120);
 
 		visColorNucleotideA = new Color(120, 255, 120);
 		visColorNucleotideC = new Color(255, 160, 120);
