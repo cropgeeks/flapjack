@@ -65,6 +65,10 @@ public abstract class ColorScheme
 			RB.getString("gui.visualization.colors.ColorScheme.overviewFill")));
 		colors.add(new ColorSummary(Prefs.visColorText,
 			RB.getString("gui.visualization.colors.ColorScheme.canvasText")));
+		colors.add(new ColorSummary(Prefs.visColorHeatmapHigh,
+			RB.getString("gui.visualization.colors.ColorScheme.heatmapHigh")));
+		colors.add(new ColorSummary(Prefs.visColorHeatmapLow,
+			RB.getString("gui.visualization.colors.ColorScheme.heatmapLow")));
 
 		return colors;
 	}
@@ -75,6 +79,8 @@ public abstract class ColorScheme
 		Prefs.visColorOverviewOutline = colors.get(1).color;
 		Prefs.visColorOverviewFill = colors.get(2).color;
 		Prefs.visColorText = colors.get(3).color;
+		Prefs.visColorHeatmapHigh = colors.get(4).color;
+		Prefs.visColorHeatmapLow = colors.get(5).color;
 	}
 
 	public static class ColorSummary

@@ -86,10 +86,9 @@ class TraitCanvas extends JPanel
 			g.translate(0, 0-canvas.pY1);
 
 
-			Color col1 = new Color(120, 255, 120);
-			Color col2 = new Color(255, 120, 120);
-
+			Color col1 = Prefs.visColorHeatmapLow;
 			int[] c1 = new int[] { col1.getRed(), col1.getGreen(), col1.getBlue() };
+			Color col2 = Prefs.visColorHeatmapHigh;
 			int[] c2 = new int[] { col2.getRed(), col2.getGreen(), col2.getBlue() };
 
 			for (int i = 0; i < tIndex.length; i++)
