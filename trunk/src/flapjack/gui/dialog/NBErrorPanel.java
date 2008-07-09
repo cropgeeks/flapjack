@@ -62,6 +62,7 @@ class NBErrorPanel extends JPanel
                 .addContainerGap())
         );
 
+        label.setForeground(new java.awt.Color(255, 0, 0));
         label.setText("A critical error has occurred that Flapjack is unable to recover from. Flapjack must exit.");
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
