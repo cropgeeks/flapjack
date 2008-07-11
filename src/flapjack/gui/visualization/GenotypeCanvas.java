@@ -236,8 +236,17 @@ class GenotypeCanvas extends JPanel
 		renderViewport(g);
 
 		// Post (main-canvas) rendering operations
-		for (IOverlayRenderer renderer: overlays)
-			renderer.render(g);
+		// This is put under try catch as rapidly changing the overlays (which
+		// can happen in the Find Dialog for instance), may change this list
+		// while we're still interating over it
+		try
+		{
+			for (IOverlayRenderer renderer: overlays)
+				renderer.render(g);
+		}
+		catch (ConcurrentModificationException e) {
+			repaint();
+		}
 
 
 		// TODO: think about this - the image on screen really needs buffered at
