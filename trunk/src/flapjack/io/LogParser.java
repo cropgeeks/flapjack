@@ -2,7 +2,6 @@ package flapjack.io;
 
 import java.io.*;
 import java.net.*;
-import java.sql.*;
 import java.util.*;
 
 import scri.commons.file.*;
@@ -13,16 +12,11 @@ import scri.commons.file.*;
  */
 public class LogParser
 {
-	private static Connection c = null;
 	private Hashtable<String, User> hashtable = new Hashtable<String, User>();
 
 	public static void main(String[] args)
 		throws Exception
 	{
-		Class.forName("com.mysql.jdbc.Driver").newInstance();
-		c = DriverManager.getConnection(
-			"jdbc:mysql://penguin.scri.sari.ac.uk:3306/IP_locator", "root", "");
-
 		new LogParser();
 	}
 
@@ -41,7 +35,6 @@ public class LogParser
 		}
 
 		in.close();
-		c.close();
 
 		printResults();
 	}
@@ -86,7 +79,7 @@ public class LogParser
 
 		for (User user: users)
 		{
-			System.out.println(user.id.substring(0, 12)
+			System.out.println(user.id.substring(0, 10)
 				+ " " + user.runCount
 				+ "\t" + user.os
 				+ "\t" + user.countryCode
@@ -117,37 +110,26 @@ public class LogParser
 			this.username = username;
 			this.ip = ip;
 
-			System.out.println("DB lookup for: " + ip);
+			System.out.print("DB lookup for: " + ip);
 			getCountry();
 		}
 
 		private void getCountry()
 			throws Exception
 		{
-			String[] address = ip.split("\\.");
+			String address = "http://bioinf.scri.ac.uk/cgi-bin/geolocate?ip=" + ip;
 
-			long[] ip = {
-				Long.parseLong(address[0]),
-				Long.parseLong(address[1]),
-				Long.parseLong(address[2]),
-				Long.parseLong(address[3])
-			};
+			HttpURLConnection url =	(HttpURLConnection)
+				new URL(address).openConnection();
 
-			long number = ip[0]*16777216 + ip[1]*65536 + ip[2]*256 + ip[3];
+			BufferedReader in = new BufferedReader(new InputStreamReader(url.getInputStream()));
+			String response = in.readLine();
+			in.close();
 
+			country = response.split("\t")[0];
+			countryCode = response.split("\t")[1];
 
-			String sql = "SELECT * FROM IP_locations WHERE IP_FROM <= "
-				+ number + " AND IP_TO >= " + number;
-
-			Statement sm = c.createStatement();
-			ResultSet rs = sm.executeQuery(sql);
-
-			while (rs.next())
-			{
-				country = rs.getString(5);
-				countryCode = rs.getString(3);
-				break;
-			}
+			System.out.println("\t" + country);
 		}
 
 		public int compareTo(User other)
