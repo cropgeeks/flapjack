@@ -14,6 +14,9 @@ public class LogParser
 {
 	private Hashtable<String, User> hashtable = new Hashtable<String, User>();
 
+	private Hashtable<String, Integer> countries = new Hashtable<String, Integer>();
+	private Hashtable<String, Integer> systems = new Hashtable<String, Integer>();
+
 	public static void main(String[] args)
 		throws Exception
 	{
@@ -79,12 +82,40 @@ public class LogParser
 
 		for (User user: users)
 		{
+			// Track the country count
+			int countryCount = 0;
+			try { countryCount = countries.get(user.countryCode); }
+			catch (Exception e) {}
+			countries.put(user.countryCode, countryCount+1);
+
+			// Track the system count
+			int systemCount = 0;
+			try { systemCount = systems.get(user.os); }
+			catch (Exception e) {}
+			systems.put(user.os, systemCount+1);
+
 			System.out.println(user.id.substring(0, 10)
 				+ " " + user.runCount
 				+ "\t" + user.os
 				+ "\t" + user.countryCode
 				+ "\t" + user.username
 				+ "\t" + user.lastDate);
+		}
+
+		System.out.println("\n" + countries.size() + " countries:\n");
+		Enumeration<String> countryKeys = countries.keys();
+		while (countryKeys.hasMoreElements())
+		{
+			String key = countryKeys.nextElement();
+			System.out.println(" " + countries.get(key) + "\t" + key);
+		}
+
+		System.out.println("\n" + systems.size() + " operating systems:\n");
+		Enumeration<String> systemKeys = systems.keys();
+		while (systemKeys.hasMoreElements())
+		{
+			String key = systemKeys.nextElement();
+			System.out.println(" " + systems.get(key) + "\t" + key);
 		}
 	}
 
