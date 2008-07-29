@@ -20,7 +20,7 @@ class NBAlleleStatisticsPanel extends JPanel implements AdjustmentListener
 		initComponents();
 
 		String name = viewSet.getName();
-		int total = viewSet.getAlleleCount();
+		int total = viewSet.countAllAlleles();
 
 		// i18n
 		viewLabel.setText(RB.format("gui.dialog.analysis.NBAlleleStatisticsPanel.viewLabel", name, total));

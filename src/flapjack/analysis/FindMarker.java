@@ -41,7 +41,7 @@ public class FindMarker extends StringFinder
 
 		int max = view.getMarkerCount();
 		if (searchAllChromosomes)
-			max = viewSet.getMarkerCount();
+			max = viewSet.countAllMarkers();
 
 		while (searchCount < max)
 		{

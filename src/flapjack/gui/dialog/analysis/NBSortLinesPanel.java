@@ -25,7 +25,7 @@ class NBSortLinesPanel extends javax.swing.JPanel
 		RB.setText(selectAllLabel, "gui.dialog.analysis.NBSortLinesPanel.selectAllLabel");
 		RB.setText(selectNoneLabel, "gui.dialog.analysis.NBSortLinesPanel.selectNoneLabel");
 
-		view = viewSet.getSelectedView();
+		view = viewSet.getView(viewSet.getViewIndex());
 
 		DefaultComboBoxModel lineModel = new DefaultComboBoxModel();
 		for (int i = 0; i < view.getLineCount(); i++)
@@ -67,9 +67,9 @@ class NBSortLinesPanel extends javax.swing.JPanel
 		};
 
 		// Fill the data array with the string values from the list
-		Object[][] data = new Object[viewSet.getChromosomeCount()][3];
+		Object[][] data = new Object[viewSet.chromosomeCount()][3];
 
-		for (int i = 0; i < viewSet.getChromosomeCount(); i++)
+		for (int i = 0; i < viewSet.chromosomeCount(); i++)
 		{
 			GTView view = viewSet.getView(i);
 
