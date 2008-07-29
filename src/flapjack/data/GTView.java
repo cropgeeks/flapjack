@@ -119,9 +119,20 @@ public class GTView extends XMLRoot
 		}
 	}
 
+	/**
+	 * Returns the Line at the specified index position within this view.
+	 */
 	public Line getLine(int index)
 	{
 		return viewSet.lines.get(index).line;
+	}
+
+	/**
+	 * Returns the LineInfo at the specified index position within this view.
+	 */
+	public LineInfo getLineInfo(int index)
+	{
+		return viewSet.lines.get(index);
 	}
 
 	/**
