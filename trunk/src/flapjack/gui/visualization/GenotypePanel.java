@@ -152,7 +152,7 @@ public class GenotypePanel extends JPanel
 		combo.removeAllItems();
 
 		// Recreate them, one tab per chromosome
-		for (int i = 0; i < viewSet.getChromosomeCount(); i++)
+		for (int i = 0; i < viewSet.chromosomeCount(); i++)
 		{
 			GTView view = viewSet.getView(i);
 

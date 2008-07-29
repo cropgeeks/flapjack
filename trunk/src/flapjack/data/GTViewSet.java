@@ -179,7 +179,7 @@ public class GTViewSet extends XMLRoot
 		views.add(view);
 	}
 
-	public int getChromosomeCount()
+	public int chromosomeCount()
 	{
 		return views.size();
 	}
@@ -202,11 +202,6 @@ public class GTViewSet extends XMLRoot
 				return view;
 
 		return null;
-	}
-
-	public GTView getSelectedView()
-	{
-		return views.get(viewIndex);
 	}
 
 	/**
@@ -275,7 +270,7 @@ public class GTViewSet extends XMLRoot
 	/**
 	 * Returns the total number of markers across all chromosomes of this set.
 	 */
-	public int getMarkerCount()
+	public int countAllMarkers()
 	{
 		int count = 0;
 		for (GTView view: views)
@@ -305,9 +300,9 @@ public class GTViewSet extends XMLRoot
 		return -1;
 	}
 
-	/** Returns the total number of alleles references by this viewset.
+	/** Returns the total number of alleles referenced by this viewset.
 	 */
-	public int getAlleleCount()
+	public int countAllAlleles()
 	{
 		int total = 0;
 		for (GTView view: views)

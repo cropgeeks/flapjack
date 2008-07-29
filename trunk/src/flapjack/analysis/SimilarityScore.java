@@ -28,7 +28,7 @@ public class SimilarityScore
 		float nComparisons = 0;
 		float score = 0;
 
-		for (int viewIndex = 0; viewIndex < viewSet.getChromosomeCount(); viewIndex++)
+		for (int viewIndex = 0; viewIndex < viewSet.chromosomeCount(); viewIndex++)
 		{
 			// Don't use chromosomes that aren't selected
 			if(chromosomes[viewIndex] == false)

@@ -56,7 +56,7 @@ public class StatisticsProgressDialog extends JDialog implements Runnable
 
 	private void computeStatistics()
 	{
-		nbPanel.pBar.setMaximum(viewSet.getAlleleCount());
+		nbPanel.pBar.setMaximum(viewSet.countAllAlleles());
 
 		new Thread(this).start();
 		new MonitorThread().start();

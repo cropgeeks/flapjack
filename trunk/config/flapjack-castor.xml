@@ -62,23 +62,11 @@
 	<class name="flapjack.data.AlleleState" extends="flapjack.data.XMLRoot" auto-complete="true"/>
 
 	<!-- GTViewSet -->
-	<class name="flapjack.data.GTViewSet" extends="flapjack.data.XMLRoot">
+	<class name="flapjack.data.GTViewSet" extends="flapjack.data.XMLRoot" auto-complete="true">
 		<field name="dataSet" type="flapjack.data.DataSet">
 			<bind-xml reference="true" node="attribute"/>
 		</field>
 		<field name="name" type="string">
-			<bind-xml node="attribute"/>
-		</field>
-		<field name="viewIndex" type="int">
-			<bind-xml node="attribute"/>
-		</field>
-		<field name="colorScheme" type="int">
-			<bind-xml node="attribute"/>
-		</field>
-		<field name="alleleFrequencyThreshold" type="float">
-			<bind-xml node="attribute"/>
-		</field>
-		<field name="randomColorSeed" type="int">
 			<bind-xml node="attribute"/>
 		</field>
 		<field name="lines" type="flapjack.data.LineInfo" collection="vector"/>
@@ -87,11 +75,7 @@
 		<field name="comparisonLine" type="flapjack.data.Line">
 			<bind-xml reference="true" node="attribute"/>
 		</field>
-		<field name="comparisonLineIndex" type="integer">
-			<bind-xml node="attribute"/>
-		</field>
-		<field name="traitsString" type="string"/>
-		<field name="displayLineScores" type="boolean"/>
+		<field name="traits" type="integer" collection="array" transient="true"/>
 	</class>
 
 	<!-- GTView -->
