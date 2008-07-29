@@ -100,9 +100,6 @@ public class GTView extends XMLRoot
 
 	// Other methods
 
-	public Vector<LineInfo> getLines()
-		{ return viewSet.lines; }
-
 	public void cacheLines()
 	{
 		// Now cache as much data as possible to help speed rendering
@@ -158,7 +155,7 @@ public class GTView extends XMLRoot
 		return viewSet.lines.size();
 	}
 
-	public float getMapLength()
+	public float mapLength()
 	{
 		return map.getLength();
 	}
@@ -265,9 +262,6 @@ public class GTView extends XMLRoot
 			}
 	}
 
-	public int getComparisonLineIndex()
-		{ return viewSet.comparisonLineIndex; }
-
 	/**
 	 * Returns an array holding all the marker data from either the visible
 	 * list of markers when getVisible=true or the hidden list of markers when
@@ -364,7 +358,7 @@ public class GTView extends XMLRoot
 	public void setLineState(int index, boolean selectionState)
 		{ viewSet.lines.get(index).selected = selectionState; }
 
-	public int getSelectedMarkerCount()
+	public int countSelectedMarkers()
 	{
 		int count = 0;
 		for (MarkerInfo mi: markers)
@@ -374,7 +368,7 @@ public class GTView extends XMLRoot
 		return count;
 	}
 
-	public int getSelectedLineCount()
+	public int countSelectedLines()
 	{
 		int count = 0;
 		for (LineInfo li: viewSet.lines)
@@ -384,10 +378,10 @@ public class GTView extends XMLRoot
 		return count;
 	}
 
-	public int getHiddenMarkerCount()
+	public int hiddenMarkerCount()
 		{ return hideMarkers.size(); }
 
-	public int getHiddenLineCount()
+	public int hiddenLineCount()
 		{ return viewSet.hideLines.size(); }
 
 	/** Hides all selected or unselected markers, depending on the parameter. */

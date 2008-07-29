@@ -20,7 +20,7 @@ public class LineSimilarityColorScheme extends SimilarityColorScheme
 	private ColorState getState(int line, int marker)
 	{
 		int state = view.getState(line, marker);
-		int comparisonIndex = view.getComparisonLineIndex();
+		int comparisonIndex = view.getViewSet().getComparisonLineIndex();
 
 		// If it's the index line, return the darker version
 		if (line == comparisonIndex)

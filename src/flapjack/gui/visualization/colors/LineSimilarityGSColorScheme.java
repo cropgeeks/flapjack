@@ -15,7 +15,7 @@ public class LineSimilarityGSColorScheme extends NucleotideColorScheme
 	public BufferedImage getImage(int line, int marker)
 	{
 		int state = view.getState(line, marker);
-		int compState = view.getState(view.getComparisonLineIndex(), marker);
+		int compState = view.getState(view.getViewSet().getComparisonLineIndex(), marker);
 
 		if (state == compState)
 			return states.get(state).getImage();
@@ -26,7 +26,7 @@ public class LineSimilarityGSColorScheme extends NucleotideColorScheme
 	public Color getColor(int line, int marker)
 	{
 		int state = view.getState(line, marker);
-		int compState = view.getState(view.getComparisonLineIndex(), marker);
+		int compState = view.getState(view.getViewSet().getComparisonLineIndex(), marker);
 
 		if (state == compState)
 			return states.get(state).getColor();

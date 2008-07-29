@@ -79,7 +79,7 @@ class NBSortLinesPanel extends javax.swing.JPanel
 				data[i][0] = new Boolean(false);
 
 			data[i][1] = view.getChromosomeMap().getName();
-			data[i][2] = view.getSelectedMarkerCount() + " / "
+			data[i][2] = view.countSelectedMarkers() + " / "
 				+ view.getMarkerCount();
 
 		}
