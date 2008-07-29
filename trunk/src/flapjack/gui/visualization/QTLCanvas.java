@@ -165,7 +165,7 @@ class QTLCanvas extends JPanel
 			g.fillRect(0, 0, canvas.canvasW, h);
 
 			int mkrCount = canvas.view.getMarkerCount();
-			xScale = canvas.canvasW / canvas.view.getMapLength();
+			xScale = canvas.canvasW / canvas.view.mapLength();
 
 			// Draw a white line representing the map
 			BasicStroke s = new BasicStroke(1, BasicStroke.CAP_BUTT,

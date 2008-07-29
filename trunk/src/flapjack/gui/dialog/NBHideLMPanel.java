@@ -27,12 +27,12 @@ class NBHideLMPanel extends JPanel
 		if (i18n.equals("markers"))
 		{
 			total = view.getMarkerCount();
-			selected = view.getSelectedMarkerCount();
+			selected = view.countSelectedMarkers();
 		}
 		else
 		{
 			total = view.getLineCount();
-			selected = view.getSelectedLineCount();
+			selected = view.countSelectedLines();
 		}
 
 		unselected = total - selected;
@@ -60,9 +60,9 @@ class NBHideLMPanel extends JPanel
 			rHideSelected.setSelected(Prefs.guiHideSelectedMarkers);
 			rHideUnselected.setSelected(!Prefs.guiHideSelectedMarkers);
 			countLabel.setText(RB.format("gui.dialog.NBHideLMPanel.countLabel",
-				view.getHiddenMarkerCount()));
+				view.hiddenMarkerCount()));
 
-			if (view.getHiddenMarkerCount() == 0)
+			if (view.hiddenMarkerCount() == 0)
 				bRestore.setEnabled(false);
 		}
 		else
@@ -70,9 +70,9 @@ class NBHideLMPanel extends JPanel
 			rHideSelected.setSelected(Prefs.guiHideSelectedLines);
 			rHideUnselected.setSelected(!Prefs.guiHideSelectedLines);
 			countLabel.setText(RB.format("gui.dialog.NBHideLMPanel.countLabel",
-				view.getHiddenLineCount()));
+				view.hiddenLineCount()));
 
-			if (view.getHiddenLineCount() == 0)
+			if (view.hiddenLineCount() == 0)
 				bRestore.setEnabled(false);
 		}
 

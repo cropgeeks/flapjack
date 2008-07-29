@@ -240,7 +240,7 @@ class MapCanvas extends JPanel
 			g.fillRect(0, 0, canvas.canvasW, h);
 
 			int mkrCount = canvas.view.getMarkerCount();
-			xScale = canvas.canvasW / canvas.view.getMapLength();
+			xScale = canvas.canvasW / canvas.view.mapLength();
 
 			// Draw the white rectangle representing the map
 			g.setColor(Color.white);

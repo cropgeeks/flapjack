@@ -95,7 +95,7 @@
 	</class>
 
 	<!-- GTView -->
-	<class name="flapjack.data.GTView" extends="flapjack.data.XMLRoot">
+	<class name="flapjack.data.GTView" extends="flapjack.data.XMLRoot" auto-complete="true">
 		<field name="viewSet" type="flapjack.data.GTViewSet">
 			<bind-xml reference="true" node="attribute"/>
 		</field>
@@ -106,9 +106,6 @@
 		<field name="hideMarkers" type="flapjack.data.MarkerInfo" collection="vector"/>
 		<field name="comparisonMarker" type="flapjack.data.Marker">
 			<bind-xml reference="true" node="attribute"/>
-		</field>
-		<field name="comparisonMarkerIndex" type="integer">
-			<bind-xml node="attribute"/>
 		</field>
 	</class>
 

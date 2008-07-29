@@ -37,7 +37,7 @@ public class SortLinesByTrait implements ILineSorter
 		GTView view = viewSet.getView(0);
 
 		// Store a local reference to the line ordering for quicker access
-		Vector<LineInfo> lines = view.getLines();
+		Vector<LineInfo> lines = view.getViewSet().getLines();
 
 		// Create an array to hold the score for each line
 		Vector<LineScore> scores = new Vector<LineScore>(lines.size());
