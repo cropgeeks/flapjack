@@ -91,6 +91,7 @@
 			<bind-xml node="attribute"/>
 		</field>
 		<field name="traitsString" type="string"/>
+		<field name="displayLineScores" type="boolean"/>
 	</class>
 
 	<!-- GTView -->

@@ -10,7 +10,11 @@ public class LineInfo extends XMLRoot
 	Line line;
 	int index;
 
+	// Is this line selected or not
 	boolean selected = true;
+
+	// A 'score' associated with this line (probably from a sort/rank)
+	float score;
 
 	public LineInfo()
 	{
@@ -21,6 +25,9 @@ public class LineInfo extends XMLRoot
 		this.line = line;
 		this.index = index;
 	}
+
+
+	// Methods required for XML serialization
 
 	public Line getLine()
 		{ return line; }
@@ -39,4 +46,16 @@ public class LineInfo extends XMLRoot
 
 	public void setSelected(boolean selected)
 		{ this.selected = selected; }
+
+	public float getScore()
+		{ return score; }
+
+	public void setScore(float score)
+		{ this.score = score; }
+
+
+	// Other methods
+
+	public String toString()
+		{ return line.toString(); }
 }

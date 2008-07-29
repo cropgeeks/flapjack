@@ -1,7 +1,9 @@
 package flapjack.gui.visualization;
 
 import java.awt.*;
+import java.awt.event.*;
 import java.awt.image.*;
+import java.text.*;
 import javax.swing.*;
 
 import flapjack.data.*;
@@ -9,6 +11,7 @@ import flapjack.gui.*;
 
 class ListPanel extends JPanel
 {
+	private GTViewSet viewSet;
 	private GTView view;
 
 	private JList lineList;
@@ -29,6 +32,15 @@ class ListPanel extends JPanel
 		lineList = new JList(model);
 		lineList.setCellRenderer(new ListRenderer());
 		lineList.setEnabled(false);
+
+		lineList.addMouseListener(new MouseAdapter() {
+			public void mousePressed(MouseEvent e) {
+				handlePopup(e);
+			}
+			public void mouseReleased(MouseEvent e) {
+				handlePopup(e);
+			}
+		});
 	}
 
 	int getPanelWidth()
@@ -37,6 +49,8 @@ class ListPanel extends JPanel
 	void setView(GTView view)
 	{
 		this.view = view;
+		viewSet = view.getViewSet();
+
 		populateList();
 	}
 
@@ -48,7 +62,7 @@ class ListPanel extends JPanel
 		model.clear();
 
 		for (int i = 0; i < view.getLineCount(); i++)
-			model.add(i, view.getLine(i));
+			model.add(i, view.getLineInfo(i));
 	}
 
 	void computeDimensions(int size)
@@ -65,9 +79,9 @@ class ListPanel extends JPanel
 		// something in the way JList handles changes to its data must be the
 		// reason why it's slow.
 
-		Line line = (Line) model.get(fromIndex);
+		LineInfo li = (LineInfo) model.get(fromIndex);
 		model.set(fromIndex, model.get(toIndex));
-		model.set(toIndex, line);
+		model.set(toIndex, li);
 	}
 
 	BufferedImage createSavableImage()
@@ -86,8 +100,31 @@ class ListPanel extends JPanel
 		return image;
 	}
 
-	static class ListRenderer extends JLabel implements ListCellRenderer
+	private void handlePopup(MouseEvent e)
 	{
+		if (e.isPopupTrigger() == false)
+			return;
+
+		JPopupMenu menu = new JPopupMenu();
+
+		final JCheckBoxMenuItem mShowScores = new JCheckBoxMenuItem();
+		RB.setText(mShowScores, "gui.visualization.ListPanel.showScores");
+		mShowScores.setSelected(viewSet.getDisplayLineScores());
+		mShowScores.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				viewSet.setDisplayLineScores(mShowScores.isSelected());
+				populateList();
+			}
+		});
+
+		menu.add(mShowScores);
+		menu.show(e.getComponent(), e.getX(), e.getY());
+	}
+
+	class ListRenderer extends JLabel implements ListCellRenderer
+	{
+		private DecimalFormat df = new DecimalFormat("0.000");
+
 		public ListRenderer()
 		{
 			setOpaque(true);
@@ -98,7 +135,13 @@ class ListPanel extends JPanel
 				int i, boolean iss, boolean chf)
 		{
 			setFont(font);
-			setText(obj.toString());
+
+			LineInfo li = (LineInfo) obj;
+
+			if (viewSet.getDisplayLineScores())
+				setText(df.format(li.getScore()) + " " + li);
+			else
+				setText(li.toString());
 
 			// Set background/foreground colours
 			if (iss)

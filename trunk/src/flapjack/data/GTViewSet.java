@@ -40,6 +40,9 @@ public class GTViewSet extends XMLRoot
 	// If traits are being displayed, which ones?
 	private int[] traits = new int[] { -1, -1, -1 };
 
+	// Display line "scores" after performing a sort?
+	private boolean displayLineScores = false;
+
 	private UndoManager undoManager = new UndoManager();
 
 	public GTViewSet()
@@ -155,6 +158,12 @@ public class GTViewSet extends XMLRoot
 
 	public void setTraitsString(String traitsStr)
 		{ this.traits = MatrixXML.stringToIntArray(traitsStr); }
+
+	public boolean getDisplayLineScores()
+		{ return displayLineScores; }
+
+	public void setDisplayLineScores(boolean displayLineScores)
+		{ this.displayLineScores = displayLineScores; }
 
 
 	// Other methods

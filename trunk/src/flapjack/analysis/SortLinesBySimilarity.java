@@ -59,6 +59,7 @@ public class SortLinesBySimilarity implements ILineSorter
 
 		// And pass that order back to the view
 		view.getViewSet().setLinesFromArray(lineOrder, true);
+		view.getViewSet().setDisplayLineScores(true);
 
 		// Because we've reordered the view (without it knowing), we MUST let
 		// it know that it has to search for its comparison line's new position
@@ -79,6 +80,8 @@ public class SortLinesBySimilarity implements ILineSorter
 			this.lineInfo = lineInfo;
 			this.score = score;
 			this.nComparisons = nComparisons;
+
+			lineInfo.setScore(score);
 		}
 
 		public int compareTo(LineScore other)
