@@ -55,6 +55,8 @@ public class Actions
 	public static AbstractAction dataSortLinesByTrait;
 	public static AbstractAction dataFind;
 	public static AbstractAction dataStatistics;
+	public static AbstractAction dataDBLineName;
+	public static AbstractAction dataDBMarkerName;
 	public static AbstractAction dataRenameDataSet;
 	public static AbstractAction dataDeleteDataSet;
 
@@ -349,6 +351,18 @@ public class Actions
 			}
 		};
 
+		dataDBLineName = new AbstractAction(RB.getString("gui.Actions.dataDBLineName")) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.mData.dataDBLineName();
+			}
+		};
+
+		dataDBMarkerName = new AbstractAction(RB.getString("gui.Actions.dataDBMarkerName")) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.mData.dataDBMarkerName();
+			}
+		};
+
 		dataRenameDataSet = new AbstractAction(RB.getString("gui.Actions.dataRenameDataSet"), getIcon(Icons.RENAME)) {
 			public void actionPerformed(ActionEvent e) {
 				winMain.mData.dataRenameDataSet();
@@ -452,6 +466,8 @@ public class Actions
 		dataSortLinesByTrait.setEnabled(false);
 		dataFind.setEnabled(false);
 		dataStatistics.setEnabled(false);
+		dataDBLineName.setEnabled(false);
+		dataDBMarkerName.setEnabled(false);
 		dataRenameDataSet.setEnabled(false);
 		dataDeleteDataSet.setEnabled(false);
 

@@ -66,6 +66,9 @@ public class WinMainMenuBar extends JMenuBar
 	private JMenuItem mDataSortLinesByTrait;
 	private JMenuItem mDataFind;
 	private JMenuItem mDataStatistics;
+	private JMenu mDataDB;
+	private JMenuItem mDataDBLineName;
+	private JMenuItem mDataDBMarkerName;
 	private JMenuItem mDataRenameDataSet;
 	private JMenuItem mDataDeleteDataSet;
 
@@ -251,20 +254,30 @@ public class WinMainMenuBar extends JMenuBar
 
 		mDataSortLines = new JMenu(RB.getString("gui.WinMainMenuBar.mDataSortLines"));
 		RB.setMnemonic(mDataSortLines, "gui.WinMainMenuBar.mDataSortLines");
+
+		mDataDB = new JMenu(RB.getString("gui.WinMainMenuBar.mDataDB"));
+		RB.setMnemonic(mDataDB, "gui.WinMainMenuBar.mDataDB");
+
 		mDataSortLinesBySimilarity = getItem(Actions.dataSortLinesBySimilarity, "gui.Actions.dataSortLinesBySimilarity", 0, 0);
 		mDataSortLinesByTrait = getItem(Actions.dataSortLinesByTrait, "gui.Actions.dataSortLinesByTrait", 0, 0);
 		mDataFind = getItem(Actions.dataFind, "gui.Actions.dataFind", KeyEvent.VK_F, menuShortcut);
 		mDataStatistics = getItem(Actions.dataStatistics, "gui.Actions.dataStatistics", 0, 0);
+		mDataDBLineName = getItem(Actions.dataDBLineName, "gui.Actions.dataDBLineName", 0, 0);
+		mDataDBMarkerName = getItem(Actions.dataDBMarkerName, "gui.Actions.dataDBMarkerName", 0, 0);
 		mDataRenameDataSet = getItem(Actions.dataRenameDataSet, "gui.Actions.dataRenameDataSet", 0, 0);
 		mDataDeleteDataSet = getItem(Actions.dataDeleteDataSet, "gui.Actions.dataDeleteDataSet", 0, 0);
 
 		mDataSortLines.add(mDataSortLinesBySimilarity);
 		mDataSortLines.add(mDataSortLinesByTrait);
 
+		mDataDB.add(mDataDBLineName);
+		mDataDB.add(mDataDBMarkerName);
+
 		mData.add(mDataSortLines);
 		mData.addSeparator();
 		mData.add(mDataFind);
 		mData.add(mDataStatistics);
+		mData.add(mDataDB);
 		mData.addSeparator();
 		mData.add(mDataRenameDataSet);
 		mData.add(mDataDeleteDataSet);

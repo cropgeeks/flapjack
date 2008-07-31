@@ -122,4 +122,7 @@
 		</field>
 	</class>
 
+	<!-- DBAssociation -->
+	<class name="flapjack.data.DBAssociation" extends="flapjack.data.XMLRoot" auto-complete="true"/>
+
 </mapping>
