@@ -1,5 +1,7 @@
 package flapjack.gui;
 
+import java.net.*;
+
 import flapjack.analysis.*;
 import flapjack.data.*;
 import flapjack.gui.dialog.*;
@@ -69,6 +71,46 @@ class MenuData
 
 		if (dialog.isOK())
 			new AlleleStatisticsDialog(viewSet, dialog.getResults());
+	}
+
+	// Fires off a URL request to a linked database for information on a line
+	void dataDBLineName()
+	{
+		GTView view = gPanel.getView();
+
+		if (view.mouseOverLine >= 0 && view.mouseOverLine < view.getLineCount())
+		{
+			Line line = view.getLine(view.mouseOverLine);
+
+			try
+			{
+				String url = "http://penguin.scri.ac.uk/paul/germinate/germinate_development/app/flapjack/flapjack_search/search.pl?line=";
+				url += URLEncoder.encode(line.getName(), "UTF-8");
+
+				FlapjackUtils.visitURL(url.toString());
+			}
+			catch (Exception e) {}
+		}
+	}
+
+	// Fires off a URL request to a linked database for information on a marker
+	void dataDBMarkerName()
+	{
+		GTView view = gPanel.getView();
+
+		if (view.mouseOverMarker >= 0 && view.mouseOverMarker < view.getMarkerCount())
+		{
+			Marker marker = view.getMarker(view.mouseOverMarker);
+
+			try
+			{
+				String url = "http://penguin.scri.ac.uk/paul/germinate/germinate_development/app/flapjack/flapjack_search/search.pl?marker=";
+				url += URLEncoder.encode(marker.getName(), "UTF-8");
+
+				FlapjackUtils.visitURL(url);
+			}
+			catch (Exception e) {}
+		}
 	}
 
 	void dataRenameDataSet()

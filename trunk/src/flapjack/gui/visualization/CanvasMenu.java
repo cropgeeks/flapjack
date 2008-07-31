@@ -29,6 +29,9 @@ public class CanvasMenu
 	private JMenuItem mColorSimple2Color;
 	private JMenuItem mColorAlleleFreq;
 	private JMenuItem mToggleCanvas;
+	private JMenu mDataDB;
+	private JMenuItem mDBLineName;
+	private JMenuItem mDBMarkerName;
 	private JMenu mSortLines;
 	private JMenuItem mSortLinesBySimilarity;
 	private JMenuItem mSortLinesByTrait;
@@ -77,6 +80,8 @@ public class CanvasMenu
 		mColorAlleleFreq = WinMainMenuBar.getItem(Actions.vizColorAlleleFreq, "gui.Actions.vizColorAlleleFreq", 0, 0);
 		mToggleCanvas = WinMainMenuBar.getItem(Actions.vizToggleCanvas, "gui.Actions.vizToggleCanvas", 0, 0);
 		mFind = WinMainMenuBar.getItem(Actions.dataFind, "gui.Actions.dataFind", KeyEvent.VK_F, menuShortcut);
+		mDBLineName = WinMainMenuBar.getItem(Actions.dataDBLineName, "gui.Actions.dataDBLineName", 0, 0);
+		mDBMarkerName = WinMainMenuBar.getItem(Actions.dataDBMarkerName, "gui.Actions.dataDBMarkerName", 0, 0);
 
 		mColor = new JMenu(RB.getString("gui.WinMainMenuBar.mVizColor"));
 		RB.setMnemonic(mColor, "gui.WinMainMenuBar.mVizColor");
@@ -91,6 +96,11 @@ public class CanvasMenu
 		mColor.add(mColorRandom);
 		mColor.addSeparator();
 		mColor.add(mColorCustomize);
+
+		mDataDB = new JMenu(RB.getString("gui.WinMainMenuBar.mDataDB"));
+		RB.setMnemonic(mDataDB, "gui.WinMainMenuBar.mDataDB");
+		mDataDB.add(mDBLineName);
+		mDataDB.add(mDBMarkerName);
 
 		mSortLinesBySimilarity = WinMainMenuBar.getItem(Actions.dataSortLinesBySimilarity, "gui.Actions.dataSortLinesBySimilarity", 0, 0);
 		mSortLinesByTrait = WinMainMenuBar.getItem(Actions.dataSortLinesByTrait, "gui.Actions.dataSortLinesByTrait", 0, 0);
@@ -125,6 +135,7 @@ public class CanvasMenu
 		menu.addSeparator();
 		menu.add(mSortLines);
 		menu.add(mFind);
+		menu.add(mDataDB);
 
 		menu.show(e.getComponent(), e.getX(), e.getY());
 	}

@@ -17,6 +17,9 @@ public class DataSet extends XMLRoot
 	private StateTable stateTable = new StateTable(0);
 	private Vector<GTViewSet> viewSets = new Vector<GTViewSet>();
 
+	// DB-link/association data
+	private DBAssociation dbAssociation = new DBAssociation();
+
 	public DataSet()
 	{
 	}
@@ -77,6 +80,12 @@ public class DataSet extends XMLRoot
 
 	public void setViewSets(Vector<GTViewSet> viewSets)
 		{ this.viewSets = viewSets; }
+
+	public DBAssociation getDbAssociation()
+		{ return dbAssociation; }
+
+	public void setDbAssociation(DBAssociation dbAssociation)
+		{ this.dbAssociation = dbAssociation; }
 
 
 	// Other methods

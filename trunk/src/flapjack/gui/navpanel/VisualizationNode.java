@@ -64,6 +64,8 @@ public class VisualizationNode extends BaseNode
 		Actions.dataSortLinesByTrait.setEnabled(true);
 		Actions.dataFind.setEnabled(true);
 		Actions.dataStatistics.setEnabled(true);
+		Actions.dataDBLineName.setEnabled(true);
+		Actions.dataDBMarkerName.setEnabled(true);
 		Actions.dataRenameDataSet.setEnabled(true);
 		Actions.dataDeleteDataSet.setEnabled(true);
 	}
