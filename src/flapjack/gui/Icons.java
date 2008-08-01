@@ -10,6 +10,8 @@ public class Icons
 	public static ImageIcon BLUEBLOB;
 	public static ImageIcon CHECKUPDATE;
 	public static ImageIcon CHROMOSOME;
+	public static ImageIcon COLORS;
+	public static ImageIcon DATABASE;
 	public static ImageIcon DELETE;
 	public static ImageIcon EMPTY;
 	public static ImageIcon FIND;
