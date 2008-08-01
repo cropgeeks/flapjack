@@ -87,6 +87,7 @@ public class GenotypePanel extends JPanel
 		combo.addActionListener(this);
 		RB.setText(chromoLabel, "gui.visualization.GenotypePanel.chromoLabel");
 		chromoLabel.setLabelFor(combo);
+		chromoLabel.setIcon(Icons.CHROMOSOME);
 
 		sp = new JScrollPane();
 		sp.addMouseWheelListener(this);

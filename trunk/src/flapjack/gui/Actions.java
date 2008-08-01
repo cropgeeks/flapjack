@@ -93,7 +93,7 @@ public class Actions
 		fileSave.setEnabled(true);
 	}
 
-	private ImageIcon getIcon(ImageIcon icon)
+	public static ImageIcon getIcon(ImageIcon icon)
 	{
 		if (SystemUtils.isMacOS())
 			return null;
