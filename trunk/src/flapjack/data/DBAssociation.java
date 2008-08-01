@@ -6,12 +6,15 @@ package flapjack.data;
  */
 public class DBAssociation extends XMLRoot
 {
-	private String lineSearch;
-	private String markerSearch;
+	private String lineSearch = "";
+	private String markerSearch = "";
 
 	public DBAssociation()
 	{
 	}
+
+
+	// Methods required for XML serialization
 
 	public String getLineSearch()
 		{ return lineSearch; }
@@ -24,4 +27,17 @@ public class DBAssociation extends XMLRoot
 
 	public void setMarkerSearch(String markerSearch)
 		{ this.markerSearch = markerSearch; }
+
+
+	// Other methods
+
+	public boolean isLineSearchEnabled()
+	{
+		return lineSearch.length() > 0;
+	}
+
+	public boolean isMarkerSearchEnabled()
+	{
+		return markerSearch.length() > 0;
+	}
 }

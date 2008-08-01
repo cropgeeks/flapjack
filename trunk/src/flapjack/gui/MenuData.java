@@ -76,6 +76,7 @@ class MenuData
 	// Fires off a URL request to a linked database for information on a line
 	void dataDBLineName()
 	{
+		DBAssociation db = gPanel.getViewSet().getDataSet().getDbAssociation();
 		GTView view = gPanel.getView();
 
 		if (view.mouseOverLine >= 0 && view.mouseOverLine < view.getLineCount())
@@ -84,8 +85,8 @@ class MenuData
 
 			try
 			{
-				String url = "http://penguin.scri.ac.uk/paul/germinate/germinate_development/app/flapjack/flapjack_search/search.pl?line=";
-				url += URLEncoder.encode(line.getName(), "UTF-8");
+				String lineURL = URLEncoder.encode(line.getName(), "UTF-8");
+				String url = db.getLineSearch().replace("$LINE", lineURL);
 
 				FlapjackUtils.visitURL(url.toString());
 			}
@@ -96,6 +97,7 @@ class MenuData
 	// Fires off a URL request to a linked database for information on a marker
 	void dataDBMarkerName()
 	{
+		DBAssociation db = gPanel.getViewSet().getDataSet().getDbAssociation();
 		GTView view = gPanel.getView();
 
 		if (view.mouseOverMarker >= 0 && view.mouseOverMarker < view.getMarkerCount())
@@ -104,13 +106,20 @@ class MenuData
 
 			try
 			{
-				String url = "http://penguin.scri.ac.uk/paul/germinate/germinate_development/app/flapjack/flapjack_search/search.pl?marker=";
-				url += URLEncoder.encode(marker.getName(), "UTF-8");
+				String markerURL = URLEncoder.encode(marker.getName(), "UTF-8");
+				String url = db.getMarkerSearch().replace("$MARKER", markerURL);
 
 				FlapjackUtils.visitURL(url);
 			}
 			catch (Exception e) {}
 		}
+	}
+
+	void dataDBSettings()
+	{
+		DataSet dataSet = gPanel.getViewSet().getDataSet();
+
+		DatabaseSettingsDialog dialog = new DatabaseSettingsDialog(dataSet);
 	}
 
 	void dataRenameDataSet()
