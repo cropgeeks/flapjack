@@ -32,6 +32,7 @@ public class CanvasMenu
 	private JMenu mDataDB;
 	private JMenuItem mDBLineName;
 	private JMenuItem mDBMarkerName;
+	private JMenuItem mDBSettings;
 	private JMenu mSortLines;
 	private JMenuItem mSortLinesBySimilarity;
 	private JMenuItem mSortLinesByTrait;
@@ -82,6 +83,7 @@ public class CanvasMenu
 		mFind = WinMainMenuBar.getItem(Actions.dataFind, "gui.Actions.dataFind", KeyEvent.VK_F, menuShortcut);
 		mDBLineName = WinMainMenuBar.getItem(Actions.dataDBLineName, "gui.Actions.dataDBLineName", 0, 0);
 		mDBMarkerName = WinMainMenuBar.getItem(Actions.dataDBMarkerName, "gui.Actions.dataDBMarkerName", 0, 0);
+		mDBSettings = WinMainMenuBar.getItem(Actions.dataDBSettings, "gui.Actions.dataDBSettings", 0, 0);
 
 		mColor = new JMenu(RB.getString("gui.WinMainMenuBar.mVizColor"));
 		RB.setMnemonic(mColor, "gui.WinMainMenuBar.mVizColor");
@@ -101,6 +103,8 @@ public class CanvasMenu
 		RB.setMnemonic(mDataDB, "gui.WinMainMenuBar.mDataDB");
 		mDataDB.add(mDBLineName);
 		mDataDB.add(mDBMarkerName);
+		mDataDB.addSeparator();
+		mDataDB.add(mDBSettings);
 
 		mSortLinesBySimilarity = WinMainMenuBar.getItem(Actions.dataSortLinesBySimilarity, "gui.Actions.dataSortLinesBySimilarity", 0, 0);
 		mSortLinesByTrait = WinMainMenuBar.getItem(Actions.dataSortLinesByTrait, "gui.Actions.dataSortLinesByTrait", 0, 0);

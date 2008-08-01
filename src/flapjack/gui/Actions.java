@@ -57,6 +57,7 @@ public class Actions
 	public static AbstractAction dataStatistics;
 	public static AbstractAction dataDBLineName;
 	public static AbstractAction dataDBMarkerName;
+	public static AbstractAction dataDBSettings;
 	public static AbstractAction dataRenameDataSet;
 	public static AbstractAction dataDeleteDataSet;
 
@@ -363,6 +364,12 @@ public class Actions
 			}
 		};
 
+		dataDBSettings = new AbstractAction(RB.getString("gui.Actions.dataDBSettings"), getIcon(Icons.PREFERENCES)) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.mData.dataDBSettings();
+			}
+		};
+
 		dataRenameDataSet = new AbstractAction(RB.getString("gui.Actions.dataRenameDataSet"), getIcon(Icons.RENAME)) {
 			public void actionPerformed(ActionEvent e) {
 				winMain.mData.dataRenameDataSet();
@@ -468,6 +475,7 @@ public class Actions
 		dataStatistics.setEnabled(false);
 		dataDBLineName.setEnabled(false);
 		dataDBMarkerName.setEnabled(false);
+		dataDBSettings.setEnabled(false);
 		dataRenameDataSet.setEnabled(false);
 		dataDeleteDataSet.setEnabled(false);
 

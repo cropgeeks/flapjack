@@ -69,6 +69,7 @@ public class WinMainMenuBar extends JMenuBar
 	private JMenu mDataDB;
 	private JMenuItem mDataDBLineName;
 	private JMenuItem mDataDBMarkerName;
+	private JMenuItem mDataDBSettings;
 	private JMenuItem mDataRenameDataSet;
 	private JMenuItem mDataDeleteDataSet;
 
@@ -264,6 +265,7 @@ public class WinMainMenuBar extends JMenuBar
 		mDataStatistics = getItem(Actions.dataStatistics, "gui.Actions.dataStatistics", 0, 0);
 		mDataDBLineName = getItem(Actions.dataDBLineName, "gui.Actions.dataDBLineName", 0, 0);
 		mDataDBMarkerName = getItem(Actions.dataDBMarkerName, "gui.Actions.dataDBMarkerName", 0, 0);
+		mDataDBSettings = getItem(Actions.dataDBSettings, "gui.Actions.dataDBSettings", 0, 0);
 		mDataRenameDataSet = getItem(Actions.dataRenameDataSet, "gui.Actions.dataRenameDataSet", 0, 0);
 		mDataDeleteDataSet = getItem(Actions.dataDeleteDataSet, "gui.Actions.dataDeleteDataSet", 0, 0);
 
@@ -272,6 +274,8 @@ public class WinMainMenuBar extends JMenuBar
 
 		mDataDB.add(mDataDBLineName);
 		mDataDB.add(mDataDBMarkerName);
+		mDataDB.addSeparator();
+		mDataDB.add(mDataDBSettings);
 
 		mData.add(mDataSortLines);
 		mData.addSeparator();

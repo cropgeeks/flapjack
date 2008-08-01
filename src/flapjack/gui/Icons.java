@@ -40,6 +40,8 @@ public class Icons
 	public static ImageIcon VISUALIZATION;
 	public static ImageIcon WEB;
 
+	public static ImageIcon DATABASE_32;
+
 	public static ImageIcon WINERROR, WININFORMATION, WINQUESTION, WINWARNING;
 
 	private Icons()

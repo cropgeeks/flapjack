@@ -64,10 +64,13 @@ public class VisualizationNode extends BaseNode
 		Actions.dataSortLinesByTrait.setEnabled(true);
 		Actions.dataFind.setEnabled(true);
 		Actions.dataStatistics.setEnabled(true);
-		Actions.dataDBLineName.setEnabled(true);
-		Actions.dataDBMarkerName.setEnabled(true);
+		Actions.dataDBSettings.setEnabled(true);
 		Actions.dataRenameDataSet.setEnabled(true);
 		Actions.dataDeleteDataSet.setEnabled(true);
+
+		DBAssociation db = viewSet.getDataSet().getDbAssociation();
+		Actions.dataDBLineName.setEnabled(db.isLineSearchEnabled());
+		Actions.dataDBMarkerName.setEnabled(db.isMarkerSearchEnabled());
 	}
 
 	public JPanel getPanel()
