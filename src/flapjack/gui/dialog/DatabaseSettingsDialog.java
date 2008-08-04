@@ -28,7 +28,7 @@ public class DatabaseSettingsDialog extends JDialog implements ActionListener
 		add(nbPanel);
 		add(createButtons(), BorderLayout.SOUTH);
 
-		getRootPane().setDefaultButton(bCancel);
+		getRootPane().setDefaultButton(bOK);
 		SwingUtils.addCloseHandler(this, bCancel);
 
 		pack();
