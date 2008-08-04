@@ -1,6 +1,7 @@
 package flapjack.io;
 
 import java.io.*;
+import java.util.*;
 
 import flapjack.data.*;
 import flapjack.gui.*;
@@ -14,7 +15,7 @@ public class GenotypeDataImporter
 	private String ioMissingData;
 	private String ioHeteroSeparator;
 
-	private int lineCount;
+	private int lineCount = 1;
 	private int markerCount;
 
 	private boolean isOK = true;
@@ -49,6 +50,15 @@ public class GenotypeDataImporter
 		BufferedReader in = new BufferedReader(new FileReader(file));
 
 		String str = in.readLine();
+
+		// Preprocess the file, looking for any header information
+		while (str.length() == 0 || str.startsWith("#"))
+		{
+			processHeader(str);
+			str = in.readLine();
+
+			++lineCount;
+		}
 
 		// Split the first line up into an array of marker names (we ignore the
 		// first element as it's a redundant column header: i=1 in loop below)
@@ -109,5 +119,26 @@ public class GenotypeDataImporter
 		}
 
 		in.close();
+	}
+
+	private void processHeader(String str)
+	{
+		try
+		{
+			String key = str.substring(1, str.indexOf("=")).trim();
+			String value = str.substring(str.indexOf("=")+1).trim();
+
+			// fjDatabaseLineSearch = a URL for querying line information
+			if (key.equals("fjDatabaseLineSearch"))
+				dataSet.getDbAssociation().setLineSearch(value);
+
+			// fjDatabaseMarkerSearch = a URL for querying marker information
+			if (key.equals("fjDatabaseMarkerSearch"))
+				dataSet.getDbAssociation().setMarkerSearch(value);
+		}
+		catch (Exception e)
+		{
+			System.out.println("Invalid header: " + str);
+		}
 	}
 }
