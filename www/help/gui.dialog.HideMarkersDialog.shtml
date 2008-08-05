@@ -20,6 +20,9 @@ are visible within the current view. Options are provided that allow you to hide
 existing markers, or to restore previously hidden markers so that they become
 visible again.</p>
 
+<p><a href="images/gui.dialog.HideMarkersDialog.png">
+<img src="images/gui.dialog.HideMarkersDialog2.png"></a></p>
+
 <h3>Hiding markers</h3>
 
 <p>Flapjack offers three methods of hiding markers, two of which are available

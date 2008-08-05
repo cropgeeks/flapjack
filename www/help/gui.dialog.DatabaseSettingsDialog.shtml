@@ -19,6 +19,9 @@
 Flapjack will use when attempting to query a remote database for line or marker
 information.</p>
 
+<p><a href="images/gui.dialog.DatabaseSettingsDialog.png">
+<img src="images/gui.dialog.DatabaseSettingsDialog2.png"></a></p>
+
 <ul>
 <li><b>Line searches</b><br>
 Enter a valid URL containing a location that can be queried for information on a
