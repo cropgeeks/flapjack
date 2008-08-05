@@ -6,40 +6,48 @@ package flapjack.data;
  */
 public class Bookmark extends XMLRoot
 {
-	private LineInfo lineInfo;
-	private MarkerInfo markerInfo;
+	private ChromosomeMap chromosome;
+	private Line line;
+	private Marker marker;
 
 	public Bookmark()
 	{
 	}
 
-	public Bookmark(LineInfo lineInfo, MarkerInfo markerInfo)
+	public Bookmark(ChromosomeMap chromosome, Line line, Marker marker)
 	{
-		this.lineInfo = lineInfo;
-		this.markerInfo = markerInfo;
+		this.chromosome = chromosome;
+		this.line = line;
+		this.marker = marker;
 	}
 
 	void validate()
 		throws NullPointerException
 	{
-		if (lineInfo == null || markerInfo == null)
+		if (chromosome == null || line == null || marker == null)
 			throw new NullPointerException();
 	}
 
 
 	// Methods required for XML serialization
 
-	public LineInfo getLineInfo()
-		{ return lineInfo; }
+	public ChromosomeMap getChromosome()
+		{ return chromosome; }
 
-	public void setLineInfo(LineInfo lineInfo)
-		{ this.lineInfo = lineInfo; }
+	public void setChromosome(ChromosomeMap chromosome)
+		{ this.chromosome = chromosome; }
 
-	public MarkerInfo getMarkerInfo()
-		{ return markerInfo; }
+	public Line getLine()
+		{ return line; }
 
-	public void setMarkerInfo(MarkerInfo markerInfo)
-		{ this.markerInfo = markerInfo; }
+	public void setLine(Line line)
+		{ this.line = line; }
+
+	public Marker getMarker()
+		{ return marker; }
+
+	public void setMarker(Marker marker)
+		{ this.marker = marker; }
 
 
 	// Other methods

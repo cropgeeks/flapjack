@@ -22,6 +22,9 @@ public class GTViewSet extends XMLRoot
 	// Holds the lines that we don't currently want visible
 	Vector<LineInfo> hideLines = new Vector<LineInfo>();
 
+	// Any bookmarks associated with this viewset
+	private Vector<Bookmark> bookmarks = new Vector<Bookmark>();
+
 	private String name;
 	private int viewIndex;
 
@@ -122,6 +125,12 @@ public class GTViewSet extends XMLRoot
 
 	public void setViews(Vector<GTView> views)
 		{ this.views = views; }
+
+	public Vector<Bookmark> getBookmarks()
+		{ return bookmarks; }
+
+	public void setBookmarks(Vector<Bookmark> bookmarks)
+		{ this.bookmarks = bookmarks; }
 
 	public int getColorScheme()
 		{ return colorScheme; }
