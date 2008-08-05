@@ -88,6 +88,7 @@
 		</field>
 		<field name="markers" type="flapjack.data.MarkerInfo" collection="vector"/>
 		<field name="hideMarkers" type="flapjack.data.MarkerInfo" collection="vector"/>
+		<field name="bookmarks" type="flapjack.data.Bookmark" collection="vector"/>
 		<field name="comparisonMarker" type="flapjack.data.Marker">
 			<bind-xml reference="true" node="attribute"/>
 		</field>
@@ -124,5 +125,15 @@
 
 	<!-- DBAssociation -->
 	<class name="flapjack.data.DBAssociation" extends="flapjack.data.XMLRoot" auto-complete="true"/>
+
+	<!-- Bookmark -->
+	<class name="flapjack.data.Bookmark" extends="flapjack.data.XMLRoot" auto-complete="true">
+		<field name="lineInfo" type="flapjack.data.LineInfo">
+			<bind-xml reference="true" node="attribute"/>
+		</field>
+		<field name="markerInfo" type="flapjack.data.MarkerInfo">
+			<bind-xml reference="true" node="attribute"/>
+		</field>
+	</class>
 
 </mapping>
