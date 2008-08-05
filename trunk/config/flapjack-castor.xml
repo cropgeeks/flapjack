@@ -72,6 +72,7 @@
 		<field name="lines" type="flapjack.data.LineInfo" collection="vector"/>
 		<field name="hideLines" type="flapjack.data.LineInfo" collection="vector"/>
 		<field name="views" type="flapjack.data.GTView" collection="vector"/>
+		<field name="bookmarks" type="flapjack.data.Bookmark" collection="vector"/>
 		<field name="comparisonLine" type="flapjack.data.Line">
 			<bind-xml reference="true" node="attribute"/>
 		</field>
@@ -88,7 +89,6 @@
 		</field>
 		<field name="markers" type="flapjack.data.MarkerInfo" collection="vector"/>
 		<field name="hideMarkers" type="flapjack.data.MarkerInfo" collection="vector"/>
-		<field name="bookmarks" type="flapjack.data.Bookmark" collection="vector"/>
 		<field name="comparisonMarker" type="flapjack.data.Marker">
 			<bind-xml reference="true" node="attribute"/>
 		</field>
@@ -128,10 +128,13 @@
 
 	<!-- Bookmark -->
 	<class name="flapjack.data.Bookmark" extends="flapjack.data.XMLRoot" auto-complete="true">
-		<field name="lineInfo" type="flapjack.data.LineInfo">
+		<field name="chromosome" type="flapjack.data.ChromosomeMap">
 			<bind-xml reference="true" node="attribute"/>
 		</field>
-		<field name="markerInfo" type="flapjack.data.MarkerInfo">
+		<field name="line" type="flapjack.data.Line">
+			<bind-xml reference="true" node="attribute"/>
+		</field>
+		<field name="marker" type="flapjack.data.Marker">
 			<bind-xml reference="true" node="attribute"/>
 		</field>
 	</class>

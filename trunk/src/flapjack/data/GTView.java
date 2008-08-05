@@ -21,9 +21,6 @@ public class GTView extends XMLRoot
 	// Holds markers that we don't currently want visible
 	private Vector<MarkerInfo> hideMarkers = new Vector<MarkerInfo>();
 
-	// Any bookmarks associated with this view
-	private Vector<Bookmark> bookmarks = new Vector<Bookmark>();
-
 	// Marker and line currently under the mouse (-1 if not)
 	public int mouseOverLine = -1;
 	public int mouseOverMarker = -1;
@@ -87,12 +84,6 @@ public class GTView extends XMLRoot
 
 	public void setHideMarkers(Vector<MarkerInfo> hideMarkers)
 		{ this.hideMarkers = hideMarkers; }
-
-	public Vector<Bookmark> getBookmarks()
-		{ return bookmarks; }
-
-	public void setBookmarks(Vector<Bookmark> bookmarks)
-		{ this.bookmarks = bookmarks; }
 
 	public Marker getComparisonMarker()
 		{ return comparisonMarker; }
@@ -172,6 +163,14 @@ public class GTView extends XMLRoot
 	public Marker getMarker(int index)
 	{
 		return markers.get(index).marker;
+	}
+
+	/**
+	 * Returns the MarkerInfo at the specified index position within this view.
+	 */
+	public MarkerInfo getMarkerInfo(int index)
+	{
+		return markers.get(index);
 	}
 
 	public void moveLine(int fromIndex, int toIndex)
