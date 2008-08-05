@@ -13,6 +13,12 @@ BODY,TD,P
 	font-size: 13px;
 }
 
+IMG
+{
+	border: 0;
+	margin-left: 30px;
+}
+
 UL
 {
 	list-style-image: url(images/button.png);

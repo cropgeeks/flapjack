@@ -20,6 +20,9 @@ are visible within the current view. Options are provided that allow you to hide
 existing lines, or to restore previously hidden lines so that they become
 visible again.</p>
 
+<p><a href="images/gui.dialog.HideLinesDialog.png">
+<img src="images/gui.dialog.HideLinesDialog2.png"></a></p>
+
 <h3>Hiding lines</h3>
 
 <p>Flapjack offers three methods of hiding lines, two of which are available

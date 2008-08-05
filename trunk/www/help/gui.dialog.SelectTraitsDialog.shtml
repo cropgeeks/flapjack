@@ -18,6 +18,9 @@
 <p>Use the <b>Select Traits</b> dialog to pick which traits should be
 displayed on the traits heatmap alongside the list of line names.</p>
 
+<p><a href="images/gui.dialog.SelectTraitsDialog.png">
+<img src="images/gui.dialog.SelectTraitsDialog2.png"></a></p>
+
 <p>Up to three traits can be selected by choosing each trait's name using the
 drop down lists. To <i>not</i> select a trait for display in a particular
 column, select the blank option at the top of that list.</p>

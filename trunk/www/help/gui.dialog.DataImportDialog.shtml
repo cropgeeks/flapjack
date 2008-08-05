@@ -18,6 +18,9 @@
 <p>The <b>Import Data </b> dialog is used to provide information on which map
 and genotype data files should be used to import a data set into Flapjack.</p>
 
+<p><a href="images/gui.dialog.DataImportDialog.png">
+<img src="images/gui.dialog.DataImportDialog2.png"></a></p>
+
 <p>The <b>map file</b> should contain information on the markers, the chromosome
 they are on, and their position within that chromosome. The markers do not need
 to be in any particular order as Flapjack will group and sort them by
@@ -42,7 +45,9 @@ marker information for each column.</p>
 </pre></p>
 
 <p>Both the map file and the genotype file must be in plain-text, tab-delimited
-format. Additional import options are available to control the way that Flapjack
+format.</p>
+
+<p>Additional import options are available to control the way that Flapjack
 will read the provided file:</p>
 
 <ul>
@@ -58,6 +63,12 @@ alleles of the form A/T will be seen as homozygeous if listed as AT.<p></p>
 This specifies the string that is used to define missing genotype data. It can
 be left blank if no character is used within the genotype file.<p></p>
 </ul>
+
+<p>Flapjack will display the progress of the import operation as the data is
+read from the files:</p>
+
+<p><a href="images/gui.dialog.DataImportingDialog.png">
+<img src="images/gui.dialog.DataImportingDialog2.png"></a></p>
 
 
 <!--#include virtual="footer.html" -->
