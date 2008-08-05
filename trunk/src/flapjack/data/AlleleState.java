@@ -28,6 +28,7 @@ public class AlleleState extends XMLRoot
 			throw new NullPointerException();
 	}
 
+
 	// Methods required for XML serialization
 
 	public String[] getStates()
