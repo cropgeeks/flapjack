@@ -60,6 +60,11 @@ public class StateTable extends XMLRoot
 		if (create == false)
 			return -1;
 
+		// Check the state table isn't getting too largge
+		if (states.size() == 127)
+			throw new RuntimeException("Allele state-table upper limit of 127 "
+				+ "states reached.");
+
 		// If it wasn't found and needs to be created, then add it
 		states.add(new AlleleState(rawData, heteroString));
 		return states.size() - 1;
