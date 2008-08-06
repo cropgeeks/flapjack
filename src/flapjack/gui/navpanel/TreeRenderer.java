@@ -24,6 +24,8 @@ public class TreeRenderer extends JLabel implements TreeCellRenderer
 			setIcon(Icons.VISUALIZATION);
 		else if (value instanceof TraitsNode)
 			setIcon(Icons.TRAITS);
+		else if (value instanceof BookmarkNode)
+			setIcon(Icons.BOOKMARK);
 
 		this.selected = selected;
 

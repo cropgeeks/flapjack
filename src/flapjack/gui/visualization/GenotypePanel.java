@@ -260,16 +260,22 @@ public class GenotypePanel extends JPanel
 	// Jumps to a position relative to a x/y index within the dataset array
 	public void jumpToPosition(int lineIndex, int markerIndex)
 	{
+		// We only try to move if the point isn't already visible
+
 		if (lineIndex != -1)
 		{
 			int y = lineIndex * canvas.boxH - (canvas.boxH);
-			vBar.setValue(y);
+
+			if (viewport.getViewRect().contains(hBar.getValue(), y) == false)
+				vBar.setValue(y);
 		}
 
 		if (markerIndex != -1)
 		{
 			int x = markerIndex * canvas.boxW - (canvas.boxW);
-			hBar.setValue(x);
+
+			if (viewport.getViewRect().contains(x, vBar.getValue()) == false)
+				hBar.setValue(x);
 		}
 	}
 

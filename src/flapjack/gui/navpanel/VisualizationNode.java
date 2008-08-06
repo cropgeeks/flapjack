@@ -59,6 +59,7 @@ public class VisualizationNode extends BaseNode
 		Actions.vizDeleteView.setEnabled(true);
 		Actions.vizToggleCanvas.setEnabled(true);
 		Actions.vizOverview.setEnabled(true);
+		Actions.vizBookmark.setEnabled(true);
 
 		Actions.dataSortLinesBySimilarity.setEnabled(true);
 		Actions.dataSortLinesByTrait.setEnabled(true);

@@ -8,6 +8,8 @@ public class Icons
 	public static ImageIcon NOICON;
 
 	public static ImageIcon BLUEBLOB;
+	public static ImageIcon BOOKMARK;
+	public static ImageIcon BOOKMARKADD;
 	public static ImageIcon CHECKUPDATE;
 	public static ImageIcon CHROMOSOME;
 	public static ImageIcon COLORS;
