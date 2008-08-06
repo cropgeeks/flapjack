@@ -50,6 +50,7 @@ public class Actions
 	public static AbstractAction vizDeleteView;
 	public static AbstractAction vizToggleCanvas;
 	public static AbstractAction vizOverview;
+	public static AbstractAction vizBookmark;
 
 	public static AbstractAction dataSortLinesBySimilarity;
 	public static AbstractAction dataSortLinesByTrait;
@@ -321,6 +322,12 @@ public class Actions
 			}
 		};
 
+		vizBookmark = new AbstractAction(RB.getString("gui.Actions.vizBookmark"), getIcon(Icons.BOOKMARKADD)) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.mViz.vizBookmark();
+			}
+		};
+
 		vizOverview = new AbstractAction(RB.getString("gui.Actions.vizOverview")) {
 			public void actionPerformed(ActionEvent e) {
 				winMain.mViz.vizOverview();
@@ -468,6 +475,7 @@ public class Actions
 		vizDeleteView.setEnabled(false);
 		vizToggleCanvas.setEnabled(false);
 		vizOverview.setEnabled(false);
+		vizBookmark.setEnabled(false);
 
 		dataSortLinesBySimilarity.setEnabled(false);
 		dataSortLinesByTrait.setEnabled(false);

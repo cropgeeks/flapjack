@@ -140,8 +140,16 @@ class NavPanel extends JPanel
 		DataSet dataSet = dataSetNode.getDataSet();
 		GTViewSet viewSet = dataSet.getViewSets().get(i);
 
+		// Insert the visualization node
 		VisualizationNode node = new VisualizationNode(dataSet, viewSet, gPanel);
 		treeModel.insertNodeInto(node, dataSetNode, dataSetNode.getChildCount());
+
+		// Then scan and potentially add any bookmark nodes for it
+		for (Bookmark bookmark: viewSet.getBookmarks())
+		{
+			BookmarkNode bmNode = new BookmarkNode(gPanel, node, bookmark);
+			treeModel.insertNodeInto(bmNode, node, node.getChildCount());
+		}
 
 		return node;
 	}
@@ -157,6 +165,19 @@ class NavPanel extends JPanel
 
 		tree.setSelectionPath(new TreePath(newNode.getPath()));
 		tree.scrollPathToVisible(new TreePath(newNode.getPath()));
+	}
+
+	void addedNewBookmarkNode(GTViewSet viewSet, Bookmark bookmark)
+	{
+		VisualizationNode node = findVisualizationNode(viewSet);
+		int index = viewSet.getBookmarks().size() - 1;
+
+		BookmarkNode bmNode = new BookmarkNode(gPanel, node, bookmark);
+		treeModel.insertNodeInto(bmNode, node, node.getChildCount());
+
+		// This will expand the + for the bookmark nodes if they're not visible
+		tree.setSelectionPath(new TreePath(bmNode.getPath()));
+		tree.scrollPathToVisible(new TreePath(bmNode.getPath()));
 	}
 
 	private DataSetNode findDataSetNode(DataSet dataSet)
@@ -268,7 +289,8 @@ class NavPanel extends JPanel
 		hSplitPane.setDividerLocation(location);
 
 		// If we're viewing a visualization node, then enable the overview
-		OverviewManager.setVisible(node instanceof VisualizationNode);
+		OverviewManager.setVisible(node instanceof VisualizationNode ||
+			node instanceof BookmarkNode);
 	}
 
 	/**

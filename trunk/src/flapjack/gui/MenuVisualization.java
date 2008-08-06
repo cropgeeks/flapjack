@@ -158,4 +158,27 @@ public class MenuVisualization
 	{
 		new ToggleCanvasDialog(gPanel);
 	}
+
+	void vizBookmark()
+	{
+		GTView view = gPanel.getView();
+
+		// First ensure the mouse was actually clicked while over an allele
+		if (view.mouseOverLine < 0 || view.mouseOverLine >= view.getLineCount())
+			return;
+		if (view.mouseOverMarker < 0 || view.mouseOverMarker >= view.getMarkerCount())
+			return;
+
+		ChromosomeMap chromosome = view.getChromosomeMap();
+		Line line = view.getLine(view.mouseOverLine);
+		Marker marker = view.getMarker(view.mouseOverMarker);
+		Bookmark bookmark = new Bookmark(chromosome, line, marker);
+
+		// Stop the highlighter from running before it gets the chance
+		// (as the navpanel adding the node would normally enable it)
+		BookmarkHighlighter.enable = false;
+
+		view.getViewSet().getBookmarks().add(bookmark);
+		navPanel.addedNewBookmarkNode(view.getViewSet(), bookmark);
+	}
 }
