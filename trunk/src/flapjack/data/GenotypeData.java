@@ -5,13 +5,15 @@ public class GenotypeData extends XMLRoot
 	// A reference to the chromsome this data applies to
 	private ChromosomeMap map;
 
+	// Store the data EITHER in a byte array OR a int array
 	private byte[] loci;
+	private int[] lociInt;
 
 	public GenotypeData()
 	{
 	}
 
-	public GenotypeData(ChromosomeMap map)
+	public GenotypeData(ChromosomeMap map, boolean useByteStorage)
 	{
 		this.map = map;
 
@@ -19,13 +21,16 @@ public class GenotypeData extends XMLRoot
 		int size = map.countLoci();
 
 		// Initialize the array to the correct size
-		loci = new byte[size];
+		if (useByteStorage)
+			loci = new byte[size];
+		else
+			lociInt = new int[size];
 	}
 
 	void validate()
 		throws NullPointerException
 	{
-		if (map == null || loci == null)
+		if (map == null || (loci == null && lociInt == null))
 			throw new NullPointerException();
 	}
 
@@ -44,18 +49,30 @@ public class GenotypeData extends XMLRoot
 	public void setLoci(byte[] loci)
 		{ this.loci = loci; }
 
+	public int[] getLociInt()
+		{ return lociInt; }
+
+	public void setLociInt(int[] lociInt)
+		{ this.lociInt = lociInt; }
+
 
 	// Other methods
 
 	void setLoci(int index, int stateCode)
 	{
-		loci[index] = (byte) stateCode;
+		if (loci != null)
+			loci[index] = (byte) stateCode;
+		else
+			lociInt[index] = stateCode;
 	}
 
 	public int getState(int index)
 		throws ArrayIndexOutOfBoundsException
 	{
-		return loci[index];
+		if (loci != null)
+			return loci[index];
+		else
+			return lociInt[index];
 	}
 
 	boolean isGenotypeDataForMap(ChromosomeMap map)
@@ -64,17 +81,31 @@ public class GenotypeData extends XMLRoot
 	}
 
 	public int countLoci()
-		{ return loci.length; }
+	{
+		if (loci != null)
+			return loci.length;
+		else
+			return lociInt.length;
+	}
 
 	// Collapses all instances of s2 to have the same value of s1 (basically
 	// overwrites all s2 values to be the same as s1)
 	void collapseStates(int s1, int s2)
 	{
-		byte b1 = (byte) s1;
-		byte b2 = (byte) s2;
+		if (loci != null)
+		{
+			byte b1 = (byte) s1;
+			byte b2 = (byte) s2;
 
-		for (int i = 0; i < loci.length; i++)
-			if (loci[i] == b2)
-				loci[i] = b1;
+			for (int i = 0; i < loci.length; i++)
+				if (loci[i] == b2)
+					loci[i] = b1;
+		}
+		else
+		{
+			for (int i = 0; i < lociInt.length; i++)
+				if (lociInt[i] == s2)
+					lociInt[i] = s1;
+		}
 	}
 }
