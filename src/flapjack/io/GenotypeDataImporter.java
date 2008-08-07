@@ -18,6 +18,8 @@ public class GenotypeDataImporter
 	private int lineCount = 1;
 	private int markerCount;
 
+	private boolean useByteStorage = true;
+
 	private boolean isOK = true;
 
 	public GenotypeDataImporter(File file, DataSet dataSet, String ioMissingData, String ioHeteroSeparator)
@@ -43,6 +45,20 @@ public class GenotypeDataImporter
 		{ return markerCount; }
 
 	public void importGenotypeData()
+		throws IOException, DataFormatException
+	{
+		if (readData() == false)
+		{
+			dataSet.getLines().clear();
+			stateTable.getStates().clear();
+			useByteStorage = false;
+
+			lineCount = 1;
+			readData();
+		}
+	}
+
+	private boolean readData()
 		throws IOException, DataFormatException
 	{
 		long s = System.currentTimeMillis();
@@ -97,7 +113,7 @@ public class GenotypeDataImporter
 				if (line.getName().equals(values[0]))
 					throw new DataFormatException(RB.format("io.DataFormatException.duplicateLineError", values[0], lineCount));
 
-			Line line = dataSet.createLine(values[0]);
+			Line line = dataSet.createLine(values[0], useByteStorage);
 
 			for (int i = 1; i < values.length; i++)
 			{
@@ -116,9 +132,14 @@ public class GenotypeDataImporter
 					markerCount++;
 				}
 			}
+
+			if (useByteStorage && stateTable.size() > 127)
+				return false;
 		}
 
 		in.close();
+
+		return true;
 	}
 
 	private void processHeader(String str)

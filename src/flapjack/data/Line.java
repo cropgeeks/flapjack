@@ -70,9 +70,9 @@ public class Line extends XMLRoot
 	public String toString()
 		{ return name; }
 
-	void initializeMap(ChromosomeMap map)
+	void initializeMap(ChromosomeMap map, boolean useByteStorage)
 	{
-		GenotypeData genoData = new GenotypeData(map);
+		GenotypeData genoData = new GenotypeData(map, useByteStorage);
 
 		genotypes.add(genoData);
 	}

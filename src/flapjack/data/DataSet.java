@@ -90,13 +90,13 @@ public class DataSet extends XMLRoot
 
 	// Other methods
 
-	public Line createLine(String name)
+	public Line createLine(String name, boolean useByteStorage)
 	{
 		Line line = new Line(name, lines.size());
 
 		// This ensures each line has a set of (empty) loci data for each map
 		for (ChromosomeMap map: chromosomes)
-			line.initializeMap(map);
+			line.initializeMap(map, useByteStorage);
 
 		lines.add(line);
 
