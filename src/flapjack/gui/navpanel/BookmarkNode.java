@@ -31,6 +31,9 @@ public class BookmarkNode extends BaseNode
 			+ " / " + bookmark.getMarker().getName();
 	}
 
+	public Bookmark getBookmark()
+		{ return bookmark; }
+
 	public GTViewSet getViewSet()
 		{ return parent.getViewSet(); }
 
@@ -46,6 +49,7 @@ public class BookmarkNode extends BaseNode
 
 		Actions.vizRenameView.setEnabled(false);
 		Actions.vizDeleteView.setEnabled(false);
+		Actions.vizDeleteBookmark.setEnabled(true);
 	}
 
 	public JPanel getPanel()

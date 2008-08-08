@@ -255,6 +255,18 @@ class NavPanel extends JPanel
 		treeModel.removeNodeFromParent(node);
 	}
 
+	Bookmark removeSelectedBookmarkNode()
+	{
+		BookmarkNode node = (BookmarkNode) tree.getLastSelectedPathComponent();
+		BaseNode baseNode = (BaseNode) node.getParent();
+
+		treeModel.removeNodeFromParent(node);
+		tree.setSelectionPath(new TreePath(baseNode.getPath()));
+		tree.scrollPathToVisible(new TreePath(baseNode.getPath()));
+
+		return node.getBookmark();
+	}
+
 	TraitsPanel getTraitsPanel(DataSet dataSet)
 	{
 		DataSetNode dataSetNode = findDataSetNode(dataSet);

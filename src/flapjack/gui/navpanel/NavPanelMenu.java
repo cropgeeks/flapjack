@@ -20,6 +20,7 @@ public class NavPanelMenu extends MouseInputAdapter
 	private JMenuItem vizNewView;
 	private JMenuItem vizRenameView;
 	private JMenuItem vizDeleteView;
+	private JMenuItem vizDeleteBookmark;
 
 	public NavPanelMenu(JTree tree)
 	{
@@ -38,6 +39,7 @@ public class NavPanelMenu extends MouseInputAdapter
 		vizNewView = WinMainMenuBar.getItem(Actions.vizNewView, "gui.Actions.vizNewView", 0, 0);
 		vizRenameView = WinMainMenuBar.getItem(Actions.vizRenameView, "gui.Actions.vizRenameView", 0, 0);
 		vizDeleteView = WinMainMenuBar.getItem(Actions.vizDeleteView, "gui.Actions.vizDeleteView", 0, 0);
+		vizDeleteBookmark = WinMainMenuBar.getItem(Actions.vizDeleteBookmark, "gui.Actions.vizDeleteBookmark", 0, 0);
 	}
 
 	void handlePopup(MouseEvent e)
@@ -66,6 +68,11 @@ public class NavPanelMenu extends MouseInputAdapter
 			menu.add(vizNewView);
 			menu.add(vizRenameView);
 			menu.add(vizDeleteView);
+		}
+
+		else if (node instanceof BookmarkNode)
+		{
+			menu.add(vizDeleteBookmark);
 		}
 
 		else

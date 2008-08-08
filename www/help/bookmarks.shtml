@@ -34,6 +34,11 @@ will adjust the current view to show the correct chromosome for that bookmark,
 and will graphically highlight the line and marker intersection for a few
 seconds.</p>
 
+<h3>Deleting bookmarks</h3>
+
+<p>To delete a bookmark, right-click it with the mouse and then select <b>Delete
+bookmark</b> from the popup menu that appears.</p>
+
 <!--#include virtual="footer.html" -->
 
 </body>
