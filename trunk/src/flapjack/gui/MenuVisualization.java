@@ -180,5 +180,19 @@ public class MenuVisualization
 
 		view.getViewSet().getBookmarks().add(bookmark);
 		navPanel.addedNewBookmarkNode(view.getViewSet(), bookmark);
+
+		Actions.projectModified();
+	}
+
+	void vizDeleteBookmark()
+	{
+		GTViewSet viewSet = gPanel.getViewSet();
+
+		// Remove the bookmark from the navigation panel
+		Bookmark bookmark = navPanel.removeSelectedBookmarkNode();
+		// And then remove it from the project
+		viewSet.getBookmarks().remove(bookmark);
+
+		Actions.projectModified();
 	}
 }
