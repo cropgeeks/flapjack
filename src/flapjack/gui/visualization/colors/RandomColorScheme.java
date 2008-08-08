@@ -29,16 +29,26 @@ public class RandomColorScheme extends ColorScheme
 		{
 			state = stateTable.getAlleleState(i);
 
-			Color color = createRandomColor(state, seed);
-			states.add(new HomozygousColorState(state, color, w, h));
+			if (state.isHomozygous())
+			{
+				Color color = createRandomColor(state.toString(), seed);
+				states.add(new HomozygousColorState(state, color, w, h));
+			}
+			else
+			{
+				Color c1 = createRandomColor(state.getState(0), seed);
+				Color c2 = createRandomColor(state.getState(1), seed);
+
+				states.add(new HeterozygeousColorState(state, Prefs.visColorNucleotideHZ, c1, c2, w, h));
+			}
 		}
 	}
 
-	protected Color createRandomColor(AlleleState state, int seed)
+	protected Color createRandomColor(String str, int seed)
 	{
 		int value = 0;
-		for (int i = 0; i < state.toString().length(); i++)
-			value += state.toString().charAt(i);
+		for (int i = 0; i < str.length(); i++)
+			value += str.charAt(i);
 
 		java.util.Random rnd = new java.util.Random(value+seed);
 
