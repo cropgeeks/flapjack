@@ -21,8 +21,8 @@ menu of Flapjack's main menu bar.</p>
 
 
 <h3>Export view as image</h3>
-<p>Displays the <b>Export Image</b> dialog that allows you to save various captures of
-Flapjack's display area to disk.</p>
+<p>Displays the <a href="gui.dialog.ExportImageDialog.shtml">Export Image</a>
+dialog that allows you to save various captures of Flapjack's display area to disk.</p>
 
 <h3>Colour scheme</h3>
 <p>Opens a sub-menu displaying various options for selecting or modifying the
@@ -68,7 +68,7 @@ heatmap alongside the list of line names.</p>
 
 <h3>Create new view</h3>
 <p>Displays the <b>Create New View</b> dialog that allows you to create a new
-view of the existing dataset, or to clone/copy an existing view.</p>
+view of the existing data set, or to clone/copy an existing view.</p>
 
 <h3>Rename view</h3>
 <p>Displays the <b>Rename</b> dialog that allows you to rename the current view.</p>

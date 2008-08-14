@@ -31,8 +31,8 @@ file containing map data and a file containing genotype data to import into
 Flapjack.<p></p>
 <li><b>Connecting to a Germinate database and importing directly</b><br>
 This is a placeholder option for possible future inclusion.<p></p>
-<li><b>Using the built-in example dataset bundled with Flapjack</b><br>
-Selecting this method will open an examplar dataset that is suitable for use
+<li><b>Using the built-in example data set bundled with Flapjack</b><br>
+Selecting this method will open an examplar data set that is suitable for use
 while getting to know Flapjack.<p></p>
 </ul>
 

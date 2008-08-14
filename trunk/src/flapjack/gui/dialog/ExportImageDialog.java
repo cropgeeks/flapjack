@@ -13,7 +13,7 @@ import scri.commons.gui.*;
 
 public class ExportImageDialog extends JDialog implements ActionListener
 {
-	private JButton bOK, bCancel;
+	private JButton bOK, bCancel, bHelp;
 
 	private File file = null;
 	private boolean isOK = false;
@@ -48,11 +48,15 @@ public class ExportImageDialog extends JDialog implements ActionListener
 		bOK.addActionListener(this);
 		bCancel = SwingUtils.getButton(RB.getString("gui.text.cancel"));
 		bCancel.addActionListener(this);
+		bHelp = SwingUtils.getButton(RB.getString("gui.text.help"));
+		RB.setText(bHelp, "gui.text.help");
+		FlapjackUtils.setHelp(bHelp, "gui.dialog.ExportImageDialog");
 
 		JPanel p1 = new JPanel(new FlowLayout(FlowLayout.RIGHT, 5, 0));
 		p1.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 5));
 		p1.add(bOK);
 		p1.add(bCancel);
+		p1.add(bHelp);
 
 		return p1;
 	}
