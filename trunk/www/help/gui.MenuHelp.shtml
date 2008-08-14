@@ -27,7 +27,8 @@ of Flapjack's main menu bar.</p>
 Flapjack Software Licence</a> online help page.</p>
 
 <h3>Preferences</h3>
-<p>Displays the Preferences dialog that allows you to change several options that
+<p>Displays the <a href="gui.dialog.prefs.PreferencesDialog.shtml">Preferences</a>
+dialog that allows you to change several options that
 affect the way Flapjack is used and is displayed. Note that on Mac OS X, this
 option is remapped to <b>Flapjack > Preferences</b> on the system menu.</p>
 
