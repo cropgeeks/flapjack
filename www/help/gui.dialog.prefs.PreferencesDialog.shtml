@@ -55,7 +55,7 @@ sets this may increase the time taken to save and/or load projects.<p></p>
 Selecting this option will cause Flapjack to try and store a buffered copy of
 the entire display area (even the parts not currently visible) in any available
 free memory. This can significantly improve rendering speeds, especially when
-navigating around large datasets on small zoom levels (small allele box sizes).
+navigating around large data sets on small zoom levels (small allele box sizes).
 <p></p>
 
 <li><b>Use an 8-bit colour buffer to reduce memory usage</b><br>
