@@ -1,0 +1,112 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+
+<html>
+<head>
+<meta http-equiv="Content-Language" content="en-gb">
+<link rel="stylesheet" href="styles.css" type="text/css">
+
+<title>Preferences</title>
+
+</head>
+<body>
+
+<!--#include virtual="header.html" -->
+
+
+<h1>Preferences</h1>
+
+<p>The <b>Preferences</b> dialog can be used to modify various settings that
+affect the way Flapjack is used and is displayed.</p>
+
+<h3>General</h3>
+
+<p><a href="images/gui.dialog.prefs.PreferencesDialogGeneral.png">
+<img src="images/gui.dialog.prefs.PreferencesDialogGeneral2.png"></a></p>
+
+<ul>
+<li><b>Interface display language</b><br>
+This setting determines what language Flapjack will display its user interface
+in. <b>Automatic</b> will attempt to pick the most suitable language based on
+your operating system's settings. If this is not correct, or you wish to use
+another language, you can also select from <b>English (UK)</b>, <b>English (US)</b>
+, or <b>German</b>. Flapjack will need to be restarted after any changes are
+made.<p></p>
+
+<li><b>Check for newer Flapjack versions</b><br>
+This setting determines how often Flapjack will attempt to connect back to its
+download server to see if a newer version is available. The options available
+are <b>Never</b>, <b>At application startup</b>, <b>Once a day</b>, <b>Once
+a week</b>, and <b>Once a month</b>.<p></p>
+
+<li><b>Compress Flapjack project files to save space</b><br>
+Toggles on or off project compression. By default, project files are zip-compressed
+which significantly reduces the final file size, however, with very large data
+sets this may increase the time taken to save and/or load projects.<p></p>
+</ul>
+
+
+<h3>Visualization</h3>
+
+<p><a href="images/gui.dialog.prefs.PreferencesDialogVisualization.png">
+<img src="images/gui.dialog.prefs.PreferencesDialogVisualization2.png"></a></p>
+
+<ul>
+<li><b>Attempt to back-buffer the main canvas to improve performance</b><br>
+Selecting this option will cause Flapjack to try and store a buffered copy of
+the entire display area (even the parts not currently visible) in any available
+free memory. This can significantly improve rendering speeds, especially when
+navigating around large datasets on small zoom levels (small allele box sizes).
+<p></p>
+
+<li><b>Use an 8-bit colour buffer to reduce memory usage</b><br>
+This is only available if the back-buffer option (above) has been ticked.
+Selecting this will draw the back-buffer using just 8-bits per pixel instead of
+the usual 24. This reduces memory usage for the buffer by a third, meaning it
+may be possible for Flapjack to buffer larger areas than normal, but visual
+quality will be noticeably reduced.
+<p></p>
+
+<li><b>Enable advanced canvas zoom controls</b><br>
+Selecting this option will change the standard "zoom" control option for zooming
+in and out of the display into separate horizontal and vertical zoom controls.
+This gives more control of the display but may reduce the effect of some
+visualizations. Use with caution.<p></p>
+</ul>
+
+<h3>Warnings</h3>
+
+<p>Flapjack can inform you when certain events take place. Once you are used to
+these events, you may wish to stop further reminders. These options allow for
+this.</p>
+
+<p><a href="images/gui.dialog.prefs.PreferencesDialogWarnings.png">
+<img src="images/gui.dialog.prefs.PreferencesDialogWarnings2.png"></a></p>
+
+<ul>
+<li><b>When duplicate markers are found during data import</b><br>
+Every marker (and line) within a data set imported into Flapjack must be unique.
+In the case of markers, Flapjack will continue to import the data even after a
+duplicate marker has been found, however it will only use the first instance that
+it came upon. Selecting this option will cause Flapjack to display the <b>Duplicate
+Markers</b> dialog that informs you if duplicates are found.<p></p>
+
+<li><b>When the Find By Name dialog's results are cleared due to view changes</b><br>
+Selecting this option ensures that if the <b>Find By Name</b> dialog contains
+search results and the view is changed between data sets (or multiple views
+within a data set) then you will be informed that the search results are no
+longer valid for the new view; hence why Flapjack clears them.<p></p>
+
+<li><b>When switching to 'marker mode'</b><br>
+Selecting this option will cause Flapjack to remind you that you are now working
+in marker mode (along with brief instructions) if a switch is made to marker
+mode.<p></p>
+
+<li><b>When switching to 'line mode'</b><br>
+Selecting this option will cause Flapjack to remind you that you are now working
+in line mode (along with brief instructions) if a switch is made to line mode.<p></p>
+</ul>
+
+<!--#include virtual="footer.html" -->
+
+</body>
+</html>

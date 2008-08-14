@@ -12,7 +12,7 @@ public class PreferencesDialog extends JDialog implements ActionListener
 {
 	private static int lastTab = 0;
 
-	private JButton bOK, bCancel, bDefault;
+	private JButton bOK, bCancel, bDefault, bHelp;
 	private boolean isOK;
 
 	private JTabbedPane tabs;
@@ -59,12 +59,16 @@ public class PreferencesDialog extends JDialog implements ActionListener
 		bDefault.addActionListener(this);
 		bCancel = SwingUtils.getButton(RB.getString("gui.text.cancel"));
 		bCancel.addActionListener(this);
+		bHelp = SwingUtils.getButton(RB.getString("gui.text.help"));
+		RB.setText(bHelp, "gui.text.help");
+		FlapjackUtils.setHelp(bHelp, "gui.dialog.prefs.PreferencesDialog");
 
 		JPanel p1 = new JPanel(new FlowLayout(FlowLayout.RIGHT, 5, 0));
 		p1.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 5));
 		p1.add(bOK);
 //		p1.add(bDefault);
 		p1.add(bCancel);
+		p1.add(bHelp);
 
 		return p1;
 	}
