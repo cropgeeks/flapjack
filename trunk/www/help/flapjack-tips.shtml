@@ -43,6 +43,7 @@ following is a list of all the tips that may appear:</p>
 <li>Quickly hide individual lines or markers by CTRL double clicking on them (while line or marker mode is active)<p></p>
 <li>Switch to 'marker mode' to select, deselect, or toggle marker visibility<p></p>
 <li>Switch to 'line mode' to select, deselect, or toggle line visibility<p></p>
+<li>Quickly track locations of interest by right-clicking on the display and selecting 'Bookmark location'<p></p>
 
 
 <!--#include virtual="footer.html" -->
