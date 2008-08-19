@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <install4j version="4.1.3" transformSequenceNumber="2">
-  <directoryPresets config="../res/icons" />
-  <application name="Flapjack Alpha" distributionSourceDir="" applicationId="9131-7045-2417-5931" mediaDir="." mediaFilePattern="${compiler:sys.shortName}_${compiler:sys.platform}_${compiler:sys.version}" compression="6" lzmaCompression="false" pack200Compression="false" excludeSignedFromPacking="true" keepModificationTimes="false" shortName="Flapjack" publisher="SCRI" publisherWeb="http://www.scri.ac.uk" version="0.08.06.13" allPathsRelative="true" backupOnSave="false" autoSave="false" convertDotsToUnderscores="true" macSignature="????" javaMinVersion="1.5" javaMaxVersion="" allowBetaVM="false" jdkMode="runtimeJre" jdkName="">
+  <directoryPresets config="../www/help/help.html" />
+  <application name="Flapjack Alpha" distributionSourceDir="" applicationId="9131-7045-2417-5931" mediaDir="." mediaFilePattern="${compiler:sys.shortName}_${compiler:sys.platform}_${compiler:sys.version}" compression="6" lzmaCompression="false" pack200Compression="false" excludeSignedFromPacking="true" keepModificationTimes="false" shortName="Flapjack" publisher="SCRI" publisherWeb="http://www.scri.ac.uk" version="0.08.08.19" allPathsRelative="true" backupOnSave="false" autoSave="false" convertDotsToUnderscores="true" macSignature="????" javaMinVersion="1.5" javaMaxVersion="" allowBetaVM="false" jdkMode="runtimeJre" jdkName="">
     <languages skipLanguageSelection="true">
       <principalLanguage id="en" customLocalizationFile="" />
       <additionalLanguages>
@@ -26,6 +26,7 @@
     </roots>
     <mountPoints>
       <mountPoint id="17" root="" location="lib" mode="755" />
+      <mountPoint id="566" root="" location="" mode="755" />
       <mountPoint id="205" root="202" location="lib" mode="755" />
       <mountPoint id="206" root="204" location="lib" mode="755" />
     </mountPoints>
@@ -37,6 +38,7 @@
           <entry location="osxadapter.jar" fileType="regular" />
         </exclude>
       </dirEntry>
+      <fileEntry mountPoint="566" file="../www/help/help.html" overwrite="1" shared="false" mode="644" uninstallMode="0" />
       <fileEntry mountPoint="205" file="../lib/office-2.0.jar" overwrite="1" shared="false" mode="644" uninstallMode="0" />
       <fileEntry mountPoint="206" file="../lib/osxadapter.jar" overwrite="4" shared="false" mode="644" uninstallMode="0" />
     </entries>
@@ -174,6 +176,20 @@
                 <serializedBean>
                   <java class="java.beans.XMLDecoder">
                     <object class="com.install4j.runtime.beans.actions.desktop.CreateProgramGroupAction">
+                      <void property="programGroupEntryConfigs">
+                        <void method="add">
+                          <object class="com.install4j.runtime.beans.screens.components.ProgramGroupEntryConfig">
+                            <void property="name">
+                              <string>Online Help</string>
+                            </void>
+                            <void property="target">
+                              <object class="java.io.File">
+                                <string>help.html</string>
+                              </object>
+                            </void>
+                          </object>
+                        </void>
+                      </void>
                       <void property="programGroupName">
                         <string>${compiler:sys.fullName}</string>
                       </void>
@@ -1088,7 +1104,10 @@ if (wizardContext != null) {
     </unixInstaller>
   </mediaSets>
   <buildIds buildAll="true">
+    <mediaSet refId="19" />
     <mediaSet refId="126" />
+    <mediaSet refId="181" />
+    <mediaSet refId="185" />
   </buildIds>
 </install4j>
 
