@@ -24,7 +24,7 @@ and genotype data files should be used to import a data set into Flapjack.</p>
 <p>The <b>map file</b> should contain information on the markers, the chromosome
 they are on, and their position within that chromosome. The markers do not need
 to be in any particular order as Flapjack will group and sort them by
-chromsome and distance once they are loaded. A short example is shown
+chromosome and distance once they are loaded. A short example is shown
 below:</p>
 
 <p><pre>

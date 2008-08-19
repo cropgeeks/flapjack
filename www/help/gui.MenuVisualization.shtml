@@ -67,8 +67,9 @@ dialog that allows you to pick which traits should be displayed on the traits
 heatmap alongside the list of line names.</p>
 
 <h3>Create new view</h3>
-<p>Displays the <b>Create New View</b> dialog that allows you to create a new
-view of the existing data set, or to clone/copy an existing view.</p>
+<p>Displays the <a href="gui.dialog.NewViewDialog.shtml">Create New View</a>
+dialog that allows you to create a new view of the existing data set, or to
+clone/copy an existing view.</p>
 
 <h3>Rename view</h3>
 <p>Displays the <b>Rename</b> dialog that allows you to rename the current view.</p>
