@@ -37,6 +37,7 @@ public class Icons
 	public static ImageIcon REDBLOB;
 	public static ImageIcon REDO;
 	public static ImageIcon RENAME;
+	public static ImageIcon SCRI;
 	public static ImageIcon SELECTALL;
 	public static ImageIcon SELECTNONE;
 	public static ImageIcon TRAITS;
