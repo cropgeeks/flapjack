@@ -71,8 +71,16 @@ public class TraitImporter
 					values.add(new TraitValue(trait));
 				else
 				{
-					float value = trait.computeValue(tokens[i]);
-					values.add(new TraitValue(trait, value));
+					try
+					{
+						float value = trait.computeValue(tokens[i]);
+						values.add(new TraitValue(trait, value));
+					}
+					catch (Exception e)
+					{
+						if (e.getMessage().equals("NumericalReadError"))
+							throw new DataFormatException(RB.format("io.DataFormatException.traitNumCatError", lineCount, trait.getName()));
+					}
 				}
 			}
 
