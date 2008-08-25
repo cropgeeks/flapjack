@@ -113,9 +113,13 @@ class TraitsTableModel extends AbstractTableModel
 
 		else if (value instanceof String)
 		{
-			// Parse/determine the category
-			newValue = traits.get(col-1).computeValue((String)value);
-			line.getTraitValues().get(col-1).setDefined(true);
+			try
+			{
+				// Parse/determine the category
+				newValue = traits.get(col-1).computeValue((String)value);
+				line.getTraitValues().get(col-1).setDefined(true);
+			}
+			catch (Exception e) {}
 		}
 		else
 		{

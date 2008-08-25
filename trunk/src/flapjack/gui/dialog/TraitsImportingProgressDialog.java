@@ -79,7 +79,8 @@ public class TraitsImportingProgressDialog extends JDialog implements Runnable
 		{
 			e.printStackTrace();
 			TaskDialog.error(
-				RB.format("gui.dialog.TraitsImportingProgressDialog.error", file, e),
+				RB.format("gui.dialog.TraitsImportingProgressDialog.error",
+				file, e.getMessage()),
 				RB.getString("gui.text.close"));
 		}
 

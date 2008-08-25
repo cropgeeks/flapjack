@@ -5,10 +5,19 @@ import java.util.*;
 
 public class Trait extends XMLRoot
 {
+	private static final int UNKNOWN = 0;
+	private static final int NUMERICAL = 1;
+	private static final int CATEGORICAL = 2;
+
 	private static NumberFormat nf = NumberFormat.getInstance();
 
 	private String name;
 	private Vector<String> categories = new Vector<String>();
+
+	// NOTE: This is only used at read-time...the value isn't stored and can't
+	// be relied upon, hence the method check for traitIsNumerical() which CAN
+	// be relied upon - ONCE we have all data loaded
+	private int type = UNKNOWN;
 
 	// Used while importing to track the highest and lowest values assignd to
 	// any of the trait values associated with this trait
@@ -54,6 +63,7 @@ public class Trait extends XMLRoot
 	 * then returned).
 	 */
 	public float computeValue(String token)
+		throws Exception
 	{
 		float value = getNumCatValue(token);
 
@@ -66,13 +76,25 @@ public class Trait extends XMLRoot
 	}
 
 	private float getNumCatValue(String token)
+		throws Exception
 	{
-		try
+		// If it's a number, it should parse and can be returned
+		if (type == UNKNOWN || type == NUMERICAL)
 		{
-			// If it's a number, it should parse and can be returned
-			return nf.parse(token).floatValue();
+			try
+			{
+				float value = nf.parse(token).floatValue();
+				type = NUMERICAL;
+				return value;
+			}
+			catch (Exception e) {}
 		}
-		catch (Exception e) {}
+
+		// If it didn't parse, but the column is EXPECTED to BE numerical...
+		if (type == NUMERICAL)
+			throw new Exception("NumericalReadError");
+
+		type = CATEGORICAL;
 
 		// If not, then we need to check (and/or create) a category for it
 		for (int i = 0; i < categories.size(); i++)
