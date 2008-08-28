@@ -33,6 +33,7 @@ public class Actions
 	public static AbstractAction editHideLines;
 
 	public static AbstractAction vizExportImage;
+	public static AbstractAction vizExportData;
 	public static AbstractAction vizColorCustomize;
 	public static AbstractAction vizColorRandom;
 	public static AbstractAction vizColorNucleotide;
@@ -224,6 +225,12 @@ public class Actions
 		vizExportImage = new AbstractAction(RB.getString("gui.Actions.vizExportImage")) {
 			public void actionPerformed(ActionEvent e) {
 				winMain.mViz.vizExportImage();
+			}
+		};
+
+		vizExportData = new AbstractAction(RB.getString("gui.Actions.vizExportData")) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.mViz.vizExportData();
 			}
 		};
 
@@ -465,6 +472,7 @@ public class Actions
 		editHideLines.setEnabled(false);
 
 		vizExportImage.setEnabled(false);
+		vizExportData.setEnabled(false);
 		vizColorCustomize.setEnabled(false);
 		vizColorRandom.setEnabled(false);
 		vizColorNucleotide.setEnabled(false);
