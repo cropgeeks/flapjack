@@ -81,4 +81,23 @@ public class StateTable extends XMLRoot
 	{
 		states.remove(index);
 	}
+
+	public void print()
+	{
+		System.out.println("State Table:");
+		for (AlleleState state: states)
+			System.out.println(state);
+	}
+
+	public void resetTable()
+	{
+		// Keep the default empty state
+		AlleleState emptyState = states.get(0);
+
+		// Clear the table
+		states.clear();
+
+		// Then readd the empty state
+		states.add(emptyState);
+	}
 }

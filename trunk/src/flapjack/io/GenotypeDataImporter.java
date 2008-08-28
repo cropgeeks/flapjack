@@ -50,7 +50,7 @@ public class GenotypeDataImporter
 		if (readData() == false)
 		{
 			dataSet.getLines().clear();
-			stateTable.getStates().clear();
+			stateTable.resetTable();
 			useByteStorage = false;
 
 			lineCount = 1;
