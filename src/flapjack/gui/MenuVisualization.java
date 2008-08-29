@@ -31,7 +31,7 @@ public class MenuVisualization
 	// Displays the dialog for exporting map/genotype data to disk
 	void vizExportData()
 	{
-		ExportDataDialog dialog = new ExportDataDialog();
+		ExportDataDialog dialog = new ExportDataDialog(gPanel.getViewSet());
 	}
 
 	void vizOverview()
