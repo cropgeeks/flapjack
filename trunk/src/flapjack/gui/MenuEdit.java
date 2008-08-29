@@ -162,7 +162,7 @@ class MenuEdit
 		{
 			state.setMenuString(RB.getString("gui.visualization.SelectedLinesState.selectedInvert"));
 
-			for (int i = 0; i < view.getMarkerCount(); i++)
+			for (int i = 0; i < view.getLineCount(); i++)
 				view.toggleLineState(i);
 		}
 
