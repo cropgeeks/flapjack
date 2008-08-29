@@ -1,12 +1,28 @@
 package flapjack.gui.dialog;
 
-class NBExportDataPanel extends javax.swing.JPanel
+import java.awt.event.*;
+
+class NBExportDataPanel extends javax.swing.JPanel implements ActionListener
 {
-	public NBExportDataPanel()
+	public NBExportDataPanel(ExportDataDialog dialog)
 	{
 		initComponents();
+
+
+		combo.addActionListener(this);
+		combo.addItem("Tab-delimited map file");
+		combo.addItem("Tab-delimited genotype file");
+		actionPerformed(null);
 	}
-	
+
+	public void actionPerformed(ActionEvent e)
+	{
+		boolean enableLines = combo.getSelectedIndex() == 1;
+		rDatAll.setEnabled(enableLines);
+		rDatSelected.setEnabled(enableLines);
+		genotypeLabel.setEnabled(enableLines);
+	}
+
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -22,25 +38,34 @@ class NBExportDataPanel extends javax.swing.JPanel
         markerLabel = new javax.swing.JLabel();
         rMapAll = new javax.swing.JRadioButton();
         rMapSelected = new javax.swing.JRadioButton();
-        bExportMap = new javax.swing.JButton();
-        datPanel = new javax.swing.JPanel();
         genotypeLabel = new javax.swing.JLabel();
         rDatAll = new javax.swing.JRadioButton();
         rDatSelected = new javax.swing.JRadioButton();
-        bExportDat = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        combo = new javax.swing.JComboBox();
 
-        mapPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Export map data:"));
+        mapPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Export options:"));
 
-        markerLabel.setText("Markers to include:");
+        markerLabel.setText("Include map information for the following markers:");
 
         mapGroup.add(rMapAll);
         rMapAll.setSelected(true);
-        rMapAll.setText("All markers (all chromosomes)");
+        rMapAll.setText("All markers");
 
         mapGroup.add(rMapSelected);
-        rMapSelected.setText("Selected markers only (all chromosomes)");
+        rMapSelected.setText("Only markers I have selected");
 
-        bExportMap.setText("Export...");
+        genotypeLabel.setText("Include genotype information for the following lines:");
+
+        datGroup.add(rDatAll);
+        rDatAll.setSelected(true);
+        rDatAll.setText("All lines");
+
+        datGroup.add(rDatSelected);
+        rDatSelected.setText("Only lines I have selected");
+
+        jLabel1.setLabelFor(combo);
+        jLabel1.setText("Export file type:");
 
         org.jdesktop.layout.GroupLayout mapPanelLayout = new org.jdesktop.layout.GroupLayout(mapPanel);
         mapPanel.setLayout(mapPanelLayout);
@@ -49,67 +74,33 @@ class NBExportDataPanel extends javax.swing.JPanel
             .add(mapPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .add(mapPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(mapPanelLayout.createSequentialGroup()
+                        .add(jLabel1)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                        .add(combo, 0, 162, Short.MAX_VALUE))
+                    .add(rMapAll)
+                    .add(markerLabel)
                     .add(rMapSelected)
-                    .add(mapPanelLayout.createSequentialGroup()
-                        .add(rMapAll)
-                        .add(52, 52, 52))
-                    .add(mapPanelLayout.createSequentialGroup()
-                        .add(markerLabel)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 146, Short.MAX_VALUE)
-                        .add(bExportMap)))
+                    .add(rDatSelected)
+                    .add(rDatAll)
+                    .add(genotypeLabel))
                 .addContainerGap())
         );
         mapPanelLayout.setVerticalGroup(
             mapPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(mapPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .add(mapPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.CENTER)
-                    .add(markerLabel)
-                    .add(bExportMap))
+                .add(mapPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(jLabel1)
+                    .add(combo, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .add(18, 18, 18)
+                .add(markerLabel)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(rMapAll)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(rMapSelected)
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        datPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Export genotype data:"));
-
-        genotypeLabel.setText("Lines to include:");
-
-        datGroup.add(rDatAll);
-        rDatAll.setSelected(true);
-        rDatAll.setText("All lines");
-
-        datGroup.add(rDatSelected);
-        rDatSelected.setText("Selected lines only");
-
-        bExportDat.setText("Export...");
-
-        org.jdesktop.layout.GroupLayout datPanelLayout = new org.jdesktop.layout.GroupLayout(datPanel);
-        datPanel.setLayout(datPanelLayout);
-        datPanelLayout.setHorizontalGroup(
-            datPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(datPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .add(datPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(rDatSelected)
-                    .add(datPanelLayout.createSequentialGroup()
-                        .add(rDatAll)
-                        .add(52, 52, 52))
-                    .add(datPanelLayout.createSequentialGroup()
-                        .add(genotypeLabel)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 160, Short.MAX_VALUE)
-                        .add(bExportDat)))
-                .addContainerGap())
-        );
-        datPanelLayout.setVerticalGroup(
-            datPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(datPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .add(datPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.CENTER)
-                    .add(genotypeLabel)
-                    .add(bExportDat))
+                .add(18, 18, 18)
+                .add(genotypeLabel)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(rDatAll)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
@@ -123,9 +114,7 @@ class NBExportDataPanel extends javax.swing.JPanel
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
                 .addContainerGap()
-                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, datPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, mapPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .add(mapPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -133,25 +122,22 @@ class NBExportDataPanel extends javax.swing.JPanel
             .add(layout.createSequentialGroup()
                 .addContainerGap()
                 .add(mapPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(datPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton bExportDat;
-    private javax.swing.JButton bExportMap;
+    javax.swing.JComboBox combo;
     private javax.swing.ButtonGroup datGroup;
-    private javax.swing.JPanel datPanel;
     private javax.swing.JLabel genotypeLabel;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.ButtonGroup mapGroup;
     private javax.swing.JPanel mapPanel;
     private javax.swing.JLabel markerLabel;
-    private javax.swing.JRadioButton rDatAll;
+    javax.swing.JRadioButton rDatAll;
     private javax.swing.JRadioButton rDatSelected;
-    private javax.swing.JRadioButton rMapAll;
+    javax.swing.JRadioButton rMapAll;
     private javax.swing.JRadioButton rMapSelected;
     // End of variables declaration//GEN-END:variables
 

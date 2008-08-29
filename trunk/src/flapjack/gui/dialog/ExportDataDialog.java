@@ -2,19 +2,24 @@ package flapjack.gui.dialog;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.*;
 import javax.swing.*;
 
+import flapjack.data.*;
 import flapjack.gui.*;
+import flapjack.io.*;
+import flapjack.other.*;
 
 import scri.commons.gui.*;
 
 public class ExportDataDialog extends JDialog implements ActionListener
 {
-	private JButton bClose, bHelp;
-
+	private JButton bExport, bClose, bHelp;
 	private NBExportDataPanel nbPanel;
 
-	public ExportDataDialog()
+	private GTViewSet viewSet;
+
+	public ExportDataDialog(GTViewSet viewSet)
 	{
 		super(
 			Flapjack.winMain,
@@ -22,12 +27,14 @@ public class ExportDataDialog extends JDialog implements ActionListener
 			true
 		);
 
-		nbPanel = new NBExportDataPanel();
+		this.viewSet = viewSet;
+
+		nbPanel = new NBExportDataPanel(this);
 
 		add(nbPanel);
 		add(createButtons(), BorderLayout.SOUTH);
 
-		getRootPane().setDefaultButton(bClose);
+		getRootPane().setDefaultButton(bExport);
 		SwingUtils.addCloseHandler(this, bClose);
 
 		pack();
@@ -38,6 +45,8 @@ public class ExportDataDialog extends JDialog implements ActionListener
 
 	private JPanel createButtons()
 	{
+		bExport = SwingUtils.getButton(RB.getString("gui.dialog.ExportDataDialog.bExport"));
+		bExport.addActionListener(this);
 		bClose = SwingUtils.getButton(RB.getString("gui.text.close"));
 		bClose.addActionListener(this);
 		bHelp = SwingUtils.getButton(RB.getString("gui.text.help"));
@@ -46,6 +55,7 @@ public class ExportDataDialog extends JDialog implements ActionListener
 
 		JPanel p1 = new JPanel(new FlowLayout(FlowLayout.RIGHT, 5, 0));
 		p1.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 5));
+		p1.add(bExport);
 		p1.add(bClose);
 		p1.add(bHelp);
 
@@ -56,32 +66,71 @@ public class ExportDataDialog extends JDialog implements ActionListener
 	{
 		if (e.getSource() == bClose)
 			setVisible(false);
+
+		else if (e.getSource() == bExport)
+		{
+			if (nbPanel.combo.getSelectedIndex() == 0)
+				exportMap();
+			else
+				exportDat();
+		}
 	}
 
-/*	private boolean promptForFilename()
+	private void exportMap()
+	{
+		File filename = promptForFilename("export.map");
+
+		boolean allMarkers = nbPanel.rMapAll.isSelected();
+
+		if (filename != null)
+		{
+			try {
+				new ChromosomeMapExporter(filename, viewSet).export(allMarkers);
+			}
+			catch (Exception ex)
+			{
+				ex.printStackTrace();
+			}
+		}
+	}
+
+	private void exportDat()
+	{
+		File filename = promptForFilename("export.dat");
+
+		boolean allMarkers = nbPanel.rMapAll.isSelected();
+		boolean allLines = nbPanel.rDatAll.isSelected();
+
+		if (filename != null)
+		{
+			try {
+				new GenotypeDataExporter(filename, viewSet).export(allMarkers, allLines);
+			}
+			catch (Exception ex)
+			{
+				ex.printStackTrace();
+			}
+		}
+	}
+
+	private File promptForFilename(String baseName)
 	{
 		JFileChooser fc = new JFileChooser();
-		fc.setDialogTitle(RB.getString("gui.dialog.ExportImageDialog.saveDialog"));
+		fc.setDialogTitle(RB.getString("gui.dialog.ExportDataDialog.saveDialog"));
 		fc.setAcceptAllFileFilterUsed(false);
-
-		// TODO: Determine a proper filename to use
-		fc.setSelectedFile(new File(Prefs.guiCurrentDir, "Image.png"));
-
-		FileNameExtensionFilter filter = new FileNameExtensionFilter(
-			RB.getString("other.Filters.png"), "png");
-		fc.setFileFilter(filter);
+		fc.setSelectedFile(new File(Prefs.guiCurrentDir, baseName));
 
 		while (fc.showSaveDialog(Flapjack.winMain) == JFileChooser.APPROVE_OPTION)
 		{
-			file = FileNameExtensionFilter.getSelectedFileForSaving(fc);
+			File file = FileNameExtensionFilter.getSelectedFileForSaving(fc);
 
 			// Confirm overwrite
 			if (file.exists())
 			{
-				String msg = RB.format("gui.dialog.ExportImageDialog.confirm", file);
+				String msg = RB.format("gui.dialog.ExportDataDialog.confirm", file);
 				String[] options = new String[] {
-					RB.getString("gui.dialog.ExportImageDialog.overwrite"),
-					RB.getString("gui.dialog.ExportImageDialog.rename"),
+					RB.getString("gui.dialog.ExportDataDialog.overwrite"),
+					RB.getString("gui.dialog.ExportDataDialog.rename"),
 					RB.getString("gui.text.cancel")
 				};
 
@@ -90,16 +139,15 @@ public class ExportDataDialog extends JDialog implements ActionListener
 				if (response == 1)
 					continue;
 				else if (response == -1 || response == 2)
-					return false;
+					return null;
 			}
 
 			// Otherwise it's ok to save...
 			Prefs.guiCurrentDir = fc.getCurrentDirectory().getPath();
 
-			return true;
+			return file;
 		}
 
-		return false;
+		return null;
 	}
-	*/
 }
