@@ -8,6 +8,7 @@ public class Prefs extends XMLPreferences
 {
 	// Is this the first time the program has ever been run (by this user)?
 	public static boolean isFirstRun = true;
+	public static boolean querySCRI = true;
 
 	// Unique Flapjack ID for this user
 	public static String flapjackID = SystemUtils.createGUID(32);
