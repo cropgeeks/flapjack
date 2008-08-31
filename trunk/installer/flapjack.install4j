@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<install4j version="4.1.3" transformSequenceNumber="2">
-  <directoryPresets config="../www/help/help.html" />
-  <application name="Flapjack Alpha" distributionSourceDir="" applicationId="9131-7045-2417-5931" mediaDir="." mediaFilePattern="${compiler:sys.shortName}_${compiler:sys.platform}_${compiler:sys.version}" compression="6" lzmaCompression="false" pack200Compression="false" excludeSignedFromPacking="true" keepModificationTimes="false" shortName="Flapjack" publisher="SCRI" publisherWeb="http://www.scri.ac.uk" version="0.08.08.19" allPathsRelative="true" backupOnSave="false" autoSave="false" convertDotsToUnderscores="true" macSignature="????" javaMinVersion="1.5" javaMaxVersion="" allowBetaVM="false" jdkMode="runtimeJre" jdkName="">
+<install4j version="4.1.4" transformSequenceNumber="2">
+  <directoryPresets config="." />
+  <application name="Flapjack Alpha" distributionSourceDir="" applicationId="9131-7045-2417-5931" mediaDir="." mediaFilePattern="${compiler:sys.shortName}_${compiler:sys.platform}_${compiler:sys.version}" compression="6" lzmaCompression="false" pack200Compression="false" excludeSignedFromPacking="true" keepModificationTimes="false" shortName="Flapjack" publisher="SCRI" publisherWeb="http://www.scri.ac.uk" version="0.08.08.31" allPathsRelative="true" backupOnSave="false" autoSave="false" convertDotsToUnderscores="true" macSignature="????" installerName="" javaMinVersion="1.5" javaMaxVersion="" allowBetaVM="false" jdkMode="runtimeJre" jdkName="">
     <languages skipLanguageSelection="true">
       <principalLanguage id="en" customLocalizationFile="" />
       <additionalLanguages>
@@ -97,6 +97,25 @@
             <serializedBean>
               <java class="java.beans.XMLDecoder">
                 <object class="com.install4j.runtime.beans.screens.WelcomeScreen" />
+              </java>
+            </serializedBean>
+            <condition />
+            <validation />
+            <preActivation />
+            <postActivation />
+            <actions />
+            <formComponents />
+          </screen>
+          <screen name="" id="649" beanClass="com.install4j.runtime.beans.screens.LicenseScreen" enabled="true" commentSet="false" comment="" rollbackBarrier="false" backButton="2" finishScreen="false">
+            <serializedBean>
+              <java class="java.beans.XMLDecoder">
+                <object class="com.install4j.runtime.beans.screens.LicenseScreen">
+                  <void property="displayedTextFile">
+                    <object class="com.install4j.api.beans.ExternalFile">
+                      <string>./licence.html</string>
+                    </object>
+                  </void>
+                </object>
               </java>
             </serializedBean>
             <condition />
