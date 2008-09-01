@@ -8,7 +8,7 @@ import javax.imageio.*;
 import flapjack.gui.*;
 import flapjack.gui.visualization.*;
 
-public class ImageExporter
+public class ImageExporter implements ITrackableJob
 {
 	private GenotypePanel gPanel;
 	private File file;
@@ -21,7 +21,7 @@ public class ImageExporter
 		this.file = file;
 	}
 
-	public void doExport()
+	public void runJob()
 		throws Exception
 	{
 		switch (Prefs.guiExportImageMethod)
@@ -104,5 +104,18 @@ public class ImageExporter
 		g.dispose();
 
 		ImageIO.write(finalImage, "png", file);
+	}
+
+	public boolean isIndeterminate()
+		{ return true; }
+
+	public int getMaximum()
+		{ return 0; }
+
+	public int getValue()
+		{ return 0; }
+
+	public void cancelJob()
+	{
 	}
 }

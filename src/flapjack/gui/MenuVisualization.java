@@ -23,9 +23,6 @@ public class MenuVisualization
 	void vizExportImage()
 	{
 		ExportImageDialog dialog = new ExportImageDialog(gPanel);
-
-		if (dialog.isOK())
-			new ExportingImageDialog(gPanel, dialog.getFile());
 	}
 
 	// Displays the dialog for exporting map/genotype data to disk

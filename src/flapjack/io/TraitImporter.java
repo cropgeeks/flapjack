@@ -6,7 +6,9 @@ import java.util.*;
 import flapjack.data.*;
 import flapjack.gui.*;
 
-public class TraitImporter
+import scri.commons.file.*;
+
+public class TraitImporter implements ITrackableJob
 {
 	private File file;
 	private DataSet dataSet;
@@ -20,7 +22,8 @@ public class TraitImporter
 	private Hashtable<String, Vector<TraitValue>> hashtable;
 
 	private boolean isOK = true;
-	private int lineCount;
+	private int total;
+	private int count;
 
 	public TraitImporter(File file, DataSet dataSet)
 	{
@@ -28,15 +31,12 @@ public class TraitImporter
 		this.dataSet = dataSet;
 
 		hashtable = new Hashtable<String, Vector<TraitValue>>();
+
+		try { total = FileUtils.countLines(file, 16384); }
+		catch (IOException e) {}
 	}
 
-	public int getLineCount()
-		{ return lineCount; }
-
-	public void cancel()
-		{ isOK = false; }
-
-	public void importTraitData()
+	public void runJob()
 		throws IOException, DataFormatException
 	{
 		BufferedReader in = new BufferedReader(new FileReader(file));
@@ -48,14 +48,14 @@ public class TraitImporter
 		for (int i = 1; i < traitNames.length; i++)
 			traits.add(new Trait(traitNames[i]));
 
-		lineCount = 2;
+		count = 2;
 		while ((str = in.readLine()) != null && str.length() > 0 && isOK)
 		{
 			String[] tokens = str.split("\t", -1);
 
 			// Fail if the data per line doesn't match the expected number
 			if (tokens.length != traits.size() + 1)
-				throw new DataFormatException(RB.format("io.DataFormatException.traitColumnError", lineCount));
+				throw new DataFormatException(RB.format("io.DataFormatException.traitColumnError", count));
 
 			String lineName = tokens[0];
 			Vector<TraitValue> values = new Vector<TraitValue>();
@@ -79,14 +79,14 @@ public class TraitImporter
 					catch (Exception e)
 					{
 						if (e.getMessage().equals("NumericalReadError"))
-							throw new DataFormatException(RB.format("io.DataFormatException.traitNumCatError", lineCount, trait.getName()));
+							throw new DataFormatException(RB.format("io.DataFormatException.traitNumCatError", count, trait.getName()));
 					}
 				}
 			}
 
 			hashtable.put(lineName, values);
 
-			lineCount++;
+			count++;
 		}
 
 		in.close();
@@ -161,4 +161,16 @@ public class TraitImporter
 			}
 		}
 	}
+
+	public boolean isIndeterminate()
+		{ return false; }
+
+	public int getMaximum()
+		{ return total; }
+
+	public int getValue()
+		{ return count; }
+
+	public void cancelJob()
+		{ isOK = false; }
 }
