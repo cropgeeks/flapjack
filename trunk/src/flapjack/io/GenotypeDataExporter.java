@@ -4,21 +4,34 @@ import java.io.*;
 import java.text.*;
 
 import flapjack.data.*;
+import flapjack.gui.*;
 
-public class GenotypeDataExporter
+public class GenotypeDataExporter implements ITrackableJob
 {
-	private File file;
-	private GTViewSet viewSet;
-
 	private NumberFormat nf = NumberFormat.getInstance();
 
-	public GenotypeDataExporter(File file, GTViewSet viewSet)
+	private File file;
+	private GTViewSet viewSet;
+	private boolean allMarkers, allLines;
+
+	// Is it still ok for the export to go ahead?
+	private boolean isOK = true;
+	// How many lines are going to be processed?
+	private int total;
+	// How many lines HAVE been processed?
+	private int count;
+
+	public GenotypeDataExporter(File file, GTViewSet viewSet, boolean allMarkers, boolean allLines)
 	{
 		this.file = file;
 		this.viewSet = viewSet;
+		this.allMarkers = allMarkers;
+		this.allLines = allLines;
+
+		total = viewSet.getView(0).getLineCount();
 	}
 
-	public void export(boolean allMarkers, boolean allLines)
+	public void runJob()
 		throws IOException
 	{
 		BufferedWriter out = new BufferedWriter(new FileWriter(file));
@@ -59,10 +72,8 @@ public class GenotypeDataExporter
 		// Now write the genotype data...
 		// Use the first chromosome to parse the lines
 		GTView view = viewSet.getView(0);
-		for (int line = 0; line < view.getLineCount(); line++)
+		for (int line = 0; line < view.getLineCount(); line++, count++)
 		{
-			System.out.println("line: " + line);
-
 			if (allLines || view.isLineSelected(line))
 			{
 				out.write(view.getLine(line).getName() + "\t");
@@ -72,7 +83,7 @@ public class GenotypeDataExporter
 					GTView cView = viewSet.getView(v);
 					cView.cacheLines();
 
-					for (int marker = 0; marker < cView.getMarkerCount(); marker++)
+					for (int marker = 0; marker < cView.getMarkerCount() && isOK; marker++)
 					{
 						if (allMarkers || cView.isMarkerSelected(marker))
 						{
@@ -88,4 +99,16 @@ public class GenotypeDataExporter
 
 		out.close();
 	}
+
+	public boolean isIndeterminate()
+		{ return false; }
+
+	public int getMaximum()
+		{ return total; }
+
+	public int getValue()
+		{ return count; }
+
+	public void cancelJob()
+		{ isOK = false; }
 }

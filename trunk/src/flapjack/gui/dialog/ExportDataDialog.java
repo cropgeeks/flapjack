@@ -18,6 +18,7 @@ public class ExportDataDialog extends JDialog implements ActionListener
 	private NBExportDataPanel nbPanel;
 
 	private GTViewSet viewSet;
+	private String baseName;
 
 	public ExportDataDialog(GTViewSet viewSet)
 	{
@@ -28,6 +29,8 @@ public class ExportDataDialog extends JDialog implements ActionListener
 		);
 
 		this.viewSet = viewSet;
+		baseName = viewSet.getDataSet().getName();
+		baseName = baseName.substring(0, baseName.lastIndexOf(" "));
 
 		nbPanel = new NBExportDataPanel(this);
 
@@ -76,49 +79,106 @@ public class ExportDataDialog extends JDialog implements ActionListener
 		}
 	}
 
+	// Counts how many markers will be exported
+	private int getMarkerCount()
+	{
+		boolean allMarkers = nbPanel.rMapAll.isSelected();
+
+		int count = 0;
+		for (GTView view: viewSet.getViews())
+		{
+			if (allMarkers)
+				count += view.getMarkerCount();
+			else
+				count += view.countSelectedMarkers();
+		}
+
+		return count;
+	}
+
+	// Counts how many lines will be exported
+	private int getLineCount()
+	{
+		boolean allLines = nbPanel.rDatAll.isSelected();
+		int count = 0;
+
+		if (allLines)
+			return viewSet.getView(0).getLineCount();
+		else
+			return viewSet.getView(0).countSelectedLines();
+	}
+
+	// Export the map to disk
 	private void exportMap()
 	{
-		File filename = promptForFilename("export.map");
-
 		boolean allMarkers = nbPanel.rMapAll.isSelected();
+
+		String name = baseName + "_" + getMarkerCount() + ".map";
+		File filename = promptForFilename(name, "map");
 
 		if (filename != null)
 		{
-			try {
-				new ChromosomeMapExporter(filename, viewSet).export(allMarkers);
-			}
-			catch (Exception ex)
-			{
-				ex.printStackTrace();
-			}
+			ChromosomeMapExporter exporter
+				= new ChromosomeMapExporter(filename, viewSet, allMarkers);
+
+			displayDialog(exporter, filename);
 		}
 	}
 
+	// Export the genotype data to disk
 	private void exportDat()
 	{
-		File filename = promptForFilename("export.dat");
+		String name = baseName + "_" + viewSet.getName() + "_"
+			+ getLineCount() + "x" + getMarkerCount() + ".dat";
+		File filename = promptForFilename(name, "dat");
 
 		boolean allMarkers = nbPanel.rMapAll.isSelected();
 		boolean allLines = nbPanel.rDatAll.isSelected();
 
 		if (filename != null)
 		{
-			try {
-				new GenotypeDataExporter(filename, viewSet).export(allMarkers, allLines);
-			}
-			catch (Exception ex)
-			{
-				ex.printStackTrace();
-			}
+			GenotypeDataExporter exporter
+				= new GenotypeDataExporter(filename, viewSet, allMarkers, allLines);
+
+			displayDialog(exporter, filename);
 		}
 	}
 
-	private File promptForFilename(String baseName)
+	private void displayDialog(ITrackableJob exporter, File filename)
+	{
+		ProgressDialog dialog = new ProgressDialog(exporter,
+			 RB.format("gui.dialog.ExportDataDialog.exportTitle"),
+			 RB.format("gui.dialog.ExportDataDialog.exportLabel"));
+
+		// If the operation failed or was cancelled...
+		if (dialog.isOK() == false)
+		{
+			if (dialog.getException() != null)
+			{
+				dialog.getException().printStackTrace();
+				TaskDialog.error(
+					RB.format("gui.dialog.ExportDataDialog.exportException",
+					dialog.getException().getMessage()),
+					RB.getString("gui.text.close"));
+			}
+
+			return;
+		}
+
+		TaskDialog.info(
+			RB.format("gui.dialog.ExportDataDialog.exportSuccess", filename),
+			RB.getString("gui.text.close"));
+	}
+
+	private File promptForFilename(String baseName, String extension)
 	{
 		JFileChooser fc = new JFileChooser();
 		fc.setDialogTitle(RB.getString("gui.dialog.ExportDataDialog.saveDialog"));
-		fc.setAcceptAllFileFilterUsed(false);
 		fc.setSelectedFile(new File(Prefs.guiCurrentDir, baseName));
+
+		FileNameExtensionFilter filter = new FileNameExtensionFilter(
+			RB.getString("other.Filters." + extension), extension);
+		fc.setFileFilter(filter);
 
 		while (fc.showSaveDialog(Flapjack.winMain) == JFileChooser.APPROVE_OPTION)
 		{
