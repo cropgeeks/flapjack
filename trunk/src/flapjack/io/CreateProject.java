@@ -97,7 +97,7 @@ public class CreateProject
 
 		System.out.println("Importing traits from " + traitsFile);
 		TraitImporter importer = new TraitImporter(traitsFile, dataSet);
-		importer.importTraitData();
+		importer.runJob();
 
 		// There'll only be one view for this created project...
 		dataSet.getViewSets().get(0).assignTraits();

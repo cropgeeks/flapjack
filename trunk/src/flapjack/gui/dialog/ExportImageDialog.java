@@ -7,17 +7,18 @@ import javax.swing.*;
 
 import flapjack.gui.*;
 import flapjack.gui.visualization.*;
+import flapjack.io.*;
 import flapjack.other.*;
 
 import scri.commons.gui.*;
 
 public class ExportImageDialog extends JDialog implements ActionListener
 {
-	private JButton bOK, bCancel, bHelp;
+	private JButton bExport, bClose, bHelp;
 
 	private File file = null;
-	private boolean isOK = false;
 
+	private GenotypePanel gPanel;
 	private NBExportImagePanel nbPanel;
 
 	public ExportImageDialog(GenotypePanel gPanel)
@@ -28,13 +29,14 @@ public class ExportImageDialog extends JDialog implements ActionListener
 			true
 		);
 
+		this.gPanel = gPanel;
 		nbPanel = new NBExportImagePanel(gPanel, new DblClickListener());
 
 		add(nbPanel);
 		add(createButtons(), BorderLayout.SOUTH);
 
-		getRootPane().setDefaultButton(bOK);
-		SwingUtils.addCloseHandler(this, bCancel);
+		getRootPane().setDefaultButton(bExport);
+		SwingUtils.addCloseHandler(this, bClose);
 
 		pack();
 		setLocationRelativeTo(Flapjack.winMain);
@@ -44,18 +46,18 @@ public class ExportImageDialog extends JDialog implements ActionListener
 
 	private JPanel createButtons()
 	{
-		bOK = SwingUtils.getButton(RB.getString("gui.dialog.ExportImageDialog.bExport"));
-		bOK.addActionListener(this);
-		bCancel = SwingUtils.getButton(RB.getString("gui.text.cancel"));
-		bCancel.addActionListener(this);
+		bExport = SwingUtils.getButton(RB.getString("gui.dialog.ExportImageDialog.bExport"));
+		bExport.addActionListener(this);
+		bClose = SwingUtils.getButton(RB.getString("gui.text.close"));
+		bClose.addActionListener(this);
 		bHelp = SwingUtils.getButton(RB.getString("gui.text.help"));
 		RB.setText(bHelp, "gui.text.help");
 		FlapjackUtils.setHelp(bHelp, "gui.dialog.ExportImageDialog");
 
 		JPanel p1 = new JPanel(new FlowLayout(FlowLayout.RIGHT, 5, 0));
 		p1.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 5));
-		p1.add(bOK);
-		p1.add(bCancel);
+		p1.add(bExport);
+		p1.add(bClose);
 		p1.add(bHelp);
 
 		return p1;
@@ -63,27 +65,40 @@ public class ExportImageDialog extends JDialog implements ActionListener
 
 	public void actionPerformed(ActionEvent e)
 	{
-		if (e.getSource() == bOK)
-		{
-			if (nbPanel.isOK() == false)
-				return;
+		if (e.getSource() == bExport && promptForFilename())
+			export();
 
-			// Hide the dialog...
-			setVisible(false);
-
-			// ...and then ask for the filename to save the image as
-			isOK = promptForFilename();
-		}
-
-		else if (e.getSource() == bCancel)
+		else if (e.getSource() == bClose)
 			setVisible(false);
 	}
 
-	public boolean isOK()
-		{ return isOK; }
+	private void export()
+	{
+		ImageExporter exporter = new ImageExporter(gPanel, file);
 
-	public File getFile()
-		{ return file; }
+		ProgressDialog dialog = new ProgressDialog(exporter,
+			 RB.format("gui.dialog.ExportImageDialog.title"),
+			 RB.format("gui.dialog.ExportImageDialog.label"));
+
+		// If the operation failed or was cancelled...
+		if (dialog.isOK() == false)
+		{
+			if (dialog.getException() != null)
+			{
+				dialog.getException().printStackTrace();
+				TaskDialog.error(
+					RB.format("gui.dialog.ExportImageDialog.exception",
+					dialog.getException().getMessage()),
+					RB.getString("gui.text.close"));
+			}
+
+			return;
+		}
+
+		TaskDialog.info(
+			RB.format("gui.dialog.ExportImageDialog.success", file),
+			RB.getString("gui.text.close"));
+	}
 
 	private boolean promptForFilename()
 	{
@@ -136,7 +151,7 @@ public class ExportImageDialog extends JDialog implements ActionListener
 			if (e.getClickCount() != 2)
 				return;
 
-			bOK.doClick();
+			bExport.doClick();
 		}
 	}
 }

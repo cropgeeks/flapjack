@@ -192,12 +192,27 @@ public class MenuFile
 		File file = fc.getSelectedFile();
 		Prefs.guiCurrentDir = fc.getCurrentDirectory().toString();
 
-		// Run the import under threaded conditions...
-		TraitsImportingProgressDialog dialog =
-			new TraitsImportingProgressDialog(file, dataSet);
+		// Import the data using the standard progress bar dialog...
+		TraitImporter importer = new TraitImporter(file, dataSet);
 
+		ProgressDialog dialog = new ProgressDialog(importer,
+			 RB.format("gui.MenuFile.importTraits.dialogTitle"),
+			 RB.format("gui.MenuFile.importTraits.dialogLabel"));
+
+		// If the operation failed or was cancelled...
 		if (dialog.isOK() == false)
+		{
+			if (dialog.getException() != null)
+			{
+				dialog.getException().printStackTrace();
+				TaskDialog.error(
+					RB.format("gui.MenuFile.importTraits.error",
+					file, dialog.getException().getMessage()),
+					RB.getString("gui.text.close"));
+			}
+
 			return;
+		}
 
 		// Check to see if any of the views need traits assigned to them
 		for (GTViewSet viewSet: dataSet.getViewSets())
