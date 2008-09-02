@@ -36,7 +36,6 @@ public class ProgressDialog extends JDialog
 			}
 			public void windowClosing(WindowEvent e)
 			{
-				System.out.println("windowClosing: cancelJob");
 				job.cancelJob();
 				isOK = false;
 			}

@@ -51,13 +51,23 @@ public class MenuFile
 		if (ProjectSerializer.okToContinue(project, false) == false)
 			return;
 
+		// If the file is invalid or the user cancels the dialog, just quit
+		File toOpen = ProjectSerializer.queryOpen(file);
+		if (toOpen == null)
+			return;
+
 		gPanel.resetBufferedState(false);
 
-		SaveLoadDialog dialog = new SaveLoadDialog(false);
-		Project openedProject = dialog.open(file);
+		// Attempt to open the project (as a trackable job)...
+		SaveLoadHandler handler = new SaveLoadHandler(null, toOpen);
+		ProgressDialog dialog = new ProgressDialog(handler,
+			 RB.format("gui.MenuFile.loadTitle"),
+			 RB.format("gui.MenuFile.loading"));
 
-		if (openedProject != null)
+		if (dialog.isOK())
 		{
+			Project openedProject = handler.project;
+
 			winMain.setProject(openedProject);
 			navPanel.setProject(openedProject);
 			menubar.createRecentMenu(openedProject.filename);
@@ -75,9 +85,18 @@ public class MenuFile
 	{
 		Project project = winMain.getProject();
 
-		SaveLoadDialog dialog = new SaveLoadDialog(true);
+		// Check that it's ok to save (or save as)
+		boolean gz = Prefs.guiSaveCompressed;
+		if (ProjectSerializer.querySave(project, saveAs, gz) == false)
+			return false;
 
-		if (dialog.save(project, saveAs))
+		// If so, do so
+		SaveLoadHandler handler = new SaveLoadHandler(project, null);
+		ProgressDialog dialog = new ProgressDialog(handler,
+			 RB.format("gui.MenuFile.saveTitle"),
+			 RB.format("gui.MenuFile.saving"));
+
+		if (dialog.isOK() && handler.isOK)
 		{
 			Actions.projectSaved();
 			menubar.createRecentMenu(project.filename);
@@ -220,5 +239,39 @@ public class MenuFile
 
 		navPanel.getTraitsPanel(dataSet).updateModel();
 		Actions.projectModified();
+	}
+
+	private static class SaveLoadHandler implements ITrackableJob
+	{
+		Project project;
+		File file;
+		boolean isOK;
+
+		SaveLoadHandler(Project project, File file)
+		{
+			this.project = project;
+			this.file = file;
+		}
+
+		public void runJob()
+		{
+			// Loading...
+			if (project == null)
+				project = ProjectSerializer.open(file);
+			// Saving...
+			else
+				isOK = ProjectSerializer.save(project, Prefs.guiSaveCompressed);
+		}
+
+		public boolean isIndeterminate()
+			{ return false; }
+
+		public int getMaximum()
+			{ return 0; }
+
+		public int getValue()
+			{ return 0; }
+
+		public void cancelJob() {}
 	}
 }
