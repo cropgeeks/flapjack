@@ -65,7 +65,7 @@ public class ExportImageDialog extends JDialog implements ActionListener
 
 	public void actionPerformed(ActionEvent e)
 	{
-		if (e.getSource() == bExport && promptForFilename())
+		if (e.getSource() == bExport && nbPanel.isOK() && promptForFilename())
 			export();
 
 		else if (e.getSource() == bClose)
