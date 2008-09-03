@@ -44,7 +44,7 @@ public class ProgressDialog extends JDialog
 		pack();
 		setTitle(title);
 		setLocationRelativeTo(Flapjack.winMain);
-		setResizable(true);
+		setResizable(false);
 		setVisible(true);
 	}
 
