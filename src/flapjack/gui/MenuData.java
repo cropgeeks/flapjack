@@ -67,10 +67,16 @@ class MenuData
 	{
 		GTViewSet viewSet = gPanel.getViewSet();
 
-		StatisticsProgressDialog dialog = new StatisticsProgressDialog(viewSet);
+		AlleleStatistics statistics = new AlleleStatistics(viewSet);
+
+		ProgressDialog dialog = new ProgressDialog(statistics,
+			 RB.format("gui.MenuData.statistics.title"),
+			 RB.format("gui.MenuData.statistics.label"));
 
 		if (dialog.isOK())
-			new AlleleStatisticsDialog(viewSet, dialog.getResults());
+		{
+			new AlleleStatisticsDialog(viewSet, statistics.getResults());
+		}
 	}
 
 	// Fires off a URL request to a linked database for information on a line

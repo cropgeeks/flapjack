@@ -3,11 +3,13 @@ package flapjack.analysis;
 import java.util.*;
 
 import flapjack.data.*;
+import flapjack.gui.*;
 
-public class AlleleStatistics
+public class AlleleStatistics implements ITrackableJob
 {
 	private GTViewSet viewSet;
 
+	private int total = 0;
 	private int alleleCount = 0;
 	private boolean isOK = true;
 
@@ -16,18 +18,13 @@ public class AlleleStatistics
 	public AlleleStatistics(GTViewSet viewSet)
 	{
 		this.viewSet = viewSet;
+		total = viewSet.countAllAlleles();
 	}
-
-	public int getAlleleCount()
-		{ return alleleCount; }
-
-	public void cancel()
-		{ isOK = false; }
 
 	public Vector<int[]> getResults()
 		{ return results; }
 
-	public Vector<int[]> computeStatistics()
+	public void runJob()
 	{
 		StateTable stateTable = viewSet.getDataSet().getStateTable();
 
@@ -38,8 +35,6 @@ public class AlleleStatistics
 		// TODO: This could be multi-core optimized
 		for (GTView view: viewSet.getViews())
 			results.add(getStatistics(view));
-
-		return results;
 	}
 
 	// Returns an array with each element being the total number of alleles for
@@ -67,4 +62,16 @@ public class AlleleStatistics
 
 		return statistics;
 	}
+
+	public boolean isIndeterminate()
+		{ return false; }
+
+	public int getMaximum()
+		{ return total; }
+
+	public int getValue()
+		{ return alleleCount; }
+
+	public void cancelJob()
+		{ isOK = false; }
 }
