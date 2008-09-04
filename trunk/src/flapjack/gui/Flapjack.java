@@ -84,6 +84,9 @@ public class Flapjack
 				// Do we want to open an initial project?
 				if (initialProject != null)
 					winMain.mFile.fileOpen(initialProject);
+
+				if (Install4j.displayUpdate)
+					FlapjackUtils.visitURL("http://bioinf.scri.ac.uk/flapjack/help/whats-new.shtml");
 			}
 
 			public void windowIconified(WindowEvent e) {
