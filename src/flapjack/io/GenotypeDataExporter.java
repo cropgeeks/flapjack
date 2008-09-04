@@ -74,6 +74,10 @@ public class GenotypeDataExporter implements ITrackableJob
 		GTView view = viewSet.getView(0);
 		for (int line = 0; line < view.getLineCount(); line++, count++)
 		{
+			// Don't export dummy lines
+			if (view.isDummyLine(view.getLine(line)))
+				continue;
+
 			if (allLines || view.isLineSelected(line))
 			{
 				out.write(view.getLine(line).getName() + "\t");

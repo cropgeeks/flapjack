@@ -6,7 +6,7 @@ package flapjack.data;
  */
 public class LineInfo extends XMLRoot
 {
-	// A reference to the marker, and to its index within the original data
+	// A reference to the line, and to its index within the original data
 	Line line;
 	int index;
 

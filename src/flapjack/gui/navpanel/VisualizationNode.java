@@ -40,6 +40,7 @@ public class VisualizationNode extends BaseNode
 		Actions.editSelectLinesNone.setEnabled(true);
 		Actions.editSelectLinesInvert.setEnabled(true);
 		Actions.editHideLines.setEnabled(true);
+		Actions.editInsertLine.setEnabled(true);
 
 		Actions.vizExportImage.setEnabled(true);
 		Actions.vizExportData.setEnabled(true);
