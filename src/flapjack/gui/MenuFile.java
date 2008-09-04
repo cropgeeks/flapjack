@@ -64,7 +64,7 @@ public class MenuFile
 			 RB.format("gui.MenuFile.loadTitle"),
 			 RB.format("gui.MenuFile.loading"));
 
-		if (dialog.isOK())
+		if (dialog.isOK() && handler.isOK)
 		{
 			Project openedProject = handler.project;
 
@@ -257,7 +257,8 @@ public class MenuFile
 		{
 			// Loading...
 			if (project == null)
-				project = ProjectSerializer.open(file);
+				if ((project = ProjectSerializer.open(file)) != null)
+					isOK = true;
 			// Saving...
 			else
 				isOK = ProjectSerializer.save(project, Prefs.guiSaveCompressed);
