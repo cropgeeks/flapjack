@@ -352,4 +352,12 @@ public class GTViewSet extends XMLRoot
 
 		lines.insertElementAt(new LineInfo(dummy, -1), index);
 	}
+
+	public void removeAllDummyLines()
+	{
+		// Search backwards, stripping out each dummy line as it is found
+		for (int i = lines.size()-1; i >= 0; i--)
+			if (lines.get(i).line == dataSet.getDummyLine())
+				lines.removeElementAt(i);
+	}
 }

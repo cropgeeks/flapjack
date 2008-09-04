@@ -76,6 +76,10 @@ public class SortingLinesProgressDialog extends JDialog
 			gPanel.getViewSet().setDisplayLineScores(false);
 
 			state.createUndoState();
+
+			// Make sure any dummy lines have been stripped out before sorting
+			gPanel.getViewSet().removeAllDummyLines();
+
 			sort.doSort();
 			state.createRedoState();
 

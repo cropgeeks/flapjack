@@ -12,7 +12,7 @@ class NBSortLinesPanel extends javax.swing.JPanel
 {
 	private GTView view;
 
-	public NBSortLinesPanel(GTViewSet viewSet)
+	public NBSortLinesPanel(SortLinesDialog dialog, GTViewSet viewSet)
 	{
 		initComponents();
 
@@ -35,6 +35,8 @@ class NBSortLinesPanel extends javax.swing.JPanel
 
 		if (view.mouseOverLine >= 0 && view.mouseOverLine < view.getLineCount())
 			selectedLine.setSelectedIndex(view.mouseOverLine);
+
+		selectedLine.addActionListener(dialog);
 
 		createLinkLabels();
 		createTable(viewSet);
@@ -101,13 +103,6 @@ class NBSortLinesPanel extends javax.swing.JPanel
 		// Ensure the single selection is actually visible when first displayed
 		Rectangle r = table.getCellRect(viewSet.getViewIndex(), 0, true);
 		table.scrollRectToVisible(r);
-	}
-
-	boolean isOK()
-	{
-		view.mouseOverLine = selectedLine.getSelectedIndex();
-
-		return true;
 	}
 
 	private void selectAll()
@@ -291,7 +286,7 @@ class NBSortLinesPanel extends javax.swing.JPanel
     private javax.swing.JPanel linePanel;
     private javax.swing.JLabel selectAllLabel;
     private javax.swing.JLabel selectNoneLabel;
-    private javax.swing.JComboBox selectedLine;
+    javax.swing.JComboBox selectedLine;
     private javax.swing.JTable table;
     private javax.swing.JLabel tableLabel;
     private javax.swing.JPanel tablePanel;
