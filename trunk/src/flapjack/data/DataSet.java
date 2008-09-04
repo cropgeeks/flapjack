@@ -10,6 +10,9 @@ public class DataSet extends XMLRoot
 	private Vector<ChromosomeMap> chromosomes = new Vector<ChromosomeMap>();
 	private Vector<Line> lines = new Vector<Line>();
 
+	// Dummy line data (can be used whenever we need a 'placeholder' line
+	private Line dummyLine;
+
 	// Trait information
 	private Vector<Trait> traits = new Vector<Trait>();
 
@@ -62,6 +65,12 @@ public class DataSet extends XMLRoot
 
 	public void setLines(Vector<Line> lines)
 		{ this.lines = lines; }
+
+	public Line getDummyLine()
+		{ return dummyLine; }
+
+	public void setDummyLine(Line dummyLine)
+		{ this.dummyLine = dummyLine; }
 
 	public Vector<Trait> getTraits()
 		{ return traits; }

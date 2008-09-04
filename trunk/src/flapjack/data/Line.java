@@ -111,4 +111,17 @@ public class Line extends XMLRoot
 	{
 		return genotypes.get(chromosome).getState(marker);
 	}
+
+	// Creates a dummy line using this line as a basis (for number of genotypes,
+	// number of chromosomes, etc)
+	Line createDummy()
+	{
+		Line dummy = new Line(" ", 0);
+
+		// For every existing chromosome the line knows about...
+		for (GenotypeData data: genotypes)
+			dummy.initializeMap(data.getChromosomeMap(), true);
+
+		return dummy;
+	}
 }

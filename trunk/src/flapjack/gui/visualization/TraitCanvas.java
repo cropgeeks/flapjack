@@ -100,6 +100,10 @@ class TraitCanvas extends JPanel
 				for (int yIndex = yS, y = (boxH*yS); yIndex <= yE; yIndex++, y += boxH)
 				{
 					Line line = canvas.view.getLine(yIndex);
+					// Skip dummy lines (they don't have trait values)
+					if (canvas.view.isDummyLine(line))
+						continue;
+
 					TraitValue tv = line.getTraitValues().get(tIndex[i]);
 
 					// Or if the trait is undefined, just skip it
@@ -154,6 +158,13 @@ class TraitCanvas extends JPanel
 			}
 
 			Line line = canvas.view.getLine(yIndex);
+			// Don't attempt to display information for dummy lines
+			if (canvas.view.isDummyLine(line))
+			{
+				gPanel.statusPanel.setHeatmapValues(" ", " ", " ");
+				return;
+			}
+
 			TraitValue tv = line.getTraitValues().get(tIndex);
 
 			String trait = tv.getTrait().getName();

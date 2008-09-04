@@ -334,4 +334,22 @@ public class GTViewSet extends XMLRoot
 		for (int i = 0; i < traits.length && traits[i] == -1 && i < count; i++)
 			traits[i] = i;
 	}
+
+	/**
+	 * Inserts a "dummy" line into this viewset's line array.
+	 */
+	public void insertDummyLine(int index)
+	{
+		Line dummy = dataSet.getDummyLine();
+
+		if (dummy == null)
+		{
+			Line line = lines.get(index).line;
+			dummy = line.createDummy();
+
+			dataSet.setDummyLine(dummy);
+		}
+
+		lines.insertElementAt(new LineInfo(dummy, -1), index);
+	}
 }

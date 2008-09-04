@@ -477,4 +477,9 @@ public class GTView extends XMLRoot
 			viewSet.lines.add(li);
 		}
 	}
+
+	public boolean isDummyLine(Line line)
+	{
+		return line == viewSet.getDataSet().getDummyLine();
+	}
 }

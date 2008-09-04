@@ -31,6 +31,7 @@ public class Actions
 	public static AbstractAction editSelectLinesNone;
 	public static AbstractAction editSelectLinesInvert;
 	public static AbstractAction editHideLines;
+	public static AbstractAction editInsertLine;
 
 	public static AbstractAction vizExportImage;
 	public static AbstractAction vizExportData;
@@ -218,6 +219,12 @@ public class Actions
 		editHideLines = new AbstractAction(RB.format("gui.Actions.editHideLines", "")) {
 			public void actionPerformed(ActionEvent e) {
 				winMain.mEdit.editHideLines();
+			}
+		};
+
+		editInsertLine = new AbstractAction(RB.format("gui.Actions.editInsertLine", "")) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.mEdit.editInsertLine();
 			}
 		};
 
@@ -470,6 +477,7 @@ public class Actions
 		editSelectLinesNone.setEnabled(false);
 		editSelectLinesInvert.setEnabled(false);
 		editHideLines.setEnabled(false);
+		editInsertLine.setEnabled(false);
 
 		vizExportImage.setEnabled(false);
 		vizExportData.setEnabled(false);

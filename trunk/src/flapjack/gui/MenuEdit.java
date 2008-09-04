@@ -193,4 +193,28 @@ class MenuEdit
 			gPanel.addUndoState(state);
 		}
 	}
+
+	public void editInsertLine()
+	{
+		GTViewSet viewSet = gPanel.getViewSet();
+		GTView view = gPanel.getView();
+
+		if (view.mouseOverLine >= 0 && view.mouseOverLine < view.getLineCount())
+		{
+			// Set the undo state
+			InsertedLineState state = new InsertedLineState(viewSet,
+				RB.getString("gui.visualization.InsertedLineState.insert"));
+			state.createUndoState();
+
+			// Insert the line
+			viewSet.insertDummyLine(view.mouseOverLine);
+
+			// Set the redo state
+			state.createRedoState();
+			gPanel.addUndoState(state);
+
+			view.cacheLines();
+			gPanel.refreshView();
+		}
+	}
 }

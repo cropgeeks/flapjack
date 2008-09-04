@@ -24,6 +24,10 @@ public class FindLine extends StringFinder
 		{
 			Line line = view.getLine(index);
 
+			// Don't match on dummy lines
+			if (view.isDummyLine(line))
+				continue;
+
 			if (matches(line.getName(), str))
 				results.add(new Result(line));
 		}
