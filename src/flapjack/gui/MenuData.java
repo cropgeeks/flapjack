@@ -33,7 +33,7 @@ class MenuData
 			boolean[] chromosomes = dialog.getSelectedChromosomes();
 
 			GTViewSet viewSet = gPanel.getViewSet();
-			int line = gPanel.getView().mouseOverLine;
+			Line line = dialog.getSelectedLine();
 
 			ILineSorter sort = new SortLinesBySimilarity(viewSet, line, chromosomes);
 			new SortingLinesProgressDialog(gPanel, sort).runSort();

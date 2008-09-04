@@ -60,10 +60,6 @@ public class SortLinesByTrait implements ILineSorter
 		// Assign the traits to the heatmap?
 		if (autoAssign)
 			view.getViewSet().setTraits(traits);
-
-		// Because we've reordered the view (without it knowing), we MUST let
-		// it know that it has to search for its comparison line's new position
-		view.updateComparisons();
 	}
 
 	private class LineScore implements Comparable<LineScore>

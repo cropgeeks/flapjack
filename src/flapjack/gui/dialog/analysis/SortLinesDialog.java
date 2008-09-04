@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
+import flapjack.data.*;
 import flapjack.gui.*;
 import flapjack.gui.visualization.*;
 
@@ -11,7 +12,7 @@ import scri.commons.gui.*;
 
 public class SortLinesDialog extends JDialog implements ActionListener
 {
-	private JButton bOK, bCancel;
+	JButton bOK, bCancel;
 	private boolean isOK = false;
 
 	private GenotypePanel gPanel;
@@ -26,10 +27,11 @@ public class SortLinesDialog extends JDialog implements ActionListener
 		);
 
 		this.gPanel = gPanel;
-		nbPanel = new NBSortLinesPanel(gPanel.getViewSet());
+		nbPanel = new NBSortLinesPanel(this, gPanel.getViewSet());
 
 		add(nbPanel);
 		add(createButtons(), BorderLayout.SOUTH);
+		checkSelectedLine();
 
 		getRootPane().setDefaultButton(bOK);
 		SwingUtils.addCloseHandler(this, bCancel);
@@ -55,9 +57,23 @@ public class SortLinesDialog extends JDialog implements ActionListener
 		return p1;
 	}
 
+	// Checks to ensure that a dummy line hasn't been selected (if it has, it's
+	// not safe to run the sort as it'll get removed before it happens and then
+	// there won't be a comparison line (or it'll be wrong!))
+	private void checkSelectedLine()
+	{
+		int index = nbPanel.selectedLine.getSelectedIndex();
+		GTView view = gPanel.getView();
+
+		bOK.setEnabled(!view.isDummyLine(view.getLine(index)));
+	}
+
 	public void actionPerformed(ActionEvent e)
 	{
-		if (e.getSource() == bOK && nbPanel.isOK())
+		if (e.getSource() == nbPanel.selectedLine)
+			checkSelectedLine();
+
+		else if (e.getSource() == bOK)
 		{
 			isOK = true;
 			setVisible(false);
@@ -74,5 +90,10 @@ public class SortLinesDialog extends JDialog implements ActionListener
 	public boolean[] getSelectedChromosomes()
 	{
 		return nbPanel.getSelectedChromosomes();
+	}
+
+	public Line getSelectedLine()
+	{
+		return (Line) nbPanel.selectedLine.getSelectedItem();
 	}
 }

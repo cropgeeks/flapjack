@@ -7,15 +7,15 @@ import flapjack.data.*;
 public class SortLinesBySimilarity implements ILineSorter
 {
 	private GTViewSet viewSet;
-	private int line;
+	private Line comparisonLine;
 	private boolean[] chromosomes;
 
 	private int linesScored = 0;
 
-	public SortLinesBySimilarity(GTViewSet viewSet, int line, boolean[] chromosomes)
+	public SortLinesBySimilarity(GTViewSet viewSet, Line comparisonLine, boolean[] chromosomes)
 	{
 		this.viewSet = viewSet;
-		this.line = line;
+		this.comparisonLine = comparisonLine;
 		this.chromosomes = chromosomes;
 	}
 
@@ -37,6 +37,9 @@ public class SortLinesBySimilarity implements ILineSorter
 
 		// Create an array to hold the score for each line
 		Vector<LineScore> scores = new Vector<LineScore>(lines.size());
+
+		// Find the comparison line (by index)
+		int line = viewSet.indexOf(comparisonLine);
 
 		System.out.println("Sorting using line " + line + " as comparison line");
 
@@ -61,12 +64,7 @@ public class SortLinesBySimilarity implements ILineSorter
 		view.getViewSet().setLinesFromArray(lineOrder, true);
 		view.getViewSet().setDisplayLineScores(true);
 
-		// Because we've reordered the view (without it knowing), we MUST let
-		// it know that it has to search for its comparison line's new position
-		view.updateComparisons();
-
 		System.out.println("Similarity sort in " + (System.currentTimeMillis()-s) + "ms");
-
 	}
 
 	private static class LineScore implements Comparable<LineScore>
