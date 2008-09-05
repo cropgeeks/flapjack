@@ -257,8 +257,10 @@ public class MenuFile
 		{
 			// Loading...
 			if (project == null)
+			{
 				if ((project = ProjectSerializer.open(file)) != null)
 					isOK = true;
+			}
 			// Saving...
 			else
 				isOK = ProjectSerializer.save(project, Prefs.guiSaveCompressed);
