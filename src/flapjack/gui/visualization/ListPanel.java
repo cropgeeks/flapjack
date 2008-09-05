@@ -79,6 +79,9 @@ class ListPanel extends JPanel
 		// something in the way JList handles changes to its data must be the
 		// reason why it's slow.
 
+		if (fromIndex >= model.size() || toIndex >= model.size())
+			return;
+
 		LineInfo li = (LineInfo) model.get(fromIndex);
 		model.set(fromIndex, model.get(toIndex));
 		model.set(toIndex, li);
