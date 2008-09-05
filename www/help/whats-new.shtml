@@ -15,15 +15,12 @@
 
 <h1>What's New</h1>
 
-<p>This page describes the additions, changes and bug fixes that have been made
-to Flapjack in recent versions. For full details on all the changes between
-versions, please see the <a href="http://bioinf.scri.ac.uk/flapjack/svn.txt">
+<p>This page describes the additions (NEW), changes (CHG) and bug fixes (BUG)
+that have been made to Flapjack in recent versions. For full details on all the
+changes between versions, please see the <a href="http://bioinf.scri.ac.uk/flapjack/svn.txt">
 subversion change log</a>.</p>
 
-<p>Features are listed as either being new to Flapjack (NEW), changes to an
-existing feature (CHG), or bug fixes (BUG).</p>
-
-<h3>New in 0.08.09.04</h3>
+<h3>New in 0.08.09.05</h3>
 
 <ul>
 <li>NEW: Added a new option for right-clicking on a line and inserting a "dummy" line at that position.</li>
