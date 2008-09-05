@@ -227,6 +227,7 @@ public class GenotypePanel extends JPanel
 		canvas.computeDimensions(zoomX, zoomY);
 		mapCanvas.createImage();
 		qtlCanvas.createImage();
+		traitCanvas.repaint();
 	}
 
 	public void mouseWheelMoved(MouseWheelEvent e)
