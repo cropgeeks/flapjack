@@ -194,7 +194,7 @@ class MenuEdit
 		}
 	}
 
-	public void editInsertLine()
+	void editInsertLine()
 	{
 		GTViewSet viewSet = gPanel.getViewSet();
 		GTView view = gPanel.getView();
@@ -216,5 +216,58 @@ class MenuEdit
 			view.cacheLines();
 			gPanel.refreshView();
 		}
+	}
+
+	// Displays a dialog box asking the user if they want to delete the dummy
+	// line under the mouse, or all dummy lines
+	void editDeleteLine()
+	{
+		GTViewSet viewSet = gPanel.getViewSet();
+		GTView view = gPanel.getView();
+
+		// Get the index of the line clicked on
+		int index = view.mouseOverLine;
+		boolean allowSingleDelete = false;
+
+		// Determine if it *is* actually a dummy line
+		if (index >= 0 && index < view.getLineCount())
+		{
+			Line line = view.getLine(index);
+			if (view.isDummyLine(line))
+				allowSingleDelete = true;
+		}
+
+		// Display the dialog prompt
+		boolean[] states = new boolean[] { allowSingleDelete, true, true };
+
+		String msg = RB.getString("gui.MenuEdit.deleteLineMsg");
+
+		String[] options = new String[] {
+			RB.getString("gui.MenuEdit.deleteLine"),
+			RB.getString("gui.MenuEdit.deleteAll"),
+			RB.getString("gui.text.cancel") };
+
+		int response = TaskDialog.show(msg, MsgBox.QST, 0, options, states);
+		if (response == -1 || response == 2)
+			return;
+
+		// Set the undo state
+		InsertedLineState state = new InsertedLineState(viewSet,
+			RB.getString("gui.visualization.InsertedLineState.remove"));
+		state.createUndoState();
+
+		// Remove a single line
+		if (response == 0)
+			viewSet.getLines().remove(index);
+		// Or remove all dummy lines
+		else
+			viewSet.removeAllDummyLines();
+
+		// Set the redo state
+		state.createRedoState();
+		gPanel.addUndoState(state);
+
+		view.cacheLines();
+		gPanel.refreshView();
 	}
 }
