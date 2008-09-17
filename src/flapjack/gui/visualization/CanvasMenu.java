@@ -17,6 +17,7 @@ public class CanvasMenu
 	private JCheckBoxMenuItem mLock;
 	private JMenuItem mBookmark;
 	private JMenuItem mInsertLine;
+	private JMenuItem mDeleteLine;
 	public static JCheckBoxMenuItem mShowGenotypes;
 	public static JCheckBoxMenuItem mHighlightHZ;
 	private JMenuItem mSelectTraits;
@@ -70,6 +71,7 @@ public class CanvasMenu
 	{
 		mBookmark = WinMainMenuBar.getItem(Actions.vizBookmark, "gui.Actions.vizBookmark", 0, 0);
 		mInsertLine = WinMainMenuBar.getItem(Actions.editInsertLine, "gui.Actions.editInsertLine", 0, 0);
+		mDeleteLine = WinMainMenuBar.getItem(Actions.editDeleteLine, "gui.Actions.editDeleteLine", 0, 0);
 		mLock = WinMainMenuBar.getCheckedItem(aLock, "gui.Actions.canvasLock", 0, 0, canvas.locked);
 		mShowGenotypes = WinMainMenuBar.getCheckedItem(Actions.vizOverlayGenotypes, "gui.Actions.vizOverlayGenotypes", KeyEvent.VK_G, menuShortcut, Prefs.visShowGenotypes);
 		mHighlightHZ = WinMainMenuBar.getCheckedItem(Actions.vizHighlightHZ, "gui.Actions.vizHighlightHZ", KeyEvent.VK_H, menuShortcut, Prefs.visHighlightHZ);
@@ -139,6 +141,7 @@ public class CanvasMenu
 		menu.add(mLock);
 		menu.add(mBookmark);
 		menu.add(mInsertLine);
+		menu.add(mDeleteLine);
 		menu.addSeparator();
 		menu.add(mColor);
 		menu.add(mShowGenotypes);
