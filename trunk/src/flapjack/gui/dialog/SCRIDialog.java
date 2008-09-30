@@ -16,6 +16,7 @@ public class SCRIDialog extends JDialog implements ActionListener
 	{
 		super(Flapjack.winMain, "SCRI Flapjack User Agreement", true);
 
+		add(new TitlePanel2(), BorderLayout.NORTH);
 		add(new NBSCRIPanel());
 		add(createButtons(), BorderLayout.SOUTH);
 
@@ -37,8 +38,7 @@ public class SCRIDialog extends JDialog implements ActionListener
 		bCancel = SwingUtils.getButton("Cancel");
 		bCancel.addActionListener(this);
 
-		JPanel p1 = new JPanel(new FlowLayout(FlowLayout.RIGHT, 5, 0));
-		p1.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 5));
+		JPanel p1 = FlapjackUtils.getButtonPanel();
 		p1.add(bOK);
 		p1.add(bCancel);
 

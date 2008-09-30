@@ -34,7 +34,9 @@ public class NBStatusPanel extends JPanel implements ActionListener, ChangeListe
 		alleleLabel.setText(" ");
 
 		sliderX.addChangeListener(this);
+		sliderX.setBackground((Color)UIManager.get("Panel.background"));
 		sliderY.addChangeListener(this);
+		sliderY.setBackground((Color)UIManager.get("Panel.background"));
 		checkLink.addActionListener(this);
 
 		setControlStates();

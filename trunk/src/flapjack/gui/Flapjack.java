@@ -46,6 +46,12 @@ public class Flapjack
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 			UIManager.put("TextArea.font", UIManager.get("TextField.font"));
 
+			UIManager.put("fjDialogBG", Color.white);
+			UIManager.put("Panel.background", new Color(240, 240, 240));
+			UIManager.put("Slider.background", Color.white);
+			UIManager.put("CheckBox.background", Color.white);
+			UIManager.put("RadioButton.background", Color.white);
+
 			// Use the office look for Windows (but not for Vista)
 			if (SystemUtils.isWindows() && !SystemUtils.isWindowsVista())
 			{

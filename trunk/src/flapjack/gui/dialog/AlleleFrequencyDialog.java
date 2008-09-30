@@ -25,6 +25,7 @@ public class AlleleFrequencyDialog extends JDialog implements ActionListener
 
 		nbPanel = new NBAlleleFrequencyPanel(gPanel);
 
+		add(new TitlePanel2(), BorderLayout.NORTH);
 		add(nbPanel);
 		add(createButtons(), BorderLayout.SOUTH);
 
@@ -45,8 +46,7 @@ public class AlleleFrequencyDialog extends JDialog implements ActionListener
 		RB.setText(bHelp, "gui.text.help");
 		FlapjackUtils.setHelp(bHelp, "gui.dialog.AlleleFrequencyDialog");
 
-		JPanel p1 = new JPanel(new FlowLayout(FlowLayout.RIGHT, 5, 0));
-		p1.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 5));
+		JPanel p1 = FlapjackUtils.getButtonPanel();
 		p1.add(bOK);
 		p1.add(bHelp);
 

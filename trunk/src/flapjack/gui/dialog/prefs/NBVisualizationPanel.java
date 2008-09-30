@@ -1,5 +1,6 @@
 package flapjack.gui.dialog.prefs;
 
+import java.awt.*;
 import java.awt.event.*;
 import static java.awt.image.BufferedImage.*;
 import javax.swing.*;
@@ -12,6 +13,9 @@ class NBVisualizationPanel extends JPanel implements IPrefsTab, ActionListener
 	public NBVisualizationPanel()
     {
         initComponents();
+
+        setBackground((Color)UIManager.get("fjDialogBG"));
+        panel.setBackground((Color)UIManager.get("fjDialogBG"));
 
 		panel.setBorder(BorderFactory.createTitledBorder(RB.getString("gui.dialog.prefs.NBVisualizationPanel.panelTitle")));
 

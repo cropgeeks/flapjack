@@ -1,5 +1,6 @@
 package flapjack.gui.dialog.prefs;
 
+import java.awt.*;
 import javax.swing.*;
 
 import flapjack.gui.*;
@@ -12,6 +13,10 @@ class NBGeneralPanel extends JPanel implements IPrefsTab
     public NBGeneralPanel()
     {
         initComponents();
+
+        setBackground((Color)UIManager.get("fjDialogBG"));
+        generalPanel.setBackground((Color)UIManager.get("fjDialogBG"));
+        projectPanel.setBackground((Color)UIManager.get("fjDialogBG"));
 
 		// Interface settings
 		generalPanel.setBorder(BorderFactory.createTitledBorder(RB.getString("gui.dialog.prefs.NBGeneralPanel.generalPanelTitle")));

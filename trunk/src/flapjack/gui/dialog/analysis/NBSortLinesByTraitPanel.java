@@ -1,5 +1,6 @@
 package flapjack.gui.dialog.analysis;
 
+import java.awt.*;
 import javax.swing.*;
 
 import flapjack.data.*;
@@ -16,6 +17,11 @@ class NBSortLinesByTraitPanel extends JPanel
 
 		initComponents();
 
+		setBackground((Color)UIManager.get("fjDialogBG"));
+		panel1.setBackground((Color)UIManager.get("fjDialogBG"));
+		panel2.setBackground((Color)UIManager.get("fjDialogBG"));
+		panel3.setBackground((Color)UIManager.get("fjDialogBG"));
+
 		panel1.setBorder(BorderFactory.createTitledBorder(RB.getString("gui.dialog.analysis.NBSortLinesByTraitPanel.panel1.title")));
 		panel2.setBorder(BorderFactory.createTitledBorder(RB.getString("gui.dialog.analysis.NBSortLinesByTraitPanel.panel2.title")));
 		panel3.setBorder(BorderFactory.createTitledBorder(RB.getString("gui.dialog.analysis.NBSortLinesByTraitPanel.panel3.title")));
@@ -26,7 +32,7 @@ class NBSortLinesByTraitPanel extends JPanel
 		RB.setText(rDes2, "gui.dialog.analysis.NBSortLinesByTraitPanel.descending");
 		RB.setText(rDes3, "gui.dialog.analysis.NBSortLinesByTraitPanel.descending");
 		RB.setText(checkAssign, "gui.dialog.analysis.NBSortLinesByTraitPanel.checkAssign");
-		
+
 
 		// Fill the combo boxes with the possible traits
 		DataSet dataSet = gPanel.getViewSet().getDataSet();
@@ -39,14 +45,14 @@ class NBSortLinesByTraitPanel extends JPanel
 			combo2.addItem(trait.getName());
 			combo3.addItem(trait.getName());
 		}
-		
+
 		checkAssign.setSelected(Prefs.guiAssignTraits);
 	}
-	
+
 	boolean isOK()
 	{
 		Prefs.guiAssignTraits = checkAssign.isSelected();
-		
+
 		return true;
 	}
 

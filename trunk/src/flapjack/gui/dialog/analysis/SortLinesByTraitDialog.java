@@ -28,6 +28,7 @@ public class SortLinesByTraitDialog extends JDialog implements ActionListener
 		this.gPanel = gPanel;
 		nbPanel = new NBSortLinesByTraitPanel(this, gPanel);
 
+		add(new TitlePanel2(), BorderLayout.NORTH);
 		add(nbPanel);
 		add(createButtons(), BorderLayout.SOUTH);
 
@@ -50,8 +51,7 @@ public class SortLinesByTraitDialog extends JDialog implements ActionListener
 		bCancel = SwingUtils.getButton(RB.getString("gui.text.cancel"));
 		bCancel.addActionListener(this);
 
-		JPanel p1 = new JPanel(new FlowLayout(FlowLayout.RIGHT, 5, 0));
-		p1.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 5));
+		JPanel p1 = FlapjackUtils.getButtonPanel();
 		p1.add(bOK);
 		p1.add(bCancel);
 

@@ -1,12 +1,17 @@
 package flapjack.gui.dialog;
 
+import java.awt.*;
+import javax.swing.*;
+
 import flapjack.gui.*;
 
-class NBRenamePanel extends javax.swing.JPanel
+class NBRenamePanel extends JPanel
 {
 	NBRenamePanel(String currentValue)
 	{
 		initComponents();
+
+		setBackground((Color)UIManager.get("fjDialogBG"));
 
 		RB.setText(renameLabel, "gui.dialog.NBRenamePanel.renameLabel");
 

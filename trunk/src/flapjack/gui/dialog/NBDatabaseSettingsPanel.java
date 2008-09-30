@@ -1,5 +1,6 @@
 package flapjack.gui.dialog;
 
+import java.awt.*;
 import javax.swing.*;
 
 import flapjack.data.*;
@@ -12,6 +13,9 @@ class NBDatabaseSettingsPanel extends JPanel
 	public NBDatabaseSettingsPanel(DataSet dataSet)
 	{
 		initComponents();
+
+		setBackground((Color)UIManager.get("fjDialogBG"));
+		panel.setBackground((Color)UIManager.get("fjDialogBG"));
 
 		this.dbAssociation = dataSet.getDbAssociation();
 

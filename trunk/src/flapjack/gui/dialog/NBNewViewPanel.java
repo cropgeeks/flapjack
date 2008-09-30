@@ -1,5 +1,6 @@
 package flapjack.gui.dialog;
 
+import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
@@ -14,13 +15,16 @@ class NBNewViewPanel extends javax.swing.JPanel implements ActionListener
 	{
 		initComponents();
 
+		setBackground((Color)UIManager.get("fjDialogBG"));
+		panel.setBackground((Color)UIManager.get("fjDialogBG"));
+
 		// i18n
 		panel.setBorder(BorderFactory.createTitledBorder(RB.getString("gui.dialog.NBNewViewPanel.panelTitle")));
 		RB.setText(rNewView, "gui.dialog.NBNewViewPanel.rNewView");
 		RB.setText(rCloneView, "gui.dialog.NBNewViewPanel.rCloneView");
 		RB.setText(cloneLabel, "gui.dialog.NBNewViewPanel.cloneLabel");
 		RB.setText(checkCloneHidden, "gui.dialog.NBNewViewPanel.checkCloneHidden");
-		RB.setText(nameLabel, "gui.dialog.NBNewViewPanel.nameLabel");		
+		RB.setText(nameLabel, "gui.dialog.NBNewViewPanel.nameLabel");
 
 		// Add existing view sets to the combo box model
 		for (GTViewSet viewSet: dataSet.getViewSets())
@@ -39,7 +43,7 @@ class NBNewViewPanel extends javax.swing.JPanel implements ActionListener
 			rCloneView.setEnabled(false);
 
 		rNewView.addActionListener(this);
-		rCloneView.addActionListener(this);		
+		rCloneView.addActionListener(this);
 		checkCloneHidden.setSelected(!Prefs.guiCloneHidden);
 	}
 
@@ -55,7 +59,7 @@ class NBNewViewPanel extends javax.swing.JPanel implements ActionListener
 	{
 		return rNewView.isSelected();
 	}
-	
+
 	void isOK()
 	{
 		Prefs.guiCloneHidden = !checkCloneHidden.isSelected();

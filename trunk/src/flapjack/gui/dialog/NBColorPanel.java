@@ -22,8 +22,12 @@ class NBColorPanel extends JPanel implements ActionListener
 	{
 		this.gPanel = gPanel;
 
-		// NetBeans/GroupLayout setup
 		initComponents();
+
+		setBackground((Color)UIManager.get("fjDialogBG"));
+		gridPanel.setBackground((Color)UIManager.get("fjDialogBG"));
+		infoPanel.setBackground((Color)UIManager.get("fjDialogBG"));
+		colorPanel.setBackground((Color)UIManager.get("fjDialogBG"));
 
 		// i18n text
 		RB.setText(comboLabel, "gui.dialog.NBColorPanel.comboLabel");
@@ -173,6 +177,7 @@ class NBColorPanel extends JPanel implements ActionListener
 
         gridPanel.setLayout(new java.awt.GridLayout(1, 2, 10, 0));
 
+        panel1.setBackground((Color)UIManager.get("fjDialogBG"));
         panel1.setLayout(new java.awt.BorderLayout(0, 5));
 
         sp2.setViewportView(standardList);
@@ -185,6 +190,7 @@ class NBColorPanel extends JPanel implements ActionListener
 
         gridPanel.add(panel1);
 
+        panel2.setBackground((Color)UIManager.get("fjDialogBG"));
         panel2.setLayout(new java.awt.BorderLayout(0, 5));
 
         listLabel2.setLabelFor(schemeList);

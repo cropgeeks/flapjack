@@ -1,5 +1,6 @@
 package flapjack.gui.dialog.analysis;
 
+import java.awt.*;
 import java.awt.event.*;
 import java.text.*;
 import java.util.*;
@@ -35,6 +36,7 @@ public class FindDialog extends JDialog implements ListSelectionListener
 
 		this.gPanel = gPanel;
 
+		add(new TitlePanel2(), BorderLayout.NORTH);
 		add(nbPanel);
 		addListeners();
 

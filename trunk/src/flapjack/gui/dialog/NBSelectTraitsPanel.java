@@ -1,5 +1,8 @@
 package flapjack.gui.dialog;
 
+import java.awt.*;
+import javax.swing.*;
+
 import flapjack.data.*;
 import flapjack.gui.*;
 
@@ -10,6 +13,8 @@ class NBSelectTraitsPanel extends javax.swing.JPanel
 	public NBSelectTraitsPanel(GTViewSet viewSet)
 	{
 		initComponents();
+
+		setBackground((Color)UIManager.get("fjDialogBG"));
 
 		this.viewSet = viewSet;
 

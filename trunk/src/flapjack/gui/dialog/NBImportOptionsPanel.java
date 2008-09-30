@@ -1,5 +1,6 @@
 package flapjack.gui.dialog;
 
+import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
@@ -13,10 +14,14 @@ class NBImportOptionsPanel extends javax.swing.JPanel
 	{
 		initComponents();
 
+		setBackground((Color)UIManager.get("fjDialogBG"));
+		panel1.setBackground((Color)UIManager.get("fjDialogBG"));
+		panel2.setBackground((Color)UIManager.get("fjDialogBG"));
+
 		panel1.setBorder(BorderFactory.createTitledBorder(
 			RB.getString("gui.dialog.NBImportOptionsPanel.panel1.title")));
 		RB.setText(label1, "gui.dialog.NBImportOptionsPanel.label1");
-		
+
 		RB.setText(rFromFile, "gui.dialog.NBImportOptionsPanel.rFromFile");
 		rFromFile.setSelected(Prefs.guiImportMethod == 0);
 		rFromFile.addMouseListener(dcl);
@@ -28,26 +33,26 @@ class NBImportOptionsPanel extends javax.swing.JPanel
 		RB.setText(rFromSample, "gui.dialog.NBImportOptionsPanel.rFromSample");
 		rFromSample.setSelected(Prefs.guiImportMethod == 2);
 		rFromSample.addMouseListener(dcl);
-		
-		
+
+
 		panel2.setBorder(BorderFactory.createTitledBorder(
 			RB.getString("gui.dialog.NBImportOptionsPanel.panel2.title")));
 		RB.setText(label2, "gui.dialog.NBImportOptionsPanel.label2");
-		
+
 		RB.setText(rTraitFile, "gui.dialog.NBImportOptionsPanel.rTraitFile");
 		rTraitFile.setSelected(Prefs.guiImportMethod == 20);
 		rTraitFile.addMouseListener(dcl);
-		
+
 		RB.setText(rQTLFile, "gui.dialog.NBImportOptionsPanel.rQTLFile");
 		rQTLFile.setSelected(Prefs.guiImportMethod == 21);
 //		rQTLFile.addMouseListener(dcl);
-		
-		
+
+
 		if (secondaryOptions == false)
 		{
 			if (Prefs.guiImportMethod >= 20)
 				rFromFile.setSelected(true);
-			
+
 			rTraitFile.setEnabled(false);
 //			rQTLFile.setEnabled(false);
 		}
@@ -61,7 +66,7 @@ class NBImportOptionsPanel extends javax.swing.JPanel
 			Prefs.guiImportMethod = 1;
 		else if (rFromSample.isSelected())
 			Prefs.guiImportMethod = 2;
-	
+
 		else if (rTraitFile.isSelected())
 			Prefs.guiImportMethod = 20;
 		else if (rQTLFile.isSelected())

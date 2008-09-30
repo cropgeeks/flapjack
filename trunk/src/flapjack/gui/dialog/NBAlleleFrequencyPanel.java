@@ -1,5 +1,6 @@
 package flapjack.gui.dialog;
 
+import java.awt.*;
 import javax.swing.event.*;
 import javax.swing.*;
 
@@ -18,6 +19,7 @@ class NBAlleleFrequencyPanel extends JPanel implements ChangeListener
 		this.gPanel = gPanel;
 		this.viewSet = gPanel.getViewSet();
 
+		setBackground((Color)UIManager.get("fjDialogBG"));
 		initComponents();
 
 		RB.setText(thresholdLabel, "gui.dialog.NBAlleleFrequencyPanel.thresholdLabel");

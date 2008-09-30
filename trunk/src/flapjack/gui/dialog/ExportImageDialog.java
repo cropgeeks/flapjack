@@ -32,6 +32,7 @@ public class ExportImageDialog extends JDialog implements ActionListener
 		this.gPanel = gPanel;
 		nbPanel = new NBExportImagePanel(gPanel, new DblClickListener());
 
+		add(new TitlePanel2(), BorderLayout.NORTH);
 		add(nbPanel);
 		add(createButtons(), BorderLayout.SOUTH);
 
@@ -54,8 +55,7 @@ public class ExportImageDialog extends JDialog implements ActionListener
 		RB.setText(bHelp, "gui.text.help");
 		FlapjackUtils.setHelp(bHelp, "gui.dialog.ExportImageDialog");
 
-		JPanel p1 = new JPanel(new FlowLayout(FlowLayout.RIGHT, 5, 0));
-		p1.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 5));
+		JPanel p1 = FlapjackUtils.getButtonPanel();
 		p1.add(bExport);
 		p1.add(bClose);
 		p1.add(bHelp);

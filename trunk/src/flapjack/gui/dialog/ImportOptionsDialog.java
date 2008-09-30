@@ -25,6 +25,7 @@ public class ImportOptionsDialog extends JDialog implements ActionListener
 
 		nbPanel = new NBImportOptionsPanel(new DblClickListener(), secondaryOptions);
 
+		add(new TitlePanel2(), BorderLayout.NORTH);
 		add(nbPanel);
 		add(createButtons(), BorderLayout.SOUTH);
 
@@ -47,8 +48,7 @@ public class ImportOptionsDialog extends JDialog implements ActionListener
 		RB.setText(bHelp, "gui.text.help");
 		FlapjackUtils.setHelp(bHelp, "gui.dialog.ImportOptionsDialog");
 
-		JPanel p1 = new JPanel(new FlowLayout(FlowLayout.RIGHT, 5, 0));
-		p1.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 5));
+		JPanel p1 = FlapjackUtils.getButtonPanel();
 		p1.add(bOK);
 		p1.add(bCancel);
 		p1.add(bHelp);

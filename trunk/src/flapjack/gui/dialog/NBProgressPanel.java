@@ -1,5 +1,8 @@
 package flapjack.gui.dialog;
 
+import java.awt.*;
+import javax.swing.*;
+
 import flapjack.gui.*;
 
 class NBProgressPanel extends javax.swing.JPanel

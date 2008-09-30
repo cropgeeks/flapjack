@@ -1,5 +1,6 @@
 package flapjack.gui.dialog;
 
+import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
@@ -15,6 +16,9 @@ class NBToggleCanvasPanel extends JPanel implements ActionListener
 		this.gPanel = gPanel;
 
 		initComponents();
+
+		setBackground((Color)UIManager.get("fjDialogBG"));
+		panel.setBackground((Color)UIManager.get("fjDialogBG"));
 
 		// i18n
 		panel.setBorder(BorderFactory.createTitledBorder(RB.getString("gui.dialog.NBToggleCanvasPanel.panel.title")));

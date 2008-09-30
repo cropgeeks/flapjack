@@ -29,6 +29,7 @@ public class ColorDialog extends JDialog implements ActionListener
 
 		this.winMain = winMain;
 
+		add(new TitlePanel2(), BorderLayout.NORTH);
 		add(nbPanel = new NBColorPanel(this, gPanel));
 		add(createButtons(), BorderLayout.SOUTH);
 
@@ -52,8 +53,7 @@ public class ColorDialog extends JDialog implements ActionListener
 		RB.setMnemonic(bApply, "gui.dialog.ColorDialog.bApply");
 		bApply.addActionListener(this);
 
-		JPanel p1 = new JPanel(new FlowLayout(FlowLayout.RIGHT, 5, 0));
-		p1.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 5));
+		JPanel p1 = FlapjackUtils.getButtonPanel();
 		p1.add(bApply);
 		p1.add(bDefaults);
 		p1.add(bClose);

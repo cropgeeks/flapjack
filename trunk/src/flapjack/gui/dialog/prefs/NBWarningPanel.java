@@ -1,5 +1,6 @@
 package flapjack.gui.dialog.prefs;
 
+import java.awt.*;
 import javax.swing.*;
 
 import flapjack.gui.*;
@@ -10,12 +11,15 @@ class NBWarningPanel extends JPanel implements IPrefsTab
     {
         initComponents();
 
+        setBackground((Color)UIManager.get("fjDialogBG"));
+        panel.setBackground((Color)UIManager.get("fjDialogBG"));
+
 		panel.setBorder(BorderFactory.createTitledBorder(RB.getString("gui.dialog.prefs.NBWarningPanel.panelTitle")));
 
 		RB.setText(warnDuplicateMarkers, "gui.dialog.prefs.NBWarningPanel.warnDuplicateMarkers");
 		RB.setText(warnFindDialogResultsCleared, "gui.dialog.prefs.NBWarningPanel.warnFindDialogResultsCleared");
 		RB.setText(warnEditMarkerMode, "gui.dialog.prefs.NBWarningPanel.warnEditMarkerMode");
-		RB.setText(warnEditLineMode, "gui.dialog.prefs.NBWarningPanel.warnEditLineMode");	
+		RB.setText(warnEditLineMode, "gui.dialog.prefs.NBWarningPanel.warnEditLineMode");
 
 		initSettings();
     }
