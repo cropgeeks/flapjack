@@ -4,6 +4,8 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
+import flapjack.gui.*;
+
 class NBExportDataPanel extends JPanel implements ActionListener
 {
 	public NBExportDataPanel(ExportDataDialog dialog)
@@ -13,9 +15,18 @@ class NBExportDataPanel extends JPanel implements ActionListener
 		setBackground((Color)UIManager.get("fjDialogBG"));
 		mapPanel.setBackground((Color)UIManager.get("fjDialogBG"));
 
+		mapPanel.setBorder(BorderFactory.createTitledBorder(RB.getString("gui.dialog.NBExportDataPanel.panel.title")));
+		RB.setText(label, "gui.dialog.NBExportDataPanel.label");
+		RB.setText(markerLabel, "gui.dialog.NBExportDataPanel.markerLabel");
+		RB.setText(rMapAll, "gui.dialog.NBExportDataPanel.rMapAll");
+		RB.setText(rMapSelected, "gui.dialog.NBExportDataPanel.rMapSelected");
+		RB.setText(genotypeLabel, "gui.dialog.NBExportDataPanel.genotypeLabel");
+		RB.setText(rDatAll, "gui.dialog.NBExportDataPanel.rDatAll");
+		RB.setText(rDatSelected, "gui.dialog.NBExportDataPanel.rDatSelected");
+
 		combo.addActionListener(this);
-		combo.addItem("Tab-delimited map file");
-		combo.addItem("Tab-delimited genotype file");
+		combo.addItem(RB.getString("gui.dialog.NBExportDataPanel.comboMap"));
+		combo.addItem(RB.getString("gui.dialog.NBExportDataPanel.comboDat"));
 		actionPerformed(null);
 	}
 
@@ -45,7 +56,7 @@ class NBExportDataPanel extends JPanel implements ActionListener
         genotypeLabel = new javax.swing.JLabel();
         rDatAll = new javax.swing.JRadioButton();
         rDatSelected = new javax.swing.JRadioButton();
-        jLabel1 = new javax.swing.JLabel();
+        label = new javax.swing.JLabel();
         combo = new javax.swing.JComboBox();
 
         mapPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Export options:"));
@@ -68,8 +79,8 @@ class NBExportDataPanel extends JPanel implements ActionListener
         datGroup.add(rDatSelected);
         rDatSelected.setText("Only lines I have selected");
 
-        jLabel1.setLabelFor(combo);
-        jLabel1.setText("Export file type:");
+        label.setLabelFor(combo);
+        label.setText("Export file type:");
 
         org.jdesktop.layout.GroupLayout mapPanelLayout = new org.jdesktop.layout.GroupLayout(mapPanel);
         mapPanel.setLayout(mapPanelLayout);
@@ -79,7 +90,7 @@ class NBExportDataPanel extends JPanel implements ActionListener
                 .addContainerGap()
                 .add(mapPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(mapPanelLayout.createSequentialGroup()
-                        .add(jLabel1)
+                        .add(label)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                         .add(combo, 0, 162, Short.MAX_VALUE))
                     .add(rMapAll)
@@ -95,7 +106,7 @@ class NBExportDataPanel extends JPanel implements ActionListener
             .add(mapPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .add(mapPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(jLabel1)
+                    .add(label)
                     .add(combo, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .add(18, 18, 18)
                 .add(markerLabel)
@@ -135,7 +146,7 @@ class NBExportDataPanel extends JPanel implements ActionListener
     javax.swing.JComboBox combo;
     private javax.swing.ButtonGroup datGroup;
     private javax.swing.JLabel genotypeLabel;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel label;
     private javax.swing.ButtonGroup mapGroup;
     private javax.swing.JPanel mapPanel;
     private javax.swing.JLabel markerLabel;

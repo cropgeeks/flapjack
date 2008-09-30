@@ -47,7 +47,6 @@ public class Flapjack
 			UIManager.put("TextArea.font", UIManager.get("TextField.font"));
 
 			UIManager.put("fjDialogBG", Color.white);
-			UIManager.put("Panel.background", new Color(240, 240, 240));
 			UIManager.put("Slider.background", Color.white);
 			UIManager.put("CheckBox.background", Color.white);
 			UIManager.put("RadioButton.background", Color.white);
@@ -56,6 +55,8 @@ public class Flapjack
 			if (SystemUtils.isWindows() && !SystemUtils.isWindowsVista())
 			{
 				UIManager.setLookAndFeel("org.fife.plaf.Office2003.Office2003LookAndFeel");
+
+				UIManager.put("Panel.background", new Color(240, 240, 240));
 
 				UIManager.put("OptionPane.errorIcon", Icons.WINERROR);
 				UIManager.put("OptionPane.informationIcon", Icons.WININFORMATION);
