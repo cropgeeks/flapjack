@@ -1,5 +1,6 @@
 package flapjack.gui.dialog;
 
+import java.awt.*;
 import javax.swing.*;
 
 import flapjack.gui.*;
@@ -9,6 +10,9 @@ class NBErrorPanel extends JPanel
 	public NBErrorPanel(Thread t, Throwable e)
 	{
 		initComponents();
+
+		setBackground((Color)UIManager.get("fjDialogBG"));
+		panel.setBackground((Color)UIManager.get("fjDialogBG"));
 
 		panel.setBorder(BorderFactory.createTitledBorder(RB.getString("gui.dialog.NBErrorPanel.panel.title")));
 		RB.setText(label, "gui.dialog.NBErrorPanel.label");

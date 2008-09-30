@@ -1,13 +1,17 @@
 package flapjack.gui.dialog;
 
+import java.awt.*;
 import java.awt.event.*;
+import javax.swing.*;
 
-class NBExportDataPanel extends javax.swing.JPanel implements ActionListener
+class NBExportDataPanel extends JPanel implements ActionListener
 {
 	public NBExportDataPanel(ExportDataDialog dialog)
 	{
 		initComponents();
 
+		setBackground((Color)UIManager.get("fjDialogBG"));
+		mapPanel.setBackground((Color)UIManager.get("fjDialogBG"));
 
 		combo.addActionListener(this);
 		combo.addItem("Tab-delimited map file");

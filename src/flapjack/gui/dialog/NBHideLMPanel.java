@@ -1,5 +1,6 @@
 package flapjack.gui.dialog;
 
+import java.awt.*;
 import javax.swing.*;
 
 import flapjack.data.*;
@@ -19,6 +20,10 @@ class NBHideLMPanel extends JPanel
 	public NBHideLMPanel(HideLMDialog dialog, GTView view, boolean markers)
 	{
 		initComponents();
+
+		setBackground((Color)UIManager.get("fjDialogBG"));
+		hidePanel.setBackground((Color)UIManager.get("fjDialogBG"));
+		showPanel.setBackground((Color)UIManager.get("fjDialogBG"));
 
 		i18n = markers ? "markers" : "lines";
 

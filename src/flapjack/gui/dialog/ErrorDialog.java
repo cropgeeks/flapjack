@@ -41,6 +41,7 @@ public class ErrorDialog extends JDialog
 		Runnable r = new Runnable() {
 			public void run()
 			{
+				add(new TitlePanel2(), BorderLayout.NORTH);
 				add(new NBErrorPanel(t, e));
 				add(createButtons(), BorderLayout.SOUTH);
 				getRootPane().setDefaultButton(bOK);
@@ -62,8 +63,7 @@ public class ErrorDialog extends JDialog
 		RB.setText(bClipboard, "gui.dialog.ErrorDialog.bClipboard");
 		bClipboard.addActionListener(this);
 
-		JPanel p1 = new JPanel(new FlowLayout(FlowLayout.RIGHT, 5, 0));
-		p1.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 5));
+		JPanel p1 = FlapjackUtils.getButtonPanel();
 		p1.add(bClipboard);
 		p1.add(bOK);
 

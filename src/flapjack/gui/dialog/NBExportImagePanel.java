@@ -1,5 +1,6 @@
 package flapjack.gui.dialog;
 
+import java.awt.*;
 import java.awt.event.*;
 import java.text.*;
 import javax.swing.*;
@@ -21,6 +22,9 @@ class NBExportImagePanel extends JPanel implements ChangeListener, ActionListene
     public NBExportImagePanel(GenotypePanel gPanel, MouseAdapter dcl)
     {
 		initComponents();
+
+		setBackground((Color)UIManager.get("fjDialogBG"));
+		panel.setBackground((Color)UIManager.get("fjDialogBG"));
 
 		this.gPanel = gPanel;
 

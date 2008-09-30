@@ -1,6 +1,8 @@
 package flapjack.gui.dialog;
 
+import java.awt.*;
 import java.util.*;
+import javax.swing.*;
 import javax.swing.table.*;
 
 import flapjack.gui.*;
@@ -11,6 +13,8 @@ public class NBDuplicateMarkersPanel extends javax.swing.JPanel
 	public NBDuplicateMarkersPanel(LinkedList<String> duplicates)
 	{
 		initComponents();
+
+		setBackground((Color)UIManager.get("fjDialogBG"));
 
 		// Column headers
 		String[] columnNames = {

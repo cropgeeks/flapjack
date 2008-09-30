@@ -19,6 +19,9 @@ class NBAlleleStatisticsPanel extends JPanel implements AdjustmentListener
 	{
 		initComponents();
 
+		setBackground((Color)UIManager.get("fjDialogBG"));
+		tablePanel.setBackground((Color)UIManager.get("fjDialogBG"));
+
 		String name = viewSet.getName();
 		int total = viewSet.countAllAlleles();
 

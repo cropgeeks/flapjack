@@ -1,5 +1,8 @@
 package flapjack.gui.dialog;
 
+import java.awt.*;
+import javax.swing.*;
+
 import flapjack.gui.*;
 
 class NBSCRIPanel extends javax.swing.JPanel
@@ -7,10 +10,12 @@ class NBSCRIPanel extends javax.swing.JPanel
 	public NBSCRIPanel()
 	{
 		initComponents();
-		
+
+		setBackground((Color)UIManager.get("fjDialogBG"));
+
 		iconLabel.setIcon(Icons.SCRI);
 	}
-	
+
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is

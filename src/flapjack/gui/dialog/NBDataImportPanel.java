@@ -1,5 +1,6 @@
 package flapjack.gui.dialog;
 
+import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 import javax.swing.*;
@@ -13,6 +14,10 @@ public class NBDataImportPanel extends javax.swing.JPanel implements ActionListe
 	public NBDataImportPanel()
 	{
 		initComponents();
+
+		setBackground((Color)UIManager.get("fjDialogBG"));
+		filePanel.setBackground((Color)UIManager.get("fjDialogBG"));
+		optionPanel.setBackground((Color)UIManager.get("fjDialogBG"));
 
 		mapButton.addActionListener(this);
 		genoButton.addActionListener(this);

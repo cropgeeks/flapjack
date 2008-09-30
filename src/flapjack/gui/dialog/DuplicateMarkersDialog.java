@@ -29,6 +29,7 @@ public class DuplicateMarkersDialog extends JDialog implements ActionListener
 		this.duplicates = duplicates;
 		nbPanel = new NBDuplicateMarkersPanel(duplicates);
 
+		add(new TitlePanel2(), BorderLayout.NORTH);
 		add(nbPanel);
 		add(createButtons(), BorderLayout.SOUTH);
 
@@ -52,8 +53,7 @@ public class DuplicateMarkersDialog extends JDialog implements ActionListener
 		bClipboard.addActionListener(this);
 		RB.setMnemonic(bClipboard, "gui.dialog.DuplicateMarkersDialog.clipboard");
 
-		JPanel p1 = new JPanel(new FlowLayout(FlowLayout.RIGHT, 5, 0));
-		p1.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 5));
+		JPanel p1 = FlapjackUtils.getButtonPanel();
 		p1.add(bClipboard);
 		p1.add(bClose);
 

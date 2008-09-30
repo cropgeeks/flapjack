@@ -96,8 +96,8 @@ public class LogParser
 
 			System.out.println(user.id.substring(0, 10)
 				+ " " + user.runCount
-				+ "\t" + user.os
-				+ "\t" + user.countryCode
+				+ "\t" + pad(user.os)
+				+ "" + user.countryCode
 				+ "\t" + user.username
 				+ "\t" + user.lastDate);
 		}
@@ -117,6 +117,14 @@ public class LogParser
 			String key = systemKeys.nextElement();
 			System.out.println(" " + systems.get(key) + "\t" + key);
 		}
+	}
+
+	private String pad(String str)
+	{
+		String pad = str;
+		while (pad.length() < 15)
+			pad += " ";
+		return pad;
 	}
 
 	private static class User implements Comparable<User>

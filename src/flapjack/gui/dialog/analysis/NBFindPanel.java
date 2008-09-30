@@ -22,6 +22,9 @@ class NBFindPanel extends JPanel implements ActionListener
 
 		initComponents();
 
+		setBackground((Color)UIManager.get("fjDialogBG"));
+		panel.setBackground((Color)UIManager.get("fjDialogBG"));
+
 		link.setIcon(Icons.WEB);
 
 		RB.setText(findLabel, "gui.dialog.NBFindPanel.findLabel");
@@ -276,7 +279,7 @@ class NBFindPanel extends JPanel implements ActionListener
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                 .add(resultLabel)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(spTable, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 168, Short.MAX_VALUE)
+                .add(spTable, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(hintLabel)
                 .addContainerGap())

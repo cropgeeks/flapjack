@@ -25,6 +25,7 @@ public class ToggleCanvasDialog extends JDialog implements ActionListener
 
 		nbPanel = new NBToggleCanvasPanel(gPanel);
 
+		add(new TitlePanel2(), BorderLayout.NORTH);
 		add(nbPanel);
 		add(createButtons(), BorderLayout.SOUTH);
 
@@ -42,8 +43,7 @@ public class ToggleCanvasDialog extends JDialog implements ActionListener
 		bClose = SwingUtils.getButton(RB.getString("gui.text.close"));
 		bClose.addActionListener(this);
 
-		JPanel p1 = new JPanel(new FlowLayout(FlowLayout.RIGHT, 5, 0));
-		p1.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 5));
+		JPanel p1 = FlapjackUtils.getButtonPanel();
 		p1.add(bClose);
 
 		return p1;
