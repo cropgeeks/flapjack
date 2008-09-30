@@ -3,12 +3,11 @@ package flapjack.gui;
 import java.awt.*;
 import javax.swing.*;
 
+import scri.commons.gui.*;
+
 public class TitlePanel2 extends JPanel
 {
-//	private static final Color c1 = SystemColor.;
-	private static final Color c1 = new Color(169, 198, 246);
-//	private static final Color c1 = new Color(170, 170, 170);
-
+	private static final Color c1 = getColor();
 	private static final int h = 22;
 
 	public Dimension getPreferredSize()
@@ -26,5 +25,30 @@ public class TitlePanel2 extends JPanel
 		g.fillRect(0, 0, getWidth(), h);
 
 //		g.drawImage(Icons.SWIRL.getImage(), 0, 0, null);
+	}
+
+	private static Color getColor()
+	{
+		String style = (String)
+			Toolkit.getDefaultToolkit().getDesktopProperty("win.xpstyle.colorName");
+
+		// Non-windows systems (let's assume grey for now)
+		if (SystemUtils.isWindows() == false)
+			return new Color(170, 170, 170);
+
+		// Windows "classic"
+		else if (style == null)
+			return new Color(212, 208, 200);
+		// Blue
+		else if (style.equals("NormalColor"))
+			return new Color(160, 191, 255);
+		// Silver
+		else if (style.equals("Metallic"))
+			return new Color(216, 216, 230);
+		// Olive
+		else if (style.equals("HomeStead"))
+			return new Color(218, 218, 170);
+
+		return new Color(212, 208, 200);
 	}
 }
