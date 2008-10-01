@@ -34,8 +34,11 @@ public class ChromosomeMapImporter
 		String str = null;
 		int linesRead = 1;
 
-		while ((str = in.readLine()) != null && str.length() > 0 && isOK)
+		while ((str = in.readLine()) != null && isOK)
 		{
+			if (str.length() == 0)
+				continue;
+
 			String[] tokens = str.split("\t");
 
 			if (tokens.length != 3)

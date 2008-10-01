@@ -98,8 +98,11 @@ public class GenotypeDataImporter
 		System.out.println("Map/marker cache created in " + (System.currentTimeMillis()-s) + "ms");
 		s = System.currentTimeMillis();
 
-		while ((str = in.readLine()) != null && str.length() > 0 && isOK)
+		while ((str = in.readLine()) != null && isOK)
 		{
+			if (str.length() == 0)
+				continue;
+
 			if ((++lineCount) % 100 == 0)
 			{
 				System.out.println("Reading line " + lineCount + " (" + (System.currentTimeMillis()-s) + "ms)");
