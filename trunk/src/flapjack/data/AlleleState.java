@@ -85,7 +85,7 @@ public class AlleleState extends XMLRoot
 
 	boolean matchesAlleleState(String rawData)
 	{
-		return this.rawData.equals(rawData);
+		return this.rawData.equalsIgnoreCase(rawData);
 	}
 
 	public boolean isUnknown()
