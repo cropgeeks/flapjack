@@ -144,9 +144,6 @@ public class DataImportingDialog extends JDialog implements Runnable
 			if (Prefs.ioHeteroCollapse)
 				pio.collapseHeterozygotes();
 
-
-//			fakeQTLs(dataSet.getMapByIndex(0).getQTLs());
-
 			pio.calculateMarkerFrequencies();
 			pio.createDefaultView();
 
@@ -188,15 +185,6 @@ public class DataImportingDialog extends JDialog implements Runnable
 
 		try { SwingUtilities.invokeAndWait(r); }
 		catch (Exception e) {}
-	}
-
-
-
-	private void fakeQTLs(Vector<QTL> qtls)
-	{
-		qtls.add(new QTL("TestA", 5f, 3f, 7f, 39.31f));
-		qtls.add(new QTL("TestB", 141f, 138f, 141.5f, 39.31f));
-		qtls.add(new QTL("TestC", 28f, 24f, 30f, 19.96f));
 	}
 
 	private class MonitorThread implements Runnable

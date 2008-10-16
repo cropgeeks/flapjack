@@ -3,6 +3,7 @@ package flapjack.gui.visualization;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.*;
+import java.text.*;
 import javax.swing.*;
 import javax.swing.event.*;
 
@@ -12,6 +13,8 @@ import flapjack.gui.*;
 public class GenotypePanel extends JPanel
 	implements ActionListener, AdjustmentListener, ChangeListener, MouseWheelListener
 {
+	private DecimalFormat d = new DecimalFormat("0.0");
+
 	private GTViewSet viewSet;
 	private GTView view;
 
@@ -20,9 +23,9 @@ public class GenotypePanel extends JPanel
 	// than passing messages through this class all the time
 	GenotypeCanvas canvas;
 	MapCanvas mapCanvas;
-	private QTLCanvas qtlCanvas;
 	private RowCanvas rowCanvas;
 	private ColCanvas colCanvas;
+	private QTLCanvas qtlCanvas;
 	TraitCanvas traitCanvas;
 	ListPanel listPanel;
 	NBStatusPanel statusPanel;
@@ -38,6 +41,7 @@ public class GenotypePanel extends JPanel
 	private JLabel chromoLabel = new JLabel();
 	private JLabel lineLabel = new JLabel();
 	private JLabel markerLabel = new JLabel();
+	private JLabel lengthLabel = new JLabel();
 
 
 	public GenotypePanel(WinMain winMain)
@@ -54,6 +58,7 @@ public class GenotypePanel extends JPanel
 		ctrlPanel.add(new JLabel(" "));
 		ctrlPanel.add(lineLabel);
 		ctrlPanel.add(markerLabel);
+		ctrlPanel.add(lengthLabel);
 
 		// Scrolling components above the main display (qtl, map, etc)
 		JPanel topPanel = new JPanel(new BorderLayout());
@@ -101,9 +106,8 @@ public class GenotypePanel extends JPanel
 		rowCanvas = new RowCanvas(this, canvas);
 		colCanvas = new ColCanvas(canvas);
 		mapCanvas = new MapCanvas(this, canvas);
-		qtlCanvas = new QTLCanvas(this, canvas);
 		traitCanvas = new TraitCanvas(this, canvas);
-
+		qtlCanvas = new QTLCanvas(this, canvas, mapCanvas);
 		listPanel = new ListPanel();
 		statusPanel = new NBStatusPanel(this);
 
@@ -226,7 +230,7 @@ public class GenotypePanel extends JPanel
 		listPanel.computeDimensions(zoomY);
 		canvas.computeDimensions(zoomX, zoomY);
 		mapCanvas.createImage();
-		qtlCanvas.createImage();
+		qtlCanvas.updateCanvasSize();
 		traitCanvas.repaint();
 	}
 
@@ -254,7 +258,7 @@ public class GenotypePanel extends JPanel
 		rowCanvas.updateOverviewSelectionBox(xIndex, xW);
 		colCanvas.updateOverviewSelectionBox(yIndex, yH);
 		mapCanvas.updateView();
-		qtlCanvas.updateView();
+		qtlCanvas.repaint();
 		traitCanvas.repaint();
 	}
 
@@ -404,6 +408,7 @@ public class GenotypePanel extends JPanel
 	{
 		int lineCount = view.getLineCount();
 		int mrkrCount = view.getMarkerCount();
+		String length = d.format(view.getChromosomeMap().getLength());
 
 		if (lineCount == 1)
 			lineLabel.setText(RB.getString("gui.visualization.GenotypePanel.lineLabel1"));
@@ -414,5 +419,7 @@ public class GenotypePanel extends JPanel
 			markerLabel.setText(RB.getString("gui.visualization.GenotypePanel.markerLabel1"));
 		else
 			markerLabel.setText(RB.format("gui.visualization.GenotypePanel.markerLabel2", mrkrCount));
+
+		lengthLabel.setText(RB.format("gui.visualization.GenotypePanel.lengthLabel", length));
 	}
 }
