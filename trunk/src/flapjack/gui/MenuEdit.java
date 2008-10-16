@@ -8,7 +8,7 @@ import flapjack.gui.visualization.*;
 
 import scri.commons.gui.*;
 
-class MenuEdit
+public class MenuEdit
 {
 	private GenotypePanel gPanel;
 
@@ -22,7 +22,7 @@ class MenuEdit
 		gPanel.processUndoRedo(undo);
 	}
 
-	void editMode(int newMode)
+	public void editMode(int newMode)
 	{
 		boolean wasInMarkerMode = (Prefs.guiMouseMode == Constants.MARKERMODE);
 		boolean wasInLineMode = (Prefs.guiMouseMode == Constants.LINEMODE);
@@ -56,7 +56,7 @@ class MenuEdit
 		}
 
 		// Popup the warning dialog with markermode info...
-		// (only if required, and only if we have changed into marker mode)
+		// (only if required, and only if we have changed into line mode)
 		if (Prefs.warnEditLineMode &&
 			wasInLineMode == false && newMode == Constants.LINEMODE)
 		{

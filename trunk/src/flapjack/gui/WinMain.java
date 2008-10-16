@@ -28,7 +28,7 @@ public class WinMain extends JFrame
 
 	// Menu event handlers
 	public MenuFile mFile = new MenuFile();
-	MenuEdit mEdit = new MenuEdit();
+	public MenuEdit mEdit = new MenuEdit();
 	public MenuVisualization mViz = new MenuVisualization();
 	MenuData mData = new MenuData();
 	MenuHelp mHelp = new MenuHelp();

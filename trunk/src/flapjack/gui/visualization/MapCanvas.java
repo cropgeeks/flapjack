@@ -81,7 +81,7 @@ class MapCanvas extends JPanel
 	}
 
 	// Draws the marker at index i, optionally adding textual information
-	private void drawMarker(Graphics2D g, int i, boolean showDetails)
+	private void drawMarker(Graphics2D g, int i, boolean showDetails, boolean highlight)
 	{
 		Marker m = canvas.view.getMarker(i);
 
@@ -90,41 +90,58 @@ class MapCanvas extends JPanel
 		// Its position on the main canvas (its "box" representation)
 		int xBox = Math.round(i * canvas.boxW + (canvas.boxW/2));
 
+		if (showDetails || highlight)
+			g.setColor(Color.red);
+		else
+			g.setColor(Color.lightGray);
+
 		if (showDetails)
 		{
 			String str = m.getName() + "  (" + d.format(m.getPosition()) + ")";
 			int strWidth = g.getFontMetrics().stringWidth(str);
 
-			g.setColor(Color.red);
 			g.drawString(str, getPosition(xMap, strWidth), 8);
 		}
-
-//		else if (canvas.view.isMarkerSelected(i))
-		else
-			g.setColor(Color.lightGray);
-//		else
-//			g.setPaint(new Color(192, 192, 192, 50));
 
 		g.drawLine(xMap, 12, xMap, 22);
 		g.drawLine(xMap, 22, xBox, h-5);
 	}
 
+	// Displays a feature's information on the canvas (because the map canvas
+	// has the "space" on it for text). Also scans every marker under a feature
+	// and highlights their link-lines so the associations can be seen
 	private void drawFeatureDetails(Graphics2D g)
 	{
 		g.translate(0-canvas.pX1, 0);
 		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
 		Feature f = QTLCanvas.mouseOverFeature;
+		float min = f.getMin();
+		float max = f.getMax();
 
 		// Where should it be drawn
-		int pos = Math.round(xScale * (f.getMin() + ((f.getMax()-f.getMin())/2)));
-		System.out.println("pos="+pos);
+		int pos = Math.round(xScale * (min + ((max-min)/2)));
 
-		String str = f.getName() + "  (" + d.format(f.getMin()) + "-" + d.format(f.getMax()) + ")";
+		// And what should be drawn
+		String str = f.getName() + "  (";
+		if (f instanceof QTL)
+			str += d.format(((QTL)f).getPosition()) + ": ";
+		str += d.format(min) + "-" + d.format(max) + ")";
 		int strWidth = g.getFontMetrics().stringWidth(str);
 
 		g.setColor(Color.red);
 		g.drawString(str, getPosition(pos, strWidth), 8);
+
+		// Now see which markers are "under" this feature, and highlight them
+		int mkrCount = canvas.view.getMarkerCount();
+		for (int i = 0; i < mkrCount; i++)
+		{
+			Marker m = canvas.view.getMarker(i);
+
+			// Is this marker under the QTL?
+			if (m.getPosition() >= min && m.getPosition() <= max)
+				drawMarker(g, i, false, true);
+		}
 	}
 
 	// Computes the best position to draw a string onscreen, assuming an optimum
@@ -196,7 +213,7 @@ class MapCanvas extends JPanel
 
 				g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 				g.setColor(Color.red);
-				drawMarker(g, markerIndex, true);
+				drawMarker(g, markerIndex, true, true);
 			}
 
 			if (QTLCanvas.mouseOverFeature != null)
@@ -281,7 +298,7 @@ class MapCanvas extends JPanel
 
 			// Draw each marker
 			for (int i = 0; i < mkrCount && !killMe; i++)
-				drawMarker(g, i, false);
+				drawMarker(g, i, false, false);
 
 			if (!killMe && !isTempBuffer)
 				bufferAvailable(buffer);
