@@ -7,11 +7,13 @@ import flapjack.io.*;
 public class ChromosomeMap extends XMLRoot implements Iterable<Marker>
 {
 	private String name;
+	private float length;
 
 	private Vector<Marker> markers = new Vector<Marker>();
-	private Vector<QTL> qtls = new Vector<QTL>();
 
-	private float length;
+	// A list of vectors of Features (basically, each vector of features
+	// represents one "track" - and we may have multiple tracks
+	private Vector<Vector<Feature>> features = new Vector<Vector<Feature>>();
 
 	public ChromosomeMap()
 	{
@@ -20,6 +22,18 @@ public class ChromosomeMap extends XMLRoot implements Iterable<Marker>
 	public ChromosomeMap(String name)
 	{
 		this.name = new String(name);
+
+		Vector<Feature> track1 = new Vector<Feature>();
+		track1.add(new QTL("test1-1", 12, 10, 15, 0));
+		track1.add(new QTL("test2-1", 25, 22, 30, 0));
+		features.add(track1);
+
+		Vector<Feature> track2 = new Vector<Feature>();
+		track2.add(new QTL("test2-1", 5, 3, 8, 0));
+		track2.add(new QTL("test2-2", 25, 22, 30, 0));
+		track2.add(new QTL("test2-3", 46, 41, 48, 0));
+		track2.add(new QTL("test2-4", 56, 51, 58, 0));
+		features.add(track2);
 	}
 
 	void validate()
@@ -52,8 +66,11 @@ public class ChromosomeMap extends XMLRoot implements Iterable<Marker>
 	public void setMarkers(Vector<Marker> markers)
 		{ this.markers = markers; }
 
-	public Vector<QTL> getQTLs()
-		{ return qtls; }
+	public Vector<Vector<Feature>> getFeatures()
+		{ return features; }
+
+	public void setFeatures(Vector<Vector<Feature>> features)
+	{ 	this.features = features; }
 
 
 	// Other methods

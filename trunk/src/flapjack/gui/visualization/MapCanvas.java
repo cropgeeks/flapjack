@@ -93,21 +93,10 @@ class MapCanvas extends JPanel
 		if (showDetails)
 		{
 			String str = m.getName() + "  (" + d.format(m.getPosition()) + ")";
-			int strWidth  = g.getFontMetrics().stringWidth(str);
-
-			// Work out where the left and right hand edges of the text will be
-			int leftPos = xMap-(int)(strWidth/2f);
-			int rghtPos = xMap+(int)(strWidth/2f);
-
-			// If we're offscreen to the left, adjust...
-			if (leftPos < canvas.pX1)
-				leftPos = canvas.pX1;
-			// Similarly if we're offscreen to the right...
-			if (rghtPos > canvas.pX2)
-				leftPos = canvas.pX2-strWidth;
+			int strWidth = g.getFontMetrics().stringWidth(str);
 
 			g.setColor(Color.red);
-			g.drawString(str, leftPos, 8);
+			g.drawString(str, getPosition(xMap, strWidth), 8);
 		}
 
 //		else if (canvas.view.isMarkerSelected(i))
@@ -120,8 +109,47 @@ class MapCanvas extends JPanel
 		g.drawLine(xMap, 22, xBox, h-5);
 	}
 
+	private void drawFeatureDetails(Graphics2D g)
+	{
+		g.translate(0-canvas.pX1, 0);
+		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+		Feature f = QTLCanvas.mouseOverFeature;
+
+		// Where should it be drawn
+		int pos = Math.round(xScale * (f.getMin() + ((f.getMax()-f.getMin())/2)));
+		System.out.println("pos="+pos);
+
+		String str = f.getName() + "  (" + d.format(f.getMin()) + "-" + d.format(f.getMax()) + ")";
+		int strWidth = g.getFontMetrics().stringWidth(str);
+
+		g.setColor(Color.red);
+		g.drawString(str, getPosition(pos, strWidth), 8);
+	}
+
+	// Computes the best position to draw a string onscreen, assuming an optimum
+	// start position that *may* be adjusted if the text ends up partially drawn
+	// offscreen on either the LHS or the RHS
+	private int getPosition(int pos, int strWidth)
+	{
+		// Work out where the left and right hand edges of the text will be
+		int leftPos = pos-(int)(strWidth/2f);
+		int rghtPos = pos+(int)(strWidth/2f);
+
+		// If we're offscreen to the left, adjust...
+		if (leftPos < canvas.pX1)
+			leftPos = canvas.pX1+1;
+		// Similarly if we're offscreen to the right...
+		if (rghtPos > canvas.pX2)
+			leftPos = canvas.pX2-strWidth-1;
+
+		return leftPos;
+	}
+
 	private class Canvas2D extends JPanel
 	{
+		private Font FONT = new Font("Dialog", Font.PLAIN, 11);
+
 		Canvas2D()
 		{
 			setPreferredSize(new Dimension(0, h));
@@ -157,6 +185,7 @@ class MapCanvas extends JPanel
 
 			// And dump it to the screen
 			g.drawImage(image2, 0, 0, null);
+			g.setFont(FONT);
 
 			// Change to red, and redraw the currently highlighted one
 			if (markerIndex >=0 && markerIndex < canvas.view.getMarkerCount())
@@ -165,11 +194,13 @@ class MapCanvas extends JPanel
 				// the area appropriate to what the main canvas is viewing
 				g.translate(0-canvas.pX1, 0);
 
-				g.setFont(new Font("Dialog", Font.PLAIN, 11));
 				g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 				g.setColor(Color.red);
 				drawMarker(g, markerIndex, true);
 			}
+
+			if (QTLCanvas.mouseOverFeature != null)
+				drawFeatureDetails(g);
 		}
 	}
 
