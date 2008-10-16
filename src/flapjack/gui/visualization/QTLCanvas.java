@@ -8,6 +8,7 @@ import javax.swing.*;
 import javax.swing.event.*;
 
 import flapjack.data.*;
+import flapjack.gui.*;
 
 class QTLCanvas extends JPanel
 {
@@ -22,7 +23,7 @@ class QTLCanvas extends JPanel
 	// Quick reference to the data (multiple tracks of features)
 	Vector<Vector<Feature>> featureList;
 	// Another reference, but this time JUST to the features that are onscreen
-	Vector<LinkedList<Feature>> onscreenList;
+	Vector<Vector<Feature>> onscreenList;
 
 	// Scaling factor to convert between pixels and map positions
 	private float xScale;
@@ -78,7 +79,7 @@ class QTLCanvas extends JPanel
 		// Loops over the data, drawing each track
 		private void drawTracks(Graphics2D g)
 		{
-			onscreenList = new Vector<LinkedList<Feature>>();
+			onscreenList = new Vector<Vector<Feature>>();
 
 			int trackNum = 0;
 			for (Vector<Feature> trackData: featureList)
@@ -94,7 +95,7 @@ class QTLCanvas extends JPanel
 				g.drawLine(0, 10, canvas.canvasW, 10);
 				g.setStroke(new BasicStroke(1));
 
-				onscreenList.add(new LinkedList<Feature>());
+				onscreenList.add(new Vector<Feature>());
 
 				// Draw each feature
 				for (Feature f: trackData)
@@ -150,9 +151,14 @@ class QTLCanvas extends JPanel
 			float mapPos = x / xScale;
 
 			// Then search the ONSCREEN features to see if it's over any of them
+			// NOTE: the search is backwards (right to left) as F2.pos > F1.pos
+			// will mean F2 is drawn on TOP of F1
 			Feature match = null;
-			for (Feature f: onscreenList.get(mouseOverTrack))
+			Vector<Feature> onscreen = onscreenList.get(mouseOverTrack);
+			for (int i = onscreen.size()-1; i >= 0; i--)
 			{
+				Feature f = onscreen.get(i);
+
 				if (f.getMin() <= mapPos && f.getMax() >= mapPos)
 				{
 					match = f;
@@ -177,6 +183,38 @@ class QTLCanvas extends JPanel
 
 			mapCanvas.repaint();
 			repaint();
+		}
+
+		public void mousePressed(MouseEvent e)
+		{
+			if (mouseOverFeature != null)
+			{
+				// Used to track the FIRST marker found and set the states of
+				// all the other ones to the same value
+				boolean undefined = true;
+				// Which will be this state...
+				boolean state = false;
+
+				float min = mouseOverFeature.getMin();
+				float max = mouseOverFeature.getMax();
+
+				for (MarkerInfo mi: canvas.view.getMarkers())
+				{
+					// Is this marker under the QTL?
+					if (mi.getMarker().getPosition() >= min && mi.getMarker().getPosition() <= max)
+					{
+						if (undefined)
+						{
+							state = !mi.getSelected();
+							undefined = false;
+						}
+
+						mi.setSelected(state);
+					}
+				}
+
+				Flapjack.winMain.mEdit.editMode(Constants.MARKERMODE);
+			}
 		}
 	}
 }

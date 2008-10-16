@@ -31,6 +31,7 @@ public class ChromosomeMap extends XMLRoot implements Iterable<Marker>
 		Vector<Feature> track2 = new Vector<Feature>();
 		track2.add(new QTL("test2-1", 5, 3, 8, 0));
 		track2.add(new QTL("test2-2", 25, 22, 30, 0));
+		track2.add(new QTL("test2-2b", 26, 23, 32, 0));
 		track2.add(new QTL("test2-3", 46, 41, 48, 0));
 		track2.add(new QTL("test2-4", 56, 51, 58, 0));
 		features.add(track2);
