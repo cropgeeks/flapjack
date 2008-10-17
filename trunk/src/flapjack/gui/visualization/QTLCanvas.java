@@ -10,6 +10,14 @@ import javax.swing.event.*;
 import flapjack.data.*;
 import flapjack.gui.*;
 
+import scri.commons.gui.*;
+
+/**
+ * Canvas for rendering feature/QTL data. Note that an assumption is made here
+ * that ALL data in the feature lists/vectors will be pre-sorted into ascending
+ * left-to-right order, that is, a QTL whose minimum value is 5 will be found
+ * in the list BEFORE a QTL with a minimum value of 6.
+ */
 class QTLCanvas extends JPanel
 {
 	// The height of a SINGLE track
@@ -32,6 +40,7 @@ class QTLCanvas extends JPanel
 	// Mouse handling variables
 	private int mouseOverTrack = -1;
 	static Feature mouseOverFeature = null;
+	private Feature featureToMove = null;
 
 	QTLCanvas(GenotypePanel gPanel, GenotypeCanvas canvas, MapCanvas mapCanvas)
 	{
@@ -80,12 +89,13 @@ class QTLCanvas extends JPanel
 		private void drawTracks(Graphics2D g)
 		{
 			onscreenList = new Vector<Vector<Feature>>();
-
 			int trackNum = 0;
+
 			for (Vector<Feature> trackData: featureList)
 			{
 				// Move the graphics origin DOWN to the next track
-				g.translate(0, trackNum * (getHeight() / featureList.size()));
+				if (trackNum > 0)
+					g.translate(0, h);
 
 				BasicStroke s = new BasicStroke(1, BasicStroke.CAP_BUTT,
 					BasicStroke.JOIN_MITER, 10, new float[] { 5,2 }, 0);
@@ -116,7 +126,9 @@ class QTLCanvas extends JPanel
 					g.fillRect(minX, 5, (maxX-minX+1), 10);
 
 					// Its outline...
-					if (mouseOverTrack == trackNum && mouseOverFeature == f)
+					if (featureToMove == f)
+						g.setColor(Color.blue);
+					else if (mouseOverTrack == trackNum && mouseOverFeature == f)
 						g.setColor(Color.red);
 					else
 						g.setColor(Color.lightGray);
@@ -136,7 +148,24 @@ class QTLCanvas extends JPanel
 
 	private class QTLMouseListener extends MouseInputAdapter
 	{
+		private boolean isOSX = SystemUtils.isMacOS();
+		private int oldTrack;
+
 		public void mouseMoved(MouseEvent e)
+		{
+			detectFeature(e);
+		}
+
+		public void mouseExited(MouseEvent e)
+		{
+			mouseOverTrack = -1;
+			mouseOverFeature = null;
+
+			mapCanvas.repaint();
+			qtlCanvas.repaint();
+		}
+
+		private boolean detectTrack(MouseEvent e)
 		{
 			// Actual X position is X minus the non-drawnable offset, plus the
 			// distance the canvas is scrolled to the right
@@ -147,8 +176,19 @@ class QTLCanvas extends JPanel
 			// Which track is the mouse over?
 			mouseOverTrack = y / h;
 
+			if (mouseOverTrack < 0 || mouseOverTrack >= featureList.size())
+				return false;
+			else
+				return true;
+		}
+
+		private void detectFeature(MouseEvent e)
+		{
+			if (detectTrack(e) == false)
+				return;
+
 			// Work out where (in map distances) the mouse is
-			float mapPos = x / xScale;
+			float mapPos = (e.getX()-xOffset+canvas.pX1) / xScale;
 
 			// Then search the ONSCREEN features to see if it's over any of them
 			// NOTE: the search is backwards (right to left) as F2.pos > F1.pos
@@ -176,18 +216,54 @@ class QTLCanvas extends JPanel
 			}
 		}
 
-		public void mouseExited(MouseEvent e)
+		public void mouseDragged(MouseEvent e)
 		{
-			mouseOverTrack = -1;
-			mouseOverFeature = null;
+			if (detectTrack(e) == false)
+				return;
 
-			mapCanvas.repaint();
-			repaint();
+			if (featureToMove != null && mouseOverTrack != oldTrack)
+			{
+				// Remove the feature from the old track
+				featureList.get(oldTrack).remove(featureToMove);
+
+				Vector<Feature> newTrack = featureList.get(mouseOverTrack);
+				int preSize = newTrack.size();
+				// Search for the best place to insert it into the new track
+				for (int i = 0; i < newTrack.size(); i++)
+					// Either before an existing element
+					if (newTrack.get(i).getMin() >= featureToMove.getMin())
+					{
+						newTrack.add(i, featureToMove);
+						break;
+					}
+				// Or on the end...
+				if (newTrack.size() != (preSize+1))
+					newTrack.add(featureToMove);
+
+				oldTrack = mouseOverTrack;
+
+				qtlCanvas.repaint();
+			}
 		}
 
 		public void mousePressed(MouseEvent e)
 		{
-			if (mouseOverFeature != null)
+			if (mouseOverFeature == null)
+				return;
+
+			// Meta click operation - we're MOVING a feature
+			if (isMetaClick(e))
+			{
+				oldTrack = mouseOverTrack;
+				featureToMove = mouseOverFeature;
+				mouseOverFeature = null;
+
+				qtlCanvas.repaint();
+				mapCanvas.repaint();
+			}
+
+			// Non meta click - we're SELECTING a feature
+			else
 			{
 				// Used to track the FIRST marker found and set the states of
 				// all the other ones to the same value
@@ -215,6 +291,17 @@ class QTLCanvas extends JPanel
 
 				Flapjack.winMain.mEdit.editMode(Constants.MARKERMODE);
 			}
+		}
+
+		public void mouseReleased(MouseEvent e)
+		{
+			featureToMove = null;
+			detectFeature(e);
+		}
+
+		private boolean isMetaClick(MouseEvent e)
+		{
+			return isOSX && e.isMetaDown() || !isOSX && e.isControlDown();
 		}
 	}
 }
