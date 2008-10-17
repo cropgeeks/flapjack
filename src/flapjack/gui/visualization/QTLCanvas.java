@@ -273,6 +273,11 @@ class QTLCanvas extends JPanel
 				// Which will be this state...
 				boolean state = false;
 
+				// Create the undo state
+				SelectedMarkersState markerStates = new SelectedMarkersState(
+					canvas.view, RB.getString("gui.visualization.SelectedMarkersState.selected"));
+				markerStates.createUndoState();
+
 				float min = mouseOverFeature.getMin();
 				float max = mouseOverFeature.getMax();
 
@@ -291,7 +296,15 @@ class QTLCanvas extends JPanel
 					}
 				}
 
-				Flapjack.winMain.mEdit.editMode(Constants.MARKERMODE);
+				// If markers had their states toggled, then set an undo/redo
+				if (undefined == false)
+				{
+					markerStates.createRedoState();
+					gPanel.addUndoState(markerStates);
+
+					// And switch to marker mode
+					Flapjack.winMain.mEdit.editMode(Constants.MARKERMODE);
+				}
 			}
 		}
 
