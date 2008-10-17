@@ -63,6 +63,7 @@ class QTLCanvas extends JPanel
 
 		qtlCanvas.setPreferredSize(new Dimension(0, h * featureList.size()));
 		qtlCanvas.revalidate();
+		qtlCanvas.repaint();
 	}
 
 	private class Canvas2D extends JPanel
@@ -123,6 +124,7 @@ class QTLCanvas extends JPanel
 
 					// Its interior...
 					g.setPaint(new Color(255, 255, 255));
+//					g.setPaint(new GradientPaint(0, 5, Color.white, 0, 25, Color.lightGray));
 					g.fillRect(minX, 5, (maxX-minX+1), 10);
 
 					// Its outline...
