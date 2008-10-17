@@ -49,7 +49,7 @@ class CanvasMouseListener extends MouseInputAdapter
 		if (SwingUtilities.isRightMouseButton(e))
 			return;
 
-		if (e.isControlDown() && e.isAltDown() && e.getClickCount() == 2)
+		if (isMetaClick(e) && e.isAltDown() && e.getClickCount() == 2)
 		{
 			canvas.removeMouseListener(this);
 			new MineSweeper(canvas, this);
