@@ -35,7 +35,6 @@ public class TraitsPanel extends JPanel implements ActionListener
 
 		setLayout(new BorderLayout(0, 0));
 		setBorder(BorderFactory.createEmptyBorder(1, 1, 0, 0));
-		add(new TitlePanel("Trait Data"), BorderLayout.NORTH);
 		add(new JScrollPane(table));
 		add(controls, BorderLayout.SOUTH);
 

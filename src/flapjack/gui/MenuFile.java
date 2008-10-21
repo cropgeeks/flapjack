@@ -235,7 +235,8 @@ public class MenuFile
 		for (GTViewSet viewSet: dataSet.getViewSets())
 			viewSet.assignTraits();
 
-		navPanel.getTraitsPanel(dataSet).updateModel();
+		TraitsTabbedPanel ttp = navPanel.getTraitsPanel(dataSet);
+		ttp.getTraitsPanel().updateModel();
 		Actions.projectModified();
 	}
 

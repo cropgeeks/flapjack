@@ -9,13 +9,13 @@ import flapjack.gui.traits.*;
 
 public class TraitsNode extends BaseNode
 {
-	private TraitsPanel traitsPanel;
+	private TraitsTabbedPanel tabbedPanel;
 
 	public TraitsNode(DataSet dataSet)
 	{
 		super(dataSet);
 
-		traitsPanel = new TraitsPanel(dataSet);
+		tabbedPanel = new TraitsTabbedPanel(dataSet);
 	}
 
 	public String toString()
@@ -33,6 +33,6 @@ public class TraitsNode extends BaseNode
 
 	public JPanel getPanel()
 	{
-		return traitsPanel;
+		return tabbedPanel;
 	}
 }
