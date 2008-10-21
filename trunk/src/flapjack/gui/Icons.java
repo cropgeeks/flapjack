@@ -33,7 +33,9 @@ public class Icons
 	public static ImageIcon LINEMODE;
 	public static ImageIcon MARKERMODE;
 	public static ImageIcon NAVIGATIONMODE;
+	public static ImageIcon PHENOTYPETAB;
 	public static ImageIcon PREFERENCES;
+	public static ImageIcon QTLTAB;
 	public static ImageIcon REDBLOB;
 	public static ImageIcon REDO;
 	public static ImageIcon RENAME;
