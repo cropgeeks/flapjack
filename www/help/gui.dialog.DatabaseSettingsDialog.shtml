@@ -3,7 +3,9 @@
 <html>
 <head>
 <meta http-equiv="Content-Language" content="en-gb">
-<link rel="stylesheet" href="styles.css" type="text/css">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+<link rel="stylesheet" href="../stylesheet/styles.css" type="text/css">
 
 <title>Database Link Settings</title>
 
@@ -13,22 +15,23 @@
 <!--#include virtual="header.html" -->
 
 
-<h1>Database Link Settings</h1>
+<h2>Database Link Settings</h2>
 
 <p>Use the <b>Database Link Settings</b> dialog to set or update the URLs that
 Flapjack will use when attempting to query a remote database for line or marker
 information.</p>
 
 <p><a href="images/gui.dialog.DatabaseSettingsDialog.png">
-<img src="images/gui.dialog.DatabaseSettingsDialog2.png"></a></p>
+<img class="capture" src="images/gui.dialog.DatabaseSettingsDialog2.png" alt="Flapjack Screenshot"></a></p>
 
 <ul>
 <li><b>Line searches</b><br>
 Enter a valid URL containing a location that can be queried for information on a
-line, where $LINE will be replaced by the actual name of the line.<p></p>
+line, where $LINE will be replaced by the actual name of the line.</li>
 <li><b>Marker searches</b><br>
 Enter a valid URL containing a location that can be queried for information on a
-marker, where $MARKER will be replaced by the actual name of the line.<p></p>
+marker, where $MARKER will be replaced by the actual name of the line.</li>
+</ul>
 
 
 <!--#include virtual="footer.html" -->

@@ -3,7 +3,9 @@
 <html>
 <head>
 <meta http-equiv="Content-Language" content="en-gb">
-<link rel="stylesheet" href="styles.css" type="text/css">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+<link rel="stylesheet" href="../stylesheet/styles.css" type="text/css">
 
 <title>Bookmarks</title>
 
@@ -13,7 +15,7 @@
 <!--#include virtual="header.html" -->
 
 
-<h1>Bookmarks</h1>
+<h2>Bookmarks</h2>
 
 <p>A bookmark in Flapjack is simply a tracked intersection between a line and a
 marker (and therefore the allele at that position). You can use bookmarks to

@@ -3,7 +3,9 @@
 <html>
 <head>
 <meta http-equiv="Content-Language" content="en-gb">
-<link rel="stylesheet" href="styles.css" type="text/css">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+<link rel="stylesheet" href="../stylesheet/styles.css" type="text/css">
 
 <title>Show/Hide Markers</title>
 
@@ -13,7 +15,7 @@
 <!--#include virtual="header.html" -->
 
 
-<h1>Show/Hide Markers</h1>
+<h2>Show/Hide Markers</h2>
 
 <p>You can use the <b>Show/Hide Markers</b> dialog to control which markers
 are visible within the current view. Options are provided that allow you to hide
@@ -21,7 +23,7 @@ existing markers, or to restore previously hidden markers so that they become
 visible again.</p>
 
 <p><a href="images/gui.dialog.HideMarkersDialog.png">
-<img src="images/gui.dialog.HideMarkersDialog2.png"></a></p>
+<img class="capture" src="images/gui.dialog.HideMarkersDialog2.png" alt="Flapjack Screenshot"></a></p>
 
 <h3>Hiding markers</h3>
 
@@ -31,10 +33,10 @@ via this dialog:
 <ul>
 <li><b>Hide all the markers that are NOT currently selected</b><br>
 Selecting this method will hide markers that are not part of the currently
-selected set (these markers will be shown faded on the main display).<p></p>
+selected set (these markers will be shown faded on the main display).</li>
 <li><b>Hide all the markers that ARE currently selected</b><br>
 Selecting this method will hide markers that are part of the currently
-selected set.<p></p>
+selected set.</li>
 </ul>
 
 <p>To visually see which markers are selected or not, ensure Flapjack is in
@@ -61,10 +63,10 @@ reasons:
 <li>If the marker shares the exact same chromosome position with one or more
 other markers. For example, consider the markers A, B, and C, all located at the
 same position on the chromosome. Marker B is set to hidden, then restored. The
-marker order after restoration could be ABC, BAC, or ACB - each is equally valid.<p></p>
+marker order after restoration could be ABC, BAC, or ACB - each is equally valid.</li>
 <li>If other (still visible) markers have been moved around the view. Flapjack
 uses the chromosome position to determine where to reinsert a marker, but if
-the marker order has been changed, these positions become unusable.<p></p>
+the marker order has been changed, these positions become unusable.</li>
 </ul>
 
 <!--#include virtual="footer.html" -->

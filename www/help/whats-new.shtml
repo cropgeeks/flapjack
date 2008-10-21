@@ -3,7 +3,9 @@
 <html>
 <head>
 <meta http-equiv="Content-Language" content="en-gb">
-<link rel="stylesheet" href="styles.css" type="text/css">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+<link rel="stylesheet" href="../stylesheet/styles.css" type="text/css">
 
 <title>What's New</title>
 
@@ -13,7 +15,7 @@
 <!--#include virtual="header.html" -->
 
 
-<h1>What's New</h1>
+<h2>What's New</h2>
 
 <p>This page describes the additions (NEW), changes (CHG) and bug fixes (BUG)
 that have been made to Flapjack in recent versions. For full details on all the
