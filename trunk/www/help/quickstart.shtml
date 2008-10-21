@@ -3,7 +3,9 @@
 <html>
 <head>
 <meta http-equiv="Content-Language" content="en-gb">
-<link rel="stylesheet" href="styles.css" type="text/css">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+<link rel="stylesheet" href="../stylesheet/styles.css" type="text/css">
 
 <title>Quickstart</title>
 
@@ -13,7 +15,7 @@
 <!--#include virtual="header.html" -->
 
 
-<h1>Quickstart</h1>
+<h2>Quickstart</h2>
 
 <p>Here is a brief set of instructions to get you up and running with Flapjack
 in the shortest possible time.</p>
@@ -25,15 +27,14 @@ data, on data sets containing just a few to many thousands of lines and markers.
 
 <h3>Importing data</h3>
 
-<p><ul>
+<ul>
 <li>Select to import a data set by selecting <b>File > Import data</b> from the
 menu bar, then choosing the option to provide a map and genotype data from files
-located on disk.</li><p></p>
+located on disk.</li>
 <li>Import valid map and genotype data files, using the
 <a href="gui.dialog.DataImportDialog.shtml">Import Data</a> dialog (the link
 contains details on the formatting of these files).</li>
 </ul>
-</p>
 
 <p>Flapjack will now import your data and display it on the main canvas. This
 "default" view is also listed in the navigation panel down the left-hand side,

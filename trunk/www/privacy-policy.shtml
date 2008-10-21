@@ -3,7 +3,9 @@
 <html>
 <head>
 <meta http-equiv="Content-Language" content="en-gb">
-<link rel="stylesheet" href="styles.css" type="text/css">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+<link rel="stylesheet" href="stylesheet/styles.css" type="text/css">
 
 <title>Privacy Policy</title>
 
@@ -13,7 +15,7 @@
 <!--#include virtual="header.html" -->
 
 
-<h1>Privacy Policy</h1>
+<h2>Privacy Policy</h2>
 
 <p>As academics, most of the software we develop at SCRI is made available for
 free, to anyone, anywhere in the world. This ultimately means we have an
