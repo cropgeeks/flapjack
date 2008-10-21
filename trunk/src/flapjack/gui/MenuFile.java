@@ -200,16 +200,14 @@ public class MenuFile
 	{
 		DataSet dataSet = navPanel.getDataSetForSelection();
 
-		// Open up a file browser
-		JFileChooser fc = new JFileChooser();
-		fc.setDialogTitle(RB.getString("gui.MenuFile.traitBrowse"));
-		fc.setCurrentDirectory(new File(Prefs.guiCurrentDir));
-
-		if (fc.showOpenDialog(winMain) != JFileChooser.APPROVE_OPTION)
+		// Find out what file to import
+		BrowseDialog browseDialog = new BrowseDialog(Prefs.guiCurrentTrait);
+		if (browseDialog.isOK() == false)
 			return;
 
-		File file = fc.getSelectedFile();
-		Prefs.guiCurrentDir = fc.getCurrentDirectory().toString();
+		File file = browseDialog.getFile();
+		Prefs.guiCurrentTrait = file.toString();
+
 
 		// Import the data using the standard progress bar dialog...
 		TraitImporter importer = new TraitImporter(file, dataSet);

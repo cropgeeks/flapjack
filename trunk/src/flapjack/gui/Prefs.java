@@ -19,6 +19,9 @@ public class Prefs extends XMLPreferences
 	// Full paths to the last selected map and genotype files
 	public static String guiCurrentMap = "";
 	public static String guiCurrentGeno = "";
+	// Path to the last selected trait file
+	public static String guiCurrentTrait = "";
+	public static String guiCurrentQTL = "";
 
 	// How many projects have been created
 	public static int guiProjectCount = 1;
