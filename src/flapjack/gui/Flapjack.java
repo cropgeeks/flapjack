@@ -43,7 +43,11 @@ public class Flapjack
 		try
 		{
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+
+			// The default font size is usually stupidly large
 			UIManager.put("TextArea.font", UIManager.get("TextField.font"));
+			// I don't like focus highlights on tabs (interferes with icons)
+			UIManager.put("TabbedPane.focus", new java.awt.Color(0, 0, 0, 0));
 
 			UIManager.put("fjDialogBG", Color.white);
 			UIManager.put("Slider.background", Color.white);
@@ -55,8 +59,10 @@ public class Flapjack
 			{
 				UIManager.setLookAndFeel("org.fife.plaf.Office2003.Office2003LookAndFeel");
 
+				// Gives XP the same (nicer) grey background that Vista uses
 				UIManager.put("Panel.background", new Color(240, 240, 240));
 
+				// Overrides the JOptionPane dialogs with better icons
 				UIManager.put("OptionPane.errorIcon", Icons.getIcon("WINERROR"));
 				UIManager.put("OptionPane.informationIcon", Icons.getIcon("WININFORMATION"));
 				UIManager.put("OptionPane.warningIcon", Icons.getIcon("WINWARNING"));
