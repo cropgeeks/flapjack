@@ -95,7 +95,7 @@ public class BookmarkHighlighter extends Thread implements IOverlayRenderer
 		Runnable r = new Runnable() {
 			public void run()
 			{
-				gPanel.jumpToPosition(lineIndex, markerIndex);
+				gPanel.jumpToPosition(lineIndex, markerIndex, true);
 			}
 		};
 
