@@ -92,7 +92,7 @@ public class GenotypePanel extends JPanel
 		combo.addActionListener(this);
 		RB.setText(chromoLabel, "gui.visualization.GenotypePanel.chromoLabel");
 		chromoLabel.setLabelFor(combo);
-		chromoLabel.setIcon(Icons.CHROMOSOME);
+		chromoLabel.setIcon(Icons.getIcon("CHROMOSOME"));
 
 		sp = new JScrollPane();
 		sp.addMouseWheelListener(this);
@@ -164,7 +164,7 @@ public class GenotypePanel extends JPanel
 			String name = view.getChromosomeMap().getName();
 			int markerCount = view.getMarkerCount();
 
-			tabs.addTab(name, Icons.CHROMOSOME, null);
+			tabs.addTab(name, Icons.getIcon("CHROMOSOME"), null);
 			combo.addItem(name);
 		}
 

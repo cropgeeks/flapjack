@@ -27,7 +27,7 @@ class NBDatabaseSettingsPanel extends JPanel
 		RB.setText(markerHint, "gui.dialog.NBDatabaseSettingsPanel.markerHint");
 		RB.setText(hintLabel, "gui.dialog.NBDatabaseSettingsPanel.hintLabel");
 
-		label.setIcon(Icons.DATABASE_32);
+		label.setIcon(Icons.getIcon("DATABASE_32"));
 		lineText.setText(dbAssociation.getLineSearch());
 		lineText.setCaretPosition(0);
 		markerText.setText(dbAssociation.getMarkerSearch());

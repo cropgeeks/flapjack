@@ -19,13 +19,13 @@ public class TreeRenderer extends JLabel implements TreeCellRenderer
 		setText(value.toString());
 
 		if (value instanceof DataSetNode)
-			setIcon(isExpanded ? Icons.FOLDEROPEN : Icons.FOLDER);
+			setIcon(isExpanded ? Icons.getIcon("FOLDEROPEN") : Icons.getIcon("FOLDER"));
 		else if (value instanceof VisualizationNode)
-			setIcon(Icons.VISUALIZATION);
+			setIcon(Icons.getIcon("VISUALIZATION"));
 		else if (value instanceof TraitsNode)
-			setIcon(Icons.TRAITS);
+			setIcon(Icons.getIcon("TRAITS"));
 		else if (value instanceof BookmarkNode)
-			setIcon(Icons.BOOKMARK);
+			setIcon(Icons.getIcon("BOOKMARK"));
 
 		this.selected = selected;
 

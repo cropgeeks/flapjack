@@ -10,9 +10,9 @@ class NBTraitsControlPanel extends javax.swing.JPanel
 
 		RB.setText(bImport, "gui.traits.NBTraitsControlPanel.bImport");
 		RB.setText(bRemove, "gui.traits.NBTraitsControlPanel.bRemove");
-		
-		bImport.setIcon(Icons.IMPORTTRAITS);
-		bRemove.setIcon(Icons.DELETE);
+
+		bImport.setIcon(Icons.getIcon("IMPORTTRAITS"));
+		bRemove.setIcon(Icons.getIcon("DELETE"));
 	}
 
     /** This method is called from within the constructor to
