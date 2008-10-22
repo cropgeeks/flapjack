@@ -34,9 +34,12 @@ public class PreferencesDialog extends JDialog implements ActionListener
 
 		tabs = new JTabbedPane();
 		tabs.setBorder(BorderFactory.createEmptyBorder(2, 2, 10, 2));
-		tabs.addTab(RB.getString("gui.dialog.prefs.PreferencesDialog.generalTab"), generalPanel);
-		tabs.addTab(RB.getString("gui.dialog.prefs.PreferencesDialog.visualizationTab"), visualizationPanel);
-		tabs.addTab(RB.getString("gui.dialog.prefs.PreferencesDialog.warningTab"), warningPanel);
+		tabs.addTab(RB.getString("gui.dialog.prefs.PreferencesDialog.generalTab"),
+			Icons.getIcon("GENERALTAB"), generalPanel);
+		tabs.addTab(RB.getString("gui.dialog.prefs.PreferencesDialog.visualizationTab"),
+			Icons.getIcon("VISUALIZATIONTAB"), visualizationPanel);
+		tabs.addTab(RB.getString("gui.dialog.prefs.PreferencesDialog.warningTab"),
+			Icons.getIcon("WARNINGSTAB"), warningPanel);
 		tabs.setSelectedIndex(lastTab);
 
 		add(tabs);
