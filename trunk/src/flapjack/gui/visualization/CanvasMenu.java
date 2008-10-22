@@ -92,7 +92,7 @@ public class CanvasMenu
 		mDBSettings = WinMainMenuBar.getItem(Actions.dataDBSettings, "gui.Actions.dataDBSettings", 0, 0);
 
 		mColor = new JMenu(RB.getString("gui.WinMainMenuBar.mVizColor"));
-		mColor.setIcon(Actions.getIcon(Icons.COLORS));
+		mColor.setIcon(Actions.getIcon("COLORS"));
 		RB.setMnemonic(mColor, "gui.WinMainMenuBar.mVizColor");
 		mColor.add(mColorNucleotide);
 		mColor.add(mColorSimple2Color);
@@ -107,7 +107,7 @@ public class CanvasMenu
 		mColor.add(mColorCustomize);
 
 		mDataDB = new JMenu(RB.getString("gui.WinMainMenuBar.mDataDB"));
-		mDataDB.setIcon(Actions.getIcon(Icons.DATABASE));
+		mDataDB.setIcon(Actions.getIcon("DATABASE"));
 		RB.setMnemonic(mDataDB, "gui.WinMainMenuBar.mDataDB");
 		mDataDB.add(mDBLineName);
 		mDataDB.add(mDBMarkerName);

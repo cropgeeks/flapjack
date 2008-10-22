@@ -13,7 +13,7 @@ class NBSCRIPanel extends javax.swing.JPanel
 
 		setBackground((Color)UIManager.get("fjDialogBG"));
 
-		iconLabel.setIcon(Icons.SCRI);
+		iconLabel.setIcon(Icons.getIcon("SCRI"));
 	}
 
     /** This method is called from within the constructor to

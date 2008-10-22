@@ -73,7 +73,7 @@ public class WinMainStatusBar extends JPanel implements Runnable
 		switch (state)
 		{
 			case 0:
-				renderIcon.setIcon(Icons.GREYBLOB);
+				renderIcon.setIcon(Icons.getIcon("GREYBLOB"));
 				renderIcon.setToolTipText(RB.getString("gui.WinMainStatusBar.tip0"));
 				break;
 			case 1:
@@ -81,15 +81,15 @@ public class WinMainStatusBar extends JPanel implements Runnable
 				renderIcon.setToolTipText(RB.getString("gui.WinMainStatusBar.tip1"));
 				break;
 			case 2:
-				renderIcon.setIcon(Icons.BLUEBLOB);
+				renderIcon.setIcon(Icons.getIcon("BLUEBLOB"));
 				renderIcon.setToolTipText(RB.getString("gui.WinMainStatusBar.tip2"));
 				break;
 			case 3:
-				renderIcon.setIcon(Icons.REDBLOB);
+				renderIcon.setIcon(Icons.getIcon("REDBLOB"));
 				renderIcon.setToolTipText(RB.getString("gui.WinMainStatusBar.tip3"));
 				break;
 			case 4:
-				renderIcon.setIcon(Icons.REDBLOB);
+				renderIcon.setIcon(Icons.getIcon("REDBLOB"));
 				renderIcon.setToolTipText(RB.getString("gui.WinMainStatusBar.tip4"));
 				break;
 		}
@@ -157,9 +157,9 @@ public class WinMainStatusBar extends JPanel implements Runnable
 			{
 				while (true)
 				{
-					renderIcon.setIcon(Icons.BLUEBLOB);
+					renderIcon.setIcon(Icons.getIcon("BLUEBLOB"));
 					Thread.sleep(750);
-					renderIcon.setIcon(Icons.GREYBLOB);
+					renderIcon.setIcon(Icons.getIcon("GREYBLOB"));
 					Thread.sleep(750);
 				}
 			}

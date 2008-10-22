@@ -1,83 +1,34 @@
 package flapjack.gui;
 
-import java.lang.reflect.*;
+import java.util.*;
 import javax.swing.*;
 
+/**
+ * An icon manager for the entire application. When asked to retrieve an icon
+ * it first attempts to see if it's been loaded already (and stored in its
+ * hash lookup table). If it is, it returns it. If not, it is loaded from disk
+ * and then added to the hash table.
+ */
 public class Icons
 {
-	public static ImageIcon NOICON;
+	private static Hashtable<String, ImageIcon> hashtable =
+		new Hashtable<String, ImageIcon>();
 
-	public static ImageIcon BLUEBLOB;
-	public static ImageIcon BOOKMARK;
-	public static ImageIcon BOOKMARKADD;
-	public static ImageIcon CHECKUPDATE;
-	public static ImageIcon CHROMOSOME;
-	public static ImageIcon COLORS;
-	public static ImageIcon DATABASE;
-	public static ImageIcon DELETE;
-	public static ImageIcon EMPTY;
-	public static ImageIcon FIND;
-	public static ImageIcon FILENEW;
-	public static ImageIcon FILEOPEN;
-	public static ImageIcon FILESAVE;
-	public static ImageIcon FILESAVEAS;
-	public static ImageIcon FILEIMPORT;
-	public static ImageIcon FLAPJACK;
-	public static ImageIcon FOLDER;
-	public static ImageIcon FOLDEROPEN;
-	public static ImageIcon GREYBLOB;
-	public static ImageIcon GERMINATE;
-	public static ImageIcon HELP;
-	public static ImageIcon IMPORTTRAITS;
-	public static ImageIcon INVERT;
-	public static ImageIcon LINEMODE;
-	public static ImageIcon MARKERMODE;
-	public static ImageIcon NAVIGATIONMODE;
-	public static ImageIcon PHENOTYPETAB;
-	public static ImageIcon PREFERENCES;
-	public static ImageIcon QTLTAB;
-	public static ImageIcon REDBLOB;
-	public static ImageIcon REDO;
-	public static ImageIcon RENAME;
-	public static ImageIcon SCRI;
-	public static ImageIcon SELECTALL;
-	public static ImageIcon SELECTNONE;
-	public static ImageIcon TRAITS;
-	public static ImageIcon UNDO;
-	public static ImageIcon VISUALIZATION;
-	public static ImageIcon WEB;
-
-	public static ImageIcon DATABASE_32;
-
-	public static ImageIcon WINERROR, WININFORMATION, WINQUESTION, WINWARNING;
-
-	private Icons()
+	public static ImageIcon getIcon(String name)
 	{
-	}
+		ImageIcon icon = hashtable.get(name);
 
-	public static void initialize()
-	{
-		Icons icons = new Icons();
-		Class c = icons.getClass();
-
-		try
+		if (icon == null)
 		{
-			Field[] fields = c.getFields();
-			for (Field field : fields)
-			{
-				if (field.getType() == ImageIcon.class)
-				{
-					String name = field.getName().toLowerCase() + ".png";
+			Icons icons = new Icons();
+			Class c = icons.getClass();
 
-					ImageIcon icon = new ImageIcon(c.getResource("/res/icons/" + name));
+			String filename = name.toLowerCase() + ".png";
+			icon = new ImageIcon(c.getResource("/res/icons/" + filename));
 
-					field.set(null, icon);
-				}
-			}
+			hashtable.put(name, icon);
 		}
-		catch (Exception e)
-		{
-			throw new RuntimeException("Unable to load one or more required icons.", e);
-		}
+
+		return icon;
 	}
 }

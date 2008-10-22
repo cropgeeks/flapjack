@@ -29,7 +29,6 @@ public class Flapjack
 
 		Install4j.doStartUpCheck();
 
-		Icons.initialize();
 		RB.initialize();
 
 		// Start the GUI (either with or without an initial project)
@@ -58,17 +57,19 @@ public class Flapjack
 
 				UIManager.put("Panel.background", new Color(240, 240, 240));
 
-				UIManager.put("OptionPane.errorIcon", Icons.WINERROR);
-				UIManager.put("OptionPane.informationIcon", Icons.WININFORMATION);
-				UIManager.put("OptionPane.warningIcon", Icons.WINWARNING);
-				UIManager.put("OptionPane.questionIcon", Icons.WINQUESTION);
+				UIManager.put("OptionPane.errorIcon", Icons.getIcon("WINERROR"));
+				UIManager.put("OptionPane.informationIcon", Icons.getIcon("WININFORMATION"));
+				UIManager.put("OptionPane.warningIcon", Icons.getIcon("WINWARNING"));
+				UIManager.put("OptionPane.questionIcon", Icons.getIcon("WINQUESTION"));
 			}
 
 			// Keep Apple happy...
 			else if (SystemUtils.isMacOS())
 				handleOSXStupidities();
 
-//			UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
+//			for (UIManager.LookAndFeelInfo laf : UIManager.getInstalledLookAndFeels())
+//				if (laf.getName().equals("Nimbus"))
+//					UIManager.setLookAndFeel(laf.getClassName());
 		}
 		catch (Exception e) {}
 

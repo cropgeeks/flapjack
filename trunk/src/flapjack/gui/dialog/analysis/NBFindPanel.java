@@ -25,7 +25,7 @@ class NBFindPanel extends JPanel implements ActionListener
 		setBackground((Color)UIManager.get("fjDialogBG"));
 		panel.setBackground((Color)UIManager.get("fjDialogBG"));
 
-		link.setIcon(Icons.WEB);
+		link.setIcon(Icons.getIcon("WEB"));
 
 		RB.setText(findLabel, "gui.dialog.NBFindPanel.findLabel");
 		RB.setText(searchLabel, "gui.dialog.NBFindPanel.searchLabel");

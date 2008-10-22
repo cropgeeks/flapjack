@@ -98,8 +98,10 @@ public class Actions
 		fileSave.setEnabled(true);
 	}
 
-	public static ImageIcon getIcon(ImageIcon icon)
+	public static ImageIcon getIcon(String name)
 	{
+		ImageIcon icon = Icons.getIcon(name);
+
 		if (SystemUtils.isMacOS())
 			return null;
 		else
@@ -108,31 +110,31 @@ public class Actions
 
 	private void createActions()
 	{
-		fileNew = new AbstractAction(RB.getString("gui.Actions.fileNew"), getIcon(Icons.FILENEW)) {
+		fileNew = new AbstractAction(RB.getString("gui.Actions.fileNew"), getIcon("FILENEW")) {
 			public void actionPerformed(ActionEvent e) {
 				winMain.mFile.fileNew();
 			}
 		};
 
-		fileOpen = new AbstractAction(RB.getString("gui.Actions.fileOpen"), getIcon(Icons.FILEOPEN)) {
+		fileOpen = new AbstractAction(RB.getString("gui.Actions.fileOpen"), getIcon("FILEOPEN")) {
 			public void actionPerformed(ActionEvent e) {
 				winMain.mFile.fileOpen(null);
 			}
 		};
 
-		fileSave = new AbstractAction(RB.getString("gui.Actions.fileSave"), getIcon(Icons.FILESAVE)) {
+		fileSave = new AbstractAction(RB.getString("gui.Actions.fileSave"), getIcon("FILESAVE")) {
 			public void actionPerformed(ActionEvent e) {
 				winMain.mFile.fileSave(false);
 			}
 		};
 
-		fileSaveAs = new AbstractAction(RB.getString("gui.Actions.fileSaveAs"), getIcon(Icons.FILESAVEAS)) {
+		fileSaveAs = new AbstractAction(RB.getString("gui.Actions.fileSaveAs"), getIcon("FILESAVEAS")) {
 			public void actionPerformed(ActionEvent e) {
 				winMain.mFile.fileSave(true);
 			}
 		};
 
-		fileImport = new AbstractAction(RB.getString("gui.Actions.fileImport"), getIcon(Icons.FILEIMPORT)) {
+		fileImport = new AbstractAction(RB.getString("gui.Actions.fileImport"), getIcon("FILEIMPORT")) {
 			public void actionPerformed(ActionEvent e) {
 				winMain.mFile.fileImport();
 			}
@@ -145,13 +147,13 @@ public class Actions
 		};
 
 
-		editUndo = new AbstractAction(RB.format("gui.Actions.editUndo", ""), getIcon(Icons.UNDO)) {
+		editUndo = new AbstractAction(RB.format("gui.Actions.editUndo", ""), getIcon("UNDO")) {
 			public void actionPerformed(ActionEvent e) {
 				winMain.mEdit.editUndoRedo(true);
 			}
 		};
 
-		editRedo = new AbstractAction(RB.format("gui.Actions.editRedo", ""), getIcon(Icons.REDO)) {
+		editRedo = new AbstractAction(RB.format("gui.Actions.editRedo", ""), getIcon("REDO")) {
 			public void actionPerformed(ActionEvent e) {
 				winMain.mEdit.editUndoRedo(false);
 			}
@@ -175,19 +177,19 @@ public class Actions
 			}
 		};
 
-		editSelectMarkersAll = new AbstractAction(RB.format("gui.Actions.editSelectMarkersAll", ""), getIcon(Icons.SELECTALL)) {
+		editSelectMarkersAll = new AbstractAction(RB.format("gui.Actions.editSelectMarkersAll", ""), getIcon("SELECTALL")) {
 			public void actionPerformed(ActionEvent e) {
 				winMain.mEdit.editSelectMarkers(Constants.SELECT_ALL);
 			}
 		};
 
-		editSelectMarkersNone = new AbstractAction(RB.format("gui.Actions.editSelectMarkersNone", ""), getIcon(Icons.SELECTNONE)) {
+		editSelectMarkersNone = new AbstractAction(RB.format("gui.Actions.editSelectMarkersNone", ""), getIcon("SELECTNONE")) {
 			public void actionPerformed(ActionEvent e) {
 				winMain.mEdit.editSelectMarkers(Constants.SELECT_NONE);
 			}
 		};
 
-		editSelectMarkersInvert = new AbstractAction(RB.format("gui.Actions.editSelectMarkersInvert", ""), getIcon(Icons.INVERT)) {
+		editSelectMarkersInvert = new AbstractAction(RB.format("gui.Actions.editSelectMarkersInvert", ""), getIcon("INVERT")) {
 			public void actionPerformed(ActionEvent e) {
 				winMain.mEdit.editSelectMarkers(Constants.SELECT_INVERT);
 			}
@@ -199,19 +201,19 @@ public class Actions
 			}
 		};
 
-		editSelectLinesAll = new AbstractAction(RB.format("gui.Actions.editSelectLinesAll", ""), getIcon(Icons.SELECTALL)) {
+		editSelectLinesAll = new AbstractAction(RB.format("gui.Actions.editSelectLinesAll", ""), getIcon("SELECTALL")) {
 			public void actionPerformed(ActionEvent e) {
 				winMain.mEdit.editSelectLines(Constants.SELECT_ALL);
 			}
 		};
 
-		editSelectLinesNone = new AbstractAction(RB.format("gui.Actions.editSelectLinesNone", ""), getIcon(Icons.SELECTNONE)) {
+		editSelectLinesNone = new AbstractAction(RB.format("gui.Actions.editSelectLinesNone", ""), getIcon("SELECTNONE")) {
 			public void actionPerformed(ActionEvent e) {
 				winMain.mEdit.editSelectLines(Constants.SELECT_NONE);
 			}
 		};
 
-		editSelectLinesInvert = new AbstractAction(RB.format("gui.Actions.editSelectLinesInvert", ""), getIcon(Icons.INVERT)) {
+		editSelectLinesInvert = new AbstractAction(RB.format("gui.Actions.editSelectLinesInvert", ""), getIcon("INVERT")) {
 			public void actionPerformed(ActionEvent e) {
 				winMain.mEdit.editSelectLines(Constants.SELECT_INVERT);
 			}
@@ -327,13 +329,13 @@ public class Actions
 			}
 		};
 
-		vizRenameView = new AbstractAction(RB.getString("gui.Actions.vizRenameView"), getIcon(Icons.RENAME)) {
+		vizRenameView = new AbstractAction(RB.getString("gui.Actions.vizRenameView"), getIcon("RENAME")) {
 			public void actionPerformed(ActionEvent e) {
 				winMain.mViz.vizRenameView();
 			}
 		};
 
-		vizDeleteView = new AbstractAction(RB.getString("gui.Actions.vizDeleteView"), getIcon(Icons.DELETE)) {
+		vizDeleteView = new AbstractAction(RB.getString("gui.Actions.vizDeleteView"), getIcon("DELETE")) {
 			public void actionPerformed(ActionEvent e) {
 				winMain.mViz.vizDeleteView();
 			}
@@ -345,13 +347,13 @@ public class Actions
 			}
 		};
 
-		vizBookmark = new AbstractAction(RB.getString("gui.Actions.vizBookmark"), getIcon(Icons.BOOKMARKADD)) {
+		vizBookmark = new AbstractAction(RB.getString("gui.Actions.vizBookmark"), getIcon("BOOKMARKADD")) {
 			public void actionPerformed(ActionEvent e) {
 				winMain.mViz.vizBookmark();
 			}
 		};
 
-		vizDeleteBookmark = new AbstractAction(RB.getString("gui.Actions.vizDeleteBookmark"), getIcon(Icons.DELETE)) {
+		vizDeleteBookmark = new AbstractAction(RB.getString("gui.Actions.vizDeleteBookmark"), getIcon("DELETE")) {
 			public void actionPerformed(ActionEvent e) {
 				winMain.mViz.vizDeleteBookmark();
 			}
@@ -376,7 +378,7 @@ public class Actions
 			}
 		};
 
-		dataFind = new AbstractAction(RB.getString("gui.Actions.dataFind"), getIcon(Icons.FIND)) {
+		dataFind = new AbstractAction(RB.getString("gui.Actions.dataFind"), getIcon("FIND")) {
 			public void actionPerformed(ActionEvent e) {
 				winMain.mData.dataFind();
 			}
@@ -400,19 +402,19 @@ public class Actions
 			}
 		};
 
-		dataDBSettings = new AbstractAction(RB.getString("gui.Actions.dataDBSettings"), getIcon(Icons.PREFERENCES)) {
+		dataDBSettings = new AbstractAction(RB.getString("gui.Actions.dataDBSettings"), getIcon("PREFERENCES")) {
 			public void actionPerformed(ActionEvent e) {
 				winMain.mData.dataDBSettings();
 			}
 		};
 
-		dataRenameDataSet = new AbstractAction(RB.getString("gui.Actions.dataRenameDataSet"), getIcon(Icons.RENAME)) {
+		dataRenameDataSet = new AbstractAction(RB.getString("gui.Actions.dataRenameDataSet"), getIcon("RENAME")) {
 			public void actionPerformed(ActionEvent e) {
 				winMain.mData.dataRenameDataSet();
 			}
 		};
 
-		dataDeleteDataSet = new AbstractAction(RB.getString("gui.Actions.dataDeleteDataSet"), getIcon(Icons.DELETE)) {
+		dataDeleteDataSet = new AbstractAction(RB.getString("gui.Actions.dataDeleteDataSet"), getIcon("DELETE")) {
 			public void actionPerformed(ActionEvent e) {
 				winMain.mData.dataDeleteDataSet();
 			}
@@ -438,7 +440,7 @@ public class Actions
 		};
 
 
-		helpContents = new AbstractAction(RB.getString("gui.Actions.helpContents"), getIcon(Icons.HELP)) {
+		helpContents = new AbstractAction(RB.getString("gui.Actions.helpContents"), getIcon("HELP")) {
 			public void actionPerformed(ActionEvent e) {
 				winMain.mHelp.helpContents();
 			}
@@ -456,13 +458,13 @@ public class Actions
 			}
 		};
 
-		helpUpdate = new AbstractAction(RB.getString("gui.Actions.helpUpdate"),  getIcon(Icons.CHECKUPDATE)) {
+		helpUpdate = new AbstractAction(RB.getString("gui.Actions.helpUpdate"),  getIcon("CHECKUPDATE")) {
 			public void actionPerformed(ActionEvent e) {
 				winMain.mHelp.helpUpdate();
 			}
 		};
 
-		helpPrefs = new AbstractAction(RB.getString("gui.Actions.helpPrefs"), getIcon(Icons.PREFERENCES)) {
+		helpPrefs = new AbstractAction(RB.getString("gui.Actions.helpPrefs"), getIcon("PREFERENCES")) {
 			public void actionPerformed(ActionEvent e) {
 				winMain.mHelp.helpPrefs();
 			}

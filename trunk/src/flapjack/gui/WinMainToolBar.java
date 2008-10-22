@@ -32,64 +32,64 @@ public class WinMainToolBar extends JToolBar
 		fileNew = (JButton) getButton(false,
 			RB.getString("gui.WinMainToolBar.fileNew"),
 			RB.getString("gui.WinMainToolBar.fileNewTT"),
-			Icons.FILENEW, Actions.fileNew);
+			Icons.getIcon("FILENEW"), Actions.fileNew);
 
 		// Open Project
 		fileOpen = (JButton) getButton(false,
 			RB.getString("gui.WinMainToolBar.fileOpen"),
 			RB.getString("gui.WinMainToolBar.fileOpenTT"),
-			Icons.FILEOPEN, Actions.fileOpen);
+			Icons.getIcon("FILEOPEN"), Actions.fileOpen);
 
 		// Save
 		fileSave = (JButton) getButton(false, null,
 			RB.getString("gui.WinMainToolBar.fileSaveTT"),
-			Icons.FILESAVE, Actions.fileSave);
+			Icons.getIcon("FILESAVE"), Actions.fileSave);
 
 		// Import
 		fileImport = (JButton) getButton(false,
 			RB.getString("gui.WinMainToolBar.fileImport"),
 			RB.getString("gui.WinMainToolBar.fileImportTT"),
-			Icons.FILEIMPORT, Actions.fileImport);
+			Icons.getIcon("FILEIMPORT"), Actions.fileImport);
 
 
 		// Edit, undo
 		editUndo = (JButton) getButton(false, null,
 			RB.getString("gui.WinMainToolBar.editUndo"),
-			Icons.UNDO, Actions.editUndo);
+			Icons.getIcon("UNDO"), Actions.editUndo);
 
 		// Edit, redo
 		editRedo = (JButton) getButton(false, null,
 			RB.getString("gui.WinMainToolBar.editRedo"),
-			Icons.REDO, Actions.editRedo);
+			Icons.getIcon("REDO"), Actions.editRedo);
 
 		// Edit, navigation mode
 		editModeNavigation = (JToggleButton) getButton(true, null,
 			RB.getString("gui.WinMainToolBar.editModeNavigation"),
-			Icons.NAVIGATIONMODE, Actions.editModeNavigation);
+			Icons.getIcon("NAVIGATIONMODE"), Actions.editModeNavigation);
 		editModeNavigation.setSelected(Prefs.guiMouseMode == Constants.NAVIGATION);
 
 		// Edit, marker selection mode
 		editModeMarker = (JToggleButton) getButton(true, null,
 			RB.getString("gui.WinMainToolBar.editModeMarker"),
-			Icons.MARKERMODE, Actions.editModeMarker);
+			Icons.getIcon("MARKERMODE"), Actions.editModeMarker);
 		editModeMarker.setSelected(Prefs.guiMouseMode == Constants.MARKERMODE);
 
 		// Edit, line selection mode
 		editModeLine = (JToggleButton) getButton(true, null,
 			RB.getString("gui.WinMainToolBar.editModeLine"),
-			Icons.LINEMODE, Actions.editModeLine);
+			Icons.getIcon("LINEMODE"), Actions.editModeLine);
 		editModeLine.setSelected(Prefs.guiMouseMode == Constants.LINEMODE);
 
 
 		// Data find
 		dataFind = (JButton) getButton(false, null,
 			RB.getString("gui.WinMainToolBar.dataFind"),
-			Icons.FIND, Actions.dataFind);
+			Icons.getIcon("FIND"), Actions.dataFind);
 
 
 		helpContents = (JButton) getButton(false, null,
 			RB.getString("gui.WinMainToolBar.helpContents"),
-			Icons.HELP, Actions.helpContents);
+			Icons.getIcon("HELP"), Actions.helpContents);
 
 
 		add(new JLabel(" "));

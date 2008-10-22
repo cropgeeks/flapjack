@@ -315,7 +315,7 @@ class NavPanel extends JPanel
 			DoeLayout layout = new DoeLayout();
 			layout.getPanel().setBackground(Color.white);
 
-			layout.add(new JLabel(Icons.GERMINATE, JLabel.CENTER),
+			layout.add(new JLabel(Icons.getIcon("GERMINATE"), JLabel.CENTER),
 				0, 0, 1, 1, new Insets(5, 5, 5, 5));
 			layout.add(new JLabel(RB.getString("gui.NavPanel.emptyPanel"),
 				JLabel.CENTER), 0, 1, 1, 1, new Insets(5, 5, 5, 5));

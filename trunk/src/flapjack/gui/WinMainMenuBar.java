@@ -196,7 +196,7 @@ public class WinMainMenuBar extends JMenuBar
 		RB.setMnemonic(mViz, "gui.WinMainMenuBar.mViz");
 
 		mVizColor = new JMenu(RB.getString("gui.WinMainMenuBar.mVizColor"));
-		mVizColor.setIcon(Actions.getIcon(Icons.COLORS));
+		mVizColor.setIcon(Actions.getIcon("COLORS"));
 		RB.setMnemonic(mVizColor, "gui.WinMainMenuBar.mVizColor");
 
 		mVizExportImage = getItem(Actions.vizExportImage, "gui.Actions.vizExportImage", 0, 0);
@@ -261,7 +261,7 @@ public class WinMainMenuBar extends JMenuBar
 		RB.setMnemonic(mDataSortLines, "gui.WinMainMenuBar.mDataSortLines");
 
 		mDataDB = new JMenu(RB.getString("gui.WinMainMenuBar.mDataDB"));
-		mDataDB.setIcon(Actions.getIcon(Icons.DATABASE));
+		mDataDB.setIcon(Actions.getIcon("DATABASE"));
 		RB.setMnemonic(mDataDB, "gui.WinMainMenuBar.mDataDB");
 
 		mDataSortLinesBySimilarity = getItem(Actions.dataSortLinesBySimilarity, "gui.Actions.dataSortLinesBySimilarity", 0, 0);
