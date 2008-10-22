@@ -59,7 +59,7 @@ public class SortingLinesProgressDialog extends JDialog
 	private void sortCompleted()
 	{
 		gPanel.refreshView();
-		gPanel.jumpToPosition(0, -1);
+		gPanel.jumpToPosition(0, -1, false);
 
 		Actions.projectModified();
 

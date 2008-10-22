@@ -313,7 +313,7 @@ public class FindDialog extends JDialog implements ListSelectionListener
 	{
 		Runnable r = new Runnable() {
 			public void run() {
-				gPanel.jumpToPosition(lineIndex, markerIndex);
+				gPanel.jumpToPosition(lineIndex, markerIndex, true);
 			}
 		};
 

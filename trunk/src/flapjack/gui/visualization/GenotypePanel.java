@@ -263,17 +263,26 @@ public class GenotypePanel extends JPanel
 	}
 
 	// Jumps to a position relative to a x/y index within the dataset array
-	public void jumpToPosition(int lineIndex, int markerIndex)
+	public void jumpToPosition(int lineIndex, int markerIndex, boolean centre)
 	{
+		// If 'centre' is true, offset by half the screen
+		int offset = 0;
+
 		if (lineIndex != -1)
 		{
-			int y = lineIndex * canvas.boxH - (canvas.boxH);
+			if (centre)
+				offset = ((canvas.boxCountY * canvas.boxH) / 2) - canvas.boxH;
+			int y = lineIndex * canvas.boxH - offset;
+
 			vBar.setValue(y);
 		}
 
 		if (markerIndex != -1)
 		{
-			int x = markerIndex * canvas.boxW - (canvas.boxW);
+			if (centre)
+				offset = ((canvas.boxCountX * canvas.boxW) / 2) - canvas.boxW;
+			int x = markerIndex * canvas.boxW - offset;
+
 			hBar.setValue(x);
 		}
 	}
