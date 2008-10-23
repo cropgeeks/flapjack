@@ -25,6 +25,7 @@ class GenotypeCanvas extends JPanel
 	ColorScheme cScheme;
 
 	boolean locked = false;
+	boolean crosshair = true;
 
 	// The total number of boxes (allele states) in the dataset
 	int boxTotalX, boxTotalY;
@@ -212,7 +213,9 @@ class GenotypeCanvas extends JPanel
 		{
 			view.mouseOverLine = rowIndex;
 			view.mouseOverMarker = colIndex;
-//			repaint();
+
+			if (crosshair && Prefs.visCrosshair)
+				repaint();
 		}
 	}
 
@@ -249,24 +252,16 @@ class GenotypeCanvas extends JPanel
 		}
 
 
-		// TODO: think about this - the image on screen really needs buffered at
-		// this point, as constant repaints on a complicated canvas is too slow
-		// (also see TODO: for renderViewport)
-/*		if (view.mouseOverMarker != -1 || view.mouseOverLine != -1)
+		// Highlight the current position of the mouse
+		if (crosshair && Prefs.visCrosshair &&
+			(view.mouseOverMarker != -1 || view.mouseOverLine != -1))
 		{
-			g.setColor(Color.black);
+			g.setPaint(new Color(255, 255, 255, 75));
 
-			int mx1 = boxW * view.mouseOverMarker;
-			int mx2 = mx1 + boxW - 1;
-			int my1 = boxH * view.mouseOverLine;
-			int my2 = my1 + boxH - 1;
-
-			g.drawLine(mx1, 0, mx1, canvasH);
-			g.drawLine(mx2, 0, mx2, canvasH);
-			g.drawLine(0, my1, canvasW, my1);
-			g.drawLine(0, my2, canvasW, my2);
+			g.fillRect(boxW*view.mouseOverMarker, 0, boxW, canvasH);
+			g.fillRect(0, boxH*view.mouseOverLine, canvasW, boxH);
 		}
-*/
+
 
 		long e = System.nanoTime();
 

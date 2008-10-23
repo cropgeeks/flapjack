@@ -122,6 +122,9 @@ public class Prefs extends XMLPreferences
 	// Should the visualization canvas highlight heterozygotes?
 	public static boolean visHighlightHZ = false;
 
+	// Mouse-over crosshair?
+	public static boolean visCrosshair = true;
+
 	// Standard colors used regardless of scheme
 	public static Color visColorBackground;
 	public static Color visColorOverviewOutline;

@@ -128,6 +128,9 @@ class ListPanel extends JPanel
 	{
 		private DecimalFormat df = new DecimalFormat("0.000");
 
+		private Color selectedBG = new Color(240, 240, 240);
+		private Color selectedFG = new Color(255, 0, 0);
+
 		public ListRenderer()
 		{
 			setOpaque(true);
@@ -146,12 +149,13 @@ class ListPanel extends JPanel
 			else
 				setText(li.toString());
 
-			// Set background/foreground colours
-			if (iss)
+			// Highlight the line "under" the mouse
+			if (i == view.mouseOverLine)
 			{
-				setBackground(list.getSelectionBackground());
-				setForeground(list.getSelectionForeground());
-			} else
+				setBackground(selectedBG);
+				setForeground(selectedFG);
+			}
+			else
 			{
 				setBackground(list.getBackground());
 				setForeground(list.getForeground());

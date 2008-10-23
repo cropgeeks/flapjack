@@ -298,6 +298,7 @@ public class GenotypePanel extends JPanel
 	void overRow(int colIndex, int rowIndex)
 	{
 		canvas.setHighlightedIndices(rowIndex, colIndex);
+		listPanel.repaint();
 
 		rowCanvas.setLineIndex(rowIndex);
 		colCanvas.setMarkerIndex(colIndex);

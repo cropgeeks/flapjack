@@ -71,6 +71,8 @@ class CanvasMouseListener extends MouseInputAdapter
 
 	public void mousePressed(MouseEvent e)
 	{
+		canvas.crosshair = false;
+
 		if (e.isPopupTrigger())
 			canvasMenu.handlePopup(e);
 
@@ -89,6 +91,8 @@ class CanvasMouseListener extends MouseInputAdapter
 
 	public void mouseReleased(MouseEvent e)
 	{
+		canvas.crosshair = true;
+
 		if (e.isPopupTrigger())
 			canvasMenu.handlePopup(e);
 
@@ -108,15 +112,14 @@ class CanvasMouseListener extends MouseInputAdapter
 			mrkrSelHandler.mouseDragged(e);
 		else if (Prefs.guiMouseMode == Constants.LINEMODE)
 			lineSelHandler.mouseDragged(e);
+
+		mouseMoved(e);
 	}
 
 	public void mouseMoved(MouseEvent e)
 	{
 		int xIndex = canvas.getMarker(e.getPoint());
 		int yIndex = canvas.getLine(e.getPoint());
-
-		// Uncomment for experimental effect of dynamic line similarity highting
-//		Actions.vizColorLineSim.actionPerformed(null);
 
 		if (canvasMenu.isShowingMenu() == false)
 			gPanel.overRow(xIndex, yIndex);
