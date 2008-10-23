@@ -27,7 +27,7 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Component id="panel" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="55" max="32767" attributes="0"/>
+              <EmptySpace pref="32" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -51,6 +51,7 @@
                       <Component id="checkVisBackBuffer" min="-2" max="-2" attributes="0"/>
                       <Component id="checkVisBackBufferType" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Component id="checkVisAdvancedZoom" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="checkVisCrosshair" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
@@ -65,6 +66,8 @@
                   <Component id="checkVisBackBufferType" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="checkVisAdvancedZoom" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="checkVisCrosshair" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
@@ -84,6 +87,11 @@
         <Component class="javax.swing.JCheckBox" name="checkVisAdvancedZoom">
           <Properties>
             <Property name="text" type="java.lang.String" value="Enable advanced canvas zoom controls"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JCheckBox" name="checkVisCrosshair">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Highlight the mouse position when over the canvas"/>
           </Properties>
         </Component>
       </SubComponents>

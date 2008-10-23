@@ -22,6 +22,7 @@ class NBVisualizationPanel extends JPanel implements IPrefsTab, ActionListener
 		RB.setText(checkVisBackBuffer, "gui.dialog.prefs.NBVisualizationPanel.checkVisBackBuffer");
 		RB.setText(checkVisBackBufferType, "gui.dialog.prefs.NBVisualizationPanel.checkVisBackBufferType");
 		RB.setText(checkVisAdvancedZoom, "gui.dialog.prefs.NBVisualizationPanel.checkVisAdvancedZoom");
+		RB.setText(checkVisCrosshair, "gui.dialog.prefs.NBVisualizationPanel.checkVisCrosshair");
 
 		checkVisBackBuffer.addActionListener(this);
 
@@ -40,6 +41,7 @@ class NBVisualizationPanel extends JPanel implements IPrefsTab, ActionListener
     	checkVisBackBufferType.setSelected(Prefs.visBackBufferType == TYPE_BYTE_INDEXED);
     	checkVisBackBufferType.setEnabled(checkVisBackBuffer.isSelected());
 		checkVisAdvancedZoom.setSelected(Prefs.visAdvancedZoom);
+		checkVisCrosshair.setSelected(Prefs.visCrosshair);
     }
 
 	public void applySettings()
@@ -47,6 +49,7 @@ class NBVisualizationPanel extends JPanel implements IPrefsTab, ActionListener
 		Prefs.visBackBuffer = checkVisBackBuffer.isSelected();
 		Prefs.visBackBufferType = checkVisBackBufferType.isSelected() ? TYPE_BYTE_INDEXED : TYPE_INT_RGB;
 		Prefs.visAdvancedZoom = checkVisAdvancedZoom.isSelected();
+		Prefs.visCrosshair = checkVisCrosshair.isSelected();
 
 		NBStatusPanel.setControlStates();
 	}
@@ -67,6 +70,7 @@ class NBVisualizationPanel extends JPanel implements IPrefsTab, ActionListener
         checkVisBackBuffer = new javax.swing.JCheckBox();
         checkVisBackBufferType = new javax.swing.JCheckBox();
         checkVisAdvancedZoom = new javax.swing.JCheckBox();
+        checkVisCrosshair = new javax.swing.JCheckBox();
 
         panel.setBorder(javax.swing.BorderFactory.createTitledBorder("Performance options:"));
 
@@ -75,6 +79,8 @@ class NBVisualizationPanel extends JPanel implements IPrefsTab, ActionListener
         checkVisBackBufferType.setText("Use an 8 bit colour buffer to reduce memory usage");
 
         checkVisAdvancedZoom.setText("Enable advanced canvas zoom controls");
+
+        checkVisCrosshair.setText("Highlight the mouse position when over the canvas");
 
         org.jdesktop.layout.GroupLayout panelLayout = new org.jdesktop.layout.GroupLayout(panel);
         panel.setLayout(panelLayout);
@@ -85,7 +91,8 @@ class NBVisualizationPanel extends JPanel implements IPrefsTab, ActionListener
                 .add(panelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(checkVisBackBuffer)
                     .add(checkVisBackBufferType)
-                    .add(checkVisAdvancedZoom))
+                    .add(checkVisAdvancedZoom)
+                    .add(checkVisCrosshair))
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panelLayout.setVerticalGroup(
@@ -97,6 +104,8 @@ class NBVisualizationPanel extends JPanel implements IPrefsTab, ActionListener
                 .add(checkVisBackBufferType)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(checkVisAdvancedZoom)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(checkVisCrosshair)
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -114,7 +123,7 @@ class NBVisualizationPanel extends JPanel implements IPrefsTab, ActionListener
             .add(layout.createSequentialGroup()
                 .addContainerGap()
                 .add(panel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(55, Short.MAX_VALUE))
+                .addContainerGap(32, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -122,6 +131,7 @@ class NBVisualizationPanel extends JPanel implements IPrefsTab, ActionListener
     private javax.swing.JCheckBox checkVisAdvancedZoom;
     private javax.swing.JCheckBox checkVisBackBuffer;
     private javax.swing.JCheckBox checkVisBackBufferType;
+    private javax.swing.JCheckBox checkVisCrosshair;
     private javax.swing.JPanel panel;
     // End of variables declaration//GEN-END:variables
 }

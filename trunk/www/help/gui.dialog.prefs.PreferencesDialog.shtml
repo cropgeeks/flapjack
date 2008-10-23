@@ -73,6 +73,11 @@ Selecting this option will change the standard "zoom" control option for zooming
 in and out of the display into separate horizontal and vertical zoom controls.
 This gives more control of the display but may reduce the effect of some
 visualizations. Use with caution.</li>
+
+<li><b>Highlight the mouse position when over the canvas</b><br>
+Selecting this option will graphically highlight the line and the marker
+currently under the mouse cursor's position as it is moved over the main display
+area.</li>
 </ul>
 
 <h3>Warnings</h3>
