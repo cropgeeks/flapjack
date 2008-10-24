@@ -92,7 +92,8 @@ public class WinMainToolBar extends JToolBar
 			Icons.getIcon("HELP"), Actions.helpContents);
 
 
-		add(new JLabel(" "));
+		if (SystemUtils.isMacOS() == false)
+			add(new JLabel(" "));
 
 		add(fileNew);
 		addSeparator(false);
@@ -149,9 +150,13 @@ public class WinMainToolBar extends JToolBar
 		button.setIcon(icon);
 		button.setFocusPainted(false);
 		button.setFocusable(false);
+		button.setMargin(new Insets(2, 1, 2, 1));
 
-		if (SystemUtils.isMacOS() == false)
-			button.setMargin(new Insets(2, 1, 2, 1));
+		if (SystemUtils.isMacOS())
+		{
+			button.putClientProperty("JButton.buttonType", "bevel");
+			button.setMargin(new Insets(-2, -1, -2, -1));
+		}
 
 		return button;
 	}
