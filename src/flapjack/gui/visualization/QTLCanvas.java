@@ -29,9 +29,9 @@ class QTLCanvas extends JPanel
 	private Canvas2D qtlCanvas;
 
 	// Quick reference to the data (multiple tracks of features)
-	Vector<Vector<Feature>> featureList;
+	Vector<Vector<Feature>> trackSet;
 	// Another reference, but this time JUST to the features that are onscreen
-	Vector<Vector<Feature>> onscreenList;
+	Vector<Vector<Feature>> screenSet;
 
 	// Scaling factor to convert between pixels and map positions
 	private float xScale;
@@ -59,9 +59,9 @@ class QTLCanvas extends JPanel
 
 	void updateCanvasSize()
 	{
-		featureList = canvas.view.getChromosomeMap().getFeatures();
+		trackSet = canvas.view.getChromosomeMap().getTrackSet();
 
-		qtlCanvas.setPreferredSize(new Dimension(0, h * featureList.size()));
+		qtlCanvas.setPreferredSize(new Dimension(0, h * trackSet.size()));
 		qtlCanvas.revalidate();
 		qtlCanvas.repaint();
 	}
@@ -89,10 +89,10 @@ class QTLCanvas extends JPanel
 		// Loops over the data, drawing each track
 		private void drawTracks(Graphics2D g)
 		{
-			onscreenList = new Vector<Vector<Feature>>();
+			screenSet = new Vector<Vector<Feature>>();
 			int trackNum = 0;
 
-			for (Vector<Feature> trackData: featureList)
+			for (Vector<Feature> trackData: trackSet)
 			{
 				// Move the graphics origin DOWN to the next track
 				if (trackNum > 0)
@@ -106,7 +106,7 @@ class QTLCanvas extends JPanel
 				g.drawLine(0, 10, canvas.canvasW, 10);
 				g.setStroke(new BasicStroke(1));
 
-				onscreenList.add(new Vector<Feature>());
+				screenSet.add(new Vector<Feature>());
 
 				// Draw each feature
 				for (Feature f: trackData)
@@ -120,7 +120,7 @@ class QTLCanvas extends JPanel
 					if (minX > canvas.pX2)	// Once QTLs are offscreen-rht, might as well quit
 						break;
 
-					onscreenList.get(trackNum).add(f);
+					screenSet.get(trackNum).add(f);
 
 					// Its interior...
 					g.setPaint(new Color(255, 255, 255));
@@ -178,7 +178,7 @@ class QTLCanvas extends JPanel
 			// Which track is the mouse over?
 			mouseOverTrack = y / h;
 
-			if (mouseOverTrack < 0 || mouseOverTrack >= featureList.size())
+			if (mouseOverTrack < 0 || mouseOverTrack >= trackSet.size())
 				return false;
 			else
 				return true;
@@ -196,7 +196,7 @@ class QTLCanvas extends JPanel
 			// NOTE: the search is backwards (right to left) as F2.pos > F1.pos
 			// will mean F2 is drawn on TOP of F1
 			Feature match = null;
-			Vector<Feature> onscreen = onscreenList.get(mouseOverTrack);
+			Vector<Feature> onscreen = screenSet.get(mouseOverTrack);
 			for (int i = onscreen.size()-1; i >= 0; i--)
 			{
 				Feature f = onscreen.get(i);
@@ -226,9 +226,9 @@ class QTLCanvas extends JPanel
 			if (featureToMove != null && mouseOverTrack != oldTrack)
 			{
 				// Remove the feature from the old track
-				featureList.get(oldTrack).remove(featureToMove);
+				trackSet.get(oldTrack).remove(featureToMove);
 
-				Vector<Feature> newTrack = featureList.get(mouseOverTrack);
+				Vector<Feature> newTrack = trackSet.get(mouseOverTrack);
 				int preSize = newTrack.size();
 				// Search for the best place to insert it into the new track
 				for (int i = 0; i < newTrack.size(); i++)
