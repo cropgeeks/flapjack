@@ -28,7 +28,7 @@
 			<bind-xml node="attribute"/>
 		</field>
 		<field name="markers" type="flapjack.data.Marker" collection="vector"/>
-		<field name="features" type="java.util.Vector" collection="vector"/>
+		<field name="trackSet" type="java.util.Vector" collection="vector"/>
 	</class>
 
 	<!-- Marker -->

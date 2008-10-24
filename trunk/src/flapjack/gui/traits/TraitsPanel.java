@@ -61,7 +61,7 @@ public class TraitsPanel extends JPanel implements ActionListener
 		}
 
 		controls.statusLabel.setText(
-			RB.format("gui.traits.TraitsPanels.traitCount",
+			RB.format("gui.traits.TraitsPanel.traitCount",
 			(table.getColumnCount()-1)));
 
 		// Enable/disable the "remove" button based on the trait count
@@ -85,9 +85,9 @@ public class TraitsPanel extends JPanel implements ActionListener
 
 		else if (e.getSource() == controls.bRemove)
 		{
-			String msg = RB.getString("gui.traits.TraitsPanels.removeMsg");
+			String msg = RB.getString("gui.traits.TraitsPanel.removeMsg");
 			String[] options = new String[] {
-					RB.getString("gui.traits.TraitsPanels.remove"),
+					RB.getString("gui.traits.TraitsPanel.remove"),
 					RB.getString("gui.text.cancel") };
 
 			int response = TaskDialog.show(msg, MsgBox.QST, 1, options);

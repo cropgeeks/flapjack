@@ -13,7 +13,7 @@ public class ChromosomeMap extends XMLRoot implements Iterable<Marker>
 
 	// A list of vectors of Features (basically, each vector of features
 	// represents one "track" - and we may have multiple tracks
-	private Vector<Vector<Feature>> features = new Vector<Vector<Feature>>();
+	private Vector<Vector<Feature>> trackSet = new Vector<Vector<Feature>>();
 
 	public ChromosomeMap()
 	{
@@ -23,18 +23,19 @@ public class ChromosomeMap extends XMLRoot implements Iterable<Marker>
 	{
 		this.name = new String(name);
 
-		Vector<Feature> track1 = new Vector<Feature>();
-		track1.add(new QTL("test1-1", 12, 10, 15, 0));
-		track1.add(new QTL("test2-1", 25, 22, 30, 0));
-		features.add(track1);
+		Vector<Feature> track = new Vector<Feature>();
 
-		Vector<Feature> track2 = new Vector<Feature>();
-		track2.add(new QTL("test2-1", 5, 3, 8, 0));
-		track2.add(new QTL("test2-2", 25, 22, 30, 0));
-		track2.add(new QTL("test2-2b", 26, 23, 32, 0));
-		track2.add(new QTL("test2-3", 46, 41, 48, 0));
-		track2.add(new QTL("test2-4", 56, 51, 58, 0));
-		features.add(track2);
+		for (int i = 0; i < 25; i++)
+		{
+			int position = (int) (Math.random() * 140);
+			int neg = (int) (Math.random() * 4) +1;
+			int pos = (int) (Math.random() * 4) +1;
+
+			track.add(new QTL("feature " + (i+1), position, position-neg, position+pos, 0));
+		}
+
+		Collections.sort(track);
+		trackSet.add(track);
 	}
 
 	void validate()
@@ -67,11 +68,11 @@ public class ChromosomeMap extends XMLRoot implements Iterable<Marker>
 	public void setMarkers(Vector<Marker> markers)
 		{ this.markers = markers; }
 
-	public Vector<Vector<Feature>> getFeatures()
-		{ return features; }
+	public Vector<Vector<Feature>> getTrackSet()
+		{ return trackSet; }
 
-	public void setFeatures(Vector<Vector<Feature>> features)
-	{ 	this.features = features; }
+	public void setTrackSet(Vector<Vector<Feature>> trackSet)
+	{ 	this.trackSet = trackSet; }
 
 
 	// Other methods
