@@ -101,7 +101,7 @@ public class Prefs extends XMLPreferences
 
 	public static boolean visShowLinePanel = true;
 	public static boolean visShowMapCanvas = true;
-	public static boolean visShowQTLCanvas = false;
+	public static boolean visShowQTLCanvas = true;
 	public static boolean visShowRowCanvas = true;
 	public static boolean visShowColCanvas = true;
 	public static boolean visShowTraitCanvas = true;

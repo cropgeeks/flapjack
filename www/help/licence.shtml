@@ -23,8 +23,6 @@ use in source forms. This means that we are happy for you to distribute and use
 Flapjack however you please, but we do not (yet) want to make the source code
 publicly available.</p>
 
-<p>&nbsp;</p>
-
 <p><b>The licence and copyright for Flapjack is as follows:</b></p>
 
 <p>Copyright &copy; 2007-2008, Iain Milne, Plant Bioinformatics Group, SCRI<br>
@@ -36,7 +34,7 @@ modification, is permitted provided that the following conditions are met:</p>
 <ul>
 <li>Redistributions must reproduce the above copyright notice,
 this list of conditions and the following disclaimer in the documentation and/or
-other materials provided with the distribution.</li><p></p>
+other materials provided with the distribution.</li>
 <li>Neither the name of SCRI nor the names of its contributors may be used to
 endorse or promote products derived from this software without specific prior
 written permission.</li>
@@ -55,6 +53,14 @@ ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 </p>
 
+<p>Flapjack also relies on the use of other third-party libraries which have
+their own licence information:</p>
+
+<ul>
+<li><a href="../licenses/Castor.txt">Castor</a></li>
+<li><a href="../licenses/ApacheCommons.txt">Apache Commons</a></li>
+<li><a href="../licenses/OfficeLnFs.txt">Office LnFs</a></li>
+</ul>
 
 <!--#include virtual="footer.html" -->
 
