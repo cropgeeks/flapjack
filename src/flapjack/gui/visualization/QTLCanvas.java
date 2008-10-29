@@ -37,6 +37,10 @@ class QTLCanvas extends JPanel
 	private float xScale;
 	private int xOffset;
 
+	private BasicStroke dashed = new BasicStroke(1, BasicStroke.CAP_BUTT,
+		BasicStroke.JOIN_MITER, 10, new float[] { 5,2 }, 0);
+	private BasicStroke solid = new BasicStroke(1);
+
 	// Mouse handling variables
 	private int mouseOverTrack = -1;
 	static Feature mouseOverFeature = null;
@@ -98,13 +102,15 @@ class QTLCanvas extends JPanel
 				if (trackNum > 0)
 					g.translate(0, h);
 
-				BasicStroke s = new BasicStroke(1, BasicStroke.CAP_BUTT,
-					BasicStroke.JOIN_MITER, 10, new float[] { 5,2 }, 0);
-
 				g.setColor(Color.lightGray);
-				g.setStroke(s);
-				g.drawLine(0, 10, canvas.canvasW, 10);
-				g.setStroke(new BasicStroke(1));
+				g.setStroke(dashed);
+				// Workaround due to JAVA BUG ID 6574155
+				// (we should be able to do just drawLine(0, 10, width, 10)
+				if (canvas.canvasW < canvas.pX2)
+					g.drawLine(canvas.pX1, 10, canvas.canvasW, 10);
+				else
+					g.drawLine(canvas.pX1, 10, canvas.pX2, 10);
+				g.setStroke(solid);
 
 				screenSet.add(new Vector<Feature>());
 
