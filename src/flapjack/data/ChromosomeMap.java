@@ -23,7 +23,7 @@ public class ChromosomeMap extends XMLRoot implements Iterable<Marker>
 	{
 		this.name = new String(name);
 
-		Vector<Feature> track = new Vector<Feature>();
+/*		Vector<Feature> track = new Vector<Feature>();
 
 		for (int i = 0; i < 25; i++)
 		{
@@ -36,6 +36,7 @@ public class ChromosomeMap extends XMLRoot implements Iterable<Marker>
 
 		Collections.sort(track);
 		trackSet.add(track);
+*/
 	}
 
 	void validate()
@@ -73,6 +74,7 @@ public class ChromosomeMap extends XMLRoot implements Iterable<Marker>
 
 	public void setTrackSet(Vector<Vector<Feature>> trackSet)
 	{ 	this.trackSet = trackSet; }
+
 
 
 	// Other methods

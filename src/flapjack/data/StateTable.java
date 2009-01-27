@@ -4,9 +4,6 @@ import java.util.*;
 
 public class StateTable extends XMLRoot
 {
-	// TODO: What to do about storing (potentially?) redundant data, eg having a
-	// state for A/T and another for T/A
-
 	private Vector<AlleleState> states = new Vector<AlleleState>();
 
 	public StateTable()
