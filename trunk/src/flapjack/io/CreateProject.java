@@ -76,7 +76,7 @@ public class CreateProject
 
 		// Read the data file
 		GenotypeDataImporter genoImporter =
-			new GenotypeDataImporter(genotypesFile, dataSet, "-", "/");
+			new GenotypeDataImporter(genotypesFile, dataSet, "-", true, "/");
 		genoImporter.importGenotypeData();
 
 		PostImportOperations pio = new PostImportOperations(dataSet);

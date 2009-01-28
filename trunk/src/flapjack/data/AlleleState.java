@@ -11,11 +11,21 @@ public class AlleleState extends XMLRoot
 	{
 	}
 
-	public AlleleState(String rawData, String ioHeteroString)
+	public AlleleState(String rawData, boolean useHetSep, String hetSepStr)
 	{
 		this.rawData = new String(rawData.toUpperCase());
 
-		states = rawData.split(ioHeteroString);
+		// If we want to separate on a known string, eg A/B as A & B
+		if (useHetSep)
+			states = rawData.split(hetSepStr);
+		// Or if we want to separate on every character, eg AB as A & B
+		else
+		{
+			states = new String[rawData.length()];
+
+			for (int i = 0; i < states.length; i++)
+				states[i] = "" + rawData.charAt(i);
+		}
 
 		if (states.length > 1)
 			isHomozygous = false;
@@ -101,5 +111,15 @@ public class AlleleState extends XMLRoot
 				count++;
 
 		return count;
+	}
+
+	public String format()
+	{
+		String str = states[0];
+
+		for (int i = 1; i < states.length; i++)
+			str += "/" + states[i];
+
+		return str;
 	}
 }

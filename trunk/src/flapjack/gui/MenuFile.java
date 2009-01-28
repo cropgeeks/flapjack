@@ -151,7 +151,7 @@ public class MenuFile
 
 		gPanel.resetBufferedState(false);
 
-		importGenotypeData(dialog.getMapFile(), dialog.getGenotypeFile());
+		importGenotypeData(dialog.getMapFile(), dialog.getGenotypeFile(), true);
 	}
 
 	// Extracts sample data from the jar file, writes it to a temp location,
@@ -175,14 +175,14 @@ public class MenuFile
 			return;
 		}
 
-		importGenotypeData(mapFile, datFile);
+		importGenotypeData(mapFile, datFile, false);
 	}
 
 	// Given a map file and a genotype (dat) file, imports that data, showing a
 	// progress bar while doing so
-	private void importGenotypeData(File mapFile, File datFile)
+	private void importGenotypeData(File mapFile, File datFile, boolean usePrefs)
 	{
-		DataImportingDialog dialog = new DataImportingDialog(mapFile, datFile);
+		DataImportingDialog dialog = new DataImportingDialog(mapFile, datFile, usePrefs);
 
 		if (dialog.isOK())
 		{

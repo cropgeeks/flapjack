@@ -13,6 +13,7 @@ public class GenotypeDataImporter
 	private StateTable stateTable;
 
 	private String ioMissingData;
+	private boolean ioUseHetSep;
 	private String ioHeteroSeparator;
 
 	private int lineCount = 1;
@@ -22,11 +23,12 @@ public class GenotypeDataImporter
 
 	private boolean isOK = true;
 
-	public GenotypeDataImporter(File file, DataSet dataSet, String ioMissingData, String ioHeteroSeparator)
+	public GenotypeDataImporter(File file, DataSet dataSet, String ioMissingData, boolean ioUseHetSep, String ioHeteroSeparator)
 	{
 		this.file = file;
 		this.dataSet = dataSet;
 		this.ioMissingData = ioMissingData;
+		this.ioUseHetSep = ioUseHetSep;
 		this.ioHeteroSeparator = ioHeteroSeparator;
 
 		stateTable = dataSet.getStateTable();
@@ -127,7 +129,7 @@ public class GenotypeDataImporter
 
 					// Determine its various states
 					int stateCode = stateTable.getStateCode(values[i], true,
-						ioMissingData, ioHeteroSeparator);
+						ioMissingData, ioUseHetSep, ioHeteroSeparator);
 
 					// Then apply them to the marker data
 					line.setLoci(mapIndex[i], markerIndex[i], stateCode);
