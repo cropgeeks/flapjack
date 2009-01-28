@@ -40,7 +40,7 @@ public class DataImportingDialog extends JDialog implements Runnable
 	private boolean isIndeterminate = false;
 	private boolean isOK = false;
 
-	public DataImportingDialog(File mapFile, File genoFile)
+	public DataImportingDialog(File mapFile, File genoFile, boolean usePrefs)
 	{
 		super(
 			Flapjack.winMain,
@@ -52,8 +52,14 @@ public class DataImportingDialog extends JDialog implements Runnable
 		this.genoFile = genoFile;
 
 		mapImporter  = new ChromosomeMapImporter(mapFile, dataSet);
-		genoImporter = new GenotypeDataImporter(genoFile, dataSet,
-			Prefs.ioMissingData, Prefs.ioHeteroSeparator);
+
+		// Initializes the data importer, passing it the required options, either
+		// from the preferences (if a user file is being opened) or with preset
+		// options if we're loading the sample file (which has a set format)
+		if (usePrefs)
+			genoImporter = new GenotypeDataImporter(genoFile, dataSet, Prefs.ioMissingData, Prefs.ioUseHetSep, Prefs.ioHeteroSeparator);
+		else
+			genoImporter = new GenotypeDataImporter(genoFile, dataSet, "-", true, "/");
 
 		add(createControls());
 

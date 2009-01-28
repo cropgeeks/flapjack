@@ -72,6 +72,7 @@ public class Prefs extends XMLPreferences
 	public static String ioMissingData = "-";
 	public static String ioHeteroSeparator = "/";
 	public static boolean ioHeteroCollapse = true;
+	public static boolean ioUseHetSep = true;
 
 	// Method used when exporting images
 	public static int guiExportImageMethod = 0;

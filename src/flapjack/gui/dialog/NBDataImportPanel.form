@@ -141,17 +141,17 @@
               <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="checkHetero" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="checkUseHetSep" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="checkHetero" min="-2" max="-2" attributes="0"/>
                       <Group type="102" alignment="0" attributes="0">
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="heteroLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="missingLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                          </Group>
+                          <Component id="heteroLabel" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="missingText" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="heteroText" alignment="0" min="-2" max="-2" attributes="0"/>
-                          </Group>
+                          <Component id="heteroText" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="missingLabel" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="62" max="-2" attributes="0"/>
+                          <Component id="missingText" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
@@ -163,7 +163,9 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="checkHetero" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="checkUseHetSep" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="heteroLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="heteroText" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -208,6 +210,11 @@
         <Component class="javax.swing.JTextField" name="missingText">
           <Properties>
             <Property name="columns" type="int" value="4"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JCheckBox" name="checkUseHetSep">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Expect heteozygotes to be separated by a string (A/T rather than AT)"/>
           </Properties>
         </Component>
       </SubComponents>

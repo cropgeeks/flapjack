@@ -12,7 +12,7 @@ public class StateTable extends XMLRoot
 
 	public StateTable(int notused)
 	{
-		states.add(new AlleleState("", "/"));
+		states.add(new AlleleState("", true, "/"));
 	}
 
 	void validate()
@@ -44,7 +44,7 @@ public class StateTable extends XMLRoot
 		return states.get(code);
 	}
 
-	public int getStateCode(String rawData, boolean create, String missingString, String heteroString)
+	public int getStateCode(String rawData, boolean create, String missingString, boolean useHetSep, String hetSepStr)
 	{
 		// If there's no state information, return our default "unknown" code
 		if (rawData.equals(missingString))
@@ -58,7 +58,7 @@ public class StateTable extends XMLRoot
 			return -1;
 
 		// If it wasn't found and needs to be created, then add it
-		states.add(new AlleleState(rawData, heteroString));
+		states.add(new AlleleState(rawData, useHetSep, hetSepStr));
 		return states.size() - 1;
 	}
 

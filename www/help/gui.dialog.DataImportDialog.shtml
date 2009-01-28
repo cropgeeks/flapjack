@@ -57,10 +57,14 @@ will read the provided file:</p>
 Select this option to ensure that duplicate heterozygous alleles are replaced while
 importing the genotypes. For example, all instances of T/A would be replaced by A/T (or vice
 versa), so that the final data only contains A/T alleles.</li>
+<li><b>Expect heteozygotes to be separated by a string</b><br>
+This tells Flapjack to look for heterozygotes that are separated by a specific
+character (defined below). If your data is of the form A/T then this should be
+used, however, if the data defines AT as a heterozygote then this option should
+be deselected.</li>
 <li><b>Heterozygous separator string</b><br>
 This specifies the string that is used to define heterozygous alleles within the
-data. Heterozygotes will only be recognised if they are string separated, meaning
-alleles of the form A/T will be seen as homozygeous if listed as AT.</li>
+data.</li>
 <li><b>Missing data string</b><br>
 This specifies the string that is used to define missing genotype data. It can
 be left blank if no character is used within the genotype file.</li>
