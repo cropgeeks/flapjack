@@ -99,6 +99,16 @@ public class FindDialog extends JDialog implements ListSelectionListener
 				}
 			}
 		});
+
+		// Additional (duplicate) table-clicked handler to catch the user
+		// re-clicking on the same row. This doesn't generate a table event, but
+		// we still want to respond to it and highlight the selection again
+		nbPanel.table.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e)
+			{
+				processTableSelection();
+			}
+		});
 	}
 
 	void setTableModel(Object[][] data)
@@ -261,6 +271,8 @@ public class FindDialog extends JDialog implements ListSelectionListener
 
 	void processTableSelection()
 	{
+		System.out.println("processTableSelection()");
+
 		int row = nbPanel.table.getSelectedRow();
 		Object selected = nbPanel.tableModel.getValueAt(row, 0);
 
