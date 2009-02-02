@@ -50,6 +50,11 @@ public class StateTable extends XMLRoot
 		if (rawData.equals(missingString))
 			return 0;
 
+		// Attempt to collapse strings like AA back down to just A
+		if (!useHetSep && rawData.length() > 0)
+			if (rawData.matches(rawData.charAt(0) + "{"+rawData.length()+"}+")) // regex: X{n}+
+				rawData = "" + rawData.charAt(0);
+
 		for (int i = 0; i < states.size(); i++)
 			if (states.get(i).matchesAlleleState(rawData))
 				return i;
