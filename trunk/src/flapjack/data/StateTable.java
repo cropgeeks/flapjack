@@ -102,4 +102,27 @@ public class StateTable extends XMLRoot
 		// Then readd the empty state
 		states.add(emptyState);
 	}
+
+	/**
+	 * Scans the state table and returns true if it looks like this data set
+	 * contains nucleotide data.
+	 */
+	public boolean containsNucleotides()
+	{
+		boolean A = false, C = false, G = false, T = false;
+
+		for (AlleleState state: states)
+		{
+			if (state.isHomozygous() && state.getState(0).equals("A"))
+				A = true;
+			if (state.isHomozygous() && state.getState(0).equals("C"))
+				C = true;
+			if (state.isHomozygous() && state.getState(0).equals("G"))
+				G = true;
+			if (state.isHomozygous() && state.getState(0).equals("T"))
+				T = true;
+		}
+
+		return (A && C && G && T);
+	}
 }

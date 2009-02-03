@@ -48,10 +48,14 @@ public class PostImportOperations
 		GTViewSet viewSet = new GTViewSet(dataSet, name);
 		dataSet.getViewSets().add(viewSet);
 
-		// Try to guess a suitable colour scheme - 2 (hz) states can
-		// probably use the two colour model
-		if (dataSet.getStateTable().getHomozygousStateCount() == 2)
+		int hCount = dataSet.getStateTable().getHomozygousStateCount();
+
+		if (dataSet.getStateTable().containsNucleotides())
+			viewSet.setColorScheme(ColorScheme.NUCLEOTIDE);
+		else if (hCount > 0 && hCount < 10)
 			viewSet.setColorScheme(ColorScheme.SIMPLE_TWO_COLOR);
+		else
+			viewSet.setColorScheme(ColorScheme.RANDOM);
 	}
 
 	public void calculateMarkerFrequencies()

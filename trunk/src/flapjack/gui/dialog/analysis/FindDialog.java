@@ -271,8 +271,6 @@ public class FindDialog extends JDialog implements ListSelectionListener
 
 	void processTableSelection()
 	{
-		System.out.println("processTableSelection()");
-
 		int row = nbPanel.table.getSelectedRow();
 		Object selected = nbPanel.tableModel.getValueAt(row, 0);
 

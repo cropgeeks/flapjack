@@ -18,31 +18,57 @@ public class SimpleTwoColorScheme extends ColorScheme
 	{
 		super(view);
 
-		// Only the first two homozygous states found will be assigned a color
-		int homoCount = 0;
+		String s1 = null, s2 = null;
 
-		// Only add colours for the first two states found
+		// Search for the first two homozygous states and store their values
 		for (int i = 0; i < stateTable.size(); i++)
 		{
 			AlleleState state = stateTable.getAlleleState(i);
 
-			Color color = (i == 1) ? Prefs.visColorSimple2State1 : Prefs.visColorSimple2State2;
+			if (!state.isUnknown() && state.isHomozygous() && s1 == null)
+				s1 = state.getState(0);
+			else if (!state.isUnknown() && state.isHomozygous() && s2 == null)
+				s2 = state.getState(0);
+		}
+
+		// Now scan all the states, assigning them colours
+		for (int i = 0; i < stateTable.size(); i++)
+		{
+			AlleleState state = stateTable.getAlleleState(i);
 
 			// Use white for the default unknown state
 			if (state.isUnknown())
 				states.add(new SimpleColorState(state, Prefs.visColorBackground, w, h));
 
-			else if (homoCount < 2 && state.isHomozygous())
-			{
-				states.add(new HomozygousColorState(state, color, w, h));
-				homoCount++;
-			}
+			else if (state.isHomozygous() && state.getState(0).equals(s1))
+				states.add(new HomozygousColorState(state, Prefs.visColorSimple2State1, w, h));
+			else if (state.isHomozygous() && state.getState(0).equals(s2))
+				states.add(new HomozygousColorState(state, Prefs.visColorSimple2State2, w, h));
 
-			// TODO: Use red for other states (of which there shouldn't be any?)
+			// Use the "other" colour for any remaining homozygous states
 			else if (state.isHomozygous())
 				states.add(new HomozygousColorState(state, Prefs.visColorSimple2Other, w, h));
+
+			// Attempt to properly colour heterozygous states
 			else
-				states.add(new HeterozygeousColorState(state, Prefs.visColorSimple2Other, Prefs.visColorSimple2Other, Prefs.visColorSimple2Other, w, h));
+			{
+				Color c1 = Prefs.visColorSimple2Other;
+				Color c2 = Prefs.visColorSimple2Other;
+
+				// Try to match either of the two alleles with the two coloured
+				// heterozygous states
+				if (state.getState(0).equals(s1))
+					c1 = Prefs.visColorSimple2State1;
+				else if (state.getState(0).equals(s2))
+					c1 = Prefs.visColorSimple2State2;
+
+				if (state.getState(1).equals(s1))
+					c2 = Prefs.visColorSimple2State1;
+				else if (state.getState(1).equals(s2))
+					c2 = Prefs.visColorSimple2State2;
+
+				states.add(new HeterozygeousColorState(state, Prefs.visColorSimple2Other, c1, c2, w, h));
+			}
 		}
 	}
 
