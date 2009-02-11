@@ -1,0 +1,22 @@
+H1
+{
+	color: #333333;
+	font-family: Tahoma, Univers, Arial;
+}
+
+BODY,TD,P
+{
+	color: #333333;
+	font-family: Tahoma, Univers, Arial;
+	font-size: 13px;
+}
+
+BODY
+{
+	background: #FFFFFF;
+}
+
+UL
+{
+	list-style-image: url(images/button.png);
+}

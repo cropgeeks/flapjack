@@ -1,0 +1,81 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+
+<html>
+<head>
+<meta http-equiv="Content-Language" content="en-gb">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+<link rel="stylesheet" href="../stylesheet/styles.css" type="text/css">
+
+<title>What's New</title>
+
+</head>
+<body>
+
+<!--#include virtual="header.html" -->
+
+
+<h2>What's New</h2>
+
+<p>This page describes the additions (NEW), changes (CHG) and bug fixes (BUG)
+that have been made to Flapjack in recent versions. For full details on all the
+changes between versions, please see the <a href="http://bioinf.scri.ac.uk/flapjack/svn.txt">
+subversion change log</a>.</p>
+
+<p>For information on what <i>might</i> be appearing in a future version of Flapjack,
+please see the <a href="../future-work.shtml">future work</a> page.</p>
+
+<h3>New in 0.09.02.03</h3>
+
+<ul>
+<li>NEW: Flapjack can now read files containing genotype data that does include heterozygous separator characters, for example "AT" can be read as "A/T" or "A" and "T" (depending on import options).</li>
+<li>CHG: Flapjack is now better at estimating what default colour scheme to use when a data set is first imported.</li>
+<li>BUG: Importing the sample data set after modifying the import options away from their defaults no longer results in the sample not loading correctly.</li>
+<li>BUG: Re-clicking on the same row again in the Find Dialog will now graphically highlight the result again.</li>
+<li>BUG: The two-colour scheme now properly colours heterozygotes to match the colours selected for the primary homozygotes.</li>
+</ul>
+
+<h3>New in 0.09.01.27</h3>
+
+<ul>
+<li>NEW: The line and marker under the mouse is now graphically highlighted on the main canvas and in the names list.</li>
+<li>NEW: Lines names in the list are now graphically highlighted as the mouse moves over the canvas.</li>
+<li>NEW: Added an option for right-click deletion of dummy lines that have been inserted.</li>
+<li>NEW: Added a proper selection dialog for loading trait data.</li>
+<li>CHG: Flapjack now has an enhanced visual scheme that should appear less grey/drab, especially in dialog boxes.</li>
+<li>CHG: Highlighted lines and markers (eg from the Find Dialog) now appear in the centre of the display.</li>
+<li>BUG: Fixed a crash that could occur when CTRL+click moving a line from a position outside of the visible list.</li>
+<li>BUG: Fixed some redraw issues with the traits heat-map when scrolling the display.</li>
+<li>BUG: Fixed issues with importing data containing blank lines BEFORE the end of the file was reached.</li>
+<li>BUG: Fixed issues with importing data that mixed the case of genotypes (eg 'a' and 'A').</li>
+</ul>
+
+<h3>New in 0.08.09.05</h3>
+
+<ul>
+<li>NEW: Added a new option for right-clicking on a line and inserting a "dummy" line at that position.</li>
+<li>NEW: Added many more help topics, including a start menu shortcut to the help that is now added at install time.</li>
+<li>NEW: Flapjack can now export views back to disk in raw-data format.</li>
+<li>NEW: Flapjack license information is now included as part of its install routine.</li>
+<li>NEW: Flapjack will detect when a new version has been installed and link the user to a web page describing the major changes.</li>
+<li>BUG: Fixed errors relating to mixing numerical and categorical data for a single trait.</li>
+<li>BUG: Fixed a bug that caused inverting the selection states of lines to run incorrectly.</li>
+</ul>
+
+<h3>New in 0.08.08.08</h3>
+
+<ul>
+<li>NEW: "Bookmarks" can now be assigned to any location within a view, allowing the user to quickly return to regions of interest.</li>
+<li>NEW: Flapjack can now be linked with Germinate-like database websites for display of additional line or marker information. When exporting data from Germinate in Flapjack format this information will be included automatically.</li>
+<li>NEW: Added displayable sort scores to the list of line names (that appears after performing a similarity sort).</li>
+<li>NEW: Added a right-click pop-up menu option to the list of line names to toggle the sort scores on or off.</li>
+<li>NEW: The colours used for the traits heatmap can now be customized by the user.</li>
+<li>CHG: Flapjack's data modal has been updated to allow it to cope with data sets that use large numbers of unique alleles per locus (eg SSR data).</li>
+<li>CHG: The random colour scheme now correctly displays heterozygous alleles as a diagonal split with appropriate colour coding for each half.</li>
+<li>BUG: Fixed a bug in the Find by Name dialog that could cause Flapjack to crash when quickly selecting multiple results.</li>
+</ul>
+
+<!--#include virtual="footer.html" -->
+
+</body>
+</html>

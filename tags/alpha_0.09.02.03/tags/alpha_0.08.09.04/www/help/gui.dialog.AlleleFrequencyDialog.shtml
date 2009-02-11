@@ -1,0 +1,35 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+
+<html>
+<head>
+<meta http-equiv="Content-Language" content="en-gb">
+<link rel="stylesheet" href="styles.css" type="text/css">
+
+<title>Allele Frequency Threshold</title>
+
+</head>
+<body>
+
+<!--#include virtual="header.html" -->
+
+
+<h1>Allele Frequency Threshold</h1>
+
+<p>After selecting the <b>by allele frequency</b> colour scheme, the <b>Allele
+Frequency Threshold</b> dialog appears, allowing you to choose the cut-off
+threshold between low and high frequency alleles.</p>
+
+<p><a href="images/gui.dialog.AlleleFrequencyDialog.png">
+<img src="images/gui.dialog.AlleleFrequencyDialog2.png"></a></p>
+
+<p>A low frequency allele will be any allele within a given marker that occurs
+at a percentage less than the chosen threshold.</p>
+
+<p>A high frequency allele will be any allele within a given marker that occurs
+at a percentage greater than the chosen threshold.</p>
+
+
+<!--#include virtual="footer.html" -->
+
+</body>
+</html>

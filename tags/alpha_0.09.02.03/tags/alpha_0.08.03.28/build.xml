@@ -1,0 +1,78 @@
+<project name="Flapjack" default="compile" basedir=".">
+
+	<property name="src" location="src"/>
+	<property name="res" location="res"/>
+	<property name="lib" location="lib"/>
+	<property name="lib-devel" location="lib-devel"/>
+	<property name="classes" location="classes"/>
+	
+	<property name="jarfile" value="${lib}/flapjack.jar"/>
+	
+	<target name="init">
+	</target>
+
+	<path id="project.classpath">
+		<fileset dir="${lib}">
+			<include name="**/*.jar"/>
+			<exclude name="**/${jarfile}"/>
+		</fileset>
+		<fileset dir="${lib-devel}">
+			<include name="**/*.jar"/>
+		</fileset>
+	</path>
+
+	<target name="compile" depends="init">
+		<javac srcdir="${src}" destdir="${classes}" source="1.5" target="1.5">
+			<classpath refid="project.classpath"/>
+		</javac>
+	</target>
+	
+	<target name="jar" depends="compile">
+		<jar jarfile="${jarfile}">
+			<fileset dir="${classes}"/>
+			<zipfileset dir="${res}" prefix="res"/>
+			<manifest>
+				<attribute name="Main-Class" value="flapjack.gui.Flapjack"/>
+				<attribute name="Class-Path"
+					value="res
+						castor-1.1.2.1-xml.jar
+						commons-logging-1.1.1.jar
+						mysql-connector-java-5.1.5-bin.jar
+						office-2.0.jar
+						osxadapter.jar
+						scri-commons.jar
+						swing-layout-1.0.3.jar"/>
+			</manifest>
+		</jar>
+	</target>
+	
+	<target name="javadoc">
+		<javadoc destdir="docs/api" author="true" version="true" use="true">
+			<fileset dir="${src}" defaultexcludes="yes">
+				<include name="**/*.java"/>
+			</fileset>
+			<classpath refid="project.classpath"/>
+		</javadoc>
+	</target>
+	
+	<target name="test" depends="jar">
+		<junit printsummary="on">
+			<classpath refid="project.classpath"/>
+			<classpath>
+				<pathelement path="${jarfile}"/>
+			</classpath>
+
+			<formatter type="plain" usefile="false"/>
+
+			<test name="flapjack.data.DataSetTest"/>
+			<test name="flapjack.analysis.FindLineTest"/>
+		</junit>
+	</target>
+	
+	<target name="osx" depends="jar">
+		<exec executable="scp">
+			<arg line="lib/flapjack.jar 143.234.127.110:Java/Flapjack/"/>
+		</exec>
+	</target>
+
+</project>

@@ -1,0 +1,40 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+
+<html>
+<head>
+<meta http-equiv="Content-Language" content="en-gb">
+<link rel="stylesheet" href="styles.css" type="text/css">
+
+<title>Import Data Options</title>
+
+</head>
+<body>
+
+<!--#include virtual="header.html" -->
+
+
+<h1>Import Data Options</h1>
+
+<p>The <b>Import Data Options</b> dialog is used to select which method you'd like
+to use to import a data set into Flapjack.</p>
+
+<p>The following options are available:</p>
+
+<ul>
+<li><b>Providing the map and genotype data from files located on disk</b><br>
+Selecting this method will open the <a href="gui.dialog.DataImportDialog.shtml">
+Import Data</a> dialog and allow you to choose a
+file containing map data and a file containing genotype data to import into
+Flapjack.<p></p>
+<li><b>Connecting to a Germinate database and importing directly</b><br>
+This option is not yet implemented.<p></p>
+<li><b>Using the built-in example dataset bundled with Flapjack</b><br>
+Selecting this method will open an examplar dataset that is suitable for use
+while getting to know Flapjack.<p></p>
+</ul>
+
+
+<!--#include virtual="footer.html" -->
+
+</body>
+</html>
