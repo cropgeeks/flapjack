@@ -1,0 +1,50 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+
+<html>
+<head>
+<meta http-equiv="Content-Language" content="en-gb">
+<link rel="stylesheet" href="styles.css" type="text/css">
+
+<title>Help Menu</title>
+
+</head>
+<body>
+
+<!--#include virtual="header.html" -->
+
+
+<h1>Help Menu</h1>
+
+<p>This reference page describes each item found within the <b>Help</b> menu
+of Flapjack's main menu bar.</p>
+
+
+<h3>Help contents</h3>
+<p>Opens your default web browser and takes you to this online help.</p>
+
+<h3>License</h3>
+<p>Opens your default web browser and takes you to the <a href="licence.shtml">
+Flapjack Software Licence</a> online help page.</p>
+
+<h3>Preferences</h3>
+<p>Displays the <a href="gui.dialog.prefs.PreferencesDialog.shtml">Preferences</a>
+dialog that allows you to change several options that
+affect the way Flapjack is used and is displayed. Note that on Mac OS X, this
+option is remapped to <b>Flapjack > Preferences</b> on the system menu.</p>
+
+<h3>Check for update</h3>
+<p>Displays the Updater dialog that will connect to the internet and check to see
+if a new version of Flapjack is available. If it is, you will be prompted to
+download and install it. You should save any open projects first.</p>
+
+<h3>About Flapjack</h3>
+<p>Displays the About Flapjack dialog that shows information on the current
+version, copyright information, and the list of authors/contributors. Note that
+on Mac OS X, this option is remapped to <b>Flapjack > About Flapjack</b> on the
+system menu.</p>
+
+
+<!--#include virtual="footer.html" -->
+
+</body>
+</html>

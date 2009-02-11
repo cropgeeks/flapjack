@@ -1,0 +1,37 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+
+<html>
+<head>
+<meta http-equiv="Content-Language" content="en-gb">
+<link rel="stylesheet" href="styles.css" type="text/css">
+
+<title>Database Link Settings</title>
+
+</head>
+<body>
+
+<!--#include virtual="header.html" -->
+
+
+<h1>Database Link Settings</h1>
+
+<p>Use the <b>Database Link Settings</b> dialog to set or update the URLs that
+Flapjack will use when attempting to query a remote database for line or marker
+information.</p>
+
+<p><a href="images/gui.dialog.DatabaseSettingsDialog.png">
+<img src="images/gui.dialog.DatabaseSettingsDialog2.png"></a></p>
+
+<ul>
+<li><b>Line searches</b><br>
+Enter a valid URL containing a location that can be queried for information on a
+line, where $LINE will be replaced by the actual name of the line.<p></p>
+<li><b>Marker searches</b><br>
+Enter a valid URL containing a location that can be queried for information on a
+marker, where $MARKER will be replaced by the actual name of the line.<p></p>
+
+
+<!--#include virtual="footer.html" -->
+
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+
+<html>
+<head>
+<meta http-equiv="Content-Language" content="en-gb">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+<link rel="stylesheet" href="../stylesheet/styles.css" type="text/css">
+
+<title>Import Data Options</title>
+
+</head>
+<body>
+
+<!--#include virtual="header.html" -->
+
+
+<h2>Import Data Options</h2>
+
+<p>The <b>Import Data Options</b> dialog is used to select which method you'd like
+to use to import a data set into Flapjack.</p>
+
+<p><a href="images/gui.dialog.ImportOptionsDialog.png">
+<img class="capture" src="images/gui.dialog.ImportOptionsDialog2.png" alt="Flapjack Screenshot"></a></p>
+
+<p>The following primary options are available:</p>
+
+<ul>
+<li><b>Providing the map and genotype data from files located on disk</b><br>
+Selecting this method will open the <a href="gui.dialog.DataImportDialog.shtml">
+Import Data</a> dialog and allow you to choose a
+file containing map data and a file containing genotype data to import into
+Flapjack.</li>
+<li><b>Connecting to a Germinate database and importing directly</b><br>
+This is a placeholder option for possible future inclusion.</li>
+<li><b>Using the built-in example data set bundled with Flapjack</b><br>
+Selecting this method will open an examplar data set that is suitable for use
+while getting to know Flapjack.</li>
+</ul>
+
+<p>Secondary options are also available, once a primary data set has been loaded:</p>
+
+<ul>
+<li><b>Import trait information from a file located on disk</b><br>
+Selecting this option prompts you to provide a file containing trait information
+that can be associated with the lines contained in the main data set.</li>
+<li><b>Import QTL information from a file located on disk</b><br>
+This is a placeholder option for possible future inclusion.</li>
+</ul>
+
+<!--#include virtual="footer.html" -->
+
+</body>
+</html>
