@@ -28,7 +28,7 @@ please see the <a href="../future-work.shtml">future work</a> page.</p>
 <h3>New in 0.09.02.03</h3>
 
 <ul>
-<li>NEW: Flapjack can now read files containing genotype data that does include heterozygous separator characters, for example "AT" can be read as "A/T" or "A" and "T" (depending on import options).</li>
+<li>NEW: Flapjack can now read files containing genotype data that does not include heterozygous separator characters, for example "AT" can be read as "A/T" or "A" and "T" (depending on import options).</li>
 <li>CHG: Flapjack is now better at estimating what default colour scheme to use when a data set is first imported.</li>
 <li>BUG: Importing the sample data set after modifying the import options away from their defaults no longer results in the sample not loading correctly.</li>
 <li>BUG: Re-clicking on the same row again in the Find Dialog will now graphically highlight the result again.</li>

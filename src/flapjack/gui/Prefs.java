@@ -156,6 +156,9 @@ public class Prefs extends XMLPreferences
 	public static Color visColorLoFreqState;
 	public static Color visColorHiFreqState;
 
+	public static boolean miscSubscribed = false;
+	public static String miscEmail = "";
+	public static String miscInstitution = "";
 
 	static void setDefaults()
 	{

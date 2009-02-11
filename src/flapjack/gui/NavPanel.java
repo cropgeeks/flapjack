@@ -29,7 +29,6 @@ class NavPanel extends JPanel
 	private JSplitPane hSplitPane, vSplitPane;
 
 	private NavPanelMenu menu;
-	private IntroPanel introPanel = new IntroPanel();
 
 	// We maintain just one GenotypePanel that is used to display any dataset
 	// as it would require too much memory to assign one per dataset
@@ -66,7 +65,7 @@ class NavPanel extends JPanel
 		hSplitPane.addPropertyChangeListener(this);
 		hSplitPane.setDividerLocation(Prefs.guiNavSplitsLocation);
 		hSplitPane.setLeftComponent(vSplitPane);
-		hSplitPane.setRightComponent(introPanel);
+		hSplitPane.setRightComponent(new IntroPanel());
 
 		FileDropAdapter dropAdapter = new FileDropAdapter(winMain);
 		setDropTarget(new DropTarget(this, dropAdapter));
@@ -296,7 +295,7 @@ class NavPanel extends JPanel
 			node.setActions();
 		}
 		else
-			hSplitPane.setRightComponent(introPanel);
+			hSplitPane.setRightComponent(new IntroPanel());
 
 		hSplitPane.setDividerLocation(location);
 
@@ -308,22 +307,24 @@ class NavPanel extends JPanel
 	/**
 	 * Panel used for display when no other tree components have been selected.
 	 */
-	private static class IntroPanel extends JPanel
+	private class IntroPanel extends JPanel
 	{
 		IntroPanel()
 		{
-			DoeLayout layout = new DoeLayout();
-			layout.getPanel().setBackground(Color.white);
-
-			layout.add(new JLabel(Icons.getIcon("GERMINATE"), JLabel.CENTER),
-				0, 0, 1, 1, new Insets(5, 5, 5, 5));
-			layout.add(new JLabel(RB.getString("gui.NavPanel.emptyPanel"),
-				JLabel.CENTER), 0, 1, 1, 1, new Insets(5, 5, 5, 5));
-			layout.add(new JLabel(RB.getString("gui.NavPanel.introLabel"),
-				JLabel.CENTER), 0, 2, 1, 1, new Insets(15, 5, 5, 5));
-
 			setLayout(new BorderLayout());
-			add(layout.getPanel());
+
+			JPanel panel = new JPanel(new BorderLayout(0, 0));
+
+			JPanel centrePanel = new JPanel(new GridLayout(1, 2, 0, 0));
+			centrePanel.add(new NBStartFilePanel());
+			centrePanel.add(new NBStartHelpPanel());
+
+			panel.add(new NBStartWelcomePanel(), BorderLayout.NORTH);
+			panel.add(centrePanel, BorderLayout.CENTER);
+			panel.add(new NBStartEmailPanel(), BorderLayout.SOUTH);
+
+//			add(new JScrollPane(panel));
+			add(panel);
 		}
 	}
 }
