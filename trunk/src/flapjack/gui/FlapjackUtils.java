@@ -11,6 +11,8 @@ import scri.commons.gui.*;
 
 public class FlapjackUtils
 {
+	public static Cursor HAND_CURSOR = new Cursor(Cursor.HAND_CURSOR);
+
 	// Checks to see if the IP address of the current user is an SCRI one
 	public static boolean isSCRIUser()
 	{
