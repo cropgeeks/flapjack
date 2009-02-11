@@ -79,10 +79,7 @@ public class FlapjackUtils
 			else
 				visitURL5(html);
 		}
-		catch (Exception e)
-		{
-			System.out.println(e);
-		}
+		catch (Exception e) { System.out.println(e); }
 	}
 
 	// Java6 method for visiting a URL
@@ -106,6 +103,23 @@ public class FlapjackUtils
 			new Class[] {String.class});
 
 		openURL.invoke(null, new Object[] {html});
+	}
+
+	public static void sendFeedback()
+	{
+		try
+		{
+			if (SystemUtils.jreVersion() >= 1.6)
+				openMailClient();
+		}
+		catch (Exception e) { System.out.println(e); }
+	}
+
+	private static void openMailClient()
+		throws Exception
+	{
+		Desktop desktop = Desktop.getDesktop();
+		desktop.mail(new URI("mailto:flapjack@germinate.org.uk?subject=Flapjack%20Feedback"));
 	}
 
 	public static JPanel getButtonPanel()

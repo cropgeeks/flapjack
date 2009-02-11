@@ -2,21 +2,21 @@ package flapjack.gui.navpanel;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.*;
 import javax.swing.*;
 
 import flapjack.gui.*;
 
 public class NBStartFilePanel extends javax.swing.JPanel
 {
+	private JLabel[] labels = new JLabel[4];
+	private String[] files = new String[4];
+
 	public NBStartFilePanel()
 	{
 		initComponents();
-		setBackground(Color.white);
-		panel.setBackground(Color.white);
+		setOpaque(false);
 
-		setBorder(BorderFactory.createEmptyBorder(0, 0, -10, -5));
-
-		panel.setBorder(BorderFactory.createTitledBorder(RB.getString("gui.navpanel.NBStartFilePanel.panel.title")));
 		RB.setText(importLabel, "gui.navpanel.NBStartFilePanel.importLabel");
 		RB.setText(openLabel, "gui.navpanel.NBStartFilePanel.openLabel");
 
@@ -26,45 +26,24 @@ public class NBStartFilePanel extends javax.swing.JPanel
 		importLabel.addMouseListener(clicker);
 		importLabel.setCursor(FlapjackUtils.HAND_CURSOR);
 
-		project1.setVisible(false);
-		project2.setVisible(false);
-		project3.setVisible(false);
-		project4.setVisible(false);
+		// Create the labels array
+		labels[0] = project0; labels[1] = project1;
+		labels[2] = project2; labels[3] = project3;
 
-		// Recent project 1
-		if (Prefs.guiRecentProject1 != null)
-		{
-			project1.addMouseListener(clicker);
-			project1.setCursor(FlapjackUtils.HAND_CURSOR);
-			project1.setText(Prefs.guiRecentProject1);
-			project1.setVisible(true);
-		}
+		// Create the files array
+		files[0] = Prefs.guiRecentProject1; files[1] = Prefs.guiRecentProject2;
+		files[2] = Prefs.guiRecentProject3; files[3] = Prefs.guiRecentProject4;
 
-		// Recent project 2
-		if (Prefs.guiRecentProject2 != null)
+		for (int i = 0; i < labels.length; i++)
 		{
-			project2.addMouseListener(clicker);
-			project2.setCursor(FlapjackUtils.HAND_CURSOR);
-			project2.setText(Prefs.guiRecentProject2);
-			project2.setVisible(true);
-		}
-
-		// Recent project 3
-		if (Prefs.guiRecentProject3 != null)
-		{
-			project3.addMouseListener(clicker);
-			project3.setCursor(FlapjackUtils.HAND_CURSOR);
-			project3.setText(Prefs.guiRecentProject3);
-			project3.setVisible(true);
-		}
-
-		// Recent project 4
-		if (Prefs.guiRecentProject4 != null)
-		{
-			project4.addMouseListener(clicker);
-			project4.setCursor(FlapjackUtils.HAND_CURSOR);
-			project4.setText(Prefs.guiRecentProject4);
-			project4.setVisible(true);
+			if (files[i] != null)
+			{
+				labels[i].addMouseListener(clicker);
+				labels[i].setCursor(FlapjackUtils.HAND_CURSOR);
+				labels[i].setText(files[i]);
+			}
+			else
+				labels[i].setVisible(false);
 		}
     }
 
@@ -72,10 +51,14 @@ public class NBStartFilePanel extends javax.swing.JPanel
     {
     	public void mouseClicked(MouseEvent e)
     	{
-    		if (e.getSource() == importLabel)
-    		{
+    		WinMain wm = Flapjack.winMain;
 
-    		}
+    		if (e.getSource() == importLabel)
+				wm.mFile.fileImport();
+
+			for (int i = 0; i < labels.length; i++)
+				if (e.getSource() == labels[i])
+					wm.mFile.fileOpen(new File(files[i]));
     	}
     }
 
@@ -88,20 +71,21 @@ public class NBStartFilePanel extends javax.swing.JPanel
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        panel = new javax.swing.JPanel();
         importLabel = new javax.swing.JLabel();
         openLabel = new javax.swing.JLabel();
+        project0 = new javax.swing.JLabel();
         project1 = new javax.swing.JLabel();
         project2 = new javax.swing.JLabel();
         project3 = new javax.swing.JLabel();
-        project4 = new javax.swing.JLabel();
-
-        panel.setBorder(javax.swing.BorderFactory.createTitledBorder("Getting started:"));
 
         importLabel.setForeground(new java.awt.Color(68, 106, 156));
         importLabel.setText("Import data into Flapjack");
 
-        openLabel.setText("Open an previously created Flapjack project:");
+        openLabel.setText("Open an previously accessed Flapjack project:");
+
+        project0.setForeground(new java.awt.Color(68, 106, 156));
+        project0.setIcon(Icons.getIcon("FLAPJACK16"));
+        project0.setText("<project0>");
 
         project1.setForeground(new java.awt.Color(68, 106, 156));
         project1.setIcon(Icons.getIcon("FLAPJACK16"));
@@ -115,58 +99,37 @@ public class NBStartFilePanel extends javax.swing.JPanel
         project3.setIcon(Icons.getIcon("FLAPJACK16"));
         project3.setText("<project3>");
 
-        project4.setForeground(new java.awt.Color(68, 106, 156));
-        project4.setIcon(Icons.getIcon("FLAPJACK16"));
-        project4.setText("<project4>");
-
-        org.jdesktop.layout.GroupLayout panelLayout = new org.jdesktop.layout.GroupLayout(panel);
-        panel.setLayout(panelLayout);
-        panelLayout.setHorizontalGroup(
-            panelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(panelLayout.createSequentialGroup()
-                .addContainerGap()
-                .add(panelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(importLabel)
-                    .add(openLabel)
-                    .add(project1)
-                    .add(project2)
-                    .add(project3)
-                    .add(project4))
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        panelLayout.setVerticalGroup(
-            panelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(panelLayout.createSequentialGroup()
-                .addContainerGap()
-                .add(importLabel)
-                .add(18, 18, 18)
-                .add(openLabel)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                .add(project1)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(project2)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(project3)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(project4)
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
                 .addContainerGap()
-                .add(panel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(importLabel)
+                    .add(openLabel)
+                    .add(project0)
+                    .add(project1)
+                    .add(project2)
+                    .add(project3))
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
                 .addContainerGap()
-                .add(panel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .add(importLabel)
+                .add(18, 18, 18)
+                .add(openLabel)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                .add(project0)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(project1)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(project2)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(project3)
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -174,11 +137,10 @@ public class NBStartFilePanel extends javax.swing.JPanel
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel importLabel;
     private javax.swing.JLabel openLabel;
-    private javax.swing.JPanel panel;
+    private javax.swing.JLabel project0;
     private javax.swing.JLabel project1;
     private javax.swing.JLabel project2;
     private javax.swing.JLabel project3;
-    private javax.swing.JLabel project4;
     // End of variables declaration//GEN-END:variables
 
 }
