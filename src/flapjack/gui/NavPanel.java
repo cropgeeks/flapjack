@@ -312,19 +312,72 @@ class NavPanel extends JPanel
 		IntroPanel()
 		{
 			setLayout(new BorderLayout());
+			setBorder(BorderFactory.createLineBorder(new Color(119, 126, 143), 3));
 
-			JPanel panel = new JPanel(new BorderLayout(0, 0));
+			JPanel panel = new LogoPanel(new BorderLayout(0, 0));
+
+			JPanel welcomePanel = new JPanel(new BorderLayout());
+			welcomePanel.setOpaque(false);
+			welcomePanel.setBorder(BorderFactory.createEmptyBorder(2, 2, 8, 2));
+			welcomePanel.add(new TitlePanel3(
+				RB.getString("gui.navpanel.NBStartWelcomePanel.title")), BorderLayout.NORTH);
+			welcomePanel.add(new NBStartWelcomePanel());
+
+			JPanel filePanel = new JPanel(new BorderLayout());
+			filePanel.setOpaque(false);
+			filePanel.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
+			filePanel.add(new TitlePanel3(
+				RB.getString("gui.navpanel.NBStartFilePanel.title")), BorderLayout.NORTH);
+			filePanel.add(new NBStartFilePanel());
+
+			JPanel helpPanel = new JPanel(new BorderLayout());
+			helpPanel.setOpaque(false);
+			helpPanel.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
+			helpPanel.add(new TitlePanel3(
+				RB.getString("gui.navpanel.NBStartHelpPanel.title")), BorderLayout.NORTH);
+			helpPanel.add(new NBStartHelpPanel());
+
+			JPanel emailPanel = new JPanel(new BorderLayout());
+			emailPanel.setOpaque(false);
+			emailPanel.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
+			emailPanel.add(new TitlePanel3(
+				RB.getString("gui.navpanel.NBStartEmailPanel.title")), BorderLayout.NORTH);
+			emailPanel.add(new NBStartEmailPanel());
 
 			JPanel centrePanel = new JPanel(new GridLayout(1, 2, 0, 0));
-			centrePanel.add(new NBStartFilePanel());
-			centrePanel.add(new NBStartHelpPanel());
+			centrePanel.setOpaque(false);
+			centrePanel.add(filePanel);
+			centrePanel.add(helpPanel);
 
-			panel.add(new NBStartWelcomePanel(), BorderLayout.NORTH);
+			panel.add(welcomePanel, BorderLayout.NORTH);
 			panel.add(centrePanel, BorderLayout.CENTER);
-			panel.add(new NBStartEmailPanel(), BorderLayout.SOUTH);
+			panel.add(emailPanel, BorderLayout.SOUTH);
 
 //			add(new JScrollPane(panel));
 			add(panel);
+		}
+	}
+
+	private static class LogoPanel extends JPanel
+	{
+		private static ImageIcon logo = Icons.getIcon("SCRILARGE");
+
+		LogoPanel(LayoutManager lm)
+		{
+			super(lm);
+			setBackground(Color.white);
+		}
+
+		public void paintComponent(Graphics graphics)
+		{
+			super.paintComponent(graphics);
+
+			Graphics2D g = (Graphics2D) graphics;
+
+			int w = getWidth();
+			int h = getHeight();
+
+			g.drawImage(logo.getImage(), 0, 0, w, w, null);
 		}
 	}
 }

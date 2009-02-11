@@ -44,7 +44,7 @@ public class MenuFile
 		navPanel.setProject(project);
 	}
 
-	void fileOpen(File file)
+	public void fileOpen(File file)
 	{
 		Project project = winMain.getProject();
 
@@ -111,7 +111,7 @@ public class MenuFile
 		return false;
 	}
 
-	void fileImport()
+	public void fileImport()
 	{
 		boolean secondaryOptions = navPanel.getDataSetForSelection() != null;
 

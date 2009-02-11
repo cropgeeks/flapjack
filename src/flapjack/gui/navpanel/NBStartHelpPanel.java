@@ -1,9 +1,3 @@
-/*
- * NBStartHelpPanel.java
- *
- * Created on 09 February 2009, 14:58
- */
-
 package flapjack.gui.navpanel;
 
 import java.awt.*;
@@ -14,18 +8,16 @@ import flapjack.gui.*;
 
 public class NBStartHelpPanel extends javax.swing.JPanel
 {
+	private JLabel[] labels = new JLabel[8];
+
 	private static String home =
 		"http://bioinf.scri.ac.uk/flapjack/help";
 
     public NBStartHelpPanel()
 	{
 		initComponents();
-		setBackground(Color.white);
-		panel.setBackground(Color.white);
+		setOpaque(false);
 
-		setBorder(BorderFactory.createEmptyBorder(0, -5, -10, 0));
-
-		panel.setBorder(BorderFactory.createTitledBorder(RB.getString("gui.navpanel.NBStartHelpPanel.panel.title")));
 		RB.setText(homeLabel, "gui.navpanel.NBStartHelpPanel.homeLabel");
 
 		ClickListener clicker = new ClickListener();
@@ -33,6 +25,18 @@ public class NBStartHelpPanel extends javax.swing.JPanel
 		homeLabel.setIcon(Icons.getIcon("BOOK"));
 		homeLabel.setCursor(FlapjackUtils.HAND_CURSOR);
 		homeLabel.addMouseListener(clicker);
+
+		labels[0] = link1; labels[1] = link2;
+		labels[2] = link3; labels[3] = link4;
+		labels[4] = link5; labels[5] = link6;
+		labels[6] = link7; labels[7] = link8;
+
+		for (int i = 0; i < labels.length; i++)
+		{
+			RB.setText(labels[i], "gui.navpanel.NBStartHelpPanel.link" + (i+1));
+			labels[i].setCursor(FlapjackUtils.HAND_CURSOR);
+			labels[i].addMouseListener(clicker);
+		}
     }
 
     private class ClickListener extends MouseAdapter
@@ -41,6 +45,16 @@ public class NBStartHelpPanel extends javax.swing.JPanel
     	{
     		if (e.getSource() == homeLabel)
     			FlapjackUtils.visitURL(home);
+
+    		else
+    		{
+    			for (int i = 0; i < labels.length; i++)
+    				if (e.getSource() == labels[i])
+    				{
+    					FlapjackUtils.visitURL(RB.getString(
+    						"gui.navpanel.NBStartHelpPanel.url" + (i+1)));;
+    				}
+    		}
     	}
     }
 
@@ -53,87 +67,50 @@ public class NBStartHelpPanel extends javax.swing.JPanel
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        panel = new javax.swing.JPanel();
         homeLabel = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-
-        panel.setBorder(javax.swing.BorderFactory.createTitledBorder("Learning more:"));
+        link1 = new javax.swing.JLabel();
+        link2 = new javax.swing.JLabel();
+        link3 = new javax.swing.JLabel();
+        link4 = new javax.swing.JLabel();
+        link5 = new javax.swing.JLabel();
+        link6 = new javax.swing.JLabel();
+        link7 = new javax.swing.JLabel();
+        link8 = new javax.swing.JLabel();
 
         homeLabel.setForeground(new java.awt.Color(68, 106, 156));
         homeLabel.setText("Visit the online Flapjack user manual");
 
-        jLabel1.setForeground(new java.awt.Color(68, 106, 156));
-        jLabel1.setIcon(Icons.getIcon("BUTTON"));
-        jLabel1.setText("link1");
+        link1.setForeground(new java.awt.Color(68, 106, 156));
+        link1.setIcon(Icons.getIcon("BUTTON"));
+        link1.setText("link1");
 
-        jLabel2.setForeground(new java.awt.Color(68, 106, 156));
-        jLabel2.setIcon(Icons.getIcon("BUTTON"));
-        jLabel2.setText("link2");
+        link2.setForeground(new java.awt.Color(68, 106, 156));
+        link2.setIcon(Icons.getIcon("BUTTON"));
+        link2.setText("link2");
 
-        jLabel3.setForeground(new java.awt.Color(68, 106, 156));
-        jLabel3.setIcon(Icons.getIcon("BUTTON"));
-        jLabel3.setText("link3");
+        link3.setForeground(new java.awt.Color(68, 106, 156));
+        link3.setIcon(Icons.getIcon("BUTTON"));
+        link3.setText("link3");
 
-        jLabel4.setForeground(new java.awt.Color(68, 106, 156));
-        jLabel4.setIcon(Icons.getIcon("BUTTON"));
-        jLabel4.setText("link4");
+        link4.setForeground(new java.awt.Color(68, 106, 156));
+        link4.setIcon(Icons.getIcon("BUTTON"));
+        link4.setText("link4");
 
-        jLabel5.setForeground(new java.awt.Color(68, 106, 156));
-        jLabel5.setIcon(Icons.getIcon("BUTTON"));
-        jLabel5.setText("link5");
+        link5.setForeground(new java.awt.Color(68, 106, 156));
+        link5.setIcon(Icons.getIcon("BUTTON"));
+        link5.setText("link5");
 
-        jLabel6.setForeground(new java.awt.Color(68, 106, 156));
-        jLabel6.setIcon(Icons.getIcon("BUTTON"));
-        jLabel6.setText("link6");
+        link6.setForeground(new java.awt.Color(68, 106, 156));
+        link6.setIcon(Icons.getIcon("BUTTON"));
+        link6.setText("link6");
 
-        jLabel7.setForeground(new java.awt.Color(68, 106, 156));
-        jLabel7.setIcon(Icons.getIcon("BUTTON"));
-        jLabel7.setText("link7");
+        link7.setForeground(new java.awt.Color(68, 106, 156));
+        link7.setIcon(Icons.getIcon("BUTTON"));
+        link7.setText("link7");
 
-        org.jdesktop.layout.GroupLayout panelLayout = new org.jdesktop.layout.GroupLayout(panel);
-        panel.setLayout(panelLayout);
-        panelLayout.setHorizontalGroup(
-            panelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(panelLayout.createSequentialGroup()
-                .addContainerGap()
-                .add(panelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(homeLabel)
-                    .add(jLabel2)
-                    .add(jLabel1)
-                    .add(jLabel3)
-                    .add(jLabel4)
-                    .add(jLabel5)
-                    .add(jLabel6)
-                    .add(jLabel7))
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        panelLayout.setVerticalGroup(
-            panelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(panelLayout.createSequentialGroup()
-                .addContainerGap()
-                .add(homeLabel)
-                .add(18, 18, 18)
-                .add(jLabel1)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(jLabel2)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(jLabel3)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(jLabel4)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(jLabel5)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(jLabel6)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(jLabel7)
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+        link8.setForeground(new java.awt.Color(68, 106, 156));
+        link8.setIcon(Icons.getIcon("BUTTON"));
+        link8.setText("link8");
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
         this.setLayout(layout);
@@ -141,29 +118,54 @@ public class NBStartHelpPanel extends javax.swing.JPanel
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
                 .addContainerGap()
-                .add(panel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(homeLabel)
+                    .add(link2)
+                    .add(link1)
+                    .add(link3)
+                    .add(link4)
+                    .add(link5)
+                    .add(link6)
+                    .add(link7)
+                    .add(link8))
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
                 .addContainerGap()
-                .add(panel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .add(homeLabel)
+                .add(18, 18, 18)
+                .add(link1)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(link2)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(link3)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(link4)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(link5)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(link6)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(link7)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(link8)
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel homeLabel;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JPanel panel;
+    private javax.swing.JLabel link1;
+    private javax.swing.JLabel link2;
+    private javax.swing.JLabel link3;
+    private javax.swing.JLabel link4;
+    private javax.swing.JLabel link5;
+    private javax.swing.JLabel link6;
+    private javax.swing.JLabel link7;
+    private javax.swing.JLabel link8;
     // End of variables declaration//GEN-END:variables
 
 }
