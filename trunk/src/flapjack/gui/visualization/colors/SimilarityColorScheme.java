@@ -1,5 +1,6 @@
 package flapjack.gui.visualization.colors;
 
+import java.awt.*;
 import java.util.*;
 
 import flapjack.data.*;
@@ -7,10 +8,21 @@ import flapjack.gui.*;
 
 abstract class SimilarityColorScheme extends ColorScheme
 {
-	protected Vector<ColorState> aStates = new Vector<ColorState>();
-	protected Vector<ColorState> bStates = new Vector<ColorState>();
-	// TODO: Once we have proper highlighting, there'll be no need for this style?
-	protected Vector<ColorState> aStatesDark = new Vector<ColorState>();
+	// List of comparison line/marker states (dark red by default)
+	protected Vector<ColorState> compStates = new Vector<ColorState>();				// eg A matches A
+
+	// States that exactly match the comparison
+	protected Vector<ColorState> mtchStatesY = new Vector<ColorState>();			// eg A matches A, A/T matches A/T
+	// States that don't exactly match the comparison
+	protected Vector<ColorState> mtchStatesN = new Vector<ColorState>();			// eg A doesn't match T, A/T doesn't match C/G
+
+	// States that match on the first het allele
+	protected Vector<ColorState> het1States = new Vector<ColorState>();				// eg A/T matches A or A/G
+	// States that match on the second het allele
+	protected Vector<ColorState> het2States = new Vector<ColorState>();				// eg A/T matches T or C/T
+
+	protected int[][] lookupTable;
+
 
 	/** Empty constructor that is ONLY used for color customization purposes. */
 	public SimilarityColorScheme() {}
@@ -19,37 +31,52 @@ abstract class SimilarityColorScheme extends ColorScheme
 	{
 		super(view);
 
+		// Shorthand names for the colours (makes the code below more readable)
+		Color sHz = Prefs.visColorNucleotideHZ;
+		Color drk = Prefs.visColorSimilarityState1Dark;
+		Color s1  = Prefs.visColorSimilarityState1;
+		Color s2  = Prefs.visColorSimilarityState2;
+
 		for (int i = 0; i < stateTable.size(); i++)
 		{
 			AlleleState state = stateTable.getAlleleState(i);
-			ColorState cA = null;
-			ColorState cB = null;
-			ColorState cADark = null;
+
+			ColorState comp, mtchY, mtchN, het1, het2;
 
 			// Use white for the default unknown state
 			if (state.isUnknown())
-				cA = cB = cADark = new SimpleColorState(state, Prefs.visColorBackground, w, h);
+				comp = mtchY = mtchN = het1 = het2 = new SimpleColorState(state, Prefs.visColorBackground, w, h);
 
 			// Homozygous states
 			else if (state.isHomozygous())
 			{
-				cA = new HomozygousColorState(state, Prefs.visColorSimilarityState1, w, h);
-				cB = new HomozygousColorState(state, Prefs.visColorSimilarityState2, w, h);
-				cADark = new HomozygousColorState(state, Prefs.visColorSimilarityState1Dark, w, h);
+				comp  = new HomozygousColorState(state, drk, w, h);
+
+				mtchY = new HomozygousColorState(state, s1, w, h);
+				mtchN = new HomozygousColorState(state, s2, w, h);
+				het1  = null;
+				het2  = null;
 			}
 
 			// Heterozygous states
 			else
 			{
-				cA = new HeterozygeousColorState(state, Prefs.visColorSimilarityState1, Prefs.visColorSimilarityState1, Prefs.visColorSimilarityState1, w, h);
-				cB = new HeterozygeousColorState(state, Prefs.visColorSimilarityState2, Prefs.visColorSimilarityState2, Prefs.visColorSimilarityState2, w, h);
-				cADark = new HeterozygeousColorState(state, Prefs.visColorSimilarityState1Dark, Prefs.visColorSimilarityState1Dark, Prefs.visColorSimilarityState1Dark, w, h);
+				comp  = new HeterozygeousColorState(state, sHz, drk, drk, w, h);
+
+				mtchY = new HeterozygeousColorState(state, sHz, s1, s1, w, h);
+				mtchN = new HeterozygeousColorState(state, sHz, s2, s2, w, h);
+				het1  = new HeterozygeousColorState(state, sHz, s1, s2, w, h);
+				het2  = new HeterozygeousColorState(state, sHz, s2, s1, w, h);
 			}
 
-			aStates.add(cA);
-			bStates.add(cB);
-			aStatesDark.add(cADark);
+			compStates.add(comp);
+			mtchStatesY.add(mtchY);
+			mtchStatesN.add(mtchN);
+			het1States.add(het1);
+			het2States.add(het2);
 		}
+
+		createLookupTable();
 	}
 
 	public void setColorSummaries(Vector<ColorSummary> colors)
@@ -57,5 +84,70 @@ abstract class SimilarityColorScheme extends ColorScheme
 		Prefs.visColorSimilarityState1Dark = colors.get(0).color;
 		Prefs.visColorSimilarityState1 = colors.get(1).color;
 		Prefs.visColorSimilarityState2 = colors.get(2).color;
+	}
+
+	private void createLookupTable()
+	{
+		// Make a lookup table suitable for an all-by-all comparison of states
+		// This is so we can, for example, compare A against A/T and decide that
+		// A is a partial match and should be drawn in the same colour
+		// Or (another example), comparing A/T against A, again a partial match
+		// so draw A/T with the A half in red, T half in green (het1 state)
+
+		int count = stateTable.size();
+		lookupTable = new int[count][count];
+
+		for (int i = 0; i < count; i++)
+		{
+			for (int j = 0; j < count; j++)
+			{
+				// Start by assuming no match - we can override later...
+				lookupTable[i][j] = 2;
+
+				// Perfect match... (does homoz<->homoz comparisons too)
+				if (i == j)
+				{
+					lookupTable[i][j] = 1;
+					continue;
+				}
+
+				AlleleState ai = stateTable.getAlleleState(i);
+				AlleleState aj = stateTable.getAlleleState(j);
+
+				// i is homoz, j is hetez
+				if (ai.isHomozygous() && !aj.isHomozygous())
+				{
+					// match
+					if (ai.getState(0).equals(aj.getState(0)) || ai.getState(0).equals(aj.getState(1)))
+						lookupTable[i][j] = 1;
+				}
+
+				// i is hetez, j is homoz
+				else if (!ai.isHomozygous() && aj.isHomozygous())
+				{
+					// het1 match
+					if (ai.getState(0).equals(aj.getState(0)))
+						lookupTable[i][j] = 3;
+					// het2 match
+					else if (ai.getState(1).equals(aj.getState(0)))
+						lookupTable[i][j] = 4;
+				}
+
+				// i and j both hetez
+				else if (!ai.isHomozygous() && !aj.isHomozygous())
+				{
+					// A/T matches T/A ?
+					if (ai.matches(aj))
+						lookupTable[i][j] = 1;
+
+					// het1 match  (eg A/T half matches A/G or G/A)
+					else if (ai.getState(0).equals(aj.getState(0)) || ai.getState(0).equals(aj.getState(1)))
+						lookupTable[i][j] = 3;
+					// het2 match  (eg A/T half matches T/G or C/T)
+					else if (ai.getState(1).equals(aj.getState(0)) || ai.getState(1).equals(aj.getState(1)))
+						lookupTable[i][j] = 4;
+				}
+			}
+		}
 	}
 }
