@@ -62,6 +62,8 @@ public class NBStartEmailPanel extends JPanel implements FocusListener
 			institutionText.setText(hint);
 			institutionText.setForeground(Color.lightGray);
 		}
+		else
+			institutionText.setForeground(Color.black);
 	}
 
     private void setStatus()
