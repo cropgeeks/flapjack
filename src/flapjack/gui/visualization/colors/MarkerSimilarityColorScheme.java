@@ -24,15 +24,24 @@ public class MarkerSimilarityColorScheme extends SimilarityColorScheme
 
 		// If it's the index marker, return the darker version
 		if (marker == comparisonIndex)
-			return aStatesDark.get(state);
+			return compStates.get(state);
 
 		// Try to do the comparison
 		if (comparisonIndex != -1)
-			if (state == view.getState(line, comparisonIndex))
-				return aStates.get(state);
+		{
+			int compState = view.getState(line, comparisonIndex);
+
+			switch (lookupTable[state][compState])
+			{
+				case 1: return mtchStatesY.get(state);
+				case 2: return mtchStatesN.get(state);
+				case 3: return het1States.get(state);
+				case 4: return het2States.get(state);
+			}
+		}
 
 		// If it's not the same, or we can't do a comparison...
-		return bStates.get(state);
+		return mtchStatesN.get(state);
 	}
 
 	public BufferedImage getSelectedImage(int line, int marker)
