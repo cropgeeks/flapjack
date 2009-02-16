@@ -25,7 +25,7 @@ public class SCRIDialog extends JDialog implements ActionListener
 		setLocationRelativeTo(Flapjack.winMain);
 		setResizable(false);
 
-		if (Prefs.querySCRI && FlapjackUtils.isSCRIUser())
+		if (Prefs.querySCRI && SystemUtils.isSCRIUser())
 			setVisible(true);
 		else
 			Prefs.querySCRI = false;
