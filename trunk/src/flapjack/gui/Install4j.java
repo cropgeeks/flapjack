@@ -7,6 +7,8 @@ import java.util.*;
 import com.install4j.api.launcher.*;
 import com.install4j.api.update.*;
 
+import scri.commons.gui.*;
+
 /**
  * Utility class that performs install4j updater actions on behalf of Flapjack.
  */
@@ -117,7 +119,7 @@ public class Install4j
 						+ "&os=" + os;
 
 					// We DO NOT log usernames from non-SCRI addresses
-					if (FlapjackUtils.isSCRIUser())
+					if (SystemUtils.isSCRIUser())
 						addr += "&user=" + user;
 
 					// Nudges the cgi script to log the fact that a version of
