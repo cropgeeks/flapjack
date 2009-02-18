@@ -23,13 +23,6 @@ public class QTLPanel extends JPanel implements ActionListener, ChangeListener
 
 		controls = new NBQTLControlPanel();
 
-		// Set the spinner to the correct number of tracks for this dataset
-		int size = dataSet.getChromosomeMaps().get(0).getTrackSet().size();
-		if (size > 0)
-			controls.trackSpinner.setValue(size);
-		else
-			controls.trackSpinner.setEnabled(false);
-
 		controls.bImport.addActionListener(this);
 		controls.bRemove.addActionListener(this);
 		controls.trackSpinner.addChangeListener(this);
@@ -38,10 +31,17 @@ public class QTLPanel extends JPanel implements ActionListener, ChangeListener
 		setBorder(BorderFactory.createEmptyBorder(1, 1, 0, 0));
 		add(new JLabel("- qtl data here -", JLabel.CENTER));
 		add(controls, BorderLayout.SOUTH);
+
+		updateModel();
 	}
 
 	public void updateModel()
 	{
+		// Set the spinner to the correct number of tracks for this dataset
+		int size = dataSet.getChromosomeMaps().get(0).getTrackSet().size();
+
+		controls.trackSpinner.setValue(size);
+		controls.trackSpinner.setEnabled(size > 0);
 	}
 
 	public void actionPerformed(ActionEvent e)
@@ -65,6 +65,10 @@ public class QTLPanel extends JPanel implements ActionListener, ChangeListener
 
 	private void removeAllTraits()
 	{
+		for (ChromosomeMap c: dataSet.getChromosomeMaps())
+			c.getTrackSet().removeAllElements();
+
+		updateModel();
 		Actions.projectModified();
 	}
 

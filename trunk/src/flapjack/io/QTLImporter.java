@@ -1,5 +1,6 @@
 package flapjack.io;
 
+import java.awt.*;
 import java.io.*;
 import java.util.*;
 
@@ -20,6 +21,11 @@ public class QTLImporter implements ITrackableJob
 	// Store a "track" per chromsome - the QTLs will be added to the appropriate
 	// track as they are read
 	Hashtable<String, Vector<Feature>> chromosomes = new Hashtable<String, Vector<Feature>>();
+	// And they'll also be added to this for easy reference
+	LinkedList<QTL> qtls = new LinkedList<QTL>();
+
+	// Store references to each trait, so colors can be assigned post-import
+	Hashtable<String, Color> traits = new Hashtable<String, Color>();
 
 	public QTLImporter(File file, DataSet dataSet)
 	{
@@ -69,21 +75,61 @@ public class QTLImporter implements ITrackableJob
 			qtl.setTrait(tokens[8]);
 			qtl.setExperiment(tokens[9]);
 
+			traits.put(tokens[8], Color.white);
+
 			// Add this QTL to the correct chromosome's track
 			Vector<Feature> track = chromosomes.get(cName);
 			if (track != null)
 				track.add(qtl);
+
+			qtls.add(qtl);
 		}
 
 		in.close();
 
-		// Once the data is in memory, assign the tracks back to the chromosomes
+		// Quit before applying to the dataset if the user cancelled...
+		if (isOK == false)
+			return;
+
+		// Work out a colors for the traits and QTLs
+		calculateTraitColors();
+
+		// Finally, assign the QTL tracks to the chromosomes
 		for (ChromosomeMap c: dataSet.getChromosomeMaps())
 		{
-			Vector<Vector<Feature>> trackSet = new Vector<Vector<Feature>>();
-			trackSet.add(chromosomes.get(c.getName()));
+			// Sort the QTLs into map order
+			Vector<Feature> track = chromosomes.get(c.getName());
+			Collections.sort(track);
 
+			// Then add the track to a new trackset and set to the chromosome
+			Vector<Vector<Feature>> trackSet = new Vector<Vector<Feature>>();
+			trackSet.add(track);
 			c.setTrackSet(trackSet);
+		}
+	}
+
+	private void calculateTraitColors()
+	{
+		// Work out colors for each trait type
+		float colorCount = traits.size();
+		float hue = 0;
+
+		Enumeration<String> keys = traits.keys();
+		for (int i = 0; keys.hasMoreElements(); i++)
+		{
+			Color color = Color.getHSBColor(hue, 1, 1);
+			hue += 1/colorCount;
+
+			traits.put(keys.nextElement(), color);
+		}
+
+		// Assign every QTL a colour
+		for (QTL qtl: qtls)
+		{
+			String traitName = qtl.getTrait();
+			Color color = traits.get(traitName);
+
+			qtl.setDisplayColor(color);
 		}
 	}
 

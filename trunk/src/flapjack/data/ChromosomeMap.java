@@ -22,26 +22,6 @@ public class ChromosomeMap extends XMLRoot implements Iterable<Marker>
 	public ChromosomeMap(String name)
 	{
 		this.name = new String(name);
-
-		Vector<Feature> track = new Vector<Feature>();
-
-		for (int i = 0; i < 25; i++)
-		{
-			int position = (int) (Math.random() * 140);
-			int neg = (int) (Math.random() * 4) +1;
-			int pos = (int) (Math.random() * 4) +1;
-
-			QTL qtl = new QTL("feature " + (i+1));
-			qtl.setPosition(position);
-			qtl.setMin(position-neg);
-			qtl.setMax(position+neg);
-
-			track.add(qtl);
-		}
-
-		Collections.sort(track);
-		trackSet.add(track);
-
 	}
 
 	void validate()

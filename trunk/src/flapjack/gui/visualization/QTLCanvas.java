@@ -129,7 +129,7 @@ class QTLCanvas extends JPanel
 					screenSet.get(trackNum).add(f);
 
 					// Its interior...
-					g.setPaint(new Color(255, 255, 255));
+					g.setPaint(f.getDisplayColor());
 //					g.setPaint(new GradientPaint(0, 5, Color.white, 0, 25, Color.lightGray));
 					g.fillRect(minX, 5, (maxX-minX+1), 10);
 

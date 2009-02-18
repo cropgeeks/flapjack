@@ -1,5 +1,6 @@
 package flapjack.data;
 
+import java.awt.Color;
 import java.util.*;
 
 public abstract class Feature extends XMLRoot implements Comparable<Feature>
@@ -9,7 +10,9 @@ public abstract class Feature extends XMLRoot implements Comparable<Feature>
 	protected String name;
 	protected float min, max;
 
+	// Display-related variables
 	protected boolean isVisible = true;
+	protected int red, green, blue;
 
 	public Feature()
 	{
@@ -47,6 +50,24 @@ public abstract class Feature extends XMLRoot implements Comparable<Feature>
 	public void setIsVisible(boolean isVisible)
 		{ this.isVisible = isVisible; }
 
+	public int getRed()
+		{ return red; }
+
+	public void setRed(int red)
+		{ this.red = red; }
+
+	public int getGreen()
+		{ return green; }
+
+	public void setGreen(int green)
+		{ this.green = green; }
+
+	public int getBlue()
+		{ return blue; }
+
+	public void setBlue(int blue)
+		{ this.blue = blue; }
+
 
 	// Other methods
 
@@ -58,5 +79,15 @@ public abstract class Feature extends XMLRoot implements Comparable<Feature>
 			return 0;
 		else
 			return 1;
+	}
+
+	public Color getDisplayColor()
+		{ return new Color(red, green, blue); }
+
+	public void setDisplayColor(Color color)
+	{
+		red   = color.getRed();
+		green = color.getGreen();
+		blue  = color.getBlue();
 	}
 }
