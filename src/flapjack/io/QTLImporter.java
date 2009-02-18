@@ -18,6 +18,9 @@ public class QTLImporter implements ITrackableJob
 	private int total;
 	private int count = 2;
 
+	// Number of expected KNOWN headers in imported file
+	private static final int HEADERCOUNT = 7;
+
 	// Store a "track" per chromsome - the QTLs will be added to the appropriate
 	// track as they are read
 	Hashtable<String, Vector<Feature>> chromosomes = new Hashtable<String, Vector<Feature>>();
@@ -45,37 +48,58 @@ public class QTLImporter implements ITrackableJob
 	{
 		BufferedReader in = new BufferedReader(new FileReader(file));
 
-		// Read (and ignore) the header line
+		// Read and process the header line
 		String str = in.readLine();
+		String[] tokens = str.split("\t", -1);
 
+		// Work out how many addition "data score" headers there are
+		String[] scoreHeaders = new String[tokens.length-HEADERCOUNT];
+		for (int i = HEADERCOUNT; i < tokens.length; i++)
+			scoreHeaders[i-HEADERCOUNT] = new String(tokens[i]);
+
+		System.out.println("HEADERS:");
+		for (int i = 0; i < scoreHeaders.length; i++)
+			System.out.println(scoreHeaders[i]);
+
+
+		// Now process the main batch of lines
 		for (; (str = in.readLine()) != null && isOK; count++)
 		{
 			if (str.length() == 0)
 				continue;
 
-			String[] tokens = str.split("\t", -1);
+			tokens = str.split("\t", -1);
 
 			// Fail if the data per line doesn't match the expected number
-			if (tokens.length != 10)
+			if (tokens.length != HEADERCOUNT + scoreHeaders.length)
 				throw new DataFormatException(RB.format("io.DataFormatException.traitColumnError", count));
 
 			// Its name and chromosome
-			QTL qtl = new QTL(tokens[0]);
+			QTL qtl = new QTL(new String(tokens[0]));
 			String cName = tokens[1];
 
-			// Data values
+			// Position values
 			qtl.setPosition(Float.parseFloat(tokens[2]));
 			qtl.setMin(Float.parseFloat(tokens[3]));
 			qtl.setMax(Float.parseFloat(tokens[4]));
-			qtl.setLod(Float.parseFloat(tokens[5]));
-			qtl.setR2(Float.parseFloat(tokens[6]));
-			qtl.setMag(Float.parseFloat(tokens[7]));
 
 			// Categorical information
-			qtl.setTrait(tokens[8]);
-			qtl.setExperiment(tokens[9]);
+			qtl.setTrait(tokens[5]);
+			qtl.setExperiment(tokens[6]);
+			traits.put(tokens[5], Color.white);
 
-			traits.put(tokens[8], Color.white);
+			// Zero or more score "values"
+			String[] vNames = new String[scoreHeaders.length];
+			String[] values = new String[scoreHeaders.length];
+
+			for (int i = 0; i < values.length; i++)
+			{
+				vNames[i] = scoreHeaders[i];
+				values[i] = tokens[i+HEADERCOUNT];
+			}
+
+			qtl.setVNames(vNames);
+			qtl.setValues(values);
 
 			// Add this QTL to the correct chromosome's track
 			Vector<Feature> track = chromosomes.get(cName);
@@ -117,7 +141,7 @@ public class QTLImporter implements ITrackableJob
 		Enumeration<String> keys = traits.keys();
 		for (int i = 0; keys.hasMoreElements(); i++)
 		{
-			Color color = Color.getHSBColor(hue, 1, 1);
+			Color color = Color.getHSBColor(hue, 0.4f, 1);
 			hue += 1/colorCount;
 
 			traits.put(keys.nextElement(), color);
