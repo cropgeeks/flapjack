@@ -23,7 +23,7 @@ public class ChromosomeMap extends XMLRoot implements Iterable<Marker>
 	{
 		this.name = new String(name);
 
-/*		Vector<Feature> track = new Vector<Feature>();
+		Vector<Feature> track = new Vector<Feature>();
 
 		for (int i = 0; i < 25; i++)
 		{
@@ -31,12 +31,17 @@ public class ChromosomeMap extends XMLRoot implements Iterable<Marker>
 			int neg = (int) (Math.random() * 4) +1;
 			int pos = (int) (Math.random() * 4) +1;
 
-			track.add(new QTL("feature " + (i+1), position, position-neg, position+pos, 0));
+			QTL qtl = new QTL("feature " + (i+1));
+			qtl.setPosition(position);
+			qtl.setMin(position-neg);
+			qtl.setMax(position+neg);
+
+			track.add(qtl);
 		}
 
 		Collections.sort(track);
 		trackSet.add(track);
-*/
+
 	}
 
 	void validate()

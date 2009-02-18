@@ -45,7 +45,7 @@ class NBImportOptionsPanel extends javax.swing.JPanel
 
 		RB.setText(rQTLFile, "gui.dialog.NBImportOptionsPanel.rQTLFile");
 		rQTLFile.setSelected(Prefs.guiImportMethod == 21);
-//		rQTLFile.addMouseListener(dcl);
+		rQTLFile.addMouseListener(dcl);
 
 
 		if (secondaryOptions == false)
@@ -54,7 +54,7 @@ class NBImportOptionsPanel extends javax.swing.JPanel
 				rFromFile.setSelected(true);
 
 			rTraitFile.setEnabled(false);
-//			rQTLFile.setEnabled(false);
+			rQTLFile.setEnabled(false);
 		}
 	}
 
@@ -145,7 +145,6 @@ class NBImportOptionsPanel extends javax.swing.JPanel
 
         buttonGroup.add(rQTLFile);
         rQTLFile.setText("Import QTL information from a file located on disk");
-        rQTLFile.setEnabled(false);
 
         org.jdesktop.layout.GroupLayout panel2Layout = new org.jdesktop.layout.GroupLayout(panel2);
         panel2.setLayout(panel2Layout);

@@ -23,7 +23,7 @@ public class TraitImporter implements ITrackableJob
 
 	private boolean isOK = true;
 	private int total;
-	private int count;
+	private int count = 2;
 
 	public TraitImporter(File file, DataSet dataSet)
 	{
@@ -48,9 +48,11 @@ public class TraitImporter implements ITrackableJob
 		for (int i = 1; i < traitNames.length; i++)
 			traits.add(new Trait(traitNames[i]));
 
-		count = 2;
-		while ((str = in.readLine()) != null && str.length() > 0 && isOK)
+		for (; (str = in.readLine()) != null && isOK; count++)
 		{
+			if (str.length() == 0)
+				continue;
+
 			String[] tokens = str.split("\t", -1);
 
 			// Fail if the data per line doesn't match the expected number
@@ -85,8 +87,6 @@ public class TraitImporter implements ITrackableJob
 			}
 
 			hashtable.put(lineName, values);
-
-			count++;
 		}
 
 		in.close();

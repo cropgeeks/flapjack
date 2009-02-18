@@ -21,8 +21,8 @@ public class TraitsTabbedPanel extends JPanel
 		tabs = new JTabbedPane();
 		tabs.addTab(RB.getString("gui.traits.TraitsTabbedPanel.tab1"),
 			Icons.getIcon("PHENOTYPETAB"), traitsPanel);
-//		tabs.addTab(RB.getString("gui.traits.TraitsTabbedPanel.tab2"),
-//			Icons.getIcon("QTLTAB"), qtlPanel);
+		tabs.addTab(RB.getString("gui.traits.TraitsTabbedPanel.tab2"),
+			Icons.getIcon("QTLTAB"), qtlPanel);
 
 		setLayout(new BorderLayout());
 		add(new TitlePanel(RB.getString("gui.traits.TraitsTabbedPanel.title")),
@@ -32,4 +32,7 @@ public class TraitsTabbedPanel extends JPanel
 
 	public TraitsPanel getTraitsPanel()
 		{ return traitsPanel; }
+
+	public QTLPanel getQTLPanel()
+		{ return qtlPanel; }
 }

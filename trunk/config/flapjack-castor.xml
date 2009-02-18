@@ -28,7 +28,7 @@
 			<bind-xml node="attribute"/>
 		</field>
 		<field name="markers" type="flapjack.data.Marker" collection="vector"/>
-<!--		<field name="trackSet" type="java.util.Vector" collection="vector"/> -->
+		<field name="trackSet" type="java.util.Vector" collection="vector"/>
 	</class>
 
 	<!-- Marker -->
@@ -148,6 +148,13 @@
 	</class>
 
 	<!-- QTL -->
-	<class name="flapjack.data.QTL" extends="flapjack.data.Feature" auto-complete="true"/>
+	<class name="flapjack.data.QTL" extends="flapjack.data.Feature" auto-complete="true">
+		<field name="trait" type="string">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="experiment" type="string">
+			<bind-xml node="attribute"/>
+		</field>
+	</class>
 
 </mapping>
