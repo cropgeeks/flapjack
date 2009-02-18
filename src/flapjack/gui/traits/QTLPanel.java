@@ -40,11 +40,14 @@ public class QTLPanel extends JPanel implements ActionListener, ChangeListener
 		add(controls, BorderLayout.SOUTH);
 	}
 
+	public void updateModel()
+	{
+	}
+
 	public void actionPerformed(ActionEvent e)
 	{
 		if (e.getSource() == controls.bImport)
-		{
-		}
+			Flapjack.winMain.mFile.importQTLData();
 
 		else if (e.getSource() == controls.bRemove)
 		{

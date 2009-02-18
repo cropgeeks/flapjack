@@ -20,7 +20,7 @@ class NBBrowsePanel extends JPanel implements ActionListener
 
 		panel.setBorder(BorderFactory.createTitledBorder(RB.getString("gui.dialog.NBBrowsePanel.panel.title")));
 		RB.setText(label, "gui.dialog.NBBrowsePanel.label");
-		RB.setText(bBrowse, "gui.dialog.NBBrowsePanel.bBrowse");
+		RB.setText(bBrowse, "gui.text.browse");
 
 		bBrowse.addActionListener(this);
 	}

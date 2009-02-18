@@ -4,8 +4,12 @@ import java.util.*;
 
 public abstract class Feature extends XMLRoot implements Comparable<Feature>
 {
+	protected int dbKey;
+
 	protected String name;
 	protected float min, max;
+
+	protected boolean isVisible = true;
 
 	public Feature()
 	{
@@ -13,6 +17,11 @@ public abstract class Feature extends XMLRoot implements Comparable<Feature>
 
 
 	// Methods required for XML serialization
+	public int getDbKey()
+		{ return dbKey; }
+
+	public void setDbKey(int dbKey)
+		{ this.dbKey = dbKey; }
 
 	public String getName()
 		{ return name; }
@@ -31,6 +40,12 @@ public abstract class Feature extends XMLRoot implements Comparable<Feature>
 
 	public void setMax(float max)
 		{ this.max = max; }
+
+	public boolean isVisible()
+		{ return isVisible; }
+
+	public void setIsVisible(boolean isVisible)
+		{ this.isVisible = isVisible; }
 
 
 	// Other methods

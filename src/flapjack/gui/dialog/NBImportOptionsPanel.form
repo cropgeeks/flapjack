@@ -182,7 +182,6 @@
               <ComponentRef name="buttonGroup"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Import QTL information from a file located on disk"/>
-            <Property name="enabled" type="boolean" value="false"/>
           </Properties>
         </Component>
       </SubComponents>

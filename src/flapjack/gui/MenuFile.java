@@ -138,6 +138,10 @@ public class MenuFile
 			// Import trait data
 			case 20: importTraitData();
 				break;
+
+			// Import QTL data
+			case 21: importQTLData();
+				break;
 		}
 	}
 
@@ -237,6 +241,46 @@ public class MenuFile
 
 		TraitsTabbedPanel ttp = navPanel.getTraitsPanel(dataSet);
 		ttp.getTraitsPanel().updateModel();
+		Actions.projectModified();
+	}
+
+	public void importQTLData()
+	{
+		DataSet dataSet = navPanel.getDataSetForSelection();
+
+		// Find out what file to import
+		BrowseDialog browseDialog = new BrowseDialog(Prefs.guiCurrentTrait);
+		if (browseDialog.isOK() == false)
+			return;
+
+		File file = browseDialog.getFile();
+		Prefs.guiCurrentTrait = file.toString();
+
+
+		// Import the data using the standard progress bar dialog...
+		QTLImporter importer = new QTLImporter(file, dataSet);
+
+		ProgressDialog dialog = new ProgressDialog(importer,
+			 RB.format("gui.MenuFile.importQTLs.dialogTitle"),
+			 RB.format("gui.MenuFile.importQTLs.dialogLabel"));
+
+		// If the operation failed or was cancelled...
+		if (dialog.isOK() == false)
+		{
+			if (dialog.getException() != null)
+			{
+				dialog.getException().printStackTrace();
+				TaskDialog.error(
+					RB.format("gui.MenuFile.importQTLs.error",
+					file, dialog.getException().getMessage()),
+					RB.getString("gui.text.close"));
+			}
+
+			return;
+		}
+
+		TraitsTabbedPanel ttp = navPanel.getTraitsPanel(dataSet);
+		ttp.getQTLPanel().updateModel();
 		Actions.projectModified();
 	}
 
