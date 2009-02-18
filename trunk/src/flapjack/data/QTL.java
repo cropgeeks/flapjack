@@ -5,8 +5,9 @@ public class QTL extends Feature
 	// QTL's exact position on the map (error margin will be min/max from parent)
 	private float position;
 
-	// LOD score, r^2, and magnitude of effect
-	private float lod, r2, mag;
+	// Names and values (to be used for things like LOD, r^2, etc)
+	private String[] vNames;
+	private String[] values;
 
 	private String trait;
 	private String experiment;
@@ -26,23 +27,17 @@ public class QTL extends Feature
 	public void setPosition(float position)
 		{ this.position = position; }
 
-	public float getLod()
-		{ return lod; }
+	public String[] getVNames()
+		{ return vNames; }
 
-	public void setLod(float lod)
-		{ this.lod = lod; }
+	public void setVNames(String[] vNames)
+		{ this.vNames = vNames; }
 
-	public float getR2()
-		{ return r2; }
+	public String[] getValues()
+		{ return values; }
 
-	public void setR2(float r2)
-		{ this.r2 = r2; }
-
-	public float getMag()
-		{ return mag; }
-
-	public void setMag(float mag)
-		{ this.mag = mag; }
+	public void setValues(String[] values)
+		{ this.values = values; }
 
 	public String getTrait()
 		{ return trait; }
