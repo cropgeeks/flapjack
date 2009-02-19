@@ -296,22 +296,15 @@ class NBColorPanel extends JPanel implements ActionListener
     // End of variables declaration//GEN-END:variables
 
 
-	static class ColorListRenderer extends JLabel implements ListCellRenderer
+	static class ColorListRenderer extends DefaultListCellRenderer
 	{
-		ColorListRenderer()
-		{
-			// Don't paint behind the component
-			setOpaque(true);
-		}
-
 		// Set the attributes of the class and return a reference
 		public Component getListCellRendererComponent(JList list, Object o,
 				int i, boolean iss, boolean chf)
 		{
-			ColorScheme.ColorSummary summary = (ColorScheme.ColorSummary) o;
+			super.getListCellRendererComponent(list, o, i, iss, chf);
 
-			// Set the font
-			setFont(list.getFont());
+			ColorScheme.ColorSummary summary = (ColorScheme.ColorSummary) o;
 
 			// Set the text
 			setText(summary.name);
@@ -327,17 +320,6 @@ class NBColorPanel extends JPanel implements ActionListener
 			g.dispose();
 
 			setIcon(new ImageIcon(image));
-
-			// Set background/foreground colours
-			if (iss)
-			{
-				setBackground(list.getSelectionBackground());
-				setForeground(list.getSelectionForeground());
-			} else
-			{
-				setBackground(list.getBackground());
-				setForeground(list.getForeground());
-			}
 
 			return this;
 		}
