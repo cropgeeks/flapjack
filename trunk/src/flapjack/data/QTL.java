@@ -10,7 +10,7 @@ public class QTL extends Feature
 
 	// Names and values (to be used for things like LOD, r^2, etc)
 	private String[] vNames;
-	private String[] values;
+	private float[] values;
 
 	private String trait;
 	private String experiment;
@@ -42,10 +42,10 @@ public class QTL extends Feature
 	public void setVNames(String[] vNames)
 		{ this.vNames = vNames; }
 
-	public String[] getValues()
+	public float[] getValues()
 		{ return values; }
 
-	public void setValues(String[] values)
+	public void setValues(float[] values)
 		{ this.values = values; }
 
 	public String getTrait()

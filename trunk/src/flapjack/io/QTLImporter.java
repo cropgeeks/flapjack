@@ -86,12 +86,12 @@ public class QTLImporter implements ITrackableJob
 
 			// Zero or more score "values"
 			String[] vNames = new String[scoreHeaders.length];
-			String[] values = new String[scoreHeaders.length];
+			float[]  values = new float[scoreHeaders.length];
 
 			for (int i = 0; i < values.length; i++)
 			{
 				vNames[i] = scoreHeaders[i];
-				values[i] = tokens[i+HEADERCOUNT];
+				values[i] = Float.parseFloat(tokens[i+HEADERCOUNT]);
 			}
 
 			qtl.setVNames(vNames);
