@@ -2,6 +2,7 @@ package flapjack.gui.traits;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.*;
 import java.util.*;
 import javax.swing.*;
 import javax.swing.event.*;
@@ -20,6 +21,7 @@ public class QTLPanel extends JPanel implements ActionListener, ChangeListener
 	private QTLTableModel model;
 
 	private NBQTLControlPanel controls;
+	private QTLTableRenderer qtlRenderer = new QTLTableRenderer();
 
 	public QTLPanel(DataSet dataSet)
 	{
@@ -28,7 +30,7 @@ public class QTLPanel extends JPanel implements ActionListener, ChangeListener
 		table = new JTable();
 //		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		table.getTableHeader().setReorderingAllowed(false);
-		table.setDefaultRenderer(Float.class, new TraitsTableRenderer(JLabel.RIGHT));
+		table.setDefaultRenderer(Float.class, TraitsPanel.traitsRenderer);
 
 		controls = new NBQTLControlPanel();
 		controls.bImport.addActionListener(this);
@@ -46,27 +48,19 @@ public class QTLPanel extends JPanel implements ActionListener, ChangeListener
 	public void updateModel()
 	{
 		model = new QTLTableModel(dataSet, table);
-		if (SystemUtils.jreVersion() >= 1.6)
-			new SortHandler();
 
 		table.setModel(model);
 		controls.statusLabel.setText(
 			RB.format("gui.traits.QTLPanel.traitCount", table.getRowCount()));
 
+		// Messy...
+		if (table.getColumnCount() >= 6)
+			table.getColumnModel().getColumn(5).setCellRenderer(qtlRenderer);
+
 		// Set the spinner to the correct number of tracks for this dataset
 		int size = dataSet.getMapByIndex(0).getTrackSet().size();
 		controls.trackSpinner.setValue(size);
 		controls.trackSpinner.setEnabled(size > 0);
-	}
-
-	// This is done in a separate class to hide its implementation from OS X on
-	// Java5 that will throw ClassNotFoundExceptions if it tries to run it
-	private class SortHandler
-	{
-		SortHandler()
-		{
-			table.setRowSorter(new TableRowSorter<QTLTableModel>(model));
-		}
 	}
 
 	public void actionPerformed(ActionEvent e)
@@ -162,5 +156,37 @@ public class QTLPanel extends JPanel implements ActionListener, ChangeListener
 		}
 
 		return false;
+	}
+
+	class QTLTableRenderer extends DefaultTableCellRenderer
+	{
+		public Component getTableCellRendererComponent(JTable table, Object value,
+			boolean isSelected, boolean hasFocus, int row, int column)
+		{
+			super.getTableCellRendererComponent(table, value, isSelected,
+				hasFocus, row, column);
+
+			QTL qtl = model.qtls.get(row);
+
+			// Set the text
+			setText(qtl.getTrait());
+
+			// Set the icon
+			BufferedImage image = new BufferedImage(20, 10, BufferedImage.TYPE_INT_RGB);
+			Graphics g = image.createGraphics();
+
+			g.setColor(qtl.getDisplayColor());
+			g.fillRect(0, 0, 20, 10);
+			g.setColor(Color.black);
+			g.drawRect(0, 0, 20, 10);
+			g.dispose();
+
+			setIcon(new ImageIcon(image));
+
+			return this;
+		}
+
+		public Insets getInsets(Insets i)
+			{ return new Insets(0, 3, 0, 0); }
 	}
 }

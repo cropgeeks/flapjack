@@ -12,7 +12,7 @@ import flapjack.gui.*;
 class QTLTableModel extends AbstractTableModel
 {
 	private DataSet dataSet;
-	private Vector<QTL> qtls = new Vector<QTL>();
+	Vector<QTL> qtls = new Vector<QTL>();
 
 	private JTable table;
 	private String[] columnNames;

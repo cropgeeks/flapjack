@@ -1,7 +1,6 @@
 package flapjack.gui.traits;
 
 import java.awt.*;
-import java.text.*;
 import java.util.*;
 import javax.swing.*;
 import javax.swing.table.*;
@@ -132,27 +131,5 @@ class TraitsTableModel extends AbstractTableModel
 	    fireTableCellUpdated(row, col);
 
 	    Actions.projectModified();
-	}
-}
-
-class TraitsTableRenderer extends DefaultTableCellRenderer
-{
-	private static NumberFormat nf = NumberFormat.getInstance();
-
-	TraitsTableRenderer(int alignment)
-	{
-		setHorizontalAlignment(alignment);
-	}
-
-	public Component getTableCellRendererComponent(JTable table, Object value,
-		boolean isSelected, boolean hasFocus, int row, int column)
-	{
-		super.getTableCellRendererComponent(table, value, isSelected,
-			hasFocus, row, column);
-
-		if (value instanceof Number)
-			setText(nf.format((Number)value));
-
-		return this;
 	}
 }

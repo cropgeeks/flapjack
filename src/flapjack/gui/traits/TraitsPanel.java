@@ -2,6 +2,7 @@ package flapjack.gui.traits;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.text.*;
 import javax.swing.*;
 import javax.swing.table.*;
 
@@ -18,6 +19,7 @@ public class TraitsPanel extends JPanel implements ActionListener
 	private TraitsTableModel model;
 
 	private NBTraitsControlPanel controls;
+	static TraitsTableRenderer traitsRenderer = new TraitsTableRenderer(JLabel.RIGHT);
 
 	public TraitsPanel(DataSet dataSet)
 	{
@@ -26,8 +28,8 @@ public class TraitsPanel extends JPanel implements ActionListener
 		table = new JTable();
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		table.getTableHeader().setReorderingAllowed(false);
-		table.setDefaultRenderer(String.class, new TraitsTableRenderer(JLabel.RIGHT));
-		table.setDefaultRenderer(Float.class, new TraitsTableRenderer(JLabel.RIGHT));
+		table.setDefaultRenderer(String.class, traitsRenderer);
+		table.setDefaultRenderer(Float.class, traitsRenderer);
 
 		controls = new NBTraitsControlPanel();
 		controls.bImport.addActionListener(this);
@@ -113,5 +115,27 @@ public class TraitsPanel extends JPanel implements ActionListener
 
 		updateModel();
 		Actions.projectModified();
+	}
+}
+
+class TraitsTableRenderer extends DefaultTableCellRenderer
+{
+	private static NumberFormat nf = NumberFormat.getInstance();
+
+	TraitsTableRenderer(int alignment)
+	{
+		setHorizontalAlignment(alignment);
+	}
+
+	public Component getTableCellRendererComponent(JTable table, Object value,
+		boolean isSelected, boolean hasFocus, int row, int column)
+	{
+		super.getTableCellRendererComponent(table, value, isSelected,
+			hasFocus, row, column);
+
+		if (value instanceof Number)
+			setText(nf.format((Number)value));
+
+		return this;
 	}
 }
