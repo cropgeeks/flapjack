@@ -11,6 +11,8 @@ class NBQTLControlPanel extends javax.swing.JPanel
 		RB.setText(bImport, "gui.traits.NBQTLControlPanel.bImport");
 		RB.setText(bRemove, "gui.traits.NBQTLControlPanel.bRemove");
 
+		statusLabel.setText(RB.format("gui.traits.QTLPanel.traitCount", 0));
+
 		bImport.setIcon(Icons.getIcon("IMPORTTRAITS"));
 		bRemove.setIcon(Icons.getIcon("DELETE"));
 	}

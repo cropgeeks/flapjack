@@ -26,8 +26,8 @@ public class TraitsPanel extends JPanel implements ActionListener
 		table = new JTable();
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		table.getTableHeader().setReorderingAllowed(false);
-		table.setDefaultRenderer(String.class, new TraitsTableRenderer());
-		table.setDefaultRenderer(Float.class, new TraitsTableRenderer());
+		table.setDefaultRenderer(String.class, new TraitsTableRenderer(JLabel.RIGHT));
+		table.setDefaultRenderer(Float.class, new TraitsTableRenderer(JLabel.RIGHT));
 
 		controls = new NBTraitsControlPanel();
 		controls.bImport.addActionListener(this);

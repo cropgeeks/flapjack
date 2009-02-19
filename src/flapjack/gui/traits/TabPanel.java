@@ -6,26 +6,26 @@ import javax.swing.*;
 import flapjack.data.*;
 import flapjack.gui.*;
 
-public class TraitsTabbedPanel extends JPanel
+public class TabPanel extends JPanel
 {
 	private TraitsPanel traitsPanel;
 	private QTLPanel qtlPanel;
 
 	private JTabbedPane tabs;
 
-	public TraitsTabbedPanel(DataSet dataSet)
+	public TabPanel(DataSet dataSet)
 	{
 		traitsPanel = new TraitsPanel(dataSet);
 		qtlPanel = new QTLPanel(dataSet);
 
 		tabs = new JTabbedPane();
-		tabs.addTab(RB.getString("gui.traits.TraitsTabbedPanel.tab1"),
+		tabs.addTab(RB.getString("gui.traits.TabPanel.tab1"),
 			Icons.getIcon("PHENOTYPETAB"), traitsPanel);
-		tabs.addTab(RB.getString("gui.traits.TraitsTabbedPanel.tab2"),
+		tabs.addTab(RB.getString("gui.traits.TabPanel.tab2"),
 			Icons.getIcon("QTLTAB"), qtlPanel);
 
 		setLayout(new BorderLayout());
-		add(new TitlePanel(RB.getString("gui.traits.TraitsTabbedPanel.title")),
+		add(new TitlePanel(RB.getString("gui.traits.TabPanel.title")),
 			BorderLayout.NORTH);
 		add(tabs);
 	}
