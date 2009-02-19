@@ -5,6 +5,9 @@ public class QTL extends Feature
 	// QTL's exact position on the map (error margin will be min/max from parent)
 	private float position;
 
+	// A reference to the chromosome it is on
+	private ChromosomeMap chromosome;
+
 	// Names and values (to be used for things like LOD, r^2, etc)
 	private String[] vNames;
 	private String[] values;
@@ -26,6 +29,12 @@ public class QTL extends Feature
 
 	public void setPosition(float position)
 		{ this.position = position; }
+
+	public ChromosomeMap getChromosomeMap()
+		{ return chromosome; }
+
+	public void setChromosomeMap(ChromosomeMap chromosome)
+		{ this.chromosome = chromosome; }
 
 	public String[] getVNames()
 		{ return vNames; }

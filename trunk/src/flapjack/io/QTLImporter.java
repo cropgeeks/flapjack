@@ -57,10 +57,6 @@ public class QTLImporter implements ITrackableJob
 		for (int i = HEADERCOUNT; i < tokens.length; i++)
 			scoreHeaders[i-HEADERCOUNT] = new String(tokens[i]);
 
-		System.out.println("HEADERS:");
-		for (int i = 0; i < scoreHeaders.length; i++)
-			System.out.println(scoreHeaders[i]);
-
 
 		// Now process the main batch of lines
 		for (; (str = in.readLine()) != null && isOK; count++)
@@ -104,7 +100,10 @@ public class QTLImporter implements ITrackableJob
 			// Add this QTL to the correct chromosome's track
 			Vector<Feature> track = chromosomes.get(cName);
 			if (track != null)
+			{
 				track.add(qtl);
+				qtl.setChromosomeMap(dataSet.getMapByName(cName, false));
+			}
 
 			qtls.add(qtl);
 		}

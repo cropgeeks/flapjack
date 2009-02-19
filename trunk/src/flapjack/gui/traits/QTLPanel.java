@@ -5,6 +5,7 @@ import java.awt.event.*;
 import java.util.*;
 import javax.swing.*;
 import javax.swing.event.*;
+import javax.swing.table.*;
 
 import flapjack.data.*;
 import flapjack.gui.*;
@@ -15,21 +16,28 @@ public class QTLPanel extends JPanel implements ActionListener, ChangeListener
 {
 	private DataSet dataSet;
 
+	private JTable table;
+	private QTLTableModel model;
+
 	private NBQTLControlPanel controls;
 
 	public QTLPanel(DataSet dataSet)
 	{
 		this.dataSet = dataSet;
 
-		controls = new NBQTLControlPanel();
+		table = new JTable();
+//		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		table.getTableHeader().setReorderingAllowed(false);
+		table.setDefaultRenderer(Float.class, new TraitsTableRenderer(JLabel.RIGHT));
 
+		controls = new NBQTLControlPanel();
 		controls.bImport.addActionListener(this);
 		controls.bRemove.addActionListener(this);
 		controls.trackSpinner.addChangeListener(this);
 
 		setLayout(new BorderLayout(0, 0));
 		setBorder(BorderFactory.createEmptyBorder(1, 1, 0, 0));
-		add(new JLabel("- qtl data here -", JLabel.CENTER));
+		add(new JScrollPane(table));
 		add(controls, BorderLayout.SOUTH);
 
 		updateModel();
@@ -37,11 +45,28 @@ public class QTLPanel extends JPanel implements ActionListener, ChangeListener
 
 	public void updateModel()
 	{
-		// Set the spinner to the correct number of tracks for this dataset
-		int size = dataSet.getChromosomeMaps().get(0).getTrackSet().size();
+		model = new QTLTableModel(dataSet, table);
+		if (SystemUtils.jreVersion() >= 1.6)
+			new SortHandler();
 
+		table.setModel(model);
+		controls.statusLabel.setText(
+			RB.format("gui.traits.QTLPanel.traitCount", table.getRowCount()));
+
+		// Set the spinner to the correct number of tracks for this dataset
+		int size = dataSet.getMapByIndex(0).getTrackSet().size();
 		controls.trackSpinner.setValue(size);
 		controls.trackSpinner.setEnabled(size > 0);
+	}
+
+	// This is done in a separate class to hide its implementation from OS X on
+	// Java5 that will throw ClassNotFoundExceptions if it tries to run it
+	private class SortHandler
+	{
+		SortHandler()
+		{
+			table.setRowSorter(new TableRowSorter<QTLTableModel>(model));
+		}
 	}
 
 	public void actionPerformed(ActionEvent e)

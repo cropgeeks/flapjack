@@ -149,6 +149,9 @@
 
 	<!-- QTL -->
 	<class name="flapjack.data.QTL" extends="flapjack.data.Feature" auto-complete="true">
+		<field name="chromosomeMap" type="flapjack.data.ChromosomeMap">
+			<bind-xml reference="true" node="attribute"/>
+		</field>
 		<field name="trait" type="string">
 			<bind-xml node="attribute"/>
 		</field>

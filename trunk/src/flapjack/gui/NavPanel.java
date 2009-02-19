@@ -266,7 +266,7 @@ class NavPanel extends JPanel
 		return node.getBookmark();
 	}
 
-	TraitsTabbedPanel getTraitsPanel(DataSet dataSet)
+	TabPanel getTraitsPanel(DataSet dataSet)
 	{
 		DataSetNode dataSetNode = findDataSetNode(dataSet);
 		TraitsNode traitsNode = (TraitsNode) dataSetNode.getChildAt(0);
@@ -274,7 +274,7 @@ class NavPanel extends JPanel
 		tree.setSelectionPath(new TreePath(traitsNode.getPath()));
 		tree.scrollPathToVisible(new TreePath(traitsNode.getPath()));
 
-		return (TraitsTabbedPanel) traitsNode.getPanel();
+		return (TabPanel) traitsNode.getPanel();
 	}
 
 	public void valueChanged(TreeSelectionEvent e)

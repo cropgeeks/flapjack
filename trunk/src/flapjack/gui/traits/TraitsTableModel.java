@@ -139,10 +139,9 @@ class TraitsTableRenderer extends DefaultTableCellRenderer
 {
 	private static NumberFormat nf = NumberFormat.getInstance();
 
-	TraitsTableRenderer()
+	TraitsTableRenderer(int alignment)
 	{
-//		nf.setMinimumFractionDigits(15);
-		setHorizontalAlignment(JLabel.RIGHT);
+		setHorizontalAlignment(alignment);
 	}
 
 	public Component getTableCellRendererComponent(JTable table, Object value,
@@ -151,8 +150,8 @@ class TraitsTableRenderer extends DefaultTableCellRenderer
 		super.getTableCellRendererComponent(table, value, isSelected,
 			hasFocus, row, column);
 
-		if (value instanceof Float)
-			setText(nf.format((Float)value));
+		if (value instanceof Number)
+			setText(nf.format((Number)value));
 
 		return this;
 	}

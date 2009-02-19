@@ -239,7 +239,7 @@ public class MenuFile
 		for (GTViewSet viewSet: dataSet.getViewSets())
 			viewSet.assignTraits();
 
-		TraitsTabbedPanel ttp = navPanel.getTraitsPanel(dataSet);
+		TabPanel ttp = navPanel.getTraitsPanel(dataSet);
 		ttp.getTraitsPanel().updateModel();
 		Actions.projectModified();
 	}
@@ -279,7 +279,7 @@ public class MenuFile
 			return;
 		}
 
-		TraitsTabbedPanel ttp = navPanel.getTraitsPanel(dataSet);
+		TabPanel ttp = navPanel.getTraitsPanel(dataSet);
 		ttp.getQTLPanel().updateModel();
 		Actions.projectModified();
 	}
