@@ -12,6 +12,7 @@ public abstract class Feature extends XMLRoot implements Comparable<Feature>
 
 	// Display-related variables
 	protected boolean isVisible = true;
+	protected boolean isAllowed = true;
 	protected int red, green, blue;
 
 	public Feature()
@@ -47,8 +48,14 @@ public abstract class Feature extends XMLRoot implements Comparable<Feature>
 	public boolean isVisible()
 		{ return isVisible; }
 
-	public void setIsVisible(boolean isVisible)
+	public void setVisible(boolean isVisible)
 		{ this.isVisible = isVisible; }
+
+	public boolean isAllowed()
+		{ return isAllowed; }
+
+	public void setAllowed(boolean isAllowed)
+		{ this.isAllowed = isAllowed; }
 
 	public int getRed()
 		{ return red; }

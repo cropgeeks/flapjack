@@ -117,10 +117,14 @@ class QTLCanvas extends JPanel
 				// Draw each feature
 				for (Feature f: trackData)
 				{
+					// Should this feature be drawn?
+					if (f.isVisible() == false || f.isAllowed() == false)
+						continue;
+
 					int minX = Math.round(xScale * f.getMin());
 					int maxX = Math.round(xScale * f.getMax());
 
-					// If this feature even on screen?
+					// Is this feature even on screen?
 					if (maxX < canvas.pX1)	// Keep skipping lft->rht until we find some
 						continue;
 					if (minX > canvas.pX2)	// Once QTLs are offscreen-rht, might as well quit
@@ -128,8 +132,14 @@ class QTLCanvas extends JPanel
 
 					screenSet.get(trackNum).add(f);
 
+					Color c = f.getDisplayColor();
+					Color c1 = c.brighter();
+					Color c2 = c.darker();
+
+					g.setPaint(new GradientPaint(0, 5, c1, 0, 10, c2, true));
+
 					// Its interior...
-					g.setPaint(f.getDisplayColor());
+//					g.setPaint(f.getDisplayColor());
 //					g.setPaint(new GradientPaint(0, 5, Color.white, 0, 25, Color.lightGray));
 					g.fillRect(minX, 5, (maxX-minX+1), 10);
 
