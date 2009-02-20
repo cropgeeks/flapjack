@@ -17,6 +17,7 @@ public class QTLPanel extends JPanel implements ActionListener, ChangeListener
 {
 	private DataSet dataSet;
 
+	private JLabel errorLabel;
 	private JTable table;
 	private QTLTableModel model;
 
@@ -26,6 +27,10 @@ public class QTLPanel extends JPanel implements ActionListener, ChangeListener
 	public QTLPanel(DataSet dataSet)
 	{
 		this.dataSet = dataSet;
+
+		errorLabel = new JLabel("<html>" + RB.getString("gui.traits.QTLPanel.errorMsg"));
+		errorLabel.setForeground(Color.red);
+		errorLabel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
 		table = new JTable();
 //		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
@@ -39,6 +44,7 @@ public class QTLPanel extends JPanel implements ActionListener, ChangeListener
 
 		setLayout(new BorderLayout(0, 0));
 		setBorder(BorderFactory.createEmptyBorder(1, 1, 0, 0));
+		add(errorLabel, BorderLayout.NORTH);
 		add(new JScrollPane(table));
 		add(controls, BorderLayout.SOUTH);
 
@@ -53,9 +59,14 @@ public class QTLPanel extends JPanel implements ActionListener, ChangeListener
 		controls.statusLabel.setText(
 			RB.format("gui.traits.QTLPanel.traitCount", table.getRowCount()));
 
+		errorLabel.setVisible(model.qtlOffMap);
+
 		// Messy...
-		if (table.getColumnCount() >= 6)
+		if (table.getColumnCount() > 0)
+		{
+			table.getColumnModel().getColumn(0).setCellRenderer(qtlRenderer);
 			table.getColumnModel().getColumn(5).setCellRenderer(qtlRenderer);
+		}
 
 		// Set the spinner to the correct number of tracks for this dataset
 		int size = dataSet.getMapByIndex(0).getTrackSet().size();
@@ -168,20 +179,35 @@ public class QTLPanel extends JPanel implements ActionListener, ChangeListener
 
 			QTL qtl = model.qtls.get(row);
 
-			// Set the text
-			setText(qtl.getTrait());
+			if (column == 0)
+			{
+				setText(qtl.getName());
 
-			// Set the icon
-			BufferedImage image = new BufferedImage(20, 10, BufferedImage.TYPE_INT_RGB);
-			Graphics g = image.createGraphics();
+				if (qtl.isAllowed())
+					setIcon(null);
+				else
+					setIcon(Icons.getIcon("QTLDISABLED"));
+			}
 
-			g.setColor(qtl.getDisplayColor());
-			g.fillRect(0, 0, 20, 10);
-			g.setColor(Color.black);
-			g.drawRect(0, 0, 20, 10);
-			g.dispose();
+			if (column == 5)
+			{
+				setText(qtl.getTrait());
 
-			setIcon(new ImageIcon(image));
+				BufferedImage image = new BufferedImage(20, 10, BufferedImage.TYPE_INT_RGB);
+				Graphics2D g = (Graphics2D) image.createGraphics();
+
+				Color c = qtl.getDisplayColor();
+				Color c1 = c.brighter();
+				Color c2 = c.darker();
+				g.setPaint(new GradientPaint(0, 0, c1, 20, 10, c2));
+
+				g.fillRect(0, 0, 20, 10);
+				g.setColor(Color.black);
+				g.drawRect(0, 0, 20, 10);
+				g.dispose();
+
+				setIcon(new ImageIcon(image));
+			}
 
 			return this;
 		}

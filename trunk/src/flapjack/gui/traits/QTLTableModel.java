@@ -17,6 +17,8 @@ class QTLTableModel extends AbstractTableModel
 	private JTable table;
 	private String[] columnNames;
 
+	boolean qtlOffMap = false;
+
 	QTLTableModel(DataSet dataSet, JTable table)
 	{
 		this.dataSet = dataSet;
@@ -29,9 +31,15 @@ class QTLTableModel extends AbstractTableModel
 			// And each track within that chromosome
 			for (Vector<Feature> track: cMap.getTrackSet())
 				// And along each track
-				for (Feature f: track)
-					if (f instanceof QTL)
-						qtls.add((QTL)f);
+				for (Feature feature: track)
+					if (feature instanceof QTL)
+					{
+						QTL qtl = (QTL) feature;
+						qtls.add(qtl);
+
+						if (qtl.isAllowed() == false)
+							qtlOffMap = true;
+					}
 
 		setColumnNames();
 	}
@@ -44,18 +52,19 @@ class QTLTableModel extends AbstractTableModel
 		{
 			QTL qtl = qtls.get(0);
 
-			columnNames = new String[7 + qtl.getValues().length];
+			columnNames = new String[8 + qtl.getValues().length];
 
-			columnNames[0] = "QTL";
-			columnNames[1] = "Chromosome";
-			columnNames[2] = "Position";
-			columnNames[3] = "Minimum";
-			columnNames[4] = "Maximum";
-			columnNames[5] = "Trait";
-			columnNames[6] = "Experiment";
+			columnNames[0] = RB.getString("gui.traits.QTLTableModel.qtl");
+			columnNames[1] = RB.getString("gui.traits.QTLTableModel.chromosome");
+			columnNames[2] = RB.getString("gui.traits.QTLTableModel.position");
+			columnNames[3] = RB.getString("gui.traits.QTLTableModel.min");
+			columnNames[4] = RB.getString("gui.traits.QTLTableModel.max");
+			columnNames[5] = RB.getString("gui.traits.QTLTableModel.trait");
+			columnNames[6] = RB.getString("gui.traits.QTLTableModel.experiment");
+			columnNames[7] = RB.getString("gui.traits.QTLTableModel.visible");
 
 			for (int i = 0; i < qtl.getValues().length; i++)
-				columnNames[7+i] = qtl.getVNames()[i];
+				columnNames[8+i] = qtl.getVNames()[i];
 		}
 	}
 
@@ -87,18 +96,36 @@ class QTLTableModel extends AbstractTableModel
 			case 4: return qtl.getMax();
 			case 5: return qtl.getTrait();
 			case 6: return qtl.getExperiment();
+			case 7: return qtl.isVisible();
 		}
 
-		return qtl.getValues()[col-7];
+		return qtl.getValues()[col-8];
 	}
 
 	public Class getColumnClass(int col)
 	{
-		if (col < 2)
+		if (col == 0 || col >=5 && col <= 6)
 			return String.class;
-		else if (col >= 2 && col <= 4)
-			return Float.class;
+		else if (col == 7)
+			return Boolean.class;
 		else
-			return String.class;
+			return Float.class;
+	}
+
+	public boolean isCellEditable(int row, int col)
+	{
+		if (col == 7 && qtls.get(row).isAllowed())
+			return true;
+
+		return false;
+	}
+
+	// This should only be called on col 7 (isVisible)
+	public void setValueAt(Object value, int row, int col)
+	{
+		qtls.get(row).setVisible((Boolean) value);
+
+		fireTableCellUpdated(row, col);
+	    Actions.projectModified();
 	}
 }

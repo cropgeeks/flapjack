@@ -102,7 +102,7 @@ public class QTLImporter implements ITrackableJob
 			if (track != null)
 			{
 				track.add(qtl);
-				qtl.setChromosomeMap(dataSet.getMapByName(cName, false));
+				checkChromosome(qtl, cName);
 			}
 
 			qtls.add(qtl);
@@ -154,6 +154,20 @@ public class QTLImporter implements ITrackableJob
 
 			qtl.setDisplayColor(color);
 		}
+	}
+
+	// Adds a QTL to its chromosome, but also checks if it is on the map itself
+	private void checkChromosome(QTL qtl, String cName)
+	{
+		ChromosomeMap cMap = dataSet.getMapByName(cName, false);
+
+		if (qtl.getMin() < 0 || qtl.getMax() > cMap.getLength())
+		{
+			qtl.setAllowed(false);
+			qtl.setVisible(false);
+		}
+
+		qtl.setChromosomeMap(cMap);
 	}
 
 	public boolean isIndeterminate()
