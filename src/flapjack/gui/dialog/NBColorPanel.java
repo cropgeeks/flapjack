@@ -311,9 +311,12 @@ class NBColorPanel extends JPanel implements ActionListener
 
 			// Set the icon
 			BufferedImage image = new BufferedImage(20, 10, BufferedImage.TYPE_INT_RGB);
-			Graphics g = image.createGraphics();
+			Graphics2D g = (Graphics2D) image.createGraphics();
 
-			g.setColor(summary.color);
+			Color c1 = summary.color.brighter();
+			Color c2 = summary.color.darker();
+
+			g.setPaint(new GradientPaint(0, 0, c1, 20, 10, c2));
 			g.fillRect(0, 0, 20, 10);
 			g.setColor(Color.black);
 			g.drawRect(0, 0, 20, 10);
