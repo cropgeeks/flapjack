@@ -127,6 +127,8 @@ public class QTLPanel extends JPanel implements ActionListener, ChangeListener
 			for (ChromosomeMap c: dataSet.getChromosomeMaps())
 				if (setTracks(i, c))
 					tracks = i;
+				else
+					break;
 		}
 
 		// Once we know the best number, reset to that number
