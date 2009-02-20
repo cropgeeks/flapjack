@@ -11,7 +11,8 @@ import flapjack.gui.*;
 
 public class NBStatusPanel extends JPanel implements ActionListener, ChangeListener
 {
-	private DecimalFormat d = new DecimalFormat("0.0");
+	private DecimalFormat d1 = new DecimalFormat("0.0");
+	private DecimalFormat d3 = new DecimalFormat("0.000");
 
 	private GenotypePanel gPanel;
 	private GTView view;
@@ -54,6 +55,13 @@ public class NBStatusPanel extends JPanel implements ActionListener, ChangeListe
 	{
 		RB.setText(label2, "gui.visualization.StatusPanel.trait");
 		RB.setText(label3, "gui.visualization.StatusPanel.value");
+	}
+
+	void setForFeatureUse()
+	{
+		RB.setText(label1, "gui.visualization.StatusPanel.featureTrait");
+		RB.setText(label2, "gui.visualization.StatusPanel.featureExperiment");
+		RB.setText(label3, "gui.visualization.StatusPanel.featureData");
 	}
 
 	// Toggles the state of the slider controls based on whether or not advanced
@@ -135,7 +143,7 @@ public class NBStatusPanel extends JPanel implements ActionListener, ChangeListe
 		else
 		{
 			Marker m = view.getMarker(markerIndex);
-			markerLabel.setText(m.getName() + " (" + d.format(m.getPosition()) + ")");
+			markerLabel.setText(m.getName() + " (" + d1.format(m.getPosition()) + ")");
 		}
 
 		// Current allele under the mouse
@@ -165,6 +173,35 @@ public class NBStatusPanel extends JPanel implements ActionListener, ChangeListe
 		lineLabel.setText(line);
 		markerLabel.setText(trait);
 		alleleLabel.setText(value);
+	}
+
+	// Sets the display text for a QTL
+	void setQTLDetails(QTL qtl)
+	{
+		if (qtl != null)
+		{
+			// The QTL's trait and experiment values
+			lineLabel.setText(qtl.getTrait());
+			markerLabel.setText(qtl.getExperiment());
+
+			// Build a string containing all the additional data (if any)
+			String data = "";
+			for (int i = 0; i < qtl.getVNames().length; i++)
+			{
+				if (i > 0)
+					data += ", ";
+				data += qtl.getVNames()[i]
+					+ " (" + d3.format(qtl.getValues()[i]) + ")";
+			}
+
+			alleleLabel.setText(data);
+		}
+		else
+		{
+			lineLabel.setText(" ");
+			markerLabel.setText(" ");
+			alleleLabel.setText(" ");
+		}
 	}
 
     /** This method is called from within the constructor to
