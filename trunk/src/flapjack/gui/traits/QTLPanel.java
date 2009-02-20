@@ -48,11 +48,14 @@ public class QTLPanel extends JPanel implements ActionListener, ChangeListener
 		add(new JScrollPane(table));
 		add(controls, BorderLayout.SOUTH);
 
-		updateModel();
+		updateModel(false);
 	}
 
-	public void updateModel()
+	public void updateModel(boolean optimize)
 	{
+		if (optimize)
+			optimizeTrackUsage();
+
 		model = new QTLTableModel(dataSet, table);
 
 		table.setModel(model);
@@ -98,7 +101,7 @@ public class QTLPanel extends JPanel implements ActionListener, ChangeListener
 		for (ChromosomeMap c: dataSet.getChromosomeMaps())
 			c.getTrackSet().removeAllElements();
 
-		updateModel();
+		updateModel(false);
 		Actions.projectModified();
 	}
 
@@ -112,7 +115,28 @@ public class QTLPanel extends JPanel implements ActionListener, ChangeListener
 			setTracks(size, c);
 	}
 
-	private void setTracks(int size, ChromosomeMap c)
+	// Attempt to work out the optimum number of active tracks for a new set
+	public void optimizeTrackUsage()
+	{
+		long s = System.currentTimeMillis();
+
+		int tracks = 0;
+
+		for (int i = 1; i <= 7; i++)
+		{
+			for (ChromosomeMap c: dataSet.getChromosomeMaps())
+				if (setTracks(i, c))
+					tracks = i;
+		}
+
+		// Once we know the best number, reset to that number
+		for (ChromosomeMap c: dataSet.getChromosomeMaps())
+			setTracks(tracks, c);
+
+		System.out.println("Tracks optimised in " + (System.currentTimeMillis()-s + "ms"));
+	}
+
+	private boolean setTracks(int size, ChromosomeMap c)
 	{
 		Vector<Vector<Feature>> trackSet = c.getTrackSet();
 
@@ -147,6 +171,13 @@ public class QTLPanel extends JPanel implements ActionListener, ChangeListener
 			if (added == false)
 				trackSet.get(0).add(f);
 		}
+
+		// Return true if any QTLs are on the final track
+		int count = trackSet.size();
+		if (count > 0)
+			return trackSet.get(count-1).size() > 0;
+		else
+			return false;
 	}
 
 	// Checks to see if a feature can be added to the end of this track without
@@ -169,6 +200,7 @@ public class QTLPanel extends JPanel implements ActionListener, ChangeListener
 		return false;
 	}
 
+	// Renderer for the QTL name and (coloured) Trait columns of the table
 	class QTLTableRenderer extends DefaultTableCellRenderer
 	{
 		public Component getTableCellRendererComponent(JTable table, Object value,
