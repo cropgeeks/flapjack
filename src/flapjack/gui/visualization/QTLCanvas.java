@@ -169,6 +169,11 @@ class QTLCanvas extends JPanel
 		private boolean isOSX = SystemUtils.isMacOS();
 		private int oldTrack;
 
+		public void mouseEntered(MouseEvent e)
+		{
+			gPanel.statusPanel.setForFeatureUse();
+		}
+
 		public void mouseMoved(MouseEvent e)
 		{
 			detectFeature(e);
@@ -178,6 +183,9 @@ class QTLCanvas extends JPanel
 		{
 			mouseOverTrack = -1;
 			mouseOverFeature = null;
+
+			gPanel.statusPanel.setQTLDetails(null);
+			gPanel.statusPanel.setForMainUse();
 
 			mapCanvas.repaint();
 			qtlCanvas.repaint();
@@ -228,6 +236,11 @@ class QTLCanvas extends JPanel
 			if (mouseOverFeature != match)
 			{
 				mouseOverFeature = match;
+
+				if (match == null)
+					gPanel.statusPanel.setQTLDetails(null);
+				else if (match instanceof QTL)
+					gPanel.statusPanel.setQTLDetails((QTL)match);
 
 				mapCanvas.repaint();
 				repaint();
