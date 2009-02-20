@@ -280,7 +280,7 @@ public class MenuFile
 		}
 
 		TabPanel ttp = navPanel.getTraitsPanel(dataSet);
-		ttp.getQTLPanel().updateModel();
+		ttp.getQTLPanel().updateModel(true);
 		Actions.projectModified();
 	}
 
