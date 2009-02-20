@@ -17,6 +17,8 @@ public class WinMainToolBar extends JToolBar
 	static JToggleButton editModeNavigation;
 	static JToggleButton editModeMarker;
 	static JToggleButton editModeLine;
+	private JButton editSelectMarkersInvert;
+	private JButton editSelectLinesInvert;
 
 	private JButton dataFind;
 
@@ -80,6 +82,16 @@ public class WinMainToolBar extends JToolBar
 			Icons.getIcon("LINEMODE"), Actions.editModeLine);
 		editModeLine.setSelected(Prefs.guiMouseMode == Constants.LINEMODE);
 
+		// Edit, invert marker selection
+		editSelectMarkersInvert = (JButton) getButton(false, null,
+			RB.getString("gui.WinMainToolBar.editSelectMarkersInvert"),
+			Icons.getIcon("MARKERMODEINVERT"), Actions.editSelectMarkersInvert);
+
+		// Edit, invert line selection
+		editSelectLinesInvert = (JButton) getButton(false, null,
+			RB.getString("gui.WinMainToolBar.editSelectLinesInvert"),
+			Icons.getIcon("LINEMODEINVERT"), Actions.editSelectLinesInvert);
+
 
 		// Data find
 		dataFind = (JButton) getButton(false, null,
@@ -114,6 +126,8 @@ public class WinMainToolBar extends JToolBar
 		add(editModeNavigation);
 		add(editModeMarker);
 		add(editModeLine);
+		add(editSelectMarkersInvert);
+		add(editSelectLinesInvert);
 
 		addSeparator(true);
 		add(helpContents);
