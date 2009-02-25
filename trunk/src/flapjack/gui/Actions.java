@@ -58,6 +58,7 @@ public class Actions
 
 	public static AbstractAction dataSortLinesBySimilarity;
 	public static AbstractAction dataSortLinesByTrait;
+	public static AbstractAction dataFilterQTLs;
 	public static AbstractAction dataFind;
 	public static AbstractAction dataStatistics;
 	public static AbstractAction dataDBLineName;
@@ -378,6 +379,12 @@ public class Actions
 			}
 		};
 
+		dataFilterQTLs = new AbstractAction(RB.getString("gui.Actions.dataFilterQTLs")) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.mData.dataFilterQTLs();
+			}
+		};
+
 		dataFind = new AbstractAction(RB.getString("gui.Actions.dataFind"), getIcon("FIND")) {
 			public void actionPerformed(ActionEvent e) {
 				winMain.mData.dataFind();
@@ -514,6 +521,7 @@ public class Actions
 
 		dataSortLinesBySimilarity.setEnabled(false);
 		dataSortLinesByTrait.setEnabled(false);
+		dataFilterQTLs.setEnabled(false);
 		dataFind.setEnabled(false);
 		dataStatistics.setEnabled(false);
 		dataDBLineName.setEnabled(false);
