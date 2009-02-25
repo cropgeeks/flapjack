@@ -66,6 +66,8 @@ public class VisualizationNode extends BaseNode
 
 		Actions.dataSortLinesBySimilarity.setEnabled(true);
 		Actions.dataSortLinesByTrait.setEnabled(true);
+		// TODO: make dynamic based on inclusion of QTL data or not
+		Actions.dataFilterQTLs.setEnabled(true);
 		Actions.dataFind.setEnabled(true);
 		Actions.dataStatistics.setEnabled(true);
 		Actions.dataDBSettings.setEnabled(true);
