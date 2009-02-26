@@ -27,6 +27,8 @@ public class TraitsNode extends BaseNode
 	{
 		Actions.vizNewView.setEnabled(true);
 
+		// TODO: make dynamic based on inclusion of QTL data or not
+		Actions.dataFilterQTLs.setEnabled(true);
 		Actions.dataRenameDataSet.setEnabled(true);
 		Actions.dataDeleteDataSet.setEnabled(true);
 	}

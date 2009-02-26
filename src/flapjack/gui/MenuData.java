@@ -62,6 +62,8 @@ class MenuData
 		DataSet dataSet = gPanel.getViewSet().getDataSet();
 
 		FilterQTLsDialog dialog = new FilterQTLsDialog(dataSet);
+
+		winMain.repaint();
 	}
 
 	void dataFind()
