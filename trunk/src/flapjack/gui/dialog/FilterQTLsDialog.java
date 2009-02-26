@@ -15,7 +15,7 @@ public class FilterQTLsDialog extends JDialog implements ActionListener
 	private JButton bFilter, bCancel, bHelp;
 	private boolean isOK = false;
 
-	private NBFilterQTLsPanel nbPanel = new NBFilterQTLsPanel();
+	private NBFilterQTLsPanel nbPanel;
 
 	public FilterQTLsDialog(DataSet dataSet)
 	{
@@ -24,6 +24,8 @@ public class FilterQTLsDialog extends JDialog implements ActionListener
 			RB.getString("gui.dialog.FilterQTLsDialog.title"),
 			true
 		);
+
+		nbPanel = new NBFilterQTLsPanel(dataSet);
 
 		add(new TitlePanel2(), BorderLayout.NORTH);
 		add(nbPanel);
@@ -60,6 +62,8 @@ public class FilterQTLsDialog extends JDialog implements ActionListener
 	{
 		if (e.getSource() == bFilter)
 		{
+			nbPanel.filterQTLs();
+
 			isOK = true;
 			setVisible(false);
 		}
