@@ -53,13 +53,15 @@ class NBSortLinesPanel extends javax.swing.JPanel
 
 		selectAllLabel.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent event) {
-				selectAll();
+				for (int i = 0; i < table.getRowCount(); i++)
+					table.setValueAt(true, i, 0);
 			}
 		});
 
 		selectNoneLabel.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent event) {
-				selectNone();
+				for (int i = 0; i < table.getRowCount(); i++)
+					table.setValueAt(false, i, 0);
 			}
 		});
 	}
@@ -107,18 +109,6 @@ class NBSortLinesPanel extends javax.swing.JPanel
 		// Ensure the single selection is actually visible when first displayed
 		Rectangle r = table.getCellRect(viewSet.getViewIndex(), 0, true);
 		table.scrollRectToVisible(r);
-	}
-
-	private void selectAll()
-	{
-		for (int i = 0; i < table.getRowCount(); i++)
-			table.setValueAt(true, i, 0);
-	}
-
-	private void selectNone()
-	{
-		for (int i = 0; i < table.getRowCount(); i++)
-			table.setValueAt(false, i, 0);
 	}
 
 	// Generates a boolean array with a true/false selected state for each of

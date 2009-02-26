@@ -63,6 +63,7 @@ public class FilterQTLsDialog extends JDialog implements ActionListener
 		if (e.getSource() == bFilter)
 		{
 			nbPanel.filterQTLs();
+			Actions.projectModified();
 
 			isOK = true;
 			setVisible(false);
