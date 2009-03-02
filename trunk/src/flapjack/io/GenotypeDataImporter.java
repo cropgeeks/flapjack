@@ -113,6 +113,9 @@ public class GenotypeDataImporter
 
 			String[] values = str.split("\t");
 
+			if (values.length == 0)
+				continue;
+
 			// Check for duplicate line names
 			for (Line line: dataSet.getLines())
 				if (line.getName().equals(values[0]))
