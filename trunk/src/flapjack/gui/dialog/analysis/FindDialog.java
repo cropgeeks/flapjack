@@ -48,13 +48,8 @@ public class FindDialog extends JDialog implements ListSelectionListener
 		pack();
 		setResizable(false);
 
-		// Work out the current screen's width and height
-		int scrnW = SwingUtils.getVirtualScreenDimension().width;
-		int scrnH = SwingUtils.getVirtualScreenDimension().height;
-
-		// Determine where on screen to display
-		if (Prefs.guiFindDialogShown == false ||
-			Prefs.guiFindDialogX > (scrnW-50) || Prefs.guiFindDialogY > (scrnH-50))
+		// Position on screen...
+		if (Prefs.guiFindDialogX == -9999 && Prefs.guiFindDialogY == -9999)
 			setLocationRelativeTo(Flapjack.winMain);
 		else
 			setLocation(Prefs.guiFindDialogX, Prefs.guiFindDialogY);
@@ -74,28 +69,12 @@ public class FindDialog extends JDialog implements ListSelectionListener
 		addWindowListener(new WindowAdapter() {
 			public void windowActivated(WindowEvent e)
 			{
-				// When focus returns to the Find Dialog...
-
 				// If the view is different from what it was when the results
 				// were generated, then clear them, as they're now invalid
 				if (gPanel.getViewSet() != viewSet)
 				{
 					int count = nbPanel.tableModel.getRowCount();
 					setTableModel(null);
-
-					// And optionally inform the user about why
-					if (count > 0 && Prefs.warnFindDialogResultsCleared)
-					{
-						JCheckBox checkbox = new JCheckBox();
-						RB.setText(checkbox, "gui.dialog.FindDialog.focusCheckbox");
-
-						TaskDialog.info(
-							RB.getString("gui.dialog.FindDialog.focusWarning"),
-							RB.getString("gui.text.close"),
-							checkbox);
-
-						Prefs.warnFindDialogResultsCleared = !checkbox.isSelected();
-					}
 				}
 			}
 		});

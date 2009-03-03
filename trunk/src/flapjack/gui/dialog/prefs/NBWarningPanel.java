@@ -17,7 +17,6 @@ class NBWarningPanel extends JPanel implements IPrefsTab
 		panel.setBorder(BorderFactory.createTitledBorder(RB.getString("gui.dialog.prefs.NBWarningPanel.panelTitle")));
 
 		RB.setText(warnDuplicateMarkers, "gui.dialog.prefs.NBWarningPanel.warnDuplicateMarkers");
-		RB.setText(warnFindDialogResultsCleared, "gui.dialog.prefs.NBWarningPanel.warnFindDialogResultsCleared");
 		RB.setText(warnEditMarkerMode, "gui.dialog.prefs.NBWarningPanel.warnEditMarkerMode");
 		RB.setText(warnEditLineMode, "gui.dialog.prefs.NBWarningPanel.warnEditLineMode");
 
@@ -27,7 +26,6 @@ class NBWarningPanel extends JPanel implements IPrefsTab
     private void initSettings()
     {
     	warnDuplicateMarkers.setSelected(Prefs.warnDuplicateMarkers);
-		warnFindDialogResultsCleared.setSelected(Prefs.warnFindDialogResultsCleared);
 		warnEditMarkerMode.setSelected(Prefs.warnEditMarkerMode);
 		warnEditLineMode.setSelected(Prefs.warnEditLineMode);
     }
@@ -35,7 +33,6 @@ class NBWarningPanel extends JPanel implements IPrefsTab
 	public void applySettings()
 	{
 		Prefs.warnDuplicateMarkers = warnDuplicateMarkers.isSelected();
-		Prefs.warnFindDialogResultsCleared = warnFindDialogResultsCleared.isSelected();
 		Prefs.warnEditMarkerMode = warnEditMarkerMode.isSelected();
 		Prefs.warnEditLineMode = warnEditLineMode.isSelected();
 	}
@@ -53,14 +50,11 @@ class NBWarningPanel extends JPanel implements IPrefsTab
     private void initComponents() {
 
         panel = new javax.swing.JPanel();
-        warnFindDialogResultsCleared = new javax.swing.JCheckBox();
         warnDuplicateMarkers = new javax.swing.JCheckBox();
         warnEditMarkerMode = new javax.swing.JCheckBox();
         warnEditLineMode = new javax.swing.JCheckBox();
 
         panel.setBorder(javax.swing.BorderFactory.createTitledBorder("Inform me:"));
-
-        warnFindDialogResultsCleared.setText("When the Find By Name dialog's results are cleared due to data changes");
 
         warnDuplicateMarkers.setText("When duplicate markers are found during data import");
 
@@ -76,18 +70,15 @@ class NBWarningPanel extends JPanel implements IPrefsTab
                 .addContainerGap()
                 .add(panelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(warnDuplicateMarkers)
-                    .add(warnFindDialogResultsCleared)
                     .add(warnEditMarkerMode)
                     .add(warnEditLineMode))
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(98, Short.MAX_VALUE))
         );
         panelLayout.setVerticalGroup(
             panelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(panelLayout.createSequentialGroup()
                 .addContainerGap()
                 .add(warnDuplicateMarkers)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(warnFindDialogResultsCleared)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(warnEditMarkerMode)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
@@ -109,7 +100,7 @@ class NBWarningPanel extends JPanel implements IPrefsTab
             .add(layout.createSequentialGroup()
                 .addContainerGap()
                 .add(panel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(32, Short.MAX_VALUE))
+                .addContainerGap(55, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -118,6 +109,5 @@ class NBWarningPanel extends JPanel implements IPrefsTab
     private javax.swing.JCheckBox warnDuplicateMarkers;
     private javax.swing.JCheckBox warnEditLineMode;
     private javax.swing.JCheckBox warnEditMarkerMode;
-    private javax.swing.JCheckBox warnFindDialogResultsCleared;
     // End of variables declaration//GEN-END:variables
 }

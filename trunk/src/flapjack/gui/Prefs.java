@@ -52,9 +52,13 @@ public class Prefs extends XMLPreferences
 	public static boolean guiOverviewDialog = false;
 	public static int guiOverviewWidth = 300;
 	public static int guiOverviewHeight = 300;
-	public static int guiOverviewX = 0;
-	public static int guiOverviewY = 0;
+	public static int guiOverviewX = -9999;
+	public static int guiOverviewY = -9999;
 	public static int guiOverviewSplitsLocation = 375;
+
+	// Position of the Filter QTLs dialog
+	public static int guiFilterQTLDialogX = -9999;
+	public static int guiFilterQTLDialogY = -9999;
 
 	// Method to use when importing data
 	public static int guiImportMethod = 0;
@@ -64,7 +68,6 @@ public class Prefs extends XMLPreferences
 
 	// Warning messages
 	public static boolean warnDuplicateMarkers = true;
-	public static boolean warnFindDialogResultsCleared = true;
 	public static boolean warnEditMarkerMode = true;
 	public static boolean warnEditLineMode = true;
 
@@ -87,9 +90,8 @@ public class Prefs extends XMLPreferences
 	public static boolean guiAssignTraits = true;
 
 	// Finding stuff...
-	public static boolean guiFindDialogShown = false;
-	public static int guiFindDialogX = 0;
-	public static int guiFindDialogY = 0;
+	public static int guiFindDialogX = -9999;
+	public static int guiFindDialogY = -9999;
 	public static int guiFindMethod = 0;
 	public static boolean guiFindMatchCase = false;
 	public static boolean guiFindUseRegex = true;

@@ -4,6 +4,7 @@
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_generateFQN" type="java.lang.Boolean" value="true"/>
     <AuxValue name="FormSettings_generateMnemonicsCode" type="java.lang.Boolean" value="false"/>
     <AuxValue name="FormSettings_i18nAutoMode" type="java.lang.Boolean" value="false"/>
     <AuxValue name="FormSettings_layoutCodeTarget" type="java.lang.Integer" value="2"/>
@@ -27,7 +28,7 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Component id="panel" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="32" max="32767" attributes="0"/>
+              <EmptySpace pref="55" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -48,12 +49,11 @@
               <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="warnDuplicateMarkers" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="warnFindDialogResultsCleared" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="warnDuplicateMarkers" min="-2" max="-2" attributes="0"/>
                       <Component id="warnEditMarkerMode" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Component id="warnEditLineMode" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace max="32767" attributes="0"/>
+                  <EmptySpace pref="98" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -62,8 +62,6 @@
               <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="warnDuplicateMarkers" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="warnFindDialogResultsCleared" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="warnEditMarkerMode" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
@@ -74,11 +72,6 @@
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JCheckBox" name="warnFindDialogResultsCleared">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="When the Find By Name dialog&apos;s results are cleared due to data changes"/>
-          </Properties>
-        </Component>
         <Component class="javax.swing.JCheckBox" name="warnDuplicateMarkers">
           <Properties>
             <Property name="text" type="java.lang.String" value="When duplicate markers are found during data import"/>

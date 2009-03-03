@@ -19,13 +19,9 @@ public class OverviewDialog extends JDialog
 
 		setSize(Prefs.guiOverviewWidth, Prefs.guiOverviewHeight);
 
-		// Work out the current screen's width and height
-		int scrnW = SwingUtils.getVirtualScreenDimension().width;
-		int scrnH = SwingUtils.getVirtualScreenDimension().height;
-
-		// Determine where on screen to display
-		if (Prefs.guiOverviewX > (scrnW-50) || Prefs.guiOverviewY > (scrnH-50))
-			setLocationRelativeTo(Flapjack.winMain);
+		// Position on screen...
+		if (Prefs.guiOverviewX == -9999 && Prefs.guiOverviewY == -9999)
+			setLocationRelativeTo(winMain);
 		else
 			setLocation(Prefs.guiOverviewX, Prefs.guiOverviewY);
 
@@ -61,19 +57,4 @@ public class OverviewDialog extends JDialog
 			}
 		});
 	}
-
-/*	void removeCanvas()
-	{
-		removeAll();
-		validate();
-	}
-
-	void addCanvas(OverviewCanvas canvas)
-	{
-		removeCanvas();
-
-		add(canvas);
-		validate();
-	}
-*/
 }
