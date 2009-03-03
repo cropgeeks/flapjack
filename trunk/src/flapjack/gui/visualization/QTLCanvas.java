@@ -98,9 +98,8 @@ class QTLCanvas extends JPanel
 
 			for (Vector<Feature> trackData: trackSet)
 			{
-				// Move the graphics origin DOWN to the next track
-				if (trackNum > 0)
-					g.translate(0, h);
+				// Move the graphics origin to correct position for this track
+				g.translate(0, h*trackNum);
 
 				g.setColor(Color.lightGray);
 				g.setStroke(dashed);
@@ -132,34 +131,53 @@ class QTLCanvas extends JPanel
 
 					screenSet.get(trackNum).add(f);
 
-					Color c = f.getDisplayColor();
-					Color c1 = c.brighter();
-					Color c2 = c.darker();
-
-					g.setPaint(new GradientPaint(0, 5, c1, 0, 10, c2, true));
-
-					// Its interior...
-//					g.setPaint(f.getDisplayColor());
-//					g.setPaint(new GradientPaint(0, 5, Color.white, 0, 25, Color.lightGray));
-					g.fillRect(minX, 5, (maxX-minX+1), 10);
-
-					// Its outline...
-					if (featureToMove == f)
-						g.setColor(Color.blue);
-					else if (mouseOverTrack == trackNum && mouseOverFeature == f)
-						g.setColor(Color.red);
-					else
-						g.setColor(Color.lightGray);
-					g.drawRect(minX, 5, (maxX-minX+1), 10);
-
-					if (f instanceof QTL)
-					{
-						int x = Math.round(xScale * ((QTL)f).getPosition());
-						g.drawLine(x, 2, x, 18);
-					}
+					drawFeature(g, f, minX, maxX, trackNum);
 				}
 
+				// Reset the origin
+				g.translate(0, -h*trackNum);
+
 				trackNum++;
+			}
+
+			// Redraw the feature under the mouse (so it always appears on top)
+			if (mouseOverFeature != null)
+			{
+				g.translate(0, h*mouseOverTrack);
+
+				int minX = Math.round(xScale * mouseOverFeature.getMin());
+				int maxX = Math.round(xScale * mouseOverFeature.getMax());
+
+				drawFeature(g, mouseOverFeature, minX, maxX, mouseOverTrack);
+			}
+		}
+
+		// Draws an individual feature
+		private void drawFeature(Graphics2D g, Feature f, int minX, int maxX, int trackNum)
+		{
+			Color c = f.getDisplayColor();
+			Color c1 = c.brighter();
+			Color c2 = c.darker();
+			g.setPaint(new GradientPaint(0, 5, c1, 0, 10, c2, true));
+
+			// Its interior...
+//			g.setPaint(f.getDisplayColor());
+//			g.setPaint(new GradientPaint(0, 5, Color.white, 0, 25, Color.lightGray));
+			g.fillRect(minX, 5, (maxX-minX+1), 10);
+
+			// Its outline...
+			if (featureToMove == f)
+				g.setColor(Color.blue);
+			else if (mouseOverTrack == trackNum && mouseOverFeature == f)
+				g.setColor(Color.red);
+			else
+				g.setColor(Color.lightGray);
+			g.drawRect(minX, 5, (maxX-minX+1), 10);
+
+			if (f instanceof QTL)
+			{
+				int x = Math.round(xScale * ((QTL)f).getPosition());
+				g.drawLine(x, 2, x, 18);
 			}
 		}
 	}
