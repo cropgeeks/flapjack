@@ -284,6 +284,9 @@ class NavPanel extends JPanel
 		// Reset the Actions to their default state
 		Actions.resetActions();
 
+		// Hide dialogs that are too complicated to track between nodes
+		Flapjack.winMain.hideDialogs();
+
 		int location = hSplitPane.getDividerLocation();
 
 		if (node != null)

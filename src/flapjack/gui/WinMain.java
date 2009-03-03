@@ -6,6 +6,7 @@ import java.awt.event.*;
 import javax.swing.*;
 
 import flapjack.data.*;
+import flapjack.gui.dialog.*;
 import flapjack.gui.dialog.analysis.*;
 import flapjack.gui.visualization.*;
 import flapjack.io.*;
@@ -22,6 +23,7 @@ public class WinMain extends JFrame
 	private GenotypePanel gPanel;
 
 	private FindDialog findDialog;
+	public FilterQTLsDialog filterQTLDialog;
 
 	// The user's project
 	private Project project = new Project();
@@ -135,5 +137,14 @@ public class WinMain extends JFrame
 	{
 		WindowEvent evt = new WindowEvent(this, WindowEvent.WINDOW_CLOSING);
 		processWindowEvent(evt);
+	}
+
+	public void hideDialogs()
+	{
+		if (findDialog != null)
+			findDialog.setVisible(false);
+
+		if (filterQTLDialog != null)
+			filterQTLDialog.setVisible(false);
 	}
 }

@@ -61,15 +61,12 @@ class MenuData
 	{
 		DataSet dataSet = gPanel.getViewSet().getDataSet();
 
-		FilterQTLsDialog dialog = new FilterQTLsDialog(dataSet);
-
-		winMain.repaint();
+		winMain.filterQTLDialog = new FilterQTLsDialog(dataSet);
 	}
 
 	void dataFind()
 	{
 		winMain.getFindDialog().setVisible(true);
-		Prefs.guiFindDialogShown = true;
 	}
 
 	void dataStatistics()
