@@ -97,12 +97,6 @@ duplicate marker has been found, however it will only use the first instance tha
 it came upon. Selecting this option will cause Flapjack to display the <b>Duplicate
 Markers</b> dialog that informs you if duplicates are found.</li>
 
-<li><b>When the Find By Name dialog's results are cleared due to view changes</b><br>
-Selecting this option ensures that if the <b>Find By Name</b> dialog contains
-search results and the view is changed between data sets (or multiple views
-within a data set) then you will be informed that the search results are no
-longer valid for the new view; hence why Flapjack clears them.</li>
-
 <li><b>When switching to 'marker mode'</b><br>
 Selecting this option will cause Flapjack to remind you that you are now working
 in marker mode (along with brief instructions) if a switch is made to marker
