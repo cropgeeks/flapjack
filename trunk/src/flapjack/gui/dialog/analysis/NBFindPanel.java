@@ -27,9 +27,12 @@ class NBFindPanel extends JPanel implements ActionListener
 
 		link.setIcon(Icons.getIcon("WEB"));
 
+		RB.setText(bHelp, "gui.text.help");
+		FlapjackUtils.setHelp(bHelp, "gui.dialog.analysis.FindDialog");
+
 		RB.setText(findLabel, "gui.dialog.NBFindPanel.findLabel");
 		RB.setText(searchLabel, "gui.dialog.NBFindPanel.searchLabel");
-		RB.setText(searchButton, "gui.dialog.NBFindPanel.searchButton");
+		RB.setText(bSearch, "gui.dialog.NBFindPanel.searchButton");
 		panel.setBorder(BorderFactory.createTitledBorder(
 			RB.getString("gui.dialog.NBFindPanel.panelTitle")));
 		resultLabel.setText(RB.format("gui.dialog.NBFindPanel.resultLabel2", 0));
@@ -49,7 +52,7 @@ class NBFindPanel extends JPanel implements ActionListener
 		searchCombo.setSelectedIndex(Prefs.guiFindMethod);
 		searchCombo.addActionListener(this);
 
-		searchButton.addActionListener(this);
+		bSearch.addActionListener(this);
 
 		findModel = new DefaultComboBoxModel();
 		findCombo.setModel(findModel);
@@ -74,7 +77,7 @@ class NBFindPanel extends JPanel implements ActionListener
 			findDialog.runSearch();
 		}
 
-		else if (e.getSource() == searchButton || e.getSource() == findCombo)
+		else if (e.getSource() == bSearch || e.getSource() == findCombo)
 		{
 			updateFindHistory();
 			findDialog.runSearch();
@@ -172,8 +175,9 @@ class NBFindPanel extends JPanel implements ActionListener
         resultLabel = new javax.swing.JLabel();
         spTable = new javax.swing.JScrollPane();
         table = new javax.swing.JTable();
-        searchButton = new javax.swing.JButton();
+        bSearch = new javax.swing.JButton();
         hintLabel = new javax.swing.JLabel();
+        bHelp = new javax.swing.JButton();
 
         findLabel.setLabelFor(findCombo);
         findLabel.setText("Find what:");
@@ -187,7 +191,7 @@ class NBFindPanel extends JPanel implements ActionListener
 
         checkRegular.setText("Use regular expression pattern matching");
 
-        link.setText("View information on searching using regular expressions");
+        link.setText("View more information on searching using regular expressions");
 
         checkCase.setText("Match case");
 
@@ -234,9 +238,11 @@ class NBFindPanel extends JPanel implements ActionListener
         table.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         spTable.setViewportView(table);
 
-        searchButton.setText("Search");
+        bSearch.setText("Search");
 
         hintLabel.setText("Click on any result to view it within the main window");
+
+        bHelp.setText("Help");
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
         this.setLayout(layout);
@@ -253,13 +259,15 @@ class NBFindPanel extends JPanel implements ActionListener
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                             .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
-                                .add(findCombo, 0, 174, Short.MAX_VALUE)
-                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                                .add(searchButton))
-                            .add(searchCombo, 0, 249, Short.MAX_VALUE)))
+                                .add(findCombo, 0, 146, Short.MAX_VALUE)
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                .add(bSearch)
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                .add(bHelp))
+                            .add(searchCombo, 0, 276, Short.MAX_VALUE)))
                     .add(resultLabel)
                     .add(hintLabel)
-                    .add(spTable, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 321, Short.MAX_VALUE))
+                    .add(spTable, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 348, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -268,8 +276,9 @@ class NBFindPanel extends JPanel implements ActionListener
                 .addContainerGap()
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(findLabel)
-                    .add(searchButton)
-                    .add(findCombo, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    .add(findCombo, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(bSearch)
+                    .add(bHelp))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(searchLabel)
@@ -287,6 +296,8 @@ class NBFindPanel extends JPanel implements ActionListener
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton bHelp;
+    javax.swing.JButton bSearch;
     private javax.swing.JCheckBox checkCase;
     private javax.swing.JCheckBox checkRegular;
     javax.swing.JComboBox findCombo;
@@ -295,7 +306,6 @@ class NBFindPanel extends JPanel implements ActionListener
     private javax.swing.JLabel link;
     private javax.swing.JPanel panel;
     javax.swing.JLabel resultLabel;
-    javax.swing.JButton searchButton;
     private javax.swing.JComboBox searchCombo;
     private javax.swing.JLabel searchLabel;
     private javax.swing.JScrollPane spTable;

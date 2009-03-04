@@ -40,7 +40,7 @@ public class FindDialog extends JDialog implements ListSelectionListener
 		add(nbPanel);
 		addListeners();
 
-		getRootPane().setDefaultButton(nbPanel.searchButton);
+		getRootPane().setDefaultButton(nbPanel.bSearch);
 		SwingUtils.addCloseHandler(this, nbPanel);
 
 		setTableModel(null);

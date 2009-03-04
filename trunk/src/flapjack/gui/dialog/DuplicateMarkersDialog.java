@@ -14,6 +14,7 @@ public class DuplicateMarkersDialog extends JDialog implements ActionListener
 {
 	private JButton bClose;
 	private JButton bClipboard;
+	private JButton bHelp;
 
 	private NBDuplicateMarkersPanel nbPanel;
 	private LinkedList<String> duplicates;
@@ -53,9 +54,14 @@ public class DuplicateMarkersDialog extends JDialog implements ActionListener
 		bClipboard.addActionListener(this);
 		RB.setMnemonic(bClipboard, "gui.dialog.DuplicateMarkersDialog.clipboard");
 
+		bHelp = SwingUtils.getButton(RB.getString("gui.text.help"));
+		RB.setText(bHelp, "gui.text.help");
+		FlapjackUtils.setHelp(bHelp, "gui.dialog.DuplicateMarkersDialog");
+
 		JPanel p1 = FlapjackUtils.getButtonPanel();
 		p1.add(bClipboard);
 		p1.add(bClose);
+		p1.add(bHelp);
 
 		return p1;
 	}
