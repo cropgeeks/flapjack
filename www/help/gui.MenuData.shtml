@@ -34,9 +34,13 @@ currently selected markers across any subset of chromosomes.</p>
 <p>Displays the <b>Sort Lines By Trait</b> dialog that allows you to order
 the lines by sorting them on up to three selected traits.</p>
 
+<h3>Filter QTLs...</h3>
+<p>Displays the <a href="gui.dialog.FilterQTLsDialog.shtml">Filter QTLs</a> dialog
+that allows you to determine which QTLs will be visible based on their trait
+and experiment values.</p>
 
 <h3>Find by name</h3>
-<p>Displays the <b>Find By Name</b> dialog that allows you to search for either
+<p>Displays the <a href="gui.dialog.analysis.FindDialog.shtml">Find By Name</a> dialog that allows you to search for either
 lines or markers using standard or regular-expression search strings.</p>
 
 <h3>Data summary</h3>

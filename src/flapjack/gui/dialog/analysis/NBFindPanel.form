@@ -5,6 +5,7 @@
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
     <AuxValue name="FormSettings_formBundle" type="java.lang.String" value="flapjack"/>
+    <AuxValue name="FormSettings_generateFQN" type="java.lang.Boolean" value="true"/>
     <AuxValue name="FormSettings_generateMnemonicsCode" type="java.lang.Boolean" value="false"/>
     <AuxValue name="FormSettings_i18nAutoMode" type="java.lang.Boolean" value="false"/>
     <AuxValue name="FormSettings_layoutCodeTarget" type="java.lang.Integer" value="2"/>
@@ -28,16 +29,18 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="1" attributes="0">
-                              <Component id="findCombo" pref="174" max="32767" attributes="0"/>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="searchButton" min="-2" max="-2" attributes="0"/>
+                              <Component id="findCombo" pref="146" max="32767" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="bSearch" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="bHelp" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <Component id="searchCombo" alignment="0" pref="249" max="32767" attributes="1"/>
+                          <Component id="searchCombo" alignment="0" pref="276" max="32767" attributes="1"/>
                       </Group>
                   </Group>
                   <Component id="resultLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                   <Component id="hintLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Component id="spTable" alignment="0" pref="321" max="32767" attributes="0"/>
+                  <Component id="spTable" alignment="0" pref="348" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -49,8 +52,9 @@
               <EmptySpace min="-2" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="findLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="searchButton" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="findCombo" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="bSearch" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="bHelp" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
@@ -153,7 +157,7 @@
         </Component>
         <Component class="javax.swing.JLabel" name="link">
           <Properties>
-            <Property name="text" type="java.lang.String" value="View information on searching using regular expressions"/>
+            <Property name="text" type="java.lang.String" value="View more information on searching using regular expressions"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JCheckBox" name="checkCase">
@@ -202,7 +206,7 @@
         </Component>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JButton" name="searchButton">
+    <Component class="javax.swing.JButton" name="bSearch">
       <Properties>
         <Property name="text" type="java.lang.String" value="Search"/>
       </Properties>
@@ -213,6 +217,11 @@
     <Component class="javax.swing.JLabel" name="hintLabel">
       <Properties>
         <Property name="text" type="java.lang.String" value="Click on any result to view it within the main window"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="bHelp">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Help"/>
       </Properties>
     </Component>
   </SubComponents>

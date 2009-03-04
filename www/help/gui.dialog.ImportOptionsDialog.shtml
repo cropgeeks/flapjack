@@ -41,11 +41,12 @@ while getting to know Flapjack.</li>
 <p>Secondary options are also available, once a primary data set has been loaded:</p>
 
 <ul>
-<li><b>Import trait information from a file located on disk</b><br>
-Selecting this option prompts you to provide a file containing trait information
+<li><b>Import phenotype trait data from a file located on disk</b><br>
+Selecting this option prompts you to provide a file containing phenotypic trait information
 that can be associated with the lines contained in the main data set.</li>
-<li><b>Import QTL information from a file located on disk</b><br>
-This is a placeholder option for possible future inclusion.</li>
+<li><b>Import QTL data from a file located on disk</b><br>
+Selecting this option prompts you to provide a file containing QTL information
+that can be associated with chromosomes contained in the main data set.</li>
 </ul>
 
 <!--#include virtual="footer.html" -->
