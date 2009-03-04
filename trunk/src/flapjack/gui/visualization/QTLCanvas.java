@@ -283,6 +283,8 @@ class QTLCanvas extends JPanel
 					if (newTrack.get(i).getMin() >= featureToMove.getMin())
 					{
 						newTrack.add(i, featureToMove);
+						Actions.projectModified();
+
 						break;
 					}
 				// Or on the end...
