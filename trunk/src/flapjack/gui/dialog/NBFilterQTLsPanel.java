@@ -50,6 +50,9 @@ class NBFilterQTLsPanel extends JPanel
 		traits = new LinkedHashMap<String, Boolean>();
 		experiments = new LinkedHashMap<String, Boolean>();
 
+		// Track how many QTLs are currently visible
+		int count = 0;
+
 		// Scan every track in every chromosome
 		for (ChromosomeMap cMap: dataSet.getChromosomeMaps())
 			for (Vector<Feature> track: cMap.getTrackSet())
@@ -57,6 +60,7 @@ class NBFilterQTLsPanel extends JPanel
 					if (feature instanceof QTL)
 					{
 						QTL qtl = (QTL) feature;
+						count += qtl.isVisible() ? 1 : 0;
 
 						Boolean tValue = traits.get(qtl.getTrait());
 
@@ -76,6 +80,9 @@ class NBFilterQTLsPanel extends JPanel
 						else if (qtl.isVisible())
 							experiments.put(qtl.getExperiment(), true);
 					}
+
+		numberLabel.setText(RB.format(
+			"gui.dialog.NBFilterQTLsPanel.numberLabel", count));
 	}
 
 	// Fill the traits table with data
@@ -239,6 +246,7 @@ class NBFilterQTLsPanel extends JPanel
         selectAllExperiments = new javax.swing.JLabel();
         label3 = new javax.swing.JLabel();
         selectNoExperiments = new javax.swing.JLabel();
+        numberLabel = new javax.swing.JLabel();
 
         panel.setBorder(javax.swing.BorderFactory.createTitledBorder("Filter visible QTLs:"));
 
@@ -288,6 +296,8 @@ class NBFilterQTLsPanel extends JPanel
         selectNoExperiments.setForeground(java.awt.Color.blue);
         selectNoExperiments.setText("Select none");
 
+        numberLabel.setText("Number of QTLs currently visible (across all chromosomes):");
+
         org.jdesktop.layout.GroupLayout panelLayout = new org.jdesktop.layout.GroupLayout(panel);
         panel.setLayout(panelLayout);
         panelLayout.setHorizontalGroup(
@@ -295,24 +305,27 @@ class NBFilterQTLsPanel extends JPanel
             .add(panelLayout.createSequentialGroup()
                 .addContainerGap()
                 .add(panelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(traitsLabel)
                     .add(panelLayout.createSequentialGroup()
-                        .add(selectAllTraits)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(label2)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(selectNoTraits))
-                    .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 198, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                .add(panelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(panelLayout.createSequentialGroup()
-                        .add(selectAllExperiments)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(label3)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(selectNoExperiments))
-                    .add(experimentsLabel)
-                    .add(jScrollPane2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 192, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                        .add(panelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(traitsLabel)
+                            .add(panelLayout.createSequentialGroup()
+                                .add(selectAllTraits)
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                .add(label2)
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                .add(selectNoTraits))
+                            .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 198, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                        .add(panelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(panelLayout.createSequentialGroup()
+                                .add(selectAllExperiments)
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                .add(label3)
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                .add(selectNoExperiments))
+                            .add(experimentsLabel)
+                            .add(jScrollPane2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 192, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                    .add(numberLabel))
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -341,6 +354,8 @@ class NBFilterQTLsPanel extends JPanel
                             .add(selectAllExperiments)
                             .add(label3)
                             .add(selectNoExperiments))))
+                .add(18, 18, 18)
+                .add(numberLabel)
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -370,6 +385,7 @@ class NBFilterQTLsPanel extends JPanel
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel label2;
     private javax.swing.JLabel label3;
+    private javax.swing.JLabel numberLabel;
     private javax.swing.JPanel panel;
     private javax.swing.JLabel selectAllExperiments;
     private javax.swing.JLabel selectAllTraits;
