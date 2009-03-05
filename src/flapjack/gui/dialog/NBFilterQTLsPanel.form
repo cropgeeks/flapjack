@@ -46,30 +46,35 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="0" attributes="0">
+              <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="traitsLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Group type="102" alignment="0" attributes="0">
-                          <Component id="selectAllTraits" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="label2" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="selectNoTraits" min="-2" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="traitsLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Component id="selectAllTraits" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="label2" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="selectNoTraits" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <Component id="jScrollPane1" linkSize="5" alignment="0" min="-2" pref="198" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Component id="selectAllExperiments" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="label3" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="selectNoExperiments" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <Component id="experimentsLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="jScrollPane2" linkSize="5" alignment="0" min="-2" pref="192" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
-                      <Component id="jScrollPane1" linkSize="5" alignment="0" min="-2" pref="198" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
-                          <Component id="selectAllExperiments" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="label3" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="selectNoExperiments" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <Component id="experimentsLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="jScrollPane2" linkSize="5" alignment="0" min="-2" pref="192" max="-2" attributes="0"/>
+                      <Component id="numberLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
@@ -103,6 +108,8 @@
                           </Group>
                       </Group>
                   </Group>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <Component id="numberLabel" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
@@ -211,6 +218,11 @@
               <Color blue="ff" green="0" id="blue" palette="1" red="0" type="palette"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Select none"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="numberLabel">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Number of QTLs currently visible (across all chromosomes):"/>
           </Properties>
         </Component>
       </SubComponents>
