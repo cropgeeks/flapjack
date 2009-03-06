@@ -6,10 +6,10 @@
 	<property name="config" location="config"/>
 	<property name="lib-devel" location="lib-devel"/>
 	<property name="classes" location="classes"/>
-	
+
 	<property name="flapjack.jar" value="${lib}/flapjack.jar"/>
 	<property name="flapjack-resources.jar" value="${lib}/flapjack-resources.jar"/>
-	
+
 	<target name="init">
 	</target>
 
@@ -29,7 +29,7 @@
 			<exclude name="**/package-info.java"/>
 		</javac>
 	</target>
-	
+
 	<target name="clean">
 		<delete includeemptydirs="true">
 			<fileset dir="${classes}" includes="**/*"/>
@@ -37,13 +37,13 @@
 			<fileset file="${flapjack-resources.jar}"/>
 		</delete>
 	</target>
-	
+
 	<target name="jar" depends="clean, compile">
 		<jar jarfile="${flapjack-resources.jar}">
 			<zipfileset dir="${res}" prefix="res"/>
 		</jar>
 		<jar jarfile="${flapjack.jar}">
-			<fileset dir="${classes}"/>			
+			<fileset dir="${classes}"/>
 			<zipfileset dir="${config}" prefix="config"/>
 			<!-- castor.properties must be top level otherwise it's not seen -->
 			<fileset file="config/castor.properties"/>
@@ -62,7 +62,7 @@
 			</manifest>
 		</jar>
 	</target>
-	
+
 	<target name="javadoc">
 		<javadoc destdir="docs/api" author="true" version="true" use="true">
 			<fileset dir="${src}" defaultexcludes="yes">
@@ -71,7 +71,7 @@
 			<classpath refid="project.classpath"/>
 		</javadoc>
 	</target>
-	
+
 	<target name="test" depends="jar">
 		<junit printsummary="on" haltonerror="true" haltonfailure="true" dir="." fork="true">
 			<classpath refid="project.classpath"/>
@@ -80,24 +80,24 @@
 			</classpath>
 
 			<formatter type="plain" usefile="false"/>
-			
+
 			<batchtest>
 				<fileset dir="${classes}" includes="**/*Test.class"/>
 			</batchtest>
 		</junit>
 	</target>
-	
+
 	<target name="osx" depends="jar">
 		<exec executable="scp">
 			<arg line="lib/*.jar 143.234.127.110:Java/Flapjack/"/>
 		</exec>
 	</target>
-	
+
 	<target name="install4j" depends="jar">
 		<taskdef name="install4j"
 		classname="com.install4j.Install4JTask"
-		classpath="C:\Java\Apps\install4j\bin\ant.jar"/>
-		
+		classpath="C:\Program Files\Install4j\bin\ant.jar"/>
+
 		<delete>
 			<fileset dir="installer" includes="**/*.exe"/>
 			<fileset dir="installer" includes="**/*.sh"/>
