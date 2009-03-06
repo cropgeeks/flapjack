@@ -39,7 +39,7 @@ class NBQTLControlPanel extends javax.swing.JPanel
 
         bRemove.setText("Remove all QTLs");
 
-        trackSpinner.setModel(new javax.swing.SpinnerNumberModel(1, 1, 7, 1));
+        trackSpinner.setModel(new javax.swing.SpinnerNumberModel(1, 1, 15, 1));
 
         trackLabel.setText("Active tracks:");
 
@@ -50,7 +50,7 @@ class NBQTLControlPanel extends javax.swing.JPanel
             .add(layout.createSequentialGroup()
                 .addContainerGap()
                 .add(statusLabel)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 60, Short.MAX_VALUE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 52, Short.MAX_VALUE)
                 .add(trackLabel)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(trackSpinner, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)

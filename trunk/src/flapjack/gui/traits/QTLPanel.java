@@ -120,20 +120,29 @@ public class QTLPanel extends JPanel implements ActionListener, ChangeListener
 	{
 		long s = System.currentTimeMillis();
 
-		int tracks = 0;
+		// Optimum number of tracks to use
+		int optimum = 0;
 
-		for (int i = 1; i <= 7; i++)
+		for (int i = 1; i <= 15; i++)
 		{
+			int trackCount = 0;
+
+			// Scan each chromosome
 			for (ChromosomeMap c: dataSet.getChromosomeMaps())
 				if (setTracks(i, c))
-					tracks = i;
-				else
-					break;
+					trackCount = i;
+
+			// And update the best number if required
+			if (trackCount > optimum)
+				optimum = trackCount;
+			// If a higher number wasn't found, then we've reached the optimum
+			else
+				break;
 		}
 
 		// Once we know the best number, reset to that number
 		for (ChromosomeMap c: dataSet.getChromosomeMaps())
-			setTracks(tracks, c);
+			setTracks(optimum, c);
 
 		System.out.println("Tracks optimised in " + (System.currentTimeMillis()-s + "ms"));
 	}
