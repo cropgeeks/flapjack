@@ -161,7 +161,9 @@ public class QTLImporter implements ITrackableJob
 	{
 		ChromosomeMap cMap = dataSet.getMapByName(cName, false);
 
-		if (qtl.getMin() < 0 || qtl.getMax() > cMap.getLength())
+		if (qtl.getMin() < 0 || qtl.getMax() > cMap.getLength() ||
+			qtl.getMax() < 0 || qtl.getMin() > cMap.getLength() ||
+			qtl.getPosition() < 0 || qtl.getPosition() > cMap.getLength())
 		{
 			qtl.setAllowed(false);
 			qtl.setVisible(false);
