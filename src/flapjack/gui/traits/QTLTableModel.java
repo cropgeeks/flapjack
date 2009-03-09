@@ -89,7 +89,7 @@ class QTLTableModel extends AbstractTableModel
 
 		switch (col)
 		{
-			case 0: return qtl.getName();
+			case 0: return qtl;
 			case 1: return qtl.getChromosomeMap().getName();
 			case 2: return qtl.getPosition();
 			case 3: return qtl.getMin();
@@ -104,7 +104,9 @@ class QTLTableModel extends AbstractTableModel
 
 	public Class getColumnClass(int col)
 	{
-		if (col == 0 || col >=5 && col <= 6)
+		if (col == 0)
+			return QTL.class;
+		else if (col >=5 && col <= 6)
 			return String.class;
 		else if (col == 7)
 			return Boolean.class;
