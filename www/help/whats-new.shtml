@@ -25,6 +25,31 @@ subversion change log</a>.</p>
 <p>For information on what <i>might</i> be appearing in a future version of Flapjack,
 please see the <a href="../future-work.shtml">future work</a> page.</p>
 
+<h3>New in 0.09.xx.xx</h3>
+
+<ul>
+<li>NEW: Flapjack now supports the import of supplementary QTL data.</li>
+<li>NEW: QTLs data files can have any number of additional (optional) numerical columns (LOD, r2, etc).</li>
+<li>NEW: Added support for graphically rendering QTLs across multiple "tracks".</li>
+<li>NEW: QTLs can now be colour-coded according to the trait they are associated with.</li>
+<li>NEW: Flapjack will automatically layout QTLs over multiple tracks to avoid overlaps.</li>
+<li>NEW: Added support for mouse interactions (info popups) for QTLs and for moving QTLs between tracks.</li>
+<li>NEW: QTLs can be clicked on and all markers associated with them with toggle their selection state.</li>
+<li>NEW: QTLs can be manually moved between tracks by CTRL clicking and dragging.</li>
+<li>NEW: Added a new front-end to the program that provides quick links to recent projects, help, etc.</li>
+<li>NEW: Added a QTL summary table with controls to toggle the visibility of individual QTLs.</li>
+<li>NEW: Added a Filter QTLs dialog to assist in visibility selection based on trait and experiment.</li>
+<li>NEW: Added toolbar shortcut buttons for inverting the selection state of lines and markers.</li>
+<li>NEW: Added many new help topics and placeholders for areas still to be included.</li>
+<li>NEW: Hovering the mouse over a QTL that is drawn under its neighbours will now render that QTL on top.</li>
+<li>CHG: The Traits folder on the project navigation tree now supports QTL and phenotype trait data.</li>
+<li>CHG: The similarity colour schemes will now do half-and-half colouring of heterozygotes.</li>
+<li>CHG: Colour-boxes (such as in the Customize Colours dialog) now render using gradients.</li>
+<li>CHG: All "floating" dialog boxes (such as Find By Name) will now auto-close when navigating to another view or data set.</li>
+<li>CHG: Importing an additional set of phenotype traits will now overwrite rather than append the existing set.</li>
+<li>BUG: Fixed a problem with importing genotype data files that contain non zero length lines that held no data.</li>
+</ul>
+
 <h3>New in 0.09.02.03</h3>
 
 <ul>
