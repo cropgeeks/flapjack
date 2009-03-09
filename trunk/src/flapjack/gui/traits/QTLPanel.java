@@ -22,7 +22,6 @@ public class QTLPanel extends JPanel implements ActionListener, ChangeListener
 	private QTLTableModel model;
 
 	private NBQTLControlPanel controls;
-	private QTLTableRenderer qtlRenderer = new QTLTableRenderer();
 
 	public QTLPanel(DataSet dataSet)
 	{
@@ -58,6 +57,9 @@ public class QTLPanel extends JPanel implements ActionListener, ChangeListener
 
 		model = new QTLTableModel(dataSet, table);
 
+		if (SystemUtils.jreVersion() >= 1.6)
+			new SortHandler();
+
 		table.setModel(model);
 		controls.statusLabel.setText(
 			RB.format("gui.traits.QTLPanel.traitCount", table.getRowCount()));
@@ -67,14 +69,24 @@ public class QTLPanel extends JPanel implements ActionListener, ChangeListener
 		// Messy...
 		if (table.getColumnCount() > 0)
 		{
-			table.getColumnModel().getColumn(0).setCellRenderer(qtlRenderer);
-			table.getColumnModel().getColumn(5).setCellRenderer(qtlRenderer);
+			table.getColumnModel().getColumn(0).setCellRenderer(new QTLNameRenderer());
+			table.getColumnModel().getColumn(5).setCellRenderer(new QTLTraitRenderer());
 		}
 
 		// Set the spinner to the correct number of tracks for this dataset
 		int size = dataSet.getMapByIndex(0).getTrackSet().size();
 		controls.trackSpinner.setValue(size);
 		controls.trackSpinner.setEnabled(size > 0);
+	}
+
+	// This is done in a separate class to hide its implementation from OS X on
+	// Java5 that will throw ClassNotFoundExceptions if it tries to run it
+	private class SortHandler
+	{
+		SortHandler()
+		{
+			table.setRowSorter(new TableRowSorter<QTLTableModel>(model));
+		}
 	}
 
 	public void actionPerformed(ActionEvent e)
@@ -211,8 +223,8 @@ public class QTLPanel extends JPanel implements ActionListener, ChangeListener
 		return false;
 	}
 
-	// Renderer for the QTL name and (coloured) Trait columns of the table
-	class QTLTableRenderer extends DefaultTableCellRenderer
+	// Renderer for the QTL name column of the table
+	class QTLNameRenderer extends DefaultTableCellRenderer
 	{
 		public Component getTableCellRendererComponent(JTable table, Object value,
 			boolean isSelected, boolean hasFocus, int row, int column)
@@ -220,37 +232,44 @@ public class QTLPanel extends JPanel implements ActionListener, ChangeListener
 			super.getTableCellRendererComponent(table, value, isSelected,
 				hasFocus, row, column);
 
-			QTL qtl = model.qtls.get(row);
+			QTL qtl = (QTL) table.getValueAt(row, 0);
+			setText(qtl.getName());
 
-			if (column == 0)
-			{
-				setText(qtl.getName());
+			if (qtl.isAllowed())
+				setIcon(null);
+			else
+				setIcon(Icons.getIcon("QTLDISABLED"));
 
-				if (qtl.isAllowed())
-					setIcon(null);
-				else
-					setIcon(Icons.getIcon("QTLDISABLED"));
-			}
+			return this;
+		}
+	}
 
-			if (column == 5)
-			{
-				setText(qtl.getTrait());
+	// Renderer for the QTL trait column of the table
+	class QTLTraitRenderer extends DefaultTableCellRenderer
+	{
+		public Component getTableCellRendererComponent(JTable table, Object value,
+			boolean isSelected, boolean hasFocus, int row, int column)
+		{
+			super.getTableCellRendererComponent(table, value, isSelected,
+				hasFocus, row, column);
 
-				BufferedImage image = new BufferedImage(20, 10, BufferedImage.TYPE_INT_RGB);
-				Graphics2D g = (Graphics2D) image.createGraphics();
+			QTL qtl = (QTL) table.getValueAt(row, 0);
+			setText(qtl.getTrait());
 
-				Color c = qtl.getDisplayColor();
-				Color c1 = c.brighter();
-				Color c2 = c.darker();
-				g.setPaint(new GradientPaint(0, 0, c1, 20, 10, c2));
+			BufferedImage image = new BufferedImage(20, 10, BufferedImage.TYPE_INT_RGB);
+			Graphics2D g = (Graphics2D) image.createGraphics();
 
-				g.fillRect(0, 0, 20, 10);
-				g.setColor(Color.black);
-				g.drawRect(0, 0, 20, 10);
-				g.dispose();
+			Color c = qtl.getDisplayColor();
+			Color c1 = c.brighter();
+			Color c2 = c.darker();
+			g.setPaint(new GradientPaint(0, 0, c1, 20, 10, c2));
 
-				setIcon(new ImageIcon(image));
-			}
+			g.fillRect(0, 0, 20, 10);
+			g.setColor(Color.black);
+			g.drawRect(0, 0, 20, 10);
+			g.dispose();
+
+			setIcon(new ImageIcon(image));
 
 			return this;
 		}
