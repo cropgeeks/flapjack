@@ -212,6 +212,9 @@ public class MenuFile
 		File file = browseDialog.getFile();
 		Prefs.guiCurrentTrait = file.toString();
 
+		// Remove any existing traits first
+		TabPanel ttp = navPanel.getTraitsPanel(dataSet);
+		ttp.getTraitsPanel().removeAllTraits();
 
 		// Import the data using the standard progress bar dialog...
 		TraitImporter importer = new TraitImporter(file, dataSet);
@@ -239,7 +242,6 @@ public class MenuFile
 		for (GTViewSet viewSet: dataSet.getViewSets())
 			viewSet.assignTraits();
 
-		TabPanel ttp = navPanel.getTraitsPanel(dataSet);
 		ttp.getTraitsPanel().updateModel();
 		Actions.projectModified();
 	}
