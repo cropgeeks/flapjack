@@ -1,0 +1,72 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+
+<html>
+<head>
+<meta http-equiv="Content-Language" content="en-gb">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+<link rel="stylesheet" href="../stylesheet/styles.css" type="text/css">
+
+<title>Find By Name</title>
+
+</head>
+<body>
+
+<!--#include virtual="header.html" -->
+
+
+<h2>Find By Name</h2>
+
+<p>The <b>Find By Name</b> dialog allows you to search for and locate both
+markers and lines. Searching is possible either via exact matching on a given
+name or by regular expression matching.</p>
+
+<p><a href="images/gui.dialog.analysis.FindDialog.png">
+<img class="capture" src="images/gui.dialog.analysis.FindDialog2.png" alt="Flapjack Screenshot"></a></p>
+
+<p>Enter your search parameters into the search box, then click the <b>Search</b>
+button to continue. Any matching results will
+be displayed in the results table. You can click a result to have Flapjack move
+the main display to the exact position of the marker or line clicked. It will
+also be graphically highlighted for a few seconds.</p>
+
+<p>You may also wish to use Flapjack's <a href="bookmarks.shtml">bookmark</a>
+feature to track results that are of interest without having to search for them
+again.</p>
+
+<h3>Search options</h3>
+
+<p>You can search within three separate areas:</p>
+
+<ul>
+<li><b>Line names</b><br>
+Select this option to search for matching line names.</li>
+<li><b>Marker names (current chromosome only)</b><br>
+Select this option to search for matching marker names, with the search limited
+to markers that are in the currently visible chromosome only.</li>
+<li><b>Marker names (across all chromosomes)</b><br>
+Select this option to search for matching marker names across all chromosomes
+within the current data set.</li>
+</ul>
+
+<p>The dialog also provides two additional options that are available regardless
+of the search type:</p>
+
+<ul>
+<li><b>Match case</b><br>
+If this option is checked, then case sensitive matching will be performed. Uncheck
+the option to ignore case.</li>
+<li><b>Use regular expression pattern matching</b><br>
+If this option is checked, then you can enter a regular expression into the
+search box. For more details on using regular expressions, see the documentation
+provided at <a href="http://java.sun.com/javase/6/docs/api/java/util/regex/Pattern.html">
+http://java.sun.com/javase/6/docs/api/java/util/regex/Pattern.html</a>.</li>
+</ul>
+
+
+
+
+<!--#include virtual="footer.html" -->
+
+</body>
+</html>
