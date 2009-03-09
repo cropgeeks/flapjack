@@ -99,7 +99,7 @@ public class TraitsPanel extends JPanel implements ActionListener
 		}
 	}
 
-	private void removeAllTraits()
+	public void removeAllTraits()
 	{
 		// Remove the traits from the dataset
 		dataSet.getTraits().clear();
