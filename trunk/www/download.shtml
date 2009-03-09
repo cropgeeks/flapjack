@@ -18,7 +18,7 @@
 <h2>Download Flapjack</h2>
 
 <p>The most recent release of Flapjack is:
-<b>Alpha - 0.09.02.03</b> (3rd February 2009).</p>
+<b>Alpha - 0.09.03.09</b> (9th March 2009).</p>
 
 <p>Please use the links below to download the Flapjack installer most suitable
 for your operating system. Flapjack is currently available for:</p>
@@ -31,7 +31,7 @@ for your operating system. Flapjack is currently available for:</p>
 		<a href="installers/flapjack_windows_0_09_02_03.exe"
 		onClick="pageTracker._trackEvent('Downloads', 'Flapjack', 'Windows');">
 		Microsoft Windows
-		</a> (16.1MB)
+		</a> (16.3MB)
 	</td>
 </tr>
 <tr>
@@ -41,7 +41,7 @@ for your operating system. Flapjack is currently available for:</p>
 		<a href="installers/flapjack_macos_0_09_02_03.dmg"
 		onClick="pageTracker._trackEvent('Downloads', 'Flapjack', 'OS X');">
 		Apple Mac OS X
-		</a> (2.5MB)
+		</a> (2.8MB)
 	</td>
 </tr>
 <tr>
@@ -51,7 +51,7 @@ for your operating system. Flapjack is currently available for:</p>
 		<a href="installers/flapjack_linux_0_09_02_03.sh"
 		onClick="pageTracker._trackEvent('Downloads', 'Flapjack', 'Linux');">
 		Linux
-		</a> (18.1MB)
+		</a> (18.4MB)
 	</td>
 </tr>
 <tr>
@@ -61,7 +61,7 @@ for your operating system. Flapjack is currently available for:</p>
 		<a href="installers/flapjack_solaris_0_09_02_03.sh"
 		onClick="pageTracker._trackEvent('Downloads', 'Flapjack', 'Solaris');">
 		Solaris (sparc)
-		</a> (24.9MB)
+		</a> (25.1MB)
 	</td>
 </tr>
 </table>
