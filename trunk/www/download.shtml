@@ -28,7 +28,7 @@ for your operating system. Flapjack is currently available for:</p>
 	<td>&nbsp;&nbsp;&nbsp;</td>
 	<td><img src="images/icon_windows.gif" alt="Windows"></td>
 	<td>
-		<a href="installers/flapjack_windows_0_09_02_03.exe"
+		<a href="installers/flapjack_windows_0_09_03_09.exe"
 		onClick="pageTracker._trackEvent('Downloads', 'Flapjack', 'Windows');">
 		Microsoft Windows
 		</a> (16.3MB)
@@ -38,7 +38,7 @@ for your operating system. Flapjack is currently available for:</p>
 	<td>&nbsp;&nbsp;&nbsp;</td>
 	<td><img src="images/icon_osx.gif" alt="OS X"></td>
 	<td>
-		<a href="installers/flapjack_macos_0_09_02_03.dmg"
+		<a href="installers/flapjack_macos_0_09_03_09.dmg"
 		onClick="pageTracker._trackEvent('Downloads', 'Flapjack', 'OS X');">
 		Apple Mac OS X
 		</a> (2.8MB)
@@ -48,7 +48,7 @@ for your operating system. Flapjack is currently available for:</p>
 	<td>&nbsp;&nbsp;&nbsp;</td>
 	<td><img src="images/icon_linux.gif" alt="Linux"></td>
 	<td>
-		<a href="installers/flapjack_linux_0_09_02_03.sh"
+		<a href="installers/flapjack_linux_0_09_03_09.sh"
 		onClick="pageTracker._trackEvent('Downloads', 'Flapjack', 'Linux');">
 		Linux
 		</a> (18.4MB)
@@ -58,7 +58,7 @@ for your operating system. Flapjack is currently available for:</p>
 	<td>&nbsp;&nbsp;&nbsp;</td>
 	<td><img src="images/icon_solaris.gif" alt="Solaris"></td>
 	<td>
-		<a href="installers/flapjack_solaris_0_09_02_03.sh"
+		<a href="installers/flapjack_solaris_0_09_03_09.sh"
 		onClick="pageTracker._trackEvent('Downloads', 'Flapjack', 'Solaris');">
 		Solaris (sparc)
 		</a> (25.1MB)

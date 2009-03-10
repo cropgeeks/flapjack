@@ -25,14 +25,14 @@ subversion change log</a>.</p>
 <p>For information on what <i>might</i> be appearing in a future version of Flapjack,
 please see the <a href="../future-work.shtml">future work</a> page.</p>
 
-<h3>New in 0.09.xx.xx</h3>
+<h3>New in 0.09.03.09</h3>
 
 <ul>
 <li>NEW: Flapjack now supports the import of supplementary QTL data.</li>
 <li>NEW: QTLs data files can have any number of additional (optional) numerical columns (LOD, r2, etc).</li>
 <li>NEW: Added support for graphically rendering QTLs across multiple "tracks".</li>
 <li>NEW: QTLs can now be colour-coded according to the trait they are associated with.</li>
-<li>NEW: Flapjack will automatically layout QTLs over multiple tracks to avoid overlaps.</li>
+<li>NEW: Flapjack will automatically lay out QTLs over multiple tracks to avoid overlaps.</li>
 <li>NEW: Added support for mouse interactions (info popups) for QTLs and for moving QTLs between tracks.</li>
 <li>NEW: QTLs can be clicked on and all markers associated with them with toggle their selection state.</li>
 <li>NEW: QTLs can be manually moved between tracks by CTRL clicking and dragging.</li>
