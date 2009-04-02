@@ -125,4 +125,27 @@ public class StateTable extends XMLRoot
 
 		return (A && C && G && T);
 	}
+
+	/**
+	 * Returns an exact count of the number of unique states within the table,
+	 * including all homozygote and heterozygote alleles. For example, A, G, T,
+	 * A/T, and G/A would return 3.
+	 */
+	public int calculateUniqueStateCount()
+	{
+		Hashtable<String, String> hashtable = new Hashtable<String, String>();
+
+		for (AlleleState state: states)
+		{
+			if (state.isHomozygous())
+				hashtable.put(state.getState(0), state.getState(0));
+			else
+			{
+				hashtable.put(state.getState(0), state.getState(0));
+				hashtable.put(state.getState(1), state.getState(1));
+			}
+		}
+
+		return hashtable.size() - 1;
+	}
 }
