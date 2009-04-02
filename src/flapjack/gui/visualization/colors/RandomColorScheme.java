@@ -18,11 +18,22 @@ public class RandomColorScheme extends ColorScheme
 	{
 		super(view);
 
+		// Temp storage for the colors as we "invent" them
+		Hashtable<String, Color> hashtable = new Hashtable<String, Color>();
+
 		// Use white for the default unknown state
 		AlleleState state = stateTable.getAlleleState(0);
 		states.add(new SimpleColorState(state, Prefs.visColorBackground, w, h));
 
 		int seed = view.getViewSet().getRandomColorSeed();
+
+		float colorsNeeded = stateTable.calculateUniqueStateCount();
+//		float colorSpacing = WebsafePalette.getColorCount() / colorsNeeded;
+		float colorSpacing = 1 / colorsNeeded;
+
+		float fColor = 1 / 50000f * seed;
+//		fColor = seed;
+
 
 		// And random colors for everything else
 		for (int i = 1; i < stateTable.size(); i++)
@@ -31,32 +42,45 @@ public class RandomColorScheme extends ColorScheme
 
 			if (state.isHomozygous())
 			{
-				Color color = createRandomColor(state.toString(), seed);
+				Color color = hashtable.get(state.toString());
+				if (color == null)
+				{
+					color = Color.getHSBColor(fColor, 0.5f, 1);
+//					color = WebsafePalette.getColor((int)fColor);
+					fColor += colorSpacing;
+
+					hashtable.put(state.toString(), color);
+				}
+
 				states.add(new HomozygousColorState(state, color, w, h));
 			}
 			else
 			{
-				Color c1 = createRandomColor(state.getState(0), seed);
-				Color c2 = createRandomColor(state.getState(1), seed);
+				// Get the color for the first het half
+				Color c1 = hashtable.get(state.getState(0));
+				if (c1 == null)
+				{
+					c1 = Color.getHSBColor(fColor, 0.5f, 1);
+//					c1 = WebsafePalette.getColor((int)fColor);
+					fColor += colorSpacing;
+
+					hashtable.put(state.getState(0), c1);
+				}
+
+				// Get the color for the second het half
+				Color c2 = hashtable.get(state.getState(1));
+				if (c2 == null)
+				{
+					c2 = Color.getHSBColor(fColor, 0.5f, 1);
+//					c2 = WebsafePalette.getColor((int)fColor);
+					fColor += colorSpacing;
+
+					hashtable.put(state.getState(1), c2);
+				}
 
 				states.add(new HeterozygeousColorState(state, Prefs.visColorNucleotideHZ, c1, c2, w, h));
 			}
 		}
-	}
-
-	protected Color createRandomColor(String str, int seed)
-	{
-		int value = 0;
-		for (int i = 0; i < str.length(); i++)
-			value += str.charAt(i);
-
-		java.util.Random rnd = new java.util.Random(value+seed);
-
-		int r = rnd.nextInt(255);
-		int g = rnd.nextInt(255);
-		int b = rnd.nextInt(255);
-
-		return new Color(r, g, b);
 	}
 
 	public BufferedImage getSelectedImage(int line, int marker)

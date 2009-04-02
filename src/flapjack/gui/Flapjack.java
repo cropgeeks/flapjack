@@ -24,6 +24,8 @@ public class Flapjack
 		// OS X: This has to be set before anything else
 		System.setProperty("com.apple.mrj.application.apple.menu.about.name", "Flapjack");
 
+		new flapjack.gui.visualization.colors.WebsafePalette();
+
 		Prefs.setDefaults();
 		prefs.loadPreferences(prefsFile, Prefs.class);
 

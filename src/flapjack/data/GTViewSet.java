@@ -33,7 +33,7 @@ public class GTViewSet extends XMLRoot
 	// Cutoff threshold if using the allele frequency color scheme
 	private float alleleFrequencyThreshold = 0.05f;
 	// A random seed that will be used if the random colour scheme is selected
-	private int randomColorSeed;
+	private int randomColorSeed = (int)(Math.random()*50000);
 
 	// For comparisons between lines, we need to know the line itself:
 	Line comparisonLine;
