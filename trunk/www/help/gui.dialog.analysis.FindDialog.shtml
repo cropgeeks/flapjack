@@ -58,12 +58,22 @@ If this option is checked, then case sensitive matching will be performed. Unche
 the option to ignore case.</li>
 <li><b>Use regular expression pattern matching</b><br>
 If this option is checked, then you can enter a regular expression into the
-search box. For more details on using regular expressions, see the documentation
-provided at <a href="http://java.sun.com/javase/6/docs/api/java/util/regex/Pattern.html">
-http://java.sun.com/javase/6/docs/api/java/util/regex/Pattern.html</a>.</li>
+search box.</li>
 </ul>
 
+<h3>Example regular expressions</h3>
 
+<p>Here are a few simple regular expressions to help with searching within Flapjack:</p>
+
+<ul>
+<li>To find all names beginning with the letter 'a' use: <b>a.*</b></li>
+<li>To find all names ending with the letter 'a' use: <b>.*a</b></li>
+<li>To find all names that include the substring 'abc' use <b>.*abc.*</b></li>
+</ul>
+
+<p>For more details on using regular expressions, see the documentation
+provided at <a href="http://java.sun.com/javase/6/docs/api/java/util/regex/Pattern.html">
+http://java.sun.com/javase/6/docs/api/java/util/regex/Pattern.html</a>.</p>
 
 
 <!--#include virtual="footer.html" -->

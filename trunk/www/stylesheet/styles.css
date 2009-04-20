@@ -53,6 +53,15 @@ body
 	padding: 0;
 	height: 60px;
 	width: 870px;
+	text-align: right;
+}
+
+.headerText
+{
+	display: inline;
+	float: right;
+	margin: 11pt 10pt 0pt 1.6em;
+	font-size: 13px;
 }
 
 .block-header
