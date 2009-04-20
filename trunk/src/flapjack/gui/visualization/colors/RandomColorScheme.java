@@ -9,14 +9,20 @@ import flapjack.gui.*;
 
 public class RandomColorScheme extends ColorScheme
 {
+	private int type;
+
 	private Vector<ColorState> states = new Vector<ColorState>();
 
-	/** Empty constructor that is ONLY used for color customization purposes. */
-	public RandomColorScheme() {}
+	/** Constructor that is ONLY used for color customization purposes. */
+	public RandomColorScheme(int type)
+	{
+		this.type = type;
+	}
 
-	public RandomColorScheme(GTView view, int w, int h)
+	public RandomColorScheme(int type, GTView view, int w, int h)
 	{
 		super(view);
+		this.type = type;
 
 		// Temp storage for the colors as we "invent" them
 		Hashtable<String, Color> hashtable = new Hashtable<String, Color>();
@@ -26,13 +32,20 @@ public class RandomColorScheme extends ColorScheme
 		states.add(new SimpleColorState(state, Prefs.visColorBackground, w, h));
 
 		int seed = view.getViewSet().getRandomColorSeed();
-
 		float colorsNeeded = stateTable.calculateUniqueStateCount();
-//		float colorSpacing = WebsafePalette.getColorCount() / colorsNeeded;
-		float colorSpacing = 1 / colorsNeeded;
 
-		float fColor = 1 / 50000f * seed;
-//		fColor = seed;
+		float colorSpacing = 0, fColor = 0;
+
+		if (type == RANDOM)
+		{
+			colorSpacing = 1 / colorsNeeded;
+			fColor = 1 / 50000f * seed;
+		}
+		else if (type == RANDOM_WSP)
+		{
+			colorSpacing = WebsafePalette.getColorCount() / colorsNeeded;
+			fColor = seed;
+		}
 
 
 		// And random colors for everything else
@@ -45,8 +58,10 @@ public class RandomColorScheme extends ColorScheme
 				Color color = hashtable.get(state.toString());
 				if (color == null)
 				{
-					color = Color.getHSBColor(fColor, 0.5f, 1);
-//					color = WebsafePalette.getColor((int)fColor);
+					if (type == RANDOM)
+						color = Color.getHSBColor(fColor, 0.5f, 1);
+					else if (type == RANDOM_WSP)
+						color = WebsafePalette.getColor((int)fColor);
 					fColor += colorSpacing;
 
 					hashtable.put(state.toString(), color);
@@ -60,8 +75,10 @@ public class RandomColorScheme extends ColorScheme
 				Color c1 = hashtable.get(state.getState(0));
 				if (c1 == null)
 				{
-					c1 = Color.getHSBColor(fColor, 0.5f, 1);
-//					c1 = WebsafePalette.getColor((int)fColor);
+					if (type == RANDOM)
+						c1 = Color.getHSBColor(fColor, 0.5f, 1);
+					else if (type == RANDOM_WSP)
+						c1 = WebsafePalette.getColor((int)fColor);
 					fColor += colorSpacing;
 
 					hashtable.put(state.getState(0), c1);
@@ -71,8 +88,10 @@ public class RandomColorScheme extends ColorScheme
 				Color c2 = hashtable.get(state.getState(1));
 				if (c2 == null)
 				{
-					c2 = Color.getHSBColor(fColor, 0.5f, 1);
-//					c2 = WebsafePalette.getColor((int)fColor);
+					if (type == RANDOM)
+						c2 = Color.getHSBColor(fColor, 0.5f, 1);
+					else if (type == RANDOM_WSP)
+						c2 = WebsafePalette.getColor((int)fColor);
 					fColor += colorSpacing;
 
 					hashtable.put(state.getState(1), c2);
@@ -102,14 +121,27 @@ public class RandomColorScheme extends ColorScheme
 	}
 
 	public int getModel()
-		{ return RANDOM; }
+	{
+		if (type == ColorScheme.RANDOM)
+			return RANDOM;
+		else
+			return RANDOM_WSP;
+	}
 
 	public String toString()
-		{ return RB.getString("gui.Actions.vizColorRandom"); }
+	{
+		if (type == RANDOM)
+			return RB.getString("gui.Actions.vizColorRandom");
+		else
+			return RB.getString("gui.Actions.vizColorRandomWSP");
+	}
 
 	public String getDescription()
 	{
-		return RB.getString("gui.visualization.colors.RandomColorScheme");
+		if (type == RANDOM)
+			return RB.getString("gui.visualization.colors.RandomColorScheme");
+		else
+			return RB.getString("gui.visualization.colors.RandomColorSchemeWSP");
 	}
 
 	public Vector<ColorSummary> getColorSummaries()

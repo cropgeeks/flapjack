@@ -69,7 +69,7 @@ public class MenuVisualization
 			new AlleleFrequencyDialog(gPanel);
 
 		// Update the seed for random colour schemes
-		else if (colorScheme == ColorScheme.RANDOM)
+		else if (colorScheme == ColorScheme.RANDOM || colorScheme == ColorScheme.RANDOM_WSP)
 			gPanel.getViewSet().setRandomColorSeed((int)(Math.random()*50000));
 
 

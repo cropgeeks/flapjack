@@ -24,6 +24,7 @@ public class CanvasMenu
 	private JMenu mColor;
 	private JMenuItem mColorCustomize;
 	private JMenuItem mColorRandom;
+	private JMenuItem mColorRandomWSP;
 	private JMenuItem mColorNucleotide;
 	private JMenuItem mColorLineSim;
 	private JMenuItem mColorLineSimGS;
@@ -78,6 +79,7 @@ public class CanvasMenu
 		mSelectTraits = WinMainMenuBar.getItem(Actions.vizSelectTraits, "gui.Actions.vizSelectTraits", 0, 0);
 		mColorCustomize = WinMainMenuBar.getItem(Actions.vizColorCustomize, "gui.Actions.vizColorCustomize", 0, 0);
 		mColorRandom = WinMainMenuBar.getItem(Actions.vizColorRandom, "gui.Actions.vizColorRandom", 0, 0);
+		mColorRandomWSP = WinMainMenuBar.getItem(Actions.vizColorRandomWSP, "gui.Actions.vizColorRandomWSP", 0, 0);
 		mColorNucleotide = WinMainMenuBar.getItem(Actions.vizColorNucleotide, "gui.Actions.vizColorNucleotide", 0, 0);
 		mColorSimple2Color = WinMainMenuBar.getItem(Actions.vizColorSimple2Color, "gui.Actions.vizColorSimple2Color", 0, 0);
 		mColorLineSim = WinMainMenuBar.getItem(Actions.vizColorLineSim, "gui.Actions.vizColorLineSim", 0, 0);
@@ -103,6 +105,7 @@ public class CanvasMenu
 		mColor.add(mColorAlleleFreq);
 		mColor.addSeparator();
 		mColor.add(mColorRandom);
+		mColor.add(mColorRandomWSP);
 		mColor.addSeparator();
 		mColor.add(mColorCustomize);
 

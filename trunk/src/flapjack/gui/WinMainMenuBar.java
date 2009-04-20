@@ -45,6 +45,7 @@ public class WinMainMenuBar extends JMenuBar
 	private JMenu mVizColor;
 	private JMenuItem mVizColorCustomize;
 	private JMenuItem mVizColorRandom;
+	private JMenuItem mVizColorRandomWSP;
 	private JMenuItem mVizColorNucleotide;
 	private JMenuItem mVizColorLineSim;
 	private JMenuItem mVizColorLineSimGS;
@@ -204,6 +205,7 @@ public class WinMainMenuBar extends JMenuBar
 		mVizExportData = getItem(Actions.vizExportData, "gui.Actions.vizExportData", 0, 0);
 		mVizColorCustomize = getItem(Actions.vizColorCustomize, "gui.Actions.vizColorCustomize", 0, 0);
 		mVizColorRandom = getItem(Actions.vizColorRandom, "gui.Actions.vizColorRandom", 0, 0);
+		mVizColorRandomWSP = getItem(Actions.vizColorRandomWSP, "gui.Actions.vizColorRandomWSP", 0, 0);
 		mVizColorNucleotide = getItem(Actions.vizColorNucleotide, "gui.Actions.vizColorNucleotide", 0, 0);
 		mVizColorLineSim = getItem(Actions.vizColorLineSim, "gui.Actions.vizColorLineSim", 0, 0);
 //		mVizColorLineSimGS = getItem(Actions.vizColorLineSimGS, KeyEvent.VK_G, 0, 0);
@@ -232,6 +234,7 @@ public class WinMainMenuBar extends JMenuBar
 		mVizColor.add(mVizColorAlleleFreq);
 		mVizColor.addSeparator();
 		mVizColor.add(mVizColorRandom);
+		mVizColor.add(mVizColorRandomWSP);
 		mVizColor.addSeparator();
 		mVizColor.add(mVizColorCustomize);
 
