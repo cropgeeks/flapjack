@@ -38,6 +38,7 @@ public class Actions
 	public static AbstractAction vizExportData;
 	public static AbstractAction vizColorCustomize;
 	public static AbstractAction vizColorRandom;
+	public static AbstractAction vizColorRandomWSP;
 	public static AbstractAction vizColorNucleotide;
 	public static AbstractAction vizColorLineSim;
 	public static AbstractAction vizColorLineSimGS;
@@ -261,6 +262,12 @@ public class Actions
 		vizColorRandom = new AbstractAction(RB.getString("gui.Actions.vizColorRandom")) {
 			public void actionPerformed(ActionEvent e) {
 				winMain.mViz.vizColor(ColorScheme.RANDOM);
+			}
+		};
+
+		vizColorRandomWSP = new AbstractAction(RB.getString("gui.Actions.vizColorRandomWSP")) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.mViz.vizColor(ColorScheme.RANDOM_WSP);
 			}
 		};
 
@@ -501,6 +508,7 @@ public class Actions
 		vizExportData.setEnabled(false);
 		vizColorCustomize.setEnabled(false);
 		vizColorRandom.setEnabled(false);
+		vizColorRandomWSP.setEnabled(false);
 		vizColorNucleotide.setEnabled(false);
 		vizColorLineSim.setEnabled(false);
 		vizColorLineSimGS.setEnabled(false);

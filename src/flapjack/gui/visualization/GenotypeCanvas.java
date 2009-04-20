@@ -170,7 +170,11 @@ class GenotypeCanvas extends JPanel
 				break;
 
 			case ColorScheme.RANDOM:
-				cScheme = new RandomColorScheme(view, boxW, boxH);
+				cScheme = new RandomColorScheme(ColorScheme.RANDOM, view, boxW, boxH);
+				break;
+
+			case ColorScheme.RANDOM_WSP:
+				cScheme = new RandomColorScheme(ColorScheme.RANDOM_WSP, view, boxW, boxH);
 				break;
 
 			default: // ColorScheme.NUCLEOTIDE

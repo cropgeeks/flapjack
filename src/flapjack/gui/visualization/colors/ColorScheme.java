@@ -20,7 +20,10 @@ public abstract class ColorScheme
 	public static final int SIMPLE_TWO_COLOR = 6;
 	public static final int ALLELE_FREQUENCY = 7;
 
+	// Random (HSB model)
 	public static final int RANDOM = 50;
+	// Random (Websafe Palette model)
+	public static final int RANDOM_WSP = 51;
 
 	protected GTView view;
 	protected StateTable stateTable;
