@@ -95,7 +95,6 @@ class OverviewCanvas extends JPanel
 	private void bufferAvailable(BufferedImage image)
 	{
 		this.image = image;
-//		new ClipAnimator().start();
 
 		// Force the main canvas to send its view size dimensions so we can draw
 		// the highlighting box on top of the new back buffer's image
@@ -239,76 +238,39 @@ class OverviewCanvas extends JPanel
 			catch (Throwable t) { return; }
 
 
-			// Scaling factors
-			xScale = w / (float) boxTotalX;
-			yScale = h / (float) boxTotalY;
-
-			// Width of each X element (SEE NOTE BELOW)
-			xWidth = 1 + (int) ((xScale >= 1) ? xScale : 1);
-			// Height of each Y element
-			yHeight = 1 + (int) ((yScale >= 1) ? yScale : 1);
+			// Scaling factors for drawing...
+			xScale = boxTotalX / (float) w;
+			yScale = boxTotalY / (float) h;
 
 			Graphics2D g = buffer.createGraphics();
 			g.setColor(Prefs.visColorBackground);
 			g.fillRect(0, 0, w, h);
 
-			// What were the x and y positions of the last point drawn? If the next
-			// point to be drawn ISN'T different, then we won't bother drawing it,
-			// and will save a significant amount of time
-			int lastX = -1;
-			int lastY = -1;
 
-			float y = 0;
-			for (int yIndex = 0; yIndex < boxTotalY && !killMe; yIndex++)
+			// Loop over every pixel that makes up the overview...
+			for (int y = 0; y < h; y++)
 			{
-				float x = 0;
-				for (int xIndex = 0; xIndex < boxTotalX && !killMe; xIndex++)
+				for (int x = 0; x < w; x++)
 				{
-					// This is where we save the time...
-					if ((int)x != lastX || (int)y != lastY)
-					{
-						g.setColor(cScheme.getColor(yIndex, xIndex));
-						g.fillRect((int)x, (int)y, xWidth, yHeight);
+					// Working out where each pixel maps to in the data...
+					int dataX = (int) (x * xScale);
+					int dataY = (int) (y * yScale);
 
-						lastX = (int)x;
-						lastY = (int)y;
-					}
-
-					x += xScale;
+					// Then finding and drawing that data
+					g.setColor(cScheme.getColor(dataY, dataX));
+					g.drawLine(x, y, x, y);
 				}
-
-				y += yScale;
 			}
+
+			// Scaling factors for mouse/mapping
+			xScale = w / (float) boxTotalX;
+			yScale = h / (float) boxTotalY;
 
 			if (!killMe && !isExporting)
 			{
 				// Once complete, let the dialog know its image is ready
 				bufferAvailable(buffer);
 			}
-		}
-
-		// We use (1 +) to deal with integer roundoff that results in columns
-		// being skipped due to overlaps: eg with width of 1.2:
-		// 1.2 (1) 2.4 (2) 3.6 (3) 4.8 (4) 6.0 (6)
-		// position 5 was skipped
-	}
-
-	private class ClipAnimator extends Thread
-	{
-		public void run()
-		{
-			for (int i = 0; i <= 30; i++)
-			{
-				int rectH = (int) (i*(h/30f));
-
-				clip = new Rectangle(0, 0, w, rectH);
-				viewCanvas.repaint();
-
-				try { Thread.sleep(500/30); }
-				catch (Exception e) {}
-			}
-
-			clip = null;
 		}
 	}
 }
