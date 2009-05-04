@@ -22,8 +22,6 @@ class OverviewCanvas extends JPanel
 	private BufferedImage image = null;
 	private int w, h;
 
-	private Rectangle clip = null;
-
 	public OverviewCanvas(GenotypePanel gPanel, GenotypeCanvas canvas)
 	{
 		this.gPanel = gPanel;
@@ -148,9 +146,6 @@ class OverviewCanvas extends JPanel
 			if (image == null)
 				return;
 
-			if (clip != null)
-				g.setClip(clip);
-
 			// Paint the image of the alignment
 			g.drawImage(image, 0, 0, null);
 
@@ -248,9 +243,9 @@ class OverviewCanvas extends JPanel
 
 
 			// Loop over every pixel that makes up the overview...
-			for (int y = 0; y < h; y++)
+			for (int y = 0; y < h && !killMe; y++)
 			{
-				for (int x = 0; x < w; x++)
+				for (int x = 0; x < w && !killMe; x++)
 				{
 					// Working out where each pixel maps to in the data...
 					int dataX = (int) (x * xScale);
