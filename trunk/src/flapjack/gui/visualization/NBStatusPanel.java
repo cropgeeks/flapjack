@@ -9,6 +9,8 @@ import javax.swing.event.*;
 import flapjack.data.*;
 import flapjack.gui.*;
 
+import scri.commons.gui.*;
+
 public class NBStatusPanel extends JPanel implements ActionListener, ChangeListener
 {
 	private DecimalFormat d1 = new DecimalFormat("0.0");

@@ -8,6 +8,8 @@ import flapjack.data.*;
 import flapjack.gui.*;
 import flapjack.gui.visualization.*;
 
+import scri.commons.gui.*;
+
 public class SortingLinesProgressDialog extends JDialog
 {
 	private JProgressBar pBar;

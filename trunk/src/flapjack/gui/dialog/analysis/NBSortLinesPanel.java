@@ -8,6 +8,8 @@ import javax.swing.table.*;
 import flapjack.data.*;
 import flapjack.gui.*;
 
+import scri.commons.gui.*;
+
 class NBSortLinesPanel extends javax.swing.JPanel
 {
 	private GTView view;

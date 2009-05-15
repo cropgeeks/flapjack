@@ -10,6 +10,8 @@ import javax.swing.event.*;
 import flapjack.data.*;
 import flapjack.gui.*;
 
+import scri.commons.gui.*;
+
 class TraitCanvas extends JPanel
 {
 	private NumberFormat nf = NumberFormat.getInstance();

@@ -6,6 +6,8 @@ import javax.swing.*;
 import flapjack.data.*;
 import flapjack.gui.*;
 
+import scri.commons.gui.*;
+
 public class TabPanel extends JPanel
 {
 	private TraitsPanel traitsPanel;

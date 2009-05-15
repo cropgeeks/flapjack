@@ -8,6 +8,8 @@ import flapjack.analysis.*;
 import flapjack.data.*;
 import flapjack.gui.*;
 
+import scri.commons.gui.*;
+
 public class AlleleFrequencyColorScheme extends ColorScheme
 {
 	private Vector<ColorState> hiStates = new Vector<ColorState>();

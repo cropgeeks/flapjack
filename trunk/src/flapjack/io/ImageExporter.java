@@ -8,6 +8,8 @@ import javax.imageio.*;
 import flapjack.gui.*;
 import flapjack.gui.visualization.*;
 
+import scri.commons.gui.*;
+
 public class ImageExporter implements ITrackableJob
 {
 	private GenotypePanel gPanel;

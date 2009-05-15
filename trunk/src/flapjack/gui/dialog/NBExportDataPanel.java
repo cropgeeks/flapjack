@@ -6,6 +6,8 @@ import javax.swing.*;
 
 import flapjack.gui.*;
 
+import scri.commons.gui.*;
+
 class NBExportDataPanel extends JPanel implements ActionListener
 {
 	public NBExportDataPanel(ExportDataDialog dialog)

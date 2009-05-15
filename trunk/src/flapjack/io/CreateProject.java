@@ -49,7 +49,7 @@ public class CreateProject
 			return;
 		}
 
-		RB.initialize();
+		RB.initialize("auto", "res.text.flapjack");
 		TaskDialog.setIsHeadless();
 
 		try

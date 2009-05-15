@@ -10,6 +10,8 @@ import javax.swing.table.*;
 import flapjack.data.*;
 import flapjack.gui.*;
 
+import scri.commons.gui.*;
+
 class NBAlleleStatisticsPanel extends JPanel implements AdjustmentListener
 {
 	private NumberFormat nf = NumberFormat.getInstance();

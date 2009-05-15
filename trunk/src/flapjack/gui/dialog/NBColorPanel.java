@@ -10,6 +10,8 @@ import flapjack.gui.*;
 import flapjack.gui.visualization.*;
 import flapjack.gui.visualization.colors.*;
 
+import scri.commons.gui.*;
+
 class NBColorPanel extends JPanel implements ActionListener
 {
 	private GenotypePanel gPanel;

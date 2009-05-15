@@ -5,6 +5,8 @@ import javax.swing.*;
 
 import flapjack.gui.*;
 
+import scri.commons.gui.*;
+
 public class OverviewPanel extends JPanel
 {
 	public OverviewPanel()

@@ -7,6 +7,8 @@ import javax.swing.table.*;
 
 import flapjack.gui.*;
 
+import scri.commons.gui.*;
+
 public class NBDuplicateMarkersPanel extends javax.swing.JPanel
 {
 	/** Creates new form NBDuplicateMarkersPanel */

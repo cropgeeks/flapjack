@@ -7,6 +7,8 @@ import java.util.*;
 import flapjack.data.*;
 import flapjack.gui.*;
 
+import scri.commons.gui.*;
+
 public class RandomColorScheme extends ColorScheme
 {
 	private int type;

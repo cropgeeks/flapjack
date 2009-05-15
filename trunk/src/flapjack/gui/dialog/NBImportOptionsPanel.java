@@ -6,6 +6,8 @@ import javax.swing.*;
 
 import flapjack.gui.*;
 
+import scri.commons.gui.*;
+
 class NBImportOptionsPanel extends javax.swing.JPanel
 {
 

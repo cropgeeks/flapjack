@@ -6,6 +6,8 @@ import java.util.*;
 import flapjack.data.*;
 import flapjack.gui.*;
 
+import scri.commons.gui.*;
+
 public class GenotypeDataImporter
 {
 	private File file;

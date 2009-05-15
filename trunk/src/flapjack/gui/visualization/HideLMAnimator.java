@@ -5,6 +5,8 @@ import javax.swing.*;
 
 import flapjack.gui.*;
 
+import scri.commons.gui.*;
+
 class HideLMAnimator extends Thread implements IOverlayRenderer
 {
 	private GenotypePanel gPanel;

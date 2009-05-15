@@ -5,6 +5,8 @@ import javax.swing.*;
 
 import flapjack.gui.*;
 
+import scri.commons.gui.*;
+
 class NBErrorPanel extends JPanel
 {
 	public NBErrorPanel(Thread t, Throwable e)

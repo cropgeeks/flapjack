@@ -7,6 +7,8 @@ import flapjack.data.*;
 import flapjack.gui.*;
 import flapjack.gui.visualization.*;
 
+import scri.commons.gui.*;
+
 class NBSortLinesByTraitPanel extends JPanel
 {
 	private SortLinesByTraitDialog dialog;

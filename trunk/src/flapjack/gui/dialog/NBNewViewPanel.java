@@ -7,6 +7,8 @@ import javax.swing.*;
 import flapjack.data.*;
 import flapjack.gui.*;
 
+import scri.commons.gui.*;
+
 class NBNewViewPanel extends javax.swing.JPanel implements ActionListener
 {
 	private DefaultComboBoxModel model = new DefaultComboBoxModel();

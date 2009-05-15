@@ -9,6 +9,8 @@ import javax.swing.event.*;
 import flapjack.gui.visualization.*;
 import flapjack.gui.*;
 
+import scri.commons.gui.*;
+
 class NBExportImagePanel extends JPanel implements ChangeListener, ActionListener
 {
 	private DecimalFormat d = new DecimalFormat("0.00");

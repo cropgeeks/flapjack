@@ -29,9 +29,10 @@ public class Flapjack
 		Prefs.setDefaults();
 		prefs.loadPreferences(prefsFile, Prefs.class);
 
-		Install4j.doStartUpCheck();
+		Icons.initialize("/res/icons", ".png");
+		RB.initialize(Prefs.localeText, "res.text.flapjack");
 
-		RB.initialize();
+		Install4j.doStartUpCheck();
 
 		// Start the GUI (either with or without an initial project)
 		if (args.length == 1 && args[0] != null)

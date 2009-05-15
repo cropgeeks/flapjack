@@ -5,6 +5,8 @@ import javax.swing.*;
 
 import flapjack.gui.*;
 
+import scri.commons.gui.*;
+
 class NBWarningPanel extends JPanel implements IPrefsTab
 {
 	public NBWarningPanel()

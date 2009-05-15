@@ -7,6 +7,8 @@ import flapjack.data.*;
 import flapjack.gui.*;
 import flapjack.gui.traits.*;
 
+import scri.commons.gui.*;
+
 public class TraitsNode extends BaseNode
 {
 	private TabPanel tabbedPanel;

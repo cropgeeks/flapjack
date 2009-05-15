@@ -6,6 +6,8 @@ import javax.swing.*;
 import flapjack.data.*;
 import flapjack.gui.*;
 
+import scri.commons.gui.*;
+
 class NBSelectTraitsPanel extends javax.swing.JPanel
 {
 	private GTViewSet viewSet;

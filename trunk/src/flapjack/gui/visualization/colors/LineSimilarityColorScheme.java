@@ -7,6 +7,8 @@ import java.util.*;
 import flapjack.data.*;
 import flapjack.gui.*;
 
+import scri.commons.gui.*;
+
 public class LineSimilarityColorScheme extends SimilarityColorScheme
 {
 	/** Empty constructor that is ONLY used for color customization purposes. */

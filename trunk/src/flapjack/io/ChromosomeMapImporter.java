@@ -7,6 +7,8 @@ import java.text.*;
 import flapjack.data.*;
 import flapjack.gui.*;
 
+import scri.commons.gui.*;
+
 public class ChromosomeMapImporter
 {
 	private File file;

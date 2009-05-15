@@ -5,6 +5,8 @@ import javax.swing.*;
 
 import flapjack.gui.*;
 
+import scri.commons.gui.*;
+
 class NBSCRIPanel extends javax.swing.JPanel
 {
 	public NBSCRIPanel()

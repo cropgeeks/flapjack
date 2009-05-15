@@ -9,6 +9,8 @@ import flapjack.gui.*;
 import flapjack.gui.visualization.*;
 import flapjack.gui.visualization.colors.*;
 
+import scri.commons.gui.*;
+
 class NBAlleleFrequencyPanel extends JPanel implements ChangeListener
 {
 	private GenotypePanel gPanel;

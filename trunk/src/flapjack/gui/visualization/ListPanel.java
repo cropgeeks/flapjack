@@ -9,6 +9,8 @@ import javax.swing.*;
 import flapjack.data.*;
 import flapjack.gui.*;
 
+import scri.commons.gui.*;
+
 class ListPanel extends JPanel
 {
 	private GTViewSet viewSet;

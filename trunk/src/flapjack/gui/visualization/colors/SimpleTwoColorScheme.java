@@ -7,6 +7,8 @@ import java.util.*;
 import flapjack.data.*;
 import flapjack.gui.*;
 
+import scri.commons.gui.*;
+
 public class SimpleTwoColorScheme extends ColorScheme
 {
 	protected Vector<ColorState> states = new Vector<ColorState>();
