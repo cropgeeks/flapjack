@@ -6,6 +6,8 @@ import javax.swing.*;
 
 import flapjack.gui.*;
 
+import scri.commons.gui.*;
+
 public class CanvasMenu
 {
 	private GenotypeCanvas canvas;

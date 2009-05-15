@@ -6,6 +6,8 @@ import javax.swing.tree.*;
 
 import flapjack.gui.*;
 
+import scri.commons.gui.*;
+
 public class TreeRenderer extends JLabel implements TreeCellRenderer
 {
 	private static Color bColor = UIManager.getColor("Tree.selectionBackground");

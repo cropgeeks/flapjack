@@ -7,6 +7,8 @@ import javax.swing.*;
 
 import flapjack.gui.*;
 
+import scri.commons.gui.*;
+
 public class NBStartEmailPanel extends JPanel implements FocusListener
 {
 	private static String hint = RB.getString("gui.navpanel.NBStartEmailPanel.hint");

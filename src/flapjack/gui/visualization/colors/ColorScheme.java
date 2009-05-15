@@ -7,6 +7,8 @@ import java.util.*;
 import flapjack.data.*;
 import flapjack.gui.*;
 
+import scri.commons.gui.*;
+
 /**
  * Abstract base class for all color schemes.
  */

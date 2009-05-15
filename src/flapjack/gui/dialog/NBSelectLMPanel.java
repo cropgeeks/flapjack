@@ -6,6 +6,8 @@ import javax.swing.*;
 import flapjack.data.*;
 import flapjack.gui.*;
 
+import scri.commons.gui.*;
+
 class NBSelectLMPanel extends javax.swing.JPanel
 {
 	public NBSelectLMPanel(GTView view, boolean selectLines)

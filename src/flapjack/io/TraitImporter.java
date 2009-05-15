@@ -7,6 +7,7 @@ import flapjack.data.*;
 import flapjack.gui.*;
 
 import scri.commons.file.*;
+import scri.commons.gui.*;
 
 public class TraitImporter implements ITrackableJob
 {

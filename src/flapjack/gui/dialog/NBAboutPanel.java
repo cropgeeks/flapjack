@@ -7,6 +7,8 @@ import java.text.*;
 
 import flapjack.gui.*;
 
+import scri.commons.gui.*;
+
 class NBAboutPanel extends javax.swing.JPanel
 {
 	public NBAboutPanel()

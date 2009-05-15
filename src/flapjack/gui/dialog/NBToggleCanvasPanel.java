@@ -7,6 +7,8 @@ import javax.swing.*;
 import flapjack.gui.*;
 import flapjack.gui.visualization.*;
 
+import scri.commons.gui.*;
+
 class NBToggleCanvasPanel extends JPanel implements ActionListener
 {
 	private GenotypePanel gPanel;

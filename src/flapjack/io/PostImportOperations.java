@@ -7,6 +7,8 @@ import flapjack.data.*;
 import flapjack.gui.*;
 import flapjack.gui.visualization.colors.*;
 
+import scri.commons.gui.*;
+
 public class PostImportOperations
 {
 	private DataSet dataSet;

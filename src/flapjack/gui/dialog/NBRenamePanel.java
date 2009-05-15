@@ -5,6 +5,8 @@ import javax.swing.*;
 
 import flapjack.gui.*;
 
+import scri.commons.gui.*;
+
 class NBRenamePanel extends JPanel
 {
 	NBRenamePanel(String currentValue)

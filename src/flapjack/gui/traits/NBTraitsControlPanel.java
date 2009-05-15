@@ -2,6 +2,8 @@ package flapjack.gui.traits;
 
 import flapjack.gui.*;
 
+import scri.commons.gui.*;
+
 class NBTraitsControlPanel extends javax.swing.JPanel
 {
 	NBTraitsControlPanel()

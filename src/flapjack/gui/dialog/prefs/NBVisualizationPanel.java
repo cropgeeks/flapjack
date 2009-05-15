@@ -8,6 +8,8 @@ import javax.swing.*;
 import flapjack.gui.*;
 import flapjack.gui.visualization.*;
 
+import scri.commons.gui.*;
+
 class NBVisualizationPanel extends JPanel implements IPrefsTab, ActionListener
 {
 	public NBVisualizationPanel()

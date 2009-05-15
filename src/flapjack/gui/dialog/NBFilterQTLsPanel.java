@@ -9,6 +9,8 @@ import javax.swing.table.*;
 import flapjack.data.*;
 import flapjack.gui.*;
 
+import scri.commons.gui.*;
+
 class NBFilterQTLsPanel extends JPanel
 {
 	private DataSet dataSet;

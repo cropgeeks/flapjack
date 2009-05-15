@@ -8,6 +8,8 @@ import javax.swing.table.*;
 import flapjack.data.*;
 import flapjack.gui.*;
 
+import scri.commons.gui.*;
+
 class TraitsTableModel extends AbstractTableModel
 {
 	private DataSet dataSet;

@@ -5,6 +5,8 @@ import javax.swing.*;
 
 import flapjack.gui.*;
 
+import scri.commons.gui.*;
+
 class NBGeneralPanel extends JPanel implements IPrefsTab
 {
 	private DefaultComboBoxModel displayModel;

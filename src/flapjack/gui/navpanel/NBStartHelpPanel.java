@@ -6,6 +6,8 @@ import javax.swing.*;
 
 import flapjack.gui.*;
 
+import scri.commons.gui.*;
+
 public class NBStartHelpPanel extends javax.swing.JPanel
 {
 	private JLabel[] labels = new JLabel[8];
