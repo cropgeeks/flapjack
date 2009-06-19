@@ -25,6 +25,15 @@ subversion change log</a>.</p>
 <p>For information on what <i>might</i> be appearing in a future version of Flapjack,
 please see the <a href="../future-work.shtml">future work</a> page.</p>
 
+<h3>New in 0.09.06.19</h3>
+
+<ul>
+<li>NEW: Significant improvements to real-time rendering speeds should be noticeable to Windows users.</li>
+<li>NEW: Overview displays are now created much faster than before.</li>
+<li>NEW: The random colour scheme now has two choices of style (HSB or WebSafe).</li>
+<li>NEW: A lot more help topics have been added to the web site.</li>
+</ul>
+
 <h3>New in 0.09.03.09</h3>
 
 <ul>
