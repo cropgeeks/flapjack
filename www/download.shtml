@@ -17,8 +17,7 @@
 
 <h2>Download Flapjack</h2>
 
-<p>The most recent release of Flapjack is:
-<b>Alpha - 0.09.03.09</b> (9th March 2009).</p>
+<p>The most recent release of Flapjack is <b>Alpha - 0.09.06.19</b> (19th June 2009).</p>
 
 <p>Please use the links below to download the Flapjack installer most suitable
 for your operating system. Flapjack is currently available for:</p>
@@ -28,40 +27,40 @@ for your operating system. Flapjack is currently available for:</p>
 	<td>&nbsp;&nbsp;&nbsp;</td>
 	<td><img src="images/icon_windows.gif" alt="Windows"></td>
 	<td>
-		<a href="installers/flapjack_windows_0_09_03_09.exe"
+		<a href="installers/flapjack_windows_0_09_06_19.exe"
 		onClick="pageTracker._trackEvent('Downloads', 'Flapjack', 'Windows');">
 		Microsoft Windows
-		</a> (16.3MB)
+		</a> (19.0MB)
 	</td>
 </tr>
 <tr>
 	<td>&nbsp;&nbsp;&nbsp;</td>
 	<td><img src="images/icon_osx.gif" alt="OS X"></td>
 	<td>
-		<a href="installers/flapjack_macos_0_09_03_09.dmg"
+		<a href="installers/flapjack_macos_0_09_06_19.dmg"
 		onClick="pageTracker._trackEvent('Downloads', 'Flapjack', 'OS X');">
 		Apple Mac OS X
-		</a> (2.8MB)
+		</a> (2.79MB)
 	</td>
 </tr>
 <tr>
 	<td>&nbsp;&nbsp;&nbsp;</td>
 	<td><img src="images/icon_linux.gif" alt="Linux"></td>
 	<td>
-		<a href="installers/flapjack_linux_0_09_03_09.sh"
+		<a href="installers/flapjack_linux_0_09_06_19.sh"
 		onClick="pageTracker._trackEvent('Downloads', 'Flapjack', 'Linux');">
 		Linux
-		</a> (18.4MB)
+		</a> (19.1MB)
 	</td>
 </tr>
 <tr>
 	<td>&nbsp;&nbsp;&nbsp;</td>
 	<td><img src="images/icon_solaris.gif" alt="Solaris"></td>
 	<td>
-		<a href="installers/flapjack_solaris_0_09_03_09.sh"
+		<a href="installers/flapjack_solaris_0_09_06_19.sh"
 		onClick="pageTracker._trackEvent('Downloads', 'Flapjack', 'Solaris');">
 		Solaris (sparc)
-		</a> (25.1MB)
+		</a> (26.3MB)
 	</td>
 </tr>
 </table>
