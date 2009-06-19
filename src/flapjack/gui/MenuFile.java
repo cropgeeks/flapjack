@@ -162,7 +162,7 @@ public class MenuFile
 	// then imports it
 	private void importSampleData()
 	{
-		File dir = SystemUtils.getTempUserDirectory("flapjack");
+		File dir = SystemUtils.getTempUserDirectory("scri-flapjack");
 		File mapFile = new File(dir, "sample.map");
 		File datFile = new File(dir, "sample.dat");
 
