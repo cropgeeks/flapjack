@@ -56,7 +56,7 @@ class NBHideLMPanel extends JPanel
 		if (SystemUtils.isMacOS())
 			hideHint.setText(
 				RB.format("gui.dialog.NBHideLMPanel." + i18n + ".hideHintOSX",
-				RB.getString("gui.StatusBar.cmd")));
+				RB.getString("gui.StatusBar.cmnd")));
 		else
 			RB.setText(hideHint, "gui.dialog.NBHideLMPanel." + i18n + ".hideHint");
 

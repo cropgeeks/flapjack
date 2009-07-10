@@ -1,13 +1,14 @@
 package flapjack.gui;
 
 import java.awt.*;
+import java.awt.event.*;
 import java.lang.management.*;
 import java.util.*;
 import javax.swing.*;
 
 import scri.commons.gui.*;
 
-public class WinMainStatusBar extends JPanel implements Runnable
+public class WinMainStatusBar extends JPanel
 {
 	private JLabel tipsLabel, helpLabel;
 	private Vector<String> helpHints = new Vector<String>();
@@ -16,25 +17,25 @@ public class WinMainStatusBar extends JPanel implements Runnable
 	private static JLabel renderIcon;
 	private JLabel threadLabel;
 
+	private int cores = Runtime.getRuntime().availableProcessors();
+	private ThreadMXBean threads = ManagementFactory.getThreadMXBean();
+
 	WinMainStatusBar()
 	{
-		try
+		// Scan the properties file looking for tip strings to add
+		for (int i = 1; i < 1000; i++)
 		{
-			String ctrl = RB.getString("gui.StatusBar.ctrl");
-			String cmd  = RB.getString("gui.StatusBar.cmd");
+			if (RB.exists("gui.StatusBar.help" + i) == false)
+				break;
 
-			int count = Integer.parseInt(RB.getString("gui.StatusBar.helpCount"));
-
-			for (int i = 1; i <= count; i++)
-			{
-				String txt = ("gui.StatusBar.help" + i);
-				if (SystemUtils.isMacOS())
-					helpHints.add(RB.format(txt, cmd));
-				else
-					helpHints.add(RB.format(txt, ctrl));
-			}
+			// Format them based on shortcuts for OS X or Windows/Linux
+			if (SystemUtils.isMacOS())
+				helpHints.add(RB.format(
+					"gui.StatusBar.help" + i, RB.getString("gui.StatusBar.cmnd")));
+			else
+				helpHints.add(RB.format(
+					"gui.StatusBar.help" + i, RB.getString("gui.StatusBar.ctrl")));
 		}
-		catch (Exception e) { System.out.println(e); }
 
 		tipsLabel = new JLabel(RB.getString("gui.StatusBar.helpText"));
 		helpLabel = new JLabel();
@@ -51,17 +52,41 @@ public class WinMainStatusBar extends JPanel implements Runnable
 		renderPanel.add(threadLabel);
 		renderPanel.add(renderIcon);
 
+		Color lineColor = new JMenuBar().getBackground();
 		setLayout(new BorderLayout());
-		setBorder(BorderFactory.createEmptyBorder(1, 2, 2, 2));
+		setBorder(BorderFactory.createCompoundBorder(
+			BorderFactory.createMatteBorder(1, 0, 0, 0, lineColor),
+			BorderFactory.createEmptyBorder(1, 2, 2, 2)));
 
 		add(helpPanel, BorderLayout.WEST);
-		add(new LinePanel(), BorderLayout.NORTH);
 		add(renderPanel, BorderLayout.EAST);
 
-		new Thread(this).start();
-		new ThreadMonitor().start();
 
 //		setVisible(Prefs.gui_statusbar_visible);
+
+		// Start the timer for the tips animation
+		javax.swing.Timer tipsTimer = new javax.swing.Timer(30000,
+			new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					new TipsThread().start();
+		}});
+
+		tipsTimer.setInitialDelay(0);
+		tipsTimer.start();
+
+
+		// Start the timer for thread monitoring
+		javax.swing.Timer threadsTimer = new javax.swing.Timer(500,
+			new ActionListener() {
+				public void actionPerformed(ActionEvent e)
+				{
+					int current = threads.getThreadCount();
+					threadLabel.setText("Threads: " + current + " Cores: " + cores);
+				}
+		});
+
+		threadsTimer.setInitialDelay(0);
+		threadsTimer.start();
 	}
 
 	public static void setRenderState(int state)
@@ -96,39 +121,13 @@ public class WinMainStatusBar extends JPanel implements Runnable
 	}
 
 	int bgColor = new JPanel().getBackground().getRed();
-	float fontColor;
 
-	public void run()
+	private class TipsThread extends Thread
 	{
-		Thread.currentThread().setName("StatusBar Tips");
-
-		Random rnd = new Random();
-
-		float step = (bgColor / 15f);
-
-		while (true)
+		public void run()
 		{
-			fontColor = bgColor;
-
-			int index = rnd.nextInt(helpHints.size());
-			helpLabel.setText(helpHints.get(index));
-
-			// Fade from bgColor to black
-			for (int i = 0; i < 16 || fontColor > 0f; i++)
-			{
-				int c = (int) fontColor;
-				helpLabel.setForeground(new Color(c, c, c));
-
-				fontColor -= step;
-
-				try { Thread.sleep(100); }
-				catch (Exception e) {}
-			}
-
-			try { Thread.sleep(25000); }
-			catch (Exception e) {}
-
-			fontColor = 0;
+			float step = (bgColor / 15f);
+			float fontColor = 0;
 
 			// Fade from black to bgColor
 			for (int i = 0; i < 16 || fontColor < bgColor; i++)
@@ -139,11 +138,29 @@ public class WinMainStatusBar extends JPanel implements Runnable
 				fontColor += step;
 
 				try { Thread.sleep(100); }
-				catch (Exception e) {}
+				catch (Exception ex) {}
 			}
 
+			// Then wait for a second
 			try { Thread.sleep(1000); }
-			catch (Exception e) {}
+			catch (Exception ex) {}
+
+			// Before picking a new help string...
+			int index = new Random().nextInt(helpHints.size());
+			helpLabel.setText(helpHints.get(index));
+			fontColor = bgColor;
+
+			// ...and then fadding the font back to black
+			for (int i = 0; i < 16 || fontColor > 0f; i++)
+			{
+				int c = (int) fontColor;
+				helpLabel.setForeground(new Color(c, c, c));
+
+				fontColor -= step;
+
+				try { Thread.sleep(100); }
+				catch (Exception ex) {}
+			}
 		}
 	}
 
@@ -165,37 +182,5 @@ public class WinMainStatusBar extends JPanel implements Runnable
 			}
 			catch (InterruptedException e) {}
 		}
-	}
-
-	private class ThreadMonitor extends Thread
-	{
-		public void run()
-		{
-			setPriority(Thread.MIN_PRIORITY);
-			setName("Flapjack Thread Monitor");
-
-			int cores = Runtime.getRuntime().availableProcessors();
-			ThreadMXBean threads = ManagementFactory.getThreadMXBean();
-
-			while (true)
-			{
-				int current = threads.getThreadCount();
-				threadLabel.setText("Threads: " + current + " Cores: " + cores);
-
-				try { Thread.sleep(500); }
-				catch (Exception e) {}
-			}
-		}
-	}
-
-	private static class LinePanel extends JPanel
-	{
-		LinePanel()
-		{
-			setBackground(new JMenuBar().getBackground());
-		}
-
-		public Dimension getPreferredSize()
-			{ return new Dimension(20, 1); }
 	}
 }
