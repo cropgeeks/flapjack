@@ -59,6 +59,7 @@ public class Actions
 
 	public static AbstractAction dataSortLinesBySimilarity;
 	public static AbstractAction dataSortLinesByTrait;
+	public static AbstractAction dataSortLinesAlphabetically;
 	public static AbstractAction dataFilterQTLs;
 	public static AbstractAction dataFind;
 	public static AbstractAction dataStatistics;
@@ -386,6 +387,12 @@ public class Actions
 			}
 		};
 
+		dataSortLinesAlphabetically = new AbstractAction(RB.getString("gui.Actions.dataSortLinesAlphabetically")) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.mData.dataSortLinesAlphabetically();
+			}
+		};
+
 		dataFilterQTLs = new AbstractAction(RB.getString("gui.Actions.dataFilterQTLs")) {
 			public void actionPerformed(ActionEvent e) {
 				winMain.mData.dataFilterQTLs();
@@ -529,6 +536,7 @@ public class Actions
 
 		dataSortLinesBySimilarity.setEnabled(false);
 		dataSortLinesByTrait.setEnabled(false);
+		dataSortLinesAlphabetically.setEnabled(false);
 		dataFilterQTLs.setEnabled(false);
 		dataFind.setEnabled(false);
 		dataStatistics.setEnabled(false);
