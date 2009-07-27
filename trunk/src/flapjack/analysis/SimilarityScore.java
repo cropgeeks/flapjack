@@ -35,7 +35,6 @@ public class SimilarityScore
 				continue;
 
 			GTView view = viewSet.getView(viewIndex);
-			view.cacheLines();
 
 			// For every marker across the genotype...
 			for (int marker = 0; marker < view.getMarkerCount(); marker++)

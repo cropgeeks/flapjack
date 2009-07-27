@@ -3,6 +3,7 @@ package flapjack.gui;
 import java.awt.*;
 import java.awt.event.*;
 import java.lang.management.*;
+import java.text.*;
 import java.util.*;
 import javax.swing.*;
 
@@ -18,7 +19,9 @@ public class WinMainStatusBar extends JPanel
 	private JLabel threadLabel;
 
 	private int cores = Runtime.getRuntime().availableProcessors();
-	private ThreadMXBean threads = ManagementFactory.getThreadMXBean();
+	private DecimalFormat df = new DecimalFormat("0.00");
+	private MemoryMXBean mBean = ManagementFactory.getMemoryMXBean();
+	private ThreadMXBean tBean = ManagementFactory.getThreadMXBean();
 
 	WinMainStatusBar()
 	{
@@ -74,14 +77,17 @@ public class WinMainStatusBar extends JPanel
 		tipsTimer.setInitialDelay(0);
 		tipsTimer.start();
 
-
 		// Start the timer for thread monitoring
-		javax.swing.Timer threadsTimer = new javax.swing.Timer(500,
+		javax.swing.Timer threadsTimer = new javax.swing.Timer(2500,
 			new ActionListener() {
 				public void actionPerformed(ActionEvent e)
 				{
-					int current = threads.getThreadCount();
-					threadLabel.setText("Threads: " + current + " Cores: " + cores);
+					long used = mBean.getHeapMemoryUsage().getUsed()
+						+ mBean.getNonHeapMemoryUsage().getUsed();
+					int t = tBean.getThreadCount()-tBean.getDaemonThreadCount();
+
+					threadLabel.setText(cores + "C, " + t + "T, "
+						+ df.format(used/1024f/1024f) + "MB");
 				}
 		});
 
