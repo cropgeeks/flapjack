@@ -9,8 +9,8 @@ public class QTL extends Feature
 	private ChromosomeMap chromosome;
 
 	// Names and values (to be used for things like LOD, r^2, etc)
-	private String[] vNames;
-	private float[] values;
+	private String[] vNames = new String[0];
+	private float[] values = new float[0];
 
 	private String trait;
 	private String experiment;
