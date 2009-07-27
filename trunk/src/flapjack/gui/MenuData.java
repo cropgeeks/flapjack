@@ -57,6 +57,14 @@ class MenuData
 		}
 	}
 
+	void dataSortLinesAlphabetically()
+	{
+		GTViewSet viewSet = gPanel.getViewSet();
+		ILineSorter sort = new SortLinesAlphabetically(viewSet);
+
+		new SortingLinesProgressDialog(gPanel, sort).runSort();
+	}
+
 	void dataFilterQTLs()
 	{
 		DataSet dataSet = gPanel.getViewSet().getDataSet();

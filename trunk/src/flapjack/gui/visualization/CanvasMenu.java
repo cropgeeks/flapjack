@@ -42,6 +42,7 @@ public class CanvasMenu
 	private JMenu mSortLines;
 	private JMenuItem mSortLinesBySimilarity;
 	private JMenuItem mSortLinesByTrait;
+	private JMenuItem mSortLinesAlphabetically;
 	private JMenuItem mFind;
 
 
@@ -121,9 +122,12 @@ public class CanvasMenu
 
 		mSortLinesBySimilarity = WinMainMenuBar.getItem(Actions.dataSortLinesBySimilarity, "gui.Actions.dataSortLinesBySimilarity", 0, 0);
 		mSortLinesByTrait = WinMainMenuBar.getItem(Actions.dataSortLinesByTrait, "gui.Actions.dataSortLinesByTrait", 0, 0);
+		mSortLinesAlphabetically = WinMainMenuBar.getItem(Actions.dataSortLinesAlphabetically, "gui.Actions.dataSortLinesAlphabetically", 0, 0);
 
 		mSortLines = new JMenu(RB.getString("gui.WinMainMenuBar.mDataSortLines"));
 		RB.setMnemonic(mSortLines, "gui.WinMainMenuBar.mDataSortLines");
+		mSortLines.add(mSortLinesAlphabetically);
+		mSortLines.addSeparator();
 		mSortLines.add(mSortLinesBySimilarity);
 		mSortLines.add(mSortLinesByTrait);
 	}
