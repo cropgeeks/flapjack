@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+
+<html>
+<head>
+<meta http-equiv="Content-Language" content="en-gb">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+<link rel="stylesheet" href="stylesheet/styles.css" type="text/css">
+
+<title>Flapjack Software Licence</title>
+
+</head>
+<body>
+
+<!--#include virtual="header.html" -->
+
+
+<h2>Flapjack Software Licence</h2>
+
+<p>Flapjack uses a modified version of the <a href="http://opensource.org/licenses/bsd-license.html">
+BSD License</a> which has been edited to remove references to distribution and
+use in source forms. This means that we are happy for you to distribute and use
+Flapjack however you please, but we do not (yet) want to make the source code
+publicly available.</p>
+
+<p><b>The licence and copyright for Flapjack is as follows:</b></p>
+
+<p>Copyright &copy; 2007-2008, Iain Milne, Plant Bioinformatics Group, SCRI<br>
+All rights reserved.</p>
+
+<p>Redistribution and use in binary form, without
+modification, is permitted provided that the following conditions are met:</p>
+
+<ul>
+<li>Redistributions must reproduce the above copyright notice,
+this list of conditions and the following disclaimer in the documentation and/or
+other materials provided with the distribution.</li>
+<li>Neither the name of SCRI nor the names of its contributors may be used to
+endorse or promote products derived from this software without specific prior
+written permission.</li>
+</ul>
+
+<p>
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR
+ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+</p>
+
+<p>Flapjack also relies on the use of other third-party libraries which have
+their own licence information:</p>
+
+<ul>
+<li><a href="licenses/Castor.txt">Castor</a></li>
+<li><a href="licenses/ApacheCommons.txt">Apache Commons</a></li>
+<li><a href="licenses/OfficeLnFs.txt">Office LnFs</a></li>
+</ul>
+
+<!--#include virtual="footer.html" -->
+
+</body>
+</html>
