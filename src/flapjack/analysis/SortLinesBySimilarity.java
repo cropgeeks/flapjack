@@ -29,6 +29,10 @@ public class SortLinesBySimilarity implements ILineSorter
 	{
 		long s = System.currentTimeMillis();
 
+		// Pre-cache the information that will be needed
+		for (GTView view: viewSet.getViews())
+			view.cacheLines();
+
 		// Access the first chromosome (just to get at the lines data)
 		GTView view = viewSet.getView(0);
 

@@ -8,7 +8,7 @@ public class GTView extends XMLRoot
 	// This saves having to query every line for the data by first telling it
 	// what map we're looking it - this object simply holds data for all the
 	// lines, but only for the map in question
-	private Vector<GenotypeData> genotypeLines;
+	private ArrayList<GenotypeData> genotypeLines;
 
 	// This view forms part of the viewSet:
 	private GTViewSet viewSet;
@@ -103,7 +103,7 @@ public class GTView extends XMLRoot
 	public void cacheLines()
 	{
 		// Now cache as much data as possible to help speed rendering
-		genotypeLines = new Vector<GenotypeData>(viewSet.lines.size());
+		genotypeLines = new ArrayList<GenotypeData>(viewSet.lines.size());
 
 		DataSet dataSet = viewSet.getDataSet();
 
