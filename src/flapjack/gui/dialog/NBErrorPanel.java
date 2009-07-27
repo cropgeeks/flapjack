@@ -19,7 +19,7 @@ class NBErrorPanel extends JPanel
 		panel.setBorder(BorderFactory.createTitledBorder(RB.getString("gui.dialog.NBErrorPanel.panel.title")));
 		RB.setText(label, "gui.dialog.NBErrorPanel.label");
 
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		sb.append(e + "\n");
 		for (StackTraceElement st: e.getStackTrace())
 			sb.append("\n    at " + st.toString());

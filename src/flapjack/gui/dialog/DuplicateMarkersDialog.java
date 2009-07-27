@@ -76,7 +76,7 @@ public class DuplicateMarkersDialog extends JDialog implements ActionListener
 
 		else if (e.getSource() == bClipboard)
 		{
-			StringBuffer sb = new StringBuffer();
+			StringBuilder sb = new StringBuilder();
 
 			for (String str: duplicates)
 				sb.append(str + System.getProperty("line.separator"));
