@@ -29,6 +29,7 @@ please see the <a href="../future-work.shtml">future work</a> page.</p>
 
 <ul>
 <li>NEW: Added an option for sorting lines alphabetically by their name.</li>
+<li>CHG: Similarity sorting is now much faster.</li>
 <li>CHG: Implemented some minor changes to reduce the total number of threads in use.</li>
 <li>BUG: Fixed a critical bug that effected QTL data that didn't have any additional/optional data columns.</li>
 </ul>
