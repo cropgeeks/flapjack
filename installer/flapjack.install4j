@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <install4j version="4.2.3" transformSequenceNumber="2">
-  <directoryPresets config="." />
+  <directoryPresets config="./licenses" />
   <application name="Flapjack" distributionSourceDir="" applicationId="9131-7045-2417-5931" mediaDir="." mediaFilePattern="${compiler:sys.shortName}_${compiler:sys.platform}_${compiler:sys.version}" compression="6" lzmaCompression="false" pack200Compression="false" excludeSignedFromPacking="true" keepModificationTimes="false" missingFilesStrategy="warn" shortName="Flapjack" publisher="SCRI" publisherWeb="http://www.scri.ac.uk" version="0.09.06.19" allPathsRelative="true" backupOnSave="false" autoSave="false" convertDotsToUnderscores="true" macSignature="????" installerName="" javaMinVersion="1.5" javaMaxVersion="" allowBetaVM="false" jdkMode="runtimeJre" jdkName="">
     <languages skipLanguageSelection="true" languageSelectionInPrincipalLanguage="false">
       <principalLanguage id="en" customLocalizationFile="" />
@@ -29,6 +29,7 @@
     <mountPoints>
       <mountPoint id="17" root="" location="lib" mode="755" />
       <mountPoint id="566" root="" location="" mode="755" />
+      <mountPoint id="882" root="" location="licenses" mode="755" />
       <mountPoint id="205" root="202" location="lib" mode="755" />
       <mountPoint id="206" root="204" location="lib" mode="755" />
     </mountPoints>
@@ -42,6 +43,9 @@
         </exclude>
       </dirEntry>
       <fileEntry mountPoint="566" file="../www/help/help.html" overwrite="1" shared="false" mode="644" uninstallMode="0" />
+      <dirEntry mountPoint="882" file="./licenses" overwrite="1" shared="false" mode="644" uninstallMode="0" excludeSuffixes="*.svn" dirMode="755">
+        <exclude />
+      </dirEntry>
       <fileEntry mountPoint="205" file="../lib/office-2.0.jar" overwrite="1" shared="false" mode="644" uninstallMode="0" />
       <fileEntry mountPoint="206" file="../lib/osxadapter.jar" overwrite="4" shared="false" mode="644" uninstallMode="0" />
     </entries>
@@ -147,7 +151,7 @@
                 <object class="com.install4j.runtime.beans.screens.LicenseScreen">
                   <void property="displayedTextFile">
                     <object class="com.install4j.api.beans.ExternalFile">
-                      <string>./licence.html</string>
+                      <string>./licenses/Flapjack.html</string>
                     </object>
                   </void>
                 </object>
