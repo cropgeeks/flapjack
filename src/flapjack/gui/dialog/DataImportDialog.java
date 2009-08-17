@@ -7,6 +7,7 @@ import javax.swing.*;
 
 import flapjack.gui.*;
 
+import java.util.LinkedList;
 import scri.commons.gui.*;
 
 public class DataImportDialog extends JDialog implements ActionListener
@@ -60,6 +61,8 @@ public class DataImportDialog extends JDialog implements ActionListener
 		if (e.getSource() == bImport && nbPanel.isOK())
 		{
 			isOK = true;
+			updateRecentFiles(nbPanel.recentMapFiles, Prefs.guiMapList);
+			updateRecentFiles(nbPanel.recentGenoFiles, Prefs.guiGenoList);
 			setVisible(false);
 		}
 
@@ -77,5 +80,19 @@ public class DataImportDialog extends JDialog implements ActionListener
 
 	public File getGenotypeFile() {
 		return nbPanel.getGenotypeFile();
+	}
+
+	private void updateRecentFiles(LinkedList<String> files, String[] recentDocs)
+	{
+		if(files.size() > 10)
+		{
+			String [] filePaths = new String[10];
+			Prefs.setRecentFiles((files.subList(0, 10)).toArray(filePaths), recentDocs);
+		}
+		else
+		{
+			String [] filePaths = new String[files.size()];
+			Prefs.setRecentFiles(files.toArray(filePaths), recentDocs);
+		}
 	}
 }
