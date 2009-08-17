@@ -187,7 +187,7 @@ public class NBStatusPanel extends JPanel implements ActionListener, ChangeListe
 			markerLabel.setText(qtl.getExperiment());
 
 			// Build a string containing all the additional data (if any)
-			String data = " ";
+			String data = "";
 			for (int i = 0; i < qtl.getVNames().length; i++)
 			{
 				if (i > 0)
@@ -196,7 +196,10 @@ public class NBStatusPanel extends JPanel implements ActionListener, ChangeListe
 					+ " (" + d3.format(qtl.getValues()[i]) + ")";
 			}
 
-			alleleLabel.setText(data);
+			if (data.length() > 0)
+				alleleLabel.setText(data);
+			else
+				alleleLabel.setText(" ");
 		}
 		else
 		{
