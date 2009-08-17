@@ -19,6 +19,9 @@ public class Prefs extends XMLPreferences
 	// Full paths to the last selected map and genotype files
 	public static String guiCurrentMap = "";
 	public static String guiCurrentGeno = "";
+	//replacements for guiCurrentMap and guiCurrentGeno
+	public static String[] guiMapList = new String[10];
+	public static String[] guiGenoList = new String[10];
 	// Path to the last selected trait file
 	public static String guiCurrentTrait = "";
 	public static String guiCurrentQTL = "";
@@ -193,5 +196,13 @@ public class Prefs extends XMLPreferences
 
 		visColorLoFreqState = new Color(102, 102, 255);
 		visColorHiFreqState = new Color(204, 255, 204);
+	}
+
+	// Updates the array of recently accessed documents so that 'document' is
+	// the first element, even if it has been accessed previously
+	public static void setRecentFiles(String[] files, String[] recentDocs)
+	{
+		for (int i = 0; i < files.length; i++)
+			recentDocs[i] = files[i];
 	}
 }

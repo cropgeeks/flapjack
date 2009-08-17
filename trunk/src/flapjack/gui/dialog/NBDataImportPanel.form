@@ -4,6 +4,7 @@
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_generateFQN" type="java.lang.Boolean" value="true"/>
     <AuxValue name="FormSettings_generateMnemonicsCode" type="java.lang.Boolean" value="false"/>
     <AuxValue name="FormSettings_i18nAutoMode" type="java.lang.Boolean" value="false"/>
     <AuxValue name="FormSettings_layoutCodeTarget" type="java.lang.Integer" value="2"/>
@@ -58,16 +59,13 @@
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
-                          <Component id="mapText" pref="224" max="32767" attributes="1"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="mapButton" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <Group type="102" alignment="0" attributes="0">
-                          <Component id="genoText" pref="224" max="32767" attributes="1"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="genoButton" min="-2" max="-2" attributes="0"/>
-                      </Group>
+                      <Component id="genoComboBox" pref="224" max="32767" attributes="0"/>
+                      <Component id="mapComboBox" alignment="0" pref="224" max="32767" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="genoButton" alignment="1" min="-2" max="-2" attributes="0"/>
+                      <Component id="mapButton" alignment="1" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -80,13 +78,13 @@
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="mapLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="mapButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="mapText" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="mapComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="genoLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="genoButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="genoText" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="genoComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
@@ -97,12 +95,10 @@
         <Component class="javax.swing.JLabel" name="mapLabel">
           <Properties>
             <Property name="labelFor" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
-              <ComponentRef name="mapText"/>
+              <ComponentRef name="default"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Map file:"/>
           </Properties>
-        </Component>
-        <Component class="javax.swing.JTextField" name="mapText">
         </Component>
         <Component class="javax.swing.JButton" name="mapButton">
           <Properties>
@@ -112,17 +108,37 @@
         <Component class="javax.swing.JLabel" name="genoLabel">
           <Properties>
             <Property name="labelFor" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
-              <ComponentRef name="genoText"/>
+              <ComponentRef name="default"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Genotype file:"/>
           </Properties>
-        </Component>
-        <Component class="javax.swing.JTextField" name="genoText">
         </Component>
         <Component class="javax.swing.JButton" name="genoButton">
           <Properties>
             <Property name="text" type="java.lang.String" value="Browse..."/>
           </Properties>
+        </Component>
+        <Component class="javax.swing.JComboBox" name="mapComboBox">
+          <Properties>
+            <Property name="editable" type="boolean" value="true"/>
+            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+              <StringArray count="0"/>
+            </Property>
+          </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
+          </AuxValues>
+        </Component>
+        <Component class="javax.swing.JComboBox" name="genoComboBox">
+          <Properties>
+            <Property name="editable" type="boolean" value="true"/>
+            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+              <StringArray count="0"/>
+            </Property>
+          </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
+          </AuxValues>
         </Component>
       </SubComponents>
     </Container>
