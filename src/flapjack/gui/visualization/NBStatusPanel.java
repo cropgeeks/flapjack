@@ -13,6 +13,7 @@ import scri.commons.gui.*;
 
 public class NBStatusPanel extends JPanel implements ActionListener, ChangeListener
 {
+	private NumberFormat nf = NumberFormat.getInstance();
 	private DecimalFormat d1 = new DecimalFormat("0.0");
 	private DecimalFormat d3 = new DecimalFormat("0.000");
 
@@ -192,8 +193,21 @@ public class NBStatusPanel extends JPanel implements ActionListener, ChangeListe
 			{
 				if (i > 0)
 					data += ", ";
-				data += qtl.getVNames()[i]
-					+ " (" + d3.format(qtl.getValues()[i]) + ")";
+
+				System.out.println("parsing " + qtl.getValues()[i]);
+
+				try
+				{
+					// Can we format as a number?
+					float value = nf.parse(qtl.getValues()[i]).floatValue();
+					data += qtl.getVNames()[i] + " (" + d3.format(value) + ")";
+				}
+				catch (Exception e)
+				{
+					// If not, format as a string
+					data += qtl.getVNames()[i]
+						+ " (" + qtl.getValues()[i] + ")";
+				}
 			}
 
 			if (data.length() > 0)

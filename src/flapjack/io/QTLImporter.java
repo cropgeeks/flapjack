@@ -2,6 +2,7 @@ package flapjack.io;
 
 import java.awt.*;
 import java.io.*;
+import java.text.*;
 import java.util.*;
 
 import flapjack.data.*;
@@ -12,6 +13,8 @@ import scri.commons.gui.*;
 
 public class QTLImporter implements ITrackableJob
 {
+	private NumberFormat nf = NumberFormat.getInstance();
+
 	private File file;
 	private DataSet dataSet;
 
@@ -45,7 +48,7 @@ public class QTLImporter implements ITrackableJob
 	}
 
 	public void runJob()
-		throws IOException, DataFormatException
+		throws Exception
 	{
 		BufferedReader in = new BufferedReader(new FileReader(file));
 
@@ -76,9 +79,9 @@ public class QTLImporter implements ITrackableJob
 			String cName = tokens[1];
 
 			// Position values
-			qtl.setPosition(Float.parseFloat(tokens[2]));
-			qtl.setMin(Float.parseFloat(tokens[3]));
-			qtl.setMax(Float.parseFloat(tokens[4]));
+			qtl.setPosition(nf.parse(tokens[2]).floatValue());
+			qtl.setMin(nf.parse(tokens[3]).floatValue());
+			qtl.setMax(nf.parse(tokens[4]).floatValue());
 
 			// Categorical information
 			qtl.setTrait(tokens[5]);
@@ -87,12 +90,12 @@ public class QTLImporter implements ITrackableJob
 
 			// Zero or more score "values"
 			String[] vNames = new String[scoreHeaders.length];
-			float[]  values = new float[scoreHeaders.length];
+			String[] values = new String[scoreHeaders.length];
 
 			for (int i = 0; i < values.length; i++)
 			{
 				vNames[i] = scoreHeaders[i];
-				values[i] = Float.parseFloat(tokens[i+HEADERCOUNT]);
+				values[i] = new String(tokens[i+HEADERCOUNT]);
 			}
 
 			qtl.setVNames(vNames);

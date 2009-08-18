@@ -108,12 +108,14 @@ class QTLTableModel extends AbstractTableModel
 	{
 		if (col == 0)
 			return QTL.class;
-		else if (col >=5 && col <= 6)
+		else if (col ==5)
 			return String.class;
+		else if (col == 6)
+			return Float.class; // it's a string, but right justified
 		else if (col == 7)
 			return Boolean.class;
 		else
-			return Float.class;
+			return Float.class; // might be a string or a float
 	}
 
 	public boolean isCellEditable(int row, int col)
