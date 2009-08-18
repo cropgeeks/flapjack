@@ -20,8 +20,8 @@ public class Prefs extends XMLPreferences
 	public static String guiCurrentMap = "";
 	public static String guiCurrentGeno = "";
 	//replacements for guiCurrentMap and guiCurrentGeno
-	public static String[] guiMapList = new String[10];
-	public static String[] guiGenoList = new String[10];
+	public static String guiMapList = "";
+	public static String guiGenoList = "";
 	// Path to the last selected trait file
 	public static String guiCurrentTrait = "";
 	public static String guiCurrentQTL = "";

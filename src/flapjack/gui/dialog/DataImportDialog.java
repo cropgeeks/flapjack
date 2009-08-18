@@ -61,8 +61,10 @@ public class DataImportDialog extends JDialog implements ActionListener
 		if (e.getSource() == bImport && nbPanel.isOK())
 		{
 			isOK = true;
-			updateRecentFiles(nbPanel.recentMapFiles, Prefs.guiMapList);
-			updateRecentFiles(nbPanel.recentGenoFiles, Prefs.guiGenoList);
+			nbPanel.mapComboBox.updateComboBox(nbPanel.mapComboBox.getSelectedItem().toString());
+			nbPanel.genoComboBox.updateComboBox(nbPanel.genoComboBox.getSelectedItem().toString());
+			Prefs.guiMapList = nbPanel.mapComboBox.getHistory();
+			Prefs.guiGenoList = nbPanel.genoComboBox.getHistory();
 			setVisible(false);
 		}
 
@@ -80,19 +82,5 @@ public class DataImportDialog extends JDialog implements ActionListener
 
 	public File getGenotypeFile() {
 		return nbPanel.getGenotypeFile();
-	}
-
-	private void updateRecentFiles(LinkedList<String> files, String[] recentDocs)
-	{
-		if(files.size() > 10)
-		{
-			String [] filePaths = new String[10];
-			Prefs.setRecentFiles((files.subList(0, 10)).toArray(filePaths), recentDocs);
-		}
-		else
-		{
-			String [] filePaths = new String[files.size()];
-			Prefs.setRecentFiles(files.toArray(filePaths), recentDocs);
-		}
 	}
 }
