@@ -8,7 +8,9 @@ import javax.swing.*;
 import flapjack.gui.*;
 
 import java.util.LinkedList;
+import java.util.StringTokenizer;
 import scri.commons.gui.*;
+import scri.commons.gui.matisse.HistoryComboBox;
 
 public class NBDataImportPanel extends javax.swing.JPanel implements ActionListener
 {
@@ -27,13 +29,8 @@ public class NBDataImportPanel extends javax.swing.JPanel implements ActionListe
 		genoButton.addActionListener(this);
 		checkUseHetSep.addActionListener(this);
 
-		//mapText.setText(Prefs.guiCurrentMap);
-		//mapText.setCaretPosition(0);
-		//genoText.setText(Prefs.guiCurrentGeno);
-		//genoText.setCaretPosition(0);
-
-		loadPreferences(Prefs.guiMapList, recentMapFiles, mapComboBox);
-		loadPreferences(Prefs.guiGenoList, recentGenoFiles, genoComboBox);
+		mapComboBox.setHistory(Prefs.guiMapList);
+		genoComboBox.setHistory(Prefs.guiGenoList);
 
 		missingText.setText(Prefs.ioMissingData);
 		heteroText.setText(Prefs.ioHeteroSeparator);
@@ -53,6 +50,9 @@ public class NBDataImportPanel extends javax.swing.JPanel implements ActionListe
 		RB.setText(checkHetero, "gui.dialog.NBDataImportPanel.checkHetero");
 		
 		setLabelStates();
+
+		mapComboBox.addActionListener(this);
+		genoComboBox.addActionListener(this);
 	}
 
 	public void actionPerformed(ActionEvent e)
@@ -67,7 +67,7 @@ public class NBDataImportPanel extends javax.swing.JPanel implements ActionListe
 			setLabelStates();
 	}
 
-	private void browse(JComboBox combo, LinkedList<String> recentFiles)
+	private void browse(HistoryComboBox combo, LinkedList<String> recentFiles)
 	{
 		JFileChooser fc = new JFileChooser();
 		fc.setDialogTitle(RB.getString("gui.dialog.NBDataImportPanel.fcTitle"));
@@ -83,27 +83,12 @@ public class NBDataImportPanel extends javax.swing.JPanel implements ActionListe
 			File file = fc.getSelectedFile();
 			Prefs.guiCurrentDir = fc.getCurrentDirectory().toString();
 
-			//textfield.setText(file.toString());
-			if(recentFiles.contains(file.toString()))
-			{
-				combo.removeItem(file.toString());
-				combo.addItem(file.toString());
-				combo.setSelectedItem(file.toString());
-				recentFiles.remove(file.toString());
-				recentFiles.addFirst(file.toString());
-			}
-			else
-			{
-				combo.addItem(file.toString());
-				combo.setSelectedItem(file.toString());
-				recentFiles.addFirst(file.toString());
-			}
+			combo.updateComboBox(file.toString());
 		}
 	}
 
 	boolean isOK()
 	{
-//		if (mapText.getText().length() == 0 || genoText.getText().length() == 0)
 		if(mapComboBox.getSelectedItem().toString().length() == 0 || genoComboBox.getSelectedItem().toString().length() == 0)
 		{
 			TaskDialog.warning(
@@ -124,13 +109,11 @@ public class NBDataImportPanel extends javax.swing.JPanel implements ActionListe
 
 	File getMapFile()
 	{
-		//Prefs.guiCurrentMap = mapText.getText();
 		return new File(mapComboBox.getSelectedItem().toString());
 	}
 
 	File getGenotypeFile()
 	{
-		//Prefs.guiCurrentGeno = genoText.getText();
 		return new File(genoComboBox.getSelectedItem().toString());
 	}
 	
@@ -138,32 +121,6 @@ public class NBDataImportPanel extends javax.swing.JPanel implements ActionListe
 	{
 		heteroLabel.setEnabled(checkUseHetSep.isSelected());
 		heteroText.setEnabled(checkUseHetSep.isSelected());
-	}
-
-	private void loadPreferences(String[] recentDocs, LinkedList<String> recentFiles, JComboBox combo)
-	{
-		for(final String path : recentDocs)
-	    {
-		    if (path == null || path.equals(" "))
-			    continue;
-
-		    // Split multi-file inputs
-		    final String[] paths = path.split("<!TABLET!>");
-
-		    File[] files = new File[paths.length];
-		    for (int i = 0; i < files.length; i++)
-			    files[i] = new File(paths[i]);
-
-
-		    // Button text will be "name" (or "name1" | "name2")
-		    for(int i = 0; i < files.length; i++)
-		    {
-			    String text = files[i].getPath();
-			    //if(!recentFiles.contains(text))
-			    recentFiles.add(text);
-				combo.addItem(text);
-		    }
-	    }
 	}
 
 	/** This method is called from within the constructor to
@@ -179,8 +136,8 @@ public class NBDataImportPanel extends javax.swing.JPanel implements ActionListe
         mapButton = new javax.swing.JButton();
         genoLabel = new javax.swing.JLabel();
         genoButton = new javax.swing.JButton();
-        mapComboBox = new javax.swing.JComboBox();
-        genoComboBox = new javax.swing.JComboBox();
+        mapComboBox = new scri.commons.gui.matisse.HistoryComboBox();
+        genoComboBox = new scri.commons.gui.matisse.HistoryComboBox();
         optionPanel = new javax.swing.JPanel();
         heteroLabel = new javax.swing.JLabel();
         heteroText = new javax.swing.JTextField();
@@ -191,17 +148,19 @@ public class NBDataImportPanel extends javax.swing.JPanel implements ActionListe
 
         filePanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Data files to import:"));
 
+        mapLabel.setLabelFor(mapComboBox);
         mapLabel.setText("Map file:");
 
         mapButton.setText("Browse...");
 
+        genoLabel.setLabelFor(genoComboBox);
         genoLabel.setText("Genotype file:");
 
         genoButton.setText("Browse...");
 
-        mapComboBox.setEditable(true);
+        mapComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        genoComboBox.setEditable(true);
+        genoComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         org.jdesktop.layout.GroupLayout filePanelLayout = new org.jdesktop.layout.GroupLayout(filePanel);
         filePanel.setLayout(filePanelLayout);
@@ -213,9 +172,9 @@ public class NBDataImportPanel extends javax.swing.JPanel implements ActionListe
                     .add(genoLabel)
                     .add(mapLabel))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(filePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(genoComboBox, 0, 224, Short.MAX_VALUE)
-                    .add(mapComboBox, 0, 224, Short.MAX_VALUE))
+                .add(filePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
+                    .add(mapComboBox, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 224, Short.MAX_VALUE)
+                    .add(genoComboBox, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 224, Short.MAX_VALUE))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(filePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(org.jdesktop.layout.GroupLayout.TRAILING, genoButton)
@@ -319,12 +278,12 @@ public class NBDataImportPanel extends javax.swing.JPanel implements ActionListe
     private javax.swing.JCheckBox checkUseHetSep;
     private javax.swing.JPanel filePanel;
     private javax.swing.JButton genoButton;
-    javax.swing.JComboBox genoComboBox;
+    scri.commons.gui.matisse.HistoryComboBox genoComboBox;
     private javax.swing.JLabel genoLabel;
     private javax.swing.JLabel heteroLabel;
     private javax.swing.JTextField heteroText;
     private javax.swing.JButton mapButton;
-    javax.swing.JComboBox mapComboBox;
+    scri.commons.gui.matisse.HistoryComboBox mapComboBox;
     private javax.swing.JLabel mapLabel;
     private javax.swing.JLabel missingLabel;
     private javax.swing.JTextField missingText;
