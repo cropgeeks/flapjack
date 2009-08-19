@@ -205,12 +205,13 @@ public class MenuFile
 		DataSet dataSet = navPanel.getDataSetForSelection();
 
 		// Find out what file to import
-		BrowseDialog browseDialog = new BrowseDialog(Prefs.guiCurrentTrait);
+		BrowseDialog browseDialog = new BrowseDialog(Prefs.guiTraitHistory);
 		if (browseDialog.isOK() == false)
 			return;
 
 		File file = browseDialog.getFile();
-		Prefs.guiCurrentTrait = file.toString();
+
+		Prefs.guiTraitHistory = browseDialog.getHistory();
 
 		// Remove any existing traits first
 		TabPanel ttp = navPanel.getTraitsPanel(dataSet);
@@ -251,13 +252,12 @@ public class MenuFile
 		DataSet dataSet = navPanel.getDataSetForSelection();
 
 		// Find out what file to import
-		BrowseDialog browseDialog = new BrowseDialog(Prefs.guiCurrentTrait);
+		BrowseDialog browseDialog = new BrowseDialog(Prefs.guiQTLHistory);
 		if (browseDialog.isOK() == false)
 			return;
 
 		File file = browseDialog.getFile();
-		Prefs.guiCurrentTrait = file.toString();
-
+		Prefs.guiQTLHistory = browseDialog.getHistory();
 
 		// Import the data using the standard progress bar dialog...
 		QTLImporter importer = new QTLImporter(file, dataSet);

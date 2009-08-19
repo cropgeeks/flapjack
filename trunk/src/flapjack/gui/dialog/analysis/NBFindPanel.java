@@ -2,7 +2,6 @@ package flapjack.gui.dialog.analysis;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.util.*;
 import javax.swing.*;
 import javax.swing.table.*;
 
@@ -14,7 +13,6 @@ class NBFindPanel extends JPanel implements ActionListener
 {
 	private FindDialog findDialog;
 	DefaultTableModel tableModel;
-	DefaultComboBoxModel findModel;
 
 	NBFindPanel(final FindDialog findDialog)
 	{
@@ -54,12 +52,10 @@ class NBFindPanel extends JPanel implements ActionListener
 
 		bSearch.addActionListener(this);
 
-		findModel = new DefaultComboBoxModel();
-		findCombo.setModel(findModel);
+		findComboBox.setHistory(Prefs.guiFindHistory);
 
 		table.getSelectionModel().addListSelectionListener(findDialog);
 
-		updateFindHistory();
 		initLinkLabel();
 	}
 
@@ -72,61 +68,17 @@ class NBFindPanel extends JPanel implements ActionListener
 		// Toggle between searching for lines/markers
 		if (e.getSource() == searchCombo)
 		{
-			updateFindHistory();
 			findDialog.setTableModel(null);
 			findDialog.runSearch();
 		}
 
-		else if (e.getSource() == bSearch || e.getSource() == findCombo)
+		else if (e.getSource() == bSearch || e.getSource() == findComboBox)
 		{
-			updateFindHistory();
+			//updateFindHistory();
+			findComboBox.updateComboBox(findComboBox.getSelectedItem().toString());
+			Prefs.guiFindHistory = findComboBox.getHistory();
 			findDialog.runSearch();
 		}
-	}
-
-	// Maintains and updates the history of entries for the find combo box. The
-	// preferences tracks this as a single string (tab deliminated), so this
-	// method must convert to/from the string into a LinkedList.
-	private void updateFindHistory()
-	{
-		// Use a list to hold the preferences history for easier sorting
-		LinkedList<String> findHistory = new LinkedList<String>();
-
-		// Fill the list with the tab-deliminated history
-		if (Prefs.guiFindHistory != null)
-		{
-			String[] entries = Prefs.guiFindHistory.split("\t");
-			for (String entry: entries)
-				findHistory.add(entry);
-		}
-
-		// Now determine what's currently in the combo box (if anything)
-		String str = (String) findCombo.getSelectedItem();
-		if (str != null)
-		{
-			// If the search term already exists, remove it
-			int index = findHistory.indexOf(str);
-			if (index != -1)
-				findHistory.remove(index);
-
-			// Insert the term at the start of the list
-			findHistory.addFirst(str);
-		}
-
-		// Don't let the list get any larger than 20 elements
-		if (findHistory.size() > 20)
-			findHistory.removeLast();
-
-		// Now copy the list's elements into the combo box and the prefs history
-		Prefs.guiFindHistory = "";
-		findCombo.removeActionListener(this);
-		findModel.removeAllElements();
-		for (String entry: findHistory)
-		{
-			findModel.addElement(entry);
-			Prefs.guiFindHistory += entry + "\t";
-		}
-		findCombo.addActionListener(this);
 	}
 
 	private void initLinkLabel()
@@ -148,7 +100,7 @@ class NBFindPanel extends JPanel implements ActionListener
 
 	String getSearchStr()
 	{
-		String str = (String) findCombo.getSelectedItem();
+		String str = (String) findComboBox.getSelectedItem();
 
 		if (str == null)
 			return "";
@@ -165,7 +117,6 @@ class NBFindPanel extends JPanel implements ActionListener
     private void initComponents() {
 
         findLabel = new javax.swing.JLabel();
-        findCombo = new javax.swing.JComboBox();
         searchLabel = new javax.swing.JLabel();
         searchCombo = new javax.swing.JComboBox();
         panel = new javax.swing.JPanel();
@@ -178,11 +129,9 @@ class NBFindPanel extends JPanel implements ActionListener
         bSearch = new javax.swing.JButton();
         hintLabel = new javax.swing.JLabel();
         bHelp = new javax.swing.JButton();
+        findComboBox = new scri.commons.gui.matisse.HistoryComboBox();
 
-        findLabel.setLabelFor(findCombo);
         findLabel.setText("Find what:");
-
-        findCombo.setEditable(true);
 
         searchLabel.setLabelFor(searchCombo);
         searchLabel.setText("Search within:");
@@ -207,7 +156,7 @@ class NBFindPanel extends JPanel implements ActionListener
                         .add(21, 21, 21)
                         .add(link))
                     .add(checkRegular))
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(14, Short.MAX_VALUE))
         );
         panelLayout.setVerticalGroup(
             panelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -244,6 +193,8 @@ class NBFindPanel extends JPanel implements ActionListener
 
         bHelp.setText("Help");
 
+        findComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -259,9 +210,9 @@ class NBFindPanel extends JPanel implements ActionListener
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                             .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
-                                .add(findCombo, 0, 146, Short.MAX_VALUE)
+                                .add(findComboBox, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
                                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                                .add(bSearch)
+                                .add(bSearch, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 65, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                                 .add(bHelp))
                             .add(searchCombo, 0, 276, Short.MAX_VALUE)))
@@ -276,9 +227,9 @@ class NBFindPanel extends JPanel implements ActionListener
                 .addContainerGap()
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(findLabel)
-                    .add(findCombo, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(bSearch)
-                    .add(bHelp))
+                    .add(bHelp)
+                    .add(findComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(searchLabel)
@@ -300,7 +251,7 @@ class NBFindPanel extends JPanel implements ActionListener
     javax.swing.JButton bSearch;
     private javax.swing.JCheckBox checkCase;
     private javax.swing.JCheckBox checkRegular;
-    javax.swing.JComboBox findCombo;
+    scri.commons.gui.matisse.HistoryComboBox findComboBox;
     private javax.swing.JLabel findLabel;
     private javax.swing.JLabel hintLabel;
     private javax.swing.JLabel link;

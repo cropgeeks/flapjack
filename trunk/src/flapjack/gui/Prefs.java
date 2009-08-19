@@ -23,8 +23,8 @@ public class Prefs extends XMLPreferences
 	public static String guiMapList = "";
 	public static String guiGenoList = "";
 	// Path to the last selected trait file
-	public static String guiCurrentTrait = "";
-	public static String guiCurrentQTL = "";
+	public static String guiTraitHistory = "";
+	public static String guiQTLHistory = "";
 
 	// How many projects have been created
 	public static int guiProjectCount = 1;
