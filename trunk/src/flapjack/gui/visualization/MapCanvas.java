@@ -194,6 +194,11 @@ class MapCanvas extends JPanel
 			if (canvas.canvasW < w)
 				w = x = canvas.canvasW;
 
+			// If the user has sized the screen so that the mapcanvas is crushed
+			// then buffer creation will fail if either dimension is zero
+			if (w == 0 || h == 0)
+				return;
+
 			// Cut out the area of the main buffer we want to draw
 			BufferedImage image2 = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
 			Graphics2D g2d = image2.createGraphics();
