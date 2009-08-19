@@ -27,7 +27,7 @@ class NBBrowsePanel extends JPanel implements ActionListener
 
 	boolean isOK()
 	{
-		if (text.getText().length() == 0)
+		if (browseComboBox.getSelectedItem().toString().length() == 0)
 		{
 			TaskDialog.warning(
 				RB.getString("gui.dialog.NBBrowsePanel.warning"),
@@ -46,15 +46,15 @@ class NBBrowsePanel extends JPanel implements ActionListener
 			fc.setDialogTitle(RB.getString("gui.dialog.NBDataImportPanel.fcTitle"));
 			fc.setCurrentDirectory(new File(Prefs.guiCurrentDir));
 
-			if (text.getText().length() > 0)
-				fc.setCurrentDirectory(new File(text.getText()));
+			if (browseComboBox.getSelectedItem().toString().length() > 0)
+				fc.setCurrentDirectory(new File(browseComboBox.getSelectedItem().toString()));
 
 			if (fc.showOpenDialog(this) == JFileChooser.APPROVE_OPTION)
 			{
 				File file = fc.getSelectedFile();
 				Prefs.guiCurrentDir = fc.getCurrentDirectory().toString();
 
-				text.setText(file.toString());
+				browseComboBox.updateComboBox(file.toString());
 			}
 		}
 	}
@@ -70,15 +70,16 @@ class NBBrowsePanel extends JPanel implements ActionListener
 
         panel = new javax.swing.JPanel();
         label = new javax.swing.JLabel();
-        text = new javax.swing.JTextField();
         bBrowse = new javax.swing.JButton();
+        browseComboBox = new scri.commons.gui.matisse.HistoryComboBox();
 
         panel.setBorder(javax.swing.BorderFactory.createTitledBorder("Browse for file:"));
 
-        label.setLabelFor(text);
         label.setText("File to import:");
 
         bBrowse.setText("Browse...");
+
+        browseComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         org.jdesktop.layout.GroupLayout panelLayout = new org.jdesktop.layout.GroupLayout(panel);
         panel.setLayout(panelLayout);
@@ -87,9 +88,9 @@ class NBBrowsePanel extends JPanel implements ActionListener
             .add(panelLayout.createSequentialGroup()
                 .addContainerGap()
                 .add(label)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                .add(text, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 272, Short.MAX_VALUE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(browseComboBox, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 282, Short.MAX_VALUE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(bBrowse)
                 .addContainerGap())
         );
@@ -100,7 +101,7 @@ class NBBrowsePanel extends JPanel implements ActionListener
                 .add(panelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(label)
                     .add(bBrowse)
-                    .add(text, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    .add(browseComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -125,9 +126,9 @@ class NBBrowsePanel extends JPanel implements ActionListener
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bBrowse;
+    scri.commons.gui.matisse.HistoryComboBox browseComboBox;
     private javax.swing.JLabel label;
     private javax.swing.JPanel panel;
-    javax.swing.JTextField text;
     // End of variables declaration//GEN-END:variables
 
 }

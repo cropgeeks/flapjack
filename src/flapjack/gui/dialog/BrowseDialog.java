@@ -24,7 +24,9 @@ public class BrowseDialog extends JDialog implements ActionListener
 			true
 		);
 
-		nbPanel.text.setText(filename);
+		//nbPanel.text.setText(filename);
+
+		nbPanel.browseComboBox.setHistory(filename);
 
 		add(new TitlePanel2(), BorderLayout.NORTH);
 		add(nbPanel);
@@ -74,5 +76,14 @@ public class BrowseDialog extends JDialog implements ActionListener
 	}
 
 	public File getFile()
-		{ return new File(nbPanel.text.getText()); }
+		{ return new File(nbPanel.browseComboBox.getSelectedItem().toString()); }
+
+	/**
+	 * @return browseComboBox.history
+	 */
+	public String getHistory()
+	{
+		return nbPanel.browseComboBox.getHistory();
+	}
+
 }
