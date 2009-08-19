@@ -53,6 +53,7 @@ class NBFindPanel extends JPanel implements ActionListener
 		bSearch.addActionListener(this);
 
 		findComboBox.setHistory(Prefs.guiFindHistory);
+		findComboBox.addActionListener(this);
 
 		table.getSelectionModel().addListSelectionListener(findDialog);
 
