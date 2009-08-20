@@ -97,11 +97,11 @@ public class MenuVisualization
 		new HZHighlighter(gPanel);
 	}
 
-	void vizSelectTraits()
+	public void vizSelectTraits()
 	{
 		SelectTraitsDialog dialog = new SelectTraitsDialog(gPanel.getViewSet());
 
-		gPanel.repaint();
+		gPanel.refreshView();
 	}
 
 	void vizNewView()

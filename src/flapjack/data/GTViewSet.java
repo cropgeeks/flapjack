@@ -41,7 +41,7 @@ public class GTViewSet extends XMLRoot
 	int comparisonLineIndex;
 
 	// If traits are being displayed, which ones?
-	private int[] traits = new int[] { -1, -1, -1 };
+	private int[] traits = new int[0];// { -1, -1, -1 };
 
 	// Display line "scores" after performing a sort?
 	private boolean displayLineScores = false;
@@ -162,10 +162,10 @@ public class GTViewSet extends XMLRoot
 	public void setAlleleFrequencyThreshold(float alleleFrequencyThreshold)
 		{ this.alleleFrequencyThreshold = alleleFrequencyThreshold; }
 
-	public String getTraitsString()
+	public String getSelectedTraits()
 		{ return MatrixXML.arrayToString(traits); }
 
-	public void setTraitsString(String traitsStr)
+	public void setSelectedTraits(String traitsStr)
 		{ this.traits = MatrixXML.stringToIntArray(traitsStr); }
 
 	public boolean getDisplayLineScores()
@@ -257,6 +257,7 @@ public class GTViewSet extends XMLRoot
 		clone.randomColorSeed = randomColorSeed;
 
 		// Copy over the trait indices
+		clone.traits = new int[traits.length];
 		for (int i = 0; i < traits.length; i++)
 			clone.traits[i] = traits[i];
 
@@ -323,15 +324,22 @@ public class GTViewSet extends XMLRoot
 	/**
 	 * Maps trait column indices onto a view after trait data has been loaded.
 	 * Assuming enough traits are available, and no previous indices were set,
-	 * the viewSet will be told to display traits 0, 1, and 2.
+	 * the viewSet will be told to display the first three traits: 0, 1, and 2.
 	 */
 	public void assignTraits()
 	{
+		if (traits.length > 0)
+			return;
+
+		// Don't assign any more than 3 (but it might be less)
 		int count = dataSet.getTraits().size();
+		int size = count < 3 ? count: 3;
+
+		traits = new int[size];
 
 		// For each column - if it's not been assigned yet (and there is a
 		// trait available for that column)...
-		for (int i = 0; i < traits.length && traits[i] == -1 && i < count; i++)
+		for (int i = 0; i < traits.length; i++)
 			traits[i] = i;
 	}
 

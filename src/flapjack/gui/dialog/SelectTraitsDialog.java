@@ -58,7 +58,10 @@ public class SelectTraitsDialog extends JDialog implements ActionListener
 	public void actionPerformed(ActionEvent e)
 	{
 		if (e.getSource() == bOK)
+		{
 			nbPanel.isOK();
+			Actions.projectModified();
+		}
 
 		setVisible(false);
 	}
