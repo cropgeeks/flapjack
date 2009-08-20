@@ -1,10 +1,12 @@
 package flapjack.gui.dialog;
 
 import java.awt.*;
+import java.awt.event.*;
+import java.util.*;
 import javax.swing.*;
+import javax.swing.table.*;
 
 import flapjack.data.*;
-import flapjack.gui.*;
 
 import scri.commons.gui.*;
 
@@ -21,41 +23,96 @@ class NBSelectTraitsPanel extends javax.swing.JPanel
 		this.viewSet = viewSet;
 
 		RB.setText(label, "gui.dialog.NBSelectTraitsPanel.label");
-		traitLabel1.setText(RB.format("gui.dialog.NBSelectTraitsPanel.trait", 1));
-		traitLabel1.setDisplayedMnemonic('1');
-		traitLabel2.setText(RB.format("gui.dialog.NBSelectTraitsPanel.trait", 2));
-		traitLabel2.setDisplayedMnemonic('2');
-		traitLabel3.setText(RB.format("gui.dialog.NBSelectTraitsPanel.trait", 3));
-		traitLabel3.setDisplayedMnemonic('3');
-		RB.setText(hintLabel, "gui.dialog.NBSelectTraitsPanel.hintLabel");
+		RB.setText(selectAllLabel, "gui.dialog.NBSelectTraitsPanel.selectAllLabel");
+		RB.setText(selectNoneLabel, "gui.dialog.NBSelectTraitsPanel.selectNoneLabel");
 
-		// Add an "empty" trait at the top of each list
-		trait1.addItem("");
-		trait2.addItem("");
-		trait3.addItem("");
+		createLinkLabels();
+		createTable(viewSet);
+	}
 
-		// Add all the real traits
-		for (Trait t: viewSet.getDataSet().getTraits())
+	private void createLinkLabels()
+	{
+		selectAllLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		selectNoneLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
+
+		selectAllLabel.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent event) {
+				for (int i = 0; i < table.getRowCount(); i++)
+					table.setValueAt(true, i, 1);
+			}
+		});
+
+		selectNoneLabel.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent event) {
+				for (int i = 0; i < table.getRowCount(); i++)
+					table.setValueAt(false, i, 1);
+			}
+		});
+	}
+
+	// Builds a simple table model that contains two columns - column 0 has the
+	// name of each trait/phenotype, while column 1 contains whether or not that
+	// trait has been selected for display
+	private void createTable(GTViewSet viewSet)
+	{
+		String[] columnNames = {
+			RB.getString("gui.dialog.NBSelectTraitsPanel.traitsColumn"),
+			RB.getString("gui.dialog.NBSelectTraitsPanel.showColumn")
+		};
+
+		Vector<Trait> traits = viewSet.getDataSet().getTraits();
+
+		int[] selected = viewSet.getTraits();
+		Object[][] data = new Object[traits.size()][2];
+
+		for (int i = 0; i < data.length; i++)
 		{
-			trait1.addItem(t.getName());
-			trait2.addItem(t.getName());
-			trait3.addItem(t.getName());
+			data[i][0] = traits.get(i).getName();
+
+			// Search the current list of visible traits to see if this trait
+			// is one of them. If it is, enable it in the table
+			boolean show = false;
+			for (int j = 0; j < selected.length; j++)
+				if (selected[j] == i)
+					show = true;
+
+			data[i][1] = show;
 		}
 
-		// Set the currently selected index for each combo box to be the trait
-		// index for that column from the viewSet (+1 to deal with the empty)
-		trait1.setSelectedIndex(viewSet.getTraits()[0]+1);
-		trait2.setSelectedIndex(viewSet.getTraits()[1]+1);
-		trait3.setSelectedIndex(viewSet.getTraits()[2]+1);
+		table.setModel(new DefaultTableModel(data, columnNames)
+		{
+			public Class getColumnClass(int c) {
+				return getValueAt(0, c).getClass();
+			}
+
+			// Column 1 contains the tickboxes, and must be editable
+			public boolean isCellEditable(int row, int col) {
+				return col == 1;
+			}
+		});
+
+		table.getColumnModel().getColumn(1).setPreferredWidth(10);
 	}
 
 	void isOK()
 	{
-		viewSet.setTraits(new int[] {
-			trait1.getSelectedIndex() - 1,
-			trait2.getSelectedIndex() - 1,
-			trait3.getSelectedIndex() - 1
-		});
+		// Generate a boolean array with true/false states for every trait
+		boolean[] array = new boolean[table.getRowCount()];
+		for (int i = 0; i < array.length; i++)
+			array[i] = (Boolean) table.getValueAt(i, 1);
+
+		int active = 0;
+		for (boolean b: array)
+			if (b) active++;
+
+		// Copy ONLY the selected traits into a new array
+		int[] traits = new int[active];
+		for (int i = 0, j = 0; i < array.length; i++)
+			if (array[i])
+				traits[j++] = i;
+
+		// Assign the selected traits back to the view
+		viewSet.setTraits(traits);
 	}
 
 	/** This method is called from within the constructor to
@@ -68,26 +125,34 @@ class NBSelectTraitsPanel extends javax.swing.JPanel
     private void initComponents() {
 
         label = new javax.swing.JLabel();
-        traitLabel1 = new javax.swing.JLabel();
-        trait1 = new javax.swing.JComboBox();
-        traitLabel2 = new javax.swing.JLabel();
-        trait2 = new javax.swing.JComboBox();
-        traitLabel3 = new javax.swing.JLabel();
-        trait3 = new javax.swing.JComboBox();
-        hintLabel = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        table = new javax.swing.JTable();
+        selectAllLabel = new javax.swing.JLabel();
+        label2 = new javax.swing.JLabel();
+        selectNoneLabel = new javax.swing.JLabel();
 
-        label.setText("The traits heatmap can display up to three different traits (one per column):");
+        label.setLabelFor(table);
+        label.setText("The traits heatmap will display any of the following selected traits:");
 
-        traitLabel1.setLabelFor(trait1);
-        traitLabel1.setText("Trait 1:");
+        table.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
 
-        traitLabel2.setLabelFor(trait2);
-        traitLabel2.setText("Trait 2:");
+            },
+            new String [] {
 
-        traitLabel3.setLabelFor(trait3);
-        traitLabel3.setText("Trait 3:");
+            }
+        ));
+        table.setRowSelectionAllowed(false);
+        table.getTableHeader().setReorderingAllowed(false);
+        jScrollPane1.setViewportView(table);
 
-        hintLabel.setText("(You can also right-click on the heatmap to quickly set a trait)");
+        selectAllLabel.setForeground(new java.awt.Color(0, 0, 255));
+        selectAllLabel.setText("Select all");
+
+        label2.setText("|");
+
+        selectNoneLabel.setForeground(java.awt.Color.blue);
+        selectNoneLabel.setText("Select none");
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
         this.setLayout(layout);
@@ -96,18 +161,14 @@ class NBSelectTraitsPanel extends javax.swing.JPanel
             .add(layout.createSequentialGroup()
                 .addContainerGap()
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 454, Short.MAX_VALUE)
                     .add(label)
                     .add(layout.createSequentialGroup()
-                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(traitLabel1)
-                            .add(traitLabel2)
-                            .add(traitLabel3))
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 10, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
-                            .add(trait2, 0, 320, Short.MAX_VALUE)
-                            .add(trait1, 0, 320, Short.MAX_VALUE)
-                            .add(trait3, 0, 320, Short.MAX_VALUE)))
-                    .add(hintLabel))
+                        .add(selectAllLabel)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(label2)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(selectNoneLabel)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -115,33 +176,24 @@ class NBSelectTraitsPanel extends javax.swing.JPanel
             .add(layout.createSequentialGroup()
                 .addContainerGap()
                 .add(label)
-                .add(18, 18, 18)
-                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(traitLabel1)
-                    .add(trait1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 153, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(traitLabel2)
-                    .add(trait2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(traitLabel3)
-                    .add(trait3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .add(18, 18, 18)
-                .add(hintLabel)
+                    .add(selectAllLabel)
+                    .add(label2)
+                    .add(selectNoneLabel))
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel hintLabel;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel label;
-    private javax.swing.JComboBox trait1;
-    private javax.swing.JComboBox trait2;
-    private javax.swing.JComboBox trait3;
-    private javax.swing.JLabel traitLabel1;
-    private javax.swing.JLabel traitLabel2;
-    private javax.swing.JLabel traitLabel3;
+    private javax.swing.JLabel label2;
+    private javax.swing.JLabel selectAllLabel;
+    private javax.swing.JLabel selectNoneLabel;
+    private javax.swing.JTable table;
     // End of variables declaration//GEN-END:variables
 }

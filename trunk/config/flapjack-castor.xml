@@ -77,6 +77,7 @@
 		<field name="comparisonLine" type="flapjack.data.Line">
 			<bind-xml reference="true" node="attribute"/>
 		</field>
+		<!-- transient stops this field from being marshalled -->
 		<field name="traits" type="integer" collection="array" transient="true"/>
 	</class>
 

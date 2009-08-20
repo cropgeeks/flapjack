@@ -21,7 +21,7 @@ class TraitCanvas extends JPanel
 	private Canvas2D traitCanvas;
 
 	private int boxW = 10;
-	private int w = boxW * 3;
+	private int w = 0;
 
 	private int mouseOverIndex = -1;
 
@@ -46,7 +46,10 @@ class TraitCanvas extends JPanel
 	{
 		int traitCount = 0;
 		if (canvas.viewSet != null)
-			traitCount = canvas.viewSet.getDataSet().getTraits().size();
+//			traitCount = canvas.viewSet.getDataSet().getTraits().size();
+			traitCount = canvas.viewSet.getTraits().length;
+
+		w = boxW * traitCount;
 
 		setVisible(traitCount > 0 && Prefs.visShowTraitCanvas);
 	}
@@ -57,10 +60,12 @@ class TraitCanvas extends JPanel
 		{
 			MouseTracker mt = new MouseTracker();
 
-			setPreferredSize(new Dimension(w, 0));
 			addMouseListener(mt);
 			addMouseMotionListener(mt);
 		}
+
+		public Dimension getPreferredSize()
+			{ return new Dimension(w, 0); }
 
 		public void paintComponent(Graphics graphics)
 		{
@@ -149,7 +154,13 @@ class TraitCanvas extends JPanel
 
 			int yIndex = y / canvas.boxH;
 			mouseOverIndex = e.getPoint().x / boxW;
-			int tIndex = canvas.viewSet.getTraits()[mouseOverIndex];
+
+			int[] traits = canvas.viewSet.getTraits();
+
+			if (mouseOverIndex < 0 || mouseOverIndex >= traits.length)
+				return;
+
+			int tIndex = traits[mouseOverIndex];
 
 			// Don't attempt to set a tooltip if there's no trait displayed or
 			// if the mouse isn't over an actual line
@@ -196,45 +207,19 @@ class TraitCanvas extends JPanel
 		// quickly select a new trait (for the column under the mouse)
 		private void handlePopup(MouseEvent e)
 		{
-			DataSet dataSet = canvas.viewSet.getDataSet();
-			Vector<Trait> traits = dataSet.getTraits();
-
 			JPopupMenu menu = new JPopupMenu();
 
-			menu.add(getItem(
-				RB.getString("gui.visualization.TraitCanvas.undefined"),
-				mouseOverIndex, -1));
-			menu.addSeparator();
-
-			for (int i = 0; i < traits.size(); i++)
-			{
-				String traitName = traits.get(i).getName();
-				menu.add(getItem(traitName, mouseOverIndex, i));
-			}
-
-			menu.show(e.getComponent(), e.getX(), e.getY());
-		}
-
-		// Builds a menu item that will set the appropriate value for the view's
-		// trait columns
-		private JCheckBoxMenuItem getItem(String name, final int colIndex, final int traitIndex)
-		{
-			JCheckBoxMenuItem item = new JCheckBoxMenuItem(name);
+			JMenuItem item = new JMenuItem();
+			RB.setText(item, "gui.visualization.TraitCanvas.popup");
 
 			item.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e)
-				{
-					canvas.viewSet.getTraits()[colIndex] = traitIndex;
-					repaint();
-
-					Actions.projectModified();
+				public void actionPerformed(ActionEvent e)	{
+					Flapjack.winMain.mViz.vizSelectTraits();
 				}
 			});
 
-			if (canvas.viewSet.getTraits()[colIndex] == traitIndex)
-				item.setSelected(true);
-
-			return item;
+			menu.add(item);
+			menu.show(e.getComponent(), e.getX(), e.getY());
 		}
 	}
 }
