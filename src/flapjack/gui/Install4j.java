@@ -84,7 +84,6 @@ public class Install4j
 		try
 		{
 			com.install4j.api.ApplicationRegistry.ApplicationInfo info =
-//				com.install4j.api.ApplicationRegistry.getApplicationInfoById("9131-7045-2417-5931");
 				com.install4j.api.ApplicationRegistry.getApplicationInfoByDir(new File("."));
 
 			VERSION = info.getVersion();
@@ -96,6 +95,21 @@ public class Install4j
 		}
 		catch (Exception e) {}
 		catch (Throwable e) {}
+	}
+
+	static File getLicenceFile()
+	{
+		try
+		{
+			com.install4j.api.ApplicationRegistry.ApplicationInfo info =
+				com.install4j.api.ApplicationRegistry.getApplicationInfoByDir(new File("."));
+
+			File root = info.getInstallationDirectory();
+			File licenceFolder = new File(root, "docs");
+
+			return new File(licenceFolder, "Flapjack.html");
+		}
+		catch (Throwable e) { return new File("installer/docs/Flapjack.html"); }
 	}
 
 	private static void pingServer()

@@ -1,5 +1,6 @@
 package flapjack.gui;
 
+import java.io.*;
 import java.text.*;
 import javax.swing.*;
 
@@ -27,9 +28,13 @@ class MenuHelp
 
 	void helpLicence()
 	{
-		JButton bHelp = new JButton();
-		FlapjackUtils.setHelp(bHelp, "licence");
-		bHelp.doClick();
+		// This will fail if not running in an Install4j environment
+		try
+		{
+			File licence = Install4j.getLicenceFile();
+			FlapjackUtils.visitURL(licence.toURI().toString());
+		}
+		catch (Exception e) {}
 	}
 
 	void helpPrefs()
