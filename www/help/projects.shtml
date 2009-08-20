@@ -98,14 +98,14 @@ from a file with the following tab-delimited format:
 
 <pre>
   Name  Chromosome  Position  Pos-Min  Pos-Max  Trait   Experiment  [optional_1] .. [optional_n]
-  QTL1  1H          10        8        12       Height  Exp1        25.5            -3.4
-  QTL2  1H          20        19       26       Height  Exp1        34.8            -5.6
-  QTL3  2H          10        8        13.5     Temp    Exp1        99.2            3.2
+  QTL1  1H          10        8        12       Height  Exp1        25.5            high
+  QTL2  1H          20        19       26       Height  Exp1        34.8            low
+  QTL3  2H          10        8        13.5     Temp    Exp1        99.2            low
 </pre>
 
 <p>The "Name" to "Experiment" columns are required and must be included and
 listed in the order shown. After that, each QTL may have zero or more optional
-columns of numerical data that can be included too.</p>
+columns of numerical or textual data that can be included too.</p>
 
 
 <!--#include virtual="footer.html" -->
