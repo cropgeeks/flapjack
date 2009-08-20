@@ -23,13 +23,8 @@ displayed on the traits heatmap alongside the list of line names.</p>
 <p><a href="images/gui.dialog.SelectTraitsDialog.png">
 <img class="capture" src="images/gui.dialog.SelectTraitsDialog2.png" alt="Flapjack Screenshot"></a></p>
 
-<p>Up to three traits can be selected by choosing each trait's name using the
-drop down lists. To <i>not</i> select a trait for display in a particular
-column, select the blank option at the top of that list.</p>
-
-<p><b>Trait 1</b> corresponds to the left-hand side column of the heatmap,
-<b>Trait 2</b> to the middle column, and <b>Trait 3</b> to the right-hand side
-column.</p>
+<p>Flapjack can display any number of traits in the heatmap. Each trait that is
+selected in the table will be made visible.</p>
 
 
 <!--#include virtual="footer.html" -->
