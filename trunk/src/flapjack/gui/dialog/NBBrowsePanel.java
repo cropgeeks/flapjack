@@ -71,6 +71,7 @@ class NBBrowsePanel extends JPanel implements ActionListener
         panel = new javax.swing.JPanel();
         label = new javax.swing.JLabel();
         bBrowse = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
         browseComboBox = new scri.commons.gui.matisse.HistoryComboBox();
 
         panel.setBorder(javax.swing.BorderFactory.createTitledBorder("Browse for file:"));
@@ -80,16 +81,19 @@ class NBBrowsePanel extends JPanel implements ActionListener
 
         bBrowse.setText("Browse...");
 
+        jPanel1.setLayout(new java.awt.BorderLayout());
+        jPanel1.add(browseComboBox, java.awt.BorderLayout.CENTER);
+
         org.jdesktop.layout.GroupLayout panelLayout = new org.jdesktop.layout.GroupLayout(panel);
         panel.setLayout(panelLayout);
         panelLayout.setHorizontalGroup(
             panelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(org.jdesktop.layout.GroupLayout.TRAILING, panelLayout.createSequentialGroup()
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .add(panelLayout.createSequentialGroup()
+                .addContainerGap()
                 .add(label)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(browseComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 285, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(jPanel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 296, Short.MAX_VALUE)
+                .add(6, 6, 6)
                 .add(bBrowse)
                 .addContainerGap())
         );
@@ -97,10 +101,10 @@ class NBBrowsePanel extends JPanel implements ActionListener
             panelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(panelLayout.createSequentialGroup()
                 .addContainerGap()
-                .add(panelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                .add(panelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.CENTER)
                     .add(label)
-                    .add(browseComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(bBrowse))
+                    .add(bBrowse)
+                    .add(jPanel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -126,6 +130,7 @@ class NBBrowsePanel extends JPanel implements ActionListener
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bBrowse;
     scri.commons.gui.matisse.HistoryComboBox browseComboBox;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel label;
     private javax.swing.JPanel panel;
     // End of variables declaration//GEN-END:variables
