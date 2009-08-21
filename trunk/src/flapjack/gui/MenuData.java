@@ -54,6 +54,8 @@ class MenuData
 
 			ILineSorter sort = new SortLinesByTrait(viewSet, traits, asc, assign);
 			new SortingLinesProgressDialog(gPanel, sort).runSort();
+
+			gPanel.setViewSet(gPanel.getViewSet());
 		}
 	}
 

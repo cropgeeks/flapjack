@@ -101,7 +101,7 @@ public class MenuVisualization
 	{
 		SelectTraitsDialog dialog = new SelectTraitsDialog(gPanel.getViewSet());
 
-		gPanel.refreshView();
+		gPanel.setViewSet(gPanel.getViewSet());
 	}
 
 	void vizNewView()
