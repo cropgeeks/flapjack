@@ -131,11 +131,13 @@ public class NBDataImportPanel extends javax.swing.JPanel implements ActionListe
 
         filePanel = new javax.swing.JPanel();
         mapLabel = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        mapComboBox = new scri.commons.gui.matisse.HistoryComboBox();
         mapButton = new javax.swing.JButton();
         genoLabel = new javax.swing.JLabel();
-        genoButton = new javax.swing.JButton();
-        mapComboBox = new scri.commons.gui.matisse.HistoryComboBox();
+        jPanel1 = new javax.swing.JPanel();
         genoComboBox = new scri.commons.gui.matisse.HistoryComboBox();
+        genoButton = new javax.swing.JButton();
         optionPanel = new javax.swing.JPanel();
         heteroLabel = new javax.swing.JLabel();
         heteroText = new javax.swing.JTextField();
@@ -149,10 +151,16 @@ public class NBDataImportPanel extends javax.swing.JPanel implements ActionListe
         mapLabel.setLabelFor(mapComboBox);
         mapLabel.setText("Map file:");
 
+        jPanel2.setLayout(new java.awt.BorderLayout());
+        jPanel2.add(mapComboBox, java.awt.BorderLayout.CENTER);
+
         mapButton.setText("Browse...");
 
         genoLabel.setLabelFor(genoComboBox);
         genoLabel.setText("Genotype file:");
+
+        jPanel1.setLayout(new java.awt.BorderLayout());
+        jPanel1.add(genoComboBox, java.awt.BorderLayout.CENTER);
 
         genoButton.setText("Browse...");
 
@@ -166,9 +174,9 @@ public class NBDataImportPanel extends javax.swing.JPanel implements ActionListe
                     .add(genoLabel)
                     .add(mapLabel))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(filePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(genoComboBox, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 224, Short.MAX_VALUE)
-                    .add(mapComboBox, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 224, Short.MAX_VALUE))
+                .add(filePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
+                    .add(jPanel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 310, Short.MAX_VALUE)
+                    .add(jPanel2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 310, Short.MAX_VALUE))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(filePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(org.jdesktop.layout.GroupLayout.TRAILING, genoButton)
@@ -179,15 +187,15 @@ public class NBDataImportPanel extends javax.swing.JPanel implements ActionListe
             filePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(filePanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .add(filePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                .add(filePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.CENTER)
                     .add(mapLabel)
-                    .add(mapButton)
-                    .add(mapComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    .add(jPanel2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(mapButton))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(filePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                .add(filePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.CENTER)
                     .add(genoLabel)
-                    .add(genoButton)
-                    .add(genoComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    .add(jPanel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(genoButton))
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -224,7 +232,7 @@ public class NBDataImportPanel extends javax.swing.JPanel implements ActionListe
                         .add(optionPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                             .add(missingText, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                             .add(heteroText, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(92, Short.MAX_VALUE))
         );
         optionPanelLayout.setVerticalGroup(
             optionPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -276,6 +284,8 @@ public class NBDataImportPanel extends javax.swing.JPanel implements ActionListe
     private javax.swing.JLabel genoLabel;
     private javax.swing.JLabel heteroLabel;
     private javax.swing.JTextField heteroText;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JButton mapButton;
     scri.commons.gui.matisse.HistoryComboBox mapComboBox;
     private javax.swing.JLabel mapLabel;
