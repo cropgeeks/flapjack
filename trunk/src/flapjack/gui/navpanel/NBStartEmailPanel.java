@@ -9,7 +9,7 @@ import flapjack.gui.*;
 
 import scri.commons.gui.*;
 
-public class NBStartEmailPanel extends JPanel implements FocusListener
+public class NBStartEmailPanel extends JPanel implements FocusListener, ActionListener
 {
 	private static String hint = RB.getString("gui.navpanel.NBStartEmailPanel.hint");
 
@@ -29,19 +29,8 @@ public class NBStartEmailPanel extends JPanel implements FocusListener
 
 		setStatus();
 
-		bSubscribe.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		bSubscribe.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent event) {
-				subscribe();
-			}
-		});
-
-		bUnsubscribe.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		bUnsubscribe.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent event) {
-				unsubscribe();
-			}
-		});
+		bSubscribe.addActionListener(this);
+		bUnsubscribe.addActionListener(this);
 
 		institutionText.addFocusListener(this);
 		focusLost(null);
@@ -149,6 +138,19 @@ public class NBStartEmailPanel extends JPanel implements FocusListener
 		return false;
     }
 
+	public void actionPerformed(ActionEvent e)
+	{
+		if(e.getSource() == bSubscribe)
+		{
+			subscribe();
+		}
+
+		if(e.getSource() == bUnsubscribe)
+		{
+			unsubscribe();
+		}
+	}
+
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -165,9 +167,9 @@ public class NBStartEmailPanel extends JPanel implements FocusListener
         statusLabel2 = new javax.swing.JLabel();
         emailText = new javax.swing.JTextField();
         institutionText = new javax.swing.JTextField();
-        bSubscribe = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        bUnsubscribe = new javax.swing.JLabel();
+        bSubscribe = new scri.commons.gui.matisse.HyperLinkLabel();
+        bUnsubscribe = new scri.commons.gui.matisse.HyperLinkLabel();
 
         label.setText("<html>Subscribe to the Flapjack mailing list and we'll keep you informed when new releases are available.");
 
@@ -181,10 +183,10 @@ public class NBStartEmailPanel extends JPanel implements FocusListener
 
         institutionText.setForeground(java.awt.Color.lightGray);
 
+        jLabel4.setText("|");
+
         bSubscribe.setForeground(new java.awt.Color(68, 106, 156));
         bSubscribe.setText("subscribe");
-
-        jLabel4.setText("|");
 
         bUnsubscribe.setForeground(new java.awt.Color(68, 106, 156));
         bUnsubscribe.setText("unsubscribe");
@@ -209,13 +211,13 @@ public class NBStartEmailPanel extends JPanel implements FocusListener
                                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING, false)
                                     .add(org.jdesktop.layout.GroupLayout.LEADING, institutionText, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 205, Short.MAX_VALUE)
                                     .add(org.jdesktop.layout.GroupLayout.LEADING, emailText, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 250, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                                .add(bSubscribe)
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                .add(bSubscribe, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                                 .add(jLabel4)
                                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                                .add(bUnsubscribe)))))
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .add(bUnsubscribe, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap(42, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -231,8 +233,8 @@ public class NBStartEmailPanel extends JPanel implements FocusListener
                     .add(emailLabel)
                     .add(emailText, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(jLabel4)
-                    .add(bUnsubscribe)
-                    .add(bSubscribe))
+                    .add(bSubscribe, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(bUnsubscribe, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(institutionLabel)
@@ -243,8 +245,8 @@ public class NBStartEmailPanel extends JPanel implements FocusListener
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel bSubscribe;
-    private javax.swing.JLabel bUnsubscribe;
+    private scri.commons.gui.matisse.HyperLinkLabel bSubscribe;
+    private scri.commons.gui.matisse.HyperLinkLabel bUnsubscribe;
     private javax.swing.JLabel emailLabel;
     private javax.swing.JTextField emailText;
     private javax.swing.JLabel institutionLabel;
@@ -254,5 +256,6 @@ public class NBStartEmailPanel extends JPanel implements FocusListener
     private javax.swing.JLabel statusLabel1;
     private javax.swing.JLabel statusLabel2;
     // End of variables declaration//GEN-END:variables
+
 
 }

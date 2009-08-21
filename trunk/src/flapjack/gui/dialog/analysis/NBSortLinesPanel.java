@@ -10,7 +10,7 @@ import flapjack.gui.*;
 
 import scri.commons.gui.*;
 
-class NBSortLinesPanel extends javax.swing.JPanel
+class NBSortLinesPanel extends javax.swing.JPanel implements ActionListener
 {
 	private GTView view;
 
@@ -44,28 +44,9 @@ class NBSortLinesPanel extends javax.swing.JPanel
 
 		selectedLine.addActionListener(dialog);
 
-		createLinkLabels();
+		selectAllLabel.addActionListener(this);
+		selectNoneLabel.addActionListener(this);
 		createTable(viewSet);
-	}
-
-	private void createLinkLabels()
-	{
-		selectAllLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		selectNoneLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
-
-		selectAllLabel.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent event) {
-				for (int i = 0; i < table.getRowCount(); i++)
-					table.setValueAt(true, i, 0);
-			}
-		});
-
-		selectNoneLabel.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent event) {
-				for (int i = 0; i < table.getRowCount(); i++)
-					table.setValueAt(false, i, 0);
-			}
-		});
 	}
 
 	private void createTable(GTViewSet viewSet)
@@ -125,6 +106,21 @@ class NBSortLinesPanel extends javax.swing.JPanel
 		return array;
 	}
 
+	public void actionPerformed(ActionEvent e)
+	{
+		if(e.getSource() == selectAllLabel)
+		{
+			for (int i = 0; i < table.getRowCount(); i++)
+				table.setValueAt(true, i, 0);
+		}
+
+		if(e.getSource() == selectNoneLabel)
+		{
+			for (int i = 0; i < table.getRowCount(); i++)
+				table.setValueAt(false, i, 0);
+		}
+	}
+
 	// Renders strings in the table so that they are centered
 	static class StringRenderer extends JLabel implements TableCellRenderer
 	{
@@ -160,9 +156,9 @@ class NBSortLinesPanel extends javax.swing.JPanel
         jScrollPane1 = new javax.swing.JScrollPane();
         table = new javax.swing.JTable();
         tableLabel = new javax.swing.JLabel();
-        selectAllLabel = new javax.swing.JLabel();
         label2 = new javax.swing.JLabel();
-        selectNoneLabel = new javax.swing.JLabel();
+        selectAllLabel = new scri.commons.gui.matisse.HyperLinkLabel();
+        selectNoneLabel = new scri.commons.gui.matisse.HyperLinkLabel();
         linePanel = new javax.swing.JPanel();
         selectedLine = new javax.swing.JComboBox();
         lineLabel = new javax.swing.JLabel();
@@ -184,12 +180,10 @@ class NBSortLinesPanel extends javax.swing.JPanel
         tableLabel.setLabelFor(table);
         tableLabel.setText("Only markers from the following selected chromosomes will be used:");
 
-        selectAllLabel.setForeground(new java.awt.Color(0, 0, 255));
-        selectAllLabel.setText("Select all");
-
         label2.setText("|");
 
-        selectNoneLabel.setForeground(java.awt.Color.blue);
+        selectAllLabel.setText("Select all");
+
         selectNoneLabel.setText("Select none");
 
         org.jdesktop.layout.GroupLayout tablePanelLayout = new org.jdesktop.layout.GroupLayout(tablePanel);
@@ -202,11 +196,11 @@ class NBSortLinesPanel extends javax.swing.JPanel
                     .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
                     .add(tableLabel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
                     .add(tablePanelLayout.createSequentialGroup()
-                        .add(selectAllLabel)
+                        .add(selectAllLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(label2)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(selectNoneLabel)))
+                        .add(selectNoneLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         tablePanelLayout.setVerticalGroup(
@@ -218,9 +212,9 @@ class NBSortLinesPanel extends javax.swing.JPanel
                 .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 153, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(tablePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(selectAllLabel)
                     .add(label2)
-                    .add(selectNoneLabel))
+                    .add(selectAllLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(selectNoneLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -280,8 +274,8 @@ class NBSortLinesPanel extends javax.swing.JPanel
     private javax.swing.JLabel label2;
     private javax.swing.JLabel lineLabel;
     private javax.swing.JPanel linePanel;
-    private javax.swing.JLabel selectAllLabel;
-    private javax.swing.JLabel selectNoneLabel;
+    private scri.commons.gui.matisse.HyperLinkLabel selectAllLabel;
+    private scri.commons.gui.matisse.HyperLinkLabel selectNoneLabel;
     javax.swing.JComboBox selectedLine;
     private javax.swing.JTable table;
     private javax.swing.JLabel tableLabel;

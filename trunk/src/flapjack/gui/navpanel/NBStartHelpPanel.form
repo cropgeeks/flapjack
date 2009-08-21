@@ -4,6 +4,7 @@
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_generateFQN" type="java.lang.Boolean" value="true"/>
     <AuxValue name="FormSettings_generateMnemonicsCode" type="java.lang.Boolean" value="false"/>
     <AuxValue name="FormSettings_i18nAutoMode" type="java.lang.Boolean" value="false"/>
     <AuxValue name="FormSettings_layoutCodeTarget" type="java.lang.Integer" value="2"/>
@@ -18,9 +19,9 @@
           <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="homeLabel" min="-2" max="-2" attributes="0"/>
-                  <Component id="link2" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="homeLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                   <Component id="link1" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="link2" alignment="0" min="-2" max="-2" attributes="0"/>
                   <Component id="link3" alignment="0" min="-2" max="-2" attributes="0"/>
                   <Component id="link4" alignment="0" min="-2" max="-2" attributes="0"/>
                   <Component id="link5" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -37,29 +38,29 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Component id="homeLabel" min="-2" max="-2" attributes="0"/>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
               <Component id="link1" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="link2" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
               <Component id="link3" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
               <Component id="link4" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
               <Component id="link5" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
               <Component id="link6" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="link7" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="link8" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="32767" attributes="0"/>
+              <EmptySpace pref="11" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="javax.swing.JLabel" name="homeLabel">
+    <Component class="scri.commons.gui.matisse.HyperLinkLabel" name="homeLabel">
       <Properties>
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="9c" green="6a" red="44" type="rgb"/>
@@ -67,7 +68,7 @@
         <Property name="text" type="java.lang.String" value="Visit the online Flapjack user manual"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="link1">
+    <Component class="scri.commons.gui.matisse.HyperLinkLabel" name="link1">
       <Properties>
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="9c" green="6a" red="44" type="rgb"/>
@@ -78,7 +79,7 @@
         <Property name="text" type="java.lang.String" value="link1"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="link2">
+    <Component class="scri.commons.gui.matisse.HyperLinkLabel" name="link2">
       <Properties>
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="9c" green="6a" red="44" type="rgb"/>
@@ -89,7 +90,7 @@
         <Property name="text" type="java.lang.String" value="link2"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="link3">
+    <Component class="scri.commons.gui.matisse.HyperLinkLabel" name="link3">
       <Properties>
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="9c" green="6a" red="44" type="rgb"/>
@@ -100,7 +101,7 @@
         <Property name="text" type="java.lang.String" value="link3"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="link4">
+    <Component class="scri.commons.gui.matisse.HyperLinkLabel" name="link4">
       <Properties>
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="9c" green="6a" red="44" type="rgb"/>
@@ -111,7 +112,7 @@
         <Property name="text" type="java.lang.String" value="link4"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="link5">
+    <Component class="scri.commons.gui.matisse.HyperLinkLabel" name="link5">
       <Properties>
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="9c" green="6a" red="44" type="rgb"/>
@@ -122,7 +123,7 @@
         <Property name="text" type="java.lang.String" value="link5"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="link6">
+    <Component class="scri.commons.gui.matisse.HyperLinkLabel" name="link6">
       <Properties>
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="9c" green="6a" red="44" type="rgb"/>
@@ -133,7 +134,7 @@
         <Property name="text" type="java.lang.String" value="link6"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="link7">
+    <Component class="scri.commons.gui.matisse.HyperLinkLabel" name="link7">
       <Properties>
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="9c" green="6a" red="44" type="rgb"/>
@@ -144,7 +145,7 @@
         <Property name="text" type="java.lang.String" value="link7"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="link8">
+    <Component class="scri.commons.gui.matisse.HyperLinkLabel" name="link8">
       <Properties>
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="9c" green="6a" red="44" type="rgb"/>

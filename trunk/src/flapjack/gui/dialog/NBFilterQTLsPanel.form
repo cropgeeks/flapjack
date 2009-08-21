@@ -91,8 +91,8 @@
                           <Component id="jScrollPane1" min="-2" pref="148" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="selectAllTraits" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="label2" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="selectAllTraits" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="selectNoTraits" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
@@ -102,8 +102,8 @@
                           <Component id="jScrollPane2" min="-2" pref="148" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="selectAllExperiments" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="label3" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="selectAllExperiments" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="selectNoExperiments" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
@@ -178,33 +178,9 @@
             <Property name="text" type="java.lang.String" value="Only show these experiments:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="selectAllTraits">
-          <Properties>
-            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="ff" green="0" red="0" type="rgb"/>
-            </Property>
-            <Property name="text" type="java.lang.String" value="Select all"/>
-          </Properties>
-        </Component>
         <Component class="javax.swing.JLabel" name="label2">
           <Properties>
             <Property name="text" type="java.lang.String" value="|"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JLabel" name="selectNoTraits">
-          <Properties>
-            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="ff" green="0" id="blue" palette="1" red="0" type="palette"/>
-            </Property>
-            <Property name="text" type="java.lang.String" value="Select none"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JLabel" name="selectAllExperiments">
-          <Properties>
-            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="ff" green="0" red="0" type="rgb"/>
-            </Property>
-            <Property name="text" type="java.lang.String" value="Select all"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="label3">
@@ -212,17 +188,29 @@
             <Property name="text" type="java.lang.String" value="|"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="selectNoExperiments">
-          <Properties>
-            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="ff" green="0" id="blue" palette="1" red="0" type="palette"/>
-            </Property>
-            <Property name="text" type="java.lang.String" value="Select none"/>
-          </Properties>
-        </Component>
         <Component class="javax.swing.JLabel" name="numberLabel">
           <Properties>
             <Property name="text" type="java.lang.String" value="Number of QTLs currently visible (across all chromosomes):"/>
+          </Properties>
+        </Component>
+        <Component class="scri.commons.gui.matisse.HyperLinkLabel" name="selectAllTraits">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Select all"/>
+          </Properties>
+        </Component>
+        <Component class="scri.commons.gui.matisse.HyperLinkLabel" name="selectNoTraits">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Select none"/>
+          </Properties>
+        </Component>
+        <Component class="scri.commons.gui.matisse.HyperLinkLabel" name="selectAllExperiments">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Select all"/>
+          </Properties>
+        </Component>
+        <Component class="scri.commons.gui.matisse.HyperLinkLabel" name="selectNoExperiments">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Select none"/>
           </Properties>
         </Component>
       </SubComponents>

@@ -10,7 +10,7 @@ import flapjack.gui.dialog.*;
 
 import scri.commons.gui.*;
 
-public class NBStartWelcomePanel extends javax.swing.JPanel
+public class NBStartWelcomePanel extends javax.swing.JPanel implements ActionListener
 {
 	public NBStartWelcomePanel()
 	{
@@ -21,18 +21,21 @@ public class NBStartWelcomePanel extends javax.swing.JPanel
 		feedbackLabel.setText(RB.getString("gui.navpanel.NBStartWelcomePanel.panel.feedback"));
 
 		feedbackLabel.setIcon(Icons.getIcon("FEEDBACK"));
-		feedbackLabel.setCursor(FlapjackUtils.HAND_CURSOR);
-		feedbackLabel.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent event) {
-				FlapjackUtils.sendFeedback();
-			}
-		});
+		feedbackLabel.addActionListener(this);
 	}
 
 	private void sendFeedback()
 	{
 		if (SystemUtils.jreVersion() >= 1.6)
 			FlapjackUtils.sendFeedback();
+	}
+
+	public void actionPerformed(ActionEvent e)
+	{
+		if(e.getSource() == feedbackLabel)
+		{
+			FlapjackUtils.sendFeedback();
+		}
 	}
 
     /** This method is called from within the constructor to
@@ -45,7 +48,7 @@ public class NBStartWelcomePanel extends javax.swing.JPanel
     private void initComponents() {
 
         flapjackLabel = new javax.swing.JLabel();
-        feedbackLabel = new javax.swing.JLabel();
+        feedbackLabel = new scri.commons.gui.matisse.HyperLinkLabel();
 
         flapjackLabel.setText("<html>Flapjack x.xx.xx.xx - &copy; Plant Bioinformatics Group, SCRI.");
 
@@ -60,7 +63,7 @@ public class NBStartWelcomePanel extends javax.swing.JPanel
                 .addContainerGap()
                 .add(flapjackLabel)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 21, Short.MAX_VALUE)
-                .add(feedbackLabel)
+                .add(feedbackLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -69,14 +72,15 @@ public class NBStartWelcomePanel extends javax.swing.JPanel
                 .addContainerGap()
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(flapjackLabel)
-                    .add(feedbackLabel))
+                    .add(feedbackLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel feedbackLabel;
+    private scri.commons.gui.matisse.HyperLinkLabel feedbackLabel;
     private javax.swing.JLabel flapjackLabel;
     // End of variables declaration//GEN-END:variables
+
 }

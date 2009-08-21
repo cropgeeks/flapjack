@@ -4,6 +4,7 @@
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_generateFQN" type="java.lang.Boolean" value="true"/>
     <AuxValue name="FormSettings_generateMnemonicsCode" type="java.lang.Boolean" value="false"/>
     <AuxValue name="FormSettings_i18nAutoMode" type="java.lang.Boolean" value="false"/>
     <AuxValue name="FormSettings_layoutCodeTarget" type="java.lang.Integer" value="2"/>
@@ -42,7 +43,6 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="versionLabel" min="-2" max="-2" attributes="0"/>
-                      <Component id="webLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Component id="copyrightLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Component id="nameLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Component id="javaLabel" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -50,6 +50,7 @@
                       <Component id="localeLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Component id="idLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Component id="scriIcon" alignment="0" pref="393" max="32767" attributes="0"/>
+                      <Component id="webLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -62,7 +63,7 @@
                   <Component id="versionLabel" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="webLabel" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                   <Component id="copyrightLabel" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="nameLabel" min="-2" max="-2" attributes="0"/>
@@ -132,16 +133,19 @@
             <Property name="text" type="java.lang.String" value="Memory available to JVM:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="webLabel">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="http://bioinf.scri.ac.uk/flapjack"/>
-          </Properties>
-        </Component>
         <Component class="javax.swing.JLabel" name="scriIcon">
           <Properties>
             <Property name="horizontalAlignment" type="int" value="0"/>
             <Property name="text" type="java.lang.String" value="SCRI LOGO"/>
           </Properties>
+        </Component>
+        <Component class="scri.commons.gui.matisse.HyperLinkLabel" name="webLabel">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="http://bioinf.scri.ac.uk/flapjack"/>
+          </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
+          </AuxValues>
         </Component>
       </SubComponents>
     </Container>
