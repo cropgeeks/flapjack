@@ -69,16 +69,28 @@ public class SortLinesByTraitDialog extends JDialog implements ActionListener
 	public boolean isOK()
 		{ return isOK; }
 
-	// Returns an array containing the selected index of the first combo box and
-	// the selected index of the second combo box (minus 1 as its first element
-	// can be left blank; this will return -1 meaning don't use)
+	// Returns an array of length 1 to 3, containing the selected indexes of the
+	// three combo boxes
 	public int[] getTraitIndices()
 	{
-		return new int[] {
+		int[] selected = new int[] {
 			nbPanel.combo1.getSelectedIndex(),
 			nbPanel.combo2.getSelectedIndex()-1,
 			nbPanel.combo3.getSelectedIndex()-1
 		};
+
+		int count = 0;
+		for (int i: selected)
+			if (i != -1) count++;
+
+		// The new array will only store values that are selected, so if only
+		// one combo box was used, the array will have length == 1
+		int[] traits = new int[count];
+		for (int i = 0, t = 0; i < selected.length; i++)
+			if (selected[i] != -1)
+				traits[t++] = selected[i];
+
+		return traits;
 	}
 
 	public boolean[] getAscendingIndices()
