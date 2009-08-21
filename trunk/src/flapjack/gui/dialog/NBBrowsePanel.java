@@ -75,6 +75,7 @@ class NBBrowsePanel extends JPanel implements ActionListener
 
         panel.setBorder(javax.swing.BorderFactory.createTitledBorder("Browse for file:"));
 
+        label.setLabelFor(browseComboBox);
         label.setText("File to import:");
 
         bBrowse.setText("Browse...");
@@ -83,11 +84,11 @@ class NBBrowsePanel extends JPanel implements ActionListener
         panel.setLayout(panelLayout);
         panelLayout.setHorizontalGroup(
             panelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(panelLayout.createSequentialGroup()
-                .addContainerGap()
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, panelLayout.createSequentialGroup()
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .add(label)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(browseComboBox, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 282, Short.MAX_VALUE)
+                .add(browseComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 285, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(bBrowse)
                 .addContainerGap())
@@ -98,8 +99,8 @@ class NBBrowsePanel extends JPanel implements ActionListener
                 .addContainerGap()
                 .add(panelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(label)
-                    .add(bBrowse)
-                    .add(browseComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    .add(browseComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(bBrowse))
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
