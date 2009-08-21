@@ -76,7 +76,7 @@ public class BrowseDialog extends JDialog implements ActionListener
 	}
 
 	public File getFile()
-		{ return new File(nbPanel.browseComboBox.getSelectedItem().toString()); }
+		{ return new File(nbPanel.browseComboBox.getText()); }
 
 	/**
 	 * @return browseComboBox.history

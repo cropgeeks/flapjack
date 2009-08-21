@@ -75,8 +75,6 @@ class NBFindPanel extends JPanel implements ActionListener
 
 		else if (e.getSource() == bSearch || e.getSource() == findComboBox)
 		{
-			//updateFindHistory();
-			findComboBox.updateComboBox(findComboBox.getSelectedItem().toString());
 			Prefs.guiFindHistory = findComboBox.getHistory();
 			findDialog.runSearch();
 		}
@@ -101,7 +99,7 @@ class NBFindPanel extends JPanel implements ActionListener
 
 	String getSearchStr()
 	{
-		String str = (String) findComboBox.getSelectedItem();
+		String str = findComboBox.getText();
 
 		if (str == null)
 			return "";
@@ -194,8 +192,6 @@ class NBFindPanel extends JPanel implements ActionListener
 
         bHelp.setText("Help");
 
-        findComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -211,15 +207,15 @@ class NBFindPanel extends JPanel implements ActionListener
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                             .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
-                                .add(findComboBox, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
+                                .add(findComboBox, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
                                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                                 .add(bSearch, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 65, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                                 .add(bHelp))
-                            .add(searchCombo, 0, 276, Short.MAX_VALUE)))
+                            .add(searchCombo, 0, 280, Short.MAX_VALUE)))
                     .add(resultLabel)
                     .add(hintLabel)
-                    .add(spTable, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 348, Short.MAX_VALUE))
+                    .add(spTable, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 352, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(

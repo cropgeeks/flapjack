@@ -29,18 +29,18 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="1" attributes="0">
-                              <Component id="findComboBox" pref="146" max="32767" attributes="0"/>
+                              <Component id="findComboBox" pref="150" max="32767" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="bSearch" min="-2" pref="65" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="bHelp" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <Component id="searchCombo" alignment="0" pref="276" max="32767" attributes="1"/>
+                          <Component id="searchCombo" alignment="0" pref="280" max="32767" attributes="1"/>
                       </Group>
                   </Group>
                   <Component id="resultLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                   <Component id="hintLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Component id="spTable" alignment="0" pref="348" max="32767" attributes="0"/>
+                  <Component id="spTable" alignment="0" pref="352" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -77,9 +77,6 @@
   <SubComponents>
     <Component class="javax.swing.JLabel" name="findLabel">
       <Properties>
-        <Property name="labelFor" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
-          <ComponentRef name="default"/>
-        </Property>
         <Property name="text" type="java.lang.String" value="Find what:"/>
       </Properties>
     </Component>
@@ -214,16 +211,6 @@
       </Properties>
     </Component>
     <Component class="scri.commons.gui.matisse.HistoryComboBox" name="findComboBox">
-      <Properties>
-        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="4">
-            <StringItem index="0" value="Item 1"/>
-            <StringItem index="1" value="Item 2"/>
-            <StringItem index="2" value="Item 3"/>
-            <StringItem index="3" value="Item 4"/>
-          </StringArray>
-        </Property>
-      </Properties>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
       </AuxValues>
