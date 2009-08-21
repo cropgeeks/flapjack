@@ -61,8 +61,8 @@ public class DataImportDialog extends JDialog implements ActionListener
 		if (e.getSource() == bImport && nbPanel.isOK())
 		{
 			isOK = true;
-			nbPanel.mapComboBox.updateComboBox(nbPanel.mapComboBox.getSelectedItem().toString());
-			nbPanel.genoComboBox.updateComboBox(nbPanel.genoComboBox.getSelectedItem().toString());
+			nbPanel.mapComboBox.updateComboBox(nbPanel.mapComboBox.getText());
+			nbPanel.genoComboBox.updateComboBox(nbPanel.genoComboBox.getText());
 			Prefs.guiMapList = nbPanel.mapComboBox.getHistory();
 			Prefs.guiGenoList = nbPanel.genoComboBox.getHistory();
 			setVisible(false);

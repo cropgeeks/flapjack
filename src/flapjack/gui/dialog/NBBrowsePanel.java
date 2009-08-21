@@ -27,7 +27,7 @@ class NBBrowsePanel extends JPanel implements ActionListener
 
 	boolean isOK()
 	{
-		if (browseComboBox.getSelectedItem().toString().length() == 0)
+		if (browseComboBox.getText().length() == 0)
 		{
 			TaskDialog.warning(
 				RB.getString("gui.dialog.NBBrowsePanel.warning"),
@@ -46,8 +46,8 @@ class NBBrowsePanel extends JPanel implements ActionListener
 			fc.setDialogTitle(RB.getString("gui.dialog.NBDataImportPanel.fcTitle"));
 			fc.setCurrentDirectory(new File(Prefs.guiCurrentDir));
 
-			if (browseComboBox.getSelectedItem().toString().length() > 0)
-				fc.setCurrentDirectory(new File(browseComboBox.getSelectedItem().toString()));
+			if (browseComboBox.getText().length() > 0)
+				fc.setCurrentDirectory(new File(browseComboBox.getText()));
 
 			if (fc.showOpenDialog(this) == JFileChooser.APPROVE_OPTION)
 			{
@@ -78,8 +78,6 @@ class NBBrowsePanel extends JPanel implements ActionListener
         label.setText("File to import:");
 
         bBrowse.setText("Browse...");
-
-        browseComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         org.jdesktop.layout.GroupLayout panelLayout = new org.jdesktop.layout.GroupLayout(panel);
         panel.setLayout(panelLayout);
