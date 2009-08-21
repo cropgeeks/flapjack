@@ -77,6 +77,9 @@
   <SubComponents>
     <Component class="javax.swing.JLabel" name="findLabel">
       <Properties>
+        <Property name="labelFor" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+          <ComponentRef name="findComboBox"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Find what:"/>
       </Properties>
     </Component>

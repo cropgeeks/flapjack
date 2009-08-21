@@ -16,7 +16,7 @@ public class BrowseDialog extends JDialog implements ActionListener
 
 	private NBBrowsePanel nbPanel = new NBBrowsePanel();
 
-	public BrowseDialog(String filename)
+	public BrowseDialog(String fileHistory)
 	{
 		super(
 			Flapjack.winMain,
@@ -24,9 +24,7 @@ public class BrowseDialog extends JDialog implements ActionListener
 			true
 		);
 
-		//nbPanel.text.setText(filename);
-
-		nbPanel.browseComboBox.setHistory(filename);
+		nbPanel.browseComboBox.setHistory(fileHistory);
 
 		add(new TitlePanel2(), BorderLayout.NORTH);
 		add(nbPanel);

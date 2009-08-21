@@ -130,6 +130,7 @@ class NBFindPanel extends JPanel implements ActionListener
         bHelp = new javax.swing.JButton();
         findComboBox = new scri.commons.gui.matisse.HistoryComboBox();
 
+        findLabel.setLabelFor(findComboBox);
         findLabel.setText("Find what:");
 
         searchLabel.setLabelFor(searchCombo);
