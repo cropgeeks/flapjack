@@ -7,10 +7,11 @@ import javax.swing.*;
 import flapjack.gui.*;
 
 import scri.commons.gui.*;
+import scri.commons.gui.matisse.HyperLinkLabel;
 
-public class NBStartHelpPanel extends javax.swing.JPanel
+public class NBStartHelpPanel extends javax.swing.JPanel implements ActionListener
 {
-	private JLabel[] labels = new JLabel[8];
+	private HyperLinkLabel[] labels = new HyperLinkLabel[8];
 
 	private static String home =
 		"http://bioinf.scri.ac.uk/flapjack/help";
@@ -22,11 +23,8 @@ public class NBStartHelpPanel extends javax.swing.JPanel
 
 		RB.setText(homeLabel, "gui.navpanel.NBStartHelpPanel.homeLabel");
 
-		ClickListener clicker = new ClickListener();
-
 		homeLabel.setIcon(Icons.getIcon("BOOK"));
-		homeLabel.setCursor(FlapjackUtils.HAND_CURSOR);
-		homeLabel.addMouseListener(clicker);
+		homeLabel.addActionListener(this);
 
 		labels[0] = link1; labels[1] = link2;
 		labels[2] = link3; labels[3] = link4;
@@ -36,29 +34,24 @@ public class NBStartHelpPanel extends javax.swing.JPanel
 		for (int i = 0; i < labels.length; i++)
 		{
 			RB.setText(labels[i], "gui.navpanel.NBStartHelpPanel.link" + (i+1));
-			labels[i].setCursor(FlapjackUtils.HAND_CURSOR);
-			labels[i].addMouseListener(clicker);
+			labels[i].addActionListener(this);
 		}
     }
 
-    private class ClickListener extends MouseAdapter
-    {
-    	public void mouseClicked(MouseEvent e)
-    	{
-    		if (e.getSource() == homeLabel)
-    			FlapjackUtils.visitURL(home);
-
-    		else
-    		{
-    			for (int i = 0; i < labels.length; i++)
-    				if (e.getSource() == labels[i])
-    				{
-    					FlapjackUtils.visitURL(RB.getString(
-    						"gui.navpanel.NBStartHelpPanel.url" + (i+1)));;
-    				}
-    		}
-    	}
-    }
+	public void actionPerformed(ActionEvent e)
+	{
+		if (e.getSource() == homeLabel)
+    		FlapjackUtils.visitURL(home);
+		else
+		{
+			for (int i = 0; i < labels.length; i++)
+				if (e.getSource() == labels[i])
+				{
+					FlapjackUtils.visitURL(RB.getString(
+							"gui.navpanel.NBStartHelpPanel.url" + (i+1)));
+				}
+		}
+	}
 
     /** This method is called from within the constructor to
      * initialize the form.
@@ -69,15 +62,15 @@ public class NBStartHelpPanel extends javax.swing.JPanel
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        homeLabel = new javax.swing.JLabel();
-        link1 = new javax.swing.JLabel();
-        link2 = new javax.swing.JLabel();
-        link3 = new javax.swing.JLabel();
-        link4 = new javax.swing.JLabel();
-        link5 = new javax.swing.JLabel();
-        link6 = new javax.swing.JLabel();
-        link7 = new javax.swing.JLabel();
-        link8 = new javax.swing.JLabel();
+        homeLabel = new scri.commons.gui.matisse.HyperLinkLabel();
+        link1 = new scri.commons.gui.matisse.HyperLinkLabel();
+        link2 = new scri.commons.gui.matisse.HyperLinkLabel();
+        link3 = new scri.commons.gui.matisse.HyperLinkLabel();
+        link4 = new scri.commons.gui.matisse.HyperLinkLabel();
+        link5 = new scri.commons.gui.matisse.HyperLinkLabel();
+        link6 = new scri.commons.gui.matisse.HyperLinkLabel();
+        link7 = new scri.commons.gui.matisse.HyperLinkLabel();
+        link8 = new scri.commons.gui.matisse.HyperLinkLabel();
 
         homeLabel.setForeground(new java.awt.Color(68, 106, 156));
         homeLabel.setText("Visit the online Flapjack user manual");
@@ -121,53 +114,53 @@ public class NBStartHelpPanel extends javax.swing.JPanel
             .add(layout.createSequentialGroup()
                 .addContainerGap()
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(homeLabel)
-                    .add(link2)
-                    .add(link1)
-                    .add(link3)
-                    .add(link4)
-                    .add(link5)
-                    .add(link6)
-                    .add(link7)
-                    .add(link8))
+                    .add(homeLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(link1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(link2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(link3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(link4, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(link5, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(link6, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(link7, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(link8, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
                 .addContainerGap()
-                .add(homeLabel)
+                .add(homeLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .add(18, 18, 18)
-                .add(link1)
+                .add(link1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(link2)
+                .add(link2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(6, 6, 6)
+                .add(link3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(6, 6, 6)
+                .add(link4, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(6, 6, 6)
+                .add(link5, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(6, 6, 6)
+                .add(link6, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(link3)
+                .add(link7, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(link4)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(link5)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(link6)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(link7)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(link8)
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .add(link8, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(11, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel homeLabel;
-    private javax.swing.JLabel link1;
-    private javax.swing.JLabel link2;
-    private javax.swing.JLabel link3;
-    private javax.swing.JLabel link4;
-    private javax.swing.JLabel link5;
-    private javax.swing.JLabel link6;
-    private javax.swing.JLabel link7;
-    private javax.swing.JLabel link8;
+    private scri.commons.gui.matisse.HyperLinkLabel homeLabel;
+    private scri.commons.gui.matisse.HyperLinkLabel link1;
+    private scri.commons.gui.matisse.HyperLinkLabel link2;
+    private scri.commons.gui.matisse.HyperLinkLabel link3;
+    private scri.commons.gui.matisse.HyperLinkLabel link4;
+    private scri.commons.gui.matisse.HyperLinkLabel link5;
+    private scri.commons.gui.matisse.HyperLinkLabel link6;
+    private scri.commons.gui.matisse.HyperLinkLabel link7;
+    private scri.commons.gui.matisse.HyperLinkLabel link8;
     // End of variables declaration//GEN-END:variables
 
 }

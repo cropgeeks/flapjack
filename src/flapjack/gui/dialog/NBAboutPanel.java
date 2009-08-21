@@ -9,7 +9,7 @@ import flapjack.gui.*;
 
 import scri.commons.gui.*;
 
-class NBAboutPanel extends javax.swing.JPanel
+class NBAboutPanel extends javax.swing.JPanel implements ActionListener
 {
 	public NBAboutPanel()
 	{
@@ -18,6 +18,8 @@ class NBAboutPanel extends javax.swing.JPanel
 		initWebStuff();
 		setBackground(Color.white);
 		p2.setBackground(Color.white);
+
+		webLabel.addActionListener(this);
 
 		String javaVer = System.getProperty("java.version");
 		long freeMem = (ManagementFactory.getMemoryMXBean().getHeapMemoryUsage().getMax()
@@ -37,18 +39,7 @@ class NBAboutPanel extends javax.swing.JPanel
 
 	private void initWebStuff()
 	{
-		final String flapHTML = "http://bioinf.scri.ac.uk/flapjack";
 		final String scriHTML = "http://www.scri.ac.uk";
-
-		// Turns the label into a blue mouse-over clickable link to a website
-		webLabel.setForeground(Color.blue);
-		webLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		webLabel.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent event)
-			{
-				FlapjackUtils.visitURL(flapHTML);
-			}
-		});
 
 		scriIcon.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		scriIcon.addMouseListener(new MouseAdapter() {
@@ -57,6 +48,16 @@ class NBAboutPanel extends javax.swing.JPanel
 				FlapjackUtils.visitURL(scriHTML);
 			}
 		});
+	}
+
+	public void actionPerformed(ActionEvent e)
+	{
+		final String flapHTML = "http://bioinf.scri.ac.uk/flapjack";
+
+		if(e.getSource() == webLabel)
+		{
+			FlapJackUtils.visitURL(flapHTML);
+		}
 	}
 
     /** This method is called from within the constructor to
@@ -76,8 +77,8 @@ class NBAboutPanel extends javax.swing.JPanel
         versionLabel = new javax.swing.JLabel();
         javaLabel = new javax.swing.JLabel();
         memLabel = new javax.swing.JLabel();
-        webLabel = new javax.swing.JLabel();
         scriIcon = new javax.swing.JLabel();
+        webLabel = new scri.commons.gui.matisse.HyperLinkLabel();
 
         idLabel.setForeground(java.awt.Color.gray);
         idLabel.setText("Flapjack ID:");
@@ -89,7 +90,7 @@ class NBAboutPanel extends javax.swing.JPanel
 
         copyrightLabel.setText("Copyright (C) 2007-2008, Plant Bioinformatics Group, SCRI");
 
-        versionLabel.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        versionLabel.setFont(new java.awt.Font("Tahoma", 1, 18));
         versionLabel.setText("Flapjack - x.xx.xx.xx");
 
         javaLabel.setForeground(java.awt.Color.gray);
@@ -98,10 +99,10 @@ class NBAboutPanel extends javax.swing.JPanel
         memLabel.setForeground(java.awt.Color.gray);
         memLabel.setText("Memory available to JVM:");
 
-        webLabel.setText("http://bioinf.scri.ac.uk/flapjack");
-
         scriIcon.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         scriIcon.setText("SCRI LOGO");
+
+        webLabel.setText("http://bioinf.scri.ac.uk/flapjack");
 
         org.jdesktop.layout.GroupLayout p2Layout = new org.jdesktop.layout.GroupLayout(p2);
         p2.setLayout(p2Layout);
@@ -111,14 +112,14 @@ class NBAboutPanel extends javax.swing.JPanel
                 .addContainerGap()
                 .add(p2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(versionLabel)
-                    .add(webLabel)
                     .add(copyrightLabel)
                     .add(nameLabel)
                     .add(javaLabel)
                     .add(memLabel)
                     .add(localeLabel)
                     .add(idLabel)
-                    .add(scriIcon, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 393, Short.MAX_VALUE))
+                    .add(scriIcon, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 393, Short.MAX_VALUE)
+                    .add(webLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
         p2Layout.setVerticalGroup(
@@ -127,7 +128,7 @@ class NBAboutPanel extends javax.swing.JPanel
                 .addContainerGap()
                 .add(versionLabel)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(webLabel)
+                .add(webLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .add(18, 18, 18)
                 .add(copyrightLabel)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
@@ -174,7 +175,8 @@ class NBAboutPanel extends javax.swing.JPanel
     private javax.swing.JPanel p2;
     private javax.swing.JLabel scriIcon;
     private javax.swing.JLabel versionLabel;
-    private javax.swing.JLabel webLabel;
+    scri.commons.gui.matisse.HyperLinkLabel webLabel;
     // End of variables declaration//GEN-END:variables
+
 
 }

@@ -8,10 +8,11 @@ import javax.swing.*;
 import flapjack.gui.*;
 
 import scri.commons.gui.*;
+import scri.commons.gui.matisse.HyperLinkLabel;
 
-public class NBStartFilePanel extends javax.swing.JPanel
+public class NBStartFilePanel extends javax.swing.JPanel implements ActionListener
 {
-	private JLabel[] labels = new JLabel[4];
+	private HyperLinkLabel[] labels = new HyperLinkLabel[4];
 	private String[] files = new String[4];
 
 	public NBStartFilePanel()
@@ -22,11 +23,8 @@ public class NBStartFilePanel extends javax.swing.JPanel
 		RB.setText(importLabel, "gui.navpanel.NBStartFilePanel.importLabel");
 		RB.setText(openLabel, "gui.navpanel.NBStartFilePanel.openLabel");
 
-		ClickListener clicker = new ClickListener();
-
 		importLabel.setIcon(Icons.getIcon("FILEIMPORT"));
-		importLabel.addMouseListener(clicker);
-		importLabel.setCursor(FlapjackUtils.HAND_CURSOR);
+		importLabel.addActionListener(this);
 
 		// Create the labels array
 		labels[0] = project0; labels[1] = project1;
@@ -40,8 +38,7 @@ public class NBStartFilePanel extends javax.swing.JPanel
 		{
 			if (files[i] != null)
 			{
-				labels[i].addMouseListener(clicker);
-				labels[i].setCursor(FlapjackUtils.HAND_CURSOR);
+				labels[i].addActionListener(this);
 				labels[i].setText(files[i]);
 			}
 			else
@@ -49,20 +46,19 @@ public class NBStartFilePanel extends javax.swing.JPanel
 		}
     }
 
-    class ClickListener extends MouseAdapter
-    {
-    	public void mouseClicked(MouseEvent e)
-    	{
-    		WinMain wm = Flapjack.winMain;
+	public void actionPerformed(ActionEvent e)
+	{
+		WinMain wm = Flapjack.winMain;
+		
+		if(e.getSource() == importLabel)
+		{
+			wm.mFile.fileImport();
+		}
 
-    		if (e.getSource() == importLabel)
-				wm.mFile.fileImport();
-
-			for (int i = 0; i < labels.length; i++)
-				if (e.getSource() == labels[i])
-					wm.mFile.fileOpen(new File(files[i]));
-    	}
-    }
+		for (int i = 0; i < labels.length; i++)
+			if (e.getSource() == labels[i])
+				wm.mFile.fileOpen(new File(files[i]));
+	}
 
     /** This method is called from within the constructor to
      * initialize the form.
@@ -73,32 +69,28 @@ public class NBStartFilePanel extends javax.swing.JPanel
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        importLabel = new javax.swing.JLabel();
         openLabel = new javax.swing.JLabel();
-        project0 = new javax.swing.JLabel();
-        project1 = new javax.swing.JLabel();
-        project2 = new javax.swing.JLabel();
-        project3 = new javax.swing.JLabel();
+        importLabel = new scri.commons.gui.matisse.HyperLinkLabel();
+        project0 = new scri.commons.gui.matisse.HyperLinkLabel();
+        project1 = new scri.commons.gui.matisse.HyperLinkLabel();
+        project2 = new scri.commons.gui.matisse.HyperLinkLabel();
+        project3 = new scri.commons.gui.matisse.HyperLinkLabel();
+
+        openLabel.setText("Open an previously accessed Flapjack project:");
 
         importLabel.setForeground(new java.awt.Color(68, 106, 156));
         importLabel.setText("Import data into Flapjack");
 
-        openLabel.setText("Open an previously accessed Flapjack project:");
-
         project0.setForeground(new java.awt.Color(68, 106, 156));
-        project0.setIcon(Icons.getIcon("FLAPJACK16"));
         project0.setText("<project0>");
 
         project1.setForeground(new java.awt.Color(68, 106, 156));
-        project1.setIcon(Icons.getIcon("FLAPJACK16"));
         project1.setText("<project1>");
 
         project2.setForeground(new java.awt.Color(68, 106, 156));
-        project2.setIcon(Icons.getIcon("FLAPJACK16"));
         project2.setText("<project2>");
 
         project3.setForeground(new java.awt.Color(68, 106, 156));
-        project3.setIcon(Icons.getIcon("FLAPJACK16"));
         project3.setText("<project3>");
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
@@ -108,41 +100,41 @@ public class NBStartFilePanel extends javax.swing.JPanel
             .add(layout.createSequentialGroup()
                 .addContainerGap()
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(importLabel)
                     .add(openLabel)
-                    .add(project0)
-                    .add(project1)
-                    .add(project2)
-                    .add(project3))
+                    .add(importLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(project0, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(project1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(project2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(project3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
                 .addContainerGap()
-                .add(importLabel)
+                .add(importLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .add(18, 18, 18)
                 .add(openLabel)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                .add(project0)
+                .add(project0, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(project1)
+                .add(project1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(6, 6, 6)
+                .add(project2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(project2)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(project3)
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .add(project3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(16, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel importLabel;
+    private scri.commons.gui.matisse.HyperLinkLabel importLabel;
     private javax.swing.JLabel openLabel;
-    private javax.swing.JLabel project0;
-    private javax.swing.JLabel project1;
-    private javax.swing.JLabel project2;
-    private javax.swing.JLabel project3;
+    private scri.commons.gui.matisse.HyperLinkLabel project0;
+    private scri.commons.gui.matisse.HyperLinkLabel project1;
+    private scri.commons.gui.matisse.HyperLinkLabel project2;
+    private scri.commons.gui.matisse.HyperLinkLabel project3;
     // End of variables declaration//GEN-END:variables
 
 }

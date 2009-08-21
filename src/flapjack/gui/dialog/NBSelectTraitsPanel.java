@@ -10,7 +10,7 @@ import flapjack.data.*;
 
 import scri.commons.gui.*;
 
-class NBSelectTraitsPanel extends javax.swing.JPanel
+class NBSelectTraitsPanel extends javax.swing.JPanel implements ActionListener
 {
 	private GTViewSet viewSet;
 
@@ -32,22 +32,8 @@ class NBSelectTraitsPanel extends javax.swing.JPanel
 
 	private void createLinkLabels()
 	{
-		selectAllLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		selectNoneLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
-
-		selectAllLabel.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent event) {
-				for (int i = 0; i < table.getRowCount(); i++)
-					table.setValueAt(true, i, 1);
-			}
-		});
-
-		selectNoneLabel.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent event) {
-				for (int i = 0; i < table.getRowCount(); i++)
-					table.setValueAt(false, i, 1);
-			}
-		});
+		selectAllLabel.addActionListener(this);
+		selectNoneLabel.addActionListener(this);
 	}
 
 	// Builds a simple table model that contains two columns - column 0 has the
@@ -115,6 +101,21 @@ class NBSelectTraitsPanel extends javax.swing.JPanel
 		viewSet.setTraits(traits);
 	}
 
+	public void actionPerformed(ActionEvent e)
+	{
+		if(e.getSource() == selectAllLabel)
+		{
+			for (int i = 0; i < table.getRowCount(); i++)
+				table.setValueAt(true, i, 1);
+		}
+
+		if(e.getSource() == selectNoneLabel)
+		{
+			for (int i = 0; i < table.getRowCount(); i++)
+				table.setValueAt(false, i, 1);
+		}
+	}
+
 	/** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -127,9 +128,9 @@ class NBSelectTraitsPanel extends javax.swing.JPanel
         label = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         table = new javax.swing.JTable();
-        selectAllLabel = new javax.swing.JLabel();
         label2 = new javax.swing.JLabel();
-        selectNoneLabel = new javax.swing.JLabel();
+        selectAllLabel = new scri.commons.gui.matisse.HyperLinkLabel();
+        selectNoneLabel = new scri.commons.gui.matisse.HyperLinkLabel();
 
         label.setLabelFor(table);
         label.setText("The traits heatmap will display any of the following selected traits:");
@@ -146,12 +147,10 @@ class NBSelectTraitsPanel extends javax.swing.JPanel
         table.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(table);
 
-        selectAllLabel.setForeground(new java.awt.Color(0, 0, 255));
-        selectAllLabel.setText("Select all");
-
         label2.setText("|");
 
-        selectNoneLabel.setForeground(java.awt.Color.blue);
+        selectAllLabel.setText("Select all");
+
         selectNoneLabel.setText("Select none");
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
@@ -164,11 +163,11 @@ class NBSelectTraitsPanel extends javax.swing.JPanel
                     .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 454, Short.MAX_VALUE)
                     .add(label)
                     .add(layout.createSequentialGroup()
-                        .add(selectAllLabel)
+                        .add(selectAllLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(label2)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(selectNoneLabel)))
+                        .add(selectNoneLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -180,9 +179,9 @@ class NBSelectTraitsPanel extends javax.swing.JPanel
                 .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 153, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(selectAllLabel)
                     .add(label2)
-                    .add(selectNoneLabel))
+                    .add(selectAllLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(selectNoneLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -192,8 +191,9 @@ class NBSelectTraitsPanel extends javax.swing.JPanel
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel label;
     private javax.swing.JLabel label2;
-    private javax.swing.JLabel selectAllLabel;
-    private javax.swing.JLabel selectNoneLabel;
+    private scri.commons.gui.matisse.HyperLinkLabel selectAllLabel;
+    private scri.commons.gui.matisse.HyperLinkLabel selectNoneLabel;
     private javax.swing.JTable table;
     // End of variables declaration//GEN-END:variables
+
 }
