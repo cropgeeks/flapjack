@@ -56,7 +56,7 @@ class NBAboutPanel extends javax.swing.JPanel implements ActionListener
 
 		if(e.getSource() == webLabel)
 		{
-			FlapJackUtils.visitURL(flapHTML);
+			FlapjackUtils.visitURL(flapHTML);
 		}
 	}
 
