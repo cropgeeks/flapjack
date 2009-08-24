@@ -45,12 +45,18 @@ similarity scheme as the current colour scheme for the view.</p>
 the view, and displays the <a href="gui.dialog.AlleleFrequencyDialog.shtml">Allele
 Frequency Threshold</a> dialog to confirm its settings.</p>
 
-<h5>Random</h5>
-<p>Selects a random colour model as the current colour scheme for the view.</p>
+<h5>Random (HSB)</h5>
+<p>Selects a random colour model (based on hue/saturation/brightness values) as
+the current colour scheme for the view.</p>
+
+<h5>Random (Websafe)</h5>
+<p>Selects a random colour model (based on a palette of 216 web safe colours) as
+the current colour scheme for the view.</p>
 
 <h5>Customize</h5>
-<p>Displays the <b>Customize Colours</b> dialog that allows you to select and/or
-modify the colour scheme for the current view in more detail.</p>
+<p>Displays the <a href="gui.dialog.ColorDialog.shtml">Customize Colours</a>
+dialog that allows you to select and/or modify the colour scheme for the current
+view in more detail.</p>
 
 
 <h3>Overlay genotypes</h3>
