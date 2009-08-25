@@ -113,25 +113,24 @@ class QTLCanvas extends JPanel
 
 				screenSet.add(new Vector<Feature>());
 
-				// Draw each feature
-				for (Feature f: trackData)
+				int feature = searchForFeature(trackData, 0, (trackData.size()-1));
+				if(feature != -1)
 				{
-					// Should this feature be drawn?
-					if (f.isVisible() == false || f.isAllowed() == false)
-						continue;
+					for(Feature f : trackData.subList(feature, trackData.size()))
+					{
+						if (f.isVisible() == false || f.isAllowed() == false)
+							continue;
 
-					int minX = Math.round(xScale * f.getMin());
-					int maxX = Math.round(xScale * f.getMax());
+						int minX = Math.round(xScale * f.getMin());
+						int maxX = Math.round(xScale * f.getMax());
 
-					// Is this feature even on screen?
-					if (maxX < canvas.pX1)	// Keep skipping lft->rht until we find some
-						continue;
-					if (minX > canvas.pX2)	// Once QTLs are offscreen-rht, might as well quit
-						break;
+						if (minX > canvas.pX2)	// Once QTLs are offscreen-rht, might as well quit
+							break;
 
-					screenSet.get(trackNum).add(f);
+						screenSet.get(trackNum).add(f);
 
-					drawFeature(g, f, minX, maxX, trackNum);
+						drawFeature(g, f, minX, maxX, trackNum);
+					}
 				}
 
 				// Reset the origin
@@ -178,6 +177,36 @@ class QTLCanvas extends JPanel
 			{
 				int x = Math.round(xScale * ((QTL)f).getPosition());
 				g.drawLine(x, 2, x, 18);
+			}
+		}
+
+		private int searchForFeature(Vector<Feature> trackData, int low, int high)
+		{
+			if(high < low)
+				return -1;
+			
+			int mid = low + ((high-low) /2);
+			
+			int max = Math.round(xScale * trackData.get(mid).getMax());
+			int min = Math.round(xScale * trackData.get(mid).getMin());
+
+			if(max < canvas.pX1)
+				return searchForFeature(trackData, mid+1, high);
+			else if(min > canvas.pX2)
+				return searchForFeature(trackData, low, mid-1);
+			else
+			{
+				while(max > canvas.pX1)
+				{
+					if(mid > 0)
+					{
+						mid--;
+						max = Math.round(xScale * trackData.get(mid).getMax());
+					}
+					else
+						break;
+				}
+				return mid;
 			}
 		}
 	}
