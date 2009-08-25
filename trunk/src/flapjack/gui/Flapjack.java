@@ -115,7 +115,6 @@ public class Flapjack
 			}
 		});
 
-		MsgBox.initialize(winMain, "Flapjack");
 		TaskDialog.initialize(winMain, "Flapjack");
 
 //		new SCRIDialog();

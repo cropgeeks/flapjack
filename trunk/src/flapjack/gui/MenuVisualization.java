@@ -148,7 +148,7 @@ public class MenuVisualization
 			RB.getString("gui.WinMain.deleteViewSetButton"),
 			RB.getString("gui.text.cancel") };
 
-		if (TaskDialog.show(msg, MsgBox.QST, 1, options) == 0)
+		if (TaskDialog.show(msg, TaskDialog.QST, 1, options) == 0)
 		{
 			// Remove it from both the project and the GUI
 			viewSet.getDataSet().getViewSets().remove(viewSet);

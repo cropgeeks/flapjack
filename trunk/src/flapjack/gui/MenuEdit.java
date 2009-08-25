@@ -247,7 +247,7 @@ public class MenuEdit
 			RB.getString("gui.MenuEdit.deleteAll"),
 			RB.getString("gui.text.cancel") };
 
-		int response = TaskDialog.show(msg, MsgBox.QST, 0, options, states);
+		int response = TaskDialog.show(msg, TaskDialog.QST, 0, options, states);
 		if (response == -1 || response == 2)
 			return;
 

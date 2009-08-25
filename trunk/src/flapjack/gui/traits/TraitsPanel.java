@@ -92,7 +92,7 @@ public class TraitsPanel extends JPanel implements ActionListener
 					RB.getString("gui.traits.TraitsPanel.remove"),
 					RB.getString("gui.text.cancel") };
 
-			int response = TaskDialog.show(msg, MsgBox.QST, 1, options);
+			int response = TaskDialog.show(msg, TaskDialog.QST, 1, options);
 
 			if (response == 0)
 				removeAllTraits();

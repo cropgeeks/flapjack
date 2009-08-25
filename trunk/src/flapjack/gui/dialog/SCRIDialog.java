@@ -59,7 +59,7 @@ public class SCRIDialog extends JDialog implements ActionListener
 				+ "be able to use Flapjack. Are you sure?";
 			String[] options = { "Yes", "No" };
 
-			int response = TaskDialog.show(message, MsgBox.WAR, 1, options);
+			int response = TaskDialog.show(message, TaskDialog.WAR, 1, options);
 			if (response == 0)
 				System.exit(0);
 		}
