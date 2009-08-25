@@ -167,7 +167,7 @@ class MenuData
 			RB.getString("gui.WinMain.deleteDataSetButton"),
 			RB.getString("gui.text.cancel") };
 
-		if (TaskDialog.show(msg, MsgBox.QST, 1, options) == 0)
+		if (TaskDialog.show(msg, TaskDialog.QST, 1, options) == 0)
 		{
 			// Determine the selected data set...
 			DataSet dataSet = navPanel.getDataSetForSelection();

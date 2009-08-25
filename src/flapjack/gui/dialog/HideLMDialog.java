@@ -99,7 +99,7 @@ public class HideLMDialog extends JDialog implements ActionListener
 				RB.getString("gui.dialog.HideLMDialog.restore"),
 				RB.getString("gui.text.cancel") };
 
-		if (TaskDialog.show(msg, MsgBox.QST, 1, options) != 0)
+		if (TaskDialog.show(msg, TaskDialog.QST, 1, options) != 0)
 			return false;
 
 		// Create an undo state for the restore operation
@@ -126,7 +126,7 @@ public class HideLMDialog extends JDialog implements ActionListener
 				RB.getString("gui.dialog.HideLMDialog.restore"),
 				RB.getString("gui.text.cancel") };
 
-		if (TaskDialog.show(msg, MsgBox.QST, 1, options) != 0)
+		if (TaskDialog.show(msg, TaskDialog.QST, 1, options) != 0)
 			return false;
 
 		// Create an undo state for the restore operation

@@ -89,7 +89,7 @@ public class ColorDialog extends JDialog implements ActionListener
 				RB.getString("gui.dialog.ColorDialog.bDefaults"),
 				RB.getString("gui.text.cancel") };
 
-			if (TaskDialog.show(msg, MsgBox.WAR, 1, options) == 0)
+			if (TaskDialog.show(msg, TaskDialog.WAR, 1, options) == 0)
 				nbPanel.resetColors();
 		}
 	}
