@@ -33,8 +33,6 @@ class QTLCanvas extends JPanel
 
 	// Quick reference to the data (multiple tracks of features)
 	Vector<Vector<Feature>> trackSet;
-	// Another reference, but this time JUST to the features that are onscreen
-	Vector<Vector<Feature>> screenSet;
 
 	// Scaling factor to convert between pixels and map positions
 	private float xScale;
@@ -96,8 +94,10 @@ class QTLCanvas extends JPanel
 		// Loops over the data, drawing each track
 		private void drawTracks(Graphics2D g)
 		{
-			screenSet = new Vector<Vector<Feature>>();
 			int trackNum = 0;
+
+			float canvasLeft = canvas.pX1 / xScale;
+			float canvasRight = canvas.pX2 / xScale;
 
 			for (Vector<Feature> trackData: trackSet)
 			{
@@ -114,11 +114,22 @@ class QTLCanvas extends JPanel
 					g.drawLine(canvas.pX1, 10, canvas.pX2, 10);
 				g.setStroke(solid);
 
-				screenSet.add(new Vector<Feature>());
-
-				int feature = searchForFeature(trackData, 0, (trackData.size()-1));
+				//do bianry search
+				int feature = binarySearch(trackData, 0, (trackData.size()-1), canvasLeft, canvasRight);
 				if(feature != -1)
 				{
+					//then carry out linear search to find left-most feature
+					while(trackData.get(feature).getMax() > canvasLeft)
+					{
+						if(feature > 0)
+						{
+							feature--;
+						}
+						else
+							break;
+					}
+
+					//search over this list until the right-most visible feature is found.
 					for(Feature f : trackData.subList(feature, trackData.size()))
 					{
 						if (f.isVisible() == false || f.isAllowed() == false)
@@ -129,8 +140,6 @@ class QTLCanvas extends JPanel
 
 						if (minX > canvas.pX2)	// Once QTLs are offscreen-rht, might as well quit
 							break;
-
-						screenSet.get(trackNum).add(f);
 
 						drawFeature(g, f, minX, maxX, trackNum);
 					}
@@ -183,32 +192,22 @@ class QTLCanvas extends JPanel
 			}
 		}
 
-		private int searchForFeature(Vector<Feature> trackData, int low, int high)
+		private int binarySearch(Vector<Feature> trackData, int low, int high, float canvasLeft, float canvasRight)
 		{
 			if(high < low)
 				return -1;
 			
 			int mid = low + ((high-low) /2);
-			
-			int max = Math.round(xScale * trackData.get(mid).getMax());
-			int min = Math.round(xScale * trackData.get(mid).getMin());
 
-			if(max < canvas.pX1)
-				return searchForFeature(trackData, mid+1, high);
-			else if(min > canvas.pX2)
-				return searchForFeature(trackData, low, mid-1);
+			float max = trackData.get(mid).getMax();
+			float min = trackData.get(mid).getMin();
+
+			if(max < canvasLeft)
+				return binarySearch(trackData, mid+1, high, canvasLeft, canvasRight);
+			else if(min > canvasRight)
+				return binarySearch(trackData, low, mid-1, canvasLeft, canvasRight);
 			else
 			{
-				while(max > canvas.pX1)
-				{
-					if(mid > 0)
-					{
-						mid--;
-						max = Math.round(xScale * trackData.get(mid).getMax());
-					}
-					else
-						break;
-				}
 				return mid;
 			}
 		}
@@ -266,19 +265,46 @@ class QTLCanvas extends JPanel
 			// Work out where (in map distances) the mouse is
 			float mapPos = (e.getX()-xOffset+canvas.pX1) / xScale;
 
+			//canvas positions in map distances
+			float canvasLeft = canvas.pX1 / xScale;
+			float canvasRight = canvas.pX2 / xScale;
+
 			// Then search the ONSCREEN features to see if it's over any of them
 			// NOTE: the search is backwards (right to left) as F2.pos > F1.pos
 			// will mean F2 is drawn on TOP of F1
 			Feature match = null;
-			Vector<Feature> onscreen = screenSet.get(mouseOverTrack);
-			for (int i = onscreen.size()-1; i >= 0; i--)
-			{
-				Feature f = onscreen.get(i);
 
-				if (f.getMin() <= mapPos && f.getMax() >= mapPos)
+			//grab track that the mouse is over
+			Vector<Feature> onscreen = trackSet.get(mouseOverTrack);
+
+			//binary search for visible features
+			int feature = qtlCanvas.binarySearch(onscreen, 0, onscreen.size()-1, canvasLeft, canvasRight);
+			if(feature != -1)
+			{
+				//linear search to the right-most visible feature
+				while(onscreen.get(feature).getMin() > canvasRight)
 				{
-					match = f;
-					break;
+					if(feature < onscreen.size())
+					{
+						feature++;
+					}
+					else
+						break;
+				}
+
+				//iterate over this list until the left-most visible feature is found
+				for( int i = onscreen.subList(0, feature).size(); i >= 0; i--)
+				{
+					Feature f = onscreen.get(i);
+
+					if(f.getMax() < canvasLeft)
+						break;
+
+					if(f.getMin() <= mapPos && f.getMax() >= mapPos)
+					{
+						match = f;
+						break;
+					}
 				}
 			}
 
