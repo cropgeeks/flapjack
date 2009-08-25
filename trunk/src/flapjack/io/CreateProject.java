@@ -26,6 +26,7 @@ public class CreateProject
 	private static File genotypesFile;
 	private static File traitsFile;
 	private static File prjFile;
+	private static File qtlsFile;
 
 	public static void main(String[] args)
 	{
@@ -39,6 +40,8 @@ public class CreateProject
 				traitsFile = new File(args[i].substring(8));
 			if (args[i].startsWith("-project="))
 				prjFile = new File(args[i].substring(9));
+			if (args[i].startsWith("-qtls="))
+				qtlsFile = new File(args[i].substring(6));
 		}
 
 		if (mapFile == null || genotypesFile == null || prjFile == null)
@@ -48,7 +51,8 @@ public class CreateProject
 				+ "   -map=<map_file>                (required)\n"
 				+ "   -genotypes=<genotypes_file>    (required)\n"
 				+ "   -traits=<traits_file>          (optional)\n"
-				+ "   -project=<project_file>        (required)");
+				+ "   -project=<project_file>        (required)\n"
+				+ "   -qtls=<qtl_file>				 (optional)");
 			return;
 		}
 
@@ -59,6 +63,7 @@ public class CreateProject
 		{
 			createProject();
 			importTraits();
+			importQTLs();
 
 			if (saveProject())
 				System.out.println("\nProject Created");
@@ -104,6 +109,20 @@ public class CreateProject
 
 		// There'll only be one view for this created project...
 		dataSet.getViewSets().get(0).assignTraits();
+	}
+
+	private static void importQTLs()
+			throws Exception
+	{
+		if(qtlsFile == null)
+			return;
+
+		System.out.println("Importing QTLs from " + qtlsFile);
+		QTLImporter importer = new QTLImporter(qtlsFile, dataSet);
+		importer.runJob();
+
+		QTLTrackOptimiser optimiser = new QTLTrackOptimiser(dataSet);
+		optimiser.optimizeTrackUsage();
 	}
 
 	private static boolean saveProject()
