@@ -217,14 +217,13 @@ class OverviewCanvas extends JPanel
 			{
 				createBuffer();
 			}
-			catch (ArrayIndexOutOfBoundsException e)
+			catch (Exception e)
 			{
-				System.out.println("OverviewCanvas: " + e.getMessage());
+				System.out.println("OverviewCanvas: " + e);
 			}
 		}
 
 		private void createBuffer()
-			throws ArrayIndexOutOfBoundsException
 		{
 			try
 			{
@@ -234,7 +233,6 @@ class OverviewCanvas extends JPanel
 					buffer = new BufferedImage(w, h, BufferedImage.TYPE_BYTE_INDEXED);
 			}
 			catch (Throwable t) { return; }
-
 
 			// Scaling factors for drawing...
 			xScale = boxTotalX / (float) w;

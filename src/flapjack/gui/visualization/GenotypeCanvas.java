@@ -442,15 +442,14 @@ class GenotypeCanvas extends JPanel
 			{
 				createBuffer();
 			}
-			catch (ArrayIndexOutOfBoundsException e)
+			catch (Exception e)
 			{
-				System.out.println("GenotypeCanvas (buffer): " + e.getMessage());
+				System.out.println("GenotypeCanvas (buffer): " + e);
 				WinMainStatusBar.setRenderState(0);
 			}
 		}
 
 		private void createBuffer()
-			throws ArrayIndexOutOfBoundsException
 		{
 			// 3-bits per pixel or 1-bit per pixel depending on the image type
 			int multiplier = 3;

@@ -25,6 +25,18 @@ subversion change log</a>.</p>
 <p>For information on what <i>might</i> be appearing in a future version of Flapjack,
 please see the <a href="../future-work.shtml">future work</a> page.</p>
 
+<h3>New in 0.09.08.XX</h3>
+
+<ul>
+<li>NEW: The heatmap of phenotypic trait data now supports any number of displayable columns (it used to be fixed at three).</li>
+<li>NEW: QTLs can now be imported that contain supplementary columns of textual data (previously only numerical was support).</li>
+<li>NEW: Flapjack now maintains a history of recently accessed files in all of its open-file dialogs.</li>
+<li>CHG: The dialog used for selecting which traits to be displayed now lists all the traits in a table along with a checkbox to toggle it on or off.</li>
+<li>CHG: The option to to select displayable traits via a right-click has been removed. The menu now provides a link to the Select Traits dialog instead.</li>
+<li>BUG: Fixed a crash that occurs if Flapjack is resized to a size small enough to make the chromosome map disappear.</li>
+<li>BUG: Fixed an issue that was occuring on some systems that was stopping Flapjack from exiting properly.</li>
+</ul>
+
 <h3>New in 0.09.07.27</h3>
 
 <ul>
