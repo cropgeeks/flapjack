@@ -262,9 +262,9 @@ class MapCanvas extends JPanel
 			{
 				createBuffer();
 			}
-			catch (ArrayIndexOutOfBoundsException e)
+			catch (Exception e)
 			{
-				System.out.println("MapCanvas: " + e.getMessage());
+				System.out.println("MapCanvas: " + e);
 			}
 		}
 
@@ -284,7 +284,6 @@ class MapCanvas extends JPanel
 		}
 
 		private void drawCanvas(Graphics2D g)
-			throws ArrayIndexOutOfBoundsException
 		{
 			// Enable anti-aliased graphics to smooth the line jaggies
 			g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
