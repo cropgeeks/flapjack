@@ -1,3 +1,5 @@
+/* THIRD PARTY */
+
 /*
  * @(#)FileNameExtensionFilter.java	1.1 06/02/02
  *
