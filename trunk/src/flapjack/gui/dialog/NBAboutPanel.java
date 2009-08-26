@@ -31,6 +31,7 @@ class NBAboutPanel extends javax.swing.JPanel implements ActionListener
 
 		versionLabel.setText(RB.format("gui.dialog.NBAboutPanel.versionLabel", Install4j.VERSION));
 		RB.setText(copyrightLabel, "gui.dialog.NBAboutPanel.copyrightLabel");
+		RB.setText(nameLabel, "gui.dialog.NBAboutPanel.nameLabel");
 		javaLabel.setText(RB.format("gui.dialog.NBAboutPanel.javaLabel", javaVer));
 		memLabel.setText(RB.format("gui.dialog.NBAboutPanel.memLabel", nf.format((long)(freeMem/1024f/1024f)) + "MB"));
 		localeLabel.setText(RB.format("gui.dialog.NBAboutPanel.localeLabel", java.util.Locale.getDefault()));
@@ -89,7 +90,7 @@ class NBAboutPanel extends javax.swing.JPanel implements ActionListener
         localeLabel.setForeground(java.awt.Color.gray);
         localeLabel.setText("Current Locale:");
 
-        nameLabel.setText("Iain Milne, Micha Bayer, Paul Shaw, Linda Cardle, David Marshall");
+        nameLabel.setText("Iain Milne, Micha Bayer, Paul Shaw, Linda Cardle, Gordon Stephen, and David Marshall");
 
         copyrightLabel.setText("Copyright (C) 2007-2008, Plant Bioinformatics Group, SCRI");
 
@@ -121,7 +122,7 @@ class NBAboutPanel extends javax.swing.JPanel implements ActionListener
                     .add(memLabel)
                     .add(localeLabel)
                     .add(idLabel)
-                    .add(scriIcon, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 393, Short.MAX_VALUE)
+                    .add(scriIcon, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 414, Short.MAX_VALUE)
                     .add(webLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
