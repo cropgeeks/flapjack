@@ -13,7 +13,8 @@ import scri.commons.gui.*;
 
 /**
  * Command-line extension to Flapjack that can be used to generate and save a
- * Flapjack-compatible project file if passed a valid map and data file.
+ * Flapjack-compatible project file if passed a valid map and data file. Also
+ * supports phenotype and QTL trait inputs as optional files.
  */
 public class CreateProject
 {
@@ -38,10 +39,10 @@ public class CreateProject
 				genotypesFile = new File(args[i].substring(11));
 			if (args[i].startsWith("-traits="))
 				traitsFile = new File(args[i].substring(8));
-			if (args[i].startsWith("-project="))
-				prjFile = new File(args[i].substring(9));
 			if (args[i].startsWith("-qtls="))
 				qtlsFile = new File(args[i].substring(6));
+			if (args[i].startsWith("-project="))
+				prjFile = new File(args[i].substring(9));
 		}
 
 		if (mapFile == null || genotypesFile == null || prjFile == null)
@@ -51,8 +52,9 @@ public class CreateProject
 				+ "   -map=<map_file>                (required)\n"
 				+ "   -genotypes=<genotypes_file>    (required)\n"
 				+ "   -traits=<traits_file>          (optional)\n"
-				+ "   -project=<project_file>        (required)\n"
-				+ "   -qtls=<qtl_file>				 (optional)");
+				+ "   -qtls=<qtl_file>				 (optional)\n"
+				+ "   -project=<project_file>        (required)\n");
+
 			return;
 		}
 
