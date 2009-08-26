@@ -1,0 +1,120 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+
+<html>
+<head>
+<meta http-equiv="Content-Language" content="en-gb">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+<link rel="stylesheet" href="../stylesheet/styles.css" type="text/css">
+
+<title>QTLs</title>
+
+</head>
+<body>
+
+<!--#include virtual="header.html" -->
+
+
+<h2>QTLs</h2>
+
+<p>Flapjack can import supplementary QTL (quantitative trait locus) data that is
+associated with the main map and genotype data set. Flapjack supports multiple QTLs
+per chromosome, displayed over multiple <i>tracks</i> per chromosome.</p>
+
+<p><a href="images/qtls.png">
+<img class="capture" src="images/qtls2.png" alt="Flapjack Screenshot"></a></p>
+
+<p>Each QTL can be colour-coded to the trait it is associated with, and ultimately
+used to select or de-select groups of markers within the main display.</p>
+
+
+<h3>Importing QTL data</h3>
+
+<p>To import QTL data into Flapjack, open up the <a href="gui.dialog.ImportOptionsDialog.shtml">
+Import Options</a> dialog and select <b>Import QTL information from a file
+located on disk</b>. This will open the <b>Import Data</b> dialog which allows
+you to choose the file to import.</p>
+
+<p>QTLs can be imported from files containing the following tab-delimited
+format:
+
+<pre>
+  Name  Chromosome  Position  Pos-Min  Pos-Max  Trait   Experiment  [optional_1] .. [optional_n]
+  QTL1  1H          10        8        12       Height  Exp1        25.5            high
+  QTL2  1H          20        19       26       Height  Exp1        34.8            low
+  QTL3  2H          10        8        13.5     Temp    Exp1        99.2            low
+</pre>
+
+<p>The "Name" to "Experiment" columns are required and must be included and
+listed in the order shown. After that, each QTL may have zero or more optional
+columns of numerical or textual data that can be included too, for example,
+LOD scores, r<sup>2</sup> values, etc.</p>
+
+<h3>QTL summary information</h3>
+
+<p>Once the QTLs are imported, Flapjack will display a summary table of the data
+within the <b>Trait Data</b> node associated with the main data set. This lists
+each QTL, along with its values, and also provides a checkbox to set its <i>
+visible</i> state, that is, whether that QTL should be displayed or not.</p>
+
+<p><a href="images/qtlSummaryTable.png">
+<img class="capture" src="images/qtlSummaryTable2.png" alt="Flapjack Screenshot"></a></p>
+
+<p>If any QTLs are not completely on the chromosome map they are associated with,
+Flapjack will refuse to make them visible and will tag them with a red X in the
+summary table.</p>
+
+<p>Note also the <b>Active tracks</b> option. This allows you to change the number
+of tracks that are used to display QTLs. Flapjack will automatically assign QTLs
+to as many tracks as possible (up to a maximum of seven) in order to avoid
+neighbouring QLTs from overlapping one another on the display. However, you can
+override the number of tracks by changing this option.</p>
+
+<p><a href="images/qtlSummaryOptions.png">
+<img class="capture" src="images/qtlSummaryOptions2.png" alt="Flapjack Screenshot"></a></p>
+
+
+
+<h3>Displaying QTLs</h3>
+
+<p>To ensure the QTLs are displayed on the main visualization area, check the
+settings in the <b>Toggle Visible Displays</b> dialog and check the <b>QTL panel</b>
+option. The display of QTLs is common across all views for a data set - you cannot
+have a custom set of QTLs per view (unlike lines or markers).</p>
+
+<p>QTLs are displayed along the top of the map with their exact position being
+marked by a small vertical bar. Their left and right error margins are shown by
+the overall size of the box itself. Each QTL will be colour-coded by trait.</p>
+
+<p>Mouse-over any QTL to see further information on it, including its name and
+position values, trait, experiment, and any further optional data that may have
+been included in the import file.</p>
+
+
+<h3>Interacting with QTLs</h3>
+
+<p>To move a QTL between tracks, hold down the CTRL key and drag it with the mouse
+to the new track. Flapjack will remember any custom positioning across the tracks,
+but only so long as you leave the number of tracks the same. If you change the
+number of active tracks used for displaying QTLs, then a new layout will be
+created for them, losing any changes you may have made.</p>
+
+<p>To select or deselect markers that are within the map region of a given QTL,
+simply click the QTL with the mouse. Flapjack will automatically change to
+<b>marker mode</b> and toggle the selection state of any relevant marker.</p>
+
+<p><a href="images/qtlSelection.png">
+<img class="capture" src="images/qtlSelection2.png" alt="Flapjack Screenshot"></a></p>
+
+
+<h3>Filtering visible QTLs</h3>
+
+<p>To filter which QTLs are visible, you can either manually select or deselect
+each QTL using the summary table, or open up the <a href="gui.dialog.FilterQTLsDialog.shtml">
+Filter QTLs</a> dialog that allows you to perform an automatic filter based on
+each QTL's associated trait and experiment value.</p>
+
+<!--#include virtual="footer.html" -->
+
+</body>
+</html>
