@@ -13,6 +13,7 @@ public class Prefs extends XMLPreferences
 	public static boolean isFirstRun = true;
 	public static String lastVersion = null;
 	public static boolean querySCRI = true;
+	public static int rating = 0;
 
 	// Unique Flapjack ID for this user
 	public static String flapjackID = SystemUtils.createGUID(32);
