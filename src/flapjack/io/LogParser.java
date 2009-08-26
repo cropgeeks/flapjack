@@ -53,9 +53,10 @@ public class LogParser
 		String ip = tokens[1];
 		String id = tokens[2];
 		String locale = tokens[4];
-		String os = tokens[5];
+		int rating = Integer.parseInt(tokens[5]);
+		String os = tokens[6];
 		// Only parse the username if it's actually there
-		String username = (tokens.length == 7) ? tokens[6] : "";
+		String username = (tokens.length == 8) ? tokens[7] : "";
 
 		// Check to see if this user has been included already?
 		User user = hashtable.get(id);
@@ -63,7 +64,7 @@ public class LogParser
 		// If not, create an entry for them and add to the hashtable
 		if (user == null)
 		{
-			user = new User(id, locale, os, username, ip);
+			user = new User(id, locale, os, username, ip, rating);
 			hashtable.put(id, user);
 		}
 
@@ -98,7 +99,7 @@ public class LogParser
 			systems.put(user.os, systemCount+1);
 
 			System.out.println(user.id.substring(0, 10)
-				+ " " + user.runCount
+				+ " " + user.runCount + " " + user.rating
 				+ "\t" + pad(user.os)
 				+ "" + user.countryCode
 				+ "\t" + user.username
@@ -142,8 +143,9 @@ public class LogParser
 		String country;
 		String countryCode;
 		int runCount;
+		int rating;
 
-		User(String id, String locale, String os, String username, String ip)
+		User(String id, String locale, String os, String username, String ip, int rating)
 			throws Exception
 		{
 			this.id = id;
@@ -151,6 +153,7 @@ public class LogParser
 			this.os = os;
 			this.username = username;
 			this.ip = ip;
+			this.rating = rating;
 
 			System.out.print("DB lookup for: " + ip);
 			getCountry();

@@ -24,6 +24,7 @@ public class NBStartEmailPanel extends JPanel implements FocusListener, ActionLi
 		emailText.setText(Prefs.miscEmail);
 		institutionText.setText(Prefs.miscInstitution);
 
+		RB.setText(label, "gui.navpanel.NBStartEmailPanel.label");
 		RB.setText(statusLabel1, "gui.navpanel.NBStartEmailPanel.statusLabel1");
 		RB.setText(emailLabel, "gui.navpanel.NBStartEmailPanel.email");
 		RB.setText(institutionLabel, "gui.navpanel.NBStartEmailPanel.institution");
