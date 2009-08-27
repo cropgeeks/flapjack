@@ -12,7 +12,7 @@
 </head>
 <body>
 
-<!--#include virtual="header.html" -->
+<!--#include virtual="header.shtml" -->
 
 
 <h2>Flapjack Screenshots</h2>

@@ -12,12 +12,12 @@
 </head>
 <body>
 
-<!--#include virtual="header.html" -->
+<!--#include virtual="header.shtml" -->
 
 
 <h2>Download Flapjack</h2>
 
-<p>The most recent release of Flapjack is <b>0.09.08.28</b> (28th August 2009).</p>
+<p>The most recent release of Flapjack is <b>0.09.08.26</b> (26th August 2009).</p>
 
 <p>Please use the links below to download the Flapjack installer most suitable
 for your operating system. Flapjack is currently available for:</p>
@@ -27,40 +27,32 @@ for your operating system. Flapjack is currently available for:</p>
 	<td>&nbsp;&nbsp;&nbsp;</td>
 	<td><img src="images/icon_windows.gif" alt="Windows"></td>
 	<td>
-		<a href="installers/flapjack_windows_0_09_08_28.exe"
-		onClick="pageTracker._trackEvent('Downloads', 'Flapjack', 'Windows');">
-		Microsoft Windows
-		</a> (19.0MB)
+		<a href="installers/flapjack_windows_0_09_08_26.exe"
+		onClick="javascript: pageTracker._trackPageview('/installers/windows_x86');">Microsoft Windows</a> (19.0MB)
 	</td>
 </tr>
 <tr>
 	<td>&nbsp;&nbsp;&nbsp;</td>
 	<td><img src="images/icon_osx.gif" alt="OS X"></td>
 	<td>
-		<a href="installers/flapjack_macos_0_09_08_28.dmg"
-		onClick="pageTracker._trackEvent('Downloads', 'Flapjack', 'OS X');">
-		Apple Mac OS X
-		</a> (2.8MB)
+		<a href="installers/flapjack_macos_0_09_08_26.dmg"
+		onClick="javascript: pageTracker._trackPageview('/installers/macosx');">Apple Mac OS X</a> (2.8MB)
 	</td>
 </tr>
 <tr>
 	<td>&nbsp;&nbsp;&nbsp;</td>
 	<td><img src="images/icon_linux.gif" alt="Linux"></td>
 	<td>
-		<a href="installers/flapjack_linux_0_09_08_28.sh"
-		onClick="pageTracker._trackEvent('Downloads', 'Flapjack', 'Linux');">
-		Linux
-		</a> (19.1MB)
+		<a href="installers/flapjack_linux_0_09_08_26.sh"
+		onClick="javascript: pageTracker._trackPageview('/installers/linux_x86');">Linux</a> (19.1MB)
 	</td>
 </tr>
 <tr>
 	<td>&nbsp;&nbsp;&nbsp;</td>
 	<td><img src="images/icon_solaris.gif" alt="Solaris"></td>
 	<td>
-		<a href="installers/flapjack_solaris_0_09_08_28.sh"
-		onClick="pageTracker._trackEvent('Downloads', 'Flapjack', 'Solaris');">
-		Solaris (sparc)
-		</a> (26.3MB)
+		<a href="installers/flapjack_solaris_0_09_08_26.sh"
+		onClick="javascript: pageTracker._trackPageview('/installers/solaris');">Solaris (sparc)</a> (26.3MB)
 	</td>
 </tr>
 </table>
