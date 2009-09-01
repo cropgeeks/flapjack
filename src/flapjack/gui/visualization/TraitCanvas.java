@@ -13,6 +13,7 @@ import javax.swing.event.*;
 import flapjack.data.*;
 import flapjack.gui.*;
 
+import java.awt.image.*;
 import scri.commons.gui.*;
 
 class TraitCanvas extends JPanel
@@ -27,6 +28,8 @@ class TraitCanvas extends JPanel
 	private int w = 0;
 
 	private int mouseOverIndex = -1;
+
+	boolean full;
 
 	TraitCanvas(GenotypePanel gPanel, GenotypeCanvas canvas)
 	{
@@ -57,6 +60,21 @@ class TraitCanvas extends JPanel
 		setVisible(traitCount > 0 && Prefs.visShowTraitCanvas);
 	}
 
+	BufferedImage createSavableImage(boolean full)
+	{
+		this.full = full;
+		// Note that this *doesn't* happen in a new thread as the assumption is
+		// that this will be called by a threaded process anyway
+		BufferFactory tempFactory;
+		if(full)
+			tempFactory = new BufferFactory(w, (canvas.boxH*canvas.boxTotalY), true, 0, canvas.canvasW, 0, canvas.canvasH);
+		else
+			tempFactory = new BufferFactory(w, (canvas.boxH*canvas.boxTotalY), true, canvas.pX1, canvas.pX2, canvas.pY1, canvas.pY2);
+		tempFactory.run();
+
+		return tempFactory.buffer;
+	}
+
 	private class Canvas2D extends JPanel
 	{
 		Canvas2D()
@@ -67,33 +85,20 @@ class TraitCanvas extends JPanel
 			addMouseMotionListener(mt);
 		}
 
-		public Dimension getPreferredSize()
-			{ return new Dimension(w, 0); }
-
-		public void paintComponent(Graphics graphics)
+		void drawCanvas(Graphics2D g, int height)
 		{
-			super.paintComponent(graphics);
-			Graphics2D g = (Graphics2D) graphics;
-
-			// Calculate the required offset and width
-			int height = (canvas.pY2-canvas.pY1);
-
-			// Paint the background
-			g.setColor(Prefs.visColorBackground);
-			g.fillRect(0, 0, w, height);
-
-
 			int[] tIndex = canvas.viewSet.getTraits();
 
+
 			int boxH = canvas.boxH;
-			int yS = canvas.pY1 / boxH;
-			int yE = yS + canvas.boxCountY;
+			int yS = 0 / canvas.boxH;
+			int yE = yS + height / canvas.boxH;
 			if (yE >= canvas.boxTotalY)
 				yE = canvas.boxTotalY-1;
 
 			// Translate the drawing to give the appearance of scrolling
-			g.setClip(0, 0, w, height);
-			g.translate(0, 0-canvas.pY1);
+			g.setClip(0, yS, w, height);
+			//g.translate(0, yS-canvas.pY1);
 
 
 			Color col1 = Prefs.visColorHeatmapLow;
@@ -107,7 +112,7 @@ class TraitCanvas extends JPanel
 				if (tIndex[i] == -1)
 					continue;
 
-				for (int yIndex = yS, y = (boxH*yS); yIndex <= yE; yIndex++, y += boxH)
+				for (int yIndex = yS, y = yS; yIndex <= yE; yIndex++, y += boxH)
 				{
 					Line line = canvas.view.getLine(yIndex);
 					// Skip dummy lines (they don't have trait values)
@@ -131,6 +136,19 @@ class TraitCanvas extends JPanel
 					g.fillRect(i*boxW, y, boxW, boxH);
 				}
 			}
+		}
+
+		public Dimension getPreferredSize()
+			{ return new Dimension(w, 0); }
+
+		public void paintComponent(Graphics graphics)
+		{
+			super.paintComponent(graphics);
+			Graphics2D g = (Graphics2D) graphics;
+
+			g.translate(0, -canvas.pY1);
+
+			drawCanvas(g, canvas.pY2);
 		}
 	}
 
@@ -223,6 +241,69 @@ class TraitCanvas extends JPanel
 
 			menu.add(item);
 			menu.show(e.getComponent(), e.getX(), e.getY());
+		}
+	}
+
+	private class BufferFactory extends Thread
+	{
+		BufferedImage buffer;
+
+		// isTempBuffer = true when a buffer is being made for saving as an image
+		private boolean isTempBuffer = false;
+		private int w, h, xS, xE, yS, yE;
+
+		BufferFactory(int w, int h, boolean isTempBuffer, int x1, int x2, int y1, int y2)
+		{
+			this.w = w;
+			this.h = h;
+			this.isTempBuffer = isTempBuffer;
+			this.xS = x1;
+			this.xE = x2;
+			this.yS = y1;
+			this.yE = y2;
+		}
+
+		public void run()
+		{
+			// Run everything under try/catch conditions due to changes in the
+			// view that may invalidate what this thread is trying to access
+			try
+			{
+				createBuffer();
+			}
+			catch (Exception e)
+			{
+				System.out.println("MapCanvas: " + e);
+			}
+		}
+
+		private void createBuffer()
+			throws ArrayIndexOutOfBoundsException
+		{
+			try
+			{
+				buffer = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
+			}
+			catch (Throwable t) { return; }
+
+			Graphics2D g2d = buffer.createGraphics();
+
+			// Enable anti-aliased graphics to smooth the line jaggies
+			g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+			//int height = (canvas.pY2-canvas.pY1);
+			//int height = canvas.boxH*canvas.boxTotalY;
+
+			if (isTempBuffer)
+				g2d.setColor(Color.white);
+			else
+				// Paint the background
+				g2d.setColor(Prefs.visColorBackground);
+			g2d.fillRect(0, 0, w, h);
+			if(!full)
+				g2d.translate(0, -canvas.pY1);
+			traitCanvas.drawCanvas(g2d, (canvas.boxH*canvas.boxTotalY));
+			g2d.dispose();
 		}
 	}
 }

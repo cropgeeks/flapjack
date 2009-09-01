@@ -47,6 +47,8 @@ class QTLCanvas extends JPanel
 	static Feature mouseOverFeature = null;
 	private Feature featureToMove = null;
 
+	boolean full = false;
+
 	QTLCanvas(GenotypePanel gPanel, GenotypeCanvas canvas, MapCanvas mapCanvas)
 	{
 		this.gPanel = gPanel;
@@ -71,6 +73,21 @@ class QTLCanvas extends JPanel
 		qtlCanvas.repaint();
 	}
 
+	BufferedImage createSavableImage(boolean full)
+	{
+		this.full = full;
+		// Note that this *doesn't* happen in a new thread as the assumption is
+		// that this will be called by a threaded process anyway
+		ImageFactory tempFactory;
+		if(full)
+			tempFactory = new ImageFactory(0, canvas.canvasW, 0, (h*trackSet.size()), true);
+		else
+			tempFactory = new ImageFactory(canvas.pX1, canvas.pX2, 0, (h*trackSet.size()), true);
+		tempFactory.run();
+
+		return tempFactory.buffer;
+	}
+
 	private class Canvas2D extends JPanel
 	{
 		public void paintComponent(Graphics graphics)
@@ -88,16 +105,16 @@ class QTLCanvas extends JPanel
 
 			xScale = canvas.canvasW / canvas.view.mapLength();
 
-			drawTracks(g);
+			drawTracks(g, canvas.pX1, canvas.pX2);
 		}
 
 		// Loops over the data, drawing each track
-		private void drawTracks(Graphics2D g)
+		private void drawTracks(Graphics2D g, int xS, int xE)
 		{
 			int trackNum = 0;
 
-			float canvasLeft = canvas.pX1 / xScale;
-			float canvasRight = canvas.pX2 / xScale;
+			float canvasLeft = xS / xScale;
+			float canvasRight = xE / xScale;
 
 			for (Vector<Feature> trackData: trackSet)
 			{
@@ -108,10 +125,10 @@ class QTLCanvas extends JPanel
 				g.setStroke(dashed);
 				// Workaround due to JAVA BUG ID 6574155
 				// (we should be able to do just drawLine(0, 10, width, 10)
-				if (canvas.canvasW < canvas.pX2)
-					g.drawLine(canvas.pX1, 10, canvas.canvasW, 10);
+				if (xE-xS < xE)
+					g.drawLine(xS, 10, xE, 10);
 				else
-					g.drawLine(canvas.pX1, 10, canvas.pX2, 10);
+					g.drawLine(xS, 10, xE-xS, 10);
 				g.setStroke(solid);
 
 				//do bianry search
@@ -138,7 +155,7 @@ class QTLCanvas extends JPanel
 						int minX = Math.round(xScale * f.getMin());
 						int maxX = Math.round(xScale * f.getMax());
 
-						if (minX > canvas.pX2)	// Once QTLs are offscreen-rht, might as well quit
+						if (minX > xE && !full)	// Once QTLs are offscreen-rht, might as well quit
 							break;
 
 						drawFeature(g, f, minX, maxX, trackNum);
@@ -424,6 +441,76 @@ class QTLCanvas extends JPanel
 		private boolean isMetaClick(MouseEvent e)
 		{
 			return isOSX && e.isMetaDown() || !isOSX && e.isControlDown();
+		}
+	}
+
+	private class ImageFactory extends Thread
+	{
+		BufferedImage buffer;
+
+		// isTempBuffer = true when a buffer is being made for saving as an image
+		private boolean isTempBuffer = false;
+		private int w, h, xS, xE, yS, yE;
+
+		ImageFactory(int xS, int xE, int yS, int yE, boolean isTempBuffer)
+		{
+			this.isTempBuffer = isTempBuffer;
+			this.xS = xS;
+			this.xE = xE;
+			this.yS = yS;
+			this.yE = yE;
+			w = xE - xS;
+			h = yE - yS;
+		}
+
+		public void run()
+		{
+			// Run everything under try/catch conditions due to changes in the
+			// view that may invalidate what this thread is trying to access
+			try
+			{
+				createBuffer();
+			}
+			catch (Exception e)
+			{
+				System.out.println("MapCanvas: " + e);
+			}
+		}
+
+		private void createBuffer()
+			throws ArrayIndexOutOfBoundsException
+		{
+			try
+			{
+				buffer = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
+			}
+			catch (Throwable t) { return; }
+
+			Graphics2D g2d = buffer.createGraphics();
+
+			g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+			if (isTempBuffer)
+				g2d.setColor(Color.white);
+			else
+				// Paint the background
+				g2d.setColor(Prefs.visColorBackground);
+			g2d.fillRect(0, 0, w, h);
+
+			xOffset = gPanel.traitCanvas.getPanelWidth()
+				+ gPanel.listPanel.getPanelWidth() + 1;
+			int width = (canvas.pX2-canvas.pX1);
+
+			if(!full)
+			{
+				g2d.setClip(0, 0, width, getHeight());
+				g2d.translate(-xS, 0);
+
+				xScale = canvas.canvasW / canvas.view.mapLength();
+			}
+
+			qtlCanvas.drawTracks(g2d, xS, xE);
+			g2d.dispose();
 		}
 	}
 }

@@ -49,15 +49,19 @@ class MapCanvas extends JPanel
 		}
 
 		// Thread off the image creation...
-		bufferFactory = new BufferFactory(canvas.canvasW, h, false);
+		bufferFactory = new BufferFactory(canvas.canvasW, h, false, 0, canvas.canvasW);
 		bufferFactory.start();
 	}
 
-	BufferedImage createSavableImage()
+	BufferedImage createSavableImage(boolean full)
 	{
 		// Note that this *doesn't* happen in a new thread as the assumption is
 		// that this will be called by a threaded process anyway
-		BufferFactory tempFactory = new BufferFactory(canvas.canvasW, h, true);
+		BufferFactory tempFactory;
+		if(full)
+			tempFactory = new BufferFactory(canvas.canvasW, h, true, 0, canvas.canvasW);
+		else
+			tempFactory = new BufferFactory(canvas.canvasW, h, true, canvas.pX1, canvas.pX2);
 		tempFactory.run();
 
 		return tempFactory.buffer;
@@ -236,13 +240,15 @@ class MapCanvas extends JPanel
 		// isTempBuffer = true when a buffer is being made for saving as an image
 		private boolean isTempBuffer = false;
 		private boolean killMe = false;
-		private int w, h;
+		private int w, h, xS, xE;
 
-		BufferFactory(int w, int h, boolean isTempBuffer)
+		BufferFactory(int w, int h, boolean isTempBuffer, int xS, int xE)
 		{
 			this.w = w;
 			this.h = h;
 			this.isTempBuffer = isTempBuffer;
+			this.xS = xS;
+			this.xE = xE;
 		}
 
 		public void run()
@@ -273,7 +279,7 @@ class MapCanvas extends JPanel
 		{
 			try
 			{
-				buffer = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
+				buffer = new BufferedImage(xE-xS, h, BufferedImage.TYPE_INT_RGB);
 			}
 			catch (Throwable t) { return; }
 
@@ -292,20 +298,27 @@ class MapCanvas extends JPanel
 				g.setColor(Color.white);
 			else
 				g.setColor(getBackground());
-			g.fillRect(0, 0, canvas.canvasW, h);
+			g.fillRect(0, 0, xE-xS, h);
+
+			g.setClip(0, 0, xE-xS, h);
+			g.translate(-xS, 0);
 
 			int mkrCount = canvas.view.getMarkerCount();
 			xScale = canvas.canvasW / canvas.view.mapLength();
 
 			// Draw the white rectangle representing the map
 			g.setColor(Color.white);
-			g.fillRect(0, 12, canvas.canvasW, 10);
+			g.fillRect(xS, 12, xE-xS, 10);
 			g.setColor(Color.lightGray);
-			g.drawRect(0, 12, canvas.canvasW-1, 10);
+			g.drawRect(xS, 12, (xE-xS)-1, 10);
 
 			// Draw each marker
 			for (int i = 0; i < mkrCount && !killMe; i++)
-				drawMarker(g, i, false, false);
+			{
+				Marker m = canvas.view.getMarker(i);
+				if(m.getPosition() > xS / xScale && m.getPosition() < xE+1 / xScale)
+					drawMarker(g, i, false, false);
+			}
 
 			if (!killMe && !isTempBuffer)
 				bufferAvailable(buffer);
