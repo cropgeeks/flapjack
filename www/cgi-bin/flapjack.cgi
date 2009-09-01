@@ -33,4 +33,6 @@ if ($version ne "x.xx.xx.xx")
   print LOG "$date\t$ip\t$id\t$version\t$locale\t$rating\t$os\t$user\r\n";
 
   close LOG;
+
+  `/usr/local/java/bin/java -Djava.ext.dirs=/var/www/html/software_common/lib scri.commons.utils.AppTracker -appname=flapjack -live="$date\t$ip\t$id\t$version\t$locale\t$rating\t$os\t$user"`;
 }
