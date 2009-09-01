@@ -92,18 +92,25 @@ class ListPanel extends JPanel
 		model.set(toIndex, li);
 	}
 
-	BufferedImage createSavableImage()
+	BufferedImage createSavableImage(boolean full, int yPos)
 	{
 		Dimension size = getPreferredSize();
-		BufferedImage image = new BufferedImage(size.width, size.height,
-			BufferedImage.TYPE_INT_RGB);
+		BufferedImage image;
+		image = new BufferedImage(size.width, size.height,
+				BufferedImage.TYPE_INT_RGB);
 
 		// Paint a copy of this panel (forcing its background to white too)
 		Color background = lineList.getBackground();
 		lineList.setBackground(Color.white);
 		Graphics2D g = image.createGraphics();
-		paint(g);
 		lineList.setBackground(background);
+
+		if(!full)
+		{
+			g.translate(0, -yPos);
+		}
+
+		paint(g);
 
 		return image;
 	}
@@ -150,9 +157,9 @@ class ListPanel extends JPanel
 			LineInfo li = (LineInfo) obj;
 
 			if (viewSet.getDisplayLineScores())
-				setText(df.format(li.getScore()) + " " + li);
+				setText(" " + df.format(li.getScore()) + " " + li);
 			else
-				setText(li.toString());
+				setText(" " + li.toString());
 
 			// Highlight the line "under" the mouse
 			if (i == view.mouseOverLine)

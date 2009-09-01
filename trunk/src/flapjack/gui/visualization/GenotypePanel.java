@@ -337,11 +337,17 @@ public class GenotypePanel extends JPanel
 		return (long)viewport.getWidth() * (long)viewport.getHeight() * 3;
 	}
 
-	public BufferedImage getMapCanvasBuffer()
-		{ return mapCanvas.createSavableImage(); }
+	public BufferedImage getMapCanvasBuffer(boolean full)
+		{ return mapCanvas.createSavableImage(full); }
 
-	public BufferedImage getLineCanvasBuffer()
-		{ return listPanel.createSavableImage(); }
+	public BufferedImage getLineCanvasBuffer(boolean full)
+		{ return listPanel.createSavableImage(full, canvas.pY1); }
+
+	public BufferedImage getTraitCanvasBuffer(boolean full)
+		{ return traitCanvas.createSavableImage(full); }
+
+	public BufferedImage getQTLCanvasBuffer(boolean full)
+		{ return qtlCanvas.createSavableImage(full); }
 
 	// Updates the state of the Edit menu's undo/redo actions based on the undo
 	// history of the view currently being displayed
