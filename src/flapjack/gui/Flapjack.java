@@ -31,6 +31,7 @@ public class Flapjack
 
 		Prefs.setDefaults();
 		prefs.loadPreferences(prefsFile, Prefs.class);
+		prefs.savePreferences(prefsFile, Prefs.class);
 
 		Icons.initialize("/res/icons", ".png");
 		RB.initialize(Prefs.localeText, "res.text.flapjack");
@@ -104,9 +105,6 @@ public class Flapjack
 				// Do we want to open an initial project?
 				if (initialProject != null)
 					winMain.mFile.fileOpen(initialProject);
-
-				if (Install4j.displayUpdate)
-					FlapjackUtils.visitURL("http://bioinf.scri.ac.uk/flapjack/help/whats-new.shtml");
 			}
 
 			public void windowIconified(WindowEvent e) {
