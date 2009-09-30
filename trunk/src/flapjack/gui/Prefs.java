@@ -11,7 +11,6 @@ public class Prefs extends XMLPreferences
 {
 	// Is this the first time the program has ever been run (by this user)?
 	public static boolean isFirstRun = true;
-	public static String lastVersion = null;
 	public static boolean querySCRI = true;
 	public static int rating = 0;
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<install4j version="4.2.3" transformSequenceNumber="2">
-  <directoryPresets config="./docs" />
-  <application name="Flapjack" distributionSourceDir="" applicationId="9131-7045-2417-5931" mediaDir="." mediaFilePattern="${compiler:sys.shortName}_${compiler:sys.platform}_${compiler:sys.version}" compression="6" lzmaCompression="false" pack200Compression="false" excludeSignedFromPacking="true" keepModificationTimes="false" missingFilesStrategy="warn" shortName="Flapjack" publisher="SCRI" publisherWeb="http://www.scri.ac.uk" version="0.09.08.12" allPathsRelative="true" backupOnSave="false" autoSave="false" convertDotsToUnderscores="true" macSignature="????" installerName="" javaMinVersion="1.5" javaMaxVersion="" allowBetaVM="false" jdkMode="runtimeJre" jdkName="">
+<install4j version="4.2.4" transformSequenceNumber="2">
+  <directoryPresets config="." />
+  <application name="Flapjack" distributionSourceDir="" applicationId="9131-7045-2417-5931" mediaDir="." mediaFilePattern="${compiler:sys.shortName}_${compiler:sys.platform}_${compiler:sys.version}" compression="6" lzmaCompression="false" pack200Compression="false" excludeSignedFromPacking="true" keepModificationTimes="false" missingFilesStrategy="warn" shortName="Flapjack" publisher="SCRI" publisherWeb="http://www.scri.ac.uk" version="0.09.09.30" allPathsRelative="true" backupOnSave="false" autoSave="false" convertDotsToUnderscores="true" macSignature="????" installerName="" javaMinVersion="1.5" javaMaxVersion="" allowBetaVM="false" jdkMode="runtimeJre" jdkName="">
     <languages skipLanguageSelection="true" languageSelectionInPrincipalLanguage="false">
       <principalLanguage id="en" customLocalizationFile="" />
       <additionalLanguages>
@@ -14,7 +14,10 @@
       <envVar name="JDK_HOME" />
     </searchSequence>
     <variables>
-      <variable name="website" value="http://bioinf.scri.ac.uk/flapjack" />
+      <variable name="urlWebsite" value="http://bioinf.scri.ac.uk/flapjack" />
+      <variable name="urlWhatsNew" value="http://bioinf.scri.ac.uk/flapjack/help/whats-new.shtml" />
+      <variable name="changeLog" value="Show Change Log" />
+      <variable name="linuxWarning" value="Note, that on some versions of Linux you may still have to run the downloaded update manually." />
     </variables>
   </application>
   <files>
@@ -51,7 +54,7 @@
   </files>
   <launchers>
     <launcher name="Flapjack" id="18" external="false" excludeFromMenu="false" menuName="Flapjack" icnsFile="../res/icons/flapjack.icns" pngIcon16File="../res/icons/flapjack.png" pngIcon32File="../res/icons/flapjack.png" macServiceDependencies="" swtApp="false" fileset="">
-      <executable name="flapjack" type="1" iconSet="true" iconFile="" executableDir="." redirectStderr="true" stderrFile="output.log" redirectStdout="true" stdoutFile="output.log" failOnStderrOutput="true" executableMode="1" changeWorkingDirectory="true" workingDirectory="." singleInstance="false" serviceStartType="2" serviceDependencies="" serviceDescription="" jreLocation="" executionLevel="asInvoker" checkConsoleParameter="false">
+      <executable name="flapjack" type="1" iconSet="true" iconFile="" executableDir="." redirectStderr="true" stderrFile="output.log" stderrMode="overwrite" redirectStdout="true" stdoutFile="output.log" stdoutMode="overwrite" failOnStderrOutput="true" executableMode="1" changeWorkingDirectory="true" workingDirectory="." singleInstance="false" serviceStartType="2" serviceDependencies="" serviceDescription="" jreLocation="" executionLevel="asInvoker" checkConsoleParameter="false">
         <versionInfo include="false" fileVersion="" fileDescription="" legalCopyright="" internalName="" />
       </executable>
       <splashScreen show="false" autoOff="true" alwaysOnTop="true" width="0" height="0" bitmapFile="" java6SplashScreen="false">
@@ -73,7 +76,7 @@
       </customScript>
     </launcher>
     <launcher name="CreateProject" id="797" external="false" excludeFromMenu="true" menuName="" icnsFile="../res/icons/flapjack.icns" pngIcon16File="../res/icons/flapjack.png" pngIcon32File="../res/icons/flapjack.png" macServiceDependencies="" swtApp="false" fileset="">
-      <executable name="createproject" type="1" iconSet="true" iconFile="" executableDir="." redirectStderr="false" stderrFile="output.log" redirectStdout="false" stdoutFile="output.log" failOnStderrOutput="true" executableMode="2" changeWorkingDirectory="true" workingDirectory="." singleInstance="false" serviceStartType="2" serviceDependencies="" serviceDescription="" jreLocation="" executionLevel="asInvoker" checkConsoleParameter="false">
+      <executable name="createproject" type="1" iconSet="true" iconFile="" executableDir="." redirectStderr="false" stderrFile="output.log" stderrMode="overwrite" redirectStdout="false" stdoutFile="output.log" stdoutMode="overwrite" failOnStderrOutput="true" executableMode="2" changeWorkingDirectory="true" workingDirectory="." singleInstance="false" serviceStartType="2" serviceDependencies="" serviceDescription="" jreLocation="" executionLevel="asInvoker" checkConsoleParameter="false">
         <versionInfo include="false" fileVersion="" fileDescription="" legalCopyright="" internalName="" />
       </executable>
       <splashScreen show="false" autoOff="true" alwaysOnTop="true" width="0" height="0" bitmapFile="" java6SplashScreen="false">
@@ -103,7 +106,7 @@
           <java class="java.beans.XMLDecoder">
             <object class="com.install4j.runtime.beans.applications.InstallerApplication">
               <void property="customWatermarkText">
-                <string>${compiler:website}</string>
+                <string>${compiler:urlWebsite}</string>
               </void>
             </object>
           </java>
@@ -147,6 +150,9 @@
             <serializedBean>
               <java class="java.beans.XMLDecoder">
                 <object class="com.install4j.runtime.beans.screens.LicenseScreen">
+                  <void property="acceptInitiallySelected">
+                    <boolean>true</boolean>
+                  </void>
                   <void property="displayedTextFile">
                     <object class="com.install4j.api.beans.ExternalFile">
                       <string>./docs/Flapjack.html</string>
@@ -368,7 +374,7 @@
           <java class="java.beans.XMLDecoder">
             <object class="com.install4j.runtime.beans.applications.UninstallerApplication">
               <void property="customWatermarkText">
-                <string>${compiler:website}</string>
+                <string>${compiler:urlWebsite}</string>
               </void>
             </object>
           </java>
@@ -479,7 +485,7 @@
                 </object>
               </void>
               <void property="customWatermarkText">
-                <string>${compiler:website}</string>
+                <string>${compiler:urlWebsite}</string>
               </void>
               <void property="executableName">
                 <string>updater</string>
@@ -737,6 +743,11 @@
                 <serializedBean>
                   <java class="java.beans.XMLDecoder">
                     <object class="com.install4j.runtime.beans.screens.CustomizableBannerScreen">
+                      <void property="bannerImageFile">
+                        <object class="com.install4j.api.beans.ExternalFile">
+                          <string>./scribanner.png</string>
+                        </object>
+                      </void>
                       <void property="infoText">
                         <string>${i18n:updater.UpToDateInfoText("${compiler:sys.fullName}")}</string>
                       </void>
@@ -851,25 +862,20 @@
                     <initScript />
                     <visibiltyScript />
                   </formComponent>
-                  <formComponent name="" id="439" beanClass="com.install4j.runtime.beans.formcomponents.HyperlinkActionLabelComponent" enabled="true" commentSet="false" comment="" insetTop="" insetLeft="" insetBottom="" insetRight="" resetInitOnPrevious="false">
+                  <formComponent name="" id="1139" beanClass="com.install4j.runtime.beans.formcomponents.HyperlinkLabelComponent" enabled="true" commentSet="false" comment="" insetTop="" insetLeft="" insetBottom="" insetRight="" resetInitOnPrevious="false">
                     <serializedBean>
                       <java class="java.beans.XMLDecoder">
-                        <object class="com.install4j.runtime.beans.formcomponents.HyperlinkActionLabelComponent">
-                          <void property="actionScript">
-                            <object class="com.install4j.api.beans.ScriptProperty">
-                              <void property="value">
-                                <string>context.goForward(1, false, false);</string>
-                              </void>
-                            </object>
-                          </void>
+                        <object class="com.install4j.runtime.beans.formcomponents.HyperlinkLabelComponent">
                           <void property="hyperlinkText">
-                            <string>${i18n:updater.ShowComments}</string>
+                            <string>${compiler:changeLog}</string>
+                          </void>
+                          <void property="url">
+                            <string>${compiler:urlWhatsNew}</string>
                           </void>
                         </object>
                       </java>
                     </serializedBean>
-                    <initScript>boolean hasComment = ((String)context.getVariable("updaterComment")).length() &gt; 0;
-component.setVisible(hasComment);</initScript>
+                    <initScript />
                     <visibiltyScript />
                   </formComponent>
                   <formComponent name="" id="440" beanClass="com.install4j.runtime.beans.formcomponents.SpacerComponent" enabled="true" commentSet="false" comment="" insetTop="" insetLeft="" insetBottom="" insetRight="" resetInitOnPrevious="false">
@@ -1044,6 +1050,11 @@ if (wizardContext != null) {
                 <serializedBean>
                   <java class="java.beans.XMLDecoder">
                     <object class="com.install4j.runtime.beans.screens.BannerFormScreen">
+                      <void property="bannerImageFile">
+                        <object class="com.install4j.api.beans.ExternalFile">
+                          <string>./scribanner.png</string>
+                        </object>
+                      </void>
                       <void property="infoText">
                         <string>${i18n:updater.FinishInfoText("${compiler:sys.fullName}")}</string>
                       </void>
@@ -1155,6 +1166,27 @@ if (wizardContext != null) {
 }</initScript>
                     <visibiltyScript />
                   </formComponent>
+                  <formComponent name="" id="1140" beanClass="com.install4j.runtime.beans.formcomponents.MultilineLabelComponent" enabled="true" commentSet="false" comment="" insetTop="" insetLeft="" insetBottom="" insetRight="" resetInitOnPrevious="false">
+                    <serializedBean>
+                      <java class="java.beans.XMLDecoder">
+                        <object class="com.install4j.runtime.beans.formcomponents.MultilineLabelComponent">
+                          <void property="labelColor">
+                            <object class="java.awt.Color">
+                              <int>255</int>
+                              <int>0</int>
+                              <int>0</int>
+                              <int>255</int>
+                            </object>
+                          </void>
+                          <void property="labelText">
+                            <string>${compiler:linuxWarning}</string>
+                          </void>
+                        </object>
+                      </java>
+                    </serializedBean>
+                    <initScript />
+                    <visibiltyScript />
+                  </formComponent>
                   <formComponent name="" id="456" beanClass="com.install4j.runtime.beans.formcomponents.HyperlinkActionLabelComponent" enabled="true" commentSet="false" comment="" insetTop="" insetLeft="" insetBottom="" insetRight="" resetInitOnPrevious="false">
                     <serializedBean>
                       <java class="java.beans.XMLDecoder">
@@ -1200,7 +1232,7 @@ if (wizardContext != null) {
     </applications>
   </installerGui>
   <mediaSets>
-    <win32 name="Windows" id="19" mediaFileName="flapjack_windows_${compiler:sys.version}" installDir="Flapjack" overridePrincipalLanguage="false" requires64bit="false" runPostProcessor="false" postProcessor="" failOnPostProcessorError="false" includedJRE="windows-x86-1.6.0_14" manualJREEntry="false" bundleType="1" jreURL="" jreFtpURL="" jreShared="false" customInstallBaseDir="" createUninstallIcon="true" contentFilesType="1" downloadURL="" runAsAdmin="false">
+    <win32 name="Windows" id="19" mediaFileName="flapjack_windows_${compiler:sys.version}" installDir="Flapjack" overridePrincipalLanguage="false" requires64bit="false" jreBitType="32" runPostProcessor="false" postProcessor="" failOnPostProcessorError="false" includedJRE="windows-x86-1.6.0_16" manualJREEntry="false" bundleType="1" jreURL="" jreFtpURL="" jreShared="false" customInstallBaseDir="" createUninstallIcon="true" contentFilesType="1" downloadURL="" runAsAdmin="false">
       <excludedLaunchers />
       <excludedComponents />
       <excludedBeans />
@@ -1210,7 +1242,7 @@ if (wizardContext != null) {
       </exclude>
       <variables />
     </win32>
-    <macos name="Mac OS X Single Bundle" id="126" mediaFileName="flapjack_macos_${compiler:sys.version}" installDir="Flapjack" overridePrincipalLanguage="false" requires64bit="false" runPostProcessor="false" postProcessor="" failOnPostProcessorError="false" customInstallBaseDir="" createUninstallIcon="true" contentFilesType="1" downloadURL="" launcherId="18">
+    <macos name="Mac OS X Single Bundle" id="126" mediaFileName="flapjack_macos_${compiler:sys.version}" installDir="Flapjack" overridePrincipalLanguage="false" requires64bit="false" jreBitType="all" runPostProcessor="false" postProcessor="" failOnPostProcessorError="false" customInstallBaseDir="" createUninstallIcon="true" contentFilesType="1" downloadURL="" launcherId="18">
       <excludedComponents />
       <excludedBeans />
       <overriddenPrincipalLanguage id="en" customLocalizationFile="" />
@@ -1219,23 +1251,7 @@ if (wizardContext != null) {
       </exclude>
       <variables />
     </macos>
-    <unixInstaller name="Linux" id="181" mediaFileName="flapjack_linux_${compiler:sys.version}" installDir="Flapjack" overridePrincipalLanguage="false" requires64bit="false" runPostProcessor="false" postProcessor="" failOnPostProcessorError="false" includedJRE="linux-x86-1.6.0_14_client_only" manualJREEntry="false" bundleType="1" jreURL="" jreFtpURL="" jreShared="false" customInstallBaseDir="" createUninstallIcon="true" contentFilesType="1" downloadURL="">
-      <excludedLaunchers>
-        <launcher id="797" />
-      </excludedLaunchers>
-      <excludedComponents />
-      <excludedBeans />
-      <overriddenPrincipalLanguage id="en" customLocalizationFile="" />
-      <exclude>
-        <entry location=".i4j_fileset_201" fileType="regular" />
-        <entry location=".i4j_fileset_203" fileType="regular" />
-      </exclude>
-      <variables />
-      <installerScript mode="1" file="">
-        <scriptLines />
-      </installerScript>
-    </unixInstaller>
-    <unixInstaller name="Solaris" id="185" mediaFileName="flapjack_solaris_${compiler:sys.version}" installDir="Flapjack" overridePrincipalLanguage="false" requires64bit="false" runPostProcessor="false" postProcessor="" failOnPostProcessorError="false" includedJRE="solaris-sparc-1.6.0_14" manualJREEntry="false" bundleType="1" jreURL="" jreFtpURL="" jreShared="false" customInstallBaseDir="" createUninstallIcon="true" contentFilesType="1" downloadURL="">
+    <unixInstaller name="Linux" id="181" mediaFileName="flapjack_linux_${compiler:sys.version}" installDir="Flapjack" overridePrincipalLanguage="false" requires64bit="false" jreBitType="all" runPostProcessor="false" postProcessor="" failOnPostProcessorError="false" includedJRE="linux-x86-1.6.0_16" manualJREEntry="false" bundleType="1" jreURL="" jreFtpURL="" jreShared="false" customInstallBaseDir="" createUninstallIcon="true" contentFilesType="1" downloadURL="">
       <excludedLaunchers>
         <launcher id="797" />
       </excludedLaunchers>

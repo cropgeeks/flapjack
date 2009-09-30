@@ -130,7 +130,7 @@ public class ExportImageDialog extends JDialog implements ActionListener
 					RB.getString("gui.text.cancel")
 				};
 
-				int response = TaskDialog.show(msg, TaskDialog.WAR, 0, options);
+				int response = TaskDialog.show(msg, TaskDialog.WAR, 1, options);
 
 				if (response == 1)
 					continue;
