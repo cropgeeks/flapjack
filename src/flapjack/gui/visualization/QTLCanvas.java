@@ -299,9 +299,9 @@ class QTLCanvas extends JPanel
 			if(feature != -1)
 			{
 				//linear search to the right-most visible feature
-				while(onscreen.get(feature).getMin() > canvasRight)
+				while(onscreen.get(feature).getMin() < canvasRight)
 				{
-					if(feature < onscreen.size())
+					if(feature < onscreen.size()-1)
 					{
 						feature++;
 					}
@@ -313,9 +313,9 @@ class QTLCanvas extends JPanel
 				for( int i = onscreen.subList(0, feature).size(); i >= 0; i--)
 				{
 					Feature f = onscreen.get(i);
-
-					if(f.getMax() < canvasLeft)
-						break;
+					
+					if(f.isAllowed() == false || f.isVisible() == false)
+						continue;
 
 					if(f.getMin() <= mapPos && f.getMax() >= mapPos)
 					{
@@ -324,7 +324,7 @@ class QTLCanvas extends JPanel
 					}
 				}
 			}
-
+			
 			// Only do a repaint if the mouse has moved on/off something
 			if (mouseOverFeature != match)
 			{
