@@ -37,7 +37,7 @@ against graphical genotypes to identify associated haplotypes.</p>
 as raw data or graphically as image files. We have devised efficient data
 storage structures that provide high-speed access to any subset of the data,
 resulting in fast visualization regardless of the size of the data. Flapjack can
-comfortable handle data sets approaching 1 billion (10<sup>9</sup>) genotypes in size on
+comfortably handle data sets approaching 1 billion (10<sup>9</sup>) genotypes in size on
 most 32 bit operating systems.</p>
 
 <p><img class="capture" src="help/images/flapjack.png" alt="Flapjack Screenshots"></p>
