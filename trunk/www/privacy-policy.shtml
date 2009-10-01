@@ -26,16 +26,17 @@ server whenever it is run. This contains:</p>
 
 <ul>
 <li>Your IP address, so we know (roughly) where in the world you are. We currently
-map this to a location using the <a href="http://ip-to-country.webhosting.info/book/print/5">
-IP-to-Country Handbook</a> which allows us to determine which country an IP
-address request comes from.</li><p></p>
+map this to a location using <a href="http://www.infosniper.net">
+http://www.infosniper.net</a> which allows us to determine which city and/or country
+an IP address request comes from.</li><p></p>
 <li>Your operating system, as determined by Java. This will be a simple string
 along the lines of "Windows XP" or "Mac OS X".</li><p></p>
 <li>The version of Flapjack you are using.</li>
 </ul>
 
 <p>No other information is collected, and what we do collect is used solely for the
-purpose of knowing where in the world our software is used.</p>
+purpose of knowing where in the world our software is used. You can see the
+results of this on our <a href="map.shtml">Flapjack World Map</a>.</p>
 
 <!--#include virtual="footer.html" -->
 

@@ -49,6 +49,53 @@ public class NBStatusPanel extends JPanel implements ActionListener, ChangeListe
 
 		setControlStates();
 		setForMainUse();
+
+		createKeyboardShortcuts();
+	}
+
+	private void createKeyboardShortcuts()
+	{
+		// CTRL (or CMD) keyboard shortcut
+		int shortcut = Toolkit.getDefaultToolkit().getMenuShortcutKeyMask();
+
+		Action zoomIn = new AbstractAction() {
+			public void actionPerformed(ActionEvent e) {
+				sliderY.setValue(sliderY.getValue()+1);
+			}
+		};
+
+		KeyStroke ks = KeyStroke.getKeyStroke(KeyEvent.VK_EQUALS, shortcut);
+		sliderY.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(ks, "zoomInMain");
+		sliderY.getActionMap().put("zoomInMain", zoomIn);
+		ks = KeyStroke.getKeyStroke(KeyEvent.VK_ADD, shortcut);
+		sliderY.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(ks, "zoomInNumPad");
+		sliderY.getActionMap().put("zoomInNumPad", zoomIn);
+
+		Action zoomOut = new AbstractAction() {
+			public void actionPerformed(ActionEvent e) {
+				sliderY.setValue(sliderY.getValue()-1);
+			}
+		};
+
+		ks = KeyStroke.getKeyStroke(KeyEvent.VK_MINUS, shortcut);
+		sliderY.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(ks, "zoomOutMain");
+		sliderY.getActionMap().put("zoomOutMain", zoomOut);
+		ks = KeyStroke.getKeyStroke(KeyEvent.VK_SUBTRACT, shortcut);
+		sliderY.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(ks, "zoomOutNumPad");
+		sliderY.getActionMap().put("zoomOutNumPad", zoomOut);
+
+		Action zoomReset = new AbstractAction() {
+			public void actionPerformed(ActionEvent e) {
+				sliderY.setValue(7);
+			}
+		};
+
+		ks = KeyStroke.getKeyStroke(KeyEvent.VK_0, shortcut);
+		sliderY.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(ks, "zoomResetMain");
+		sliderY.getActionMap().put("zoomResetMain", zoomReset);
+		ks = KeyStroke.getKeyStroke(KeyEvent.VK_NUMPAD0, shortcut);
+		sliderY.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(ks, "zoomResetNumPad");
+		sliderY.getActionMap().put("zoomResetNumPad", zoomReset);
 	}
 
 	void setForMainUse()
