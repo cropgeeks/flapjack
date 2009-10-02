@@ -29,8 +29,6 @@ class TraitCanvas extends JPanel
 
 	private int mouseOverIndex = -1;
 
-	boolean full;
-
 	TraitCanvas(GenotypePanel gPanel, GenotypeCanvas canvas)
 	{
 		this.gPanel = gPanel;
@@ -62,17 +60,12 @@ class TraitCanvas extends JPanel
 
 	BufferedImage createSavableImage(boolean full)
 	{
-		this.full = full;
-		// Note that this *doesn't* happen in a new thread as the assumption is
-		// that this will be called by a threaded process anyway
-		BufferFactory tempFactory;
-		if(full)
-			tempFactory = new BufferFactory(w, (canvas.boxH*canvas.boxTotalY), true, 0, canvas.canvasW, 0, canvas.canvasH);
+		if (full)
+			return new BufferFactory().createBuffer(
+				w, (canvas.boxH*canvas.boxTotalY), full);
 		else
-			tempFactory = new BufferFactory(w, (canvas.boxH*canvas.boxTotalY), true, canvas.pX1, canvas.pX2, canvas.pY1, canvas.pY2);
-		tempFactory.run();
-
-		return tempFactory.buffer;
+			return new BufferFactory().createBuffer(
+				w, (canvas.boxH*canvas.boxTotalY), full);
 	}
 
 	private class Canvas2D extends JPanel
@@ -244,66 +237,39 @@ class TraitCanvas extends JPanel
 		}
 	}
 
-	private class BufferFactory extends Thread
+	private class BufferFactory
 	{
-		BufferedImage buffer;
-
-		// isTempBuffer = true when a buffer is being made for saving as an image
-		private boolean isTempBuffer = false;
-		private int w, h, xS, xE, yS, yE;
-
-		BufferFactory(int w, int h, boolean isTempBuffer, int x1, int x2, int y1, int y2)
+		BufferedImage createBuffer(int w, int h, boolean full)
 		{
-			this.w = w;
-			this.h = h;
-			this.isTempBuffer = isTempBuffer;
-			this.xS = x1;
-			this.xE = x2;
-			this.yS = y1;
-			this.yE = y2;
-		}
+			BufferedImage buffer;
 
-		public void run()
-		{
-			// Run everything under try/catch conditions due to changes in the
-			// view that may invalidate what this thread is trying to access
 			try
 			{
-				createBuffer();
+				try
+				{
+					buffer = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
+				}
+				catch (Throwable t) { return null; }
+
+				Graphics2D g2d = buffer.createGraphics();
+
+				//int height = (canvas.pY2-canvas.pY1);
+				//int height = canvas.boxH*canvas.boxTotalY;
+
+				g2d.setColor(Color.white);
+				g2d.fillRect(0, 0, w, h);
+				if(!full)
+					g2d.translate(0, -canvas.pY1);
+				traitCanvas.drawCanvas(g2d, (canvas.boxH*canvas.boxTotalY));
+				g2d.dispose();
+
+				return buffer;
 			}
 			catch (Exception e)
 			{
-				System.out.println("MapCanvas: " + e);
+				System.out.println("TraitCanvas: " + e);
+				return null;
 			}
-		}
-
-		private void createBuffer()
-			throws ArrayIndexOutOfBoundsException
-		{
-			try
-			{
-				buffer = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
-			}
-			catch (Throwable t) { return; }
-
-			Graphics2D g2d = buffer.createGraphics();
-
-			// Enable anti-aliased graphics to smooth the line jaggies
-			g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
-			//int height = (canvas.pY2-canvas.pY1);
-			//int height = canvas.boxH*canvas.boxTotalY;
-
-			if (isTempBuffer)
-				g2d.setColor(Color.white);
-			else
-				// Paint the background
-				g2d.setColor(Prefs.visColorBackground);
-			g2d.fillRect(0, 0, w, h);
-			if(!full)
-				g2d.translate(0, -canvas.pY1);
-			traitCanvas.drawCanvas(g2d, (canvas.boxH*canvas.boxTotalY));
-			g2d.dispose();
 		}
 	}
 }
