@@ -49,7 +49,7 @@ class MapCanvas extends JPanel
 		}
 
 		// Thread off the image creation...
-		bufferFactory = new BufferFactory(canvas.canvasW, h, false, 0, canvas.canvasW);
+		bufferFactory = new BufferFactory(canvas.canvasW, h, false);
 		bufferFactory.start();
 	}
 
@@ -57,14 +57,25 @@ class MapCanvas extends JPanel
 	{
 		// Note that this *doesn't* happen in a new thread as the assumption is
 		// that this will be called by a threaded process anyway
-		BufferFactory tempFactory;
-		if(full)
-			tempFactory = new BufferFactory(canvas.canvasW, h, true, 0, canvas.canvasW);
-		else
-			tempFactory = new BufferFactory(canvas.canvasW, h, true, canvas.pX1, canvas.pX2);
-		tempFactory.run();
+		BufferFactory bf = new BufferFactory(canvas.canvasW, h, true);
+		bf.run();
 
-		return tempFactory.buffer;
+		// Return either the entire buffer
+		if (full)
+			return bf.buffer;
+
+		// Or just a crop of what's currently on screen
+		else
+		{
+			int w = canvas.pX2 - canvas.pX1 + 1;
+			BufferedImage crop = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
+
+			Graphics2D g = (Graphics2D) crop.getGraphics();
+			g.drawImage(bf.buffer, 0, 0, w, h, canvas.pX1, 0, canvas.pX2, h, null);
+			g.dispose();
+
+			return crop;
+		}
 	}
 
 	void updateView()
@@ -240,15 +251,13 @@ class MapCanvas extends JPanel
 		// isTempBuffer = true when a buffer is being made for saving as an image
 		private boolean isTempBuffer = false;
 		private boolean killMe = false;
-		private int w, h, xS, xE;
+		private int w, h;
 
-		BufferFactory(int w, int h, boolean isTempBuffer, int xS, int xE)
+		BufferFactory(int w, int h, boolean isTempBuffer)
 		{
 			this.w = w;
 			this.h = h;
 			this.isTempBuffer = isTempBuffer;
-			this.xS = xS;
-			this.xE = xE;
 		}
 
 		public void run()
@@ -279,7 +288,7 @@ class MapCanvas extends JPanel
 		{
 			try
 			{
-				buffer = new BufferedImage(xE-xS, h, BufferedImage.TYPE_INT_RGB);
+				buffer = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
 			}
 			catch (Throwable t) { return; }
 
@@ -298,27 +307,20 @@ class MapCanvas extends JPanel
 				g.setColor(Color.white);
 			else
 				g.setColor(getBackground());
-			g.fillRect(0, 0, xE-xS, h);
-
-			g.setClip(0, 0, xE-xS, h);
-			g.translate(-xS, 0);
+			g.fillRect(0, 0, canvas.canvasW, h);
 
 			int mkrCount = canvas.view.getMarkerCount();
 			xScale = canvas.canvasW / canvas.view.mapLength();
 
 			// Draw the white rectangle representing the map
 			g.setColor(Color.white);
-			g.fillRect(xS, 12, xE-xS, 10);
+			g.fillRect(0, 12, canvas.canvasW, 10);
 			g.setColor(Color.lightGray);
-			g.drawRect(xS, 12, (xE-xS)-1, 10);
+			g.drawRect(0, 12, canvas.canvasW-1, 10);
 
 			// Draw each marker
 			for (int i = 0; i < mkrCount && !killMe; i++)
-			{
-				Marker m = canvas.view.getMarker(i);
-				if(m.getPosition() > xS / xScale && m.getPosition() < xE+1 / xScale)
-					drawMarker(g, i, false, false);
-			}
+				drawMarker(g, i, false, false);
 
 			if (!killMe && !isTempBuffer)
 				bufferAvailable(buffer);

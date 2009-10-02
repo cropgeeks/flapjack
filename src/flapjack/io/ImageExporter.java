@@ -71,7 +71,7 @@ public class ImageExporter implements ITrackableJob
 	}
 
 	private void exportView(BufferedImage image, Boolean full)
-			throws Exception
+		throws Exception
 	{
 		BufferedImage map = gPanel.getMapCanvasBuffer(full);
 		BufferedImage lines = gPanel.getLineCanvasBuffer(full);

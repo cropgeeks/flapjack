@@ -213,7 +213,7 @@ class QTLCanvas extends JPanel
 		{
 			if(high < low)
 				return -1;
-			
+
 			int mid = low + ((high-low) /2);
 
 			float max = trackData.get(mid).getMax();
@@ -313,7 +313,7 @@ class QTLCanvas extends JPanel
 				for( int i = onscreen.subList(0, feature).size(); i >= 0; i--)
 				{
 					Feature f = onscreen.get(i);
-					
+
 					if(f.isAllowed() == false || f.isVisible() == false)
 						continue;
 
@@ -324,7 +324,7 @@ class QTLCanvas extends JPanel
 					}
 				}
 			}
-			
+
 			// Only do a repaint if the mouse has moved on/off something
 			if (mouseOverFeature != match)
 			{
@@ -487,8 +487,6 @@ class QTLCanvas extends JPanel
 			catch (Throwable t) { return; }
 
 			Graphics2D g2d = buffer.createGraphics();
-
-			g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
 			if (isTempBuffer)
 				g2d.setColor(Color.white);
