@@ -6,10 +6,12 @@ package flapjack.gui.visualization;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.*;
+import java.beans.*;
 import java.util.*;
 import javax.swing.*;
 import javax.swing.event.*;
 
+import flapjack.analysis.*;
 import flapjack.data.*;
 import flapjack.gui.*;
 
@@ -21,10 +23,15 @@ import scri.commons.gui.*;
  * left-to-right order, that is, a QTL whose minimum value is 5 will be found
  * in the list BEFORE a QTL with a minimum value of 6.
  */
-class QTLCanvas extends JPanel
+class QTLCanvas extends JPanel implements PropertyChangeListener
 {
 	// The height of a SINGLE track
-	private static final int h = 20;
+	private static final int H = 20;
+	// Border height of the component itself
+	private static final int BORDER = 5;
+
+	// How many tracks are currently on screen?
+	private int trackCount = 0;
 
 	private GenotypePanel gPanel;
 	private GenotypeCanvas canvas;
@@ -56,21 +63,45 @@ class QTLCanvas extends JPanel
 		this.mapCanvas = mapCanvas;
 
 		setLayout(new BorderLayout());
-		setBorder(BorderFactory.createEmptyBorder(5, 0, 0, 0));
+		setBorder(BorderFactory.createEmptyBorder(BORDER, 0, 0, 0));
 		add(qtlCanvas = new Canvas2D());
 
 		QTLMouseListener ml = new QTLMouseListener();
 		qtlCanvas.addMouseListener(ml);
 		qtlCanvas.addMouseMotionListener(ml);
+		qtlCanvas.setMinimumSize((new Dimension(0, H)));
+	}
+
+	public void propertyChange(PropertyChangeEvent e)
+	{
+		JSplitPane qtlSplitter = (JSplitPane) e.getSource();
+
+		if (Prefs.visShowQTLCanvas && qtlSplitter.getDividerLocation() > BORDER)
+		{
+			Prefs.guiQTLSplitterLocation = qtlSplitter.getDividerLocation();
+		 	updateCanvasSize();
+		}
 	}
 
 	void updateCanvasSize()
 	{
-		trackSet = canvas.view.getChromosomeMap().getTrackSet();
+		if (canvas.view == null)
+			return;
 
-		qtlCanvas.setPreferredSize(new Dimension(0, h * trackSet.size()));
-		qtlCanvas.revalidate();
-		qtlCanvas.repaint();
+		int height = Prefs.guiQTLSplitterLocation - BORDER;
+		int tracks = height / H;
+
+		if ((trackSet != canvas.view.getChromosomeMap().getTrackSet() ||
+			tracks != trackCount) && tracks > 0)
+		{
+			QTLTrackOptimiser optimiser = new QTLTrackOptimiser(canvas.viewSet.getDataSet());
+			optimiser.setTracks(tracks, canvas.view.getChromosomeMap());
+
+			trackSet = canvas.view.getChromosomeMap().getTrackSet();
+			trackCount = tracks;
+
+
+		}
 	}
 
 	BufferedImage createSavableImage(boolean full)
@@ -80,9 +111,9 @@ class QTLCanvas extends JPanel
 		// that this will be called by a threaded process anyway
 		ImageFactory tempFactory;
 		if(full)
-			tempFactory = new ImageFactory(0, canvas.canvasW, 0, (h*trackSet.size()), true);
+			tempFactory = new ImageFactory(0, canvas.canvasW, 0, (H*trackSet.size()), true);
 		else
-			tempFactory = new ImageFactory(canvas.pX1, canvas.pX2, 0, (h*trackSet.size()), true);
+			tempFactory = new ImageFactory(canvas.pX1, canvas.pX2, 0, (H*trackSet.size()), true);
 		tempFactory.run();
 
 		return tempFactory.buffer;
@@ -119,7 +150,7 @@ class QTLCanvas extends JPanel
 			for (Vector<Feature> trackData: trackSet)
 			{
 				// Move the graphics origin to correct position for this track
-				g.translate(0, h*trackNum);
+				g.translate(0, H*trackNum);
 
 				g.setColor(Color.lightGray);
 				g.setStroke(dashed);
@@ -163,7 +194,7 @@ class QTLCanvas extends JPanel
 				}
 
 				// Reset the origin
-				g.translate(0, -h*trackNum);
+				g.translate(0, -H*trackNum);
 
 				trackNum++;
 			}
@@ -171,7 +202,7 @@ class QTLCanvas extends JPanel
 			// Redraw the feature under the mouse (so it always appears on top)
 			if (mouseOverFeature != null)
 			{
-				g.translate(0, h*mouseOverTrack);
+				g.translate(0, H*mouseOverTrack);
 
 				int minX = Math.round(xScale * mouseOverFeature.getMin());
 				int maxX = Math.round(xScale * mouseOverFeature.getMax());
@@ -266,7 +297,7 @@ class QTLCanvas extends JPanel
 			int y = e.getY();
 
 			// Which track is the mouse over?
-			mouseOverTrack = y / h;
+			mouseOverTrack = y / H;
 
 			if (mouseOverTrack < 0 || mouseOverTrack >= trackSet.size())
 				return false;

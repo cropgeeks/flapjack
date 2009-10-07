@@ -40,6 +40,7 @@ public class GenotypePanel extends JPanel
 	private JScrollPane sp;
 	private JScrollBar hBar, vBar;
 	private JViewport viewport;
+	private JSplitPane qtlSplitter;
 
 	// Top control panel labels/controls
 	private JComboBox combo;
@@ -67,7 +68,7 @@ public class GenotypePanel extends JPanel
 
 		// Scrolling components above the main display (qtl, map, etc)
 		JPanel topPanel = new JPanel(new BorderLayout());
-		topPanel.add(qtlCanvas, BorderLayout.NORTH);
+//		topPanel.add(qtlCanvas, BorderLayout.NORTH);
 		topPanel.add(mapCanvas, BorderLayout.CENTER);
 
 		// The main genotype area
@@ -78,12 +79,21 @@ public class GenotypePanel extends JPanel
 		centerPanel.add(colCanvas, BorderLayout.EAST);
 		centerPanel.add(traitCanvas, BorderLayout.WEST);
 
+		// The split pane holding the QTLs (top) and everything else (bottom)
+		qtlSplitter = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
+//		qtlSplitter.setDividerLocation(Prefs.guiQTLSplitterLocation);
+		qtlSplitter.setTopComponent(qtlCanvas);
+		qtlSplitter.setBottomComponent(centerPanel);
+		qtlSplitter.setContinuousLayout(true);
+		qtlSplitter.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+		qtlSplitter.addPropertyChangeListener(qtlCanvas);
+
 		setVisibleStates();
 
 		setLayout(new BorderLayout());
 //		add(tabs);
 		add(ctrlPanel, BorderLayout.NORTH);
-		add(centerPanel);
+		add(qtlSplitter);
 		add(statusPanel, BorderLayout.SOUTH);
 	}
 
@@ -423,6 +433,16 @@ public class GenotypePanel extends JPanel
 			sp.setRowHeaderView(listPanel);
 		else
 			sp.setRowHeaderView(null);
+
+		if (Prefs.visShowQTLCanvas)
+		{
+			qtlSplitter.setDividerSize(3);
+			System.out.println("setting splitter to " + Prefs.guiQTLSplitterLocation);
+			qtlSplitter.setDividerLocation(Prefs.guiQTLSplitterLocation);
+		}
+		// Hide the qtlSplitter if the QTL panel isn't visible
+		else
+			qtlSplitter.setDividerSize(0);
 	}
 
 	private void setCtrlLabels()

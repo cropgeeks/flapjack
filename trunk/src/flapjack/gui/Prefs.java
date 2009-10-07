@@ -63,6 +63,9 @@ public class Prefs extends XMLPreferences
 	public static int guiFilterQTLDialogX = -9999;
 	public static int guiFilterQTLDialogY = -9999;
 
+	// QTL splitpane location
+	public static int guiQTLSplitterLocation = 25;
+
 	// Method to use when importing data
 	public static int guiImportMethod = 0;
 

@@ -17,7 +17,7 @@ import flapjack.gui.*;
 
 import scri.commons.gui.*;
 
-public class QTLPanel extends JPanel implements ActionListener, ChangeListener
+public class QTLPanel extends JPanel implements ActionListener
 {
 	private DataSet dataSet;
 
@@ -27,7 +27,7 @@ public class QTLPanel extends JPanel implements ActionListener, ChangeListener
 
 	private NBQTLControlPanel controls;
 
-	private QTLTrackOptimiser optimiser;
+//	private QTLTrackOptimiser optimiser;
 
 	public QTLPanel(DataSet dataSet)
 	{
@@ -45,7 +45,6 @@ public class QTLPanel extends JPanel implements ActionListener, ChangeListener
 		controls = new NBQTLControlPanel();
 		controls.bImport.addActionListener(this);
 		controls.bRemove.addActionListener(this);
-		controls.trackSpinner.addChangeListener(this);
 
 		setLayout(new BorderLayout(0, 0));
 		setBorder(BorderFactory.createEmptyBorder(1, 1, 0, 0));
@@ -53,16 +52,11 @@ public class QTLPanel extends JPanel implements ActionListener, ChangeListener
 		add(new JScrollPane(table));
 		add(controls, BorderLayout.SOUTH);
 
-		optimiser = new QTLTrackOptimiser(dataSet);
-
-		updateModel(false);
+		updateModel();
 	}
 
-	public void updateModel(boolean optimize)
+	public void updateModel()
 	{
-		if (optimize)
-			optimiser.optimizeTrackUsage();
-
 		model = new QTLTableModel(dataSet, table);
 
 		if (SystemUtils.jreVersion() >= 1.6)
@@ -80,11 +74,6 @@ public class QTLPanel extends JPanel implements ActionListener, ChangeListener
 			table.getColumnModel().getColumn(0).setCellRenderer(new QTLNameRenderer());
 			table.getColumnModel().getColumn(5).setCellRenderer(new QTLTraitRenderer());
 		}
-
-		// Set the spinner to the correct number of tracks for this dataset
-		int size = dataSet.getMapByIndex(0).getTrackSet().size();
-		controls.trackSpinner.setValue(size);
-		controls.trackSpinner.setEnabled(size > 0);
 	}
 
 	// This is done in a separate class to hide its implementation from OS X on
@@ -121,20 +110,9 @@ public class QTLPanel extends JPanel implements ActionListener, ChangeListener
 		for (ChromosomeMap c: dataSet.getChromosomeMaps())
 			c.getTrackSet().removeAllElements();
 
-		updateModel(false);
+		updateModel();
 		Actions.projectModified();
 	}
-
-	public void stateChanged(ChangeEvent e)
-	{
-		int size = (Integer) controls.trackSpinner.getValue();
-
-		// Redistribute the features across the *new* number of tracks - for
-		// every chromosome in the data
-		for (ChromosomeMap c: dataSet.getChromosomeMaps())
-			optimiser.setTracks(size, c);
-	}
-
 
 	// Renderer for the QTL name column of the table
 	class QTLNameRenderer extends DefaultTableCellRenderer
