@@ -15,7 +15,6 @@ class NBQTLControlPanel extends javax.swing.JPanel
 
 		statusLabel.setText(RB.format("gui.traits.QTLPanel.traitCount", 0));
 
-		RB.setText(trackLabel, "gui.traits.NBQTLControlPanel.trackLabel");
 		RB.setText(bImport, "gui.traits.NBQTLControlPanel.bImport");
 		RB.setText(bRemove, "gui.traits.NBQTLControlPanel.bRemove");
 
@@ -35,18 +34,12 @@ class NBQTLControlPanel extends javax.swing.JPanel
         bImport = new javax.swing.JButton();
         statusLabel = new javax.swing.JLabel();
         bRemove = new javax.swing.JButton();
-        trackSpinner = new javax.swing.JSpinner();
-        trackLabel = new javax.swing.JLabel();
 
         bImport.setText("Import QTL data");
 
         statusLabel.setText("Number of QTLs: 0");
 
         bRemove.setText("Remove all QTLs");
-
-        trackSpinner.setModel(new javax.swing.SpinnerNumberModel(1, 1, 15, 1));
-
-        trackLabel.setText("Active tracks:");
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
         this.setLayout(layout);
@@ -55,11 +48,7 @@ class NBQTLControlPanel extends javax.swing.JPanel
             .add(layout.createSequentialGroup()
                 .addContainerGap()
                 .add(statusLabel)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 52, Short.MAX_VALUE)
-                .add(trackLabel)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(trackSpinner, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .add(18, 18, 18)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 179, Short.MAX_VALUE)
                 .add(bImport)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                 .add(bRemove)
@@ -72,9 +61,7 @@ class NBQTLControlPanel extends javax.swing.JPanel
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(statusLabel)
                     .add(bRemove)
-                    .add(bImport)
-                    .add(trackSpinner, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(trackLabel))
+                    .add(bImport))
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -84,8 +71,6 @@ class NBQTLControlPanel extends javax.swing.JPanel
     javax.swing.JButton bImport;
     javax.swing.JButton bRemove;
     javax.swing.JLabel statusLabel;
-    private javax.swing.JLabel trackLabel;
-    javax.swing.JSpinner trackSpinner;
     // End of variables declaration//GEN-END:variables
 
 }
