@@ -437,7 +437,6 @@ public class GenotypePanel extends JPanel
 		if (Prefs.visShowQTLCanvas)
 		{
 			qtlSplitter.setDividerSize(3);
-			System.out.println("setting splitter to " + Prefs.guiQTLSplitterLocation);
 			qtlSplitter.setDividerLocation(Prefs.guiQTLSplitterLocation);
 		}
 		// Hide the qtlSplitter if the QTL panel isn't visible
