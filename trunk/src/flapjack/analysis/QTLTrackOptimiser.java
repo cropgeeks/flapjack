@@ -13,7 +13,7 @@ public class QTLTrackOptimiser
 	}
 
 	// Attempt to work out the optimum number of active tracks for a new set
-	public void optimizeTrackUsage()
+/*	public void optimizeTrackUsage()
 	{
 		long s = System.currentTimeMillis();
 
@@ -43,68 +43,62 @@ public class QTLTrackOptimiser
 
 		System.out.println("Tracks optimised in " + (System.currentTimeMillis()-s + "ms"));
 	}
+*/
 
-	public boolean setTracks(int size, ChromosomeMap c)
+	public ArrayList<ArrayList<FeatureGroup>> getTracks(int size, ChromosomeMap c)
 	{
-		Vector<Vector<Feature>> trackSet = c.getTrackSet();
+		ArrayList<ArrayList<FeatureGroup>> tracks = new
+			ArrayList<ArrayList<FeatureGroup>>();
 
-		// 1: Move all features onto a temp track
-		Vector<Feature> tmpTrack = new Vector<Feature>();
-		for (Vector<Feature> track: trackSet)
-		{
-			Enumeration<Feature> features = track.elements();
-			while (features.hasMoreElements())
-				tmpTrack.add(features.nextElement());
-		}
+		ArrayList<Feature> features = c.getFeatures();
 
-		// 2: Sort the features back into order
-		Collections.sort(tmpTrack);
-
-		// 3: Set up the correct number of new tracks
-		trackSet.removeAllElements();
+		// Set up the correct number of new tracks
 		for (int i = 0; i < size; i++)
-			trackSet.add(new Vector<Feature>());
+			tracks.add(new ArrayList<FeatureGroup>());
 
-		// 4: Distribute the features across the tracks
-		for (Feature f: tmpTrack)
+		// Distribute the features across the tracks
+		for (Feature f: features)
 		{
-			boolean added = false;
-			for (Vector<Feature> track: trackSet)
+			// Just ignore features that are invisible/disabled
+			if (f.isVisible() == false || f.isAllowed() == false)
+				continue;
+
+			for (int trackNum = size-1; trackNum >= 0; trackNum--)
 			{
-				added = addToTrack(track, f);
-				if (added)
+				ArrayList<FeatureGroup> track = tracks.get(trackNum);
+
+				if (addToTrack(track, f, trackNum == 0))
 					break;
 			}
-
-			if (added == false)
-				trackSet.get(0).add(f);
 		}
 
-		// Return true if any QTLs are on the final track
-		int count = trackSet.size();
-		if (count > 0)
-			return trackSet.get(count-1).size() > 0;
-		else
-			return false;
+		return tracks;
 	}
 
 	// Checks to see if a feature can be added to the end of this track without
 	// clashing with an existing element
-	private boolean addToTrack(Vector<Feature> track, Feature f)
+	// @param group true if the feature should be grouped with any that clash
+	private boolean addToTrack(ArrayList<FeatureGroup> track, Feature f, boolean group)
 	{
 		if (track.size() == 0)
 		{
-			track.add(f);
+			track.add(new FeatureGroup(f));
 			return true;
 		}
 
-		Feature prev = track.get(track.size()-1);
+		FeatureGroup prev = track.get(track.size()-1);
+
 		if (f.getMin() > prev.getMax())
 		{
-			track.add(f);
+			track.add(new FeatureGroup(f));
 			return true;
 		}
-
-		return false;
+		else if (group)
+		{
+			prev.addFeature(f);
+			return true;
+		}
+		else
+			return false;
 	}
 }

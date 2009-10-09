@@ -245,7 +245,7 @@ public class GenotypePanel extends JPanel
 		listPanel.computeDimensions(zoomY);
 		canvas.computeDimensions(zoomX, zoomY);
 		mapCanvas.createImage();
-		qtlCanvas.updateCanvasSize();
+		qtlCanvas.updateCanvasSize(true);
 		traitCanvas.repaint();
 	}
 

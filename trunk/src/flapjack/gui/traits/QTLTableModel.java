@@ -33,18 +33,14 @@ class QTLTableModel extends AbstractTableModel
 
 		// Scan each chromosome
 		for (ChromosomeMap cMap: dataSet.getChromosomeMaps())
-			// And each track within that chromosome
-			for (Vector<Feature> track: cMap.getTrackSet())
-				// And along each track
-				for (Feature feature: track)
-					if (feature instanceof QTL)
-					{
-						QTL qtl = (QTL) feature;
-						qtls.add(qtl);
-
-						if (qtl.isAllowed() == false)
-							qtlOffMap = true;
-					}
+			for (Feature feature: cMap.getFeatures())
+				if (feature instanceof QTL)
+				{
+					QTL qtl = (QTL) feature;
+					qtls.add(qtl);
+					if (qtl.isAllowed() == false)
+						qtlOffMap = true;
+				}
 
 		setColumnNames();
 	}

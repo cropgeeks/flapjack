@@ -123,8 +123,8 @@ public class CreateProject
 		QTLImporter importer = new QTLImporter(qtlsFile, dataSet);
 		importer.runJob();
 
-		QTLTrackOptimiser optimiser = new QTLTrackOptimiser(dataSet);
-		optimiser.optimizeTrackUsage();
+//		QTLTrackOptimiser optimiser = new QTLTrackOptimiser(dataSet);
+//		optimiser.optimizeTrackUsage();
 	}
 
 	private static boolean saveProject()
