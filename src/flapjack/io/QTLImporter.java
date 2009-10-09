@@ -30,7 +30,7 @@ public class QTLImporter implements ITrackableJob
 
 	// Store a "track" per chromsome - the QTLs will be added to the appropriate
 	// track as they are read
-	Hashtable<String, Vector<Feature>> chromosomes = new Hashtable<String, Vector<Feature>>();
+	Hashtable<String, ArrayList<Feature>> chromosomes = new Hashtable<String, ArrayList<Feature>>();
 	// And they'll also be added to this for easy reference
 	LinkedList<QTL> qtls = new LinkedList<QTL>();
 
@@ -44,7 +44,7 @@ public class QTLImporter implements ITrackableJob
 
 		// Add a storage track to each chromosome
 		for (ChromosomeMap c: dataSet.getChromosomeMaps())
-			chromosomes.put(c.getName(), new Vector<Feature>());
+			chromosomes.put(c.getName(), new ArrayList<Feature>());
 
 		try { total = FileUtils.countLines(file, 16384); }
 		catch (IOException e) {}
@@ -105,7 +105,7 @@ public class QTLImporter implements ITrackableJob
 			qtl.setValues(values);
 
 			// Add this QTL to the correct chromosome's track
-			Vector<Feature> track = chromosomes.get(cName);
+			ArrayList<Feature> track = chromosomes.get(cName);
 			if (track != null)
 			{
 				track.add(qtl);
@@ -128,13 +128,10 @@ public class QTLImporter implements ITrackableJob
 		for (ChromosomeMap c: dataSet.getChromosomeMaps())
 		{
 			// Sort the QTLs into map order
-			Vector<Feature> track = chromosomes.get(c.getName());
+			ArrayList<Feature> track = chromosomes.get(c.getName());
 			Collections.sort(track);
 
-			// Then add the track to a new trackset and set to the chromosome
-			Vector<Vector<Feature>> trackSet = new Vector<Vector<Feature>>();
-			trackSet.add(track);
-			c.setTrackSet(trackSet);
+			c.setFeatures(track);
 		}
 	}
 

@@ -108,7 +108,10 @@ public class QTLPanel extends JPanel implements ActionListener
 	private void removeAllTraits()
 	{
 		for (ChromosomeMap c: dataSet.getChromosomeMaps())
-			c.getTrackSet().removeAllElements();
+		{
+			c.getFeatures().clear();
+			c.getFeatures().trimToSize();
+		}
 
 		updateModel();
 		Actions.projectModified();

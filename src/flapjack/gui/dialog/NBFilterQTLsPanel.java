@@ -60,31 +60,30 @@ class NBFilterQTLsPanel extends JPanel implements ActionListener
 
 		// Scan every track in every chromosome
 		for (ChromosomeMap cMap: dataSet.getChromosomeMaps())
-			for (Vector<Feature> track: cMap.getTrackSet())
-				for (Feature feature: track)
-					if (feature instanceof QTL)
-					{
-						QTL qtl = (QTL) feature;
-						count += qtl.isVisible() ? 1 : 0;
+			for (Feature feature: cMap.getFeatures())
+				if (feature instanceof QTL)
+				{
+					QTL qtl = (QTL) feature;
+					count += qtl.isVisible() ? 1 : 0;
 
-						Boolean tValue = traits.get(qtl.getTrait());
+					Boolean tValue = traits.get(qtl.getTrait());
 
-						// Either add the trait information...
-						if (tValue == null)
-							traits.put(qtl.getTrait(), qtl.isVisible());
-						// Or update it to ensure that if *any* QTL is visible
-						// with this trait, then it must be enabled
-						else if (qtl.isVisible())
-							traits.put(qtl.getTrait(), true);
+					// Either add the trait information...
+					if (tValue == null)
+						traits.put(qtl.getTrait(), qtl.isVisible());
+					// Or update it to ensure that if *any* QTL is visible
+					// with this trait, then it must be enabled
+					else if (qtl.isVisible())
+						traits.put(qtl.getTrait(), true);
 
-						// And the same for experiments
-						Boolean eValue = experiments.get(qtl.getExperiment());
+					// And the same for experiments
+					Boolean eValue = experiments.get(qtl.getExperiment());
 
-						if (eValue == null)
-							experiments.put(qtl.getExperiment(), qtl.isVisible());
-						else if (qtl.isVisible())
-							experiments.put(qtl.getExperiment(), true);
-					}
+					if (eValue == null)
+						experiments.put(qtl.getExperiment(), qtl.isVisible());
+					else if (qtl.isVisible())
+						experiments.put(qtl.getExperiment(), true);
+				}
 
 		numberLabel.setText(RB.format(
 			"gui.dialog.NBFilterQTLsPanel.numberLabel", count));
@@ -198,19 +197,18 @@ class NBFilterQTLsPanel extends JPanel implements ActionListener
 
 		// Scan over all the chromosomes/tracks and update the QTLs
 		for (ChromosomeMap cMap: dataSet.getChromosomeMaps())
-			for (Vector<Feature> track: cMap.getTrackSet())
-				for (Feature feature: track)
-					if (feature instanceof QTL && feature.isAllowed())
-					{
-						QTL qtl = (QTL) feature;
+			for (Feature feature: cMap.getFeatures())
+				if (feature instanceof QTL && feature.isAllowed())
+				{
+					QTL qtl = (QTL) feature;
 
-						// Make the QTL visible only if both its trait and
-						// exeperiment values have been set to true
-						if (traits.get(qtl.getTrait()) && experiments.get(qtl.getExperiment()))
-							qtl.setVisible(true);
-						else
-							qtl.setVisible(false);
-					}
+					// Make the QTL visible only if both its trait and
+					// exeperiment values have been set to true
+					if (traits.get(qtl.getTrait()) && experiments.get(qtl.getExperiment()))
+						qtl.setVisible(true);
+					else
+						qtl.setVisible(false);
+				}
 
 
 		// Update the display after the filter has run

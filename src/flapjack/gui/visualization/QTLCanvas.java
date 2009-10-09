@@ -39,7 +39,7 @@ class QTLCanvas extends JPanel implements PropertyChangeListener
 	private Canvas2D qtlCanvas;
 
 	// Quick reference to the data (multiple tracks of features)
-	Vector<Vector<Feature>> trackSet;
+	ArrayList<ArrayList<FeatureGroup>> trackSet;
 
 	// Scaling factor to convert between pixels and map positions
 	private float xScale;
@@ -52,7 +52,6 @@ class QTLCanvas extends JPanel implements PropertyChangeListener
 	// Mouse handling variables
 	private int mouseOverTrack = -1;
 	static Feature mouseOverFeature = null;
-	private Feature featureToMove = null;
 
 	boolean full = false;
 
@@ -79,11 +78,13 @@ class QTLCanvas extends JPanel implements PropertyChangeListener
 		if (Prefs.visShowQTLCanvas && qtlSplitter.getDividerLocation() > BORDER)
 		{
 			Prefs.guiQTLSplitterLocation = qtlSplitter.getDividerLocation();
-		 	updateCanvasSize();
+		 	updateCanvasSize(false);
 		}
 	}
 
-	void updateCanvasSize()
+	// Responds to either canvas size changes, or data (track) changes. If
+	// required, the features will be re-organised over the available tracks.
+	void updateCanvasSize(boolean forceUpdate)
 	{
 		if (canvas.view == null)
 			return;
@@ -91,16 +92,12 @@ class QTLCanvas extends JPanel implements PropertyChangeListener
 		int height = Prefs.guiQTLSplitterLocation - BORDER;
 		int tracks = height / H;
 
-		if ((trackSet != canvas.view.getChromosomeMap().getTrackSet() ||
-			tracks != trackCount) && tracks > 0)
+		if (forceUpdate || tracks != trackCount && tracks > 0)
 		{
 			QTLTrackOptimiser optimiser = new QTLTrackOptimiser(canvas.viewSet.getDataSet());
-			optimiser.setTracks(tracks, canvas.view.getChromosomeMap());
+			trackSet = optimiser.getTracks(tracks, canvas.view.getChromosomeMap());
 
-			trackSet = canvas.view.getChromosomeMap().getTrackSet();
 			trackCount = tracks;
-
-
 		}
 	}
 
@@ -111,9 +108,9 @@ class QTLCanvas extends JPanel implements PropertyChangeListener
 		// that this will be called by a threaded process anyway
 		ImageFactory tempFactory;
 		if(full)
-			tempFactory = new ImageFactory(0, canvas.canvasW, 0, (H*trackSet.size()), true);
+			tempFactory = new ImageFactory(0, canvas.canvasW, (H*trackSet.size()));
 		else
-			tempFactory = new ImageFactory(canvas.pX1, canvas.pX2, 0, (H*trackSet.size()), true);
+			tempFactory = new ImageFactory(canvas.pX1, canvas.pX2, (H*trackSet.size()));
 		tempFactory.run();
 
 		return tempFactory.buffer;
@@ -147,7 +144,7 @@ class QTLCanvas extends JPanel implements PropertyChangeListener
 			float canvasLeft = xS / xScale;
 			float canvasRight = xE / xScale;
 
-			for (Vector<Feature> trackData: trackSet)
+			for (ArrayList<FeatureGroup> trackData: trackSet)
 			{
 				// Move the graphics origin to correct position for this track
 				g.translate(0, H*trackNum);
@@ -162,7 +159,7 @@ class QTLCanvas extends JPanel implements PropertyChangeListener
 					g.drawLine(xS, 10, xE-xS, 10);
 				g.setStroke(solid);
 
-				//do bianry search
+				//do binary search
 				int feature = binarySearch(trackData, 0, (trackData.size()-1), canvasLeft, canvasRight);
 				if(feature != -1)
 				{
@@ -177,19 +174,24 @@ class QTLCanvas extends JPanel implements PropertyChangeListener
 							break;
 					}
 
+					boolean okToDraw = true;
+
 					//search over this list until the right-most visible feature is found.
-					for(Feature f : trackData.subList(feature, trackData.size()))
+					for(FeatureGroup fg : trackData.subList(feature, trackData.size()))
 					{
-						if (f.isVisible() == false || f.isAllowed() == false)
-							continue;
+						int minX = Math.round(xScale * fg.getMin());
+						int maxX = Math.round(xScale * fg.getMax());
 
-						int minX = Math.round(xScale * f.getMin());
-						int maxX = Math.round(xScale * f.getMax());
-
-						if (minX > xE && !full)	// Once QTLs are offscreen-rht, might as well quit
+						if (minX > xE && !full)	// Once QTLs are offscreen-rhs, might as well quit
 							break;
 
-						drawFeature(g, f, minX, maxX, trackNum);
+						for (Feature f: fg)
+						{
+							minX = Math.round(xScale * f.getMin());
+							maxX = Math.round(xScale * f.getMax());
+
+							drawFeature(g, f, minX, maxX, trackNum, fg.size() > 1);
+						}
 					}
 				}
 
@@ -207,12 +209,12 @@ class QTLCanvas extends JPanel implements PropertyChangeListener
 				int minX = Math.round(xScale * mouseOverFeature.getMin());
 				int maxX = Math.round(xScale * mouseOverFeature.getMax());
 
-				drawFeature(g, mouseOverFeature, minX, maxX, mouseOverTrack);
+				drawFeature(g, mouseOverFeature, minX, maxX, mouseOverTrack, false);
 			}
 		}
 
 		// Draws an individual feature
-		private void drawFeature(Graphics2D g, Feature f, int minX, int maxX, int trackNum)
+		private void drawFeature(Graphics2D g, Feature f, int minX, int maxX, int trackNum, boolean grouped)
 		{
 			Color c = f.getDisplayColor();
 			Color c1 = c.brighter();
@@ -225,8 +227,8 @@ class QTLCanvas extends JPanel implements PropertyChangeListener
 			g.fillRect(minX, 5, (maxX-minX+1), 10);
 
 			// Its outline...
-			if (featureToMove == f)
-				g.setColor(Color.blue);
+			if (grouped)
+				g.setColor(Color.black);
 			else if (mouseOverTrack == trackNum && mouseOverFeature == f)
 				g.setColor(Color.red);
 			else
@@ -240,7 +242,7 @@ class QTLCanvas extends JPanel implements PropertyChangeListener
 			}
 		}
 
-		private int binarySearch(Vector<Feature> trackData, int low, int high, float canvasLeft, float canvasRight)
+		private int binarySearch(ArrayList<FeatureGroup> trackData, int low, int high, float canvasLeft, float canvasRight)
 		{
 			if(high < low)
 				return -1;
@@ -317,13 +319,12 @@ class QTLCanvas extends JPanel implements PropertyChangeListener
 			float canvasLeft = canvas.pX1 / xScale;
 			float canvasRight = canvas.pX2 / xScale;
 
-			// Then search the ONSCREEN features to see if it's over any of them
 			// NOTE: the search is backwards (right to left) as F2.pos > F1.pos
 			// will mean F2 is drawn on TOP of F1
 			Feature match = null;
 
 			//grab track that the mouse is over
-			Vector<Feature> onscreen = trackSet.get(mouseOverTrack);
+			ArrayList<FeatureGroup> onscreen = trackSet.get(mouseOverTrack);
 
 			//binary search for visible features
 			int feature = qtlCanvas.binarySearch(onscreen, 0, onscreen.size()-1, canvasLeft, canvasRight);
@@ -343,15 +344,18 @@ class QTLCanvas extends JPanel implements PropertyChangeListener
 				//iterate over this list until the left-most visible feature is found
 				for( int i = onscreen.subList(0, feature).size(); i >= 0; i--)
 				{
-					Feature f = onscreen.get(i);
-
-					if(f.isAllowed() == false || f.isVisible() == false)
-						continue;
-
-					if(f.getMin() <= mapPos && f.getMax() >= mapPos)
+					// Features are stored right-most first (for drawing), so
+					// search the list backwards
+					FeatureGroup fg = onscreen.get(i);
+					for (int fIndex = fg.size()-1; fIndex >= 0; fIndex--)
 					{
-						match = f;
-						break;
+						Feature f = fg.get(fIndex);
+
+						if (f.getMin() <= mapPos && f.getMax() >= mapPos)
+						{
+							match = f;
+							break;
+						}
 					}
 				}
 			}
@@ -371,56 +375,11 @@ class QTLCanvas extends JPanel implements PropertyChangeListener
 			}
 		}
 
-		public void mouseDragged(MouseEvent e)
-		{
-			if (detectTrack(e) == false)
-				return;
-
-			if (featureToMove != null && mouseOverTrack != oldTrack)
-			{
-				// Remove the feature from the old track
-				trackSet.get(oldTrack).remove(featureToMove);
-
-				Vector<Feature> newTrack = trackSet.get(mouseOverTrack);
-				int preSize = newTrack.size();
-				// Search for the best place to insert it into the new track
-				for (int i = 0; i < newTrack.size(); i++)
-					// Either before an existing element
-					if (newTrack.get(i).getMin() >= featureToMove.getMin())
-					{
-						newTrack.add(i, featureToMove);
-						Actions.projectModified();
-
-						break;
-					}
-				// Or on the end...
-				if (newTrack.size() != (preSize+1))
-					newTrack.add(featureToMove);
-
-				oldTrack = mouseOverTrack;
-
-				qtlCanvas.repaint();
-			}
-		}
-
 		public void mousePressed(MouseEvent e)
 		{
 			if (mouseOverFeature == null)
 				return;
 
-			// Meta click operation - we're MOVING a feature
-			if (isMetaClick(e))
-			{
-				oldTrack = mouseOverTrack;
-				featureToMove = mouseOverFeature;
-				mouseOverFeature = null;
-
-				qtlCanvas.repaint();
-				mapCanvas.repaint();
-			}
-
-			// Non meta click - we're SELECTING a feature
-			else
 			{
 				// Used to track the FIRST marker found and set the states of
 				// all the other ones to the same value
@@ -465,81 +424,61 @@ class QTLCanvas extends JPanel implements PropertyChangeListener
 
 		public void mouseReleased(MouseEvent e)
 		{
-			featureToMove = null;
 			detectFeature(e);
-		}
-
-		private boolean isMetaClick(MouseEvent e)
-		{
-			return isOSX && e.isMetaDown() || !isOSX && e.isControlDown();
 		}
 	}
 
-	private class ImageFactory extends Thread
+	private class ImageFactory
 	{
 		BufferedImage buffer;
+		private int w, h, xS, xE;
 
-		// isTempBuffer = true when a buffer is being made for saving as an image
-		private boolean isTempBuffer = false;
-		private int w, h, xS, xE, yS, yE;
-
-		ImageFactory(int xS, int xE, int yS, int yE, boolean isTempBuffer)
+		ImageFactory(int xS, int xE, int h)
 		{
-			this.isTempBuffer = isTempBuffer;
 			this.xS = xS;
 			this.xE = xE;
-			this.yS = yS;
-			this.yE = yE;
+			this.h = h;
+
 			w = xE - xS;
-			h = yE - yS;
 		}
 
-		public void run()
+		void run()
 		{
 			// Run everything under try/catch conditions due to changes in the
 			// view that may invalidate what this thread is trying to access
 			try
 			{
-				createBuffer();
+				try
+				{
+					buffer = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
+				}
+				catch (Throwable t) { return; }
+
+				Graphics2D g2d = buffer.createGraphics();
+
+				// Paint the background (white for exported images)
+				g2d.setColor(Color.white);
+				g2d.fillRect(0, 0, w, h);
+
+				xOffset = gPanel.traitCanvas.getPanelWidth()
+					+ gPanel.listPanel.getPanelWidth() + 1;
+				int width = (canvas.pX2-canvas.pX1);
+
+				if(!full)
+				{
+					g2d.setClip(0, 0, width, getHeight());
+					g2d.translate(-xS, 0);
+
+					xScale = canvas.canvasW / canvas.view.mapLength();
+				}
+
+				qtlCanvas.drawTracks(g2d, xS, xE);
+				g2d.dispose();
 			}
 			catch (Exception e)
 			{
-				System.out.println("MapCanvas: " + e);
+				System.out.println("QTLCanvas: " + e);
 			}
-		}
-
-		private void createBuffer()
-			throws ArrayIndexOutOfBoundsException
-		{
-			try
-			{
-				buffer = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
-			}
-			catch (Throwable t) { return; }
-
-			Graphics2D g2d = buffer.createGraphics();
-
-			if (isTempBuffer)
-				g2d.setColor(Color.white);
-			else
-				// Paint the background
-				g2d.setColor(Prefs.visColorBackground);
-			g2d.fillRect(0, 0, w, h);
-
-			xOffset = gPanel.traitCanvas.getPanelWidth()
-				+ gPanel.listPanel.getPanelWidth() + 1;
-			int width = (canvas.pX2-canvas.pX1);
-
-			if(!full)
-			{
-				g2d.setClip(0, 0, width, getHeight());
-				g2d.translate(-xS, 0);
-
-				xScale = canvas.canvasW / canvas.view.mapLength();
-			}
-
-			qtlCanvas.drawTracks(g2d, xS, xE);
-			g2d.dispose();
 		}
 	}
 }
