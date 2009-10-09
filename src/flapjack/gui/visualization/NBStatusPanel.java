@@ -29,7 +29,6 @@ public class NBStatusPanel extends JPanel implements ActionListener, ChangeListe
 
 		initComponents();
 
-		RB.setText(label1, "gui.visualization.StatusPanel.line");
 		RB.setText(horizontalLabel, "gui.visualization.StatusPanel.horizontalLabel");
 		RB.setText(checkLink, "gui.visualization.StatusPanel.checkLink");
 
@@ -100,12 +99,14 @@ public class NBStatusPanel extends JPanel implements ActionListener, ChangeListe
 
 	void setForMainUse()
 	{
+		RB.setText(label1, "gui.visualization.StatusPanel.line");
 		RB.setText(label2, "gui.visualization.StatusPanel.marker");
 		RB.setText(label3, "gui.visualization.StatusPanel.genotype");
 	}
 
 	void setForHeatmapUse()
 	{
+		RB.setText(label1, "gui.visualization.StatusPanel.line");
 		RB.setText(label2, "gui.visualization.StatusPanel.trait");
 		RB.setText(label3, "gui.visualization.StatusPanel.value");
 	}

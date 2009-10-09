@@ -64,15 +64,6 @@ visible</i> state, that is, whether that QTL should be displayed or not.</p>
 Flapjack will refuse to make them visible and will tag them with a red X in the
 summary table.</p>
 
-<p>Note also the <b>Active tracks</b> option. This allows you to change the number
-of tracks that are used to display QTLs. Flapjack will automatically assign QTLs
-to as many tracks as possible (up to a maximum of seven) in order to avoid
-neighbouring QLTs from overlapping one another on the display. However, you can
-override the number of tracks by changing this option.</p>
-
-<p><a href="images/qtlSummaryOptions.png">
-<img class="capture" src="images/qtlSummaryOptions2.png" alt="Flapjack Screenshot"></a></p>
-
 
 
 <h3>Displaying QTLs</h3>
@@ -90,6 +81,19 @@ the overall size of the box itself. Each QTL will be colour-coded by trait.</p>
 position values, trait, experiment, and any further optional data that may have
 been included in the import file.</p>
 
+<p>The number of visible tracks can be adjusted by dragging the slider below
+the QTLs either up or down. If there is is not enough room to display all the
+QTLs at a given location, Flapjack will collapse them together, and will outline
+the group in black. To ensure that all QTLs are visible, drag the slider lower
+to open more tracks until all black outlines have been removed.
+
+<p>
+<a href="images/blackQTLs.png">
+<img class="capture" src="images/blackQTLs2.png" alt="Flapjack Screenshot"></a>
+&nbsp;&nbsp;
+<a href="images/noblackQTLs.png">
+<img class="capture" src="images/noblackQTLs2.png" alt="Flapjack Screenshot"></a>
+</p>
 
 <h3>Interacting with QTLs</h3>
 
