@@ -163,7 +163,7 @@ public class QTLImporter implements ITrackableJob
 	// Adds a QTL to its chromosome, but also checks if it is on the map itself
 	private void checkChromosome(QTL qtl, String cName)
 	{
-		ChromosomeMap cMap = dataSet.getMapByName(cName, false);
+		ChromosomeMap cMap = dataSet.getMapByName(cName, false).map;
 
 		if (qtl.getMin() < 0 || qtl.getMax() > cMap.getLength() ||
 			qtl.getMax() < 0 || qtl.getMin() > cMap.getLength() ||

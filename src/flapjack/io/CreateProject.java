@@ -85,8 +85,9 @@ public class CreateProject
 		mapImporter.importMap();
 
 		// Read the data file
-		GenotypeDataImporter genoImporter =
-			new GenotypeDataImporter(genotypesFile, dataSet, "-", true, "/");
+		GenotypeDataImporter genoImporter = new GenotypeDataImporter(
+			genotypesFile, dataSet, mapImporter.getMarkersHashMap(), "-", true, "/");
+
 		genoImporter.importGenotypeData();
 
 		PostImportOperations pio = new PostImportOperations(dataSet);

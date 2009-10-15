@@ -60,9 +60,9 @@ public class DataImportingDialog extends JDialog implements Runnable
 		// from the preferences (if a user file is being opened) or with preset
 		// options if we're loading the sample file (which has a set format)
 		if (usePrefs)
-			genoImporter = new GenotypeDataImporter(genoFile, dataSet, Prefs.ioMissingData, Prefs.ioUseHetSep, Prefs.ioHeteroSeparator);
+			genoImporter = new GenotypeDataImporter(genoFile, dataSet, mapImporter.getMarkersHashMap(), Prefs.ioMissingData, Prefs.ioUseHetSep, Prefs.ioHeteroSeparator);
 		else
-			genoImporter = new GenotypeDataImporter(genoFile, dataSet, "-", true, "/");
+			genoImporter = new GenotypeDataImporter(genoFile, dataSet, mapImporter.getMarkersHashMap(), "-", true, "/");
 
 		add(createControls());
 

@@ -123,4 +123,23 @@ public class ChromosomeMap extends XMLRoot implements Iterable<Marker>
 
 		return -1;
 	}
+
+	/**
+	 * Simple wrapper class around a chromosome map, that stores the map itself
+	 * along with the index within whatever data set is currently holding it.
+	 * This is only used at load time, and is done this way because too many
+	 * existing projects (Oct 2009) exist to force existing map objects to now
+	 * hold the index too.
+	 */
+	public static class Wrapper
+	{
+		public ChromosomeMap map;
+		public int index;
+
+		public Wrapper(ChromosomeMap map, int index)
+		{
+			this.map = map;
+			this.index = index;
+		}
+	}
 }
