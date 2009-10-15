@@ -34,8 +34,8 @@ public class UndoManagerTest extends TestCase
 
 		ChromosomeMapImporter mapImporter
 			= new ChromosomeMapImporter(mapFile, dataSet);
-		GenotypeDataImporter genoImporter
-			= new GenotypeDataImporter(genoFile, dataSet, "", true, "/");
+		GenotypeDataImporter genoImporter = new GenotypeDataImporter(genoFile,
+			dataSet, mapImporter.getMarkersHashMap(), "", true, "/");
 
 		mapImporter.importMap();
 		genoImporter.importGenotypeData();

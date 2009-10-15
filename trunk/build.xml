@@ -14,13 +14,9 @@
 	</target>
 
 	<path id="project.classpath">
-		<fileset dir="${lib}">
-			<include name="**/*.jar"/>
-			<exclude name="**/${flapjack.jar}"/>
-		</fileset>
-		<fileset dir="${lib-devel}">
-			<include name="**/*.jar"/>
-		</fileset>
+		<pathelement path="${classes}"/>
+		<fileset dir="${lib}"/>
+		<fileset dir="${lib-devel}"/>
 	</path>
 
 	<target name="compile" depends="init">

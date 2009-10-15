@@ -17,6 +17,10 @@ public class ChromosomeMapImporter
 	private File file;
 	private DataSet dataSet;
 
+	// Each marker's name is stored (only while loading) in a hashmap, along
+	// with the index of the chromosome it is associated with
+	private HashMap<String, MarkerIndex> markers = new HashMap<String, MarkerIndex>();
+
 	private LinkedList<String> duplicates = new LinkedList<String>();
 
 	private boolean isOK = true;
@@ -26,6 +30,9 @@ public class ChromosomeMapImporter
 		this.file = file;
 		this.dataSet = dataSet;
 	}
+
+	public HashMap<String, MarkerIndex> getMarkersHashMap()
+		{ return markers; }
 
 	public void cancelImport()
 		{ isOK = false; }
@@ -59,20 +66,22 @@ public class ChromosomeMapImporter
 			// (And its name), using them to create a new marker
 			Marker marker = new Marker(tokens[0], position);
 
-
-			// Check to see if this marker names already exists (in any map)?
-			int mapIndex = dataSet.getMapIndexByMarkerName(marker.getName());
-			if (mapIndex != -1)
+			// Check to see if this marker already exists (in any map)?
+			MarkerIndex index = markers.get(marker.getName());
+			if (index != null)
 			{
 				duplicates.add(marker.getName() + "\t" + tokens[1] + "\t"
-					+ dataSet.getMapByIndex(mapIndex).getName());
+					+ dataSet.getMapByIndex(index.mapIndex).getName());
 			}
 			else
 			{
 				// Retrieve the map it should be added to
-				ChromosomeMap map = dataSet.getMapByName(tokens[1], true);
+				ChromosomeMap.Wrapper w = dataSet.getMapByName(tokens[1], true);
 				// And add it
-				map.addMarker(marker);
+				w.map.addMarker(marker);
+
+				// And store it in the hashmap too
+				markers.put(marker.getName(), new MarkerIndex(w.index, 0));
 			}
 
 			linesRead++;
@@ -82,8 +91,36 @@ public class ChromosomeMapImporter
 
 		if (isOK)
 			dataSet.sortChromosomeMaps();
+
+		System.out.println("markers.size() = " + markers.size());
+
+		// Once the data is loaded, we need to uupdate the hashmap with the
+		// index (within each map) of each marker, so that the genotype importer
+		// can use it during its loading
+		for (ChromosomeMap map: dataSet.getChromosomeMaps())
+		{
+			int i = 0;
+			for (Marker marker: map)
+				markers.get(marker.getName()).mkrIndex = i++;
+		}
+
+		System.out.println("assigned marker indexes");
 	}
 
 	public LinkedList<String> getDuplicates()
 		{ return duplicates; }
+}
+
+class MarkerIndex
+{
+	// The index of the chromosome map within the data set
+	public int mapIndex;
+	// The index of the marker itself within the map
+	public int mkrIndex;
+
+	public MarkerIndex(int mapIndex, int mkrIndex)
+	{
+		this.mapIndex = mapIndex;
+		this.mkrIndex = mkrIndex;
+	}
 }

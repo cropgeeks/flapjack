@@ -128,30 +128,21 @@ public class DataSet extends XMLRoot
 	}
 
 	/**
-	 * Returns the chromosome map with the given name, or creates a new map with
-	 * this name if it could not be found.
+	 * Returns the chromosome map (and its index within the dataset) with the
+	 * given name, or creates a new map with this name if it could not be found.
 	 */
-	public ChromosomeMap getMapByName(String mapName, boolean create)
+	public ChromosomeMap.Wrapper getMapByName(String mapName, boolean create)
 	{
-		for (ChromosomeMap map: chromosomes)
-			if (map.getName().equals(mapName))
-				return map;
+		for (int i = 0; i < chromosomes.size(); i++)
+			if (chromosomes.get(i).getName().equals(mapName))
+				return new ChromosomeMap.Wrapper(chromosomes.get(i), i);
 
 		ChromosomeMap map = new ChromosomeMap(mapName);
 		chromosomes.add(map);
 
 //		System.out.println("Added map " + map + " to dataset");
 
-		return map;
-	}
-
-	public int getMapIndexByMarkerName(String markerName)
-	{
-		for (ChromosomeMap map: chromosomes)
-			if (map.containsMarker(markerName))
-				return chromosomes.indexOf(map);
-
-		return -1;
+		return new ChromosomeMap.Wrapper(map, chromosomes.size()-1);
 	}
 
 	public int countChromosomeMaps()
