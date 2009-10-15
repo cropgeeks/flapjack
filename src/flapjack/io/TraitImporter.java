@@ -14,6 +14,7 @@ import scri.commons.gui.*;
 
 public class TraitImporter implements ITrackableJob
 {
+	private ProgressInputStream is;
 	private File file;
 	private DataSet dataSet;
 
@@ -26,8 +27,6 @@ public class TraitImporter implements ITrackableJob
 	private Hashtable<String, Vector<TraitValue>> hashtable;
 
 	private boolean isOK = true;
-	private int total;
-	private int count = 2;
 
 	public TraitImporter(File file, DataSet dataSet)
 	{
@@ -35,15 +34,13 @@ public class TraitImporter implements ITrackableJob
 		this.dataSet = dataSet;
 
 		hashtable = new Hashtable<String, Vector<TraitValue>>();
-
-		try { total = FileUtils.countLines(file, 16384); }
-		catch (IOException e) {}
 	}
 
 	public void runJob()
 		throws IOException, DataFormatException
 	{
-		BufferedReader in = new BufferedReader(new FileReader(file));
+		is = new ProgressInputStream(new FileInputStream(file));
+		BufferedReader in = new BufferedReader(new InputStreamReader(is));
 
 		String str = in.readLine();
 		String[] traitNames = str.split("\t");
@@ -52,7 +49,7 @@ public class TraitImporter implements ITrackableJob
 		for (int i = 1; i < traitNames.length; i++)
 			traits.add(new Trait(traitNames[i]));
 
-		for (; (str = in.readLine()) != null && isOK; count++)
+		for (int line = 1; (str = in.readLine()) != null && isOK; line++)
 		{
 			if (str.length() == 0)
 				continue;
@@ -61,7 +58,7 @@ public class TraitImporter implements ITrackableJob
 
 			// Fail if the data per line doesn't match the expected number
 			if (tokens.length != traits.size() + 1)
-				throw new DataFormatException(RB.format("io.DataFormatException.traitColumnError", count));
+				throw new DataFormatException(RB.format("io.DataFormatException.traitColumnError", line));
 
 			String lineName = tokens[0];
 			Vector<TraitValue> values = new Vector<TraitValue>();
@@ -85,7 +82,7 @@ public class TraitImporter implements ITrackableJob
 					catch (Exception e)
 					{
 						if (e.getMessage().equals("NumericalReadError"))
-							throw new DataFormatException(RB.format("io.DataFormatException.traitNumCatError", count, trait.getName()));
+							throw new DataFormatException(RB.format("io.DataFormatException.traitNumCatError", line, trait.getName()));
 					}
 				}
 			}
@@ -170,10 +167,15 @@ public class TraitImporter implements ITrackableJob
 		{ return false; }
 
 	public int getMaximum()
-		{ return total; }
+		{ return 5000; }
 
 	public int getValue()
-		{ return count; }
+	{
+		if (is == null)
+			return 0;
+
+		return (int) (is.getBytesRead() / (float) file.length()) * 5000;
+	}
 
 	public void cancelJob()
 		{ isOK = false; }

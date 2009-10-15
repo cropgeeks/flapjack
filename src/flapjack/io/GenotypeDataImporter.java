@@ -9,10 +9,12 @@ import java.util.*;
 import flapjack.data.*;
 import flapjack.gui.*;
 
+import scri.commons.file.*;
 import scri.commons.gui.*;
 
 public class GenotypeDataImporter
 {
+	private ProgressInputStream is;
 	private File file;
 	private DataSet dataSet;
 	private StateTable stateTable;
@@ -28,7 +30,7 @@ public class GenotypeDataImporter
 	private boolean ioUseHetSep;
 	private String ioHeteroSeparator;
 
-	private int lineCount = 1;
+	private int lineCount = 0;
 	private int markerCount;
 
 	private boolean useByteStorage = true;
@@ -69,7 +71,7 @@ public class GenotypeDataImporter
 			stateTable.resetTable();
 			useByteStorage = false;
 
-			lineCount = 1;
+			lineCount = 0;
 			readData();
 		}
 	}
@@ -79,7 +81,9 @@ public class GenotypeDataImporter
 	{
 		long s = System.currentTimeMillis();
 
-		BufferedReader in = new BufferedReader(new FileReader(file));
+		is = new ProgressInputStream(new FileInputStream(file));
+
+		BufferedReader in = new BufferedReader(new InputStreamReader(is));
 
 		String str = in.readLine();
 
@@ -89,7 +93,7 @@ public class GenotypeDataImporter
 			processHeader(str);
 			str = in.readLine();
 
-			++lineCount;
+			lineCount++;
 		}
 
 		// Split the first line up into an array of marker names (we ignore the
@@ -135,7 +139,7 @@ public class GenotypeDataImporter
 
 			// Check for duplicate line names
 			if (lines.get(values[0]) != null)
-					throw new DataFormatException(RB.format("io.DataFormatException.duplicateLineError", values[0], lineCount));
+					throw new DataFormatException(RB.format("io.DataFormatException.duplicateLineError", values[0], lineCount+1));
 
 			Line line = dataSet.createLine(values[0], useByteStorage);
 			lines.put(line.getName(), line.getName());
@@ -187,4 +191,7 @@ public class GenotypeDataImporter
 			System.out.println("Invalid header: " + str);
 		}
 	}
+
+	public long getBytesRead()
+		{ return (is == null) ? 0 : is.getBytesRead(); }
 }
