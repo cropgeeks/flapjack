@@ -18,12 +18,11 @@ public class QTLImporter implements ITrackableJob
 {
 	private NumberFormat nf = NumberFormat.getInstance();
 
+	private ProgressInputStream is;
 	private File file;
 	private DataSet dataSet;
 
 	private boolean isOK = true;
-	private int total;
-	private int count = 2;
 
 	// Number of expected KNOWN headers in imported file
 	private static final int HEADERCOUNT = 7;
@@ -45,15 +44,13 @@ public class QTLImporter implements ITrackableJob
 		// Add a storage track to each chromosome
 		for (ChromosomeMap c: dataSet.getChromosomeMaps())
 			chromosomes.put(c.getName(), new ArrayList<Feature>());
-
-		try { total = FileUtils.countLines(file, 16384); }
-		catch (IOException e) {}
 	}
 
 	public void runJob()
 		throws Exception
 	{
-		BufferedReader in = new BufferedReader(new FileReader(file));
+		is = new ProgressInputStream(new FileInputStream(file));
+		BufferedReader in = new BufferedReader(new InputStreamReader(is));
 
 		// Read and process the header line
 		String str = in.readLine();
@@ -66,7 +63,7 @@ public class QTLImporter implements ITrackableJob
 
 
 		// Now process the main batch of lines
-		for (; (str = in.readLine()) != null && isOK; count++)
+		for (int line = 1; (str = in.readLine()) != null && isOK; line++)
 		{
 			if (str.length() == 0)
 				continue;
@@ -75,7 +72,7 @@ public class QTLImporter implements ITrackableJob
 
 			// Fail if the data per line doesn't match the expected number
 			if (tokens.length != HEADERCOUNT + scoreHeaders.length)
-				throw new DataFormatException(RB.format("io.DataFormatException.traitColumnError", count));
+				throw new DataFormatException(RB.format("io.DataFormatException.traitColumnError", line));
 
 			// Its name and chromosome
 			QTL qtl = new QTL(new String(tokens[0]));
@@ -180,10 +177,15 @@ public class QTLImporter implements ITrackableJob
 		{ return false; }
 
 	public int getMaximum()
-		{ return total; }
+		{ return 5000; }
 
 	public int getValue()
-		{ return count; }
+	{
+		if (is == null)
+			return 0;
+
+		return (int) (is.getBytesRead() / (float) file.length()) * 5000;
+	}
 
 	public void cancelJob()
 		{ isOK = false; }

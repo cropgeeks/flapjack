@@ -43,6 +43,8 @@ public class DataImportingDialog extends JDialog implements Runnable
 	private boolean isIndeterminate = false;
 	private boolean isOK = false;
 
+	private long totalBytes;
+
 	public DataImportingDialog(File mapFile, File genoFile, boolean usePrefs)
 	{
 		super(
@@ -53,6 +55,7 @@ public class DataImportingDialog extends JDialog implements Runnable
 
 		this.mapFile = mapFile;
 		this.genoFile = genoFile;
+		totalBytes = mapFile.length() + genoFile.length();
 
 		mapImporter  = new ChromosomeMapImporter(mapFile, dataSet);
 
@@ -86,8 +89,7 @@ public class DataImportingDialog extends JDialog implements Runnable
 
 	private JPanel createControls()
 	{
-		pBar = new JProgressBar();
-		pBar.setIndeterminate(true);
+		pBar = new JProgressBar(0, 50000);
 		pBar.setPreferredSize(new Dimension(300, pBar.getPreferredSize().height));
 
 		mapsLabel = new JLabel();
@@ -134,19 +136,12 @@ public class DataImportingDialog extends JDialog implements Runnable
 			// Read the map
 			mapImporter.importMap();
 
-			mapsLabel.setText("  " + dataSet.countChromosomeMaps());
-
-			int lineCount = FileUtils.countLines(genoImporter.getFile(), 16384);
-			pBar.setMaximum(lineCount);
-
 			// Read the genotype data
 			genoImporter.importGenotypeData();
 
 			// Post-import stuff...
 			PostImportOperations pio = new PostImportOperations(dataSet);
-
-			isIndeterminate = true;
-
+			pBar.setIndeterminate(true);
 			pio.setName(genoFile);
 
 			// Collapse heterozyous states
@@ -206,15 +201,16 @@ public class DataImportingDialog extends JDialog implements Runnable
 			{
 				public void run()
 				{
+					long mapBytes = mapImporter.getBytesRead();
+					long genoBytes = genoImporter.getBytesRead();
+					long bytesRead = mapBytes + genoBytes;
+
 					int lineCount = genoImporter.getLineCount();
-
-					pBar.setIndeterminate(isIndeterminate);
-
-					if (lineCount > 0)
-						pBar.setValue(genoImporter.getLineCount());
-
+					mapsLabel.setText("  " + dataSet.countChromosomeMaps());
 					lineLabel.setText("  " + nf.format(genoImporter.getLineCount()));
 					mrksLabel.setText("  " + nf.format(genoImporter.getMarkerCount()));
+
+					pBar.setValue((int)(bytesRead/(float)totalBytes * 50000));
 				}
 			};
 

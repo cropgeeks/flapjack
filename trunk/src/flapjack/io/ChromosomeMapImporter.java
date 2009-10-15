@@ -10,10 +10,12 @@ import java.text.*;
 import flapjack.data.*;
 import flapjack.gui.*;
 
+import scri.commons.file.*;
 import scri.commons.gui.*;
 
 public class ChromosomeMapImporter
 {
+	private ProgressInputStream is;
 	private File file;
 	private DataSet dataSet;
 
@@ -40,7 +42,9 @@ public class ChromosomeMapImporter
 	public void importMap()
 		throws IOException, DataFormatException
 	{
-		BufferedReader in = new BufferedReader(new FileReader(file));
+		is = new ProgressInputStream(new FileInputStream(file));
+
+		BufferedReader in = new BufferedReader(new InputStreamReader(is));
 		NumberFormat nf = NumberFormat.getInstance();
 
 		String str = null;
@@ -109,6 +113,9 @@ public class ChromosomeMapImporter
 
 	public LinkedList<String> getDuplicates()
 		{ return duplicates; }
+
+	public long getBytesRead()
+		{ return (is == null) ? 0 : is.getBytesRead(); }
 }
 
 class MarkerIndex
