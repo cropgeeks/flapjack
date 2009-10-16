@@ -26,6 +26,11 @@ menu of Flapjack's main menu bar.</p>
 <p>Displays the <a href="gui.dialog.ExportImageDialog.shtml">Export Image</a>
 dialog that allows you to save various captures of Flapjack's display area to disk.</p>
 
+<h3>Export view as image</h3>
+<p>Displays the <a href="gui.dialog.ExportDataDialog.shtml">Export Data</a>
+dialog that allows you to save the state of
+the current data set (maps, markers, and genotypes) as plain text files.</p>
+
 <h3>Colour scheme</h3>
 <p>Opens a sub-menu displaying various options for selecting or modifying the
 colour scheme in use by the current view.</p>

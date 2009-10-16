@@ -15,7 +15,8 @@ public class ChromosomeMapExporter implements ITrackableJob
 
 	private File file;
 	private GTViewSet viewSet;
-	private boolean allMarkers;
+	private boolean useAll;
+	private boolean[] chrm;
 
 	// Is it still ok for the export to go ahead?
 	private boolean isOK = true;
@@ -25,13 +26,13 @@ public class ChromosomeMapExporter implements ITrackableJob
 	private int count;
 
 
-	public ChromosomeMapExporter(File file, GTViewSet viewSet, boolean allMarkers)
+	public ChromosomeMapExporter(File file, GTViewSet viewSet, boolean useAll, boolean[] chrm, int total)
 	{
 		this.file = file;
 		this.viewSet = viewSet;
-		this.allMarkers = allMarkers;
-
-		total = viewSet.countAllMarkers();
+		this.useAll = useAll;
+		this.chrm = chrm;
+		this.total = total;
 	}
 
 	public void runJob()
@@ -44,10 +45,14 @@ public class ChromosomeMapExporter implements ITrackableJob
 		{
 			GTView view = viewSet.getView(c);
 
+			// Skip any chromosomes that weren't selected
+			if (chrm[c] == false)
+				continue;
+
 			// ...and for each marker within the current chromosome...
 			for (int i = 0; i < view.getMarkerCount() && isOK; i++, count++)
 			{
-				if (allMarkers || view.isMarkerSelected(i))
+				if (useAll || view.isMarkerSelected(i))
 				{
 					out.write(view.getMarker(i).getName() + "\t"
 						+ view.getChromosomeMap().getName() + "\t"

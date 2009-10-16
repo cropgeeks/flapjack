@@ -6,14 +6,16 @@ package flapjack.gui.dialog;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import javax.swing.table.*;
 
+import flapjack.data.*;
 import flapjack.gui.*;
 
 import scri.commons.gui.*;
 
 class NBExportDataPanel extends JPanel implements ActionListener
 {
-	public NBExportDataPanel(ExportDataDialog dialog)
+	public NBExportDataPanel(ExportDataDialog dialog, GTViewSet viewSet)
 	{
 		initComponents();
 
@@ -22,25 +24,103 @@ class NBExportDataPanel extends JPanel implements ActionListener
 
 		mapPanel.setBorder(BorderFactory.createTitledBorder(RB.getString("gui.dialog.NBExportDataPanel.panel.title")));
 		RB.setText(label, "gui.dialog.NBExportDataPanel.label");
-		RB.setText(markerLabel, "gui.dialog.NBExportDataPanel.markerLabel");
-		RB.setText(rMapAll, "gui.dialog.NBExportDataPanel.rMapAll");
-		RB.setText(rMapSelected, "gui.dialog.NBExportDataPanel.rMapSelected");
-		RB.setText(genotypeLabel, "gui.dialog.NBExportDataPanel.genotypeLabel");
-		RB.setText(rDatAll, "gui.dialog.NBExportDataPanel.rDatAll");
-		RB.setText(rDatSelected, "gui.dialog.NBExportDataPanel.rDatSelected");
+		RB.setText(radioLabel, "gui.dialog.NBExportDataPanel.radioLabel");
+		RB.setText(rAll, "gui.dialog.NBExportDataPanel.rAll");
+		RB.setText(rSelected, "gui.dialog.NBExportDataPanel.rSelected");
 
-		combo.addActionListener(this);
 		combo.addItem(RB.getString("gui.dialog.NBExportDataPanel.comboMap"));
 		combo.addItem(RB.getString("gui.dialog.NBExportDataPanel.comboDat"));
-		actionPerformed(null);
+
+		selectAllLabel.addActionListener(this);
+		selectNoneLabel.addActionListener(this);
+
+		createTable(viewSet);
+	}
+
+	private void createTable(GTViewSet viewSet)
+	{
+		String[] columnNames = {
+			RB.getString("gui.dialog.NBExportDataPanel.column1"),
+			RB.getString("gui.dialog.NBExportDataPanel.column2"),
+			RB.getString("gui.dialog.NBExportDataPanel.column3"),
+			RB.getString("gui.dialog.NBExportDataPanel.column4")
+		};
+
+		// Fill the data array with the string values from the list
+		Object[][] data = new Object[viewSet.chromosomeCount()][4];
+
+		for (int i = 0; i < viewSet.chromosomeCount(); i++)
+		{
+			GTView view = viewSet.getView(i);
+
+			data[i][0] = new Boolean(true);
+			data[i][1] = view.getChromosomeMap().getName();
+			data[i][2] = view.countSelectedMarkers() + " / "
+				+ view.getMarkerCount();
+			data[i][3] = view.countSelectedLines() + " / "
+				+ view.getLineCount();
+		}
+
+		table.setModel(new DefaultTableModel(data, columnNames)
+		{
+			public Class getColumnClass(int c) {
+				return getValueAt(0, c).getClass();
+			}
+
+			public boolean isCellEditable(int row, int col) {
+				return col == 0;
+			}
+		});
+
+		table.getColumnModel().getColumn(0).setPreferredWidth(30);
+		table.setDefaultRenderer(String.class, new StringRenderer());
 	}
 
 	public void actionPerformed(ActionEvent e)
 	{
-		boolean enableLines = combo.getSelectedIndex() == 1;
-		rDatAll.setEnabled(enableLines);
-		rDatSelected.setEnabled(enableLines);
-		genotypeLabel.setEnabled(enableLines);
+		if(e.getSource() == selectAllLabel)
+		{
+			for (int i = 0; i < table.getRowCount(); i++)
+				table.setValueAt(true, i, 0);
+		}
+
+		if(e.getSource() == selectNoneLabel)
+		{
+			for (int i = 0; i < table.getRowCount(); i++)
+				table.setValueAt(false, i, 0);
+		}
+	}
+
+	// Generates a boolean array with a true/false selected state for each of
+	// the possible chromosomes that could be used to export data from
+	boolean[] getSelectedChromosomes()
+	{
+		boolean[] array = new boolean[table.getRowCount()];
+
+		for (int i = 0; i < array.length; i++)
+			array[i] = (Boolean) table.getValueAt(i, 0);
+
+		return array;
+	}
+
+	// Renders strings in the table so that they are centered
+	static class StringRenderer extends JLabel implements TableCellRenderer
+	{
+		private static Color bgColor = (Color)UIManager.get("Table.background");
+
+		public StringRenderer()
+		{
+			super("", JLabel.CENTER);
+
+			setBackground(bgColor);
+			setOpaque(true);
+		}
+
+		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column)
+		{
+			setText(value.toString());
+			return this;
+		}
 	}
 
     /** This method is called from within the constructor to
@@ -55,37 +135,51 @@ class NBExportDataPanel extends JPanel implements ActionListener
         mapGroup = new javax.swing.ButtonGroup();
         datGroup = new javax.swing.ButtonGroup();
         mapPanel = new javax.swing.JPanel();
-        markerLabel = new javax.swing.JLabel();
-        rMapAll = new javax.swing.JRadioButton();
-        rMapSelected = new javax.swing.JRadioButton();
-        genotypeLabel = new javax.swing.JLabel();
-        rDatAll = new javax.swing.JRadioButton();
-        rDatSelected = new javax.swing.JRadioButton();
+        radioLabel = new javax.swing.JLabel();
+        rAll = new javax.swing.JRadioButton();
+        rSelected = new javax.swing.JRadioButton();
         label = new javax.swing.JLabel();
         combo = new javax.swing.JComboBox();
+        tableLabel = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        table = new javax.swing.JTable();
+        selectAllLabel = new scri.commons.gui.matisse.HyperLinkLabel();
+        label2 = new javax.swing.JLabel();
+        selectNoneLabel = new scri.commons.gui.matisse.HyperLinkLabel();
 
         mapPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Export options:"));
 
-        markerLabel.setText("Include map information for the following markers:");
+        radioLabel.setText("Include information for the following markers and lines:");
 
-        mapGroup.add(rMapAll);
-        rMapAll.setSelected(true);
-        rMapAll.setText("All markers");
+        mapGroup.add(rAll);
+        rAll.setSelected(true);
+        rAll.setText("All markers and lines");
 
-        mapGroup.add(rMapSelected);
-        rMapSelected.setText("Only markers I have selected");
-
-        genotypeLabel.setText("Include genotype information for the following lines:");
-
-        datGroup.add(rDatAll);
-        rDatAll.setSelected(true);
-        rDatAll.setText("All lines");
-
-        datGroup.add(rDatSelected);
-        rDatSelected.setText("Only lines I have selected");
+        mapGroup.add(rSelected);
+        rSelected.setText("Only markers and lines I have selected");
 
         label.setLabelFor(combo);
         label.setText("Export file type:");
+
+        tableLabel.setText("Only include data from the following selected chromosomes:");
+
+        table.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+
+            }
+        ));
+        table.setRowSelectionAllowed(false);
+        table.getTableHeader().setReorderingAllowed(false);
+        jScrollPane1.setViewportView(table);
+
+        selectAllLabel.setText("Select all");
+
+        label2.setText("|");
+
+        selectNoneLabel.setText("Select none");
 
         org.jdesktop.layout.GroupLayout mapPanelLayout = new org.jdesktop.layout.GroupLayout(mapPanel);
         mapPanel.setLayout(mapPanelLayout);
@@ -97,13 +191,18 @@ class NBExportDataPanel extends JPanel implements ActionListener
                     .add(mapPanelLayout.createSequentialGroup()
                         .add(label)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                        .add(combo, 0, 162, Short.MAX_VALUE))
-                    .add(rMapAll)
-                    .add(markerLabel)
-                    .add(rMapSelected)
-                    .add(rDatSelected)
-                    .add(rDatAll)
-                    .add(genotypeLabel))
+                        .add(combo, 0, 319, Short.MAX_VALUE))
+                    .add(rAll)
+                    .add(radioLabel)
+                    .add(rSelected)
+                    .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 407, Short.MAX_VALUE)
+                    .add(mapPanelLayout.createSequentialGroup()
+                        .add(selectAllLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(label2)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(selectNoneLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    .add(tableLabel))
                 .addContainerGap())
         );
         mapPanelLayout.setVerticalGroup(
@@ -114,17 +213,20 @@ class NBExportDataPanel extends JPanel implements ActionListener
                     .add(label)
                     .add(combo, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .add(18, 18, 18)
-                .add(markerLabel)
+                .add(radioLabel)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(rMapAll)
+                .add(rAll)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(rMapSelected)
+                .add(rSelected)
                 .add(18, 18, 18)
-                .add(genotypeLabel)
+                .add(tableLabel)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(rDatAll)
+                .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 153, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(rDatSelected)
+                .add(mapPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(label2)
+                    .add(selectAllLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(selectNoneLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -141,8 +243,8 @@ class NBExportDataPanel extends JPanel implements ActionListener
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
                 .addContainerGap()
-                .add(mapPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .add(mapPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -150,15 +252,18 @@ class NBExportDataPanel extends JPanel implements ActionListener
     // Variables declaration - do not modify//GEN-BEGIN:variables
     javax.swing.JComboBox combo;
     private javax.swing.ButtonGroup datGroup;
-    private javax.swing.JLabel genotypeLabel;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel label;
+    private javax.swing.JLabel label2;
     private javax.swing.ButtonGroup mapGroup;
     private javax.swing.JPanel mapPanel;
-    private javax.swing.JLabel markerLabel;
-    javax.swing.JRadioButton rDatAll;
-    private javax.swing.JRadioButton rDatSelected;
-    javax.swing.JRadioButton rMapAll;
-    private javax.swing.JRadioButton rMapSelected;
+    javax.swing.JRadioButton rAll;
+    private javax.swing.JRadioButton rSelected;
+    private javax.swing.JLabel radioLabel;
+    private scri.commons.gui.matisse.HyperLinkLabel selectAllLabel;
+    private scri.commons.gui.matisse.HyperLinkLabel selectNoneLabel;
+    private javax.swing.JTable table;
+    private javax.swing.JLabel tableLabel;
     // End of variables declaration//GEN-END:variables
 
 }

@@ -58,6 +58,7 @@ class NavPanel extends JPanel
 		gPanel = new GenotypePanel(winMain);
 
 		vSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
+		vSplitPane.setBorder(BorderFactory.createEmptyBorder());
 		vSplitPane.setResizeWeight(1);
 		vSplitPane.addPropertyChangeListener(this);
 		vSplitPane.setDividerLocation(Prefs.guiOverviewSplitsLocation);
@@ -65,6 +66,7 @@ class NavPanel extends JPanel
 		vSplitPane.setBottomComponent(OverviewManager.getPanel());
 
 		hSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
+		hSplitPane.setBorder(BorderFactory.createEmptyBorder());
 		hSplitPane.addPropertyChangeListener(this);
 		hSplitPane.setDividerLocation(Prefs.guiNavSplitsLocation);
 		hSplitPane.setLeftComponent(vSplitPane);
