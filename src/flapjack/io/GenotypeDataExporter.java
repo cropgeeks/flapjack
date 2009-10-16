@@ -15,7 +15,8 @@ public class GenotypeDataExporter implements ITrackableJob
 
 	private File file;
 	private GTViewSet viewSet;
-	private boolean allMarkers, allLines;
+	private boolean useAll;
+	private boolean[] chrm;
 
 	// Is it still ok for the export to go ahead?
 	private boolean isOK = true;
@@ -24,14 +25,13 @@ public class GenotypeDataExporter implements ITrackableJob
 	// How many lines HAVE been processed?
 	private int count;
 
-	public GenotypeDataExporter(File file, GTViewSet viewSet, boolean allMarkers, boolean allLines)
+	public GenotypeDataExporter(File file, GTViewSet viewSet, boolean useAll, boolean[] chrm, int total)
 	{
 		this.file = file;
 		this.viewSet = viewSet;
-		this.allMarkers = allMarkers;
-		this.allLines = allLines;
-
-		total = viewSet.getView(0).getLineCount();
+		this.useAll = useAll;
+		this.chrm = chrm;
+		this.total = total;
 	}
 
 	public void runJob()
@@ -62,8 +62,12 @@ public class GenotypeDataExporter implements ITrackableJob
 		{
 			GTView view = viewSet.getView(c);
 
+			// Skip any chromosomes that weren't selected
+			if (chrm[c] == false)
+				continue;
+
 			for (int i = 0; i < view.getMarkerCount(); i++)
-				if (allMarkers || view.isMarkerSelected(i))
+				if (useAll || view.isMarkerSelected(i))
 					out.write(view.getMarker(i).getName() + "\t");
 		}
 
@@ -81,18 +85,23 @@ public class GenotypeDataExporter implements ITrackableJob
 			if (view.isDummyLine(view.getLine(line)))
 				continue;
 
-			if (allLines || view.isLineSelected(line))
+			if (useAll || view.isLineSelected(line))
 			{
 				out.write(view.getLine(line).getName() + "\t");
 
 				for (int v = 0; v < viewSet.chromosomeCount(); v++)
 				{
 					GTView cView = viewSet.getView(v);
+
+					// Skip any chromosomes that weren't selected
+					if (chrm[v] == false)
+						continue;
+
 					cView.cacheLines();
 
 					for (int marker = 0; marker < cView.getMarkerCount() && isOK; marker++)
 					{
-						if (allMarkers || cView.isMarkerSelected(marker))
+						if (useAll || cView.isMarkerSelected(marker))
 						{
 							int state = cView.getState(line, marker);
 							out.write(stateTable.getAlleleState(state) + "\t");

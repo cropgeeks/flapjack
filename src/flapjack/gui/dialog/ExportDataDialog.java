@@ -35,7 +35,7 @@ public class ExportDataDialog extends JDialog implements ActionListener
 		baseName = viewSet.getDataSet().getName();
 		baseName = baseName.substring(0, baseName.lastIndexOf(" "));
 
-		nbPanel = new NBExportDataPanel(this);
+		nbPanel = new NBExportDataPanel(this, viewSet);
 
 		add(new TitlePanel2(), BorderLayout.NORTH);
 		add(nbPanel);
@@ -83,13 +83,18 @@ public class ExportDataDialog extends JDialog implements ActionListener
 	}
 
 	// Counts how many markers will be exported
-	private int getMarkerCount()
+	private int getMarkerCount(boolean[] chrm)
 	{
-		boolean allMarkers = nbPanel.rMapAll.isSelected();
+		boolean allMarkers = nbPanel.rAll.isSelected();
 
 		int count = 0;
-		for (GTView view: viewSet.getViews())
+		for (int i = 0; i < viewSet.chromosomeCount(); i++)
 		{
+			if (chrm[i] == false)
+				continue;
+
+			GTView view = viewSet.getView(i);
+
 			if (allMarkers)
 				count += view.getMarkerCount();
 			else
@@ -102,7 +107,7 @@ public class ExportDataDialog extends JDialog implements ActionListener
 	// Counts how many lines will be exported
 	private int getLineCount()
 	{
-		boolean allLines = nbPanel.rDatAll.isSelected();
+		boolean allLines = nbPanel.rAll.isSelected();
 		int count = 0;
 
 		if (allLines)
@@ -114,15 +119,18 @@ public class ExportDataDialog extends JDialog implements ActionListener
 	// Export the map to disk
 	private void exportMap()
 	{
-		boolean allMarkers = nbPanel.rMapAll.isSelected();
+		boolean useAll = nbPanel.rAll.isSelected();
+		boolean[] chrm = nbPanel.getSelectedChromosomes();
 
-		String name = baseName + "_" + getMarkerCount() + ".map";
+		int count = getMarkerCount(chrm);
+
+		String name = baseName + "_" + count + ".map";
 		File filename = promptForFilename(name, "map");
 
 		if (filename != null)
 		{
 			ChromosomeMapExporter exporter
-				= new ChromosomeMapExporter(filename, viewSet, allMarkers);
+				= new ChromosomeMapExporter(filename, viewSet, useAll, chrm, count);
 
 			displayDialog(exporter, filename);
 		}
@@ -131,17 +139,20 @@ public class ExportDataDialog extends JDialog implements ActionListener
 	// Export the genotype data to disk
 	private void exportDat()
 	{
-		String name = baseName + "_" + viewSet.getName() + "_"
-			+ getLineCount() + "x" + getMarkerCount() + ".dat";
-		File filename = promptForFilename(name, "dat");
+		boolean useAll = nbPanel.rAll.isSelected();
+		boolean[] chrm = nbPanel.getSelectedChromosomes();
 
-		boolean allMarkers = nbPanel.rMapAll.isSelected();
-		boolean allLines = nbPanel.rDatAll.isSelected();
+		int mrkrCount = getMarkerCount(chrm);
+		int lineCount = getLineCount();
+
+		String name = baseName + "_" + viewSet.getName() + "_"
+			+ lineCount + "x" + mrkrCount + ".dat";
+		File filename = promptForFilename(name, "dat");
 
 		if (filename != null)
 		{
 			GenotypeDataExporter exporter
-				= new GenotypeDataExporter(filename, viewSet, allMarkers, allLines);
+				= new GenotypeDataExporter(filename, viewSet, useAll, chrm, lineCount);
 
 			displayDialog(exporter, filename);
 		}
