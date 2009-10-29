@@ -25,11 +25,27 @@ subversion change log</a>.</p>
 <p>For information on what <i>might</i> be appearing in a future version of Flapjack,
 please see the <a href="../future-work.shtml">future work</a> page.</p>
 
+<h3>New in 0.09.10.29</h3>
+
+<ul>
+<li>NEW: Importing very large chromosomes (> 20,000 markers) is now significantly quicker.</li>
+<li>NEW: You can now choose which chromosomes are including when exporting data as text.</li>
+<li>NEW: The number of tracks used for QTLs is now dynamic, based on a draggable slider below their display.</li>
+<li>NEW: QTLs are now painted bottom-to-top, keeping them closer to the map than before.</li>
+<li>NEW: QTLs that overlap one another on the same track are now outlined in black.</li>
+<li>CHG: As QTL layout is now dynamic based on the slider position, support for CTRL/CMD movement of QTL between tracks has been removed.</li>
+<li>CHG: QTL changes have meant a slight change to the .flapjack project format, so any existing projects will need any QTL data reimported.</li>
+<li>CHG: Simplified the settings dialog for exporting data as text.</li>
+<li>BUG: The status labels at the bottom of the screen were not resetting properly after mousing-over QTLs.</li>
+</ul>
+
+
 <h3>New in 0.09.10.02</h3>
 
 <ul>
 <li>BUG: Fixed a rendering bug that was causing the chromosome map to incorrectly link its lines to the markers.</li>
 </ul>
+
 
 <h3>New in 0.09.10.01</h3>
 
@@ -40,6 +56,7 @@ please see the <a href="../future-work.shtml">future work</a> page.</p>
 <li>BUG: Fixed a problem with hidden QTLs reappearing if the mouse moved over their position.</li>
 <li>BUG: Fixed a problem with some QTLs not responding to mouse over events.</li>
 </ul>
+
 
 <h3>New in 0.09.08.26</h3>
 
@@ -55,6 +72,7 @@ please see the <a href="../future-work.shtml">future work</a> page.</p>
 <li>BUG: Fixed an issue that was occuring on some systems that was stopping Flapjack from exiting properly.</li>
 </ul>
 
+
 <h3>New in 0.09.07.27</h3>
 
 <ul>
@@ -64,6 +82,7 @@ please see the <a href="../future-work.shtml">future work</a> page.</p>
 <li>BUG: Fixed a critical bug that effected QTL data that didn't have any additional/optional data columns.</li>
 </ul>
 
+
 <h3>New in 0.09.06.19</h3>
 
 <ul>
@@ -72,6 +91,7 @@ please see the <a href="../future-work.shtml">future work</a> page.</p>
 <li>NEW: The random colour scheme now has two choices of style (HSB or WebSafe).</li>
 <li>NEW: A lot more help topics have been added to the web site.</li>
 </ul>
+
 
 <h3>New in 0.09.03.09</h3>
 
@@ -98,6 +118,7 @@ please see the <a href="../future-work.shtml">future work</a> page.</p>
 <li>BUG: Fixed a problem with importing genotype data files that contain non zero length lines that held no data.</li>
 </ul>
 
+
 <h3>New in 0.09.02.03</h3>
 
 <ul>
@@ -107,6 +128,7 @@ please see the <a href="../future-work.shtml">future work</a> page.</p>
 <li>BUG: Re-clicking on the same row again in the Find Dialog will now graphically highlight the result again.</li>
 <li>BUG: The two-colour scheme now properly colours heterozygotes to match the colours selected for the primary homozygotes.</li>
 </ul>
+
 
 <h3>New in 0.09.01.27</h3>
 
@@ -123,6 +145,7 @@ please see the <a href="../future-work.shtml">future work</a> page.</p>
 <li>BUG: Fixed issues with importing data that mixed the case of genotypes (eg 'a' and 'A').</li>
 </ul>
 
+
 <h3>New in 0.08.09.05</h3>
 
 <ul>
@@ -134,6 +157,7 @@ please see the <a href="../future-work.shtml">future work</a> page.</p>
 <li>BUG: Fixed errors relating to mixing numerical and categorical data for a single trait.</li>
 <li>BUG: Fixed a bug that caused inverting the selection states of lines to run incorrectly.</li>
 </ul>
+
 
 <h3>New in 0.08.08.08</h3>
 

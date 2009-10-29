@@ -17,7 +17,7 @@
 
 <h2>Download Flapjack</h2>
 
-<p>The most recent release of Flapjack is <b>0.09.10.02</b> (2nd October 2009).</p>
+<p>The most recent release of Flapjack is <b>0.09.10.29</b> (29th October 2009).</p>
 
 <p>Please use the links below to download the Flapjack installer most suitable
 for your operating system. Flapjack is currently available for:</p>
@@ -27,7 +27,7 @@ for your operating system. Flapjack is currently available for:</p>
 	<td>&nbsp;&nbsp;&nbsp;</td>
 	<td><img src="images/icon_windows.gif" alt="Windows"></td>
 	<td>
-		<a href="installers/flapjack_windows_0_09_10_02.exe"
+		<a href="installers/flapjack_windows_0_09_10_29.exe"
 		onClick="javascript: pageTracker._trackPageview('/installers/windows_x86');">Microsoft Windows</a> (19.1MB)
 	</td>
 </tr>
@@ -35,7 +35,7 @@ for your operating system. Flapjack is currently available for:</p>
 	<td>&nbsp;&nbsp;&nbsp;</td>
 	<td><img src="images/icon_osx.gif" alt="OS X"></td>
 	<td>
-		<a href="installers/flapjack_macos_0_09_10_02.dmg"
+		<a href="installers/flapjack_macos_0_09_10_29.dmg"
 		onClick="javascript: pageTracker._trackPageview('/installers/macosx');">Apple Mac OS X</a> (2.8MB)
 	</td>
 </tr>
@@ -43,7 +43,7 @@ for your operating system. Flapjack is currently available for:</p>
 	<td>&nbsp;&nbsp;&nbsp;</td>
 	<td><img src="images/icon_linux.gif" alt="Linux"></td>
 	<td>
-		<a href="installers/flapjack_linux_0_09_10_02.sh"
+		<a href="installers/flapjack_linux_0_09_10_29.sh"
 		onClick="javascript: pageTracker._trackPageview('/installers/linux_x86');">Linux</a> (22.0MB)
 	</td>
 </tr>
