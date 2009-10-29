@@ -1,0 +1,107 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+
+<html>
+<head>
+<meta http-equiv="Content-Language" content="en-gb">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+<link rel="stylesheet" href="../stylesheet/styles.css" type="text/css">
+
+<title>Visualization Menu</title>
+
+</head>
+<body>
+
+<!--#include virtual="header.html" -->
+
+
+<h2>Visualization Menu</h2>
+
+<p>This reference page describes each item found within the <b>Visualization</b>
+menu of Flapjack's main menu bar.</p>
+
+
+
+<h3>Export view as image</h3>
+<p>Displays the <a href="gui.dialog.ExportImageDialog.shtml">Export Image</a>
+dialog that allows you to save various captures of Flapjack's display area to disk.</p>
+
+<h3>Export view as image</h3>
+<p>Displays the <a href="gui.dialog.ExportDataDialog.shtml">Export Data</a>
+dialog that allows you to save the state of
+the current data set (maps, markers, and genotypes) as plain text files.</p>
+
+<h3>Colour scheme</h3>
+<p>Opens a sub-menu displaying various options for selecting or modifying the
+colour scheme in use by the current view.</p>
+
+<h5>Nucleotide model</h5>
+<p>Selects the nucleotide model as the current colour scheme for the view.</p>
+
+<h5>Simple 2 colour model</h5>
+<p>Selects the simple 2 colour model as the current colour scheme for the view.</p>
+
+<h5>By similarity to line (2 colour)</h5>
+<p>Prompts for a comparison line and uses it as the basis for setting the line
+similarity scheme as the current colour scheme for the view.</p>
+
+<h5>By allele frequency</h5>
+<p>Selects the allele frequency colour model as the current colour scheme for
+the view, and displays the <a href="gui.dialog.AlleleFrequencyDialog.shtml">Allele
+Frequency Threshold</a> dialog to confirm its settings.</p>
+
+<h5>Random (HSB)</h5>
+<p>Selects a random colour model (based on hue/saturation/brightness values) as
+the current colour scheme for the view.</p>
+
+<h5>Random (Websafe)</h5>
+<p>Selects a random colour model (based on a palette of 216 web safe colours) as
+the current colour scheme for the view.</p>
+
+<h5>Customize</h5>
+<p>Displays the <a href="gui.dialog.ColorDialog.shtml">Customize Colours</a>
+dialog that allows you to select and/or modify the colour scheme for the current
+view in more detail.</p>
+
+
+<h3>Overlay genotypes</h3>
+<p>Toggles on or off the option to display textual genotypic information as an
+overlay on top of each visible allele position. Regardless of this setting's
+state, it will only take effect at higher zoom levels (when the size of each
+allele's "box" is large).</p>
+
+<h3>Highlight heterozygotes</h3>
+<p>Toggles on or off the option to enhance the display of heterozygous alleles,
+dimming all other remaining alleles so that they are less visible.</p>
+
+<h3>Select traits</h3>
+<p>Displays the <a href="gui.dialog.SelectTraitsDialog.shtml">Select Traits</a>
+dialog that allows you to pick which traits should be displayed on the traits
+heatmap alongside the list of line names.</p>
+
+<h3>Create new view</h3>
+<p>Displays the <a href="gui.dialog.NewViewDialog.shtml">Create New View</a>
+dialog that allows you to create a new view of the existing data set, or to
+clone/copy an existing view.</p>
+
+<h3>Rename view</h3>
+<p>Displays the <b>Rename</b> dialog that allows you to rename the current view.</p>
+
+<h3>Delete view</h3>
+<p>Offers the option to permamently delete the current view from the active
+project.</p>
+
+<h3>Toggle visible displays view</h3>
+<p>Displays the <b>Toggle Visible Displays</b> dialog that allows you to decide
+which components of the display area should be visible or not.</p>
+
+<h3>Show overview</h3>
+<p>Toggles on or off the <b>Overview</b> dialog that provides an overview of the
+entire data area in a separate floating dialog that can be moved and resized
+independently of Flapjack's main window.</p>
+
+
+<!--#include virtual="footer.html" -->
+
+</body>
+</html>
