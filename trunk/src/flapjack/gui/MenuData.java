@@ -112,6 +112,10 @@ class MenuData
 			{
 				String lineURL = URLEncoder.encode(line.getName(), "UTF-8");
 				String url = db.getLineSearch().replace("$LINE", lineURL);
+				if (url.indexOf("?") == -1)
+					url += "?application=flapjack";
+				else
+					url += "&application=flapjack";
 
 				FlapjackUtils.visitURL(url.toString());
 			}
@@ -133,6 +137,10 @@ class MenuData
 			{
 				String markerURL = URLEncoder.encode(marker.getName(), "UTF-8");
 				String url = db.getMarkerSearch().replace("$MARKER", markerURL);
+				if (url.indexOf("?") == -1)
+					url += "?application=flapjack";
+				else
+					url += "&application=flapjack";
 
 				FlapjackUtils.visitURL(url);
 			}
