@@ -28,6 +28,7 @@ public class GenotypePanel extends JPanel
 	// than passing messages through this class all the time
 	GenotypeCanvas canvas;
 	MapCanvas mapCanvas;
+	private MiniMapCanvas miniMapCanvas;
 	private RowCanvas rowCanvas;
 	private ColCanvas colCanvas;
 	private QTLCanvas qtlCanvas;
@@ -69,6 +70,7 @@ public class GenotypePanel extends JPanel
 		// Scrolling components above the main display (qtl, map, etc)
 		JPanel topPanel = new JPanel(new BorderLayout());
 //		topPanel.add(qtlCanvas, BorderLayout.NORTH);
+		topPanel.add(miniMapCanvas, BorderLayout.NORTH);
 		topPanel.add(mapCanvas, BorderLayout.CENTER);
 
 		// The main genotype area
@@ -121,6 +123,7 @@ public class GenotypePanel extends JPanel
 		rowCanvas = new RowCanvas(this, canvas);
 		colCanvas = new ColCanvas(canvas);
 		mapCanvas = new MapCanvas(this, canvas);
+		miniMapCanvas = new MiniMapCanvas(this, canvas);
 		traitCanvas = new TraitCanvas(this, canvas);
 		qtlCanvas = new QTLCanvas(this, canvas, mapCanvas);
 		listPanel = new ListPanel();
@@ -245,6 +248,7 @@ public class GenotypePanel extends JPanel
 		listPanel.computeDimensions(zoomY);
 		canvas.computeDimensions(zoomX, zoomY);
 		mapCanvas.createImage();
+		miniMapCanvas.createImage();
 		qtlCanvas.updateCanvasSize(true);
 		traitCanvas.repaint();
 	}
@@ -273,6 +277,7 @@ public class GenotypePanel extends JPanel
 		rowCanvas.updateOverviewSelectionBox(xIndex, xW);
 		colCanvas.updateOverviewSelectionBox(yIndex, yH);
 		mapCanvas.updateView();
+		miniMapCanvas.repaint();
 		qtlCanvas.repaint();
 		traitCanvas.repaint();
 	}
