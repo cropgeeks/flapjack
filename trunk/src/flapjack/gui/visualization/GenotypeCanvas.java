@@ -42,19 +42,19 @@ class GenotypeCanvas extends JPanel
 	// These are the x and y pixel positions on the canvas that currently appear
 	// in the top left corner of the current view
 	int pX1, pY1;
-	// And bottom right hand corner
+	// These positions represent the bottom right hand corner of the visible
+	// data onscreen (pX2 == pX2Max when more data is offscreen)
 	int pX2, pY2;
+	// And bottom right hand corner
+	int pX2Max, pY2Max;
 
 	// Starting and ending indices of the x (marker) and y (line) data that will
 	// be drawn during the next repaint operation
-	private int xIndexStart, xIndexEnd;
-	private int yIndexStart, yIndexEnd;
+	private int xS, xE;
+	private int yS, yE;
 
 	// Holds the current dimensions of the canvas in an AWT friendly format
 	private Dimension dimension = new Dimension();
-
-	// The tooltip object
-//	CanvasToolTip tt = new CanvasToolTip();
 
 	private BufferFactory bufferFactory;
 	// This buffer holds the entire view area (if possible)
@@ -77,23 +77,7 @@ class GenotypeCanvas extends JPanel
 		setBackground(Prefs.visColorBackground);
 
 		new CanvasMouseListener(gPanel, this);
-
-//		setToolTipText("");
 	}
-
-/*	public JToolTip createToolTip()
-		{ return tt; }
-
-	public String getToolTipText(MouseEvent e)
-	{
-		int xIndex = (int) (e.getPoint().x / boxW);
-		int yIndex = (int) (e.getPoint().y / boxH);
-
-		return (e.getPoint().x / boxW) + ", " + (e.getPoint().y / boxH)
-			+ "    " + dataSet.getLineByIndex(yIndex) + " - "
-			+ map + " - " + map.getMarkerByIndex(xIndex);
-	}
-*/
 
 	void setView(GTViewSet viewSet, GTView view)
 	{
@@ -105,7 +89,7 @@ class GenotypeCanvas extends JPanel
 
 	// Compute canvas related dimensions that only change if the data or the
 	// box-drawing size needs to be changed
-	void computeDimensions(int sizeX, int sizeY)
+	void setDimensions(int sizeX, int sizeY)
 	{
 		Font font = new Font("Monospaced", Font.PLAIN, sizeY);
 		FontMetrics fm = new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB)
@@ -119,17 +103,14 @@ class GenotypeCanvas extends JPanel
 
 		boxH = fm.getHeight();
 
-		// Once we have suitable width/height values, the scrollbars can be made
-		// to lock to those so we never have to draw less than a full box
-		gPanel.setScrollbarAdjustmentValues(boxW, boxH);
-
 		boxTotalX = view.getMarkerCount();
 		boxTotalY = view.getLineCount();
 
-		canvasW = (boxTotalX * boxW);// + (boxW);// - 1);
+		canvasW = (boxTotalX * boxW);
 		canvasH = (boxTotalY * boxH);
 
 		setSize(dimension = new Dimension(canvasW, canvasH));
+		gPanel.setScrollbarAdjustmentValues(boxW, boxH);
 
 		// TODO: track sizeX/Y (or something) so we only recreate the color
 		// scheme when it really needs to be recreated
@@ -140,8 +121,6 @@ class GenotypeCanvas extends JPanel
 
 	void updateColorScheme()
 	{
-		long s = System.currentTimeMillis();
-
 		switch (viewSet.getColorScheme())
 		{
 			case ColorScheme.NUCLEOTIDE:
@@ -184,8 +163,6 @@ class GenotypeCanvas extends JPanel
 				cScheme = new NucleotideColorScheme(view, boxW, boxH);
 		}
 
-//		System.out.println("Color scheme: " + (System.currentTimeMillis()-s) + "ms");
-
 		redraw = true;
 	}
 
@@ -197,10 +174,16 @@ class GenotypeCanvas extends JPanel
 		boxCountY = 1 + (int) ((float) viewSize.getHeight() / boxH);
 
 		pX1 = viewPosition.x;
-		pY1 = viewPosition.y;
+		pX2 = pX2Max = pX1 + viewSize.width -1;
 
-		pX2 = pX1 + viewSize.width;
-		pY2 = pY1 + viewSize.height;
+		pY1 = viewPosition.y;
+		pY2 = pY2Max = pY1 + viewSize.height - 1;
+
+		// Adjust for canvases that are smaller than the window size
+		if (pX2 >= canvasW)
+			pX2 = canvasW - 1;
+		if (pY2 >= canvasH)
+			pY2 = canvasH - 1;
 
 		updateOverviewSelectionBox();
 
@@ -243,6 +226,9 @@ class GenotypeCanvas extends JPanel
 
 		long s = System.nanoTime();
 
+		g.setColor(Prefs.visColorBackground);
+		g.fillRect(0, 0, canvasW, canvasH);
+
 		renderViewport(g);
 
 		// Post (main-canvas) rendering operations
@@ -258,7 +244,6 @@ class GenotypeCanvas extends JPanel
 			repaint();
 		}
 
-
 		// Highlight the current position of the mouse
 		if (crosshair && Prefs.visCrosshair &&
 			(view.mouseOverMarker != -1 || view.mouseOverLine != -1))
@@ -269,9 +254,7 @@ class GenotypeCanvas extends JPanel
 			g.fillRect(0, boxH*view.mouseOverLine, canvasW, boxH);
 		}
 
-
 		long e = System.nanoTime();
-
 //		System.out.println("Render time: " + ((e-s)/1000000f) + "ms");
 	}
 
@@ -279,10 +262,8 @@ class GenotypeCanvas extends JPanel
 	{
 		if (redraw)
 		{
+			// What size of viewport buffer do we need?
 			int w = pX2-pX1+1, h = pY2-pY1+1;
-
-			if (canvasW < w) w = canvasW;
-			if (canvasH < h) h = canvasH;
 
 			// Only make a new buffer if we really really need to, as this has
 			// a noticeable effect on performance
@@ -315,52 +296,44 @@ class GenotypeCanvas extends JPanel
 	// this point) and cuts out the section of it that needs to be seen
 	private void renderImage(Graphics2D g)
 	{
-		// Width and height of the area to be copied (start by assuming we'll
-		// copy everything that fits on screen
-		int w = pX2-pX1, h = pY2-pY1;
-
-		// Bottom right-hand corner of the source image we're copying from
-		int x = pX2, y = pY2;
-
-		// But modifiy for cases where the width/height of the canvas is smaller
-		// than the current screen size
-		if (canvasW < w) w = x = canvasW;
-		if (canvasH < h) h = y = canvasH;
+		// Dest rectangle coordinates
+		int dx2 = pX2-pX1+1;  // why is this +1 - the API docs must be wrong!
+		int dy2 = pY2-pY1+1;  // (same below with pX2+1, pY2+1)
 
 		// Now paste the crop onto the graphics object
-		g.drawImage(imageFull, 0, 0, w, h, pX1, pY1, x, y, null);
+		g.drawImage(imageFull, 0, 0, dx2, dy2, pX1, pY1, pX2+1, pY2+1, null);
 	}
 
-	void renderRegion(Graphics2D g)
+	private void renderRegion(Graphics2D g)
 	{
 		// These are the index positions within the dataset that we'll start
 		// drawing from
-		xIndexStart = pX1 / boxW;
-		yIndexStart = pY1 / boxH;
+		xS = pX1 / boxW;
+		yS = pY1 / boxH;
 
 		// The end indices are calculated as the:
 		//   (the start index) + (the number that can be drawn on screen)
 		// with a check to set the end index to the last value in the array if
 		// the calculated index would go out of bounds
-		xIndexEnd = xIndexStart + boxCountX;
-		if (xIndexEnd >= boxTotalX)
-			xIndexEnd = boxTotalX-1;
+		xE = xS + boxCountX;
+		if (xE >= boxTotalX)
+			xE = boxTotalX-1;
 
-		yIndexEnd = yIndexStart + boxCountY;
-		if (yIndexEnd >= boxTotalY)
-			yIndexEnd = boxTotalY-1;
+		yE = yS + boxCountY;
+		if (yE >= boxTotalY)
+			yE = boxTotalY-1;
 
-		render(g, Boolean.FALSE, xIndexStart, xIndexEnd, yIndexStart, yIndexEnd);
+		render(g, Boolean.FALSE, xS, xE, yS, yE);
 	}
 
-	void renderAll(Graphics2D g, Boolean killMe)
+	private void renderAll(Graphics2D g, Boolean killMe)
 	{
-		xIndexStart = 0;
-		xIndexEnd   = boxTotalX-1;
-		yIndexStart = 0;
-		yIndexEnd   = boxTotalY-1;
+		int xS = 0;
+		int xE = boxTotalX-1;
+		int yS = 0;
+		int yE = boxTotalY-1;
 
-		render(g, killMe, xIndexStart, xIndexEnd, yIndexStart, yIndexEnd);
+		render(g, killMe, xS, xE, yS, yE);
 	}
 
 	private void render(Graphics2D g, Boolean killMe, int xS, int xE, int yS, int yE)

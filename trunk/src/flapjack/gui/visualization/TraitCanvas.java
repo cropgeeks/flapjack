@@ -50,22 +50,12 @@ class TraitCanvas extends JPanel
 	{
 		int traitCount = 0;
 		if (canvas.viewSet != null)
-//			traitCount = canvas.viewSet.getDataSet().getTraits().size();
 			traitCount = canvas.viewSet.getTraits().length;
 
 		w = boxW * traitCount;
 
+		setSize(w, 0);
 		setVisible(traitCount > 0 && Prefs.visShowTraitCanvas);
-	}
-
-	BufferedImage createSavableImage(boolean full)
-	{
-		if (full)
-			return new BufferFactory().createBuffer(
-				w, (canvas.boxH*canvas.boxTotalY), full);
-		else
-			return new BufferFactory().createBuffer(
-				w, (canvas.boxH*canvas.boxTotalY), full);
 	}
 
 	private class Canvas2D extends JPanel
@@ -78,59 +68,6 @@ class TraitCanvas extends JPanel
 			addMouseMotionListener(mt);
 		}
 
-		void drawCanvas(Graphics2D g, int height)
-		{
-			int[] tIndex = canvas.viewSet.getTraits();
-
-
-			int boxH = canvas.boxH;
-			int yS = 0 / canvas.boxH;
-			int yE = yS + height / canvas.boxH;
-			if (yE >= canvas.boxTotalY)
-				yE = canvas.boxTotalY-1;
-
-			// Translate the drawing to give the appearance of scrolling
-			g.setClip(0, yS, w, height);
-			//g.translate(0, yS-canvas.pY1);
-
-
-			Color col1 = Prefs.visColorHeatmapLow;
-			int[] c1 = new int[] { col1.getRed(), col1.getGreen(), col1.getBlue() };
-			Color col2 = Prefs.visColorHeatmapHigh;
-			int[] c2 = new int[] { col2.getRed(), col2.getGreen(), col2.getBlue() };
-
-			for (int i = 0; i < tIndex.length; i++)
-			{
-				// If there's no index for this location, skip it
-				if (tIndex[i] == -1)
-					continue;
-
-				for (int yIndex = yS, y = yS; yIndex <= yE; yIndex++, y += boxH)
-				{
-					Line line = canvas.view.getLine(yIndex);
-					// Skip dummy lines (they don't have trait values)
-					if (canvas.view.isDummyLine(line))
-						continue;
-
-					TraitValue tv = line.getTraitValues().get(tIndex[i]);
-
-					// Or if the trait is undefined, just skip it
-					if (tv.isDefined() == false)
-						continue;
-
-					float f1 = (float) (1.0 - tv.getNormal());
-					float f2 = (float) tv.getNormal();
-
-					g.setColor(new Color(
-	          			(int) (f1 * c1[0] + f2 * c2[0]),
-          				(int) (f1 * c1[1] + f2 * c2[1]),
-          				(int) (f1 * c1[2] + f2 * c2[2])));
-
-					g.fillRect(i*boxW, y, boxW, boxH);
-				}
-			}
-		}
-
 		public Dimension getPreferredSize()
 			{ return new Dimension(w, 0); }
 
@@ -139,9 +76,15 @@ class TraitCanvas extends JPanel
 			super.paintComponent(graphics);
 			Graphics2D g = (Graphics2D) graphics;
 
-			g.translate(0, -canvas.pY1);
+			// This translation "jiggles" the start of the top row
+			int jiggle = canvas.pY1 % canvas.boxH;
+			g.translate(0, -jiggle);
+			g.setClip(0, jiggle, w, canvas.pY2-canvas.pY1+1);
 
-			drawCanvas(g, canvas.pY2);
+			int yS = canvas.pY1 / canvas.boxH;
+			int yE = canvas.pY2 / canvas.boxH;
+
+			render(g, yS, yE);
 		}
 	}
 
@@ -237,39 +180,79 @@ class TraitCanvas extends JPanel
 		}
 	}
 
-	private class BufferFactory
+	private void render(Graphics2D g, int yS, int yE)
 	{
-		BufferedImage createBuffer(int w, int h, boolean full)
+		int[] tIndex = canvas.viewSet.getTraits();
+		int boxH = canvas.boxH;
+
+		Color col1 = Prefs.visColorHeatmapLow;
+		int[] c1 = new int[] { col1.getRed(), col1.getGreen(), col1.getBlue() };
+		Color col2 = Prefs.visColorHeatmapHigh;
+		int[] c2 = new int[] { col2.getRed(), col2.getGreen(), col2.getBlue() };
+
+		for (int i = 0; i < tIndex.length; i++)
 		{
-			BufferedImage buffer;
+			// If there's no index for this location, skip it
+			if (tIndex[i] == -1)
+				continue;
 
-			try
+			for (int yIndex = yS, y = 0; yIndex <= yE; yIndex++, y += boxH)
 			{
-				try
-				{
-					buffer = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
-				}
-				catch (Throwable t) { return null; }
+				Line line = canvas.view.getLine(yIndex);
+				// Skip dummy lines (they don't have trait values)
+				if (canvas.view.isDummyLine(line))
+					continue;
 
-				Graphics2D g2d = buffer.createGraphics();
+				TraitValue tv = line.getTraitValues().get(tIndex[i]);
 
-				//int height = (canvas.pY2-canvas.pY1);
-				//int height = canvas.boxH*canvas.boxTotalY;
+				// Or if the trait is undefined, just skip it
+				if (tv.isDefined() == false)
+					continue;
 
-				g2d.setColor(Color.white);
-				g2d.fillRect(0, 0, w, h);
-				if(!full)
-					g2d.translate(0, -canvas.pY1);
-				traitCanvas.drawCanvas(g2d, (canvas.boxH*canvas.boxTotalY));
-				g2d.dispose();
+				float f1 = (float) (1.0 - tv.getNormal());
+				float f2 = (float) tv.getNormal();
 
-				return buffer;
-			}
-			catch (Exception e)
-			{
-				System.out.println("TraitCanvas: " + e);
-				return null;
+				g.setColor(new Color(
+          			(int) (f1 * c1[0] + f2 * c2[0]),
+      				(int) (f1 * c1[1] + f2 * c2[1]),
+      				(int) (f1 * c1[2] + f2 * c2[2])));
+
+				g.fillRect(i*boxW, y, boxW, boxH);
 			}
 		}
+	}
+
+	// Generates an image (of the correct size) to save either the current view
+	// or the entire view, and then renders the data onto it
+	BufferedImage createSavableImage(boolean createFull)
+	{
+		try
+		{
+			int yS = canvas.pY1 / canvas.boxH;
+			int yE = canvas.pY2 / canvas.boxH;
+			int h = canvas.pY2-canvas.pY1+1;
+
+			if (createFull)
+			{
+				yS = 0;
+				yE = canvas.view.getLineCount() - 1;
+				h = canvas.canvasH;
+			}
+
+			BufferedImage buffer = (BufferedImage) createImage(w, h);
+
+			Graphics2D g = buffer.createGraphics();
+			g.setColor(Color.white);
+			g.fillRect(0, 0, w, h);
+
+			if (createFull == false)
+				g.translate(0, -canvas.pY1 % canvas.boxH);
+
+			render(g, yS, yE);
+			g.dispose();
+
+			return buffer;
+		}
+		catch (Throwable t) { return null; }
 	}
 }

@@ -26,7 +26,7 @@ class ColCanvas extends JPanel
 		this.canvas = canvas;
 
 		setLayout(new BorderLayout());
-		setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 5));
+		setBorder(BorderFactory.createEmptyBorder(1, 5, 0, 5));
 		add(new Canvas2D());
 	}
 
@@ -60,56 +60,46 @@ class ColCanvas extends JPanel
 			Graphics2D g = (Graphics2D) graphics;
 
 			// Calculate the required offset and width
-			int height = (canvas.pY2-canvas.pY1);
+			int height = canvas.pY2-canvas.pY1+1;
 
 			// Paint the background
 			g.setColor(Prefs.visColorBackground);
-			g.fillRect(0, 0, 45, height);
+			g.fillRect(0, 0, w, height);
 
 			// Quit if the line index is out of bounds or beyond the canvas size
 			if (markerIndex < 0 || markerIndex >= canvas.view.getMarkerCount())
 				return;
 
-
-			int boxTotalY = canvas.boxTotalY;
-
 			// Scaling factors
-			float yScale = height / (float) boxTotalY;
+			float yScale = canvas.boxTotalY / (float) height;
 
-			// Width of each Y element
-			int yHeight = 1 + (int) ((yScale >= 1) ? yScale : 1);
-
-			int lastY = -1;
-
-			float y = 0;
-			for (int yIndex = 0; yIndex < boxTotalY; yIndex++)
+			// For every pixel of the overview...
+			for (int y = 0; y < height; y++)
 			{
-				// This is where we save the time...
-				if ((int)y != lastY)
+				// What line should be drawn on this (x) row?
+				int rowIndex = (int) (yScale * y);
+
+				int x = 0;
+				for (int xIndex = markerIndex-1; xIndex < markerIndex+2; xIndex++, x+=15)
 				{
-					int x = 0;
-					for (int xIndex = markerIndex-1; xIndex < markerIndex+2; xIndex++, x+=15)
-					{
-						if (xIndex < 0 || xIndex >= canvas.view.getMarkerCount())
-							continue;
+					if (xIndex < 0 || xIndex >= canvas.view.getMarkerCount())
+						continue;
 
-						g.setColor(canvas.cScheme.getColor(yIndex, xIndex));
-						g.fillRect(x, Math.round(y), w/3, yHeight);
-
-						lastY = (int)y;
-					}
+					g.setColor(canvas.cScheme.getColor(rowIndex, xIndex));
+					g.fillRect(x, y, w/3, 1);
 				}
-
-				y += yScale;
 			}
 
 
-			// Draw the outline fill
+			// Determine the boundary of the outline
+			yScale = height / (float) canvas.boxTotalY;
+
 			float y1 = lineIndex * yScale;
 			float y2 = y1 + lineCount * yScale;
-			if (lineCount > boxTotalY || y2 > height)
-				y2 = height;
+			if (lineCount > canvas.boxTotalY || y2 >= height)
+				y2 = height-1;
 
+			// Draw the outline fill
 			int cR = Prefs.visColorOverviewFill.getRed();
 			int cG = Prefs.visColorOverviewFill.getGreen();
 			int cB = Prefs.visColorOverviewFill.getBlue();

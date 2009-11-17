@@ -64,49 +64,39 @@ class RowCanvas extends JPanel
 			// Calculate the required offset and width
 			int xOffset = gPanel.traitCanvas.getPanelWidth()
 				+ gPanel.listPanel.getPanelWidth() + 1;
-			int width = (canvas.pX2-canvas.pX1);
+			int width = (canvas.pX2-canvas.pX1+1);
 			g.translate(xOffset, 0);
 
 			// Paint the background
 			g.setColor(Prefs.visColorBackground);
-			g.fillRect(0, 0, width, 15);
+			g.fillRect(0, 0, width, h);
 
 			// Quit if the line index is out of bounds or beyond the canvas size
 			if (lineIndex < 0 || lineIndex >= canvas.view.getLineCount())
 				return;
 
-
-			int boxTotalX = canvas.boxTotalX;
-
 			// Scaling factors
-			float xScale = width / (float) boxTotalX;
+			float xScale = canvas.boxTotalX / (float) width;
 
-			// Width of each X element
-			int xWidth = 1 + Math.round((xScale >= 1) ? xScale : 1);
-
-			int lastX = -1;
-
-			float x = 0;
-			for (int xIndex = 0; xIndex < boxTotalX; xIndex++)
+			// For every pixel of the overview...
+			for (int x = 0; x < width; x++)
 			{
-				// This is where we save the time...
-				if ((int)x != lastX)
-				{
-					g.setColor(canvas.cScheme.getColor(lineIndex, xIndex));
-					g.fillRect(Math.round(x), 0, xWidth, h);
+				// What marker should be drawn on this (y) row?
+				int mrkIndex = (int) (xScale * x);
 
-					lastX = (int)x;
-				}
-
-				x += xScale;
+				g.setColor(canvas.cScheme.getColor(lineIndex, mrkIndex));
+				g.fillRect(x, 0, 1, h);
 			}
 
+
+			// Determine the boundary of the outline
+			xScale = width / (float) canvas.boxTotalX;
 
 			// Draw the outline fill
 			float x1 = markerIndex * xScale;
 			float x2 = x1 + (markerCount * xScale);
-			if (markerCount > boxTotalX || x2 > width)
-				x2 = width;
+			if (markerCount > canvas.boxTotalX || x2 >= width)
+				x2 = width-1;
 
 			int cR = Prefs.visColorOverviewFill.getRed();
 			int cG = Prefs.visColorOverviewFill.getGreen();

@@ -50,9 +50,7 @@ class MiniMapCanvas extends JPanel
 			bufferFactory.interrupt();
 		}
 
-		w = (canvas.pX2-canvas.pX1);
-		if (canvas.canvasW < w)
-			w = canvas.canvasW;
+		w = (canvas.pX2-canvas.pX1+1);
 
 		// Thread off the image creation...
 		bufferFactory = new BufferFactory(w, h);
@@ -72,12 +70,12 @@ class MiniMapCanvas extends JPanel
 		// Starting and ending indexes to draw
 		int xS, xE;
 
-		float xScale = w / canvas.view.mapLength();
+		float xScale = (w-1) / canvas.view.mapLength();
 
 		if (forBuffer)
 		{
 			g.setColor(Color.lightGray);
-			g.drawLine(0, 5, w, 5);
+			g.drawLine(0, 5, w-1, 5);
 
 			// Draw all the markers
 			xS = 0;
@@ -91,8 +89,8 @@ class MiniMapCanvas extends JPanel
 			xS = canvas.pX1 / canvas.boxW;
 			xE = xS + canvas.boxCountX;
 
-			if (xE >= canvas.boxTotalX)
-				xE = canvas.boxTotalX-1;
+			if (xE > canvas.boxTotalX)
+				xE = canvas.boxTotalX;
 		}
 
 		for (int i = xS; i < xE; i++)
@@ -116,13 +114,13 @@ class MiniMapCanvas extends JPanel
 			super.paintComponent(graphics);
 			Graphics2D g = (Graphics2D) graphics;
 
+			if (image == null)
+				return;
+
 			// Calculate the required offset and width
 			int xOffset = gPanel.traitCanvas.getPanelWidth()
 				+ gPanel.listPanel.getPanelWidth() + 1;
 			g.translate(xOffset, 0);
-
-			if (image == null)
-				return;
 
 			// Draw the full map (from the back buffer)
 			g.drawImage(image, 0, 0, null);

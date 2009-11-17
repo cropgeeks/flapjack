@@ -126,12 +126,12 @@ class QTLCanvas extends JPanel implements PropertyChangeListener
 			// Calculate the required offset and width to draw from
 			xOffset = gPanel.traitCanvas.getPanelWidth()
 				+ gPanel.listPanel.getPanelWidth() + 1;
-			int width = (canvas.pX2-canvas.pX1);
+			int width = (canvas.pX2-canvas.pX1+1);
 
 			g.setClip(xOffset, 0, width, getHeight());
 			g.translate(xOffset - canvas.pX1, 0);
 
-			xScale = canvas.canvasW / canvas.view.mapLength();
+			xScale = (canvas.canvasW-1) / canvas.view.mapLength();
 
 			drawTracks(g, canvas.pX1, canvas.pX2);
 		}
@@ -439,7 +439,7 @@ class QTLCanvas extends JPanel implements PropertyChangeListener
 			this.xE = xE;
 			this.h = h;
 
-			w = xE - xS;
+			w = xE-xS+1;
 		}
 
 		void run()
@@ -462,14 +462,14 @@ class QTLCanvas extends JPanel implements PropertyChangeListener
 
 				xOffset = gPanel.traitCanvas.getPanelWidth()
 					+ gPanel.listPanel.getPanelWidth() + 1;
-				int width = (canvas.pX2-canvas.pX1);
+				int width = (canvas.pX2-canvas.pX1+1);
 
 				if(!full)
 				{
 					g2d.setClip(0, 0, width, getHeight());
 					g2d.translate(-xS, 0);
 
-					xScale = canvas.canvasW / canvas.view.mapLength();
+					xScale = (canvas.canvasW-1) / canvas.view.mapLength();
 				}
 
 				qtlCanvas.drawTracks(g2d, xS, xE);

@@ -16,7 +16,7 @@ import flapjack.gui.*;
 import scri.commons.gui.*;
 
 public class GenotypePanel extends JPanel
-	implements ActionListener, AdjustmentListener, ChangeListener, MouseWheelListener
+	implements ActionListener, AdjustmentListener, MouseWheelListener
 {
 	private DecimalFormat d = new DecimalFormat("0.0");
 
@@ -37,7 +37,6 @@ public class GenotypePanel extends JPanel
 	NBStatusPanel statusPanel;
 
 	// Secondary components needed by the panel
-	private JTabbedPane tabs;
 	private JScrollPane sp;
 	private JScrollBar hBar, vBar;
 	private JViewport viewport;
@@ -49,7 +48,6 @@ public class GenotypePanel extends JPanel
 	private JLabel lineLabel = new JLabel();
 	private JLabel markerLabel = new JLabel();
 	private JLabel lengthLabel = new JLabel();
-
 
 	public GenotypePanel(WinMain winMain)
 	{
@@ -101,12 +99,7 @@ public class GenotypePanel extends JPanel
 
 	private void createControls(WinMain winMain)
 	{
-		tabs = new JTabbedPane();
-		tabs.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
-		tabs.addChangeListener(this);
-
 		combo = new JComboBox();
-		combo.addActionListener(this);
 		RB.setText(chromoLabel, "gui.visualization.GenotypePanel.chromoLabel");
 		chromoLabel.setLabelFor(combo);
 		chromoLabel.setIcon(Icons.getIcon("CHROMOSOME"));
@@ -155,39 +148,23 @@ public class GenotypePanel extends JPanel
 		OverviewManager.createImage();
 	}
 
-	public GTViewSet getViewSet()
-		{ return viewSet; }
-
-	public GTView getView()
-		{ return view; }
-
 	public void setViewSet(GTViewSet viewSet)
 	{
 		this.viewSet = viewSet;
 
-		// Remove all existing tabs
-		tabs.removeAll();
-
-		// Store the viewset's selected map before updating the tabs, because
-		// the tab-code will set the value with 0 before it gets used properly
+		// Store the viewset's selected map before updating, because the event
+		// code will set the value with 0 before it gets used properly
 		int selectedIndex = viewSet.getViewIndex();
 
+		combo.removeActionListener(this);
 		combo.removeAllItems();
 
-		// Recreate them, one tab per chromosome
-		for (int i = 0; i < viewSet.chromosomeCount(); i++)
-		{
-			GTView view = viewSet.getView(i);
+		// Add each chromosome to the combo box
+		for (GTView view: viewSet.getViews())
+			combo.addItem(view.getChromosomeMap().getName());
 
-			String name = view.getChromosomeMap().getName();
-			int markerCount = view.getMarkerCount();
-
-			tabs.addTab(name, Icons.getIcon("CHROMOSOME"), null);
-			combo.addItem(name);
-		}
-
-		// Now set the tabs to the actual index we're interested in
-		tabs.setSelectedIndex(selectedIndex);
+		// Now set the combo box to the actual index we're interested in
+		combo.addActionListener(this);
 		combo.setSelectedIndex(selectedIndex);
 	}
 
@@ -198,7 +175,6 @@ public class GenotypePanel extends JPanel
 
 		setEditActions();
 
-//		tabs.setComponentAt(mapIndex, displayPanel);
 		refreshView();
 	}
 
@@ -224,21 +200,6 @@ public class GenotypePanel extends JPanel
 			displayMap(combo.getSelectedIndex());
 	}
 
-	public void stateChanged(ChangeEvent e)
-	{
-		// When a tab is selected...
-		if (e.getSource() == tabs)
-		{
-			if (tabs.getSelectedIndex() != -1)
-			{
-				for (int i = 0; i < tabs.getTabCount(); i++)
-					tabs.setComponentAt(i, new JPanel());
-
-				displayMap(tabs.getSelectedIndex());
-			}
-		}
-	}
-
 	// When changing data or the zoom level...
 	void computePanelSizes()
 	{
@@ -246,11 +207,19 @@ public class GenotypePanel extends JPanel
 		int zoomY = statusPanel.getZoomY();
 
 		listPanel.computeDimensions(zoomY);
-		canvas.computeDimensions(zoomX, zoomY);
-		mapCanvas.createImage();
-		miniMapCanvas.createImage();
-		qtlCanvas.updateCanvasSize(true);
-		traitCanvas.repaint();
+		canvas.setDimensions(zoomX, zoomY);
+
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run()
+			{
+				adjustmentValueChanged(null);
+
+				qtlCanvas.updateCanvasSize(true);
+
+				mapCanvas.createImage();
+				miniMapCanvas.createImage();
+			}
+		});
 	}
 
 	public void mouseWheelMoved(MouseWheelEvent e)
@@ -276,6 +245,7 @@ public class GenotypePanel extends JPanel
 
 		rowCanvas.updateOverviewSelectionBox(xIndex, xW);
 		colCanvas.updateOverviewSelectionBox(yIndex, yH);
+
 		mapCanvas.updateView();
 		miniMapCanvas.repaint();
 		qtlCanvas.repaint();
@@ -306,6 +276,12 @@ public class GenotypePanel extends JPanel
 			hBar.setValue(x);
 		}
 	}
+
+	public GTViewSet getViewSet()
+		{ return viewSet; }
+
+	public GTView getView()
+		{ return view; }
 
 	// Moves the scroll bars by the given amount in the x and y directions
 	void moveBy(int x, int y)
