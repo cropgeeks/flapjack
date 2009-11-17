@@ -198,7 +198,7 @@ class MapCanvas extends JPanel
 			// Calculate the required offset and width
 			int xOffset = gPanel.traitCanvas.getPanelWidth()
 				+ gPanel.listPanel.getPanelWidth() + 1;
-			int width = (canvas.pX2-canvas.pX1);
+			int width = (canvas.pX2-canvas.pX1+1);
 
 			g.setClip(xOffset, 0, width, h);
 			g.translate(xOffset, 0);
@@ -209,8 +209,6 @@ class MapCanvas extends JPanel
 
 			int w = width;
 			int x = canvas.pX2;
-			if (canvas.canvasW < w)
-				w = x = canvas.canvasW;
 
 			// If the user has sized the screen so that the mapcanvas is crushed
 			// then buffer creation will fail if either dimension is zero
@@ -220,7 +218,7 @@ class MapCanvas extends JPanel
 			// Cut out the area of the main buffer we want to draw
 			BufferedImage image2 = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
 			Graphics2D g2d = image2.createGraphics();
-			g2d.drawImage(image, 0, 0, w, h, canvas.pX1, 0, x, h, null);
+			g2d.drawImage(image, 0, 0, w, h, canvas.pX1, 0, x+1, h, null);
 			g2d.dispose();
 
 			// And dump it to the screen
@@ -310,11 +308,11 @@ class MapCanvas extends JPanel
 			g.fillRect(0, 0, canvas.canvasW, h);
 
 			int mkrCount = canvas.view.getMarkerCount();
-			xScale = canvas.canvasW / canvas.view.mapLength();
+			xScale = (canvas.canvasW-1) / canvas.view.mapLength();
 
 			// Draw the white rectangle representing the map
 			g.setColor(Color.white);
-			g.fillRect(0, 12, canvas.canvasW, 10);
+			g.fillRect(0, 12, canvas.canvasW-1, 10);
 			g.setColor(Color.lightGray);
 			g.drawRect(0, 12, canvas.canvasW-1, 10);
 
