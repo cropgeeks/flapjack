@@ -27,6 +27,9 @@ class NBExportDataPanel extends JPanel implements ActionListener
 		RB.setText(radioLabel, "gui.dialog.NBExportDataPanel.radioLabel");
 		RB.setText(rAll, "gui.dialog.NBExportDataPanel.rAll");
 		RB.setText(rSelected, "gui.dialog.NBExportDataPanel.rSelected");
+		RB.setText(tableLabel, "gui.dialog.NBExportDataPanel.tableLabel");
+		RB.setText(selectAllLabel, "gui.dialog.NBExportDataPanel.selectAllLabel");
+		RB.setText(selectNoneLabel, "gui.dialog.NBExportDataPanel.selectNoneLabel");
 
 		combo.addItem(RB.getString("gui.dialog.NBExportDataPanel.comboMap"));
 		combo.addItem(RB.getString("gui.dialog.NBExportDataPanel.comboDat"));
