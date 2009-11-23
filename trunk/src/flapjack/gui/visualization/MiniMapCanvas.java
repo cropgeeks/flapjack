@@ -50,7 +50,7 @@ class MiniMapCanvas extends JPanel
 			bufferFactory.interrupt();
 		}
 
-		w = (canvas.pX2-canvas.pX1+1);
+		w = canvas.pX2 - canvas.pX1 + 1;
 
 		// Thread off the image creation...
 		bufferFactory = new BufferFactory(w, h);

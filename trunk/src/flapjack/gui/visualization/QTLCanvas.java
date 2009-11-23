@@ -101,21 +101,6 @@ class QTLCanvas extends JPanel implements PropertyChangeListener
 		}
 	}
 
-	BufferedImage createSavableImage(boolean full)
-	{
-		this.full = full;
-		// Note that this *doesn't* happen in a new thread as the assumption is
-		// that this will be called by a threaded process anyway
-		ImageFactory tempFactory;
-		if(full)
-			tempFactory = new ImageFactory(0, canvas.canvasW, (H*trackSet.size()));
-		else
-			tempFactory = new ImageFactory(canvas.pX1, canvas.pX2, (H*trackSet.size()));
-		tempFactory.run();
-
-		return tempFactory.buffer;
-	}
-
 	private class Canvas2D extends JPanel
 	{
 		public void paintComponent(Graphics graphics)
@@ -134,6 +119,8 @@ class QTLCanvas extends JPanel implements PropertyChangeListener
 			xScale = (canvas.canvasW-1) / canvas.view.mapLength();
 
 			drawTracks(g, canvas.pX1, canvas.pX2);
+
+			System.out.println("paint qtls");
 		}
 
 		// Loops over the data, drawing each track
@@ -380,45 +367,43 @@ class QTLCanvas extends JPanel implements PropertyChangeListener
 			if (mouseOverFeature == null)
 				return;
 
+			// Used to track the FIRST marker found and set the states of
+			// all the other ones to the same value
+			boolean undefined = true;
+			// Which will be this state...
+			boolean state = false;
+
+			// Create the undo state
+			SelectedMarkersState markerStates = new SelectedMarkersState(
+				canvas.view, RB.getString("gui.visualization.SelectedMarkersState.selected"));
+			markerStates.createUndoState();
+
+			float min = mouseOverFeature.getMin();
+			float max = mouseOverFeature.getMax();
+
+			for (MarkerInfo mi: canvas.view.getMarkers())
 			{
-				// Used to track the FIRST marker found and set the states of
-				// all the other ones to the same value
-				boolean undefined = true;
-				// Which will be this state...
-				boolean state = false;
-
-				// Create the undo state
-				SelectedMarkersState markerStates = new SelectedMarkersState(
-					canvas.view, RB.getString("gui.visualization.SelectedMarkersState.selected"));
-				markerStates.createUndoState();
-
-				float min = mouseOverFeature.getMin();
-				float max = mouseOverFeature.getMax();
-
-				for (MarkerInfo mi: canvas.view.getMarkers())
+				// Is this marker under the QTL?
+				if (mi.getMarker().getPosition() >= min && mi.getMarker().getPosition() <= max)
 				{
-					// Is this marker under the QTL?
-					if (mi.getMarker().getPosition() >= min && mi.getMarker().getPosition() <= max)
+					if (undefined)
 					{
-						if (undefined)
-						{
-							state = !mi.getSelected();
-							undefined = false;
-						}
-
-						mi.setSelected(state);
+						state = !mi.getSelected();
+						undefined = false;
 					}
-				}
 
-				// If markers had their states toggled, then set an undo/redo
-				if (undefined == false)
-				{
-					markerStates.createRedoState();
-					gPanel.addUndoState(markerStates);
-
-					// And switch to marker mode
-					Flapjack.winMain.mEdit.editMode(Constants.MARKERMODE);
+					mi.setSelected(state);
 				}
+			}
+
+			// If markers had their states toggled, then set an undo/redo
+			if (undefined == false)
+			{
+				markerStates.createRedoState();
+				gPanel.addUndoState(markerStates);
+
+				// And switch to marker mode
+				Flapjack.winMain.mEdit.editMode(Constants.MARKERMODE);
 			}
 		}
 
@@ -480,5 +465,21 @@ class QTLCanvas extends JPanel implements PropertyChangeListener
 				System.out.println("QTLCanvas: " + e);
 			}
 		}
+	}
+
+	BufferedImage createSavableImage(boolean full)
+		throws Exception
+	{
+		this.full = full;
+		// Note that this *doesn't* happen in a new thread as the assumption is
+		// that this will be called by a threaded process anyway
+		ImageFactory tempFactory;
+		if(full)
+			tempFactory = new ImageFactory(0, canvas.canvasW, (H*trackSet.size()));
+		else
+			tempFactory = new ImageFactory(canvas.pX1, canvas.pX2, (H*trackSet.size()));
+		tempFactory.run();
+
+		return tempFactory.buffer;
 	}
 }

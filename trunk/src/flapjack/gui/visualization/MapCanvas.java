@@ -4,6 +4,7 @@
 package flapjack.gui.visualization;
 
 import java.awt.*;
+import static java.awt.RenderingHints.*;
 import java.awt.image.*;
 import java.text.*;
 import javax.swing.*;
@@ -17,16 +18,23 @@ class MapCanvas extends JPanel
 	private GenotypePanel gPanel;
 	private GenotypeCanvas canvas;
 
-	private BufferFactory bufferFactory;
-	BufferedImage image;
-
 	private int h = 55;
 
-	// Scaling factor to convert between pixels and map positions
-	private float xScale;
+	private BufferedImage buffer;
+	private boolean updateBuffer = true;
+
+	// Last known pX2 for the main canvas - if it's changed, we need to redraw
+	private int pX2 = 0;
 
 	// The index of the marker currently under the mouse on the main canvas
-	private int markerIndex = -1;
+	private int mrkrIndex = -1;
+
+	// Chromosome map values for the lowest (first) and highest) last markers
+	// currently visible on screen
+	private float mSPos, mEPos;
+
+	// What is the current drawing width
+	private int w;
 
 	MapCanvas(GenotypePanel gPanel, GenotypeCanvas canvas)
 	{
@@ -38,147 +46,13 @@ class MapCanvas extends JPanel
 		add(new Canvas2D());
 	}
 
-	void createImage()
+	void setMarkerIndex(int mrkrIndex)
 	{
-		image = null;
-
-		if (bufferFactory != null)
+		if (this.mrkrIndex != mrkrIndex  && canvas.locked == false)
 		{
-			bufferFactory.killMe = true;
-			bufferFactory.interrupt();
-		}
-
-		// Thread off the image creation...
-		bufferFactory = new BufferFactory(canvas.canvasW, h, false);
-		bufferFactory.start();
-	}
-
-	BufferedImage createSavableImage(boolean full)
-	{
-		// Note that this *doesn't* happen in a new thread as the assumption is
-		// that this will be called by a threaded process anyway
-		BufferFactory bf = new BufferFactory(canvas.canvasW, h, true);
-		bf.run();
-
-		// Return either the entire buffer
-		if (full)
-			return bf.buffer;
-
-		// Or just a crop of what's currently on screen
-		else
-		{
-			int w = canvas.pX2 - canvas.pX1 + 1;
-			BufferedImage crop = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
-
-			Graphics2D g = (Graphics2D) crop.getGraphics();
-			g.drawImage(bf.buffer, 0, 0, w, h, canvas.pX1, 0, canvas.pX2, h, null);
-			g.dispose();
-
-			return crop;
-		}
-	}
-
-	void updateView()
-	{
-		repaint();
-	}
-
-	void setMarkerIndex(int markerIndex)
-	{
-		if (this.markerIndex != markerIndex  && canvas.locked == false)
-		{
-			this.markerIndex = markerIndex;
+			this.mrkrIndex = mrkrIndex;
 			repaint();
 		}
-	}
-
-	private void bufferAvailable(BufferedImage image)
-	{
-		this.image = image;
-		repaint();
-	}
-
-	// Draws the marker at index i, optionally adding textual information
-	private void drawMarker(Graphics2D g, int i, boolean showDetails, boolean highlight)
-	{
-		Marker m = canvas.view.getMarker(i);
-
-		// The position of the marker on the map
-		int xMap = Math.round(m.getPosition() * xScale);
-		// Its position on the main canvas (its "box" representation)
-		int xBox = Math.round(i * canvas.boxW + (canvas.boxW/2));
-
-		if (showDetails || highlight)
-			g.setColor(Color.red);
-		else
-			g.setColor(Color.lightGray);
-
-		if (showDetails)
-		{
-			String str = m.getName() + "  (" + d.format(m.getPosition()) + ")";
-			int strWidth = g.getFontMetrics().stringWidth(str);
-
-			g.drawString(str, getPosition(xMap, strWidth), 8);
-		}
-
-		g.drawLine(xMap, 12, xMap, 22);
-		g.drawLine(xMap, 22, xBox, h-5);
-	}
-
-	// Displays a feature's information on the canvas (because the map canvas
-	// has the "space" on it for text). Also scans every marker under a feature
-	// and highlights their link-lines so the associations can be seen
-	private void drawFeatureDetails(Graphics2D g)
-	{
-		g.translate(0-canvas.pX1, 0);
-		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
-		Feature f = QTLCanvas.mouseOverFeature;
-		float min = f.getMin();
-		float max = f.getMax();
-
-		// Where should it be drawn
-		int pos = Math.round(xScale * (min + ((max-min)/2)));
-
-		// And what should be drawn
-		String str = f.getName() + "  (";
-		if (f instanceof QTL)
-			str += d.format(((QTL)f).getPosition()) + ": ";
-		str += d.format(min) + "-" + d.format(max) + ")";
-		int strWidth = g.getFontMetrics().stringWidth(str);
-
-		g.setColor(Color.red);
-		g.drawString(str, getPosition(pos, strWidth), 8);
-
-		// Now see which markers are "under" this feature, and highlight them
-		int mkrCount = canvas.view.getMarkerCount();
-		for (int i = 0; i < mkrCount; i++)
-		{
-			Marker m = canvas.view.getMarker(i);
-
-			// Is this marker under the QTL?
-			if (m.getPosition() >= min && m.getPosition() <= max)
-				drawMarker(g, i, false, true);
-		}
-	}
-
-	// Computes the best position to draw a string onscreen, assuming an optimum
-	// start position that *may* be adjusted if the text ends up partially drawn
-	// offscreen on either the LHS or the RHS
-	private int getPosition(int pos, int strWidth)
-	{
-		// Work out where the left and right hand edges of the text will be
-		int leftPos = pos-(int)(strWidth/2f);
-		int rghtPos = pos+(int)(strWidth/2f);
-
-		// If we're offscreen to the left, adjust...
-		if (leftPos < canvas.pX1)
-			leftPos = canvas.pX1+1;
-		// Similarly if we're offscreen to the right...
-		if (rghtPos > canvas.pX2)
-			leftPos = canvas.pX2-strWidth-1;
-
-		return leftPos;
 	}
 
 	private class Canvas2D extends JPanel
@@ -195,133 +69,201 @@ class MapCanvas extends JPanel
 			super.paintComponent(graphics);
 			Graphics2D g = (Graphics2D) graphics;
 
+			if (pX2 != canvas.pX2)
+			{
+				updateBuffer = true;
+				pX2 = canvas.pX2;
+			}
+
 			// Calculate the required offset and width
 			int xOffset = gPanel.traitCanvas.getPanelWidth()
 				+ gPanel.listPanel.getPanelWidth() + 1;
-			int width = (canvas.pX2-canvas.pX1+1);
-
-			g.setClip(xOffset, 0, width, h);
 			g.translate(xOffset, 0);
 
+			// Update the back buffer (if it needs redrawn)
+			if (updateBuffer)
+				paintBuffer();
 
-			if (image == null)
-				return;
+			g.drawImage(buffer, 0, 0, null);
 
-			int w = width;
-			int x = canvas.pX2;
+			highlightMarker(g);
+			highlightFeatures(g);
 
-			// If the user has sized the screen so that the mapcanvas is crushed
-			// then buffer creation will fail if either dimension is zero
-			if (w == 0 || h == 0)
-				return;
-
-			// Cut out the area of the main buffer we want to draw
-			BufferedImage image2 = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
-			Graphics2D g2d = image2.createGraphics();
-			g2d.drawImage(image, 0, 0, w, h, canvas.pX1, 0, x+1, h, null);
-			g2d.dispose();
-
-			// And dump it to the screen
-			g.drawImage(image2, 0, 0, null);
-			g.setFont(FONT);
-
-			// Change to red, and redraw the currently highlighted one
-			if (markerIndex >=0 && markerIndex < canvas.view.getMarkerCount())
-			{
-				// Translate the origin of the canvas so that we see (and draw)
-				// the area appropriate to what the main canvas is viewing
-				g.translate(0-canvas.pX1, 0);
-
-				g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-				g.setColor(Color.red);
-				drawMarker(g, markerIndex, true, true);
-			}
-
-			if (QTLCanvas.mouseOverFeature != null)
-				drawFeatureDetails(g);
+			System.out.println("paint map");
 		}
 	}
 
-	private class BufferFactory extends Thread
+	private void paintBuffer()
 	{
-		BufferedImage buffer;
+		w = canvas.pX2 - canvas.pX1 + 1;
 
-		// isTempBuffer = true when a buffer is being made for saving as an image
-		private boolean isTempBuffer = false;
-		private boolean killMe = false;
-		private int w, h;
+		// Only make a new buffer if we really really need to, as this has
+		// a noticeable effect on performance because of the time it takes
+		if (buffer == null || buffer.getWidth() != w || buffer.getHeight() != h)
+			buffer = (BufferedImage) createImage(w, h);
 
-		BufferFactory(int w, int h, boolean isTempBuffer)
+		Graphics2D g = buffer.createGraphics();
+		g.setColor(getBackground());
+		g.fillRect(0, 0, w, h);
+
+		int xS = canvas.pX1 / canvas.boxW;
+		int xE = canvas.pX2 / canvas.boxW;
+		render(g, xS, xE);
+
+		g.dispose();
+		updateBuffer = false;
+	}
+
+	private void render(Graphics2D g, int xS, int xE)
+	{
+		long s = System.nanoTime();
+
+		// Draw the white rectangle representing the map
+		g.setColor(Color.white);
+		g.fillRect(0, 12, w-1, 10);
+		g.setColor(Color.lightGray);
+		g.drawRect(0, 12, w-1, 10);
+
+		// Local scaling
+		// TODO: deal with markers that have been reordred/moved
+		mSPos = canvas.view.getMarker(xS).getPosition();
+		mEPos = canvas.view.getMarker(xE).getPosition();
+		// Global scaling
+//		mSPos = canvas.view.getMarker(0).getPosition();
+//		mEPos = canvas.view.getMarker(canvas.view.getMarkerCount()-1).getPosition();
+
+		for (int i = xS; i <= xE; i++)
+			renderMarker(g, i, xS, false);
+
+		long e = System.nanoTime();
+		System.out.println("Map render time: " + ((e-s)/1000000f) + "ms");
+	}
+
+	private void renderMarker(Graphics2D g, int i, int xS, boolean text)
+	{
+		float distance = mEPos - mSPos;
+
+		// "Jiggle" adjustment (for the genotype lines)
+		int jiggle = canvas.pX1 % canvas.boxW;
+
+		Marker m = canvas.view.getMarker(i);
+
+		// Local scaling
+		int xMap = (int) ((m.getPosition()-mSPos) * ((w-1) / distance));
+		// Global scaling
+//		int xMap = (int) ((m.getPosition()) * ((w-1) / mEPos));
+		int xBox = (int) ((i-xS) * canvas.boxW + (canvas.boxW/2)) - jiggle;
+
+		g.drawLine(xMap, 12, xMap, 22);
+		g.drawLine(xMap, 22, xBox, h-5);
+
+		if (text)
 		{
-			this.w = w;
-			this.h = h;
-			this.isTempBuffer = isTempBuffer;
+			String str = m.getName() + "  (" + d.format(m.getPosition()) + ")";
+			int strWidth = g.getFontMetrics().stringWidth(str);
+
+			g.drawString(str, getPosition(xMap, strWidth), 8);
+		}
+	}
+
+	// Highlights the marker under the mouse
+	private void highlightMarker(Graphics2D g)
+	{
+		// Change to red, and redraw the currently highlighted one
+		if (mrkrIndex >= 0 && mrkrIndex < canvas.view.getMarkerCount())
+		{
+			g.setRenderingHint(KEY_ANTIALIASING, VALUE_ANTIALIAS_ON);
+			g.setColor(Color.red);
+
+			int xS = canvas.pX1 / canvas.boxW;
+			renderMarker(g, mrkrIndex, xS, true);
+		}
+	}
+
+	private void highlightFeatures(Graphics2D g)
+	{
+		// If no feature is selected, just quit now
+		if (QTLCanvas.mouseOverFeature == null)
+			return;
+
+		g.setRenderingHint(KEY_ANTIALIASING, VALUE_ANTIALIAS_ON);
+		g.setColor(Color.red);
+
+		Feature f = QTLCanvas.mouseOverFeature;
+		float min = f.getMin();
+		float max = f.getMax();
+
+		// Where should it be drawn
+		float distance = mEPos - mSPos;
+		int xMap = (int) (((min + ((max-min)/2)-mSPos)) * ((w-1) / distance));
+
+
+		// And what should be drawn
+		String str = f.getName() + "  (";
+		if (f instanceof QTL)
+			str += d.format(((QTL)f).getPosition()) + ": ";
+		str += d.format(min) + "-" + d.format(max) + ")";
+		int strWidth = g.getFontMetrics().stringWidth(str);
+
+		g.drawString(str, getPosition(xMap, strWidth), 8);
+
+		// Now see which markers are "under" this feature, and highlight them
+		int mkrCount = canvas.view.getMarkerCount();
+		int xS = canvas.pX1 / canvas.boxW;
+
+		for (int i = 0; i < mkrCount; i++)
+		{
+			Marker m = canvas.view.getMarker(i);
+
+			// Is this marker under the QTL?
+			if (m.getPosition() >= min && m.getPosition() <= max)
+				renderMarker(g, i, xS, false);
+		}
+	}
+
+	// Computes the best position to draw a string onscreen, assuming an optimum
+	// start position that *may* be adjusted if the text ends up partially drawn
+	// offscreen on either the LHS or the RHS
+	private int getPosition(int pos, int strWidth)
+	{
+		// Work out where the left and right hand edges of the text will be
+		int leftPos = pos-(int)(strWidth/2f);
+		int rghtPos = pos+(int)(strWidth/2f);
+
+		// If we're offscreen to the left, adjust...
+		if (leftPos < 0)
+			leftPos = 0;
+		// Similarly if we're offscreen to the right...
+		else if (rghtPos > w)
+			leftPos = w-strWidth-1;
+
+		return leftPos;
+	}
+
+	BufferedImage createSavableImage(boolean full)
+		throws Exception
+	{
+		// Render width if we're just saving the current view
+		w = canvas.pX2 - canvas.pX1 + 1;
+		int xS = canvas.pX1 / canvas.boxW;
+		int xE = canvas.pX2 / canvas.boxW;
+
+		// Or the entire map
+		if (full)
+		{
+			w = canvas.canvasW;
+			xS = 0;
+			xE = canvas.view.getMarkerCount()-1;
 		}
 
-		public void run()
-		{
-			setPriority(Thread.MIN_PRIORITY);
-			setName("MapCanvas BufferFactory");
+		BufferedImage image = (BufferedImage) createImage(w, h);
 
-			try { Thread.sleep(500); }
-			catch (InterruptedException e) {}
+		Graphics2D g = image.createGraphics();
+		g.setColor(Color.white);
+		g.fillRect(0, 0, w, h);
+		render(g, xS, xE);
+		g.dispose();
 
-			if (killMe)
-				return;
-
-			// Run everything under try/catch conditions due to changes in the
-			// view that may invalidate what this thread is trying to access
-			try
-			{
-				createBuffer();
-			}
-			catch (Exception e)
-			{
-				System.out.println("MapCanvas: " + e);
-			}
-		}
-
-		private void createBuffer()
-			throws ArrayIndexOutOfBoundsException
-		{
-			try
-			{
-				buffer = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
-			}
-			catch (Throwable t) { return; }
-
-			Graphics2D g2d = buffer.createGraphics();
-
-			drawCanvas(g2d);
-			g2d.dispose();
-		}
-
-		private void drawCanvas(Graphics2D g)
-		{
-			// Enable anti-aliased graphics to smooth the line jaggies
-			g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
-			if (isTempBuffer)
-				g.setColor(Color.white);
-			else
-				g.setColor(getBackground());
-			g.fillRect(0, 0, canvas.canvasW, h);
-
-			int mkrCount = canvas.view.getMarkerCount();
-			xScale = (canvas.canvasW-1) / canvas.view.mapLength();
-
-			// Draw the white rectangle representing the map
-			g.setColor(Color.white);
-			g.fillRect(0, 12, canvas.canvasW-1, 10);
-			g.setColor(Color.lightGray);
-			g.drawRect(0, 12, canvas.canvasW-1, 10);
-
-			// Draw each marker
-			for (int i = 0; i < mkrCount && !killMe; i++)
-				drawMarker(g, i, false, false);
-
-			if (!killMe && !isTempBuffer)
-				bufferAvailable(buffer);
-		}
+		return image;
 	}
 }

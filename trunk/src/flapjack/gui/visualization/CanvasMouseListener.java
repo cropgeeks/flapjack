@@ -178,9 +178,6 @@ class CanvasMouseListener extends MouseInputAdapter
 					// If markers were moved, track their new state
 					movedMarkersState.createRedoState();
 					gPanel.addUndoState(movedMarkersState);
-
-					// The map only needs to be updated if markers moved
-					gPanel.mapCanvas.createImage();
 				}
 
 				isLineMoving = isMarkerMoving = false;
