@@ -65,16 +65,20 @@ public class GenotypePanel extends JPanel
 		ctrlPanel.add(markerLabel);
 		ctrlPanel.add(lengthLabel);
 
-		// Scrolling components above the main display (qtl, map, etc)
 		JPanel topPanel = new JPanel(new BorderLayout());
+		topPanel.add(ctrlPanel, BorderLayout.NORTH);
+		topPanel.add(miniMapCanvas, BorderLayout.SOUTH);
+
+		// Scrolling components above the main display (qtl, map, etc)
+		JPanel mapPanel = new JPanel(new BorderLayout());
 //		topPanel.add(qtlCanvas, BorderLayout.NORTH);
-		topPanel.add(miniMapCanvas, BorderLayout.NORTH);
-		topPanel.add(mapCanvas, BorderLayout.CENTER);
+//		mapPanel.add(miniMapCanvas, BorderLayout.NORTH);
+		mapPanel.add(mapCanvas, BorderLayout.CENTER);
 
 		// The main genotype area
 		JPanel centerPanel = new JPanel(new BorderLayout());
 		centerPanel.add(sp);
-		centerPanel.add(topPanel, BorderLayout.NORTH);
+		centerPanel.add(mapPanel, BorderLayout.NORTH);
 		centerPanel.add(rowCanvas, BorderLayout.SOUTH);
 		centerPanel.add(colCanvas, BorderLayout.EAST);
 		centerPanel.add(traitCanvas, BorderLayout.WEST);
@@ -92,7 +96,7 @@ public class GenotypePanel extends JPanel
 
 		setLayout(new BorderLayout());
 //		add(tabs);
-		add(ctrlPanel, BorderLayout.NORTH);
+		add(topPanel, BorderLayout.NORTH);
 		add(qtlSplitter);
 		add(statusPanel, BorderLayout.SOUTH);
 	}
@@ -215,8 +219,6 @@ public class GenotypePanel extends JPanel
 				adjustmentValueChanged(null);
 
 				qtlCanvas.updateCanvasSize(true);
-
-				mapCanvas.createImage();
 				miniMapCanvas.createImage();
 			}
 		});
@@ -246,7 +248,7 @@ public class GenotypePanel extends JPanel
 		rowCanvas.updateOverviewSelectionBox(xIndex, xW);
 		colCanvas.updateOverviewSelectionBox(yIndex, yH);
 
-		mapCanvas.updateView();
+		mapCanvas.repaint();
 		miniMapCanvas.repaint();
 		qtlCanvas.repaint();
 		traitCanvas.repaint();
@@ -329,7 +331,10 @@ public class GenotypePanel extends JPanel
 	}
 
 	public BufferedImage getMapCanvasBuffer(boolean full)
-		{ return mapCanvas.createSavableImage(full); }
+		throws Exception
+	{
+		return mapCanvas.createSavableImage(full);
+	}
 
 	public BufferedImage getLineCanvasBuffer(boolean full)
 		{ return listPanel.createSavableImage(full, canvas.pY1); }
@@ -338,7 +343,10 @@ public class GenotypePanel extends JPanel
 		{ return traitCanvas.createSavableImage(full); }
 
 	public BufferedImage getQTLCanvasBuffer(boolean full)
-		{ return qtlCanvas.createSavableImage(full); }
+		throws Exception
+	{
+		return qtlCanvas.createSavableImage(full);
+	}
 
 	// Updates the state of the Edit menu's undo/redo actions based on the undo
 	// history of the view currently being displayed
@@ -423,6 +431,8 @@ public class GenotypePanel extends JPanel
 		// Hide the qtlSplitter if the QTL panel isn't visible
 		else
 			qtlSplitter.setDividerSize(0);
+
+		miniMapCanvas.setVisible(true);
 	}
 
 	private void setCtrlLabels()
