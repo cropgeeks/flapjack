@@ -178,6 +178,9 @@ class CanvasMouseListener extends MouseInputAdapter
 					// If markers were moved, track their new state
 					movedMarkersState.createRedoState();
 					gPanel.addUndoState(movedMarkersState);
+
+					gPanel.mapCanvas.updateBuffer = true;
+					canvas.view.setMarkersOrdered(false);
 				}
 
 				isLineMoving = isMarkerMoving = false;

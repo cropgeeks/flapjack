@@ -73,7 +73,7 @@ public class GTViewSet extends XMLRoot
 		}
 
 		for (int i = 0; i < dataSet.countChromosomeMaps(); i++)
-			views.add(new GTView(this, dataSet.getMapByIndex(i)));
+			views.add(new GTView(this, dataSet.getMapByIndex(i), true));
 
 		// For a genuine new view on a new data import, this will have no effect
 		// but for new (additional) views, traits may exist that can be used

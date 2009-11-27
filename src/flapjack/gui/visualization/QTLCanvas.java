@@ -120,7 +120,7 @@ class QTLCanvas extends JPanel implements PropertyChangeListener
 
 			drawTracks(g, canvas.pX1, canvas.pX2);
 
-			System.out.println("paint qtls");
+//			System.out.println("paint qtls");
 		}
 
 		// Loops over the data, drawing each track
