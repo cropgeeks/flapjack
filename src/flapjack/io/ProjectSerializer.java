@@ -324,7 +324,7 @@ public class ProjectSerializer
 					RB.getString("io.DataFormatException.zipError"));
 		}
 		catch (ZipException e) {}
-		catch (IOException e) {}
+		catch (IOException e) { throw e; }
 
 		// Failing it being a compatible zip, try a quick is-it-xml test?
 		try
@@ -336,7 +336,8 @@ public class ProjectSerializer
 			if (str.startsWith("<?xml version=\"1.0\" encoding=\"UTF-8\"?>"))
 				return false;
 		}
-		catch (Exception e) {}
+		catch (IOException e) { throw e; }
+		catch (Exception e)	{}
 
 		throw new DataFormatException(
 			RB.getString("io.DataFormatException.xmlError"));
