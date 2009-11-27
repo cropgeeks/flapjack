@@ -97,7 +97,16 @@ public class MenuVisualization
 		WinMainMenuBar.mVizHighlightHZ.setSelected(Prefs.visHighlightHZ);
 		CanvasMenu.mHighlightHZ.setSelected(Prefs.visHighlightHZ);
 
-		new HZHighlighter(gPanel);
+		gPanel.refreshView();
+	}
+
+	void vizHighlightGaps()
+	{
+		Prefs.visHighlightGaps = !Prefs.visHighlightGaps;
+		WinMainMenuBar.mVizHighlightGaps.setSelected(Prefs.visHighlightGaps);
+		CanvasMenu.mHighlightGaps.setSelected(Prefs.visHighlightGaps);
+
+		gPanel.refreshView();
 	}
 
 	public void vizSelectTraits()

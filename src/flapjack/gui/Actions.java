@@ -51,6 +51,7 @@ public class Actions
 	public static AbstractAction vizColorAlleleFreq;
 	public static AbstractAction vizOverlayGenotypes;
 	public static AbstractAction vizHighlightHZ;
+	public static AbstractAction vizHighlightGaps;
 	public static AbstractAction vizSelectTraits;
 	public static AbstractAction vizNewView;
 	public static AbstractAction vizRenameView;
@@ -329,6 +330,12 @@ public class Actions
 			}
 		};
 
+		vizHighlightGaps = new AbstractAction(RB.getString("gui.Actions.vizHighlightGaps")) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.mViz.vizHighlightGaps();
+			}
+		};
+
 		vizSelectTraits = new AbstractAction(RB.getString("gui.Actions.vizSelectTraits")) {
 			public void actionPerformed(ActionEvent e) {
 				winMain.mViz.vizSelectTraits();
@@ -528,6 +535,7 @@ public class Actions
 		vizColorAlleleFreq.setEnabled(false);
 		vizOverlayGenotypes.setEnabled(false);
 		vizHighlightHZ.setEnabled(false);
+		vizHighlightGaps.setEnabled(false);
 		vizSelectTraits.setEnabled(false);
 		vizNewView.setEnabled(false);
 		vizRenameView.setEnabled(false);

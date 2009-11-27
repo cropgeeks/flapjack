@@ -74,6 +74,10 @@ allele's "box" is large).</p>
 <p>Toggles on or off the option to enhance the display of heterozygous alleles,
 dimming all other remaining alleles so that they are less visible.</p>
 
+<h3>Highlight gaps</h3>
+<p>Toggles on or off the option to enhance the display of missing data,
+dimming all other remaining alleles so that they are less visible.</p>
+
 <h3>Select traits</h3>
 <p>Displays the <a href="gui.dialog.SelectTraitsDialog.shtml">Select Traits</a>
 dialog that allows you to pick which traits should be displayed on the traits
