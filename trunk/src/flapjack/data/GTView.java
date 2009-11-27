@@ -33,6 +33,9 @@ public class GTView extends XMLRoot
 	// And its current index
 	private int comparisonMarkerIndex = -1;
 
+	// Tracks whether the markers are in map order or not
+	private boolean markersOrdered = false;
+
 	public GTView()
 	{
 	}
@@ -40,7 +43,7 @@ public class GTView extends XMLRoot
 	/**
 	 * Creates a new view object that will view the map within the dataset.
 	 */
-	public GTView(GTViewSet viewSet, ChromosomeMap map)
+	public GTView(GTViewSet viewSet, ChromosomeMap map, boolean isNew)
 	{
 		this.viewSet = viewSet;
 		this.map = map;
@@ -52,6 +55,9 @@ public class GTView extends XMLRoot
 			Marker m = map.getMarkerByIndex(i);
 			markers.add(new MarkerInfo(m, i));
 		}
+
+		if (isNew)
+			markersOrdered = true;
 	}
 
 	void validate()
@@ -99,6 +105,12 @@ public class GTView extends XMLRoot
 
 	public void setComparisonMarkerIndex(int comparisonMarkerIndex)
 		{ this.comparisonMarkerIndex = comparisonMarkerIndex; }
+
+	public boolean getMarkersOrdered()
+		{ return markersOrdered; }
+
+	public void setMarkersOrdered(boolean markersOrdered)
+		{ this.markersOrdered = markersOrdered; }
 
 
 	// Other methods
@@ -309,15 +321,17 @@ public class GTView extends XMLRoot
 
 	GTView createClone(GTViewSet clonedViewSet, boolean cloneHidden)
 	{
-		GTView clone = new GTView(clonedViewSet, map);
+		GTView clone = new GTView(clonedViewSet, map, false);
 
 		// Clone the visible markers
 		clone.setMarkersFromArray(getMarkersAsArray(true), true);
 		// Clone the hidden markers
 		if (cloneHidden)
 			clone.setMarkersFromArray(getMarkersAsArray(false), false);
+
 		clone.comparisonMarker = comparisonMarker;
 		clone.comparisonMarkerIndex = comparisonMarkerIndex;
+		clone.markersOrdered = markersOrdered;
 
 		return clone;
 	}

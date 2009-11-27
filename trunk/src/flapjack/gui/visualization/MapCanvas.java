@@ -10,10 +10,11 @@ import java.text.*;
 import javax.swing.*;
 
 import flapjack.data.*;
+import flapjack.gui.*;
 
 class MapCanvas extends JPanel
 {
-	private DecimalFormat d = new DecimalFormat("0.0");
+	private NumberFormat nf = NumberFormat.getInstance();
 
 	private GenotypePanel gPanel;
 	private GenotypeCanvas canvas;
@@ -21,7 +22,7 @@ class MapCanvas extends JPanel
 	private int h = 55;
 
 	private BufferedImage buffer;
-	private boolean updateBuffer = true;
+	boolean updateBuffer = true;
 
 	// Last known pX2 for the main canvas - if it's changed, we need to redraw
 	private int pX2 = 0;
@@ -88,8 +89,6 @@ class MapCanvas extends JPanel
 
 			highlightMarker(g);
 			highlightFeatures(g);
-
-			System.out.println("paint map");
 		}
 	}
 
@@ -100,7 +99,7 @@ class MapCanvas extends JPanel
 		// Only make a new buffer if we really really need to, as this has
 		// a noticeable effect on performance because of the time it takes
 		if (buffer == null || buffer.getWidth() != w || buffer.getHeight() != h)
-			buffer = (BufferedImage) createImage(w, h);
+			buffer = (BufferedImage) createImage(w>0 ? w:1, h>0 ? h:1);
 
 		Graphics2D g = buffer.createGraphics();
 		g.setColor(getBackground());
@@ -125,12 +124,29 @@ class MapCanvas extends JPanel
 		g.drawRect(0, 12, w-1, 10);
 
 		// Local scaling
-		// TODO: deal with markers that have been reordred/moved
 		mSPos = canvas.view.getMarker(xS).getPosition();
 		mEPos = canvas.view.getMarker(xE).getPosition();
+
+		// If markers have been moved xS and xE won't actually be the markers
+		// with the left- and right-most map positions
+		if (canvas.view.getMarkersOrdered() == false)
+		{
+			for (int i = xS; i <= xE; i++)
+			{
+				float pos = canvas.view.getMarker(i).getPosition();
+				if (pos < mSPos)
+					mSPos = pos;
+				else if (pos > mEPos)
+					mEPos = pos;
+			}
+		}
+
 		// Global scaling
-//		mSPos = canvas.view.getMarker(0).getPosition();
-//		mEPos = canvas.view.getMarker(canvas.view.getMarkerCount()-1).getPosition();
+		if (Prefs.visMapScaling == 1)
+		{
+			mSPos = canvas.view.getMarker(0).getPosition();
+			mEPos = canvas.view.getMarker(canvas.view.getMarkerCount()-1).getPosition();
+		}
 
 		for (int i = xS; i <= xE; i++)
 			renderMarker(g, i, xS, false);
@@ -151,7 +167,9 @@ class MapCanvas extends JPanel
 		// Local scaling
 		int xMap = (int) ((m.getPosition()-mSPos) * ((w-1) / distance));
 		// Global scaling
-//		int xMap = (int) ((m.getPosition()) * ((w-1) / mEPos));
+		if (Prefs.visMapScaling == 1)
+			xMap = (int) ((m.getPosition()) * ((w-1) / mEPos));
+
 		int xBox = (int) ((i-xS) * canvas.boxW + (canvas.boxW/2)) - jiggle;
 
 		g.drawLine(xMap, 12, xMap, 22);
@@ -159,7 +177,7 @@ class MapCanvas extends JPanel
 
 		if (text)
 		{
-			String str = m.getName() + "  (" + d.format(m.getPosition()) + ")";
+			String str = m.getName() + "  (" + nf.format(m.getPosition()) + ")";
 			int strWidth = g.getFontMetrics().stringWidth(str);
 
 			g.drawString(str, getPosition(xMap, strWidth), 8);
@@ -201,8 +219,8 @@ class MapCanvas extends JPanel
 		// And what should be drawn
 		String str = f.getName() + "  (";
 		if (f instanceof QTL)
-			str += d.format(((QTL)f).getPosition()) + ": ";
-		str += d.format(min) + "-" + d.format(max) + ")";
+			str += nf.format(((QTL)f).getPosition()) + ": ";
+		str += nf.format(min) + "-" +nf.format(max) + ")";
 		int strWidth = g.getFontMetrics().stringWidth(str);
 
 		g.drawString(str, getPosition(xMap, strWidth), 8);
@@ -256,7 +274,7 @@ class MapCanvas extends JPanel
 			xE = canvas.view.getMarkerCount()-1;
 		}
 
-		BufferedImage image = (BufferedImage) createImage(w, h);
+		BufferedImage image = (BufferedImage) createImage(w>0 ? w:1, h>0 ? h:1);
 
 		Graphics2D g = image.createGraphics();
 		g.setColor(Color.white);

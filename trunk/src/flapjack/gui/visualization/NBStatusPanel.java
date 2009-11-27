@@ -17,8 +17,6 @@ import scri.commons.gui.*;
 public class NBStatusPanel extends JPanel implements ActionListener, ChangeListener
 {
 	private NumberFormat nf = NumberFormat.getInstance();
-	private DecimalFormat d1 = new DecimalFormat("0.0");
-	private DecimalFormat d3 = new DecimalFormat("0.000");
 
 	private GenotypePanel gPanel;
 	private GTView view;
@@ -197,7 +195,7 @@ public class NBStatusPanel extends JPanel implements ActionListener, ChangeListe
 		else
 		{
 			Marker m = view.getMarker(markerIndex);
-			markerLabel.setText(m.getName() + " (" + d1.format(m.getPosition()) + ")");
+			markerLabel.setText(m.getName() + " (" + nf.format(m.getPosition()) + ")");
 		}
 
 		// Current allele under the mouse
@@ -245,13 +243,11 @@ public class NBStatusPanel extends JPanel implements ActionListener, ChangeListe
 				if (i > 0)
 					data += ", ";
 
-				System.out.println("parsing " + qtl.getValues()[i]);
-
 				try
 				{
 					// Can we format as a number?
 					float value = nf.parse(qtl.getValues()[i]).floatValue();
-					data += qtl.getVNames()[i] + " (" + d3.format(value) + ")";
+					data += qtl.getVNames()[i] + " (" + nf.format(value) + ")";
 				}
 				catch (Exception e)
 				{

@@ -70,7 +70,7 @@ class OverviewCanvas extends JPanel
 		w = viewCanvas.getSize().width;
 		h = viewCanvas.getSize().height;
 
-		if (w == 0 || h == 0 || gPanel == null || isVisible() == false)
+		if (gPanel == null || isVisible() == false)
 			return;
 
 		image = null;
@@ -79,7 +79,7 @@ class OverviewCanvas extends JPanel
 		if (bufferFactory != null)
 			bufferFactory.killMe = true;
 		// Before starting a new one
-		bufferFactory = new BufferFactory(w, h, false);
+		bufferFactory = new BufferFactory(w>0 ? w:1, h>0 ? h:1, false);
 
 		repaint();
 	}
