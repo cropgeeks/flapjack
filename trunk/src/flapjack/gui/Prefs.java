@@ -133,6 +133,8 @@ public class Prefs extends XMLPreferences
 	public static boolean visShowGenotypes = false;
 	// Should the visualization canvas highlight heterozygotes?
 	public static boolean visHighlightHZ = false;
+	// Should the visualization canvas highlight gaps?
+	public static boolean visHighlightGaps = false;
 
 	// Mouse-over crosshair?
 	public static boolean visCrosshair = true;

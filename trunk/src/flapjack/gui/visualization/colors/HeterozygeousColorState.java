@@ -37,6 +37,13 @@ public class HeterozygeousColorState extends ColorState
 
 		drawState(g, c1.brighter(), c1.darker(), s1, w, h, true);
 		drawState(g, c2.brighter(), c2.darker(), s2, w, h, false);
+
+		if (Prefs.visHighlightGaps)
+		{
+			g.setPaint(new Color(20, 20, 20, alpha));
+			g.fillRect(0, 0, w, h);
+		}
+
 		g.dispose();
 
 		return image;
