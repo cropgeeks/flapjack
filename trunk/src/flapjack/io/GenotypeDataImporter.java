@@ -21,10 +21,10 @@ public class GenotypeDataImporter
 
 	// Each marker's name is stored (only while loading) in a hashmap, along
 	// with the index of the chromosome it is associated with
-	private HashMap<String, MarkerIndex> markers = new HashMap<String, MarkerIndex>();
+	private HashMap<String, MarkerIndex> markers;
 
 	// Also track line names, for duplicate detection
-	private HashMap<String, String> lines = new HashMap<String, String>();
+	private HashMap<String, String> lines;
 
 	private String ioMissingData;
 	private boolean ioUseHetSep;
@@ -80,6 +80,8 @@ public class GenotypeDataImporter
 		throws IOException, DataFormatException
 	{
 		long s = System.currentTimeMillis();
+
+		lines = new HashMap<String, String>();
 
 		is = new ProgressInputStream(new FileInputStream(file));
 
@@ -137,12 +139,16 @@ public class GenotypeDataImporter
 			if (values.length == 0)
 				continue;
 
+			System.out.println("LINE: " + values[0]);
+
 			// Check for duplicate line names
 			if (lines.get(values[0]) != null)
 					throw new DataFormatException(RB.format("io.DataFormatException.duplicateLineError", values[0], lineCount+1));
 
 			Line line = dataSet.createLine(values[0], useByteStorage);
 			lines.put(line.getName(), line.getName());
+
+			System.out.println("adding data on line " + line.getName());
 
 			for (int i = 1; i < values.length; i++)
 			{
