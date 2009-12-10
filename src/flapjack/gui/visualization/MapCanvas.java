@@ -21,7 +21,7 @@ class MapCanvas extends JPanel
 
 	private int h = 55;
 
-	private BufferedImage buffer;
+	private BufferedImage buffer, aaBuffer;
 	boolean updateBuffer = true;
 
 	// Last known pX2 for the main canvas - if it's changed, we need to redraw
@@ -85,7 +85,10 @@ class MapCanvas extends JPanel
 			if (updateBuffer)
 				paintBuffer();
 
-			g.drawImage(buffer, 0, 0, null);
+			if (MapCanvasAAThread.bufferAvailable)
+				g.drawImage(aaBuffer, 0, 0, null);
+			else
+				g.drawImage(buffer, 0, 0, null);
 
 			highlightMarker(g);
 			highlightFeatures(g);
@@ -99,7 +102,10 @@ class MapCanvas extends JPanel
 		// Only make a new buffer if we really really need to, as this has
 		// a noticeable effect on performance because of the time it takes
 		if (buffer == null || buffer.getWidth() != w || buffer.getHeight() != h)
+		{
 			buffer = (BufferedImage) createImage(w>0 ? w:1, h>0 ? h:1);
+			aaBuffer = (BufferedImage) createImage(w>0 ? w:1, h>0 ? h:1);
+		}
 
 		Graphics2D g = buffer.createGraphics();
 		g.setColor(getBackground());
@@ -107,13 +113,15 @@ class MapCanvas extends JPanel
 
 		int xS = canvas.pX1 / canvas.boxW;
 		int xE = canvas.pX2 / canvas.boxW;
+
 		render(g, xS, xE);
+		new MapCanvasAAThread(this, xS, xE);
 
 		g.dispose();
 		updateBuffer = false;
 	}
 
-	private void render(Graphics2D g, int xS, int xE)
+	void render(Graphics2D g, int xS, int xE)
 	{
 		long s = System.nanoTime();
 
@@ -258,6 +266,9 @@ class MapCanvas extends JPanel
 		return leftPos;
 	}
 
+	Graphics2D getAntiAliasedBufferGraphics()
+		{ return aaBuffer.createGraphics(); }
+
 	BufferedImage createSavableImage(boolean full)
 		throws Exception
 	{
@@ -277,6 +288,8 @@ class MapCanvas extends JPanel
 		BufferedImage image = (BufferedImage) createImage(w>0 ? w:1, h>0 ? h:1);
 
 		Graphics2D g = image.createGraphics();
+		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+			RenderingHints.VALUE_ANTIALIAS_ON);
 		g.setColor(Color.white);
 		g.fillRect(0, 0, w, h);
 		render(g, xS, xE);
