@@ -39,6 +39,7 @@ public class Actions
 
 	public static AbstractAction vizExportImage;
 	public static AbstractAction vizExportData;
+	public static AbstractAction vizCreatePedigree;
 	public static AbstractAction vizColorCustomize;
 	public static AbstractAction vizColorRandom;
 	public static AbstractAction vizColorRandomWSP;
@@ -255,6 +256,12 @@ public class Actions
 		vizExportData = new AbstractAction(RB.getString("gui.Actions.vizExportData")) {
 			public void actionPerformed(ActionEvent e) {
 				winMain.mViz.vizExportData();
+			}
+		};
+
+		vizCreatePedigree = new AbstractAction(RB.getString("gui.Actions.vizCreatePedigree")) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.mViz.vizCreatePedigree();
 			}
 		};
 
@@ -523,6 +530,7 @@ public class Actions
 
 		vizExportImage.setEnabled(false);
 		vizExportData.setEnabled(false);
+		vizCreatePedigree.setEnabled(false);
 		vizColorCustomize.setEnabled(false);
 		vizColorRandom.setEnabled(false);
 		vizColorRandomWSP.setEnabled(false);

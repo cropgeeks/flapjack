@@ -45,6 +45,7 @@ public class WinMainMenuBar extends JMenuBar
 	private JMenu mViz;
 	private JMenuItem mVizExportImage;
 	private JMenuItem mVizExportData;
+	private JMenuItem mVizCreatePedigree;
 	private JMenu mVizColor;
 	private JMenuItem mVizColorCustomize;
 	private JMenuItem mVizColorRandom;
@@ -208,6 +209,7 @@ public class WinMainMenuBar extends JMenuBar
 
 		mVizExportImage = getItem(Actions.vizExportImage, "gui.Actions.vizExportImage", 0, 0);
 		mVizExportData = getItem(Actions.vizExportData, "gui.Actions.vizExportData", 0, 0);
+		mVizCreatePedigree = getItem(Actions.vizCreatePedigree, "gui.Actions.vizCreatePedigree", 0, 0);
 		mVizColorCustomize = getItem(Actions.vizColorCustomize, "gui.Actions.vizColorCustomize", 0, 0);
 		mVizColorRandom = getItem(Actions.vizColorRandom, "gui.Actions.vizColorRandom", 0, 0);
 		mVizColorRandomWSP = getItem(Actions.vizColorRandomWSP, "gui.Actions.vizColorRandomWSP", 0, 0);
@@ -247,6 +249,8 @@ public class WinMainMenuBar extends JMenuBar
 
 		mViz.add(mVizExportImage);
 		mViz.add(mVizExportData);
+		mViz.addSeparator();
+		mViz.add(mVizCreatePedigree);
 		mViz.addSeparator();
 		mViz.add(mVizColor);
 		mViz.add(mVizOverlayGenotypes);
