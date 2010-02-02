@@ -3,6 +3,7 @@
 
 package flapjack.gui;
 
+import flapjack.analysis.*;
 import flapjack.data.*;
 import flapjack.gui.dialog.*;
 import flapjack.gui.visualization.*;
@@ -210,5 +211,21 @@ public class MenuVisualization
 		viewSet.getBookmarks().remove(bookmark);
 
 		Actions.projectModified();
+	}
+
+	void vizCreatePedigree()
+	{
+		PedigreeSettingsDialog dialog = new PedigreeSettingsDialog("");
+		if (dialog.isOK() == false)
+			return;
+
+		PedigreeGenerator pg = new PedigreeGenerator(dialog.getFile());
+
+		ProgressDialog pDialog = new ProgressDialog(pg,
+			"Communicating with Server",
+			"Communicating with server - please be patient...");
+
+		if (pDialog.isOK() == false)
+			pDialog.getException().printStackTrace();
 	}
 }

@@ -48,6 +48,7 @@ public class VisualizationNode extends BaseNode
 
 		Actions.vizExportImage.setEnabled(true);
 		Actions.vizExportData.setEnabled(true);
+		Actions.vizCreatePedigree.setEnabled(true);
 		Actions.vizColorCustomize.setEnabled(true);
 		Actions.vizColorRandom.setEnabled(true);
 		Actions.vizColorRandomWSP.setEnabled(true);
