@@ -26,6 +26,8 @@ public class Prefs extends XMLPreferences
 	public static String guiTraitHistory = "";
 	public static String guiQTLHistory = "";
 
+	public static String guiPedigreeList = "";
+
 	// How many projects have been created
 	public static int guiProjectCount = 1;
 

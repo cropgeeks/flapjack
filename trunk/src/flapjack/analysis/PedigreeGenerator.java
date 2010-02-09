@@ -8,17 +8,22 @@ import java.io.*;
 import java.net.*;
 import javax.imageio.*;
 
+import flapjack.data.*;
 import flapjack.gui.*;
 
 import scri.commons.gui.*;
 
 public class PedigreeGenerator implements ITrackableJob
 {
+	private GTViewSet viewSet;
 	private File pFile;
 	private boolean isOK = true;
 
-	public PedigreeGenerator(File pFile)
+	private BufferedImage image;
+
+	public PedigreeGenerator(GTViewSet viewSet, File pFile)
 	{
+		this.viewSet = viewSet;
 		this.pFile = pFile;
 	}
 
@@ -28,13 +33,20 @@ public class PedigreeGenerator implements ITrackableJob
 		String boundary = SystemUtils.createGUID(10);
 		String name = "flapjack-pedigree-" + boundary;
 
-		URL url = new URL("http://bioinf.scri.ac.uk/flapjack/pedigrees/upload.cgi");
+		URL url = new URL("http://penguin.scri.ac.uk/flapjack/pedigrees/upload.cgi");
 
-		String header = "--" + boundary + "\r\n"
+		String formHeader = "--" + boundary + "\r\n"
 			+ "Content-Disposition: form-data; name=\"file\"; "
 			+ "filename=\"" + name +"\"" + "\r\n\r\n";
 
 		String footer = "\r\n--" + boundary + "\r\n";
+
+		StringBuilder header = new StringBuilder();
+		for (LineInfo line: viewSet.getLines())
+		{
+			if (line.getSelected())
+				header.append("#selected_line=" + line.getLine().getName() + "\r\n");
+		}
 
 		HttpURLConnection c = (HttpURLConnection) url.openConnection();
 
@@ -45,12 +57,13 @@ public class PedigreeGenerator implements ITrackableJob
 		c.setRequestProperty("Connection", "Keep-Alive");
 		c.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + boundary);
 
-		int length = header.length() + (int) pFile.length() + footer.length();
+		int length = formHeader.length() + header.length() + (int) pFile.length() + footer.length();
 		c.setFixedLengthStreamingMode(length);
 
 
 		BufferedWriter out = new BufferedWriter(
 			new OutputStreamWriter(c.getOutputStream()));
+		out.write(formHeader.toString());
 		out.write(header.toString());
 
 		BufferedInputStream fis = new BufferedInputStream(
@@ -73,10 +86,8 @@ public class PedigreeGenerator implements ITrackableJob
 		{
 			// TODO: Need a way to cancel a long-download?
 			BufferedInputStream in = new BufferedInputStream(c.getInputStream());
-			BufferedImage image = ImageIO.read(in);
+			image = ImageIO.read(in);
 			in.close();
-
-			ImageIO.write(image, "png", new File("wibble.png"));
 
 	/*		String str = null;
 			while ((str = in.readLine()) != null)
@@ -88,6 +99,9 @@ public class PedigreeGenerator implements ITrackableJob
 
 		c.disconnect();
 	}
+
+	public BufferedImage getImage()
+		{ return image; }
 
 	public boolean isIndeterminate()
 		{ return true; }

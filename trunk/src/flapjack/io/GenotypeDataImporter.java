@@ -139,16 +139,12 @@ public class GenotypeDataImporter
 			if (values.length == 0)
 				continue;
 
-			System.out.println("LINE: " + values[0]);
-
 			// Check for duplicate line names
 			if (lines.get(values[0]) != null)
 					throw new DataFormatException(RB.format("io.DataFormatException.duplicateLineError", values[0], lineCount+1));
 
 			Line line = dataSet.createLine(values[0], useByteStorage);
 			lines.put(line.getName(), line.getName());
-
-			System.out.println("adding data on line " + line.getName());
 
 			for (int i = 1; i < values.length; i++)
 			{
