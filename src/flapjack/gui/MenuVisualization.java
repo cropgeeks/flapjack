@@ -6,6 +6,7 @@ package flapjack.gui;
 import flapjack.analysis.*;
 import flapjack.data.*;
 import flapjack.gui.dialog.*;
+import flapjack.gui.dialog.pedigrees.*;
 import flapjack.gui.visualization.*;
 import flapjack.gui.visualization.colors.*;
 
@@ -215,11 +216,16 @@ public class MenuVisualization
 
 	void vizCreatePedigree()
 	{
-		PedigreeSettingsDialog dialog = new PedigreeSettingsDialog("");
+		PedigreeSettingsDialog dialog = new PedigreeSettingsDialog(
+			Prefs.guiPedigreeList);
+
 		if (dialog.isOK() == false)
 			return;
 
-		PedigreeGenerator pg = new PedigreeGenerator(dialog.getFile());
+		Prefs.guiPedigreeList = dialog.getHistory();
+
+		GTViewSet viewSet = gPanel.getViewSet();
+		PedigreeGenerator pg = new PedigreeGenerator(viewSet, dialog.getFile());
 
 		ProgressDialog pDialog = new ProgressDialog(pg,
 			"Communicating with Server",
@@ -227,5 +233,9 @@ public class MenuVisualization
 
 		if (pDialog.isOK() == false)
 			pDialog.getException().printStackTrace();
+		else
+		{
+			new PedigreeDialog(pg.getImage());
+		}
 	}
 }
