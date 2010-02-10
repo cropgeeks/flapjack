@@ -46,6 +46,9 @@ class PedigreePanel extends JPanel
 
 		g.drawImage(image, vp.x, vp.y, vp.x+vs.width, vp.y+vs.height,
 			vp.x, vp.y, vp.x+vs.width, vp.y+vs.height, null);
+
+//		g.drawImage(image, 0, 0, getWidth(), getHeight(),
+//			0, 0, image.getWidth(), image.getHeight(), null);
 	}
 
 	private class MouseHandler extends MouseInputAdapter
