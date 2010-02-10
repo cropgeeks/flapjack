@@ -26,12 +26,14 @@ public class PedigreeDialog extends JFrame
 
 		PedigreePanel panel = new PedigreePanel(image);
 		sp = new JScrollPane(panel);
+//		sp = new JScrollPane();
 		sp.getHorizontalScrollBar().setBlockIncrement(25);
 		sp.getVerticalScrollBar().setBlockIncrement(25);
 		panel.setScrollPane(sp);
 
 		add(toolbar, BorderLayout.NORTH);
 		add(sp);
+//		add(panel);
 
 		setSize(500, 500);
 		setIconImage(Icons.getIcon("FLAPJACK").getImage());

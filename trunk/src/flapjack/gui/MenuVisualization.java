@@ -232,7 +232,10 @@ public class MenuVisualization
 			"Communicating with server - please be patient...");
 
 		if (pDialog.isOK() == false)
+		{
 			pDialog.getException().printStackTrace();
+			TaskDialog.error(pDialog.getException().toString(), "Close");
+		}
 		else
 		{
 			new PedigreeDialog(pg.getImage());
