@@ -12,6 +12,7 @@ import flapjack.data.*;
 import flapjack.gui.*;
 
 import scri.commons.gui.*;
+import scri.commons.file.*;
 
 public class PedigreeGenerator implements ITrackableJob
 {
@@ -21,6 +22,9 @@ public class PedigreeGenerator implements ITrackableJob
 
 	private BufferedImage image;
 	private String selectedButton;
+
+	private int maximum;
+	private ProgressInputStream ps;
 
 	public PedigreeGenerator(GTViewSet viewSet, File pFile, String selectedButton)
 	{
@@ -44,7 +48,7 @@ public class PedigreeGenerator implements ITrackableJob
 		String footer = "\r\n--" + boundary + "\r\n";
 
 		StringBuilder header = new StringBuilder();
-		header.append("#graph_size=" + selectedButton + "\r\n");
+		header.append("#graph_size=" + selectedButton.toLowerCase() + "\r\n");
 		for (LineInfo line: viewSet.getLines())
 		{
 			if (line.getSelected())
@@ -86,17 +90,14 @@ public class PedigreeGenerator implements ITrackableJob
 
 		if (isOK)
 		{
+			ps = new ProgressInputStream(c.getInputStream());
+			maximum = c.getContentLength();
+			System.out.println("Downloading...");
+
 			// TODO: Need a way to cancel a long-download?
-			BufferedInputStream in = new BufferedInputStream(c.getInputStream());
-			image = ImageIO.read(in);
+			BufferedInputStream in = new BufferedInputStream(ps);
+			image = ImageIO.read(ps);
 			in.close();
-
-	/*		String str = null;
-			while ((str = in.readLine()) != null)
-				System.out.println(str);
-			in.close();
-	*/
-
 		}
 
 		c.disconnect();
@@ -106,13 +107,20 @@ public class PedigreeGenerator implements ITrackableJob
 		{ return image; }
 
 	public boolean isIndeterminate()
-		{ return true; }
+	{
+		return false;
+	}
 
 	public int getMaximum()
-		{ return 0; }
+		{ return maximum; }
 
 	public int getValue()
-		{ return 0; }
+	{
+		if (ps == null)
+			return 0;
+		else
+			return (int) ps.getBytesRead();
+	}
 
 	public void cancelJob()
 		{ isOK = false; }

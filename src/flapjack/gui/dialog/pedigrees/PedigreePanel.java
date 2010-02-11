@@ -18,9 +18,16 @@ class PedigreePanel extends JPanel
 	private BufferedImage image;
 	private JScrollPane sp;
 
-	PedigreePanel(BufferedImage image)
+	PedigreePanel(BufferedImage sImage)
 	{
-		this.image = image;
+		// Copy the image from the server onto a new buffer (which will do any
+		// image format conversions, making final rendering faster). Deals with
+		// the PNG image type = TYPE_CUSTOM problems.
+		// TODO: Check for OOM error
+		image = new BufferedImage(sImage.getWidth(), sImage.getHeight(), BufferedImage.TYPE_INT_RGB);
+		Graphics2D g = image.createGraphics();
+		g.drawImage(sImage, 0, 0, null);
+		g.dispose();
 
 		MouseHandler mh = new MouseHandler();
 		addMouseListener(mh);
