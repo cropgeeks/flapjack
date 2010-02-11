@@ -14,6 +14,8 @@ import scri.commons.gui.*;
 
 class NBPedigreeSettingsPanel extends JPanel implements ActionListener
 {
+	ButtonGroup group;
+
 	public NBPedigreeSettingsPanel()
 	{
 		initComponents();
@@ -26,6 +28,15 @@ class NBPedigreeSettingsPanel extends JPanel implements ActionListener
 		RB.setText(bBrowse, "gui.text.browse");
 
 		bBrowse.addActionListener(this);
+
+		group = new ButtonGroup();
+		group.add(rbSmall);
+		group.add(rbMedium);
+		group.add(rbLarge);
+
+		rbSmall.setActionCommand("Small");
+		rbMedium.setActionCommand("Medium");
+		rbLarge.setActionCommand("Large");
 	}
 
 	boolean isOK()
@@ -77,6 +88,10 @@ class NBPedigreeSettingsPanel extends JPanel implements ActionListener
         jPanel1 = new javax.swing.JPanel();
         browseComboBox = new scri.commons.gui.matisse.HistoryComboBox();
         jLabel1 = new javax.swing.JLabel();
+        rbSmall = new javax.swing.JRadioButton();
+        rbMedium = new javax.swing.JRadioButton();
+        rbLarge = new javax.swing.JRadioButton();
+        jLabel2 = new javax.swing.JLabel();
 
         panel.setBorder(javax.swing.BorderFactory.createTitledBorder("Pedigree file:"));
 
@@ -90,20 +105,40 @@ class NBPedigreeSettingsPanel extends JPanel implements ActionListener
 
         jLabel1.setText("Other possible options...");
 
+        rbSmall.setText("Small");
+
+        rbMedium.setSelected(true);
+        rbMedium.setText("Medium");
+
+        rbLarge.setText("Large");
+
+        jLabel2.setText("Select image size: ");
+
         org.jdesktop.layout.GroupLayout panelLayout = new org.jdesktop.layout.GroupLayout(panel);
         panel.setLayout(panelLayout);
         panelLayout.setHorizontalGroup(
             panelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(panelLayout.createSequentialGroup()
-                .addContainerGap()
                 .add(panelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(panelLayout.createSequentialGroup()
-                        .add(label)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(jPanel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 296, Short.MAX_VALUE)
-                        .add(6, 6, 6)
-                        .add(bBrowse))
-                    .add(jLabel1))
+                        .addContainerGap()
+                        .add(panelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(panelLayout.createSequentialGroup()
+                                .add(label)
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                .add(jPanel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 296, Short.MAX_VALUE)
+                                .add(6, 6, 6)
+                                .add(bBrowse))
+                            .add(jLabel1)))
+                    .add(panelLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .add(jLabel2))
+                    .add(panelLayout.createSequentialGroup()
+                        .add(95, 95, 95)
+                        .add(panelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(rbLarge)
+                            .add(rbMedium)
+                            .add(rbSmall))))
                 .addContainerGap())
         );
         panelLayout.setVerticalGroup(
@@ -116,7 +151,15 @@ class NBPedigreeSettingsPanel extends JPanel implements ActionListener
                     .add(jPanel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .add(18, 18, 18)
                 .add(jLabel1)
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .add(18, 18, 18)
+                .add(jLabel2)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(rbSmall)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .add(rbMedium)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(rbLarge)
+                .add(16, 16, 16))
         );
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
@@ -142,9 +185,13 @@ class NBPedigreeSettingsPanel extends JPanel implements ActionListener
     private javax.swing.JButton bBrowse;
     scri.commons.gui.matisse.HistoryComboBox browseComboBox;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel label;
     private javax.swing.JPanel panel;
+    javax.swing.JRadioButton rbLarge;
+    javax.swing.JRadioButton rbMedium;
+    javax.swing.JRadioButton rbSmall;
     // End of variables declaration//GEN-END:variables
 
 }

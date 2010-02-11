@@ -225,7 +225,7 @@ public class MenuVisualization
 		Prefs.guiPedigreeList = dialog.getHistory();
 
 		GTViewSet viewSet = gPanel.getViewSet();
-		PedigreeGenerator pg = new PedigreeGenerator(viewSet, dialog.getFile());
+		PedigreeGenerator pg = new PedigreeGenerator(viewSet, dialog.getFile(), dialog.getSelectedButton());
 
 		ProgressDialog pDialog = new ProgressDialog(pg,
 			"Communicating with Server",
