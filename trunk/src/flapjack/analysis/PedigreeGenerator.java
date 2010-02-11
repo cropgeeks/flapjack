@@ -20,11 +20,13 @@ public class PedigreeGenerator implements ITrackableJob
 	private boolean isOK = true;
 
 	private BufferedImage image;
+	private String selectedButton;
 
-	public PedigreeGenerator(GTViewSet viewSet, File pFile)
+	public PedigreeGenerator(GTViewSet viewSet, File pFile, String selectedButton)
 	{
 		this.viewSet = viewSet;
 		this.pFile = pFile;
+		this.selectedButton = selectedButton;
 	}
 
 	public void runJob()
@@ -42,6 +44,7 @@ public class PedigreeGenerator implements ITrackableJob
 		String footer = "\r\n--" + boundary + "\r\n";
 
 		StringBuilder header = new StringBuilder();
+		header.append("#graph_size=" + selectedButton + "\r\n");
 		for (LineInfo line: viewSet.getLines())
 		{
 			if (line.getSelected())
@@ -59,7 +62,6 @@ public class PedigreeGenerator implements ITrackableJob
 
 		int length = formHeader.length() + header.length() + (int) pFile.length() + footer.length();
 		c.setFixedLengthStreamingMode(length);
-
 
 		BufferedWriter out = new BufferedWriter(
 			new OutputStreamWriter(c.getOutputStream()));

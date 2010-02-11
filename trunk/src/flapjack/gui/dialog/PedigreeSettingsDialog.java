@@ -86,4 +86,9 @@ public class PedigreeSettingsDialog extends JDialog implements ActionListener
 	{
 		return nbPanel.browseComboBox.getHistory();
 	}
+
+	public String getSelectedButton()
+	{
+		return nbPanel.group.getSelection().getActionCommand();
+	}
 }
