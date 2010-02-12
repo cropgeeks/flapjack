@@ -6,10 +6,11 @@ package flapjack.io;
 import java.io.*;
 import java.text.*;
 
+import flapjack.analysis.*;
 import flapjack.data.*;
 import flapjack.gui.*;
 
-public class GenotypeDataExporter implements ITrackableJob
+public class GenotypeDataExporter extends SimpleJob
 {
 	private NumberFormat nf = NumberFormat.getInstance();
 
@@ -18,23 +19,17 @@ public class GenotypeDataExporter implements ITrackableJob
 	private boolean useAll;
 	private boolean[] chrm;
 
-	// Is it still ok for the export to go ahead?
-	private boolean isOK = true;
-	// How many lines are going to be processed?
-	private int total;
-	// How many lines HAVE been processed?
-	private int count;
-
 	public GenotypeDataExporter(File file, GTViewSet viewSet, boolean useAll, boolean[] chrm, int total)
 	{
 		this.file = file;
 		this.viewSet = viewSet;
 		this.useAll = useAll;
 		this.chrm = chrm;
-		this.total = total;
+
+		maximum = total;
 	}
 
-	public void runJob()
+	public void runJob(int index)
 		throws IOException
 	{
 		BufferedWriter out = new BufferedWriter(new FileWriter(file));
@@ -79,7 +74,7 @@ public class GenotypeDataExporter implements ITrackableJob
 		// Now write the genotype data...
 		// Use the first chromosome to parse the lines
 		GTView view = viewSet.getView(0);
-		for (int line = 0; line < view.getLineCount(); line++, count++)
+		for (int line = 0; line < view.getLineCount(); line++, progress++)
 		{
 			// Don't export dummy lines
 			if (view.isDummyLine(view.getLine(line)))
@@ -99,7 +94,7 @@ public class GenotypeDataExporter implements ITrackableJob
 
 					cView.cacheLines();
 
-					for (int marker = 0; marker < cView.getMarkerCount() && isOK; marker++)
+					for (int marker = 0; marker < cView.getMarkerCount() && okToRun; marker++)
 					{
 						if (useAll || cView.isMarkerSelected(marker))
 						{
@@ -115,16 +110,4 @@ public class GenotypeDataExporter implements ITrackableJob
 
 		out.close();
 	}
-
-	public boolean isIndeterminate()
-		{ return false; }
-
-	public int getMaximum()
-		{ return total; }
-
-	public int getValue()
-		{ return count; }
-
-	public void cancelJob()
-		{ isOK = false; }
 }

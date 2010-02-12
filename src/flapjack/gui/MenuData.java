@@ -92,10 +92,8 @@ class MenuData
 			 RB.format("gui.MenuData.statistics.title"),
 			 RB.format("gui.MenuData.statistics.label"));
 
-		if (dialog.isOK())
-		{
+		if (dialog.getResult() == ProgressDialog.JOB_COMPLETED)
 			new AlleleStatisticsDialog(viewSet, statistics.getResults());
-		}
 	}
 
 	// Fires off a URL request to a linked database for information on a line

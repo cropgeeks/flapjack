@@ -8,12 +8,13 @@ import java.awt.image.*;
 import java.io.*;
 import javax.imageio.*;
 
+import flapjack.analysis.*;
 import flapjack.gui.*;
 import flapjack.gui.visualization.*;
 
 import scri.commons.gui.*;
 
-public class ImageExporter implements ITrackableJob
+public class ImageExporter extends SimpleJob
 {
 	private GenotypePanel gPanel;
 	private File file;
@@ -26,7 +27,7 @@ public class ImageExporter implements ITrackableJob
 		this.file = file;
 	}
 
-	public void runJob()
+	public void runJob(int index)
 		throws Exception
 	{
 		switch (Prefs.guiExportImageMethod)
@@ -135,13 +136,8 @@ public class ImageExporter implements ITrackableJob
 	public boolean isIndeterminate()
 		{ return true; }
 
-	public int getMaximum()
-		{ return 0; }
-
-	public int getValue()
-		{ return 0; }
-
-	public void cancelJob()
+	public String getMessage()
 	{
+		return RB.format("io.ImageExporter.message", file.getName());
 	}
 }

@@ -14,16 +14,15 @@ import flapjack.gui.*;
 import scri.commons.gui.*;
 import scri.commons.file.*;
 
-public class PedigreeGenerator implements ITrackableJob
+public class PedigreeGenerator extends SimpleJob
 {
 	private GTViewSet viewSet;
 	private File pFile;
-	private boolean isOK = true;
 
 	private BufferedImage image;
 	private String selectedButton;
 
-	private int maximum;
+	private String message;
 	private ProgressInputStream ps;
 
 	public PedigreeGenerator(GTViewSet viewSet, File pFile, String selectedButton)
@@ -31,9 +30,11 @@ public class PedigreeGenerator implements ITrackableJob
 		this.viewSet = viewSet;
 		this.pFile = pFile;
 		this.selectedButton = selectedButton;
+
+		message = "Sending pedigree information to server";
 	}
 
-	public void runJob()
+	public void runJob(int index)
 		throws Exception
 	{
 		String boundary = SystemUtils.createGUID(10);
@@ -76,7 +77,7 @@ public class PedigreeGenerator implements ITrackableJob
 			new DataInputStream(new FileInputStream(pFile)));
 
 		int read = fis.read();
-		while (read > 0 && isOK)
+		while (read > 0 && okToRun)
 		{
 			out.write(read);
 			read = fis.read();
@@ -87,12 +88,15 @@ public class PedigreeGenerator implements ITrackableJob
 		out.write(footer.toString());
 		out.close();
 
+		message = "Waiting on pedigree image generation";
 
-		if (isOK)
+
+		if (okToRun)
 		{
 			ps = new ProgressInputStream(c.getInputStream());
 			maximum = c.getContentLength();
-			System.out.println("Downloading...");
+			System.out.println("max= " + maximum);
+			message = "Downloading result from server";
 
 			// TODO: Need a way to cancel a long-download?
 			BufferedInputStream in = new BufferedInputStream(ps);
@@ -108,11 +112,11 @@ public class PedigreeGenerator implements ITrackableJob
 
 	public boolean isIndeterminate()
 	{
-		return false;
+		if (ps == null)
+			return true;
+		else
+			return false;
 	}
-
-	public int getMaximum()
-		{ return maximum; }
 
 	public int getValue()
 	{
@@ -122,6 +126,8 @@ public class PedigreeGenerator implements ITrackableJob
 			return (int) ps.getBytesRead();
 	}
 
-	public void cancelJob()
-		{ isOK = false; }
+	public String getMessage()
+	{
+		return message;
+	}
 }

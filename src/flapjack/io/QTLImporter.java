@@ -8,21 +8,20 @@ import java.io.*;
 import java.text.*;
 import java.util.*;
 
+import flapjack.analysis.*;
 import flapjack.data.*;
 import flapjack.gui.*;
 
 import scri.commons.file.*;
 import scri.commons.gui.*;
 
-public class QTLImporter implements ITrackableJob
+public class QTLImporter extends SimpleJob
 {
 	private NumberFormat nf = NumberFormat.getInstance();
 
 	private ProgressInputStream is;
 	private File file;
 	private DataSet dataSet;
-
-	private boolean isOK = true;
 
 	// Number of expected KNOWN headers in imported file
 	private static final int HEADERCOUNT = 7;
@@ -41,12 +40,14 @@ public class QTLImporter implements ITrackableJob
 		this.file = file;
 		this.dataSet = dataSet;
 
+		maximum = 5000;
+
 		// Add a storage track to each chromosome
 		for (ChromosomeMap c: dataSet.getChromosomeMaps())
 			chromosomes.put(c.getName(), new ArrayList<Feature>());
 	}
 
-	public void runJob()
+	public void runJob(int index)
 		throws Exception
 	{
 		is = new ProgressInputStream(new FileInputStream(file));
@@ -63,7 +64,7 @@ public class QTLImporter implements ITrackableJob
 
 
 		// Now process the main batch of lines
-		for (int line = 1; (str = in.readLine()) != null && isOK; line++)
+		for (int line = 1; (str = in.readLine()) != null && okToRun; line++)
 		{
 			if (str.length() == 0)
 				continue;
@@ -115,7 +116,7 @@ public class QTLImporter implements ITrackableJob
 		in.close();
 
 		// Quit before applying to the dataset if the user cancelled...
-		if (isOK == false)
+		if (okToRun == false)
 			return;
 
 		// Work out a colors for the traits and QTLs
@@ -173,12 +174,6 @@ public class QTLImporter implements ITrackableJob
 		qtl.setChromosomeMap(cMap);
 	}
 
-	public boolean isIndeterminate()
-		{ return false; }
-
-	public int getMaximum()
-		{ return 5000; }
-
 	public int getValue()
 	{
 		if (is == null)
@@ -186,7 +181,4 @@ public class QTLImporter implements ITrackableJob
 
 		return (int) (is.getBytesRead() / (float) file.length()) * 5000;
 	}
-
-	public void cancelJob()
-		{ isOK = false; }
 }

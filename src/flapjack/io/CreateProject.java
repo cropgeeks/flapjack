@@ -108,7 +108,7 @@ public class CreateProject
 
 		System.out.println("Importing traits from " + traitsFile);
 		TraitImporter importer = new TraitImporter(traitsFile, dataSet);
-		importer.runJob();
+		importer.runJob(0);
 
 		// There'll only be one view for this created project...
 		dataSet.getViewSets().get(0).assignTraits();
@@ -122,7 +122,7 @@ public class CreateProject
 
 		System.out.println("Importing QTLs from " + qtlsFile);
 		QTLImporter importer = new QTLImporter(qtlsFile, dataSet);
-		importer.runJob();
+		importer.runJob(0);
 
 //		QTLTrackOptimiser optimiser = new QTLTrackOptimiser(dataSet);
 //		optimiser.optimizeTrackUsage();

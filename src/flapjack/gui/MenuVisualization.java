@@ -231,14 +231,17 @@ public class MenuVisualization
 			"Communicating with Server",
 			"Communicating with server - please be patient...");
 
-		if (pDialog.isOK() == false)
+		if (pDialog.getResult() != ProgressDialog.JOB_COMPLETED)
 		{
-			pDialog.getException().printStackTrace();
-			TaskDialog.error(pDialog.getException().toString(), "Close");
+			if (pDialog.getResult() == ProgressDialog.JOB_FAILED)
+			{
+				pDialog.getException().printStackTrace();
+				TaskDialog.error(pDialog.getException().toString(), "Close");
+			}
+
+			return;
 		}
-		else
-		{
-			new PedigreeDialog(pg.getImage());
-		}
+
+		new PedigreeDialog(pg.getImage());
 	}
 }

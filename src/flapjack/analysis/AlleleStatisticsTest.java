@@ -43,7 +43,7 @@ public class AlleleStatisticsTest extends TestCase
 		GTViewSet viewSet = new GTViewSet(dataSet, "Default View");
 
 		AlleleStatistics statistics = new AlleleStatistics(viewSet);
-		statistics.runJob();
+		statistics.runJob(0);
 
 		Vector<int[]> results = statistics.getResults();
 

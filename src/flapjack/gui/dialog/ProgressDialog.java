@@ -1,113 +1,190 @@
-// Copyright 2007-2009 Plant Bioinformatics Group, SCRI. All rights reserved.
+// Copyright 2009 Plant Bioinformatics Group, SCRI. All rights reserved.
 // Use is subject to the accompanying licence terms.
 
 package flapjack.gui.dialog;
 
+import java.awt.*;
 import java.awt.event.*;
+import java.text.*;
 import javax.swing.*;
 
 import flapjack.gui.*;
+
+import scri.commons.gui.*;
 
 /**
  * Common class used by most of the trackable job types as they run to display
  * a dialog with a tracking progress bar.
  */
 public class ProgressDialog extends JDialog
+	implements Runnable, ActionListener
 {
-	private NBProgressPanel nbPanel;
+	public static final int JOB_COMPLETED = 0;
+	public static final int JOB_CANCELLED = 1;
+	public static final int JOB_FAILED = 2;
 
-	// True while the job is ok and hasn't been cancelled/failed
-	private boolean isOK = true;
+	private static DecimalFormat d = new DecimalFormat("0.00");
+
+	private NBProgressPanel nbPanel;
+	private JButton bCancel;
 
 	// Runnable object that will be active while the dialog is visible
 	private ITrackableJob job;
+	private int jobStatus = JOB_COMPLETED;
+
+	private Timer timer;
 
 	// A reference to any exception thrown while the job was active
 	private Exception exception = null;
 
-	public ProgressDialog(final ITrackableJob job, String title, String label)
+	public ProgressDialog(ITrackableJob job, String title, String label)
 	{
-		super(Flapjack.winMain, "", true);
+		super(Flapjack.winMain, title, true);
+
 		this.job = job;
 
 		nbPanel = new NBProgressPanel(job, label);
-		add(nbPanel);
+		new Thread(this).start();
 
 		addWindowListener(new WindowAdapter() {
-			public void windowOpened(WindowEvent e)	{
-				runJob();
-			}
-			public void windowClosing(WindowEvent e)
-			{
-				job.cancelJob();
-				isOK = false;
+			public void windowClosing(WindowEvent e) {
+				cancelJob();
 			}
 		});
 
+		bCancel = new JButton(RB.getString("gui.text.cancel"));
+		bCancel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				cancelJob();
+			}
+		});
+
+		if (SystemUtils.isMacOS() == false)
+			bCancel.setVisible(false);
+
+		JPanel cancelPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 0, 0));
+		cancelPanel.setBorder(BorderFactory.createEmptyBorder(0, 5, 7, 9));
+		cancelPanel.add(bCancel);
+
+		add(nbPanel);
+		add(cancelPanel, BorderLayout.SOUTH);
+
 		pack();
-		setTitle(title);
 		setLocationRelativeTo(Flapjack.winMain);
 		setResizable(false);
-		setVisible(true);
+
+		// Only show the dialog if the job hasn't finished yet
+		if (this.job != null)
+			setVisible(true);
 	}
 
-	// Starts the job running in its own thread, catching any exceptions that
-	// may occur as it runs.
-	private void runJob()
-	{
-		Runnable r = new Runnable() {
-			public void run()
-			{
-				try
-				{
-					job.runJob();
-				}
-				catch (Exception e)
-				{
-					exception = e;
-					isOK = false;
-				}
-
-				setVisible(false);
-			}
-		};
-
-		new MonitorThread().start();
-		new Thread(r).start();
-	}
-
-	public boolean isOK()
-		{ return isOK; }
+	public int getResult()
+		{ return jobStatus; }
 
 	public Exception getException()
 		{ return exception; }
 
-	// Simple monitor thread that tracks the progress of the job, updating the
-	// progress bar as it goes
-	private class MonitorThread extends Thread
+	// Called every 100ms to update the status of the progress bar
+	public void actionPerformed(ActionEvent e)
 	{
-		public void run()
+		// The job will be null when it's finished/failed or was cancelled
+		if (job == null)
 		{
-			Runnable r = new Runnable() {
-				public void run()
-				{
-					nbPanel.pBar.setValue(job.getValue());
-
-					// We set the progress bar to indeterminate once the progess
-					// has reached 100% as it's sometimes possible for
-					// additional (non-trackable) post-processing to happen too.
-					if (nbPanel.pBar.getValue() == nbPanel.pBar.getMaximum())
-						nbPanel.pBar.setIndeterminate(true);
-				}
-			};
-
-			while (isVisible())
-			{
-				SwingUtilities.invokeLater(r);
-
-				try { Thread.sleep(100); }
-				catch (InterruptedException e) {}
-			}
+			timer.stop();
+			setVisible(false);
+			return;
 		}
+
+		nbPanel.pBar.setIndeterminate(job.isIndeterminate());
+//		nbPanel.pBar.setStringPainted(!job.isIndeterminate());
+
+		int val = job.getValue();
+		int max = job.getMaximum();
+		nbPanel.pBar.setMaximum(max);
+		nbPanel.pBar.setValue(val);
+
+		String message = job.getMessage();
+		if (message != null)
+			nbPanel.msgLabel.setText(message);
+
+		// If the job doesn't know its maximum (yet), this would
+		// have caused a 0 divided by 0 which isn't pretty
+		if (max == 0)
+			nbPanel.pBar.setString(d.format(0) + "%");
+		else
+		{
+			float value = ((float) val / (float) max) * 100;
+			nbPanel.pBar.setString(d.format(value) + "%");
+		}
+	}
+
+	private void startJob()
+		{ new Thread(this).start(); }
+
+	private void cancelJob()
+	{
+		job.cancelJob();
+		jobStatus = JOB_CANCELLED;
+	}
+
+	// Starts the job running in its own thread
+	public void run()
+	{
+		Thread.currentThread().setName("ProgressDialog-ITrackableJob");
+
+		if (SystemUtils.isMacOS() == false)
+			createCancelTimer();
+
+		timer = new Timer(100, this);
+		timer.start();
+
+		try
+		{
+			for (int i = 0; i < job.getJobCount() && jobStatus == 0; i++)
+				job.runJob(i);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+
+			exception = e;
+			jobStatus = JOB_FAILED;
+		}
+
+		// Remove all references to the job once completed, because this window
+		// never seems to get garbage-collected meaning its references (which
+		// include a reference to the assembly) never die
+		job = null;
+	}
+
+	private void createCancelTimer()
+	{
+		Timer timer = new Timer(5000, new ActionListener() {
+			public void actionPerformed(ActionEvent e)
+			{
+				if (isVisible() == false)
+					return;
+
+				Runnable r = new Runnable() {
+					public void run()
+					{
+						for (int i = 0; i < 25; i++)
+						{
+							setSize(getWidth(), getHeight()+1);
+
+							try { Thread.sleep(25); }
+							catch (InterruptedException e) {}
+						}
+
+						bCancel.setVisible(true);
+					}
+				};
+
+				new Thread(r).start();
+			}
+		});
+
+		timer.setRepeats(false);
+		timer.start();
 	}
 }
