@@ -6,13 +6,14 @@ package flapjack.io;
 import java.io.*;
 import java.util.*;
 
+import flapjack.analysis.*;
 import flapjack.data.*;
 import flapjack.gui.*;
 
 import scri.commons.file.*;
 import scri.commons.gui.*;
 
-public class TraitImporter implements ITrackableJob
+public class TraitImporter extends SimpleJob
 {
 	private ProgressInputStream is;
 	private File file;
@@ -26,17 +27,17 @@ public class TraitImporter implements ITrackableJob
 	// name, and is a list of trait values, one per trait across the columns
 	private Hashtable<String, Vector<TraitValue>> hashtable;
 
-	private boolean isOK = true;
-
 	public TraitImporter(File file, DataSet dataSet)
 	{
 		this.file = file;
 		this.dataSet = dataSet;
 
 		hashtable = new Hashtable<String, Vector<TraitValue>>();
+
+		maximum = 5000;
 	}
 
-	public void runJob()
+	public void runJob(int index)
 		throws IOException, DataFormatException
 	{
 		is = new ProgressInputStream(new FileInputStream(file));
@@ -49,7 +50,7 @@ public class TraitImporter implements ITrackableJob
 		for (int i = 1; i < traitNames.length; i++)
 			traits.add(new Trait(traitNames[i]));
 
-		for (int line = 1; (str = in.readLine()) != null && isOK; line++)
+		for (int line = 1; (str = in.readLine()) != null && okToRun; line++)
 		{
 			if (str.length() == 0)
 				continue;
@@ -92,7 +93,7 @@ public class TraitImporter implements ITrackableJob
 
 		in.close();
 
-		if (isOK == false)
+		if (okToRun == false)
 			return;
 
 		// TODO: This *doesn't* have to run if we decide otherwise
@@ -163,12 +164,6 @@ public class TraitImporter implements ITrackableJob
 		}
 	}
 
-	public boolean isIndeterminate()
-		{ return false; }
-
-	public int getMaximum()
-		{ return 5000; }
-
 	public int getValue()
 	{
 		if (is == null)
@@ -176,7 +171,4 @@ public class TraitImporter implements ITrackableJob
 
 		return (int) (is.getBytesRead() / (float) file.length()) * 5000;
 	}
-
-	public void cancelJob()
-		{ isOK = false; }
 }

@@ -8,26 +8,23 @@ import java.util.*;
 import flapjack.data.*;
 import flapjack.gui.*;
 
-public class AlleleStatistics implements ITrackableJob
+public class AlleleStatistics extends SimpleJob
 {
 	private GTViewSet viewSet;
-
-	private int total = 0;
-	private int alleleCount = 0;
-	private boolean isOK = true;
 
 	private Vector<int[]> results;
 
 	public AlleleStatistics(GTViewSet viewSet)
 	{
 		this.viewSet = viewSet;
-		total = viewSet.countAllAlleles();
+		maximum = viewSet.countAllAlleles();
 	}
 
 	public Vector<int[]> getResults()
 		{ return results; }
 
-	public void runJob()
+	public void runJob(int index)
+		throws Exception
 	{
 		StateTable stateTable = viewSet.getDataSet().getStateTable();
 
@@ -53,28 +50,16 @@ public class AlleleStatistics implements ITrackableJob
 		view.cacheLines();
 
 		for (int line = 0; line < view.getLineCount(); line++)
-			for (int marker = 0; marker < view.getMarkerCount() && isOK; marker++)
+			for (int marker = 0; marker < view.getMarkerCount() && okToRun; marker++)
 			{
 				int state = view.getState(line, marker);
 				statistics[state]++;
 
 				// Track the total
 				statistics[statistics.length-1]++;
-				alleleCount++;
+				progress++;
 			}
 
 		return statistics;
 	}
-
-	public boolean isIndeterminate()
-		{ return false; }
-
-	public int getMaximum()
-		{ return total; }
-
-	public int getValue()
-		{ return alleleCount; }
-
-	public void cancelJob()
-		{ isOK = false; }
 }

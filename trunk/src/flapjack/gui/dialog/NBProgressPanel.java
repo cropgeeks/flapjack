@@ -1,10 +1,7 @@
-// Copyright 2007-2009 Plant Bioinformatics Group, SCRI. All rights reserved.
+// Copyright 2009 Plant Bioinformatics Group, SCRI. All rights reserved.
 // Use is subject to the accompanying licence terms.
 
 package flapjack.gui.dialog;
-
-import java.awt.*;
-import javax.swing.*;
 
 import flapjack.gui.*;
 
@@ -14,10 +11,17 @@ class NBProgressPanel extends javax.swing.JPanel
 	{
 		initComponents();
 
-		label.setText(labelString);
+		mainLabel.setText(labelString);
+		msgLabel.setText(" ");
 
+		pBar.setString("0.00%");
 		pBar.setMaximum(job.getMaximum());
 		pBar.setIndeterminate(job.isIndeterminate());
+	}
+
+	void setMessage(String message)
+	{
+		msgLabel.setText(message);
 	}
 
 	/** This method is called from within the constructor to
@@ -29,35 +33,42 @@ class NBProgressPanel extends javax.swing.JPanel
     private void initComponents() {
 
         pBar = new javax.swing.JProgressBar();
-        label = new javax.swing.JLabel();
+        mainLabel = new javax.swing.JLabel();
+        msgLabel = new javax.swing.JLabel();
 
-        label.setText("Custom message...");
+        mainLabel.setText("mainLabel");
 
-        org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
+        msgLabel.setText("msgLabel");
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(layout.createSequentialGroup()
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(pBar, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 320, Short.MAX_VALUE)
-                    .add(label))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(pBar, javax.swing.GroupLayout.DEFAULT_SIZE, 364, Short.MAX_VALUE)
+                    .addComponent(mainLabel)
+                    .addComponent(msgLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 364, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(layout.createSequentialGroup()
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .add(label)
-                .add(11, 11, 11)
-                .add(pBar, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(mainLabel)
+                .addGap(11, 11, 11)
+                .addComponent(pBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(msgLabel)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel label;
+    private javax.swing.JLabel mainLabel;
+    javax.swing.JLabel msgLabel;
     javax.swing.JProgressBar pBar;
     // End of variables declaration//GEN-END:variables
 

@@ -7,6 +7,7 @@ import java.io.*;
 import java.util.*;
 import javax.swing.*;
 
+import flapjack.analysis.*;
 import flapjack.data.*;
 import flapjack.gui.dialog.*;
 import flapjack.gui.traits.*;
@@ -67,7 +68,7 @@ public class MenuFile
 			 RB.format("gui.MenuFile.loadTitle"),
 			 RB.format("gui.MenuFile.loading"));
 
-		if (dialog.isOK() && handler.isOK)
+		if (dialog.getResult() == ProgressDialog.JOB_COMPLETED && handler.isOK)
 		{
 			Project openedProject = handler.project;
 
@@ -99,7 +100,7 @@ public class MenuFile
 			 RB.format("gui.MenuFile.saveTitle"),
 			 RB.format("gui.MenuFile.saving"));
 
-		if (dialog.isOK() && handler.isOK)
+		if (dialog.getResult() == ProgressDialog.JOB_COMPLETED && handler.isOK)
 		{
 			Actions.projectSaved();
 			menubar.createRecentMenu(project.filename);
@@ -228,9 +229,9 @@ public class MenuFile
 			 RB.format("gui.MenuFile.importTraits.dialogLabel"));
 
 		// If the operation failed or was cancelled...
-		if (dialog.isOK() == false)
+		if (dialog.getResult() != ProgressDialog.JOB_COMPLETED)
 		{
-			if (dialog.getException() != null)
+			if (dialog.getResult() == ProgressDialog.JOB_FAILED)
 			{
 				dialog.getException().printStackTrace();
 				TaskDialog.error(
@@ -270,9 +271,9 @@ public class MenuFile
 			 RB.format("gui.MenuFile.importQTLs.dialogLabel"));
 
 		// If the operation failed or was cancelled...
-		if (dialog.isOK() == false)
+		if (dialog.getResult() != ProgressDialog.JOB_COMPLETED)
 		{
-			if (dialog.getException() != null)
+			if (dialog.getResult() == ProgressDialog.JOB_FAILED)
 			{
 				dialog.getException().printStackTrace();
 				TaskDialog.error(
@@ -289,7 +290,7 @@ public class MenuFile
 		Actions.projectModified();
 	}
 
-	private static class SaveLoadHandler implements ITrackableJob
+	private static class SaveLoadHandler extends SimpleJob
 	{
 		Project project;
 		File file;
@@ -301,7 +302,8 @@ public class MenuFile
 			this.file = file;
 		}
 
-		public void runJob()
+		public void runJob(int index)
+			throws Exception
 		{
 			// Loading...
 			if (project == null)
@@ -313,16 +315,5 @@ public class MenuFile
 			else
 				isOK = ProjectSerializer.save(project, Prefs.guiSaveCompressed);
 		}
-
-		public boolean isIndeterminate()
-			{ return false; }
-
-		public int getMaximum()
-			{ return 0; }
-
-		public int getValue()
-			{ return 0; }
-
-		public void cancelJob() {}
 	}
 }

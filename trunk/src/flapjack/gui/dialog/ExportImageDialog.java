@@ -84,9 +84,9 @@ public class ExportImageDialog extends JDialog implements ActionListener
 			 RB.format("gui.dialog.ExportImageDialog.label"));
 
 		// If the operation failed or was cancelled...
-		if (dialog.isOK() == false)
+		if (dialog.getResult() != ProgressDialog.JOB_COMPLETED)
 		{
-			if (dialog.getException() != null)
+			if (dialog.getResult() == ProgressDialog.JOB_FAILED)
 			{
 				dialog.getException().printStackTrace();
 				TaskDialog.error(

@@ -6,10 +6,11 @@ package flapjack.io;
 import java.io.*;
 import java.text.*;
 
+import flapjack.analysis.*;
 import flapjack.data.*;
 import flapjack.gui.*;
 
-public class ChromosomeMapExporter implements ITrackableJob
+public class ChromosomeMapExporter extends SimpleJob
 {
 	private NumberFormat nf = NumberFormat.getInstance();
 
@@ -18,24 +19,17 @@ public class ChromosomeMapExporter implements ITrackableJob
 	private boolean useAll;
 	private boolean[] chrm;
 
-	// Is it still ok for the export to go ahead?
-	private boolean isOK = true;
-	// How many markers are going to be processed?
-	private int total;
-	// How many markers HAVE been processed?
-	private int count;
-
-
 	public ChromosomeMapExporter(File file, GTViewSet viewSet, boolean useAll, boolean[] chrm, int total)
 	{
 		this.file = file;
 		this.viewSet = viewSet;
 		this.useAll = useAll;
 		this.chrm = chrm;
-		this.total = total;
+
+		maximum = total;
 	}
 
-	public void runJob()
+	public void runJob(int index)
 		throws IOException
 	{
 		BufferedWriter out = new BufferedWriter(new FileWriter(file));
@@ -50,7 +44,7 @@ public class ChromosomeMapExporter implements ITrackableJob
 				continue;
 
 			// ...and for each marker within the current chromosome...
-			for (int i = 0; i < view.getMarkerCount() && isOK; i++, count++)
+			for (int i = 0; i < view.getMarkerCount() && okToRun; i++, progress++)
 			{
 				if (useAll || view.isMarkerSelected(i))
 				{
@@ -64,16 +58,4 @@ public class ChromosomeMapExporter implements ITrackableJob
 
 		out.close();
 	}
-
-	public boolean isIndeterminate()
-		{ return false; }
-
-	public int getMaximum()
-		{ return total; }
-
-	public int getValue()
-		{ return count; }
-
-	public void cancelJob()
-		{ isOK = false; }
 }
