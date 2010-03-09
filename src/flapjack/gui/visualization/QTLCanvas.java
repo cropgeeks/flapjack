@@ -128,6 +128,7 @@ class QTLCanvas extends JPanel implements PropertyChangeListener
 
 			mSPos = mapCanvas.mSPos;
 			mEPos = mapCanvas.mEPos;
+
 			drawTracks(g);
 		}
 	}
@@ -305,7 +306,6 @@ class QTLCanvas extends JPanel implements PropertyChangeListener
 				return;
 
 			// Work out where (in map distances) the mouse is
-//			float mapPos = (e.getX()-xOffset+canvas.pX1) / xScale;
 			float mapPos = getMapPosition(e.getX() - xOffset);
 
 			// NOTE: the search is backwards (right to left) as F2.pos > F1.pos
@@ -415,77 +415,25 @@ class QTLCanvas extends JPanel implements PropertyChangeListener
 		}
 	}
 
-/*	private class ImageFactory
-	{
-		BufferedImage buffer;
-		private int w, h, xS, xE;
-
-		ImageFactory(int xS, int xE, int h)
-		{
-			this.xS = xS;
-			this.xE = xE;
-			this.h = h;
-
-			w = xE-xS+1;
-		}
-
-		void run()
-		{
-			// Run everything under try/catch conditions due to changes in the
-			// view that may invalidate what this thread is trying to access
-			try
-			{
-				try
-				{
-					buffer = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
-				}
-				catch (Throwable t) { return; }
-
-				Graphics2D g2d = buffer.createGraphics();
-
-				// Paint the background (white for exported images)
-				g2d.setColor(Color.white);
-				g2d.fillRect(0, 0, w, h);
-
-				xOffset = gPanel.traitCanvas.getPanelWidth()
-					+ gPanel.listPanel.getPanelWidth() + 1;
-				int width = (canvas.pX2-canvas.pX1+1);
-
-				if(!full)
-				{
-					g2d.setClip(0, 0, width, getHeight());
-					g2d.translate(-xS, 0);
-
-					xScale = (canvas.canvasW-1) / canvas.view.mapLength();
-				}
-
-				qtlCanvas.drawTracks(g2d, xS, xE);
-				g2d.dispose();
-			}
-			catch (Exception e)
-			{
-				System.out.println("QTLCanvas: " + e);
-			}
-		}
-	}
-	*/
-
 	BufferedImage createSavableImage(boolean full)
 		throws Exception
 	{
-/*		this.full = full;
-		// Note that this *doesn't* happen in a new thread as the assumption is
-		// that this will be called by a threaded process anyway
-		ImageFactory tempFactory;
-		if(full)
-			tempFactory = new ImageFactory(0, canvas.canvasW, (H*trackSet.size()));
-		else
-			tempFactory = new ImageFactory(canvas.pX1, canvas.pX2, (H*trackSet.size()));
-		tempFactory.run();
+		// Render width if we're just saving the current view
+		w = canvas.pX2 - canvas.pX1 + 1;
+		int h = getHeight();
 
-		return tempFactory.buffer;
-*/
+		// Or the entire map
+		if (full)
+			w = canvas.canvasW;
 
-		return null;
+		BufferedImage image = (BufferedImage) createImage(w>0 ? w:1, h>0 ? h:1);
+
+		Graphics2D g = image.createGraphics();
+		g.setColor(Color.white);
+		g.fillRect(0, 0, w, h);
+		drawTracks(g);
+		g.dispose();
+
+		return image;
 	}
 }
