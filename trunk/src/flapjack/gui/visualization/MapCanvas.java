@@ -30,9 +30,9 @@ class MapCanvas extends JPanel
 	// The index of the marker currently under the mouse on the main canvas
 	private int mrkrIndex = -1;
 
-	// Chromosome map values for the lowest (first) and highest) last markers
+	// Chromosome map values for the lowest (first) and highest (last) markers
 	// currently visible on screen
-	private float mSPos, mEPos;
+	float mSPos, mEPos;
 
 	// What is the current drawing width
 	private int w;
@@ -123,61 +123,27 @@ class MapCanvas extends JPanel
 
 	void render(Graphics2D g, int xS, int xE)
 	{
-		long s = System.nanoTime();
-
 		// Draw the white rectangle representing the map
 		g.setColor(Color.white);
 		g.fillRect(0, 12, w-1, 10);
 		g.setColor(Color.lightGray);
 		g.drawRect(0, 12, w-1, 10);
 
-		// Local scaling
-		mSPos = canvas.view.getMarker(xS).getPosition();
-		mEPos = canvas.view.getMarker(xE).getPosition();
-
-		// If markers have been moved xS and xE won't actually be the markers
-		// with the left- and right-most map positions
-		if (canvas.view.getMarkersOrdered() == false)
-		{
-			for (int i = xS; i <= xE; i++)
-			{
-				float pos = canvas.view.getMarker(i).getPosition();
-				if (pos < mSPos)
-					mSPos = pos;
-				else if (pos > mEPos)
-					mEPos = pos;
-			}
-		}
-
-		// Global scaling
-		if (Prefs.visMapScaling == 1)
-		{
-			mSPos = canvas.view.getMarker(0).getPosition();
-			mEPos = canvas.view.getMarker(canvas.view.getMarkerCount()-1).getPosition();
-		}
+		setScaling(xS, xE);
 
 		for (int i = xS; i <= xE; i++)
 			renderMarker(g, i, xS, false);
-
-		long e = System.nanoTime();
-		System.out.println("Map render time: " + ((e-s)/1000000f) + "ms");
 	}
 
 	private void renderMarker(Graphics2D g, int i, int xS, boolean text)
 	{
+		Marker m = canvas.view.getMarker(i);
+
 		float distance = mEPos - mSPos;
+		int xMap = (int) ((m.getPosition()-mSPos) * ((w-1) / distance));
 
 		// "Jiggle" adjustment (for the genotype lines)
 		int jiggle = canvas.pX1 % canvas.boxW;
-
-		Marker m = canvas.view.getMarker(i);
-
-		// Local scaling
-		int xMap = (int) ((m.getPosition()-mSPos) * ((w-1) / distance));
-		// Global scaling
-		if (Prefs.visMapScaling == 1)
-			xMap = (int) ((m.getPosition()) * ((w-1) / mEPos));
-
 		int xBox = (int) ((i-xS) * canvas.boxW + (canvas.boxW/2)) - jiggle;
 
 		g.drawLine(xMap, 12, xMap, 22);
@@ -237,6 +203,9 @@ class MapCanvas extends JPanel
 		int mkrCount = canvas.view.getMarkerCount();
 		int xS = canvas.pX1 / canvas.boxW;
 
+		// Clip so that markers under the QTL, but not on screen, aren't drawn
+		g.setClip(0, 0, w, getHeight());
+
 		for (int i = 0; i < mkrCount; i++)
 		{
 			Marker m = canvas.view.getMarker(i);
@@ -264,6 +233,53 @@ class MapCanvas extends JPanel
 			leftPos = w-strWidth-1;
 
 		return leftPos;
+	}
+
+	// Sets the bounds of the chromosome map (its left and right edges) based on
+	// the type of scaling being used to fit it on screen. We have three options
+	// 0 - local scaling: mSPos is set to the value of the leftmost marker on
+	//     screen, and mEPos is set to the value of the rightmost marker
+	// 1 - global scaling: the entire map is shown, from 0 to length
+	// 2 - classic scaling: the map's pixel width is set to be as wide as the
+	//     width required to show all the markers on the main canvas
+	private void setScaling(int xS, int xE)
+	{
+		// Local scaling
+		if (Prefs.visMapScaling == 0)
+		{
+			mSPos = canvas.view.getMarker(xS).getPosition();
+			mEPos = canvas.view.getMarker(xE).getPosition();
+
+			// If markers have been moved xS and xE won't actually be the markers
+			// with the left- and right-most map positions
+			if (canvas.view.getMarkersOrdered() == false)
+			{
+				for (int i = xS; i <= xE; i++)
+				{
+					float pos = canvas.view.getMarker(i).getPosition();
+					if (pos < mSPos)
+						mSPos = pos;
+					else if (pos > mEPos)
+						mEPos = pos;
+				}
+			}
+		}
+
+		// Global scaling
+		else if (Prefs.visMapScaling == 1)
+		{
+			mSPos = 0;//canvas.view.getMarker(0).getPosition();
+			mEPos = canvas.view.getMarker(canvas.view.getMarkerCount()-1).getPosition();
+		}
+
+		// "Classic" Flapjack scaling
+		else
+		{
+			float xScale = (canvas.canvasW-1) / canvas.view.mapLength();
+
+			mSPos = canvas.pX1 / xScale;
+			mEPos = canvas.pX2 / xScale;
+		}
 	}
 
 	Graphics2D getAntiAliasedBufferGraphics()
