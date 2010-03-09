@@ -218,6 +218,7 @@ public class GenotypePanel extends JPanel
 			{
 				adjustmentValueChanged(null);
 
+				mapCanvas.updateBuffer = true;
 				qtlCanvas.updateCanvasSize(true);
 				miniMapCanvas.createImage();
 			}
@@ -248,10 +249,7 @@ public class GenotypePanel extends JPanel
 		rowCanvas.updateOverviewSelectionBox(xIndex, xW);
 		colCanvas.updateOverviewSelectionBox(yIndex, yH);
 
-		mapCanvas.repaint();
-		miniMapCanvas.repaint();
-		qtlCanvas.repaint();
-		traitCanvas.repaint();
+		repaint();
 	}
 
 	// Jumps to a position relative to a x/y index within the dataset array
