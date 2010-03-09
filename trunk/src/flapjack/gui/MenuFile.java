@@ -188,7 +188,7 @@ public class MenuFile
 
 	// Given a map file and a genotype (dat) file, imports that data, showing a
 	// progress bar while doing so
-	private void importGenotypeData(File mapFile, File datFile, boolean usePrefs)
+	void importGenotypeData(File mapFile, File datFile, boolean usePrefs)
 	{
 		DataImportingDialog dialog = new DataImportingDialog(mapFile, datFile, usePrefs);
 
@@ -216,37 +216,31 @@ public class MenuFile
 		File file = browseDialog.getFile();
 
 		Prefs.guiTraitHistory = browseDialog.getHistory();
+		traitImport(file, dataSet);
+	}
 
+	public void traitImport(File file, DataSet dataSet)
+	{
 		// Remove any existing traits first
 		TabPanel ttp = navPanel.getTraitsPanel(dataSet);
 		ttp.getTraitsPanel().removeAllTraits();
-
 		// Import the data using the standard progress bar dialog...
 		TraitImporter importer = new TraitImporter(file, dataSet);
-
-		ProgressDialog dialog = new ProgressDialog(importer,
-			 RB.format("gui.MenuFile.importTraits.dialogTitle"),
-			 RB.format("gui.MenuFile.importTraits.dialogLabel"));
-
+		ProgressDialog dialog = new ProgressDialog(importer, RB.format("gui.MenuFile.importTraits.dialogTitle"), RB.format("gui.MenuFile.importTraits.dialogLabel"));
 		// If the operation failed or was cancelled...
 		if (dialog.getResult() != ProgressDialog.JOB_COMPLETED)
 		{
 			if (dialog.getResult() == ProgressDialog.JOB_FAILED)
 			{
 				dialog.getException().printStackTrace();
-				TaskDialog.error(
-					RB.format("gui.MenuFile.importTraits.error",
-					file, dialog.getException().getMessage()),
-					RB.getString("gui.text.close"));
+				TaskDialog.error(RB.format("gui.MenuFile.importTraits.error", file, dialog.getException().getMessage()), RB.getString("gui.text.close"));
 			}
-
 			return;
 		}
-
-		// Check to see if any of the views need traits assigned to them
-		for (GTViewSet viewSet: dataSet.getViewSets())
+		for (GTViewSet viewSet : dataSet.getViewSets())
+		{
 			viewSet.assignTraits();
-
+		}
 		ttp.getTraitsPanel().updateModel();
 		Actions.projectModified();
 	}
@@ -262,29 +256,24 @@ public class MenuFile
 
 		File file = browseDialog.getFile();
 		Prefs.guiQTLHistory = browseDialog.getHistory();
+		qtlImport(file, dataSet);
+	}
 
+	public void qtlImport(File file, DataSet dataSet)
+	{
 		// Import the data using the standard progress bar dialog...
 		QTLImporter importer = new QTLImporter(file, dataSet);
-
-		ProgressDialog dialog = new ProgressDialog(importer,
-			 RB.format("gui.MenuFile.importQTLs.dialogTitle"),
-			 RB.format("gui.MenuFile.importQTLs.dialogLabel"));
-
+		ProgressDialog dialog = new ProgressDialog(importer, RB.format("gui.MenuFile.importQTLs.dialogTitle"), RB.format("gui.MenuFile.importQTLs.dialogLabel"));
 		// If the operation failed or was cancelled...
 		if (dialog.getResult() != ProgressDialog.JOB_COMPLETED)
 		{
 			if (dialog.getResult() == ProgressDialog.JOB_FAILED)
 			{
 				dialog.getException().printStackTrace();
-				TaskDialog.error(
-					RB.format("gui.MenuFile.importQTLs.error",
-					file, dialog.getException().getMessage()),
-					RB.getString("gui.text.close"));
+				TaskDialog.error(RB.format("gui.MenuFile.importQTLs.error", file, dialog.getException().getMessage()), RB.getString("gui.text.close"));
 			}
-
 			return;
 		}
-
 		TabPanel ttp = navPanel.getTraitsPanel(dataSet);
 		ttp.getQTLPanel().updateModel();
 		Actions.projectModified();

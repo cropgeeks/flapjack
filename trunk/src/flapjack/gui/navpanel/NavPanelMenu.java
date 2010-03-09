@@ -20,10 +20,10 @@ public class NavPanelMenu extends MouseInputAdapter
 
 	private JMenuItem dataRenameDataSet;
 	private JMenuItem dataDeleteDataSet;
-	private JMenuItem vizNewView;
-	private JMenuItem vizRenameView;
-	private JMenuItem vizDeleteView;
-	private JMenuItem vizDeleteBookmark;
+	private JMenuItem viewNewView;
+	private JMenuItem viewRenameView;
+	private JMenuItem viewDeleteView;
+	private JMenuItem viewDeleteBookmark;
 
 	public NavPanelMenu(JTree tree)
 	{
@@ -39,10 +39,10 @@ public class NavPanelMenu extends MouseInputAdapter
 	{
 		dataRenameDataSet = WinMainMenuBar.getItem(Actions.dataRenameDataSet, "gui.Actions.dataRenameDataSet", 0, 0);
 		dataDeleteDataSet = WinMainMenuBar.getItem(Actions.dataDeleteDataSet, "gui.Actions.dataDeleteDataSet", 0, 0);
-		vizNewView = WinMainMenuBar.getItem(Actions.vizNewView, "gui.Actions.vizNewView", 0, 0);
-		vizRenameView = WinMainMenuBar.getItem(Actions.vizRenameView, "gui.Actions.vizRenameView", 0, 0);
-		vizDeleteView = WinMainMenuBar.getItem(Actions.vizDeleteView, "gui.Actions.vizDeleteView", 0, 0);
-		vizDeleteBookmark = WinMainMenuBar.getItem(Actions.vizDeleteBookmark, "gui.Actions.vizDeleteBookmark", 0, 0);
+		viewNewView = WinMainMenuBar.getItem(Actions.viewNewView, "gui.Actions.viewNewView", 0, 0);
+		viewRenameView = WinMainMenuBar.getItem(Actions.viewRenameView, "gui.Actions.viewRenameView", 0, 0);
+		viewDeleteView = WinMainMenuBar.getItem(Actions.viewDeleteView, "gui.Actions.viewDeleteView", 0, 0);
+		viewDeleteBookmark = WinMainMenuBar.getItem(Actions.viewDeleteBookmark, "gui.Actions.viewDeleteBookmark", 0, 0);
 	}
 
 	void handlePopup(MouseEvent e)
@@ -63,19 +63,19 @@ public class NavPanelMenu extends MouseInputAdapter
 			menu.add(dataRenameDataSet);
 			menu.add(dataDeleteDataSet);
 			menu.addSeparator();
-			menu.add(vizNewView);
+			menu.add(viewNewView);
 		}
 
 		else if (node instanceof VisualizationNode)
 		{
-			menu.add(vizNewView);
-			menu.add(vizRenameView);
-			menu.add(vizDeleteView);
+			menu.add(viewNewView);
+			menu.add(viewRenameView);
+			menu.add(viewDeleteView);
 		}
 
 		else if (node instanceof BookmarkNode)
 		{
-			menu.add(vizDeleteBookmark);
+			menu.add(viewDeleteBookmark);
 		}
 
 		else

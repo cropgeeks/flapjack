@@ -50,9 +50,9 @@ public class BookmarkNode extends BaseNode
 		// Most of the actions will be identical to the main visualization node
 		parent.setActions();
 
-		Actions.vizRenameView.setEnabled(false);
-		Actions.vizDeleteView.setEnabled(false);
-		Actions.vizDeleteBookmark.setEnabled(true);
+		Actions.viewRenameView.setEnabled(false);
+		Actions.viewDeleteView.setEnabled(false);
+		Actions.viewDeleteBookmark.setEnabled(true);
 	}
 
 	public JPanel getPanel()

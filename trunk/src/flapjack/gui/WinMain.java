@@ -34,6 +34,7 @@ public class WinMain extends JFrame
 	// Menu event handlers
 	public MenuFile mFile = new MenuFile();
 	public MenuEdit mEdit = new MenuEdit();
+	public MenuView mView = new MenuView();
 	public MenuVisualization mViz = new MenuVisualization();
 	MenuData mData = new MenuData();
 	MenuHelp mHelp = new MenuHelp();
@@ -54,6 +55,7 @@ public class WinMain extends JFrame
 
 		mFile.setComponents(this, menubar, navPanel);
 		mEdit.setComponents(gPanel);
+		mView.setComponents(navPanel);
 		mViz.setComponents(navPanel);
 		mData.setComponents(this, navPanel);
 		mHelp.setComponents(gPanel);
@@ -149,5 +151,10 @@ public class WinMain extends JFrame
 
 		if (filterQTLDialog != null)
 			filterQTLDialog.setVisible(false);
+	}
+
+	NavPanel getNavPanel()
+	{
+		return navPanel;
 	}
 }
