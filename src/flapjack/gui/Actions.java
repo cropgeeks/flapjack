@@ -37,6 +37,14 @@ public class Actions
 	public static AbstractAction editInsertLine;
 	public static AbstractAction editDeleteLine;
 
+	public static AbstractAction viewNewView;
+	public static AbstractAction viewRenameView;
+	public static AbstractAction viewDeleteView;
+	public static AbstractAction viewToggleCanvas;
+	public static AbstractAction viewOverview;
+	public static AbstractAction viewBookmark;
+	public static AbstractAction viewDeleteBookmark;
+
 	public static AbstractAction vizExportImage;
 	public static AbstractAction vizExportData;
 	public static AbstractAction vizCreatePedigree;
@@ -54,13 +62,6 @@ public class Actions
 	public static AbstractAction vizHighlightHZ;
 	public static AbstractAction vizHighlightGaps;
 	public static AbstractAction vizSelectTraits;
-	public static AbstractAction vizNewView;
-	public static AbstractAction vizRenameView;
-	public static AbstractAction vizDeleteView;
-	public static AbstractAction vizToggleCanvas;
-	public static AbstractAction vizOverview;
-	public static AbstractAction vizBookmark;
-	public static AbstractAction vizDeleteBookmark;
 
 	public static AbstractAction dataSortLinesBySimilarity;
 	public static AbstractAction dataSortLinesByTrait;
@@ -246,6 +247,48 @@ public class Actions
 		};
 
 
+		viewNewView = new AbstractAction(RB.getString("gui.Actions.viewNewView")) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.mView.viewNewView();
+			}
+		};
+
+		viewRenameView = new AbstractAction(RB.getString("gui.Actions.viewRenameView"), getIcon("RENAME")) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.mView.viewRenameView();
+			}
+		};
+
+		viewDeleteView = new AbstractAction(RB.getString("gui.Actions.viewDeleteView"), getIcon("DELETE")) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.mView.viewDeleteView();
+			}
+		};
+
+		viewToggleCanvas = new AbstractAction(RB.getString("gui.Actions.viewToggleCanvas")) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.mView.viewToggleCanvas();
+			}
+		};
+
+		viewBookmark = new AbstractAction(RB.getString("gui.Actions.viewBookmark"), getIcon("BOOKMARKADD")) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.mView.viewBookmark();
+			}
+		};
+
+		viewDeleteBookmark = new AbstractAction(RB.getString("gui.Actions.viewDeleteBookmark"), getIcon("DELETE")) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.mView.viewDeleteBookmark();
+			}
+		};
+
+		viewOverview = new AbstractAction(RB.getString("gui.Actions.viewOverview")) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.mView.viewOverview();
+			}
+		};
+
 
 		vizExportImage = new AbstractAction(RB.getString("gui.Actions.vizExportImage")) {
 			public void actionPerformed(ActionEvent e) {
@@ -346,48 +389,6 @@ public class Actions
 		vizSelectTraits = new AbstractAction(RB.getString("gui.Actions.vizSelectTraits")) {
 			public void actionPerformed(ActionEvent e) {
 				winMain.mViz.vizSelectTraits();
-			}
-		};
-
-		vizNewView = new AbstractAction(RB.getString("gui.Actions.vizNewView")) {
-			public void actionPerformed(ActionEvent e) {
-				winMain.mViz.vizNewView();
-			}
-		};
-
-		vizRenameView = new AbstractAction(RB.getString("gui.Actions.vizRenameView"), getIcon("RENAME")) {
-			public void actionPerformed(ActionEvent e) {
-				winMain.mViz.vizRenameView();
-			}
-		};
-
-		vizDeleteView = new AbstractAction(RB.getString("gui.Actions.vizDeleteView"), getIcon("DELETE")) {
-			public void actionPerformed(ActionEvent e) {
-				winMain.mViz.vizDeleteView();
-			}
-		};
-
-		vizToggleCanvas = new AbstractAction(RB.getString("gui.Actions.vizToggleCanvas")) {
-			public void actionPerformed(ActionEvent e) {
-				winMain.mViz.vizToggleCanvas();
-			}
-		};
-
-		vizBookmark = new AbstractAction(RB.getString("gui.Actions.vizBookmark"), getIcon("BOOKMARKADD")) {
-			public void actionPerformed(ActionEvent e) {
-				winMain.mViz.vizBookmark();
-			}
-		};
-
-		vizDeleteBookmark = new AbstractAction(RB.getString("gui.Actions.vizDeleteBookmark"), getIcon("DELETE")) {
-			public void actionPerformed(ActionEvent e) {
-				winMain.mViz.vizDeleteBookmark();
-			}
-		};
-
-		vizOverview = new AbstractAction(RB.getString("gui.Actions.vizOverview")) {
-			public void actionPerformed(ActionEvent e) {
-				winMain.mViz.vizOverview();
 			}
 		};
 
@@ -528,6 +529,14 @@ public class Actions
 		editInsertLine.setEnabled(false);
 		editDeleteLine.setEnabled(false);
 
+		viewNewView.setEnabled(false);
+		viewRenameView.setEnabled(false);
+		viewDeleteView.setEnabled(false);
+		viewToggleCanvas.setEnabled(false);
+		viewOverview.setEnabled(false);
+		viewBookmark.setEnabled(false);
+		viewDeleteBookmark.setEnabled(false);
+
 		vizExportImage.setEnabled(false);
 		vizExportData.setEnabled(false);
 		vizCreatePedigree.setEnabled(false);
@@ -545,13 +554,6 @@ public class Actions
 		vizHighlightHZ.setEnabled(false);
 		vizHighlightGaps.setEnabled(false);
 		vizSelectTraits.setEnabled(false);
-		vizNewView.setEnabled(false);
-		vizRenameView.setEnabled(false);
-		vizDeleteView.setEnabled(false);
-		vizToggleCanvas.setEnabled(false);
-		vizOverview.setEnabled(false);
-		vizBookmark.setEnabled(false);
-		vizDeleteBookmark.setEnabled(false);
 
 		dataSortLinesBySimilarity.setEnabled(false);
 		dataSortLinesByTrait.setEnabled(false);

@@ -63,12 +63,12 @@ public class VisualizationNode extends BaseNode
 		Actions.vizHighlightHZ.setEnabled(true);
 		Actions.vizHighlightGaps.setEnabled(true);
 		Actions.vizSelectTraits.setEnabled(true);
-		Actions.vizNewView.setEnabled(true);
-		Actions.vizRenameView.setEnabled(true);
-		Actions.vizDeleteView.setEnabled(true);
-		Actions.vizToggleCanvas.setEnabled(true);
-		Actions.vizOverview.setEnabled(true);
-		Actions.vizBookmark.setEnabled(true);
+		Actions.viewNewView.setEnabled(true);
+		Actions.viewRenameView.setEnabled(true);
+		Actions.viewDeleteView.setEnabled(true);
+		Actions.viewToggleCanvas.setEnabled(true);
+		Actions.viewOverview.setEnabled(true);
+		Actions.viewBookmark.setEnabled(true);
 
 		Actions.dataSortLinesBySimilarity.setEnabled(true);
 		Actions.dataSortLinesByTrait.setEnabled(true);

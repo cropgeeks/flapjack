@@ -42,6 +42,13 @@ public class WinMainMenuBar extends JMenuBar
 	private JMenuItem mEditSelectLinesInvert;
 	private JMenuItem mEditHideLines;
 
+	private JMenu mView;
+	private JMenuItem mViewNewView;
+	private JMenuItem mViewRenameView;
+	private JMenuItem mViewDeleteView;
+	private JMenuItem mViewToggleCanvas;
+	public static JCheckBoxMenuItem mViewOverview;
+
 	private JMenu mViz;
 	private JMenuItem mVizExportImage;
 	private JMenuItem mVizExportData;
@@ -61,11 +68,6 @@ public class WinMainMenuBar extends JMenuBar
 	static  JCheckBoxMenuItem mVizHighlightHZ;
 	static  JCheckBoxMenuItem mVizHighlightGaps;
 	private JMenuItem mVizSelectTraits;
-	private JMenuItem mVizNewView;
-	private JMenuItem mVizRenameView;
-	private JMenuItem mVizDeleteView;
-	private JMenuItem mVizToggleCanvas;
-	public static JCheckBoxMenuItem mVizOverview;
 
 	private JMenu mData;
 	private JMenu mDataSortLines;
@@ -107,6 +109,7 @@ public class WinMainMenuBar extends JMenuBar
 
 		createFileMenu();
 		createEditMenu();
+		createViewMenu();
 		createVizMenu();
 		createDataMenu();
 		createWndMenu();
@@ -198,6 +201,28 @@ public class WinMainMenuBar extends JMenuBar
 		add(mEdit);
 	}
 
+	private void createViewMenu()
+	{
+		mView = new JMenu(RB.getString("gui.WinMainMenuBar.mView"));
+		RB.setMnemonic(mView, "gui.WinMainMenuBar.mView");
+
+		mViewNewView = getItem(Actions.viewNewView, "gui.Actions.viewNewView", 0, 0);
+		mViewRenameView = getItem(Actions.viewRenameView, "gui.Actions.viewRenameView", 0, 0);
+		mViewDeleteView = getItem(Actions.viewDeleteView, "gui.Actions.viewDeleteView", 0, 0);
+		mViewToggleCanvas = getItem(Actions.viewToggleCanvas, "gui.Actions.viewToggleCanvas", 0, 0);
+		mViewOverview = getCheckedItem(Actions.viewOverview, "gui.Actions.viewOverview",
+			KeyEvent.VK_F7, 0, Prefs.guiOverviewDialog);
+
+		mView.add(mViewNewView);
+		mView.add(mViewRenameView);
+		mView.add(mViewDeleteView);
+		mView.addSeparator();
+		mView.add(mViewToggleCanvas);
+		mView.add(mViewOverview);
+
+		add(mView);
+	}
+
 	private void createVizMenu()
 	{
 		mViz = new JMenu(RB.getString("gui.WinMainMenuBar.mViz"));
@@ -227,12 +252,6 @@ public class WinMainMenuBar extends JMenuBar
 		mVizHighlightGaps = getCheckedItem(Actions.vizHighlightGaps, "gui.Actions.vizHighlightGaps",
 			0, 0, Prefs.visHighlightGaps);
 		mVizSelectTraits = getItem(Actions.vizSelectTraits, "gui.Actions.vizSelectTraits", 0, 0);
-		mVizNewView = getItem(Actions.vizNewView, "gui.Actions.vizNewView", 0, 0);
-		mVizRenameView = getItem(Actions.vizRenameView, "gui.Actions.vizRenameView", 0, 0);
-		mVizDeleteView = getItem(Actions.vizDeleteView, "gui.Actions.vizDeleteView", 0, 0);
-		mVizToggleCanvas = getItem(Actions.vizToggleCanvas, "gui.Actions.vizToggleCanvas", 0, 0);
-		mVizOverview = getCheckedItem(Actions.vizOverview, "gui.Actions.vizOverview",
-			KeyEvent.VK_F7, 0, Prefs.guiOverviewDialog);
 
 		mVizColor.add(mVizColorNucleotide);
 		mVizColor.add(mVizColorSimple2Color);
@@ -257,13 +276,6 @@ public class WinMainMenuBar extends JMenuBar
 		mViz.add(mVizHighlightHZ);
 		mViz.add(mVizHighlightGaps);
 		mViz.add(mVizSelectTraits);
-		mViz.addSeparator();
-		mViz.add(mVizNewView);
-		mViz.add(mVizRenameView);
-		mViz.add(mVizDeleteView);
-		mViz.addSeparator();
-		mViz.add(mVizToggleCanvas);
-		mViz.add(mVizOverview);
 
 		add(mViz);
 	}

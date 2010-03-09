@@ -51,12 +51,12 @@ public class OverviewDialog extends JDialog
 
 			public void componentShown(ComponentEvent e)
 			{
-				WinMainMenuBar.mVizOverview.setSelected(true);
+				WinMainMenuBar.mViewOverview.setSelected(true);
 			}
 
 			public void componentHidden(ComponentEvent e)
 			{
-				WinMainMenuBar.mVizOverview.setSelected(false);
+				WinMainMenuBar.mViewOverview.setSelected(false);
 			}
 		});
 	}
