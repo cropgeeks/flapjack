@@ -30,9 +30,6 @@ class QTLCanvas extends JPanel implements PropertyChangeListener
 	// Border height of the component itself
 	private static final int BORDER = 5;
 
-	// How many tracks are currently on screen?
-	private int trackCount = 0;
-
 	private GenotypePanel gPanel;
 	private GenotypeCanvas canvas;
 	private MapCanvas mapCanvas;
@@ -41,15 +38,23 @@ class QTLCanvas extends JPanel implements PropertyChangeListener
 	// Quick reference to the data (multiple tracks of features)
 	ArrayList<ArrayList<FeatureGroup>> trackSet;
 
-	// Scaling factor to convert between pixels and map positions
-	private float xScale;
-	private int xOffset;
+	// How many tracks are currently on screen?
+	private int trackCount = 0;
+	// What is the current drawing width
+	private int w;
+	// Over what chromosome distance
+	private float distance;
+
+	// Chromosome map values for the lowest (first) and highest (last) markers
+	// currently visible on screen
+	private float mSPos, mEPos;
 
 	private BasicStroke dashed = new BasicStroke(1, BasicStroke.CAP_BUTT,
 		BasicStroke.JOIN_MITER, 10, new float[] { 5,2 }, 0);
 	private BasicStroke solid = new BasicStroke(1);
 
 	// Mouse handling variables
+	private int xOffset;
 	private int mouseOverTrack = -1;
 	static Feature mouseOverFeature = null;
 
@@ -108,146 +113,152 @@ class QTLCanvas extends JPanel implements PropertyChangeListener
 			super.paintComponent(graphics);
 			Graphics2D g = (Graphics2D) graphics;
 
-			// Calculate the required offset and width to draw from
+			w = canvas.pX2 - canvas.pX1 + 1;
+
+			// Calculate the required offset and width
 			xOffset = gPanel.traitCanvas.getPanelWidth()
 				+ gPanel.listPanel.getPanelWidth() + 1;
-			int width = (canvas.pX2-canvas.pX1+1);
 
-			g.setClip(xOffset, 0, width, getHeight());
-			g.translate(xOffset - canvas.pX1, 0);
+			g.setClip(xOffset, 0, w, getHeight());
+			g.translate(xOffset, 0);
 
-			xScale = (canvas.canvasW-1) / canvas.view.mapLength();
 
-			drawTracks(g, canvas.pX1, canvas.pX2);
+			g.setColor(getBackground());
+			g.fillRect(0, 0, w, getHeight());
 
-//			System.out.println("paint qtls");
+			mSPos = mapCanvas.mSPos;
+			mEPos = mapCanvas.mEPos;
+			drawTracks(g);
 		}
+	}
 
-		// Loops over the data, drawing each track
-		private void drawTracks(Graphics2D g, int xS, int xE)
+	// Loops over the data, drawing each track
+	private void drawTracks(Graphics2D g)
+	{
+		distance = mEPos - mSPos;
+
+		int trackNum = 0;
+
+		for (ArrayList<FeatureGroup> trackData: trackSet)
 		{
-			int trackNum = 0;
+			// Move the graphics origin to correct position for this track
+			g.translate(0, H*trackNum);
 
-			float canvasLeft = xS / xScale;
-			float canvasRight = xE / xScale;
+			g.setColor(Color.lightGray);
+			g.setStroke(dashed);
+			g.drawLine(0, 10, w, 10);
+			g.setStroke(solid);
 
-			for (ArrayList<FeatureGroup> trackData: trackSet)
+			// Binary search to find *any* feature group currently on screen...
+			int fgIndex = binarySearch(trackData, 0, (trackData.size()-1), mSPos, mEPos);
+
+			if (fgIndex != -1)
 			{
-				// Move the graphics origin to correct position for this track
-				g.translate(0, H*trackNum);
-
-				g.setColor(Color.lightGray);
-				g.setStroke(dashed);
-				// Workaround due to JAVA BUG ID 6574155
-				// (we should be able to do just drawLine(0, 10, width, 10)
-				if (xE-xS < xE)
-					g.drawLine(xS, 10, xE, 10);
-				else
-					g.drawLine(xS, 10, xE-xS, 10);
-				g.setStroke(solid);
-
-				//do binary search
-				int feature = binarySearch(trackData, 0, (trackData.size()-1), canvasLeft, canvasRight);
-				if(feature != -1)
+				// ...then linear search to find the left-most feature group
+				while (trackData.get(fgIndex).getMax() > mSPos)
 				{
-					//then carry out linear search to find left-most feature
-					while(trackData.get(feature).getMax() > canvasLeft)
-					{
-						if(feature > 0)
-						{
-							feature--;
-						}
-						else
-							break;
-					}
-
-					boolean okToDraw = true;
-
-					//search over this list until the right-most visible feature is found.
-					for(FeatureGroup fg : trackData.subList(feature, trackData.size()))
-					{
-						int minX = Math.round(xScale * fg.getMin());
-						int maxX = Math.round(xScale * fg.getMax());
-
-						if (minX > xE && !full)	// Once QTLs are offscreen-rhs, might as well quit
-							break;
-
-						for (Feature f: fg)
-						{
-							minX = Math.round(xScale * f.getMin());
-							maxX = Math.round(xScale * f.getMax());
-
-							drawFeature(g, f, minX, maxX, trackNum, fg.size() > 1);
-						}
-					}
+					if (fgIndex > 0)
+						fgIndex--;
+					else
+						break;
 				}
 
-				// Reset the origin
-				g.translate(0, -H*trackNum);
+				// Draw each feature group
+				loop:
+				for (FeatureGroup fg : trackData.subList(fgIndex, trackData.size()))
+				{
+					boolean grouped = fg.size() > 1;
 
-				trackNum++;
+					for (Feature feature: fg)
+					{
+						// Stop drawing features if we're offscreen on the rhs
+						if (feature.getMin() > mEPos)
+							break loop;
+
+						drawFeature(g, feature, trackNum, grouped);
+					}
+				}
 			}
 
-			// Redraw the feature under the mouse (so it always appears on top)
-			if (mouseOverFeature != null)
-			{
-				g.translate(0, H*mouseOverTrack);
+			// Reset the origin
+			g.translate(0, -H*trackNum);
 
-				int minX = Math.round(xScale * mouseOverFeature.getMin());
-				int maxX = Math.round(xScale * mouseOverFeature.getMax());
-
-				drawFeature(g, mouseOverFeature, minX, maxX, mouseOverTrack, false);
-			}
+			trackNum++;
 		}
 
-		// Draws an individual feature
-		private void drawFeature(Graphics2D g, Feature f, int minX, int maxX, int trackNum, boolean grouped)
+		// Redraw the feature under the mouse (so it always appears on top)
+		if (mouseOverFeature != null)
 		{
-			Color c = f.getDisplayColor();
-			Color c1 = c.brighter();
-			Color c2 = c.darker();
-			g.setPaint(new GradientPaint(0, 5, c1, 0, 10, c2, true));
+			g.translate(0, H*mouseOverTrack);
 
-			// Its interior...
+			drawFeature(g, mouseOverFeature, mouseOverTrack, false);
+		}
+	}
+
+	// Maps between chromosome positions and pixel positions, given the value
+	// to map, the distance currently visible on screen, and the s(tart) and
+	// e(nd) chromosome positions for that distance. The method's return differs
+	// based on the type of map scaling being used (local or global).
+	private int getPixelPosition(float mapPos)
+	{
+		return (int) ((mapPos-mSPos) * ((w-1) / distance));
+	}
+
+	// Reverse mapping of the above (pixel on screen to chromosome)
+	private float getMapPosition(int pixelPos)
+	{
+		return ((distance * pixelPos) / (float) (w-1)) + mSPos;
+	}
+
+
+	// Draws an individual feature
+	private void drawFeature(Graphics2D g, Feature f, int trackNum, boolean grouped)
+	{
+		int minX = getPixelPosition(f.getMin());
+		int maxX = getPixelPosition(f.getMax());
+
+		Color c = f.getDisplayColor();
+		Color c1 = c.brighter();
+		Color c2 = c.darker();
+		g.setPaint(new GradientPaint(0, 5, c1, 0, 10, c2, true));
+
+		// Its interior...
 //			g.setPaint(f.getDisplayColor());
 //			g.setPaint(new GradientPaint(0, 5, Color.white, 0, 25, Color.lightGray));
-			g.fillRect(minX, 5, (maxX-minX+1), 10);
+		g.fillRect(minX, 5, (maxX-minX+1), 10);
 
-			// Its outline...
-			if (grouped)
-				g.setColor(Color.black);
-			else if (mouseOverTrack == trackNum && mouseOverFeature == f)
-				g.setColor(Color.red);
-			else
-				g.setColor(Color.lightGray);
-			g.drawRect(minX, 5, (maxX-minX+1), 10);
+		// Its outline...
+		if (grouped)
+			g.setColor(Color.black);
+		else if (mouseOverTrack == trackNum && mouseOverFeature == f)
+			g.setColor(Color.red);
+		else
+			g.setColor(Color.lightGray);
+		g.drawRect(minX, 5, (maxX-minX+1), 10);
 
-			if (f instanceof QTL)
-			{
-				int x = Math.round(xScale * ((QTL)f).getPosition());
-				g.drawLine(x, 2, x, 18);
-			}
-		}
-
-		private int binarySearch(ArrayList<FeatureGroup> trackData, int low, int high, float canvasLeft, float canvasRight)
+		if (f instanceof QTL)
 		{
-			if(high < low)
-				return -1;
-
-			int mid = low + ((high-low) /2);
-
-			float max = trackData.get(mid).getMax();
-			float min = trackData.get(mid).getMin();
-
-			if(max < canvasLeft)
-				return binarySearch(trackData, mid+1, high, canvasLeft, canvasRight);
-			else if(min > canvasRight)
-				return binarySearch(trackData, low, mid-1, canvasLeft, canvasRight);
-			else
-			{
-				return mid;
-			}
+			int x = getPixelPosition(((QTL)f).getPosition());
+			g.drawLine(x, 2, x, 18);
 		}
+	}
+
+	private int binarySearch(ArrayList<FeatureGroup> trackData, int low, int high, float canvasLeft, float canvasRight)
+	{
+		if (high < low)
+			return -1;
+
+		int mid = low + ((high-low) /2);
+
+		float max = trackData.get(mid).getMax();
+		float min = trackData.get(mid).getMin();
+
+		if (max < canvasLeft)
+			return binarySearch(trackData, mid+1, high, canvasLeft, canvasRight);
+		else if (min > canvasRight)
+			return binarySearch(trackData, low, mid-1, canvasLeft, canvasRight);
+		else
+			return mid;
 	}
 
 	private class QTLMouseListener extends MouseInputAdapter
@@ -279,14 +290,8 @@ class QTLCanvas extends JPanel implements PropertyChangeListener
 
 		private boolean detectTrack(MouseEvent e)
 		{
-			// Actual X position is X minus the non-drawnable offset, plus the
-			// distance the canvas is scrolled to the right
-			int x = e.getX() - xOffset + canvas.pX1;
-			// Luckily Y is nice and easy
-			int y = e.getY();
-
 			// Which track is the mouse over?
-			mouseOverTrack = y / H;
+			mouseOverTrack = e.getY() / H;
 
 			if (mouseOverTrack < 0 || mouseOverTrack >= trackSet.size())
 				return false;
@@ -300,11 +305,8 @@ class QTLCanvas extends JPanel implements PropertyChangeListener
 				return;
 
 			// Work out where (in map distances) the mouse is
-			float mapPos = (e.getX()-xOffset+canvas.pX1) / xScale;
-
-			//canvas positions in map distances
-			float canvasLeft = canvas.pX1 / xScale;
-			float canvasRight = canvas.pX2 / xScale;
+//			float mapPos = (e.getX()-xOffset+canvas.pX1) / xScale;
+			float mapPos = getMapPosition(e.getX() - xOffset);
 
 			// NOTE: the search is backwards (right to left) as F2.pos > F1.pos
 			// will mean F2 is drawn on TOP of F1
@@ -314,11 +316,11 @@ class QTLCanvas extends JPanel implements PropertyChangeListener
 			ArrayList<FeatureGroup> onscreen = trackSet.get(mouseOverTrack);
 
 			//binary search for visible features
-			int feature = qtlCanvas.binarySearch(onscreen, 0, onscreen.size()-1, canvasLeft, canvasRight);
+			int feature = binarySearch(onscreen, 0, onscreen.size()-1, mSPos, mEPos);
 			if(feature != -1)
 			{
 				//linear search to the right-most visible feature
-				while(onscreen.get(feature).getMin() < canvasRight)
+				while(onscreen.get(feature).getMin() < mEPos)
 				{
 					if(feature < onscreen.size()-1)
 					{
@@ -413,7 +415,7 @@ class QTLCanvas extends JPanel implements PropertyChangeListener
 		}
 	}
 
-	private class ImageFactory
+/*	private class ImageFactory
 	{
 		BufferedImage buffer;
 		private int w, h, xS, xE;
@@ -466,11 +468,12 @@ class QTLCanvas extends JPanel implements PropertyChangeListener
 			}
 		}
 	}
+	*/
 
 	BufferedImage createSavableImage(boolean full)
 		throws Exception
 	{
-		this.full = full;
+/*		this.full = full;
 		// Note that this *doesn't* happen in a new thread as the assumption is
 		// that this will be called by a threaded process anyway
 		ImageFactory tempFactory;
@@ -481,5 +484,8 @@ class QTLCanvas extends JPanel implements PropertyChangeListener
 		tempFactory.run();
 
 		return tempFactory.buffer;
+*/
+
+		return null;
 	}
 }
