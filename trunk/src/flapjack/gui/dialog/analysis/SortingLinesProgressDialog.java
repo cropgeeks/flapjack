@@ -10,6 +10,7 @@ import flapjack.analysis.*;
 import flapjack.data.*;
 import flapjack.gui.*;
 import flapjack.gui.visualization.*;
+import flapjack.gui.visualization.undo.*;
 
 import scri.commons.gui.*;
 

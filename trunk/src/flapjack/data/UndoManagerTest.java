@@ -8,6 +8,7 @@ import java.io.*;
 import junit.framework.*;
 
 import flapjack.gui.visualization.*;
+import flapjack.gui.visualization.undo.*;
 import flapjack.io.*;
 
 /**
