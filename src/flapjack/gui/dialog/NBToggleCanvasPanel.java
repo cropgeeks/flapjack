@@ -27,6 +27,7 @@ class NBToggleCanvasPanel extends JPanel implements ActionListener
 
 		// i18n
 		panel.setBorder(BorderFactory.createTitledBorder(RB.getString("gui.dialog.NBToggleCanvasPanel.panel.title")));
+		RB.setText(checkMiniMapCanvas, "gui.dialog.NBToggleCanvasPanel.checkMiniMapCanvas");
 		RB.setText(checkLinePanel, "gui.dialog.NBToggleCanvasPanel.checkLinePanel");
 		RB.setText(checkMapCanvas, "gui.dialog.NBToggleCanvasPanel.checkMapCanvas");
 		RB.setText(checkQTLCanvas, "gui.dialog.NBToggleCanvasPanel.checkQTLCanvas");
@@ -35,6 +36,7 @@ class NBToggleCanvasPanel extends JPanel implements ActionListener
 		RB.setText(checkTraitCanvas, "gui.dialog.NBToggleCanvasPanel.checkTraitCanvas");
 		RB.setText(checkStatusPanel, "gui.dialog.NBToggleCanvasPanel.checkStatusPanel");
 
+		checkMiniMapCanvas.addActionListener(this);
 		checkLinePanel.addActionListener(this);
 		checkMapCanvas.addActionListener(this);
 		checkQTLCanvas.addActionListener(this);
@@ -43,6 +45,7 @@ class NBToggleCanvasPanel extends JPanel implements ActionListener
 		checkTraitCanvas.addActionListener(this);
 		checkStatusPanel.addActionListener(this);
 
+		checkMiniMapCanvas.setSelected(Prefs.visShowMiniMapCanvas);
 		checkLinePanel.setSelected(Prefs.visShowLinePanel);
 		checkMapCanvas.setSelected(Prefs.visShowMapCanvas);
 		checkQTLCanvas.setSelected(Prefs.visShowQTLCanvas);
@@ -54,6 +57,7 @@ class NBToggleCanvasPanel extends JPanel implements ActionListener
 
 	public void actionPerformed(ActionEvent e)
 	{
+		Prefs.visShowMiniMapCanvas = checkMiniMapCanvas.isSelected();
 		Prefs.visShowLinePanel = checkLinePanel.isSelected();
 		Prefs.visShowMapCanvas = checkMapCanvas.isSelected();
 		Prefs.visShowQTLCanvas = checkQTLCanvas.isSelected();
@@ -76,6 +80,7 @@ class NBToggleCanvasPanel extends JPanel implements ActionListener
     private void initComponents() {
 
         panel = new javax.swing.JPanel();
+        checkMiniMapCanvas = new javax.swing.JCheckBox();
         checkLinePanel = new javax.swing.JCheckBox();
         checkMapCanvas = new javax.swing.JCheckBox();
         checkQTLCanvas = new javax.swing.JCheckBox();
@@ -86,9 +91,11 @@ class NBToggleCanvasPanel extends JPanel implements ActionListener
 
         panel.setBorder(javax.swing.BorderFactory.createTitledBorder("Only display:"));
 
+        checkMiniMapCanvas.setText("The mini chromosome map overview");
+
         checkLinePanel.setText("The list of line names");
 
-        checkMapCanvas.setText("The chromosome map panel");
+        checkMapCanvas.setText("The main chromosome map panel");
 
         checkQTLCanvas.setText("The QTL panel");
 
@@ -96,7 +103,7 @@ class NBToggleCanvasPanel extends JPanel implements ActionListener
 
         checkColCanvas.setText("The mouse-over marker overview panel");
 
-        checkTraitCanvas.setText("The traits heatmap panel");
+        checkTraitCanvas.setText("The phenotypic traits heatmap panel");
 
         checkStatusPanel.setText("The status bar and zoom controls");
 
@@ -107,9 +114,12 @@ class NBToggleCanvasPanel extends JPanel implements ActionListener
             .add(panelLayout.createSequentialGroup()
                 .addContainerGap()
                 .add(panelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(checkMiniMapCanvas)
                     .add(checkLinePanel)
                     .add(checkMapCanvas)
-                    .add(checkQTLCanvas)
+                    .add(checkQTLCanvas))
+                .add(18, 18, 18)
+                .add(panelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(checkRowCanvas)
                     .add(checkColCanvas)
                     .add(checkTraitCanvas)
@@ -120,19 +130,23 @@ class NBToggleCanvasPanel extends JPanel implements ActionListener
             panelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(panelLayout.createSequentialGroup()
                 .addContainerGap()
-                .add(checkLinePanel)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(checkMapCanvas)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(checkQTLCanvas)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(checkRowCanvas)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(checkColCanvas)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(checkTraitCanvas)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(checkStatusPanel)
+                .add(panelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(panelLayout.createSequentialGroup()
+                        .add(checkRowCanvas)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(checkColCanvas)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(checkTraitCanvas)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(checkStatusPanel))
+                    .add(panelLayout.createSequentialGroup()
+                        .add(checkMiniMapCanvas)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(checkLinePanel)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(checkMapCanvas)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(checkQTLCanvas)))
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -159,6 +173,7 @@ class NBToggleCanvasPanel extends JPanel implements ActionListener
     private javax.swing.JCheckBox checkColCanvas;
     private javax.swing.JCheckBox checkLinePanel;
     private javax.swing.JCheckBox checkMapCanvas;
+    private javax.swing.JCheckBox checkMiniMapCanvas;
     private javax.swing.JCheckBox checkQTLCanvas;
     private javax.swing.JCheckBox checkRowCanvas;
     private javax.swing.JCheckBox checkStatusPanel;
