@@ -25,6 +25,25 @@ subversion change log</a>.</p>
 <p>For information on what <i>might</i> be appearing in a future version of Flapjack,
 please see the <a href="../future-work.shtml">future work</a> page.</p>
 
+
+<h3>New in 0.10.03.10</h3>
+
+<ul>
+<li>NEW: Implemented three new methods of scaling and displaying the chromosome map: local, global, and classic.</li>
+<li>NEW: Added a new summary "mini map" display that shows where on the chromosome the markers currently on screen are.</li>
+<li>NEW: Gaps in the data set (lines with no value for a given marker) can now be graphically highlighted.</li>
+<li>NEW: Internet proxy settings can now be configured using the Preferences Dialog.</li>
+<li>CHG: Some of the options from the Visualization menu now form part of a new View top-level menu.</li>
+<li>CHG: The chromosome map is now drawn in real-time rather than back buffered, freeing up memory.</li>
+<li>CHG: Removed the "Flapjack has encountered an error" dialog due to it not working probably with EDT errors.</li>
+<li>BUG: Fixed various miscellaneous rendering issues.</li>
+<li>BUG: Fixed some number formatting problems when large numbers were displayed.</li>
+<li>BUG: Some of the error messages displayed during file loading were incorrect.</li>
+<li>BUG: Fixed a critical problem with loading data that goes beyond the byte limit for Flapjack's state table (eg with SSR data).</li>
+<li>BUG: Fixed a problem with the small overview inset window that resulted in it disappearing completely at times.</li>
+</ul>
+
+
 <h3>New in 0.09.10.29</h3>
 
 <ul>

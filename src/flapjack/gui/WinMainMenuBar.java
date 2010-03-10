@@ -291,8 +291,8 @@ public class WinMainMenuBar extends JMenuBar
 		mViz.add(mVizExportImage);
 		mViz.add(mVizExportData);
 		mViz.addSeparator();
-		mViz.add(mVizCreatePedigree);
-		mViz.addSeparator();
+//		mViz.add(mVizCreatePedigree);
+//		mViz.addSeparator();
 		mViz.add(mVizColor);
 		mViz.add(mVizScaling);
 		mViz.add(mVizOverlayGenotypes);

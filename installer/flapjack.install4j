@@ -311,7 +311,7 @@
                       <void property="vmOptions">
                         <array class="java.lang.String" length="1">
                           <void index="0">
-                            <string>-Xmx512m</string>
+                            <string>-Xmx1024m</string>
                           </void>
                         </array>
                       </void>
