@@ -409,6 +409,7 @@ public class GenotypePanel extends JPanel
 
 	public void setVisibleStates()
 	{
+		miniMapCanvas.setVisible(Prefs.visShowMiniMapCanvas);
 		mapCanvas.setVisible(Prefs.visShowMapCanvas);
 		qtlCanvas.setVisible(Prefs.visShowQTLCanvas);
 		rowCanvas.setVisible(Prefs.visShowRowCanvas);
@@ -429,8 +430,6 @@ public class GenotypePanel extends JPanel
 		// Hide the qtlSplitter if the QTL panel isn't visible
 		else
 			qtlSplitter.setDividerSize(0);
-
-		miniMapCanvas.setVisible(true);
 	}
 
 	private void setCtrlLabels()

@@ -111,8 +111,9 @@ public class Prefs extends XMLPreferences
 	public static int guiMouseMode = Constants.NAVIGATION;
 
 	// What type of map scaling should be used (local=0, global=1)
-	public static int visMapScaling = 0;
+	public static int visMapScaling = Constants.LOCAL;
 
+	public static boolean visShowMiniMapCanvas = true;
 	public static boolean visShowLinePanel = true;
 	public static boolean visShowMapCanvas = true;
 	public static boolean visShowQTLCanvas = true;
