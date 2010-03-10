@@ -190,11 +190,15 @@ public class MenuFile
 	// progress bar while doing so
 	void importGenotypeData(File mapFile, File datFile, boolean usePrefs)
 	{
-		DataImportingDialog dialog = new DataImportingDialog(mapFile, datFile, usePrefs);
+		DataImporter importer = new DataImporter(mapFile, datFile, usePrefs);
 
-		if (dialog.isOK())
+		ProgressDialog dialog = new ProgressDialog(importer,
+			 RB.format("gui.dialog.DataImportingDialog.title"),
+			 RB.format("gui.dialog.DataImportingDialog.title"));
+
+		if (dialog.getResult() == ProgressDialog.JOB_COMPLETED)
 		{
-			DataSet dataSet = dialog.getDataSet();
+			DataSet dataSet = importer.getDataSet();
 
 			winMain.getProject().addDataSet(dataSet);
 			navPanel.addDataSetNode(dataSet);
@@ -202,6 +206,7 @@ public class MenuFile
 
 			Actions.projectModified();
 		}
+		
 	}
 
 	public void importTraitData()
