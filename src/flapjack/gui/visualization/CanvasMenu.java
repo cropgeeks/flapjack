@@ -23,9 +23,9 @@ public class CanvasMenu
 	private JMenuItem mBookmark;
 	private JMenuItem mInsertLine;
 	private JMenuItem mDeleteLine;
-	public static JCheckBoxMenuItem mShowGenotypes;
-	public static JCheckBoxMenuItem mHighlightHZ;
-	public static JCheckBoxMenuItem mHighlightGaps;
+	private JCheckBoxMenuItem mShowGenotypes;
+	private JCheckBoxMenuItem mHighlightHZ;
+	private JCheckBoxMenuItem mHighlightGaps;
 	private JMenuItem mSelectTraits;
 	private JMenu mColor;
 	private JMenuItem mColorCustomize;
@@ -50,8 +50,6 @@ public class CanvasMenu
 	private JMenuItem mFind;
 
 
-	private AbstractAction aLock;
-
 	CanvasMenu(GenotypeCanvas canvas)
 	{
 		this.canvas = canvas;
@@ -59,31 +57,20 @@ public class CanvasMenu
 		// Returns value for "CTRL" under most OSs, and the "apple" key for OS X
 		menuShortcut = Toolkit.getDefaultToolkit().getMenuShortcutKeyMask();
 
-		createActions();
 		createItems();
 	}
 
 	boolean isShowingMenu()
 		{ return menu.isVisible(); }
 
-	private void createActions()
-	{
-		aLock = new AbstractAction(RB.getString("gui.Actions.canvasLock")) {
-			public void actionPerformed(ActionEvent e) {
-				canvas.locked = !canvas.locked;
-			}
-		};
-	}
-
 	private void createItems()
 	{
 		mBookmark = WinMainMenuBar.getItem(Actions.viewBookmark, "gui.Actions.viewBookmark", 0, 0);
 		mInsertLine = WinMainMenuBar.getItem(Actions.editInsertLine, "gui.Actions.editInsertLine", 0, 0);
 		mDeleteLine = WinMainMenuBar.getItem(Actions.editDeleteLine, "gui.Actions.editDeleteLine", 0, 0);
-		mLock = WinMainMenuBar.getCheckedItem(aLock, "gui.Actions.canvasLock", 0, 0, canvas.locked);
-		mShowGenotypes = WinMainMenuBar.getCheckedItem(Actions.vizOverlayGenotypes, "gui.Actions.vizOverlayGenotypes", KeyEvent.VK_G, menuShortcut, Prefs.visShowGenotypes);
-		mHighlightHZ = WinMainMenuBar.getCheckedItem(Actions.vizHighlightHZ, "gui.Actions.vizHighlightHZ", KeyEvent.VK_H, menuShortcut, Prefs.visHighlightHZ);
-		mHighlightGaps = WinMainMenuBar.getCheckedItem(Actions.vizHighlightGaps, "gui.Actions.vizHighlightGaps", 0, 0, Prefs.visHighlightGaps);
+		mShowGenotypes = WinMainMenuBar.getCheckedItem(Actions.vizOverlayGenotypes, "gui.Actions.vizOverlayGenotypes", KeyEvent.VK_G, menuShortcut);
+		mHighlightHZ = WinMainMenuBar.getCheckedItem(Actions.vizHighlightHZ, "gui.Actions.vizHighlightHZ", KeyEvent.VK_H, menuShortcut);
+		mHighlightGaps = WinMainMenuBar.getCheckedItem(Actions.vizHighlightGaps, "gui.Actions.vizHighlightGaps", 0, 0);
 		mSelectTraits = WinMainMenuBar.getItem(Actions.vizSelectTraits, "gui.Actions.vizSelectTraits", 0, 0);
 		mColorCustomize = WinMainMenuBar.getItem(Actions.vizColorCustomize, "gui.Actions.vizColorCustomize", 0, 0);
 		mColorRandom = WinMainMenuBar.getItem(Actions.vizColorRandom, "gui.Actions.vizColorRandom", 0, 0);
@@ -152,7 +139,6 @@ public class CanvasMenu
 		// Create and display the menu
 		menu = new JPopupMenu();
 
-		menu.add(mLock);
 		menu.add(mBookmark);
 		menu.add(mInsertLine);
 		menu.add(mDeleteLine);

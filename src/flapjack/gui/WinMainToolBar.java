@@ -71,19 +71,16 @@ public class WinMainToolBar extends JToolBar
 		editModeNavigation = (JToggleButton) getButton(true, null,
 			RB.getString("gui.WinMainToolBar.editModeNavigation"),
 			Icons.getIcon("NAVIGATIONMODE"), Actions.editModeNavigation);
-		editModeNavigation.setSelected(Prefs.guiMouseMode == Constants.NAVIGATION);
 
 		// Edit, marker selection mode
 		editModeMarker = (JToggleButton) getButton(true, null,
 			RB.getString("gui.WinMainToolBar.editModeMarker"),
 			Icons.getIcon("MARKERMODE"), Actions.editModeMarker);
-		editModeMarker.setSelected(Prefs.guiMouseMode == Constants.MARKERMODE);
 
 		// Edit, line selection mode
 		editModeLine = (JToggleButton) getButton(true, null,
 			RB.getString("gui.WinMainToolBar.editModeLine"),
 			Icons.getIcon("LINEMODE"), Actions.editModeLine);
-		editModeLine.setSelected(Prefs.guiMouseMode == Constants.LINEMODE);
 
 		// Edit, invert marker selection
 		editSelectMarkersInvert = (JButton) getButton(false, null,

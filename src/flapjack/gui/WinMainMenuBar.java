@@ -28,9 +28,9 @@ public class WinMainMenuBar extends JMenuBar
 	private JMenu mEdit;
 	public static JMenuItem mEditUndo;
 	public static JMenuItem mEditRedo;
-	static  JCheckBoxMenuItem mEditModeNavigation;
-	static  JCheckBoxMenuItem mEditModeMarker;
-	static  JCheckBoxMenuItem mEditModeLine;
+	private JCheckBoxMenuItem mEditModeNavigation;
+	private JCheckBoxMenuItem mEditModeMarker;
+	private JCheckBoxMenuItem mEditModeLine;
 	private JMenu mEditSelectMarkers;
 	private JMenuItem mEditSelectMarkersAll;
 	private JMenuItem mEditSelectMarkersNone;
@@ -64,9 +64,13 @@ public class WinMainMenuBar extends JMenuBar
 	private JMenuItem mVizColorMarkerSimGS;
 	private JMenuItem mVizColorSimple2Color;
 	private JMenuItem mVizColorAlleleFreq;
-	static  JCheckBoxMenuItem mVizOverlayGenotypes;
-	static  JCheckBoxMenuItem mVizHighlightHZ;
-	static  JCheckBoxMenuItem mVizHighlightGaps;
+	private JMenu mVizScaling;
+	private JCheckBoxMenuItem mVizScalingLocal;
+	private JCheckBoxMenuItem mVizScalingGlobal;
+	private JCheckBoxMenuItem mVizScalingClassic;
+	private JCheckBoxMenuItem mVizOverlayGenotypes;
+	private JCheckBoxMenuItem mVizHighlightHZ;
+	private JCheckBoxMenuItem mVizHighlightGaps;
 	private JMenuItem mVizSelectTraits;
 
 	private JMenu mData;
@@ -164,11 +168,11 @@ public class WinMainMenuBar extends JMenuBar
 		mEditUndo = getItem(Actions.editUndo, "gui.Actions.editUndo", KeyEvent.VK_Z, menuShortcut);
 		mEditRedo = getItem(Actions.editRedo, "gui.Actions.editRedo", KeyEvent.VK_Y, menuShortcut);
 		mEditModeNavigation = getCheckedItem(Actions.editModeNavigation, "gui.Actions.editModeNavigation",
-			KeyEvent.VK_1, InputEvent.ALT_MASK, Prefs.guiMouseMode == Constants.NAVIGATION);
+			KeyEvent.VK_1, InputEvent.ALT_MASK);
 		mEditModeMarker = getCheckedItem(Actions.editModeMarker, "gui.Actions.editModeMarker",
-			KeyEvent.VK_2, InputEvent.ALT_MASK, Prefs.guiMouseMode == Constants.MARKERMODE);
+			KeyEvent.VK_2, InputEvent.ALT_MASK);
 		mEditModeLine = getCheckedItem(Actions.editModeLine, "gui.Actions.editModeLine",
-			KeyEvent.VK_3, InputEvent.ALT_MASK, Prefs.guiMouseMode == Constants.LINEMODE);
+			KeyEvent.VK_3, InputEvent.ALT_MASK);
 		mEditSelectMarkersAll = getItem(Actions.editSelectMarkersAll, "gui.Actions.editSelectMarkersAll", 0, 0);
 		mEditSelectMarkersNone = getItem(Actions.editSelectMarkersNone, "gui.Actions.editSelectMarkersNone", 0, 0);
 		mEditSelectMarkersInvert = getItem(Actions.editSelectMarkersInvert, "gui.Actions.editSelectMarkersInvert", 0, 0);
@@ -177,6 +181,11 @@ public class WinMainMenuBar extends JMenuBar
 		mEditSelectLinesNone = getItem(Actions.editSelectLinesNone, "gui.Actions.editSelectLinesNone", 0, 0);
 		mEditSelectLinesInvert = getItem(Actions.editSelectLinesInvert, "gui.Actions.editSelectLinesInvert", 0, 0);
 		mEditHideLines = getItem(Actions.editHideLines, "gui.Actions.editHideLines", 0, 0);
+
+		ButtonGroup grp = new ButtonGroup();
+		grp.add(mEditModeNavigation);
+		grp.add(mEditModeMarker);
+		grp.add(mEditModeLine);
 
 		mEditSelectMarkers.add(mEditSelectMarkersAll);
 		mEditSelectMarkers.add(mEditSelectMarkersNone);
@@ -210,8 +219,7 @@ public class WinMainMenuBar extends JMenuBar
 		mViewRenameView = getItem(Actions.viewRenameView, "gui.Actions.viewRenameView", 0, 0);
 		mViewDeleteView = getItem(Actions.viewDeleteView, "gui.Actions.viewDeleteView", 0, 0);
 		mViewToggleCanvas = getItem(Actions.viewToggleCanvas, "gui.Actions.viewToggleCanvas", 0, 0);
-		mViewOverview = getCheckedItem(Actions.viewOverview, "gui.Actions.viewOverview",
-			KeyEvent.VK_F7, 0, Prefs.guiOverviewDialog);
+		mViewOverview = getCheckedItem(Actions.viewOverview, "gui.Actions.viewOverview", KeyEvent.VK_F7, 0);
 
 		mView.add(mViewNewView);
 		mView.add(mViewRenameView);
@@ -232,6 +240,9 @@ public class WinMainMenuBar extends JMenuBar
 		mVizColor.setIcon(Actions.getIcon("COLORS"));
 		RB.setMnemonic(mVizColor, "gui.WinMainMenuBar.mVizColor");
 
+		mVizScaling = new JMenu(RB.getString("gui.WinMainMenuBar.mVizScaling"));
+		RB.setMnemonic(mVizScaling, "gui.WinMainMenuBar.mVizScaling");
+
 		mVizExportImage = getItem(Actions.vizExportImage, "gui.Actions.vizExportImage", 0, 0);
 		mVizExportData = getItem(Actions.vizExportData, "gui.Actions.vizExportData", 0, 0);
 		mVizCreatePedigree = getItem(Actions.vizCreatePedigree, "gui.Actions.vizCreatePedigree", 0, 0);
@@ -244,14 +255,21 @@ public class WinMainMenuBar extends JMenuBar
 		mVizColorMarkerSim = getItem(Actions.vizColorMarkerSim, "gui.Actions.vizColorMarkerSim", 0, 0);
 //		mVizColorMarkerSimGS = getItem(Actions.vizColorMarkerSimGS, KeyEvent.VK_G, 0, 0);
 		mVizColorSimple2Color = getItem(Actions.vizColorSimple2Color, "gui.Actions.vizColorSimple2Color", 0, 0);
+		mVizScalingLocal = getCheckedItem(Actions.vizScalingLocal, "gui.Actions.vizScalingLocal", 0, 0);
+		mVizScalingGlobal = getCheckedItem(Actions.vizScalingGlobal, "gui.Actions.vizScalingGlobal", 0, 0);
+		mVizScalingClassic = getCheckedItem(Actions.vizScalingClassic, "gui.Actions.vizScalingClassic", 0, 0);
 		mVizColorAlleleFreq = getItem(Actions.vizColorAlleleFreq, "gui.Actions.vizColorAlleleFreq", 0, 0);
 		mVizOverlayGenotypes = getCheckedItem(Actions.vizOverlayGenotypes, "gui.Actions.vizOverlayGenotypes",
-			KeyEvent.VK_G, menuShortcut, Prefs.visShowGenotypes);
+			KeyEvent.VK_G, menuShortcut);
 		mVizHighlightHZ = getCheckedItem(Actions.vizHighlightHZ, "gui.Actions.vizHighlightHZ",
-			KeyEvent.VK_H, menuShortcut, Prefs.visHighlightHZ);
-		mVizHighlightGaps = getCheckedItem(Actions.vizHighlightGaps, "gui.Actions.vizHighlightGaps",
-			0, 0, Prefs.visHighlightGaps);
+			KeyEvent.VK_H, menuShortcut);
+		mVizHighlightGaps = getCheckedItem(Actions.vizHighlightGaps, "gui.Actions.vizHighlightGaps", 0, 0);
 		mVizSelectTraits = getItem(Actions.vizSelectTraits, "gui.Actions.vizSelectTraits", 0, 0);
+
+		ButtonGroup grp = new ButtonGroup();
+		grp.add(mVizScalingLocal);
+		grp.add(mVizScalingGlobal);
+		grp.add(mVizScalingClassic);
 
 		mVizColor.add(mVizColorNucleotide);
 		mVizColor.add(mVizColorSimple2Color);
@@ -266,12 +284,17 @@ public class WinMainMenuBar extends JMenuBar
 		mVizColor.addSeparator();
 		mVizColor.add(mVizColorCustomize);
 
+		mVizScaling.add(mVizScalingLocal);
+		mVizScaling.add(mVizScalingGlobal);
+		mVizScaling.add(mVizScalingClassic);
+
 		mViz.add(mVizExportImage);
 		mViz.add(mVizExportData);
 		mViz.addSeparator();
 		mViz.add(mVizCreatePedigree);
 		mViz.addSeparator();
 		mViz.add(mVizColor);
+		mViz.add(mVizScaling);
 		mViz.add(mVizOverlayGenotypes);
 		mViz.add(mVizHighlightHZ);
 		mViz.add(mVizHighlightGaps);
@@ -334,7 +357,7 @@ public class WinMainMenuBar extends JMenuBar
 
 		mWndMinimize = getItem(Actions.wndMinimize, "gui.Actions.wndMinimize", KeyEvent.VK_M, menuShortcut);
 		mWndZoom = getItem(Actions.wndZoom, "gui.Actions.wndZoom", 0, 0);
-		mWndFlapjack = getCheckedItem(Actions.wndFlapjack, "gui.Actions.wndFlapjack", 0, 0, true);
+		mWndFlapjack = getCheckedItem(Actions.wndFlapjack, "gui.Actions.wndFlapjack", 0, 0);
 
 		mWnd.add(mWndMinimize);
 		mWnd.add(mWndZoom);
@@ -390,10 +413,9 @@ public class WinMainMenuBar extends JMenuBar
 		return item;
 	}
 
-	public static JCheckBoxMenuItem getCheckedItem(Action action, String key, int keymask, int modifiers, boolean state)
+	public static JCheckBoxMenuItem getCheckedItem(Action action, String key, int keymask, int modifiers)
 	{
 		JCheckBoxMenuItem item = new JCheckBoxMenuItem(action);
-		item.setState(state);
 		RB.setMnemonic(item, key);
 
 		if (keymask != 0)

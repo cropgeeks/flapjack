@@ -3,6 +3,8 @@
 
 package flapjack.gui;
 
+import javax.swing.*;
+
 import scri.commons.gui.TaskDialog;
 
 import flapjack.analysis.*;
@@ -79,27 +81,18 @@ public class MenuVisualization
 	void vizOverlayGenotypes()
 	{
 		Prefs.visShowGenotypes = !Prefs.visShowGenotypes;
-		WinMainMenuBar.mVizOverlayGenotypes.setSelected(Prefs.visShowGenotypes);
-		CanvasMenu.mShowGenotypes.setSelected(Prefs.visShowGenotypes);
-
 		gPanel.refreshView();
 	}
 
 	void vizHighlightHZ()
 	{
 		Prefs.visHighlightHZ = !Prefs.visHighlightHZ;
-		WinMainMenuBar.mVizHighlightHZ.setSelected(Prefs.visHighlightHZ);
-		CanvasMenu.mHighlightHZ.setSelected(Prefs.visHighlightHZ);
-
 		gPanel.refreshView();
 	}
 
 	void vizHighlightGaps()
 	{
 		Prefs.visHighlightGaps = !Prefs.visHighlightGaps;
-		WinMainMenuBar.mVizHighlightGaps.setSelected(Prefs.visHighlightGaps);
-		CanvasMenu.mHighlightGaps.setSelected(Prefs.visHighlightGaps);
-
 		gPanel.refreshView();
 	}
 
@@ -139,5 +132,11 @@ public class MenuVisualization
 		}
 
 		new PedigreeDialog(pg.getImage());
+	}
+
+	void vizScaling(int method)
+	{
+		Prefs.visMapScaling = method;
+		gPanel.refreshView();
 	}
 }

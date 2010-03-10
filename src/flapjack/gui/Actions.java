@@ -5,6 +5,7 @@ package flapjack.gui;
 
 import java.awt.event.*;
 import javax.swing.*;
+import static javax.swing.Action.*;
 
 import flapjack.gui.visualization.colors.*;
 
@@ -58,6 +59,9 @@ public class Actions
 	public static AbstractAction vizColorMarkerSimGS;
 	public static AbstractAction vizColorSimple2Color;
 	public static AbstractAction vizColorAlleleFreq;
+	public static AbstractAction vizScalingLocal;
+	public static AbstractAction vizScalingGlobal;
+	public static AbstractAction vizScalingClassic;
 	public static AbstractAction vizOverlayGenotypes;
 	public static AbstractAction vizHighlightHZ;
 	public static AbstractAction vizHighlightGaps;
@@ -90,6 +94,7 @@ public class Actions
 		this.winMain = winMain;
 
 		createActions();
+		setInitialStates();
 
 		// Set initial states for actions that shouldn't be enabled at the start
 		resetActions();
@@ -368,6 +373,24 @@ public class Actions
 			}
 		};
 
+		vizScalingLocal = new AbstractAction(RB.getString("gui.Actions.vizScalingLocal")) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.mViz.vizScaling(Constants.LOCAL);
+			}
+		};
+
+		vizScalingGlobal = new AbstractAction(RB.getString("gui.Actions.vizScalingGlobal")) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.mViz.vizScaling(Constants.GLOBAL);
+			}
+		};
+
+		vizScalingClassic = new AbstractAction(RB.getString("gui.Actions.vizScalingClassic")) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.mViz.vizScaling(Constants.CLASSIC);
+			}
+		};
+
 		vizOverlayGenotypes = new AbstractAction(RB.getString("gui.Actions.vizOverlayGenotypes")) {
 			public void actionPerformed(ActionEvent e) {
 				winMain.mViz.vizOverlayGenotypes();
@@ -510,6 +533,31 @@ public class Actions
 		};
 	}
 
+	private static void setInitialStates()
+	{
+		wndFlapjack.putValue(SELECTED_KEY, true);
+
+		editModeNavigation.putValue(SELECTED_KEY,
+			Prefs.guiMouseMode == Constants.NAVIGATION);
+		editModeMarker.putValue(SELECTED_KEY,
+			Prefs.guiMouseMode == Constants.MARKERMODE);
+		editModeLine.putValue(SELECTED_KEY,
+			Prefs.guiMouseMode == Constants.LINEMODE);
+
+		viewOverview.putValue(SELECTED_KEY,	Prefs.guiOverviewDialog);
+
+		vizScalingLocal.putValue(SELECTED_KEY,
+			Prefs.visMapScaling == Constants.LOCAL);
+		vizScalingGlobal.putValue(SELECTED_KEY,
+			Prefs.visMapScaling == Constants.GLOBAL);
+		vizScalingClassic.putValue(SELECTED_KEY,
+			Prefs.visMapScaling == Constants.CLASSIC);
+
+		vizOverlayGenotypes.putValue(SELECTED_KEY, Prefs.visShowGenotypes);
+		vizHighlightHZ.putValue(SELECTED_KEY, Prefs.visHighlightHZ);
+		vizHighlightGaps.putValue(SELECTED_KEY, Prefs.visHighlightGaps);
+	}
+
 	/** Called whenever the focus on the navigation tree changes. **/
 	public static void resetActions()
 	{
@@ -550,6 +598,9 @@ public class Actions
 		vizColorMarkerSimGS.setEnabled(false);
 		vizColorSimple2Color.setEnabled(false);
 		vizColorAlleleFreq.setEnabled(false);
+		vizScalingLocal.setEnabled(false);
+		vizScalingGlobal.setEnabled(false);
+		vizScalingClassic.setEnabled(false);
 		vizOverlayGenotypes.setEnabled(false);
 		vizHighlightHZ.setEnabled(false);
 		vizHighlightGaps.setEnabled(false);
