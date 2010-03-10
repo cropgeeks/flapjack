@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<install4j version="4.2.4" transformSequenceNumber="2">
+<install4j version="4.2.6" transformSequenceNumber="2">
   <directoryPresets config="." />
-  <application name="Flapjack" distributionSourceDir="" applicationId="9131-7045-2417-5931" mediaDir="." mediaFilePattern="${compiler:sys.shortName}_${compiler:sys.platform}_${compiler:sys.version}" compression="6" lzmaCompression="false" pack200Compression="false" excludeSignedFromPacking="true" keepModificationTimes="false" missingFilesStrategy="warn" shortName="Flapjack" publisher="SCRI" publisherWeb="http://www.scri.ac.uk" version="0.09.10.02" allPathsRelative="true" backupOnSave="false" autoSave="false" convertDotsToUnderscores="true" macSignature="????" installerName="" javaMinVersion="1.5" javaMaxVersion="" allowBetaVM="false" jdkMode="runtimeJre" jdkName="">
+  <application name="Flapjack" distributionSourceDir="" applicationId="9131-7045-2417-5931" mediaDir="." mediaFilePattern="${compiler:sys.shortName}_${compiler:sys.platform}_${compiler:sys.version}" compression="6" lzmaCompression="false" pack200Compression="false" excludeSignedFromPacking="true" keepModificationTimes="false" missingFilesStrategy="warn" shortName="Flapjack" publisher="SCRI" publisherWeb="http://www.scri.ac.uk" version="0.10.03.10" allPathsRelative="true" backupOnSave="false" autoSave="false" convertDotsToUnderscores="true" macSignature="????" installerName="" javaMinVersion="1.5" javaMaxVersion="" allowBetaVM="false" jdkMode="runtimeJre" jdkName="">
     <languages skipLanguageSelection="true" languageSelectionInPrincipalLanguage="false">
       <principalLanguage id="en" customLocalizationFile="" />
       <additionalLanguages>
@@ -55,7 +55,7 @@
   <launchers>
     <launcher name="Flapjack" id="18" external="false" excludeFromMenu="false" menuName="Flapjack" icnsFile="../res/icons/flapjack.icns" pngIcon16File="../res/icons/flapjack.png" pngIcon32File="../res/icons/flapjack.png" macServiceDependencies="" swtApp="false" fileset="">
       <executable name="flapjack" type="1" iconSet="true" iconFile="" executableDir="." redirectStderr="true" stderrFile="output.log" stderrMode="overwrite" redirectStdout="true" stdoutFile="output.log" stdoutMode="overwrite" failOnStderrOutput="true" executableMode="1" changeWorkingDirectory="true" workingDirectory="." singleInstance="false" serviceStartType="2" serviceDependencies="" serviceDescription="" jreLocation="" executionLevel="asInvoker" checkConsoleParameter="false">
-        <versionInfo include="false" fileVersion="" fileDescription="" legalCopyright="" internalName="" />
+        <versionInfo include="false" fileVersion="" fileDescription="" legalCopyright="" internalName="" productName="" />
       </executable>
       <splashScreen show="false" autoOff="true" alwaysOnTop="true" width="0" height="0" bitmapFile="" java6SplashScreen="false">
         <text>
@@ -77,7 +77,7 @@
     </launcher>
     <launcher name="CreateProject" id="797" external="false" excludeFromMenu="true" menuName="" icnsFile="../res/icons/flapjack.icns" pngIcon16File="../res/icons/flapjack.png" pngIcon32File="../res/icons/flapjack.png" macServiceDependencies="" swtApp="false" fileset="">
       <executable name="createproject" type="1" iconSet="true" iconFile="" executableDir="." redirectStderr="false" stderrFile="output.log" stderrMode="overwrite" redirectStdout="false" stdoutFile="output.log" stdoutMode="overwrite" failOnStderrOutput="true" executableMode="2" changeWorkingDirectory="true" workingDirectory="." singleInstance="false" serviceStartType="2" serviceDependencies="" serviceDescription="" jreLocation="" executionLevel="asInvoker" checkConsoleParameter="false">
-        <versionInfo include="false" fileVersion="" fileDescription="" legalCopyright="" internalName="" />
+        <versionInfo include="false" fileVersion="" fileDescription="" legalCopyright="" internalName="" productName="" />
       </executable>
       <splashScreen show="false" autoOff="true" alwaysOnTop="true" width="0" height="0" bitmapFile="" java6SplashScreen="false">
         <text>
@@ -1280,7 +1280,7 @@ if (wizardContext != null) {
     </applications>
   </installerGui>
   <mediaSets>
-    <win32 name="Windows" id="19" mediaFileName="flapjack_windows_${compiler:sys.version}" installDir="Flapjack" overridePrincipalLanguage="false" requires64bit="false" jreBitType="32" runPostProcessor="false" postProcessor="" failOnPostProcessorError="false" includedJRE="windows-x86-1.6.0_16" manualJREEntry="false" bundleType="1" jreURL="" jreFtpURL="" jreShared="false" customInstallBaseDir="" createUninstallIcon="true" contentFilesType="1" downloadURL="" runAsAdmin="false">
+    <win32 name="Windows" id="19" mediaFileName="flapjack_windows_${compiler:sys.version}" installDir="Flapjack" overridePrincipalLanguage="false" requires64bit="false" jreBitType="32" runPostProcessor="false" postProcessor="" failOnPostProcessorError="false" includedJRE="windows-x86-1.6.0_18" manualJREEntry="false" bundleType="1" jreURL="" jreFtpURL="" jreShared="false" directDownload="false" customInstallBaseDir="" createUninstallIcon="true" contentFilesType="1" downloadURL="" runAsAdmin="false">
       <excludedLaunchers />
       <excludedComponents />
       <excludedBeans />
@@ -1299,7 +1299,7 @@ if (wizardContext != null) {
       </exclude>
       <variables />
     </macos>
-    <unixInstaller name="Linux" id="181" mediaFileName="flapjack_linux_${compiler:sys.version}" installDir="Flapjack" overridePrincipalLanguage="false" requires64bit="false" jreBitType="all" runPostProcessor="false" postProcessor="" failOnPostProcessorError="false" includedJRE="linux-x86-1.6.0_16" manualJREEntry="false" bundleType="1" jreURL="" jreFtpURL="" jreShared="false" customInstallBaseDir="" createUninstallIcon="true" contentFilesType="1" downloadURL="">
+    <unixInstaller name="Linux" id="181" mediaFileName="flapjack_linux_${compiler:sys.version}" installDir="Flapjack" overridePrincipalLanguage="false" requires64bit="false" jreBitType="all" runPostProcessor="false" postProcessor="" failOnPostProcessorError="false" includedJRE="linux-x86-1.6.0_18" manualJREEntry="false" bundleType="1" jreURL="" jreFtpURL="" jreShared="false" directDownload="false" customInstallBaseDir="" createUninstallIcon="true" contentFilesType="1" downloadURL="">
       <excludedLaunchers>
         <launcher id="797" />
       </excludedLaunchers>
