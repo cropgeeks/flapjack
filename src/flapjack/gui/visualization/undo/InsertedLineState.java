@@ -1,7 +1,7 @@
 // Copyright 2007-2009 Plant Bioinformatics Group, SCRI. All rights reserved.
 // Use is subject to the accompanying licence terms.
 
-package flapjack.gui.visualization;
+package flapjack.gui.visualization.undo;
 
 import flapjack.data.*;
 

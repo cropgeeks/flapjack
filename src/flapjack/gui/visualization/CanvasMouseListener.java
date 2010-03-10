@@ -9,6 +9,7 @@ import javax.swing.*;
 import javax.swing.event.*;
 
 import flapjack.gui.*;
+import flapjack.gui.visualization.undo.*;
 
 import scri.commons.gui.*;
 
