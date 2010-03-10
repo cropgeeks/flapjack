@@ -45,6 +45,8 @@ class MapCanvas extends JPanel
 		setLayout(new BorderLayout());
 		setBorder(BorderFactory.createEmptyBorder(5, 0, 0, 0));
 		add(new Canvas2D());
+
+		new MapCanvasML(this);
 	}
 
 	void setMarkerIndex(int mrkrIndex)
