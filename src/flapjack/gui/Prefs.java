@@ -175,6 +175,13 @@ public class Prefs extends XMLPreferences
 	public static String miscEmail = "";
 	public static String miscInstitution = "";
 
+	// Proxy settings
+	public static boolean proxyUse = false;
+	public static int proxyPort = 8080;
+	public static String proxyAddress = "";
+	public static String proxyUsername = "";
+	public static String proxyPassword = "";
+
 	static void setDefaults()
 	{
 		setColorDefaults();

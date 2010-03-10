@@ -21,6 +21,7 @@ public class PreferencesDialog extends JDialog implements ActionListener
 	private JTabbedPane tabs;
 	private NBGeneralPanel generalPanel;
 	private NBVisualizationPanel visualizationPanel;
+	private NBWebPanel webPanel;
 	private NBWarningPanel warningPanel;
 
 	public PreferencesDialog()
@@ -32,6 +33,7 @@ public class PreferencesDialog extends JDialog implements ActionListener
 		);
 
 		generalPanel = new NBGeneralPanel();
+		webPanel = new NBWebPanel();
 		visualizationPanel = new NBVisualizationPanel();
 		warningPanel = new NBWarningPanel();
 
@@ -41,6 +43,8 @@ public class PreferencesDialog extends JDialog implements ActionListener
 			Icons.getIcon("GENERALTAB"), generalPanel);
 		tabs.addTab(RB.getString("gui.dialog.prefs.PreferencesDialog.visualizationTab"),
 			Icons.getIcon("VISUALIZATIONTAB"), visualizationPanel);
+		tabs.addTab(RB.getString("gui.dialog.prefs.PreferencesDialog.webTab"),
+			Icons.getIcon("CHECKUPDATE"), webPanel);
 		tabs.addTab(RB.getString("gui.dialog.prefs.PreferencesDialog.warningTab"),
 			Icons.getIcon("WARNINGSTAB"), warningPanel);
 		tabs.setSelectedIndex(lastTab);
