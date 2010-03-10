@@ -80,6 +80,7 @@ class MapCanvas extends JPanel
 			int xOffset = gPanel.traitCanvas.getPanelWidth()
 				+ gPanel.listPanel.getPanelWidth() + 1;
 			g.translate(xOffset, 0);
+			g.setClip(0, 0, canvas.pX2Max-canvas.pX1+1, getHeight());
 
 			// Update the back buffer (if it needs redrawn)
 			if (updateBuffer)
@@ -127,7 +128,13 @@ class MapCanvas extends JPanel
 		g.setColor(Color.white);
 		g.fillRect(0, 12, w-1, 10);
 		g.setColor(Color.lightGray);
-		g.drawRect(0, 12, w-1, 10);
+
+		// Local/global maps always fit the screen
+		if (Prefs.visMapScaling != 2)
+			g.drawRect(0, 12, w-1, 10);
+		// Classic maps fit the total width (and have "edges")
+		else
+			g.drawRect(-canvas.pX1, 12, canvas.canvasW-1, 10);
 
 		setScaling(xS, xE);
 
@@ -202,9 +209,6 @@ class MapCanvas extends JPanel
 		// Now see which markers are "under" this feature, and highlight them
 		int mkrCount = canvas.view.getMarkerCount();
 		int xS = canvas.pX1 / canvas.boxW;
-
-		// Clip so that markers under the QTL, but not on screen, aren't drawn
-		g.setClip(0, 0, w, getHeight());
 
 		for (int i = 0; i < mkrCount; i++)
 		{

@@ -6,6 +6,7 @@ package flapjack.gui;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
+import java.net.*;
 import javax.swing.*;
 
 import flapjack.gui.dialog.*;
@@ -35,6 +36,8 @@ public class Flapjack
 
 		Icons.initialize("/res/icons", ".png");
 		RB.initialize(Prefs.localeText, "res.text.flapjack");
+
+		setProxy();
 
 		Install4j.doStartUpCheck();
 
@@ -86,8 +89,6 @@ public class Flapjack
 		}
 		catch (Exception e) {}
 
-		Thread.setDefaultUncaughtExceptionHandler(new ErrorDialog());
-
 		winMain = new WinMain();
 
 		winMain.addWindowListener(new WindowAdapter()
@@ -118,8 +119,32 @@ public class Flapjack
 
 		TaskDialog.initialize(winMain, "Flapjack");
 
-//		new SCRIDialog();
 		winMain.setVisible(true);
+	}
+
+	public static void setProxy()
+	{
+		java.util.Properties p = System.getProperties();
+
+		if (Prefs.proxyUse)
+		{
+			p.setProperty("http.proxyHost", Prefs.proxyAddress);
+			p.setProperty("http.proxyPort", "" + Prefs.proxyPort);
+
+			Authenticator.setDefault(new Authenticator()
+			{
+				protected PasswordAuthentication getPasswordAuthentication()
+				{
+					return new PasswordAuthentication(Prefs.proxyUsername,
+						Prefs.proxyPassword.toCharArray());
+				}
+			});
+		}
+		else
+		{
+			p.remove("http.proxyHost");
+			p.remove("http.proxyPort");
+		}
 	}
 
 	private void shutdown()
