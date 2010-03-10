@@ -7,6 +7,7 @@ import java.awt.event.*;
 import java.awt.image.*;
 
 import flapjack.gui.*;
+import java.awt.Dimension;
 
 public class OverviewManager
 {
@@ -25,6 +26,7 @@ public class OverviewManager
 
 		dialog = new OverviewDialog(winMain, dCanvas);
 		panel  = new OverviewPanel();
+		panel.setMinimumSize(new Dimension(0, 100));
 
 //		dialog.addCanvas(dCanvas);
 //		panel.addCanvas(pCanvas);
