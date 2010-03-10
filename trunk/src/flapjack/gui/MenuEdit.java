@@ -31,15 +31,6 @@ public class MenuEdit
 		boolean wasInLineMode = (Prefs.guiMouseMode == Constants.LINEMODE);
 		Prefs.guiMouseMode = newMode;
 
-		WinMainMenuBar.mEditModeNavigation.setSelected(newMode == Constants.NAVIGATION);
-		WinMainToolBar.editModeNavigation.setSelected(newMode == Constants.NAVIGATION);
-
-		WinMainMenuBar.mEditModeMarker.setSelected(newMode == Constants.MARKERMODE);
-		WinMainToolBar.editModeMarker.setSelected(newMode == Constants.MARKERMODE);
-
-		WinMainMenuBar.mEditModeLine.setSelected(newMode == Constants.LINEMODE);
-		WinMainToolBar.editModeLine.setSelected(newMode == Constants.LINEMODE);
-
 		gPanel.resetBufferedState(true);
 
 		// Popup the warning dialog with markermode info...

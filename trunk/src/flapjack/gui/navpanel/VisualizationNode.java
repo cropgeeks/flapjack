@@ -46,6 +46,13 @@ public class VisualizationNode extends BaseNode
 		Actions.editInsertLine.setEnabled(true);
 		Actions.editDeleteLine.setEnabled(true);
 
+		Actions.viewNewView.setEnabled(true);
+		Actions.viewRenameView.setEnabled(true);
+		Actions.viewDeleteView.setEnabled(true);
+		Actions.viewToggleCanvas.setEnabled(true);
+		Actions.viewOverview.setEnabled(true);
+		Actions.viewBookmark.setEnabled(true);
+
 		Actions.vizExportImage.setEnabled(true);
 		Actions.vizExportData.setEnabled(true);
 		Actions.vizCreatePedigree.setEnabled(true);
@@ -59,16 +66,13 @@ public class VisualizationNode extends BaseNode
 		Actions.vizColorMarkerSimGS.setEnabled(true);
 		Actions.vizColorSimple2Color.setEnabled(true);
 		Actions.vizColorAlleleFreq.setEnabled(true);
+		Actions.vizScalingLocal.setEnabled(true);
+		Actions.vizScalingGlobal.setEnabled(true);
+		Actions.vizScalingClassic.setEnabled(true);
 		Actions.vizOverlayGenotypes.setEnabled(true);
 		Actions.vizHighlightHZ.setEnabled(true);
 		Actions.vizHighlightGaps.setEnabled(true);
 		Actions.vizSelectTraits.setEnabled(true);
-		Actions.viewNewView.setEnabled(true);
-		Actions.viewRenameView.setEnabled(true);
-		Actions.viewDeleteView.setEnabled(true);
-		Actions.viewToggleCanvas.setEnabled(true);
-		Actions.viewOverview.setEnabled(true);
-		Actions.viewBookmark.setEnabled(true);
 
 		Actions.dataSortLinesBySimilarity.setEnabled(true);
 		Actions.dataSortLinesByTrait.setEnabled(true);
