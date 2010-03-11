@@ -93,7 +93,7 @@ public class FlapjackUtils
 		throws Exception
 	{
 		Desktop desktop = Desktop.getDesktop();
-		desktop.mail(new URI("mailto:flapjack@germinate.org.uk?subject=Flapjack%20Feedback"));
+		desktop.mail(new URI("mailto:flapjack@scri.ac.uk?subject=Flapjack%20Feedback"));
 	}
 
 	public static JPanel getButtonPanel()
