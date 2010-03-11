@@ -1,0 +1,104 @@
+<project name="Flapjack" default="compile" basedir=".">
+
+	<property name="src" location="src"/>
+	<property name="res" location="res"/>
+	<property name="lib" location="lib"/>
+	<property name="config" location="config"/>
+	<property name="lib-devel" location="lib-devel"/>
+	<property name="classes" location="classes"/>
+
+	<property name="flapjack.jar" value="${lib}/flapjack.jar"/>
+	<property name="flapjack-resources.jar" value="${lib}/flapjack-resources.jar"/>
+
+	<target name="init">
+	</target>
+
+	<path id="project.classpath">
+		<pathelement path="${classes}"/>
+		<fileset dir="${lib}"/>
+		<fileset dir="${lib-devel}"/>
+	</path>
+
+	<target name="compile" depends="init">
+		<javac srcdir="${src}" destdir="${classes}" target="1.5" debug="true">
+			<classpath refid="project.classpath"/>
+			<exclude name="**/package-info.java"/>
+		</javac>
+	</target>
+
+	<target name="clean">
+		<delete includeemptydirs="true">
+			<fileset dir="${classes}" includes="**/*"/>
+			<fileset file="${flapjack.jar}"/>
+			<fileset file="${flapjack-resources.jar}"/>
+		</delete>
+	</target>
+
+	<target name="jar" depends="clean, compile">
+		<jar jarfile="${flapjack-resources.jar}">
+			<zipfileset dir="${res}" prefix="res"/>
+		</jar>
+		<jar jarfile="${flapjack.jar}">
+			<fileset dir="${classes}">
+				<exclude name="**/*Test.class"/>
+			</fileset>
+			<zipfileset dir="${config}" prefix="config"/>
+			<!-- castor.properties must be top level otherwise it's not seen -->
+			<fileset file="config/castor.properties"/>
+			<manifest>
+				<attribute name="Main-Class" value="flapjack.gui.Flapjack"/>
+				<attribute name="Class-Path"
+					value="castor-1.2-xml.jar
+						commons-logging-1.1.1.jar
+						flapjack-resources.jar
+						i4jruntime.jar
+						mysql-connector-java-5.1.5-bin.jar
+						office-2.0.jar
+						osxadapter.jar
+						scri-commons.jar
+						swing-layout-1.0.3.jar"/>
+			</manifest>
+		</jar>
+	</target>
+
+	<target name="javadoc">
+		<javadoc destdir="docs/api" author="true" version="true" use="true">
+			<fileset dir="${src}" defaultexcludes="yes">
+				<include name="**/*.java"/>
+			</fileset>
+			<classpath refid="project.classpath"/>
+		</javadoc>
+	</target>
+
+	<target name="test" depends="compile">
+		<junit printsummary="on" haltonerror="true" haltonfailure="true" dir="." fork="true">
+			<jvmarg value="-Xmx512m"/>
+			<classpath refid="project.classpath"/>
+			<formatter type="plain" usefile="false"/>
+			<batchtest>
+				<fileset dir="${classes}" includes="**/*Test.class"/>
+			</batchtest>
+		</junit>
+	</target>
+
+	<target name="install4j" depends="jar">
+		<taskdef name="install4j"
+		classname="com.install4j.Install4JTask"
+		classpath="C:\Program Files\Install4j\bin\ant.jar"/>
+
+		<delete>
+			<fileset dir="installer" includes="**/*.exe"/>
+			<fileset dir="installer" includes="**/*.sh"/>
+			<fileset dir="installer" includes="**/*.dmg"/>
+		</delete>
+		<input message="Enter the version number:" addproperty="version"/>
+		<install4j projectfile="installer/flapjack.install4j" release="${version}"/>
+	</target>
+
+	<target name="run" depends="jar">
+		<java jar="${flapjack.jar}">
+			<jvmarg value="-Xmx1024m"/>
+		</java>
+	</target>
+
+</project>
