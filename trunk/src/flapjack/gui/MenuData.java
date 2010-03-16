@@ -10,6 +10,7 @@ import flapjack.data.*;
 import flapjack.gui.dialog.*;
 import flapjack.gui.dialog.analysis.*;
 import flapjack.gui.visualization.*;
+import flapjack.gui.visualization.undo.MovedLinesState;
 
 import scri.commons.gui.*;
 
@@ -38,8 +39,11 @@ class MenuData
 			GTViewSet viewSet = gPanel.getViewSet();
 			Line line = dialog.getSelectedLine();
 
-			ILineSorter sort = new SortLinesBySimilarity(viewSet, line, chromosomes);
-			new SortingLinesProgressDialog(gPanel, sort).runSort();
+			SortLinesBySimilarity sort = new SortLinesBySimilarity(viewSet, line, chromosomes);
+
+			MovedLinesState state = setupSort();
+			new ProgressDialog(sort, RB.getString("gui.dialog.analysis.SortingLinesProgressDialog.title"), RB.getString("gui.dialog.analysis.NBSortingLinesProgressPanel.label"));
+			completeSort(state);
 		}
 	}
 
@@ -55,8 +59,11 @@ class MenuData
 			boolean[] asc = dialog.getAscendingIndices();
 			boolean assign = Prefs.guiAssignTraits;
 
-			ILineSorter sort = new SortLinesByTrait(viewSet, traits, asc, assign);
-			new SortingLinesProgressDialog(gPanel, sort).runSort();
+			SortLinesByTrait sort = new SortLinesByTrait(viewSet, traits, asc, assign);
+
+			MovedLinesState state = setupSort();
+			new ProgressDialog(sort, RB.getString("gui.dialog.analysis.SortingLinesProgressDialog.title"), RB.getString("gui.dialog.analysis.NBSortingLinesProgressPanel.label"));
+			completeSort(state);
 
 			gPanel.setViewSet(gPanel.getViewSet());
 		}
@@ -65,9 +72,45 @@ class MenuData
 	void dataSortLinesAlphabetically()
 	{
 		GTViewSet viewSet = gPanel.getViewSet();
-		ILineSorter sort = new SortLinesAlphabetically(viewSet);
+		SortLinesAlphabetically sort = new SortLinesAlphabetically(viewSet);
 
-		new SortingLinesProgressDialog(gPanel, sort).runSort();
+		MovedLinesState state = setupSort();
+		new ProgressDialog(sort, RB.getString("gui.dialog.analysis.SortingLinesProgressDialog.title"), RB.getString("gui.dialog.analysis.NBSortingLinesProgressPanel.label"));
+		completeSort(state);
+	}
+
+	/**
+	 * Prepares the lines to be sorted. This includes removing any dummy lines
+	 * and also setting an undo state.
+	 */
+	private MovedLinesState setupSort()
+	{
+		MovedLinesState state = new MovedLinesState(gPanel.getViewSet(),
+			RB.getString("gui.visualization.MovedLinesState.sortedLines"));
+
+		gPanel.getViewSet().setDisplayLineScores(false);
+
+		state.createUndoState();
+
+		// Make sure any dummy lines have been stripped out before sorting
+		gPanel.getViewSet().removeAllDummyLines();
+		return state;
+	}
+
+	/**
+	 * Finish the sort action by updating the display, creating a redo state
+	 * and marking the project as having been modified (for the purposes of
+	 * prompting the user to save changes on exit).
+	 */
+	private void completeSort(MovedLinesState state)
+	{
+		state.createRedoState();
+		gPanel.addUndoState(state);
+
+		gPanel.refreshView();
+		gPanel.jumpToPosition(0, -1, false);
+
+		Actions.projectModified();
 	}
 
 	void dataFilterQTLs()

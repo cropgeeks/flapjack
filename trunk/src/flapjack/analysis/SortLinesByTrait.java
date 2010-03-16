@@ -7,7 +7,7 @@ import java.util.*;
 
 import flapjack.data.*;
 
-public class SortLinesByTrait implements ILineSorter
+public class SortLinesByTrait extends SimpleJob
 {
 	private GTViewSet viewSet;
 
@@ -26,15 +26,13 @@ public class SortLinesByTrait implements ILineSorter
 		this.traits = traits;
 		this.asc = asc;
 		this.autoAssign = autoAssign;
+		maximum = viewSet.getView(0).getLineCount();
 	}
-
-	public int getMaximum()
-		{ return viewSet.getView(0).getLineCount(); }
 
 	public int getValue()
 		{ return linesScored; }
 
-	public void doSort()
+	public void runJob(int jobIndex)
 	{
 		// Access the first chromosome (just to get at the lines data)
 		GTView view = viewSet.getView(0);

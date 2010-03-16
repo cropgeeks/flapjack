@@ -7,22 +7,20 @@ import java.util.*;
 
 import flapjack.data.*;
 
-public class SortLinesAlphabetically implements ILineSorter
+public class SortLinesAlphabetically extends SimpleJob
 {
 	private GTViewSet viewSet;
 
 	public SortLinesAlphabetically(GTViewSet viewSet)
 	{
 		this.viewSet = viewSet;
+		maximum = viewSet.getView(0).getLineCount();
 	}
-
-	public int getMaximum()
-		{ return viewSet.getView(0).getLineCount(); }
 
 	public int getValue()
 		{ return 0; }
 
-	public void doSort()
+	public void runJob(int jobIndex)
 	{
 		// Access the first chromosome (just to get at the lines data)
 		GTView view = viewSet.getView(0);

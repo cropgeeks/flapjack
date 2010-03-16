@@ -7,7 +7,7 @@ import java.util.*;
 
 import flapjack.data.*;
 
-public class SortLinesBySimilarity implements ILineSorter
+public class SortLinesBySimilarity extends SimpleJob
 {
 	private GTViewSet viewSet;
 	private Line comparisonLine;
@@ -20,15 +20,13 @@ public class SortLinesBySimilarity implements ILineSorter
 		this.viewSet = viewSet;
 		this.comparisonLine = comparisonLine;
 		this.chromosomes = chromosomes;
+		maximum = viewSet.getView(0).getLineCount();
 	}
-
-	public int getMaximum()
-		{ return viewSet.getView(0).getLineCount(); }
 
 	public int getValue()
 		{ return linesScored; }
 
-	public void doSort()
+	public void runJob(int jobIndex)
 	{
 		long s = System.currentTimeMillis();
 
