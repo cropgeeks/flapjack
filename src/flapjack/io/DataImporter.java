@@ -62,47 +62,28 @@ public class DataImporter extends SimpleJob
 
 	public void runJob(int jobIndex) throws Exception
 	{
-		try
+		// Read the map
+		mapImporter.importMap();
+
+		// Read the genotype data
+		genoImporter.importGenotypeData();
+
+		if(okToRun)
 		{
-			// Read the map
-			mapImporter.importMap();
+			// Post-import stuff...
+			PostImportOperations pio = new PostImportOperations(dataSet);
+			pio.setName(genoFile);
 
-			// Read the genotype data
-			genoImporter.importGenotypeData();
+			// Collapse heterozyous states
+			if (Prefs.ioHeteroCollapse)
+				pio.collapseHeterozygotes();
 
-			if(okToRun)
-			{
-				// Post-import stuff...
-				PostImportOperations pio = new PostImportOperations(dataSet);
-				pio.setName(genoFile);
-
-				// Collapse heterozyous states
-				if (Prefs.ioHeteroCollapse)
-					pio.collapseHeterozygotes();
-
-				pio.calculateMarkerFrequencies();
-				pio.createDefaultView();
-			}
-
-			if (Prefs.warnDuplicateMarkers && okToRun)
-				displayDuplicates();
+			pio.calculateMarkerFrequencies();
+			pio.createDefaultView();
 		}
-		catch (IOException e)
-		{
-			TaskDialog.error(
-				RB.format("gui.dialog.DataImportingDialog.ioException", e.getMessage()),
-				RB.getString("gui.text.close"));
 
-			e.printStackTrace();
-		}
-		catch (Exception e)
-		{
-			TaskDialog.error(
-				RB.format("gui.dialog.DataImportingDialog.exception", e.getMessage()),
-				RB.getString("gui.text.close"));
-
-			e.printStackTrace();
-		}
+		if (Prefs.warnDuplicateMarkers && okToRun)
+			displayDuplicates();
 	}
 
 	private void displayDuplicates()
@@ -132,15 +113,16 @@ public class DataImporter extends SimpleJob
 
 		return Math.round((bytesRead / (float) totalBytes) * 5555);
 	}
-	
+
 	@Override
 	public String getMessage()
 	{
 		final NumberFormat nf = NumberFormat.getInstance();
-		
-		return "Maps: " + dataSet.countChromosomeMaps()
-				+ "   Lines: " + nf.format(genoImporter.getLineCount())
-				+ "   Alleles: " + nf.format(genoImporter.getMarkerCount());
+
+		return RB.format("io.DataImporter.message",
+			dataSet.countChromosomeMaps(),
+			nf.format(genoImporter.getLineCount()),
+			nf.format(genoImporter.getMarkerCount()));
 	}
 
 	public void cancelJob()

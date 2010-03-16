@@ -193,20 +193,30 @@ public class MenuFile
 		DataImporter importer = new DataImporter(mapFile, datFile, usePrefs);
 
 		ProgressDialog dialog = new ProgressDialog(importer,
-			 RB.format("gui.dialog.DataImportingDialog.title"),
-			 RB.format("gui.dialog.DataImportingDialog.title"));
+			 RB.format("gui.MenuFile.import.title"),
+			 RB.format("gui.MenuFile.import.message"));
 
-		if (dialog.getResult() == ProgressDialog.JOB_COMPLETED)
+		if (dialog.getResult() != ProgressDialog.JOB_COMPLETED)
 		{
-			DataSet dataSet = importer.getDataSet();
+			if (dialog.getResult() == ProgressDialog.JOB_FAILED)
+			{
+				TaskDialog.error(
+					RB.format("gui.MenuFile.import.error",
+					dialog.getException()),
+					RB.getString("gui.text.close"));
+			}
 
-			winMain.getProject().addDataSet(dataSet);
-			navPanel.addDataSetNode(dataSet);
-			new DataOpenedAnimator(gPanel);
-
-			Actions.projectModified();
+			return;
 		}
-		
+
+		// If everything was ok...
+		DataSet dataSet = importer.getDataSet();
+
+		winMain.getProject().addDataSet(dataSet);
+		navPanel.addDataSetNode(dataSet);
+		new DataOpenedAnimator(gPanel);
+
+		Actions.projectModified();
 	}
 
 	public void importTraitData()
