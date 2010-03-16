@@ -170,6 +170,8 @@ public class GenotypeDataImporter
 
 		in.close();
 
+		markers.clear();
+
 		return true;
 	}
 

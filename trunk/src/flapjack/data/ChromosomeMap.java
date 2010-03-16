@@ -134,12 +134,12 @@ public class ChromosomeMap extends XMLRoot implements Iterable<Marker>
 	public static class Wrapper
 	{
 		public ChromosomeMap map;
-		public int index;
+		public short index;
 
 		public Wrapper(ChromosomeMap map, int index)
 		{
 			this.map = map;
-			this.index = index;
+			this.index = (short) index;
 		}
 	}
 }
