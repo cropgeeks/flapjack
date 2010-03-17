@@ -14,7 +14,7 @@ import scri.commons.gui.*;
 
 class NBBrowsePanel extends JPanel implements ActionListener
 {
-	public NBBrowsePanel()
+	public NBBrowsePanel(String rbLabel, String fileHistory)
 	{
 		initComponents();
 
@@ -22,10 +22,11 @@ class NBBrowsePanel extends JPanel implements ActionListener
 		panel.setBackground((Color)UIManager.get("fjDialogBG"));
 
 		panel.setBorder(BorderFactory.createTitledBorder(RB.getString("gui.dialog.NBBrowsePanel.panel.title")));
-		RB.setText(label, "gui.dialog.NBBrowsePanel.label");
+		RB.setText(label, rbLabel);
 		RB.setText(bBrowse, "gui.text.browse");
 
 		bBrowse.addActionListener(this);
+		browseComboBox.setHistory(fileHistory);
 	}
 
 	boolean isOK()

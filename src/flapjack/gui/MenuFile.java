@@ -221,10 +221,15 @@ public class MenuFile
 
 	public void importTraitData()
 	{
+		String rbTitle = "gui.MenuFile.importTraits.title";
+		String rbLabel = "gui.MenuFile.importTraits.label";
+		String rbButton = "gui.MenuFile.importTraits.button";
+
 		DataSet dataSet = navPanel.getDataSetForSelection();
 
 		// Find out what file to import
-		BrowseDialog browseDialog = new BrowseDialog(Prefs.guiTraitHistory);
+		BrowseDialog browseDialog = new BrowseDialog(Prefs.guiTraitHistory,
+			rbTitle, rbLabel, rbButton, null);
 		if (browseDialog.isOK() == false)
 			return;
 
@@ -262,10 +267,15 @@ public class MenuFile
 
 	public void importQTLData()
 	{
+		String rbTitle = "gui.MenuFile.importQTLs.title";
+		String rbLabel = "gui.MenuFile.importQTLs.label";
+		String rbButton = "gui.MenuFile.importQTLs.button";
+
 		DataSet dataSet = navPanel.getDataSetForSelection();
 
 		// Find out what file to import
-		BrowseDialog browseDialog = new BrowseDialog(Prefs.guiQTLHistory);
+		BrowseDialog browseDialog = new BrowseDialog(Prefs.guiQTLHistory,
+			rbTitle, rbLabel, rbButton, null);
 		if (browseDialog.isOK() == false)
 			return;
 
