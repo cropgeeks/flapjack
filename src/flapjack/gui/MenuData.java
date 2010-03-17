@@ -67,10 +67,11 @@ class MenuData
 		String rbTitle = "gui.MenuData.sortExternal.title";
 		String rbLabel = "gui.MenuData.sortExternal.label";
 		String rbButton = "gui.MenuData.sortExternal.button";
+		String help = "gui.dialog.SortLinesExternal";
 
 		// Find out what file to import
 		BrowseDialog browseDialog = new BrowseDialog(Prefs.guiExternalSortHistory,
-			rbTitle, rbLabel, rbButton, null);
+			rbTitle, rbLabel, rbButton, help);
 
 		if (browseDialog.isOK())
 		{

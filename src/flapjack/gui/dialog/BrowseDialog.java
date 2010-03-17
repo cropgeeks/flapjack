@@ -64,7 +64,7 @@ public class BrowseDialog extends JDialog implements ActionListener
 
 		if (help != null)
 		{
-			FlapjackUtils.setHelp(bHelp, "help");
+			FlapjackUtils.setHelp(bHelp, help);
 			p1.add(bHelp);
 		}
 
