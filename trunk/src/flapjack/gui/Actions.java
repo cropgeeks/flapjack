@@ -69,6 +69,7 @@ public class Actions
 
 	public static AbstractAction dataSortLinesBySimilarity;
 	public static AbstractAction dataSortLinesByTrait;
+	public static AbstractAction dataSortLinesByExternal;
 	public static AbstractAction dataSortLinesAlphabetically;
 	public static AbstractAction dataFilterQTLs;
 	public static AbstractAction dataFind;
@@ -428,6 +429,12 @@ public class Actions
 			}
 		};
 
+		dataSortLinesByExternal = new AbstractAction(RB.getString("gui.Actions.dataSortLinesByExternal")) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.mData.dataSortLinesByExternal();
+			}
+		};
+
 		dataSortLinesAlphabetically = new AbstractAction(RB.getString("gui.Actions.dataSortLinesAlphabetically")) {
 			public void actionPerformed(ActionEvent e) {
 				winMain.mData.dataSortLinesAlphabetically();
@@ -608,6 +615,7 @@ public class Actions
 
 		dataSortLinesBySimilarity.setEnabled(false);
 		dataSortLinesByTrait.setEnabled(false);
+		dataSortLinesByExternal.setEnabled(false);
 		dataSortLinesAlphabetically.setEnabled(false);
 		dataFilterQTLs.setEnabled(false);
 		dataFind.setEnabled(false);
