@@ -3,6 +3,7 @@
 
 package flapjack.gui;
 
+import java.io.*;
 import java.net.*;
 
 import flapjack.analysis.*;
@@ -40,10 +41,7 @@ class MenuData
 			Line line = dialog.getSelectedLine();
 
 			SortLinesBySimilarity sort = new SortLinesBySimilarity(viewSet, line, chromosomes);
-
-			MovedLinesState state = setupSort();
-			new ProgressDialog(sort, RB.getString("gui.dialog.analysis.SortingLinesProgressDialog.title"), RB.getString("gui.dialog.analysis.NBSortingLinesProgressPanel.label"));
-			completeSort(state);
+			runSort(sort);
 		}
 	}
 
@@ -60,12 +58,24 @@ class MenuData
 			boolean assign = Prefs.guiAssignTraits;
 
 			SortLinesByTrait sort = new SortLinesByTrait(viewSet, traits, asc, assign);
+			runSort(sort);
+		}
+	}
 
-			MovedLinesState state = setupSort();
-			new ProgressDialog(sort, RB.getString("gui.dialog.analysis.SortingLinesProgressDialog.title"), RB.getString("gui.dialog.analysis.NBSortingLinesProgressPanel.label"));
-			completeSort(state);
+	void dataSortLinesByExternal()
+	{
+		// Find out what file to import
+		BrowseDialog browseDialog = new BrowseDialog(Prefs.guiExternalSortHistory);
 
-			gPanel.setViewSet(gPanel.getViewSet());
+		if (browseDialog.isOK())
+		{
+			File file = browseDialog.getFile();
+			Prefs.guiExternalSortHistory = browseDialog.getHistory();
+
+			GTViewSet viewSet = gPanel.getViewSet();
+			SortLinesExternally sort = new SortLinesExternally(viewSet, file);
+
+			runSort(sort);
 		}
 	}
 
@@ -74,8 +84,27 @@ class MenuData
 		GTViewSet viewSet = gPanel.getViewSet();
 		SortLinesAlphabetically sort = new SortLinesAlphabetically(viewSet);
 
+		runSort(sort);
+	}
+
+	private void runSort(ITrackableJob sort)
+	{
 		MovedLinesState state = setupSort();
-		new ProgressDialog(sort, RB.getString("gui.dialog.analysis.SortingLinesProgressDialog.title"), RB.getString("gui.dialog.analysis.NBSortingLinesProgressPanel.label"));
+
+		ProgressDialog dialog = new ProgressDialog(sort,
+			RB.getString("gui.MenuData.sorting.title"),
+			RB.getString("gui.MenuData.sorting.label"));
+
+		// If the operation failed or was cancelled...
+		if (dialog.getResult() != ProgressDialog.JOB_COMPLETED)
+		{
+			if (dialog.getResult() == ProgressDialog.JOB_FAILED)
+				TaskDialog.error(RB.format("gui.MenuData.sorting.error",
+					dialog.getException()), RB.getString("gui.text.close"));
+
+			return;
+		}
+
 		completeSort(state);
 	}
 

@@ -77,6 +77,7 @@ public class WinMainMenuBar extends JMenuBar
 	private JMenu mDataSortLines;
 	private JMenuItem mDataSortLinesBySimilarity;
 	private JMenuItem mDataSortLinesByTrait;
+	private JMenuItem mDataSortLinesByExternal;
 	private JMenuItem mDataSortLinesAlphabetically;
 	private JMenuItem mDataFilterQTLs;
 	private JMenuItem mDataFind;
@@ -291,8 +292,8 @@ public class WinMainMenuBar extends JMenuBar
 		mViz.add(mVizExportImage);
 		mViz.add(mVizExportData);
 		mViz.addSeparator();
-//		mViz.add(mVizCreatePedigree);
-//		mViz.addSeparator();
+		mViz.add(mVizCreatePedigree);
+		mViz.addSeparator();
 		mViz.add(mVizColor);
 		mViz.add(mVizScaling);
 		mViz.add(mVizOverlayGenotypes);
@@ -317,6 +318,7 @@ public class WinMainMenuBar extends JMenuBar
 
 		mDataSortLinesBySimilarity = getItem(Actions.dataSortLinesBySimilarity, "gui.Actions.dataSortLinesBySimilarity", 0, 0);
 		mDataSortLinesByTrait = getItem(Actions.dataSortLinesByTrait, "gui.Actions.dataSortLinesByTrait", 0, 0);
+		mDataSortLinesByExternal = getItem(Actions.dataSortLinesByExternal, "gui.Actions.dataSortLinesByExternal", 0, 0);
 		mDataSortLinesAlphabetically = getItem(Actions.dataSortLinesAlphabetically, "gui.Actions.dataSortLinesAlphabetically", 0, 0);
 		mDataFilterQTLs = getItem(Actions.dataFilterQTLs, "gui.Actions.dataFilterQTLs", 0, 0);
 		mDataFind = getItem(Actions.dataFind, "gui.Actions.dataFind", KeyEvent.VK_F, menuShortcut);
@@ -331,6 +333,7 @@ public class WinMainMenuBar extends JMenuBar
 		mDataSortLines.addSeparator();
 		mDataSortLines.add(mDataSortLinesBySimilarity);
 		mDataSortLines.add(mDataSortLinesByTrait);
+		mDataSortLines.add(mDataSortLinesByExternal);
 
 		mDataDB.add(mDataDBLineName);
 		mDataDB.add(mDataDBMarkerName);
