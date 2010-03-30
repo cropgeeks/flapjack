@@ -129,11 +129,6 @@ public class Prefs extends XMLPreferences
 	// Which is an option only visible when advanced zoom controls are used
 	public static boolean visAdvancedZoom = false;
 
-	// Attempt to use back-buffering to improve performance?
-	public static boolean visBackBuffer = true;
-	// The type of back-buffer we want to use for faster rendering
-	public static int visBackBufferType = java.awt.image.BufferedImage.TYPE_INT_RGB;
-
 	// Should the visualization canvas overlay the raw data?
 	public static boolean visShowGenotypes = false;
 	// Should the visualization canvas highlight heterozygotes?

@@ -17,8 +17,6 @@ public class WinMainStatusBar extends JPanel
 	private JLabel tipsLabel, helpLabel;
 	private Vector<String> helpHints = new Vector<String>();
 
-	private static AnimateThread animateThread;
-	private static JLabel renderIcon;
 	private JLabel threadLabel;
 
 	private int cores = Runtime.getRuntime().availableProcessors();
@@ -51,12 +49,8 @@ public class WinMainStatusBar extends JPanel
 
 		threadLabel = new JLabel();
 
-		renderIcon = new JLabel();
-		setRenderState(0);
-
 		JPanel renderPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 5, 2));
 		renderPanel.add(threadLabel);
-		renderPanel.add(renderIcon);
 
 		Color lineColor = new JMenuBar().getBackground();
 		setLayout(new BorderLayout());
@@ -96,37 +90,6 @@ public class WinMainStatusBar extends JPanel
 
 		threadsTimer.setInitialDelay(0);
 		threadsTimer.start();
-	}
-
-	public static void setRenderState(int state)
-	{
-		if (animateThread != null)
-			animateThread.interrupt();
-
-		// TODO: decide on fate for this icon (and translate the tooltips)
-		switch (state)
-		{
-			case 0:
-				renderIcon.setIcon(Icons.getIcon("GREYBLOB"));
-				renderIcon.setToolTipText(RB.getString("gui.WinMainStatusBar.tip0"));
-				break;
-			case 1:
-				animateThread = new AnimateThread();
-				renderIcon.setToolTipText(RB.getString("gui.WinMainStatusBar.tip1"));
-				break;
-			case 2:
-				renderIcon.setIcon(Icons.getIcon("BLUEBLOB"));
-				renderIcon.setToolTipText(RB.getString("gui.WinMainStatusBar.tip2"));
-				break;
-			case 3:
-				renderIcon.setIcon(Icons.getIcon("REDBLOB"));
-				renderIcon.setToolTipText(RB.getString("gui.WinMainStatusBar.tip3"));
-				break;
-			case 4:
-				renderIcon.setIcon(Icons.getIcon("REDBLOB"));
-				renderIcon.setToolTipText(RB.getString("gui.WinMainStatusBar.tip4"));
-				break;
-		}
 	}
 
 	int bgColor = new JPanel().getBackground().getRed();
@@ -170,26 +133,6 @@ public class WinMainStatusBar extends JPanel
 				try { Thread.sleep(100); }
 				catch (Exception ex) {}
 			}
-		}
-	}
-
-	private static class AnimateThread extends Thread
-	{
-		AnimateThread() { start(); }
-
-		public void run()
-		{
-			try
-			{
-				while (true)
-				{
-					renderIcon.setIcon(Icons.getIcon("BLUEBLOB"));
-					Thread.sleep(750);
-					renderIcon.setIcon(Icons.getIcon("GREYBLOB"));
-					Thread.sleep(750);
-				}
-			}
-			catch (InterruptedException e) {}
 		}
 	}
 }

@@ -44,9 +44,9 @@ public class ImageExporter extends SimpleJob
 	}
 
 	private void exportCurrentWindow()
-		throws Exception
+		throws Error, Exception
 	{
-		image = gPanel.getCanvasViewPortBuffer();
+		image = gPanel.getCanvasBuffer(false);
 		exportView(image, false);
 	}
 
@@ -65,9 +65,9 @@ public class ImageExporter extends SimpleJob
 	}
 
 	private void exportEntireView()
-		throws Exception
+		throws Error, Exception
 	{
-		image = gPanel.getCanvasBuffer();
+		image = gPanel.getCanvasBuffer(true);
 		exportView(image, true);
 	}
 
