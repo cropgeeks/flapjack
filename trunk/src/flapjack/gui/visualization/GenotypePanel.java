@@ -424,7 +424,11 @@ public class GenotypePanel extends JPanel
 
 		if (Prefs.visShowQTLCanvas)
 		{
-			qtlSplitter.setDividerSize(3);
+			if (SystemUtils.isMacOS())
+				qtlSplitter.setDividerSize(5);
+			else
+				qtlSplitter.setDividerSize(3);
+
 			qtlSplitter.setDividerLocation(Prefs.guiQTLSplitterLocation);
 		}
 		// Hide the qtlSplitter if the QTL panel isn't visible

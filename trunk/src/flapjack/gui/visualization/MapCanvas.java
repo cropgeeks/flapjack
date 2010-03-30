@@ -12,6 +12,8 @@ import javax.swing.*;
 import flapjack.data.*;
 import flapjack.gui.*;
 
+import scri.commons.gui.*;
+
 class MapCanvas extends JPanel
 {
 	private NumberFormat nf = NumberFormat.getInstance();
@@ -60,11 +62,16 @@ class MapCanvas extends JPanel
 
 	private class Canvas2D extends JPanel
 	{
-		private Font FONT = new Font("Dialog", Font.PLAIN, 11);
+		private Font font = null;
 
 		Canvas2D()
 		{
 			setPreferredSize(new Dimension(0, h));
+
+			if (SystemUtils.isMacOS())
+				font = new Font("Dialog", Font.PLAIN, 10);
+			else
+				font = new Font("Dialog", Font.PLAIN, 11);
 		}
 
 		public void paintComponent(Graphics graphics)
@@ -92,6 +99,8 @@ class MapCanvas extends JPanel
 				g.drawImage(aaBuffer, 0, 0, null);
 			else
 				g.drawImage(buffer, 0, 0, null);
+
+			g.setFont(font);
 
 			highlightMarker(g);
 			highlightFeatures(g);
