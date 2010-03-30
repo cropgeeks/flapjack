@@ -13,7 +13,7 @@ import flapjack.gui.visualization.*;
 
 import scri.commons.gui.*;
 
-class NBVisualizationPanel extends JPanel implements IPrefsTab, ActionListener
+class NBVisualizationPanel extends JPanel implements IPrefsTab
 {
 	public NBVisualizationPanel()
     {
@@ -24,35 +24,20 @@ class NBVisualizationPanel extends JPanel implements IPrefsTab, ActionListener
 
 		panel.setBorder(BorderFactory.createTitledBorder(RB.getString("gui.dialog.prefs.NBVisualizationPanel.panelTitle")));
 
-		RB.setText(checkVisBackBuffer, "gui.dialog.prefs.NBVisualizationPanel.checkVisBackBuffer");
-		RB.setText(checkVisBackBufferType, "gui.dialog.prefs.NBVisualizationPanel.checkVisBackBufferType");
 		RB.setText(checkVisAdvancedZoom, "gui.dialog.prefs.NBVisualizationPanel.checkVisAdvancedZoom");
 		RB.setText(checkVisCrosshair, "gui.dialog.prefs.NBVisualizationPanel.checkVisCrosshair");
 
-		checkVisBackBuffer.addActionListener(this);
-
-        initSettings();
-    }
-
-    public void actionPerformed(ActionEvent e)
-    {
-    	if (e.getSource() == checkVisBackBuffer)
-    		checkVisBackBufferType.setEnabled(checkVisBackBuffer.isSelected());
+		initSettings();
     }
 
     private void initSettings()
     {
-    	checkVisBackBuffer.setSelected(Prefs.visBackBuffer);
-    	checkVisBackBufferType.setSelected(Prefs.visBackBufferType == TYPE_BYTE_INDEXED);
-    	checkVisBackBufferType.setEnabled(checkVisBackBuffer.isSelected());
-		checkVisAdvancedZoom.setSelected(Prefs.visAdvancedZoom);
+    	checkVisAdvancedZoom.setSelected(Prefs.visAdvancedZoom);
 		checkVisCrosshair.setSelected(Prefs.visCrosshair);
     }
 
 	public void applySettings()
 	{
-		Prefs.visBackBuffer = checkVisBackBuffer.isSelected();
-		Prefs.visBackBufferType = checkVisBackBufferType.isSelected() ? TYPE_BYTE_INDEXED : TYPE_INT_RGB;
 		Prefs.visAdvancedZoom = checkVisAdvancedZoom.isSelected();
 		Prefs.visCrosshair = checkVisCrosshair.isSelected();
 
@@ -72,16 +57,10 @@ class NBVisualizationPanel extends JPanel implements IPrefsTab, ActionListener
     private void initComponents() {
 
         panel = new javax.swing.JPanel();
-        checkVisBackBuffer = new javax.swing.JCheckBox();
-        checkVisBackBufferType = new javax.swing.JCheckBox();
         checkVisAdvancedZoom = new javax.swing.JCheckBox();
         checkVisCrosshair = new javax.swing.JCheckBox();
 
         panel.setBorder(javax.swing.BorderFactory.createTitledBorder("Performance options:"));
-
-        checkVisBackBuffer.setText("Attempt to back-buffer the main canvas to improve performance");
-
-        checkVisBackBufferType.setText("Use an 8 bit colour buffer to reduce memory usage");
 
         checkVisAdvancedZoom.setText("Enable advanced canvas zoom controls");
 
@@ -94,20 +73,14 @@ class NBVisualizationPanel extends JPanel implements IPrefsTab, ActionListener
             .add(panelLayout.createSequentialGroup()
                 .addContainerGap()
                 .add(panelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(checkVisBackBuffer)
-                    .add(checkVisBackBufferType)
                     .add(checkVisAdvancedZoom)
                     .add(checkVisCrosshair))
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(72, Short.MAX_VALUE))
         );
         panelLayout.setVerticalGroup(
             panelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(panelLayout.createSequentialGroup()
                 .addContainerGap()
-                .add(checkVisBackBuffer)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(checkVisBackBufferType)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(checkVisAdvancedZoom)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(checkVisCrosshair)
@@ -128,14 +101,12 @@ class NBVisualizationPanel extends JPanel implements IPrefsTab, ActionListener
             .add(layout.createSequentialGroup()
                 .addContainerGap()
                 .add(panel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(32, Short.MAX_VALUE))
+                .addContainerGap(78, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox checkVisAdvancedZoom;
-    private javax.swing.JCheckBox checkVisBackBuffer;
-    private javax.swing.JCheckBox checkVisBackBufferType;
     private javax.swing.JCheckBox checkVisCrosshair;
     private javax.swing.JPanel panel;
     // End of variables declaration//GEN-END:variables

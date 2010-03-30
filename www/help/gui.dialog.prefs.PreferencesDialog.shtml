@@ -52,22 +52,6 @@ sets this may increase the time taken to save and/or load projects.</li>
 <p><a href="images/gui.dialog.prefs.PreferencesDialogVisualization.png">
 <img class="capture" src="images/gui.dialog.prefs.PreferencesDialogVisualization2.png" alt="Flapjack Screenshot"></a></p>
 
-<ul>
-<li><b>Attempt to back-buffer the main canvas to improve performance</b><br>
-Selecting this option will cause Flapjack to try and store a buffered copy of
-the entire display area (even the parts not currently visible) in any available
-free memory. This can significantly improve rendering speeds, especially when
-navigating around large data sets on small zoom levels (small allele box sizes).
-</li>
-
-<li><b>Use an 8-bit colour buffer to reduce memory usage</b><br>
-This is only available if the back-buffer option (above) has been ticked.
-Selecting this will draw the back-buffer using just 8-bits per pixel instead of
-the usual 24. This reduces memory usage for the buffer by a third, meaning it
-may be possible for Flapjack to buffer larger areas than normal, but visual
-quality will be noticeably reduced.
-</li>
-
 <li><b>Enable advanced canvas zoom controls</b><br>
 Selecting this option will change the standard "zoom" control option for zooming
 in and out of the display into separate horizontal and vertical zoom controls.

@@ -308,31 +308,21 @@ public class GenotypePanel extends JPanel
 		canvas.resetBufferedState(state);
 	}
 
-	// Returns the back-buffer used by the canvas if it has buffered the entire
-	// view's area
-	public BufferedImage getCanvasBuffer()
-		{ return canvas.imageFull; }
-
 	public long computeCanvasBufferInBytes()
 	{
 		return (long)canvas.canvasW * (long)canvas.canvasH * 3;
 	}
-
-	// Returns the back-buffer used by the canvas to buffer the current window
-	// (that is, viewport on the view)
-	public BufferedImage getCanvasViewPortBuffer()
-		{ return canvas.imageViewPort; }
 
 	public long computeCanvasViewPortBufferInBytes()
 	{
 		return (long)viewport.getWidth() * (long)viewport.getHeight() * 3;
 	}
 
-	public BufferedImage getMapCanvasBuffer(boolean full)
-		throws Exception
-	{
-		return mapCanvas.createSavableImage(full);
-	}
+	public BufferedImage getCanvasBuffer(boolean full) throws Error, Exception
+		{ return canvas.createSavableImage(full); }
+
+	public BufferedImage getMapCanvasBuffer(boolean full) throws Error, Exception
+		{ return mapCanvas.createSavableImage(full); }
 
 	public BufferedImage getLineCanvasBuffer(boolean full)
 		{ return listPanel.createSavableImage(full, canvas.pY1); }
@@ -340,11 +330,8 @@ public class GenotypePanel extends JPanel
 	public BufferedImage getTraitCanvasBuffer(boolean full)
 		{ return traitCanvas.createSavableImage(full); }
 
-	public BufferedImage getQTLCanvasBuffer(boolean full)
-		throws Exception
-	{
-		return qtlCanvas.createSavableImage(full);
-	}
+	public BufferedImage getQTLCanvasBuffer(boolean full) throws Error, Exception
+		{ return qtlCanvas.createSavableImage(full); }
 
 	// Updates the state of the Edit menu's undo/redo actions based on the undo
 	// history of the view currently being displayed

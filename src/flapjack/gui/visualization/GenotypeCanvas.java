@@ -15,9 +15,6 @@ import flapjack.gui.visualization.colors.*;
 
 class GenotypeCanvas extends JPanel
 {
-	// Memory bean used for monitoring available memory
-	private MemoryMXBean mxBean = ManagementFactory.getMemoryMXBean();
-
 	private GenotypePanel gPanel;
 
 	// The "view" being rendered
@@ -56,9 +53,6 @@ class GenotypeCanvas extends JPanel
 	// Holds the current dimensions of the canvas in an AWT friendly format
 	private Dimension dimension = new Dimension();
 
-	private BufferFactory bufferFactory;
-	// This buffer holds the entire view area (if possible)
-	BufferedImage imageFull;
 	// This buffer holds the current viewport (visible) area
 	BufferedImage imageViewPort;
 	// TRUE if we really MUST redraw, rather than just copying from the buffer
@@ -255,7 +249,7 @@ class GenotypeCanvas extends JPanel
 		}
 
 		long e = System.nanoTime();
-//		System.out.println("Render time: " + ((e-s)/1000000f) + "ms");
+		System.out.println("Render time: " + ((e-s)/1000000f) + "ms");
 	}
 
 	private void renderViewport(Graphics2D g)
@@ -275,33 +269,15 @@ class GenotypeCanvas extends JPanel
 
 			Graphics2D gImage = imageViewPort.createGraphics();
 
-			// Either draw what should be visible onto the screen buffer...
-			if (imageFull == null)
-			{
-				gImage.translate(-pX1, -pY1);
-				renderRegion(gImage);
-			}
-			// Or copy what should be visible from the full data buffer...
-			else
-				renderImage(gImage);
+			// Draw what should be visible onto the screen buffer...
+			gImage.translate(-pX1, -pY1);
+			renderRegion(gImage);
 
 			gImage.dispose();
 		}
 
 		g.drawImage(imageViewPort, pX1, pY1, null);
 		redraw = false;
-	}
-
-	// This method takes the full back-buffered image (already pre-created by
-	// this point) and cuts out the section of it that needs to be seen
-	private void renderImage(Graphics2D g)
-	{
-		// Dest rectangle coordinates
-		int dx2 = pX2-pX1+1;  // why is this +1 - the API docs must be wrong!
-		int dy2 = pY2-pY1+1;  // (same below with pX2+1, pY2+1)
-
-		// Now paste the crop onto the graphics object
-		g.drawImage(imageFull, 0, 0, dx2, dy2, pX1, pY1, pX2+1, pY2+1, null);
 	}
 
 	private void renderRegion(Graphics2D g)
@@ -323,20 +299,20 @@ class GenotypeCanvas extends JPanel
 		if (yE >= boxTotalY)
 			yE = boxTotalY-1;
 
-		render(g, Boolean.FALSE, xS, xE, yS, yE);
+		render(g, xS, xE, yS, yE);
 	}
 
-	private void renderAll(Graphics2D g, Boolean killMe)
+	private void renderAll(Graphics2D g)
 	{
 		int xS = 0;
 		int xE = boxTotalX-1;
 		int yS = 0;
 		int yE = boxTotalY-1;
 
-		render(g, killMe, xS, xE, yS, yE);
+		render(g, xS, xE, yS, yE);
 	}
 
-	private void render(Graphics2D g, Boolean killMe, int xS, int xE, int yS, int yE)
+	private void render(Graphics2D g, int xS, int xE, int yS, int yE)
 	{
 		boolean navMode = Prefs.guiMouseMode == Constants.NAVIGATION;
 		boolean markerMode = Prefs.guiMouseMode == Constants.MARKERMODE;
@@ -346,9 +322,6 @@ class GenotypeCanvas extends JPanel
 		{
 			for (int xIndex = xS, x = (boxW*xS); xIndex <= xE; xIndex++, x += boxW)
 			{
-				if (killMe == Boolean.TRUE)
-					return;
-
 				// "Allowed" states for an enabled/selected allele
 				if (navMode || (markerMode && view.isMarkerSelected(xIndex)) ||
 					(lineMode && view.isLineSelected(yIndex)))
@@ -366,104 +339,22 @@ class GenotypeCanvas extends JPanel
 	// on a new buffer (on the assumption that the view has changed in some way)
 	void resetBufferedState(boolean createNewBuffer)
 	{
-		WinMainStatusBar.setRenderState(0);
-
-		// TODO: do we want to be calling flush?
-		if (imageFull != null)
-			imageFull.flush();
-		imageFull = null;
-
-		if (bufferFactory != null)
-		{
-			bufferFactory.killMe = Boolean.TRUE;
-			bufferFactory.interrupt();
-		}
-
-		if (createNewBuffer)
-			bufferFactory = new BufferFactory();
-
 		redraw = true;
 		repaint();
 	}
 
-	private class BufferFactory extends Thread
+	BufferedImage createSavableImage(boolean full)
+		throws Error, Exception
 	{
-		private Boolean killMe = Boolean.FALSE;
-		private BufferedImage buffer;
+		if (!full)
+			return imageViewPort;
 
-		BufferFactory()
-		{
-			start();
-		}
+		BufferedImage image = (BufferedImage) createImage(canvasW, canvasH);
 
-		public void run()
-		{
-			setPriority(Thread.MIN_PRIORITY);
-			setName("GenotypeCanvas BufferFactory");
+		Graphics2D g = image.createGraphics();
+		renderAll(g);
+		g.dispose();
 
-			// Wait for 2 seconds before starting anything - gives the user time
-			// to stop arsing about with the interface
-			try { Thread.sleep(2000); }
-			catch (InterruptedException e) {}
-
-			if (killMe == Boolean.TRUE || Prefs.visBackBuffer == false)
-				return;
-
-			// Run everything under try/catch conditions due to changes in the
-			// view that may invalidate what this thread is trying to access
-			try
-			{
-				createBuffer();
-			}
-			catch (Exception e)
-			{
-				System.out.println("GenotypeCanvas (buffer): " + e);
-				WinMainStatusBar.setRenderState(0);
-			}
-		}
-
-		private void createBuffer()
-		{
-			// 3-bits per pixel or 1-bit per pixel depending on the image type
-			int multiplier = 3;
-			if (Prefs.visBackBufferType == BufferedImage.TYPE_BYTE_INDEXED)
-				multiplier = 1;
-
-			// Determine how much memory we need for the back buffer (in bytes)
-			long bufferSize = (long)canvasW * (long)canvasH * multiplier;
-			long available = mxBean.getHeapMemoryUsage().getMax()
-				- mxBean.getHeapMemoryUsage().getUsed();
-
-			System.out.println("RGB buffer requires: " + (bufferSize/1024f/1024f) + " MB ("
-				+ (available/1024f/1024f) + " MB available)");
-
-			if (bufferSize > 0.75 * available)
-			{
-				WinMainStatusBar.setRenderState(3);
-				return;
-			}
-
-			try	{
-				buffer = new BufferedImage(canvasW, canvasH, Prefs.visBackBufferType);
-			}
-			catch (Throwable t)	{
-				// Catch out-of-memory errors
-				WinMainStatusBar.setRenderState(4);
-				return;
-			}
-
-			WinMainStatusBar.setRenderState(1);
-
-			// Assuming everything is ok, draw the entire canvas onto the buffer
-			Graphics2D g2d = buffer.createGraphics();
-			renderAll(g2d, killMe);
-			g2d.dispose();
-
-			if (killMe == Boolean.FALSE)
-			{
-				WinMainStatusBar.setRenderState(2);
-				imageFull = buffer;
-			}
-		}
+		return image;
 	}
 }
