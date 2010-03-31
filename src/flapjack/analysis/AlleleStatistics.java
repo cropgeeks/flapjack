@@ -12,7 +12,7 @@ public class AlleleStatistics extends SimpleJob
 {
 	private GTViewSet viewSet;
 
-	private Vector<int[]> results;
+	private ArrayList<int[]> results;
 
 	public AlleleStatistics(GTViewSet viewSet)
 	{
@@ -20,7 +20,7 @@ public class AlleleStatistics extends SimpleJob
 		maximum = viewSet.countAllAlleles();
 	}
 
-	public Vector<int[]> getResults()
+	public ArrayList<int[]> getResults()
 		{ return results; }
 
 	public void runJob(int index)
@@ -30,7 +30,7 @@ public class AlleleStatistics extends SimpleJob
 
 		int viewCount = viewSet.getViews().size();
 
-		results = new Vector<int[]>(viewCount);
+		results = new ArrayList<int[]>(viewCount);
 
 		// TODO: This could be multi-core optimized
 		for (GTView view: viewSet.getViews())

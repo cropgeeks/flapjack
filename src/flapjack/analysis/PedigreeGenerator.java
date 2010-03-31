@@ -94,14 +94,21 @@ public class PedigreeGenerator extends SimpleJob
 		if (okToRun)
 		{
 			ps = new ProgressInputStream(c.getInputStream());
+
+			System.out.println("Content-Type: " + c.getHeaderField("Content-Type"));
+
 			maximum = c.getContentLength();
 			System.out.println("max= " + maximum);
-			message = "Downloading result from server";
 
 			// TODO: Need a way to cancel a long-download?
 			BufferedInputStream in = new BufferedInputStream(ps);
 			image = ImageIO.read(ps);
 			in.close();
+
+			if (image == null)
+				throw new Exception("Returned image is invalid");
+
+			System.out.println("max= " + c.getContentLength());
 		}
 
 		c.disconnect();
@@ -115,7 +122,7 @@ public class PedigreeGenerator extends SimpleJob
 		if (ps == null)
 			return true;
 		else
-			return false;
+			return maximum == -1;
 	}
 
 	public int getValue()
@@ -128,6 +135,9 @@ public class PedigreeGenerator extends SimpleJob
 
 	public String getMessage()
 	{
-		return message;
+		if (ps == null)
+			return message;
+		else
+			return "Downloading result " + (ps.getBytesRead()/1024f) + "KB";
 	}
 }

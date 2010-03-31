@@ -17,7 +17,7 @@ import scri.commons.gui.*;
 class QTLTableModel extends AbstractTableModel
 {
 	private DataSet dataSet;
-	Vector<QTL> qtls = new Vector<QTL>();
+	ArrayList<QTL> qtls = new ArrayList<QTL>();
 
 	private JTable table;
 	private String[] columnNames;

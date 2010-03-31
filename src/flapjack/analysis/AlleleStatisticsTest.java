@@ -45,7 +45,7 @@ public class AlleleStatisticsTest extends TestCase
 		AlleleStatistics statistics = new AlleleStatistics(viewSet);
 		statistics.runJob(0);
 
-		Vector<int[]> results = statistics.getResults();
+		ArrayList<int[]> results = statistics.getResults();
 
 		// This viewset only has one view
 		int[] array = results.get(0);
