@@ -20,7 +20,7 @@ class NBAlleleStatisticsPanel extends JPanel implements AdjustmentListener
 	private NumberFormat nf = NumberFormat.getInstance();
 	private DecimalFormat d = new DecimalFormat("0.0");
 
-	public NBAlleleStatisticsPanel(GTViewSet viewSet, Vector<int[]> results)
+	public NBAlleleStatisticsPanel(GTViewSet viewSet, ArrayList<int[]> results)
 	{
 		initComponents();
 
@@ -43,7 +43,7 @@ class NBAlleleStatisticsPanel extends JPanel implements AdjustmentListener
 		sp2.getVerticalScrollBar().addAdjustmentListener(this);
 	}
 
-	private void createSumTable(GTViewSet viewSet, Vector<int[]> results)
+	private void createSumTable(GTViewSet viewSet, ArrayList<int[]> results)
 	{
 		StateTable stateTable = viewSet.getDataSet().getStateTable();
 
@@ -96,7 +96,7 @@ class NBAlleleStatisticsPanel extends JPanel implements AdjustmentListener
         sumTable.setDefaultRenderer(Object.class, new StatisticsRenderer());
 	}
 
-	private void createViewTable(GTViewSet viewSet, Vector<int[]> results)
+	private void createViewTable(GTViewSet viewSet, ArrayList<int[]> results)
 	{
 		StateTable stateTable = viewSet.getDataSet().getStateTable();
 

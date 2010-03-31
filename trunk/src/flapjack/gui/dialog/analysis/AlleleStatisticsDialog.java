@@ -19,7 +19,7 @@ public class AlleleStatisticsDialog extends JDialog implements ActionListener
 
 	private NBAlleleStatisticsPanel nbPanel;
 
-	public AlleleStatisticsDialog(GTViewSet viewSet, Vector<int[]> results)
+	public AlleleStatisticsDialog(GTViewSet viewSet, ArrayList<int[]> results)
 	{
 		super(
 			Flapjack.winMain,

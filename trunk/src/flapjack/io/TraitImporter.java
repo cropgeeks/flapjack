@@ -19,20 +19,20 @@ public class TraitImporter extends SimpleJob
 	private File file;
 	private DataSet dataSet;
 
-	private Vector<Trait> traits = new Vector<Trait>();
+	private ArrayList<Trait> traits = new ArrayList<Trait>();
 
 	// While reading the file, we store the trait values in a temp hashtable so
 	// no association with the line data happens until we're sure everything has
 	// been read correctly. Each entry is stored according to its expected line
 	// name, and is a list of trait values, one per trait across the columns
-	private Hashtable<String, Vector<TraitValue>> hashtable;
+	private Hashtable<String, ArrayList<TraitValue>> hashtable;
 
 	public TraitImporter(File file, DataSet dataSet)
 	{
 		this.file = file;
 		this.dataSet = dataSet;
 
-		hashtable = new Hashtable<String, Vector<TraitValue>>();
+		hashtable = new Hashtable<String, ArrayList<TraitValue>>();
 
 		maximum = 5000;
 	}
@@ -62,7 +62,7 @@ public class TraitImporter extends SimpleJob
 				throw new DataFormatException(RB.format("io.DataFormatException.traitColumnError", line));
 
 			String lineName = tokens[0];
-			Vector<TraitValue> values = new Vector<TraitValue>();
+			ArrayList<TraitValue> values = new ArrayList<TraitValue>();
 
 			// For each column...
 			for (int i = 1; i < tokens.length; i++)
@@ -140,7 +140,7 @@ public class TraitImporter extends SimpleJob
 		// For each line, see if data for it exists...
 		for (Line line: dataSet.getLines())
 		{
-			Vector<TraitValue> traitValues = hashtable.get(line.getName());
+			ArrayList<TraitValue> traitValues = hashtable.get(line.getName());
 
 			// If data *does* exist for this line
 			if (traitValues != null)

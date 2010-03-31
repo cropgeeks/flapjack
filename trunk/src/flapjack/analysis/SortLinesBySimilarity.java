@@ -41,7 +41,7 @@ public class SortLinesBySimilarity extends SimpleJob
 		ArrayList<LineInfo> lines = view.getViewSet().getLines();
 
 		// Create an array to hold the score for each line
-		Vector<LineScore> scores = new Vector<LineScore>(lines.size());
+		ArrayList<LineScore> scores = new ArrayList<LineScore>(lines.size());
 
 		// Find the comparison line (by index)
 		int line = viewSet.indexOf(comparisonLine);
