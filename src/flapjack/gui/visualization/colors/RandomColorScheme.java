@@ -16,7 +16,7 @@ public class RandomColorScheme extends ColorScheme
 {
 	private int type;
 
-	private Vector<ColorState> states = new Vector<ColorState>();
+	private ArrayList<ColorState> states = new ArrayList<ColorState>();
 
 	/** Constructor that is ONLY used for color customization purposes. */
 	public RandomColorScheme(int type)
@@ -149,8 +149,8 @@ public class RandomColorScheme extends ColorScheme
 			return RB.getString("gui.visualization.colors.RandomColorSchemeWSP");
 	}
 
-	public Vector<ColorSummary> getColorSummaries()
-		{ return new Vector<ColorSummary>(); }
+	public ArrayList<ColorSummary> getColorSummaries()
+		{ return new ArrayList<ColorSummary>(); }
 
-	public void setColorSummaries(Vector<ColorSummary> colors) {}
+	public void setColorSummaries(ArrayList<ColorSummary> colors) {}
 }

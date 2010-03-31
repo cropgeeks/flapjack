@@ -51,9 +51,9 @@ public abstract class ColorScheme
 
 	public abstract int getModel();
 
-	public abstract Vector<ColorSummary> getColorSummaries();
+	public abstract ArrayList<ColorSummary> getColorSummaries();
 
-	public abstract void setColorSummaries(Vector<ColorSummary> colors);
+	public abstract void setColorSummaries(ArrayList<ColorSummary> colors);
 
 	public abstract String getDescription();
 
@@ -61,9 +61,9 @@ public abstract class ColorScheme
 	 * Returns the list of colors that are non-specific to a scheme, that is,
 	 * all colors in use elsewhere (backgrounds, highlights, etc).
 	 */
-	public static Vector<ColorSummary> getStandardColorSummaries()
+	public static ArrayList<ColorSummary> getStandardColorSummaries()
 	{
-		Vector<ColorSummary> colors = new Vector<ColorSummary>();
+		ArrayList<ColorSummary> colors = new ArrayList<ColorSummary>();
 
 		colors.add(new ColorSummary(Prefs.visColorBackground,
 			RB.getString("gui.visualization.colors.ColorScheme.background")));
@@ -81,7 +81,7 @@ public abstract class ColorScheme
 		return colors;
 	}
 
-	public static void setStandardColorSummaries(Vector<ColorSummary> colors)
+	public static void setStandardColorSummaries(ArrayList<ColorSummary> colors)
 	{
 		Prefs.visColorBackground = colors.get(0).color;
 		Prefs.visColorOverviewOutline = colors.get(1).color;

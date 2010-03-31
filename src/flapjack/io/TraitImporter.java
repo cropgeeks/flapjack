@@ -113,7 +113,7 @@ public class TraitImporter extends SimpleJob
 			if (trait.traitIsNumerical())
 				continue;
 
-			Vector<String> categories = trait.getCategories();
+			ArrayList<String> categories = trait.getCategories();
 
 			// Take a copy of the current category order
 			String[] oldCats = categories.toArray(new String[] {});

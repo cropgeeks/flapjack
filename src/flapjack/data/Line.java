@@ -13,10 +13,10 @@ public class Line extends XMLRoot
 	// TODO: use the primary key from a Germinate DB import
 	private int dbKey;
 
-	private Vector<GenotypeData> genotypes = new Vector<GenotypeData>();
+	private ArrayList<GenotypeData> genotypes = new ArrayList<GenotypeData>();
 
 	// Trait information (one trait value per trait associated with this line)
-	private Vector<TraitValue> traitValues = new Vector<TraitValue>();
+	private ArrayList<TraitValue> traitValues = new ArrayList<TraitValue>();
 
 	public Line()
 	{
@@ -55,16 +55,16 @@ public class Line extends XMLRoot
 	public void setDbKey(int dbKey)
 		{ this.dbKey = dbKey; }
 
-	public Vector<GenotypeData> getGenotypes()
+	public ArrayList<GenotypeData> getGenotypes()
 		{ return genotypes; }
 
-	public void setGenotypes(Vector<GenotypeData> genotypes)
+	public void setGenotypes(ArrayList<GenotypeData> genotypes)
 		{ this.genotypes = genotypes; }
 
-	public Vector<TraitValue> getTraitValues()
+	public ArrayList<TraitValue> getTraitValues()
 		{ return traitValues; }
 
-	public void setTraitValues(Vector<TraitValue> traitValues)
+	public void setTraitValues(ArrayList<TraitValue> traitValues)
 		{ this.traitValues = traitValues; }
 
 

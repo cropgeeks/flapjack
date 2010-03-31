@@ -16,7 +16,7 @@ import scri.commons.gui.*;
 class TraitsTableModel extends AbstractTableModel
 {
 	private DataSet dataSet;
-	private Vector<Trait> traits;
+	private ArrayList<Trait> traits;
 
 	private JTable table;
 	private String[] columnNames;

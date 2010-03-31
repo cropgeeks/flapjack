@@ -38,7 +38,7 @@ public class SortLinesByTrait extends SimpleJob
 		GTView view = viewSet.getView(0);
 
 		// Store a local reference to the line ordering for quicker access
-		Vector<LineInfo> lines = view.getViewSet().getLines();
+		ArrayList<LineInfo> lines = view.getViewSet().getLines();
 
 		// Create an array to hold the score for each line
 		Vector<LineScore> scores = new Vector<LineScore>(lines.size());
@@ -75,7 +75,7 @@ public class SortLinesByTrait extends SimpleJob
 
 			// Get at the trait data for this line
 			Line line = lineInfo.getLine();
-			Vector<TraitValue> traitValues = line.getTraitValues();
+			ArrayList<TraitValue> traitValues = line.getTraitValues();
 
 			// Get the values
 			tv = new TraitValue[traits.length];

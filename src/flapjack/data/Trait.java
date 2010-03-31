@@ -15,7 +15,7 @@ public class Trait extends XMLRoot
 	private static NumberFormat nf = NumberFormat.getInstance();
 
 	private String name;
-	private Vector<String> categories = new Vector<String>();
+	private ArrayList<String> categories = new ArrayList<String>();
 
 	// NOTE: This is only used at read-time...the value isn't stored and can't
 	// be relied upon, hence the method check for traitIsNumerical() which CAN
@@ -52,10 +52,10 @@ public class Trait extends XMLRoot
 	public void setName(String name)
 		{ this.name = name; }
 
-	public Vector<String> getCategories()
+	public ArrayList<String> getCategories()
 		{ return categories; }
 
-	public void setCategories(Vector<String> categories)
+	public void setCategories(ArrayList<String> categories)
 		{ this.categories = categories; }
 
 

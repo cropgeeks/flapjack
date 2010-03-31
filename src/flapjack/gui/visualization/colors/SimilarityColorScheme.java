@@ -12,17 +12,17 @@ import flapjack.gui.*;
 abstract class SimilarityColorScheme extends ColorScheme
 {
 	// List of comparison line/marker states (dark red by default)
-	protected Vector<ColorState> compStates = new Vector<ColorState>();				// eg A matches A
+	protected ArrayList<ColorState> compStates = new ArrayList<ColorState>();				// eg A matches A
 
 	// States that exactly match the comparison
-	protected Vector<ColorState> mtchStatesY = new Vector<ColorState>();			// eg A matches A, A/T matches A/T
+	protected ArrayList<ColorState> mtchStatesY = new ArrayList<ColorState>();			// eg A matches A, A/T matches A/T
 	// States that don't exactly match the comparison
-	protected Vector<ColorState> mtchStatesN = new Vector<ColorState>();			// eg A doesn't match T, A/T doesn't match C/G
+	protected ArrayList<ColorState> mtchStatesN = new ArrayList<ColorState>();			// eg A doesn't match T, A/T doesn't match C/G
 
 	// States that match on the first het allele
-	protected Vector<ColorState> het1States = new Vector<ColorState>();				// eg A/T matches A or A/G
+	protected ArrayList<ColorState> het1States = new ArrayList<ColorState>();				// eg A/T matches A or A/G
 	// States that match on the second het allele
-	protected Vector<ColorState> het2States = new Vector<ColorState>();				// eg A/T matches T or C/T
+	protected ArrayList<ColorState> het2States = new ArrayList<ColorState>();				// eg A/T matches T or C/T
 
 	protected int[][] lookupTable;
 
@@ -82,7 +82,7 @@ abstract class SimilarityColorScheme extends ColorScheme
 		createLookupTable();
 	}
 
-	public void setColorSummaries(Vector<ColorSummary> colors)
+	public void setColorSummaries(ArrayList<ColorSummary> colors)
 	{
 		Prefs.visColorSimilarityState1Dark = colors.get(0).color;
 		Prefs.visColorSimilarityState1 = colors.get(1).color;

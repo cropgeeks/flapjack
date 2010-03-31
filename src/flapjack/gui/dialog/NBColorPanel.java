@@ -135,9 +135,9 @@ class NBColorPanel extends JPanel implements ActionListener
 		gPanel.setViewSet(gPanel.getViewSet());
 	}
 
-	private Vector<ColorScheme.ColorSummary> getVector(DefaultListModel model)
+	private ArrayList<ColorScheme.ColorSummary> getVector(DefaultListModel model)
 	{
-		Vector<ColorScheme.ColorSummary> colors = new Vector<ColorScheme.ColorSummary>();
+		ArrayList<ColorScheme.ColorSummary> colors = new ArrayList<ColorScheme.ColorSummary>();
 		for (int i = 0; i < model.size(); i++)
 			colors.add((ColorScheme.ColorSummary)model.get(i));
 

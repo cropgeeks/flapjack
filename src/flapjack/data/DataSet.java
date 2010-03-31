@@ -10,18 +10,18 @@ public class DataSet extends XMLRoot
 	private String name;
 
 	// Data information
-	private Vector<ChromosomeMap> chromosomes = new Vector<ChromosomeMap>();
-	private Vector<Line> lines = new Vector<Line>();
+	private ArrayList<ChromosomeMap> chromosomes = new ArrayList<ChromosomeMap>();
+	private ArrayList<Line> lines = new ArrayList<Line>();
 
 	// Dummy line data (can be used whenever we need a 'placeholder' line
 	private Line dummyLine;
 
 	// Trait information
-	private Vector<Trait> traits = new Vector<Trait>();
+	private ArrayList<Trait> traits = new ArrayList<Trait>();
 
 	// View information
 	private StateTable stateTable = new StateTable(0);
-	private Vector<GTViewSet> viewSets = new Vector<GTViewSet>();
+	private ArrayList<GTViewSet> viewSets = new ArrayList<GTViewSet>();
 
 	// DB-link/association data
 	private DBAssociation dbAssociation = new DBAssociation();
@@ -57,16 +57,16 @@ public class DataSet extends XMLRoot
 	public void setName(String name)
 		{ this.name = name; }
 
-	public Vector<ChromosomeMap> getChromosomeMaps()
+	public ArrayList<ChromosomeMap> getChromosomeMaps()
 		{ return chromosomes; }
 
-	public void setChromosomeMaps(Vector<ChromosomeMap> chromosomes)
+	public void setChromosomeMaps(ArrayList<ChromosomeMap> chromosomes)
 		{ this.chromosomes = chromosomes; }
 
-	public Vector<Line> getLines()
+	public ArrayList<Line> getLines()
 		{ return lines; }
 
-	public void setLines(Vector<Line> lines)
+	public void setLines(ArrayList<Line> lines)
 		{ this.lines = lines; }
 
 	public Line getDummyLine()
@@ -75,10 +75,10 @@ public class DataSet extends XMLRoot
 	public void setDummyLine(Line dummyLine)
 		{ this.dummyLine = dummyLine; }
 
-	public Vector<Trait> getTraits()
+	public ArrayList<Trait> getTraits()
 		{ return traits; }
 
-	public void setTraits(Vector<Trait> traits)
+	public void setTraits(ArrayList<Trait> traits)
 		{ this.traits = traits; }
 
 	public StateTable getStateTable()
@@ -87,10 +87,10 @@ public class DataSet extends XMLRoot
 	public void setStateTable(StateTable stateTable)
 		{ this.stateTable = stateTable; }
 
-	public Vector<GTViewSet> getViewSets()
+	public ArrayList<GTViewSet> getViewSets()
 		{ return viewSets; }
 
-	public void setViewSets(Vector<GTViewSet> viewSets)
+	public void setViewSets(ArrayList<GTViewSet> viewSets)
 		{ this.viewSets = viewSets; }
 
 	public DBAssociation getDbAssociation()

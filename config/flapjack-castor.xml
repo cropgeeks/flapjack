@@ -12,14 +12,14 @@
 
 	<!-- Project -->
 	<class name="flapjack.data.Project" extends="flapjack.data.XMLRoot" auto-complete="true">
-		<field name="dataSets" type="flapjack.data.DataSet" collection="vector"/>
+		<field name="dataSets" type="flapjack.data.DataSet" collection="arraylist"/>
 	</class>
 
 	<!-- DataSet -->
 	<class name="flapjack.data.DataSet" extends="flapjack.data.XMLRoot" auto-complete="true">
-		<field name="chromosomeMaps" type="flapjack.data.ChromosomeMap" collection="vector"/>
-		<field name="lines" type="flapjack.data.Line" collection="vector"/>
-		<field name="viewSets" type="flapjack.data.GTViewSet" collection="vector"/>
+		<field name="chromosomeMaps" type="flapjack.data.ChromosomeMap" collection="arraylist"/>
+		<field name="lines" type="flapjack.data.Line" collection="arraylist"/>
+		<field name="viewSets" type="flapjack.data.GTViewSet" collection="arraylist"/>
 	</class>
 
 	<!-- ChromosomeMap -->
@@ -27,7 +27,7 @@
 		<field name="name" type="string">
 			<bind-xml node="attribute"/>
 		</field>
-		<field name="markers" type="flapjack.data.Marker" collection="vector"/>
+		<field name="markers" type="flapjack.data.Marker" collection="arraylist"/>
 		<field name="features" type="java.util.ArrayList" collection="arraylist"/>
 	</class>
 
@@ -44,7 +44,7 @@
 		<field name="name" type="string">
 			<bind-xml node="attribute"/>
 		</field>
-		<field name="genotypes" type="flapjack.data.GenotypeData" collection="vector"/>
+		<field name="genotypes" type="flapjack.data.GenotypeData" collection="arraylist"/>
 	</class>
 
 	<!-- GenotypeData -->
@@ -56,7 +56,7 @@
 
 	<!-- StateTable -->
 	<class name="flapjack.data.StateTable" extends="flapjack.data.XMLRoot" auto-complete="true">
-		<field name="states" type="flapjack.data.AlleleState" collection="vector"/>
+		<field name="states" type="flapjack.data.AlleleState" collection="arraylist"/>
 	</class>
 
 	<!-- AlleleState -->
@@ -70,10 +70,10 @@
 		<field name="name" type="string">
 			<bind-xml node="attribute"/>
 		</field>
-		<field name="lines" type="flapjack.data.LineInfo" collection="vector"/>
-		<field name="hideLines" type="flapjack.data.LineInfo" collection="vector"/>
-		<field name="views" type="flapjack.data.GTView" collection="vector"/>
-		<field name="bookmarks" type="flapjack.data.Bookmark" collection="vector"/>
+		<field name="lines" type="flapjack.data.LineInfo" collection="arraylist"/>
+		<field name="hideLines" type="flapjack.data.LineInfo" collection="arraylist"/>
+		<field name="views" type="flapjack.data.GTView" collection="arraylist"/>
+		<field name="bookmarks" type="flapjack.data.Bookmark" collection="arraylist"/>
 		<field name="comparisonLine" type="flapjack.data.Line">
 			<bind-xml reference="true" node="attribute"/>
 		</field>
@@ -89,8 +89,8 @@
 		<field name="chromosomeMap" type="flapjack.data.ChromosomeMap">
 			<bind-xml reference="true" node="attribute"/>
 		</field>
-		<field name="markers" type="flapjack.data.MarkerInfo" collection="vector"/>
-		<field name="hideMarkers" type="flapjack.data.MarkerInfo" collection="vector"/>
+		<field name="markers" type="flapjack.data.MarkerInfo" collection="arraylist"/>
+		<field name="hideMarkers" type="flapjack.data.MarkerInfo" collection="arraylist"/>
 		<field name="comparisonMarker" type="flapjack.data.Marker">
 			<bind-xml reference="true" node="attribute"/>
 		</field>
@@ -115,7 +115,7 @@
 		<field name="name" type="string">
 			<bind-xml node="attribute"/>
 		</field>
-		<field name="categories" type="string" collection="vector"/>
+		<field name="categories" type="string" collection="arraylist"/>
 	</class>
 
 	<!-- TraitValue -->

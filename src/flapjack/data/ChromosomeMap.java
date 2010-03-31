@@ -12,7 +12,7 @@ public class ChromosomeMap extends XMLRoot implements Iterable<Marker>
 	private String name;
 	private float length;
 
-	private Vector<Marker> markers = new Vector<Marker>();
+	private ArrayList<Marker> markers = new ArrayList<Marker>();
 
 	// A list of vectors of Features (basically, each vector of features
 	// represents one "track" - and we may have multiple tracks
@@ -51,10 +51,10 @@ public class ChromosomeMap extends XMLRoot implements Iterable<Marker>
 	public void setLength(float length)
 		{ this.length = length; }
 
-	public Vector<Marker> getMarkers()
+	public ArrayList<Marker> getMarkers()
 		{ return markers; }
 
-	public void setMarkers(Vector<Marker> markers)
+	public void setMarkers(ArrayList<Marker> markers)
 		{ this.markers = markers; }
 
 	public ArrayList<Feature> getFeatures()

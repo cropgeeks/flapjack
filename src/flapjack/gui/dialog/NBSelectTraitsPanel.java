@@ -49,7 +49,7 @@ class NBSelectTraitsPanel extends javax.swing.JPanel implements ActionListener
 			RB.getString("gui.dialog.NBSelectTraitsPanel.showColumn")
 		};
 
-		Vector<Trait> traits = viewSet.getDataSet().getTraits();
+		ArrayList<Trait> traits = viewSet.getDataSet().getTraits();
 
 		int[] selected = viewSet.getTraits();
 		Object[][] data = new Object[traits.size()][2];
