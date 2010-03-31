@@ -7,6 +7,7 @@ import java.awt.*;
 import java.awt.image.*;
 import java.lang.management.*;
 import java.util.*;
+import java.util.concurrent.*;
 import javax.swing.*;
 
 import flapjack.data.*;
@@ -47,8 +48,7 @@ class GenotypeCanvas extends JPanel
 
 	// Starting and ending indices of the x (marker) and y (line) data that will
 	// be drawn during the next repaint operation
-	private int xS, xE;
-	private int yS, yE;
+	private int xS, xE, yE;
 
 	// Holds the current dimensions of the canvas in an AWT friendly format
 	private Dimension dimension = new Dimension();
@@ -62,6 +62,11 @@ class GenotypeCanvas extends JPanel
 	// canvas has been drawn (eg animators, minesweeper, etc)
 	LinkedList<IOverlayRenderer> overlays = new LinkedList<IOverlayRenderer>();
 
+	// Objects for multicore rendering
+	private int cores = Runtime.getRuntime().availableProcessors();
+	private ExecutorService executor;
+	private Future[] tasks;
+
 
 	GenotypeCanvas(GenotypePanel gPanel)
 	{
@@ -71,6 +76,10 @@ class GenotypeCanvas extends JPanel
 		setBackground(Prefs.visColorBackground);
 
 		new CanvasMouseListener(gPanel, this);
+
+		// Prepare the background threads that will do the main painting
+		executor = Executors.newFixedThreadPool(cores);
+		tasks = new Future[cores];
 	}
 
 	void setView(GTViewSet viewSet, GTView view)
@@ -285,7 +294,7 @@ class GenotypeCanvas extends JPanel
 		// These are the index positions within the dataset that we'll start
 		// drawing from
 		xS = pX1 / boxW;
-		yS = pY1 / boxH;
+		int yS = pY1 / boxH;
 
 		// The end indices are calculated as the:
 		//   (the start index) + (the number that can be drawn on screen)
@@ -299,38 +308,63 @@ class GenotypeCanvas extends JPanel
 		if (yE >= boxTotalY)
 			yE = boxTotalY-1;
 
-		render(g, xS, xE, yS, yE);
+		render(g, yS);
 	}
 
 	private void renderAll(Graphics2D g)
 	{
-		int xS = 0;
-		int xE = boxTotalX-1;
+		xS = 0;
+		xE = boxTotalX-1;
 		int yS = 0;
-		int yE = boxTotalY-1;
+		yE = boxTotalY-1;
 
-		render(g, xS, xE, yS, yE);
+		render(g, yS);
 	}
 
-	private void render(Graphics2D g, int xS, int xE, int yS, int yE)
+	private void render(Graphics2D g, int yS)
 	{
-		boolean navMode = Prefs.guiMouseMode == Constants.NAVIGATION;
-		boolean markerMode = Prefs.guiMouseMode == Constants.MARKERMODE;
-		boolean lineMode = Prefs.guiMouseMode == Constants.LINEMODE;
-
-		for (int yIndex = yS, y = (boxH*yS); yIndex <= yE; yIndex++, y += boxH)
+		try
 		{
-			for (int xIndex = xS, x = (boxW*xS); xIndex <= xE; xIndex++, x += boxW)
+			// Paint the lines using multiple cores...
+			for (int i = 0; i < tasks.length; i++)
+				tasks[i] = executor.submit(new LinePainter(g, yS+i));
+			for (Future task: tasks)
+				task.get();
+		}
+		catch (Exception e) {}
+	}
+
+	private final class LinePainter implements Runnable
+	{
+		private Graphics g;
+		private int yS;
+
+		LinePainter(Graphics g, int yS)
+		{
+			this.g = g;
+			this.yS = yS;
+		}
+
+		public void run()
+		{
+			boolean navMode = Prefs.guiMouseMode == Constants.NAVIGATION;
+			boolean markerMode = Prefs.guiMouseMode == Constants.MARKERMODE;
+			boolean lineMode = Prefs.guiMouseMode == Constants.LINEMODE;
+
+			for (int row = yS, y = (boxH*yS); row <= yE; row += cores, y += boxH*cores)
 			{
-				// "Allowed" states for an enabled/selected allele
-				if (navMode || (markerMode && view.isMarkerSelected(xIndex)) ||
-					(lineMode && view.isLineSelected(yIndex)))
+				for (int xIndex = xS, x = (boxW*xS); xIndex <= xE; xIndex++, x += boxW)
 				{
-					g.drawImage(cScheme.getSelectedImage(yIndex, xIndex), x, y, null);
+					// "Allowed" states for an enabled/selected allele
+					if (navMode || (markerMode && view.isMarkerSelected(xIndex)) ||
+						(lineMode && view.isLineSelected(row)))
+					{
+						g.drawImage(cScheme.getSelectedImage(row, xIndex), x, y, null);
+					}
+					// Otherwise, draw it disabled/unselected
+					else
+						g.drawImage(cScheme.getUnselectedImage(row, xIndex), x, y, null);
 				}
-				// Otherwise, draw it disabled/unselected
-				else
-					g.drawImage(cScheme.getUnselectedImage(yIndex, xIndex), x, y, null);
 			}
 		}
 	}

@@ -14,7 +14,7 @@ import scri.commons.gui.*;
 
 public class NucleotideColorScheme extends ColorScheme
 {
-	protected Vector<ColorState> states = new Vector<ColorState>();
+	protected ArrayList<ColorState> states = new ArrayList<ColorState>();
 
 	/** Empty constructor that is ONLY used for color customization purposes. */
 	public NucleotideColorScheme() {}
@@ -119,9 +119,9 @@ public class NucleotideColorScheme extends ColorScheme
 		return RB.getString("gui.visualization.colors.NucleotideColorScheme");
 	}
 
-	public Vector<ColorSummary> getColorSummaries()
+	public ArrayList<ColorSummary> getColorSummaries()
 	{
-		Vector<ColorSummary> colors = new Vector<ColorSummary>();
+		ArrayList<ColorSummary> colors = new ArrayList<ColorSummary>();
 
 		colors.add(new ColorSummary(Prefs.visColorNucleotideA,
 			RB.getString("gui.visualization.colors.NucleotideColorScheme.a")));
@@ -139,7 +139,7 @@ public class NucleotideColorScheme extends ColorScheme
 		return colors;
 	}
 
-	public void setColorSummaries(Vector<ColorSummary> colors)
+	public void setColorSummaries(ArrayList<ColorSummary> colors)
 	{
 		Prefs.visColorNucleotideA = colors.get(0).color;
 		Prefs.visColorNucleotideC = colors.get(1).color;

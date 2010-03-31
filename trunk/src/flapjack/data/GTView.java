@@ -20,9 +20,9 @@ public class GTView extends XMLRoot
 
 	// Holds the index positions of the markers as they appear in the actual
 	// dataset's vector of markers
-	private Vector<MarkerInfo> markers;
+	private ArrayList<MarkerInfo> markers;
 	// Holds markers that we don't currently want visible
-	private Vector<MarkerInfo> hideMarkers = new Vector<MarkerInfo>();
+	private ArrayList<MarkerInfo> hideMarkers = new ArrayList<MarkerInfo>();
 
 	// Marker and line currently under the mouse (-1 if not)
 	public int mouseOverLine = -1;
@@ -49,7 +49,7 @@ public class GTView extends XMLRoot
 		this.map = map;
 
 		// For each (original) marker in the map...
-		markers = new Vector<MarkerInfo>(map.countLoci());
+		markers = new ArrayList<MarkerInfo>(map.countLoci());
 		for (int i = 0; i < map.countLoci(); i++)
 		{
 			Marker m = map.getMarkerByIndex(i);
@@ -82,16 +82,16 @@ public class GTView extends XMLRoot
 	public void setChromosomeMap(ChromosomeMap map)
 		{ this.map = map; }
 
-	public Vector<MarkerInfo> getMarkers()
+	public ArrayList<MarkerInfo> getMarkers()
 		{ return markers; }
 
-	public void setMarkers(Vector<MarkerInfo> markers)
+	public void setMarkers(ArrayList<MarkerInfo> markers)
 		{ this.markers = markers; }
 
-	public Vector<MarkerInfo> getHideMarkers()
+	public ArrayList<MarkerInfo> getHideMarkers()
 		{ return hideMarkers; }
 
-	public void setHideMarkers(Vector<MarkerInfo> hideMarkers)
+	public void setHideMarkers(ArrayList<MarkerInfo> hideMarkers)
 		{ this.hideMarkers = hideMarkers; }
 
 	public Marker getComparisonMarker()
@@ -481,7 +481,7 @@ public class GTView extends XMLRoot
 				if (markers.get(insertAt).marker.getPosition() >= position)
 					break;
 
-			markers.insertElementAt(mi, insertAt);
+			markers.add(insertAt, mi);
 		}
 	}
 

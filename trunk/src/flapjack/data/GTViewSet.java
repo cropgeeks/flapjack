@@ -16,17 +16,17 @@ public class GTViewSet extends XMLRoot
 	// Track a reference to the owning dataSet
 	private DataSet dataSet;
 
-	private Vector<GTView> views = new Vector<GTView>();
+	private ArrayList<GTView> views = new ArrayList<GTView>();
 
 	// Because the line info is the same across all views, it gets stored here
 	// Holds the index positions of the lines as they appear in the actual
 	// dataset's vector of lines
-	Vector<LineInfo> lines;
+	ArrayList<LineInfo> lines;
 	// Holds the lines that we don't currently want visible
-	Vector<LineInfo> hideLines = new Vector<LineInfo>();
+	ArrayList<LineInfo> hideLines = new ArrayList<LineInfo>();
 
 	// Any bookmarks associated with this viewset
-	private Vector<Bookmark> bookmarks = new Vector<Bookmark>();
+	private ArrayList<Bookmark> bookmarks = new ArrayList<Bookmark>();
 
 	private String name;
 	private int viewIndex;
@@ -65,7 +65,7 @@ public class GTViewSet extends XMLRoot
 
 		// For each (original) line in the dataset, we add the index of it to
 		// the mapping for this viewset
-		lines = new Vector<LineInfo>(dataSet.countLines());
+		lines = new ArrayList<LineInfo>(dataSet.countLines());
 		for (int i = 0; i < dataSet.countLines(); i++)
 		{
 			Line line = dataSet.getLineByIndex(i);
@@ -99,16 +99,16 @@ public class GTViewSet extends XMLRoot
 	public void setDataSet(DataSet dataSet)
 		{ this.dataSet = dataSet; }
 
-	public Vector<LineInfo> getLines()
+	public ArrayList<LineInfo> getLines()
 		{ return lines; }
 
-	public void setLines(Vector<LineInfo> lines)
+	public void setLines(ArrayList<LineInfo> lines)
 		{ this.lines = lines; }
 
-	public Vector<LineInfo> getHideLines()
+	public ArrayList<LineInfo> getHideLines()
 		{ return hideLines; }
 
-	public void setHideLines(Vector<LineInfo> hideLines)
+	public void setHideLines(ArrayList<LineInfo> hideLines)
 		{ this.hideLines = hideLines; }
 
 	public String getName()
@@ -123,16 +123,16 @@ public class GTViewSet extends XMLRoot
 	public void setViewIndex(int viewIndex)
 		{ this.viewIndex = viewIndex; }
 
-	public Vector<GTView> getViews()
+	public ArrayList<GTView> getViews()
 		{ return views; }
 
-	public void setViews(Vector<GTView> views)
+	public void setViews(ArrayList<GTView> views)
 		{ this.views = views; }
 
-	public Vector<Bookmark> getBookmarks()
+	public ArrayList<Bookmark> getBookmarks()
 		{ return bookmarks; }
 
-	public void setBookmarks(Vector<Bookmark> bookmarks)
+	public void setBookmarks(ArrayList<Bookmark> bookmarks)
 		{ this.bookmarks = bookmarks; }
 
 	public int getColorScheme()
@@ -361,7 +361,7 @@ public class GTViewSet extends XMLRoot
 			dataSet.setDummyLine(dummy);
 		}
 
-		lines.insertElementAt(new LineInfo(dummy, -1), index);
+		lines.add(index, new LineInfo(dummy, -1));
 	}
 
 	public void removeAllDummyLines()
@@ -369,6 +369,6 @@ public class GTViewSet extends XMLRoot
 		// Search backwards, stripping out each dummy line as it is found
 		for (int i = lines.size()-1; i >= 0; i--)
 			if (lines.get(i).line == dataSet.getDummyLine())
-				lines.removeElementAt(i);
+				lines.remove(i);
 	}
 }

@@ -7,7 +7,7 @@ import java.util.*;
 
 public class StateTable extends XMLRoot
 {
-	private Vector<AlleleState> states = new Vector<AlleleState>();
+	private ArrayList<AlleleState> states = new ArrayList<AlleleState>();
 
 	public StateTable()
 	{
@@ -28,10 +28,10 @@ public class StateTable extends XMLRoot
 
 	// Methods required for XML serialization
 
-	public Vector<AlleleState> getStates()
+	public ArrayList<AlleleState> getStates()
 		{ return states; }
 
-	public void setStates(Vector<AlleleState> states)
+	public void setStates(ArrayList<AlleleState> states)
 		{ this.states = states; }
 
 

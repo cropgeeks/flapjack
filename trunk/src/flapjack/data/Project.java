@@ -13,7 +13,7 @@ public class Project extends XMLRoot
 	public File filename;
 
 	// The datasets within the project
-	private Vector<DataSet> dataSets = new Vector<DataSet>();
+	private ArrayList<DataSet> dataSets = new ArrayList<DataSet>();
 
 	public Project()
 	{
@@ -29,10 +29,10 @@ public class Project extends XMLRoot
 
 	// Methods required for XML serialization
 
-	public Vector<DataSet> getDataSets()
+	public ArrayList<DataSet> getDataSets()
 		{ return dataSets; }
 
-	public void setDataSets(Vector<DataSet> dataSets)
+	public void setDataSets(ArrayList<DataSet> dataSets)
 		{ this.dataSets = dataSets; }
 
 
