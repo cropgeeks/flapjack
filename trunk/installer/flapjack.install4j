@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<install4j version="4.2.6" transformSequenceNumber="2">
+<install4j version="4.2.7" transformSequenceNumber="2">
   <directoryPresets config="." />
-  <application name="Flapjack" distributionSourceDir="" applicationId="9131-7045-2417-5931" mediaDir="." mediaFilePattern="${compiler:sys.shortName}_${compiler:sys.platform}_${compiler:sys.version}" compression="6" lzmaCompression="false" pack200Compression="false" excludeSignedFromPacking="true" keepModificationTimes="false" missingFilesStrategy="warn" shortName="Flapjack" publisher="SCRI" publisherWeb="http://www.scri.ac.uk" version="0.10.03.10" allPathsRelative="true" backupOnSave="false" autoSave="false" convertDotsToUnderscores="true" macSignature="????" installerName="" javaMinVersion="1.5" javaMaxVersion="" allowBetaVM="false" jdkMode="runtimeJre" jdkName="">
+  <application name="Flapjack" distributionSourceDir="" applicationId="9131-7045-2417-5931" mediaDir="." mediaFilePattern="${compiler:sys.shortName}_${compiler:sys.platform}_${compiler:sys.version}" compression="6" lzmaCompression="false" pack200Compression="false" excludeSignedFromPacking="true" keepModificationTimes="false" missingFilesStrategy="warn" shortName="Flapjack" publisher="SCRI" publisherWeb="http://www.scri.ac.uk" version="0.10.04.22" allPathsRelative="true" backupOnSave="false" autoSave="false" convertDotsToUnderscores="true" macSignature="????" installerName="" javaMinVersion="1.5" javaMaxVersion="" allowBetaVM="false" jdkMode="runtimeJre" jdkName="">
     <languages skipLanguageSelection="true" languageSelectionInPrincipalLanguage="false">
       <principalLanguage id="en" customLocalizationFile="" />
       <additionalLanguages>
@@ -17,7 +17,6 @@
       <variable name="urlWebsite" value="http://bioinf.scri.ac.uk/flapjack" />
       <variable name="urlWhatsNew" value="http://bioinf.scri.ac.uk/flapjack/help/whats-new.shtml" />
       <variable name="changeLog" value="Show Change Log" />
-      <variable name="linuxWarning" value="Note, that on some versions of Linux you may still have to run the downloaded update manually." />
     </variables>
   </application>
   <files>
@@ -1214,27 +1213,6 @@ if (wizardContext != null) {
 }</initScript>
                     <visibiltyScript />
                   </formComponent>
-                  <formComponent name="" id="1140" beanClass="com.install4j.runtime.beans.formcomponents.MultilineLabelComponent" enabled="true" commentSet="false" comment="" insetTop="" insetLeft="" insetBottom="" insetRight="" resetInitOnPrevious="false">
-                    <serializedBean>
-                      <java class="java.beans.XMLDecoder">
-                        <object class="com.install4j.runtime.beans.formcomponents.MultilineLabelComponent">
-                          <void property="labelColor">
-                            <object class="java.awt.Color">
-                              <int>255</int>
-                              <int>0</int>
-                              <int>0</int>
-                              <int>255</int>
-                            </object>
-                          </void>
-                          <void property="labelText">
-                            <string>${compiler:linuxWarning}</string>
-                          </void>
-                        </object>
-                      </java>
-                    </serializedBean>
-                    <initScript />
-                    <visibiltyScript />
-                  </formComponent>
                   <formComponent name="" id="456" beanClass="com.install4j.runtime.beans.formcomponents.HyperlinkActionLabelComponent" enabled="true" commentSet="false" comment="" insetTop="" insetLeft="" insetBottom="" insetRight="" resetInitOnPrevious="false">
                     <serializedBean>
                       <java class="java.beans.XMLDecoder">
@@ -1280,7 +1258,7 @@ if (wizardContext != null) {
     </applications>
   </installerGui>
   <mediaSets>
-    <win32 name="Windows" id="19" mediaFileName="flapjack_windows_${compiler:sys.version}" installDir="Flapjack" overridePrincipalLanguage="false" requires64bit="false" jreBitType="32" runPostProcessor="false" postProcessor="" failOnPostProcessorError="false" includedJRE="windows-x86-1.6.0_18" manualJREEntry="false" bundleType="1" jreURL="" jreFtpURL="" jreShared="false" directDownload="false" customInstallBaseDir="" createUninstallIcon="true" contentFilesType="1" downloadURL="" runAsAdmin="false">
+    <win32 name="Windows" id="19" mediaFileName="flapjack_windows_${compiler:sys.version}" installDir="Flapjack" overridePrincipalLanguage="false" requires64bit="false" jreBitType="32" runPostProcessor="false" postProcessor="" failOnPostProcessorError="false" includedJRE="windows-x86-1.6.0_20" manualJREEntry="false" bundleType="1" jreURL="" jreFtpURL="" jreShared="false" directDownload="false" customInstallBaseDir="" createUninstallIcon="true" contentFilesType="1" downloadURL="" runAsAdmin="false">
       <excludedLaunchers />
       <excludedComponents />
       <excludedBeans />
@@ -1299,7 +1277,7 @@ if (wizardContext != null) {
       </exclude>
       <variables />
     </macos>
-    <unixInstaller name="Linux" id="181" mediaFileName="flapjack_linux_${compiler:sys.version}" installDir="Flapjack" overridePrincipalLanguage="false" requires64bit="false" jreBitType="all" runPostProcessor="false" postProcessor="" failOnPostProcessorError="false" includedJRE="linux-x86-1.6.0_18" manualJREEntry="false" bundleType="1" jreURL="" jreFtpURL="" jreShared="false" directDownload="false" customInstallBaseDir="" createUninstallIcon="true" contentFilesType="1" downloadURL="">
+    <unixInstaller name="Linux" id="181" mediaFileName="flapjack_linux_${compiler:sys.version}" installDir="Flapjack" overridePrincipalLanguage="false" requires64bit="false" jreBitType="all" runPostProcessor="false" postProcessor="" failOnPostProcessorError="false" includedJRE="linux-x86-1.6.0_20" manualJREEntry="false" bundleType="1" jreURL="" jreFtpURL="" jreShared="false" directDownload="false" customInstallBaseDir="" createUninstallIcon="true" contentFilesType="1" downloadURL="">
       <excludedLaunchers>
         <launcher id="797" />
       </excludedLaunchers>
@@ -1319,6 +1297,7 @@ if (wizardContext != null) {
   <buildIds buildAll="true">
     <mediaSet refId="19" />
     <mediaSet refId="126" />
+    <mediaSet refId="181" />
   </buildIds>
 </install4j>
 
