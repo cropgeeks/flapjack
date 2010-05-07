@@ -36,6 +36,7 @@ public class TitlePanel3 extends JPanel
 
 		int w = getWidth();
 
+		g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 		g.setFont(new Font("Dialog", Font.BOLD, 13));
 		g.setColor(textColor);
 		g.drawString(title, 10, 18);

@@ -35,7 +35,7 @@ public class TitlePanel extends JPanel
 		g.setColor(panelBackground);
 		g.drawLine(0, getHeight()-1, getWidth(), getHeight()-1);
 
-
+		g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 		g.setColor(labelForeground);
 
 		int w = getWidth();

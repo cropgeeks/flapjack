@@ -17,7 +17,7 @@
 
 <h2>Download Flapjack</h2>
 
-<p>The most recent release of Flapjack is <b>0.10.04.27</b> (27th April 2010).</p>
+<p>The most recent release of Flapjack is <b>0.10.05.07</b> (7th May 2010).</p>
 
 <p>Please use the links below to download the Flapjack installer most suitable
 for your operating system. Flapjack is currently available for:</p>
@@ -27,7 +27,7 @@ for your operating system. Flapjack is currently available for:</p>
 	<td>&nbsp;&nbsp;&nbsp;</td>
 	<td><img src="images/icon_windows.gif" alt="Windows"></td>
 	<td>
-		<a href="installers/flapjack_windows_0_10_04_27.exe"
+		<a href="installers/flapjack_windows_0_10_05_07.exe"
 		onClick="javascript: pageTracker._trackPageview('/installers/windows_x86');">Microsoft Windows</a> (19.1MB)
 	</td>
 </tr>
@@ -35,7 +35,7 @@ for your operating system. Flapjack is currently available for:</p>
 	<td>&nbsp;&nbsp;&nbsp;</td>
 	<td><img src="images/icon_osx.gif" alt="OS X"></td>
 	<td>
-		<a href="installers/flapjack_macos_0_10_04_27.dmg"
+		<a href="installers/flapjack_macos_0_10_05_07.dmg"
 		onClick="javascript: pageTracker._trackPageview('/installers/macosx');">Apple Mac OS X</a> (2.8MB)
 	</td>
 </tr>
@@ -43,7 +43,7 @@ for your operating system. Flapjack is currently available for:</p>
 	<td>&nbsp;&nbsp;&nbsp;</td>
 	<td><img src="images/icon_linux.gif" alt="Linux"></td>
 	<td>
-		<a href="installers/flapjack_linux_0_10_04_27.sh"
+		<a href="installers/flapjack_linux_0_10_05_07.sh"
 		onClick="javascript: pageTracker._trackPageview('/installers/linux_x86');">Linux</a> (22.0MB)
 	</td>
 </tr>
@@ -52,10 +52,10 @@ for your operating system. Flapjack is currently available for:</p>
 <p>Follow the instructions provided by the graphical installer to install Flapjack.
 Note that Flapjack should not require administrator privileges to install or run,
 but if you have any problems, don't hesitate to contact us at
-<a href="mailto:flapjack@germinate.org.uk">flapjack@germinate.org.uk</a>.
+<a href="mailto:flapjack@scri.ac.uk">flapjack@scri.ac.uk</a>.
 
-<p>Flapjack is developed on Windows XP SP3, and gets additional regular
-testing on OS X 10.6, Ubuntu Linux, and Centos 5.</p>
+<p>Flapjack is developed on Windows 7, and gets additional regular
+testing on Windows XP SP3, OS X 10.6, Ubuntu Linux, and Centos 5.</p>
 
 <!--#include virtual="footer.html" -->
 
