@@ -64,8 +64,8 @@ public class Flapjack
 			UIManager.put("CheckBox.background", Color.white);
 			UIManager.put("RadioButton.background", Color.white);
 
-			// Use the office look for Windows (but not for Vista)
-			if (SystemUtils.isWindows() && !SystemUtils.isWindowsVista())
+			// Use the office look for Windows (but not for Vista or 7)
+			if (SystemUtils.isWindows() && !SystemUtils.isWindowsVista() && !SystemUtils.isWindows7())
 			{
 				UIManager.setLookAndFeel("org.fife.plaf.Office2003.Office2003LookAndFeel");
 
