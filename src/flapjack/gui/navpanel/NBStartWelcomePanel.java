@@ -22,9 +22,12 @@ public class NBStartWelcomePanel extends javax.swing.JPanel implements ActionLis
 
 		flapjackLabel.setText("<html>" + RB.format("gui.navpanel.NBStartWelcomePanel.panel.label", Install4j.VERSION));
 		feedbackLabel.setText(RB.getString("gui.navpanel.NBStartWelcomePanel.panel.feedback"));
+		twitterLabel.setText(RB.getString("gui.navpanel.NBStartWelcomePanel.panel.twitter"));
 
 		feedbackLabel.setIcon(Icons.getIcon("FEEDBACK"));
+		twitterLabel.setIcon(Icons.getIcon("TWITTER"));
 		feedbackLabel.addActionListener(this);
+		twitterLabel.addActionListener(this);
 	}
 
 	private void sendFeedback()
@@ -35,10 +38,11 @@ public class NBStartWelcomePanel extends javax.swing.JPanel implements ActionLis
 
 	public void actionPerformed(ActionEvent e)
 	{
-		if(e.getSource() == feedbackLabel)
-		{
+		if (e.getSource() == feedbackLabel)
 			FlapjackUtils.sendFeedback();
-		}
+
+		else if (e.getSource() == twitterLabel)
+			FlapjackUtils.visitURL("http://twitter.com/cropgeeks");
 	}
 
     /** This method is called from within the constructor to
@@ -52,11 +56,15 @@ public class NBStartWelcomePanel extends javax.swing.JPanel implements ActionLis
 
         flapjackLabel = new javax.swing.JLabel();
         feedbackLabel = new scri.commons.gui.matisse.HyperLinkLabel();
+        twitterLabel = new scri.commons.gui.matisse.HyperLinkLabel();
 
         flapjackLabel.setText("<html>Flapjack x.xx.xx.xx - &copy; Plant Bioinformatics Group, SCRI.");
 
         feedbackLabel.setForeground(new java.awt.Color(68, 106, 156));
         feedbackLabel.setText("Send feedback");
+
+        twitterLabel.setForeground(new java.awt.Color(68, 106, 156));
+        twitterLabel.setText("Follow us");
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
         this.setLayout(layout);
@@ -64,9 +72,11 @@ public class NBStartWelcomePanel extends javax.swing.JPanel implements ActionLis
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
                 .addContainerGap()
-                .add(flapjackLabel)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 21, Short.MAX_VALUE)
+                .add(flapjackLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 40, Short.MAX_VALUE)
                 .add(feedbackLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(18, 18, 18)
+                .add(twitterLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -74,7 +84,8 @@ public class NBStartWelcomePanel extends javax.swing.JPanel implements ActionLis
             .add(layout.createSequentialGroup()
                 .addContainerGap()
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(flapjackLabel)
+                    .add(flapjackLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(twitterLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(feedbackLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -84,6 +95,7 @@ public class NBStartWelcomePanel extends javax.swing.JPanel implements ActionLis
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private scri.commons.gui.matisse.HyperLinkLabel feedbackLabel;
     private javax.swing.JLabel flapjackLabel;
+    private scri.commons.gui.matisse.HyperLinkLabel twitterLabel;
     // End of variables declaration//GEN-END:variables
 
 }
