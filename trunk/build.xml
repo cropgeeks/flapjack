@@ -35,9 +35,14 @@
 	</target>
 
 	<target name="jar" depends="clean, compile">
+		<condition property="i4j.version" value="x.xx.xx.xx">
+			<equals arg1="${i4j.version}" arg2="${i4j.version}"/>
+		</condition>
+
 		<jar jarfile="${flapjack-resources.jar}">
 			<zipfileset dir="${res}" prefix="res"/>
 		</jar>
+
 		<jar jarfile="${flapjack.jar}">
 			<fileset dir="${classes}">
 				<exclude name="**/*Test.class"/>
@@ -57,6 +62,7 @@
 						osxadapter.jar
 						scri-commons.jar
 						swing-layout-1.0.3.jar"/>
+				<attribute name="Implementation-Version" value="${i4j.version}"/>
 			</manifest>
 		</jar>
 	</target>
@@ -81,18 +87,22 @@
 		</junit>
 	</target>
 
-	<target name="install4j" depends="jar">
+	<target name="getversion">
+		<input message="Enter the version number:" addproperty="i4j.version"/>
+	</target>
+
+	<target name="install4j" depends="getversion, jar">
 		<taskdef name="install4j"
-		classname="com.install4j.Install4JTask"
-		classpath="C:\Program Files\Install4j\bin\ant.jar"/>
+			classname="com.install4j.Install4JTask"
+			classpath="C:\Program Files\Install4j\bin\ant.jar"/>
 
 		<delete>
 			<fileset dir="installer" includes="**/*.exe"/>
 			<fileset dir="installer" includes="**/*.sh"/>
 			<fileset dir="installer" includes="**/*.dmg"/>
 		</delete>
-		<input message="Enter the version number:" addproperty="version"/>
-		<install4j projectfile="installer/flapjack.install4j" release="${version}"/>
+
+		<install4j projectfile="installer/flapjack.install4j" release="${i4j.version}"/>
 	</target>
 
 	<target name="run" depends="jar">
