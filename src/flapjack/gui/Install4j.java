@@ -6,6 +6,7 @@ package flapjack.gui;
 import java.io.*;
 import java.net.*;
 import java.util.*;
+import java.util.jar.*;
 
 import com.install4j.api.launcher.*;
 import com.install4j.api.update.*;
@@ -83,15 +84,12 @@ public class Install4j
 
 	private static void getVersion()
 	{
-		try
-		{
-			com.install4j.api.ApplicationRegistry.ApplicationInfo info =
-				com.install4j.api.ApplicationRegistry.getApplicationInfoByDir(new File("."));
+		// Attempt to get the version string from the jar's manifest
+		VERSION = Flapjack.class.getPackage().getImplementationVersion();
 
-			VERSION = info.getVersion();
-		}
-		catch (Exception e) {}
-		catch (Throwable e) {}
+		// If it's not found, we must be running the development version
+		if (VERSION == null)
+			VERSION = "x.xx.xx.xx";
 	}
 
 	static File getLicenceFile()
