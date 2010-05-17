@@ -10,16 +10,17 @@ import javax.swing.*;
 
 import flapjack.data.*;
 import flapjack.gui.*;
+import flapjack.gui.visualization.*;
 
 import scri.commons.gui.*;
 
 public class FilterQTLsDialog extends JDialog implements ActionListener
 {
-	private JButton bFilter, bHelp;
+	private JButton bFilter, bClose, bHelp;
 
 	private NBFilterQTLsPanel nbPanel;
 
-	public FilterQTLsDialog(DataSet dataSet)
+	public FilterQTLsDialog(GenotypePanel gPanel, DataSet dataSet)
 	{
 		super(
 			Flapjack.winMain,
@@ -27,7 +28,7 @@ public class FilterQTLsDialog extends JDialog implements ActionListener
 			false
 		);
 
-		nbPanel = new NBFilterQTLsPanel(dataSet);
+		nbPanel = new NBFilterQTLsPanel(gPanel, dataSet);
 
 		add(new TitlePanel2(), BorderLayout.NORTH);
 		add(nbPanel);
@@ -43,7 +44,7 @@ public class FilterQTLsDialog extends JDialog implements ActionListener
 		});
 
 		getRootPane().setDefaultButton(bFilter);
-		SwingUtils.addCloseHandler(this, bFilter);
+		SwingUtils.addCloseHandler(this, bClose);
 
 		pack();
 		setResizable(false);
@@ -62,12 +63,17 @@ public class FilterQTLsDialog extends JDialog implements ActionListener
 		bFilter = SwingUtils.getButton(RB.getString("gui.dialog.FilterQTLsDialog.bFilter"));
 		RB.setText(bFilter, "gui.dialog.FilterQTLsDialog.bFilter");
 		bFilter.addActionListener(this);
+
+		bClose = SwingUtils.getButton(RB.getString("gui.text.close"));
+		bClose.addActionListener(this);
+
 		bHelp = SwingUtils.getButton(RB.getString("gui.text.help"));
 		RB.setText(bHelp, "gui.text.help");
 		FlapjackUtils.setHelp(bHelp, "gui.dialog.FilterQTLsDialog");
 
 		JPanel p1 = FlapjackUtils.getButtonPanel();
 		p1.add(bFilter);
+		p1.add(bClose);
 		p1.add(bHelp);
 
 		return p1;
@@ -77,5 +83,8 @@ public class FilterQTLsDialog extends JDialog implements ActionListener
 	{
 		if (e.getSource() == bFilter)
 			nbPanel.filterQTLs();
+
+		else if (e.getSource() == bClose)
+			setVisible(false);
 	}
 }

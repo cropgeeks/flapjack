@@ -152,7 +152,7 @@ class MenuData
 	{
 		DataSet dataSet = gPanel.getViewSet().getDataSet();
 
-		winMain.filterQTLDialog = new FilterQTLsDialog(dataSet);
+		winMain.filterQTLDialog = new FilterQTLsDialog(gPanel, dataSet);
 	}
 
 	void dataFind()
