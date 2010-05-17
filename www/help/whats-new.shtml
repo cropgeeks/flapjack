@@ -25,6 +25,16 @@ subversion change log</a>.</p>
 <p>For information on what <i>might</i> be appearing in a future version of Flapjack,
 please see the <a href="../future-work.shtml">future work</a> page.</p>
 
+
+<h3>New in 0.10.05.17</h3>
+
+<ul>
+<li>NEW: Implemented a more robust method for version checking and updating of Flapjack</li>
+<li>CHG: Added the "Close" button back to the Filter QTLs dialog.</li>
+<li>BUG: Filtering QTL using the Filter dialog wasn't working until after the display had been manually refreshed.</li>
+</ul>
+
+
 <h3>New in 0.10.05.07</h3>
 
 <ul>
