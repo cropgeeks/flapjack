@@ -11,19 +11,23 @@ import javax.swing.table.*;
 
 import flapjack.data.*;
 import flapjack.gui.*;
+import flapjack.gui.visualization.*;
 
 import scri.commons.gui.*;
 
 class NBFilterQTLsPanel extends JPanel implements ActionListener
 {
+	private GenotypePanel gPanel;
 	private DataSet dataSet;
 
 	// Stores all the traits and experiments (and their visibility states)
 	private LinkedHashMap<String, Boolean> traits;
 	private LinkedHashMap<String, Boolean> experiments;
 
-	public NBFilterQTLsPanel(DataSet dataSet)
+	public NBFilterQTLsPanel(GenotypePanel gPanel, DataSet dataSet)
 	{
+		this.gPanel = gPanel;
+
 		initComponents();
 
 		setBackground((Color)UIManager.get("fjDialogBG"));
@@ -212,7 +216,8 @@ class NBFilterQTLsPanel extends JPanel implements ActionListener
 
 
 		// Update the display after the filter has run
-		Flapjack.winMain.repaint();
+//		Flapjack.winMain.repaint();
+		gPanel.refreshView();
 		updateTables();
 
 		Actions.projectModified();
