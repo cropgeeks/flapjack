@@ -38,7 +38,8 @@ class FileDropAdapter extends DropTargetAdapter
 					if (list.size() == 1)
 					{
 						String filename = list.get(0).toString();
-						if (filename.toLowerCase().endsWith(".flapjack"))
+						if (filename.toLowerCase().endsWith(".flapjack") ||
+							filename.toLowerCase().endsWith(".xml"))
 						{
 							winMain.mFile.fileOpen(new File(filename));
 

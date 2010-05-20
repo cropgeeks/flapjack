@@ -153,6 +153,7 @@ public class ProjectSerializer
 			Unmarshaller unmarshaller = new Unmarshaller(mapping);
 			unmarshaller.setIgnoreExtraElements(true);
 
+			XMLRoot.reset();
 			project = (Project) unmarshaller.unmarshal(in);
 			project.filename = file;
 
