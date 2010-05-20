@@ -3,20 +3,30 @@
 
 package flapjack.data;
 
+import java.text.*;
+import java.util.*;
+
 import scri.commons.gui.*;
 
 public class XMLRoot
 {
-	// A globally unique ID for this object
-	protected String guid = SystemUtils.createGUID(16).toLowerCase();
+	private static float nextID = 0;
+	private static DecimalFormat df = new DecimalFormat("0");
+
+	protected float ID;
 
 	public XMLRoot()
 	{
+		ID = nextID++;
 	}
 
 	public String getGuid()
-		{ return guid; }
+	{
+		return df.format(ID);
+	}
 
-	public void setGuid(String guid)
-		{ this.guid = guid; }
+	public static void reset()
+	{
+		nextID = 0;
+	}
 }

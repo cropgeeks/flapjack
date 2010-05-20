@@ -40,6 +40,7 @@ public class MenuFile
 		if (ProjectSerializer.okToContinue(project, false) == false)
 			return;
 
+		XMLRoot.reset();
 		project = new Project();
 		winMain.setTitle(RB.getString("gui.WinMain.title") + " - " + Install4j.VERSION);
 
