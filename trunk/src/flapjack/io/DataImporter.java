@@ -67,6 +67,7 @@ public class DataImporter extends SimpleJob
 
 		// Read the genotype data
 		genoImporter.importGenotypeData();
+		genoImporter.cleanUp();
 
 		if(okToRun)
 		{
@@ -81,6 +82,8 @@ public class DataImporter extends SimpleJob
 			pio.calculateMarkerFrequencies();
 			pio.createDefaultView();
 		}
+
+		System.gc();
 
 		if (Prefs.warnDuplicateMarkers && okToRun)
 			displayDuplicates();
