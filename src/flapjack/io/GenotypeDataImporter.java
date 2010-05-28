@@ -157,8 +157,6 @@ public class GenotypeDataImporter
 				// Assuming a map was found that contains this marker...
 				if (mapIndex[i] != -1)
 				{
-					ChromosomeMap map = dataSet.getMapByIndex(mapIndex[i]);
-
 					// Determine its various states
 					int stateCode = stateTable.getStateCode(values[i], true,
 						ioMissingData, ioUseHetSep, ioHeteroSeparator);

@@ -266,7 +266,6 @@ class QTLCanvas extends JPanel implements PropertyChangeListener
 	private class QTLMouseListener extends MouseInputAdapter
 	{
 		private boolean isOSX = SystemUtils.isMacOS();
-		private int oldTrack;
 
 		public void mouseEntered(MouseEvent e)
 		{

@@ -10,7 +10,6 @@ import flapjack.gui.*;
 
 public class DataOpenedAnimator extends Thread implements IOverlayRenderer
 {
-	private GenotypePanel gPanel;
 	private GenotypeCanvas canvas;
 
 	// Position and size of the clip region
@@ -19,7 +18,6 @@ public class DataOpenedAnimator extends Thread implements IOverlayRenderer
 
 	public DataOpenedAnimator(GenotypePanel gPanel)
 	{
-		this.gPanel = gPanel;
 		canvas = gPanel.canvas;
 
 		start();

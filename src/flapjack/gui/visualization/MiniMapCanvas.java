@@ -93,7 +93,7 @@ class MiniMapCanvas extends JPanel
 				xE = canvas.boxTotalX;
 		}
 
-		for (int i = xS; i < xE; i++)
+		for (int i = xS; i < xE && !killMe; i++)
 		{
 			Marker m = canvas.view.getMarker(i);
 

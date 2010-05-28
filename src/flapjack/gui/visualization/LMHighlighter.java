@@ -10,7 +10,6 @@ import java.awt.*;
  */
 public class LMHighlighter extends Thread implements IOverlayRenderer
 {
-	private GenotypePanel gPanel;
 	private GenotypeCanvas canvas;
 
 	private int alphaEffect = 0;
@@ -24,7 +23,6 @@ public class LMHighlighter extends Thread implements IOverlayRenderer
 	 */
 	public LMHighlighter(GenotypePanel gPanel, int index, LMHighlighter previous, int method)
 	{
-		this.gPanel = gPanel;
 		this.index = index;
 		this.method = method;
 

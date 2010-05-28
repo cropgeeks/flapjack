@@ -14,12 +14,8 @@ import scri.commons.gui.*;
 
 class NBSortLinesByTraitPanel extends JPanel
 {
-	private SortLinesByTraitDialog dialog;
-
-	public NBSortLinesByTraitPanel(SortLinesByTraitDialog dialog, GenotypePanel gPanel)
+	public NBSortLinesByTraitPanel(GenotypePanel gPanel)
 	{
-		this.dialog = dialog;
-
 		initComponents();
 
 		setBackground((Color)UIManager.get("fjDialogBG"));

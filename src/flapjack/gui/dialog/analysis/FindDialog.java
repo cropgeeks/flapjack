@@ -75,10 +75,7 @@ public class FindDialog extends JDialog implements ListSelectionListener
 				// If the view is different from what it was when the results
 				// were generated, then clear them, as they're now invalid
 				if (gPanel.getViewSet() != viewSet)
-				{
-					int count = nbPanel.tableModel.getRowCount();
 					setTableModel(null);
-				}
 			}
 		});
 

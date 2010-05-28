@@ -174,7 +174,6 @@ class NavPanel extends JPanel
 	void addedNewBookmarkNode(GTViewSet viewSet, Bookmark bookmark)
 	{
 		VisualizationNode node = findVisualizationNode(viewSet);
-		int index = viewSet.getBookmarks().size() - 1;
 
 		BookmarkNode bmNode = new BookmarkNode(gPanel, node, bookmark);
 		treeModel.insertNodeInto(bmNode, node, node.getChildCount());
@@ -383,7 +382,6 @@ class NavPanel extends JPanel
 			Graphics2D g = (Graphics2D) graphics;
 
 			int w = getWidth();
-			int h = getHeight();
 
 			g.drawImage(logo.getImage(), 0, 0, w, w, null);
 		}
