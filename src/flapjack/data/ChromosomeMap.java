@@ -104,6 +104,7 @@ public class ChromosomeMap extends XMLRoot implements Iterable<Marker>
 
 	void sort()
 	{
+		markers.trimToSize();
 		Collections.sort(markers);
 
 		length = markers.get(markers.size()-1).getPosition();

@@ -55,6 +55,7 @@ public class GTView extends XMLRoot
 			Marker m = map.getMarkerByIndex(i);
 			markers.add(new MarkerInfo(m, i));
 		}
+		markers.trimToSize();
 
 		if (isNew)
 			markersOrdered = true;

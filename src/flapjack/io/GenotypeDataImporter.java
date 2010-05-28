@@ -50,6 +50,12 @@ public class GenotypeDataImporter
 		stateTable = dataSet.getStateTable();
 	}
 
+	public void cleanUp()
+	{
+		markers.clear();
+		lines.clear();
+	}
+
 	public void cancelImport()
 		{ isOK = false; }
 
