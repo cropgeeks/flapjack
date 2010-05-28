@@ -1,6 +1,4 @@
-/**
- * Contains third party code (possibly with Flapjack modifications to that
- * code).
- */
+// Copyright 2007-2010 Plant Bioinformatics Group, SCRI. All rights reserved.
+// Use is subject to the accompanying licence terms.
 
 package flapjack.other;
