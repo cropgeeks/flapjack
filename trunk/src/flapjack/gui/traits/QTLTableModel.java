@@ -16,19 +16,14 @@ import scri.commons.gui.*;
 
 class QTLTableModel extends AbstractTableModel
 {
-	private DataSet dataSet;
 	ArrayList<QTL> qtls = new ArrayList<QTL>();
 
-	private JTable table;
 	private String[] columnNames;
 
 	boolean qtlOffMap = false;
 
-	QTLTableModel(DataSet dataSet, JTable table)
+	QTLTableModel(DataSet dataSet)
 	{
-		this.dataSet = dataSet;
-		this.table = table;
-
 		// We need to scan the chromsomes for EVERY QTL...
 
 		// Scan each chromosome

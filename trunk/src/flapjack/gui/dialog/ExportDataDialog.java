@@ -35,7 +35,7 @@ public class ExportDataDialog extends JDialog implements ActionListener
 		baseName = viewSet.getDataSet().getName();
 		baseName = baseName.substring(0, baseName.lastIndexOf(" "));
 
-		nbPanel = new NBExportDataPanel(this, viewSet);
+		nbPanel = new NBExportDataPanel(viewSet);
 
 		add(new TitlePanel2(), BorderLayout.NORTH);
 		add(nbPanel);
@@ -108,7 +108,6 @@ public class ExportDataDialog extends JDialog implements ActionListener
 	private int getLineCount()
 	{
 		boolean allLines = nbPanel.rAll.isSelected();
-		int count = 0;
 
 		if (allLines)
 			return viewSet.getView(0).getLineCount();

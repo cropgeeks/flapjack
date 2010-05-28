@@ -8,12 +8,9 @@ import java.text.*;
 
 import flapjack.analysis.*;
 import flapjack.data.*;
-import flapjack.gui.*;
 
 public class GenotypeDataExporter extends SimpleJob
 {
-	private NumberFormat nf = NumberFormat.getInstance();
-
 	private File file;
 	private GTViewSet viewSet;
 	private boolean useAll;

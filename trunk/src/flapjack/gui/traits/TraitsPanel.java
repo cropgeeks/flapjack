@@ -48,7 +48,7 @@ public class TraitsPanel extends JPanel implements ActionListener
 
 	public void updateModel()
 	{
-		model = new TraitsTableModel(dataSet, table);
+		model = new TraitsTableModel(dataSet);
 		if (SystemUtils.jreVersion() >= 1.6)
 			new SortHandler();
 

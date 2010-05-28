@@ -9,13 +9,12 @@ import javax.swing.*;
 import javax.swing.table.*;
 
 import flapjack.data.*;
-import flapjack.gui.*;
 
 import scri.commons.gui.*;
 
 class NBExportDataPanel extends JPanel implements ActionListener
 {
-	public NBExportDataPanel(ExportDataDialog dialog, GTViewSet viewSet)
+	public NBExportDataPanel(GTViewSet viewSet)
 	{
 		initComponents();
 

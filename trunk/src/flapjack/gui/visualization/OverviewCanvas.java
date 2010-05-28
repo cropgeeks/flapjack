@@ -171,7 +171,6 @@ class OverviewCanvas extends JPanel
 
 	private class BufferFactory extends Thread
 	{
-		private GTView view;
 		private ColorScheme cScheme;
 
 		private BufferedImage buffer;
@@ -180,7 +179,6 @@ class OverviewCanvas extends JPanel
 
 		private int w, h;
 		private int boxTotalX, boxTotalY;
-		private int xWidth, yHeight;
 		private float xScale, yScale;
 
 		BufferFactory(int w, int h, boolean isExporting)
@@ -193,7 +191,6 @@ class OverviewCanvas extends JPanel
 			// while the buffer is still being created, which creates a cock-up
 			boxTotalX = canvas.boxTotalX;
 			boxTotalY = canvas.boxTotalY;
-			view = canvas.view;
 			cScheme = canvas.cScheme;
 
 			if (!isExporting)

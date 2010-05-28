@@ -3,13 +3,10 @@
 
 package flapjack.gui.traits;
 
-import flapjack.analysis.QTLTrackOptimiser;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.*;
-import java.util.*;
 import javax.swing.*;
-import javax.swing.event.*;
 import javax.swing.table.*;
 
 import flapjack.data.*;
@@ -57,7 +54,7 @@ public class QTLPanel extends JPanel implements ActionListener
 
 	public void updateModel()
 	{
-		model = new QTLTableModel(dataSet, table);
+		model = new QTLTableModel(dataSet);
 
 		if (SystemUtils.jreVersion() >= 1.6)
 			new SortHandler();

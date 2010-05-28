@@ -23,7 +23,7 @@ class NBColorPanel extends JPanel implements ActionListener
 	private DefaultListModel standardModel;
 	private DefaultListModel schemeModel;
 
-	NBColorPanel(ColorDialog colorDialog, GenotypePanel gPanel)
+	NBColorPanel(GenotypePanel gPanel)
 	{
 		this.gPanel = gPanel;
 

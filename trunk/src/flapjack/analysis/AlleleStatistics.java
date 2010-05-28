@@ -26,8 +26,6 @@ public class AlleleStatistics extends SimpleJob
 	public void runJob(int index)
 		throws Exception
 	{
-		StateTable stateTable = viewSet.getDataSet().getStateTable();
-
 		int viewCount = viewSet.getViews().size();
 
 		results = new ArrayList<int[]>(viewCount);

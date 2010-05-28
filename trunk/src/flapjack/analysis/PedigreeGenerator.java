@@ -9,7 +9,6 @@ import java.net.*;
 import javax.imageio.*;
 
 import flapjack.data.*;
-import flapjack.gui.*;
 
 import scri.commons.gui.*;
 import scri.commons.file.*;

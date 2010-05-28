@@ -11,7 +11,6 @@ import javax.swing.*;
 import flapjack.gui.*;
 
 import java.util.LinkedList;
-import java.util.StringTokenizer;
 import scri.commons.gui.*;
 import scri.commons.gui.matisse.HistoryComboBox;
 

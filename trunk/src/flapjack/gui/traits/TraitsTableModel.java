@@ -18,13 +18,11 @@ class TraitsTableModel extends AbstractTableModel
 	private DataSet dataSet;
 	private ArrayList<Trait> traits;
 
-	private JTable table;
 	private String[] columnNames;
 
-	TraitsTableModel(DataSet dataSet, JTable table)
+	TraitsTableModel(DataSet dataSet)
 	{
 		this.dataSet = dataSet;
-		this.table = table;
 
 		traits = dataSet.getTraits();
 

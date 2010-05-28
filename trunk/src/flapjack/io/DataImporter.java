@@ -27,7 +27,6 @@ public class DataImporter extends SimpleJob
 	private DataSet dataSet = new DataSet();
 
 	// To load the map file...
-	private File mapFile;
 	private ChromosomeMapImporter mapImporter;
 
 	// To load the genotype file...
@@ -39,7 +38,6 @@ public class DataImporter extends SimpleJob
 
 	public DataImporter(File mapFile, File genoFile, boolean usePrefs)
 	{
-		this.mapFile = mapFile;
 		this.genoFile = genoFile;
 		totalBytes = mapFile.length() + genoFile.length();
 

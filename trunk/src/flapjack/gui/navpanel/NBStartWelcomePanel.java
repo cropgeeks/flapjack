@@ -30,12 +30,6 @@ public class NBStartWelcomePanel extends javax.swing.JPanel implements ActionLis
 		twitterLabel.addActionListener(this);
 	}
 
-	private void sendFeedback()
-	{
-		if (SystemUtils.jreVersion() >= 1.6)
-			FlapjackUtils.sendFeedback();
-	}
-
 	public void actionPerformed(ActionEvent e)
 	{
 		if (e.getSource() == feedbackLabel)

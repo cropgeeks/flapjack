@@ -121,8 +121,6 @@ public class GTView extends XMLRoot
 		// Now cache as much data as possible to help speed rendering
 		genotypeLines = new ArrayList<GenotypeData>(viewSet.lines.size());
 
-		DataSet dataSet = viewSet.getDataSet();
-
 		for (int i = 0; i < viewSet.lines.size(); i++)
 		{
 			Line line = viewSet.lines.get(i).line;
