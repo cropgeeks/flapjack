@@ -18,8 +18,6 @@ import scri.commons.gui.*;
 public class GenotypePanel extends JPanel
 	implements ActionListener, AdjustmentListener, MouseWheelListener
 {
-	private DecimalFormat d = new DecimalFormat("0.0");
-
 	private GTViewSet viewSet;
 	private GTView view;
 
@@ -427,7 +425,7 @@ public class GenotypePanel extends JPanel
 	{
 		int lineCount = view.getLineCount();
 		int mrkrCount = view.getMarkerCount();
-		String length = d.format(view.getChromosomeMap().getLength());
+		String length = NumberFormat.getInstance().format(view.getChromosomeMap().getLength());
 
 		if (lineCount == 1)
 			lineLabel.setText(RB.getString("gui.visualization.GenotypePanel.lineLabel1"));
