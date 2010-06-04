@@ -111,4 +111,10 @@ public class GenotypeData extends XMLRoot
 					lociInt[i] = s1;
 		}
 	}
+
+	// Returns true if the data is stored in bytes rather than ints
+	boolean usingByteStorage()
+	{
+		return loci != null;
+	}
 }

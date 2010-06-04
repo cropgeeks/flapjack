@@ -218,7 +218,7 @@ public class FindDialog extends JDialog implements ListSelectionListener
 			{
 				data[i][0] = result.marker;
 				data[i][1] = result.map;
-				data[i][2] = d.format(result.marker.getPosition());
+				data[i][2] = d.format(result.marker.getRealPosition());
 
 				i++;
 			}
