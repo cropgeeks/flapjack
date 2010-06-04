@@ -169,7 +169,7 @@ class MapCanvas extends JPanel
 
 		if (text)
 		{
-			String str = m.getName() + "  (" + nf.format(m.getPosition()) + ")";
+			String str = m.getName() + "  (" + nf.format(m.getRealPosition()) + ")";
 			int strWidth = g.getFontMetrics().stringWidth(str);
 
 			g.drawString(str, getPosition(xMap, strWidth), 8);

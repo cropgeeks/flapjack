@@ -195,7 +195,7 @@ public class NBStatusPanel extends JPanel implements ActionListener, ChangeListe
 		else
 		{
 			Marker m = view.getMarker(markerIndex);
-			markerLabel.setText(m.getName() + " (" + nf.format(m.getPosition()) + ")");
+			markerLabel.setText(m.getName() + " (" + nf.format(m.getRealPosition()) + ")");
 		}
 
 		// Current allele under the mouse

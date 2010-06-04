@@ -97,7 +97,6 @@ public class ChromosomeMap extends XMLRoot implements Iterable<Marker>
 	}
 
 	public void addMarker(Marker marker)
-		throws DataFormatException
 	{
 		markers.add(marker);
 	}

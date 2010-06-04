@@ -176,4 +176,63 @@ public class DataSet extends XMLRoot
 		for (ChromosomeMap map: chromosomes)
 			map.sort();
 	}
+
+	public void createSuperChromosome()
+	{
+
+		// Create a new "super" chromosome to hold every marker
+		ChromosomeMap allMap = new ChromosomeMap("AllChromosomes");
+
+		float mapOffset = 0;
+
+		// Traverse each existing chromsome...
+		for (int i = 0; i < chromosomes.size(); i++)
+		{
+			ChromosomeMap map = chromosomes.get(i);
+
+			// Adding clones of its markers to the super chromosome
+			for (Marker marker: map)
+			{
+				// Offset each marker's position
+				float position = mapOffset + marker.getPosition();
+				float realPosition = marker.getPosition();
+
+				Marker m = new Marker(marker.getName(), position, realPosition);
+				allMap.addMarker(m);
+			}
+
+			mapOffset += map.getLength();
+
+			// Add three dummy markers
+			if (i < chromosomes.size()-1)
+				for (int d = 0; d < 5; d++)
+					allMap.addMarker(new Marker("DUMMY", mapOffset));
+		}
+
+		allMap.sort();
+
+		int allMapIndex = chromosomes.size();
+
+		// Now force the lines to duplicate their info too
+		for (Line line: lines)
+		{
+			System.out.println("processing " + line.getName());
+			line.initializeMap(allMap, true);
+			int loci = 0;
+
+			for (int i = 0; i < chromosomes.size(); i++)
+			{
+				ChromosomeMap map = chromosomes.get(i);
+
+				for (int j = 0; j < map.countLoci(); j++, loci++)
+					line.setLoci(allMapIndex, loci, line.getState(i, j));
+
+				if (i < chromosomes.size()-1)
+					for (int d = 0; d < 5; d++, loci++)
+						line.setLoci(allMapIndex, loci, 0);
+			}
+		}
+
+		chromosomes.add(allMap);
+	}
 }

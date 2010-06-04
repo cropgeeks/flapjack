@@ -6,7 +6,12 @@ package flapjack.data;
 public class Marker extends XMLRoot implements Comparable<Marker>
 {
 	private String name;
+
+	// The marker's poistion on the chromosome
 	private float position;
+	// And its "actual" position, if different (used by all-chromsome markers)
+	private float realPosition = -999;
+
 	private int dbKey;
 
 	// (Might) hold summary information on the frequency of each allele state
@@ -21,6 +26,15 @@ public class Marker extends XMLRoot implements Comparable<Marker>
 	{
 		this.name = new String(name);
 		this.position = position;
+
+		realPosition = position;
+	}
+
+	public Marker(String name, float position, float realPosition)
+	{
+		this.name = new String(name);
+		this.position = position;
+		this.realPosition = realPosition;
 	}
 
 	void validate()
@@ -28,6 +42,11 @@ public class Marker extends XMLRoot implements Comparable<Marker>
 	{
 		if (name == null)
 			throw new NullPointerException();
+
+		// This copes with existing (pre 01/06/2010) projects that don't have
+		// the realPosition variable set.
+		if (realPosition < 0)
+			realPosition = position;
 	}
 
 
@@ -44,6 +63,12 @@ public class Marker extends XMLRoot implements Comparable<Marker>
 
 	public void setPosition(float position)
 		{ this.position = position; }
+
+	public float getRealPosition()
+		{ return realPosition; }
+
+	public void setRealPosition(float realPosition)
+		{ this.realPosition = realPosition; }
 
 	public int getDbKey()
 		{ return dbKey; }
