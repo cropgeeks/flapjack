@@ -157,6 +157,10 @@ class MapCanvas extends JPanel
 	{
 		Marker m = canvas.view.getMarker(i);
 
+		// Don't draw dummy markers (markers that split maps)
+		if (m.dummyMarker())
+			return;
+
 		float distance = mEPos - mSPos;
 		int xMap = (int) ((m.getPosition()-mSPos) * ((w-1) / distance));
 

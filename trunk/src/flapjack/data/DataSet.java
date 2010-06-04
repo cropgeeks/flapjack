@@ -206,7 +206,7 @@ public class DataSet extends XMLRoot
 			// Add three dummy markers
 			if (i < chromosomes.size()-1)
 				for (int d = 0; d < 5; d++)
-					allMap.addMarker(new Marker("DUMMY", mapOffset));
+					allMap.addMarker(new Marker(true, mapOffset));
 		}
 
 		allMap.sort();

@@ -37,6 +37,13 @@ public class Marker extends XMLRoot implements Comparable<Marker>
 		this.realPosition = realPosition;
 	}
 
+	public Marker(boolean dummy, float position)
+	{
+		this.position = position;
+
+		realPosition = -1000;
+	}
+
 	void validate()
 		throws NullPointerException
 	{
@@ -44,8 +51,9 @@ public class Marker extends XMLRoot implements Comparable<Marker>
 			throw new NullPointerException();
 
 		// This copes with existing (pre 01/06/2010) projects that don't have
-		// the realPosition variable set.
-		if (realPosition < 0)
+		// the realPosition variable set. DummyMarkers have a realPosition set
+		// to -1000 which we want to leave as is. All others should be reset
+		if (realPosition < 0 && realPosition != -1000)
 			realPosition = position;
 	}
 
@@ -106,4 +114,7 @@ public class Marker extends XMLRoot implements Comparable<Marker>
 	{
 		return (frequencies != null);
 	}
+
+	public boolean dummyMarker()
+		{ return realPosition == -1000; }
 }
