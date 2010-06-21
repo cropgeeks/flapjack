@@ -12,13 +12,14 @@ import javax.swing.*;
 import flapjack.gui.dialog.*;
 import flapjack.io.*;
 
+import scri.commons.file.*;
 import scri.commons.gui.*;
 
 import apple.dts.samplecode.osxadapter.*;
 
 public class Flapjack
 {
-	private static File prefsFile = new File(System.getProperty("user.home"), ".flapjack.xml");
+	private static File prefsFile = getPrefsFile();
 	private static Prefs prefs = new Prefs();
 
 	public static WinMain winMain;
@@ -156,6 +157,26 @@ public class Flapjack
 		System.exit(0);
 	}
 
+	private static File getPrefsFile()
+	{
+		// Ensure the .scri-bioinf folder exists
+		File fldr = new File(System.getProperty("user.home"), ".scri-bioinf");
+		fldr.mkdirs();
+
+		// This is the file we really want
+		File file = new File(fldr, "flapjack.xml");
+		// So if it exists, just use it
+		if (file.exists())
+			return file;
+
+		// If not, see if the "old" preferences file is available
+		File old = new File(System.getProperty("user.home"), ".flapjack.xml");
+		if (old.exists())
+			try { FileUtils.copyFile(old, file, true); }
+			catch (IOException e) {}
+
+		return file;
+	}
 
 	// --------------------------------------------------
 	// Methods required for better native support on OS X
