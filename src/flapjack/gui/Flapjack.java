@@ -10,6 +10,7 @@ import java.net.*;
 import javax.swing.*;
 
 import flapjack.gui.dialog.*;
+import flapjack.io.*;
 
 import scri.commons.gui.*;
 
@@ -43,12 +44,12 @@ public class Flapjack
 
 		// Start the GUI (either with or without an initial project)
 		if (args.length == 1 && args[0] != null)
-			new Flapjack(new File(args[0]));
+			new Flapjack(new FlapjackFile(args[0]));
 		else
 			new Flapjack(null);
 	}
 
-	Flapjack(final File initialProject)
+	Flapjack(final FlapjackFile initialProject)
 	{
 		try
 		{

@@ -49,7 +49,7 @@ public class MenuFile
 		navPanel.setProject(project);
 	}
 
-	public void fileOpen(File file)
+	public void fileOpen(FlapjackFile file)
 	{
 		Project project = winMain.getProject();
 
@@ -57,7 +57,7 @@ public class MenuFile
 			return;
 
 		// If the file is invalid or the user cancels the dialog, just quit
-		File toOpen = ProjectSerializer.queryOpen(file);
+		FlapjackFile toOpen = ProjectSerializer.queryOpen(file);
 		if (toOpen == null)
 			return;
 
@@ -75,10 +75,10 @@ public class MenuFile
 
 			winMain.setProject(openedProject);
 			navPanel.setProject(openedProject);
-			menubar.createRecentMenu(openedProject.filename);
+			menubar.createRecentMenu(openedProject.fjFile);
 			new DataOpenedAnimator(gPanel);
 
-			winMain.setTitle(openedProject.filename.getName()
+			winMain.setTitle(openedProject.fjFile.getName()
 				+ " - " + RB.getString("gui.WinMain.title")
 				+ " - " + Install4j.VERSION);
 		}
@@ -104,9 +104,9 @@ public class MenuFile
 		if (dialog.getResult() == ProgressDialog.JOB_COMPLETED && handler.isOK)
 		{
 			Actions.projectSaved();
-			menubar.createRecentMenu(project.filename);
+			menubar.createRecentMenu(project.fjFile);
 
-			winMain.setTitle(project.filename.getName()
+			winMain.setTitle(project.fjFile.getName()
 				+ " - " + RB.getString("gui.WinMain.title")
 				+ " - " + Install4j.VERSION);
 
@@ -308,10 +308,10 @@ public class MenuFile
 	private static class SaveLoadHandler extends SimpleJob
 	{
 		Project project;
-		File file;
+		FlapjackFile file;
 		boolean isOK;
 
-		SaveLoadHandler(Project project, File file)
+		SaveLoadHandler(Project project, FlapjackFile file)
 		{
 			this.project = project;
 			this.file = file;

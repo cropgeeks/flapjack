@@ -26,7 +26,7 @@ public class CreateProject
 	private static File mapFile;
 	private static File genotypesFile;
 	private static File traitsFile;
-	private static File prjFile;
+	private static FlapjackFile prjFile;
 	private static File qtlsFile;
 
 	public static void main(String[] args)
@@ -42,7 +42,7 @@ public class CreateProject
 			if (args[i].startsWith("-qtls="))
 				qtlsFile = new File(args[i].substring(6));
 			if (args[i].startsWith("-project="))
-				prjFile = new File(args[i].substring(9));
+				prjFile = new FlapjackFile(args[i].substring(9));
 		}
 
 		if (mapFile == null || genotypesFile == null || prjFile == null)
@@ -131,7 +131,7 @@ public class CreateProject
 	private static boolean saveProject()
 		throws Exception
 	{
-		project.filename = prjFile;
+		project.fjFile = prjFile;
 
 		return ProjectSerializer.save(project, true);
 	}

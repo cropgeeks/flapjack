@@ -9,6 +9,8 @@ import java.io.*;
 import java.util.*;
 import javax.swing.*;
 
+import flapjack.io.*;
+
 import scri.commons.gui.*;
 
 public class WinMainMenuBar extends JMenuBar
@@ -431,7 +433,7 @@ public class WinMainMenuBar extends JMenuBar
 	// as previously unseen projects are opened or saved, and ensuring that:
 	//   a) the most recently accessed file is always at the start of the list
 	//   b) the list never grows bigger than four entries
-	void createRecentMenu(File file)
+	void createRecentMenu(FlapjackFile file)
 	{
 		// Begin by making a list of the recent file locations
 		LinkedList<String> entries = new LinkedList<String>();
@@ -471,7 +473,7 @@ public class WinMainMenuBar extends JMenuBar
 				item.setMnemonic(KeyEvent.VK_0 + vk);
 				item.addActionListener(new AbstractAction() {
 					public void actionPerformed(ActionEvent e) {
-						winMain.mFile.fileOpen(new File(entry));
+						winMain.mFile.fileOpen(new FlapjackFile(entry));
 					}
 				});
 

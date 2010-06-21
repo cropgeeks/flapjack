@@ -39,6 +39,7 @@ public class Marker extends XMLRoot implements Comparable<Marker>
 
 	public Marker(boolean dummy, float position)
 	{
+		this.name = "DUMMYMARKER";
 		this.position = position;
 
 		realPosition = -1000;

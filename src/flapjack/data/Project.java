@@ -6,11 +6,13 @@ package flapjack.data;
 import java.io.*;
 import java.util.*;
 
+import flapjack.io.*;
+
 public class Project extends XMLRoot
 {
 	// Temporary object used to track the (most recent) file this project was
 	// opened from
-	public File filename;
+	public FlapjackFile fjFile;
 
 	// The datasets within the project
 	private ArrayList<DataSet> dataSets = new ArrayList<DataSet>();
