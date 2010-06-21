@@ -8,6 +8,7 @@ import java.io.*;
 import javax.swing.*;
 
 import flapjack.gui.*;
+import flapjack.io.*;
 
 import scri.commons.gui.*;
 import scri.commons.gui.matisse.HyperLinkLabel;
@@ -64,7 +65,7 @@ public class NBStartFilePanel extends javax.swing.JPanel implements ActionListen
 
 		for (int i = 0; i < labels.length; i++)
 			if (e.getSource() == labels[i])
-				wm.mFile.fileOpen(new File(files[i]));
+				wm.mFile.fileOpen(new FlapjackFile(files[i]));
 
 		if (e.getSource() == ratingsPanel)
 			Prefs.rating = ratingsPanel.getRating();

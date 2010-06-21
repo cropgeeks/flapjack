@@ -12,6 +12,7 @@ import org.exolab.castor.xml.*;
 
 import flapjack.data.*;
 import flapjack.gui.*;
+import flapjack.io.*;
 import flapjack.other.*;
 
 import scri.commons.gui.*;
@@ -43,8 +44,10 @@ public class ProjectSerializer
 
 	public static boolean querySave(Project project, boolean saveAs, boolean compress)
 	{
+		FlapjackFile fjFile = project.fjFile;
+
 		// If the project has never been saved, then we have to prompt for file
-		if (project.filename == null)
+		if (fjFile == null || fjFile.isURL())
 			saveAs = true;
 
 		// Show the file selection prompt, quitting if the user goes no further
@@ -56,6 +59,8 @@ public class ProjectSerializer
 
 	public static boolean save(Project project, boolean compress)
 	{
+		FlapjackFile fjFile = project.fjFile;
+
 		try
 		{
 			if (initialize() == false)
@@ -70,7 +75,7 @@ public class ProjectSerializer
 			{
 				// Open an output stream to the zip...
 				ZipOutputStream zOut = new ZipOutputStream(new BufferedOutputStream(
-					new FileOutputStream(project.filename)));
+					new FileOutputStream(fjFile.getFile())));
 				// And another for Castor to write to within the zip...
 				cOut = new BufferedWriter(new OutputStreamWriter(zOut));
 
@@ -78,7 +83,7 @@ public class ProjectSerializer
 				zOut.putNextEntry(new ZipEntry("flapjack.xml"));
 			}
 			else
-				cOut = new BufferedWriter(new FileWriter(project.filename));
+				cOut = new BufferedWriter(new FileWriter(fjFile.getFile()));
 
 			// And marshall it as xml
 			Marshaller marshaller = new Marshaller(cOut);
@@ -96,7 +101,7 @@ public class ProjectSerializer
 		catch (IOException e)
 		{
 			TaskDialog.error(
-				RB.format("io.ProjectSerializer.ioException", project.filename, e.getMessage()),
+				RB.format("io.ProjectSerializer.ioException", fjFile.getFile(), e.getMessage()),
 				RB.getString("gui.text.close"));
 		}
 		catch (MappingException e)
@@ -117,7 +122,7 @@ public class ProjectSerializer
 		return false;
 	}
 
-	public static File queryOpen(File file)
+	public static FlapjackFile queryOpen(FlapjackFile file)
 	{
 		// Prompt for the file to open if we haven't been given one
 		if (file == null)
@@ -128,7 +133,7 @@ public class ProjectSerializer
 		return file;
 	}
 
-	public static Project open(File file)
+	public static Project open(FlapjackFile file)
 	{
 		try
 		{
@@ -142,20 +147,20 @@ public class ProjectSerializer
 
 			if (isFileCompressed(file))
 			{
-				ZipFile zipFile = new ZipFile(file);
-				InputStream zin = zipFile.getInputStream(
-					new ZipEntry("flapjack.xml"));
-				in = new BufferedReader(new InputStreamReader(zin));
+				ZipInputStream zis = new ZipInputStream(file.getInputStream());
+				zis.getNextEntry();
+
+				in = new BufferedReader(new InputStreamReader(zis));
 			}
 			else
-				in = new BufferedReader(new FileReader(file));
+				in = new BufferedReader(new InputStreamReader(file.getInputStream()));
 
 			Unmarshaller unmarshaller = new Unmarshaller(mapping);
 			unmarshaller.setIgnoreExtraElements(true);
 
 			XMLRoot.reset();
 			project = (Project) unmarshaller.unmarshal(in);
-			project.filename = file;
+			project.fjFile = file;
 
 			in.close();
 
@@ -177,13 +182,13 @@ public class ProjectSerializer
 		catch (DataFormatException e)
 		{
 			TaskDialog.error(
-				RB.format("io.ProjectSerializer.flapjackException", file, e.getMessage()),
+				RB.format("io.ProjectSerializer.flapjackException", file.getFile(), e.getMessage()),
 				RB.getString("gui.text.close"));
 		}
 		catch (IOException e)
 		{
 			TaskDialog.error(
-				RB.format("io.ProjectSerializer.ioException", file, e.getMessage()),
+				RB.format("io.ProjectSerializer.ioException", file.getFile(), e.getMessage()),
 				RB.getString("gui.text.close"));
 		}
 		catch (MappingException e)
@@ -204,7 +209,7 @@ public class ProjectSerializer
 		return null;
 	}
 
-	private static File showOpenDialog()
+	private static FlapjackFile showOpenDialog()
 	{
 		JFileChooser fc = new JFileChooser();
 		fc.setDialogTitle(RB.getString("io.ProjectSerializer.openDialog"));
@@ -219,7 +224,7 @@ public class ProjectSerializer
 			File file = fc.getSelectedFile();
 			Prefs.guiCurrentDir = fc.getCurrentDirectory().getPath();
 
-			return file;
+			return new FlapjackFile(file.getPath());
 		}
 		else
 			return null;
@@ -227,13 +232,20 @@ public class ProjectSerializer
 
 	private static boolean showSaveAsDialog(Project project)
 	{
+		FlapjackFile fjFile = project.fjFile;
+
 		JFileChooser fc = new JFileChooser();
 		fc.setDialogTitle(RB.getString("io.ProjectSerializer.saveDialog"));
 		fc.setAcceptAllFileFilterUsed(false);
 
 		// If the project has never been saved it won't have a filename object
-		if (project.filename != null)
-			fc.setSelectedFile(project.filename);
+		if (fjFile != null)
+		{
+			if (fjFile.isURL())
+				fc.setSelectedFile(new File(Prefs.guiCurrentDir, fjFile.getName()));
+			else
+				fc.setSelectedFile(fjFile.getFile());
+		}
 		else
 			fc.setSelectedFile(new File(Prefs.guiCurrentDir,
 				"Flapjack " + Prefs.guiProjectCount + ".flapjack"));
@@ -267,7 +279,7 @@ public class ProjectSerializer
 			// Otherwise it's ok to save...
 			Prefs.guiCurrentDir = fc.getCurrentDirectory().getPath();
 			Prefs.guiProjectCount++;
-			project.filename = file;
+			project.fjFile = new FlapjackFile(file.getPath());
 
 			return true;
 		}
@@ -311,18 +323,25 @@ public class ProjectSerializer
 	// Returns true/false on a test of whether the file is compressed or not.
 	// Will also throw a Flapjack-specific exception if the file doesn't appear
 	// to be in any format that Flapjack should be able to read.
-	private static boolean isFileCompressed(File file)
+	private static boolean isFileCompressed(FlapjackFile file)
 		throws DataFormatException, IOException
 	{
 		// Is the file zipped in a flapjack-like format?
 		try
 		{
-			ZipFile zipFile = new ZipFile(file);
-			if (zipFile.getEntry("flapjack.xml") != null)
+			ZipInputStream zis = new ZipInputStream(file.getInputStream());
+
+			System.out.println("got zis for " + file.getPath());
+
+			ZipEntry entry = zis.getNextEntry();
+
+			System.out.println("got entry: " + entry);
+
+			if (entry != null && entry.getName().equals("flapjack.xml"))
 				return true;
-			else
-				throw new DataFormatException(
-					RB.getString("io.DataFormatException.zipError"));
+//			else
+//				throw new DataFormatException(
+//					RB.getString("io.DataFormatException.zipError"));
 		}
 		catch (ZipException e) {}
 		catch (IOException e) { throw e; }
@@ -330,7 +349,7 @@ public class ProjectSerializer
 		// Failing it being a compatible zip, try a quick is-it-xml test?
 		try
 		{
-			BufferedReader in = new BufferedReader(new FileReader(file));
+			BufferedReader in = new BufferedReader(new InputStreamReader(file.getInputStream()));
 			String str = in.readLine();
 			in.close();
 

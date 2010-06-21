@@ -8,6 +8,8 @@ import java.awt.dnd.*;
 import java.io.*;
 import java.util.*;
 
+import flapjack.io.*;
+
 class FileDropAdapter extends DropTargetAdapter
 {
 	private WinMain winMain;
@@ -41,7 +43,7 @@ class FileDropAdapter extends DropTargetAdapter
 						if (filename.toLowerCase().endsWith(".flapjack") ||
 							filename.toLowerCase().endsWith(".xml"))
 						{
-							winMain.mFile.fileOpen(new File(filename));
+							winMain.mFile.fileOpen(new FlapjackFile(filename));
 
 							dtde.dropComplete(true);
 							return;
