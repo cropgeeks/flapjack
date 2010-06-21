@@ -38,7 +38,7 @@ class NBWebPanel extends JPanel implements IPrefsTab
 		proxyUsername.setText(Prefs.proxyUsername);
 		proxyPassword.setText(Prefs.proxyPassword);
 
-		try
+/*		try
 		{
 			java.net.URL url = new java.net.URL("http://www.bbc.co.uk");
 			java.net.HttpURLConnection c = (java.net.HttpURLConnection) url.openConnection();
@@ -52,6 +52,7 @@ class NBWebPanel extends JPanel implements IPrefsTab
 		{
 			e.printStackTrace();
 		}
+*/
     }
 
 	public void applySettings()
