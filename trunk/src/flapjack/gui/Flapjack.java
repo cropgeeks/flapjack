@@ -169,7 +169,7 @@ public class Flapjack
 		if (file.exists())
 			return file;
 
-		// If not, see if the "old" preferences file is available
+		// If not, see if the "old" (pre 21/06/2010) file is available
 		File old = new File(System.getProperty("user.home"), ".flapjack.xml");
 		if (old.exists())
 			try { FileUtils.copyFile(old, file, true); }

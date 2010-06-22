@@ -28,7 +28,7 @@ if ($version ne "x.xx.xx.xx")
   my $date = `date`;
   chomp $date;
 
-  open (LOG, ">>/var/www/html/flapjack/logs/flapjack.log");
+  open (LOG, ">>flapjack.log");
 
   print LOG "$date\t$ip\t$id\t$version\t$locale\t$rating\t$os\t$user\r\n";
 
