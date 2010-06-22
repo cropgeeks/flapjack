@@ -121,7 +121,7 @@ public class Install4j
 					String os = URLEncoder.encode(System.getProperty("os.name"), "UTF-8");
 					String user = URLEncoder.encode(System.getProperty("user.name"), "UTF-8");
 
-					String addr = "http://bioinf.scri.ac.uk/cgi-bin/flapjack/flapjack.cgi"
+					String addr = "http://bioinf.scri.ac.uk/flapjack/logs/flapjack.pl"
 						+ "?id=" + id
 						+ "&version=" + version
 						+ "&locale=" + locale
