@@ -3,6 +3,7 @@
 	<property name="src" location="src"/>
 	<property name="res" location="res"/>
 	<property name="lib" location="lib"/>
+	<property name="webstart" location="webstart"/>
 	<property name="config" location="config"/>
 	<property name="lib-devel" location="lib-devel"/>
 	<property name="classes" location="classes"/>
@@ -108,6 +109,29 @@
 		<java jar="${flapjack.jar}">
 			<jvmarg value="-Xmx1024m"/>
 		</java>
+	</target>
+
+	<target name="jnlp" depends="getversion, jar">
+		<input message="Enter the storepass:" addproperty="storepass"/>
+		<mkdir dir="${webstart}"/>
+		<copy todir="${webstart}">
+			<fileset dir="${lib}">
+				<include name="**/*.jar"/>
+			</fileset>
+		</copy>
+		<signjar alias="plantbio" storepass="${storepass}"
+			preservelastmodified="true" lazy="true"
+			tsaurl="https://timestamp.geotrust.com/tsa">
+			<fileset dir="${webstart}">
+				<include name="**/*.jar"/>
+			</fileset>
+		</signjar>
+		<copy todir="\\bioinf\root\var\www\html\flapjack\webstart">
+			<fileset dir="${webstart}">
+				<include name="**/*.jar"/>
+			</fileset>
+		</copy>
+		<delete dir="${webstart}"/>
 	</target>
 
 </project>
