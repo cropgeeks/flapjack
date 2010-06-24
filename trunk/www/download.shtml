@@ -27,8 +27,20 @@ for your operating system. Flapjack is currently available for:</p>
 	<td>&nbsp;&nbsp;&nbsp;</td>
 	<td><img src="images/icon_windows.gif" alt="Windows"></td>
 	<td>
-		<a href="installers/flapjack_windows_0_10_05_17.exe"
-		onClick="javascript: pageTracker._trackPageview('/installers/windows_x86');">Microsoft Windows</a> (19.1MB)
+		<a href="installers/flapjack_windows_x86_0_10_05_17.exe"
+		  onClick="javascript: pageTracker._trackPageview('/installers/windows_x86');">Windows (32 bit)</a> or
+		<a href="installers/flapjack_windows_x64_0_10_05_17.exe"
+		  onClick="javascript: pageTracker._trackPageview('/installers/windows_x64');">Windows (64 bit)</a>
+	</td>
+</tr>
+<tr>
+	<td>&nbsp;&nbsp;&nbsp;</td>
+	<td><img src="images/icon_linux.gif" alt="Linux"></td>
+	<td>
+		<a href="installers/flapjack_linux_x86_0_10_05_17.sh"
+		  onClick="javascript: pageTracker._trackPageview('/installers/linux_x86');">Linux (32 bit)</a> or
+		<a href="installers/flapjack_linux_x64_0_10_05_17"
+		  onClick="javascript: pageTracker._trackPageview('/installers/linux_x64');">Linux (64 bit)</a>
 	</td>
 </tr>
 <tr>
@@ -36,18 +48,23 @@ for your operating system. Flapjack is currently available for:</p>
 	<td><img src="images/icon_osx.gif" alt="OS X"></td>
 	<td>
 		<a href="installers/flapjack_macos_0_10_05_17.dmg"
-		onClick="javascript: pageTracker._trackPageview('/installers/macosx');">Apple Mac OS X</a> (2.8MB)
+		onClick="javascript: pageTracker._trackPageview('/installers/macosx');">Apple Mac OS X</a> (Java 6 required)
 	</td>
 </tr>
 <tr>
 	<td>&nbsp;&nbsp;&nbsp;</td>
-	<td><img src="images/icon_linux.gif" alt="Linux"></td>
+	<td><img src="images/icon_solaris.gif" alt="Solaris"></td>
 	<td>
-		<a href="installers/flapjack_linux_0_10_05_17.sh"
-		onClick="javascript: pageTracker._trackPageview('/installers/linux_x86');">Linux</a> (22.0MB)
+		<a href="installers/flapjack_solaris_0_10_05_17.sh"
+		  onClick="javascript: pageTracker._trackPageview('/installers/solaris');">Solaris (Sparc)</a>
 	</td>
 </tr>
+
 </table>
+
+<p>A Java Web Start version of Flapjack also exists, and can be made available on
+request in certain circumstances, however this is not something we can
+officially support.</p>
 
 <p>Follow the instructions provided by the graphical installer to install Flapjack.
 Note that Flapjack should not require administrator privileges to install or run,
