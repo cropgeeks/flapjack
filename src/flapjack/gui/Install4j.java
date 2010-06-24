@@ -114,11 +114,17 @@ public class Install4j
 			{
 				try
 				{
+					// Track this user as an SCRI user if they have ever run the
+					// software on the SCRI network
+					if (Prefs.isSCRIUser == false && SystemUtils.isSCRIUser())
+						Prefs.isSCRIUser = true;
+
 					// Safely encode the URL's parameters
 					String id = URLEncoder.encode(Prefs.flapjackID, "UTF-8");
 					String version = URLEncoder.encode(VERSION, "UTF-8");
 					String locale = URLEncoder.encode("" + Locale.getDefault(), "UTF-8");
-					String os = URLEncoder.encode(System.getProperty("os.name"), "UTF-8");
+					String os = URLEncoder.encode(System.getProperty("os.name")
+						+ " (" + System.getProperty("os.arch") + ")", "UTF-8");
 					String user = URLEncoder.encode(System.getProperty("user.name"), "UTF-8");
 
 					String addr = "http://bioinf.scri.ac.uk/flapjack/logs/flapjack.pl"
@@ -129,7 +135,7 @@ public class Install4j
 						+ "&os=" + os;
 
 					// We DO NOT log usernames from non-SCRI addresses
-					if (SystemUtils.isSCRIUser())
+					if (Prefs.isSCRIUser)
 						addr += "&user=" + user;
 
 					// Nudges the cgi script to log the fact that a version of
