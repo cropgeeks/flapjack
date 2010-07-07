@@ -80,6 +80,15 @@ public class Line extends XMLRoot
 		genotypes.add(genoData);
 	}
 
+	/** Returns true if byte (rather than int) storage is in use. */
+	boolean useByteStorage()
+	{
+		if (genotypes.size() > 0)
+			return genotypes.get(0).useByteStorage();
+
+		return true;
+	}
+
 	/**
 	 * Sets state information for a given loci position within a chromosome map.
 	 */

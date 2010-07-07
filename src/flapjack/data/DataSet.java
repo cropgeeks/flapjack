@@ -179,9 +179,15 @@ public class DataSet extends XMLRoot
 
 	public void createSuperChromosome()
 	{
+		final int DUMMYCOUNT = 5;
+		boolean useByteStorage = true;
+
+		// Query the current data to determine useByteStorage value
+		if (lines.size() > 0)
+			useByteStorage = lines.get(0).useByteStorage();
 
 		// Create a new "super" chromosome to hold every marker
-		ChromosomeMap allMap = new ChromosomeMap("AllChromosomes");
+		ChromosomeMap allMap = new ChromosomeMap("All Chromosomes");
 
 		float mapOffset = 0;
 
@@ -203,9 +209,9 @@ public class DataSet extends XMLRoot
 
 			mapOffset += map.getLength();
 
-			// Add three dummy markers
+			// Add some dummy markers
 			if (i < chromosomes.size()-1)
-				for (int d = 0; d < 5; d++)
+				for (int d = 0; d < DUMMYCOUNT; d++)
 					allMap.addMarker(new Marker(true, mapOffset));
 		}
 
@@ -216,19 +222,19 @@ public class DataSet extends XMLRoot
 		// Now force the lines to duplicate their info too
 		for (Line line: lines)
 		{
-			System.out.println("processing " + line.getName());
-			line.initializeMap(allMap, true);
+			line.initializeMap(allMap, useByteStorage);
 			int loci = 0;
 
 			for (int i = 0; i < chromosomes.size(); i++)
 			{
 				ChromosomeMap map = chromosomes.get(i);
 
-				for (int j = 0; j < map.countLoci(); j++, loci++)
+				for (int j = 0, num = map.countLoci(); j < num; j++, loci++)
 					line.setLoci(allMapIndex, loci, line.getState(i, j));
 
+				// Add dummy loci information
 				if (i < chromosomes.size()-1)
-					for (int d = 0; d < 5; d++, loci++)
+					for (int d = 0; d < DUMMYCOUNT; d++, loci++)
 						line.setLoci(allMapIndex, loci, 0);
 			}
 		}

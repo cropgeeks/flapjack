@@ -69,6 +69,12 @@ public class GenotypeData extends XMLRoot
 			lociInt[index] = stateCode;
 	}
 
+	/** Returns true if byte (rather than int) storage is in use. */
+	boolean useByteStorage()
+	{
+		return loci != null;
+	}
+
 	public int getState(int index)
 		throws ArrayIndexOutOfBoundsException
 	{
