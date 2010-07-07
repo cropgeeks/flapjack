@@ -10,7 +10,7 @@ public class Marker extends XMLRoot implements Comparable<Marker>
 	// The marker's poistion on the chromosome
 	private float position;
 	// And its "actual" position, if different (used by all-chromsome markers)
-	private float realPosition = -999;
+	private float realPosition;
 
 	private int dbKey;
 
