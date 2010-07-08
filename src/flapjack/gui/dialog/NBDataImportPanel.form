@@ -167,12 +167,18 @@
               <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace min="21" pref="21" max="21" attributes="0"/>
+                          <Component id="markersLabel" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <Component id="checkMarkers" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Component id="checkUseHetSep" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Component id="checkHetero" min="-2" max="-2" attributes="0"/>
                       <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace min="21" pref="21" max="21" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="heteroLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="missingLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="heteroLabel" min="-2" max="-2" attributes="0"/>
+                              <Component id="missingLabel" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
@@ -181,7 +187,7 @@
                           </Group>
                       </Group>
                   </Group>
-                  <EmptySpace pref="92" max="32767" attributes="0"/>
+                  <EmptySpace pref="22" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -189,6 +195,10 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
+                  <Component id="checkMarkers" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="markersLabel" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="checkHetero" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="checkUseHetSep" min="-2" max="-2" attributes="0"/>
@@ -199,8 +209,8 @@
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="missingLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="missingText" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="missingLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
@@ -242,6 +252,16 @@
         <Component class="javax.swing.JCheckBox" name="checkUseHetSep">
           <Properties>
             <Property name="text" type="java.lang.String" value="Expect heteozygotes to be separated by a string (A/T rather than AT)"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JCheckBox" name="checkMarkers">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Duplicate all markers onto a single &quot;All Chromosomes&quot; chromosome for side-by-side viewing"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="markersLabel">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="(not recommended if you have a large number of markers)"/>
           </Properties>
         </Component>
       </SubComponents>

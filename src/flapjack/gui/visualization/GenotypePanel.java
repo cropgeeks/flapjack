@@ -102,6 +102,7 @@ public class GenotypePanel extends JPanel
 	private void createControls(WinMain winMain)
 	{
 		combo = new JComboBox();
+		combo.setRenderer(new ComboRenderer());
 		RB.setText(chromoLabel, "gui.visualization.GenotypePanel.chromoLabel");
 		chromoLabel.setLabelFor(combo);
 		chromoLabel.setIcon(Icons.getIcon("CHROMOSOME"));
@@ -163,7 +164,7 @@ public class GenotypePanel extends JPanel
 
 		// Add each chromosome to the combo box
 		for (GTView view: viewSet.getViews())
-			combo.addItem(view.getChromosomeMap().getName());
+			combo.addItem(view.getChromosomeMap());
 
 		// Now set the combo box to the actual index we're interested in
 		combo.addActionListener(this);
@@ -438,5 +439,26 @@ public class GenotypePanel extends JPanel
 			markerLabel.setText(RB.format("gui.visualization.GenotypePanel.markerLabel2", mrkrCount));
 
 		lengthLabel.setText(RB.format("gui.visualization.GenotypePanel.lengthLabel", length));
+	}
+
+	class ComboRenderer extends DefaultListCellRenderer
+	{
+		public Component getListCellRendererComponent(JList list, Object value,
+			int index, boolean isSelected, boolean cellHasFocus)
+		{
+			Component c = super.getListCellRendererComponent(list, value, index,
+				isSelected, cellHasFocus);
+
+			ChromosomeMap map = (ChromosomeMap) value;
+
+			setText(map.getName());
+
+			if (map.isSuperChromosome())
+				setForeground(isSelected ? Color.white : Color.blue);
+			else
+				setForeground(isSelected ? Color.white : Color.black);
+
+			return c;
+		}
 	}
 }
