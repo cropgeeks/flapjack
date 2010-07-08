@@ -251,18 +251,22 @@ public class FindDialog extends JDialog implements ListSelectionListener
 	void processTableSelection()
 	{
 		int row = nbPanel.table.getSelectedRow();
-		Object selected = nbPanel.tableModel.getValueAt(row, 0);
 
-		if (selected instanceof Line)
-			displayLine((Line)selected);
-		else if (selected instanceof Marker)
+		if (row != -1)
 		{
-			Object map = nbPanel.tableModel.getValueAt(row, 1);
-			displayMarker((Marker)selected, (ChromosomeMap) map);
-		}
+			Object selected = nbPanel.tableModel.getValueAt(row, 0);
 
-//		if (nbPanel.tableModel.getRowCount() == 1)
-//			nbPanel.table.getSelectionModel().clearSelection();
+			if (selected instanceof Line)
+				displayLine((Line)selected);
+			else if (selected instanceof Marker)
+			{
+				Object map = nbPanel.tableModel.getValueAt(row, 1);
+				displayMarker((Marker)selected, (ChromosomeMap) map);
+			}
+
+	//		if (nbPanel.tableModel.getRowCount() == 1)
+	//			nbPanel.table.getSelectionModel().clearSelection();
+		}
 	}
 
 	private void displayLine(Line line)
