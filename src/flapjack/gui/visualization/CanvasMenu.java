@@ -7,6 +7,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
+import flapjack.data.*;
 import flapjack.gui.*;
 
 import scri.commons.gui.*;
@@ -155,6 +156,9 @@ public class CanvasMenu
 		menu.add(mSortLines);
 		menu.add(mFind);
 		menu.add(mDataDB);
+
+		// Set enabled/disable states
+		mBookmark.setEnabled(Bookmark.allowBookmarking(canvas.view));
 
 		menu.show(e.getComponent(), e.getX(), e.getY());
 	}
