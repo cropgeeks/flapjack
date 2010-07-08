@@ -425,7 +425,7 @@ public class GenotypePanel extends JPanel
 	private void setCtrlLabels()
 	{
 		int lineCount = view.getLineCount();
-		int mrkrCount = view.getMarkerCount();
+		int mrkrCount = view.countGenuineMarkers();
 		String length = NumberFormat.getInstance().format(view.getChromosomeMap().getLength());
 
 		if (lineCount == 1)
@@ -453,7 +453,7 @@ public class GenotypePanel extends JPanel
 
 			setText(map.getName());
 
-			if (map.isSuperChromosome())
+			if (map.isSpecialChromosome())
 				setForeground(isSelected ? Color.white : Color.blue);
 			else
 				setForeground(isSelected ? Color.white : Color.black);

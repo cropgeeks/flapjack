@@ -156,13 +156,14 @@ public class DataSet extends XMLRoot
 	}
 
 	/**
-	 * Returns the total number of markers across all maps.
+	 * Returns the total number of markers (minus dummies) across all maps.
 	 */
-	public int countMarkers()
+	public int countGenuineMarkers()
 	{
 		int count = 0;
 		for (ChromosomeMap map: chromosomes)
-			count += map.countLoci();
+			if (map.isSpecialChromosome() == false)
+				count += map.countLoci();
 
 		return count;
 	}
@@ -188,7 +189,7 @@ public class DataSet extends XMLRoot
 
 		// Create a new "super" chromosome to hold every marker
 		ChromosomeMap allMap = new ChromosomeMap(chromosomeName);
-		allMap.setSuperChromosome(true);
+		allMap.setSpecialChromosome(true);
 
 		float mapOffset = 0;
 

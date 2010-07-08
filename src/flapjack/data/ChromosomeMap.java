@@ -11,7 +11,7 @@ public class ChromosomeMap extends XMLRoot implements Iterable<Marker>
 {
 	private String name;
 	private float length;
-	private boolean isSuperChromosome;
+	private boolean isSpecialChromosome;
 
 	private ArrayList<Marker> markers = new ArrayList<Marker>();
 
@@ -64,11 +64,11 @@ public class ChromosomeMap extends XMLRoot implements Iterable<Marker>
 	public void setFeatures(ArrayList<Feature> features)
 		{ 	this.features = features; }
 
-	public boolean isSuperChromosome()
-		{ return isSuperChromosome; }
+	public boolean isSpecialChromosome()
+		{ return isSpecialChromosome; }
 
-	public void setSuperChromosome(boolean isSuperChromosome)
-		{ this.isSuperChromosome = isSuperChromosome; }
+	public void setSpecialChromosome(boolean isSpecialChromosome)
+		{ this.isSpecialChromosome = isSpecialChromosome; }
 
 
 	// Other methods

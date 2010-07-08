@@ -498,4 +498,22 @@ public class GTView extends XMLRoot
 	{
 		return line == viewSet.getDataSet().getDummyLine();
 	}
+
+	/**
+	 * Returns a human count of the number of markers in this view. If it's a
+	 * normal chromosome, it'll just be a count of the markers, but if it's a
+	 * super chromosome, then it'll be the count minus the number of dummys.
+	 */
+	public int countGenuineMarkers()
+	{
+		if (map.isSpecialChromosome() == false)
+			return getMarkerCount();
+
+		int count = 0;
+		for (MarkerInfo mi: markers)
+			if (mi.getMarker().dummyMarker() == false)
+				count++;
+
+		return count;
+	}
 }
