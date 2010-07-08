@@ -56,7 +56,7 @@ public class FindMarker extends StringFinder
 			}
 
 			Marker marker = view.getMarker(index);
-			if (matches(marker.getName(), str))
+			if (!marker.dummyMarker() && matches(marker.getName(), str))
 				results.add(new Result(marker, view.getChromosomeMap()));
 
 			searchCount++;

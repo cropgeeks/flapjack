@@ -78,12 +78,6 @@ public class MenuView
 	{
 		GTView view = gPanel.getView();
 
-		// First ensure the mouse was actually clicked while over an allele
-		if (view.mouseOverLine < 0 || view.mouseOverLine >= view.getLineCount())
-			return;
-		if (view.mouseOverMarker < 0 || view.mouseOverMarker >= view.getMarkerCount())
-			return;
-
 		ChromosomeMap chromosome = view.getChromosomeMap();
 		Line line = view.getLine(view.mouseOverLine);
 		Marker marker = view.getMarker(view.mouseOverMarker);
