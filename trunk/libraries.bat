@@ -8,4 +8,3 @@ SET fjcp=%fjcp%;%lib%\commons-logging-1.1.1.jar
 SET fjcp=%fjcp%;%lib%\i4jruntime.jar
 SET fjcp=%fjcp%;%lib%\office-2.0.jar
 SET fjcp=%fjcp%;%lib%\scri-commons.jar
-SET fjcp=%fjcp%;%lib%\swing-layout-1.0.3.jar

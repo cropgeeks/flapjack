@@ -60,8 +60,7 @@
 						i4jruntime.jar
 						office-2.0.jar
 						osxadapter.jar
-						scri-commons.jar
-						swing-layout-1.0.3.jar"/>
+						scri-commons.jar"/>
 				<attribute name="Implementation-Version" value="${i4j.version}"/>
 			</manifest>
 		</jar>
