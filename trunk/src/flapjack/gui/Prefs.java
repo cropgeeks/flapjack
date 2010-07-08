@@ -86,6 +86,7 @@ public class Prefs extends XMLPreferences
 	public static String ioHeteroSeparator = "/";
 	public static boolean ioHeteroCollapse = true;
 	public static boolean ioUseHetSep = true;
+	public static boolean ioMakeAllChromosome = false;
 
 	// Method used when exporting images
 	public static int guiExportImageMethod = 0;

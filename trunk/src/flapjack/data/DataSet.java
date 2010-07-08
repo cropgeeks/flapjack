@@ -177,7 +177,7 @@ public class DataSet extends XMLRoot
 			map.sort();
 	}
 
-	public void createSuperChromosome()
+	public void createSuperChromosome(String chromosomeName)
 	{
 		final int DUMMYCOUNT = 5;
 		boolean useByteStorage = true;
@@ -187,7 +187,8 @@ public class DataSet extends XMLRoot
 			useByteStorage = lines.get(0).useByteStorage();
 
 		// Create a new "super" chromosome to hold every marker
-		ChromosomeMap allMap = new ChromosomeMap("All Chromosomes");
+		ChromosomeMap allMap = new ChromosomeMap(chromosomeName);
+		allMap.setSuperChromosome(true);
 
 		float mapOffset = 0;
 

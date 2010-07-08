@@ -38,6 +38,7 @@ public class NBDataImportPanel extends javax.swing.JPanel implements ActionListe
 		heteroText.setText(Prefs.ioHeteroSeparator);
 		checkHetero.setSelected(Prefs.ioHeteroCollapse);
 		checkUseHetSep.setSelected(Prefs.ioUseHetSep);
+		checkMarkers.setSelected(Prefs.ioMakeAllChromosome);
 
 		// Apply localized text
 		filePanel.setBorder(BorderFactory.createTitledBorder(RB.getString("gui.dialog.NBDataImportPanel.filePanel")));
@@ -46,6 +47,8 @@ public class NBDataImportPanel extends javax.swing.JPanel implements ActionListe
 		RB.setText(genoLabel, "gui.dialog.NBDataImportPanel.genoLabel");
 		genoButton.setText(RB.getString("gui.text.browse"));
 		optionPanel.setBorder(BorderFactory.createTitledBorder(RB.getString("gui.dialog.NBDataImportPanel.optionPanel")));
+		RB.setText(checkMarkers, "gui.dialog.NBDataImportPanel.checkMarkers");
+		RB.setText(markersLabel, "gui.dialog.NBDataImportPanel.markersLabel");
 		RB.setText(checkUseHetSep, "gui.dialog.NBDataImportPanel.checkUseHetSep");
 		RB.setText(missingLabel, "gui.dialog.NBDataImportPanel.missingLabel");
 		RB.setText(heteroLabel, "gui.dialog.NBDataImportPanel.heteroLabel");
@@ -103,6 +106,7 @@ public class NBDataImportPanel extends javax.swing.JPanel implements ActionListe
 		Prefs.ioHeteroSeparator = heteroText.getText();
 		Prefs.ioHeteroCollapse = checkHetero.isSelected();
 		Prefs.ioUseHetSep = checkUseHetSep.isSelected();
+		Prefs.ioMakeAllChromosome = checkMarkers.isSelected();
 
 		return true;
 	}
@@ -147,6 +151,8 @@ public class NBDataImportPanel extends javax.swing.JPanel implements ActionListe
         missingLabel = new javax.swing.JLabel();
         missingText = new javax.swing.JTextField();
         checkUseHetSep = new javax.swing.JCheckBox();
+        checkMarkers = new javax.swing.JCheckBox();
+        markersLabel = new javax.swing.JLabel();
 
         filePanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Data files to import:"));
 
@@ -217,6 +223,10 @@ public class NBDataImportPanel extends javax.swing.JPanel implements ActionListe
 
         checkUseHetSep.setText("Expect heteozygotes to be separated by a string (A/T rather than AT)");
 
+        checkMarkers.setText("Duplicate all markers onto a single \"All Chromosomes\" chromosome for side-by-side viewing");
+
+        markersLabel.setText("(not recommended if you have a large number of markers)");
+
         javax.swing.GroupLayout optionPanelLayout = new javax.swing.GroupLayout(optionPanel);
         optionPanel.setLayout(optionPanelLayout);
         optionPanelLayout.setHorizontalGroup(
@@ -224,9 +234,14 @@ public class NBDataImportPanel extends javax.swing.JPanel implements ActionListe
             .addGroup(optionPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(optionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(optionPanelLayout.createSequentialGroup()
+                        .addGap(21, 21, 21)
+                        .addComponent(markersLabel))
+                    .addComponent(checkMarkers)
                     .addComponent(checkUseHetSep)
                     .addComponent(checkHetero)
                     .addGroup(optionPanelLayout.createSequentialGroup()
+                        .addGap(21, 21, 21)
                         .addGroup(optionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(heteroLabel)
                             .addComponent(missingLabel))
@@ -234,12 +249,16 @@ public class NBDataImportPanel extends javax.swing.JPanel implements ActionListe
                         .addGroup(optionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(missingText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(heteroText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(92, Short.MAX_VALUE))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
         optionPanelLayout.setVerticalGroup(
             optionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(optionPanelLayout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(checkMarkers)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(markersLabel)
+                .addGap(18, 18, 18)
                 .addComponent(checkHetero)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(checkUseHetSep)
@@ -249,8 +268,8 @@ public class NBDataImportPanel extends javax.swing.JPanel implements ActionListe
                     .addComponent(heteroText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(optionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(missingLabel)
-                    .addComponent(missingText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(missingText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(missingLabel))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -279,6 +298,7 @@ public class NBDataImportPanel extends javax.swing.JPanel implements ActionListe
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox checkHetero;
+    private javax.swing.JCheckBox checkMarkers;
     private javax.swing.JCheckBox checkUseHetSep;
     private javax.swing.JPanel filePanel;
     private javax.swing.JButton genoButton;
@@ -291,6 +311,7 @@ public class NBDataImportPanel extends javax.swing.JPanel implements ActionListe
     private javax.swing.JButton mapButton;
     scri.commons.gui.matisse.HistoryComboBox mapComboBox;
     private javax.swing.JLabel mapLabel;
+    private javax.swing.JLabel markersLabel;
     private javax.swing.JLabel missingLabel;
     private javax.swing.JTextField missingText;
     private javax.swing.JPanel optionPanel;

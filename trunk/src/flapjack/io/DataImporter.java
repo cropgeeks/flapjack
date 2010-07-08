@@ -67,7 +67,8 @@ public class DataImporter extends SimpleJob
 		genoImporter.importGenotypeData();
 		genoImporter.cleanUp();
 
-		dataSet.createSuperChromosome();
+		if (Prefs.ioMakeAllChromosome)
+			dataSet.createSuperChromosome(RB.getString("io.DataImporter.allChromosomes"));
 
 		if(okToRun)
 		{
