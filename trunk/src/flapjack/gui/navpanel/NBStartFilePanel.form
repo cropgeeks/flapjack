@@ -16,15 +16,21 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="10" pref="10" max="10" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="project0" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="project1" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="project2" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="project3" alignment="0" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
                   <Component id="importLabel" min="-2" max="-2" attributes="0"/>
+                  <Component id="sampleLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                   <Component id="openLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Component id="project0" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Component id="project1" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Component id="project2" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Component id="project3" alignment="0" min="-2" max="-2" attributes="0"/>
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="rateLabel" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -40,9 +46,11 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Component id="importLabel" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
+              <Component id="sampleLabel" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="openLabel" min="-2" max="-2" attributes="0"/>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
               <Component id="project0" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="project1" min="-2" max="-2" attributes="0"/>
@@ -50,12 +58,12 @@
               <Component id="project2" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="project3" min="-2" max="-2" attributes="0"/>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="2" attributes="0">
                   <Component id="rateLabel" alignment="2" min="-2" max="-2" attributes="0"/>
                   <Component id="ratingsPanel" alignment="2" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace max="32767" attributes="0"/>
+              <EmptySpace min="-2" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -74,12 +82,20 @@
         <Property name="text" type="java.lang.String" value="Import data into Flapjack"/>
       </Properties>
     </Component>
+    <Component class="scri.commons.gui.matisse.HyperLinkLabel" name="sampleLabel">
+      <Properties>
+        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="9c" green="6a" red="44" type="rgb"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Download an example Project"/>
+      </Properties>
+    </Component>
     <Component class="scri.commons.gui.matisse.HyperLinkLabel" name="project0">
       <Properties>
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="9c" green="6a" red="44" type="rgb"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="&lt;project0&gt;"/>
+        <Property name="text" type="java.lang.String" value="p0"/>
       </Properties>
     </Component>
     <Component class="scri.commons.gui.matisse.HyperLinkLabel" name="project1">
@@ -87,7 +103,7 @@
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="9c" green="6a" red="44" type="rgb"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="&lt;project1&gt;"/>
+        <Property name="text" type="java.lang.String" value="p1"/>
       </Properties>
     </Component>
     <Component class="scri.commons.gui.matisse.HyperLinkLabel" name="project2">
@@ -95,7 +111,7 @@
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="9c" green="6a" red="44" type="rgb"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="&lt;project2&gt;"/>
+        <Property name="text" type="java.lang.String" value="p2"/>
       </Properties>
     </Component>
     <Component class="scri.commons.gui.matisse.HyperLinkLabel" name="project3">
@@ -103,7 +119,7 @@
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="9c" green="6a" red="44" type="rgb"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="&lt;project3&gt;"/>
+        <Property name="text" type="java.lang.String" value="p3"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="rateLabel">

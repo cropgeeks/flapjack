@@ -86,7 +86,7 @@ public class TraitsPanel extends JPanel implements ActionListener
 	public void actionPerformed(ActionEvent e)
 	{
 		if (e.getSource() == controls.bImport)
-			Flapjack.winMain.mFile.importTraitData();
+			Flapjack.winMain.mFile.fileImport(1);
 
 		else if (e.getSource() == controls.bRemove)
 		{

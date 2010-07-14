@@ -151,7 +151,7 @@ public class Actions
 
 		fileImport = new AbstractAction(RB.getString("gui.Actions.fileImport"), getIcon("FILEIMPORT")) {
 			public void actionPerformed(ActionEvent e) {
-				winMain.mFile.fileImport();
+				winMain.mFile.fileImport(0);
 			}
 		};
 
