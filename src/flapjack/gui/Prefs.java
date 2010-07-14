@@ -70,9 +70,6 @@ public class Prefs extends XMLPreferences
 	// QTL splitpane location
 	public static int guiQTLSplitterLocation = 25;
 
-	// Method to use when importing data
-	public static int guiImportMethod = 0;
-
 	// When to check for updates
 	public static int guiUpdateSchedule = Install4j.STARTUP;
 

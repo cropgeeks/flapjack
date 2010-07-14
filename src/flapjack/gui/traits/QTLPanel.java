@@ -86,7 +86,7 @@ public class QTLPanel extends JPanel implements ActionListener
 	public void actionPerformed(ActionEvent e)
 	{
 		if (e.getSource() == controls.bImport)
-			Flapjack.winMain.mFile.importQTLData();
+			Flapjack.winMain.mFile.fileImport(2);
 
 		else if (e.getSource() == controls.bRemove)
 		{

@@ -19,7 +19,8 @@
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="1" attributes="0">
-                  <Component id="optionPanel" alignment="0" max="32767" attributes="1"/>
+                  <Component id="optionsPanel" alignment="0" max="32767" attributes="0"/>
+                  <Component id="tabLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                   <Component id="filePanel" alignment="0" max="32767" attributes="1"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -30,10 +31,12 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
+              <Component id="tabLabel" min="-2" max="-2" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="filePanel" min="-2" max="-2" attributes="0"/>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Component id="optionPanel" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
+              <Component id="optionsPanel" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -152,11 +155,16 @@
         </Component>
       </SubComponents>
     </Container>
-    <Container class="javax.swing.JPanel" name="optionPanel">
+    <Component class="javax.swing.JLabel" name="tabLabel">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Use this tab to import map and genotype data into a new or existing Flapjack project."/>
+      </Properties>
+    </Component>
+    <Container class="javax.swing.JPanel" name="optionsPanel">
       <Properties>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-            <TitledBorder title="Additional options:"/>
+            <TitledBorder title="Advanced options:"/>
           </Border>
         </Property>
       </Properties>
@@ -167,27 +175,10 @@
               <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="21" pref="21" max="21" attributes="0"/>
-                          <Component id="markersLabel" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <Component id="checkMarkers" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="checkUseHetSep" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="checkHetero" min="-2" max="-2" attributes="0"/>
-                      <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="21" pref="21" max="21" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="heteroLabel" min="-2" max="-2" attributes="0"/>
-                              <Component id="missingLabel" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="missingText" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="heteroText" alignment="0" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                      </Group>
+                      <Component id="optionsLabel" min="-2" max="-2" attributes="0"/>
+                      <Component id="optionsButton" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="22" max="32767" attributes="0"/>
+                  <EmptySpace pref="65" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -195,73 +186,23 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="checkMarkers" min="-2" max="-2" attributes="0"/>
+                  <Component id="optionsLabel" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="markersLabel" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="checkHetero" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="checkUseHetSep" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="heteroLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="heteroText" alignment="3" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="missingText" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="missingLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                  </Group>
+                  <Component id="optionsButton" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JLabel" name="heteroLabel">
+        <Component class="javax.swing.JButton" name="optionsButton">
           <Properties>
-            <Property name="labelFor" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
-              <ComponentRef name="heteroText"/>
-            </Property>
-            <Property name="text" type="java.lang.String" value="Heterozygous separator string:"/>
+            <Property name="text" type="java.lang.String" value="Advanced options..."/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="heteroText">
+        <Component class="javax.swing.JLabel" name="optionsLabel">
           <Properties>
-            <Property name="columns" type="int" value="4"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JCheckBox" name="checkHetero">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Don&apos;t distinguish between heterozyous alleles (treats A/T the same as T/A)"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JLabel" name="missingLabel">
-          <Properties>
-            <Property name="labelFor" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
-              <ComponentRef name="missingText"/>
-            </Property>
-            <Property name="text" type="java.lang.String" value="Missing data string:"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JTextField" name="missingText">
-          <Properties>
-            <Property name="columns" type="int" value="4"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JCheckBox" name="checkUseHetSep">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Expect heteozygotes to be separated by a string (A/T rather than AT)"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JCheckBox" name="checkMarkers">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Duplicate all markers onto a single &quot;All Chromosomes&quot; chromosome for side-by-side viewing"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JLabel" name="markersLabel">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="(not recommended if you have a large number of markers)"/>
+            <Property name="text" type="java.lang.String" value="Edit the advanced options to adjust how Flapjack will process the files being imported."/>
           </Properties>
         </Component>
       </SubComponents>

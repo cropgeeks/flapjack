@@ -14,47 +14,41 @@ import java.util.LinkedList;
 import scri.commons.gui.*;
 import scri.commons.gui.matisse.HistoryComboBox;
 
-public class NBDataImportPanel extends javax.swing.JPanel implements ActionListener
+class NBImportDataPanel extends javax.swing.JPanel implements ActionListener
 {
+	private JDialog parent;
+
 	LinkedList<String> recentMapFiles = new LinkedList<String>();
 	LinkedList<String> recentGenoFiles = new LinkedList<String>();
 
-	public NBDataImportPanel()
+	NBImportDataPanel(JDialog parent)
 	{
 		initComponents();
 
+		this.parent = parent;
+
 		setBackground((Color)UIManager.get("fjDialogBG"));
 		filePanel.setBackground((Color)UIManager.get("fjDialogBG"));
-		optionPanel.setBackground((Color)UIManager.get("fjDialogBG"));
+		optionsPanel.setBackground((Color)UIManager.get("fjDialogBG"));
 
 		mapButton.addActionListener(this);
 		genoButton.addActionListener(this);
-		checkUseHetSep.addActionListener(this);
+		optionsButton.addActionListener(this);
 
 		mapComboBox.setHistory(Prefs.guiMapList);
 		genoComboBox.setHistory(Prefs.guiGenoList);
 
-		missingText.setText(Prefs.ioMissingData);
-		heteroText.setText(Prefs.ioHeteroSeparator);
-		checkHetero.setSelected(Prefs.ioHeteroCollapse);
-		checkUseHetSep.setSelected(Prefs.ioUseHetSep);
-		checkMarkers.setSelected(Prefs.ioMakeAllChromosome);
 
 		// Apply localized text
+		RB.setText(tabLabel, "gui.dialog.NBDataImportPanel.tabLabel");
 		filePanel.setBorder(BorderFactory.createTitledBorder(RB.getString("gui.dialog.NBDataImportPanel.filePanel")));
 		RB.setText(mapLabel, "gui.dialog.NBDataImportPanel.mapLabel");
 		mapButton.setText(RB.getString("gui.text.browse"));
 		RB.setText(genoLabel, "gui.dialog.NBDataImportPanel.genoLabel");
 		genoButton.setText(RB.getString("gui.text.browse"));
-		optionPanel.setBorder(BorderFactory.createTitledBorder(RB.getString("gui.dialog.NBDataImportPanel.optionPanel")));
-		RB.setText(checkMarkers, "gui.dialog.NBDataImportPanel.checkMarkers");
-		RB.setText(markersLabel, "gui.dialog.NBDataImportPanel.markersLabel");
-		RB.setText(checkUseHetSep, "gui.dialog.NBDataImportPanel.checkUseHetSep");
-		RB.setText(missingLabel, "gui.dialog.NBDataImportPanel.missingLabel");
-		RB.setText(heteroLabel, "gui.dialog.NBDataImportPanel.heteroLabel");
-		RB.setText(checkHetero, "gui.dialog.NBDataImportPanel.checkHetero");
-
-		setLabelStates();
+		optionsPanel.setBorder(BorderFactory.createTitledBorder(RB.getString("gui.dialog.NBDataImportPanel.optionsPanel")));
+		RB.setText(optionsLabel, "gui.dialog.NBDataImportPanel.optionsLabel");
+		RB.setText(optionsButton, "gui.dialog.NBDataImportPanel.optionsButton");
 
 		mapComboBox.addActionListener(this);
 		genoComboBox.addActionListener(this);
@@ -68,8 +62,8 @@ public class NBDataImportPanel extends javax.swing.JPanel implements ActionListe
 		else if (e.getSource() == genoButton)
 			browse(genoComboBox, recentGenoFiles);
 
-		else if (e.getSource() == checkUseHetSep)
-			setLabelStates();
+		else if (e.getSource() == optionsButton)
+			new AdvancedDataImportDialog(parent);
 	}
 
 	private void browse(HistoryComboBox combo, LinkedList<String> recentFiles)
@@ -99,14 +93,14 @@ public class NBDataImportPanel extends javax.swing.JPanel implements ActionListe
 			TaskDialog.warning(
 				RB.getString("gui.dialog.NBDataImportPanel.warn1"),
 				RB.getString("gui.text.ok"));
+
 			return false;
 		}
 
-		Prefs.ioMissingData = missingText.getText();
-		Prefs.ioHeteroSeparator = heteroText.getText();
-		Prefs.ioHeteroCollapse = checkHetero.isSelected();
-		Prefs.ioUseHetSep = checkUseHetSep.isSelected();
-		Prefs.ioMakeAllChromosome = checkMarkers.isSelected();
+//		mapComboBox.updateComboBox(mapComboBox.getText());
+//		genoComboBox.updateComboBox(genoComboBox.getText());
+		Prefs.guiMapList = mapComboBox.getHistory();
+		Prefs.guiGenoList = genoComboBox.getHistory();
 
 		return true;
 	}
@@ -121,11 +115,7 @@ public class NBDataImportPanel extends javax.swing.JPanel implements ActionListe
 		return new File(genoComboBox.getText());
 	}
 
-	private void setLabelStates()
-	{
-		heteroLabel.setEnabled(checkUseHetSep.isSelected());
-		heteroText.setEnabled(checkUseHetSep.isSelected());
-	}
+
 
 	/** This method is called from within the constructor to
 	 * initialize the form.
@@ -144,15 +134,10 @@ public class NBDataImportPanel extends javax.swing.JPanel implements ActionListe
         jPanel1 = new javax.swing.JPanel();
         genoComboBox = new scri.commons.gui.matisse.HistoryComboBox();
         genoButton = new javax.swing.JButton();
-        optionPanel = new javax.swing.JPanel();
-        heteroLabel = new javax.swing.JLabel();
-        heteroText = new javax.swing.JTextField();
-        checkHetero = new javax.swing.JCheckBox();
-        missingLabel = new javax.swing.JLabel();
-        missingText = new javax.swing.JTextField();
-        checkUseHetSep = new javax.swing.JCheckBox();
-        checkMarkers = new javax.swing.JCheckBox();
-        markersLabel = new javax.swing.JLabel();
+        tabLabel = new javax.swing.JLabel();
+        optionsPanel = new javax.swing.JPanel();
+        optionsButton = new javax.swing.JButton();
+        optionsLabel = new javax.swing.JLabel();
 
         filePanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Data files to import:"));
 
@@ -207,69 +192,32 @@ public class NBDataImportPanel extends javax.swing.JPanel implements ActionListe
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        optionPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Additional options:"));
+        tabLabel.setText("Use this tab to import map and genotype data into a new or existing Flapjack project.");
 
-        heteroLabel.setLabelFor(heteroText);
-        heteroLabel.setText("Heterozygous separator string:");
+        optionsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Advanced options:"));
 
-        heteroText.setColumns(4);
+        optionsButton.setText("Advanced options...");
 
-        checkHetero.setText("Don't distinguish between heterozyous alleles (treats A/T the same as T/A)");
+        optionsLabel.setText("Edit the advanced options to adjust how Flapjack will process the files being imported.");
 
-        missingLabel.setLabelFor(missingText);
-        missingLabel.setText("Missing data string:");
-
-        missingText.setColumns(4);
-
-        checkUseHetSep.setText("Expect heteozygotes to be separated by a string (A/T rather than AT)");
-
-        checkMarkers.setText("Duplicate all markers onto a single \"All Chromosomes\" chromosome for side-by-side viewing");
-
-        markersLabel.setText("(not recommended if you have a large number of markers)");
-
-        javax.swing.GroupLayout optionPanelLayout = new javax.swing.GroupLayout(optionPanel);
-        optionPanel.setLayout(optionPanelLayout);
-        optionPanelLayout.setHorizontalGroup(
-            optionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(optionPanelLayout.createSequentialGroup()
+        javax.swing.GroupLayout optionsPanelLayout = new javax.swing.GroupLayout(optionsPanel);
+        optionsPanel.setLayout(optionsPanelLayout);
+        optionsPanelLayout.setHorizontalGroup(
+            optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(optionsPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(optionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(optionPanelLayout.createSequentialGroup()
-                        .addGap(21, 21, 21)
-                        .addComponent(markersLabel))
-                    .addComponent(checkMarkers)
-                    .addComponent(checkUseHetSep)
-                    .addComponent(checkHetero)
-                    .addGroup(optionPanelLayout.createSequentialGroup()
-                        .addGap(21, 21, 21)
-                        .addGroup(optionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(heteroLabel)
-                            .addComponent(missingLabel))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(optionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(missingText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(heteroText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addGroup(optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(optionsLabel)
+                    .addComponent(optionsButton))
+                .addContainerGap(65, Short.MAX_VALUE))
         );
-        optionPanelLayout.setVerticalGroup(
-            optionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(optionPanelLayout.createSequentialGroup()
+        optionsPanelLayout.setVerticalGroup(
+            optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(optionsPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(checkMarkers)
+                .addComponent(optionsLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(markersLabel)
-                .addGap(18, 18, 18)
-                .addComponent(checkHetero)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(checkUseHetSep)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(optionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(heteroLabel)
-                    .addComponent(heteroText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(optionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(missingText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(missingLabel))
+                .addComponent(optionsButton)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -280,7 +228,8 @@ public class NBDataImportPanel extends javax.swing.JPanel implements ActionListe
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(optionPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(optionsPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(tabLabel, javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(filePanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -288,33 +237,30 @@ public class NBDataImportPanel extends javax.swing.JPanel implements ActionListe
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(tabLabel)
+                .addGap(18, 18, 18)
                 .addComponent(filePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(optionPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(optionsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JCheckBox checkHetero;
-    private javax.swing.JCheckBox checkMarkers;
-    private javax.swing.JCheckBox checkUseHetSep;
     private javax.swing.JPanel filePanel;
     private javax.swing.JButton genoButton;
     scri.commons.gui.matisse.HistoryComboBox genoComboBox;
     private javax.swing.JLabel genoLabel;
-    private javax.swing.JLabel heteroLabel;
-    private javax.swing.JTextField heteroText;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JButton mapButton;
     scri.commons.gui.matisse.HistoryComboBox mapComboBox;
     private javax.swing.JLabel mapLabel;
-    private javax.swing.JLabel markersLabel;
-    private javax.swing.JLabel missingLabel;
-    private javax.swing.JTextField missingText;
-    private javax.swing.JPanel optionPanel;
+    private javax.swing.JButton optionsButton;
+    private javax.swing.JLabel optionsLabel;
+    private javax.swing.JPanel optionsPanel;
+    private javax.swing.JLabel tabLabel;
     // End of variables declaration//GEN-END:variables
 
 }

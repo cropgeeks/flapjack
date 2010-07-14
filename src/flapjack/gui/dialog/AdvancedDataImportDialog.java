@@ -11,22 +11,20 @@ import flapjack.gui.*;
 
 import scri.commons.gui.*;
 
-public class ImportOptionsDialog extends JDialog implements ActionListener
+class AdvancedDataImportDialog extends JDialog implements ActionListener
 {
 	private JButton bOK, bCancel, bHelp;
 	private boolean isOK = false;
 
-	private NBImportOptionsPanel nbPanel;
+	private NBAdvancedDataImportPanel nbPanel = new NBAdvancedDataImportPanel();
 
-	public ImportOptionsDialog(boolean secondaryOptions)
+	AdvancedDataImportDialog(JDialog parent)
 	{
 		super(
-			Flapjack.winMain,
-			RB.getString("gui.dialog.ImportOptionsDialog.title"),
+			parent,
+			RB.getString("gui.dialog.AdvancedDataImportDialog.title"),
 			true
 		);
-
-		nbPanel = new NBImportOptionsPanel(new DblClickListener(), secondaryOptions);
 
 		add(new TitlePanel2(), BorderLayout.NORTH);
 		add(nbPanel);
@@ -36,7 +34,7 @@ public class ImportOptionsDialog extends JDialog implements ActionListener
 		SwingUtils.addCloseHandler(this, bCancel);
 
 		pack();
-		setLocationRelativeTo(Flapjack.winMain);
+		setLocationRelativeTo(parent);
 		setResizable(false);
 		setVisible(true);
 	}
@@ -49,7 +47,7 @@ public class ImportOptionsDialog extends JDialog implements ActionListener
 		bCancel.addActionListener(this);
 		bHelp = SwingUtils.getButton(RB.getString("gui.text.help"));
 		RB.setText(bHelp, "gui.text.help");
-		FlapjackUtils.setHelp(bHelp, "gui.dialog.ImportOptionsDialog");
+		FlapjackUtils.setHelp(bHelp, "gui.dialog.DataImportDialog");
 
 		JPanel p1 = FlapjackUtils.getButtonPanel();
 		p1.add(bOK);
@@ -63,24 +61,11 @@ public class ImportOptionsDialog extends JDialog implements ActionListener
 	{
 		if (e.getSource() == bOK)
 		{
-			nbPanel.isOK();
-			isOK = true;
+			nbPanel.applySettings();
+			setVisible(false);
 		}
 
-		setVisible(false);
-	}
-
-	public boolean isOK()
-		{ return isOK; }
-
-	private class DblClickListener extends MouseAdapter
-	{
-		public void mouseClicked(MouseEvent e)
-		{
-			if (e.getClickCount() != 2)
-				return;
-
-			bOK.doClick();
-		}
+		else if (e.getSource() == bCancel)
+			setVisible(false);
 	}
 }

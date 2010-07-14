@@ -116,81 +116,46 @@ public class MenuFile
 		return false;
 	}
 
-	public void fileImport()
+	public void fileImport(int tabIndex)
 	{
 		boolean secondaryOptions = navPanel.getDataSetForSelection() != null;
 
-		// Start by offering various import options
-		ImportOptionsDialog optionsDialog = new ImportOptionsDialog(secondaryOptions);
-		if (optionsDialog.isOK() == false)
-			return;
+		DataImportDialog dialog = new DataImportDialog(tabIndex, secondaryOptions);
 
-
-		switch (Prefs.guiImportMethod)
-		{
-			// Import from file
-			case 0: importGenotypeData();
-				break;
-
-			// Import from Germinate
-			case 1:
-				break;
-
-			// Importing from a Flapjack-provided sample fileset
-			case 2: importSampleData();
-				break;
-
-			// Import trait data
-			case 20: importTraitData();
-				break;
-
-			// Import QTL data
-			case 21: importQTLData();
-				break;
-		}
-	}
-
-	// Pops up the Import Data dialog, then uses the returned map and dat file
-	// information to import data
-	private void importGenotypeData()
-	{
-		DataImportDialog dialog = new DataImportDialog();
 		if (dialog.isOK() == false)
 			return;
 
-		gPanel.resetBufferedState(false);
-
-		importGenotypeData(dialog.getMapFile(), dialog.getGenotypeFile(), true);
-	}
-
-	// Extracts sample data from the jar file, writes it to a temp location,
-	// then imports it
-	private void importSampleData()
-	{
-		File dir = SystemUtils.getTempUserDirectory("scri-flapjack");
-		File mapFile = new File(dir, "sample.map");
-		File datFile = new File(dir, "sample.dat");
-
-		try
+		switch (dialog.getSelectedAction())
 		{
-			FileUtils.writeFile(mapFile, getClass().getResourceAsStream("/res/samples/sample.map"));
-			FileUtils.writeFile(datFile, getClass().getResourceAsStream("/res/samples/sample.dat"));
-		}
-		catch (Exception e)
-		{
-			System.out.println(e);
-			TaskDialog.error(RB.format("gui.WinMain.readJarError", e.getMessage()),
-				RB.getString("gui.text.close"));
-			return;
-		}
+			// Import from file
+			case 0:
+			{
+				File mapFile = dialog.getMapFile();
+				File genoFile = dialog.getGenotypeFile();
+				importGenotypeData(mapFile, genoFile, true);
+			}
+			break;
 
-		importGenotypeData(mapFile, datFile, false);
+			// Import trait data
+			case 1: importTraitData(dialog.getTraitsFile());
+				break;
+
+			// Import QTL data
+			case 2: importQTLData(dialog.getFeaturesFile());
+				break;
+
+			// Importing from a Flapjack-provided sample fileset
+			case 3: fileOpen(dialog.getSampleProject());
+				break;
+		}
 	}
 
 	// Given a map file and a genotype (dat) file, imports that data, showing a
 	// progress bar while doing so
-	void importGenotypeData(File mapFile, File datFile, boolean usePrefs)
+	private void importGenotypeData(File mapFile, File datFile, boolean usePrefs)
 	{
+		gPanel.resetBufferedState(false);
+
 		DataImporter importer = new DataImporter(mapFile, datFile, usePrefs);
 
 		ProgressDialog dialog = new ProgressDialog(importer,
@@ -220,86 +185,63 @@ public class MenuFile
 		Actions.projectModified();
 	}
 
-	public void importTraitData()
+	private void importTraitData(File file)
 	{
-		String rbTitle = "gui.MenuFile.importTraits.title";
-		String rbLabel = "gui.MenuFile.importTraits.label";
-		String rbButton = "gui.MenuFile.importTraits.button";
-
 		DataSet dataSet = navPanel.getDataSetForSelection();
 
-		// Find out what file to import
-		BrowseDialog browseDialog = new BrowseDialog(Prefs.guiTraitHistory,
-			rbTitle, rbLabel, rbButton, null);
-		if (browseDialog.isOK() == false)
-			return;
-
-		File file = browseDialog.getFile();
-
-		Prefs.guiTraitHistory = browseDialog.getHistory();
-		traitImport(file, dataSet);
-	}
-
-	public void traitImport(File file, DataSet dataSet)
-	{
 		// Remove any existing traits first
 		TabPanel ttp = navPanel.getTraitsPanel(dataSet);
 		ttp.getTraitsPanel().removeAllTraits();
+
 		// Import the data using the standard progress bar dialog...
 		TraitImporter importer = new TraitImporter(file, dataSet);
-		ProgressDialog dialog = new ProgressDialog(importer, RB.format("gui.MenuFile.importTraits.dialogTitle"), RB.format("gui.MenuFile.importTraits.dialogLabel"));
+		ProgressDialog dialog = new ProgressDialog(importer,
+			RB.format("gui.MenuFile.importTraits.dialogTitle"),
+			RB.format("gui.MenuFile.importTraits.dialogLabel"));
+
 		// If the operation failed or was cancelled...
 		if (dialog.getResult() != ProgressDialog.JOB_COMPLETED)
 		{
 			if (dialog.getResult() == ProgressDialog.JOB_FAILED)
 			{
 				dialog.getException().printStackTrace();
-				TaskDialog.error(RB.format("gui.MenuFile.importTraits.error", file, dialog.getException().getMessage()), RB.getString("gui.text.close"));
+				TaskDialog.error(RB.format("gui.MenuFile.importTraits.error",
+					file, dialog.getException().getMessage()),
+					RB.getString("gui.text.close"));
 			}
 			return;
 		}
+
 		for (GTViewSet viewSet : dataSet.getViewSets())
-		{
 			viewSet.assignTraits();
-		}
+
 		ttp.getTraitsPanel().updateModel();
 		Actions.projectModified();
 	}
 
-	public void importQTLData()
+	private void importQTLData(File file)
 	{
-		String rbTitle = "gui.MenuFile.importQTLs.title";
-		String rbLabel = "gui.MenuFile.importQTLs.label";
-		String rbButton = "gui.MenuFile.importQTLs.button";
-
 		DataSet dataSet = navPanel.getDataSetForSelection();
 
-		// Find out what file to import
-		BrowseDialog browseDialog = new BrowseDialog(Prefs.guiQTLHistory,
-			rbTitle, rbLabel, rbButton, null);
-		if (browseDialog.isOK() == false)
-			return;
-
-		File file = browseDialog.getFile();
-		Prefs.guiQTLHistory = browseDialog.getHistory();
-		qtlImport(file, dataSet);
-	}
-
-	public void qtlImport(File file, DataSet dataSet)
-	{
 		// Import the data using the standard progress bar dialog...
 		QTLImporter importer = new QTLImporter(file, dataSet);
-		ProgressDialog dialog = new ProgressDialog(importer, RB.format("gui.MenuFile.importQTLs.dialogTitle"), RB.format("gui.MenuFile.importQTLs.dialogLabel"));
+		ProgressDialog dialog = new ProgressDialog(importer,
+			RB.format("gui.MenuFile.importQTLs.dialogTitle"),
+			RB.format("gui.MenuFile.importQTLs.dialogLabel"));
+
 		// If the operation failed or was cancelled...
 		if (dialog.getResult() != ProgressDialog.JOB_COMPLETED)
 		{
 			if (dialog.getResult() == ProgressDialog.JOB_FAILED)
 			{
 				dialog.getException().printStackTrace();
-				TaskDialog.error(RB.format("gui.MenuFile.importQTLs.error", file, dialog.getException().getMessage()), RB.getString("gui.text.close"));
+				TaskDialog.error(RB.format("gui.MenuFile.importQTLs.error",
+					file, dialog.getException().getMessage()),
+					RB.getString("gui.text.close"));
 			}
 			return;
 		}
+
 		TabPanel ttp = navPanel.getTraitsPanel(dataSet);
 		ttp.getQTLPanel().updateModel();
 		Actions.projectModified();
