@@ -79,6 +79,7 @@ class NBAdvancedDataImportPanel extends JPanel implements ActionListener
         checkUseHetSep = new javax.swing.JCheckBox();
         checkMarkers = new javax.swing.JCheckBox();
         markersLabel = new javax.swing.JLabel();
+        jCheckBox1 = new javax.swing.JCheckBox();
 
         panel.setBorder(javax.swing.BorderFactory.createTitledBorder("Advanced options:"));
 
@@ -97,6 +98,9 @@ class NBAdvancedDataImportPanel extends JPanel implements ActionListener
         checkMarkers.setText("Duplicate all markers onto a single \"All Chromosomes\" chromosome for side-by-side viewing");
 
         markersLabel.setText("(not recommended if you have a large number of markers)");
+
+        jCheckBox1.setText("Genotype data has been transposed (markers are now rows)");
+        jCheckBox1.setEnabled(false);
 
         javax.swing.GroupLayout panelLayout = new javax.swing.GroupLayout(panel);
         panel.setLayout(panelLayout);
@@ -119,7 +123,8 @@ class NBAdvancedDataImportPanel extends JPanel implements ActionListener
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(missingText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(heteroText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(heteroText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jCheckBox1))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panelLayout.setVerticalGroup(
@@ -141,6 +146,8 @@ class NBAdvancedDataImportPanel extends JPanel implements ActionListener
                 .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(missingText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(missingLabel))
+                .addGap(18, 18, 18)
+                .addComponent(jCheckBox1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -148,7 +155,7 @@ class NBAdvancedDataImportPanel extends JPanel implements ActionListener
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
@@ -169,6 +176,7 @@ class NBAdvancedDataImportPanel extends JPanel implements ActionListener
     private javax.swing.JCheckBox checkUseHetSep;
     private javax.swing.JLabel heteroLabel;
     private javax.swing.JTextField heteroText;
+    private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JLabel markersLabel;
     private javax.swing.JLabel missingLabel;
     private javax.swing.JTextField missingText;
