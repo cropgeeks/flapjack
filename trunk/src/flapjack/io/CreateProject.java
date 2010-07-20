@@ -52,7 +52,7 @@ public class CreateProject
 				+ "   -map=<map_file>                (required)\n"
 				+ "   -genotypes=<genotypes_file>    (required)\n"
 				+ "   -traits=<traits_file>          (optional)\n"
-				+ "   -qtls=<qtl_file>				 (optional)\n"
+				+ "   -qtls=<qtl_file>               (optional)\n"
 				+ "   -project=<project_file>        (required)\n");
 
 			return;
