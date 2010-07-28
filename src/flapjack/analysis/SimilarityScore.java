@@ -11,6 +11,7 @@ import flapjack.data.*;
 public class SimilarityScore
 {
 	private GTViewSet viewSet;
+	private StateTable st;
 	private int compLine, currLine;
 	private boolean[] chromosomes;
 
@@ -18,9 +19,10 @@ public class SimilarityScore
 	 * @param compLine the comparison line to compare the current line against
 	 * @param currLine the current line to compute a score for
 	 */
-	public SimilarityScore(GTViewSet viewSet, int compLine, int currLine, boolean[] chromosomes)
+	public SimilarityScore(GTViewSet viewSet, StateTable st, int compLine, int currLine, boolean[] chromosomes)
 	{
 		this.viewSet = viewSet;
+		this.st = st;
 		this.compLine = compLine;
 		this.currLine = currLine;
 		this.chromosomes = chromosomes;
@@ -53,21 +55,29 @@ public class SimilarityScore
 				if (state1 == 0 || state2 == 0)
 					continue;
 
-				// TODO: skip heterozy?
+				AlleleState s1 = st.getAlleleState(state1);
+				AlleleState s2 = st.getAlleleState(state2);
 
 				// Increment the score if they match
 				if (state1 == state2)
-					score++;
+					score += 1.0f;
 
-				// And count it as a comparison, regardless
+				// Half-increment if, for example, A matches A/T
+				else if (s1.matches(s2))
+					score += 0.5f;
+
+				// Count it as a comparison, regardless of match
 				nComparisons++;
 			}
 		}
 
-		// TODO: a line with no data, will score 0/0 - problems?
+		if (nComparisons > 0)
+			score = score / nComparisons;
+		else
+			score = 0;
 
 		// The final score is the ratio of matches to comparable markers
-		return new Score(score/nComparisons, nComparisons);
+		return new Score(score, nComparisons);
 	}
 
 	static class Score
