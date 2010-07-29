@@ -126,6 +126,10 @@ class NavPanel extends JPanel
 				selectedNode = node;
 		}
 
+		// Deals with (the unusal) case of loading a project with no views
+		if (selectedNode == null)
+			selectedNode = dataSetNode;
+
 		// Update the tree with the new node(s)
 		tree.setSelectionPath(new TreePath(selectedNode.getPath()));
 		tree.scrollPathToVisible(new TreePath(selectedNode.getPath()));
