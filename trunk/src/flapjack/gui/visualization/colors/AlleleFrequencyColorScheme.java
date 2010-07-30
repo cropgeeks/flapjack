@@ -67,7 +67,7 @@ public class AlleleFrequencyColorScheme extends ColorScheme
 	{
 		int state = view.getState(line, marker);
 
-		if (view.getMarker(marker).getFrequencies()[state] <= thresholdFrequency)
+		if (view.getMarker(marker).frequencies()[state] <= thresholdFrequency)
 			return loStates.get(state);
 
 		else

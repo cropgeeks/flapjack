@@ -37,6 +37,8 @@ public class SortLinesBySimilarity extends SimpleJob
 		// Access the first chromosome (just to get at the lines data)
 		GTView view = viewSet.getView(0);
 
+		StateTable st = viewSet.getDataSet().getStateTable();
+
 		// Store a local reference to the line ordering for quicker access
 		ArrayList<LineInfo> lines = view.getViewSet().getLines();
 
@@ -51,7 +53,7 @@ public class SortLinesBySimilarity extends SimpleJob
 		// Work out what those scores are
 		for (int i = 0; i < view.getLineCount(); i++, linesScored++)
 		{
-			SimilarityScore ss = new SimilarityScore(viewSet, line, i, chromosomes);
+			SimilarityScore ss = new SimilarityScore(viewSet, st, line, i, chromosomes);
 
 			SimilarityScore.Score score = ss.getScore();
 			scores.add(new LineScore(lines.get(i), score.score, score.nComparisons));

@@ -62,11 +62,4 @@ public class PostImportOperations
 		else
 			viewSet.setColorScheme(ColorScheme.RANDOM);
 	}
-
-	public void calculateMarkerFrequencies()
-	{
-		// Pre-calculate allele frequencies on a per-locus basis
-		CalculateMarkerFrequencies c = new CalculateMarkerFrequencies(dataSet);
-		c.calculate();
-	}
 }

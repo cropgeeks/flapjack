@@ -80,7 +80,6 @@ public class DataImporter extends SimpleJob
 			if (Prefs.ioHeteroCollapse)
 				pio.collapseHeterozygotes();
 
-			pio.calculateMarkerFrequencies();
 			pio.createDefaultView();
 		}
 
