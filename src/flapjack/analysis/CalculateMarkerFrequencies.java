@@ -30,7 +30,7 @@ public class CalculateMarkerFrequencies
 			for (int marker = 0; marker < map.countLoci(); marker++)
 			{
 				// Quit if frequencies have already been calculated
-				if (map.getMarkerByIndex(marker).getFrequencies() != null)
+				if (map.getMarkerByIndex(marker).frequencies() != null)
 					break;
 
 				float[] freqs = getFrequencies(ch, marker);

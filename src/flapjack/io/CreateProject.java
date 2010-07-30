@@ -93,7 +93,6 @@ public class CreateProject
 		PostImportOperations pio = new PostImportOperations(dataSet);
 		pio.setName(genotypesFile);
 		pio.collapseHeterozygotes();
-		pio.calculateMarkerFrequencies();
 		pio.createDefaultView();
 
 		project.addDataSet(dataSet);

@@ -126,7 +126,7 @@ class NavPanel extends JPanel
 				selectedNode = node;
 		}
 
-		// Deals with (the unusal) case of loading a project with no views
+		// Deals with (the unusual) case of loading a project with no views
 		if (selectedNode == null)
 			selectedNode = dataSetNode;
 

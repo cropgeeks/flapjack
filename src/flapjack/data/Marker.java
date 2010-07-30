@@ -85,17 +85,17 @@ public class Marker extends XMLRoot implements Comparable<Marker>
 	public void setDbKey(int dbKey)
 		{ this.dbKey = dbKey; }
 
-	public float[] getFrequencies()
-		{ return frequencies; }
-
-	public void setFrequencies(float[] frequencies)
-		{ this.frequencies = frequencies; }
-
 
 	// Other methods
 
 	public String toString()
 		{ return name; }
+
+	public float[] frequencies()
+		{ return frequencies; }
+
+	public void setFrequencies(float[] frequencies)
+		{ this.frequencies = frequencies; }
 
 	public int compareTo(Marker marker)
 	{
@@ -105,15 +105,6 @@ public class Marker extends XMLRoot implements Comparable<Marker>
 			return 0;
 		else
 			return 1;
-	}
-
-	/**
-	 * Returns true if allele frequency statistics have been calculated and are
-	 * available for this marker.
-	 */
-	public boolean frequenciesAvailable()
-	{
-		return (frequencies != null);
 	}
 
 	public boolean dummyMarker()
