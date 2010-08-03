@@ -19,30 +19,21 @@ import scri.commons.gui.*;
 
 public class ProjectSerializer
 {
+	public static int XMLZ = 0;
+	public static int XML  = 1;
+	public static int BIN  = 2;
+
 	private static Mapping mapping;
 
-	private static boolean initialize()
+	private static void initialize()
+		throws Exception
 	{
-		try
-		{
-			mapping = new Mapping();
-			mapping.loadMapping(
-				new ProjectSerializer().getClass().getResource("/config/flapjack-castor.xml"));
-
-			return true;
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-			TaskDialog.error(
-				RB.format("io.ProjectSerializer.xml", e),
-				RB.format("gui.text.close"));
-
-			return false;
-		}
+		mapping = new Mapping();
+		mapping.loadMapping(
+			new ProjectSerializer().getClass().getResource("/config/flapjack-castor.xml"));
 	}
 
-	public static boolean querySave(Project project, boolean saveAs, boolean compress)
+	public static boolean querySave(Project project, boolean saveAs, int format)
 	{
 		FlapjackFile fjFile = project.fjFile;
 
@@ -57,69 +48,61 @@ public class ProjectSerializer
 		return true;
 	}
 
-	public static boolean save(Project project, boolean compress)
+	public static boolean save(Project project, int format)
 	{
 		FlapjackFile fjFile = project.fjFile;
 
 		try
 		{
-			if (initialize() == false)
-				return false;
-
 			long s = System.currentTimeMillis();
 
-
-			BufferedWriter cOut = null;
-
-			if (compress)
+			if (format == BIN)
 			{
-				// Open an output stream to the zip...
-				ZipOutputStream zOut = new ZipOutputStream(new BufferedOutputStream(
-					new FileOutputStream(fjFile.getFile())));
-				// And another for Castor to write to within the zip...
-				cOut = new BufferedWriter(new OutputStreamWriter(zOut));
-
-				// Write a single "flapjack.xml" entry to the zip file
-				zOut.putNextEntry(new ZipEntry("flapjack.xml"));
+				BinarySerializer binSerializer = new BinarySerializer();
+				binSerializer.serialize(project);
 			}
+
 			else
-				cOut = new BufferedWriter(new FileWriter(fjFile.getFile()));
+			{
+				initialize();
 
-			// And marshall it as xml
-			Marshaller marshaller = new Marshaller(cOut);
-			marshaller.setMapping(mapping);
-			marshaller.marshal(project);
+				BufferedWriter cOut = null;
 
-			cOut.close();
+				if (format == XMLZ)
+				{
+					// Open an output stream to the zip...
+					ZipOutputStream zOut = new ZipOutputStream(new BufferedOutputStream(
+						new FileOutputStream(fjFile.getFile())));
+					// And another for Castor to write to within the zip...
+					cOut = new BufferedWriter(new OutputStreamWriter(zOut));
 
+					// Write a single "flapjack.xml" entry to the zip file
+					zOut.putNextEntry(new ZipEntry("flapjack.xml"));
+				}
+				else
+					cOut = new BufferedWriter(new FileWriter(fjFile.getFile()));
+
+				// And marshall it as xml
+				Marshaller marshaller = new Marshaller(cOut);
+				marshaller.setMapping(mapping);
+				marshaller.marshal(project);
+
+				cOut.close();
+			}
 
 			long e = System.currentTimeMillis();
 			System.out.println("Project serialized in " + (e-s) + "ms");
 
 			return true;
 		}
-		catch (IOException e)
+		catch (Exception e)
 		{
 			TaskDialog.error(
-				RB.format("io.ProjectSerializer.ioException", fjFile.getFile(), e.getMessage()),
+				RB.format("io.ProjectSerializer.saveError", fjFile.getName(), e.getMessage()),
 				RB.getString("gui.text.close"));
-		}
-		catch (MappingException e)
-		{
-			e.printStackTrace();
-			TaskDialog.error(
-				RB.format("io.ProjectSerializer.xml", e.getMessage()),
-				RB.getString("gui.text.close"));
-		}
-		catch (XMLException e)
-		{
-			e.printStackTrace();
-			TaskDialog.error(
-				RB.format("io.ProjectSerializer.xmlWriteException", e.getMessage()),
-				RB.getString("gui.text.close"));
-		}
 
-		return false;
+			return false;
+		}
 	}
 
 	public static FlapjackFile queryOpen(FlapjackFile file)
@@ -135,74 +118,69 @@ public class ProjectSerializer
 
 	public static Project open(FlapjackFile file)
 	{
+		Project project = null;
+
 		try
 		{
-			if (initialize() == false)
-				return null;
-
 			long s = System.currentTimeMillis();
 
-			Project project = null;
-			BufferedReader in = null;
+			int format = determineFormat(file);
 
-			if (isFileCompressed(file))
+			// Binary...
+			if (format == BIN)
 			{
-				ZipInputStream zis = new ZipInputStream(file.getInputStream());
-				zis.getNextEntry();
-
-				in = new BufferedReader(new InputStreamReader(zis));
+				BinarySerializer binSerializer = new BinarySerializer();
+				project = binSerializer.deserialize(file, true);
+				project.fjFile = file;
 			}
+
 			else
-				in = new BufferedReader(new InputStreamReader(file.getInputStream()));
-
-			Unmarshaller unmarshaller = new Unmarshaller(mapping);
-			unmarshaller.setIgnoreExtraElements(true);
-
-			XMLRoot.reset();
-			project = (Project) unmarshaller.unmarshal(in);
-			project.fjFile = file;
-
-			in.close();
-
-			// Validate what was loaded (it could be nonsense)
-			// (especially if coming from an older project format)
-			try { project.validate(); }
-			catch (NullPointerException e)
 			{
-				throw new DataFormatException(
-					RB.getString("io.DataFormatException.validationError"));
-			}
+				initialize();
 
+				BufferedReader in = null;
+
+				// Compressed XML
+				if (format == XMLZ)
+				{
+					ZipInputStream zis = new ZipInputStream(file.getInputStream());
+					zis.getNextEntry();
+
+					in = new BufferedReader(new InputStreamReader(zis));
+				}
+				// Normal XML
+				else
+					in = new BufferedReader(new InputStreamReader(file.getInputStream()));
+
+				Unmarshaller unmarshaller = new Unmarshaller(mapping);
+				unmarshaller.setIgnoreExtraElements(true);
+
+				XMLRoot.reset();
+				project = (Project) unmarshaller.unmarshal(in);
+				project.fjFile = file;
+
+				in.close();
+			}
 
 			long e = System.currentTimeMillis();
 			System.out.println("Project deserialized in " + (e-s) + "ms");
 
+			// Validate what was loaded (it could be nonsense)
+			// (especially if coming from an older project format)
+			try { project.validate(); }
+			catch (NullPointerException npe)
+			{
+//				throw new DataFormatException(
+//					RB.getString("io.DataFormatException.validationError"));
+			}
+
 			return project;
 		}
-		catch (DataFormatException e)
-		{
-			TaskDialog.error(
-				RB.format("io.ProjectSerializer.flapjackException", file.getFile(), e.getMessage()),
-				RB.getString("gui.text.close"));
-		}
-		catch (IOException e)
-		{
-			TaskDialog.error(
-				RB.format("io.ProjectSerializer.ioException", file.getFile(), e.getMessage()),
-				RB.getString("gui.text.close"));
-		}
-		catch (MappingException e)
+		catch (Exception e)
 		{
 			e.printStackTrace();
 			TaskDialog.error(
-				RB.format("io.ProjectSerializer.xml", e.getMessage()),
-				RB.getString("gui.text.close"));
-		}
-		catch (XMLException e)
-		{
-			e.printStackTrace();
-			TaskDialog.error(
-				RB.format("io.ProjectSerializer.xmlReadException", e.getMessage()),
+				RB.format("io.ProjectSerializer.error", file.getName(), e.getMessage()),
 				RB.getString("gui.text.close"));
 		}
 
@@ -323,10 +301,21 @@ public class ProjectSerializer
 	// Returns true/false on a test of whether the file is compressed or not.
 	// Will also throw a Flapjack-specific exception if the file doesn't appear
 	// to be in any format that Flapjack should be able to read.
-	private static boolean isFileCompressed(FlapjackFile file)
+	private static int determineFormat(FlapjackFile file)
 		throws DataFormatException, IOException
 	{
-		// Is the file zipped in a flapjack-like format?
+		// Try the Flapjack format first
+		try
+		{
+			BinarySerializer bin = new BinarySerializer();
+			bin.deserialize(file, false);
+
+			return BIN;
+		}
+		catch (IOException e) { throw e; }
+		catch (Exception e) {}
+
+		// Then see if it's zipped in a flapjack-like format?
 		try
 		{
 			ZipInputStream zis = new ZipInputStream(file.getInputStream());
@@ -338,7 +327,7 @@ public class ProjectSerializer
 			System.out.println("got entry: " + entry);
 
 			if (entry != null && entry.getName().equals("flapjack.xml"))
-				return true;
+				return XMLZ;
 //			else
 //				throw new DataFormatException(
 //					RB.getString("io.DataFormatException.zipError"));
@@ -354,12 +343,12 @@ public class ProjectSerializer
 			in.close();
 
 			if (str.startsWith("<?xml version=\"1.0\" encoding=\"UTF-8\"?>"))
-				return false;
+				return XML;
 		}
 		catch (IOException e) { throw e; }
 		catch (Exception e)	{}
 
 		throw new DataFormatException(
-			RB.getString("io.DataFormatException.xmlError"));
+			RB.getString("io.DataFormatException.unreadable"));
 	}
 }

@@ -48,7 +48,10 @@ class NBGeneralPanel extends JPanel implements IPrefsTab
         updateCombo.setModel(updateModel);
 
 		projectPanel.setBorder(BorderFactory.createTitledBorder(RB.getString("gui.dialog.prefs.NBGeneralPanel.projectPanelTitle")));
-		RB.setText(checkCompress, "gui.dialog.prefs.NBGeneralPanel.checkCompress");
+		RB.setText(projectLabel, "gui.dialog.prefs.NBGeneralPanel.projectLabel");
+		projectCombo.addItem(RB.getString("gui.dialog.prefs.NBGeneralPanel.projectXmlz"));
+		projectCombo.addItem(RB.getString("gui.dialog.prefs.NBGeneralPanel.projectXml"));
+		projectCombo.addItem(RB.getString("gui.dialog.prefs.NBGeneralPanel.projectBin"));
 
         initSettings();
     }
@@ -69,7 +72,7 @@ class NBGeneralPanel extends JPanel implements IPrefsTab
     {
     	displayCombo.setSelectedIndex(getLocaleIndex());
     	updateCombo.setSelectedIndex(Prefs.guiUpdateSchedule);
-    	checkCompress.setSelected(Prefs.guiSaveCompressed);
+		projectCombo.setSelectedIndex(Prefs.ioProjectFormat);
     }
 
 	public void applySettings()
@@ -83,7 +86,7 @@ class NBGeneralPanel extends JPanel implements IPrefsTab
 		}
 
 		Prefs.guiUpdateSchedule = updateCombo.getSelectedIndex();
-		Prefs.guiSaveCompressed = checkCompress.isSelected();
+		Prefs.ioProjectFormat = projectCombo.getSelectedIndex();
 	}
 
 	public void setDefaults()
@@ -105,7 +108,8 @@ class NBGeneralPanel extends JPanel implements IPrefsTab
         updateLabel = new javax.swing.JLabel();
         displayHint = new javax.swing.JLabel();
         projectPanel = new javax.swing.JPanel();
-        checkCompress = new javax.swing.JCheckBox();
+        projectCombo = new javax.swing.JComboBox();
+        projectLabel = new javax.swing.JLabel();
 
         generalPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("General options:"));
 
@@ -151,7 +155,7 @@ class NBGeneralPanel extends JPanel implements IPrefsTab
 
         projectPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Project options:"));
 
-        checkCompress.setText("Compress Flapjack projects files to save disk space");
+        projectLabel.setText("Format for saving projects:");
 
         javax.swing.GroupLayout projectPanelLayout = new javax.swing.GroupLayout(projectPanel);
         projectPanel.setLayout(projectPanelLayout);
@@ -159,15 +163,19 @@ class NBGeneralPanel extends JPanel implements IPrefsTab
             projectPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(projectPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(checkCompress)
-                .addContainerGap(77, Short.MAX_VALUE))
+                .addComponent(projectLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(projectCombo, 0, 191, Short.MAX_VALUE)
+                .addContainerGap())
         );
         projectPanelLayout.setVerticalGroup(
             projectPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(projectPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(checkCompress)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, projectPanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(projectPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(projectLabel)
+                    .addComponent(projectCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -193,11 +201,12 @@ class NBGeneralPanel extends JPanel implements IPrefsTab
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JCheckBox checkCompress;
     private javax.swing.JComboBox displayCombo;
     private javax.swing.JLabel displayHint;
     private javax.swing.JLabel displayLabel;
     private javax.swing.JPanel generalPanel;
+    private javax.swing.JComboBox projectCombo;
+    private javax.swing.JLabel projectLabel;
     private javax.swing.JPanel projectPanel;
     private javax.swing.JComboBox updateCombo;
     private javax.swing.JLabel updateLabel;
