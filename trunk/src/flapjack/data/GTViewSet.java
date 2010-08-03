@@ -21,7 +21,7 @@ public class GTViewSet extends XMLRoot
 	// Because the line info is the same across all views, it gets stored here
 	// Holds the index positions of the lines as they appear in the actual
 	// dataset's vector of lines
-	ArrayList<LineInfo> lines;
+	ArrayList<LineInfo> lines = new ArrayList<LineInfo>();
 	// Holds the lines that we don't currently want visible
 	ArrayList<LineInfo> hideLines = new ArrayList<LineInfo>();
 

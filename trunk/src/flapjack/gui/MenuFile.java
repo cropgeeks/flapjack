@@ -91,8 +91,8 @@ public class MenuFile
 		Project project = winMain.getProject();
 
 		// Check that it's ok to save (or save as)
-		boolean gz = Prefs.guiSaveCompressed;
-		if (ProjectSerializer.querySave(project, saveAs, gz) == false)
+		int format = Prefs.ioProjectFormat;
+		if (ProjectSerializer.querySave(project, saveAs, format) == false)
 			return false;
 
 		// If so, do so
@@ -270,7 +270,10 @@ public class MenuFile
 			}
 			// Saving...
 			else
-				isOK = ProjectSerializer.save(project, Prefs.guiSaveCompressed);
+			{
+				int format = Prefs.ioProjectFormat;
+				isOK = ProjectSerializer.save(project, format);
+			}
 		}
 	}
 }

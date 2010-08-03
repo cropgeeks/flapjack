@@ -20,7 +20,7 @@ public class GTView extends XMLRoot
 
 	// Holds the index positions of the markers as they appear in the actual
 	// dataset's vector of markers
-	private ArrayList<MarkerInfo> markers;
+	private ArrayList<MarkerInfo> markers = new ArrayList<MarkerInfo>();
 	// Holds markers that we don't currently want visible
 	private ArrayList<MarkerInfo> hideMarkers = new ArrayList<MarkerInfo>();
 

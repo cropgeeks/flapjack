@@ -33,9 +33,6 @@ public class Prefs extends XMLPreferences
 	// How many projects have been created
 	public static int guiProjectCount = 1;
 
-	// Should projects be saved in a compressed format?
-	public static boolean guiSaveCompressed = true;
-
 	// The locations of the last four accessed projects
 	public static String guiRecentProject1;
 	public static String guiRecentProject2;
@@ -84,6 +81,8 @@ public class Prefs extends XMLPreferences
 	public static boolean ioHeteroCollapse = true;
 	public static boolean ioUseHetSep = true;
 	public static boolean ioMakeAllChromosome = false;
+
+	public static int ioProjectFormat = 0;
 
 	// Method used when exporting images
 	public static int guiExportImageMethod = 0;

@@ -13,7 +13,7 @@ public class XMLRoot
 	private static float nextID = 0;
 	private static DecimalFormat df = new DecimalFormat("0");
 
-	protected float ID;
+	public float ID;
 
 	public XMLRoot()
 	{

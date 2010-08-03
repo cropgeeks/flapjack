@@ -132,6 +132,6 @@ public class CreateProject
 	{
 		project.fjFile = prjFile;
 
-		return ProjectSerializer.save(project, true);
+		return ProjectSerializer.save(project, ProjectSerializer.XMLZ);
 	}
 }
