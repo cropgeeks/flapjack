@@ -27,6 +27,8 @@ public class TraitImporter extends SimpleJob
 	// name, and is a list of trait values, one per trait across the columns
 	private Hashtable<String, ArrayList<TraitValue>> hashtable;
 
+	private int traitsCount, traitsRead;
+
 	public TraitImporter(File file, DataSet dataSet)
 	{
 		this.file = file;
@@ -89,6 +91,7 @@ public class TraitImporter extends SimpleJob
 			}
 
 			hashtable.put(lineName, values);
+//			traitsRead++;
 		}
 
 		in.close();
@@ -135,7 +138,10 @@ public class TraitImporter extends SimpleJob
 	{
 		// If everything was read in correctly, apply the traits to the dataset
 		for (Trait trait: traits)
+		{
 			dataSet.getTraits().add(trait);
+			traitsCount++;
+		}
 
 		// For each line, see if data for it exists...
 		for (Line line: dataSet.getLines())
@@ -150,6 +156,7 @@ public class TraitImporter extends SimpleJob
 					tv.computeNormal();
 					// Then add it
 					line.getTraitValues().add(tv);
+					traitsRead++;
 				}
 
 			// If it doesn't, then still add TraitValues, but use dummy ones
@@ -171,4 +178,10 @@ public class TraitImporter extends SimpleJob
 
 		return (int) (is.getBytesRead() / (float) file.length()) * 5000;
 	}
+
+	public int getTraitsCount()
+		{ return traitsCount; }
+
+	public int getTraitsRead()
+		{ return traitsRead; }
 }
