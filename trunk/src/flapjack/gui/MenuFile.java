@@ -217,6 +217,10 @@ public class MenuFile
 
 		ttp.getTraitsPanel().updateModel();
 		Actions.projectModified();
+
+		TaskDialog.info(RB.format("gui.MenuFile.importTraits.success",
+			importer.getTraitsCount(), importer.getTraitsRead()),
+			RB.getString("gui.text.close"));
 	}
 
 	private void importQTLData(File file)
@@ -245,6 +249,10 @@ public class MenuFile
 		TabPanel ttp = navPanel.getTraitsPanel(dataSet);
 		ttp.getQTLPanel().updateModel();
 		Actions.projectModified();
+
+		TaskDialog.info(RB.format("gui.MenuFile.importQTLs.success",
+			importer.getFeaturesRead(), importer.getFeaturesAdded()),
+			RB.getString("gui.text.close"));
 	}
 
 	private static class SaveLoadHandler extends SimpleJob

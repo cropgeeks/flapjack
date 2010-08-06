@@ -35,6 +35,8 @@ public class QTLImporter extends SimpleJob
 	// Store references to each trait, so colors can be assigned post-import
 	Hashtable<String, Color> traits = new Hashtable<String, Color>();
 
+	private int featuresRead, featuresAdded;
+
 	public QTLImporter(File file, DataSet dataSet)
 	{
 		this.file = file;
@@ -57,7 +59,7 @@ public class QTLImporter extends SimpleJob
 		String str = in.readLine();
 		String[] tokens = str.split("\t", -1);
 
-		// Work out how many addition "data score" headers there are
+		// Work out how many additional "data score" headers there are
 		String[] scoreHeaders = new String[tokens.length-HEADERCOUNT];
 		for (int i = HEADERCOUNT; i < tokens.length; i++)
 			scoreHeaders[i-HEADERCOUNT] = new String(tokens[i]);
@@ -102,12 +104,15 @@ public class QTLImporter extends SimpleJob
 			qtl.setVNames(vNames);
 			qtl.setValues(values);
 
+			featuresRead++;
+
 			// Add this QTL to the correct chromosome's track
 			ArrayList<Feature> track = chromosomes.get(cName);
 			if (track != null)
 			{
 				track.add(qtl);
 				checkChromosome(qtl, cName);
+				featuresAdded++;
 			}
 
 			qtls.add(qtl);
@@ -181,4 +186,10 @@ public class QTLImporter extends SimpleJob
 
 		return (int) (is.getBytesRead() / (float) file.length()) * 5000;
 	}
+
+	public int getFeaturesRead()
+		{ return featuresRead; }
+
+	public int getFeaturesAdded()
+		{ return featuresAdded; }
 }
