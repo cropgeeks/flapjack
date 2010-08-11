@@ -123,7 +123,8 @@ public class DataImporter extends SimpleJob
 		final NumberFormat nf = NumberFormat.getInstance();
 
 		return RB.format("io.DataImporter.message",
-			dataSet.countChromosomeMaps(),
+			nf.format(dataSet.countChromosomeMaps()),
+			nf.format(mapImporter.getMarkerCount()),
 			nf.format(genoImporter.getLineCount()),
 			nf.format(genoImporter.getMarkerCount()));
 	}

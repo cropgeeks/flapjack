@@ -22,6 +22,7 @@ public class ChromosomeMapImporter
 	// Each marker's name is stored (only while loading) in a hashmap, along
 	// with the index of the chromosome it is associated with
 	private HashMap<String, MarkerIndex> markers = new HashMap<String, MarkerIndex>();
+	private long markerCount = 0;
 
 	private LinkedList<String> duplicates = new LinkedList<String>();
 
@@ -86,6 +87,8 @@ public class ChromosomeMapImporter
 
 				// And store it in the hashmap too
 				markers.put(marker.getName(), new MarkerIndex(w.index, 0));
+
+				markerCount++;
 			}
 
 			linesRead++;
@@ -116,6 +119,9 @@ public class ChromosomeMapImporter
 
 	public long getBytesRead()
 		{ return (is == null) ? 0 : is.getBytesRead(); }
+
+	long getMarkerCount()
+		{ return markerCount; }
 }
 
 class MarkerIndex

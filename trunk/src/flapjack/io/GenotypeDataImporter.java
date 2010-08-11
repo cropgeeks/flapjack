@@ -30,8 +30,8 @@ public class GenotypeDataImporter
 	private boolean ioUseHetSep;
 	private String ioHeteroSeparator;
 
-	private int lineCount = 0;
-	private int markerCount;
+	private long lineCount = 0;
+	private long markerCount;
 
 	private boolean useByteStorage = true;
 
@@ -62,10 +62,10 @@ public class GenotypeDataImporter
 	public File getFile()
 		{ return file; }
 
-	public int getLineCount()
+	public long getLineCount()
 		{ return lineCount; }
 
-	public int getMarkerCount()
+	public long getMarkerCount()
 		{ return markerCount; }
 
 	public void importGenotypeData()
