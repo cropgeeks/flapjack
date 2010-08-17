@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<install4j version="5.0.1" transformSequenceNumber="3">
+<install4j version="5.0.4" transformSequenceNumber="3">
   <directoryPresets config="../res/icons" />
   <application name="Flapjack" distributionSourceDir="" applicationId="9131-7045-2417-5931" mediaDir="." mediaFilePattern="${compiler:sys.shortName}_${compiler:sys.platform}_${compiler:sys.version}" compression="6" lzmaCompression="false" pack200Compression="false" excludeSignedFromPacking="true" commonExternalFiles="false" createMd5Sums="true" shrinkRuntime="true" shortName="flapjack" publisher="SCRI" publisherWeb="http://www.scri.ac.uk" version="x.xx.xx.xx" allPathsRelative="true" backupOnSave="false" autoSave="false" convertDotsToUnderscores="true" macSignature="????" installerName="" javaMinVersion="1.6" javaMaxVersion="" allowBetaVM="false" jdkMode="runtimeJre" jdkName="">
     <languages skipLanguageSelection="true" languageSelectionInPrincipalLanguage="false">
@@ -372,9 +372,6 @@
                       </void>
                       <void property="launcherId">
                         <string>18</string>
-                      </void>
-                      <void property="mac">
-                        <boolean>false</boolean>
                       </void>
                     </object>
                   </java>
@@ -1343,7 +1340,6 @@ if (wizardContext != null) {
   <mediaSets>
     <windows name="Windows x86" id="19" customizedId="" mediaFileName="${compiler:sys.shortName}_windows_x86_${compiler:sys.version}" installDir="Flapjack" overridePrincipalLanguage="false" jreBitType="32" runPostProcessor="false" postProcessor="" failOnPostProcessorError="false" useLegacyMediaFileIds="false" legacyMediaFileIds="" includedJRE="windows-x86-1.6.0_20" manualJREEntry="false" bundleType="1" jreURL="" jreFtpURL="" jreShared="false" directDownload="false" installOnlyIfNecessary="false" customInstallBaseDir="" contentFilesType="1" downloadURL="" verifyIntegrity="true">
       <excludedLaunchers />
-      <excludedComponents />
       <excludedBeans>
         <bean refId="1236" />
       </excludedBeans>
@@ -1354,10 +1350,11 @@ if (wizardContext != null) {
         <commentFiles />
         <customAttributes />
       </autoUpdate>
+      <excludedComponents />
+      <includedDownloadableComponents />
     </windows>
     <windows name="Windows x64" id="1234" customizedId="" mediaFileName="${compiler:sys.shortName}_windows_x64_${compiler:sys.version}" installDir="Flapjack" overridePrincipalLanguage="false" jreBitType="64" runPostProcessor="false" postProcessor="" failOnPostProcessorError="false" useLegacyMediaFileIds="false" legacyMediaFileIds="" includedJRE="windows-amd64-1.6.0_20" manualJREEntry="false" bundleType="1" jreURL="" jreFtpURL="" jreShared="false" directDownload="false" installOnlyIfNecessary="false" customInstallBaseDir="" contentFilesType="1" downloadURL="" verifyIntegrity="true">
       <excludedLaunchers />
-      <excludedComponents />
       <excludedBeans>
         <bean refId="974" />
       </excludedBeans>
@@ -1368,9 +1365,10 @@ if (wizardContext != null) {
         <commentFiles />
         <customAttributes />
       </autoUpdate>
+      <excludedComponents />
+      <includedDownloadableComponents />
     </windows>
     <macos name="Mac OS X Single Bundle" id="126" customizedId="" mediaFileName="" installDir="Flapjack" overridePrincipalLanguage="false" jreBitType="all" runPostProcessor="false" postProcessor="" failOnPostProcessorError="false" useLegacyMediaFileIds="false" legacyMediaFileIds="" customInstallBaseDir="" contentFilesType="1" downloadURL="" launcherId="18">
-      <excludedComponents />
       <excludedBeans>
         <bean refId="974" />
       </excludedBeans>
@@ -1383,12 +1381,11 @@ if (wizardContext != null) {
         <commentFiles />
         <customAttributes />
       </autoUpdate>
+      <excludedComponents />
+      <includedDownloadableComponents />
     </macos>
     <unixInstaller name="Linux x86" id="181" customizedId="" mediaFileName="${compiler:sys.shortName}_linux_x86_${compiler:sys.version}" installDir="Flapjack" overridePrincipalLanguage="false" jreBitType="all" runPostProcessor="false" postProcessor="" failOnPostProcessorError="false" useLegacyMediaFileIds="false" legacyMediaFileIds="" includedJRE="linux-x86-1.6.0_20" manualJREEntry="false" bundleType="1" jreURL="" jreFtpURL="" jreShared="false" directDownload="false" installOnlyIfNecessary="false" customInstallBaseDir="" contentFilesType="1" downloadURL="">
-      <excludedLaunchers>
-        <launcher id="797" />
-      </excludedLaunchers>
-      <excludedComponents />
+      <excludedLaunchers />
       <excludedBeans>
         <bean refId="1236" />
       </excludedBeans>
@@ -1402,13 +1399,14 @@ if (wizardContext != null) {
         <commentFiles />
         <customAttributes />
       </autoUpdate>
+      <excludedComponents />
+      <includedDownloadableComponents />
       <installerScript mode="1" file="">
         <content />
       </installerScript>
     </unixInstaller>
     <unixInstaller name="Linux x64" id="1246" customizedId="" mediaFileName="${compiler:sys.shortName}_linux_x64_${compiler:sys.version}" installDir="Flapjack" overridePrincipalLanguage="false" jreBitType="all" runPostProcessor="false" postProcessor="" failOnPostProcessorError="false" useLegacyMediaFileIds="false" legacyMediaFileIds="" includedJRE="linux-amd64-1.6.0_20" manualJREEntry="false" bundleType="1" jreURL="" jreFtpURL="" jreShared="false" directDownload="false" installOnlyIfNecessary="false" customInstallBaseDir="" contentFilesType="1" downloadURL="">
       <excludedLaunchers />
-      <excludedComponents />
       <excludedBeans>
         <bean refId="974" />
       </excludedBeans>
@@ -1419,13 +1417,14 @@ if (wizardContext != null) {
         <commentFiles />
         <customAttributes />
       </autoUpdate>
+      <excludedComponents />
+      <includedDownloadableComponents />
       <installerScript mode="1" file="">
         <content />
       </installerScript>
     </unixInstaller>
     <unixInstaller name="Solaris" id="1249" customizedId="" mediaFileName="${compiler:sys.shortName}_solaris_${compiler:sys.version}" installDir="Flapjack" overridePrincipalLanguage="false" jreBitType="all" runPostProcessor="false" postProcessor="" failOnPostProcessorError="false" useLegacyMediaFileIds="false" legacyMediaFileIds="" includedJRE="solaris-sparc-1.6.0_18" manualJREEntry="false" bundleType="1" jreURL="" jreFtpURL="" jreShared="false" directDownload="false" installOnlyIfNecessary="false" customInstallBaseDir="" contentFilesType="1" downloadURL="">
       <excludedLaunchers />
-      <excludedComponents />
       <excludedBeans>
         <bean refId="974" />
       </excludedBeans>
@@ -1436,6 +1435,8 @@ if (wizardContext != null) {
         <commentFiles />
         <customAttributes />
       </autoUpdate>
+      <excludedComponents />
+      <includedDownloadableComponents />
       <installerScript mode="1" file="">
         <content />
       </installerScript>
