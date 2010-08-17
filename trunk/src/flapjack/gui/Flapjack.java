@@ -22,6 +22,8 @@ public class Flapjack
 	private static File prefsFile = getPrefsFile();
 	private static Prefs prefs = new Prefs();
 
+	private static FlapjackFile initialProject;
+
 	public static WinMain winMain;
 
 	public static void main(String[] args)
@@ -45,12 +47,12 @@ public class Flapjack
 
 		// Start the GUI (either with or without an initial project)
 		if (args.length == 1 && args[0] != null)
-			new Flapjack(new FlapjackFile(args[0]));
-		else
-			new Flapjack(null);
+			initialProject = new FlapjackFile(args[0]);
+
+		new Flapjack();
 	}
 
-	Flapjack(final FlapjackFile initialProject)
+	Flapjack()
 	{
 		try
 		{
@@ -192,6 +194,8 @@ public class Flapjack
 				getClass().getDeclaredMethod("osxAbout", (Class[])null));
 			OSXAdapter.setQuitHandler(this,
 				getClass().getDeclaredMethod("osxShutdown", (Class[])null));
+			OSXAdapter.setFileHandler(this,
+				getClass().getDeclaredMethod("osxOpen", new Class[] { String.class }));
 
 			// Dock the menu bar at the top of the screen
 			System.setProperty("apple.laf.useScreenMenuBar", "true");
@@ -209,6 +213,20 @@ public class Flapjack
 	public void osxAbout()
 	{
 		winMain.mHelp.helpAbout();
+	}
+
+	public void osxOpen(String path)
+	{
+		// If Tablet is already open, then open the file straight away
+		if (winMain != null && winMain.isVisible())
+		{
+			// TODO: If we have project modified checks, do them here too
+			winMain.mFile.fileOpen(new FlapjackFile(path));
+		}
+
+		// Otherwise, mark it for opening once Flapjack is ready
+		else
+			initialProject = new FlapjackFile(path);
 	}
 
 	/** "Quit Flapjack" on the OS X system menu. */
