@@ -148,6 +148,9 @@ public class BinarySerializer
 		// Dummy line data
 		if (dataSet.getDummyLine() != null)
 			saveLine(dataSet.getDummyLine(), dataSet);
+
+		// DBAssociation
+		saveDBAssociation(dataSet.getDbAssociation());
 	}
 
 	protected void loadDataSet(Project project)
@@ -187,6 +190,8 @@ public class BinarySerializer
 		// Has dummy line?
 		if (in.readBoolean())
 			loadLine(dataSet);
+
+		loadDBAssociation(dataSet);
 
 		project.getDataSets().add(dataSet);
 	}
@@ -496,6 +501,11 @@ public class BinarySerializer
 		out.writeInt(viewSet.getViews().size());
 		for (GTView view: viewSet.getViews())
 			saveGTView(view);
+
+		// Bookmarks
+		out.writeInt(viewSet.getBookmarks().size());
+		for (Bookmark bookmark: viewSet.getBookmarks())
+			saveBookmark(bookmark, viewSet.getDataSet());
 	}
 
 	protected void loadGTViewSet(DataSet dataSet)
@@ -538,6 +548,11 @@ public class BinarySerializer
 		for (int i = 0; i < viewCount; i++)
 			loadGTView(viewSet, i);
 
+		// Bookmarks
+		int bookmarkCount = in.readInt();
+		for (int i = 0; i < bookmarkCount; i++)
+			loadBookmark(viewSet);
+
 		// Rebuild the comparison line reference
 		if (comparisonLineIndex != -1)
 			viewSet.setComparisonLine(dataSet.getLines().get(comparisonLineIndex));
@@ -557,6 +572,11 @@ public class BinarySerializer
 		// Number of marker infos
 		out.writeInt(view.getMarkers().size());
 		for (MarkerInfo markerInfo: view.getMarkers())
+			saveMarkerInfo(markerInfo);
+
+		// Number of hide marker infos
+		out.writeInt(view.getHideMarkers().size());
+		for (MarkerInfo markerInfo: view.getHideMarkers())
 			saveMarkerInfo(markerInfo);
 	}
 
@@ -587,6 +607,12 @@ public class BinarySerializer
 		// MarkerInfo data
 		for (int i = 0; i < markerInfoCount; i++)
 			loadMarkerInfo(view.getMarkers(), map);
+
+		// Number of hide marker objects
+		int hidemarkerInfoCount = in.readInt();
+		// MarkerInfo data
+		for (int i = 0; i < hidemarkerInfoCount; i++)
+			loadMarkerInfo(view.getHideMarkers(), map);
 
 		viewSet.getViews().add(view);
 	}
@@ -661,6 +687,70 @@ public class BinarySerializer
 		list.add(markerInfo);
 	}
 
+	protected void saveBookmark(Bookmark bookmark, DataSet dataSet)
+		throws Exception
+	{
+		if (GUID)
+			out.writeFloat(bookmark.ID);
+
+		// Index of chromosome
+		ChromosomeMap map = bookmark.getChromosome();
+		out.writeInt(dataSet.getChromosomeMaps().indexOf(map));
+
+		// Index of line
+		Line line = bookmark.getLine();
+		out.writeInt(dataSet.getLines().indexOf(line));
+
+		// Index of marker
+		Marker marker = bookmark.getMarker();
+		out.writeInt(map.getMarkers().indexOf(marker));
+	}
+
+	private void loadBookmark(GTViewSet viewSet)
+		throws Exception
+	{
+		Bookmark bookmark = new Bookmark();
+		DataSet dataSet = viewSet.getDataSet();
+
+		if (GUID)
+			in.readFloat();
+
+		int mapIndex = in.readInt();
+		int lineIndex = in.readInt();
+		int markerIndex = in.readInt();
+
+		// Rebuild the references from the data
+		ChromosomeMap map = dataSet.getChromosomeMaps().get(mapIndex);
+		bookmark.setChromosome(map);
+		bookmark.setLine(dataSet.getLines().get(lineIndex));
+		bookmark.setMarker(map.getMarkers().get(markerIndex));
+
+		viewSet.getBookmarks().add(bookmark);
+	}
+
+	private void saveDBAssociation(DBAssociation db)
+		throws Exception
+	{
+		if (GUID)
+			out.writeFloat(db.ID);
+
+		writeString(db.getLineSearch());
+		writeString(db.getMarkerSearch());
+	}
+
+	private void loadDBAssociation(DataSet dataSet)
+		throws Exception
+	{
+		DBAssociation db = new DBAssociation();
+
+		if (GUID)
+			in.readFloat();
+
+		db.setLineSearch(readString());
+		db.setMarkerSearch(readString());
+
+		dataSet.setDbAssociation(db);
+	}
 
 	// Reads and returns a string from the bytestream, by expecting to read a
 	// single integer defining the string's length; then that number of bytes
