@@ -130,7 +130,13 @@ public class BinarySerializer
 		out.writeInt(dataSet.getChromosomeMaps().size());
 		// Chromosome data
 		for (ChromosomeMap map: dataSet.getChromosomeMaps())
-			saveChromosomeMap(map);
+			saveChromosomeMap(map, dataSet);
+
+		// Number traits
+		out.writeInt(dataSet.getTraits().size());
+		// Trait data
+		for (Trait trait : dataSet.getTraits())
+			saveTrait(trait);
 
 		// Number of lines
 		out.writeInt(dataSet.getLines().size());
@@ -174,6 +180,14 @@ public class BinarySerializer
 		// Chromosome data
 		for (int i = 0; i < chromosomeCount; i++)
 			loadChromosomeMap(dataSet);
+
+		// Number traits
+		int traitCount = in.readInt();
+		if (DEBUG)
+			System.out.println("found " + traitCount + " traits");
+		// Trait data
+		for (int i = 0; i < traitCount; i++)
+			loadTrait(dataSet);
 
 		// Number of lines
 		int lineCount = in.readInt();
@@ -264,7 +278,7 @@ public class BinarySerializer
 		dataSet.setStateTable(table);
 	}
 
-	protected void saveChromosomeMap(ChromosomeMap map)
+	protected void saveChromosomeMap(ChromosomeMap map, DataSet dataSet)
 		throws Exception
 	{
 		if (GUID)
@@ -285,6 +299,13 @@ public class BinarySerializer
 		// Marker data
 		for (Marker m: map)
 			saveMarker(m);
+
+		// Number of features
+		out.writeInt(map.getFeatures().size());
+
+		// Feature Data
+		for (Feature f: map.getFeatures())
+				saveFeature(f);
 	}
 
 	protected void loadChromosomeMap(DataSet dataSet)
@@ -311,6 +332,14 @@ public class BinarySerializer
 		// Marker data
 		for (int i = 0; i < markerCount; i++)
 			loadMarker(map);
+
+		// Number of features
+		int featureCount = in.readInt();
+		if (DEBUG)
+			System.out.println("expecting " + featureCount + " features in " + map.getName());
+		// Feature data
+		for (int i = 0; i < featureCount; i++)
+			loadFeature(map);
 
 		dataSet.getChromosomeMaps().add(map);
 	}
@@ -351,6 +380,167 @@ public class BinarySerializer
 		map.getMarkers().add(marker);
 	}
 
+	protected void saveFeature(Feature f)
+			throws Exception
+	{
+		if (GUID)
+			out.writeFloat(f.ID);
+
+		QTL feature = (QTL)f;
+		// QTL Specific attributes
+		// Position
+		out.writeFloat(feature.getPosition());
+
+		// Trait
+		writeString(feature.getTrait());
+
+		// Experiment
+		writeString(feature.getExperiment());
+
+		// VNames
+		if(feature.getVNames().length > 0)
+		{
+			out.writeInt(feature.getVNames().length);
+
+			for(String vName : feature.getVNames())
+				writeString(vName);
+		}
+
+		// Values
+		if(feature.getValues().length > 0)
+		{
+			out.writeInt(feature.getValues().length);
+
+			for(String value : feature.getValues())
+				writeString(value);
+		}
+		// QTL specific end
+
+		// Name
+		writeString(feature.getName());
+
+		// Min
+		out.writeFloat(feature.getMin());
+
+		// Max
+		out.writeFloat(feature.getMax());
+
+		// Visible
+		out.writeBoolean(feature.isVisible());
+
+		// Allowed
+		out.writeBoolean(feature.isAllowed());
+
+		// Red value
+		out.writeInt(feature.getRed());
+
+		// Green value
+		out.writeInt(feature.getGreen());
+
+		// Blue value
+		out.writeInt(feature.getBlue());
+	}
+
+	protected void loadFeature(ChromosomeMap map)
+		throws Exception
+	{
+		QTL feature = new QTL();
+
+		if (GUID)
+			in.readFloat();
+
+		//QTL Specific attributes
+		// Position
+		feature.setPosition(in.readFloat());
+
+		// Trait
+		feature.setTrait(readString());
+
+		// Experiment
+		feature.setExperiment(readString());
+
+		//ChromosomeMap map = dataSet.getChromosomeMaps().get(mapIndex);
+		feature.setChromosomeMap(map);
+
+		// VNames
+		int vNameCount = in.readInt();
+		String[] vNames = new String[vNameCount];
+		for (int i = 0; i < vNames.length; i++)
+			vNames[i] = readString();
+
+		feature.setVNames(vNames);
+
+		// Value
+		int valueCount = in.readInt();
+		String[] values = new String[valueCount];
+		for (int i = 0; i < values.length; i++)
+			values[i] = readString();
+
+		feature.setValues(values);
+		// QTL specific end
+
+		// Name
+		feature.setName(readString());
+
+		// Min
+		feature.setMin(in.readFloat());
+
+		// Max
+		feature.setMax(in.readFloat());
+
+		// Visible
+		feature.setVisible(in.readBoolean());
+
+		// Allowed
+		feature.setAllowed(in.readBoolean());
+
+		// Red
+		feature.setRed(in.readInt());
+
+		// Green
+		feature.setGreen(in.readInt());
+
+		// Blue
+		feature.setBlue(in.readInt());
+
+		map.getFeatures().add(feature);
+	}
+
+	protected void saveTrait(Trait trait)
+		throws Exception
+	{
+		if (GUID)
+			out.writeFloat(trait.ID);
+
+		// Name
+		writeString(trait.getName());
+
+		// Categories
+		int noCategories = trait.getCategories().size();
+		out.writeInt(noCategories);
+		for(int i = 0; i < noCategories; i++)
+			writeString(trait.getCategories().get(i));
+	}
+
+	protected void loadTrait(DataSet dataSet)
+		throws Exception
+	{
+		Trait trait = new Trait();
+
+		if (GUID)
+			in.readFloat();
+
+		// Name
+		trait.setName(readString());
+
+		// Categories
+		int noCategories = in.readInt();
+		for( int i = 0; i < noCategories; i++)
+			trait.getCategories().add(readString());
+
+		dataSet.getTraits().add(trait);
+	}
+
 	protected void saveLine(Line line, DataSet dataSet)
 		throws Exception
 	{
@@ -365,6 +555,12 @@ public class BinarySerializer
 		// GenotypeData
 		for (GenotypeData data: line.getGenotypes())
 			saveGenotypeData(data, dataSet);
+
+		// Number of trait value objects
+		out.writeInt(line.getTraitValues().size());
+		// TraitValues
+		for (TraitValue traitValue : line.getTraitValues())
+			saveTraitValue(traitValue, dataSet);
 	}
 
 	protected void loadLine(DataSet dataSet)
@@ -385,6 +581,12 @@ public class BinarySerializer
 		// GenotypeData
 		for (int i = 0; i < genoCount; i++)
 			loadGenotypeData(line, dataSet);
+
+		// Number of trait value objects
+		int traitValueCount = in.readInt();
+		// TraitValues
+		for (int i = 0; i < traitValueCount; i++)
+			loadTraitValue(line, dataSet);
 
 		dataSet.getLines().add(line);
 	}
@@ -464,6 +666,50 @@ public class BinarySerializer
 		}
 
 		line.getGenotypes().add(data);
+	}
+
+	protected void saveTraitValue(TraitValue traitValue, DataSet dataSet)
+		throws Exception
+	{
+		if (GUID)
+			out.writeFloat(traitValue.ID);
+
+		// Value
+		out.writeFloat(traitValue.getValue());
+
+		// Normal
+		out.writeFloat(traitValue.getNormal());
+
+		// Defined
+		out.writeBoolean(traitValue.isDefined());
+
+		// Trait - output its index
+		int traitIndex = dataSet.getTraits().indexOf(traitValue.getTrait());
+		out.writeInt(traitIndex);
+	}
+
+	protected void loadTraitValue(Line line, DataSet dataSet)
+		throws Exception
+	{
+		TraitValue traitValue = new TraitValue();
+
+		if (GUID)
+			in.readFloat();
+
+		// Value
+		traitValue.setValue(in.readFloat());
+
+		// Normal
+		traitValue.setNormal(in.readFloat());
+
+		// Defined
+		traitValue.setDefined(in.readBoolean());
+
+		// Trait - get from its index
+		int traitIndex = in.readInt();
+		traitValue.setTrait(dataSet.getTraits().get(traitIndex));
+
+		line.getTraitValues().add(traitValue);
 	}
 
 	protected void saveGTViewSet(GTViewSet viewSet)
