@@ -37,6 +37,8 @@ class NBImportDataPanel extends javax.swing.JPanel implements ActionListener
 
 		mapComboBox.setHistory(Prefs.guiMapList);
 		genoComboBox.setHistory(Prefs.guiGenoList);
+		mapComboBox.setPrototypeDisplayValue(100);
+		genoComboBox.setPrototypeDisplayValue(100);
 
 
 		// Apply localized text

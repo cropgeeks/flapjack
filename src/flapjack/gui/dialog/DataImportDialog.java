@@ -95,9 +95,17 @@ public class DataImportDialog extends JDialog implements ActionListener, ChangeL
 		{
 			switch (tabs.getSelectedIndex())
 			{
-				case 0: if (dataPanel.isOK() == false) return;
-				case 1: if (traitsPanel.isOK() == false) return;
-				case 2: if (featuresPanel.isOK() == false) return;
+				case 0: if (dataPanel.isOK() == false)
+							return;
+				break;
+
+				case 1: if (traitsPanel.isOK() == false)
+							return;
+				break;
+
+				case 2: if (featuresPanel.isOK() == false)
+							return;
+				break;
 			}
 
 			isOK = true;
