@@ -1,7 +1,7 @@
 // Copyright 2007-2010 Plant Bioinformatics Group, SCRI. All rights reserved.
 // Use is subject to the accompanying licence terms.
 
-package flapjack.io;
+package flapjack.io.binary;
 
 import java.io.*;
 import java.util.*;
@@ -10,84 +10,14 @@ import flapjack.data.*;
 import flapjack.gui.*;
 import flapjack.io.*;
 
-public class BinarySerializer
+class SerializerV01 extends FlapjackSerializer
 {
-	protected static boolean GUID = false;
-	protected static boolean DEBUG = false;
-
-	protected DataOutputStream out;
-	protected DataInputStream in;
-
-	public BinarySerializer()
-	{
-	}
-
-	public void serialize(Project project)
-		throws Exception
-	{
-		long st = System.currentTimeMillis();
-
-		File file = project.fjFile.getFile();
-		out = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(file)));
-
-		// Header information
-		out.writeBytes("FLAPJACK\032");
-
-		// Version information
-		out.writeInt(1);
-		// Created by
-		writeString("Flapjack " + Install4j.VERSION);
-
-		// The project itself
-		saveProject(project);
-
-		out.close();
-
-		long et = System.currentTimeMillis();
-		System.out.println("BIN project save in " + (et-st) + "ms");
-	}
-
-	public Project deserialize(FlapjackFile fjFile, boolean fullRead)
-		throws Exception
-	{
-		long st = System.currentTimeMillis();
-
-		in = new DataInputStream(new BufferedInputStream(fjFile.getInputStream()));
-
-		// Header information
-		byte[] header = new byte[9];
-		int headerLength = in.read(header);
-
-		if (headerLength != 9 || !(new String(header).equals("FLAPJACK\032")))
-			throw new DataFormatException("File does not contain a Flapjack header");
-
-		// Version information
-		int version = in.readInt();
-		// Created by
-		String creator = readString();
-
-		System.out.println("Project V" + version + " (" + creator + ")");
-
-
-		// The project itself
-		Project project = null;
-		if (fullRead)
-			project = loadProject();
-
-		in.close();
-
-		long et = System.currentTimeMillis();
-		System.out.println("BIN project load in " + (et-st) + "ms");
-
-		return project;
-	}
+	SerializerV01(DataInputStream in, DataOutputStream out)
+		{ super(in, out); }
 
 	protected void saveProject(Project project)
 		throws Exception
 	{
-		if (GUID)
-			out.writeFloat(project.ID);
-
 		// The number of datasets
 		out.writeInt(project.getDataSets().size());
 
@@ -99,9 +29,6 @@ public class BinarySerializer
 		throws Exception
 	{
 		Project project = new Project();
-
-		if (GUID)
-			in.readFloat();
 
 		// The number of datasets
 		int dataSetCount = in.readInt();
@@ -117,9 +44,6 @@ public class BinarySerializer
 	protected void saveDataSet(DataSet dataSet)
 		throws Exception
 	{
-		if (GUID)
-			out.writeFloat(dataSet.ID);
-
 		// Name
 		writeString(dataSet.getName());
 
@@ -163,9 +87,6 @@ public class BinarySerializer
 		throws Exception
 	{
 		DataSet dataSet = new DataSet();
-
-		if (GUID)
-			in.readFloat();
 
 		// Name
 		dataSet.setName(readString());
@@ -213,18 +134,12 @@ public class BinarySerializer
 	protected void saveStateTable(StateTable table)
 		throws Exception
 	{
-		if (GUID)
-			out.writeFloat(table.ID);
-
 		// Number of states
 		out.writeInt(table.getStates().size());
 
 		// AlleleState objects
 		for (AlleleState state: table.getStates())
 		{
-			if (GUID)
-				out.writeFloat(state.ID);
-
 			// isHomozygous
 			out.writeBoolean(state.isHomozygous());
 
@@ -245,9 +160,6 @@ public class BinarySerializer
 	{
 		StateTable table = new StateTable();
 
-		if (GUID)
-			in.readFloat();
-
 		// Number of states
 		int statesCount = in.readInt();
 
@@ -255,9 +167,6 @@ public class BinarySerializer
 		for (int i = 0; i < statesCount; i++)
 		{
 			AlleleState state = new AlleleState();
-
-			if (GUID)
-				in.readFloat();
 
 			// isHomozygous
 			state.setHomozygous(in.readBoolean());
@@ -281,9 +190,6 @@ public class BinarySerializer
 	protected void saveChromosomeMap(ChromosomeMap map, DataSet dataSet)
 		throws Exception
 	{
-		if (GUID)
-			out.writeFloat(map.ID);
-
 		// Name
 		writeString(map.getName());
 
@@ -312,9 +218,6 @@ public class BinarySerializer
 		throws Exception
 	{
 		ChromosomeMap map = new ChromosomeMap();
-
-		if (GUID)
-			in.readFloat();
 
 		// Name
 		map.setName(readString());
@@ -347,9 +250,6 @@ public class BinarySerializer
 	protected void saveMarker(Marker marker)
 		throws Exception
 	{
-		if (GUID)
-			out.writeFloat(marker.ID);
-
 		// Name
 		writeString(marker.getName());
 
@@ -364,9 +264,6 @@ public class BinarySerializer
 		throws Exception
 	{
 		Marker marker = new Marker();
-
-		if (GUID)
-			in.readFloat();
 
 		// Name
 		marker.setName(readString());
@@ -383,9 +280,6 @@ public class BinarySerializer
 	protected void saveFeature(Feature f)
 			throws Exception
 	{
-		if (GUID)
-			out.writeFloat(f.ID);
-
 		QTL feature = (QTL)f;
 		// QTL Specific attributes
 		// Position
@@ -446,9 +340,6 @@ public class BinarySerializer
 	{
 		QTL feature = new QTL();
 
-		if (GUID)
-			in.readFloat();
-
 		//QTL Specific attributes
 		// Position
 		feature.setPosition(in.readFloat());
@@ -459,7 +350,6 @@ public class BinarySerializer
 		// Experiment
 		feature.setExperiment(readString());
 
-		//ChromosomeMap map = dataSet.getChromosomeMaps().get(mapIndex);
 		feature.setChromosomeMap(map);
 
 		// VNames
@@ -509,9 +399,6 @@ public class BinarySerializer
 	protected void saveTrait(Trait trait)
 		throws Exception
 	{
-		if (GUID)
-			out.writeFloat(trait.ID);
-
 		// Name
 		writeString(trait.getName());
 
@@ -527,9 +414,6 @@ public class BinarySerializer
 	{
 		Trait trait = new Trait();
 
-		if (GUID)
-			in.readFloat();
-
 		// Name
 		trait.setName(readString());
 
@@ -544,9 +428,6 @@ public class BinarySerializer
 	protected void saveLine(Line line, DataSet dataSet)
 		throws Exception
 	{
-		if (GUID)
-			out.writeFloat(line.ID);
-
 		// Name
 		writeString(line.getName());
 
@@ -567,9 +448,6 @@ public class BinarySerializer
 		throws Exception
 	{
 		Line line = new Line();
-
-		if (GUID)
-			in.readFloat();
 
 		// Name
 		line.setName(readString());
@@ -594,13 +472,6 @@ public class BinarySerializer
 	protected void saveGenotypeData(GenotypeData data, DataSet dataSet)
 		throws Exception
 	{
-		if (GUID)
-			out.writeFloat(data.ID);
-
-		// REFERENCE to chromosome
-		if (GUID)
-			out.writeFloat(data.getChromosomeMap().ID);
-
 		// Index in the data set of the chromosome this object belongs to
 		ChromosomeMap map = data.getChromosomeMap();
 		out.writeInt(dataSet.getChromosomeMaps().indexOf(map));
@@ -628,13 +499,6 @@ public class BinarySerializer
 		throws Exception
 	{
 		GenotypeData data = new GenotypeData();
-
-		if (GUID)
-			in.readFloat();
-
-		// REFERENCE to chromosome
-		if (GUID)
-			in.readFloat();
 
 		// Index in the data set of the chromosome this object belongs to
 		int mapIndex = in.readInt();
@@ -671,9 +535,6 @@ public class BinarySerializer
 	protected void saveTraitValue(TraitValue traitValue, DataSet dataSet)
 		throws Exception
 	{
-		if (GUID)
-			out.writeFloat(traitValue.ID);
-
 		// Value
 		out.writeFloat(traitValue.getValue());
 
@@ -692,9 +553,6 @@ public class BinarySerializer
 		throws Exception
 	{
 		TraitValue traitValue = new TraitValue();
-
-		if (GUID)
-			in.readFloat();
 
 		// Value
 		traitValue.setValue(in.readFloat());
@@ -715,9 +573,6 @@ public class BinarySerializer
 	protected void saveGTViewSet(GTViewSet viewSet)
 		throws Exception
 	{
-		if (GUID)
-			out.writeFloat(viewSet.ID);
-
 		// Name
 		writeString(viewSet.getName());
 
@@ -760,9 +615,6 @@ public class BinarySerializer
 		GTViewSet viewSet = new GTViewSet();
 		// Rebuild the reference to the data set
 		viewSet.setDataSet(dataSet);
-
-		if (GUID)
-			in.readFloat();
 
 		// Name
 		viewSet.setName(readString());
@@ -809,9 +661,6 @@ public class BinarySerializer
 	protected void saveGTView(GTView view)
 		throws Exception
 	{
-		if (GUID)
-			out.writeFloat(view.ID);
-
 		out.writeInt(view.getComparisonMarkerIndex());
 		out.writeBoolean(view.getMarkersOrdered());
 
@@ -832,9 +681,6 @@ public class BinarySerializer
 		GTView view = new GTView();
 		// Rebuild the reference to the view set
 		view.setViewSet(viewSet);
-
-		if (GUID)
-			in.readFloat();
 
 		int comparisonMarkerIndex = in.readInt();
 		view.setComparisonMarkerIndex(comparisonMarkerIndex);
@@ -866,9 +712,6 @@ public class BinarySerializer
 	protected void saveLineInfo(LineInfo lineInfo)
 		throws Exception
 	{
-		if (GUID)
-			out.writeFloat(lineInfo.ID);
-
 		// index
 		out.writeInt(lineInfo.getIndex());
 		// selected
@@ -881,9 +724,6 @@ public class BinarySerializer
 		throws Exception
 	{
 		LineInfo lineInfo = new LineInfo();
-
-		if (GUID)
-			in.readFloat();
 
 		// index
 		int index = in.readInt();
@@ -903,9 +743,6 @@ public class BinarySerializer
 	protected void saveMarkerInfo(MarkerInfo markerInfo)
 		throws Exception
 	{
-		if (GUID)
-			out.writeFloat(markerInfo.ID);
-
 		// index
 		out.writeInt(markerInfo.getIndex());
 		// selected
@@ -916,9 +753,6 @@ public class BinarySerializer
 		throws Exception
 	{
 		MarkerInfo markerInfo = new MarkerInfo();
-
-		if (GUID)
-			in.readFloat();
 
 		// index
 		int index = in.readInt();
@@ -936,9 +770,6 @@ public class BinarySerializer
 	protected void saveBookmark(Bookmark bookmark, DataSet dataSet)
 		throws Exception
 	{
-		if (GUID)
-			out.writeFloat(bookmark.ID);
-
 		// Index of chromosome
 		ChromosomeMap map = bookmark.getChromosome();
 		out.writeInt(dataSet.getChromosomeMaps().indexOf(map));
@@ -958,9 +789,6 @@ public class BinarySerializer
 		Bookmark bookmark = new Bookmark();
 		DataSet dataSet = viewSet.getDataSet();
 
-		if (GUID)
-			in.readFloat();
-
 		int mapIndex = in.readInt();
 		int lineIndex = in.readInt();
 		int markerIndex = in.readInt();
@@ -977,9 +805,6 @@ public class BinarySerializer
 	private void saveDBAssociation(DBAssociation db)
 		throws Exception
 	{
-		if (GUID)
-			out.writeFloat(db.ID);
-
 		writeString(db.getLineSearch());
 		writeString(db.getMarkerSearch());
 	}
@@ -989,31 +814,9 @@ public class BinarySerializer
 	{
 		DBAssociation db = new DBAssociation();
 
-		if (GUID)
-			in.readFloat();
-
 		db.setLineSearch(readString());
 		db.setMarkerSearch(readString());
 
 		dataSet.setDbAssociation(db);
-	}
-
-	// Reads and returns a string from the bytestream, by expecting to read a
-	// single integer defining the string's length; then that number of bytes
-	protected String readString()
-		throws Exception
-	{
-		byte[] data = new byte[in.readInt()];
-
-		in.read(data);
-
-		return new String(data, "UTF8");
-	}
-
-	protected void writeString(String str)
-		throws Exception
-	{
-		out.writeInt(str.length());
-		out.write(str.getBytes("UTF8"));
 	}
 }
