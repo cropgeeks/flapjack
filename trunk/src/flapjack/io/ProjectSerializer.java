@@ -13,6 +13,7 @@ import org.exolab.castor.xml.*;
 import flapjack.data.*;
 import flapjack.gui.*;
 import flapjack.io.*;
+import flapjack.io.binary.*;
 import flapjack.other.*;
 
 import scri.commons.gui.*;
@@ -131,6 +132,16 @@ public class ProjectSerializer
 			{
 				BinarySerializer binSerializer = new BinarySerializer();
 				project = binSerializer.deserialize(file, true);
+
+				if (project == null)
+				{
+					TaskDialog.error(
+						RB.getString("io.ProjectSerializer.binVersion"),
+						RB.getString("gui.text.close"));
+
+					return null;
+				}
+
 				project.fjFile = file;
 			}
 
@@ -180,7 +191,7 @@ public class ProjectSerializer
 		{
 			e.printStackTrace();
 			TaskDialog.error(
-				RB.format("io.ProjectSerializer.error", file.getName(), e.getMessage()),
+				RB.format("io.ProjectSerializer.openError", file.getName(), e.getMessage()),
 				RB.getString("gui.text.close"));
 		}
 

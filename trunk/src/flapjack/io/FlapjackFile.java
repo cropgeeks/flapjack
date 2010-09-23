@@ -91,7 +91,7 @@ public class FlapjackFile
 	}
 
 	// Returns the main input stream for this file
-	InputStream getInputStream()
+	public InputStream getInputStream()
 		throws IOException
 	{
 		if (file != null)
