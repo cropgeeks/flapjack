@@ -131,7 +131,8 @@ public class CreateProject
 		throws Exception
 	{
 		project.fjFile = prjFile;
+		project.format = ProjectSerializer.XMLZ;
 
-		return ProjectSerializer.save(project, ProjectSerializer.XMLZ);
+		return ProjectSerializer.save(project);
 	}
 }
