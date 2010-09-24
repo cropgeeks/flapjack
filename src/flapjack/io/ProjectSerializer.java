@@ -34,7 +34,7 @@ public class ProjectSerializer
 			new ProjectSerializer().getClass().getResource("/config/flapjack-castor.xml"));
 	}
 
-	public static boolean querySave(Project project, boolean saveAs, int format)
+	public static boolean querySave(Project project, boolean saveAs)
 	{
 		FlapjackFile fjFile = project.fjFile;
 
@@ -49,9 +49,10 @@ public class ProjectSerializer
 		return true;
 	}
 
-	public static boolean save(Project project, int format)
+	public static boolean save(Project project)
 	{
 		FlapjackFile fjFile = project.fjFile;
+		int format = project.format;
 
 		try
 		{
@@ -92,7 +93,7 @@ public class ProjectSerializer
 			}
 
 			long e = System.currentTimeMillis();
-			System.out.println("Project serialized in " + (e-s) + "ms");
+			System.out.println("Project saved in " + (e-s) + "ms - " + format);
 
 			return true;
 		}
@@ -174,7 +175,7 @@ public class ProjectSerializer
 			}
 
 			long e = System.currentTimeMillis();
-			System.out.println("Project deserialized in " + (e-s) + "ms");
+			System.out.println("Project opened in " + (e-s) + "ms - " + format);
 
 			// Validate what was loaded (it could be nonsense)
 			// (especially if coming from an older project format)
@@ -185,6 +186,7 @@ public class ProjectSerializer
 //					RB.getString("io.DataFormatException.validationError"));
 			}
 
+			project.format = format;
 			return project;
 		}
 		catch (Exception e)

@@ -14,6 +14,8 @@ public class Project extends XMLRoot
 	// opened from
 	public FlapjackFile fjFile;
 
+	public int format = -1;
+
 	// The datasets within the project
 	private ArrayList<DataSet> dataSets = new ArrayList<DataSet>();
 
