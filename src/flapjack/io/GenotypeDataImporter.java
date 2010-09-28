@@ -68,21 +68,31 @@ public class GenotypeDataImporter
 	public long getMarkerCount()
 		{ return markerCount; }
 
-	public void importGenotypeData()
+	public void importGenotypeData(boolean isTransposed)
 		throws IOException, DataFormatException
 	{
-		if (readData() == false)
+		if (readData(isTransposed) == false)
 		{
 			dataSet.getLines().clear();
 			stateTable.resetTable();
 			useByteStorage = false;
 
 			lineCount = 0;
-			readData();
+
+			readData(isTransposed);
 		}
 	}
 
-	private boolean readData()
+	private boolean readData(boolean isTransposed)
+		throws IOException, DataFormatException
+	{
+		if (isTransposed)
+			return readTransposedData();
+		else
+			return readNonTransposedData();
+	}
+
+	private boolean readNonTransposedData()
 		throws IOException, DataFormatException
 	{
 		long s = System.currentTimeMillis();

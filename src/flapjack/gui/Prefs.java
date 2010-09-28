@@ -81,6 +81,7 @@ public class Prefs extends XMLPreferences
 	public static boolean ioHeteroCollapse = true;
 	public static boolean ioUseHetSep = true;
 	public static boolean ioMakeAllChromosome = false;
+	public static boolean ioTransposed = false;
 
 	public static int ioProjectFormat = 0;
 

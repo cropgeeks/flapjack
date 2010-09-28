@@ -39,7 +39,7 @@ public class UndoManagerTest extends TestCase
 			dataSet, mapImporter.getMarkersHashMap(), "", true, "/");
 
 		mapImporter.importMap();
-		genoImporter.importGenotypeData();
+		genoImporter.importGenotypeData(false);
 	}
 
 	public void testInitialState()
