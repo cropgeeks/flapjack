@@ -24,7 +24,7 @@ public class GenotypeDataImporter
 	private HashMap<String, MarkerIndex> markers;
 
 	// Also track line names, for duplicate detection
-	private HashMap<String, String> lines;
+	private HashMap<String, Line> lines;
 
 	private String ioMissingData;
 	private boolean ioUseHetSep;
@@ -87,7 +87,7 @@ public class GenotypeDataImporter
 	{
 		long s = System.currentTimeMillis();
 
-		lines = new HashMap<String, String>();
+		lines = new HashMap<String, Line>();
 
 		is = new ProgressInputStream(new FileInputStream(file));
 
@@ -150,7 +150,7 @@ public class GenotypeDataImporter
 					throw new DataFormatException(RB.format("io.DataFormatException.duplicateLineError", values[0], lineCount+1));
 
 			Line line = dataSet.createLine(values[0], useByteStorage);
-			lines.put(line.getName(), line.getName());
+			lines.put(line.getName(), line);
 
 			for (int i = 1; i < values.length; i++)
 			{
@@ -202,4 +202,91 @@ public class GenotypeDataImporter
 
 	public long getBytesRead()
 		{ return (is == null) ? 0 : is.getBytesRead(); }
+
+	// Quite a lot of duplication of work done in readData() is there a way to
+	// clean this up?
+	private boolean readTransposedData()
+			throws IOException, DataFormatException
+	{
+		long s = System.currentTimeMillis();
+
+		lines = new HashMap<String, Line>();
+
+		is = new ProgressInputStream(new FileInputStream(file));
+
+		BufferedReader in = new BufferedReader(new InputStreamReader(is));
+
+		String str = in.readLine();
+
+		// Preprocess the file, looking for any header information
+		while (str.length() == 0 || str.startsWith("#"))
+		{
+			processHeader(str);
+			str = in.readLine();
+
+			lineCount++;
+		}
+
+		// Split the first line into line names
+		String [] lineNames = str.split("\t");
+
+		// Loop over the line names ensuring there are no duplicates
+		for (int i = 1; i < lineNames.length && isOK; i++)
+		{
+			if (lines.get(lineNames[i]) != null)
+					throw new DataFormatException(RB.format("io.DataFormatException.duplicateLineError", lineNames[i], lineCount+1));
+			else
+			{
+				// Create the line and add it to our lines hashmap
+				Line line = dataSet.createLine(lineNames[i], useByteStorage);
+				lines.put(line.getName(), line);
+			}
+		}
+
+		// This is now a loop over the markers
+		while ((str = in.readLine()) != null && isOK)
+		{
+			if (str.length() == 0)
+				continue;
+
+			if ((++lineCount) % 100 == 0)
+			{
+				System.out.println("Reading line " + lineCount + " (" + (System.currentTimeMillis()-s) + "ms)");
+				s = System.currentTimeMillis();
+			}
+
+			String[] values = str.split("\t");
+
+			if (values.length == 0)
+				continue;
+
+			for (int i = 1; i < values.length; i++)
+			{
+				MarkerIndex index = markers.get(values[0]);
+
+				// Assuming a map was found that contains this marker...
+				if (index != null && index.mapIndex != -1)
+				{
+					ChromosomeMap map = dataSet.getMapByIndex(index.mapIndex);
+
+					// Determine its various states
+					int stateCode = stateTable.getStateCode(values[i], true,
+						ioMissingData, ioUseHetSep, ioHeteroSeparator);
+
+					// Then apply them to the marker data
+					lines.get(lineNames[i]).setLoci(index.mapIndex, index.mkrIndex, stateCode);
+
+					markerCount++;
+				}
+			}
+
+			if (useByteStorage && stateTable.size() > 127)
+				return false;
+		}
+
+		in.close();
+
+		markers.clear();
+		return true;
+	}
 }
