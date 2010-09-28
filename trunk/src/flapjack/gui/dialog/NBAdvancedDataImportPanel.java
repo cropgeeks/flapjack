@@ -27,6 +27,7 @@ class NBAdvancedDataImportPanel extends JPanel implements ActionListener
 		checkHetero.setSelected(Prefs.ioHeteroCollapse);
 		checkUseHetSep.setSelected(Prefs.ioUseHetSep);
 		checkMarkers.setSelected(Prefs.ioMakeAllChromosome);
+		checkTransposed.setSelected(Prefs.ioTransposed);
 
 		// Apply localized text
 		panel.setBorder(BorderFactory.createTitledBorder(RB.getString("gui.dialog.NBAdvancedDataImportPanel.panel")));
@@ -36,6 +37,7 @@ class NBAdvancedDataImportPanel extends JPanel implements ActionListener
 		RB.setText(missingLabel, "gui.dialog.NBAdvancedDataImportPanel.missingLabel");
 		RB.setText(heteroLabel, "gui.dialog.NBAdvancedDataImportPanel.heteroLabel");
 		RB.setText(checkHetero, "gui.dialog.NBAdvancedDataImportPanel.checkHetero");
+		RB.setText(checkTransposed, "gui.dialog.NBAdvancedDataImportPanel.checkTransposed");
 
 		setLabelStates();
 	}
@@ -47,6 +49,7 @@ class NBAdvancedDataImportPanel extends JPanel implements ActionListener
 		Prefs.ioHeteroCollapse = checkHetero.isSelected();
 		Prefs.ioUseHetSep = checkUseHetSep.isSelected();
 		Prefs.ioMakeAllChromosome = checkMarkers.isSelected();
+		Prefs.ioTransposed = checkTransposed.isSelected();
 	}
 
 	public void actionPerformed(ActionEvent e)
@@ -79,7 +82,7 @@ class NBAdvancedDataImportPanel extends JPanel implements ActionListener
         checkUseHetSep = new javax.swing.JCheckBox();
         checkMarkers = new javax.swing.JCheckBox();
         markersLabel = new javax.swing.JLabel();
-        jCheckBox1 = new javax.swing.JCheckBox();
+        checkTransposed = new javax.swing.JCheckBox();
 
         panel.setBorder(javax.swing.BorderFactory.createTitledBorder("Advanced options:"));
 
@@ -99,8 +102,7 @@ class NBAdvancedDataImportPanel extends JPanel implements ActionListener
 
         markersLabel.setText("(not recommended if you have a large number of markers)");
 
-        jCheckBox1.setText("Genotype data has been transposed (markers are now rows)");
-        jCheckBox1.setEnabled(false);
+        checkTransposed.setText("Genotype data has been transposed (markers are now rows)");
 
         javax.swing.GroupLayout panelLayout = new javax.swing.GroupLayout(panel);
         panel.setLayout(panelLayout);
@@ -124,7 +126,7 @@ class NBAdvancedDataImportPanel extends JPanel implements ActionListener
                         .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(missingText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(heteroText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jCheckBox1))
+                    .addComponent(checkTransposed))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panelLayout.setVerticalGroup(
@@ -147,7 +149,7 @@ class NBAdvancedDataImportPanel extends JPanel implements ActionListener
                     .addComponent(missingText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(missingLabel))
                 .addGap(18, 18, 18)
-                .addComponent(jCheckBox1)
+                .addComponent(checkTransposed)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -173,10 +175,10 @@ class NBAdvancedDataImportPanel extends JPanel implements ActionListener
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox checkHetero;
     private javax.swing.JCheckBox checkMarkers;
+    private javax.swing.JCheckBox checkTransposed;
     private javax.swing.JCheckBox checkUseHetSep;
     private javax.swing.JLabel heteroLabel;
     private javax.swing.JTextField heteroText;
-    private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JLabel markersLabel;
     private javax.swing.JLabel missingLabel;
     private javax.swing.JTextField missingText;

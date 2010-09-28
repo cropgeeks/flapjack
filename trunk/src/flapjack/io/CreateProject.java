@@ -88,7 +88,7 @@ public class CreateProject
 		GenotypeDataImporter genoImporter = new GenotypeDataImporter(
 			genotypesFile, dataSet, mapImporter.getMarkersHashMap(), "-", true, "/");
 
-		genoImporter.importGenotypeData();
+		genoImporter.importGenotypeData(false);
 
 		PostImportOperations pio = new PostImportOperations(dataSet);
 		pio.setName(genotypesFile);

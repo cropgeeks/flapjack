@@ -64,7 +64,7 @@ public class DataImporter extends SimpleJob
 		mapImporter.importMap();
 
 		// Read the genotype data
-		genoImporter.importGenotypeData();
+		genoImporter.importGenotypeData(Prefs.ioTransposed);
 		genoImporter.cleanUp();
 
 		if (Prefs.ioMakeAllChromosome)
