@@ -22,9 +22,35 @@ that have been made to Flapjack in recent versions. For full details on all the
 changes between versions, please see the <a href="http://bioinf.scri.ac.uk/flapjack/svn.txt">
 subversion change log</a>.</p>
 
-<p>For information on what <i>might</i> be appearing in a future version of Flapjack,
-please see the <a href="../future-work.shtml">future work</a> page.</p>
 
+<h3>New in 0.10.10.07</h3>
+
+<ul>
+<li>NEW: Projects can now be saved in a new Flapjack-specific binary format (at least 50x faster than the XML format).</li>
+<li>NEW: Added an option at import time to create a "super" chromosome, containing all the markers across all chromosomes.</li>
+<li>NEW: Flapjack can now load its project files from local and remote (http) addresses.</li>
+<li>NEW: The Bookmark right-click menu option is now disabled unless over a genuine allele.</li>
+<li>NEW: Redesigned the Import Dialog to include all options (map/genotype data, traits, and QTL) in a single tabbed display.</li>
+<li>NEW: Genotype data can now be imported in a transposed form (if the advanced option checkbox for it is selected).</li>
+<li>NEW: Added an additional new tab to support opening example projects from the web server.</li>
+<li>NEW: Split the additional options from the map/genotype importing dialog into a separate "Advanced Options" dialog.</li>
+<li>NEW: Updated the line similarity code to score 1 for a homozygous match, and 0.5 for a heterozygous match (previously zero) for cases like A against A/T.</li>
+<li>NEW: Added summary messages at the end of importing either traits or QTL.</li>
+<li>NEW: The number of markers found while importing data is now tracked by the progress dialog.</li>
+<li>NEW: Added a link to the front page to go directly to opening an example project.</li>
+<li>NEW: Added Java Web Start support.</li>
+<li>NEW: Added 64bit support and installers.</li>
+<li>CHG: Changed the internal format for object ID, reducing memory usage and project file size.</li>
+<li>CHG: Changed the source code to be compatible with Java 6 only.</li>
+<li>CHG: Marker frequencies are no longer stored in the project file. They are now simply (re)calculated whenever needed.</li>
+<li>BUG: Fixed the bad number formatting on the chromosome length label (at the top of the screen).</li>
+<li>BUG: Fixed a bug when (right) clicking on deselected entries in the Find dialog.</li>
+<li>BUG: Fixed a small issue with the TaskBar icon being stretched on Windows 7 because it wasn't 32x32.</li>
+<li>BUG: Fixed a rare, but critical error with threading when the progress tracking dialog was active.</li>
+<li>BUG: The "PowerPoint" wipe when new data sets are first opened now works properly.</li>
+<li>BUG: Fixed a problem with the line similarity analysis generating NaN values for scores.</li>
+<li>BUG: Loading a project that was saved after all its views were deleted would result in a silent exception and Flapjack acting as if nothing had been loaded.</li>
+</ul>
 
 <h3>New in 0.10.05.17</h3>
 
