@@ -35,7 +35,6 @@ public class Install4j
 	static void doStartUpCheck()
 	{
 		getVersion();
-		pingServer();
 
 		try
 		{
@@ -64,7 +63,10 @@ public class Install4j
 			UpdateDescriptor ud = UpdateChecker.getUpdateDescriptor(URL, ApplicationDisplayMode.GUI);
 
 			if (ud.getPossibleUpdateEntry() != null)
+			{
 				checkForUpdate(true);
+				pingServer();
+			}
 		}
 		catch (Exception e) {}
 	}
