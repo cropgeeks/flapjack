@@ -6,7 +6,8 @@ package flapjack.analysis;
 import java.util.*;
 
 import flapjack.data.*;
-import flapjack.gui.*;
+
+import scri.commons.gui.*;
 
 public class AlleleStatistics extends SimpleJob
 {

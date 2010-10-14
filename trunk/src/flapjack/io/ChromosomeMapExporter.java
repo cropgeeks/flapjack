@@ -6,9 +6,9 @@ package flapjack.io;
 import java.io.*;
 import java.text.*;
 
-import flapjack.analysis.*;
 import flapjack.data.*;
-import flapjack.gui.*;
+
+import scri.commons.gui.*;
 
 public class ChromosomeMapExporter extends SimpleJob
 {

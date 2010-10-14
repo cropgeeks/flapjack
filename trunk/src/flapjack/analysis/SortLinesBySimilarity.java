@@ -7,6 +7,8 @@ import java.util.*;
 
 import flapjack.data.*;
 
+import scri.commons.gui.*;
+
 public class SortLinesBySimilarity extends SimpleJob
 {
 	private GTViewSet viewSet;

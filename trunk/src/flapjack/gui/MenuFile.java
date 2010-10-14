@@ -4,17 +4,13 @@
 package flapjack.gui;
 
 import java.io.*;
-import java.util.*;
-import javax.swing.*;
 
-import flapjack.analysis.*;
 import flapjack.data.*;
 import flapjack.gui.dialog.*;
 import flapjack.gui.traits.*;
 import flapjack.gui.visualization.*;
 import flapjack.io.*;
 
-import scri.commons.file.*;
 import scri.commons.gui.*;
 
 public class MenuFile
@@ -67,7 +63,8 @@ public class MenuFile
 		SaveLoadHandler handler = new SaveLoadHandler(null, toOpen);
 		ProgressDialog dialog = new ProgressDialog(handler,
 			 RB.format("gui.MenuFile.loadTitle"),
-			 RB.format("gui.MenuFile.loading"));
+			 RB.format("gui.MenuFile.loading"),
+			 Flapjack.winMain);
 
 		if (dialog.getResult() == ProgressDialog.JOB_COMPLETED && handler.isOK)
 		{
@@ -124,7 +121,8 @@ public class MenuFile
 		SaveLoadHandler handler = new SaveLoadHandler(project, null);
 		ProgressDialog dialog = new ProgressDialog(handler,
 			 RB.format("gui.MenuFile.saveTitle"),
-			 RB.format("gui.MenuFile.saving"));
+			 RB.format("gui.MenuFile.saving"),
+			 Flapjack.winMain);
 
 		if (dialog.getResult() == ProgressDialog.JOB_COMPLETED && handler.isOK)
 		{
@@ -185,7 +183,8 @@ public class MenuFile
 
 		ProgressDialog dialog = new ProgressDialog(importer,
 			 RB.format("gui.MenuFile.import.title"),
-			 RB.format("gui.MenuFile.import.message"));
+			 RB.format("gui.MenuFile.import.message"),
+			 Flapjack.winMain);
 
 		if (dialog.getResult() != ProgressDialog.JOB_COMPLETED)
 		{
@@ -222,7 +221,8 @@ public class MenuFile
 		TraitImporter importer = new TraitImporter(file, dataSet);
 		ProgressDialog dialog = new ProgressDialog(importer,
 			RB.format("gui.MenuFile.importTraits.dialogTitle"),
-			RB.format("gui.MenuFile.importTraits.dialogLabel"));
+			RB.format("gui.MenuFile.importTraits.dialogLabel"),
+			Flapjack.winMain);
 
 		// If the operation failed or was cancelled...
 		if (dialog.getResult() != ProgressDialog.JOB_COMPLETED)
@@ -256,7 +256,8 @@ public class MenuFile
 		QTLImporter importer = new QTLImporter(file, dataSet);
 		ProgressDialog dialog = new ProgressDialog(importer,
 			RB.format("gui.MenuFile.importQTLs.dialogTitle"),
-			RB.format("gui.MenuFile.importQTLs.dialogLabel"));
+			RB.format("gui.MenuFile.importQTLs.dialogLabel"),
+			Flapjack.winMain);
 
 		// If the operation failed or was cancelled...
 		if (dialog.getResult() != ProgressDialog.JOB_COMPLETED)

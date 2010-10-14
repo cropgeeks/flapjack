@@ -81,7 +81,8 @@ public class ExportImageDialog extends JDialog implements ActionListener
 
 		ProgressDialog dialog = new ProgressDialog(exporter,
 			 RB.format("gui.dialog.ExportImageDialog.title"),
-			 RB.format("gui.dialog.ExportImageDialog.label"));
+			 RB.format("gui.dialog.ExportImageDialog.label"),
+			 Flapjack.winMain);
 
 		// If the operation failed or was cancelled...
 		if (dialog.getResult() != ProgressDialog.JOB_COMPLETED)

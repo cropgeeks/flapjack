@@ -4,10 +4,10 @@
 package flapjack.io;
 
 import java.io.*;
-import java.text.*;
 
-import flapjack.analysis.*;
 import flapjack.data.*;
+
+import scri.commons.gui.*;
 
 public class GenotypeDataExporter extends SimpleJob
 {

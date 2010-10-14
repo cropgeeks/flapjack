@@ -3,7 +3,6 @@
 
 package flapjack.io;
 
-import flapjack.analysis.SimpleJob;
 import java.text.*;
 import java.io.*;
 import javax.swing.*;

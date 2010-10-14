@@ -8,6 +8,8 @@ import java.util.*;
 
 import flapjack.data.*;
 
+import scri.commons.gui.*;
+
 public class SortLinesExternally extends SimpleJob
 {
 	private GTViewSet viewSet;

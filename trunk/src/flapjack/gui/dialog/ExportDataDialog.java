@@ -161,7 +161,8 @@ public class ExportDataDialog extends JDialog implements ActionListener
 	{
 		ProgressDialog dialog = new ProgressDialog(exporter,
 			 RB.format("gui.dialog.ExportDataDialog.exportTitle"),
-			 RB.format("gui.dialog.ExportDataDialog.exportLabel"));
+			 RB.format("gui.dialog.ExportDataDialog.exportLabel"),
+			 Flapjack.winMain);
 
 		// If the operation failed or was cancelled...
 		if (dialog.getResult() != ProgressDialog.JOB_COMPLETED)

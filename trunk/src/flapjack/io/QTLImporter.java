@@ -8,9 +8,7 @@ import java.io.*;
 import java.text.*;
 import java.util.*;
 
-import flapjack.analysis.*;
 import flapjack.data.*;
-import flapjack.gui.*;
 
 import scri.commons.file.*;
 import scri.commons.gui.*;

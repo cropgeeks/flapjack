@@ -99,7 +99,8 @@ class MenuData
 
 		ProgressDialog dialog = new ProgressDialog(sort,
 			RB.getString("gui.MenuData.sorting.title"),
-			RB.getString("gui.MenuData.sorting.label"));
+			RB.getString("gui.MenuData.sorting.label"),
+			Flapjack.winMain);
 
 		// If the operation failed or was cancelled...
 		if (dialog.getResult() != ProgressDialog.JOB_COMPLETED)
@@ -168,7 +169,8 @@ class MenuData
 
 		ProgressDialog dialog = new ProgressDialog(statistics,
 			 RB.format("gui.MenuData.statistics.title"),
-			 RB.format("gui.MenuData.statistics.label"));
+			 RB.format("gui.MenuData.statistics.label"),
+			 Flapjack.winMain);
 
 		if (dialog.getResult() == ProgressDialog.JOB_COMPLETED)
 			new AlleleStatisticsDialog(viewSet, statistics.getResults());
