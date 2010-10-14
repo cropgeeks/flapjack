@@ -8,7 +8,6 @@ import java.awt.image.*;
 import java.io.*;
 import javax.imageio.*;
 
-import flapjack.analysis.*;
 import flapjack.gui.*;
 import flapjack.gui.visualization.*;
 

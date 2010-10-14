@@ -3,16 +3,14 @@
 
 package flapjack.gui;
 
-import javax.swing.*;
-
-import scri.commons.gui.TaskDialog;
-
 import flapjack.analysis.*;
 import flapjack.data.*;
 import flapjack.gui.dialog.*;
 import flapjack.gui.dialog.pedigrees.*;
 import flapjack.gui.visualization.*;
 import flapjack.gui.visualization.colors.*;
+
+import scri.commons.gui.*;
 
 public class MenuVisualization
 {
@@ -118,7 +116,8 @@ public class MenuVisualization
 
 		ProgressDialog pDialog = new ProgressDialog(pg,
 			"Communicating with Server",
-			"Communicating with server - please be patient...");
+			"Communicating with server - please be patient...",
+			Flapjack.winMain);
 
 		if (pDialog.getResult() != ProgressDialog.JOB_COMPLETED)
 		{
