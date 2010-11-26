@@ -50,6 +50,8 @@ public class WinMainMenuBar extends JMenuBar
 	private JMenuItem mViewDeleteView;
 	private JMenuItem mViewToggleCanvas;
 	public static JCheckBoxMenuItem mViewOverview;
+	private JMenuItem mViewPageLeft;
+	private JMenuItem mViewPageRight;
 
 	private JMenu mViz;
 	private JMenuItem mVizExportImage;
@@ -223,13 +225,20 @@ public class WinMainMenuBar extends JMenuBar
 		mViewDeleteView = getItem(Actions.viewDeleteView, "gui.Actions.viewDeleteView", 0, 0);
 		mViewToggleCanvas = getItem(Actions.viewToggleCanvas, "gui.Actions.viewToggleCanvas", 0, 0);
 		mViewOverview = getCheckedItem(Actions.viewOverview, "gui.Actions.viewOverview", KeyEvent.VK_F7, 0);
-
+		mViewPageLeft = getItem(Actions.viewPageLeft, "gui.Actions.viewPageLeft", KeyEvent.VK_OPEN_BRACKET, 0);
+		mViewPageRight = getItem(Actions.viewPageRight, "gui.Actions.viewPageRight", KeyEvent.VK_CLOSE_BRACKET, 0);
+		
 		mView.add(mViewNewView);
 		mView.add(mViewRenameView);
 		mView.add(mViewDeleteView);
 		mView.addSeparator();
+		mView.add(mViewPageLeft);
+		mView.add(mViewPageRight);
+		mView.addSeparator();
 		mView.add(mViewToggleCanvas);
 		mView.add(mViewOverview);
+		
+		
 
 		add(mView);
 	}

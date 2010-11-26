@@ -52,6 +52,8 @@ public class VisualizationNode extends BaseNode
 		Actions.viewToggleCanvas.setEnabled(true);
 		Actions.viewOverview.setEnabled(true);
 		Actions.viewBookmark.setEnabled(true);
+		Actions.viewPageLeft.setEnabled(true);
+		Actions.viewPageRight.setEnabled(true);
 
 		Actions.vizExportImage.setEnabled(true);
 		Actions.vizExportData.setEnabled(true);

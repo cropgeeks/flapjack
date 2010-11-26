@@ -26,6 +26,9 @@ public class WinMainToolBar extends JToolBar
 	private JButton dataFind;
 
 	private JButton helpContents;
+	
+	private JButton viewPageLeft;
+	private JButton viewPageRight;
 
 	WinMainToolBar()
 	{
@@ -102,6 +105,16 @@ public class WinMainToolBar extends JToolBar
 		helpContents = (JButton) getButton(false, null,
 			RB.getString("gui.WinMainToolBar.helpContents"),
 			Icons.getIcon("HELP"), Actions.helpContents);
+		
+		// Edit, undo
+		viewPageLeft = (JButton) getButton(false, null,
+			RB.getString("gui.Actions.viewPageLeft"),
+			Icons.getIcon("PAGELEFT"), Actions.viewPageLeft);
+
+		// Edit, redo
+		viewPageRight = (JButton) getButton(false, null,
+			RB.getString("gui.Actions.viewPageRight"),
+			Icons.getIcon("PAGERIGHT"), Actions.viewPageRight);
 
 
 		if (SystemUtils.isMacOS() == false)
@@ -130,8 +143,12 @@ public class WinMainToolBar extends JToolBar
 		add(editSelectLinesInvert);
 
 		addSeparator(true);
-		add(helpContents);
+		add(viewPageLeft);
+		add(viewPageRight);
 
+		addSeparator(true);
+		add(helpContents);
+		
 		add(new JLabel(" "));
 	}
 
