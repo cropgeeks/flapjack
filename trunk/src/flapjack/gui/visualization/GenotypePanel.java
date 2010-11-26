@@ -440,6 +440,53 @@ public class GenotypePanel extends JPanel
 
 		lengthLabel.setText(RB.format("gui.visualization.GenotypePanel.lengthLabel", length));
 	}
+	
+	public void pageLeft()
+	{
+		int jumpTo = (canvas.pX1/canvas.boxW) - (canvas.boxCountX);
+		
+		moveToPosition(-1, jumpTo, false);
+	}
+	
+	public void pageRight()
+	{
+		int jumpTo = (canvas.pX2Max/canvas.boxW) + 1;
+		
+		moveToPosition(-1, jumpTo, false);
+	}
+	
+	void moveTo(int rowIndex, int colIndex, boolean centre)
+	{
+		// If 'centre' is true, offset by half the screen
+		int offset = 0;
+
+		if (rowIndex != -1)
+		{
+			if (centre)
+				offset = ((canvas.boxCountY * canvas.boxH) / 2) - canvas.boxH;
+
+			int y = rowIndex * canvas.boxH - offset;
+			vBar.setValue(y);
+		}
+
+		if (colIndex != -1)
+		{
+			if (centre)
+				offset = ((canvas.boxCountX * canvas.boxW) / 2) - canvas.boxW;
+
+			int x = colIndex * canvas.boxW - offset;
+			hBar.setValue(x);
+		}
+	}
+	
+	public void moveToPosition(final int rowIndex, final int colIndex, final boolean centre)
+	{
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				moveTo(rowIndex, colIndex, centre);
+			}
+		});
+	}
 
 	class ComboRenderer extends DefaultListCellRenderer
 	{

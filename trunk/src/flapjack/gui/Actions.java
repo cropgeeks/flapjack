@@ -45,6 +45,8 @@ public class Actions
 	public static AbstractAction viewOverview;
 	public static AbstractAction viewBookmark;
 	public static AbstractAction viewDeleteBookmark;
+	public static AbstractAction viewPageLeft;
+	public static AbstractAction viewPageRight;
 
 	public static AbstractAction vizExportImage;
 	public static AbstractAction vizExportData;
@@ -292,6 +294,18 @@ public class Actions
 		viewOverview = new AbstractAction(RB.getString("gui.Actions.viewOverview")) {
 			public void actionPerformed(ActionEvent e) {
 				winMain.mView.viewOverview();
+			}
+		};
+		
+		viewPageLeft = new AbstractAction(RB.format("gui.Actions.viewPageLeft", ""), getIcon("PAGELEFT")) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.mView.viewPageLeft();
+			}
+		};
+
+		viewPageRight = new AbstractAction(RB.format("gui.Actions.viewPageRight", ""), getIcon("PAGERIGHT")) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.mView.viewPageRight();
 			}
 		};
 
@@ -591,6 +605,8 @@ public class Actions
 		viewOverview.setEnabled(false);
 		viewBookmark.setEnabled(false);
 		viewDeleteBookmark.setEnabled(false);
+		viewPageLeft.setEnabled(false);
+		viewPageRight.setEnabled(false);
 
 		vizExportImage.setEnabled(false);
 		vizExportData.setEnabled(false);
