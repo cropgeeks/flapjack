@@ -63,7 +63,7 @@ public class GenotypeDataImporter
 		{ return file; }
 
 	public long getLineCount()
-		{ return lines.size(); }
+		{ return lines != null ? lines.size() : 0; }
 
 	public long getMarkerCount()
 		{ return markerCount; }

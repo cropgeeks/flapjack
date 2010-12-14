@@ -75,8 +75,9 @@ public class ChromosomeMapImporter
 			MarkerIndex index = markers.get(marker.getName());
 			if (index != null)
 			{
-				duplicates.add(marker.getName() + "\t" + tokens[1] + "\t"
-					+ dataSet.getMapByIndex(index.mapIndex).getName());
+				if (Prefs.warnDuplicateMarkers)
+					duplicates.add(marker.getName() + "\t" + tokens[1] + "\t"
+						+ dataSet.getMapByIndex(index.mapIndex).getName());
 			}
 			else
 			{
