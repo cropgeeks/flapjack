@@ -9,10 +9,6 @@ public class Line extends XMLRoot
 {
 	private String name;
 
-	// A unique key assigned to every line
-	// TODO: use the primary key from a Germinate DB import
-	private int dbKey;
-
 	private ArrayList<GenotypeData> genotypes = new ArrayList<GenotypeData>();
 
 	// Trait information (one trait value per trait associated with this line)
@@ -22,10 +18,9 @@ public class Line extends XMLRoot
 	{
 	}
 
-	public Line(String name, int dbKey)
+	public Line(String name)
 	{
 		this.name = new String(name);
-		this.dbKey = dbKey;
 	}
 
 	void validate()
@@ -48,12 +43,6 @@ public class Line extends XMLRoot
 
 	public void setName(String name)
 		{ this.name = name; }
-
-	public int getDbKey()
-		{ return dbKey; }
-
-	public void setDbKey(int dbKey)
-		{ this.dbKey = dbKey; }
 
 	public ArrayList<GenotypeData> getGenotypes()
 		{ return genotypes; }
@@ -128,7 +117,7 @@ public class Line extends XMLRoot
 	// number of chromosomes, etc)
 	Line createDummy()
 	{
-		Line dummy = new Line(" ", 0);
+		Line dummy = new Line(" ");
 
 		// For every existing chromosome the line knows about...
 		for (GenotypeData data: genotypes)
