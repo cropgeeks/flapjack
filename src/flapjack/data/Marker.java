@@ -12,8 +12,6 @@ public class Marker extends XMLRoot implements Comparable<Marker>
 	// And its "actual" position, if different (used by all-chromsome markers)
 	private float realPosition;
 
-	private int dbKey;
-
 	// (Might) hold summary information on the frequency of each allele state
 	// for this marker
 	private float[] frequencies;
@@ -79,11 +77,6 @@ public class Marker extends XMLRoot implements Comparable<Marker>
 	public void setRealPosition(float realPosition)
 		{ this.realPosition = realPosition; }
 
-	public int getDbKey()
-		{ return dbKey; }
-
-	public void setDbKey(int dbKey)
-		{ this.dbKey = dbKey; }
 
 
 	// Other methods
