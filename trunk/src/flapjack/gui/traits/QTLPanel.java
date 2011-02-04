@@ -42,6 +42,7 @@ public class QTLPanel extends JPanel implements ActionListener
 		controls = new NBQTLControlPanel();
 		controls.bImport.addActionListener(this);
 		controls.bRemove.addActionListener(this);
+		controls.bFilter.addActionListener(this);
 
 		setLayout(new BorderLayout(0, 0));
 		setBorder(BorderFactory.createEmptyBorder(1, 1, 0, 0));
@@ -100,6 +101,9 @@ public class QTLPanel extends JPanel implements ActionListener
 			if (response == 0)
 				removeAllTraits();
 		}
+
+		else if (e.getSource() == controls.bFilter)
+			Flapjack.winMain.mData.dataFilterQTLs();
 	}
 
 	private void removeAllTraits()

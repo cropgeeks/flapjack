@@ -216,7 +216,7 @@ class NBFilterQTLsPanel extends JPanel implements ActionListener
 
 
 		// Update the display after the filter has run
-//		Flapjack.winMain.repaint();
+		Flapjack.winMain.repaint();
 		gPanel.refreshView();
 		updateTables();
 

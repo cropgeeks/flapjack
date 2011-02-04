@@ -17,6 +17,7 @@ class NBQTLControlPanel extends javax.swing.JPanel
 
 		RB.setText(bImport, "gui.traits.NBQTLControlPanel.bImport");
 		RB.setText(bRemove, "gui.traits.NBQTLControlPanel.bRemove");
+		RB.setText(bFilter, "gui.traits.NBQTLControlPanel.bFilter");
 
 		bImport.setIcon(Icons.getIcon("IMPORTTRAITS"));
 		bRemove.setIcon(Icons.getIcon("DELETE"));
@@ -34,12 +35,15 @@ class NBQTLControlPanel extends javax.swing.JPanel
         bImport = new javax.swing.JButton();
         statusLabel = new javax.swing.JLabel();
         bRemove = new javax.swing.JButton();
+        bFilter = new javax.swing.JButton();
 
         bImport.setText("Import QTL data");
 
         statusLabel.setText("Number of QTLs: 0");
 
         bRemove.setText("Remove all QTLs");
+
+        bFilter.setText("Filter QTLs");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -48,7 +52,9 @@ class NBQTLControlPanel extends javax.swing.JPanel
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(statusLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 179, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 90, Short.MAX_VALUE)
+                .addComponent(bFilter)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(bImport)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(bRemove)
@@ -61,13 +67,15 @@ class NBQTLControlPanel extends javax.swing.JPanel
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(statusLabel)
                     .addComponent(bRemove)
-                    .addComponent(bImport))
+                    .addComponent(bImport)
+                    .addComponent(bFilter))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    javax.swing.JButton bFilter;
     javax.swing.JButton bImport;
     javax.swing.JButton bRemove;
     javax.swing.JLabel statusLabel;

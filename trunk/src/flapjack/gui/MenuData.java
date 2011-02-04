@@ -15,7 +15,7 @@ import flapjack.gui.visualization.undo.MovedLinesState;
 
 import scri.commons.gui.*;
 
-class MenuData
+public class MenuData
 {
 	private WinMain winMain;
 	private NavPanel navPanel;
@@ -149,7 +149,7 @@ class MenuData
 		Actions.projectModified();
 	}
 
-	void dataFilterQTLs()
+	public void dataFilterQTLs()
 	{
 		DataSet dataSet = gPanel.getViewSet().getDataSet();
 
