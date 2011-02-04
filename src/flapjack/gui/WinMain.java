@@ -36,7 +36,7 @@ public class WinMain extends JFrame
 	public MenuEdit mEdit = new MenuEdit();
 	public MenuView mView = new MenuView();
 	public MenuVisualization mViz = new MenuVisualization();
-	MenuData mData = new MenuData();
+	public MenuData mData = new MenuData();
 	MenuHelp mHelp = new MenuHelp();
 
 
