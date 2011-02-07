@@ -22,7 +22,7 @@ free, to anyone, anywhere in the world. This ultimately means we have an
 interest in knowing where it ends up being used.</p>
 
 <p>To help us acheive that, Flapjack contains code that logs an entry on our
-server whenever it is run. This contains:</p>
+server whenever it checks for an updated version. This contains:</p>
 
 <ul>
 <li>Your IP address, so we know (roughly) where in the world you are. We currently
@@ -37,6 +37,9 @@ along the lines of "Windows XP" or "Mac OS X".</li><p></p>
 <p>No other information is collected, and what we do collect is used solely for the
 purpose of knowing where in the world our software is used. You can see the
 results of this on our <a href="map.shtml">Flapjack World Map</a>.</p>
+
+<p>If you don't want this to happen, then simply turn off checking for updates using
+the settings in Flapjack's <a href="help/gui.dialog.prefs.PreferencesDialog.shtml">Preferences Dialog</a>.</p>
 
 <!--#include virtual="footer.html" -->
 
