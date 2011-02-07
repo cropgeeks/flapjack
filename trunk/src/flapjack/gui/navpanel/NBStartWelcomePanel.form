@@ -19,7 +19,9 @@
           <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Component id="flapjackLabel" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="40" max="32767" attributes="0"/>
+              <EmptySpace pref="152" max="32767" attributes="0"/>
+              <Component id="citeLabel" min="-2" max="-2" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="feedbackLabel" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="twitterLabel" min="-2" max="-2" attributes="0"/>
@@ -35,6 +37,7 @@
                   <Component id="flapjackLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="twitterLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="feedbackLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="citeLabel" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="32767" attributes="0"/>
           </Group>
@@ -52,7 +55,7 @@
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="9c" green="6a" red="44" type="rgb"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Send feedback"/>
+        <Property name="text" type="java.lang.String" value="Feedback"/>
       </Properties>
     </Component>
     <Component class="scri.commons.gui.matisse.HyperLinkLabel" name="twitterLabel">
@@ -60,7 +63,15 @@
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="9c" green="6a" red="44" type="rgb"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Follow us"/>
+        <Property name="text" type="java.lang.String" value="Follow"/>
+      </Properties>
+    </Component>
+    <Component class="scri.commons.gui.matisse.HyperLinkLabel" name="citeLabel">
+      <Properties>
+        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="9c" green="6a" red="44" type="rgb"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Cite"/>
       </Properties>
     </Component>
   </SubComponents>
