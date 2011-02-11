@@ -34,7 +34,7 @@ public class TraitImporter extends SimpleJob
 
 		hashtable = new Hashtable<String, ArrayList<TraitValue>>();
 
-		maximum = 5000;
+		maximum = 5555;
 	}
 
 	public void runJob(int index)
@@ -174,7 +174,7 @@ public class TraitImporter extends SimpleJob
 		if (is == null)
 			return 0;
 
-		return (int) (is.getBytesRead() / (float) file.length()) * 5000;
+		return Math.round(is.getBytesRead() / (float) file.length() * 5555);
 	}
 
 	public int getTraitsCount()

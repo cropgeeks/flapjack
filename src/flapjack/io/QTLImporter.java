@@ -40,7 +40,7 @@ public class QTLImporter extends SimpleJob
 		this.file = file;
 		this.dataSet = dataSet;
 
-		maximum = 5000;
+		maximum = 5555;
 
 		// Add a storage track to each chromosome
 		for (ChromosomeMap c: dataSet.getChromosomeMaps())
@@ -182,7 +182,7 @@ public class QTLImporter extends SimpleJob
 		if (is == null)
 			return 0;
 
-		return (int) (is.getBytesRead() / (float) file.length()) * 5000;
+		return Math.round(is.getBytesRead() / (float) file.length() * 5555);
 	}
 
 	public int getFeaturesRead()
