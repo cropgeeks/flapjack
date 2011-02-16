@@ -25,6 +25,7 @@ public class DataImportDialog extends JDialog implements ActionListener, ChangeL
 	private NBImportDataPanel dataPanel;
 	private NBImportTraitsPanel traitsPanel;
 	private NBImportFeaturesPanel featuresPanel;
+	private NBImportGraphPanel graphsPanel;
 	private NBImportSamplePanel samplePanel;
 
 	public DataImportDialog(int tabIndex, boolean secondaryOptions)
@@ -53,6 +54,10 @@ public class DataImportDialog extends JDialog implements ActionListener, ChangeL
 		featuresPanel = new NBImportFeaturesPanel(secondaryOptions);
 		tabs.addTab(RB.getString("gui.dialog.DataImportDialog.featuresTab"),
 			Icons.getIcon("QTLTAB"), featuresPanel);
+
+		graphsPanel = new NBImportGraphPanel(secondaryOptions);
+		tabs.addTab(RB.getString("gui.dialog.DataImportDialog.graphTab"),
+			Icons.getIcon("GRAPHTAB"), graphsPanel);
 
 		samplePanel = new NBImportSamplePanel(bImport);
 		tabs.addTab(RB.getString("gui.dialog.DataImportDialog.sampleTab"),
@@ -106,6 +111,10 @@ public class DataImportDialog extends JDialog implements ActionListener, ChangeL
 				case 2: if (featuresPanel.isOK() == false)
 							return;
 				break;
+
+				case 3: if (graphsPanel.isOK() == false)
+							return;
+				break;
 			}
 
 			isOK = true;
@@ -137,6 +146,11 @@ public class DataImportDialog extends JDialog implements ActionListener, ChangeL
 				break;
 
 			case 3 :
+				RB.setText(bImport, "gui.dialog.DataImportDialog.importGraphs");
+				bImport.setEnabled(secondaryOptions);
+				break;
+
+			case 4 :
 				RB.setText(bImport, "gui.dialog.DataImportDialog.importSample");
 				bImport.setEnabled(samplePanel.isOK());
 				break;
@@ -161,6 +175,9 @@ public class DataImportDialog extends JDialog implements ActionListener, ChangeL
 
 	public File getFeaturesFile()
 		{ return featuresPanel.getFile(); }
+
+	public File getGraphsFile()
+		{ return graphsPanel.getFile(); }
 
 	public FlapjackFile getSampleProject()
 		{ return samplePanel.getProject(); }
