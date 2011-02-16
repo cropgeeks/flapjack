@@ -30,6 +30,7 @@ public class GenotypePanel extends JPanel
 	private RowCanvas rowCanvas;
 	private ColCanvas colCanvas;
 	private QTLCanvas qtlCanvas;
+	private GraphCanvas graphCanvas;
 	TraitCanvas traitCanvas;
 	ListPanel listPanel;
 	NBStatusPanel statusPanel;
@@ -73,13 +74,18 @@ public class GenotypePanel extends JPanel
 //		mapPanel.add(miniMapCanvas, BorderLayout.NORTH);
 		mapPanel.add(mapCanvas, BorderLayout.CENTER);
 
+		JPanel bottomPanel = new JPanel(new BorderLayout());
+		bottomPanel.add(graphCanvas, BorderLayout.NORTH);
+		bottomPanel.add(rowCanvas, BorderLayout.SOUTH);
+
 		// The main genotype area
 		JPanel centerPanel = new JPanel(new BorderLayout());
 		centerPanel.add(sp);
 		centerPanel.add(mapPanel, BorderLayout.NORTH);
-		centerPanel.add(rowCanvas, BorderLayout.SOUTH);
+		centerPanel.add(bottomPanel, BorderLayout.SOUTH);
 		centerPanel.add(colCanvas, BorderLayout.EAST);
 		centerPanel.add(traitCanvas, BorderLayout.WEST);
+
 
 		// The split pane holding the QTLs (top) and everything else (bottom)
 		qtlSplitter = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
@@ -121,7 +127,8 @@ public class GenotypePanel extends JPanel
 		mapCanvas = new MapCanvas(this, canvas);
 		miniMapCanvas = new MiniMapCanvas(this, canvas);
 		traitCanvas = new TraitCanvas(this, canvas);
-		qtlCanvas = new QTLCanvas(this, canvas, mapCanvas);
+		qtlCanvas = new QTLCanvas(this, canvas, mapCanvas, winMain);
+		graphCanvas = new GraphCanvas(this, canvas, mapCanvas);
 		listPanel = new ListPanel();
 		statusPanel = new NBStatusPanel(this);
 
@@ -218,6 +225,7 @@ public class GenotypePanel extends JPanel
 				adjustmentValueChanged(null);
 
 				mapCanvas.updateBuffer = true;
+				graphCanvas.updateBuffer = true;
 				qtlCanvas.updateCanvasSize(true);
 				miniMapCanvas.createImage();
 			}
@@ -440,21 +448,21 @@ public class GenotypePanel extends JPanel
 
 		lengthLabel.setText(RB.format("gui.visualization.GenotypePanel.lengthLabel", length));
 	}
-	
+
 	public void pageLeft()
 	{
 		int jumpTo = (canvas.pX1/canvas.boxW) - (canvas.boxCountX);
-		
+
 		moveToPosition(-1, jumpTo, false);
 	}
-	
+
 	public void pageRight()
 	{
 		int jumpTo = (canvas.pX2Max/canvas.boxW) + 1;
-		
+
 		moveToPosition(-1, jumpTo, false);
 	}
-	
+
 	void moveTo(int rowIndex, int colIndex, boolean centre)
 	{
 		// If 'centre' is true, offset by half the screen
@@ -478,7 +486,7 @@ public class GenotypePanel extends JPanel
 			hBar.setValue(x);
 		}
 	}
-	
+
 	public void moveToPosition(final int rowIndex, final int colIndex, final boolean centre)
 	{
 		SwingUtilities.invokeLater(new Runnable() {

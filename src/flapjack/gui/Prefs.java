@@ -25,6 +25,8 @@ public class Prefs extends XMLPreferences
 	// Path to the last selected trait file
 	public static String guiTraitHistory = "";
 	public static String guiQTLHistory = "";
+	public static String guiGraphHistory = "";
+
 	// History for selected external sort orders
 	public static String guiExternalSortHistory = "";
 

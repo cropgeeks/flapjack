@@ -167,8 +167,11 @@ public class MenuFile
 			case 2: importQTLData(dialog.getFeaturesFile());
 				break;
 
+			case 3: importGraphData(dialog.getGraphsFile());
+				break;
+
 			// Importing from a Flapjack-provided sample fileset
-			case 3: fileOpen(dialog.getSampleProject());
+			case 4: fileOpen(dialog.getSampleProject());
 				break;
 		}
 	}
@@ -279,6 +282,24 @@ public class MenuFile
 		TaskDialog.info(RB.format("gui.MenuFile.importQTLs.success",
 			importer.getFeaturesRead(), importer.getFeaturesAdded()),
 			RB.getString("gui.text.close"));
+	}
+
+	private void importGraphData(File file)
+	{
+		try
+		{
+			DataSet dataSet = navPanel.getDataSetForSelection();
+			GraphImporter gi = new GraphImporter(null, dataSet);
+
+			ProgressDialog dialog = new ProgressDialog(gi, "text1", "text2", Flapjack.winMain);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+
+		if (true)
+			return;
 	}
 
 	private static class SaveLoadHandler extends SimpleJob
