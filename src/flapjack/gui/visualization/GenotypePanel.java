@@ -30,7 +30,7 @@ public class GenotypePanel extends JPanel
 	private RowCanvas rowCanvas;
 	private ColCanvas colCanvas;
 	private QTLCanvas qtlCanvas;
-	private GraphCanvas graphCanvas;
+	GraphCanvas graphCanvas;
 	TraitCanvas traitCanvas;
 	ListPanel listPanel;
 	NBStatusPanel statusPanel;
@@ -128,7 +128,7 @@ public class GenotypePanel extends JPanel
 		miniMapCanvas = new MiniMapCanvas(this, canvas);
 		traitCanvas = new TraitCanvas(this, canvas);
 		qtlCanvas = new QTLCanvas(this, canvas, mapCanvas);
-		graphCanvas = new GraphCanvas(this, canvas, mapCanvas);
+		graphCanvas = new GraphCanvas(this, canvas);
 		listPanel = new ListPanel();
 		statusPanel = new NBStatusPanel(this);
 

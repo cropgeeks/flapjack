@@ -26,10 +26,10 @@ class GraphCanvas extends JPanel
 
 	private GenotypePanel gPanel;
 	private GenotypeCanvas canvas;
-	private MapCanvas mapCanvas;
 	private Canvas2D graphCanvas;
 
-	private GraphData graphData;
+	GraphData graphData;
+	int graphIndex = 10;
 
 	private BufferedImage buffer, aaBuffer;
 	boolean updateBuffer = true;
@@ -39,18 +39,21 @@ class GraphCanvas extends JPanel
 
 	// What is the current drawing width
 	private int w;
+	// And canvas offset amount
+	int xOffset;
 
 	boolean full = false;
 
-	GraphCanvas(GenotypePanel gPanel, GenotypeCanvas canvas, MapCanvas mapCanvas)
+	GraphCanvas(GenotypePanel gPanel, GenotypeCanvas canvas)
 	{
 		this.gPanel = gPanel;
 		this.canvas = canvas;
-		this.mapCanvas = mapCanvas;
 
 		setLayout(new BorderLayout());
-		setBorder(BorderFactory.createEmptyBorder(BORDER, 0, 0, 0));
+//		setBorder(BorderFactory.createEmptyBorder(BORDER, 0, 0, 0));
 		add(graphCanvas = new Canvas2D());
+
+		new GraphCanvasML(gPanel, this);
 	}
 
 	private class Canvas2D extends JPanel
@@ -77,8 +80,7 @@ class GraphCanvas extends JPanel
 			}
 
 			// Calculate the required offset and width
-			int xOffset = gPanel.traitCanvas.getPanelWidth()
-				+ gPanel.listPanel.getPanelWidth() + 1;
+			xOffset = gPanel.traitCanvas.getPanelWidth() + gPanel.listPanel.getPanelWidth() + 1;
 			g.translate(xOffset, 0);
 
 			// Update the back buffer (if it needs redrawn)
@@ -136,7 +138,7 @@ class GraphCanvas extends JPanel
 		if (xE < canvas.view.getMarkerCount()-1) xE++;
 
 		// Retrieve the data
-		float[] data = graphData.getGraphs().get(34);
+		float[] data = graphData.getGraphs().get(graphIndex);
 		Float prev = null;
 
 		for (int i = xS; i <= xE; i++)
