@@ -289,7 +289,7 @@ public class MenuFile
 		try
 		{
 			DataSet dataSet = navPanel.getDataSetForSelection();
-			GraphImporter gi = new GraphImporter(null, dataSet);
+			GraphImporter gi = new GraphImporter(file, dataSet);
 
 			ProgressDialog dialog = new ProgressDialog(gi, "text1", "text2", Flapjack.winMain);
 		}

@@ -33,8 +33,6 @@ public class GraphImporter extends SimpleJob
 		this.dataSet = dataSet;
 
 		maximum = 5555;
-
-		this.file = new File("E:\\Data\\Flapjack\\PAUL GRAPH DATA\\sample_genome_scans_james_cockram.txt");
 	}
 
 	public void runJob(int index)
