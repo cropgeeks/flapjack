@@ -102,4 +102,19 @@ public class GraphData extends XMLRoot
 			}
 		}
 	}
+
+	public float getRealValueAt(int gIndex, int mIndex)
+	{
+		float[] data = graphs.get(gIndex);
+		float min = mins.get(gIndex);
+		float max = maxs.get(gIndex);
+
+		// Get the value for it from the graph data
+		float value = data[mIndex];
+
+		// "Unnormalize" it back to its original value
+		value = (value * (max-min)) + min;
+
+		return value;
+	}
 }

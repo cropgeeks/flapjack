@@ -65,8 +65,11 @@ class GraphCanvasML extends MouseInputAdapter implements ActionListener
 
 	public void mouseMoved(MouseEvent e)
 	{
-		if (graphCanvas.graphData == null)
+		GraphData data = graphCanvas.graphData;
+
+		if (data == null)
 			return;
+
 
 		// "x" is the mouse's position if it were over the main canvas
 		int x = e.getPoint().x + canvas.pX1 - graphCanvas.xOffset;
@@ -76,21 +79,14 @@ class GraphCanvasML extends MouseInputAdapter implements ActionListener
 			int mIndex = canvas.getMarker(new Point(x, 0));
 			int gIndex = graphCanvas.graphIndex;
 
-			float[] data = graphCanvas.graphData.getGraphs().get(gIndex);
-			float min = graphCanvas.graphData.getMins().get(gIndex);
-			float max = graphCanvas.graphData.getMaxs().get(gIndex);
-
 			// Find out which marker is being displayed at this location
 			MarkerInfo mi = canvas.view.getMarkerInfo(mIndex);
-
-			// Then we can get the value for it from the graph data
-			float value = data[mi.getIndex()];
-			// And "Unnormalize" it back to its original value
-			value = (value * (max-min)) + min;
+			// And what its graph value is
+			float value = data.getRealValueAt(gIndex, mi.getIndex());
 
 
 			// Display on screen.
-			String graph = graphCanvas.graphData.getNames().get(gIndex);
+			String graph = data.getNames().get(gIndex);
 
 			Marker m = mi.getMarker();
 			String mStr = m.getName() + "  (" + nf.format(m.getRealPosition()) + ")";
