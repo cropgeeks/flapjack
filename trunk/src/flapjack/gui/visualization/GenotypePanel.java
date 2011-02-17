@@ -127,7 +127,7 @@ public class GenotypePanel extends JPanel
 		mapCanvas = new MapCanvas(this, canvas);
 		miniMapCanvas = new MiniMapCanvas(this, canvas);
 		traitCanvas = new TraitCanvas(this, canvas);
-		qtlCanvas = new QTLCanvas(this, canvas, mapCanvas, winMain);
+		qtlCanvas = new QTLCanvas(this, canvas, mapCanvas);
 		graphCanvas = new GraphCanvas(this, canvas, mapCanvas);
 		listPanel = new ListPanel();
 		statusPanel = new NBStatusPanel(this);

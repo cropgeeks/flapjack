@@ -10,11 +10,13 @@ public class GraphData extends XMLRoot
 	// The name of each graph
 	private ArrayList<String> names = new ArrayList<String>();
 
-	// The data for each graph
+	// The data for each graph - stored as normalized values
 	private ArrayList<float[]> graphs = new ArrayList<float[]>();
 
 	// The maximum value within each graph
-	private ArrayList<Float> maxes = new ArrayList<Float>();
+	private ArrayList<Float> maxs = new ArrayList<Float>();
+	// The minimum value within each graph
+	private ArrayList<Float> mins = new ArrayList<Float>();
 
 	private int markerCount;
 
@@ -41,11 +43,17 @@ public class GraphData extends XMLRoot
 	public void setGraphs(ArrayList<float[]> graphs)
 		{ this.graphs = graphs; }
 
-	public ArrayList<Float> getMaxes()
-		{ return maxes; }
+	public ArrayList<Float> getMaxs()
+		{ return maxs; }
 
-	public void setMaxes(ArrayList<Float> maxes)
-		{ this.maxes = maxes; }
+	public void setMaxs(ArrayList<Float> maxs)
+		{ this.maxs = maxs; }
+
+	public ArrayList<Float> getMins()
+		{ return mins; }
+
+	public void setMins(ArrayList<Float> mins)
+		{ this.mins = mins; }
 
 
 	// Other methods
@@ -58,7 +66,8 @@ public class GraphData extends XMLRoot
 
 		graphs.add(graphData);
 		names.add(graphName);
-		maxes.add(Float.MIN_VALUE);
+		maxs.add(Float.MIN_VALUE);
+		mins.add(Float.MAX_VALUE);
 	}
 
 	public void setValue(int graphIndex, int mrkIndex, float value)
@@ -66,8 +75,31 @@ public class GraphData extends XMLRoot
 		// Add the value...
 		graphs.get(graphIndex)[mrkIndex] = value;
 
-		// And check if it's the highest seen yet or not
-		if (value > maxes.get(graphIndex))
-			maxes.set(graphIndex, value);
+		// Check if it's the highest or lowest seen yet or not
+		if (value > maxs.get(graphIndex))
+			maxs.set(graphIndex, value);
+
+		if (value < mins.get(graphIndex))
+			mins.set(graphIndex, value);
+	}
+
+	public void normalize()
+	{
+		// For each graph
+		for (int i = 0; i < graphs.size(); i++)
+		{
+			float[] data = graphs.get(i);
+			float min = mins.get(i);
+			float max = maxs.get(i);
+
+			for (int d = 0; d < data.length; d++)
+			{
+				// Normalize the value...
+				data[d] = (data[d] - min) / (max - min);
+
+				if (Float.isNaN(data[d]))
+					data[d] = 0;
+			}
+		}
 	}
 }

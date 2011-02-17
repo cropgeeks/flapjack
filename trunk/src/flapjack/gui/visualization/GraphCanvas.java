@@ -122,14 +122,22 @@ class GraphCanvas extends JPanel
 
 	void render(Graphics2D g, int xS, int xE)
 	{
+		g.translate(-canvas.pX1, 0);
+
 		if (xS > canvas.view.getMarkerCount() || xE > canvas.view.getMarkerCount())
 			return;
 
-		g.translate(-canvas.pX1, 0);
+		// If we're drawing a line graph, then translate by half a position
+		if (Prefs.guiGraphStyle == 1)
+			g.translate(canvas.boxW/2, 0);
 
-		float[] data = graphData.getGraphs().get(10);
-		float max = graphData.getMaxes().get(10);
-		float scaleBy = h / max;
+		// See if we can render one extra marker to each side
+		if (xS > 0)	xS--;
+		if (xE < canvas.view.getMarkerCount()-1) xE++;
+
+		// Retrieve the data
+		float[] data = graphData.getGraphs().get(34);
+		Float prev = null;
 
 		for (int i = xS; i <= xE; i++)
 		{
@@ -139,16 +147,34 @@ class GraphCanvas extends JPanel
 			// Then we can get the value for it from the graph data
 			float value = data[mi.getIndex()];
 
-
-			// Work out an intensity value for it (0-255 gives light shades too
-			// close to white, so adjust the scale to 25-255)
-			float ratio = value / max;
-			int alpha = 25 + (int) (((255-25) * (255*ratio)) / 255f);
-			g.setColor(new Color(70, 116, 162, alpha));
-
-			int height = (int) (scaleBy * value);
+			// Draw co-ordindates:
+			int y = (int) (value * h);
 			int x = i*canvas.boxW;
-			g.fillRect(x, 0, canvas.boxW, height);
+
+
+			// Draw a BAR at each position
+			if (Prefs.guiGraphStyle == 0)
+			{
+				// Work out an intensity value for it (0-255 gives light shades too
+			// close to white, so adjust the scale to 25-255)
+				int alpha = 25 + (int) (((255-25) * (255*value)) / 255f);
+				g.setColor(new Color(70, 116, 162, alpha));
+
+				g.fillRect(x, 0, canvas.boxW, y);
+			}
+
+			// Draw a LINE at each position (from prevPos to current)
+			else
+			{
+				g.setColor(new Color(70, 116, 162));
+
+				if (prev != null)
+					g.drawLine(x-canvas.boxW, (int)(prev * h), x, y);
+				else
+					g.drawLine(x, y, x, y);
+
+				prev = value;
+			}
 		}
 	}
 

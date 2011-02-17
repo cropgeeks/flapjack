@@ -92,6 +92,9 @@ public class GraphImporter extends SimpleJob
 		{
 			for (int i = 0; i < chromosomes.size(); i++)
 			{
+				// Normalize the imported data before assigning it
+				chromosomes.get(i).normalize();
+
 				ChromosomeMap map = dataSet.getChromosomeMaps().get(i);
 				map.setGraphData(chromosomes.get(i));
 			}

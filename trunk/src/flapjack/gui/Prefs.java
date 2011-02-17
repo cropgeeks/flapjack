@@ -99,6 +99,9 @@ public class Prefs extends XMLPreferences
 	// Auto assign traits to the heatmap after a sort-by-trait?
 	public static boolean guiAssignTraits = true;
 
+	// Graphs (against markers)
+	public static int guiGraphStyle = 0;
+
 	// Finding stuff...
 	public static int guiFindDialogX = -9999;
 	public static int guiFindDialogY = -9999;
