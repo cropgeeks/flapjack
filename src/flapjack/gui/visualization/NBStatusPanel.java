@@ -118,9 +118,9 @@ public class NBStatusPanel extends JPanel implements ActionListener, ChangeListe
 
 	void setForGraphUse()
 	{
-		label1.setText("Graph:");
-		label2.setText("Marker:");
-		label3.setText("Value:");
+		RB.setText(label1, "gui.visualization.StatusPanel.graph");
+		RB.setText(label2, "gui.visualization.StatusPanel.marker");
+		RB.setText(label3, "gui.visualization.StatusPanel.value");
 	}
 
 	// Toggles the state of the slider controls based on whether or not advanced

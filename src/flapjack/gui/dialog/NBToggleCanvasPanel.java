@@ -31,6 +31,7 @@ class NBToggleCanvasPanel extends JPanel implements ActionListener
 		RB.setText(checkLinePanel, "gui.dialog.NBToggleCanvasPanel.checkLinePanel");
 		RB.setText(checkMapCanvas, "gui.dialog.NBToggleCanvasPanel.checkMapCanvas");
 		RB.setText(checkQTLCanvas, "gui.dialog.NBToggleCanvasPanel.checkQTLCanvas");
+		RB.setText(checkGraphCanvas, "gui.dialog.NBToggleCanvasPanel.checkGraphCanvas");
 		RB.setText(checkRowCanvas, "gui.dialog.NBToggleCanvasPanel.checkRowCanvas");
 		RB.setText(checkColCanvas, "gui.dialog.NBToggleCanvasPanel.checkColCanvas");
 		RB.setText(checkTraitCanvas, "gui.dialog.NBToggleCanvasPanel.checkTraitCanvas");
@@ -40,6 +41,7 @@ class NBToggleCanvasPanel extends JPanel implements ActionListener
 		checkLinePanel.addActionListener(this);
 		checkMapCanvas.addActionListener(this);
 		checkQTLCanvas.addActionListener(this);
+		checkGraphCanvas.addActionListener(this);
 		checkRowCanvas.addActionListener(this);
 		checkColCanvas.addActionListener(this);
 		checkTraitCanvas.addActionListener(this);
@@ -49,6 +51,7 @@ class NBToggleCanvasPanel extends JPanel implements ActionListener
 		checkLinePanel.setSelected(Prefs.visShowLinePanel);
 		checkMapCanvas.setSelected(Prefs.visShowMapCanvas);
 		checkQTLCanvas.setSelected(Prefs.visShowQTLCanvas);
+		checkGraphCanvas.setSelected(Prefs.visShowGraphCanvas);
 		checkRowCanvas.setSelected(Prefs.visShowRowCanvas);
 		checkColCanvas.setSelected(Prefs.visShowColCanvas);
 		checkTraitCanvas.setSelected(Prefs.visShowTraitCanvas);
@@ -61,6 +64,7 @@ class NBToggleCanvasPanel extends JPanel implements ActionListener
 		Prefs.visShowLinePanel = checkLinePanel.isSelected();
 		Prefs.visShowMapCanvas = checkMapCanvas.isSelected();
 		Prefs.visShowQTLCanvas = checkQTLCanvas.isSelected();
+		Prefs.visShowGraphCanvas = checkGraphCanvas.isSelected();
 		Prefs.visShowRowCanvas = checkRowCanvas.isSelected();
 		Prefs.visShowColCanvas = checkColCanvas.isSelected();
 		Prefs.visShowTraitCanvas = checkTraitCanvas.isSelected();
@@ -84,6 +88,7 @@ class NBToggleCanvasPanel extends JPanel implements ActionListener
         checkLinePanel = new javax.swing.JCheckBox();
         checkMapCanvas = new javax.swing.JCheckBox();
         checkQTLCanvas = new javax.swing.JCheckBox();
+        checkGraphCanvas = new javax.swing.JCheckBox();
         checkRowCanvas = new javax.swing.JCheckBox();
         checkColCanvas = new javax.swing.JCheckBox();
         checkTraitCanvas = new javax.swing.JCheckBox();
@@ -98,6 +103,8 @@ class NBToggleCanvasPanel extends JPanel implements ActionListener
         checkMapCanvas.setText("The main chromosome map panel");
 
         checkQTLCanvas.setText("The QTL panel");
+
+        checkGraphCanvas.setText("The graph/histogram panel");
 
         checkRowCanvas.setText("The mouse-over line overview panel");
 
@@ -114,16 +121,19 @@ class NBToggleCanvasPanel extends JPanel implements ActionListener
             .addGroup(panelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(checkMiniMapCanvas)
-                    .addComponent(checkLinePanel)
-                    .addComponent(checkMapCanvas)
-                    .addComponent(checkQTLCanvas))
-                .addGap(18, 18, 18)
-                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(checkRowCanvas)
-                    .addComponent(checkColCanvas)
-                    .addComponent(checkTraitCanvas)
-                    .addComponent(checkStatusPanel))
+                    .addGroup(panelLayout.createSequentialGroup()
+                        .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(checkMiniMapCanvas)
+                            .addComponent(checkLinePanel)
+                            .addComponent(checkMapCanvas)
+                            .addComponent(checkQTLCanvas))
+                        .addGap(18, 18, 18)
+                        .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(checkRowCanvas)
+                            .addComponent(checkColCanvas)
+                            .addComponent(checkTraitCanvas)
+                            .addComponent(checkStatusPanel)))
+                    .addComponent(checkGraphCanvas))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panelLayout.setVerticalGroup(
@@ -147,6 +157,8 @@ class NBToggleCanvasPanel extends JPanel implements ActionListener
                         .addComponent(checkMapCanvas)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(checkQTLCanvas)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(checkGraphCanvas)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -171,6 +183,7 @@ class NBToggleCanvasPanel extends JPanel implements ActionListener
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox checkColCanvas;
+    private javax.swing.JCheckBox checkGraphCanvas;
     private javax.swing.JCheckBox checkLinePanel;
     private javax.swing.JCheckBox checkMapCanvas;
     private javax.swing.JCheckBox checkMiniMapCanvas;
