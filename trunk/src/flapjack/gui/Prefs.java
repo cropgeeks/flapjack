@@ -126,6 +126,7 @@ public class Prefs extends XMLPreferences
 	public static boolean visShowColCanvas = true;
 	public static boolean visShowTraitCanvas = true;
 	public static boolean visShowStatusPanel = true;
+	public static boolean visShowGraphCanvas = true;
 
 	// Link the x/y zoom sliders?
 	public static boolean visLinkSliders = true;

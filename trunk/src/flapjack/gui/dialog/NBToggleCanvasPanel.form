@@ -49,17 +49,22 @@
               <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="checkMiniMapCanvas" min="-2" max="-2" attributes="0"/>
-                      <Component id="checkLinePanel" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="checkMapCanvas" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="checkQTLCanvas" alignment="0" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="checkRowCanvas" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="checkColCanvas" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="checkTraitCanvas" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="checkStatusPanel" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Group type="102" attributes="0">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="checkMiniMapCanvas" min="-2" max="-2" attributes="0"/>
+                              <Component id="checkLinePanel" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="checkMapCanvas" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="checkQTLCanvas" alignment="0" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="checkRowCanvas" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="checkColCanvas" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="checkTraitCanvas" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="checkStatusPanel" alignment="0" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
+                      <Component id="checkGraphCanvas" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
@@ -89,6 +94,8 @@
                           <Component id="checkQTLCanvas" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="checkGraphCanvas" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
@@ -113,6 +120,11 @@
         <Component class="javax.swing.JCheckBox" name="checkQTLCanvas">
           <Properties>
             <Property name="text" type="java.lang.String" value="The QTL panel"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JCheckBox" name="checkGraphCanvas">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="The graph/histogram panel"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JCheckBox" name="checkRowCanvas">
