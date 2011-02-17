@@ -122,44 +122,6 @@ public class GraphImporter extends SimpleJob
 		System.out.println("Marker index build in " + (e-s) + "ms");
 	}
 
-	private void applyToDataSet()
-	{
-/*		// If everything was read in correctly, apply the traits to the dataset
-		for (Trait trait: traits)
-		{
-			dataSet.getTraits().add(trait);
-			traitsCount++;
-		}
-
-		// For each line, see if data for it exists...
-		for (Line line: dataSet.getLines())
-		{
-			ArrayList<TraitValue> traitValues = hashtable.get(line.getName());
-
-			// If data *does* exist for this line
-			if (traitValues != null)
-				for (TraitValue tv: traitValues)
-				{
-					// First update the value with its normalized score
-					tv.computeNormal();
-					// Then add it
-					line.getTraitValues().add(tv);
-					traitsRead++;
-				}
-
-			// If it doesn't, then still add TraitValues, but use dummy ones
-			else
-			{
-				for (int i = 0; i < traits.size(); i++)
-				{
-					Trait trait = traits.get(i);
-					line.getTraitValues().add(new TraitValue(trait));
-				}
-			}
-		}
-*/
-	}
-
 	public int getValue()
 	{
 		if (is == null)

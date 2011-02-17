@@ -116,6 +116,13 @@ public class NBStatusPanel extends JPanel implements ActionListener, ChangeListe
 		RB.setText(label3, "gui.visualization.StatusPanel.featureData");
 	}
 
+	void setForGraphUse()
+	{
+		label1.setText("Graph:");
+		label2.setText("Marker:");
+		label3.setText("Value:");
+	}
+
 	// Toggles the state of the slider controls based on whether or not advanced
 	// zoom has been turned on or off (which hides/changes text on the controls)
 	public static void setControlStates()
@@ -227,6 +234,13 @@ public class NBStatusPanel extends JPanel implements ActionListener, ChangeListe
 	{
 		lineLabel.setText(line);
 		markerLabel.setText(trait);
+		alleleLabel.setText(value);
+	}
+
+	void setGraphDetails(String graph, String marker, String value)
+	{
+		lineLabel.setText(graph);
+		markerLabel.setText(marker);
 		alleleLabel.setText(value);
 	}
 
