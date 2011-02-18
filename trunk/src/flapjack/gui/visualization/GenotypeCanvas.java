@@ -48,7 +48,7 @@ class GenotypeCanvas extends JPanel
 
 	// Starting and ending indices of the x (marker) and y (line) data that will
 	// be drawn during the next repaint operation
-	int xS, xE, yE;
+	private int xS, xE, yE;
 
 	// Holds the current dimensions of the canvas in an AWT friendly format
 	private Dimension dimension = new Dimension();

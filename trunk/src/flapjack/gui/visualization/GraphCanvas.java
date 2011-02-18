@@ -111,8 +111,8 @@ class GraphCanvas extends JPanel
 		g.fillRect(0, 0, w, h);
 
 
-		int xS = canvas.xS;
-		int xE = canvas.xE;
+		int xS = canvas.pX1 / canvas.boxW;
+		int xE = canvas.pX2 / canvas.boxW;
 		render(g, xS, xE);
 
 		g.dispose();

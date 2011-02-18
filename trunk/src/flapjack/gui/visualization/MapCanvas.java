@@ -89,6 +89,7 @@ class MapCanvas extends JPanel
 			int xOffset = gPanel.traitCanvas.getPanelWidth()
 				+ gPanel.listPanel.getPanelWidth() + 1;
 			g.translate(xOffset, 0);
+			// This cliping is only needed for the "live" mouse-over paints
 			g.setClip(0, 0, canvas.pX2Max-canvas.pX1+1, getHeight());
 
 			// Update the back buffer (if it needs redrawn)
