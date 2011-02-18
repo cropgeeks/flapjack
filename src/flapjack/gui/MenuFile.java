@@ -286,20 +286,30 @@ public class MenuFile
 
 	private void importGraphData(File file)
 	{
-		try
-		{
-			DataSet dataSet = navPanel.getDataSetForSelection();
-			GraphImporter gi = new GraphImporter(file, dataSet);
+		DataSet dataSet = navPanel.getDataSetForSelection();
 
-			ProgressDialog dialog = new ProgressDialog(gi, "text1", "text2", Flapjack.winMain);
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
+		GraphImporter gi = new GraphImporter(file, dataSet);
+		ProgressDialog dialog = new ProgressDialog(gi,
+			RB.format("gui.MenuFile.importGraphs.dialogTitle"),
+			RB.format("gui.MenuFile.importGraphs.dialogLabel"),
+			Flapjack.winMain);
 
-		if (true)
+		// If the operation failed or was cancelled...
+		if (dialog.getResult() != ProgressDialog.JOB_COMPLETED)
+		{
+			if (dialog.getResult() == ProgressDialog.JOB_FAILED)
+			{
+				dialog.getException().printStackTrace();
+				TaskDialog.error(RB.format("gui.MenuFile.importGraphs.error",
+					file, dialog.getException().getMessage()),
+					RB.getString("gui.text.close"));
+			}
 			return;
+		}
+
+		Actions.projectModified();
+
+		gPanel.refreshView();
 	}
 
 	private static class SaveLoadHandler extends SimpleJob
