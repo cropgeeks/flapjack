@@ -188,18 +188,25 @@ class GraphCanvas extends JPanel
 	{
 		// Render width if we're just saving the current view
 		w = canvas.pX2 - canvas.pX1 + 1;
-		int h = getHeight();
+		int xS = canvas.pX1 / canvas.boxW;
+		int xE = canvas.pX2 / canvas.boxW;
 
 		// Or the entire map
 		if (full)
+		{
 			w = canvas.canvasW;
+			xS = 0;
+			xE = canvas.view.getMarkerCount()-1;
+		}
 
 		BufferedImage image = (BufferedImage) createImage(w>0 ? w:1, h>0 ? h:1);
 
 		Graphics2D g = image.createGraphics();
+		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+			RenderingHints.VALUE_ANTIALIAS_ON);
 		g.setColor(Color.white);
 		g.fillRect(0, 0, w, h);
-//		drawGraph(g);
+		render(g, xS, xE);
 		g.dispose();
 
 		return image;
