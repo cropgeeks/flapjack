@@ -27,6 +27,7 @@ public class WinMain extends JFrame
 
 	private FindDialog findDialog;
 	public FilterQTLsDialog filterQTLDialog;
+	public SelectGraphDialog selectGraphDialog;
 
 	// The user's project
 	private Project project = new Project();

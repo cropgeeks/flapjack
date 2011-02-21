@@ -156,6 +156,11 @@ public class MenuData
 		winMain.filterQTLDialog = new FilterQTLsDialog(gPanel, dataSet);
 	}
 
+	public void dataSelectGraph()
+	{
+		winMain.selectGraphDialog = new SelectGraphDialog(gPanel);
+	}
+
 	void dataFind()
 	{
 		winMain.getFindDialog().setVisible(true);
@@ -267,5 +272,12 @@ public class MenuData
 
 			Actions.projectModified();
 		}
+	}
+
+	public void dataSelectTraits()
+	{
+		SelectTraitsDialog dialog = new SelectTraitsDialog(gPanel.getViewSet());
+
+		gPanel.setViewSet(gPanel.getViewSet());
 	}
 }

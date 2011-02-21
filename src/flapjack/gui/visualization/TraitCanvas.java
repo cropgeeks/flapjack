@@ -171,7 +171,7 @@ class TraitCanvas extends JPanel
 
 			item.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e)	{
-					Flapjack.winMain.mViz.vizSelectTraits();
+					Flapjack.winMain.mData.dataSelectTraits();
 				}
 			});
 
