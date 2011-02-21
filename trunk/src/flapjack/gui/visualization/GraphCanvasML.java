@@ -22,6 +22,10 @@ class GraphCanvasML extends MouseInputAdapter implements ActionListener
 	private GraphCanvas graphCanvas;
 	private GenotypeCanvas canvas;
 
+	private JMenuItem mDataSelectGraph;
+	private JCheckBoxMenuItem mHistogram;
+	private JCheckBoxMenuItem mLineGraph;
+
 	GraphCanvasML(GenotypePanel gPanel, GraphCanvas graphCanvas)
 	{
 		this.gPanel = gPanel;
@@ -30,6 +34,21 @@ class GraphCanvasML extends MouseInputAdapter implements ActionListener
 
 		graphCanvas.addMouseListener(this);
 		graphCanvas.addMouseMotionListener(this);
+
+		mDataSelectGraph = WinMainMenuBar.getItem(Actions.dataSelectGraph, "gui.Actions.dataSelectGraph", 0, 0);
+		mHistogram = new JCheckBoxMenuItem(RB.getString("gui.GraphCanvasML.mHistogram"));
+		mHistogram.addActionListener(this);
+		mLineGraph = new JCheckBoxMenuItem(RB.getString("gui.GraphCanvasML.mLineGraph"));
+		mLineGraph.addActionListener(this);
+
+		ButtonGroup grp = new ButtonGroup();
+		grp.add(mHistogram);
+		grp.add(mLineGraph);
+
+		if (Prefs.guiGraphStyle == 0)
+			mHistogram.setSelected(true);
+		else if (Prefs.guiGraphStyle == 1)
+			mLineGraph.setSelected(true);
 	}
 
 	public void mouseReleased(MouseEvent e)
@@ -46,10 +65,28 @@ class GraphCanvasML extends MouseInputAdapter implements ActionListener
 
 	private void displayMenu(MouseEvent e)
 	{
+		JPopupMenu menu = new JPopupMenu();
+
+		menu.add(mDataSelectGraph);
+		menu.addSeparator();
+		menu.add(mHistogram);
+		menu.add(mLineGraph);
+
+		menu.show(e.getComponent(), e.getX(), e.getY());
 	}
 
 	public void actionPerformed(ActionEvent e)
 	{
+		if (e.getSource() == mHistogram)
+		{
+			Prefs.guiGraphStyle = 0;
+			gPanel.refreshView();
+		}
+		else if (e.getSource() == mLineGraph)
+		{
+			Prefs.guiGraphStyle = 1;
+			gPanel.refreshView();
+		}
 	}
 
 	public void mouseEntered(MouseEvent e)

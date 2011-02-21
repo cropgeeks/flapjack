@@ -74,7 +74,6 @@ public class VisualizationNode extends BaseNode
 		Actions.vizOverlayGenotypes.setEnabled(true);
 		Actions.vizHighlightHZ.setEnabled(true);
 		Actions.vizHighlightGaps.setEnabled(true);
-		Actions.vizSelectTraits.setEnabled(true);
 
 		Actions.dataSortLinesBySimilarity.setEnabled(true);
 		Actions.dataSortLinesByTrait.setEnabled(true);
@@ -87,6 +86,8 @@ public class VisualizationNode extends BaseNode
 		Actions.dataDBSettings.setEnabled(true);
 		Actions.dataRenameDataSet.setEnabled(true);
 		Actions.dataDeleteDataSet.setEnabled(true);
+		Actions.dataSelectTraits.setEnabled(true);
+		Actions.dataSelectGraph.setEnabled(true);
 
 		DBAssociation db = viewSet.getDataSet().getDbAssociation();
 		Actions.dataDBLineName.setEnabled(db.isLineSearchEnabled());

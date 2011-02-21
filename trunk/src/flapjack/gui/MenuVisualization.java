@@ -94,13 +94,6 @@ public class MenuVisualization
 		gPanel.refreshView();
 	}
 
-	public void vizSelectTraits()
-	{
-		SelectTraitsDialog dialog = new SelectTraitsDialog(gPanel.getViewSet());
-
-		gPanel.setViewSet(gPanel.getViewSet());
-	}
-
 	void vizCreatePedigree()
 	{
 		PedigreeSettingsDialog dialog = new PedigreeSettingsDialog(

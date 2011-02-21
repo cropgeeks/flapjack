@@ -36,6 +36,8 @@ public class GTView extends XMLRoot
 	// Tracks whether the markers are in map order or not
 	private boolean markersOrdered = false;
 
+	private int graphIndex = 0;
+
 	public GTView()
 	{
 	}
@@ -515,5 +517,15 @@ public class GTView extends XMLRoot
 				count++;
 
 		return count;
+	}
+
+	public int getGraphIndex()
+	{
+		return graphIndex;
+	}
+
+	public void setGraphIndex(int graphIndex)
+	{
+		this.graphIndex = graphIndex;
 	}
 }

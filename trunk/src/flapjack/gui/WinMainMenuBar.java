@@ -75,7 +75,7 @@ public class WinMainMenuBar extends JMenuBar
 	private JCheckBoxMenuItem mVizOverlayGenotypes;
 	private JCheckBoxMenuItem mVizHighlightHZ;
 	private JCheckBoxMenuItem mVizHighlightGaps;
-	private JMenuItem mVizSelectTraits;
+	private JMenuItem mDataSelectTraits;
 
 	private JMenu mData;
 	private JMenu mDataSortLines;
@@ -92,6 +92,7 @@ public class WinMainMenuBar extends JMenuBar
 	private JMenuItem mDataDBSettings;
 	private JMenuItem mDataRenameDataSet;
 	private JMenuItem mDataDeleteDataSet;
+	private JMenuItem mDataSelectGraph;
 
 	private JMenu mWnd;
 	private JMenuItem mWndMinimize;
@@ -276,7 +277,7 @@ public class WinMainMenuBar extends JMenuBar
 		mVizHighlightHZ = getCheckedItem(Actions.vizHighlightHZ, "gui.Actions.vizHighlightHZ",
 			KeyEvent.VK_H, menuShortcut);
 		mVizHighlightGaps = getCheckedItem(Actions.vizHighlightGaps, "gui.Actions.vizHighlightGaps", 0, 0);
-		mVizSelectTraits = getItem(Actions.vizSelectTraits, "gui.Actions.vizSelectTraits", 0, 0);
+		
 
 		ButtonGroup grp = new ButtonGroup();
 		grp.add(mVizScalingLocal);
@@ -310,7 +311,6 @@ public class WinMainMenuBar extends JMenuBar
 		mViz.add(mVizOverlayGenotypes);
 		mViz.add(mVizHighlightHZ);
 		mViz.add(mVizHighlightGaps);
-		mViz.add(mVizSelectTraits);
 
 		add(mViz);
 	}
@@ -332,6 +332,7 @@ public class WinMainMenuBar extends JMenuBar
 		mDataSortLinesByExternal = getItem(Actions.dataSortLinesByExternal, "gui.Actions.dataSortLinesByExternal", 0, 0);
 		mDataSortLinesAlphabetically = getItem(Actions.dataSortLinesAlphabetically, "gui.Actions.dataSortLinesAlphabetically", 0, 0);
 		mDataFilterQTLs = getItem(Actions.dataFilterQTLs, "gui.Actions.dataFilterQTLs", 0, 0);
+		mDataSelectGraph = getItem(Actions.dataSelectGraph, "gui.Actions.dataSelectGraph", 0, 0);
 		mDataFind = getItem(Actions.dataFind, "gui.Actions.dataFind", KeyEvent.VK_F, menuShortcut);
 		mDataStatistics = getItem(Actions.dataStatistics, "gui.Actions.dataStatistics", 0, 0);
 		mDataDBLineName = getItem(Actions.dataDBLineName, "gui.Actions.dataDBLineName", 0, 0);
@@ -339,6 +340,7 @@ public class WinMainMenuBar extends JMenuBar
 		mDataDBSettings = getItem(Actions.dataDBSettings, "gui.Actions.dataDBSettings", 0, 0);
 		mDataRenameDataSet = getItem(Actions.dataRenameDataSet, "gui.Actions.dataRenameDataSet", 0, 0);
 		mDataDeleteDataSet = getItem(Actions.dataDeleteDataSet, "gui.Actions.dataDeleteDataSet", 0, 0);
+		mDataSelectTraits = getItem(Actions.dataSelectTraits, "gui.Actions.dataSelectTraits", 0, 0);
 
 		mDataSortLines.add(mDataSortLinesAlphabetically);
 		mDataSortLines.addSeparator();
@@ -352,7 +354,10 @@ public class WinMainMenuBar extends JMenuBar
 		mDataDB.add(mDataDBSettings);
 
 		mData.add(mDataSortLines);
+		mData.addSeparator();
 		mData.add(mDataFilterQTLs);
+		mData.add(mDataSelectTraits);
+		mData.add(mDataSelectGraph);
 		mData.addSeparator();
 		mData.add(mDataFind);
 		mData.add(mDataStatistics);

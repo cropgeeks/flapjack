@@ -67,13 +67,13 @@ public class Actions
 	public static AbstractAction vizOverlayGenotypes;
 	public static AbstractAction vizHighlightHZ;
 	public static AbstractAction vizHighlightGaps;
-	public static AbstractAction vizSelectTraits;
 
 	public static AbstractAction dataSortLinesBySimilarity;
 	public static AbstractAction dataSortLinesByTrait;
 	public static AbstractAction dataSortLinesByExternal;
 	public static AbstractAction dataSortLinesAlphabetically;
 	public static AbstractAction dataFilterQTLs;
+	public static AbstractAction dataSelectGraph;
 	public static AbstractAction dataFind;
 	public static AbstractAction dataStatistics;
 	public static AbstractAction dataDBLineName;
@@ -81,6 +81,7 @@ public class Actions
 	public static AbstractAction dataDBSettings;
 	public static AbstractAction dataRenameDataSet;
 	public static AbstractAction dataDeleteDataSet;
+	public static AbstractAction dataSelectTraits;
 
 	public static AbstractAction wndMinimize;
 	public static AbstractAction wndZoom;
@@ -424,13 +425,7 @@ public class Actions
 			}
 		};
 
-		vizSelectTraits = new AbstractAction(RB.getString("gui.Actions.vizSelectTraits")) {
-			public void actionPerformed(ActionEvent e) {
-				winMain.mViz.vizSelectTraits();
-			}
-		};
-
-
+		
 		dataSortLinesBySimilarity = new AbstractAction(RB.getString("gui.Actions.dataSortLinesBySimilarity")) {
 			public void actionPerformed(ActionEvent e) {
 				winMain.mData.dataSortLines();
@@ -458,6 +453,12 @@ public class Actions
 		dataFilterQTLs = new AbstractAction(RB.getString("gui.Actions.dataFilterQTLs")) {
 			public void actionPerformed(ActionEvent e) {
 				winMain.mData.dataFilterQTLs();
+			}
+		};
+
+		dataSelectGraph = new AbstractAction(RB.getString("gui.Actions.dataSelectGraph")) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.mData.dataSelectGraph();
 			}
 		};
 
@@ -500,6 +501,12 @@ public class Actions
 		dataDeleteDataSet = new AbstractAction(RB.getString("gui.Actions.dataDeleteDataSet"), getIcon("DELETE")) {
 			public void actionPerformed(ActionEvent e) {
 				winMain.mData.dataDeleteDataSet();
+			}
+		};
+
+		dataSelectTraits = new AbstractAction(RB.getString("gui.Actions.dataSelectTraits")) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.mData.dataSelectTraits();
 			}
 		};
 
@@ -627,13 +634,13 @@ public class Actions
 		vizOverlayGenotypes.setEnabled(false);
 		vizHighlightHZ.setEnabled(false);
 		vizHighlightGaps.setEnabled(false);
-		vizSelectTraits.setEnabled(false);
 
 		dataSortLinesBySimilarity.setEnabled(false);
 		dataSortLinesByTrait.setEnabled(false);
 		dataSortLinesByExternal.setEnabled(false);
 		dataSortLinesAlphabetically.setEnabled(false);
 		dataFilterQTLs.setEnabled(false);
+		dataSelectGraph.setEnabled(false);
 		dataFind.setEnabled(false);
 		dataStatistics.setEnabled(false);
 		dataDBLineName.setEnabled(false);
@@ -641,6 +648,7 @@ public class Actions
 		dataDBSettings.setEnabled(false);
 		dataRenameDataSet.setEnabled(false);
 		dataDeleteDataSet.setEnabled(false);
+		dataSelectTraits.setEnabled(false);
 
 		// Special case for the Edit->Undo/Redo options who have their text
 		// dynamically set - this resets the text to its default
