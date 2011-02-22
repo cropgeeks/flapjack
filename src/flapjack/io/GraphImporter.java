@@ -22,10 +22,14 @@ public class GraphImporter extends SimpleJob
 
 	// Temporary object to hold a lookup table of marker data
 	private HashMap<String, MarkerIndex> markers = new HashMap<String, MarkerIndex>();
-	// Temporary object to map graphs to index locations
-	private HashMap<String, Integer> names = new HashMap<String, Integer>();
+	// Temporary object to track which graphs exist - needed to ensure every
+	// graph will exist across every chromosome, just in case some chromosomes
+	// don't have markers with graph values
+	private HashMap<String, String> names = new HashMap<String, String>();
 
-	private ArrayList<GraphData> chromosomes = new ArrayList<GraphData>();
+	// Stores the graphs while loading occurs: index is "CHROMOSOMEINDEX_GRAPH"
+	private HashMap<String, GraphData> graphs = new HashMap<String, GraphData>();
+
 
 	public GraphImporter(File file, DataSet dataSet)
 	{
@@ -38,15 +42,13 @@ public class GraphImporter extends SimpleJob
 	public void runJob(int index)
 		throws Exception
 	{
+		for (ChromosomeMap map: dataSet.getChromosomeMaps())
+			map.getGraphs().clear();
+
 		// Build the lookup table
 		buildMarkerHash();
 
-		// Start by making a GraphData object for each chromosome
-		for (ChromosomeMap map: dataSet.getChromosomeMaps())
-			chromosomes.add(new GraphData(map));
-
-
-		// Now read the file and populate the GraphData objects
+		// Read the file and populate the GraphData objects
 		is = new ProgressInputStream(new FileInputStream(file));
 		BufferedReader in = new BufferedReader(new InputStreamReader(is));
 
@@ -63,40 +65,52 @@ public class GraphImporter extends SimpleJob
 			String graphName = tokens[1];
 			float value = nf.parse(tokens[2]).floatValue();
 
-			// Is this a new graph? If so, allocate space for it (in each
-			// chromosome). If not, we'll just use its existing index
-			Integer gIndex = names.get(graphName);
-			if (gIndex == null)
-			{
-				for (GraphData graphData: chromosomes)
-					graphData.initNewGraph(graphName);
 
-				gIndex = names.size();
-				names.put(graphName, names.size());
-			}
-
+			// Does this marker exist?
 			MarkerIndex mIndex = markers.get(marker);
-			if (mIndex != null)
+			if (mIndex == null)
+				continue;
+
+			// Do we have a graph that the value can be added to?
+			if (names.get(graphName) == null)
 			{
-				GraphData data = chromosomes.get(mIndex.mapIndex);
-				data.setValue(gIndex, mIndex.mkrIndex, value);
+				// Initialize a new graph for each chromosome
+				for (int i = 0; i < dataSet.getChromosomeMaps().size(); i++)
+				{
+					ChromosomeMap map = dataSet.getMapByIndex(i);
+					GraphData graph = new GraphData(map, graphName);
+
+					graphs.put(i + "_" + graphName, graph);
+					map.getGraphs().add(graph);
+				}
+
+				names.put(graphName, graphName);
 			}
+
+			// Find the graph we want to add this value to
+			String gIndex = mIndex.mapIndex + "_" + graphName;
+			GraphData graph = graphs.get(gIndex);
+
+			graph.setValue(mIndex.mkrIndex, value);
 		}
 
 		in.close();
 
+
 		// Finally, apply the loaded data to the main data API
 		if (okToRun)
 		{
-			for (int i = 0; i < chromosomes.size(); i++)
+			for (ChromosomeMap map: dataSet.getChromosomeMaps())
 			{
-				// Normalize the imported data before assigning it
-				chromosomes.get(i).normalize();
-
-				ChromosomeMap map = dataSet.getChromosomeMaps().get(i);
-				map.setGraphData(chromosomes.get(i));
+				for (GraphData graph: map.getGraphs())
+					graph.normalize();
 			}
 		}
+
+		// Cancel all graphs added to the chromosomes
+		else
+			for (ChromosomeMap map: dataSet.getChromosomeMaps())
+				map.getGraphs().clear();
 	}
 
 	// Stores EVERY marker from every chromosome into a hash table that can then

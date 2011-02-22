@@ -114,16 +114,15 @@ class GraphCanvasML extends MouseInputAdapter implements ActionListener
 		if (x >= canvas.pX1 && x <= canvas.pX2)
 		{
 			int mIndex = canvas.getMarker(new Point(x, 0));
-			int gIndex = graphCanvas.graphIndex;
 
 			// Find out which marker is being displayed at this location
 			MarkerInfo mi = canvas.view.getMarkerInfo(mIndex);
 			// And what its graph value is
-			float value = data.getRealValueAt(gIndex, mi.getIndex());
+			float value = data.getRealValueAt(mi.getIndex());
 
 
 			// Display on screen.
-			String graph = data.getNames().get(gIndex);
+			String graph = data.getName();
 
 			Marker m = mi.getMarker();
 			String mStr = m.getName() + "  (" + nf.format(m.getRealPosition()) + ")";
