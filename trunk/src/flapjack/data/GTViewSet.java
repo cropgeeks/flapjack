@@ -49,6 +49,8 @@ public class GTViewSet extends XMLRoot
 	// Display line "scores" after performing a sort?
 	private boolean displayLineScores = false;
 
+	private int graphIndex = 0;
+
 	private UndoManager undoManager = new UndoManager();
 
 	public GTViewSet()
@@ -176,6 +178,12 @@ public class GTViewSet extends XMLRoot
 
 	public void setDisplayLineScores(boolean displayLineScores)
 		{ this.displayLineScores = displayLineScores; }
+
+	public int getGraphIndex()
+		{ return graphIndex; }
+
+	public void setGraphIndex(int graphIndex)
+		{ this.graphIndex = graphIndex; }
 
 
 	// Other methods

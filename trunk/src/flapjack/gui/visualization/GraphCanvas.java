@@ -29,7 +29,6 @@ class GraphCanvas extends JPanel
 	private Canvas2D graphCanvas;
 
 	GraphData graphData;
-	int graphIndex = 0;
 
 	private BufferedImage buffer, aaBuffer;
 	boolean updateBuffer = true;
@@ -68,8 +67,7 @@ class GraphCanvas extends JPanel
 			super.paintComponent(graphics);
 			Graphics2D g = (Graphics2D) graphics;
 
-			graphData = canvas.view.getChromosomeMap().getGraphData();
-			if (graphData == null)
+			if (canvas.view.getChromosomeMap().getGraphs().size() == 0)
 				return;
 
 			// If the user has scrolled, then we need to redraw the buffer(s)
@@ -138,8 +136,10 @@ class GraphCanvas extends JPanel
 		if (xE < canvas.view.getMarkerCount()-1) xE++;
 
 		// Retrieve the data
-		graphIndex = canvas.view.getGraphIndex();
-		float[] data = graphData.getGraphs().get(graphIndex);
+		int graphIndex = canvas.viewSet.getGraphIndex();
+		graphData = canvas.view.getChromosomeMap().getGraphs().get(graphIndex);
+
+		float[] data = graphData.getData();
 		Float prev = null;
 
 		for (int i = xS; i <= xE; i++)
@@ -217,7 +217,7 @@ class GraphCanvas extends JPanel
 	// data loaded, and b) does the user want to see the panel
 	void determineVisibility()
 	{
-		if (canvas.view == null || canvas.view.getChromosomeMap().getGraphData() == null)
+		if (canvas.view == null || canvas.view.getChromosomeMap().getGraphs().size() == 0)
 			setVisible(false);
 
 		else

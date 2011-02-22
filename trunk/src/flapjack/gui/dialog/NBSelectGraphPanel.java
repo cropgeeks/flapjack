@@ -18,19 +18,18 @@ public class NBSelectGraphPanel extends javax.swing.JPanel
 
 		setBackground((Color)UIManager.get("fjDialogBG"));
 
-		GraphData graphData = gPanel.getView().getChromosomeMap().getGraphData();
+		ChromosomeMap map = gPanel.getView().getChromosomeMap();
 
-		if (graphData != null)
-		{
-			for(String name : graphData.getNames())
-				graphSelectCombo.addItem(name);
+		// Add the names to the combo box
+		for (GraphData graph: map.getGraphs())
+			graphSelectCombo.addItem(graph.getName());
 
-			graphSelectCombo.setSelectedIndex(gPanel.getView().getGraphIndex());
-		}
+		// And select whichever one is "selected"
+		graphSelectCombo.setSelectedIndex(gPanel.getViewSet().getGraphIndex());
+
 
 		graphTypeCombo.addItem(RB.getString("gui.dialog.NBSelectGraphDialog.histogramGraphType"));
 		graphTypeCombo.addItem(RB.getString("gui.dialog.NBSelectGraphDialog.lineGraphType"));
-
 		graphTypeCombo.setSelectedIndex(Prefs.guiGraphStyle);
     }
 

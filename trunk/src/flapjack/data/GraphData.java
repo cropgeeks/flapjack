@@ -7,108 +7,81 @@ import java.util.*;
 
 public class GraphData extends XMLRoot
 {
-	// The name of each graph
-	private ArrayList<String> names = new ArrayList<String>();
+	// The name of this graph
+	private String name;
 
-	// The data for each graph - stored as normalized values
-	private ArrayList<float[]> graphs = new ArrayList<float[]>();
+	// The data for the graph - stored as normalized values
+	private float[] data;
 
-	// The maximum value within each graph
-	private ArrayList<Float> maxs = new ArrayList<Float>();
-	// The minimum value within each graph
-	private ArrayList<Float> mins = new ArrayList<Float>();
-
-	private int markerCount;
+	// The maximum and minimum values within the data
+	private float min = Float.MAX_VALUE, max = Float.MIN_VALUE;
 
 	public GraphData()
 	{
 	}
 
-	public GraphData(ChromosomeMap map)
+	public GraphData(ChromosomeMap map, String name)
 	{
-		markerCount = map.countLoci();
+		data = new float[map.countLoci()];
+		this.name = name;
 	}
 
 	// Methods required for XML serialization
 
-	public ArrayList<String> getNames()
-		{ return names; }
+	public String getName()
+		{ return name; }
 
-	public void setNames(ArrayList<String> names)
-		{ this.names = names; }
+	public void setName(String name)
+		{ this.name = name; }
 
-	public ArrayList<float[]> getGraphs()
-		{ return graphs; }
+	public float[] getData()
+		{ return data; }
 
-	public void setGraphs(ArrayList<float[]> graphs)
-		{ this.graphs = graphs; }
+	public void setData(float[] data)
+		{ this.data = data; }
 
-	public ArrayList<Float> getMaxs()
-		{ return maxs; }
+	public float getMinimum()
+		{ return min; }
 
-	public void setMaxs(ArrayList<Float> maxs)
-		{ this.maxs = maxs; }
+	public void setMinimum(float minimum)
+		{ min = minimum; }
 
-	public ArrayList<Float> getMins()
-		{ return mins; }
+	public float getMaximum()
+		{ return max; }
 
-	public void setMins(ArrayList<Float> mins)
-		{ this.mins = mins; }
+	public void setMaximum(float maximum)
+		{ max = maximum; }
 
 
 	// Other methods
 
-	// Allocates the space for another graph (another trait basically) and adds
-	// it to the list of existing graphs
-	public void initNewGraph(String graphName)
-	{
-		float[] graphData = new float[markerCount];
-
-		graphs.add(graphData);
-		names.add(graphName);
-		maxs.add(Float.MIN_VALUE);
-		mins.add(Float.MAX_VALUE);
-	}
-
-	public void setValue(int graphIndex, int mrkIndex, float value)
+	public void setValue(int mrkIndex, float value)
 	{
 		// Add the value...
-		graphs.get(graphIndex)[mrkIndex] = value;
+		data[mrkIndex] = value;
 
 		// Check if it's the highest or lowest seen yet or not
-		if (value > maxs.get(graphIndex))
-			maxs.set(graphIndex, value);
+		if (value > max)
+			max = value;
 
-		if (value < mins.get(graphIndex))
-			mins.set(graphIndex, value);
+		if (value < min)
+			min = value;
 	}
 
 	public void normalize()
 	{
-		// For each graph
-		for (int i = 0; i < graphs.size(); i++)
+		for (int d = 0; d < data.length; d++)
 		{
-			float[] data = graphs.get(i);
-			float min = mins.get(i);
-			float max = maxs.get(i);
+			// Normalize the value...
+			data[d] = (data[d] - min) / (max - min);
 
-			for (int d = 0; d < data.length; d++)
-			{
-				// Normalize the value...
-				data[d] = (data[d] - min) / (max - min);
-
-				if (Float.isNaN(data[d]))
-					data[d] = 0;
-			}
+			if (Float.isNaN(data[d]))
+				data[d] = 0;
 		}
 	}
 
-	public float getRealValueAt(int gIndex, int mIndex)
+	public float getRealValueAt(int mIndex)
 	{
-		float[] data = graphs.get(gIndex);
-		float min = mins.get(gIndex);
-		float max = maxs.get(gIndex);
-
 		// Get the value for it from the graph data
 		float value = data[mIndex];
 
