@@ -5,6 +5,8 @@ package flapjack.data;
 
 import java.util.*;
 
+import scri.commons.*;
+
 public class GraphData extends XMLRoot
 {
 	// The name of this graph
@@ -34,11 +36,11 @@ public class GraphData extends XMLRoot
 	public void setName(String name)
 		{ this.name = name; }
 
-	public float[] getData()
-		{ return data; }
+	public String getData()
+		{ return MatrixXML.arrayToString(data); }
 
-	public void setData(float[] data)
-		{ this.data = data; }
+	public void setData(String dataStr)
+		{ this.data = MatrixXML.stringToFloatArray(dataStr); }
 
 	public float getMinimum()
 		{ return min; }
@@ -60,12 +62,9 @@ public class GraphData extends XMLRoot
 		// Add the value...
 		data[mrkIndex] = value;
 
-		// Check if it's the highest or lowest seen yet or not
-		if (value > max)
-			max = value;
-
-		if (value < min)
-			min = value;
+		// Check if it's the lowest or highest value seen yet
+		min = Math.min(value, min);
+		max = Math.max(value, max);
 	}
 
 	public void normalize()
@@ -90,4 +89,7 @@ public class GraphData extends XMLRoot
 
 		return value;
 	}
+
+	public float[] data()
+		{ return data; }
 }
