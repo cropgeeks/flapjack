@@ -99,18 +99,44 @@ public class GraphImporter extends SimpleJob
 
 		// Finally, apply the loaded data to the main data API
 		if (okToRun)
-		{
-			for (ChromosomeMap map: dataSet.getChromosomeMaps())
-			{
-				for (GraphData graph: map.getGraphs())
-					graph.normalize();
-			}
-		}
+			normalize();
 
 		// Cancel all graphs added to the chromosomes
 		else
 			for (ChromosomeMap map: dataSet.getChromosomeMaps())
 				map.getGraphs().clear();
+	}
+
+	private void normalize()
+		throws Exception
+	{
+		// We first need to scan all graphs for their mins and maxes and then
+		// apply those values so that the same min/max is used for that graph
+		// across every chromosome
+		for (int i = 0; i < names.size(); i++)
+		{
+			float min = Float.MAX_VALUE;
+			float max = Float.MIN_VALUE;
+
+			// Find the min/max over all the data for this graph
+			for (ChromosomeMap map: dataSet.getChromosomeMaps())
+			{
+				min = Math.min(map.getGraphs().get(i).getMinimum(), min);
+				max = Math.max(map.getGraphs().get(i).getMaximum(), max);
+			}
+
+			// Then set it back to each graph instance
+			for (ChromosomeMap map: dataSet.getChromosomeMaps())
+			{
+				map.getGraphs().get(i).setMinimum(min);
+				map.getGraphs().get(i).setMaximum(max);
+			}
+		}
+
+		// Normalize the graphs across every chromosome
+		for (ChromosomeMap map: dataSet.getChromosomeMaps())
+			for (GraphData graph: map.getGraphs())
+				graph.normalize();
 	}
 
 	// Stores EVERY marker from every chromosome into a hash table that can then

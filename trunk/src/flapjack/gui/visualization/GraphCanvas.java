@@ -139,7 +139,7 @@ class GraphCanvas extends JPanel
 		int graphIndex = canvas.viewSet.getGraphIndex();
 		graphData = canvas.view.getChromosomeMap().getGraphs().get(graphIndex);
 
-		float[] data = graphData.getData();
+		float[] data = graphData.data();
 		Float prev = null;
 
 		for (int i = xS; i <= xE; i++)
