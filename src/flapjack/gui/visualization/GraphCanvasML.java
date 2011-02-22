@@ -127,6 +127,8 @@ class GraphCanvasML extends MouseInputAdapter implements ActionListener
 			Marker m = mi.getMarker();
 			String mStr = m.getName() + "  (" + nf.format(m.getRealPosition()) + ")";
 			String vStr = nf.format(value);
+			if (data.getHasThreshold())
+				vStr += "  (" + nf.format(data.getThreshold()) + ")";
 
 			gPanel.statusPanel.setGraphDetails(graph, mStr, vStr);
 

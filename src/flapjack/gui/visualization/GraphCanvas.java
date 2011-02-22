@@ -33,6 +33,9 @@ class GraphCanvas extends JPanel
 	private BufferedImage buffer, aaBuffer;
 	boolean updateBuffer = true;
 
+	private BasicStroke dashed = new BasicStroke(1, BasicStroke.CAP_BUTT,
+		BasicStroke.JOIN_MITER, 10, new float[] { 5,2 }, 0);
+
 	// Last known pX2 for the main canvas - if it's changed, we need to redraw
 	private int pX2 = 0;
 
@@ -49,7 +52,6 @@ class GraphCanvas extends JPanel
 		this.canvas = canvas;
 
 		setLayout(new BorderLayout());
-//		setBorder(BorderFactory.createEmptyBorder(BORDER, 0, 0, 0));
 		add(graphCanvas = new Canvas2D());
 
 		new GraphCanvasML(gPanel, this);
@@ -151,15 +153,15 @@ class GraphCanvas extends JPanel
 			float value = data[mi.getIndex()];
 
 			// Draw co-ordindates:
-			int y = (int) (value * h);
+			int y = (int) (value * (h-1));
 			int x = i*canvas.boxW;
 
 
 			// Draw a BAR at each position
 			if (Prefs.guiGraphStyle == 0)
 			{
-				// Work out an intensity value for it (0-255 gives light shades too
-			// close to white, so adjust the scale to 25-255)
+				// Work out an intensity value for it (0-255 gives light shades
+				// too close to white, so adjust the scale to 25-255)
 				int alpha = 25 + (int) (((255-25) * (255*value)) / 255f);
 				g.setColor(new Color(70, 116, 162, alpha));
 
@@ -170,6 +172,7 @@ class GraphCanvas extends JPanel
 			else
 			{
 				g.setColor(new Color(70, 116, 162));
+				g.fillRect(x-2, y-2, 4, 4);
 
 				if (prev != null)
 					g.drawLine(x-canvas.boxW, (int)(prev * h), x, y);
@@ -178,6 +181,19 @@ class GraphCanvas extends JPanel
 
 				prev = value;
 			}
+		}
+
+		// Draw the threshold line (if needed)
+		if (graphData.getHasThreshold())
+		{
+			int y = (int) (graphData.getThreshold() * (h-1));
+
+			g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+				RenderingHints.VALUE_ANTIALIAS_OFF);
+
+			g.setColor(new Color(70, 116, 162));
+			g.setStroke(dashed);
+			g.drawLine(canvas.pX1, y, canvas.pX2, y);
 		}
 	}
 

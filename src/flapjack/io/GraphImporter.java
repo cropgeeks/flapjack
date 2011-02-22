@@ -15,6 +15,7 @@ import scri.commons.gui.*;
 public class GraphImporter extends SimpleJob
 {
 	private NumberFormat nf = NumberFormat.getInstance();
+	private String SIG = "SIGNIFICANCE_THRESHOLD";
 
 	private ProgressInputStream is;
 	private File file;
@@ -22,10 +23,11 @@ public class GraphImporter extends SimpleJob
 
 	// Temporary object to hold a lookup table of marker data
 	private HashMap<String, MarkerIndex> markers = new HashMap<String, MarkerIndex>();
+
 	// Temporary object to track which graphs exist - needed to ensure every
 	// graph will exist across every chromosome, just in case some chromosomes
-	// don't have markers with graph values
-	private HashMap<String, String> names = new HashMap<String, String>();
+	// don't have markers with graph values (also stores significance)
+	private HashMap<String, Float> names = new HashMap<String, Float>();
 
 	// Stores the graphs while loading occurs: index is "CHROMOSOMEINDEX_GRAPH"
 	private HashMap<String, GraphData> graphs = new HashMap<String, GraphData>();
@@ -68,7 +70,7 @@ public class GraphImporter extends SimpleJob
 
 			// Does this marker exist?
 			MarkerIndex mIndex = markers.get(marker);
-			if (mIndex == null)
+			if (mIndex == null && marker.equalsIgnoreCase(SIG) == false)
 				continue;
 
 			// Do we have a graph that the value can be added to?
@@ -84,14 +86,22 @@ public class GraphImporter extends SimpleJob
 					map.getGraphs().add(graph);
 				}
 
-				names.put(graphName, graphName);
+				names.put(graphName, Float.MIN_VALUE);
 			}
 
-			// Find the graph we want to add this value to
-			String gIndex = mIndex.mapIndex + "_" + graphName;
-			GraphData graph = graphs.get(gIndex);
+			// Adding a marker...
+			if (mIndex != null)
+			{
+				// Find the graph we want to add this value to
+				String gIndex = mIndex.mapIndex + "_" + graphName;
+				GraphData graph = graphs.get(gIndex);
 
-			graph.setValue(mIndex.mkrIndex, value);
+				graph.setValue(mIndex.mkrIndex, value);
+			}
+
+			// Adding a threshold value...
+			else
+				names.put(graphName, value);
 		}
 
 		in.close();
@@ -136,7 +146,10 @@ public class GraphImporter extends SimpleJob
 		// Normalize the graphs across every chromosome
 		for (ChromosomeMap map: dataSet.getChromosomeMaps())
 			for (GraphData graph: map.getGraphs())
+			{
+				graph.determineThreshold(names.get(graph.getName()));
 				graph.normalize();
+			}
 	}
 
 	// Stores EVERY marker from every chromosome into a hash table that can then
