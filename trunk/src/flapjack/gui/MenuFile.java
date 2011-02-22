@@ -312,8 +312,11 @@ public class MenuFile
 			viewSet.setGraphIndex(0);
 
 		Actions.projectModified();
-
 		gPanel.refreshView();
+
+		int count = dataSet.getChromosomeMaps().get(0).getGraphs().size();
+		TaskDialog.info(RB.format("gui.MenuFile.importGraphs.success", count),
+			RB.getString("gui.text.close"));
 	}
 
 	private static class SaveLoadHandler extends SimpleJob

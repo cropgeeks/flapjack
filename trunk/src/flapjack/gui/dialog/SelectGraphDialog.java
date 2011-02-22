@@ -57,9 +57,12 @@ public class SelectGraphDialog extends JDialog implements ActionListener
 	{
 		if (e.getSource() == panel.graphSelectCombo || e.getSource() == panel.graphTypeCombo)
 		{
-			gPanel.getViewSet().setGraphIndex(panel.graphSelectCombo.getSelectedIndex());
 			Prefs.guiGraphStyle = panel.graphTypeCombo.getSelectedIndex();
+
+			gPanel.getViewSet().setGraphIndex(panel.graphSelectCombo.getSelectedIndex());
 			gPanel.refreshView();
+
+			Actions.projectModified();
 		}
 
 		else if (e.getSource() == bClose)

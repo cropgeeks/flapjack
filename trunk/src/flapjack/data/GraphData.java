@@ -18,6 +18,9 @@ public class GraphData extends XMLRoot
 	// The maximum and minimum values within the data
 	private float min = Float.MAX_VALUE, max = Float.MIN_VALUE;
 
+	private boolean hasThreshold = false;
+	private float threshold;
+
 	public GraphData()
 	{
 	}
@@ -45,14 +48,26 @@ public class GraphData extends XMLRoot
 	public float getMinimum()
 		{ return min; }
 
-	public void setMinimum(float minimum)
-		{ min = minimum; }
+	public void setMinimum(float min)
+		{ this.min = min; }
 
 	public float getMaximum()
 		{ return max; }
 
-	public void setMaximum(float maximum)
-		{ max = maximum; }
+	public void setMaximum(float max)
+		{ this.max = max; }
+
+	public boolean getHasThreshold()
+		{ return hasThreshold; }
+
+	public void setHasThreshold(boolean hasThreshold)
+		{ this.hasThreshold = hasThreshold; }
+
+	public float getThreshold()
+		{ return threshold; }
+
+	public void setThreshold(float threshold)
+		{ this.threshold = threshold; }
 
 
 	// Other methods
@@ -69,9 +84,22 @@ public class GraphData extends XMLRoot
 
 	public void normalize()
 	{
+		// Normalize the threshold
+		if (hasThreshold)
+		{
+			// Quick (extra) check to ensure it isn't the lowest/highest value
+			min = Math.min(threshold, min);
+			max = Math.max(threshold, max);
+
+			threshold = (threshold - min) / (max - min);
+
+			if (Float.isNaN(threshold))
+				threshold = 0;
+		}
+
+		// Normalize every value in the graph...
 		for (int d = 0; d < data.length; d++)
 		{
-			// Normalize the value...
 			data[d] = (data[d] - min) / (max - min);
 
 			if (Float.isNaN(data[d]))
@@ -92,4 +120,13 @@ public class GraphData extends XMLRoot
 
 	public float[] data()
 		{ return data; }
+
+	public void determineThreshold(Float value)
+	{
+		if (value > Float.MIN_VALUE)
+		{
+			hasThreshold = true;
+			threshold = value;
+		}
+	}
 }
