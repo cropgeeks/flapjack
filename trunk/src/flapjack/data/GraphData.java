@@ -121,6 +121,9 @@ public class GraphData extends XMLRoot
 	public float[] data()
 		{ return data; }
 
+	public void setArrayData(float[] data)
+		{ this.data = data; }
+
 	public void determineThreshold(Float value)
 	{
 		if (value > Float.MIN_VALUE)
