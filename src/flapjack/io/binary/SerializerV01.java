@@ -100,7 +100,7 @@ class SerializerV01 extends FlapjackSerializer
 			System.out.println("found " + chromosomeCount + " chromosomes");
 		// Chromosome data
 		for (int i = 0; i < chromosomeCount; i++)
-			loadChromosomeMap(dataSet);
+			dataSet.getChromosomeMaps().add(loadChromosomeMap());
 
 		// Number traits
 		int traitCount = in.readInt();
@@ -120,7 +120,7 @@ class SerializerV01 extends FlapjackSerializer
 		// Number of view sets
 		int viewSetCount = in.readInt();
 		for (int i = 0; i < viewSetCount; i++)
-			loadGTViewSet(dataSet);
+			dataSet.getViewSets().add(loadGTViewSet(dataSet));
 
 		// Has dummy line?
 		if (in.readBoolean())
@@ -214,7 +214,7 @@ class SerializerV01 extends FlapjackSerializer
 				saveFeature(f);
 	}
 
-	protected void loadChromosomeMap(DataSet dataSet)
+	protected ChromosomeMap loadChromosomeMap()
 		throws Exception
 	{
 		ChromosomeMap map = new ChromosomeMap();
@@ -244,7 +244,7 @@ class SerializerV01 extends FlapjackSerializer
 		for (int i = 0; i < featureCount; i++)
 			loadFeature(map);
 
-		dataSet.getChromosomeMaps().add(map);
+		return map;
 	}
 
 	protected void saveMarker(Marker marker)
@@ -609,7 +609,7 @@ class SerializerV01 extends FlapjackSerializer
 			saveBookmark(bookmark, viewSet.getDataSet());
 	}
 
-	protected void loadGTViewSet(DataSet dataSet)
+	protected GTViewSet loadGTViewSet(DataSet dataSet)
 		throws Exception
 	{
 		GTViewSet viewSet = new GTViewSet();
@@ -655,7 +655,7 @@ class SerializerV01 extends FlapjackSerializer
 		if (comparisonLineIndex != -1)
 			viewSet.setComparisonLine(dataSet.getLines().get(comparisonLineIndex));
 
-		dataSet.getViewSets().add(viewSet);
+		return viewSet;
 	}
 
 	protected void saveGTView(GTView view)
@@ -783,7 +783,7 @@ class SerializerV01 extends FlapjackSerializer
 		out.writeInt(map.getMarkers().indexOf(marker));
 	}
 
-	private void loadBookmark(GTViewSet viewSet)
+	protected void loadBookmark(GTViewSet viewSet)
 		throws Exception
 	{
 		Bookmark bookmark = new Bookmark();
@@ -802,14 +802,14 @@ class SerializerV01 extends FlapjackSerializer
 		viewSet.getBookmarks().add(bookmark);
 	}
 
-	private void saveDBAssociation(DBAssociation db)
+	protected void saveDBAssociation(DBAssociation db)
 		throws Exception
 	{
 		writeString(db.getLineSearch());
 		writeString(db.getMarkerSearch());
 	}
 
-	private void loadDBAssociation(DataSet dataSet)
+	protected void loadDBAssociation(DataSet dataSet)
 		throws Exception
 	{
 		DBAssociation db = new DBAssociation();
