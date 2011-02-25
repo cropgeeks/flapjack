@@ -39,6 +39,8 @@ class MapCanvas extends JPanel
 	// What is the current drawing width
 	private int w;
 
+	private MapCanvasML mapCanvasML;
+
 	MapCanvas(GenotypePanel gPanel, GenotypeCanvas canvas)
 	{
 		this.gPanel = gPanel;
@@ -48,7 +50,7 @@ class MapCanvas extends JPanel
 		setBorder(BorderFactory.createEmptyBorder(5, 0, 0, 0));
 		add(new Canvas2D());
 
-		new MapCanvasML(this);
+		mapCanvasML = new MapCanvasML(this, gPanel);
 	}
 
 	void setMarkerIndex(int mrkrIndex)
@@ -105,6 +107,32 @@ class MapCanvas extends JPanel
 
 			highlightMarker(g);
 			highlightFeatures(g);
+			drawChromosomePosition(g, xOffset);
+		}
+
+		private void drawChromosomePosition(Graphics2D g, int xOffset)
+		{
+			Integer mousePos = mapCanvasML.mousePos;
+
+			if (mousePos == null || mousePos < canvas.pX1 || mousePos > canvas.pX2)
+				return;
+
+			g.setColor(Color.red);
+			g.drawLine(mousePos, 12, mousePos, 22);
+
+			// Calculate widths for chromosome position calculation
+			int offsetWidth = w -xOffset;
+			float chromosomeWidth = mEPos - mSPos + 1;
+
+			// Convert the mouse position into chromosome position
+			float chromosomePos = mSPos + ((mousePos / (float)offsetWidth)
+					* chromosomeWidth);
+
+			//nf.setMaximumFractionDigits(1);
+
+			int strWidth = g.getFontMetrics().stringWidth("" + chromosomePos);
+			g.drawString(nf.format(chromosomePos), getPosition(mousePos, strWidth), 8);
+
 		}
 	}
 

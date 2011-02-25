@@ -18,10 +18,18 @@ class MapCanvasML extends MouseInputAdapter implements ActionListener
 	private JCheckBoxMenuItem mVizScalingGlobal;
 	private JCheckBoxMenuItem mVizScalingClassic;
 
-	MapCanvasML(MapCanvas mapCanvas)
+	private MapCanvas mapCanvas;
+	private GenotypePanel gPanel;
+
+	Integer mousePos = null;
+
+	MapCanvasML(MapCanvas mapCanvas, GenotypePanel gPanel)
 	{
 		mapCanvas.addMouseListener(this);
 		mapCanvas.addMouseMotionListener(this);
+
+		this.mapCanvas = mapCanvas;
+		this.gPanel = gPanel;
 
 		mVizScalingLocal = WinMainMenuBar.getCheckedItem(
 			Actions.vizScalingLocal, "gui.Actions.vizScalingLocal", 0, 0);
@@ -49,6 +57,19 @@ class MapCanvasML extends MouseInputAdapter implements ActionListener
 	{
 		if (e.isPopupTrigger())
 			displayMenu(e);
+	}
+
+	public void mouseMoved(MouseEvent e)
+	{
+		int xOffset = gPanel.traitCanvas.getPanelWidth()
+					+ gPanel.listPanel.getPanelWidth() + 1;
+		mousePos = e.getX() - xOffset;
+		mapCanvas.repaint();
+	}
+
+	public void mouseExited(MouseEvent e)
+	{
+		mousePos = null;
 	}
 
 	private void displayMenu(MouseEvent e)
