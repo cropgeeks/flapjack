@@ -20,6 +20,7 @@
 		<field name="chromosomeMaps" type="flapjack.data.ChromosomeMap" collection="arraylist"/>
 		<field name="lines" type="flapjack.data.Line" collection="arraylist"/>
 		<field name="viewSets" type="flapjack.data.GTViewSet" collection="arraylist"/>
+		<field name="traits" type="flapjack.data.Trait" collection="arraylist"/>
 	</class>
 
 	<!-- ChromosomeMap -->
@@ -52,6 +53,7 @@
 			<bind-xml node="attribute"/>
 		</field>
 		<field name="genotypes" type="flapjack.data.GenotypeData" collection="arraylist"/>
+		<field name="traitValues" type="flapjack.data.TraitValue" collection="arraylist"/>
 	</class>
 
 	<!-- GenotypeData -->

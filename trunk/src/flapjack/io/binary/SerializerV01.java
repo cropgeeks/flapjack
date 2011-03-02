@@ -211,7 +211,7 @@ class SerializerV01 extends FlapjackSerializer
 
 		// Feature Data
 		for (Feature f: map.getFeatures())
-				saveFeature(f);
+			saveFeature(f);
 	}
 
 	protected ChromosomeMap loadChromosomeMap()
@@ -292,22 +292,14 @@ class SerializerV01 extends FlapjackSerializer
 		writeString(feature.getExperiment());
 
 		// VNames
-		if(feature.getVNames().length > 0)
-		{
-			out.writeInt(feature.getVNames().length);
-
-			for(String vName : feature.getVNames())
-				writeString(vName);
-		}
+		out.writeInt(feature.getVNames().length);
+		for(String vName : feature.getVNames())
+			writeString(vName);
 
 		// Values
-		if(feature.getValues().length > 0)
-		{
-			out.writeInt(feature.getValues().length);
-
-			for(String value : feature.getValues())
-				writeString(value);
-		}
+		out.writeInt(feature.getValues().length);
+		for(String value : feature.getValues())
+			writeString(value);
 		// QTL specific end
 
 		// Name
