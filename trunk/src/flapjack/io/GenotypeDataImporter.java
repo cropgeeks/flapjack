@@ -157,7 +157,7 @@ public class GenotypeDataImporter
 
 			// Check for duplicate line names
 			if (lines.get(values[0]) != null)
-					throw new DataFormatException(RB.format("io.DataFormatException.duplicateLineError", values[0], lineCount+1));
+				throw new DataFormatException(RB.format("io.DataFormatException.duplicateLineError", values[0], lineCount+1));
 
 			Line line = dataSet.createLine(values[0], useByteStorage);
 			lines.put(line.getName(), line);
