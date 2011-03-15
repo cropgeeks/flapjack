@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.1" encoding="UTF-8" ?>
 
 <Form version="1.3" maxVersion="1.5" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
   <AuxValues>
@@ -28,7 +28,7 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Component id="panel" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="78" max="32767" attributes="0"/>
+              <EmptySpace pref="55" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -38,7 +38,7 @@
       <Properties>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-            <TitledBorder title="Performance options:"/>
+            <TitledBorder title="Inform me:"/>
           </Border>
         </Property>
       </Properties>
@@ -46,37 +46,45 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="0" attributes="0">
+              <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="checkVisAdvancedZoom" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="checkVisCrosshair" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="warnDuplicateMarkers" min="-2" max="-2" attributes="0"/>
+                      <Component id="warnEditMarkerMode" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="warnEditLineMode" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="72" max="32767" attributes="0"/>
+                  <EmptySpace pref="98" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="0" attributes="0">
+              <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="checkVisAdvancedZoom" min="-2" max="-2" attributes="0"/>
+                  <Component id="warnDuplicateMarkers" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="checkVisCrosshair" min="-2" max="-2" attributes="0"/>
+                  <Component id="warnEditMarkerMode" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="warnEditLineMode" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JCheckBox" name="checkVisAdvancedZoom">
+        <Component class="javax.swing.JCheckBox" name="warnDuplicateMarkers">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Enable advanced canvas zoom controls"/>
+            <Property name="text" type="java.lang.String" value="When duplicate markers are found during data import"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JCheckBox" name="checkVisCrosshair">
+        <Component class="javax.swing.JCheckBox" name="warnEditMarkerMode">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Highlight the mouse position when over the canvas"/>
+            <Property name="text" type="java.lang.String" value="When switching to &apos;marker mode&apos;"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JCheckBox" name="warnEditLineMode">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="When switching to &apos;line mode&apos;"/>
           </Properties>
         </Component>
       </SubComponents>

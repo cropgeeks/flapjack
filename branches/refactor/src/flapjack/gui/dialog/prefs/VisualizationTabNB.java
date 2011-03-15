@@ -13,9 +13,9 @@ import flapjack.gui.visualization.*;
 
 import scri.commons.gui.*;
 
-class NBVisualizationPanel extends JPanel implements IPrefsTab
+class VisualizationTabNB extends JPanel implements IPrefsTab
 {
-	public NBVisualizationPanel()
+	public VisualizationTabNB()
     {
         initComponents();
 

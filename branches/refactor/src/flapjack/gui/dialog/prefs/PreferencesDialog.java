@@ -19,10 +19,10 @@ public class PreferencesDialog extends JDialog implements ActionListener
 	private boolean isOK;
 
 	private JTabbedPane tabs;
-	private NBGeneralPanel generalPanel;
-	private NBVisualizationPanel visualizationPanel;
-	private NBWebPanel webPanel;
-	private NBWarningPanel warningPanel;
+	private GeneralTabNB generalTab;
+	private VisualizationTabNB visualizationTab;
+	private WebTabNB webTab;
+	private WarningTabNB warningTab;
 
 	public PreferencesDialog()
 	{
@@ -32,21 +32,21 @@ public class PreferencesDialog extends JDialog implements ActionListener
 			true
 		);
 
-		generalPanel = new NBGeneralPanel();
-		webPanel = new NBWebPanel();
-		visualizationPanel = new NBVisualizationPanel();
-		warningPanel = new NBWarningPanel();
+		generalTab = new GeneralTabNB();
+		webTab = new WebTabNB();
+		visualizationTab = new VisualizationTabNB();
+		warningTab = new WarningTabNB();
 
 		tabs = new JTabbedPane();
 		tabs.setBorder(BorderFactory.createEmptyBorder(2, 2, 10, 2));
 		tabs.addTab(RB.getString("gui.dialog.prefs.PreferencesDialog.generalTab"),
-			Icons.getIcon("GENERALTAB"), generalPanel);
+			Icons.getIcon("GENERALTAB"), generalTab);
 		tabs.addTab(RB.getString("gui.dialog.prefs.PreferencesDialog.visualizationTab"),
-			Icons.getIcon("VISUALIZATIONTAB"), visualizationPanel);
+			Icons.getIcon("VISUALIZATIONTAB"), visualizationTab);
 		tabs.addTab(RB.getString("gui.dialog.prefs.PreferencesDialog.webTab"),
-			Icons.getIcon("CHECKUPDATE"), webPanel);
+			Icons.getIcon("CHECKUPDATE"), webTab);
 		tabs.addTab(RB.getString("gui.dialog.prefs.PreferencesDialog.warningTab"),
-			Icons.getIcon("WARNINGSTAB"), warningPanel);
+			Icons.getIcon("WARNINGSTAB"), warningTab);
 		tabs.setSelectedIndex(lastTab);
 
 		add(tabs);
