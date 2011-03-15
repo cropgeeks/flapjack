@@ -16,7 +16,7 @@ public class DatabaseSettingsDialog extends JDialog implements ActionListener
 {
 	private JButton bOK, bCancel, bHelp;
 
-	private NBDatabaseSettingsPanel nbPanel;
+	private DatabaseSettingsPanelNB nbPanel;
 
 	public DatabaseSettingsDialog(DataSet dataSet)
 	{
@@ -26,7 +26,7 @@ public class DatabaseSettingsDialog extends JDialog implements ActionListener
 			true
 		);
 
-		nbPanel = new NBDatabaseSettingsPanel(dataSet);
+		nbPanel = new DatabaseSettingsPanelNB(dataSet);
 
 		add(new TitlePanel2(), BorderLayout.NORTH);
 		add(nbPanel);

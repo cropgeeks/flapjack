@@ -18,7 +18,7 @@ public class FilterQTLsDialog extends JDialog implements ActionListener
 {
 	private JButton bFilter, bClose, bHelp;
 
-	private NBFilterQTLsPanel nbPanel;
+	private FilterQTLsPanelNB nbPanel;
 
 	public FilterQTLsDialog(GenotypePanel gPanel, DataSet dataSet)
 	{
@@ -28,7 +28,7 @@ public class FilterQTLsDialog extends JDialog implements ActionListener
 			false
 		);
 
-		nbPanel = new NBFilterQTLsPanel(gPanel, dataSet);
+		nbPanel = new FilterQTLsPanelNB(gPanel, dataSet);
 
 		add(new TitlePanel2(), BorderLayout.NORTH);
 		add(nbPanel);

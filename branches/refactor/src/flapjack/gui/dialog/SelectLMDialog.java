@@ -17,7 +17,7 @@ public class SelectLMDialog extends JDialog implements ActionListener
 	private JButton bOK, bCancel;
 	private boolean isOK = false;
 
-	private NBSelectLMPanel nbPanel;
+	private SelectLMPanelNB nbPanel;
 
 	public SelectLMDialog(GTView view, boolean selectLines)
 	{
@@ -28,7 +28,7 @@ public class SelectLMDialog extends JDialog implements ActionListener
 		else
 			setTitle(RB.getString("gui.dialog.SelectLMDialog.markerTitle"));
 
-		nbPanel = new NBSelectLMPanel(view, selectLines);
+		nbPanel = new SelectLMPanelNB(view, selectLines);
 
 		add(new TitlePanel2(), BorderLayout.NORTH);
 		add(nbPanel);

@@ -16,7 +16,7 @@ public class RenameDialog extends JDialog implements ActionListener
 	private JButton bOK, bCancel;
 	private boolean isOK = false;
 
-	private NBRenamePanel nbPanel;
+	private RenamePanelNB nbPanel;
 
 	public RenameDialog(String currentValue)
 	{
@@ -26,7 +26,7 @@ public class RenameDialog extends JDialog implements ActionListener
 			true
 		);
 
-		nbPanel = new NBRenamePanel(currentValue);
+		nbPanel = new RenamePanelNB(currentValue);
 
 		add(new TitlePanel2(), BorderLayout.NORTH);
 		add(nbPanel);
