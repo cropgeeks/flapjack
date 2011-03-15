@@ -10,9 +10,9 @@ import flapjack.gui.*;
 
 import scri.commons.gui.*;
 
-class NBWebPanel extends JPanel implements IPrefsTab
+class WebTabNB extends JPanel implements IPrefsTab
 {
-	public NBWebPanel()
+	public WebTabNB()
     {
         initComponents();
 

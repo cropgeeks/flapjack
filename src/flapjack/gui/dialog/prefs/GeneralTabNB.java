@@ -10,12 +10,12 @@ import flapjack.gui.*;
 
 import scri.commons.gui.*;
 
-class NBGeneralPanel extends JPanel implements IPrefsTab
+class GeneralTabNB extends JPanel implements IPrefsTab
 {
 	private DefaultComboBoxModel displayModel;
 	private DefaultComboBoxModel updateModel;
 
-    public NBGeneralPanel()
+    public GeneralTabNB()
     {
         initComponents();
 
