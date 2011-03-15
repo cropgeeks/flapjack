@@ -17,7 +17,7 @@ public class PedigreeSettingsDialog extends JDialog implements ActionListener
 	private JButton bGenerate, bCancel, bHelp;
 	private boolean isOK = false;
 
-	private NBPedigreeSettingsPanel nbPanel = new NBPedigreeSettingsPanel();
+	private PedigreeSettingsPanelNB nbPanel = new PedigreeSettingsPanelNB();
 
 	public PedigreeSettingsDialog(String fileHistory)
 	{

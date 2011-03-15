@@ -20,7 +20,7 @@ public class HideLMDialog extends JDialog implements ActionListener
 
 	private String i18n = "lines";
 
-	private NBHideLMPanel nbPanel;
+	private HideLMPanelNB nbPanel;
 	private GenotypePanel gPanel;
 
 	public HideLMDialog(GenotypePanel gPanel, boolean markers)
@@ -34,7 +34,7 @@ public class HideLMDialog extends JDialog implements ActionListener
 
 		setTitle(RB.getString("gui.dialog.HideLMDialog." + i18n + ".title"));
 
-		nbPanel = new NBHideLMPanel(this, gPanel.getView(), markers);
+		nbPanel = new HideLMPanelNB(this, gPanel.getView(), markers);
 
 		add(new TitlePanel2(), BorderLayout.NORTH);
 		add(nbPanel);
