@@ -12,12 +12,12 @@ import flapjack.gui.*;
 
 import scri.commons.gui.*;
 
-class NBFindPanel extends JPanel implements ActionListener
+class FindPanelNB extends JPanel implements ActionListener
 {
 	private FindDialog findDialog;
 	DefaultTableModel tableModel;
 
-	NBFindPanel(final FindDialog findDialog)
+	FindPanelNB(final FindDialog findDialog)
 	{
 		this.findDialog = findDialog;
 

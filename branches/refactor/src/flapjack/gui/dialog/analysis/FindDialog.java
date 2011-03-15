@@ -21,7 +21,7 @@ import scri.commons.gui.*;
 
 public class FindDialog extends JDialog implements ListSelectionListener
 {
-	private NBFindPanel nbPanel = new NBFindPanel(this);
+	private FindPanelNB nbPanel = new FindPanelNB(this);
 	private GenotypePanel gPanel;
 
 	private Finder finder = new Finder();

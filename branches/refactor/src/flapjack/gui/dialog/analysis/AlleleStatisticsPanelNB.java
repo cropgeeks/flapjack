@@ -15,12 +15,12 @@ import flapjack.gui.*;
 
 import scri.commons.gui.*;
 
-class NBAlleleStatisticsPanel extends JPanel implements AdjustmentListener
+class AlleleStatisticsPanelNB extends JPanel implements AdjustmentListener
 {
 	private NumberFormat nf = NumberFormat.getInstance();
 	private DecimalFormat d = new DecimalFormat("0.0");
 
-	public NBAlleleStatisticsPanel(GTViewSet viewSet, ArrayList<int[]> results)
+	public AlleleStatisticsPanelNB(GTViewSet viewSet, ArrayList<int[]> results)
 	{
 		initComponents();
 

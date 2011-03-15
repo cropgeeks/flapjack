@@ -12,9 +12,9 @@ import flapjack.gui.visualization.*;
 
 import scri.commons.gui.*;
 
-class NBSortLinesByTraitPanel extends JPanel
+class SortLinesByTraitPanelNB extends JPanel
 {
-	public NBSortLinesByTraitPanel(GenotypePanel gPanel)
+	public SortLinesByTraitPanelNB(GenotypePanel gPanel)
 	{
 		initComponents();
 

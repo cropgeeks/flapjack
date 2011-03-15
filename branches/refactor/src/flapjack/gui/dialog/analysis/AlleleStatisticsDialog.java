@@ -17,7 +17,7 @@ public class AlleleStatisticsDialog extends JDialog implements ActionListener
 {
 	private JButton bClose;
 
-	private NBAlleleStatisticsPanel nbPanel;
+	private AlleleStatisticsPanelNB nbPanel;
 
 	public AlleleStatisticsDialog(GTViewSet viewSet, ArrayList<int[]> results)
 	{
@@ -27,7 +27,7 @@ public class AlleleStatisticsDialog extends JDialog implements ActionListener
 			true
 		);
 
-		nbPanel = new NBAlleleStatisticsPanel(viewSet, results);
+		nbPanel = new AlleleStatisticsPanelNB(viewSet, results);
 
 		add(new TitlePanel2(), BorderLayout.NORTH);
 		add(nbPanel);
