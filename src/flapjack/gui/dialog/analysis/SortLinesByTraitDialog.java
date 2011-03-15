@@ -17,7 +17,7 @@ public class SortLinesByTraitDialog extends JDialog implements ActionListener
 	JButton bOK, bCancel;
 	private boolean isOK = false;
 
-	private NBSortLinesByTraitPanel nbPanel;
+	private SortLinesByTraitPanelNB nbPanel;
 
 	public SortLinesByTraitDialog(GenotypePanel gPanel)
 	{
@@ -27,7 +27,7 @@ public class SortLinesByTraitDialog extends JDialog implements ActionListener
 			true
 		);
 
-		nbPanel = new NBSortLinesByTraitPanel(gPanel);
+		nbPanel = new SortLinesByTraitPanelNB(gPanel);
 
 		add(new TitlePanel2(), BorderLayout.NORTH);
 		add(nbPanel);

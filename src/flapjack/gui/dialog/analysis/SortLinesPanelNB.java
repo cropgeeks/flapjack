@@ -13,11 +13,11 @@ import flapjack.gui.*;
 
 import scri.commons.gui.*;
 
-class NBSortLinesPanel extends javax.swing.JPanel implements ActionListener
+class SortLinesPanelNB extends javax.swing.JPanel implements ActionListener
 {
 	private GTView view;
 
-	public NBSortLinesPanel(SortLinesDialog dialog, GTViewSet viewSet)
+	public SortLinesPanelNB(SortLinesDialog dialog, GTViewSet viewSet)
 	{
 		initComponents();
 
