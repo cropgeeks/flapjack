@@ -14,14 +14,14 @@ import flapjack.gui.*;
 
 import scri.commons.gui.*;
 
-public class NBStatusPanel extends JPanel implements ActionListener, ChangeListener
+public class StatusPanelNB extends JPanel implements ActionListener, ChangeListener
 {
 	private NumberFormat nf = NumberFormat.getInstance();
 
 	private GenotypePanel gPanel;
 	private GTView view;
 
-	NBStatusPanel(GenotypePanel gPanel)
+	StatusPanelNB(GenotypePanel gPanel)
 	{
 		this.gPanel = gPanel;
 

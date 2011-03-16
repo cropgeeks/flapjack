@@ -13,9 +13,9 @@ import flapjack.gui.dialog.*;
 
 import scri.commons.gui.*;
 
-public class NBStartWelcomePanel extends javax.swing.JPanel implements ActionListener
+public class StartPanelWelcomeNB extends javax.swing.JPanel implements ActionListener
 {
-	public NBStartWelcomePanel()
+	public StartPanelWelcomeNB()
 	{
 		initComponents();
 		setOpaque(false);

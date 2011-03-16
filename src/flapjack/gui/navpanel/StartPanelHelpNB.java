@@ -12,14 +12,14 @@ import flapjack.gui.*;
 import scri.commons.gui.*;
 import scri.commons.gui.matisse.HyperLinkLabel;
 
-public class NBStartHelpPanel extends javax.swing.JPanel implements ActionListener
+public class StartPanelHelpNB extends javax.swing.JPanel implements ActionListener
 {
 	private HyperLinkLabel[] labels = new HyperLinkLabel[8];
 
 	private static String home =
 		"http://bioinf.scri.ac.uk/flapjack/help";
 
-    public NBStartHelpPanel()
+    public StartPanelHelpNB()
 	{
 		initComponents();
 		setOpaque(false);

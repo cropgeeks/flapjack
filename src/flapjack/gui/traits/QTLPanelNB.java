@@ -7,9 +7,9 @@ import flapjack.gui.*;
 
 import scri.commons.gui.*;
 
-class NBQTLControlPanel extends javax.swing.JPanel
+class QTLPanelNB extends javax.swing.JPanel
 {
-	NBQTLControlPanel()
+	QTLPanelNB()
 	{
 		initComponents();
 

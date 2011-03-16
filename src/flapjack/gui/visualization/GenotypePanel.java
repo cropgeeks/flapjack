@@ -33,7 +33,7 @@ public class GenotypePanel extends JPanel
 	GraphCanvas graphCanvas;
 	TraitCanvas traitCanvas;
 	ListPanel listPanel;
-	NBStatusPanel statusPanel;
+	StatusPanelNB statusPanel;
 
 	// Secondary components needed by the panel
 	private JScrollPane sp;
@@ -130,7 +130,7 @@ public class GenotypePanel extends JPanel
 		qtlCanvas = new QTLCanvas(this, canvas, mapCanvas);
 		graphCanvas = new GraphCanvas(this, canvas);
 		listPanel = new ListPanel();
-		statusPanel = new NBStatusPanel(this);
+		statusPanel = new StatusPanelNB(this);
 
 		OverviewManager.initialize(winMain, this, canvas);
 
