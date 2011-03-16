@@ -102,14 +102,12 @@ class QTLTableModel extends AbstractTableModel
 	{
 		if (col == 0)
 			return QTL.class;
-		else if (col ==5)
-			return String.class;
-		else if (col == 6)
-			return Float.class; // it's a string, but right justified
+		else if (col >= 2 && col <= 4)
+			return Float.class;
 		else if (col == 7)
 			return Boolean.class;
-		else
-			return Float.class; // might be a string or a float
+
+		return String.class;
 	}
 
 	public boolean isCellEditable(int row, int col)
@@ -127,5 +125,32 @@ class QTLTableModel extends AbstractTableModel
 
 		fireTableCellUpdated(row, col);
 	    Actions.projectModified();
+	}
+
+	// Special "fudge-o-matic" renderer class that deals with the optional
+	// columns of QTL data that can either be numerical or textual, but is
+	// always stored within the class as a string (String.class to the renderer)
+	static class NumStrRenderer extends DefaultTableCellRenderer
+	{
+		private NumberFormat nf = NumberFormat.getInstance();
+
+		public Component getTableCellRendererComponent(JTable table, Object value,
+			boolean isSelected, boolean hasFocus, int row, int column)
+		{
+			try
+			{
+				// We want numbers right aligned
+				setText(nf.format(nf.parse(value.toString())));
+				setHorizontalAlignment(JLabel.RIGHT);
+			}
+			catch (ParseException e)
+			{
+				// And "real" strings, left aligned
+				setHorizontalAlignment(JLabel.LEFT);
+				setText(value.toString());
+			}
+
+			return this;
+		}
 	}
 }
