@@ -41,7 +41,7 @@ class VisualizationTabNB extends JPanel implements IPrefsTab
 		Prefs.visAdvancedZoom = checkVisAdvancedZoom.isSelected();
 		Prefs.visCrosshair = checkVisCrosshair.isSelected();
 
-		NBStatusPanel.setControlStates();
+		StatusPanelNB.setControlStates();
 	}
 
 	public void setDefaults()

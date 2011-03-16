@@ -13,12 +13,12 @@ import flapjack.io.*;
 import scri.commons.gui.*;
 import scri.commons.gui.matisse.HyperLinkLabel;
 
-public class NBStartFilePanel extends javax.swing.JPanel implements ActionListener
+public class StartPanelFileNB extends javax.swing.JPanel implements ActionListener
 {
 	private HyperLinkLabel[] labels = new HyperLinkLabel[4];
 	private String[] files = new String[4];
 
-	public NBStartFilePanel()
+	public StartPanelFileNB()
 	{
 		initComponents();
 		setOpaque(false);

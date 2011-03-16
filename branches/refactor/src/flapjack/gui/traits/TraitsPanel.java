@@ -21,7 +21,7 @@ public class TraitsPanel extends JPanel implements ActionListener
 	private JTable table;
 	private TraitsTableModel model;
 
-	private NBTraitsControlPanel controls;
+	private TraitsPanelNB controls;
 	static TraitsTableRenderer traitsRenderer = new TraitsTableRenderer(JLabel.RIGHT);
 
 	public TraitsPanel(DataSet dataSet)
@@ -34,7 +34,7 @@ public class TraitsPanel extends JPanel implements ActionListener
 		table.setDefaultRenderer(String.class, traitsRenderer);
 		table.setDefaultRenderer(Float.class, traitsRenderer);
 
-		controls = new NBTraitsControlPanel();
+		controls = new TraitsPanelNB();
 		controls.bImport.addActionListener(this);
 		controls.bRemove.addActionListener(this);
 

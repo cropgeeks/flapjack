@@ -22,7 +22,7 @@ public class QTLPanel extends JPanel implements ActionListener
 	private JTable table;
 	private QTLTableModel model;
 
-	private NBQTLControlPanel controls;
+	private QTLPanelNB controls;
 
 //	private QTLTrackOptimiser optimiser;
 
@@ -39,7 +39,7 @@ public class QTLPanel extends JPanel implements ActionListener
 		table.getTableHeader().setReorderingAllowed(false);
 		table.setDefaultRenderer(Float.class, TraitsPanel.traitsRenderer);
 
-		controls = new NBQTLControlPanel();
+		controls = new QTLPanelNB();
 		controls.bImport.addActionListener(this);
 		controls.bRemove.addActionListener(this);
 		controls.bFilter.addActionListener(this);
