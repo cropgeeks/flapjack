@@ -18,7 +18,6 @@ public class QTLPanel extends JPanel implements ActionListener
 {
 	private DataSet dataSet;
 
-	private JLabel errorLabel;
 	private JTable table;
 	private QTLTableModel model;
 
@@ -30,25 +29,19 @@ public class QTLPanel extends JPanel implements ActionListener
 	{
 		this.dataSet = dataSet;
 
-		errorLabel = new JLabel("<html>" + RB.getString("gui.traits.QTLPanel.errorMsg"));
-		errorLabel.setForeground(Color.red);
-		errorLabel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-
-		table = new JTable();
-//		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-		table.getTableHeader().setReorderingAllowed(false);
-		table.setDefaultRenderer(Float.class, TraitsPanel.traitsRenderer);
-
 		controls = new QTLPanelNB();
 		controls.bImport.addActionListener(this);
 		controls.bRemove.addActionListener(this);
 		controls.bFilter.addActionListener(this);
 
+		table = controls.table;
+//		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		table.getTableHeader().setReorderingAllowed(false);
+		table.setDefaultRenderer(Float.class, TraitsPanel.traitsRenderer);
+
 		setLayout(new BorderLayout(0, 0));
 		setBorder(BorderFactory.createEmptyBorder(1, 1, 0, 0));
-		add(errorLabel, BorderLayout.NORTH);
-		add(new JScrollPane(table));
-		add(controls, BorderLayout.SOUTH);
+		add(controls);
 
 		updateModel();
 	}
@@ -64,7 +57,7 @@ public class QTLPanel extends JPanel implements ActionListener
 		controls.statusLabel.setText(
 			RB.format("gui.traits.QTLPanel.traitCount", table.getRowCount()));
 
-		errorLabel.setVisible(model.qtlOffMap);
+		controls.errorLabel.setVisible(model.qtlOffMap);
 
 		// Messy...
 		if (table.getColumnCount() > 0)
