@@ -37,7 +37,8 @@ public class QTLPanel extends JPanel implements ActionListener
 		table = controls.table;
 //		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		table.getTableHeader().setReorderingAllowed(false);
-		table.setDefaultRenderer(Float.class, TraitsPanel.traitsRenderer);
+		table.setDefaultRenderer(String.class, new QTLTableModel.NumStrRenderer());
+		table.setDefaultRenderer(Float.class, new QTLTableModel.NumStrRenderer());
 
 		setLayout(new BorderLayout(0, 0));
 		setBorder(BorderFactory.createEmptyBorder(1, 1, 0, 0));

@@ -22,7 +22,6 @@ public class TraitsPanel extends JPanel implements ActionListener
 	private TraitsTableModel model;
 
 	private TraitsPanelNB controls;
-	static TraitsTableRenderer traitsRenderer = new TraitsTableRenderer(JLabel.RIGHT);
 
 	public TraitsPanel(DataSet dataSet)
 	{
@@ -35,8 +34,7 @@ public class TraitsPanel extends JPanel implements ActionListener
 		table = controls.table;
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		table.getTableHeader().setReorderingAllowed(false);
-		table.setDefaultRenderer(String.class, traitsRenderer);
-		table.setDefaultRenderer(Float.class, traitsRenderer);
+		table.setDefaultRenderer(Float.class, new NumberFormatCellRenderer());
 
 		setLayout(new BorderLayout(0, 0));
 		setBorder(BorderFactory.createEmptyBorder(1, 1, 0, 0));
@@ -116,27 +114,5 @@ public class TraitsPanel extends JPanel implements ActionListener
 
 		updateModel();
 		Actions.projectModified();
-	}
-}
-
-class TraitsTableRenderer extends DefaultTableCellRenderer
-{
-	private static NumberFormat nf = NumberFormat.getInstance();
-
-	TraitsTableRenderer(int alignment)
-	{
-		setHorizontalAlignment(alignment);
-	}
-
-	public Component getTableCellRendererComponent(JTable table, Object value,
-		boolean isSelected, boolean hasFocus, int row, int column)
-	{
-		super.getTableCellRendererComponent(table, value, isSelected,
-			hasFocus, row, column);
-
-		if (value instanceof Number)
-			setText(nf.format((Number)value));
-
-		return this;
 	}
 }
