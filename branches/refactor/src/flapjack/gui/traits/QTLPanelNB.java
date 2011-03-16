@@ -4,9 +4,6 @@
 package flapjack.gui.traits;
 
 import java.awt.*;
-import javax.swing.*;
-
-import flapjack.gui.*;
 
 import scri.commons.gui.*;
 
