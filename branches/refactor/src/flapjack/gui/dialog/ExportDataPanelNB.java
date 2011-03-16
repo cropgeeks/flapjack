@@ -74,8 +74,11 @@ class ExportDataPanelNB extends JPanel implements ActionListener
 			}
 		});
 
+		DefaultTableCellRenderer cr = new DefaultTableCellRenderer();
+		cr.setHorizontalAlignment(JLabel.CENTER);
+
 		table.getColumnModel().getColumn(0).setPreferredWidth(30);
-		table.setDefaultRenderer(String.class, new StringRenderer());
+		table.setDefaultRenderer(String.class, cr);
 	}
 
 	public void actionPerformed(ActionEvent e)
@@ -105,25 +108,6 @@ class ExportDataPanelNB extends JPanel implements ActionListener
 		return array;
 	}
 
-	// Renders strings in the table so that they are centered
-	static class StringRenderer extends JLabel implements TableCellRenderer
-	{
-		private static Color bgColor = (Color)UIManager.get("Table.background");
-
-		public StringRenderer()
-		{
-			super("", JLabel.CENTER);
-
-			setBackground(bgColor);
-			setOpaque(true);
-		}
-
-		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column)
-		{
-			setText(value.toString());
-			return this;
-		}
-	}
 
     /** This method is called from within the constructor to
      * initialize the form.

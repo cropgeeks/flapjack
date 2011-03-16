@@ -93,7 +93,9 @@ class AlleleStatisticsPanelNB extends JPanel implements AdjustmentListener
         sumTable.getColumnModel().getColumn(1).setPreferredWidth(70);
         sumTable.getColumnModel().getColumn(2).setPreferredWidth(35);
 
-        sumTable.setDefaultRenderer(Object.class, new StatisticsRenderer());
+		DefaultTableCellRenderer cr = new DefaultTableCellRenderer();
+		cr.setHorizontalAlignment(JLabel.RIGHT);
+        sumTable.setDefaultRenderer(Object.class, cr);
 	}
 
 	private void createViewTable(GTViewSet viewSet, ArrayList<int[]> results)
@@ -136,7 +138,9 @@ class AlleleStatisticsPanelNB extends JPanel implements AdjustmentListener
         	else
         		viewTable.getColumnModel().getColumn(i).setPreferredWidth(35);
 
-        viewTable.setDefaultRenderer(Object.class, new StatisticsRenderer());
+        DefaultTableCellRenderer cr = new DefaultTableCellRenderer();
+		cr.setHorizontalAlignment(JLabel.RIGHT);
+        viewTable.setDefaultRenderer(Object.class, cr);
 	}
 
 	public void adjustmentValueChanged(AdjustmentEvent e)
@@ -275,13 +279,4 @@ class AlleleStatisticsPanelNB extends JPanel implements AdjustmentListener
     private javax.swing.JLabel viewLabel;
     private javax.swing.JTable viewTable;
     // End of variables declaration//GEN-END:variables
-
-
-	public static class StatisticsRenderer extends DefaultTableCellRenderer
-	{
-		public StatisticsRenderer()
-		{
-			setHorizontalAlignment(JLabel.RIGHT);
-		}
-	}
 }
