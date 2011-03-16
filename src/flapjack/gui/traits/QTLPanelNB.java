@@ -3,6 +3,9 @@
 
 package flapjack.gui.traits;
 
+import java.awt.*;
+import javax.swing.*;
+
 import flapjack.gui.*;
 
 import scri.commons.gui.*;
@@ -12,6 +15,9 @@ class QTLPanelNB extends javax.swing.JPanel
 	QTLPanelNB()
 	{
 		initComponents();
+
+		errorLabel.setText("<html>" + RB.getString("gui.traits.QTLPanel.errorMsg"));
+		errorLabel.setForeground(Color.red);
 
 		statusLabel.setText(RB.format("gui.traits.QTLPanel.traitCount", 0));
 
@@ -36,6 +42,9 @@ class QTLPanelNB extends javax.swing.JPanel
         statusLabel = new javax.swing.JLabel();
         bRemove = new javax.swing.JButton();
         bFilter = new javax.swing.JButton();
+        errorLabel = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        table = new javax.swing.JTable();
 
         bImport.setText("Import QTL data");
 
@@ -45,6 +54,18 @@ class QTLPanelNB extends javax.swing.JPanel
 
         bFilter.setText("Filter QTLs");
 
+        errorLabel.setText("jLabel1");
+
+        table.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+
+            }
+        ));
+        jScrollPane1.setViewportView(table);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -52,24 +73,33 @@ class QTLPanelNB extends javax.swing.JPanel
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(statusLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 90, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 94, Short.MAX_VALUE)
                 .addComponent(bFilter)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(bImport)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(bRemove)
+                .addContainerGap())
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 521, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(errorLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 501, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(errorLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 77, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(statusLabel)
                     .addComponent(bRemove)
                     .addComponent(bImport)
                     .addComponent(bFilter))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -78,7 +108,10 @@ class QTLPanelNB extends javax.swing.JPanel
     javax.swing.JButton bFilter;
     javax.swing.JButton bImport;
     javax.swing.JButton bRemove;
+    javax.swing.JLabel errorLabel;
+    private javax.swing.JScrollPane jScrollPane1;
     javax.swing.JLabel statusLabel;
+    javax.swing.JTable table;
     // End of variables declaration//GEN-END:variables
 
 }
