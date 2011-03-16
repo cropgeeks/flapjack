@@ -89,8 +89,11 @@ class SortLinesPanelNB extends javax.swing.JPanel implements ActionListener
 			}
 		});
 
+		DefaultTableCellRenderer cr = new DefaultTableCellRenderer();
+		cr.setHorizontalAlignment(JLabel.CENTER);
+
 		table.getColumnModel().getColumn(0).setPreferredWidth(30);
-		table.setDefaultRenderer(String.class, new StringRenderer());
+		table.setDefaultRenderer(String.class, cr);
 
 		// Ensure the single selection is actually visible when first displayed
 		Rectangle r = table.getCellRect(viewSet.getViewIndex(), 0, true);
@@ -121,26 +124,6 @@ class SortLinesPanelNB extends javax.swing.JPanel implements ActionListener
 		{
 			for (int i = 0; i < table.getRowCount(); i++)
 				table.setValueAt(false, i, 0);
-		}
-	}
-
-	// Renders strings in the table so that they are centered
-	static class StringRenderer extends JLabel implements TableCellRenderer
-	{
-		private static Color bgColor = (Color)UIManager.get("Table.background");
-
-		public StringRenderer()
-		{
-			super("", JLabel.CENTER);
-
-			setBackground(bgColor);
-			setOpaque(true);
-		}
-
-		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column)
-		{
-			setText(value.toString());
-			return this;
 		}
 	}
 
