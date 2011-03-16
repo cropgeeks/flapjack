@@ -28,20 +28,19 @@ public class TraitsPanel extends JPanel implements ActionListener
 	{
 		this.dataSet = dataSet;
 
-		table = new JTable();
+		controls = new TraitsPanelNB();
+		controls.bImport.addActionListener(this);
+		controls.bRemove.addActionListener(this);
+
+		table = controls.table;
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		table.getTableHeader().setReorderingAllowed(false);
 		table.setDefaultRenderer(String.class, traitsRenderer);
 		table.setDefaultRenderer(Float.class, traitsRenderer);
 
-		controls = new TraitsPanelNB();
-		controls.bImport.addActionListener(this);
-		controls.bRemove.addActionListener(this);
-
 		setLayout(new BorderLayout(0, 0));
 		setBorder(BorderFactory.createEmptyBorder(1, 1, 0, 0));
-		add(new JScrollPane(table));
-		add(controls, BorderLayout.SOUTH);
+		add(controls);
 
 		updateModel();
 	}

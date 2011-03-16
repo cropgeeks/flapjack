@@ -3,8 +3,6 @@
 
 package flapjack.gui.traits;
 
-import flapjack.gui.*;
-
 import scri.commons.gui.*;
 
 class TraitsPanelNB extends javax.swing.JPanel
@@ -32,12 +30,24 @@ class TraitsPanelNB extends javax.swing.JPanel
         bImport = new javax.swing.JButton();
         statusLabel = new javax.swing.JLabel();
         bRemove = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        table = new javax.swing.JTable();
 
         bImport.setText("Import trait data");
 
         statusLabel.setText("Number of traits: 0");
 
         bRemove.setText("Remove all traits");
+
+        table.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+
+            }
+        ));
+        jScrollPane1.setViewportView(table);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -46,21 +56,23 @@ class TraitsPanelNB extends javax.swing.JPanel
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(statusLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 69, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 81, Short.MAX_VALUE)
                 .addComponent(bImport)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(bRemove)
                 .addContainerGap())
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 424, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 103, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(statusLabel)
                     .addComponent(bRemove)
+                    .addComponent(statusLabel)
                     .addComponent(bImport))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -68,7 +80,9 @@ class TraitsPanelNB extends javax.swing.JPanel
     // Variables declaration - do not modify//GEN-BEGIN:variables
     javax.swing.JButton bImport;
     javax.swing.JButton bRemove;
+    private javax.swing.JScrollPane jScrollPane1;
     javax.swing.JLabel statusLabel;
+    javax.swing.JTable table;
     // End of variables declaration//GEN-END:variables
 
 }
