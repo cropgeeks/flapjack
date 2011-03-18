@@ -53,6 +53,8 @@ public class NBStartFilePanel extends javax.swing.JPanel implements ActionListen
 				labels[i].setVisible(false);
 		}
 
+		openLabel.setVisible(labels[0].isVisible());
+
 		ratingsPanel.doSetup(Prefs.rating,
 			Icons.getIcon("STARON"), Icons.getIcon("STAROFF"));
 		ratingsPanel.addActionListener(this);
@@ -66,7 +68,7 @@ public class NBStartFilePanel extends javax.swing.JPanel implements ActionListen
 			wm.mFile.fileImport(0);
 
 		else if (e.getSource() == sampleLabel)
-			wm.mFile.fileImport(3);
+			wm.mFile.fileImport(4);
 
 		else if (e.getSource() == ratingsPanel)
 			Prefs.rating = ratingsPanel.getRating();

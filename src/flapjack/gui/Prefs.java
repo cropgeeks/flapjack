@@ -45,14 +45,14 @@ public class Prefs extends XMLPreferences
 	public static String localeText = "auto";
 
 	// The width, height, location and maximized status of the main window
-	public static int guiWinMainWidth = 800;
-	public static int guiWinMainHeight = 600;
+	public static int guiWinMainW = 1000;
+	public static int guiWinMainH = 700;
 	public static int guiWinMainX = 0;
 	public static int guiWinMainY = 0;
 	public static boolean guiWinMainMaximized = false;
 
 	// The location of the main splits pane divider
-	public static int guiNavSplitsLocation = 150;
+	public static int guiNavSplitsLocation = 180;
 
 	// The width, height and location of the overview dialog/panel
 	public static boolean guiOverviewDialog = false;
@@ -60,7 +60,7 @@ public class Prefs extends XMLPreferences
 	public static int guiOverviewHeight = 300;
 	public static int guiOverviewX = -9999;
 	public static int guiOverviewY = -9999;
-	public static int guiOverviewSplitsLocation = 375;
+	public static int guiOverviewSplitsLocation = 450;
 
 	// Position of the Filter QTLs dialog
 	public static int guiFilterQTLDialogX = -9999;
