@@ -25,7 +25,6 @@ public class NBStartEmailPanel extends JPanel implements FocusListener, ActionLi
 		institutionText.setText(Prefs.miscInstitution);
 
 		RB.setText(label, "gui.navpanel.NBStartEmailPanel.label");
-		RB.setText(statusLabel1, "gui.navpanel.NBStartEmailPanel.statusLabel1");
 		RB.setText(emailLabel, "gui.navpanel.NBStartEmailPanel.email");
 		RB.setText(institutionLabel, "gui.navpanel.NBStartEmailPanel.institution");
 		RB.setText(bSubscribe, "gui.navpanel.NBStartEmailPanel.subscribe");
@@ -63,18 +62,13 @@ public class NBStartEmailPanel extends JPanel implements FocusListener, ActionLi
 
     private void setStatus()
     {
-    	String s1 = RB.getString("gui.navpanel.NBStartEmailPanel.statusSubscribed");
-    	String s2 = RB.getString("gui.navpanel.NBStartEmailPanel.statusUnsubscribed");
-
     	if (Prefs.miscSubscribed)
     	{
-			statusLabel2.setText(s1);
 			bSubscribe.setEnabled(false);
 			bUnsubscribe.setEnabled(true);
     	}
 		else
 		{
-			statusLabel2.setText(s2);
 			bSubscribe.setEnabled(true);
 			bUnsubscribe.setEnabled(false);
 		}
@@ -97,8 +91,6 @@ public class NBStartEmailPanel extends JPanel implements FocusListener, ActionLi
 			Prefs.miscSubscribed = true;
 			setStatus();
 		}
-		else
-			statusLabel2.setText(RB.getString("gui.navpanel.NBStartEmailPanel.error"));
     }
 
     private void unsubscribe()
@@ -108,15 +100,11 @@ public class NBStartEmailPanel extends JPanel implements FocusListener, ActionLi
 			Prefs.miscSubscribed = false;
 			setStatus();
     	}
-		else
-			statusLabel2.setText(RB.getString("gui.navpanel.NBStartEmailPanel.error"));
     }
 
 	// Connects to a remote cgi script to log (add or delete) email addresses
     private boolean connectToServer(String cmd)
     {
-    	statusLabel2.setText("...");
-
     	try
 		{
 			String id = URLEncoder.encode(Prefs.flapjackID, "UTF-8");
@@ -165,10 +153,8 @@ public class NBStartEmailPanel extends JPanel implements FocusListener, ActionLi
     private void initComponents() {
 
         label = new javax.swing.JLabel();
-        statusLabel1 = new javax.swing.JLabel();
         emailLabel = new javax.swing.JLabel();
         institutionLabel = new javax.swing.JLabel();
-        statusLabel2 = new javax.swing.JLabel();
         emailText = new javax.swing.JTextField();
         institutionText = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
@@ -177,13 +163,9 @@ public class NBStartEmailPanel extends JPanel implements FocusListener, ActionLi
 
         label.setText("<html>Subscribe to the Flapjack mailing list and we'll keep you informed when new releases are available.");
 
-        statusLabel1.setText("Current status:");
-
         emailLabel.setText("Email address:");
 
         institutionLabel.setText("Institution (optional): ");
-
-        statusLabel2.setText("Status");
 
         institutionText.setForeground(java.awt.Color.lightGray);
 
@@ -206,22 +188,18 @@ public class NBStartEmailPanel extends JPanel implements FocusListener, ActionLi
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(institutionLabel)
-                            .addComponent(emailLabel)
-                            .addComponent(statusLabel1))
+                            .addComponent(emailLabel))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(statusLabel2)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(institutionText, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 205, Short.MAX_VALUE)
-                                    .addComponent(emailText, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(bSubscribe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel4)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(bUnsubscribe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(42, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(institutionText, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 205, Short.MAX_VALUE)
+                            .addComponent(emailText, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(bSubscribe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(bUnsubscribe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(44, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -229,10 +207,6 @@ public class NBStartEmailPanel extends JPanel implements FocusListener, ActionLi
                 .addContainerGap()
                 .addComponent(label, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(statusLabel1)
-                    .addComponent(statusLabel2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(emailLabel)
                     .addComponent(emailText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -257,8 +231,6 @@ public class NBStartEmailPanel extends JPanel implements FocusListener, ActionLi
     private javax.swing.JTextField institutionText;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel label;
-    private javax.swing.JLabel statusLabel1;
-    private javax.swing.JLabel statusLabel2;
     // End of variables declaration//GEN-END:variables
 
 

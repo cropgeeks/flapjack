@@ -380,7 +380,7 @@ class NavPanel extends JPanel
 	{
 		HyperLinkLabel huttonLabel = new HyperLinkLabel();
 		huttonLabel.setIcon(Icons.getIcon("HUTTON"));
-		huttonLabel.setBorder(BorderFactory.createEmptyBorder(82, 10, 0, 10));
+		huttonLabel.setBorder(BorderFactory.createEmptyBorder(65, 10, 0, 10));
 
 		huttonLabel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
