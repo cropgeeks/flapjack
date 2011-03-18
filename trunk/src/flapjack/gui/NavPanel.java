@@ -4,6 +4,7 @@
 package flapjack.gui;
 
 import java.awt.*;
+import java.awt.event.*;
 import java.awt.dnd.*;
 import java.beans.*;
 import javax.swing.*;
@@ -16,6 +17,7 @@ import flapjack.gui.traits.*;
 import flapjack.gui.visualization.*;
 
 import scri.commons.gui.*;
+import scri.commons.gui.matisse.*;
 
 /**
  * Navigation panel that is responsible for control of the tree-control that
@@ -355,6 +357,11 @@ class NavPanel extends JPanel
 				RB.getString("gui.navpanel.NBStartEmailPanel.title")), BorderLayout.NORTH);
 			emailPanel.add(new NBStartEmailPanel());
 
+			JPanel huttonPanel = new JPanel(new BorderLayout());
+			huttonPanel.setOpaque(false);
+			huttonPanel.add(emailPanel);
+			huttonPanel.add(getHuttonLabel(), BorderLayout.EAST);
+
 			JPanel centrePanel = new JPanel(new GridLayout(1, 2, 0, 0));
 			centrePanel.setOpaque(false);
 			centrePanel.add(filePanel);
@@ -362,16 +369,31 @@ class NavPanel extends JPanel
 
 			panel.add(welcomePanel, BorderLayout.NORTH);
 			panel.add(centrePanel, BorderLayout.CENTER);
-			panel.add(emailPanel, BorderLayout.SOUTH);
+			panel.add(huttonPanel, BorderLayout.SOUTH);
 
 //			add(new JScrollPane(panel));
 			add(panel);
 		}
 	}
 
+	private static JLabel getHuttonLabel()
+	{
+		HyperLinkLabel huttonLabel = new HyperLinkLabel();
+		huttonLabel.setIcon(Icons.getIcon("HUTTON"));
+		huttonLabel.setBorder(BorderFactory.createEmptyBorder(82, 10, 0, 10));
+
+		huttonLabel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				FlapjackUtils.visitURL("http://www.hutton.ac.uk");
+			}
+		});
+
+		return huttonLabel;
+	}
+
 	private static class LogoPanel extends JPanel
 	{
-		private static ImageIcon logo = Icons.getIcon("SCRILARGE");
+		private static ImageIcon logo = Icons.getIcon("HUTTONLARGE");
 
 		LogoPanel(LayoutManager lm)
 		{
@@ -386,8 +408,9 @@ class NavPanel extends JPanel
 			Graphics2D g = (Graphics2D) graphics;
 
 			int w = getWidth();
+			int h = getHeight();
 
-			g.drawImage(logo.getImage(), 0, 0, w, w, null);
+			g.drawImage(logo.getImage(), 0, 0, w, h, null);
 		}
 	}
 }

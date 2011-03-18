@@ -65,7 +65,7 @@ public class WinMain extends JFrame
 		add(navPanel);
 		add(statusbar, BorderLayout.SOUTH);
 
-		setSize(Prefs.guiWinMainWidth, Prefs.guiWinMainHeight);
+		setSize(Prefs.guiWinMainW, Prefs.guiWinMainH);
 		setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 
 
@@ -95,8 +95,8 @@ public class WinMain extends JFrame
 			{
 				if (getExtendedState() != Frame.MAXIMIZED_BOTH)
 				{
-					Prefs.guiWinMainWidth  = getSize().width;
-					Prefs.guiWinMainHeight = getSize().height;
+					Prefs.guiWinMainW  = getSize().width;
+					Prefs.guiWinMainH = getSize().height;
 					Prefs.guiWinMainX = getLocation().x;
 					Prefs.guiWinMainY = getLocation().y;
 
