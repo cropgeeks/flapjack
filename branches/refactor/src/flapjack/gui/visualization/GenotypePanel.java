@@ -8,15 +8,13 @@ import java.awt.event.*;
 import java.awt.image.*;
 import java.text.*;
 import javax.swing.*;
-import javax.swing.event.*;
 
 import flapjack.data.*;
 import flapjack.gui.*;
 
 import scri.commons.gui.*;
 
-public class GenotypePanel extends JPanel
-	implements ActionListener, AdjustmentListener, MouseWheelListener
+public class GenotypePanel extends JPanel implements ActionListener
 {
 	private GTViewSet viewSet;
 	private GTView view;
@@ -26,14 +24,16 @@ public class GenotypePanel extends JPanel
 	// than passing messages through this class all the time
 	GenotypeCanvas canvas;
 	MapCanvas mapCanvas;
-	private MiniMapCanvas miniMapCanvas;
+	MiniMapCanvas miniMapCanvas;
 	private RowCanvas rowCanvas;
 	private ColCanvas colCanvas;
-	private QTLCanvas qtlCanvas;
+	QTLCanvas qtlCanvas;
 	GraphCanvas graphCanvas;
 	TraitCanvas traitCanvas;
 	ListPanel listPanel;
 	StatusPanelNB statusPanel;
+
+	private CanvasController controller;
 
 	// Secondary components needed by the panel
 	private JScrollPane sp;
@@ -99,7 +99,6 @@ public class GenotypePanel extends JPanel
 		setVisibleStates();
 
 		setLayout(new BorderLayout());
-//		add(tabs);
 		add(topPanel, BorderLayout.NORTH);
 		add(qtlSplitter);
 		add(statusPanel, BorderLayout.SOUTH);
@@ -112,14 +111,6 @@ public class GenotypePanel extends JPanel
 		RB.setText(chromoLabel, "gui.visualization.GenotypePanel.chromoLabel");
 		chromoLabel.setLabelFor(combo);
 		chromoLabel.setIcon(Icons.getIcon("CHROMOSOME"));
-
-		sp = new JScrollPane();
-		sp.addMouseWheelListener(this);
-		viewport = sp.getViewport();
-		hBar = sp.getHorizontalScrollBar();
-		vBar = sp.getVerticalScrollBar();
-		hBar.addAdjustmentListener(this);
-		vBar.addAdjustmentListener(this);
 
 		canvas = new GenotypeCanvas(this);
 		rowCanvas = new RowCanvas(this, canvas);
@@ -134,29 +125,12 @@ public class GenotypePanel extends JPanel
 
 		OverviewManager.initialize(winMain, this, canvas);
 
+		sp = new JScrollPane();
 		sp.setViewportView(canvas);
 		sp.getViewport().setBackground(Prefs.visColorBackground);
-	}
+		sp.setWheelScrollingEnabled(false);
 
-	// Called whenever the underlying data of a view has changed in such a way
-	// that we need to update the view's components to reflect this
-	public void refreshView()
-	{
-		if (viewSet == null)
-			return;
-
-		view.updateComparisons();
-
-		canvas.setView(viewSet, view);
-		listPanel.setView(view);
-		statusPanel.setView(view);
-		traitCanvas.determineVisibility();
-		graphCanvas.determineVisibility();
-
-		computePanelSizes();
-		setCtrlLabels();
-
-		OverviewManager.createImage();
+		controller = new CanvasController(this, sp);
 	}
 
 	public void setViewSet(GTViewSet viewSet)
@@ -179,6 +153,36 @@ public class GenotypePanel extends JPanel
 		combo.setSelectedIndex(selectedIndex);
 	}
 
+	public GTViewSet getViewSet()
+		{ return viewSet; }
+
+	public GTView getView()
+		{ return view; }
+
+	public CanvasController getController()
+		{ return controller; }
+
+	// Called whenever the underlying data of a view has changed in such a way
+	// that we need to update the view's components to reflect this
+	public void refreshView()
+	{
+		if (viewSet == null)
+			return;
+
+		view.updateComparisons();
+
+		canvas.setView(viewSet, view);
+		listPanel.setView(view);
+		statusPanel.setView(view);
+		traitCanvas.determineVisibility();
+		graphCanvas.determineVisibility();
+
+		controller.computePanelSizes();
+		setCtrlLabels();
+
+		OverviewManager.createImage();
+	}
+
 	private void displayMap(int mapIndex)
 	{
 		viewSet.setViewIndex(mapIndex);
@@ -189,60 +193,10 @@ public class GenotypePanel extends JPanel
 		refreshView();
 	}
 
-	public void adjustmentValueChanged(AdjustmentEvent e)
-	{
-		// Each time the scollbars are moved, the canvas must be redrawn, with
-		// the new dimensions of the canvas being passed to it (window size
-		// changes will cause scrollbar movement events)
-		canvas.computeForRedraw(viewport.getExtentSize(), viewport.getViewPosition());
-	}
-
-	void setScrollbarAdjustmentValues(int xIncrement, int yIncrement)
-	{
-		hBar.setUnitIncrement(xIncrement);
-		hBar.setBlockIncrement(xIncrement);
-		vBar.setUnitIncrement(yIncrement);
-		vBar.setBlockIncrement(yIncrement);
-	}
-
 	public void actionPerformed(ActionEvent e)
 	{
 		if (e.getSource() == combo && combo.getSelectedIndex() != -1)
 			displayMap(combo.getSelectedIndex());
-	}
-
-	// When changing data or the zoom level...
-	void computePanelSizes()
-	{
-		int zoomX = statusPanel.getZoomX();
-		int zoomY = statusPanel.getZoomY();
-
-		listPanel.computeDimensions(zoomY);
-		canvas.setDimensions(zoomX, zoomY);
-
-		SwingUtilities.invokeLater(new Runnable() {
-			public void run()
-			{
-				adjustmentValueChanged(null);
-
-				mapCanvas.updateBuffer = true;
-				graphCanvas.updateBuffer = true;
-				qtlCanvas.updateCanvasSize(true);
-				miniMapCanvas.createImage();
-			}
-		});
-	}
-
-	public void mouseWheelMoved(MouseWheelEvent e)
-	{
-		// CTRL (or CMD) keyboard shortcut
-		int shortcut = Toolkit.getDefaultToolkit().getMenuShortcutKeyMask();
-
-		if (e.getModifiers() == shortcut && Prefs.visLinkSliders)
-		{
-			int currentValue = statusPanel.getZoomY();
-			statusPanel.setZoomY(currentValue + e.getWheelRotation());
-		}
 	}
 
 	void forceOverviewUpdate()
@@ -250,7 +204,7 @@ public class GenotypePanel extends JPanel
 		canvas.updateOverviewSelectionBox();
 	}
 
-	void updateOverviewSelectionBox(int xIndex, int xW, int yIndex, int yH)
+	void canvasViewChanged(int xIndex, int xW, int yIndex, int yH)
 	{
 		OverviewManager.updateOverviewSelectionBox(xIndex, xW, yIndex, yH);
 
@@ -258,44 +212,6 @@ public class GenotypePanel extends JPanel
 		colCanvas.updateOverviewSelectionBox(yIndex, yH);
 
 		repaint();
-	}
-
-	// Jumps to a position relative to a x/y index within the dataset array
-	public void jumpToPosition(int lineIndex, int markerIndex, boolean centre)
-	{
-		// If 'centre' is true, offset by half the screen
-		int offset = 0;
-
-		if (lineIndex != -1)
-		{
-			if (centre)
-				offset = ((canvas.boxCountY * canvas.boxH) / 2) - canvas.boxH;
-			int y = lineIndex * canvas.boxH - offset;
-
-			vBar.setValue(y);
-		}
-
-		if (markerIndex != -1)
-		{
-			if (centre)
-				offset = ((canvas.boxCountX * canvas.boxW) / 2) - canvas.boxW;
-			int x = markerIndex * canvas.boxW - offset;
-
-			hBar.setValue(x);
-		}
-	}
-
-	public GTViewSet getViewSet()
-		{ return viewSet; }
-
-	public GTView getView()
-		{ return view; }
-
-	// Moves the scroll bars by the given amount in the x and y directions
-	void moveBy(int x, int y)
-	{
-		hBar.setValue(hBar.getValue() + x);
-		vBar.setValue(vBar.getValue() + y);
 	}
 
 	// Called as the mouse moves over the canvas...
@@ -454,51 +370,9 @@ public class GenotypePanel extends JPanel
 		lengthLabel.setText(RB.format("gui.visualization.GenotypePanel.lengthLabel", length));
 	}
 
-	public void pageLeft()
-	{
-		int jumpTo = (canvas.pX1/canvas.boxW) - (canvas.boxCountX);
-
-		moveToPosition(-1, jumpTo, false);
-	}
-
-	public void pageRight()
-	{
-		int jumpTo = (canvas.pX2Max/canvas.boxW) + 1;
-
-		moveToPosition(-1, jumpTo, false);
-	}
-
-	void moveTo(int rowIndex, int colIndex, boolean centre)
-	{
-		// If 'centre' is true, offset by half the screen
-		int offset = 0;
-
-		if (rowIndex != -1)
-		{
-			if (centre)
-				offset = ((canvas.boxCountY * canvas.boxH) / 2) - canvas.boxH;
-
-			int y = rowIndex * canvas.boxH - offset;
-			vBar.setValue(y);
-		}
-
-		if (colIndex != -1)
-		{
-			if (centre)
-				offset = ((canvas.boxCountX * canvas.boxW) / 2) - canvas.boxW;
-
-			int x = colIndex * canvas.boxW - offset;
-			hBar.setValue(x);
-		}
-	}
-
 	public void moveToPosition(final int rowIndex, final int colIndex, final boolean centre)
 	{
-		SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
-				moveTo(rowIndex, colIndex, centre);
-			}
-		});
+		controller.moveToLater(rowIndex, colIndex, centre);
 	}
 
 	class ComboRenderer extends DefaultListCellRenderer

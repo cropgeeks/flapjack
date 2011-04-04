@@ -302,14 +302,8 @@ public class FindDialog extends JDialog implements ListSelectionListener
 	// too much for it to change the view *and* scroll in the same EDT command.
 	// This ensures that the view has changed and is waiting before attempting
 	// to move the scrollbars.
-	private void jumpToPosition(final int lineIndex, final int markerIndex)
+	private void jumpToPosition(int lineIndex, int markerIndex)
 	{
-		Runnable r = new Runnable() {
-			public void run() {
-				gPanel.jumpToPosition(lineIndex, markerIndex, true);
-			}
-		};
-
-		SwingUtilities.invokeLater(r);
+		gPanel.moveToPosition(lineIndex, markerIndex, true);
 	}
 }
