@@ -144,7 +144,7 @@ public class MenuData
 		gPanel.addUndoState(state);
 
 		gPanel.refreshView();
-		gPanel.jumpToPosition(0, -1, false);
+		gPanel.moveToPosition(0, -1, false);
 
 		Actions.projectModified();
 	}

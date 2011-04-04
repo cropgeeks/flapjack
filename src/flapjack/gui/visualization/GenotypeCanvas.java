@@ -5,7 +5,6 @@ package flapjack.gui.visualization;
 
 import java.awt.*;
 import java.awt.image.*;
-import java.lang.management.*;
 import java.util.*;
 import java.util.concurrent.*;
 import javax.swing.*;
@@ -49,6 +48,9 @@ class GenotypeCanvas extends JPanel
 	// Starting and ending indices of the x (marker) and y (line) data that will
 	// be drawn during the next repaint operation
 	private int xS, xE, yE;
+
+	// Tracks the genotype closest to the centre of the view
+	float gtCenterX, gtCenterY;
 
 	// Holds the current dimensions of the canvas in an AWT friendly format
 	private Dimension dimension = new Dimension();
@@ -114,7 +116,6 @@ class GenotypeCanvas extends JPanel
 		canvasH = (boxTotalY * boxH);
 
 		setSize(dimension = new Dimension(canvasW, canvasH));
-		gPanel.setScrollbarAdjustmentValues(boxW, boxH);
 
 		// TODO: track sizeX/Y (or something) so we only recreate the color
 		// scheme when it really needs to be recreated
@@ -189,6 +190,10 @@ class GenotypeCanvas extends JPanel
 		if (pY2 >= canvasH)
 			pY2 = canvasH - 1;
 
+		// Track the base closest to the center of the current view
+		gtCenterX = (pX1 / boxW) + ((viewSize.width  / boxW) / 2);
+		gtCenterY = (pY1 / boxH) + ((viewSize.height / boxH) / 2);
+
 		updateOverviewSelectionBox();
 
 		redraw = true;
@@ -197,7 +202,7 @@ class GenotypeCanvas extends JPanel
 
 	void updateOverviewSelectionBox()
 	{
-		gPanel.updateOverviewSelectionBox((pX1/boxW), boxCountX, (pY1/boxH), boxCountY);
+		gPanel.canvasViewChanged((pX1/boxW), boxCountX, (pY1/boxH), boxCountY);
 	}
 
 	// Called as the mouse moves over the canvas - we want to highlight this

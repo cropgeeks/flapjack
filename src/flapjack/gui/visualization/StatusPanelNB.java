@@ -170,7 +170,7 @@ public class StatusPanelNB extends JPanel implements ActionListener, ChangeListe
 			sliderX.addChangeListener(this);
 		}
 
-		gPanel.computePanelSizes();
+		gPanel.getController().doZoom();
 	}
 
 	int getZoomX()
