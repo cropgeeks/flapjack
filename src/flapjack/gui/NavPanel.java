@@ -339,7 +339,7 @@ class NavPanel extends JPanel
 			filePanel.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
 			filePanel.add(new TitlePanel3(
 				RB.getString("gui.navpanel.NBStartFilePanel.title")), BorderLayout.NORTH);
-			filePanel.add(new StartPanelFileNB());
+			filePanel.add(new NBStartFilePanel());
 
 			JPanel helpPanel = new JPanel(new BorderLayout());
 			helpPanel.setOpaque(false);
@@ -353,7 +353,7 @@ class NavPanel extends JPanel
 			emailPanel.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
 			emailPanel.add(new TitlePanel3(
 				RB.getString("gui.navpanel.NBStartEmailPanel.title")), BorderLayout.NORTH);
-			emailPanel.add(new StartPanelEmailNB());
+			emailPanel.add(new NBStartEmailPanel());
 
 			JPanel centrePanel = new JPanel(new GridLayout(1, 2, 0, 0));
 			centrePanel.setOpaque(false);

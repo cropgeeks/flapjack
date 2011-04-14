@@ -12,11 +12,11 @@ import flapjack.gui.*;
 
 import scri.commons.gui.*;
 
-public class StartPanelEmailNB extends JPanel implements FocusListener, ActionListener
+public class NBStartEmailPanel extends JPanel implements FocusListener, ActionListener
 {
 	private static String hint = RB.getString("gui.navpanel.NBStartEmailPanel.hint");
 
-    public StartPanelEmailNB()
+    public NBStartEmailPanel()
 	{
 		initComponents();
 		setOpaque(false);
