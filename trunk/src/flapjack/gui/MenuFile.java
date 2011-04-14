@@ -143,7 +143,7 @@ public class MenuFile
 	{
 		boolean secondaryOptions = navPanel.getDataSetForSelection() != null;
 
-		DataImportDialog dialog = new DataImportDialog(tabIndex, secondaryOptions);
+		ImportDialog dialog = new ImportDialog(tabIndex, secondaryOptions);
 
 		if (dialog.isOK() == false)
 			return;

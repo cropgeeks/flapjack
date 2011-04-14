@@ -19,7 +19,7 @@ public class SortLinesDialog extends JDialog implements ActionListener
 	private boolean isOK = false;
 
 	private GenotypePanel gPanel;
-	private NBSortLinesPanel nbPanel;
+	private SortLinesPanelNB nbPanel;
 
 	public SortLinesDialog(GenotypePanel gPanel)
 	{
@@ -30,7 +30,7 @@ public class SortLinesDialog extends JDialog implements ActionListener
 		);
 
 		this.gPanel = gPanel;
-		nbPanel = new NBSortLinesPanel(this, gPanel.getViewSet());
+		nbPanel = new SortLinesPanelNB(this, gPanel.getViewSet());
 
 		add(new TitlePanel2(), BorderLayout.NORTH);
 		add(nbPanel);

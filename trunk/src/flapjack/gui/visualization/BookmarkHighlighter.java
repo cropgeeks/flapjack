@@ -94,15 +94,7 @@ public class BookmarkHighlighter extends Thread implements IOverlayRenderer
 
 	private void moveTo()
 	{
-		// Updates from this non-AWT thread, must happen via SwingUtilities
-		Runnable r = new Runnable() {
-			public void run()
-			{
-				gPanel.jumpToPosition(lineIndex, markerIndex, true);
-			}
-		};
-
-		SwingUtilities.invokeLater(r);
+		gPanel.moveToPosition(lineIndex, markerIndex, true);
 	}
 
 	public void render(Graphics2D g)

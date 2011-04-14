@@ -22,7 +22,7 @@ public class ExportImageDialog extends JDialog implements ActionListener
 	private File file = null;
 
 	private GenotypePanel gPanel;
-	private NBExportImagePanel nbPanel;
+	private ExportImagePanelNB nbPanel;
 
 	public ExportImageDialog(GenotypePanel gPanel)
 	{
@@ -33,7 +33,7 @@ public class ExportImageDialog extends JDialog implements ActionListener
 		);
 
 		this.gPanel = gPanel;
-		nbPanel = new NBExportImagePanel(gPanel, new DblClickListener());
+		nbPanel = new ExportImagePanelNB(gPanel, new DblClickListener());
 
 		add(new TitlePanel2(), BorderLayout.NORTH);
 		add(nbPanel);

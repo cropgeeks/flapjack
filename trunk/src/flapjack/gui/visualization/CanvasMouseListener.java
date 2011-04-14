@@ -41,6 +41,7 @@ class CanvasMouseListener extends MouseInputAdapter
 
 		canvas.addMouseListener(this);
 		canvas.addMouseMotionListener(this);
+		canvas.addMouseWheelListener(this);
 	}
 
 	private boolean isMetaClick(MouseEvent e)
@@ -71,6 +72,10 @@ class CanvasMouseListener extends MouseInputAdapter
 			int lineIndex = canvas.getLine(e.getPoint());
 			new HideLMAnimator(gPanel, lineIndex, false);
 		}
+
+		// Click zooming
+		else if (e.getClickCount() == 2)
+			gPanel.getController().clickZoom(e);
 	}
 
 	public void mousePressed(MouseEvent e)
@@ -135,6 +140,39 @@ class CanvasMouseListener extends MouseInputAdapter
 		// over the canvas but "off" the canvas due to being in the popup menu
 		if (canvasMenu.isShowingMenu() == false)
 			gPanel.overRow(-1, -1);
+	}
+
+	public void mouseWheelMoved(MouseWheelEvent e)
+	{
+		int shortcut = Toolkit.getDefaultToolkit().getMenuShortcutKeyMask();
+
+		// CTRL/CMD down: do canvas zooming
+		if (e.getModifiers() == shortcut && Prefs.visLinkSliders)
+		{
+			int currentValue = gPanel.statusPanel.getZoomY();
+			gPanel.statusPanel.setZoomY(currentValue - e.getWheelRotation());
+		}
+
+		// Otherwise, do canvas scrolling
+		else
+		{
+			CanvasController controller = gPanel.getController();
+
+			JScrollBar sBar = null;
+			if (controller.getVBar().isVisible())
+				sBar = controller.getVBar();
+			else if (controller.getHBar().isVisible())
+				sBar = controller.getHBar();
+
+			if (sBar != null)
+			{
+				int notches = e.getWheelRotation();
+				int value = sBar.getValue();
+				int units = 5 * sBar.getUnitIncrement();
+
+				sBar.setValue(value + (notches * units));
+			}
+		}
 	}
 
 	/** Inner class to handle interactive mouse events (moving lines etc). */
@@ -298,7 +336,7 @@ class CanvasMouseListener extends MouseInputAdapter
 				int diffX = dragPoint.x - e.getPoint().x;
 				int diffY = dragPoint.y - e.getPoint().y;
 
-				gPanel.moveBy(diffX, diffY);
+				gPanel.getController().moveBy(diffX, diffY);
 			}
 		}
 	}
