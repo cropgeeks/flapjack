@@ -15,7 +15,7 @@ import scri.commons.gui.*;
 public class SelectTraitsDialog extends JDialog implements ActionListener
 {
 	private JButton bOK, bCancel, bHelp;
-	private NBSelectTraitsPanel nbPanel;
+	private SelectTraitsPanelNB nbPanel;
 
 	public SelectTraitsDialog(GTViewSet viewSet)
 	{
@@ -25,7 +25,7 @@ public class SelectTraitsDialog extends JDialog implements ActionListener
 			true
 		);
 
-		nbPanel = new NBSelectTraitsPanel(viewSet);
+		nbPanel = new SelectTraitsPanelNB(viewSet);
 
 		add(new TitlePanel2(), BorderLayout.NORTH);
 		add(nbPanel);

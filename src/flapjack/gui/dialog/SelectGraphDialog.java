@@ -14,7 +14,7 @@ import flapjack.gui.visualization.*;
 public class SelectGraphDialog extends JDialog implements ActionListener
 {
 	private JButton bClose;
-	private NBSelectGraphPanel panel;
+	private SelectGraphPanelNB panel;
 	private GenotypePanel gPanel;
 
 	public SelectGraphDialog(GenotypePanel gPanel)
@@ -27,7 +27,7 @@ public class SelectGraphDialog extends JDialog implements ActionListener
 		this.gPanel = gPanel;
 
 		add(new TitlePanel2(), BorderLayout.NORTH);
-		add(panel = new NBSelectGraphPanel(gPanel));
+		add(panel = new SelectGraphPanelNB(gPanel));
 		add(createButtons(), BorderLayout.SOUTH);
 
 		getRootPane().setDefaultButton(bClose);

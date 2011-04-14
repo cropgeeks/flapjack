@@ -20,7 +20,7 @@ public class BrowseDialog extends JDialog implements ActionListener
 	private JButton bImport, bCancel, bHelp;
 	private boolean isOK = false;
 
-	private NBBrowsePanel nbPanel;
+	private BrowsePanelNB nbPanel;
 
 	/**
 	 * @param fileHistory the history string to populate the combo box with
@@ -34,7 +34,7 @@ public class BrowseDialog extends JDialog implements ActionListener
 	{
 		super( Flapjack.winMain, RB.getString(rbTitle), true);
 
-		nbPanel = new NBBrowsePanel(rbLabel, fileHistory);
+		nbPanel = new BrowsePanelNB(rbLabel, fileHistory);
 
 		add(new TitlePanel2(), BorderLayout.NORTH);
 		add(nbPanel);

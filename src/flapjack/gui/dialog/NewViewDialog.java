@@ -19,7 +19,7 @@ public class NewViewDialog extends JDialog implements ActionListener
 	private JButton bOK, bCancel, bHelp;
 	private boolean isOK = false;
 
-	private NBNewViewPanel nbPanel;
+	private NewViewPanelNB nbPanel;
 
 	public NewViewDialog(DataSet dataSet, GTViewSet currentViewSet)
 	{
@@ -30,7 +30,7 @@ public class NewViewDialog extends JDialog implements ActionListener
 		);
 
 		this.dataSet = dataSet;
-		nbPanel = new NBNewViewPanel(dataSet, currentViewSet);
+		nbPanel = new NewViewPanelNB(dataSet, currentViewSet);
 
 		add(new TitlePanel2(), BorderLayout.NORTH);
 		add(nbPanel);

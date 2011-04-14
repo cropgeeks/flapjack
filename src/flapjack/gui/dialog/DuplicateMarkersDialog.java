@@ -19,7 +19,7 @@ public class DuplicateMarkersDialog extends JDialog implements ActionListener
 	private JButton bClipboard;
 	private JButton bHelp;
 
-	private NBDuplicateMarkersPanel nbPanel;
+	private DuplicateMarkersPanelNB nbPanel;
 	private LinkedList<String> duplicates;
 
 	public DuplicateMarkersDialog(LinkedList<String> duplicates)
@@ -31,7 +31,7 @@ public class DuplicateMarkersDialog extends JDialog implements ActionListener
 		);
 
 		this.duplicates = duplicates;
-		nbPanel = new NBDuplicateMarkersPanel(duplicates);
+		nbPanel = new DuplicateMarkersPanelNB(duplicates);
 
 		add(new TitlePanel2(), BorderLayout.NORTH);
 		add(nbPanel);

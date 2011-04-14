@@ -21,7 +21,7 @@ public class ColorDialog extends JDialog implements ActionListener
 	private JButton bHelp;
 
 	private WinMain winMain;
-	private NBColorPanel nbPanel;
+	private ColorPanelNB nbPanel;
 
 	public ColorDialog(WinMain winMain, GenotypePanel gPanel)
 	{
@@ -34,7 +34,7 @@ public class ColorDialog extends JDialog implements ActionListener
 		this.winMain = winMain;
 
 		add(new TitlePanel2(), BorderLayout.NORTH);
-		add(nbPanel = new NBColorPanel(gPanel));
+		add(nbPanel = new ColorPanelNB(gPanel));
 		add(createButtons(), BorderLayout.SOUTH);
 
 		getRootPane().setDefaultButton(bClose);

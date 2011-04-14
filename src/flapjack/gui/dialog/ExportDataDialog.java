@@ -18,7 +18,7 @@ import scri.commons.gui.*;
 public class ExportDataDialog extends JDialog implements ActionListener
 {
 	private JButton bExport, bClose, bHelp;
-	private NBExportDataPanel nbPanel;
+	private ExportDataPanelNB nbPanel;
 
 	private GTViewSet viewSet;
 	private String baseName;
@@ -35,7 +35,7 @@ public class ExportDataDialog extends JDialog implements ActionListener
 		baseName = viewSet.getDataSet().getName();
 		baseName = baseName.substring(0, baseName.lastIndexOf(" "));
 
-		nbPanel = new NBExportDataPanel(viewSet);
+		nbPanel = new ExportDataPanelNB(viewSet);
 
 		add(new TitlePanel2(), BorderLayout.NORTH);
 		add(nbPanel);

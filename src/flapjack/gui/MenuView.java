@@ -114,14 +114,14 @@ public class MenuView
 	{
 		new ToggleCanvasDialog(gPanel);
 	}
-	
+
 	void viewPageLeft()
 	{
-		gPanel.pageLeft();
+		gPanel.getController().pageLeft();
 	}
-	
+
 	void viewPageRight()
 	{
-		gPanel.pageRight();
+		gPanel.getController().pageRight();
 	}
 }

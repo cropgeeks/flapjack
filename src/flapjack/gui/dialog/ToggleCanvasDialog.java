@@ -16,7 +16,7 @@ public class ToggleCanvasDialog extends JDialog implements ActionListener
 {
 	private JButton bClose;
 
-	private NBToggleCanvasPanel nbPanel;
+	private ToggleCanvasPanelNB nbPanel;
 
 	public ToggleCanvasDialog(GenotypePanel gPanel)
 	{
@@ -26,7 +26,7 @@ public class ToggleCanvasDialog extends JDialog implements ActionListener
 			true
 		);
 
-		nbPanel = new NBToggleCanvasPanel(gPanel);
+		nbPanel = new ToggleCanvasPanelNB(gPanel);
 
 		add(new TitlePanel2(), BorderLayout.NORTH);
 		add(nbPanel);

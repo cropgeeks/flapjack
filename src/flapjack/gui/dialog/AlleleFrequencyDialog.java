@@ -16,7 +16,7 @@ public class AlleleFrequencyDialog extends JDialog implements ActionListener
 {
 	private JButton bOK, bHelp;
 
-	private NBAlleleFrequencyPanel nbPanel;
+	private AlleleFrequencyPanelNB nbPanel;
 
 	public AlleleFrequencyDialog(GenotypePanel gPanel)
 	{
@@ -26,7 +26,7 @@ public class AlleleFrequencyDialog extends JDialog implements ActionListener
 			true
 		);
 
-		nbPanel = new NBAlleleFrequencyPanel(gPanel);
+		nbPanel = new AlleleFrequencyPanelNB(gPanel);
 
 		add(new TitlePanel2(), BorderLayout.NORTH);
 		add(nbPanel);
