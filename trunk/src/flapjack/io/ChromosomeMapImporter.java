@@ -69,7 +69,7 @@ public class ChromosomeMapImporter
 			}
 
 			// (And its name), using them to create a new marker
-			Marker marker = new Marker(tokens[0], position);
+			Marker marker = new Marker(tokens[0].trim(), position);
 
 			// Check to see if this marker already exists (in any map)?
 			MarkerIndex index = markers.get(marker.getName());

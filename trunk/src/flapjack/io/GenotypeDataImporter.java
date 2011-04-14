@@ -126,7 +126,7 @@ public class GenotypeDataImporter
 
 		for (int i = 1; i < markerNames.length && isOK; i++)
 		{
-			MarkerIndex index = markers.get(markerNames[i]);
+			MarkerIndex index = markers.get(markerNames[i].trim());
 
 			// Check that the marker does exists on map
 			if (index != null)
@@ -156,11 +156,12 @@ public class GenotypeDataImporter
 				continue;
 
 			// Check for duplicate line names
-			if (lines.get(values[0]) != null)
-				throw new DataFormatException(RB.format("io.DataFormatException.duplicateLineError", values[0], lineCount+1));
+			String name = values[0].trim();
+			if (lines.get(name) != null)
+				throw new DataFormatException(RB.format("io.DataFormatException.duplicateLineError", name, lineCount+1));
 
-			Line line = dataSet.createLine(values[0], useByteStorage);
-			lines.put(line.getName(), line);
+			Line line = dataSet.createLine(name, useByteStorage);
+			lines.put(name, line);
 
 			for (int i = 1; i < values.length; i++)
 			{
@@ -243,6 +244,8 @@ public class GenotypeDataImporter
 		// Loop over the line names ensuring there are no duplicates
 		for (int i = 1; i < lineNames.length && isOK; i++)
 		{
+			lineNames[i] = lineNames[i].trim();
+
 			if (lines.get(lineNames[i]) != null)
 					throw new DataFormatException(RB.format("io.DataFormatException.duplicateLineError", lineNames[i], lineCount+1));
 			else
@@ -272,7 +275,7 @@ public class GenotypeDataImporter
 
 			for (int i = 1; i < values.length; i++)
 			{
-				MarkerIndex index = markers.get(values[0]);
+				MarkerIndex index = markers.get(values[0].trim());
 
 				// Assuming a map was found that contains this marker...
 				if (index != null && index.mapIndex != -1)
