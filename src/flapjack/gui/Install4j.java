@@ -6,7 +6,6 @@ package flapjack.gui;
 import java.io.*;
 import java.net.*;
 import java.util.*;
-import java.util.jar.*;
 
 import com.install4j.api.launcher.*;
 import com.install4j.api.update.*;
@@ -18,7 +17,7 @@ import scri.commons.gui.*;
  */
 public class Install4j
 {
-	private static String URL = "http://bioinf.scri.ac.uk/flapjack/installers/updates.xml";
+	private static String URL = "http://bioinf.hutton.ac.uk/flapjack/installers/updates.xml";
 
 	public static String VERSION = "x.xx.xx.xx";
 
@@ -129,7 +128,7 @@ public class Install4j
 						+ " (" + System.getProperty("os.arch") + ")", "UTF-8");
 					String user = URLEncoder.encode(System.getProperty("user.name"), "UTF-8");
 
-					String addr = "http://bioinf.scri.ac.uk/flapjack/logs/flapjack.pl"
+					String addr = "http://bioinf.hutton.ac.uk/flapjack/logs/flapjack.pl"
 						+ "?id=" + id
 						+ "&version=" + version
 						+ "&locale=" + locale

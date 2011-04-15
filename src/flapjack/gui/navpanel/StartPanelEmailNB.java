@@ -111,7 +111,7 @@ public class StartPanelEmailNB extends JPanel implements FocusListener, ActionLi
 			String email = URLEncoder.encode(Prefs.miscEmail, "UTF-8");
 			String institution = URLEncoder.encode(Prefs.miscInstitution, "UTF-8");
 
-			String addr = "http://bioinf.scri.ac.uk/flapjack/logs/email.pl"
+			String addr = "http://bioinf.hutton.ac.uk/flapjack/logs/email.pl"
 				+ "?cmd=" + cmd
 				+ "&id=" + id
 				+ "&email=" + email

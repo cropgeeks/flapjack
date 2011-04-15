@@ -3,13 +3,9 @@
 
 package flapjack.gui.navpanel;
 
-import java.awt.*;
 import java.awt.event.*;
-import java.net.*;
-import javax.swing.*;
 
 import flapjack.gui.*;
-import flapjack.gui.dialog.*;
 
 import scri.commons.gui.*;
 
@@ -36,7 +32,7 @@ public class StartPanelWelcomeNB extends javax.swing.JPanel implements ActionLis
 	public void actionPerformed(ActionEvent e)
 	{
 		if(e.getSource() == citeLabel)
-			FlapjackUtils.visitURL("http://bioinf.scri.ac.uk/flapjack/papers.shtml");
+			FlapjackUtils.visitURL("http://bioinf.hutton.ac.uk/flapjack/papers.shtml");
 
 		else if (e.getSource() == feedbackLabel)
 			FlapjackUtils.sendFeedback();
@@ -59,7 +55,7 @@ public class StartPanelWelcomeNB extends javax.swing.JPanel implements ActionLis
         twitterLabel = new scri.commons.gui.matisse.HyperLinkLabel();
         citeLabel = new scri.commons.gui.matisse.HyperLinkLabel();
 
-        flapjackLabel.setText("<html>Flapjack x.xx.xx.xx - &copy; Plant Bioinformatics Group, SCRI.");
+        flapjackLabel.setText("<html>Flapjack x.xx.xx.xx - &copy; Plant Bioinformatics Group, JHI.");
 
         feedbackLabel.setForeground(new java.awt.Color(68, 106, 156));
         feedbackLabel.setText("Feedback");
@@ -77,7 +73,7 @@ public class StartPanelWelcomeNB extends javax.swing.JPanel implements ActionLis
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(flapjackLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 152, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 160, Short.MAX_VALUE)
                 .addComponent(citeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(feedbackLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)

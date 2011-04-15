@@ -3,9 +3,7 @@
 
 package flapjack.gui.navpanel;
 
-import java.awt.*;
 import java.awt.event.*;
-import javax.swing.*;
 
 import flapjack.gui.*;
 
@@ -17,7 +15,7 @@ public class StartPanelHelpNB extends javax.swing.JPanel implements ActionListen
 	private HyperLinkLabel[] labels = new HyperLinkLabel[8];
 
 	private static String home =
-		"http://bioinf.scri.ac.uk/flapjack/help";
+		"http://bioinf.hutton.ac.uk/flapjack/help";
 
     public StartPanelHelpNB()
 	{

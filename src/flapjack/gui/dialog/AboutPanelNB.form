@@ -106,7 +106,7 @@
         </Component>
         <Component class="javax.swing.JLabel" name="copyrightLabel">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Copyright (C) 2007-2008, Plant Bioinformatics Group, SCRI"/>
+            <Property name="text" type="java.lang.String" value="Copyright (C) 2007-2008, Plant Bioinformatics Group, JHI"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="versionLabel">
@@ -141,7 +141,7 @@
         </Component>
         <Component class="scri.commons.gui.matisse.HyperLinkLabel" name="webLabel">
           <Properties>
-            <Property name="text" type="java.lang.String" value="http://bioinf.scri.ac.uk/flapjack"/>
+            <Property name="text" type="java.lang.String" value="http://bioinf.hutton.ac.uk/flapjack"/>
           </Properties>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
