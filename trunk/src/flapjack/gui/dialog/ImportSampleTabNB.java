@@ -65,7 +65,7 @@ class ImportSampleTabNB extends JPanel implements ActionListener, Runnable
 		try
 		{
 			// The folder on the server
-			URL url = new URL("http://bioinf.scri.ac.uk/flapjack/sample-data/sample.xml");
+			URL url = new URL("http://bioinf.hutton.ac.uk/flapjack/sample-data/sample.xml");
 
 			properties = new Properties();
 			properties.loadFromXML(url.openStream());

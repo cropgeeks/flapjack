@@ -56,7 +56,7 @@ class AboutPanelNB extends javax.swing.JPanel implements ActionListener
 
 	public void actionPerformed(ActionEvent e)
 	{
-		final String flapHTML = "http://bioinf.scri.ac.uk/flapjack";
+		final String flapHTML = "http://bioinf.hutton.ac.uk/flapjack";
 
 		if(e.getSource() == webLabel)
 		{
@@ -92,7 +92,7 @@ class AboutPanelNB extends javax.swing.JPanel implements ActionListener
 
         nameLabel.setText("Iain Milne, Micha Bayer, Paul Shaw, Linda Cardle, Gordon Stephen, and David Marshall");
 
-        copyrightLabel.setText("Copyright (C) 2007-2008, Plant Bioinformatics Group, SCRI");
+        copyrightLabel.setText("Copyright (C) 2007-2008, Plant Bioinformatics Group, JHI");
 
         versionLabel.setFont(new java.awt.Font("Tahoma", 1, 18));
         versionLabel.setText("Flapjack - x.xx.xx.xx");
@@ -106,7 +106,7 @@ class AboutPanelNB extends javax.swing.JPanel implements ActionListener
         scriIcon.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         scriIcon.setText("SCRI LOGO");
 
-        webLabel.setText("http://bioinf.scri.ac.uk/flapjack");
+        webLabel.setText("http://bioinf.hutton.ac.uk/flapjack");
 
         javax.swing.GroupLayout p2Layout = new javax.swing.GroupLayout(p2);
         p2.setLayout(p2Layout);

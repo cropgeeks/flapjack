@@ -7,7 +7,6 @@ import java.awt.*;
 import java.awt.event.*;
 import java.net.*;
 import java.lang.reflect.*;
-import java.util.*;
 import javax.swing.*;
 
 import scri.commons.gui.*;
@@ -23,7 +22,7 @@ public class FlapjackUtils
 	 */
 	public static void setHelp(final JButton button, String topic)
 	{
-		final String html = "http://bioinf.scri.ac.uk/flapjack/help/" + topic + ".shtml";
+		final String html = "http://bioinf.hutton.ac.uk/flapjack/help/" + topic + ".shtml";
 
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -93,7 +92,7 @@ public class FlapjackUtils
 		throws Exception
 	{
 		Desktop desktop = Desktop.getDesktop();
-		desktop.mail(new URI("mailto:flapjack@scri.ac.uk?subject=Flapjack%20Feedback"));
+		desktop.mail(new URI("mailto:flapjack@hutton.ac.uk?subject=Flapjack%20Feedback"));
 	}
 
 	public static JPanel getButtonPanel()
