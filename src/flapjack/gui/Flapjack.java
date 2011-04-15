@@ -107,6 +107,12 @@ public class Flapjack
 
 			public void windowOpened(WindowEvent e)
 			{
+				//if (Prefs.isFirstRun == false && Prefs.isHuttonised == false)
+				{
+					new flapjack.gui.dialog.HuttonDialog();
+					Prefs.isHuttonised = true;
+				}
+				
 				// Do we want to open an initial project?
 				if (initialProject != null)
 					winMain.mFile.fileOpen(initialProject);
