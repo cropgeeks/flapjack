@@ -22,6 +22,21 @@ that have been made to Flapjack in recent versions. For full details on all the
 changes between versions, please see the <a href="../svn.txt">
 subversion change log</a>.</p>
 
+<h3>New in 1.11.04.19</h3>
+
+<ul>
+<li>NEW: Flapjack is now a version 1.x release, after being published in Bioinformatics.</li>
+<li>NEW: SCRI become the The James Hutton Institute in April 2011, and Flapjack has been branded accordingly.</li>
+<li>NEW: Flapjack now supports importing and displaying graph data (http://bioinf.hutton.ac.uk/flapjack/help/graphs.shtml).</li>
+<li>NEW: Added a Filter QTLs button to the QTL Table.</li>
+<li>NEW: Added functionality to move the view one "page" left or right at a time.</li>
+<li>NEW: Moving the mouse over the chromosome canvas now displays the current chromosome position.</li>
+<li>CHG: Various tweaks to try to reduce memory consumption a little more.</li>
+<li>CHG: Tweaked the Castor XML mapping to remove spurious xsi:type entries, resulting in smaller XML project files.</li>
+<li>BUG: The displayed number-of-lines (during importing) was incorrect when transposed data was loaded.</li>
+<li>BUG: File loading progress wasn't being properly tracked when importing QTL or phenotype data.</li>
+<li>BUG: Trait values weren't being written properly during binary serialization.</li>
+</ul>
 
 <h3>New in 0.10.10.07</h3>
 

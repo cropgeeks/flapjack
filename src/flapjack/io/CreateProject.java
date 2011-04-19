@@ -91,7 +91,8 @@ public class CreateProject
 		genoImporter.importGenotypeData(false);
 
 		PostImportOperations pio = new PostImportOperations(dataSet);
-		pio.setName(genotypesFile);
+//		pio.setName(genotypesFile);
+		pio.setName(prjFile.getFile());
 		pio.collapseHeterozygotes();
 		pio.createDefaultView();
 
