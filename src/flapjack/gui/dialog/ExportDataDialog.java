@@ -7,11 +7,11 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 import javax.swing.*;
+import javax.swing.filechooser.*;
 
 import flapjack.data.*;
 import flapjack.gui.*;
 import flapjack.io.*;
-import flapjack.other.*;
 
 import scri.commons.gui.*;
 
@@ -124,7 +124,7 @@ public class ExportDataDialog extends JDialog implements ActionListener
 		int count = getMarkerCount(chrm);
 
 		String name = baseName + "_" + count + ".map";
-		File filename = promptForFilename(name, "map");
+		File filename = promptForFilename(new File(name), "map");
 
 		if (filename != null)
 		{
@@ -146,7 +146,7 @@ public class ExportDataDialog extends JDialog implements ActionListener
 
 		String name = baseName + "_" + viewSet.getName() + "_"
 			+ lineCount + "x" + mrkrCount + ".dat";
-		File filename = promptForFilename(name, "dat");
+		File filename = promptForFilename(new File(name), "dat");
 
 		if (filename != null)
 		{
@@ -184,44 +184,17 @@ public class ExportDataDialog extends JDialog implements ActionListener
 			RB.getString("gui.text.close"));
 	}
 
-	private File promptForFilename(String baseName, String extension)
+	private File promptForFilename(File name, String extension)
 	{
-		JFileChooser fc = new JFileChooser();
-		fc.setDialogTitle(RB.getString("gui.dialog.ExportDataDialog.saveDialog"));
-		fc.setSelectedFile(new File(Prefs.guiCurrentDir, baseName));
-
 		FileNameExtensionFilter filter = new FileNameExtensionFilter(
 			RB.getString("other.Filters." + extension), extension);
-		fc.setFileFilter(filter);
 
-		while (fc.showSaveDialog(Flapjack.winMain) == JFileChooser.APPROVE_OPTION)
-		{
-			File file = FileNameExtensionFilter.getSelectedFileForSaving(fc);
+		String filename = FlapjackUtils.getSaveFilename(
+			RB.getString("gui.dialog.ExportDataDialog.saveDialog"), name, filter);
 
-			// Confirm overwrite
-			if (file.exists())
-			{
-				String msg = RB.format("gui.dialog.ExportDataDialog.confirm", file);
-				String[] options = new String[] {
-					RB.getString("gui.dialog.ExportDataDialog.overwrite"),
-					RB.getString("gui.dialog.ExportDataDialog.rename"),
-					RB.getString("gui.text.cancel")
-				};
-
-				int response = TaskDialog.show(msg, TaskDialog.WAR, 0, options);
-
-				if (response == 1)
-					continue;
-				else if (response == -1 || response == 2)
-					return null;
-			}
-
-			// Otherwise it's ok to save...
-			Prefs.guiCurrentDir = fc.getCurrentDirectory().getPath();
-
-			return file;
-		}
-
-		return null;
+		if (filename != null)
+			return new File(filename);
+		else
+			return null;
 	}
 }
