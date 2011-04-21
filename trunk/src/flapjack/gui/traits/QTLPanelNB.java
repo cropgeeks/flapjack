@@ -19,10 +19,12 @@ class QTLPanelNB extends javax.swing.JPanel
 		statusLabel.setText(RB.format("gui.traits.QTLPanel.traitCount", 0));
 
 		RB.setText(bImport, "gui.traits.NBQTLControlPanel.bImport");
+		RB.setText(bExport, "gui.traits.NBQTLControlPanel.bExport");
 		RB.setText(bRemove, "gui.traits.NBQTLControlPanel.bRemove");
 		RB.setText(bFilter, "gui.traits.NBQTLControlPanel.bFilter");
 
 		bImport.setIcon(Icons.getIcon("IMPORTTRAITS"));
+		bExport.setIcon(Icons.getIcon("EXPORTTRAITS"));
 		bRemove.setIcon(Icons.getIcon("DELETE"));
 		bFilter.setIcon(Icons.getIcon("TRAITS"));
 	}
@@ -36,21 +38,14 @@ class QTLPanelNB extends javax.swing.JPanel
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        bImport = new javax.swing.JButton();
-        statusLabel = new javax.swing.JLabel();
-        bFilter = new javax.swing.JButton();
-        bRemove = new javax.swing.JButton();
         errorLabel = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         table = new javax.swing.JTable();
-
-        bImport.setText("Import");
-
-        statusLabel.setText("Number of QTLs: 0");
-
-        bFilter.setText("Filter");
-
-        bRemove.setText("Clear");
+        statusLabel = new javax.swing.JLabel();
+        bImport = new javax.swing.JButton();
+        bExport = new javax.swing.JButton();
+        bFilter = new javax.swing.JButton();
+        bRemove = new javax.swing.JButton();
 
         errorLabel.setText("jLabel1");
 
@@ -64,6 +59,16 @@ class QTLPanelNB extends javax.swing.JPanel
         ));
         jScrollPane1.setViewportView(table);
 
+        statusLabel.setText("Number of QTLs: 0");
+
+        bImport.setText("Import");
+
+        bExport.setText("Export");
+
+        bFilter.setText("Filter");
+
+        bRemove.setText("Clear");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -71,8 +76,10 @@ class QTLPanelNB extends javax.swing.JPanel
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(statusLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 247, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 176, Short.MAX_VALUE)
                 .addComponent(bImport)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(bExport)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(bFilter)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -95,6 +102,7 @@ class QTLPanelNB extends javax.swing.JPanel
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(statusLabel)
                     .addComponent(bRemove)
+                    .addComponent(bExport)
                     .addComponent(bFilter)
                     .addComponent(bImport))
                 .addContainerGap())
@@ -103,6 +111,7 @@ class QTLPanelNB extends javax.swing.JPanel
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    javax.swing.JButton bExport;
     javax.swing.JButton bFilter;
     javax.swing.JButton bImport;
     javax.swing.JButton bRemove;
