@@ -124,6 +124,9 @@ class GraphCanvas extends JPanel
 
 	void render(Graphics2D g, int xS, int xE)
 	{
+		if (canvas.view.getChromosomeMap().getGraphs().size() == 0)
+			return;
+
 		g.translate(-canvas.pX1, 0);
 
 		if (xS > canvas.view.getMarkerCount() || xE > canvas.view.getMarkerCount())

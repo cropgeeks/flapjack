@@ -37,8 +37,6 @@ public class GenotypePanel extends JPanel implements ActionListener
 
 	// Secondary components needed by the panel
 	private JScrollPane sp;
-	private JScrollBar hBar, vBar;
-	private JViewport viewport;
 	private JSplitPane qtlSplitter;
 
 	// Top control panel labels/controls
@@ -235,11 +233,6 @@ public class GenotypePanel extends JPanel implements ActionListener
 	public long computeCanvasBufferInBytes()
 	{
 		return (long)canvas.canvasW * (long)canvas.canvasH * 3;
-	}
-
-	public long computeCanvasViewPortBufferInBytes()
-	{
-		return (long)viewport.getWidth() * (long)viewport.getHeight() * 3;
 	}
 
 	public BufferedImage getCanvasBuffer(boolean full) throws Error, Exception

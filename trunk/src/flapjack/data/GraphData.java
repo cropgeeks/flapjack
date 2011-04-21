@@ -102,7 +102,7 @@ public class GraphData extends XMLRoot
 		{
 			data[d] = (data[d] - min) / (max - min);
 
-			if (Float.isNaN(data[d]))
+			if (Float.isNaN(data[d]) || Float.isInfinite(data[d]))
 				data[d] = 0;
 		}
 	}

@@ -126,7 +126,7 @@ class ExportImagePanelNB extends JPanel implements ChangeListener, ActionListene
     	long memory = 0;
 
     	if (rWindow.isSelected())
-    		memory = gPanel.computeCanvasViewPortBufferInBytes();
+    		memory = gPanel.getController().computeCanvasViewPortBufferInBytes();
     	else if (rView.isSelected())
     		memory = gPanel.computeCanvasBufferInBytes();
     	else
