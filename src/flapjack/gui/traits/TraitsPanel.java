@@ -5,7 +5,6 @@ package flapjack.gui.traits;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.text.*;
 import javax.swing.*;
 import javax.swing.table.*;
 
@@ -29,6 +28,7 @@ public class TraitsPanel extends JPanel implements ActionListener
 
 		controls = new TraitsPanelNB();
 		controls.bImport.addActionListener(this);
+		controls.bExport.addActionListener(this);
 		controls.bRemove.addActionListener(this);
 
 		table = controls.table;
@@ -67,6 +67,7 @@ public class TraitsPanel extends JPanel implements ActionListener
 			(table.getColumnCount()-1)));
 
 		// Enable/disable the "remove" button based on the trait count
+		controls.bExport.setEnabled(table.getColumnCount()-1 > 0);
 		controls.bRemove.setEnabled(table.getColumnCount()-1 > 0);
 	}
 
@@ -84,6 +85,9 @@ public class TraitsPanel extends JPanel implements ActionListener
 	{
 		if (e.getSource() == controls.bImport)
 			Flapjack.winMain.mFile.fileImport(1);
+
+		else if (e.getSource() == controls.bExport)
+			Flapjack.winMain.mData.dataExportTraits();
 
 		else if (e.getSource() == controls.bRemove)
 		{

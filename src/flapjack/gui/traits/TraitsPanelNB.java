@@ -12,9 +12,11 @@ class TraitsPanelNB extends javax.swing.JPanel
 		initComponents();
 
 		RB.setText(bImport, "gui.traits.NBTraitsControlPanel.bImport");
+		RB.setText(bExport, "gui.traits.NBTraitsControlPanel.bExport");
 		RB.setText(bRemove, "gui.traits.NBTraitsControlPanel.bRemove");
 
 		bImport.setIcon(Icons.getIcon("IMPORTTRAITS"));
+		bExport.setIcon(Icons.getIcon("EXPORTTRAITS"));
 		bRemove.setIcon(Icons.getIcon("DELETE"));
 	}
 
@@ -32,6 +34,7 @@ class TraitsPanelNB extends javax.swing.JPanel
         bRemove = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         table = new javax.swing.JTable();
+        bExport = new javax.swing.JButton();
 
         bImport.setText("Import");
 
@@ -49,6 +52,8 @@ class TraitsPanelNB extends javax.swing.JPanel
         ));
         jScrollPane1.setViewportView(table);
 
+        bExport.setText("Export");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -56,8 +61,10 @@ class TraitsPanelNB extends javax.swing.JPanel
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(statusLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 185, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 114, Short.MAX_VALUE)
                 .addComponent(bImport)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(bExport)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(bRemove)
                 .addContainerGap())
@@ -71,13 +78,15 @@ class TraitsPanelNB extends javax.swing.JPanel
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(bRemove)
                     .addComponent(statusLabel)
-                    .addComponent(bImport))
+                    .addComponent(bImport)
+                    .addComponent(bExport))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    javax.swing.JButton bExport;
     javax.swing.JButton bImport;
     javax.swing.JButton bRemove;
     private javax.swing.JScrollPane jScrollPane1;
