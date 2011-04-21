@@ -297,7 +297,7 @@ public class Actions
 				winMain.mView.viewOverview();
 			}
 		};
-		
+
 		viewPageLeft = new AbstractAction(RB.format("gui.Actions.viewPageLeft", ""), getIcon("PAGELEFT")) {
 			public void actionPerformed(ActionEvent e) {
 				winMain.mView.viewPageLeft();
@@ -425,7 +425,7 @@ public class Actions
 			}
 		};
 
-		
+
 		dataSortLinesBySimilarity = new AbstractAction(RB.getString("gui.Actions.dataSortLinesBySimilarity")) {
 			public void actionPerformed(ActionEvent e) {
 				winMain.mData.dataSortLines();
@@ -450,7 +450,7 @@ public class Actions
 			}
 		};
 
-		dataFilterQTLs = new AbstractAction(RB.getString("gui.Actions.dataFilterQTLs")) {
+		dataFilterQTLs = new AbstractAction(RB.getString("gui.Actions.dataFilterQTLs"), getIcon("TRAITS")) {
 			public void actionPerformed(ActionEvent e) {
 				winMain.mData.dataFilterQTLs();
 			}

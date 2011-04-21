@@ -19,15 +19,15 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Component id="statusLabel" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="94" max="32767" attributes="0"/>
-              <Component id="bFilter" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
+              <EmptySpace pref="247" max="32767" attributes="0"/>
               <Component id="bImport" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="bFilter" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="bRemove" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
-          <Component id="jScrollPane1" alignment="0" pref="521" max="32767" attributes="0"/>
+          <Component id="jScrollPane1" alignment="0" pref="548" max="32767" attributes="0"/>
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Component id="errorLabel" min="-2" pref="501" max="-2" attributes="0"/>
@@ -46,8 +46,8 @@
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="statusLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="bRemove" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="bImport" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="bFilter" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="bImport" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -57,7 +57,7 @@
   <SubComponents>
     <Component class="javax.swing.JButton" name="bImport">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Import QTL data"/>
+        <Property name="text" type="java.lang.String" value="Import"/>
       </Properties>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
@@ -71,17 +71,17 @@
         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
       </AuxValues>
     </Component>
-    <Component class="javax.swing.JButton" name="bRemove">
+    <Component class="javax.swing.JButton" name="bFilter">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Remove all QTLs"/>
+        <Property name="text" type="java.lang.String" value="Filter"/>
       </Properties>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
       </AuxValues>
     </Component>
-    <Component class="javax.swing.JButton" name="bFilter">
+    <Component class="javax.swing.JButton" name="bRemove">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Filter QTLs"/>
+        <Property name="text" type="java.lang.String" value="Clear"/>
       </Properties>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>

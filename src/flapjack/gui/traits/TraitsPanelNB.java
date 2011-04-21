@@ -33,11 +33,11 @@ class TraitsPanelNB extends javax.swing.JPanel
         jScrollPane1 = new javax.swing.JScrollPane();
         table = new javax.swing.JTable();
 
-        bImport.setText("Import trait data");
+        bImport.setText("Import");
 
         statusLabel.setText("Number of traits: 0");
 
-        bRemove.setText("Remove all traits");
+        bRemove.setText("Clear");
 
         table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -56,7 +56,7 @@ class TraitsPanelNB extends javax.swing.JPanel
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(statusLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 81, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 185, Short.MAX_VALUE)
                 .addComponent(bImport)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(bRemove)

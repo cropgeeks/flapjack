@@ -19,7 +19,7 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Component id="statusLabel" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="81" max="32767" attributes="0"/>
+              <EmptySpace pref="185" max="32767" attributes="0"/>
               <Component id="bImport" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="bRemove" min="-2" max="-2" attributes="0"/>
@@ -46,7 +46,7 @@
   <SubComponents>
     <Component class="javax.swing.JButton" name="bImport">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Import trait data"/>
+        <Property name="text" type="java.lang.String" value="Import"/>
       </Properties>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
@@ -62,7 +62,7 @@
     </Component>
     <Component class="javax.swing.JButton" name="bRemove">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Remove all traits"/>
+        <Property name="text" type="java.lang.String" value="Clear"/>
       </Properties>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
