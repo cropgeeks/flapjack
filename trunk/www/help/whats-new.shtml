@@ -22,6 +22,17 @@ that have been made to Flapjack in recent versions. For full details on all the
 changes between versions, please see the <a href="../svn.txt">
 subversion change log</a>.</p>
 
+<h3>New in 1.11.04.21</h3>
+
+<ul>
+<li>NEW: The CreateProject executable will now append datasets into existing projects if the file already exists.</li>
+<li>NEW: Phenotypic trait data can now be exported from Flapjack to a file on disk.</li>
+<li>NEW: QTL data can now be exported from Flapjack to a file on disk.</li>
+<li>BUG: Exporting images from data sets without graph data was failing.</li>
+<li>BUG: Importing graph data into data sets that didn't contain markers for that graph was causing Flapjack's rendering to fail.</li>
+</ul>
+
+
 <h3>New in 1.11.04.19</h3>
 
 <ul>
