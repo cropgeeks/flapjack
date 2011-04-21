@@ -322,4 +322,44 @@ public class MenuData
 			RB.format("gui.dialog.ExportDataDialog.exportSuccess", filename),
 			RB.getString("gui.text.close"));
 	}
+
+	public void dataExportTraits()
+	{
+		DataSet dataSet = navPanel.getDataSetForSelection();
+
+		String name = RB.format("gui.MenuData.exportTraits.filename", dataSet.getName());
+		File saveAs = new File(Prefs.guiCurrentDir, name);
+		FileNameExtensionFilter filter = new FileNameExtensionFilter(
+			RB.getString("other.Filters.txt"), "txt");
+
+		// Ask the user for a filename to save the current view as
+		String filename = FlapjackUtils.getSaveFilename(
+			RB.getString("gui.MenuData.exportTraits.saveDialog"), saveAs, filter);
+
+		// Quit if the user cancelled the file selection
+		if (filename == null)
+			return;
+
+		TraitExporter exporter = new TraitExporter(dataSet, new File(filename));
+		ProgressDialog dialog = new ProgressDialog(exporter,
+			RB.format("gui.dialog.ExportDataDialog.exportTitle"),
+			 RB.format("gui.dialog.ExportDataDialog.exportLabel"), winMain);
+
+		if (dialog.getResult() != ProgressDialog.JOB_COMPLETED)
+		{
+			if (dialog.getResult() == ProgressDialog.JOB_FAILED)
+			{
+				TaskDialog.error(
+					RB.format("gui.dialog.ExportDataDialog.exportException",
+					dialog.getException().getMessage()),
+					RB.getString("gui.text.close"));
+			}
+
+			return;
+		}
+
+		TaskDialog.info(
+			RB.format("gui.dialog.ExportDataDialog.exportSuccess", filename),
+			RB.getString("gui.text.close"));
+	}
 }
