@@ -58,14 +58,16 @@ public class Install4j
 
 			if (UpdateScheduleRegistry.checkAndReset() == false)
 				return;
+			else
+				pingServer();
 
 			UpdateDescriptor ud = UpdateChecker.getUpdateDescriptor(URL, ApplicationDisplayMode.GUI);
 
 			if (ud.getPossibleUpdateEntry() != null)
 			{
 				checkForUpdate(true);
-				pingServer();
 			}
+
 		}
 		catch (Exception e) {}
 	}
