@@ -41,6 +41,11 @@ public class PostImportOperations
 		if (name.lastIndexOf(".") != -1)
 			name = name.substring(0, name.lastIndexOf("."));
 
+		setName(name);
+	}
+
+	public void setName(String name)
+	{
 		name += " " + dataSet.countLines() + "x" + dataSet.countGenuineMarkers();
 
 		dataSet.setName(name);
