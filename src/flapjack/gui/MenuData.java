@@ -5,6 +5,7 @@ package flapjack.gui;
 
 import java.io.*;
 import java.net.*;
+import javax.swing.filechooser.*;
 
 import flapjack.analysis.*;
 import flapjack.data.*;
@@ -12,6 +13,7 @@ import flapjack.gui.dialog.*;
 import flapjack.gui.dialog.analysis.*;
 import flapjack.gui.visualization.*;
 import flapjack.gui.visualization.undo.MovedLinesState;
+import flapjack.io.*;
 
 import scri.commons.gui.*;
 
@@ -279,5 +281,45 @@ public class MenuData
 		SelectTraitsDialog dialog = new SelectTraitsDialog(gPanel.getViewSet());
 
 		gPanel.setViewSet(gPanel.getViewSet());
+	}
+
+	public void dataExportQTLs()
+	{
+		DataSet dataSet = navPanel.getDataSetForSelection();
+
+		String name = RB.format("gui.MenuData.exportQTLs.filename", dataSet.getName());
+		File saveAs = new File(Prefs.guiCurrentDir, name);
+		FileNameExtensionFilter filter = new FileNameExtensionFilter(
+			RB.getString("other.Filters.txt"), "txt");
+
+		// Ask the user for a filename to save the current view as
+		String filename = FlapjackUtils.getSaveFilename(
+			RB.getString("gui.MenuData.exportQTLs.saveDialog"), saveAs, filter);
+
+		// Quit if the user cancelled the file selection
+		if (filename == null)
+			return;
+
+		QTLExporter exporter = new QTLExporter(dataSet, new File(filename));
+		ProgressDialog dialog = new ProgressDialog(exporter,
+			RB.format("gui.dialog.ExportDataDialog.exportTitle"),
+			 RB.format("gui.dialog.ExportDataDialog.exportLabel"), winMain);
+
+		if (dialog.getResult() != ProgressDialog.JOB_COMPLETED)
+		{
+			if (dialog.getResult() == ProgressDialog.JOB_FAILED)
+			{
+				TaskDialog.error(
+					RB.format("gui.dialog.ExportDataDialog.exportException",
+					dialog.getException().getMessage()),
+					RB.getString("gui.text.close"));
+			}
+
+			return;
+		}
+
+		TaskDialog.info(
+			RB.format("gui.dialog.ExportDataDialog.exportSuccess", filename),
+			RB.getString("gui.text.close"));
 	}
 }

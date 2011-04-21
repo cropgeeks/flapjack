@@ -31,6 +31,7 @@ public class QTLPanel extends JPanel implements ActionListener
 
 		controls = new QTLPanelNB();
 		controls.bImport.addActionListener(this);
+		controls.bExport.addActionListener(this);
 		controls.bRemove.addActionListener(this);
 		controls.bFilter.addActionListener(this);
 
@@ -66,6 +67,11 @@ public class QTLPanel extends JPanel implements ActionListener
 			table.getColumnModel().getColumn(0).setCellRenderer(new QTLNameRenderer());
 			table.getColumnModel().getColumn(5).setCellRenderer(new QTLTraitRenderer());
 		}
+
+		// Enable/disable the buttons based on the trait count
+		controls.bExport.setEnabled(table.getColumnCount()-1 > 0);
+		controls.bFilter.setEnabled(table.getColumnCount()-1 > 0);
+		controls.bRemove.setEnabled(table.getColumnCount()-1 > 0);
 	}
 
 	// This is done in a separate class to hide its implementation from OS X on
@@ -82,6 +88,9 @@ public class QTLPanel extends JPanel implements ActionListener
 	{
 		if (e.getSource() == controls.bImport)
 			Flapjack.winMain.mFile.fileImport(2);
+
+		else if (e.getSource() == controls.bExport)
+			Flapjack.winMain.mData.dataExportQTLs();
 
 		else if (e.getSource() == controls.bRemove)
 		{

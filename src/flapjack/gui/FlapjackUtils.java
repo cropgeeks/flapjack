@@ -5,9 +5,11 @@ package flapjack.gui;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.*;
 import java.net.*;
 import java.lang.reflect.*;
 import javax.swing.*;
+import javax.swing.filechooser.*;
 
 import scri.commons.gui.*;
 
@@ -104,5 +106,59 @@ public class FlapjackUtils
 			BorderFactory.createEmptyBorder(10, 0, 10, 5)));
 
 		return p1;
+	}
+
+	/**
+	 * Shows a SAVE file dialog, returning the path to the file selected as a
+	 * string. Also prompts to ensure the user really does want to overwrite an
+	 * existing file if one is chosen.
+	 */
+	public static String getSaveFilename(
+		String title, File file, FileNameExtensionFilter filter)
+	{
+		JFileChooser fc = new JFileChooser();
+		fc.setDialogTitle(title);
+		fc.setCurrentDirectory(new File(Prefs.guiCurrentDir));
+		fc.setAcceptAllFileFilterUsed(false);
+		fc.setFileFilter(filter);
+
+		if (file != null)
+			fc.setSelectedFile(file);
+
+		while (fc.showSaveDialog(Flapjack.winMain) == JFileChooser.APPROVE_OPTION)
+		{
+			file = fc.getSelectedFile();
+
+			// Make sure it has an appropriate extension
+			if (file.exists() == false)
+				if (file.getName().indexOf(".") == -1)
+					file = new File(file.getPath() + "." + filter.getExtensions()[0]);
+
+			// Confirm overwrite
+			if (file.exists())
+			{
+				String msg = RB.format("gui.TabletUtils.getSaveFilename.confirm", file);
+				String[] options = new String[] {
+					RB.getString("gui.TabletUtils.getSaveFilename.overwrite"),
+					RB.getString("gui.TabletUtils.getSaveFilename.rename"),
+					RB.getString("gui.text.cancel")
+				};
+
+				int response = TaskDialog.show(msg, TaskDialog.WAR, 1, options);
+
+				// Rename...
+				if (response == 1)
+					continue;
+				// Closed dialog or clicked cancel...
+				else if (response == -1 || response == 2)
+					return null;
+			}
+
+			Prefs.guiCurrentDir = fc.getCurrentDirectory().getPath();
+
+			return file.getPath();
+		}
+
+		return null;
 	}
 }
