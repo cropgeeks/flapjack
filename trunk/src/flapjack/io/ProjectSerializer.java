@@ -6,6 +6,7 @@ package flapjack.io;
 import java.io.*;
 import java.util.zip.*;
 import javax.swing.*;
+import javax.swing.filechooser.*;
 
 import org.exolab.castor.mapping.*;
 import org.exolab.castor.xml.*;
@@ -14,7 +15,6 @@ import flapjack.data.*;
 import flapjack.gui.*;
 import flapjack.io.*;
 import flapjack.io.binary.*;
-import flapjack.other.*;
 
 import scri.commons.gui.*;
 
@@ -247,7 +247,12 @@ public class ProjectSerializer
 
 		while (fc.showSaveDialog(Flapjack.winMain) == JFileChooser.APPROVE_OPTION)
 		{
-			File file = FileNameExtensionFilter.getSelectedFileForSaving(fc);
+			File file = fc.getSelectedFile();
+
+			// Make sure it has an appropriate extension
+			if (file.exists() == false)
+				if (file.getName().indexOf(".") == -1)
+					file = new File(file.getPath() + "." + filter.getExtensions()[0]);
 
 			// Confirm overwrite
 			if (file.exists())

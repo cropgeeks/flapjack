@@ -7,11 +7,11 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 import javax.swing.*;
+import javax.swing.filechooser.*;
 
 import flapjack.gui.*;
 import flapjack.gui.visualization.*;
 import flapjack.io.*;
-import flapjack.other.*;
 
 import scri.commons.gui.*;
 
@@ -106,46 +106,18 @@ public class ExportImageDialog extends JDialog implements ActionListener
 
 	private boolean promptForFilename()
 	{
-		JFileChooser fc = new JFileChooser();
-		fc.setDialogTitle(RB.getString("gui.dialog.ExportImageDialog.saveDialog"));
-		fc.setAcceptAllFileFilterUsed(false);
-
-		// TODO: Determine a proper filename to use
-		fc.setSelectedFile(new File(Prefs.guiCurrentDir, "Image.png"));
+		File basename = new File(Prefs.guiCurrentDir, "Image.png");
 
 		FileNameExtensionFilter filter = new FileNameExtensionFilter(
 			RB.getString("other.Filters.png"), "png");
-		fc.setFileFilter(filter);
 
-		while (fc.showSaveDialog(Flapjack.winMain) == JFileChooser.APPROVE_OPTION)
-		{
-			file = FileNameExtensionFilter.getSelectedFileForSaving(fc);
+		String filename = FlapjackUtils.getSaveFilename(
+			RB.getString("gui.dialog.ExportImageDialog.saveDialog"), basename, filter);
 
-			// Confirm overwrite
-			if (file.exists())
-			{
-				String msg = RB.format("gui.dialog.ExportImageDialog.confirm", file);
-				String[] options = new String[] {
-					RB.getString("gui.dialog.ExportImageDialog.overwrite"),
-					RB.getString("gui.dialog.ExportImageDialog.rename"),
-					RB.getString("gui.text.cancel")
-				};
+		if (filename != null)
+			file = new File(filename);
 
-				int response = TaskDialog.show(msg, TaskDialog.WAR, 1, options);
-
-				if (response == 1)
-					continue;
-				else if (response == -1 || response == 2)
-					return false;
-			}
-
-			// Otherwise it's ok to save...
-			Prefs.guiCurrentDir = fc.getCurrentDirectory().getPath();
-
-			return true;
-		}
-
-		return false;
+		return file != null;
 	}
 
 	private class DblClickListener extends MouseAdapter
