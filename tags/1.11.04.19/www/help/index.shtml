@@ -1,0 +1,42 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+
+<html>
+<head>
+<meta http-equiv="Content-Language" content="en-gb">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+<link rel="stylesheet" href="../stylesheet/styles.css" type="text/css">
+
+<title>Welcome to Flapjack Help</title>
+
+</head>
+<body>
+
+<!--#include virtual="header.html" -->
+
+
+<h2>Welcome to Flapjack Help</h2>
+
+<p><b>Help documentation for Flapjack is currently in progress - many topics are
+still not covered at this time.</b></p>
+
+<p>To get help with using Flapjack, select <b>Help > Help contents</b> from the
+menu bar, click the <b>Help</b> toolbar button, or press <b>F1</b> at any
+time. Help is also available in many of Flapjack's dialogs by clicking the <b>Help</b>
+button if visible.</p>
+
+<p>Note that Flapjack Help is only available while Flapjack is running on a
+computer with an active internet connection. Help is also only
+available in English (UK), regardless of the language selected within Flapjack.</p>
+
+<p>If you cannot find what you are looking for using the online help, then you
+can get more help and support by emailing <a href="mailto:flapjack@hutton.ac.uk">
+flapjack@germinate.org.uk</a>.</p>
+
+<p><img class="capture" src="images/flapjack.png" alt="Flapjack Screenshots"></p>
+
+
+<!--#include virtual="footer.html" -->
+
+</body>
+</html>
