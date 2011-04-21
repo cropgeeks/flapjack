@@ -26,8 +26,9 @@ public class CreateProject
 	private static File mapFile;
 	private static File genotypesFile;
 	private static File traitsFile;
-	private static FlapjackFile prjFile;
 	private static File qtlsFile;
+	private static FlapjackFile prjFile;
+	private static String name;
 
 	public static void main(String[] args)
 	{
@@ -43,6 +44,8 @@ public class CreateProject
 				qtlsFile = new File(args[i].substring(6));
 			if (args[i].startsWith("-project="))
 				prjFile = new FlapjackFile(args[i].substring(9));
+			if (args[i].startsWith("-datasetname="))
+				name = args[i].substring(13);
 		}
 
 		if (mapFile == null || genotypesFile == null || prjFile == null)
@@ -53,7 +56,8 @@ public class CreateProject
 				+ "   -genotypes=<genotypes_file>    (required)\n"
 				+ "   -traits=<traits_file>          (optional)\n"
 				+ "   -qtls=<qtl_file>               (optional)\n"
-				+ "   -project=<project_file>        (required)\n");
+				+ "   -project=<project_file>        (required)\n"
+				+ "   -datasetname=<datasetname>     (optional)\n");
 
 			return;
 		}
@@ -63,6 +67,7 @@ public class CreateProject
 
 		try
 		{
+			openProject();
 			createProject();
 			importTraits();
 			importQTLs();
@@ -91,10 +96,15 @@ public class CreateProject
 		genoImporter.importGenotypeData(false);
 
 		PostImportOperations pio = new PostImportOperations(dataSet);
-//		pio.setName(genotypesFile);
-		pio.setName(prjFile.getFile());
 		pio.collapseHeterozygotes();
 		pio.createDefaultView();
+
+		// A custom name...
+		if (name != null)
+			pio.setName(name);
+		// Or just the name of the project file being created
+		else
+			pio.setName(prjFile.getFile());
 
 		project.addDataSet(dataSet);
 	}
@@ -126,6 +136,13 @@ public class CreateProject
 
 //		QTLTrackOptimiser optimiser = new QTLTrackOptimiser(dataSet);
 //		optimiser.optimizeTrackUsage();
+	}
+
+	private static void openProject()
+		throws Exception
+	{
+		if (prjFile.exists())
+			project = ProjectSerializer.open(prjFile);
 	}
 
 	private static boolean saveProject()
