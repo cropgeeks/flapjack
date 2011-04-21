@@ -182,4 +182,9 @@ public class CanvasController extends JPanel implements ChangeListener
 		int jumpTo = (canvas.pX2Max/canvas.boxW) + 1;
 		moveToLater(-1, jumpTo, false);
 	}
+
+	public long computeCanvasViewPortBufferInBytes()
+	{
+		return (long)viewport.getWidth() * (long)viewport.getHeight() * 3;
+	}
 }
