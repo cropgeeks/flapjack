@@ -137,10 +137,10 @@ public class FlapjackUtils
 			// Confirm overwrite
 			if (file.exists())
 			{
-				String msg = RB.format("gui.TabletUtils.getSaveFilename.confirm", file);
+				String msg = RB.format("gui.FlapjackUtils.getSaveFilename.confirm", file);
 				String[] options = new String[] {
-					RB.getString("gui.TabletUtils.getSaveFilename.overwrite"),
-					RB.getString("gui.TabletUtils.getSaveFilename.rename"),
+					RB.getString("gui.FlapjackUtils.getSaveFilename.overwrite"),
+					RB.getString("gui.FlapjackUtils.getSaveFilename.rename"),
 					RB.getString("gui.text.cancel")
 				};
 
