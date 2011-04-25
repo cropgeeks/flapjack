@@ -4,6 +4,7 @@
 package flapjack.gui.visualization;
 
 import java.awt.*;
+import java.awt.event.*;
 import java.awt.image.*;
 import java.util.*;
 import java.util.concurrent.*;
@@ -78,6 +79,24 @@ class GenotypeCanvas extends JPanel
 		setBackground(Prefs.visColorBackground);
 
 		new CanvasMouseListener(gPanel, this);
+
+		// Set up some keyboard navigation
+		Action pageLeft = new AbstractAction() {
+			public void actionPerformed(ActionEvent e)
+				{ Actions.viewPageLeft.actionPerformed(e); }
+		};
+		Action pageRight = new AbstractAction() {
+			public void actionPerformed(ActionEvent e)
+				{ Actions.viewPageRight.actionPerformed(e); }
+		};
+
+		getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(
+			KeyStroke.getKeyStroke(KeyEvent.VK_OPEN_BRACKET, 0), "left");
+		getActionMap().put("left", pageLeft);
+
+		getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(
+			KeyStroke.getKeyStroke(KeyEvent.VK_CLOSE_BRACKET, 0), "right");
+		getActionMap().put("right", pageRight);
 
 		// Prepare the background threads that will do the main painting
 		executor = Executors.newFixedThreadPool(cores);
