@@ -226,9 +226,9 @@ public class WinMainMenuBar extends JMenuBar
 		mViewDeleteView = getItem(Actions.viewDeleteView, "gui.Actions.viewDeleteView", 0, 0);
 		mViewToggleCanvas = getItem(Actions.viewToggleCanvas, "gui.Actions.viewToggleCanvas", 0, 0);
 		mViewOverview = getCheckedItem(Actions.viewOverview, "gui.Actions.viewOverview", KeyEvent.VK_F7, 0);
-		mViewPageLeft = getItem(Actions.viewPageLeft, "gui.Actions.viewPageLeft", KeyEvent.VK_OPEN_BRACKET, 0);
-		mViewPageRight = getItem(Actions.viewPageRight, "gui.Actions.viewPageRight", KeyEvent.VK_CLOSE_BRACKET, 0);
-		
+		mViewPageLeft = getItem(Actions.viewPageLeft, "gui.Actions.viewPageLeft", 0, 0);
+		mViewPageRight = getItem(Actions.viewPageRight, "gui.Actions.viewPageRight", 0, 0);
+
 		mView.add(mViewNewView);
 		mView.add(mViewRenameView);
 		mView.add(mViewDeleteView);
@@ -238,8 +238,8 @@ public class WinMainMenuBar extends JMenuBar
 		mView.addSeparator();
 		mView.add(mViewToggleCanvas);
 		mView.add(mViewOverview);
-		
-		
+
+
 
 		add(mView);
 	}
@@ -277,7 +277,7 @@ public class WinMainMenuBar extends JMenuBar
 		mVizHighlightHZ = getCheckedItem(Actions.vizHighlightHZ, "gui.Actions.vizHighlightHZ",
 			KeyEvent.VK_H, menuShortcut);
 		mVizHighlightGaps = getCheckedItem(Actions.vizHighlightGaps, "gui.Actions.vizHighlightGaps", 0, 0);
-		
+
 
 		ButtonGroup grp = new ButtonGroup();
 		grp.add(mVizScalingLocal);

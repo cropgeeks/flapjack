@@ -5,9 +5,7 @@ package flapjack.io;
 
 import java.io.*;
 
-import flapjack.analysis.*;
 import flapjack.data.*;
-import flapjack.gui.*;
 
 import scri.commons.gui.*;
 
@@ -29,6 +27,7 @@ public class CreateProject
 	private static File qtlsFile;
 	private static FlapjackFile prjFile;
 	private static String name;
+	private static String format;
 
 	public static void main(String[] args)
 	{
@@ -46,6 +45,8 @@ public class CreateProject
 				prjFile = new FlapjackFile(args[i].substring(9));
 			if (args[i].startsWith("-datasetname="))
 				name = args[i].substring(13);
+			if (args[i].startsWith("-format="))
+				format = args[i].substring(8);
 		}
 
 		if (mapFile == null || genotypesFile == null || prjFile == null)
@@ -57,7 +58,8 @@ public class CreateProject
 				+ "   -traits=<traits_file>          (optional)\n"
 				+ "   -qtls=<qtl_file>               (optional)\n"
 				+ "   -project=<project_file>        (required)\n"
-				+ "   -datasetname=<datasetname>     (optional)\n");
+				+ "   -datasetname=<datasetname>     (optional)\n"
+				+ "   -format=<XMLZ | XML | BIN>     (optional)\n");
 
 			return;
 		}
@@ -149,7 +151,25 @@ public class CreateProject
 		throws Exception
 	{
 		project.fjFile = prjFile;
-		project.format = ProjectSerializer.XMLZ;
+
+		// If no format was specified...
+		if (format == null || format.isEmpty())
+		{
+			// No project exists default to XMLZ
+			if (project.format == -1)
+				project.format = ProjectSerializer.XMLZ;
+
+			// Else we'll use the format from the existing file
+		}
+		else
+		{
+			if (format.equalsIgnoreCase("XML"))
+				project.format = ProjectSerializer.XML;
+			else if (format.equalsIgnoreCase("BIN"))
+				project.format = ProjectSerializer.BIN;
+			else
+				project.format = ProjectSerializer.XMLZ;
+		}
 
 		return ProjectSerializer.save(project);
 	}
