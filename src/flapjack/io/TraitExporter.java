@@ -46,11 +46,16 @@ public class TraitExporter extends SimpleJob
 			String output = line.getName();
 			for (TraitValue value : line.getTraitValues())
 			{
-				// Deal with the two different kinds of trait correctly
-				if (value.getTrait().traitIsNumerical())
-					output += ("\t" + nf.format(value.getValue()));
+				if (value.isDefined())
+				{
+					// Deal with the two different kinds of trait correctly
+					if (value.getTrait().traitIsNumerical())
+						output += ("\t" + nf.format(value.getValue()));
+					else
+						output += ("\t" +value.getTrait().format(value));
+				}
 				else
-					output += ("\t" +value.getTrait().format(value));
+					output += "\t";
 			}
 
 			out.write(output);
