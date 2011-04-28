@@ -124,6 +124,9 @@
 		<field name="name" type="string">
 			<bind-xml node="attribute"/>
 		</field>
+		<field name="experiment" type="string">
+			<bind-xml node="attribute"/>
+		</field>
 		<field name="categories" type="string" collection="arraylist"/>
 	</class>
 

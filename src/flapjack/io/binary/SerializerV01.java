@@ -108,7 +108,7 @@ class SerializerV01 extends FlapjackSerializer
 			System.out.println("found " + traitCount + " traits");
 		// Trait data
 		for (int i = 0; i < traitCount; i++)
-			loadTrait(dataSet);
+			dataSet.getTraits().add(loadTrait(dataSet));
 
 		// Number of lines
 		int lineCount = in.readInt();
@@ -401,7 +401,7 @@ class SerializerV01 extends FlapjackSerializer
 			writeString(trait.getCategories().get(i));
 	}
 
-	protected void loadTrait(DataSet dataSet)
+	protected Trait loadTrait(DataSet dataSet)
 		throws Exception
 	{
 		Trait trait = new Trait();
@@ -414,7 +414,7 @@ class SerializerV01 extends FlapjackSerializer
 		for( int i = 0; i < noCategories; i++)
 			trait.getCategories().add(readString());
 
-		dataSet.getTraits().add(trait);
+		return trait;
 	}
 
 	protected void saveLine(Line line, DataSet dataSet)

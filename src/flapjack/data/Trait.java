@@ -6,6 +6,8 @@ package flapjack.data;
 import java.text.*;
 import java.util.*;
 
+import scri.commons.gui.*;
+
 public class Trait extends XMLRoot
 {
 	private static final int UNKNOWN = 0;
@@ -16,6 +18,8 @@ public class Trait extends XMLRoot
 
 	private String name;
 	private ArrayList<String> categories = new ArrayList<String>();
+
+	private String experiment;
 
 	// NOTE: This is only used at read-time...the value isn't stored and can't
 	// be relied upon, hence the method check for traitIsNumerical() which CAN
@@ -29,6 +33,7 @@ public class Trait extends XMLRoot
 
 	public Trait()
 	{
+		experiment = RB.getString("data.Trait.notDefined");
 	}
 
 	void validate()
@@ -57,6 +62,12 @@ public class Trait extends XMLRoot
 
 	public void setCategories(ArrayList<String> categories)
 		{ this.categories = categories; }
+
+	public String getExperiment()
+		{ return experiment; }
+
+	public void setExperiment(String experiment)
+		{ this.experiment = experiment; }
 
 
 	/**

@@ -50,12 +50,21 @@ public class TraitImporter extends SimpleJob
 		for (int i = 1; i < traitNames.length; i++)
 			traits.add(new Trait(traitNames[i]));
 
-		for (int line = 1; (str = in.readLine()) != null && okToRun; line++)
+
+		for (int line = 2; (str = in.readLine()) != null && okToRun; line++)
 		{
+			String[] tokens = str.split("\t", -1);
+
+			// Special case to handle the *optional* 2nd line that contains
+			// experiment labelling for each trait
+			if (line == 2 && str.length() > 0 && tokens[0].length() == 0)
+			{
+				for (int i = 1; i < tokens.length; i++)
+					traits.get(i-1).setExperiment(tokens[i]);
+			}
+
 			if (str.length() == 0)
 				continue;
-
-			String[] tokens = str.split("\t", -1);
 
 			// Fail if the data per line doesn't match the expected number
 			if (tokens.length != traits.size() + 1)
@@ -102,6 +111,7 @@ public class TraitImporter extends SimpleJob
 
 		applyToDataSet();
 	}
+
 
 	// Pre-sorts all categorical traits so that the lookup table is ordered
 	// alphabetically by the category name

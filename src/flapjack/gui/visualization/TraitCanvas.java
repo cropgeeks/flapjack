@@ -137,7 +137,8 @@ class TraitCanvas extends JPanel
 
 			TraitValue tv = line.getTraitValues().get(tIndex);
 
-			String trait = tv.getTrait().getName();
+			String trait = tv.getTrait().getName() + " ("
+				+ tv.getTrait().getExperiment() + ")";
 			String value = " ";
 
 			if (tv.isDefined() && tv.getTrait().traitIsNumerical())
