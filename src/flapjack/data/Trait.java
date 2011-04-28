@@ -36,16 +36,18 @@ public class Trait extends XMLRoot
 		experiment = RB.getString("data.Trait.notDefined");
 	}
 
+	public Trait(String name)
+	{
+		this.name = name;
+
+		experiment = RB.getString("data.Trait.notDefined");
+	}
+
 	void validate()
 		throws NullPointerException
 	{
 		if (name == null)
 			throw new NullPointerException();
-	}
-
-	public Trait(String name)
-	{
-		this.name = name;
 	}
 
 	public String toString()

@@ -42,9 +42,9 @@ class SortLinesByTraitPanelNB extends JPanel
 		combo3.addItem("");
 		for (Trait trait: dataSet.getTraits())
 		{
-			combo1.addItem(trait.getName());
-			combo2.addItem(trait.getName());
-			combo3.addItem(trait.getName());
+			combo1.addItem(trait.getName() + " (" + trait.getExperiment() + ")");
+			combo2.addItem(trait.getName() + " (" + trait.getExperiment() + ")");
+			combo3.addItem(trait.getName() + " (" + trait.getExperiment() + ")");
 		}
 
 		checkAssign.setSelected(Prefs.guiAssignTraits);
@@ -98,7 +98,7 @@ class SortLinesByTraitPanelNB extends JPanel
             panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(combo1, 0, 246, Short.MAX_VALUE)
+                .addComponent(combo1, 0, 438, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(rDes1)
@@ -132,7 +132,7 @@ class SortLinesByTraitPanelNB extends JPanel
             panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(combo2, 0, 246, Short.MAX_VALUE)
+                .addComponent(combo2, 0, 438, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addGroup(panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(rDes2)
@@ -166,7 +166,7 @@ class SortLinesByTraitPanelNB extends JPanel
             panel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(combo3, 0, 246, Short.MAX_VALUE)
+                .addComponent(combo3, 0, 438, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addGroup(panel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(rDes3)

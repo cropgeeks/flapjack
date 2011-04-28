@@ -67,7 +67,7 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="1" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="combo1" pref="246" max="32767" attributes="0"/>
+                  <Component id="combo1" pref="438" max="32767" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="rDes1" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -142,7 +142,7 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="1" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="combo2" pref="246" max="32767" attributes="0"/>
+                  <Component id="combo2" pref="438" max="32767" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="rDes2" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -217,7 +217,7 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="1" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="combo3" pref="246" max="32767" attributes="0"/>
+                  <Component id="combo3" pref="438" max="32767" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="rDes3" alignment="0" min="-2" max="-2" attributes="0"/>
