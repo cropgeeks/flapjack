@@ -16,7 +16,7 @@ import flapjack.io.*;
 public class BinarySerializer
 {
 	///////////////////////////////////////
-	static final int VERSION = 2;
+	static final int VERSION = 3;
 	///////////////////////////////////////
 
 	public BinarySerializer()
@@ -30,7 +30,7 @@ public class BinarySerializer
 		DataOutputStream out = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(file)));
 
 		///////////////////////////////////////
-		FlapjackSerializer serializer = new SerializerV02(null, out);
+		FlapjackSerializer serializer = new SerializerV03(null, out);
 		///////////////////////////////////////
 
 		serializer.writeHeader();
@@ -77,6 +77,8 @@ public class BinarySerializer
 				case 1: serializer = new SerializerV01(in, null); break;
 
 				case 2: serializer = new SerializerV02(in, null); break;
+
+				case 3: serializer = new SerializerV03(in, null); break;
 				///////////////////////////////////////
 			}
 

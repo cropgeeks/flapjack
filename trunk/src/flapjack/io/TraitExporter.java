@@ -33,32 +33,38 @@ public class TraitExporter extends SimpleJob
 			return;
 
 		// Write out the header for the file
-		String header = RB.getString("gui.traits.TraitsTableModel.line");
+		StringBuilder header = new StringBuilder();
 		for (Trait trait : dataSet.getTraits())
-			header += ("\t" + trait.getName());
+			header.append("\t" + trait.getName());
+		out.write(header.toString());
+		out.newLine();
 
-		out.write(header);
+		// Write out the experiment header
+		StringBuilder experiment = new StringBuilder();
+		for (Trait trait : dataSet.getTraits())
+			experiment.append("\t" + trait.getExperiment());
+		out.write(experiment.toString());
 		out.newLine();
 
 		// Now output each line of the data file
 		for (Line line: dataSet.getLines())
 		{
-			String output = line.getName();
+			StringBuilder output = new StringBuilder(line.getName());
 			for (TraitValue value : line.getTraitValues())
 			{
 				if (value.isDefined())
 				{
 					// Deal with the two different kinds of trait correctly
 					if (value.getTrait().traitIsNumerical())
-						output += ("\t" + nf.format(value.getValue()));
+						output.append("\t" + nf.format(value.getValue()));
 					else
-						output += ("\t" +value.getTrait().format(value));
+						output.append("\t" +value.getTrait().format(value));
 				}
 				else
-					output += "\t";
+					output.append("\t");
 			}
 
-			out.write(output);
+			out.write(output.toString());
 			out.newLine();
 		}
 		out.close();
