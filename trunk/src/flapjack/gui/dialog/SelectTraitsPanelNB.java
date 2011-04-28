@@ -46,17 +46,19 @@ class SelectTraitsPanelNB extends javax.swing.JPanel implements ActionListener
 	{
 		String[] columnNames = {
 			RB.getString("gui.dialog.NBSelectTraitsPanel.traitsColumn"),
+			RB.getString("gui.dialog.NBSelectTraitsPanel.experimentColumn"),
 			RB.getString("gui.dialog.NBSelectTraitsPanel.showColumn")
 		};
 
 		ArrayList<Trait> traits = viewSet.getDataSet().getTraits();
 
 		int[] selected = viewSet.getTraits();
-		Object[][] data = new Object[traits.size()][2];
+		Object[][] data = new Object[traits.size()][3];
 
 		for (int i = 0; i < data.length; i++)
 		{
 			data[i][0] = traits.get(i).getName();
+			data[i][1] = traits.get(i).getExperiment();
 
 			// Search the current list of visible traits to see if this trait
 			// is one of them. If it is, enable it in the table
@@ -65,7 +67,7 @@ class SelectTraitsPanelNB extends javax.swing.JPanel implements ActionListener
 				if (selected[j] == i)
 					show = true;
 
-			data[i][1] = show;
+			data[i][2] = show;
 		}
 
 		table.setModel(new DefaultTableModel(data, columnNames)
@@ -76,11 +78,11 @@ class SelectTraitsPanelNB extends javax.swing.JPanel implements ActionListener
 
 			// Column 1 contains the tickboxes, and must be editable
 			public boolean isCellEditable(int row, int col) {
-				return col == 1;
+				return col == 2;
 			}
 		});
 
-		table.getColumnModel().getColumn(1).setPreferredWidth(10);
+		table.getColumnModel().getColumn(2).setPreferredWidth(10);
 	}
 
 	void isOK()
@@ -88,7 +90,7 @@ class SelectTraitsPanelNB extends javax.swing.JPanel implements ActionListener
 		// Generate a boolean array with true/false states for every trait
 		boolean[] array = new boolean[table.getRowCount()];
 		for (int i = 0; i < array.length; i++)
-			array[i] = (Boolean) table.getValueAt(i, 1);
+			array[i] = (Boolean) table.getValueAt(i, 2);
 
 		int active = 0;
 		for (boolean b: array)
@@ -109,13 +111,13 @@ class SelectTraitsPanelNB extends javax.swing.JPanel implements ActionListener
 		if(e.getSource() == selectAllLabel)
 		{
 			for (int i = 0; i < table.getRowCount(); i++)
-				table.setValueAt(true, i, 1);
+				table.setValueAt(true, i, 2);
 		}
 
 		if(e.getSource() == selectNoneLabel)
 		{
 			for (int i = 0; i < table.getRowCount(); i++)
-				table.setValueAt(false, i, 1);
+				table.setValueAt(false, i, 2);
 		}
 	}
 
