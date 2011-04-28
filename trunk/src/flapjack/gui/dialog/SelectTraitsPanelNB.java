@@ -83,6 +83,10 @@ class SelectTraitsPanelNB extends javax.swing.JPanel implements ActionListener
 		});
 
 		table.getColumnModel().getColumn(2).setPreferredWidth(10);
+
+		TableRowSorter<DefaultTableModel> sorter = new
+			TableRowSorter<DefaultTableModel>((DefaultTableModel)table.getModel());
+		table.setRowSorter(sorter);
 	}
 
 	void isOK()
