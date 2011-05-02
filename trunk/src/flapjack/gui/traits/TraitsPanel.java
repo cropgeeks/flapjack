@@ -46,10 +46,11 @@ public class TraitsPanel extends JPanel implements ActionListener
 	public void updateModel()
 	{
 		model = new TraitsTableModel(dataSet);
-		if (SystemUtils.jreVersion() >= 1.6)
-			new SortHandler();
-
 		table.setModel(model);
+		table.setRowSorter(new TableRowSorter<TraitsTableModel>(model));
+
+		if (model.getColumnCount() > 0)
+			table.getColumnModel().getColumn(0).setPreferredWidth(20);
 
 		// Size and set the editor for each column
 		for (int i = 0; i < table.getColumnCount(); i++)
@@ -69,16 +70,12 @@ public class TraitsPanel extends JPanel implements ActionListener
 		// Enable/disable the "remove" button based on the trait count
 		controls.bExport.setEnabled(table.getColumnCount()-1 > 0);
 		controls.bRemove.setEnabled(table.getColumnCount()-1 > 0);
-	}
 
-	// This is done in a separate class to hide its implementation from OS X on
-	// Java5 that will throw ClassNotFoundExceptions if it tries to run it
-	private class SortHandler
-	{
-		SortHandler()
-		{
-			table.setRowSorter(new TableRowSorter<TraitsTableModel>(model));
-		}
+		// Set the table header to have the correct height for a double height
+		// header text
+		Dimension d = table.getTableHeader().getPreferredSize();
+		d.height = SystemUtils.isLinux() ? 40 : 35;
+		table.getTableHeader().setPreferredSize(d);
 	}
 
 	public void actionPerformed(ActionEvent e)
