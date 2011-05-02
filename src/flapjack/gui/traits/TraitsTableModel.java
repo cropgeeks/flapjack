@@ -3,7 +3,6 @@
 
 package flapjack.gui.traits;
 
-import java.awt.*;
 import java.util.*;
 import javax.swing.*;
 import javax.swing.table.*;
@@ -35,9 +34,11 @@ class TraitsTableModel extends AbstractTableModel
 
 		columnNames[0] = RB.getString("gui.traits.TraitsTableModel.line");
 		for (int i = 1; i < columnNames.length; i++)
-			columnNames[i] = traits.get(i-1).getName();
+			columnNames[i] = "<html><p>" + traits.get(i-1).getName() + "</p><p>"
+			+ traits.get(i-1).getExperiment() + "</p></html>";
 	}
 
+	@Override
 	public String getColumnName(int col)
 	{
 	    return columnNames[col];
@@ -75,6 +76,7 @@ class TraitsTableModel extends AbstractTableModel
 
 	}
 
+	@Override
 	public Class getColumnClass(int col)
 	{
 		if (col == 0)
@@ -86,6 +88,7 @@ class TraitsTableModel extends AbstractTableModel
 			return String.class;
 	}
 
+	@Override
 	public boolean isCellEditable(int row, int col)
 	{
 		if (col == 0)
@@ -105,6 +108,7 @@ class TraitsTableModel extends AbstractTableModel
 		return combo;
 	}
 
+	@Override
 	public void setValueAt(Object value, int row, int col)
 	{
 		Line line = dataSet.getLineByIndex(row);
