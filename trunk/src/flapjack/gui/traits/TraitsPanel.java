@@ -46,8 +46,9 @@ public class TraitsPanel extends JPanel implements ActionListener
 	public void updateModel()
 	{
 		model = new TraitsTableModel(dataSet);
-		table.setModel(model);
+
 		table.setRowSorter(new TableRowSorter<TraitsTableModel>(model));
+		table.setModel(model);
 
 		if (model.getColumnCount() > 0)
 			table.getColumnModel().getColumn(0).setPreferredWidth(20);

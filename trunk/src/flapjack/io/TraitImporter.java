@@ -61,6 +61,8 @@ public class TraitImporter extends SimpleJob
 			{
 				for (int i = 1; i < tokens.length; i++)
 					traits.get(i-1).setExperiment(tokens[i]);
+
+				continue;
 			}
 
 			if (str.length() == 0)
