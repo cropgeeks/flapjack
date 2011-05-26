@@ -81,7 +81,7 @@ class GeneralTabNB extends JPanel implements IPrefsTab
 		{
 			case 1:  Prefs.localeText = "en_GB"; break;
 			case 2:  Prefs.localeText = "en_US"; break;
-			case 3:  Prefs.localeText = "de";    break;
+			case 3:  Prefs.localeText = "de_DE"; break;
 			default: Prefs.localeText = "auto";
 		}
 
