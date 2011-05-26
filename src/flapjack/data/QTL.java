@@ -3,6 +3,8 @@
 
 package flapjack.data;
 
+import java.awt.*;
+
 public class QTL extends Feature
 {
 	// QTL's exact position on the map (error margin will be min/max from parent)
@@ -62,4 +64,26 @@ public class QTL extends Feature
 
 	public void setExperiment(String experiment)
 		{ this.experiment = experiment; }
+
+	// This is called by the import code that will have worked out a colour for
+	// this feature based on (in a QTL's case) its trait.
+	@Override
+	public void setDisplayColor(Color color)
+	{
+		super.setDisplayColor(color);
+
+		for (int i = 0; i < vNames.length; i++)
+		{
+			if (vNames[i].toUpperCase().equals("RGB"))
+			{
+				try
+				{
+					super.setDisplayColor(Color.decode(values[i]));
+				}
+				catch (Exception e) {}
+
+				break;
+			}
+		}
+	}
 }

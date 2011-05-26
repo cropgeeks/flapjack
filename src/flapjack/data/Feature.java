@@ -94,6 +94,8 @@ public abstract class Feature extends XMLRoot implements Comparable<Feature>
 	public Color getDisplayColor()
 		{ return new Color(red, green, blue); }
 
+	// This is called by the import code that will have worked out a colour for
+	// this feature based on (in a QTL's case) its trait.
 	public void setDisplayColor(Color color)
 	{
 		red   = color.getRed();
