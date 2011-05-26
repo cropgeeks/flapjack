@@ -65,7 +65,7 @@ public class QTLPanel extends JPanel implements ActionListener
 		if (table.getColumnCount() > 0)
 		{
 			table.getColumnModel().getColumn(0).setCellRenderer(new QTLNameRenderer());
-			table.getColumnModel().getColumn(5).setCellRenderer(new QTLTraitRenderer());
+//			table.getColumnModel().getColumn(5).setCellRenderer(new QTLTraitRenderer());
 		}
 
 		// Enable/disable the buttons based on the trait count
@@ -132,9 +132,25 @@ public class QTLPanel extends JPanel implements ActionListener
 
 			QTL qtl = (QTL) table.getValueAt(row, 0);
 			setText(qtl.getName());
+			setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
 
 			if (qtl.isAllowed())
-				setIcon(null);
+			{
+				BufferedImage image = new BufferedImage(20, 10, BufferedImage.TYPE_INT_RGB);
+				Graphics2D g = (Graphics2D) image.createGraphics();
+
+				Color c = qtl.getDisplayColor();
+				Color c1 = c.brighter();
+				Color c2 = c.darker();
+				g.setPaint(new GradientPaint(0, 0, c1, 20, 10, c2));
+
+				g.fillRect(0, 0, 20, 10);
+				g.setColor(Color.black);
+				g.drawRect(0, 0, 20, 10);
+				g.dispose();
+
+				setIcon(new ImageIcon(image));
+			}
 			else
 				setIcon(Icons.getIcon("QTLDISABLED"));
 
@@ -143,7 +159,7 @@ public class QTLPanel extends JPanel implements ActionListener
 	}
 
 	// Renderer for the QTL trait column of the table
-	class QTLTraitRenderer extends DefaultTableCellRenderer
+/*	class QTLNameRenderer extends DefaultTableCellRenderer
 	{
 		public Component getTableCellRendererComponent(JTable table, Object value,
 			boolean isSelected, boolean hasFocus, int row, int column)
@@ -152,7 +168,7 @@ public class QTLPanel extends JPanel implements ActionListener
 				hasFocus, row, column);
 
 			QTL qtl = (QTL) table.getValueAt(row, 0);
-			setText(qtl.getTrait());
+			setText(qtl.getName());
 
 			BufferedImage image = new BufferedImage(20, 10, BufferedImage.TYPE_INT_RGB);
 			Graphics2D g = (Graphics2D) image.createGraphics();
@@ -175,4 +191,5 @@ public class QTLPanel extends JPanel implements ActionListener
 		public Insets getInsets(Insets i)
 			{ return new Insets(0, 3, 0, 0); }
 	}
+	*/
 }
