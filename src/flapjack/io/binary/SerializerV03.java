@@ -34,8 +34,6 @@ class SerializerV03 extends SerializerV01
 		// Experiment
 		trait.setExperiment(readString());
 
-		System.out.println("READ TRAIT: " + trait.getExperiment());
-
 		return trait;
 	}
 }

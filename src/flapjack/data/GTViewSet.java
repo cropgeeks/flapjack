@@ -266,6 +266,7 @@ public class GTViewSet extends XMLRoot
 		clone.colorScheme = colorScheme;
 		clone.alleleFrequencyThreshold = alleleFrequencyThreshold;
 		clone.randomColorSeed = randomColorSeed;
+		clone.graphIndex = graphIndex;
 
 		// Copy over the trait indices
 		clone.traits = new int[traits.length];
