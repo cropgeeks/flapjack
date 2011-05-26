@@ -4,6 +4,7 @@
 package flapjack.io;
 
 import java.io.*;
+import java.util.*;
 
 import flapjack.data.*;
 
@@ -28,6 +29,7 @@ public class CreateProject
 	private static FlapjackFile prjFile;
 	private static String name;
 	private static String format;
+	private static boolean decimalEnglish = false;
 
 	public static void main(String[] args)
 	{
@@ -47,25 +49,31 @@ public class CreateProject
 				name = args[i].substring(13);
 			if (args[i].startsWith("-format="))
 				format = args[i].substring(8);
+			if (args[i].startsWith("-decimalEnglish"))
+				decimalEnglish = true;
 		}
 
 		if (mapFile == null || genotypesFile == null || prjFile == null)
 		{
 			System.out.println("Usage: flapjack.io.CreateProject <options>\n"
 				+ " where valid options are:\n"
-				+ "   -map=<map_file>                (required)\n"
-				+ "   -genotypes=<genotypes_file>    (required)\n"
+				+ "   -map=<map_file>                (REQUIRED)\n"
+				+ "   -genotypes=<genotypes_file>    (REQUIRED)\n"
 				+ "   -traits=<traits_file>          (optional)\n"
 				+ "   -qtls=<qtl_file>               (optional)\n"
-				+ "   -project=<project_file>        (required)\n"
+				+ "   -project=<project_file>        (REQUIRED)\n"
 				+ "   -datasetname=<datasetname>     (optional)\n"
-				+ "   -format=<XMLZ | XML | BIN>     (optional)\n");
+				+ "   -format=<XMLZ | XML | BIN>     (optional)\n"
+				+ "   -decimalEnglish                (optional)\n");
 
 			return;
 		}
 
 		RB.initialize("auto", "res.text.flapjack");
 		TaskDialog.setIsHeadless();
+
+		if (decimalEnglish)
+			Locale.setDefault(Locale.UK);
 
 		try
 		{
