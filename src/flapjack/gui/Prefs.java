@@ -31,6 +31,9 @@ public class Prefs extends XMLPreferences
 	// History for selected external sort orders
 	public static String guiExternalSortHistory = "";
 
+	// Use UK English decimal mark settings
+	public static boolean guiDecimalEnglish = false;
+
 	public static String guiPedigreeList = "";
 
 	// How many projects have been created
