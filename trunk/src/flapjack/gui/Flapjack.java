@@ -7,6 +7,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 import java.net.*;
+import java.util.*;
 import javax.swing.*;
 
 import flapjack.gui.dialog.*;
@@ -40,6 +41,8 @@ public class Flapjack
 
 		Icons.initialize("/res/icons", ".png");
 		RB.initialize(Prefs.localeText, "res.text.flapjack");
+		if (Prefs.guiDecimalEnglish)
+			Locale.setDefault(Locale.UK);
 
 		setProxy();
 
