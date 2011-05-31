@@ -12,7 +12,7 @@ import flapjack.io.*;
 
 // V3 serialization adds support for experiments in traits
 
-class SerializerV03 extends SerializerV01
+class SerializerV03 extends SerializerV02
 {
 	SerializerV03(DataInputStream in, DataOutputStream out)
 		{ super(in, out); }
