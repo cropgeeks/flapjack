@@ -10,7 +10,9 @@ import flapjack.data.*;
 import flapjack.gui.*;
 import flapjack.io.*;
 
-// V3 serialization adds support for experiments in traits
+// V3 serialization adds support for experiments in traits and changes what used
+// to be a single integer for the selected graph in a GTViewSet to be an array
+// of three ints (stored as a string).
 
 class SerializerV03 extends SerializerV02
 {
@@ -35,5 +37,25 @@ class SerializerV03 extends SerializerV02
 		trait.setExperiment(readString());
 
 		return trait;
+	}
+
+	protected void saveGTViewSet(GTViewSet viewSet)
+		throws Exception
+	{
+		super.saveGTViewSet(viewSet);
+
+		// Selected graphs
+		writeString(viewSet.getSelectedGraphs());
+	}
+
+	protected GTViewSet loadGTViewSet(DataSet dataSet)
+		throws Exception
+	{
+		GTViewSet viewSet = super.loadGTViewSet(dataSet);
+
+		// Selected graphs
+		viewSet.setSelectedGraphs(readString());
+
+		return viewSet;
 	}
 }

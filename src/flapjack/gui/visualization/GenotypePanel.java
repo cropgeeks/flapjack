@@ -28,7 +28,7 @@ public class GenotypePanel extends JPanel implements ActionListener
 	private RowCanvas rowCanvas;
 	private ColCanvas colCanvas;
 	QTLCanvas qtlCanvas;
-	GraphCanvas graphCanvas;
+	GraphCanvas[] graphCanvas = new GraphCanvas[3];
 	TraitCanvas traitCanvas;
 	ListPanel listPanel;
 	StatusPanelNB statusPanel;
@@ -72,8 +72,14 @@ public class GenotypePanel extends JPanel implements ActionListener
 //		mapPanel.add(miniMapCanvas, BorderLayout.NORTH);
 		mapPanel.add(mapCanvas, BorderLayout.CENTER);
 
+		JPanel graphPanel = new JPanel(new BorderLayout(0, 1));
+		graphPanel.add(graphCanvas[0], BorderLayout.NORTH);
+		graphPanel.add(graphCanvas[1]);
+		graphPanel.add(graphCanvas[2], BorderLayout.SOUTH);
+
+
 		JPanel bottomPanel = new JPanel(new BorderLayout());
-		bottomPanel.add(graphCanvas, BorderLayout.NORTH);
+		bottomPanel.add(graphPanel, BorderLayout.NORTH);
 		bottomPanel.add(rowCanvas, BorderLayout.SOUTH);
 
 		// The main genotype area
@@ -117,9 +123,11 @@ public class GenotypePanel extends JPanel implements ActionListener
 		miniMapCanvas = new MiniMapCanvas(this, canvas);
 		traitCanvas = new TraitCanvas(this, canvas);
 		qtlCanvas = new QTLCanvas(this, canvas, mapCanvas);
-		graphCanvas = new GraphCanvas(this, canvas);
 		listPanel = new ListPanel();
 		statusPanel = new StatusPanelNB(this);
+
+		for (int i = 0; i < graphCanvas.length; i++)
+			graphCanvas[i] = new GraphCanvas(this, canvas, i);
 
 		OverviewManager.initialize(winMain, this, canvas);
 
@@ -173,7 +181,8 @@ public class GenotypePanel extends JPanel implements ActionListener
 		listPanel.setView(view);
 		statusPanel.setView(view);
 		traitCanvas.determineVisibility();
-		graphCanvas.determineVisibility();
+		for (int i = 0; i < graphCanvas.length; i++)
+			graphCanvas[i].determineVisibility();
 
 		controller.computePanelSizes();
 		setCtrlLabels();
@@ -251,7 +260,7 @@ public class GenotypePanel extends JPanel implements ActionListener
 		{ return qtlCanvas.createSavableImage(full); }
 
 	public BufferedImage getGraphCanvasBuffer(boolean full) throws Error, Exception
-		{ return graphCanvas.createSavableImage(full); }
+		{ return null; /*return graphCanvas.createSavableImage(full);*/ }
 
 	// Updates the state of the Edit menu's undo/redo actions based on the undo
 	// history of the view currently being displayed
@@ -322,7 +331,8 @@ public class GenotypePanel extends JPanel implements ActionListener
 		rowCanvas.setVisible(Prefs.visShowRowCanvas);
 		colCanvas.setVisible(Prefs.visShowColCanvas);
 		traitCanvas.determineVisibility();
-		graphCanvas.determineVisibility();
+		for (int i = 0; i < graphCanvas.length; i++)
+			graphCanvas[i].determineVisibility();
 		statusPanel.setVisible(Prefs.visShowStatusPanel);
 
 		if (Prefs.visShowLinePanel)

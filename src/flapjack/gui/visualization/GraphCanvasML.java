@@ -22,9 +22,9 @@ class GraphCanvasML extends MouseInputAdapter implements ActionListener
 	private GraphCanvas graphCanvas;
 	private GenotypeCanvas canvas;
 
-	private JMenuItem mDataSelectGraph;
-	private JCheckBoxMenuItem mHistogram;
-	private JCheckBoxMenuItem mLineGraph;
+	private static JMenuItem mDataSelectGraph;
+	private static JCheckBoxMenuItem mHistogram;
+	private static JCheckBoxMenuItem mLineGraph;
 
 	GraphCanvasML(GenotypePanel gPanel, GraphCanvas graphCanvas)
 	{

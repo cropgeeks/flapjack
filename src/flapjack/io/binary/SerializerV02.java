@@ -53,7 +53,9 @@ class SerializerV02 extends SerializerV01
 		super.saveGTViewSet(viewSet);
 
 		// Selected graph index
-		out.writeInt(viewSet.getGraphIndex());
+		// REMOVED: 31-05-2011 - fill in the structure with a dummy int
+		out.writeInt(0);
+		//out.writeInt(viewSet.getGraphIndex());
 	}
 
 	protected GTViewSet loadGTViewSet(DataSet dataSet)
@@ -62,7 +64,9 @@ class SerializerV02 extends SerializerV01
 		GTViewSet viewSet = super.loadGTViewSet(dataSet);
 
 		// Selected graph index
-		viewSet.setGraphIndex(in.readInt());
+		// REMOVED: 31-05-2011 (but still needs to be read, then thrown away)
+		in.readInt();
+//		viewSet.setGraphIndex(in.readInt());
 
 		return viewSet;
 	}

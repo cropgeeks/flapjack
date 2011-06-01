@@ -19,13 +19,25 @@
           <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="lblGraphSelect" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Component id="lblGraphType" alignment="0" min="-2" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="graphTypeCombo" pref="294" max="32767" attributes="0"/>
-                  <Component id="graphSelectCombo" alignment="0" pref="294" max="32767" attributes="0"/>
+                  <Component id="lblHeader" min="-2" max="-2" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="lblGraph3" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblGraph2" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblGraph1" alignment="0" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="graph1" alignment="0" pref="318" max="32767" attributes="0"/>
+                          <Component id="graph2" alignment="0" pref="318" max="32767" attributes="0"/>
+                          <Component id="graph3" alignment="0" pref="318" max="32767" attributes="0"/>
+                      </Group>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Component id="lblGraphType" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="graphTypeCombo" pref="318" max="32767" attributes="0"/>
+                  </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -35,11 +47,23 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
+              <Component id="lblHeader" min="-2" max="-2" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="lblGraphSelect" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="graphSelectCombo" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="lblGraph1" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="graph1" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="lblGraph2" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="graph2" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="lblGraph3" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="graph3" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="lblGraphType" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="graphTypeCombo" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -50,18 +74,65 @@
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="javax.swing.JLabel" name="lblGraphSelect">
+    <Component class="javax.swing.JLabel" name="lblHeader">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="You can select up to three graphs to be displayed on screen at once:"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblGraph1">
       <Properties>
         <Property name="labelFor" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
-          <ComponentRef name="graphSelectCombo"/>
+          <ComponentRef name="graph1"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Graph to display:"/>
+        <Property name="text" type="java.lang.String" value="Graph 1:"/>
       </Properties>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
       </AuxValues>
     </Component>
-    <Component class="javax.swing.JComboBox" name="graphSelectCombo">
+    <Component class="javax.swing.JComboBox" name="graph1">
+      <Properties>
+        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+          <StringArray count="0"/>
+        </Property>
+      </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
+      </AuxValues>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblGraph2">
+      <Properties>
+        <Property name="labelFor" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+          <ComponentRef name="graph2"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Graph 2:"/>
+      </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
+      </AuxValues>
+    </Component>
+    <Component class="javax.swing.JComboBox" name="graph2">
+      <Properties>
+        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+          <StringArray count="0"/>
+        </Property>
+      </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
+      </AuxValues>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblGraph3">
+      <Properties>
+        <Property name="labelFor" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+          <ComponentRef name="graph3"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Graph 3:"/>
+      </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
+      </AuxValues>
+    </Component>
+    <Component class="javax.swing.JComboBox" name="graph3">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
           <StringArray count="0"/>
@@ -73,6 +144,9 @@
     </Component>
     <Component class="javax.swing.JLabel" name="lblGraphType">
       <Properties>
+        <Property name="labelFor" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+          <ComponentRef name="graphTypeCombo"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Graph type:"/>
       </Properties>
       <AuxValues>

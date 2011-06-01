@@ -307,9 +307,9 @@ public class MenuFile
 			return;
 		}
 
-		// Set (or reset) any existing graph indexes back to 0
+		// Set (or reset) any existing selected graphs
 		for (GTViewSet viewSet: dataSet.getViewSets())
-			viewSet.setGraphIndex(0);
+			viewSet.setGraphs(new int[] { 0, -1, -1 });
 
 		Actions.projectModified();
 		gPanel.refreshView();

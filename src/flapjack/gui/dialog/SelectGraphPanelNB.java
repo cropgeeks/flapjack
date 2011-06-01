@@ -18,18 +18,35 @@ public class SelectGraphPanelNB extends javax.swing.JPanel
 
 		setBackground((Color)UIManager.get("fjDialogBG"));
 
+		RB.setText(lblHeader, "gui.dialog.SelectGraphPanelNB.lblHeader");
+		RB.setText(lblGraph1, "gui.dialog.SelectGraphPanelNB.graph1");
+		RB.setText(lblGraph2, "gui.dialog.SelectGraphPanelNB.graph2");
+		RB.setText(lblGraph3, "gui.dialog.SelectGraphPanelNB.graph3");
+		RB.setText(lblGraphType, "gui.dialog.SelectGraphPanelNB.graphType");
+
 		ChromosomeMap map = gPanel.getView().getChromosomeMap();
+
+		// Add blank entries to the second two combo boxes
+		graph2.addItem("");
+		graph3.addItem("");
 
 		// Add the names to the combo box
 		for (GraphData graph: map.getGraphs())
-			graphSelectCombo.addItem(graph.getName());
+		{
+			graph1.addItem(graph.getName());
+			graph2.addItem(graph.getName());
+			graph3.addItem(graph.getName());
+		}
 
-		// And select whichever one is "selected"
-		graphSelectCombo.setSelectedIndex(gPanel.getViewSet().getGraphIndex());
+		// And select whichever ones are "selected"
+		int[] graphs = gPanel.getViewSet().getGraphs();
+		graph1.setSelectedIndex(graphs[0]);
+		graph2.setSelectedIndex(graphs[1] + 1);
+		graph3.setSelectedIndex(graphs[2] + 1);
 
 
-		graphTypeCombo.addItem(RB.getString("gui.dialog.NBSelectGraphDialog.histogramGraphType"));
-		graphTypeCombo.addItem(RB.getString("gui.dialog.NBSelectGraphDialog.lineGraphType"));
+		graphTypeCombo.addItem(RB.getString("gui.dialog.SelectGraphPanelNB.histogramGraphType"));
+		graphTypeCombo.addItem(RB.getString("gui.dialog.SelectGraphPanelNB.lineGraphType"));
 		graphTypeCombo.setSelectedIndex(Prefs.guiGraphStyle);
     }
 
@@ -42,14 +59,28 @@ public class SelectGraphPanelNB extends javax.swing.JPanel
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        lblGraphSelect = new javax.swing.JLabel();
-        graphSelectCombo = new javax.swing.JComboBox();
+        lblHeader = new javax.swing.JLabel();
+        lblGraph1 = new javax.swing.JLabel();
+        graph1 = new javax.swing.JComboBox();
+        lblGraph2 = new javax.swing.JLabel();
+        graph2 = new javax.swing.JComboBox();
+        lblGraph3 = new javax.swing.JLabel();
+        graph3 = new javax.swing.JComboBox();
         lblGraphType = new javax.swing.JLabel();
         graphTypeCombo = new javax.swing.JComboBox();
 
-        lblGraphSelect.setLabelFor(graphSelectCombo);
-        lblGraphSelect.setText("Graph to display:");
+        lblHeader.setText("You can select up to three graphs to be displayed on screen at once:");
 
+        lblGraph1.setLabelFor(graph1);
+        lblGraph1.setText("Graph 1:");
+
+        lblGraph2.setLabelFor(graph2);
+        lblGraph2.setText("Graph 2:");
+
+        lblGraph3.setLabelFor(graph3);
+        lblGraph3.setText("Graph 3:");
+
+        lblGraphType.setLabelFor(graphTypeCombo);
         lblGraphType.setText("Graph type:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -59,22 +90,41 @@ public class SelectGraphPanelNB extends javax.swing.JPanel
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblGraphSelect)
-                    .addComponent(lblGraphType))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(graphTypeCombo, 0, 294, Short.MAX_VALUE)
-                    .addComponent(graphSelectCombo, 0, 294, Short.MAX_VALUE))
+                    .addComponent(lblHeader)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblGraph3)
+                            .addComponent(lblGraph2)
+                            .addComponent(lblGraph1))
+                        .addGap(20, 20, 20)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(graph1, 0, 318, Short.MAX_VALUE)
+                            .addComponent(graph2, 0, 318, Short.MAX_VALUE)
+                            .addComponent(graph3, 0, 318, Short.MAX_VALUE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(lblGraphType)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(graphTypeCombo, 0, 318, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(lblHeader)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblGraphSelect)
-                    .addComponent(graphSelectCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblGraph1)
+                    .addComponent(graph1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblGraph2)
+                    .addComponent(graph2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblGraph3)
+                    .addComponent(graph3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblGraphType)
                     .addComponent(graphTypeCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -84,10 +134,15 @@ public class SelectGraphPanelNB extends javax.swing.JPanel
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    javax.swing.JComboBox graphSelectCombo;
+    javax.swing.JComboBox graph1;
+    javax.swing.JComboBox graph2;
+    javax.swing.JComboBox graph3;
     javax.swing.JComboBox graphTypeCombo;
-    javax.swing.JLabel lblGraphSelect;
+    javax.swing.JLabel lblGraph1;
+    javax.swing.JLabel lblGraph2;
+    javax.swing.JLabel lblGraph3;
     javax.swing.JLabel lblGraphType;
+    private javax.swing.JLabel lblHeader;
     // End of variables declaration//GEN-END:variables
 
 }
