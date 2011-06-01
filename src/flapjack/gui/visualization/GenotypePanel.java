@@ -259,8 +259,14 @@ public class GenotypePanel extends JPanel implements ActionListener
 	public BufferedImage getQTLCanvasBuffer(boolean full) throws Error, Exception
 		{ return qtlCanvas.createSavableImage(full); }
 
-	public BufferedImage getGraphCanvasBuffer(boolean full) throws Error, Exception
-		{ return null; /*return graphCanvas.createSavableImage(full);*/ }
+	public BufferedImage[] getGraphCanvasBuffers(boolean full) throws Error, Exception
+	{
+		BufferedImage[] images = new BufferedImage[graphCanvas.length];
+		for (int i = 0; i < graphCanvas.length; i++)
+			images[i] = graphCanvas[i].createSavableImage(full);
+
+		return images;
+	}
 
 	// Updates the state of the Edit menu's undo/redo actions based on the undo
 	// history of the view currently being displayed

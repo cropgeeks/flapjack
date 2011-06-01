@@ -212,6 +212,9 @@ class GraphCanvas extends JPanel
 	BufferedImage createSavableImage(boolean full)
 		throws Exception
 	{
+		if (isVisible() == false)
+			return null;
+
 		// Render width if we're just saving the current view
 		w = canvas.pX2 - canvas.pX1 + 1;
 		int xS = canvas.pX1 / canvas.boxW;
