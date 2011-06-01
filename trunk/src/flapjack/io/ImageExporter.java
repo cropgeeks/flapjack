@@ -77,7 +77,7 @@ public class ImageExporter extends SimpleJob
 		BufferedImage lines = gPanel.getLineCanvasBuffer(full);
 		BufferedImage traits = gPanel.getTraitCanvasBuffer(full);
 		BufferedImage qtls = gPanel.getQTLCanvasBuffer(full);
-		BufferedImage graph = gPanel.getGraphCanvasBuffer(full);
+		BufferedImage[] graphs = gPanel.getGraphCanvasBuffers(full);
 
 		if (image == null)
 			throw new RuntimeException(RB.getString("io.ImageExporter.noBufferError"));
@@ -102,8 +102,10 @@ public class ImageExporter extends SimpleJob
 			qtlsHeight = qtls.getHeight();
 
 		int graphHeight = 0;
-		if (graph != null && Prefs.visShowGraphCanvas)
-			graphHeight = graph.getHeight() + 2;
+		if (Prefs.visShowGraphCanvas)
+			for (int i = 0; i < graphs.length; i++)
+				if (graphs[i] != null)
+					graphHeight += graphs[i].getHeight() + 2;
 
 
 		// Work out the total canvas size
@@ -138,7 +140,13 @@ public class ImageExporter extends SimpleJob
 
 		if (Prefs.visShowGraphCanvas)
 		{
-			g.drawImage(graph, lineWidth+traitsWidth, qtlsHeight+mapHeight+image.getHeight()+2, null);
+			int gh = 0;
+			for (int i = 0; i < graphs.length; i++)
+			{
+				g.drawImage(graphs[i], lineWidth+traitsWidth, gh+qtlsHeight+mapHeight+image.getHeight()+2, null);
+				gh += (graphs[i] != null) ? graphs[i].getHeight()+2 : 0;
+			}
+
 			g.fillRect(0, qtlsHeight+mapHeight+image.getHeight(), lineWidth+traitsWidth, graphHeight);
 		}
 
