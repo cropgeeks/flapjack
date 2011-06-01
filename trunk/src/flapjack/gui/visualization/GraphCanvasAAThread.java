@@ -9,14 +9,14 @@ import javax.swing.*;
 
 class GraphCanvasAAThread extends Thread
 {
-	private static GraphCanvasAAThread previousThread;
+	private static GraphCanvasAAThread[] previousThread = new GraphCanvasAAThread[3];
 	static boolean bufferAvailable = false;
 	private Boolean killMe = false;
 
 	private GraphCanvas canvas;
 	private int xS, xE;
 
-	public GraphCanvasAAThread(GraphCanvas canvas, int xS, int xE)
+	public GraphCanvasAAThread(GraphCanvas canvas, int xS, int xE, int index)
 	{
 		this.canvas = canvas;
 		this.xS = xS;
@@ -25,13 +25,13 @@ class GraphCanvasAAThread extends Thread
 		bufferAvailable = false;
 
 		// Cancel any previous rendering threads that might be running
-		if (previousThread != null)
+		if (previousThread[index] != null)
 		{
-			previousThread.killMe = true;
-			previousThread.interrupt();
+			previousThread[index].killMe = true;
+			previousThread[index].interrupt();
 		}
 
-		previousThread = this;
+		previousThread[index] = this;
 		start();
 	}
 

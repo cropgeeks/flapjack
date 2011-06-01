@@ -49,7 +49,7 @@ public class GTViewSet extends XMLRoot
 	// Display line "scores" after performing a sort?
 	private boolean displayLineScores = false;
 
-	private int graphIndex = 0;
+	private int[] graphs = { 0, -1, -1 };
 
 	private UndoManager undoManager = new UndoManager();
 
@@ -179,20 +179,29 @@ public class GTViewSet extends XMLRoot
 	public void setDisplayLineScores(boolean displayLineScores)
 		{ this.displayLineScores = displayLineScores; }
 
-	public int getGraphIndex()
-		{ return graphIndex; }
+	public String getSelectedGraphs()
+		{ return MatrixXML.arrayToString(graphs); }
 
-	public void setGraphIndex(int graphIndex)
-		{ this.graphIndex = graphIndex; }
+	public void setSelectedGraphs(String graphs)
+		{ this.graphs = MatrixXML.stringToIntArray(graphs); }
 
 
-	// Other methods
+	// Transient (non marshalled) methods
 
 	public int[] getTraits()
 		{ return traits; }
 
 	public void setTraits(int[] traits)
 		{ this.traits = traits; }
+
+	public int[] getGraphs()
+		{ return graphs; }
+
+	public void setGraphs(int[] graphs)
+		{ this.graphs = graphs; }
+
+
+	// Other methods
 
 	public void addView(GTView view)
 	{
@@ -266,7 +275,7 @@ public class GTViewSet extends XMLRoot
 		clone.colorScheme = colorScheme;
 		clone.alleleFrequencyThreshold = alleleFrequencyThreshold;
 		clone.randomColorSeed = randomColorSeed;
-		clone.graphIndex = graphIndex;
+		clone.graphs = graphs;
 
 		// Copy over the trait indices
 		clone.traits = new int[traits.length];

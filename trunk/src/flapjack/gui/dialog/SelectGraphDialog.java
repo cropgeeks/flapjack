@@ -9,8 +9,6 @@ import scri.commons.gui.*;
 import flapjack.gui.*;
 import flapjack.gui.visualization.*;
 
-
-
 public class SelectGraphDialog extends JDialog implements ActionListener
 {
 	private JButton bClose;
@@ -33,7 +31,9 @@ public class SelectGraphDialog extends JDialog implements ActionListener
 		getRootPane().setDefaultButton(bClose);
 		SwingUtils.addCloseHandler(this, bClose);
 
-		panel.graphSelectCombo.addActionListener(this);
+		panel.graph1.addActionListener(this);
+		panel.graph2.addActionListener(this);
+		panel.graph3.addActionListener(this);
 		panel.graphTypeCombo.addActionListener(this);
 
 		pack();
@@ -55,13 +55,17 @@ public class SelectGraphDialog extends JDialog implements ActionListener
 
 	public void actionPerformed(ActionEvent e)
 	{
-		if (e.getSource() == panel.graphSelectCombo || e.getSource() == panel.graphTypeCombo)
+		if (e.getSource() instanceof JComboBox)
 		{
 			Prefs.guiGraphStyle = panel.graphTypeCombo.getSelectedIndex();
 
-			gPanel.getViewSet().setGraphIndex(panel.graphSelectCombo.getSelectedIndex());
-			gPanel.refreshView();
+			int[] graphs = gPanel.getViewSet().getGraphs();
+			graphs[0] = panel.graph1.getSelectedIndex();
+			graphs[1] = panel.graph2.getSelectedIndex() - 1;
+			graphs[2] = panel.graph3.getSelectedIndex() - 1;
 
+			gPanel.refreshView();
+			gPanel.setVisibleStates();
 			Actions.projectModified();
 		}
 
@@ -69,6 +73,5 @@ public class SelectGraphDialog extends JDialog implements ActionListener
 		{
 			setVisible(false);
 		}
-
 	}
 }

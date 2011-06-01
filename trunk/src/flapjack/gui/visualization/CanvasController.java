@@ -17,7 +17,7 @@ public class CanvasController extends JPanel implements ChangeListener
 	private RowCanvas rowCanvas;
 	private ColCanvas colCanvas;
 	private QTLCanvas qtlCanvas;
-	GraphCanvas graphCanvas;
+	GraphCanvas[] graphCanvas;
 	TraitCanvas traitCanvas;
 	ListPanel listPanel;
 	StatusPanelNB statusPanel;
@@ -123,7 +123,8 @@ public class CanvasController extends JPanel implements ChangeListener
 			public void run()
 			{
 				mapCanvas.updateBuffer = true;
-				graphCanvas.updateBuffer = true;
+				for (int i = 0; i < graphCanvas.length; i++)
+					graphCanvas[i].updateBuffer = true;
 				qtlCanvas.updateCanvasSize(true);
 				miniMapCanvas.createImage();
 			}

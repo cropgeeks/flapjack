@@ -28,6 +28,7 @@ class GraphCanvas extends JPanel
 	private GenotypeCanvas canvas;
 	private Canvas2D graphCanvas;
 
+	private int index;
 	GraphData graphData;
 
 	private BufferedImage buffer, aaBuffer;
@@ -46,10 +47,11 @@ class GraphCanvas extends JPanel
 
 	boolean full = false;
 
-	GraphCanvas(GenotypePanel gPanel, GenotypeCanvas canvas)
+	GraphCanvas(GenotypePanel gPanel, GenotypeCanvas canvas, int index)
 	{
 		this.gPanel = gPanel;
 		this.canvas = canvas;
+		this.index = index;
 
 		setLayout(new BorderLayout());
 		add(graphCanvas = new Canvas2D());
@@ -119,12 +121,17 @@ class GraphCanvas extends JPanel
 		updateBuffer = false;
 
 		// Start the AA-thread making its "nicer" image for display (once ready)
-		new GraphCanvasAAThread(this, xS, xE);
+		new GraphCanvasAAThread(this, xS, xE, index);
 	}
 
 	void render(Graphics2D g, int xS, int xE)
 	{
 		if (canvas.view.getChromosomeMap().getGraphs().size() == 0)
+			return;
+
+		// What graph index (from all the graphs) do we need to draw?
+		int idx = canvas.viewSet.getGraphs()[index];
+		if (idx == -1)
 			return;
 
 		g.translate(-canvas.pX1, 0);
@@ -141,8 +148,7 @@ class GraphCanvas extends JPanel
 		if (xE < canvas.view.getMarkerCount()-1) xE++;
 
 		// Retrieve the data
-		int graphIndex = canvas.viewSet.getGraphIndex();
-		graphData = canvas.view.getChromosomeMap().getGraphs().get(graphIndex);
+		graphData = canvas.view.getChromosomeMap().getGraphs().get(idx);
 
 		float[] data = graphData.data();
 		Float prev = null;
@@ -236,8 +242,13 @@ class GraphCanvas extends JPanel
 	// data loaded, and b) does the user want to see the panel
 	void determineVisibility()
 	{
-		if (canvas.view == null || canvas.view.getChromosomeMap().getGraphs().size() == 0)
+		System.out.println("graphCanvas.determineVisibility()");
+
+		if (canvas.view == null || canvas.view.getChromosomeMap().getGraphs().size() == 0 ||
+			canvas.viewSet.getGraphs()[index] == -1)
+		{
 			setVisible(false);
+		}
 
 		else
 			setVisible(Prefs.visShowGraphCanvas);
