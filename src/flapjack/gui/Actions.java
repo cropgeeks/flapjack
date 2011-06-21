@@ -31,6 +31,7 @@ public class Actions
 	public static AbstractAction editSelectMarkersNone;
 	public static AbstractAction editSelectMarkersInvert;
 	public static AbstractAction editHideMarkers;
+	public static AbstractAction editFilterMissingMarkers;
 	public static AbstractAction editSelectLinesAll;
 	public static AbstractAction editSelectLinesNone;
 	public static AbstractAction editSelectLinesInvert;
@@ -219,6 +220,12 @@ public class Actions
 			}
 		};
 
+		editFilterMissingMarkers = new AbstractAction(RB.getString("gui.Actions.editFilterMissingMarkers")) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.mEdit.editFilterMissingMarkers();
+			}
+		};
+
 		editSelectLinesAll = new AbstractAction(RB.format("gui.Actions.editSelectLinesAll", ""), getIcon("SELECTALL")) {
 			public void actionPerformed(ActionEvent e) {
 				winMain.mEdit.editSelectLines(Constants.SELECT_ALL);
@@ -298,13 +305,13 @@ public class Actions
 			}
 		};
 
-		viewPageLeft = new AbstractAction(RB.format("gui.Actions.viewPageLeft", ""), getIcon("PAGELEFT")) {
+		viewPageLeft = new AbstractAction(RB.getString("gui.Actions.viewPageLeft")) {
 			public void actionPerformed(ActionEvent e) {
 				winMain.mView.viewPageLeft();
 			}
 		};
 
-		viewPageRight = new AbstractAction(RB.format("gui.Actions.viewPageRight", ""), getIcon("PAGERIGHT")) {
+		viewPageRight = new AbstractAction(RB.getString("gui.Actions.viewPageRight")) {
 			public void actionPerformed(ActionEvent e) {
 				winMain.mView.viewPageRight();
 			}
@@ -598,6 +605,7 @@ public class Actions
 		editSelectMarkersNone.setEnabled(false);
 		editSelectMarkersInvert.setEnabled(false);
 		editHideMarkers.setEnabled(false);
+		editFilterMissingMarkers.setEnabled(false);
 		editSelectLinesAll.setEnabled(false);
 		editSelectLinesNone.setEnabled(false);
 		editSelectLinesInvert.setEnabled(false);

@@ -119,6 +119,10 @@ public class Prefs extends XMLPreferences
 
 	public static int guiMouseMode = Constants.NAVIGATION;
 
+	// Missing markers dialog
+	public static boolean guiMissingMarkerAllChromsomes = false;
+	public static int guiMissingMarkerPcnt = 95;
+
 	// What type of map scaling should be used (local=0, global=1)
 	public static int visMapScaling = Constants.LOCAL;
 

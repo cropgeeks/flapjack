@@ -245,8 +245,6 @@ class GraphCanvas extends JPanel
 	// data loaded, and b) does the user want to see the panel
 	void determineVisibility()
 	{
-		System.out.println("graphCanvas.determineVisibility()");
-
 		if (canvas.view == null || canvas.view.getChromosomeMap().getGraphs().size() == 0 ||
 			canvas.viewSet.getGraphs()[index] == -1)
 		{

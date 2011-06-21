@@ -265,4 +265,26 @@ public class MenuEdit
 		view.cacheLines();
 		gPanel.refreshView();
 	}
+
+	void editFilterMissingMarkers()
+	{
+		MissingMarkersDialog dialog = new MissingMarkersDialog();
+
+		if (dialog.isOK())
+		{
+			// Set the undo state...
+			HidMarkersState state = new HidMarkersState(gPanel.getView(),
+				RB.getString("gui.visualization.HidMarkersState.hidMarkers"));
+			state.createUndoState();
+
+			// Hide the markers
+			gPanel.getViewSet().filterMissingMarkers(
+				Prefs.guiMissingMarkerAllChromsomes, Prefs.guiMissingMarkerPcnt);
+			gPanel.refreshView();
+
+			// Set the redo state...
+			state.createRedoState();
+			gPanel.addUndoState(state);
+		}
+	}
 }
