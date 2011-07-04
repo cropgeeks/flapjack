@@ -134,6 +134,10 @@ public class GenotypeDataImporter
 				mapIndex[i] = index.mapIndex;
 				mkrIndex[i] = index.mkrIndex;
 			}
+			// This ensures a marker - in the .dat file - that isn't in the .map
+			// file will be ignored
+			else
+				mapIndex[i] = mkrIndex[i] = -1;
 		}
 
 		System.out.println("Map/marker cache created in " + (System.currentTimeMillis()-s) + "ms");
