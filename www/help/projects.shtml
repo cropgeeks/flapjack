@@ -81,13 +81,14 @@ some settings will be chromosome-specific, such as colouring by marker.</p>
 from a file with the following tab-delimited format:
 
 <pre>
-               Trait1    Trait2    Trait3
-  Line1        50        High      Short
-  Line2        2.3       High      Medium
-  Line3        99.3      Low       Long
+               Trait1       Trait1       Trait2
+               Experiment1  Experiment2  Experiment1
+  Line1        50           High         Short
+  Line2        2.3          High         Medium
+  Line3        99.3         Low          Long
 </pre>
 
-<p>Trait data for a single trait can be either numerical or categorical.</p>
+<p>Trait data for a single trait can be either numerical or categorical. The line containing experiment information for each trait is <b>optional</b>.</p>
 
 
 <h3>QTLs</h3>

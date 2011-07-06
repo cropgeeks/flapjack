@@ -15,7 +15,8 @@ public class Prefs extends XMLPreferences
 	public static boolean isSCRIUser = false;
 	public static int rating = 0;
 
-	public static String visColorSeed = "0";
+	public static String visColorSeed = "" + (System.currentTimeMillis() -
+		1987200000L); // First appearance after 7 days (now-23 days)
 
 	// Unique Flapjack ID for this user
 	public static String flapjackID = SystemUtils.createGUID(32);

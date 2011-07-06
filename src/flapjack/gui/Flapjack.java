@@ -116,7 +116,7 @@ public class Flapjack
 					Prefs.isHuttonised = true;
 				}
 
-				long thirtyDays = 1800000; // This is 30 days: 2592000000L;
+				long thirtyDays = 2592000000L; // This is 30 days
 				long thirtyDaysAgo = System.currentTimeMillis() - thirtyDays;
 
 				if (!Prefs.isFirstRun &&
