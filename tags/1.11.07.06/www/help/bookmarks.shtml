@@ -1,0 +1,54 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+
+<html>
+<head>
+<meta http-equiv="Content-Language" content="en-gb">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+<link rel="stylesheet" href="../stylesheet/styles.css" type="text/css">
+
+<title>Bookmarks</title>
+
+</head>
+<body>
+
+<!--#include virtual="header.html" -->
+
+
+<h2>Bookmarks</h2>
+
+<p>A bookmark in Flapjack is simply a tracked intersection between a line and a
+marker (and therefore the allele at that position). You can use bookmarks to
+track a specific allele of interest, or just a region of the screen in general
+by picking a specific point within it.</p>
+
+<p><a href="images/bookmark.png">
+<img class="capture" src="images/bookmark2.png" alt="Flapjack Screenshot"></a></p>
+
+<h3>Creating a bookmark</h3>
+
+<p>To bookmark a location, right-click an allele with the mouse, and then select
+<b>Bookmark location</b> from the popup menu that appears. The bookmark will
+then be added to the navigation tree on the left-hand side of the screen,
+underneath the node for the current view.</p>
+
+<p><a href="images/bookmarkMenu.png">
+<img class="capture" src="images/bookmarkMenu2.png" alt="Flapjack Screenshot"></a></p>
+
+<h3>Returning to a previously created bookmark</h3>
+
+<p>To return to a bookmark, simply select it from the navigation tree. Flapjack
+will adjust the current view to show the correct chromosome for that bookmark,
+and will graphically highlight the line and marker intersection for a few
+seconds.</p>
+
+<h3>Deleting bookmarks</h3>
+
+<p>To delete a bookmark, right-click it with the mouse and then select <b>Delete
+bookmark</b> from the popup menu that appears.</p>
+
+
+<!--#include virtual="footer.html" -->
+
+</body>
+</html>

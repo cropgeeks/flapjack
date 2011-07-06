@@ -1,0 +1,177 @@
+<?xml version="1.0"?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
+                         "http://castor.org/mapping.dtd">
+
+<mapping>
+
+	<class name="flapjack.data.XMLRoot" identity="guid">
+		<field name="guid" type="string">
+			<bind-xml node="attribute"/>
+		</field>
+	</class>
+
+	<!-- Project -->
+	<class name="flapjack.data.Project" extends="flapjack.data.XMLRoot" auto-complete="true">
+		<field name="dataSets" type="flapjack.data.DataSet" collection="arraylist"/>
+	</class>
+
+	<!-- DataSet -->
+	<class name="flapjack.data.DataSet" extends="flapjack.data.XMLRoot" auto-complete="true">
+		<field name="chromosomeMaps" type="flapjack.data.ChromosomeMap" collection="arraylist"/>
+		<field name="lines" type="flapjack.data.Line" collection="arraylist"/>
+		<field name="viewSets" type="flapjack.data.GTViewSet" collection="arraylist"/>
+		<field name="traits" type="flapjack.data.Trait" collection="arraylist"/>
+	</class>
+
+	<!-- ChromosomeMap -->
+	<class name="flapjack.data.ChromosomeMap" extends="flapjack.data.XMLRoot" auto-complete="true">
+		<field name="name" type="string">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="markers" type="flapjack.data.Marker" collection="arraylist"/>
+		<field name="features" type="java.util.ArrayList" collection="arraylist"/>
+		<field name="graphs" type="flapjack.data.GraphData" collection="arraylist"/>
+	</class>
+
+	<!-- GraphData -->
+	<class name="flapjack.data.GraphData" extends="flapjack.data.XMLRoot" auto-complete="true">
+		<field name="name" type="string">
+			<bind-xml node="attribute"/>
+		</field>
+	</class>
+
+	<!-- Marker -->
+	<class name="flapjack.data.Marker" extends="flapjack.data.XMLRoot" auto-complete="true">
+		<field name="name" type="string">
+			<bind-xml node="attribute"/>
+		</field>
+	</class>
+
+	<!-- Line -->
+	<class name="flapjack.data.Line" extends="flapjack.data.XMLRoot" auto-complete="true">
+		<field name="name" type="string">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="genotypes" type="flapjack.data.GenotypeData" collection="arraylist"/>
+		<field name="traitValues" type="flapjack.data.TraitValue" collection="arraylist"/>
+	</class>
+
+	<!-- GenotypeData -->
+	<class name="flapjack.data.GenotypeData" extends="flapjack.data.XMLRoot" auto-complete="true">
+		<field name="chromosomeMap" type="flapjack.data.ChromosomeMap">
+			<bind-xml reference="true" node="attribute"/>
+		</field>
+	</class>
+
+	<!-- StateTable -->
+	<class name="flapjack.data.StateTable" extends="flapjack.data.XMLRoot" auto-complete="true">
+		<field name="states" type="flapjack.data.AlleleState" collection="arraylist"/>
+	</class>
+
+	<!-- AlleleState -->
+	<class name="flapjack.data.AlleleState" extends="flapjack.data.XMLRoot" auto-complete="true"/>
+
+	<!-- GTViewSet -->
+	<class name="flapjack.data.GTViewSet" extends="flapjack.data.XMLRoot" auto-complete="true">
+		<field name="dataSet" type="flapjack.data.DataSet">
+			<bind-xml reference="true" node="attribute"/>
+		</field>
+		<field name="name" type="string">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="lines" type="flapjack.data.LineInfo" collection="arraylist"/>
+		<field name="hideLines" type="flapjack.data.LineInfo" collection="arraylist"/>
+		<field name="views" type="flapjack.data.GTView" collection="arraylist"/>
+		<field name="bookmarks" type="flapjack.data.Bookmark" collection="arraylist"/>
+		<field name="comparisonLine" type="flapjack.data.Line">
+			<bind-xml reference="true" node="attribute"/>
+		</field>
+		<!-- transient stops this field from being marshalled -->
+		<field name="traits" type="integer" collection="array" transient="true"/>
+		<field name="graphs" type="integer" collection="array" transient="true"/>
+	</class>
+
+	<!-- GTView -->
+	<class name="flapjack.data.GTView" extends="flapjack.data.XMLRoot" auto-complete="true">
+		<field name="viewSet" type="flapjack.data.GTViewSet">
+			<bind-xml reference="true" node="attribute"/>
+		</field>
+		<field name="chromosomeMap" type="flapjack.data.ChromosomeMap">
+			<bind-xml reference="true" node="attribute"/>
+		</field>
+		<field name="markers" type="flapjack.data.MarkerInfo" collection="arraylist"/>
+		<field name="hideMarkers" type="flapjack.data.MarkerInfo" collection="arraylist"/>
+		<field name="comparisonMarker" type="flapjack.data.Marker">
+			<bind-xml reference="true" node="attribute"/>
+		</field>
+	</class>
+
+	<!-- LineInfo -->
+	<class name="flapjack.data.LineInfo" extends="flapjack.data.XMLRoot" auto-complete="true">
+		<field name="line" type="flapjack.data.Line">
+			<bind-xml reference="true" node="attribute"/>
+		</field>
+	</class>
+
+	<!-- MarkerInfo -->
+	<class name="flapjack.data.MarkerInfo" extends="flapjack.data.XMLRoot" auto-complete="true">
+		<field name="marker" type="flapjack.data.Marker">
+			<bind-xml reference="true" node="attribute"/>
+		</field>
+	</class>
+
+	<!-- Trait -->
+	<class name="flapjack.data.Trait" extends="flapjack.data.XMLRoot" auto-complete="true">
+		<field name="name" type="string">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="experiment" type="string">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="categories" type="string" collection="arraylist"/>
+	</class>
+
+	<!-- TraitValue -->
+	<class name="flapjack.data.TraitValue" extends="flapjack.data.XMLRoot" auto-complete="true">
+		<field name="trait" type="flapjack.data.Trait">
+			<bind-xml reference="true" node="attribute"/>
+		</field>
+	</class>
+
+	<!-- DBAssociation -->
+	<class name="flapjack.data.DBAssociation" extends="flapjack.data.XMLRoot" auto-complete="true"/>
+
+	<!-- Bookmark -->
+	<class name="flapjack.data.Bookmark" extends="flapjack.data.XMLRoot" auto-complete="true">
+		<field name="chromosome" type="flapjack.data.ChromosomeMap">
+			<bind-xml reference="true" node="attribute"/>
+		</field>
+		<field name="line" type="flapjack.data.Line">
+			<bind-xml reference="true" node="attribute"/>
+		</field>
+		<field name="marker" type="flapjack.data.Marker">
+			<bind-xml reference="true" node="attribute"/>
+		</field>
+	</class>
+
+	<!-- Feature -->
+	<class name="flapjack.data.Feature" extends="flapjack.data.XMLRoot" auto-complete="true">
+		<field name="name" type="string">
+			<bind-xml node="attribute"/>
+		</field>
+	</class>
+
+	<!-- QTL -->
+	<class name="flapjack.data.QTL" extends="flapjack.data.Feature" auto-complete="true">
+		<field name="chromosomeMap" type="flapjack.data.ChromosomeMap">
+			<bind-xml reference="true" node="attribute"/>
+		</field>
+		<field name="trait" type="string">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="experiment" type="string">
+			<bind-xml node="attribute"/>
+		</field>
+	</class>
+
+</mapping>

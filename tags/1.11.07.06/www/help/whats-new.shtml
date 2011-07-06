@@ -1,0 +1,292 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+
+<html>
+<head>
+<meta http-equiv="Content-Language" content="en-gb">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+<link rel="stylesheet" href="../stylesheet/styles.css" type="text/css">
+
+<title>What's New</title>
+
+</head>
+<body>
+
+<!--#include virtual="header.html" -->
+
+
+<h2>What's New</h2>
+
+<p>This page describes the additions (NEW), changes (CHG) and bug fixes (BUG)
+that have been made to Flapjack in recent versions. For full details on all the
+changes between versions, please see the <a href="../svn.txt">
+subversion change log</a>.</p>
+
+<h3>New in 1.11.07.06</h3>
+
+<ul>
+<li>NEW: Added a new option to the edit menu - Filter missing markers - that allows the removal of markers with missing data over a given threshold limit.</li>
+<li>NEW: You can now select up to three graphs to be displayed alongside the genotypes at one time.</li>
+<li>NEW: Added a new option to createproject.exe so it can be forced to always use UK English settings for reading decimal numbers in its input.</li>
+<li>NEW: Added a new Prefs option that allows the locale (language) settings to be overridden so that decimal formatting is always displayed (and read from files) in UK English style.</li>
+<li>NEW: Added support for a new (optional) QTL data column - RGB - that if specified will allow the user to override the default trait-based colouring that the QTLs normally use.</li>
+<li>NEW: Added the concept of an "experiment" to a trait.</li>
+<li>NEW: The project format (xml, zipped xml, binary) for createproject.exe can can now be specified.</li>
+<li>BUG: The keyboard handling for page left/right wasn't dealing with multiple events in quick succession.</li>
+<li>BUG: Exporting phenotypic trait data for lines without trait data resulted in traits being written to the file with zero (or default categorical) values.</li>
+<li>BUG: Cloning a view didn’t copy over the selected graph index, so the new view reverted to the first graph available.</li>
+<li>BUG: Markers included in the genotypes file that weren’t listed in the map file were not being ignored.</li>
+</ul>
+
+
+<h3>New in 1.11.04.21</h3>
+
+<ul>
+<li>NEW: The CreateProject executable will now append datasets into existing projects if the file already exists.</li>
+<li>NEW: Phenotypic trait data can now be exported from Flapjack to a file on disk.</li>
+<li>NEW: QTL data can now be exported from Flapjack to a file on disk.</li>
+<li>BUG: Exporting images from data sets without graph data was failing.</li>
+<li>BUG: Importing graph data into data sets that didn't contain markers for that graph was causing Flapjack's rendering to fail.</li>
+</ul>
+
+
+<h3>New in 1.11.04.19</h3>
+
+<ul>
+<li>NEW: Flapjack is now a version 1.x release, after being published in Bioinformatics.</li>
+<li>NEW: SCRI become the The James Hutton Institute in April 2011, and Flapjack has been branded accordingly.</li>
+<li>NEW: Flapjack now supports importing and displaying graph data (http://bioinf.hutton.ac.uk/flapjack/help/graphs.shtml).</li>
+<li>NEW: Added a Filter QTLs button to the QTL Table.</li>
+<li>NEW: Added functionality to move the view one "page" left or right at a time.</li>
+<li>NEW: Moving the mouse over the chromosome canvas now displays the current chromosome position.</li>
+<li>CHG: Various tweaks to try to reduce memory consumption a little more.</li>
+<li>CHG: Tweaked the Castor XML mapping to remove spurious xsi:type entries, resulting in smaller XML project files.</li>
+<li>BUG: The displayed number-of-lines (during importing) was incorrect when transposed data was loaded.</li>
+<li>BUG: File loading progress wasn't being properly tracked when importing QTL or phenotype data.</li>
+<li>BUG: Trait values weren't being written properly during binary serialization.</li>
+</ul>
+
+<h3>New in 0.10.10.07</h3>
+
+<ul>
+<li>NEW: Projects can now be saved in a new Flapjack-specific binary format (at least 50x faster than the XML format).</li>
+<li>NEW: Added an option at import time to create a "super" chromosome, containing all the markers across all chromosomes.</li>
+<li>NEW: Flapjack can now load its project files from local and remote (http) addresses.</li>
+<li>NEW: The Bookmark right-click menu option is now disabled unless over a genuine allele.</li>
+<li>NEW: Redesigned the Import Dialog to include all options (map/genotype data, traits, and QTL) in a single tabbed display.</li>
+<li>NEW: Genotype data can now be imported in a transposed form (if the advanced option checkbox for it is selected).</li>
+<li>NEW: Added an additional new tab to support opening example projects from the web server.</li>
+<li>NEW: Split the additional options from the map/genotype importing dialog into a separate "Advanced Options" dialog.</li>
+<li>NEW: Updated the line similarity code to score 1 for a homozygous match, and 0.5 for a heterozygous match (previously zero) for cases like A against A/T.</li>
+<li>NEW: Added summary messages at the end of importing either traits or QTL.</li>
+<li>NEW: The number of markers found while importing data is now tracked by the progress dialog.</li>
+<li>NEW: Added a link to the front page to go directly to opening an example project.</li>
+<li>NEW: Added Java Web Start support.</li>
+<li>NEW: Added 64bit support and installers.</li>
+<li>CHG: Changed the internal format for object ID, reducing memory usage and project file size.</li>
+<li>CHG: Changed the source code to be compatible with Java 6 only.</li>
+<li>CHG: Marker frequencies are no longer stored in the project file. They are now simply (re)calculated whenever needed.</li>
+<li>BUG: Fixed the bad number formatting on the chromosome length label (at the top of the screen).</li>
+<li>BUG: Fixed a bug when (right) clicking on deselected entries in the Find dialog.</li>
+<li>BUG: Fixed a small issue with the TaskBar icon being stretched on Windows 7 because it wasn't 32x32.</li>
+<li>BUG: Fixed a rare, but critical error with threading when the progress tracking dialog was active.</li>
+<li>BUG: The "PowerPoint" wipe when new data sets are first opened now works properly.</li>
+<li>BUG: Fixed a problem with the line similarity analysis generating NaN values for scores.</li>
+<li>BUG: Loading a project that was saved after all its views were deleted would result in a silent exception and Flapjack acting as if nothing had been loaded.</li>
+</ul>
+
+<h3>New in 0.10.05.17</h3>
+
+<ul>
+<li>NEW: Implemented a more robust method for version checking and updating of Flapjack</li>
+<li>CHG: Added the "Close" button back to the Filter QTLs dialog.</li>
+<li>BUG: Filtering QTL using the Filter dialog wasn't working until after the display had been manually refreshed.</li>
+</ul>
+
+
+<h3>New in 0.10.05.07</h3>
+
+<ul>
+<li>CHG: Minor modifications (for Windows only) to improve compatibility with Windows 7.</li>
+</ul>
+
+
+<h3>New in 0.10.04.27</h3>
+
+<ul>
+<li>NEW: Implemented multicore/cpu rendering for the main canvas.</li>
+<li>NEW: Added an option to sort lines by importing an external file that contains the order to put them in (one "line" per line).</li>
+<li>CHG: Removed the ability to back-buffer the entire main canvas.</li>
+<li>BUG: Fixed some rendering bugs on OS X systems.</li>
+</ul>
+
+
+<h3>New in 0.10.03.10</h3>
+
+<ul>
+<li>NEW: Implemented three new methods of scaling and displaying the chromosome map: local, global, and classic.</li>
+<li>NEW: Added a new summary "mini map" display that shows where on the chromosome the markers currently on screen are.</li>
+<li>NEW: Gaps in the data set (lines with no value for a given marker) can now be graphically highlighted.</li>
+<li>NEW: Internet proxy settings can now be configured using the Preferences Dialog.</li>
+<li>CHG: Some of the options from the Visualization menu now form part of a new View top-level menu.</li>
+<li>CHG: The chromosome map is now drawn in real-time rather than back buffered, freeing up memory.</li>
+<li>CHG: Removed the "Flapjack has encountered an error" dialog due to it not working probably with EDT errors.</li>
+<li>BUG: Fixed various miscellaneous rendering issues.</li>
+<li>BUG: Fixed some number formatting problems when large numbers were displayed.</li>
+<li>BUG: Some of the error messages displayed during file loading were incorrect.</li>
+<li>BUG: Fixed a critical problem with loading data that goes beyond the byte limit for Flapjack's state table (eg with SSR data).</li>
+<li>BUG: Fixed a problem with the small overview inset window that resulted in it disappearing completely at times.</li>
+</ul>
+
+
+<h3>New in 0.09.10.29</h3>
+
+<ul>
+<li>NEW: Importing very large chromosomes (> 20,000 markers) is now significantly quicker.</li>
+<li>NEW: You can now choose which chromosomes are including when exporting data as text.</li>
+<li>NEW: The number of tracks used for QTLs is now dynamic, based on a draggable slider below their display.</li>
+<li>NEW: QTLs are now painted bottom-to-top, keeping them closer to the map than before.</li>
+<li>NEW: QTLs that overlap one another on the same track are now outlined in black.</li>
+<li>CHG: As QTL layout is now dynamic based on the slider position, support for CTRL/CMD movement of QTL between tracks has been removed.</li>
+<li>CHG: QTL changes have meant a slight change to the .flapjack project format, so any existing projects will need any QTL data reimported.</li>
+<li>CHG: Simplified the settings dialog for exporting data as text.</li>
+<li>BUG: The status labels at the bottom of the screen were not resetting properly after mousing-over QTLs.</li>
+</ul>
+
+
+<h3>New in 0.09.10.02</h3>
+
+<ul>
+<li>BUG: Fixed a rendering bug that was causing the chromosome map to incorrectly link its lines to the markers.</li>
+</ul>
+
+
+<h3>New in 0.09.10.01</h3>
+
+<ul>
+<li>NEW: Exported images now include any phenotype heat map and/or QTL visualization as part of the output.
+<li>NEW: Added keyboard shortcuts for zooming (CTRL++, CTRL+-).
+<li>CHG: Made various changes to the installers to improve Linux compatibility and to provide "What's New" information at update time.</li>
+<li>BUG: Fixed a problem with hidden QTLs reappearing if the mouse moved over their position.</li>
+<li>BUG: Fixed a problem with some QTLs not responding to mouse over events.</li>
+</ul>
+
+
+<h3>New in 0.09.08.26</h3>
+
+<ul>
+<li>NEW: The heatmap of phenotypic trait data now supports any number of displayable columns (it used to be fixed at three).</li>
+<li>NEW: QTLs can now be imported that contain supplementary columns of textual data (previously only numerical was support).</li>
+<li>NEW: Flapjack now maintains a history of recently accessed files in all of its open-file dialogs.</li>
+<li>NEW: Optimized the rendering of QTLs; large datasets should now draw significantly faster.</li>
+<li>NEW: The CreateProject (command line) attachment to Flapjack can now import QTLs as part of project creation.</li>
+<li>CHG: The dialog used for selecting which traits to be displayed now lists all the traits in a table along with a checkbox to toggle it on or off.</li>
+<li>CHG: The option to select displayable traits via a right-click has been removed. The menu now provides a link to the Select Traits dialog instead.</li>
+<li>BUG: Fixed a crash that occurs if Flapjack is resized to a size small enough to make the chromosome map disappear.</li>
+<li>BUG: Fixed an issue that was occuring on some systems that was stopping Flapjack from exiting properly.</li>
+</ul>
+
+
+<h3>New in 0.09.07.27</h3>
+
+<ul>
+<li>NEW: Added an option for sorting lines alphabetically by their name.</li>
+<li>CHG: Similarity sorting is now much faster.</li>
+<li>CHG: Implemented some minor changes to reduce the total number of threads in use.</li>
+<li>BUG: Fixed a critical bug that effected QTL data that didn't have any additional/optional data columns.</li>
+</ul>
+
+
+<h3>New in 0.09.06.19</h3>
+
+<ul>
+<li>NEW: Significant improvements to real-time rendering speeds should be noticeable to Windows users.</li>
+<li>NEW: Overview displays are now created much faster than before.</li>
+<li>NEW: The random colour scheme now has two choices of style (HSB or WebSafe).</li>
+<li>NEW: A lot more help topics have been added to the web site.</li>
+</ul>
+
+
+<h3>New in 0.09.03.09</h3>
+
+<ul>
+<li>NEW: Flapjack now supports the import of supplementary QTL data.</li>
+<li>NEW: QTLs data files can have any number of additional (optional) numerical columns (LOD, r2, etc).</li>
+<li>NEW: Added support for graphically rendering QTLs across multiple "tracks".</li>
+<li>NEW: QTLs can now be colour-coded according to the trait they are associated with.</li>
+<li>NEW: Flapjack will automatically lay out QTLs over multiple tracks to avoid overlaps.</li>
+<li>NEW: Added support for mouse interactions (info popups) for QTLs and for moving QTLs between tracks.</li>
+<li>NEW: QTLs can be clicked on and all markers associated with them with toggle their selection state.</li>
+<li>NEW: QTLs can be manually moved between tracks by CTRL clicking and dragging.</li>
+<li>NEW: Added a new front-end to the program that provides quick links to recent projects, help, etc.</li>
+<li>NEW: Added a QTL summary table with controls to toggle the visibility of individual QTLs.</li>
+<li>NEW: Added a Filter QTLs dialog to assist in visibility selection based on trait and experiment.</li>
+<li>NEW: Added toolbar shortcut buttons for inverting the selection state of lines and markers.</li>
+<li>NEW: Added many new help topics and placeholders for areas still to be included.</li>
+<li>NEW: Hovering the mouse over a QTL that is drawn under its neighbours will now render that QTL on top.</li>
+<li>CHG: The Traits folder on the project navigation tree now supports QTL and phenotype trait data.</li>
+<li>CHG: The similarity colour schemes will now do half-and-half colouring of heterozygotes.</li>
+<li>CHG: Colour-boxes (such as in the Customize Colours dialog) now render using gradients.</li>
+<li>CHG: All "floating" dialog boxes (such as Find By Name) will now auto-close when navigating to another view or data set.</li>
+<li>CHG: Importing an additional set of phenotype traits will now overwrite rather than append the existing set.</li>
+<li>BUG: Fixed a problem with importing genotype data files that contain non zero length lines that held no data.</li>
+</ul>
+
+
+<h3>New in 0.09.02.03</h3>
+
+<ul>
+<li>NEW: Flapjack can now read files containing genotype data that does not include heterozygous separator characters, for example "AT" can be read as "A/T" or "A" and "T" (depending on import options).</li>
+<li>CHG: Flapjack is now better at estimating what default colour scheme to use when a data set is first imported.</li>
+<li>BUG: Importing the sample data set after modifying the import options away from their defaults no longer results in the sample not loading correctly.</li>
+<li>BUG: Re-clicking on the same row again in the Find Dialog will now graphically highlight the result again.</li>
+<li>BUG: The two-colour scheme now properly colours heterozygotes to match the colours selected for the primary homozygotes.</li>
+</ul>
+
+
+<h3>New in 0.09.01.27</h3>
+
+<ul>
+<li>NEW: The line and marker under the mouse is now graphically highlighted on the main canvas and in the names list.</li>
+<li>NEW: Lines names in the list are now graphically highlighted as the mouse moves over the canvas.</li>
+<li>NEW: Added an option for right-click deletion of dummy lines that have been inserted.</li>
+<li>NEW: Added a proper selection dialog for loading trait data.</li>
+<li>CHG: Flapjack now has an enhanced visual scheme that should appear less grey/drab, especially in dialog boxes.</li>
+<li>CHG: Highlighted lines and markers (eg from the Find Dialog) now appear in the centre of the display.</li>
+<li>BUG: Fixed a crash that could occur when CTRL+click moving a line from a position outside of the visible list.</li>
+<li>BUG: Fixed some redraw issues with the traits heat-map when scrolling the display.</li>
+<li>BUG: Fixed issues with importing data containing blank lines BEFORE the end of the file was reached.</li>
+<li>BUG: Fixed issues with importing data that mixed the case of genotypes (eg 'a' and 'A').</li>
+</ul>
+
+
+<h3>New in 0.08.09.05</h3>
+
+<ul>
+<li>NEW: Added a new option for right-clicking on a line and inserting a "dummy" line at that position.</li>
+<li>NEW: Added many more help topics, including a start menu shortcut to the help that is now added at install time.</li>
+<li>NEW: Flapjack can now export views back to disk in raw-data format.</li>
+<li>NEW: Flapjack license information is now included as part of its install routine.</li>
+<li>NEW: Flapjack will detect when a new version has been installed and link the user to a web page describing the major changes.</li>
+<li>BUG: Fixed errors relating to mixing numerical and categorical data for a single trait.</li>
+<li>BUG: Fixed a bug that caused inverting the selection states of lines to run incorrectly.</li>
+</ul>
+
+
+<h3>New in 0.08.08.08</h3>
+
+<ul>
+<li>NEW: "Bookmarks" can now be assigned to any location within a view, allowing the user to quickly return to regions of interest.</li>
+<li>NEW: Flapjack can now be linked with Germinate-like database websites for display of additional line or marker information. When exporting data from Germinate in Flapjack format this information will be included automatically.</li>
+<li>NEW: Added displayable sort scores to the list of line names (that appears after performing a similarity sort).</li>
+<li>NEW: Added a right-click pop-up menu option to the list of line names to toggle the sort scores on or off.</li>
+<li>NEW: The colours used for the traits heatmap can now be customized by the user.</li>
+<li>CHG: Flapjack's data modal has been updated to allow it to cope with data sets that use large numbers of unique alleles per locus (eg SSR data).</li>
+<li>CHG: The random colour scheme now correctly displays heterozygous alleles as a diagonal split with appropriate colour coding for each half.</li>
+<li>BUG: Fixed a bug in the Find by Name dialog that could cause Flapjack to crash when quickly selecting multiple results.</li>
+</ul>
+
+<!--#include virtual="footer.html" -->
+
+</body>
+</html>
