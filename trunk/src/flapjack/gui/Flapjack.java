@@ -116,6 +116,20 @@ public class Flapjack
 					Prefs.isHuttonised = true;
 				}
 
+				long thirtyDays = 1800000; // This is 30 days: 2592000000L;
+				long thirtyDaysAgo = System.currentTimeMillis() - thirtyDays;
+
+				if (!Prefs.isFirstRun &&
+					Long.valueOf(Prefs.visColorSeed) < thirtyDaysAgo)
+				{
+					Prefs.visColorSeed = "" + System.currentTimeMillis();
+					// Force a re-save on prefs so that multiple Tablet launches
+					// (without closing any of them) don't show the dialog every
+					// time
+					prefs.savePreferences(prefsFile, Prefs.class);
+					new CitationDialog();
+				}
+
 				// Do we want to open an initial project?
 				if (initialProject != null)
 					winMain.mFile.fileOpen(initialProject);
