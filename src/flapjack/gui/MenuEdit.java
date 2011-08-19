@@ -266,6 +266,63 @@ public class MenuEdit
 		gPanel.refreshView();
 	}
 
+	void editInsertSplitter()
+	{
+		GTViewSet viewSet = gPanel.getViewSet();
+		GTView view = gPanel.getView();
+
+		// If a splitter already exists, we can't add another
+		if (view.getSplitterIndex() != -1)
+			return;
+
+		if (view.mouseOverLine >= 0 && view.mouseOverLine < view.getLineCount())
+		{
+			// Set the undo state
+			InsertedLineState state = new InsertedLineState(viewSet,
+				RB.getString("gui.visualization.InsertedSplitterState.insert"));
+			state.createUndoState();
+
+			// Insert the line
+			viewSet.insertSplitterLine(view.mouseOverLine);
+
+			// Set the redo state
+			state.createRedoState();
+			gPanel.addUndoState(state);
+
+			view.cacheLines();
+			gPanel.refreshView();
+		}
+	}
+
+	// Displays a dialog box asking the user if they want to delete the dummy
+	// line under the mouse, or all dummy lines
+	void editDeleteSplitter()
+	{
+		GTViewSet viewSet = gPanel.getViewSet();
+		GTView view = gPanel.getView();
+
+		int response = TaskDialog.show(RB.getString("gui.MenuEdit.removeSplitter"),
+			TaskDialog.INF, 0, new String[] { RB.getString("gui.text.ok"), RB.getString("gui.text.cancel") } );
+
+		// Set the undo state
+		InsertedLineState state = new InsertedLineState(viewSet,
+			RB.getString("gui.visualization.InsertedSplitterState.remove"));
+		state.createUndoState();
+
+		if (response == 0)
+		{
+			viewSet.getLines().remove(view.getSplitterIndex());
+			viewSet.getDataSet().setSplitter(null);
+		}
+
+		// Set the redo state
+		state.createRedoState();
+		gPanel.addUndoState(state);
+
+		view.cacheLines();
+		gPanel.refreshView();
+	}
+
 	void editFilterMissingMarkers()
 	{
 		MissingMarkersDialog dialog = new MissingMarkersDialog();

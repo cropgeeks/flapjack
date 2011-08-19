@@ -499,6 +499,11 @@ public class GTView extends XMLRoot
 		return line == viewSet.getDataSet().getDummyLine();
 	}
 
+	public boolean isSplitter(Line line)
+	{
+		return line == viewSet.getDataSet().getSplitter();
+	}
+
 	/**
 	 * Returns a human count of the number of markers in this view. If it's a
 	 * normal chromosome, it'll just be a count of the markers, but if it's a
@@ -515,5 +520,26 @@ public class GTView extends XMLRoot
 				count++;
 
 		return count;
+	}
+
+	public int getSplitterIndex()
+	{
+		int linecount = getLineCount();
+		for (int i=0; i < linecount; i++)
+			if (getLine(i) == viewSet.getDataSet().getSplitter())
+				return i;
+
+		return -1;
+	}
+
+	public boolean hasDummyLines()
+	{
+		int lineCount = getLineCount();
+
+		for (int i=0; i < lineCount; i++)
+			if (viewSet.lines.get(i).line == viewSet.getDataSet().getDummyLine())
+				return true;
+
+		return false;
 	}
 }

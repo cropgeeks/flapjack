@@ -156,10 +156,15 @@ class ListPanel extends JPanel
 
 			LineInfo li = (LineInfo) obj;
 
-			if (viewSet.getDisplayLineScores())
-				setText(" " + df.format(li.getScore()) + " " + li);
+			if (view.isSplitter(li.getLine()))
+				setText(" ");
 			else
-				setText(" " + li.toString());
+			{
+				if (viewSet.getDisplayLineScores())
+					setText(" " + df.format(li.getScore()) + " " + li);
+				else
+					setText(" " + li.toString());
+			}
 
 			// Highlight the line "under" the mouse
 			if (i == view.mouseOverLine)

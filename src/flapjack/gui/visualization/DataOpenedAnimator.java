@@ -33,7 +33,6 @@ public class DataOpenedAnimator extends Thread implements IOverlayRenderer
 			try { Thread.sleep(100); }
 			catch (Exception e) {}
 
-
 		// Half the width/height of the current display area
 		int w2 = (canvas.pX2-canvas.pX1)/2;
 		int h2 = (canvas.pY2-canvas.pY1)/2;
@@ -59,6 +58,7 @@ public class DataOpenedAnimator extends Thread implements IOverlayRenderer
 		}
 
 		canvas.overlays.remove(this);
+		canvas.repaint();
 	}
 
 	public void render(Graphics2D g)

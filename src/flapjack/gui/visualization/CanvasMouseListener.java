@@ -31,7 +31,6 @@ class CanvasMouseListener extends MouseInputAdapter
 
 	private boolean isOSX = SystemUtils.isMacOS();
 
-
 	CanvasMouseListener(GenotypePanel gPanel, GenotypeCanvas canvas)
 	{
 		this.gPanel = gPanel;
@@ -80,7 +79,8 @@ class CanvasMouseListener extends MouseInputAdapter
 
 	public void mousePressed(MouseEvent e)
 	{
-		canvas.crosshair = false;
+		canvas.overlays.remove(canvas.crosshair);
+		canvas.repaint();
 
 		if (e.isPopupTrigger())
 			canvasMenu.handlePopup(e);
@@ -100,7 +100,11 @@ class CanvasMouseListener extends MouseInputAdapter
 
 	public void mouseReleased(MouseEvent e)
 	{
-		canvas.crosshair = true;
+		if (!canvas.overlays.contains(canvas.crosshair))
+		{
+			canvas.overlays.add(canvas.crosshair);
+			canvas.repaint();
+		}
 
 		if (e.isPopupTrigger())
 			canvasMenu.handlePopup(e);

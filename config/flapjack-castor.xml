@@ -21,6 +21,9 @@
 		<field name="lines" type="flapjack.data.Line" collection="arraylist"/>
 		<field name="viewSets" type="flapjack.data.GTViewSet" collection="arraylist"/>
 		<field name="traits" type="flapjack.data.Trait" collection="arraylist"/>
+
+		<field name="dummyLine" type="flapjack.data.Line" transient="true"/>
+		<field name="splitter" type="flapjack.data.Line" transient="true"/>
 	</class>
 
 	<!-- ChromosomeMap -->

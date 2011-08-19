@@ -4,11 +4,8 @@
 package flapjack.io.binary;
 
 import java.io.*;
-import java.util.*;
 
 import flapjack.data.*;
-import flapjack.gui.*;
-import flapjack.io.*;
 
 // V3 serialization adds support for experiments in traits and changes what used
 // to be a single integer for the selected graph in a GTViewSet to be an array

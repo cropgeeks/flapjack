@@ -7,47 +7,33 @@ import java.util.*;
 
 import flapjack.data.*;
 
-import scri.commons.gui.*;
-
-public class SortLinesAlphabetically extends SimpleJob
+public class SortLinesAlphabetically extends SortLines
 {
-	private GTViewSet viewSet;
-
 	public SortLinesAlphabetically(GTViewSet viewSet)
 	{
-		this.viewSet = viewSet;
-		maximum = viewSet.getView(0).getLineCount();
+		super(viewSet);
 	}
 
-	public int getValue()
-		{ return 0; }
-
-	public void runJob(int jobIndex)
+	@Override
+	protected ArrayList<LineInfo> doSort(GTView view, int numLines)
 	{
-		// Access the first chromosome (just to get at the lines data)
-		GTView view = viewSet.getView(0);
-
-		// Create an array to hold the score for each line
-		int numLines = view.getLineCount();
 		ArrayList<LineScore> scores = new ArrayList<LineScore>(numLines);
-
-		// Work out what those scores are
-		for (int i = 0; i < numLines; i++)
+		// Create line scores for each LineInfo
+		for (int i = 0; i < numLines; i++, linesScored++)
 		{
 			LineInfo line = view.getLineInfo(i);
 			scores.add(new LineScore(line));
 		}
 
-		// Now sort the array based on those scores
+		// Sort the array based on those scores
 		Collections.sort(scores);
 
-		// Then create a new line ordering for the view
-		LineInfo[] lineOrder = new LineInfo[scores.size()];
+		ArrayList<LineInfo> lineOrder = new ArrayList<LineInfo>(numLines);
+		// Create a new line ordering for the view based on the scores
 		for (int i = 0; i < scores.size(); i++)
-			lineOrder[i] = scores.get(i).lineInfo;
+			lineOrder.add(scores.get(i).lineInfo);
 
-		// And pass that order back to the view
-		view.getViewSet().setLinesFromArray(lineOrder, true);
+		return lineOrder;
 	}
 
 	private class LineScore implements Comparable<LineScore>
@@ -61,7 +47,7 @@ public class SortLinesAlphabetically extends SimpleJob
 
 		public int compareTo(LineScore other)
 		{
-			return  lineInfo.getLine().getName().compareToIgnoreCase(
+			return lineInfo.getLine().getName().compareToIgnoreCase(
 				other.lineInfo.getLine().getName());
 		}
 	}

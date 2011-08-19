@@ -27,8 +27,8 @@ public class FindLine extends StringFinder
 		{
 			Line line = view.getLine(index);
 
-			// Don't match on dummy lines
-			if (view.isDummyLine(line))
+			// Don't match on dummy, or splitter lines
+			if (view.isDummyLine(line) || view.isSplitter(line))
 				continue;
 
 			if (matches(line.getName(), str))
