@@ -8,69 +8,61 @@ import java.util.*;
 
 import flapjack.data.*;
 
-import scri.commons.gui.*;
-
-public class SortLinesExternally extends SimpleJob
+public class SortLinesExternally extends SortLines
 {
-	private GTViewSet viewSet;
 	private File file;
 
 	public SortLinesExternally(GTViewSet viewSet, File file)
 	{
-		this.viewSet = viewSet;
-		this.file = file;
+		super(viewSet);
 
-		maximum = viewSet.getView(0).getLineCount();
+		this.file = file;
 	}
 
-	public int getValue()
-		{ return 0; }
-
-	public void runJob(int jobIndex)
-		throws Exception
+	@Override
+	protected ArrayList<LineInfo> doSort(GTView view, int numLines)
 	{
-		// Access the first chromosome (just to get at the lines data)
-		GTView view = viewSet.getView(0);
-
-		// Create an array to hold the score for each line
-		int numLines = view.getLineCount();
 		ArrayList<LineScore> scores = new ArrayList<LineScore>(numLines);
-
 		// Give every line an empty index before we start. This copes with
 		// the case where the external ordering doesn't contain matching lines
 		for (int i = 0; i < numLines; i++)
 			scores.add(new LineScore(view.getLineInfo(i), numLines));
 
-
-		BufferedReader in = new BufferedReader(new FileReader(file));
-		String str = null;
-
-		int index = 1;
-		while ((str = in.readLine()) != null)
+		try
 		{
-			// Search for this line...
-			for (int i = 0; i < scores.size(); i++)
+			BufferedReader in = new BufferedReader(new FileReader(file));
+			String str = null;
+
+			int index = 1;
+			while ((str = in.readLine()) != null)
 			{
-				if (scores.get(i).lineInfo.getLine().getName().equals(str))
+				// Search for this line...
+				for (int i = 0; i < scores.size(); i++)
 				{
-					scores.get(i).index = index++;
-					break;
+					if (scores.get(i).lineInfo.getLine().getName().equals(str))
+					{
+						scores.get(i).index = index++;
+						break;
+					}
 				}
 			}
-		}
 
-		in.close();
+			in.close();
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
 
 		// Now sort the array based on those scores
 		Collections.sort(scores);
 
 		// Then create a new line ordering for the view
-		LineInfo[] lineOrder = new LineInfo[scores.size()];
+		ArrayList<LineInfo> lineOrder = new ArrayList<LineInfo>(numLines);
 		for (int i = 0; i < scores.size(); i++)
-			lineOrder[i] = scores.get(i).lineInfo;
+			lineOrder.add(scores.get(i).lineInfo);
 
-		// And pass that order back to the view
-		view.getViewSet().setLinesFromArray(lineOrder, true);
+		return lineOrder;
 	}
 
 	private class LineScore implements Comparable<LineScore>

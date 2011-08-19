@@ -38,6 +38,8 @@ public class Actions
 	public static AbstractAction editHideLines;
 	public static AbstractAction editInsertLine;
 	public static AbstractAction editDeleteLine;
+	public static AbstractAction editInsertSplitter;
+	public static AbstractAction editDeleteSplitter;
 
 	public static AbstractAction viewNewView;
 	public static AbstractAction viewRenameView;
@@ -262,6 +264,17 @@ public class Actions
 			}
 		};
 
+		editInsertSplitter = new AbstractAction(RB.format("gui.Actions.editInsertSplitter", "")) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.mEdit.editInsertSplitter();
+			}
+		};
+
+		editDeleteSplitter = new AbstractAction(RB.format("gui.Actions.editDeleteSplitter", "")) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.mEdit.editDeleteSplitter();
+			}
+		};
 
 		viewNewView = new AbstractAction(RB.getString("gui.Actions.viewNewView")) {
 			public void actionPerformed(ActionEvent e) {
@@ -612,6 +625,8 @@ public class Actions
 		editHideLines.setEnabled(false);
 		editInsertLine.setEnabled(false);
 		editDeleteLine.setEnabled(false);
+		editInsertSplitter.setEnabled(false);
+		editDeleteSplitter.setEnabled(false);
 
 		viewNewView.setEnabled(false);
 		viewRenameView.setEnabled(false);

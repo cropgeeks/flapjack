@@ -7,12 +7,8 @@ import java.util.*;
 
 import flapjack.data.*;
 
-import scri.commons.gui.*;
-
-public class SortLinesByTrait extends SimpleJob
+public class SortLinesByTrait extends SortLines
 {
-	private GTViewSet viewSet;
-
 	// Trait indices and ascending/decending info
 	private int[] traits;
 	private boolean[] asc;
@@ -20,55 +16,48 @@ public class SortLinesByTrait extends SimpleJob
 	// Auto assign the selected traits to the view's heatmap after the sort?
 	private boolean autoAssign;
 
-	private int linesScored = 0;
-
 	public SortLinesByTrait(GTViewSet viewSet, int[] traits, boolean[] asc, boolean autoAssign)
 	{
-		this.viewSet = viewSet;
+		super(viewSet);
+
 		this.traits = traits;
 		this.asc = asc;
 		this.autoAssign = autoAssign;
-		maximum = viewSet.getView(0).getLineCount();
 	}
 
-	public int getValue()
-		{ return linesScored; }
-
-	public void runJob(int jobIndex)
+	@Override
+	protected ArrayList<LineInfo> doSort(GTView view, int numLines)
 	{
-		// Access the first chromosome (just to get at the lines data)
-		GTView view = viewSet.getView(0);
-
-		// Store a local reference to the line ordering for quicker access
-		ArrayList<LineInfo> lines = view.getViewSet().getLines();
-
-		// Create an array to hold the score for each line
-		ArrayList<LineScore> scores = new ArrayList<LineScore>(lines.size());
-
-		// Work out what those scores are
+		ArrayList<LineScore> scores = new ArrayList<LineScore>(numLines);
 		for (int i = 0; i < view.getLineCount(); i++, linesScored++)
-			scores.add(new LineScore(lines.get(i)));
+			// Don't do a trait sort on a splitter line
+			if (!view.isSplitter(view.getViewSet().getLines().get(i).getLine()))
+				scores.add(new LineScore(view.getViewSet().getLines().get(i)));
 
 		// Now sort the array based on those scores
 		Collections.sort(scores);
 
 		// Then create a new line ordering for the view
-		LineInfo[] lineOrder = new LineInfo[scores.size()];
+		ArrayList<LineInfo> lineOrder = new ArrayList<LineInfo>(numLines);
 		for (int i = 0; i < scores.size(); i++)
-			lineOrder[i] = scores.get(i).lineInfo;
+			lineOrder.add(scores.get(i).lineInfo);
 
-		// And pass that order back to the view
-		view.getViewSet().setLinesFromArray(lineOrder, true);
+		return lineOrder;
+	}
+
+	@Override
+	public void runJob(int jobIndex)
+	{
+		super.runJob(jobIndex);
 
 		// Assign the traits to the heatmap?
 		if (autoAssign)
-			view.getViewSet().setTraits(traits);
+			viewSet.setTraits(traits);
 	}
 
 	private class LineScore implements Comparable<LineScore>
 	{
-		LineInfo lineInfo;
-
+		private LineInfo lineInfo;
 		private TraitValue[] tv;
 
 		LineScore(LineInfo lineInfo)

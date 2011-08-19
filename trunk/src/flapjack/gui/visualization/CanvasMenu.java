@@ -22,8 +22,11 @@ public class CanvasMenu
 
 	private JCheckBoxMenuItem mLock;
 	private JMenuItem mBookmark;
+	private JMenu mSplitLines;
 	private JMenuItem mInsertLine;
 	private JMenuItem mDeleteLine;
+	private JMenuItem mInsertSplitter;
+	private JMenuItem mRemoveSplitter;
 	private JCheckBoxMenuItem mShowGenotypes;
 	private JCheckBoxMenuItem mHighlightHZ;
 	private JCheckBoxMenuItem mHighlightGaps;
@@ -70,6 +73,8 @@ public class CanvasMenu
 		mBookmark = WinMainMenuBar.getItem(Actions.viewBookmark, "gui.Actions.viewBookmark", 0, 0);
 		mInsertLine = WinMainMenuBar.getItem(Actions.editInsertLine, "gui.Actions.editInsertLine", 0, 0);
 		mDeleteLine = WinMainMenuBar.getItem(Actions.editDeleteLine, "gui.Actions.editDeleteLine", 0, 0);
+		mInsertSplitter = WinMainMenuBar.getItem(Actions.editInsertSplitter, "gui.Actions.editInsertLine", 0, 0);
+		mRemoveSplitter = WinMainMenuBar.getItem(Actions.editDeleteSplitter, "gui.Actions.editDeleteLine", 0, 0);
 		mShowGenotypes = WinMainMenuBar.getCheckedItem(Actions.vizOverlayGenotypes, "gui.Actions.vizOverlayGenotypes", KeyEvent.VK_G, menuShortcut);
 		mHighlightHZ = WinMainMenuBar.getCheckedItem(Actions.vizHighlightHZ, "gui.Actions.vizHighlightHZ", KeyEvent.VK_H, menuShortcut);
 		mHighlightGaps = WinMainMenuBar.getCheckedItem(Actions.vizHighlightGaps, "gui.Actions.vizHighlightGaps", 0, 0);
@@ -89,6 +94,13 @@ public class CanvasMenu
 		mDBLineName = WinMainMenuBar.getItem(Actions.dataDBLineName, "gui.Actions.dataDBLineName", 0, 0);
 		mDBMarkerName = WinMainMenuBar.getItem(Actions.dataDBMarkerName, "gui.Actions.dataDBMarkerName", 0, 0);
 		mDBSettings = WinMainMenuBar.getItem(Actions.dataDBSettings, "gui.Actions.dataDBSettings", 0, 0);
+
+		mSplitLines = new JMenu(RB.getString("gui.CanvasMenu.mSplitLines"));
+		mSplitLines.add(mInsertLine);
+		mSplitLines.add(mDeleteLine);
+		mSplitLines.addSeparator();
+		mSplitLines.add(mInsertSplitter);
+		mSplitLines.add(mRemoveSplitter);
 
 		mColor = new JMenu(RB.getString("gui.WinMainMenuBar.mVizColor"));
 		mColor.setIcon(Actions.getIcon("COLORS"));
@@ -139,13 +151,14 @@ public class CanvasMenu
 		int yIndex = canvas.getLine(e.getPoint());
 		canvas.setHighlightedIndices(yIndex, xIndex);
 
+		GTView view = canvas.view;
+
 
 		// Create and display the menu
 		menu = new JPopupMenu();
 
 		menu.add(mBookmark);
-		menu.add(mInsertLine);
-		menu.add(mDeleteLine);
+		menu.add(mSplitLines);
 		menu.addSeparator();
 		menu.add(mColor);
 		menu.add(mShowGenotypes);
@@ -158,7 +171,16 @@ public class CanvasMenu
 		menu.add(mDataDB);
 
 		// Set enabled/disable states
-		mBookmark.setEnabled(Bookmark.allowBookmarking(canvas.view));
+		mBookmark.setEnabled(Bookmark.allowBookmarking(view));
+
+		mInsertSplitter.setEnabled(view.getSplitterIndex() == -1);
+
+		if (view.getSplitterIndex() != -1)
+			mRemoveSplitter.setEnabled(true);
+		else
+			mRemoveSplitter.setEnabled(false);
+
+		mDeleteLine.setEnabled(view.hasDummyLines());
 
 		menu.show(e.getComponent(), e.getX(), e.getY());
 	}

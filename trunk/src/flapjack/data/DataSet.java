@@ -16,6 +16,10 @@ public class DataSet extends XMLRoot
 	// Dummy line data (can be used whenever we need a 'placeholder' line
 	private Line dummyLine;
 
+	// Sort splitter, used to separate lines which shouldn't be sorted from
+	// those that should
+	private Line splitter;
+
 	// Trait information
 	private ArrayList<Trait> traits = new ArrayList<Trait>();
 
@@ -42,6 +46,10 @@ public class DataSet extends XMLRoot
 			line.validate();
 		for (Trait trait: traits)
 			trait.validate();
+
+		// Rebuild dummy and splitter as they are not part of the saved project
+		dummyLine = lines.get(0).createDummy();
+		splitter = lines.get(0).createDummy();
 
 		stateTable.validate();
 		for (GTViewSet viewSet: viewSets)
@@ -74,6 +82,12 @@ public class DataSet extends XMLRoot
 
 	public void setDummyLine(Line dummyLine)
 		{ this.dummyLine = dummyLine; }
+
+	public Line getSplitter()
+		{ return splitter; }
+
+	public void setSplitter(Line splitter)
+		{ this.splitter = splitter; }
 
 	public ArrayList<Trait> getTraits()
 		{ return traits; }

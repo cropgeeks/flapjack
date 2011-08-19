@@ -46,6 +46,8 @@ public class VisualizationNode extends BaseNode
 		Actions.editHideLines.setEnabled(true);
 		Actions.editInsertLine.setEnabled(true);
 		Actions.editDeleteLine.setEnabled(true);
+		Actions.editInsertSplitter.setEnabled(true);
+		Actions.editDeleteSplitter.setEnabled(true);
 
 		Actions.viewNewView.setEnabled(true);
 		Actions.viewRenameView.setEnabled(true);

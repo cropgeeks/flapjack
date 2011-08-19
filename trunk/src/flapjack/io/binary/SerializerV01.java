@@ -7,8 +7,6 @@ import java.io.*;
 import java.util.*;
 
 import flapjack.data.*;
-import flapjack.gui.*;
-import flapjack.io.*;
 
 class SerializerV01 extends FlapjackSerializer
 {
@@ -36,7 +34,7 @@ class SerializerV01 extends FlapjackSerializer
 			System.out.println("found " + dataSetCount + " data sets");
 
 		for (int i = 0; i < dataSetCount; i++)
-			loadDataSet(project);
+			project.getDataSets().add(loadDataSet(project));
 
 		return project;
 	}
@@ -75,15 +73,12 @@ class SerializerV01 extends FlapjackSerializer
 
 		// Has dummy line?
 		out.writeBoolean(dataSet.getDummyLine() != null);
-		// Dummy line data
-		if (dataSet.getDummyLine() != null)
-			saveLine(dataSet.getDummyLine(), dataSet);
 
 		// DBAssociation
 		saveDBAssociation(dataSet.getDbAssociation());
 	}
 
-	protected void loadDataSet(Project project)
+	protected DataSet loadDataSet(Project project)
 		throws Exception
 	{
 		DataSet dataSet = new DataSet();
@@ -115,7 +110,7 @@ class SerializerV01 extends FlapjackSerializer
 		if (DEBUG)
 			System.out.println("found " + lineCount + " lines");
 		for (int i = 0; i < lineCount; i++)
-			loadLine(dataSet);
+			dataSet.getLines().add(loadLine(dataSet));
 
 		// Number of view sets
 		int viewSetCount = in.readInt();
@@ -123,12 +118,13 @@ class SerializerV01 extends FlapjackSerializer
 			dataSet.getViewSets().add(loadGTViewSet(dataSet));
 
 		// Has dummy line?
-		if (in.readBoolean())
-			loadLine(dataSet);
+		in.readBoolean();
+//		if (in.readBoolean())
+//			dataSet.setDummyLine(loadLine(dataSet));
 
 		loadDBAssociation(dataSet);
 
-		project.getDataSets().add(dataSet);
+		return dataSet;
 	}
 
 	protected void saveStateTable(StateTable table)
@@ -436,7 +432,7 @@ class SerializerV01 extends FlapjackSerializer
 			saveTraitValue(traitValue, dataSet);
 	}
 
-	protected void loadLine(DataSet dataSet)
+	protected Line loadLine(DataSet dataSet)
 		throws Exception
 	{
 		Line line = new Line();
@@ -458,7 +454,7 @@ class SerializerV01 extends FlapjackSerializer
 		for (int i = 0; i < traitValueCount; i++)
 			loadTraitValue(line, dataSet);
 
-		dataSet.getLines().add(line);
+		return line;
 	}
 
 	protected void saveGenotypeData(GenotypeData data, DataSet dataSet)
@@ -726,8 +722,11 @@ class SerializerV01 extends FlapjackSerializer
 		lineInfo.setScore(in.readFloat());
 
 		// Rebuild the reference to the Line this LineInfo wraps
-		Line line = dataSet.getLines().get(index);
-		lineInfo.setLine(line);
+		if (index >= 0)
+		{
+			Line line = dataSet.getLines().get(index);
+			lineInfo.setLine(line);
+		}
 
 		list.add(lineInfo);
 	}

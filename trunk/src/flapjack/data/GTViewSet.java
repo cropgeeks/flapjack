@@ -90,6 +90,17 @@ public class GTViewSet extends XMLRoot
 
 		for (GTView view: views)
 			view.validate();
+
+		// This rebuilds the references between dummy and splitter LineInfos and
+		// the actual objects held by the DataSet (because they are not part of
+		// the saved project)
+		for (LineInfo info : lines)
+		{
+			if (info.index == -1)
+				info.line = dataSet.getDummyLine();
+			else if (info.index == -2)
+				info.line = dataSet.getSplitter();
+		}
 	}
 
 
@@ -388,6 +399,21 @@ public class GTViewSet extends XMLRoot
 		for (int i = lines.size()-1; i >= 0; i--)
 			if (lines.get(i).line == dataSet.getDummyLine())
 				lines.remove(i);
+	}
+
+	public void insertSplitterLine(int index)
+	{
+		Line splitter = dataSet.getSplitter();
+
+		if (splitter == null)
+		{
+			Line line = lines.get(index).line;
+			splitter = line.createDummy();
+
+			dataSet.setSplitter(splitter);
+		}
+
+		lines.add(index, new LineInfo(splitter, -2));
 	}
 
 	public void filterMissingMarkers(boolean allChromosomes, int cutoff)

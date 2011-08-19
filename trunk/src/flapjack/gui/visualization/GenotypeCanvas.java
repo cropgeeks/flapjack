@@ -26,7 +26,8 @@ class GenotypeCanvas extends JPanel
 	ColorScheme cScheme;
 
 	boolean locked = false;
-	boolean crosshair = true;
+
+	CrosshairOverlay crosshair;
 
 	// The total number of boxes (allele states) in the dataset
 	int boxTotalX, boxTotalY;
@@ -101,6 +102,10 @@ class GenotypeCanvas extends JPanel
 		// Prepare the background threads that will do the main painting
 		executor = Executors.newFixedThreadPool(cores);
 		tasks = new Future[cores];
+
+		overlays.add(new SplitterOverlay(gPanel));
+		crosshair = new CrosshairOverlay(gPanel);
+		overlays.add(crosshair);
 	}
 
 	void setView(GTViewSet viewSet, GTView view)
@@ -126,7 +131,6 @@ class GenotypeCanvas extends JPanel
 			boxW = sizeX*2;
 
 		boxH = fm.getHeight();
-
 
 		boxTotalX = view.getMarkerCount();
 		boxTotalY = view.getLineCount();
@@ -231,10 +235,10 @@ class GenotypeCanvas extends JPanel
 		{
 			view.mouseOverLine = rowIndex;
 			view.mouseOverMarker = colIndex;
-
-			if (crosshair && Prefs.visCrosshair)
-				repaint();
 		}
+
+		if (Prefs.visCrosshair)
+			repaint();
 	}
 
 	public Dimension getPreferredSize()
@@ -252,7 +256,7 @@ class GenotypeCanvas extends JPanel
 
 		Graphics2D g = (Graphics2D) graphics;
 
-		long s = System.nanoTime();
+//		long s = System.nanoTime();
 
 		g.setColor(Prefs.visColorBackground);
 		g.fillRect(0, 0, canvasW, canvasH);
@@ -272,17 +276,7 @@ class GenotypeCanvas extends JPanel
 			repaint();
 		}
 
-		// Highlight the current position of the mouse
-		if (crosshair && Prefs.visCrosshair &&
-			(view.mouseOverMarker != -1 || view.mouseOverLine != -1))
-		{
-			g.setPaint(new Color(255, 255, 255, 75));
-
-			g.fillRect(boxW*view.mouseOverMarker, 0, boxW, canvasH);
-			g.fillRect(0, boxH*view.mouseOverLine, canvasW, boxH);
-		}
-
-		long e = System.nanoTime();
+//		long e = System.nanoTime();
 //		System.out.println("Render time: " + ((e-s)/1000000f) + "ms");
 	}
 

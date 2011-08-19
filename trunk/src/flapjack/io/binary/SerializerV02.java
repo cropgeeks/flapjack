@@ -4,11 +4,8 @@
 package flapjack.io.binary;
 
 import java.io.*;
-import java.util.*;
 
 import flapjack.data.*;
-import flapjack.gui.*;
-import flapjack.io.*;
 
 // V2 serialization adds support for graphs.
 
