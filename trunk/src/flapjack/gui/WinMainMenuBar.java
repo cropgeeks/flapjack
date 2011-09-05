@@ -86,6 +86,7 @@ public class WinMainMenuBar extends JMenuBar
 	private JMenuItem mDataSortLinesAlphabetically;
 	private JMenuItem mDataFilterQTLs;
 	private JMenuItem mDataFind;
+	private JMenuItem mDataSimMatrix;
 	private JMenuItem mDataStatistics;
 	private JMenu mDataDB;
 	private JMenuItem mDataDBLineName;
@@ -337,6 +338,7 @@ public class WinMainMenuBar extends JMenuBar
 		mDataFilterQTLs = getItem(Actions.dataFilterQTLs, "gui.Actions.dataFilterQTLs", 0, 0);
 		mDataSelectGraph = getItem(Actions.dataSelectGraph, "gui.Actions.dataSelectGraph", 0, 0);
 		mDataFind = getItem(Actions.dataFind, "gui.Actions.dataFind", KeyEvent.VK_F, menuShortcut);
+		mDataSimMatrix = getItem(Actions.dataSimMatrix, "gui.Actions.dataSimMatrix", 0, 0);
 		mDataStatistics = getItem(Actions.dataStatistics, "gui.Actions.dataStatistics", 0, 0);
 		mDataDBLineName = getItem(Actions.dataDBLineName, "gui.Actions.dataDBLineName", 0, 0);
 		mDataDBMarkerName = getItem(Actions.dataDBMarkerName, "gui.Actions.dataDBMarkerName", 0, 0);
@@ -364,6 +366,7 @@ public class WinMainMenuBar extends JMenuBar
 		mData.addSeparator();
 		mData.add(mDataFind);
 		mData.add(mDataStatistics);
+		mData.add(mDataSimMatrix);
 		mData.add(mDataDB);
 		mData.addSeparator();
 		mData.add(mDataRenameDataSet);

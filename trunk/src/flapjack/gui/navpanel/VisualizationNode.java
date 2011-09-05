@@ -85,6 +85,7 @@ public class VisualizationNode extends BaseNode
 		// TODO: make dynamic based on inclusion of QTL data or not
 		Actions.dataFilterQTLs.setEnabled(true);
 		Actions.dataFind.setEnabled(true);
+		Actions.dataSimMatrix.setEnabled(true);
 		Actions.dataStatistics.setEnabled(true);
 		Actions.dataDBSettings.setEnabled(true);
 		Actions.dataRenameDataSet.setEnabled(true);

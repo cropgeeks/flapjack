@@ -129,7 +129,7 @@ public class MenuData
 		gPanel.getViewSet().setDisplayLineScores(false);
 
 		state.createUndoState();
-		
+
 		return state;
 	}
 
@@ -358,6 +358,47 @@ public class MenuData
 
 		TaskDialog.info(
 			RB.format("gui.dialog.ExportDataDialog.exportSuccess", filename),
+			RB.getString("gui.text.close"));
+	}
+
+	public void dataSimMatrix()
+	{
+		GTViewSet viewSet = gPanel.getViewSet();
+
+		String name = RB.format("gui.MenuData.simMatrix.filename", viewSet.getName());
+		File saveAs = new File(Prefs.guiCurrentDir, name);
+		FileNameExtensionFilter filter = new FileNameExtensionFilter(
+			RB.getString("other.Filters.ttxt"), "txt");
+
+		// Ask the user for a filename to save simmatrix as
+		String filename = FlapjackUtils.getSaveFilename(
+			RB.getString("gui.MenuData.simMatrix.saveDialog"), saveAs, filter);
+
+		// Quit if the user cancelled the file selection
+		if (filename == null)
+			return;
+
+
+		// Set up the calculator
+		CalculateSimilarityMatrix calculator = new CalculateSimilarityMatrix(viewSet, filename);
+
+		ProgressDialog dialog = new ProgressDialog(calculator,
+			RB.format("gui.MenuData.simMatrix.title"),
+			RB.format("gui.MenuData.simMatrix.label"), Flapjack.winMain);
+
+		// If the operation failed or was cancelled...
+		if (dialog.getResult() != ProgressDialog.JOB_COMPLETED)
+		{
+			if (dialog.getResult() == ProgressDialog.JOB_FAILED)
+				TaskDialog.error(RB.format("gui.MenuData.simMatrix.error",
+					dialog.getException().getMessage()),
+					RB.getString("gui.text.close"));
+
+			return;
+		}
+
+		TaskDialog.info(
+			RB.format("gui.dialog.simMatrix.exportSuccess", filename),
 			RB.getString("gui.text.close"));
 	}
 }

@@ -78,6 +78,7 @@ public class Actions
 	public static AbstractAction dataFilterQTLs;
 	public static AbstractAction dataSelectGraph;
 	public static AbstractAction dataFind;
+	public static AbstractAction dataSimMatrix;
 	public static AbstractAction dataStatistics;
 	public static AbstractAction dataDBLineName;
 	public static AbstractAction dataDBMarkerName;
@@ -482,6 +483,12 @@ public class Actions
 			}
 		};
 
+		dataSimMatrix = new AbstractAction(RB.getString("gui.Actions.dataSimMatrix")) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.mData.dataSimMatrix();
+			}
+		};
+
 		dataFind = new AbstractAction(RB.getString("gui.Actions.dataFind"), getIcon("FIND")) {
 			public void actionPerformed(ActionEvent e) {
 				winMain.mData.dataFind();
@@ -665,6 +672,7 @@ public class Actions
 		dataFilterQTLs.setEnabled(false);
 		dataSelectGraph.setEnabled(false);
 		dataFind.setEnabled(false);
+		dataSimMatrix.setEnabled(false);
 		dataStatistics.setEnabled(false);
 		dataDBLineName.setEnabled(false);
 		dataDBMarkerName.setEnabled(false);

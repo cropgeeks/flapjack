@@ -55,16 +55,19 @@ public class SimilarityScore
 				if (state1 == 0 || state2 == 0)
 					continue;
 
-				AlleleState s1 = st.getAlleleState(state1);
-				AlleleState s2 = st.getAlleleState(state2);
-
 				// Increment the score if they match
 				if (state1 == state2)
 					score += 1.0f;
 
 				// Half-increment if, for example, A matches A/T
-				else if (s1.matches(s2))
-					score += 0.5f;
+				else
+				{
+					AlleleState s1 = st.getAlleleState(state1);
+					AlleleState s2 = st.getAlleleState(state2);
+
+					if (s1.matches(s2))
+						score += 0.5f;
+				}
 
 				// Count it as a comparison, regardless of match
 				nComparisons++;
