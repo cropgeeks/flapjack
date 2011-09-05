@@ -20,12 +20,13 @@ public class SortLinesExternally extends SortLines
 	}
 
 	@Override
-	protected ArrayList<LineInfo> doSort(GTView view, int numLines)
+	protected ArrayList<LineInfo> doSort(GTView view)
 	{
+		int numLines = view.getLineCount();
 		ArrayList<LineScore> scores = new ArrayList<LineScore>(numLines);
 		// Give every line an empty index before we start. This copes with
 		// the case where the external ordering doesn't contain matching lines
-		for (int i = 0; i < numLines; i++)
+		for (int i = 0; i < numLines && okToRun; i++)
 			scores.add(new LineScore(view.getLineInfo(i), numLines));
 
 		try
@@ -37,7 +38,7 @@ public class SortLinesExternally extends SortLines
 			while ((str = in.readLine()) != null)
 			{
 				// Search for this line...
-				for (int i = 0; i < scores.size(); i++)
+				for (int i = 0; i < scores.size() && okToRun; i++, linesScored++)
 				{
 					if (scores.get(i).lineInfo.getLine().getName().equals(str))
 					{
@@ -59,7 +60,7 @@ public class SortLinesExternally extends SortLines
 
 		// Then create a new line ordering for the view
 		ArrayList<LineInfo> lineOrder = new ArrayList<LineInfo>(numLines);
-		for (int i = 0; i < scores.size(); i++)
+		for (int i = 0; i < scores.size() && okToRun; i++)
 			lineOrder.add(scores.get(i).lineInfo);
 
 		return lineOrder;

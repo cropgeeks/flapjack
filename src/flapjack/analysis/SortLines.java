@@ -26,6 +26,9 @@ abstract class SortLines extends SimpleJob
 		// Access the first chromosome (just to get at the lines data)
 		GTView view = viewSet.getView(0);
 
+		// Make sure any dummy lines have been stripped out before sorting
+		viewSet.removeAllDummyLines();
+
 		int splitter = view.getSplitterIndex();
 
 		// Store the lines up to the splitter for later use
@@ -33,19 +36,20 @@ abstract class SortLines extends SimpleJob
 		for (int i=0; i <= splitter; i++)
 			splitLines.add(view.getLineInfo(i));
 
-		int numLines = view.getLineCount();
-
 		// Sort the lines based on some criteria
-		ArrayList<LineInfo> lineOrder = doSort(view, numLines);
+		ArrayList<LineInfo> lineOrder = doSort(view);
 
-		// Remove the lines up to the splitter from the arraylist, then add them
-		// at the start again
-		lineOrder.removeAll(splitLines);
-		lineOrder.addAll(0, splitLines);
+		if (okToRun)
+		{
+			// Remove the lines up to the splitter from the arraylist, then add them
+			// at the start again
+			lineOrder.removeAll(splitLines);
+			lineOrder.addAll(0, splitLines);
 
-		// Pass the sorted order back to the view
-		view.getViewSet().setLinesFromArray(lineOrder.toArray(new LineInfo[numLines]), true);
+			// Pass the sorted order back to the view
+			view.getViewSet().setLinesFromArray(lineOrder.toArray(new LineInfo[view.getLineCount()]), true);
+		}
 	}
 
-	protected abstract ArrayList<LineInfo> doSort(GTView view, int numLines);
+	protected abstract ArrayList<LineInfo> doSort(GTView view);
 }

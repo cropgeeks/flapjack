@@ -38,6 +38,11 @@ public class SelectGraphPanelNB extends javax.swing.JPanel
 			graph3.addItem(graph.getName());
 		}
 
+		// If graph data not loaded this stops a crapout based on the following
+		// setSelectedIndex on graph1
+		if (graph1.getModel().getSize() == 0)
+			graph1.addItem("");
+
 		// And select whichever ones are "selected"
 		int[] graphs = gPanel.getViewSet().getGraphs();
 		graph1.setSelectedIndex(graphs[0]);

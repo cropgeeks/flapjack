@@ -12,7 +12,7 @@ import flapjack.data.*;
 import flapjack.gui.dialog.*;
 import flapjack.gui.dialog.analysis.*;
 import flapjack.gui.visualization.*;
-import flapjack.gui.visualization.undo.MovedLinesState;
+import flapjack.gui.visualization.undo.*;
 import flapjack.io.*;
 
 import scri.commons.gui.*;
@@ -129,9 +129,7 @@ public class MenuData
 		gPanel.getViewSet().setDisplayLineScores(false);
 
 		state.createUndoState();
-
-		// Make sure any dummy lines have been stripped out before sorting
-		gPanel.getViewSet().removeAllDummyLines();
+		
 		return state;
 	}
 

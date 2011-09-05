@@ -157,28 +157,21 @@ class QTLCanvas extends JPanel implements PropertyChangeListener
 			if (fgIndex != -1)
 			{
 				// ...then linear search to find the left-most feature group
-				while (trackData.get(fgIndex).getMax() > mSPos)
-				{
-					if (fgIndex > 0)
-						fgIndex--;
-					else
-						break;
-				}
+				while (fgIndex > 0 && trackData.get(fgIndex-1).getMax() > mSPos)
+					fgIndex--;
 
 				// Draw each feature group
-				loop:
 				for (FeatureGroup fg : trackData.subList(fgIndex, trackData.size()))
 				{
+					if (fg.getMin() > mEPos)
+						break;
+
 					boolean grouped = fg.size() > 1;
 
 					for (Feature feature: fg)
-					{
-						// Stop drawing features if we're offscreen on the rhs
-						if (feature.getMin() > mEPos)
-							break loop;
-
-						drawFeature(g, feature, trackNum, grouped);
-					}
+						// Don't draw features it they are offscreeen
+						if (feature.getMax() > mSPos && feature.getMin() < mEPos)
+							drawFeature(g, feature, trackNum, grouped);
 				}
 			}
 
