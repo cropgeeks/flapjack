@@ -25,7 +25,7 @@ public class SplitterOverlay implements IOverlayRenderer
 			g.setStroke(new BasicStroke(1, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER, 1f, new float[] { canvas.boxW/2 }, canvas.boxW/4));
 			g.setPaint(new Color(100, 100, 100));
 
-			g.drawLine(0, y1+(canvas.boxH/2), canvas.canvasW, y1+(canvas.boxH/2));
+			g.drawLine(0, y1+(canvas.boxH/2), canvas.canvasW-1, y1+(canvas.boxH/2));
 		}
 	}
 }
