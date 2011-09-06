@@ -19,9 +19,9 @@ class ColorPanelNB extends JPanel implements ActionListener
 {
 	private GenotypePanel gPanel;
 
-	private DefaultComboBoxModel comboModel;
-	private DefaultListModel standardModel;
-	private DefaultListModel schemeModel;
+	private DefaultComboBoxModel<ColorScheme> comboModel;
+	private DefaultListModel<ColorScheme.ColorSummary> standardModel;
+	private DefaultListModel<ColorScheme.ColorSummary> schemeModel;
 
 	ColorPanelNB(GenotypePanel gPanel)
 	{
@@ -48,7 +48,7 @@ class ColorPanelNB extends JPanel implements ActionListener
 		addMouseListener(schemeList);
 
 		// Add the various colour schemes to the combo box
-		comboModel = new DefaultComboBoxModel();
+		comboModel = new DefaultComboBoxModel<ColorScheme>();
 		comboModel.addElement(new NucleotideColorScheme());
 		comboModel.addElement(new SimpleTwoColorScheme());
 		comboModel.addElement(new LineSimilarityColorScheme());
@@ -76,7 +76,7 @@ class ColorPanelNB extends JPanel implements ActionListener
 
 	private void initStandardList()
 	{
-		standardModel = new DefaultListModel();
+		standardModel = new DefaultListModel<ColorScheme.ColorSummary>();
 
 		for (ColorScheme.ColorSummary summary: ColorScheme.getStandardColorSummaries())
 			standardModel.addElement(summary);
@@ -91,7 +91,7 @@ class ColorPanelNB extends JPanel implements ActionListener
 		infoText.setText(cs.getDescription());
 		infoText.setCaretPosition(0);
 
-		schemeModel = new DefaultListModel();
+		schemeModel = new DefaultListModel<ColorScheme.ColorSummary>();
 
 		for (ColorScheme.ColorSummary summary: cs.getColorSummaries())
 			schemeModel.addElement(summary);
@@ -167,17 +167,17 @@ class ColorPanelNB extends JPanel implements ActionListener
         gridPanel = new javax.swing.JPanel();
         javax.swing.JPanel panel1 = new javax.swing.JPanel();
         javax.swing.JScrollPane sp2 = new javax.swing.JScrollPane();
-        standardList = new javax.swing.JList();
+        standardList = new javax.swing.JList<ColorScheme.ColorSummary>();
         listLabel1 = new javax.swing.JLabel();
         javax.swing.JPanel panel2 = new javax.swing.JPanel();
         listLabel2 = new javax.swing.JLabel();
         javax.swing.JScrollPane sp3 = new javax.swing.JScrollPane();
-        schemeList = new javax.swing.JList();
+        schemeList = new javax.swing.JList<ColorScheme.ColorSummary>();
         infoPanel = new javax.swing.JPanel();
         javax.swing.JScrollPane sp1 = new javax.swing.JScrollPane();
         infoText = new javax.swing.JTextArea();
         comboLabel = new javax.swing.JLabel();
-        schemeCombo = new javax.swing.JComboBox();
+        schemeCombo = new javax.swing.JComboBox<ColorScheme>();
 
         colorPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Customize (double click a colour to change it):"));
 
@@ -296,9 +296,9 @@ class ColorPanelNB extends JPanel implements ActionListener
     private javax.swing.JTextArea infoText;
     private javax.swing.JLabel listLabel1;
     private javax.swing.JLabel listLabel2;
-    javax.swing.JComboBox schemeCombo;
-    private javax.swing.JList schemeList;
-    private javax.swing.JList standardList;
+    javax.swing.JComboBox<ColorScheme> schemeCombo;
+    private javax.swing.JList<ColorScheme.ColorSummary> schemeList;
+    private javax.swing.JList<ColorScheme.ColorSummary> standardList;
     // End of variables declaration//GEN-END:variables
 
 

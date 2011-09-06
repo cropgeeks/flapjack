@@ -24,7 +24,7 @@ class SelectLMPanelNB extends javax.swing.JPanel
 			RB.setText(label, "gui.dialog.NBSelectLMPanel.lineLabel");
 
 			for (int i = 0; i < view.getLineCount(); i++)
-				combo.addItem(view.getLine(i));
+				combo.addItem(view.getLine(i).getName());
 
 			if (view.mouseOverLine >= 0 && view.mouseOverLine < view.getLineCount())
 				combo.setSelectedIndex(view.mouseOverLine);
@@ -34,7 +34,7 @@ class SelectLMPanelNB extends javax.swing.JPanel
 			RB.setText(label, "gui.dialog.NBSelectLMPanel.markerLabel");
 
 			for (int i = 0; i < view.getMarkerCount(); i++)
-				combo.addItem(view.getMarker(i));
+				combo.addItem(view.getMarker(i).getName());
 
 			if (view.mouseOverMarker >= 0 && view.mouseOverMarker < view.getMarkerCount())
 				combo.setSelectedIndex(view.mouseOverMarker);
@@ -51,7 +51,7 @@ class SelectLMPanelNB extends javax.swing.JPanel
     private void initComponents() {
 
         label = new javax.swing.JLabel();
-        combo = new javax.swing.JComboBox();
+        combo = new javax.swing.JComboBox<String>();
 
         label.setLabelFor(combo);
         label.setText("Select comparison line:");
@@ -80,7 +80,7 @@ class SelectLMPanelNB extends javax.swing.JPanel
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    javax.swing.JComboBox combo;
+    javax.swing.JComboBox<String> combo;
     private javax.swing.JLabel label;
     // End of variables declaration//GEN-END:variables
 }

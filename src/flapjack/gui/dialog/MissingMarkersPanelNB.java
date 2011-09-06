@@ -62,7 +62,7 @@ class MissingMarkersPanelNB extends JPanel implements ChangeListener
         panel = new javax.swing.JPanel();
         percentLabel = new javax.swing.JLabel();
         comboLabel = new javax.swing.JLabel();
-        combo = new javax.swing.JComboBox();
+        combo = new javax.swing.JComboBox<String>();
         slider = new javax.swing.JSlider();
 
         panel.setBorder(javax.swing.BorderFactory.createTitledBorder("Settings:"));
@@ -127,7 +127,7 @@ class MissingMarkersPanelNB extends JPanel implements ChangeListener
         );
     }// </editor-fold>//GEN-END:initComponents
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox combo;
+    private javax.swing.JComboBox<String> combo;
     private javax.swing.JLabel comboLabel;
     private javax.swing.JPanel panel;
     private javax.swing.JLabel percentLabel;

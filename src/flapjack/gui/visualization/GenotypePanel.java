@@ -40,7 +40,7 @@ public class GenotypePanel extends JPanel implements ActionListener
 	private JSplitPane qtlSplitter;
 
 	// Top control panel labels/controls
-	private JComboBox combo;
+	private JComboBox<ChromosomeMap> combo;
 	private JLabel chromoLabel = new JLabel();
 	private JLabel lineLabel = new JLabel();
 	private JLabel markerLabel = new JLabel();
@@ -110,7 +110,7 @@ public class GenotypePanel extends JPanel implements ActionListener
 
 	private void createControls(WinMain winMain)
 	{
-		combo = new JComboBox();
+		combo = new JComboBox<ChromosomeMap>();
 		combo.setRenderer(new ComboRenderer());
 		RB.setText(chromoLabel, "gui.visualization.GenotypePanel.chromoLabel");
 		chromoLabel.setLabelFor(combo);

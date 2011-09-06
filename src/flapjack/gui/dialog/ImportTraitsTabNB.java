@@ -36,7 +36,7 @@ class ImportTraitsTabNB extends JPanel implements ActionListener
 
 		bBrowse.addActionListener(this);
 		browseComboBox.setHistory(Prefs.guiTraitHistory);
-		browseComboBox.setPrototypeDisplayValue(100);
+		browseComboBox.setPrototypeDisplayValue("");
 
 		panel.setEnabled(isEnabled);
 		label.setEnabled(isEnabled);

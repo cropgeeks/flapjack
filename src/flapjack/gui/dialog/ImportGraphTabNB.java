@@ -36,7 +36,7 @@ class ImportGraphTabNB extends JPanel implements ActionListener
 
 		bBrowse.addActionListener(this);
 		browseComboBox.setHistory(Prefs.guiGraphHistory);
-		browseComboBox.setPrototypeDisplayValue(100);
+		browseComboBox.setPrototypeDisplayValue("");
 
 		panel.setEnabled(isEnabled);
 		label.setEnabled(isEnabled);
