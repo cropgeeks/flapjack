@@ -125,7 +125,7 @@ class ExportDataPanelNB extends JPanel implements ActionListener
         rAll = new javax.swing.JRadioButton();
         rSelected = new javax.swing.JRadioButton();
         label = new javax.swing.JLabel();
-        combo = new javax.swing.JComboBox();
+        combo = new javax.swing.JComboBox<String>();
         tableLabel = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         table = new javax.swing.JTable();
@@ -236,7 +236,7 @@ class ExportDataPanelNB extends JPanel implements ActionListener
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    javax.swing.JComboBox combo;
+    javax.swing.JComboBox<String> combo;
     private javax.swing.ButtonGroup datGroup;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel label;

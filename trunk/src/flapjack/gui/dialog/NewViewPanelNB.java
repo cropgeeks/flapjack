@@ -14,7 +14,7 @@ import scri.commons.gui.*;
 
 class NewViewPanelNB extends javax.swing.JPanel implements ActionListener
 {
-	private DefaultComboBoxModel model = new DefaultComboBoxModel();
+	private DefaultComboBoxModel<GTViewSet> model = new DefaultComboBoxModel<GTViewSet>();
 
 	public NewViewPanelNB(DataSet dataSet, GTViewSet currentViewSet)
 	{
@@ -83,7 +83,7 @@ class NewViewPanelNB extends javax.swing.JPanel implements ActionListener
         panel = new javax.swing.JPanel();
         rNewView = new javax.swing.JRadioButton();
         rCloneView = new javax.swing.JRadioButton();
-        cloneCombo = new javax.swing.JComboBox();
+        cloneCombo = new javax.swing.JComboBox<GTViewSet>();
         nameLabel = new javax.swing.JLabel();
         nameText = new javax.swing.JTextField();
         cloneLabel = new javax.swing.JLabel();
@@ -176,7 +176,7 @@ class NewViewPanelNB extends javax.swing.JPanel implements ActionListener
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JCheckBox checkCloneHidden;
-    javax.swing.JComboBox cloneCombo;
+    javax.swing.JComboBox<GTViewSet> cloneCombo;
     private javax.swing.JLabel cloneLabel;
     private javax.swing.JLabel nameLabel;
     javax.swing.JTextField nameText;

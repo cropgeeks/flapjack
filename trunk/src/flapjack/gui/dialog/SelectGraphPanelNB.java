@@ -66,13 +66,13 @@ public class SelectGraphPanelNB extends javax.swing.JPanel
 
         lblHeader = new javax.swing.JLabel();
         lblGraph1 = new javax.swing.JLabel();
-        graph1 = new javax.swing.JComboBox();
+        graph1 = new javax.swing.JComboBox<String>();
         lblGraph2 = new javax.swing.JLabel();
-        graph2 = new javax.swing.JComboBox();
+        graph2 = new javax.swing.JComboBox<String>();
         lblGraph3 = new javax.swing.JLabel();
-        graph3 = new javax.swing.JComboBox();
+        graph3 = new javax.swing.JComboBox<String>();
         lblGraphType = new javax.swing.JLabel();
-        graphTypeCombo = new javax.swing.JComboBox();
+        graphTypeCombo = new javax.swing.JComboBox<String>();
 
         lblHeader.setText("You can select up to three graphs to be displayed on screen at once:");
 
@@ -139,10 +139,10 @@ public class SelectGraphPanelNB extends javax.swing.JPanel
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    javax.swing.JComboBox graph1;
-    javax.swing.JComboBox graph2;
-    javax.swing.JComboBox graph3;
-    javax.swing.JComboBox graphTypeCombo;
+    javax.swing.JComboBox<String> graph1;
+    javax.swing.JComboBox<String> graph2;
+    javax.swing.JComboBox<String> graph3;
+    javax.swing.JComboBox<String> graphTypeCombo;
     javax.swing.JLabel lblGraph1;
     javax.swing.JLabel lblGraph2;
     javax.swing.JLabel lblGraph3;

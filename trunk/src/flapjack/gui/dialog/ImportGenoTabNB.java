@@ -37,8 +37,8 @@ class ImportGenoTabNB extends javax.swing.JPanel implements ActionListener
 
 		mapComboBox.setHistory(Prefs.guiMapList);
 		genoComboBox.setHistory(Prefs.guiGenoList);
-		mapComboBox.setPrototypeDisplayValue(100);
-		genoComboBox.setPrototypeDisplayValue(100);
+		mapComboBox.setPrototypeDisplayValue("");
+		genoComboBox.setPrototypeDisplayValue("");
 
 
 		// Apply localized text

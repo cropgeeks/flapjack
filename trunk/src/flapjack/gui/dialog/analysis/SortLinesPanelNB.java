@@ -36,7 +36,7 @@ class SortLinesPanelNB extends javax.swing.JPanel implements ActionListener
 
 		view = viewSet.getView(viewSet.getViewIndex());
 
-		DefaultComboBoxModel lineModel = new DefaultComboBoxModel();
+		DefaultComboBoxModel<Line> lineModel = new DefaultComboBoxModel<Line>();
 		for (int i = 0; i < view.getLineCount(); i++)
 			lineModel.addElement(view.getLine(i));
 
@@ -146,7 +146,7 @@ class SortLinesPanelNB extends javax.swing.JPanel implements ActionListener
         selectAllLabel = new scri.commons.gui.matisse.HyperLinkLabel();
         selectNoneLabel = new scri.commons.gui.matisse.HyperLinkLabel();
         linePanel = new javax.swing.JPanel();
-        selectedLine = new javax.swing.JComboBox();
+        selectedLine = new javax.swing.JComboBox<Line>();
         lineLabel = new javax.swing.JLabel();
 
         tablePanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Sort over chromosomes:"));
@@ -262,7 +262,7 @@ class SortLinesPanelNB extends javax.swing.JPanel implements ActionListener
     private javax.swing.JPanel linePanel;
     private scri.commons.gui.matisse.HyperLinkLabel selectAllLabel;
     private scri.commons.gui.matisse.HyperLinkLabel selectNoneLabel;
-    javax.swing.JComboBox selectedLine;
+    javax.swing.JComboBox<Line> selectedLine;
     private javax.swing.JTable table;
     private javax.swing.JLabel tableLabel;
     private javax.swing.JPanel tablePanel;

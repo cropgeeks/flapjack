@@ -109,6 +109,7 @@
           <SubComponents>
             <Component class="scri.commons.gui.matisse.HistoryComboBox" name="mapComboBox">
               <AuxValues>
+                <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value=""/>
                 <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
               </AuxValues>
               <Constraints>
@@ -138,6 +139,7 @@
           <SubComponents>
             <Component class="scri.commons.gui.matisse.HistoryComboBox" name="genoComboBox">
               <AuxValues>
+                <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value=""/>
                 <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
               </AuxValues>
               <Constraints>

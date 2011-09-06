@@ -142,7 +142,7 @@ class ImportSampleTabNB extends JPanel implements ActionListener, Runnable
     private void initComponents() {
 
         panel = new javax.swing.JPanel();
-        combo = new javax.swing.JComboBox();
+        combo = new javax.swing.JComboBox<ExampleProject>();
         jScrollPane1 = new javax.swing.JScrollPane();
         text = new javax.swing.JTextArea();
         serverLabel = new javax.swing.JLabel();
@@ -211,7 +211,7 @@ class ImportSampleTabNB extends JPanel implements ActionListener, Runnable
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    javax.swing.JComboBox combo;
+    javax.swing.JComboBox<ExampleProject> combo;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel panel;
     private javax.swing.JLabel serverLabel;

@@ -120,7 +120,7 @@ class FindPanelNB extends JPanel implements ActionListener
 
         findLabel = new javax.swing.JLabel();
         searchLabel = new javax.swing.JLabel();
-        searchCombo = new javax.swing.JComboBox();
+        searchCombo = new javax.swing.JComboBox<String>();
         panel = new javax.swing.JPanel();
         checkRegular = new javax.swing.JCheckBox();
         link = new javax.swing.JLabel();
@@ -258,7 +258,7 @@ class FindPanelNB extends JPanel implements ActionListener
     private javax.swing.JLabel link;
     private javax.swing.JPanel panel;
     javax.swing.JLabel resultLabel;
-    private javax.swing.JComboBox searchCombo;
+    private javax.swing.JComboBox<String> searchCombo;
     private javax.swing.JLabel searchLabel;
     private javax.swing.JScrollPane spTable;
     javax.swing.JTable table;

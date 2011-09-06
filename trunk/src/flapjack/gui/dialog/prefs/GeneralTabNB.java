@@ -12,8 +12,8 @@ import scri.commons.gui.*;
 
 class GeneralTabNB extends JPanel implements IPrefsTab
 {
-	private DefaultComboBoxModel displayModel;
-	private DefaultComboBoxModel updateModel;
+	private DefaultComboBoxModel<String> displayModel;
+	private DefaultComboBoxModel<String> updateModel;
 
     public GeneralTabNB()
     {
@@ -28,7 +28,7 @@ class GeneralTabNB extends JPanel implements IPrefsTab
 		RB.setText(displayLabel, "gui.dialog.prefs.NBGeneralPanel.displayLabel");
 		RB.setText(checkDecimal, "gui.dialog.prefs.NBGeneralPanel.checkDecimal");
 
-        displayModel = new DefaultComboBoxModel();
+        displayModel = new DefaultComboBoxModel<String>();
         displayModel.addElement(RB.getString("gui.dialog.prefs.NBGeneralPanel.auto"));
         displayModel.addElement(RB.getString("gui.dialog.prefs.NBGeneralPanel.en_GB"));
         displayModel.addElement(RB.getString("gui.dialog.prefs.NBGeneralPanel.en_US"));
@@ -39,7 +39,7 @@ class GeneralTabNB extends JPanel implements IPrefsTab
         // Update settings
         RB.setText(updateLabel, "gui.dialog.prefs.NBGeneralPanel.updateLabel");
 
-        updateModel = new DefaultComboBoxModel();
+        updateModel = new DefaultComboBoxModel<String>();
         updateModel.addElement(RB.getString("gui.dialog.prefs.NBGeneralPanel.updateNever"));
         updateModel.addElement(RB.getString("gui.dialog.prefs.NBGeneralPanel.updateStartup"));
         updateModel.addElement(RB.getString("gui.dialog.prefs.NBGeneralPanel.updateDaily"));
@@ -104,13 +104,13 @@ class GeneralTabNB extends JPanel implements IPrefsTab
     private void initComponents() {
 
         generalPanel = new javax.swing.JPanel();
-        displayCombo = new javax.swing.JComboBox();
-        updateCombo = new javax.swing.JComboBox();
+        displayCombo = new javax.swing.JComboBox<String>();
+        updateCombo = new javax.swing.JComboBox<String>();
         displayLabel = new javax.swing.JLabel();
         updateLabel = new javax.swing.JLabel();
         checkDecimal = new javax.swing.JCheckBox();
         projectPanel = new javax.swing.JPanel();
-        projectCombo = new javax.swing.JComboBox();
+        projectCombo = new javax.swing.JComboBox<String>();
         projectLabel = new javax.swing.JLabel();
 
         generalPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("General options (restart Flapjack to apply):"));
@@ -208,13 +208,13 @@ class GeneralTabNB extends JPanel implements IPrefsTab
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox checkDecimal;
-    private javax.swing.JComboBox displayCombo;
+    private javax.swing.JComboBox<String> displayCombo;
     private javax.swing.JLabel displayLabel;
     private javax.swing.JPanel generalPanel;
-    private javax.swing.JComboBox projectCombo;
+    private javax.swing.JComboBox<String> projectCombo;
     private javax.swing.JLabel projectLabel;
     private javax.swing.JPanel projectPanel;
-    private javax.swing.JComboBox updateCombo;
+    private javax.swing.JComboBox<String> updateCombo;
     private javax.swing.JLabel updateLabel;
     // End of variables declaration//GEN-END:variables
 }

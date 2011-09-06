@@ -19,8 +19,8 @@ class ListPanel extends JPanel
 	private GTViewSet viewSet;
 	private GTView view;
 
-	private JList lineList;
-	private DefaultListModel model;
+	private JList<LineInfo> lineList;
+	private DefaultListModel<LineInfo> model;
 	private static Font font;
 
 	ListPanel()
@@ -33,8 +33,8 @@ class ListPanel extends JPanel
 
 	private void createControls()
 	{
-		model = new DefaultListModel();
-		lineList = new JList(model);
+		model = new DefaultListModel<LineInfo>();
+		lineList = new JList<LineInfo>(model);
 		lineList.setCellRenderer(new ListRenderer());
 		lineList.setEnabled(false);
 
@@ -136,7 +136,7 @@ class ListPanel extends JPanel
 		menu.show(e.getComponent(), e.getX(), e.getY());
 	}
 
-	class ListRenderer extends JLabel implements ListCellRenderer
+	class ListRenderer extends DefaultListCellRenderer
 	{
 		private DecimalFormat df = new DecimalFormat("0.000");
 
@@ -149,36 +149,39 @@ class ListPanel extends JPanel
 		}
 
 		// Set the attributes of the class and return a reference
-		public Component getListCellRendererComponent(JList list, Object obj,
+		public JLabel getListCellRendererComponent(JList list, Object obj,
 				int i, boolean iss, boolean chf)
 		{
-			setFont(font);
+			JLabel label = (JLabel) super.getListCellRendererComponent(list, obj, i, iss, chf);
+
+			label.setFont(font);
+			label.setOpaque(true);
 
 			LineInfo li = (LineInfo) obj;
 
 			if (view.isSplitter(li.getLine()))
-				setText(" ");
+				label.setText(" ");
 			else
 			{
 				if (viewSet.getDisplayLineScores())
-					setText(" " + df.format(li.getScore()) + " " + li);
+					label.setText(" " + df.format(li.getScore()) + " " + li);
 				else
-					setText(" " + li.toString());
+					label.setText(" " + li.toString());
 			}
 
 			// Highlight the line "under" the mouse
 			if (i == view.mouseOverLine)
 			{
-				setBackground(selectedBG);
-				setForeground(selectedFG);
+				label.setBackground(selectedBG);
+				label.setForeground(selectedFG);
 			}
 			else
 			{
-				setBackground(list.getBackground());
-				setForeground(list.getForeground());
+				label.setBackground(list.getBackground());
+				label.setForeground(list.getForeground());
 			}
 
-			return this;
+			return label;
 		}
 	}
 }
