@@ -136,7 +136,7 @@ class ListPanel extends JPanel
 		menu.show(e.getComponent(), e.getX(), e.getY());
 	}
 
-	class ListRenderer extends DefaultListCellRenderer
+	class ListRenderer extends JLabel implements ListCellRenderer<LineInfo>
 	{
 		private DecimalFormat df = new DecimalFormat("0.000");
 
@@ -149,39 +149,33 @@ class ListPanel extends JPanel
 		}
 
 		// Set the attributes of the class and return a reference
-		public JLabel getListCellRendererComponent(JList list, Object obj,
-				int i, boolean iss, boolean chf)
+		public Component getListCellRendererComponent(JList list, LineInfo li, int i, boolean iss, boolean chf)
 		{
-			JLabel label = (JLabel) super.getListCellRendererComponent(list, obj, i, iss, chf);
-
-			label.setFont(font);
-			label.setOpaque(true);
-
-			LineInfo li = (LineInfo) obj;
+			setFont(font);
 
 			if (view.isSplitter(li.getLine()))
-				label.setText(" ");
+				setText(" ");
 			else
 			{
 				if (viewSet.getDisplayLineScores())
-					label.setText(" " + df.format(li.getScore()) + " " + li);
+					setText(" " + df.format(li.getScore()) + " " + li);
 				else
-					label.setText(" " + li.toString());
+					setText(" " + li.toString());
 			}
 
 			// Highlight the line "under" the mouse
 			if (i == view.mouseOverLine)
 			{
-				label.setBackground(selectedBG);
-				label.setForeground(selectedFG);
+				setBackground(selectedBG);
+				setForeground(selectedFG);
 			}
 			else
 			{
-				label.setBackground(list.getBackground());
-				label.setForeground(list.getForeground());
+				setBackground(list.getBackground());
+				setForeground(list.getForeground());
 			}
 
-			return label;
+			return this;
 		}
 	}
 }
