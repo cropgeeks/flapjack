@@ -57,7 +57,7 @@ will read the provided file:</p>
 Select this option to ensure that duplicate heterozygous alleles are replaced while
 importing the genotypes. For example, all instances of T/A would be replaced by A/T (or vice
 versa), so that the final data only contains A/T alleles.</li>
-<li><b>Expect heteozygotes to be separated by a string</b><br>
+<li><b>Expect heterozygotes to be separated by a string</b><br>
 This tells Flapjack to look for heterozygotes that are separated by a specific
 character (defined below). If your data is of the form A/T then this should be
 used, however, if the data defines AT as a heterozygote then this option should
