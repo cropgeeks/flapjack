@@ -130,7 +130,7 @@
         </Component>
         <Component class="javax.swing.JCheckBox" name="checkUseHetSep">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Expect heteozygotes to be separated by a string (A/T rather than AT)"/>
+            <Property name="text" type="java.lang.String" value="Expect heterozygotes to be separated by a string (A/T rather than AT)"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JCheckBox" name="checkMarkers">

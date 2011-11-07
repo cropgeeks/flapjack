@@ -55,7 +55,7 @@ class ImportGenoAdvPanelNB extends JPanel implements ActionListener
 	public void actionPerformed(ActionEvent e)
 	{
 		if (e.getSource() == checkUseHetSep)
-			setLabelStates();	
+			setLabelStates();
 	}
 
 	private void setLabelStates()
@@ -96,7 +96,7 @@ class ImportGenoAdvPanelNB extends JPanel implements ActionListener
 
         missingText.setColumns(4);
 
-        checkUseHetSep.setText("Expect heteozygotes to be separated by a string (A/T rather than AT)");
+        checkUseHetSep.setText("Expect heterozygotes to be separated by a string (A/T rather than AT)");
 
         checkMarkers.setText("Duplicate all markers onto a single \"All Chromosomes\" chromosome for side-by-side viewing");
 
