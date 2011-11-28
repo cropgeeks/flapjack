@@ -143,14 +143,18 @@ public class QTL extends XMLRoot implements Comparable<QTL>
 	public Color getDisplayColor()
 		{ return new Color(red, green, blue); }
 
+	private void setColor(Color color)
+	{
+		red   = color.getRed();
+		green = color.getGreen();
+		blue  = color.getBlue();
+	}
 
 	// This is called by the import code that will have worked out a colour for
 	// this feature based on (in a QTL's case) its trait.
 	public void setDisplayColor(Color color)
 	{
-		red   = color.getRed();
-		green = color.getGreen();
-		blue  = color.getBlue();
+		setColor(color);
 
 		for (int i = 0; i < vNames.length; i++)
 		{
@@ -158,7 +162,7 @@ public class QTL extends XMLRoot implements Comparable<QTL>
 			{
 				try
 				{
-//					super.setDisplayColor(Color.decode(values[i]));
+					setColor(Color.decode(values[i]));
 				}
 				catch (Exception e) {}
 

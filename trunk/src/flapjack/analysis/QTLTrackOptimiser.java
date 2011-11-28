@@ -53,24 +53,24 @@ public class QTLTrackOptimiser
 		ArrayList<ArrayList<FeatureGroup>> tracks = new
 			ArrayList<ArrayList<FeatureGroup>>();
 
-		ArrayList<QTL> features = c.getQTLs();
+		ArrayList<QTL> qtls = c.getQTLs();
 
 		// Set up the correct number of new tracks
 		for (int i = 0; i < size; i++)
 			tracks.add(new ArrayList<FeatureGroup>());
 
 		// Distribute the features across the tracks
-		for (QTL f: features)
+		for (QTL qtl: qtls)
 		{
 			// Just ignore features that are invisible/disabled
-			if (f.isVisible() == false || f.isAllowed() == false)
+			if (qtl.isVisible() == false || qtl.isAllowed() == false)
 				continue;
 
 			for (int trackNum = size-1; trackNum >= 0; trackNum--)
 			{
 				ArrayList<FeatureGroup> track = tracks.get(trackNum);
 
-				if (addToTrack(track, f, trackNum == 0))
+				if (addToTrack(track, qtl, trackNum == 0))
 					break;
 			}
 		}
@@ -81,24 +81,24 @@ public class QTLTrackOptimiser
 	// Checks to see if a feature can be added to the end of this track without
 	// clashing with an existing element
 	// @param group true if the feature should be grouped with any that clash
-	private boolean addToTrack(ArrayList<FeatureGroup> track, QTL f, boolean group)
+	private boolean addToTrack(ArrayList<FeatureGroup> track, QTL qtl, boolean group)
 	{
 		if (track.size() == 0)
 		{
-			track.add(new FeatureGroup(f));
+			track.add(new FeatureGroup(qtl));
 			return true;
 		}
 
 		FeatureGroup prev = track.get(track.size()-1);
 
-		if (f.getMin() > prev.getMax())
+		if (qtl.getMin() > prev.getMax())
 		{
-			track.add(new FeatureGroup(f));
+			track.add(new FeatureGroup(qtl));
 			return true;
 		}
 		else if (group)
 		{
-			prev.addFeature(f);
+			prev.addQTL(qtl);
 			return true;
 		}
 		else
