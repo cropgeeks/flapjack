@@ -53,14 +53,14 @@ public class QTLTrackOptimiser
 		ArrayList<ArrayList<FeatureGroup>> tracks = new
 			ArrayList<ArrayList<FeatureGroup>>();
 
-		ArrayList<Feature> features = c.getFeatures();
+		ArrayList<QTL> features = c.getQTLs();
 
 		// Set up the correct number of new tracks
 		for (int i = 0; i < size; i++)
 			tracks.add(new ArrayList<FeatureGroup>());
 
 		// Distribute the features across the tracks
-		for (Feature f: features)
+		for (QTL f: features)
 		{
 			// Just ignore features that are invisible/disabled
 			if (f.isVisible() == false || f.isAllowed() == false)
@@ -81,7 +81,7 @@ public class QTLTrackOptimiser
 	// Checks to see if a feature can be added to the end of this track without
 	// clashing with an existing element
 	// @param group true if the feature should be grouped with any that clash
-	private boolean addToTrack(ArrayList<FeatureGroup> track, Feature f, boolean group)
+	private boolean addToTrack(ArrayList<FeatureGroup> track, QTL f, boolean group)
 	{
 		if (track.size() == 0)
 		{

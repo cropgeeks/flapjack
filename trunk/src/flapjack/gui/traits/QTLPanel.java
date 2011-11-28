@@ -113,8 +113,8 @@ public class QTLPanel extends JPanel implements ActionListener
 	{
 		for (ChromosomeMap c: dataSet.getChromosomeMaps())
 		{
-			c.getFeatures().clear();
-			c.getFeatures().trimToSize();
+			c.getQTLs().clear();
+			c.getQTLs().trimToSize();
 		}
 
 		updateModel();

@@ -28,14 +28,12 @@ class QTLTableModel extends AbstractTableModel
 
 		// Scan each chromosome
 		for (ChromosomeMap cMap: dataSet.getChromosomeMaps())
-			for (Feature feature: cMap.getFeatures())
-				if (feature instanceof QTL)
-				{
-					QTL qtl = (QTL) feature;
-					qtls.add(qtl);
-					if (qtl.isAllowed() == false)
-						qtlOffMap = true;
-				}
+			for (QTL qtl: cMap.getQTLs())
+			{
+				qtls.add(qtl);
+				if (qtl.isAllowed() == false)
+					qtlOffMap = true;
+			}
 
 		setColumnNames();
 	}

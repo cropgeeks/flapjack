@@ -203,10 +203,10 @@ class SerializerV01 extends FlapjackSerializer
 			saveMarker(m);
 
 		// Number of features
-		out.writeInt(map.getFeatures().size());
+		out.writeInt(map.getQTLs().size());
 
 		// Feature Data
-		for (Feature f: map.getFeatures())
+		for (QTL f: map.getQTLs())
 			saveFeature(f);
 	}
 
@@ -273,7 +273,7 @@ class SerializerV01 extends FlapjackSerializer
 		map.getMarkers().add(marker);
 	}
 
-	protected void saveFeature(Feature f)
+	protected void saveFeature(QTL f)
 			throws Exception
 	{
 		QTL feature = (QTL)f;
@@ -381,7 +381,7 @@ class SerializerV01 extends FlapjackSerializer
 		// Blue
 		feature.setBlue(in.readInt());
 
-		map.getFeatures().add(feature);
+		map.getQTLs().add(feature);
 	}
 
 	protected void saveTrait(Trait trait)

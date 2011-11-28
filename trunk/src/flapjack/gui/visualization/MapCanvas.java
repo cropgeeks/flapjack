@@ -232,7 +232,7 @@ class MapCanvas extends JPanel
 		g.setRenderingHint(KEY_ANTIALIASING, VALUE_ANTIALIAS_ON);
 		g.setColor(Color.red);
 
-		Feature f = QTLCanvas.mouseOverFeature;
+		QTL f = QTLCanvas.mouseOverFeature;
 		float min = f.getMin();
 		float max = f.getMax();
 

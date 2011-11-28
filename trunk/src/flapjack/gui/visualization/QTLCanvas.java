@@ -57,7 +57,7 @@ class QTLCanvas extends JPanel implements PropertyChangeListener
 	// Mouse handling variables
 	private int xOffset;
 	private int mouseOverTrack = -1;
-	static Feature mouseOverFeature = null;
+	static QTL mouseOverFeature = null;
 
 	boolean full = false;
 
@@ -168,7 +168,7 @@ class QTLCanvas extends JPanel implements PropertyChangeListener
 
 					boolean grouped = fg.size() > 1;
 
-					for (Feature feature: fg)
+					for (QTL feature: fg)
 						// Don't draw features it they are offscreeen
 						if (feature.getMax() > mSPos && feature.getMin() < mEPos)
 							drawFeature(g, feature, trackNum, grouped);
@@ -207,7 +207,7 @@ class QTLCanvas extends JPanel implements PropertyChangeListener
 
 
 	// Draws an individual feature
-	private void drawFeature(Graphics2D g, Feature f, int trackNum, boolean grouped)
+	private void drawFeature(Graphics2D g, QTL f, int trackNum, boolean grouped)
 	{
 		int minX = getPixelPosition(f.getMin());
 		int maxX = getPixelPosition(f.getMax());
@@ -303,7 +303,7 @@ class QTLCanvas extends JPanel implements PropertyChangeListener
 
 			// NOTE: the search is backwards (right to left) as F2.pos > F1.pos
 			// will mean F2 is drawn on TOP of F1
-			Feature match = null;
+			QTL match = null;
 
 			//grab track that the mouse is over
 			ArrayList<FeatureGroup> onscreen = trackSet.get(mouseOverTrack);
@@ -331,7 +331,7 @@ class QTLCanvas extends JPanel implements PropertyChangeListener
 					FeatureGroup fg = onscreen.get(i);
 					for (int fIndex = fg.size()-1; fIndex >= 0; fIndex--)
 					{
-						Feature f = fg.get(fIndex);
+						QTL f = fg.get(fIndex);
 
 						if (f.getMin() <= mapPos && f.getMax() >= mapPos)
 						{
