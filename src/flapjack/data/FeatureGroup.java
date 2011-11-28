@@ -6,13 +6,13 @@ package flapjack.data;
 import java.util.*;
 
 /** NOT an XML document element (ie, never saved to a .flapjack project) */
-public class FeatureGroup implements Iterable<Feature>
+public class FeatureGroup implements Iterable<QTL>
 {
-	private ArrayList<Feature> features = new ArrayList<Feature>();
+	private ArrayList<QTL> features = new ArrayList<QTL>();
 
 	private float min, max;
 
-	public FeatureGroup(Feature feature)
+	public FeatureGroup(QTL feature)
 	{
 		this.min = feature.getMin();
 		this.max = feature.getMax();
@@ -20,16 +20,16 @@ public class FeatureGroup implements Iterable<Feature>
 		features.add(feature);
 	}
 
-	public Iterator<Feature> iterator()
+	public Iterator<QTL> iterator()
 		{ return features.iterator(); }
 
-	public Feature get(int index)
+	public QTL get(int index)
 		throws ArrayIndexOutOfBoundsException
 	{
 		return features.get(index);
 	}
 
-	public void addFeature(Feature feature)
+	public void addFeature(QTL feature)
 	{
 		if (feature.getMin() < min)
 			min = feature.getMin();

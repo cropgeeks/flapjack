@@ -26,7 +26,7 @@ public class QTLImporter extends SimpleJob
 
 	// Store a "track" per chromsome - the QTLs will be added to the appropriate
 	// track as they are read
-	Hashtable<String, ArrayList<Feature>> chromosomes = new Hashtable<String, ArrayList<Feature>>();
+	Hashtable<String, ArrayList<QTL>> chromosomes = new Hashtable<String, ArrayList<QTL>>();
 	// And they'll also be added to this for easy reference
 	LinkedList<QTL> qtls = new LinkedList<QTL>();
 
@@ -44,7 +44,7 @@ public class QTLImporter extends SimpleJob
 
 		// Add a storage track to each chromosome
 		for (ChromosomeMap c: dataSet.getChromosomeMaps())
-			chromosomes.put(c.getName(), new ArrayList<Feature>());
+			chromosomes.put(c.getName(), new ArrayList<QTL>());
 	}
 
 	public void runJob(int index)
@@ -105,7 +105,7 @@ public class QTLImporter extends SimpleJob
 			featuresRead++;
 
 			// Add this QTL to the correct chromosome's track
-			ArrayList<Feature> track = chromosomes.get(cName);
+			ArrayList<QTL> track = chromosomes.get(cName);
 			if (track != null)
 			{
 				track.add(qtl);
@@ -129,10 +129,10 @@ public class QTLImporter extends SimpleJob
 		for (ChromosomeMap c: dataSet.getChromosomeMaps())
 		{
 			// Sort the QTLs into map order
-			ArrayList<Feature> track = chromosomes.get(c.getName());
+			ArrayList<QTL> track = chromosomes.get(c.getName());
 			Collections.sort(track);
 
-			c.setFeatures(track);
+			c.setQTLs(track);
 		}
 	}
 

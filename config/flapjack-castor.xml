@@ -32,7 +32,7 @@
 			<bind-xml node="attribute"/>
 		</field>
 		<field name="markers" type="flapjack.data.Marker" collection="arraylist"/>
-		<field name="features" type="java.util.ArrayList" collection="arraylist"/>
+		<field name="qtls" set-method="setQTLs" get-method="getQTLs" type="java.util.ArrayList" collection="arraylist"/>
 		<field name="graphs" type="flapjack.data.GraphData" collection="arraylist"/>
 	</class>
 
@@ -157,15 +157,12 @@
 		</field>
 	</class>
 
-	<!-- Feature -->
-	<class name="flapjack.data.Feature" extends="flapjack.data.XMLRoot" auto-complete="true">
+
+	<!-- QTL -->
+	<class name="flapjack.data.QTL" extends="flapjack.data.XMLRoot" auto-complete="true">
 		<field name="name" type="string">
 			<bind-xml node="attribute"/>
 		</field>
-	</class>
-
-	<!-- QTL -->
-	<class name="flapjack.data.QTL" extends="flapjack.data.Feature" auto-complete="true">
 		<field name="chromosomeMap" type="flapjack.data.ChromosomeMap">
 			<bind-xml reference="true" node="attribute"/>
 		</field>

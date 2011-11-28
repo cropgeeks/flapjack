@@ -17,7 +17,7 @@ public class ChromosomeMap extends XMLRoot implements Iterable<Marker>
 
 	// A list of vectors of Features (basically, each vector of features
 	// represents one "track" - and we may have multiple tracks
-	private ArrayList<Feature> features = new ArrayList<Feature>();
+	private ArrayList<QTL> qtls = new ArrayList<QTL>();
 
 	// Stores the GraphData objects for this chromosome
 	private ArrayList<GraphData> graphs = new ArrayList<GraphData>();
@@ -61,11 +61,11 @@ public class ChromosomeMap extends XMLRoot implements Iterable<Marker>
 	public void setMarkers(ArrayList<Marker> markers)
 		{ this.markers = markers; }
 
-	public ArrayList<Feature> getFeatures()
-		{ return features; }
+	public ArrayList<QTL> getQTLs()
+		{ return qtls; }
 
-	public void setFeatures(ArrayList<Feature> features)
-		{ 	this.features = features; }
+	public void setQTLs(ArrayList<QTL> qtls)
+		{ 	this.qtls = qtls; }
 
 	public boolean isSpecialChromosome()
 		{ return isSpecialChromosome; }
