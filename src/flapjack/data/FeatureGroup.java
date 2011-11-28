@@ -8,7 +8,7 @@ import java.util.*;
 /** NOT an XML document element (ie, never saved to a .flapjack project) */
 public class FeatureGroup implements Iterable<QTL>
 {
-	private ArrayList<QTL> features = new ArrayList<QTL>();
+	private ArrayList<QTL> qtls = new ArrayList<QTL>();
 
 	private float min, max;
 
@@ -17,30 +17,30 @@ public class FeatureGroup implements Iterable<QTL>
 		this.min = feature.getMin();
 		this.max = feature.getMax();
 
-		features.add(feature);
+		qtls.add(feature);
 	}
 
 	public Iterator<QTL> iterator()
-		{ return features.iterator(); }
+		{ return qtls.iterator(); }
 
 	public QTL get(int index)
 		throws ArrayIndexOutOfBoundsException
 	{
-		return features.get(index);
+		return qtls.get(index);
 	}
 
-	public void addFeature(QTL feature)
+	public void addQTL(QTL feature)
 	{
 		if (feature.getMin() < min)
 			min = feature.getMin();
 		if (feature.getMax() > max)
 			max = feature.getMax();
 
-		features.add(0, feature);
+		qtls.add(0, feature);
 	}
 
 	public int size()
-		{ return features.size(); }
+		{ return qtls.size(); }
 
 	public float getMin()
 		{ return min; }

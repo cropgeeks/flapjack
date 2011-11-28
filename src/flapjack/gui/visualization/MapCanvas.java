@@ -106,7 +106,7 @@ class MapCanvas extends JPanel
 			g.setFont(font);
 
 			highlightMarker(g);
-			highlightFeatures(g);
+			highlightQTL(g);
 			drawChromosomePosition(g, xOffset);
 		}
 
@@ -223,18 +223,18 @@ class MapCanvas extends JPanel
 		}
 	}
 
-	private void highlightFeatures(Graphics2D g)
+	private void highlightQTL(Graphics2D g)
 	{
 		// If no feature is selected, just quit now
-		if (QTLCanvas.mouseOverFeature == null)
+		if (QTLCanvas.mouseOverQTL == null)
 			return;
 
 		g.setRenderingHint(KEY_ANTIALIASING, VALUE_ANTIALIAS_ON);
 		g.setColor(Color.red);
 
-		QTL f = QTLCanvas.mouseOverFeature;
-		float min = f.getMin();
-		float max = f.getMax();
+		QTL qtl = QTLCanvas.mouseOverQTL;
+		float min = qtl.getMin();
+		float max = qtl.getMax();
 
 		// Where should it be drawn
 		float distance = mEPos - mSPos;
@@ -242,9 +242,8 @@ class MapCanvas extends JPanel
 
 
 		// And what should be drawn
-		String str = f.getName() + "  (";
-		if (f instanceof QTL)
-			str += nf.format(((QTL)f).getPosition()) + ": ";
+		String str = qtl.getName() + "  (";
+		str += nf.format(qtl.getPosition()) + ": ";
 		str += nf.format(min) + "-" +nf.format(max) + ")";
 		int strWidth = g.getFontMetrics().stringWidth(str);
 
