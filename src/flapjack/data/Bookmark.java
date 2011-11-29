@@ -58,9 +58,9 @@ public class Bookmark extends XMLRoot
 	public static boolean allowBookmarking(GTView view)
 	{
 		// Is the bookmark going to be over an allele?
-		if (view.mouseOverLine < 0 || view.mouseOverLine >= view.getLineCount())
+		if (view.mouseOverLine < 0 || view.mouseOverLine >= view.lineCount())
 			return false;
-		if (view.mouseOverMarker < 0 || view.mouseOverMarker >= view.getMarkerCount())
+		if (view.mouseOverMarker < 0 || view.mouseOverMarker >= view.markerCount())
 			return false;
 
 		// Is the bookmark on a non-dummy marker?

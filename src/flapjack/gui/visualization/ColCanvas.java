@@ -67,7 +67,7 @@ class ColCanvas extends JPanel
 			g.fillRect(0, 0, w, height);
 
 			// Quit if the line index is out of bounds or beyond the canvas size
-			if (markerIndex < 0 || markerIndex >= canvas.view.getMarkerCount())
+			if (markerIndex < 0 || markerIndex >= canvas.view.markerCount())
 				return;
 
 			// Scaling factors
@@ -82,7 +82,7 @@ class ColCanvas extends JPanel
 				int x = 0;
 				for (int xIndex = markerIndex-1; xIndex < markerIndex+2; xIndex++, x+=15)
 				{
-					if (xIndex < 0 || xIndex >= canvas.view.getMarkerCount())
+					if (xIndex < 0 || xIndex >= canvas.view.markerCount())
 						continue;
 
 					g.setColor(canvas.cScheme.getColor(rowIndex, xIndex));

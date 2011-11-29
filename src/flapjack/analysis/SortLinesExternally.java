@@ -22,7 +22,7 @@ public class SortLinesExternally extends SortLines
 	@Override
 	protected ArrayList<LineInfo> doSort(GTView view)
 	{
-		int numLines = view.getLineCount();
+		int numLines = view.lineCount();
 		ArrayList<LineScore> scores = new ArrayList<LineScore>(numLines);
 		// Give every line an empty index before we start. This copes with
 		// the case where the external ordering doesn't contain matching lines

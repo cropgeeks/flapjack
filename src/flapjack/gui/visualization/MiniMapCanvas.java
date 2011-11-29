@@ -79,7 +79,7 @@ class MiniMapCanvas extends JPanel
 
 			// Draw all the markers
 			xS = 0;
-			xE = canvas.view.getMarkerCount();
+			xE = canvas.view.markerCount();
 		}
 		else
 		{

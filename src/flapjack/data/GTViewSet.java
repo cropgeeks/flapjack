@@ -316,7 +316,7 @@ public class GTViewSet extends XMLRoot
 	{
 		int count = 0;
 		for (GTView view: views)
-			count += view.getMarkerCount();
+			count += view.markerCount();
 
 		return count;
 	}
@@ -348,7 +348,7 @@ public class GTViewSet extends XMLRoot
 	{
 		int total = 0;
 		for (GTView view: views)
-			total += view.getMarkerCount() * view.getLineCount();
+			total += view.markerCount() * view.lineCount();
 
 		return total;
 	}
@@ -427,7 +427,7 @@ public class GTViewSet extends XMLRoot
 			view.cacheLines();
 
 			// For each marker...
-			for (int i = view.getMarkerCount()-1; i >= 0; i--)
+			for (int i = view.markerCount()-1; i >= 0; i--)
 			{
 				int allelesCount = 0;
 				int missingCount = 0;
@@ -448,7 +448,7 @@ public class GTViewSet extends XMLRoot
 				// remove it from the visible set
 				if ((missingCount / (float)allelesCount)*100 >= cutoff)
 					// But only so long as it doesn't remove all markers!!
-					if (view.getMarkerCount() > 1)
+					if (view.markerCount() > 1)
 						view.hideMarker(i);
 			}
 		}

@@ -48,8 +48,8 @@ public class AlleleStatistics extends SimpleJob
 
 		view.cacheLines();
 
-		for (int line = 0; line < view.getLineCount(); line++)
-			for (int marker = 0; marker < view.getMarkerCount() && okToRun; marker++)
+		for (int line = 0; line < view.lineCount(); line++)
+			for (int marker = 0; marker < view.markerCount() && okToRun; marker++)
 			{
 				int state = view.getState(line, marker);
 				statistics[state]++;

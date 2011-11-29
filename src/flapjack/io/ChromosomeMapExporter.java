@@ -44,7 +44,7 @@ public class ChromosomeMapExporter extends SimpleJob
 				continue;
 
 			// ...and for each marker within the current chromosome...
-			for (int i = 0; i < view.getMarkerCount() && okToRun; i++, progress++)
+			for (int i = 0; i < view.markerCount() && okToRun; i++, progress++)
 			{
 				if (useAll || view.isMarkerSelected(i))
 				{

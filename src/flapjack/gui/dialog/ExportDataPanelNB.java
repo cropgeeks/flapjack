@@ -58,9 +58,9 @@ class ExportDataPanelNB extends JPanel implements ActionListener
 			data[i][0] = new Boolean(true);
 			data[i][1] = view.getChromosomeMap().getName();
 			data[i][2] = view.countSelectedMarkers() + " / "
-				+ view.getMarkerCount();
+				+ view.markerCount();
 			data[i][3] = view.countSelectedLines() + " / "
-				+ view.getLineCount();
+				+ view.lineCount();
 		}
 
 		table.setModel(new DefaultTableModel(data, columnNames)

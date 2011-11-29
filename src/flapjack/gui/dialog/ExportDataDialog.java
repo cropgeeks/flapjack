@@ -96,7 +96,7 @@ public class ExportDataDialog extends JDialog implements ActionListener
 			GTView view = viewSet.getView(i);
 
 			if (allMarkers)
-				count += view.getMarkerCount();
+				count += view.markerCount();
 			else
 				count += view.countSelectedMarkers();
 		}
@@ -110,7 +110,7 @@ public class ExportDataDialog extends JDialog implements ActionListener
 		boolean allLines = nbPanel.rAll.isSelected();
 
 		if (allLines)
-			return viewSet.getView(0).getLineCount();
+			return viewSet.getView(0).lineCount();
 		else
 			return viewSet.getView(0).countSelectedLines();
 	}

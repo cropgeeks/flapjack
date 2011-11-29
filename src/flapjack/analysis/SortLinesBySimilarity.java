@@ -58,7 +58,7 @@ public class SortLinesBySimilarity extends SortLines
 		Collections.sort(scores);
 
 		// Then create a new line ordering for the view
-		ArrayList<LineInfo> lineOrder = new ArrayList<LineInfo>(view.getLineCount());
+		ArrayList<LineInfo> lineOrder = new ArrayList<LineInfo>(view.lineCount());
 		for (int i = 0; i < scores.size() && okToRun; i++)
 			lineOrder.add(scores.get(i).lineInfo);
 

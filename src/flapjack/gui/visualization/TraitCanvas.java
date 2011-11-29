@@ -121,7 +121,7 @@ class TraitCanvas extends JPanel
 
 			// Don't attempt to set a tooltip if there's no trait displayed or
 			// if the mouse isn't over an actual line
-			if (tIndex == -1 || yIndex > canvas.view.getLineCount()-1)
+			if (tIndex == -1 || yIndex > canvas.view.lineCount()-1)
 			{
 				gPanel.statusPanel.setHeatmapValues(" ", " ", " ");
 				return;
@@ -236,7 +236,7 @@ class TraitCanvas extends JPanel
 			if (createFull)
 			{
 				yS = 0;
-				yE = canvas.view.getLineCount() - 1;
+				yE = canvas.view.lineCount() - 1;
 				h = canvas.canvasH;
 			}
 

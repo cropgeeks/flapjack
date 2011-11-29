@@ -42,7 +42,7 @@ public class SimilarityScore
 			GTView view = viewSet.getView(viewIndex);
 
 			// For every marker across the genotype...
-			for (int marker = 0; marker < view.getMarkerCount(); marker++)
+			for (int marker = 0; marker < view.markerCount(); marker++)
 			{
 				// Don't count markers that aren't selected
 				if (view.isMarkerSelected(marker) == false)

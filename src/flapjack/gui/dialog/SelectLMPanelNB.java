@@ -23,20 +23,20 @@ class SelectLMPanelNB extends javax.swing.JPanel
 		{
 			RB.setText(label, "gui.dialog.NBSelectLMPanel.lineLabel");
 
-			for (int i = 0; i < view.getLineCount(); i++)
+			for (int i = 0; i < view.lineCount(); i++)
 				combo.addItem(view.getLine(i).getName());
 
-			if (view.mouseOverLine >= 0 && view.mouseOverLine < view.getLineCount())
+			if (view.mouseOverLine >= 0 && view.mouseOverLine < view.lineCount())
 				combo.setSelectedIndex(view.mouseOverLine);
 		}
 		else
 		{
 			RB.setText(label, "gui.dialog.NBSelectLMPanel.markerLabel");
 
-			for (int i = 0; i < view.getMarkerCount(); i++)
+			for (int i = 0; i < view.markerCount(); i++)
 				combo.addItem(view.getMarker(i).getName());
 
-			if (view.mouseOverMarker >= 0 && view.mouseOverMarker < view.getMarkerCount())
+			if (view.mouseOverMarker >= 0 && view.mouseOverMarker < view.markerCount())
 				combo.setSelectedIndex(view.mouseOverMarker);
 		}
 	}

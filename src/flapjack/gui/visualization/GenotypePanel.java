@@ -362,7 +362,7 @@ public class GenotypePanel extends JPanel implements ActionListener
 
 	private void setCtrlLabels()
 	{
-		int lineCount = view.getLineCount();
+		int lineCount = view.lineCount();
 		int mrkrCount = view.countGenuineMarkers();
 		String length = NumberFormat.getInstance().format(view.getChromosomeMap().getLength());
 

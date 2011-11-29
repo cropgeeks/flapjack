@@ -14,7 +14,7 @@ abstract class SortLines extends SimpleJob
 	public SortLines(GTViewSet viewSet)
 	{
 		this.viewSet = viewSet;
-		maximum = viewSet.getView(0).getLineCount();
+		maximum = viewSet.getView(0).lineCount();
 	}
 
 	@Override
@@ -47,7 +47,7 @@ abstract class SortLines extends SimpleJob
 			lineOrder.addAll(0, splitLines);
 
 			// Pass the sorted order back to the view
-			view.getViewSet().setLinesFromArray(lineOrder.toArray(new LineInfo[view.getLineCount()]), true);
+			view.getViewSet().setLinesFromArray(lineOrder.toArray(new LineInfo[view.lineCount()]), true);
 		}
 	}
 

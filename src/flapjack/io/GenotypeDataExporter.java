@@ -58,7 +58,7 @@ public class GenotypeDataExporter extends SimpleJob
 			if (chrm[c] == false)
 				continue;
 
-			for (int i = 0; i < view.getMarkerCount(); i++)
+			for (int i = 0; i < view.markerCount(); i++)
 				if (useAll || view.isMarkerSelected(i))
 					out.write(view.getMarker(i).getName() + "\t");
 		}
@@ -71,7 +71,7 @@ public class GenotypeDataExporter extends SimpleJob
 		// Now write the genotype data...
 		// Use the first chromosome to parse the lines
 		GTView view = viewSet.getView(0);
-		for (int line = 0; line < view.getLineCount(); line++, progress++)
+		for (int line = 0; line < view.lineCount(); line++, progress++)
 		{
 			// Don't export dummy lines
 			if (view.isDummyLine(view.getLine(line)))
@@ -91,7 +91,7 @@ public class GenotypeDataExporter extends SimpleJob
 
 					cView.cacheLines();
 
-					for (int marker = 0; marker < cView.getMarkerCount() && okToRun; marker++)
+					for (int marker = 0; marker < cView.markerCount() && okToRun; marker++)
 					{
 						if (useAll || cView.isMarkerSelected(marker))
 						{
