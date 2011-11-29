@@ -632,7 +632,7 @@ class SerializerV01 extends FlapjackSerializer
 		// Number of views
 		int viewCount = in.readInt();
 		for (int i = 0; i < viewCount; i++)
-			loadGTView(viewSet, i);
+			viewSet.getViews().add(loadGTView(viewSet, i));
 
 		// Bookmarks
 		int bookmarkCount = in.readInt();
@@ -663,7 +663,7 @@ class SerializerV01 extends FlapjackSerializer
 			saveMarkerInfo(markerInfo);
 	}
 
-	protected void loadGTView(GTViewSet viewSet, int index)
+	protected GTView loadGTView(GTViewSet viewSet, int index)
 		throws Exception
 	{
 		GTView view = new GTView();
@@ -694,7 +694,7 @@ class SerializerV01 extends FlapjackSerializer
 		for (int i = 0; i < hidemarkerInfoCount; i++)
 			loadMarkerInfo(view.getHideMarkers(), map);
 
-		viewSet.getViews().add(view);
+		return view;
 	}
 
 	protected void saveLineInfo(LineInfo lineInfo)

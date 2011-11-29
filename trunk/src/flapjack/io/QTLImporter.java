@@ -133,6 +133,18 @@ public class QTLImporter extends SimpleJob
 			Collections.sort(track);
 
 			c.setQTLs(track);
+
+			// Add the QTLs to the GTViews
+			ArrayList<QTLInfo> qtl = new ArrayList<QTLInfo>();
+
+			for (int i=0; i < track.size(); i++)
+				qtl.add(new QTLInfo(track.get(i), i));
+
+			for (GTViewSet viewSet : dataSet.getViewSets())
+			{
+				GTView view = viewSet.getView(c);
+				view.setQTLs(qtl);
+			}
 		}
 	}
 

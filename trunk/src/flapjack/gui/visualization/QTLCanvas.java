@@ -100,8 +100,8 @@ class QTLCanvas extends JPanel implements PropertyChangeListener
 
 		if (forceUpdate || tracks != trackCount && tracks > 0)
 		{
-			QTLTrackOptimiser optimiser = new QTLTrackOptimiser(canvas.viewSet.getDataSet());
-			trackSet = optimiser.getTracks(tracks, canvas.view.getChromosomeMap());
+			QTLTrackOptimiser optimiser = new QTLTrackOptimiser();
+			trackSet = optimiser.getTracks(tracks, canvas.view);
 
 			trackCount = tracks;
 		}
@@ -168,10 +168,10 @@ class QTLCanvas extends JPanel implements PropertyChangeListener
 
 					boolean grouped = fg.size() > 1;
 
-					for (QTL qtl: fg)
+					for (QTLInfo qtlInfo: fg)
 						// Don't draw features it they are offscreeen
-						if (qtl.getMax() > mSPos && qtl.getMin() < mEPos)
-							drawQTL(g, qtl, trackNum, grouped);
+						if (qtlInfo.max() > mSPos && qtlInfo.min() < mEPos)
+							drawQTL(g, qtlInfo.getQTL(), trackNum, grouped);
 				}
 			}
 
@@ -313,9 +313,7 @@ class QTLCanvas extends JPanel implements PropertyChangeListener
 				while(onscreen.get(qtlIndex).getMin() < mEPos)
 				{
 					if(qtlIndex < onscreen.size()-1)
-					{
 						qtlIndex++;
-					}
 					else
 						break;
 				}
@@ -328,11 +326,11 @@ class QTLCanvas extends JPanel implements PropertyChangeListener
 					FeatureGroup fg = onscreen.get(i);
 					for (int fIndex = fg.size()-1; fIndex >= 0; fIndex--)
 					{
-						QTL qtl = fg.get(fIndex);
+						QTLInfo qtl = fg.get(fIndex);
 
-						if (qtl.getMin() <= mapPos && qtl.getMax() >= mapPos)
+						if (qtl.min() <= mapPos && qtl.max() >= mapPos)
 						{
-							match = qtl;
+							match = qtl.getQTL();
 							break;
 						}
 					}
