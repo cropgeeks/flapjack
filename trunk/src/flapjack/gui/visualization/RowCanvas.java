@@ -72,7 +72,7 @@ class RowCanvas extends JPanel
 			g.fillRect(0, 0, width, h);
 
 			// Quit if the line index is out of bounds or beyond the canvas size
-			if (lineIndex < 0 || lineIndex >= canvas.view.getLineCount())
+			if (lineIndex < 0 || lineIndex >= canvas.view.lineCount())
 				return;
 
 			// Scaling factors

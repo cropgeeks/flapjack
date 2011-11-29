@@ -136,7 +136,7 @@ class GraphCanvas extends JPanel
 
 		g.translate(-canvas.pX1, 0);
 
-		if (xS > canvas.view.getMarkerCount() || xE > canvas.view.getMarkerCount())
+		if (xS > canvas.view.markerCount() || xE > canvas.view.markerCount())
 			return;
 
 		// If we're drawing a line graph, then translate by half a position
@@ -145,7 +145,7 @@ class GraphCanvas extends JPanel
 
 		// See if we can render one extra marker to each side
 		if (xS > 0)	xS--;
-		if (xE < canvas.view.getMarkerCount()-1) xE++;
+		if (xE < canvas.view.markerCount()-1) xE++;
 
 		// Retrieve the data
 		graphData = canvas.view.getChromosomeMap().getGraphs().get(idx);
@@ -225,7 +225,7 @@ class GraphCanvas extends JPanel
 		{
 			w = canvas.canvasW;
 			xS = 0;
-			xE = canvas.view.getMarkerCount()-1;
+			xE = canvas.view.markerCount()-1;
 		}
 
 		BufferedImage image = (BufferedImage) createImage(w>0 ? w:1, h>0 ? h:1);

@@ -38,7 +38,7 @@ public class SelectedMarkersState implements IUndoState
 
 	public void createUndoState()
 	{
-		undoMarkers = new boolean[view.getMarkerCount()];
+		undoMarkers = new boolean[view.markerCount()];
 		for (int i = 0; i < undoMarkers.length; i++)
 			undoMarkers[i] = view.isMarkerSelected(i);
 	}
@@ -51,7 +51,7 @@ public class SelectedMarkersState implements IUndoState
 
 	public void createRedoState()
 	{
-		redoMarkers = new boolean[view.getMarkerCount()];
+		redoMarkers = new boolean[view.markerCount()];
 		for (int i = 0; i < redoMarkers.length; i++)
 			redoMarkers[i] = view.isMarkerSelected(i);
 	}

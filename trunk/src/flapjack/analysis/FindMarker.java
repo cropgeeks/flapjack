@@ -42,14 +42,14 @@ public class FindMarker extends StringFinder
 		// it means we didn't find a match
 		int searchCount = 0;
 
-		int max = view.getMarkerCount();
+		int max = view.markerCount();
 		if (searchAllChromosomes)
 			max = viewSet.countAllMarkers();
 
 		while (searchCount < max)
 		{
 			// If we've reached the end of this view, move on to the next one...
-			if (index >= view.getMarkerCount())
+			if (index >= view.markerCount())
 			{
 				view = viewSet.getView(++viewIndex);
 				index = 0;

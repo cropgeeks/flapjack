@@ -38,7 +38,7 @@ public class SelectedLinesState implements IUndoState
 
 	public void createUndoState()
 	{
-		undoLines = new boolean[view.getLineCount()];
+		undoLines = new boolean[view.lineCount()];
 		for (int i = 0; i < undoLines.length; i++)
 			undoLines[i] = view.isLineSelected(i);
 	}
@@ -51,7 +51,7 @@ public class SelectedLinesState implements IUndoState
 
 	public void createRedoState()
 	{
-		redoLines = new boolean[view.getLineCount()];
+		redoLines = new boolean[view.lineCount()];
 		for (int i = 0; i < redoLines.length; i++)
 			redoLines[i] = view.isLineSelected(i);
 	}

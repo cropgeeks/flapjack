@@ -250,8 +250,8 @@ class CanvasMouseListener extends MouseInputAdapter
 				// of the dataset, IF the cursor has gone beyond the limits
 				if (newLine < 0)
 					newLine = 0;
-				else if (newLine >= canvas.view.getLineCount())
-					newLine = canvas.view.getLineCount()-1;
+				else if (newLine >= canvas.view.lineCount())
+					newLine = canvas.view.lineCount()-1;
 
 				if (newLine != selectedLine)
 				{
@@ -287,8 +287,8 @@ class CanvasMouseListener extends MouseInputAdapter
 
 				if (newMarker < 0)
 					newMarker = 0;
-				else if (newMarker >= canvas.view.getMarkerCount())
-					newMarker = canvas.view.getMarkerCount()-1;
+				else if (newMarker >= canvas.view.markerCount())
+					newMarker = canvas.view.markerCount()-1;
 
 				if (newMarker != selectedMarker)
 				{
@@ -359,7 +359,7 @@ class CanvasMouseListener extends MouseInputAdapter
 			int index = canvas.getMarker(e.getPoint());
 
 			// Check that the index is valid
-			if (index < 0 || index > canvas.view.getMarkerCount())
+			if (index < 0 || index > canvas.view.markerCount())
 				return;
 
 			markerStates = new SelectedMarkersState(canvas.view,
@@ -395,8 +395,8 @@ class CanvasMouseListener extends MouseInputAdapter
 
 				if (newMarker < 0)
 					newMarker = 0;
-				else if (newMarker >= canvas.view.getMarkerCount())
-					newMarker = canvas.view.getMarkerCount()-1;
+				else if (newMarker >= canvas.view.markerCount())
+					newMarker = canvas.view.markerCount()-1;
 
 				if (newMarker != selectedMarker)
 				{
@@ -445,7 +445,7 @@ class CanvasMouseListener extends MouseInputAdapter
 			int index = canvas.getLine(e.getPoint());
 
 			// Check that the index is valid
-			if (index < 0 || index > canvas.view.getLineCount())
+			if (index < 0 || index > canvas.view.lineCount())
 				return;
 
 			lineStates = new SelectedLinesState(canvas.view,
@@ -481,8 +481,8 @@ class CanvasMouseListener extends MouseInputAdapter
 
 				if (newLine < 0)
 					newLine = 0;
-				else if (newLine >= canvas.view.getLineCount())
-					newLine = canvas.view.getLineCount()-1;
+				else if (newLine >= canvas.view.lineCount())
+					newLine = canvas.view.lineCount()-1;
 
 				if (newLine != selectedLine)
 				{

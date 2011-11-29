@@ -28,7 +28,7 @@ public class SortLinesByTrait extends SortLines
 	@Override
 	protected ArrayList<LineInfo> doSort(GTView view)
 	{
-		int numLines = view.getLineCount();
+		int numLines = view.lineCount();
 		ArrayList<LineScore> scores = new ArrayList<LineScore>(numLines);
 		for (int i = 0; i < numLines && okToRun; i++, linesScored++)
 			// Don't do a trait sort on a splitter line

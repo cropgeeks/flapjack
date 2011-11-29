@@ -187,7 +187,7 @@ public class MenuData
 		DBAssociation db = gPanel.getViewSet().getDataSet().getDbAssociation();
 		GTView view = gPanel.getView();
 
-		if (view.mouseOverLine >= 0 && view.mouseOverLine < view.getLineCount())
+		if (view.mouseOverLine >= 0 && view.mouseOverLine < view.lineCount())
 		{
 			Line line = view.getLine(view.mouseOverLine);
 
@@ -212,7 +212,7 @@ public class MenuData
 		DBAssociation db = gPanel.getViewSet().getDataSet().getDbAssociation();
 		GTView view = gPanel.getView();
 
-		if (view.mouseOverMarker >= 0 && view.mouseOverMarker < view.getMarkerCount())
+		if (view.mouseOverMarker >= 0 && view.mouseOverMarker < view.markerCount())
 		{
 			Marker marker = view.getMarker(view.mouseOverMarker);
 

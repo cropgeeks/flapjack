@@ -29,8 +29,8 @@ class HideLMAnimator extends Thread implements IOverlayRenderer
 		canvas = gPanel.canvas;
 
 		// Don't do this if there's only one marker/line left
-		if (isMarkerIndex && canvas.view.getMarkerCount() > 1 ||
-			!isMarkerIndex && canvas.view.getLineCount() > 1)
+		if (isMarkerIndex && canvas.view.markerCount() > 1 ||
+			!isMarkerIndex && canvas.view.lineCount() > 1)
 			start();
 	}
 

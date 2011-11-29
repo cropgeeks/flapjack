@@ -46,8 +46,8 @@ class ExportImagePanelNB extends JPanel implements ChangeListener, ActionListene
 		RB.setText(equalCheck, "gui.dialog.NBExportImagePanel.equalCheck");
 		RB.setText(memLabel1, "gui.dialog.NBExportImagePanel.memLabel1");
 
-		lines = gPanel.getView().getLineCount();
-		markers = gPanel.getView().getMarkerCount();
+		lines = gPanel.getView().lineCount();
+		markers = gPanel.getView().markerCount();
 
 		lineMarkerRatio = (float)lines / (float)markers;
 

@@ -188,16 +188,16 @@ public class StatusPanelNB extends JPanel implements ActionListener, ChangeListe
 	void setIndices(int lineIndex, int markerIndex)
 	{
 		// Current line under the mouse
-		if (lineIndex < 0 || lineIndex >= view.getLineCount())
+		if (lineIndex < 0 || lineIndex >= view.lineCount())
 			lineLabel.setText(" ");
 		else
 		{
-			String position = (lineIndex+1) + "/" + view.getLineCount();
+			String position = (lineIndex+1) + "/" + view.lineCount();
 			lineLabel.setText((view.getLine(lineIndex).getName() + " (" + position + ")").trim());
 		}
 
 		// Current marker under the mouse
-		if (markerIndex < 0 || markerIndex >= view.getMarkerCount())
+		if (markerIndex < 0 || markerIndex >= view.markerCount())
 			markerLabel.setText(" ");
 		else
 		{
@@ -209,8 +209,8 @@ public class StatusPanelNB extends JPanel implements ActionListener, ChangeListe
 		}
 
 		// Current allele under the mouse
-		if (lineIndex < 0 || lineIndex >= view.getLineCount() ||
-			markerIndex < 0 || markerIndex >= view.getMarkerCount())
+		if (lineIndex < 0 || lineIndex >= view.lineCount() ||
+			markerIndex < 0 || markerIndex >= view.markerCount())
 		{
 			alleleLabel.setText(" ");
 		}

@@ -166,12 +166,12 @@ public class GTView extends XMLRoot
 		return genotypeLines.get(line).getState(markers.get(marker).index);
 	}
 
-	public int getMarkerCount()
+	public int markerCount()
 	{
 		return markers.size();
 	}
 
-	public int getLineCount()
+	public int lineCount()
 	{
 		return viewSet.lines.size();
 	}
@@ -521,7 +521,7 @@ public class GTView extends XMLRoot
 	public int countGenuineMarkers()
 	{
 		if (map.isSpecialChromosome() == false)
-			return getMarkerCount();
+			return markerCount();
 
 		int count = 0;
 		for (MarkerInfo mi: markers)
@@ -533,7 +533,7 @@ public class GTView extends XMLRoot
 
 	public int getSplitterIndex()
 	{
-		int linecount = getLineCount();
+		int linecount = lineCount();
 		for (int i=0; i < linecount; i++)
 			if (getLine(i) == viewSet.getDataSet().getSplitter())
 				return i;
@@ -543,7 +543,7 @@ public class GTView extends XMLRoot
 
 	public boolean hasDummyLines()
 	{
-		int lineCount = getLineCount();
+		int lineCount = lineCount();
 
 		for (int i=0; i < lineCount; i++)
 			if (viewSet.lines.get(i).line == viewSet.getDataSet().getDummyLine())

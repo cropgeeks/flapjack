@@ -132,8 +132,8 @@ class GenotypeCanvas extends JPanel
 
 		boxH = fm.getHeight();
 
-		boxTotalX = view.getMarkerCount();
-		boxTotalY = view.getLineCount();
+		boxTotalX = view.markerCount();
+		boxTotalY = view.lineCount();
 
 		canvasW = (boxTotalX * boxW);
 		canvasH = (boxTotalY * boxH);

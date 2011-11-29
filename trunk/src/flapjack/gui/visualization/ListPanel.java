@@ -66,7 +66,7 @@ class ListPanel extends JPanel
 
 		model.clear();
 
-		for (int i = 0; i < view.getLineCount(); i++)
+		for (int i = 0; i < view.lineCount(); i++)
 			model.add(i, view.getLineInfo(i));
 	}
 

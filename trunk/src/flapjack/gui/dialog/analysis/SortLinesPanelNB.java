@@ -37,12 +37,12 @@ class SortLinesPanelNB extends javax.swing.JPanel implements ActionListener
 		view = viewSet.getView(viewSet.getViewIndex());
 
 		DefaultComboBoxModel<Line> lineModel = new DefaultComboBoxModel<Line>();
-		for (int i = 0; i < view.getLineCount(); i++)
+		for (int i = 0; i < view.lineCount(); i++)
 			lineModel.addElement(view.getLine(i));
 
 		selectedLine.setModel(lineModel);
 
-		if (view.mouseOverLine >= 0 && view.mouseOverLine < view.getLineCount())
+		if (view.mouseOverLine >= 0 && view.mouseOverLine < view.lineCount())
 			selectedLine.setSelectedIndex(view.mouseOverLine);
 
 		selectedLine.addActionListener(dialog);
@@ -74,7 +74,7 @@ class SortLinesPanelNB extends javax.swing.JPanel implements ActionListener
 
 			data[i][1] = view.getChromosomeMap().getName();
 			data[i][2] = view.countSelectedMarkers() + " / "
-				+ view.getMarkerCount();
+				+ view.markerCount();
 
 		}
 

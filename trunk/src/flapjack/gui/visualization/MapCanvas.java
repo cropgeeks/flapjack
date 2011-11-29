@@ -213,7 +213,7 @@ class MapCanvas extends JPanel
 	private void highlightMarker(Graphics2D g)
 	{
 		// Change to red, and redraw the currently highlighted one
-		if (mrkrIndex >= 0 && mrkrIndex < canvas.view.getMarkerCount())
+		if (mrkrIndex >= 0 && mrkrIndex < canvas.view.markerCount())
 		{
 			g.setRenderingHint(KEY_ANTIALIASING, VALUE_ANTIALIAS_ON);
 			g.setColor(Color.red);
@@ -250,7 +250,7 @@ class MapCanvas extends JPanel
 		g.drawString(str, getPosition(xMap, strWidth), 8);
 
 		// Now see which markers are "under" this feature, and highlight them
-		int mkrCount = canvas.view.getMarkerCount();
+		int mkrCount = canvas.view.markerCount();
 		int xS = canvas.pX1 / canvas.boxW;
 
 		for (int i = 0; i < mkrCount; i++)
@@ -316,7 +316,7 @@ class MapCanvas extends JPanel
 		else if (Prefs.visMapScaling == 1)
 		{
 			mSPos = 0;//canvas.view.getMarker(0).getPosition();
-			mEPos = canvas.view.getMarker(canvas.view.getMarkerCount()-1).getPosition();
+			mEPos = canvas.view.getMarker(canvas.view.markerCount()-1).getPosition();
 		}
 
 		// "Classic" Flapjack scaling
@@ -345,7 +345,7 @@ class MapCanvas extends JPanel
 		{
 			w = canvas.canvasW;
 			xS = 0;
-			xE = canvas.view.getMarkerCount()-1;
+			xE = canvas.view.markerCount()-1;
 		}
 
 		BufferedImage image = (BufferedImage) createImage(w>0 ? w:1, h>0 ? h:1);

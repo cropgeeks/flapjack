@@ -80,7 +80,7 @@ public class MenuEdit
 		{
 			state.setMenuString(RB.getString("gui.visualization.SelectedMarkersState.selectedAll"));
 
-			for (int i = 0; i < view.getMarkerCount(); i++)
+			for (int i = 0; i < view.markerCount(); i++)
 				view.setMarkerState(i, true);
 		}
 		// Select None
@@ -88,7 +88,7 @@ public class MenuEdit
 		{
 			state.setMenuString(RB.getString("gui.visualization.SelectedMarkersState.selectedNone"));
 
-			for (int i = 0; i < view.getMarkerCount(); i++)
+			for (int i = 0; i < view.markerCount(); i++)
 				view.setMarkerState(i, false);
 		}
 		// Invert
@@ -96,7 +96,7 @@ public class MenuEdit
 		{
 			state.setMenuString(RB.getString("gui.visualization.SelectedMarkersState.selectedInvert"));
 
-			for (int i = 0; i < view.getMarkerCount(); i++)
+			for (int i = 0; i < view.markerCount(); i++)
 				view.toggleMarkerState(i);
 		}
 
@@ -141,7 +141,7 @@ public class MenuEdit
 		{
 			state.setMenuString(RB.getString("gui.visualization.SelectedLinesState.selectedAll"));
 
-			for (int i = 0; i < view.getLineCount(); i++)
+			for (int i = 0; i < view.lineCount(); i++)
 				view.setLineState(i, true);
 		}
 		// Select None
@@ -149,7 +149,7 @@ public class MenuEdit
 		{
 			state.setMenuString(RB.getString("gui.visualization.SelectedLinesState.selectedNone"));
 
-			for (int i = 0; i < view.getLineCount(); i++)
+			for (int i = 0; i < view.lineCount(); i++)
 				view.setLineState(i, false);
 		}
 		// Invert
@@ -157,7 +157,7 @@ public class MenuEdit
 		{
 			state.setMenuString(RB.getString("gui.visualization.SelectedLinesState.selectedInvert"));
 
-			for (int i = 0; i < view.getLineCount(); i++)
+			for (int i = 0; i < view.lineCount(); i++)
 				view.toggleLineState(i);
 		}
 
@@ -194,7 +194,7 @@ public class MenuEdit
 		GTViewSet viewSet = gPanel.getViewSet();
 		GTView view = gPanel.getView();
 
-		if (view.mouseOverLine >= 0 && view.mouseOverLine < view.getLineCount())
+		if (view.mouseOverLine >= 0 && view.mouseOverLine < view.lineCount())
 		{
 			// Set the undo state
 			InsertedLineState state = new InsertedLineState(viewSet,
@@ -225,7 +225,7 @@ public class MenuEdit
 		boolean allowSingleDelete = false;
 
 		// Determine if it *is* actually a dummy line
-		if (index >= 0 && index < view.getLineCount())
+		if (index >= 0 && index < view.lineCount())
 		{
 			Line line = view.getLine(index);
 			if (view.isDummyLine(line))
@@ -275,7 +275,7 @@ public class MenuEdit
 		if (view.getSplitterIndex() != -1)
 			return;
 
-		if (view.mouseOverLine >= 0 && view.mouseOverLine < view.getLineCount())
+		if (view.mouseOverLine >= 0 && view.mouseOverLine < view.lineCount())
 		{
 			// Set the undo state
 			InsertedLineState state = new InsertedLineState(viewSet,
