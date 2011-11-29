@@ -107,6 +107,7 @@
 		<field name="comparisonMarker" type="flapjack.data.Marker">
 			<bind-xml reference="true" node="attribute"/>
 		</field>
+		<field name="QTLs" type="flapjack.data.QTLInfo" collection="arraylist" set-method="setQTLs" get-method="getQTLs"/>
 	</class>
 
 	<!-- LineInfo -->
@@ -170,6 +171,16 @@
 			<bind-xml node="attribute"/>
 		</field>
 		<field name="experiment" type="string">
+			<bind-xml node="attribute"/>
+		</field>
+	</class>
+
+	<!-- QTLInfo -->
+	<class name="flapjack.data.QTLInfo" extends="flapjack.data.XMLRoot" auto-complete="true">
+		<field name="QTL" type="flapjack.data.QTL">
+			<bind-xml reference="true" node="attribute"/>
+		</field>
+		<field name="index" type="int">
 			<bind-xml node="attribute"/>
 		</field>
 	</class>

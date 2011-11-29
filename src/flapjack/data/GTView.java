@@ -24,6 +24,8 @@ public class GTView extends XMLRoot
 	// Holds markers that we don't currently want visible
 	private ArrayList<MarkerInfo> hideMarkers = new ArrayList<MarkerInfo>();
 
+	private ArrayList<QTLInfo> qtls = new ArrayList<QTLInfo>();
+
 	// Marker and line currently under the mouse (-1 if not)
 	public int mouseOverLine = -1;
 	public int mouseOverMarker = -1;
@@ -113,6 +115,11 @@ public class GTView extends XMLRoot
 	public void setMarkersOrdered(boolean markersOrdered)
 		{ this.markersOrdered = markersOrdered; }
 
+	public ArrayList<QTLInfo> getQTLs()
+		{ return qtls; }
+
+	public void setQTLs(ArrayList<QTLInfo> qtl)
+		{ this.qtls = qtl; }
 
 	// Other methods
 
@@ -327,6 +334,8 @@ public class GTView extends XMLRoot
 		// Clone the hidden markers
 		if (cloneHidden)
 			clone.setMarkersFromArray(getMarkersAsArray(false), false);
+
+		clone.setQTLs(qtls);
 
 		clone.comparisonMarker = comparisonMarker;
 		clone.comparisonMarkerIndex = comparisonMarkerIndex;
