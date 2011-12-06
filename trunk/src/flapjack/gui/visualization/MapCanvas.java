@@ -91,7 +91,7 @@ class MapCanvas extends JPanel
 			int xOffset = gPanel.traitCanvas.getPanelWidth()
 				+ gPanel.listPanel.getPanelWidth() + 1;
 			g.translate(xOffset, 0);
-			// This cliping is only needed for the "live" mouse-over paints
+			// This clipping is only needed for the "live" mouse-over paints
 			g.setClip(0, 0, canvas.pX2Max-canvas.pX1+1, getHeight());
 
 			// Update the back buffer (if it needs redrawn)
@@ -113,26 +113,32 @@ class MapCanvas extends JPanel
 		private void drawChromosomePosition(Graphics2D g, int xOffset)
 		{
 			Integer mousePos = mapCanvasML.mousePos;
+			if (mousePos == null)
+				return;
 
-			if (mousePos == null || mousePos < canvas.pX1 || mousePos > canvas.pX2)
+			// What is the width of the actual drawing canvas?
+			float canvasWidth = canvas.pX2-canvas.pX1+1;
+			// How far along this width (as a ratio) is the mouse position?
+			float posAsRatio = mousePos / canvasWidth;
+			// Now work out the length (in cM) of what's on screen
+			float chromosomeLength = mEPos - mSPos;
+
+
+			// The actual position of the mouse is now just an offset + the
+			// ratio of this length
+			float chromosomePos = mSPos + (posAsRatio * chromosomeLength);
+
+
+			// Don't draw if the mouse is beyond the (visible) canvas extents
+			if (chromosomePos < mSPos || chromosomePos > mEPos)
 				return;
 
 			g.setColor(Color.red);
 			g.drawLine(mousePos, 12, mousePos, 22);
 
-			// Calculate widths for chromosome position calculation
-			int offsetWidth = w -xOffset;
-			float chromosomeWidth = mEPos - mSPos + 1;
-
-			// Convert the mouse position into chromosome position
-			float chromosomePos = mSPos + ((mousePos / (float)offsetWidth)
-					* chromosomeWidth);
-
-			//nf.setMaximumFractionDigits(1);
-
-			int strWidth = g.getFontMetrics().stringWidth("" + chromosomePos);
-			g.drawString(nf.format(chromosomePos), getPosition(mousePos, strWidth), 8);
-
+			String str = nf.format(chromosomePos);
+			int strWidth = g.getFontMetrics().stringWidth(str);
+			g.drawString(str, getPosition(mousePos, strWidth), 8);
 		}
 	}
 
