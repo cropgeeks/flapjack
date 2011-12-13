@@ -22,6 +22,21 @@ that have been made to Flapjack in recent versions. For full details on all the
 changes between versions, please see the <a href="../svn.txt">
 subversion change log</a>.</p>
 
+<h3>New in 1.11.12.13</h3>
+
+<ul>
+<li>NEW: Added the ability to export an all-by-all similarity matrix for the lines within the current view.</li>
+<li>NEW: Added support for a sort splitter, that denotes that all lines above it are exempt from sorting and always keep their order. Lines below are sorted as normal.</li>
+<li>CHG: It is now possible to cancel Line Sort operations.</li>
+<li>CHG: Due to internal changes, existing projects with QTL will need to have their QTL re-imported.</li>
+<li>BUG: Similarity scores for cases such as A vs A/T were incorrect (0 rather than 0.5).</li>
+<li>BUG: Fixed a problem with incorrect chromosome positions being shown when moving the mouse over the chromosome map canvas.</li>
+<li>BUG: Fixed a problem with saving dummy lines in binary projects.</li>
+<li>BUG: Sorting with an imported sort order wasn’t updating the progress dialog when it was running.</li>
+<li>BUG: QTL groups could disappear due to a quirk of their elements being in reverse order.</li>
+</ul>
+
+
 <h3>New in 1.11.07.06</h3>
 
 <ul>
