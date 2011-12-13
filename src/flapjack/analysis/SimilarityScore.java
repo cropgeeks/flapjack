@@ -65,7 +65,7 @@ public class SimilarityScore
 					AlleleState s1 = st.getAlleleState(state1);
 					AlleleState s2 = st.getAlleleState(state2);
 
-					if (s1.matches(s2))
+					if (s1.matchesAnyAllele(s2))
 						score += 0.5f;
 				}
 

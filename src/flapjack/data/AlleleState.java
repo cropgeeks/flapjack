@@ -125,4 +125,18 @@ public class AlleleState extends XMLRoot
 
 		return str;
 	}
+
+	/**
+	 * Returns true if any allele matches any other allele in the other state,
+	 * eg A will match with A/T or G/A, etc
+	 */
+	public boolean matchesAnyAllele(AlleleState other)
+	{
+		for (String a1: states)
+			for (String a2: other.states)
+				if (a1.equals(a2))
+					return true;
+
+		return false;
+	}
 }
