@@ -110,12 +110,6 @@ public class Flapjack
 
 			public void windowOpened(WindowEvent e)
 			{
-				if (Prefs.isFirstRun == false && Prefs.isHuttonised == false)
-				{
-					new flapjack.gui.dialog.HuttonDialog();
-					Prefs.isHuttonised = true;
-				}
-
 				long thirtyDays = 2592000000L; // This is 30 days
 				long thirtyDaysAgo = System.currentTimeMillis() - thirtyDays;
 
