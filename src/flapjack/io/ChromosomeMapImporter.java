@@ -53,7 +53,7 @@ public class ChromosomeMapImporter
 
 		while ((str = in.readLine()) != null && isOK)
 		{
-			if (str.length() == 0)
+			if (str.length() == 0 || str.startsWith("#"))
 				continue;
 
 			String[] tokens = str.split("\t");

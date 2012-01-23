@@ -39,6 +39,7 @@ chromosome and distance once they are loaded. A short example is shown
 below:</p>
 
 <pre>
+  # fjFile = MAP
   Marker1      1H     32
   Marker2      1H     45
   Marker3      2H     23
@@ -49,6 +50,7 @@ data per marker for that line. It also requires a header line specifying the
 marker information for each column.</p>
 
 <pre>
+  # fjFile = GENOTYPE
                Marker1   Marker2   Marker3
   Line1        A         G         G
   Line2        A         -         G/T
@@ -81,6 +83,7 @@ some settings will be chromosome-specific, such as colouring by marker.</p>
 from a file with the following tab-delimited format:
 
 <pre>
+  # fjFile = PHENOTYPE
                Trait1       Trait1       Trait2
                Experiment1  Experiment2  Experiment1
   Line1        50           High         Short
@@ -98,6 +101,7 @@ from a file with the following tab-delimited format:
 from a file with the following tab-delimited format:
 
 <pre>
+  # fjFile = QTL
   Name  Chromosome  Position  Pos-Min  Pos-Max  Trait   Experiment  [optional_1] .. [optional_n]
   QTL1  1H          10        8        12       Height  Exp1        25.5            high
   QTL2  1H          20        19       26       Height  Exp1        34.8            low
@@ -108,6 +112,27 @@ from a file with the following tab-delimited format:
 listed in the order shown. After that, each QTL may have zero or more optional
 columns of numerical or textual data that can be included too.</p>
 
+
+<h3>Graphs</h3>
+
+<p>A <b>data set</b> can also optionally store information on one or more
+<b>Graphs</b> that are associated with the map. Graph information is imported
+from a file with the following tab-delimited format:
+
+<pre>
+  # fjFile = GRAPH
+  SIGNIFICANCE_THRESHOLD   Graph1   5.1
+  SIGNIFICANCE_THRESHOLD   Graph2   7.5
+  Marker1                  Graph1   1.3
+  Marker1                  Graph2   4.3
+  ...
+  Marker2                  Graph1   1.8
+  Marker2                  Graph2   3.9
+</pre>
+
+<p>Any number of graphs can be stored in a single file with data points per marker.
+The SIGNIFICANCE_THRESHOLD entry is optional (per graph) but defines the significance
+threshold for that graph if included which will be drawn on Flapjack's display.</p>
 
 <!--#include virtual="footer.html" -->
 

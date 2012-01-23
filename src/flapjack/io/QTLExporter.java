@@ -47,6 +47,10 @@ public class QTLExporter extends SimpleJob
 		// Now output the QTL to disk
 		BufferedWriter out = new BufferedWriter(new FileWriter(file));
 
+		// File header for drag and drop detection
+		out.write("# fjFile = QTL");
+		out.newLine();
+
 		writeHeader(out, qtls);
 
 		for (QTL qtl: qtls)

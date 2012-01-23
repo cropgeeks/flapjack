@@ -347,4 +347,55 @@ public class MenuFile
 			}
 		}
 	}
+
+	void handleDragDrop(String[] filenames)
+	{
+		System.out.println("Handle drag/drop");
+
+		FlapjackFile[] files = new FlapjackFile[filenames.length];
+		for (int i = 0; i < filenames.length; i++)
+		{
+			files[i] = new FlapjackFile(filenames[i]);
+			System.out.println("Checking " + filenames[i]);
+			files[i].canDetermineType();
+		}
+
+		// Process projects first
+		for (FlapjackFile fjFile: files)
+		{
+			if (fjFile.isProjectFile())
+			{
+				fileOpen(fjFile);
+				break;
+			}
+		}
+
+
+		// Is there a MAP/GENPTYPE pair that can be imported?
+		FlapjackFile mapFile = null, datFile = null;
+		for (FlapjackFile fjFile: files)
+		{
+			if (fjFile.getType() == FlapjackFile.MAP && mapFile == null)
+				mapFile = fjFile;
+			if (fjFile.getType() == FlapjackFile.GENOTYPE && datFile == null)
+				datFile = fjFile;
+		}
+
+		if (mapFile != null && datFile != null)
+			importGenotypeData(mapFile.getFile(), datFile.getFile(), true);
+
+
+		// Now check for other file types that can be imported into the dataset
+		for (FlapjackFile fjFile: files)
+		{
+			if (fjFile.getType() == FlapjackFile.PHENOTYPE)
+				importTraitData(fjFile.getFile());
+
+			else if (fjFile.getType() == FlapjackFile.QTL)
+				importQTLData(fjFile.getFile());
+
+			else if (fjFile.getType() == FlapjackFile.GRAPH)
+				importGraphData(fjFile.getFile());
+		}
+	}
 }

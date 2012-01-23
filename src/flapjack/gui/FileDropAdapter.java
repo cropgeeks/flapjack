@@ -31,24 +31,16 @@ class FileDropAdapter extends DropTargetAdapter
 
 			for (int i = 0; i < dataFlavors.length; i++)
 			{
-				if (dataFlavors[i].getRepresentationClass().equals(
-						Class.forName("java.util.List")))
+				if (dataFlavors[i].isFlavorJavaFileListType())
 				{
 					List<?> list = (List<?>) t.getTransferData(dataFlavors[i]);
 
-					// Check for a .flapjack project
-					if (list.size() == 1)
-					{
-						String filename = list.get(0).toString();
-						if (filename.toLowerCase().endsWith(".flapjack") ||
-							filename.toLowerCase().endsWith(".xml"))
-						{
-							winMain.mFile.fileOpen(new FlapjackFile(filename));
+					String[] filenames = new String[list.size()];
+					for (int fn = 0; fn < filenames.length; fn++)
+						filenames[fn] = list.get(fn).toString();
 
-							dtde.dropComplete(true);
-							return;
-						}
-					}
+					winMain.mFile.handleDragDrop(filenames);
+					dtde.dropComplete(true);
 
 					break;
 				}

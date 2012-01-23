@@ -58,7 +58,7 @@ public class GraphImporter extends SimpleJob
 
 		while ((str = in.readLine()) != null && okToRun)
 		{
-			if (str.length() == 0)
+			if (str.length() == 0 || str.startsWith("#"))
 				continue;
 
 			// Three columns: MARKER -- TRAIT -- VALUE
