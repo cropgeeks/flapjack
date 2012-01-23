@@ -34,6 +34,10 @@ public class ChromosomeMapExporter extends SimpleJob
 	{
 		BufferedWriter out = new BufferedWriter(new FileWriter(file));
 
+		// File header for drag and drop detection
+		out.write("# fjFile = MAP");
+		out.newLine();
+
 		// For each chromosome...
 		for (int c = 0; c < viewSet.chromosomeCount(); c++)
 		{

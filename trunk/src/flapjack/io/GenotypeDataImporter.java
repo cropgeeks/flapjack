@@ -263,7 +263,7 @@ public class GenotypeDataImporter
 		// This is now a loop over the markers
 		while ((str = in.readLine()) != null && isOK)
 		{
-			if (str.length() == 0)
+			if (str.length() == 0 || str.startsWith("#"))
 				continue;
 
 			if ((++lineCount) % 100 == 0)

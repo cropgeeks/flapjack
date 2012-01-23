@@ -31,6 +31,10 @@ public class GenotypeDataExporter extends SimpleJob
 	{
 		BufferedWriter out = new BufferedWriter(new FileWriter(file));
 
+		// File header for drag and drop detection
+		out.write("# fjFile = GENOTYPE");
+		out.newLine();
+
 		// Write any required database header info
 		DBAssociation db = viewSet.getDataSet().getDbAssociation();
 		if (db.isLineSearchEnabled())

@@ -43,10 +43,14 @@ public class TraitImporter extends SimpleJob
 		is = new ProgressInputStream(new FileInputStream(file));
 		BufferedReader in = new BufferedReader(new InputStreamReader(is));
 
+		// Skip over any comment lines
 		String str = in.readLine();
-		String[] traitNames = str.split("\t");
+		while (str != null && str.startsWith("#"))
+			str = in.readLine();
+
 
 		// Parse the first line and determine what the names for the traits are
+		String[] traitNames = str.split("\t");
 		for (int i = 1; i < traitNames.length; i++)
 			traits.add(new Trait(traitNames[i]));
 
