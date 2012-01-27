@@ -46,6 +46,8 @@ public class MarkerInfo extends XMLRoot
 	public void setSelected(boolean selected)
 		{ this.selected = selected; }
 
+	public boolean dummyMarker()
+		{ return marker.dummyMarker(); }
 
 	// Other methods
 }

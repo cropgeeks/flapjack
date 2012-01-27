@@ -195,14 +195,20 @@ class CanvasMouseListener extends MouseInputAdapter
 			selectedLine = e.getY() / canvas.boxH;
 			selectedMarker = e.getX() / canvas.boxW;
 
+			// Don't allow selection of dummy markers
+			if (canvas.view.getMarker(selectedMarker).dummyMarker())
+				selectedMarker = -1;
+			else
+			{
+				movedMarkersState = new MovedMarkersState(canvas.view,
+				RB.getString("gui.visualization.MovedMarkersState.movedMarkers"));
+				movedMarkersState.createUndoState();
+			}
+
 			// Create new states on initial mouse down
 			movedLinesState = new MovedLinesState(canvas.viewSet,
 				RB.getString("gui.visualization.MovedLinesState.movedLines"));
 			movedLinesState.createUndoState();
-
-			movedMarkersState = new MovedMarkersState(canvas.view,
-				RB.getString("gui.visualization.MovedMarkersState.movedMarkers"));
-			movedMarkersState.createUndoState();
 		}
 
 		void mouseReleased(MouseEvent e)
