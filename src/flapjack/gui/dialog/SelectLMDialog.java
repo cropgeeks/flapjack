@@ -69,5 +69,7 @@ public class SelectLMDialog extends JDialog implements ActionListener
 		{ return isOK; }
 
 	public int getSelectedIndex()
-		{ return nbPanel.combo.getSelectedIndex(); }
+	{
+		return ((SelectLMPanelNB.IndexWrapper)nbPanel.combo.getSelectedItem()).index;
+	}
 }

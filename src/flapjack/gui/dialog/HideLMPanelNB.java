@@ -34,7 +34,7 @@ class HideLMPanelNB extends JPanel
 
 		if (i18n.equals("markers"))
 		{
-			total = view.markerCount();
+			total = view.countGenuineMarkers();
 			selected = view.countSelectedMarkers();
 		}
 		else

@@ -24,7 +24,7 @@ class SelectLMPanelNB extends javax.swing.JPanel
 			RB.setText(label, "gui.dialog.NBSelectLMPanel.lineLabel");
 
 			for (int i = 0; i < view.lineCount(); i++)
-				combo.addItem(view.getLine(i).getName());
+				combo.addItem(new IndexWrapper(view.getLine(i).getName(), i));
 
 			if (view.mouseOverLine >= 0 && view.mouseOverLine < view.lineCount())
 				combo.setSelectedIndex(view.mouseOverLine);
@@ -33,12 +33,49 @@ class SelectLMPanelNB extends javax.swing.JPanel
 		{
 			RB.setText(label, "gui.dialog.NBSelectLMPanel.markerLabel");
 
-			for (int i = 0; i < view.markerCount(); i++)
-				combo.addItem(view.getMarker(i).getName());
-
+			boolean canPreSelect = false;
+			int preSelectIndex = -1;
 			if (view.mouseOverMarker >= 0 && view.mouseOverMarker < view.markerCount())
-				combo.setSelectedIndex(view.mouseOverMarker);
+				canPreSelect = true;
+
+			for (int i = 0; i < view.markerCount(); i++)
+			{
+				// Don't add dummy markers to the list
+				if (view.getMarker(i).dummyMarker())
+					continue;
+
+				IndexWrapper w = new IndexWrapper(view.getMarker(i).getName(), i);
+				combo.addItem(w);
+
+				// If this marker is under the mouse, rememeber its index
+				// position in the list for later selection
+				if (canPreSelect && view.mouseOverMarker == i)
+					preSelectIndex = combo.getItemCount()-1;
+			}
+
+			if (canPreSelect && preSelectIndex != -1)
+				combo.setSelectedIndex(preSelectIndex);
 		}
+	}
+
+	// A wrapper around a string. Also stores the index of the actual position
+	// of this element (line or marker) back in the view. This is so dummy
+	// markers can be skipped over - they aren't added to the combo box, but we
+	// still want to know the index of the original marker once the user has
+	// made a selection.
+	static class IndexWrapper
+	{
+		String name;
+		int index;
+
+		IndexWrapper(String name, int index)
+		{
+			this.name = name;
+			this.index = index;
+		}
+
+		public String toString()
+			{ return name; }
 	}
 
     /** This method is called from within the constructor to
@@ -51,7 +88,7 @@ class SelectLMPanelNB extends javax.swing.JPanel
     private void initComponents() {
 
         label = new javax.swing.JLabel();
-        combo = new javax.swing.JComboBox<String>();
+        combo = new javax.swing.JComboBox<IndexWrapper>();
 
         label.setLabelFor(combo);
         label.setText("Select comparison line:");
@@ -80,7 +117,7 @@ class SelectLMPanelNB extends javax.swing.JPanel
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    javax.swing.JComboBox<String> combo;
+    javax.swing.JComboBox<IndexWrapper> combo;
     private javax.swing.JLabel label;
     // End of variables declaration//GEN-END:variables
 }
