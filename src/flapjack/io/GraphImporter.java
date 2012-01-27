@@ -14,23 +14,25 @@ import scri.commons.gui.*;
 
 public class GraphImporter extends SimpleJob
 {
-	private NumberFormat nf = NumberFormat.getInstance();
-	private String SIG = "SIGNIFICANCE_THRESHOLD";
+	protected NumberFormat nf = NumberFormat.getInstance();
+	protected String SIG = "SIGNIFICANCE_THRESHOLD";
 
-	private ProgressInputStream is;
-	private File file;
-	private DataSet dataSet;
+	protected ProgressInputStream is;
+	protected File file;
+	protected DataSet dataSet;
+	protected BufferedReader in;
+	protected String str;
 
 	// Temporary object to hold a lookup table of marker data
-	private HashMap<String, MarkerIndex> markers = new HashMap<String, MarkerIndex>();
+	protected HashMap<String, MarkerIndex> markers = new HashMap<String, MarkerIndex>();
 
 	// Temporary object to track which graphs exist - needed to ensure every
 	// graph will exist across every chromosome, just in case some chromosomes
 	// don't have markers with graph values (also stores significance)
-	private HashMap<String, Float> names = new HashMap<String, Float>();
+	protected HashMap<String, Float> names = new HashMap<String, Float>();
 
 	// Stores the graphs while loading occurs: index is "CHROMOSOMEINDEX_GRAPH"
-	private HashMap<String, GraphData> graphs = new HashMap<String, GraphData>();
+	protected HashMap<String, GraphData> graphs = new HashMap<String, GraphData>();
 
 
 	public GraphImporter(File file, DataSet dataSet)
@@ -44,68 +46,10 @@ public class GraphImporter extends SimpleJob
 	public void runJob(int index)
 		throws Exception
 	{
-		for (ChromosomeMap map: dataSet.getChromosomeMaps())
-			map.getGraphs().clear();
-
-		// Build the lookup table
-		buildMarkerHash();
-
-		// Read the file and populate the GraphData objects
-		is = new ProgressInputStream(new FileInputStream(file));
-		BufferedReader in = new BufferedReader(new InputStreamReader(is));
-
-		String str = null;
-
-		while ((str = in.readLine()) != null && okToRun)
-		{
-			if (str.length() == 0 || str.startsWith("#"))
-				continue;
-
-			// Three columns: MARKER -- TRAIT -- VALUE
-			String[] tokens = str.split("\t", -1);
-			String marker = tokens[0];
-			String graphName = tokens[1];
-			float value = nf.parse(tokens[2]).floatValue();
-
-
-			// Does this marker exist?
-			MarkerIndex mIndex = markers.get(marker);
-			if (mIndex == null && marker.equalsIgnoreCase(SIG) == false)
-				continue;
-
-			// Do we have a graph that the value can be added to?
-			if (names.get(graphName) == null)
-			{
-				// Initialize a new graph for each chromosome
-				for (int i = 0; i < dataSet.getChromosomeMaps().size(); i++)
-				{
-					ChromosomeMap map = dataSet.getMapByIndex(i);
-					GraphData graph = new GraphData(map, graphName);
-
-					graphs.put(i + "_" + graphName, graph);
-					map.getGraphs().add(graph);
-				}
-
-				names.put(graphName, Float.MIN_VALUE);
-			}
-
-			// Adding a marker...
-			if (mIndex != null)
-			{
-				// Find the graph we want to add this value to
-				String gIndex = mIndex.mapIndex + "_" + graphName;
-				GraphData graph = graphs.get(gIndex);
-
-				graph.setValue(mIndex.mkrIndex, value);
-			}
-
-			// Adding a threshold value...
-			else
-				names.put(graphName, value);
-		}
+		setupForParse();
+		parseFile();
 
 		in.close();
-
 
 		// Finally, apply the loaded data to the main data API
 		if (okToRun)
@@ -117,7 +61,81 @@ public class GraphImporter extends SimpleJob
 				map.getGraphs().clear();
 	}
 
-	private void normalize()
+	protected void parseFile()
+		throws Exception
+	{
+		while ((str = in.readLine()) != null && okToRun)
+		{
+			if (str.length() == 0 || str.startsWith("#"))
+				continue;
+
+			// Three columns: MARKER -- TRAIT -- VALUE
+			String[] tokens = str.split("\t", -1);
+			String marker = tokens[0];
+			String graphName = tokens[1];
+			float value = nf.parse(tokens[2]).floatValue();
+
+			addToGraph(marker, graphName, value);
+		}
+	}
+
+
+	protected void setupForParse()
+			throws Exception, FileNotFoundException
+	{
+		for (ChromosomeMap map: dataSet.getChromosomeMaps())
+			map.getGraphs().clear();
+
+		// Build the lookup table
+		buildMarkerHash();
+
+		// Read the file and populate the GraphData objects
+		is = new ProgressInputStream(new FileInputStream(file));
+		in = new BufferedReader(new InputStreamReader(is));
+
+		str = null;
+	}
+
+	protected void addToGraph(String marker, String graphName, float value)
+		throws ArrayIndexOutOfBoundsException
+	{
+		// Does this marker exist?
+		MarkerIndex mIndex = markers.get(marker);
+		if (mIndex == null && marker.equalsIgnoreCase(SIG) == false)
+			return;
+
+		// Do we have a graph that the value can be added to?
+		if (names.get(graphName) == null)
+		{
+			// Initialize a new graph for each chromosome
+			for (int i = 0; i < dataSet.getChromosomeMaps().size(); i++)
+			{
+				ChromosomeMap map = dataSet.getMapByIndex(i);
+				GraphData graph = new GraphData(map, graphName);
+
+				graphs.put(i + "_" + graphName, graph);
+				map.getGraphs().add(graph);
+			}
+
+			names.put(graphName, Float.MIN_VALUE);
+		}
+
+		// Adding a marker...
+		if (mIndex != null)
+		{
+			// Find the graph we want to add this value to
+			String gIndex = mIndex.mapIndex + "_" + graphName;
+			GraphData graph = graphs.get(gIndex);
+
+			graph.setValue(mIndex.mkrIndex, value);
+		}
+
+		// Adding a threshold value...
+		else
+			names.put(graphName, value);
+	}
+
+	protected void normalize()
 		throws Exception
 	{
 		// We first need to scan all graphs for their mins and maxes and then

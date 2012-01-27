@@ -223,6 +223,8 @@ class CanvasMouseListener extends MouseInputAdapter
 					gPanel.addUndoState(movedMarkersState);
 
 					gPanel.mapCanvas.updateBuffer = true;
+					for (GraphCanvas gc : gPanel.graphCanvas)
+						gc.updateBuffer = true;
 					canvas.view.setMarkersOrdered(false);
 				}
 
@@ -304,6 +306,12 @@ class CanvasMouseListener extends MouseInputAdapter
 					// Update the view
 					selectedMarker = newMarker;
 					canvas.resetBufferedState(false);
+
+					for (GraphCanvas gc : gPanel.graphCanvas)
+					{
+						gc.updateBuffer = true;
+						gc.repaint();
+					}
 
 					// And ensure wherever the marker now is, it's still visible
 					canvas.scrollRectToVisible(new Rectangle(x-5, y-5, 10, 10));

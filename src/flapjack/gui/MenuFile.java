@@ -284,11 +284,32 @@ public class MenuFile
 			RB.getString("gui.text.close"));
 	}
 
+	private GraphImporter setupGraphImporter(File file, DataSet dataSet)
+	{
+		FlapjackFile f = new FlapjackFile(file.getAbsolutePath());
+
+		if (f.canDetermineType() == false)
+			return null;
+
+		GraphImporter gi = null;
+
+		if (f.getType() == FlapjackFile.GRAPH)
+			gi = new GraphImporter(file, dataSet);
+		else if (f.getType() == FlapjackFile.WIGGLE)
+			gi = new GraphImporterWiggle(file, dataSet);
+
+		return gi;
+	}
+
 	private void importGraphData(File file)
 	{
 		DataSet dataSet = navPanel.getDataSetForSelection();
 
-		GraphImporter gi = new GraphImporter(file, dataSet);
+		GraphImporter gi = setupGraphImporter(file, dataSet);
+
+		if (gi == null)
+			return;
+
 		ProgressDialog dialog = new ProgressDialog(gi,
 			RB.format("gui.MenuFile.importGraphs.dialogTitle"),
 			RB.format("gui.MenuFile.importGraphs.dialogLabel"),
@@ -395,6 +416,9 @@ public class MenuFile
 				importQTLData(fjFile.getFile());
 
 			else if (fjFile.getType() == FlapjackFile.GRAPH)
+				importGraphData(fjFile.getFile());
+
+			else if (fjFile.getType() == FlapjackFile.WIGGLE)
 				importGraphData(fjFile.getFile());
 		}
 	}
