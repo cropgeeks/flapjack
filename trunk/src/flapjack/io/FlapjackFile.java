@@ -195,7 +195,7 @@ public class FlapjackFile
 
 	private boolean isWiggle(String str)
 	{
-		return str.toLowerCase().startsWith("# fjfile = wiggle");
+		return (str.toLowerCase().startsWith("track type=wiggle_0") || str.startsWith("#"));
 	}
 
 	// Attempts to read the first 2048 bytes of the file, converting the stream
