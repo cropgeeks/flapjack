@@ -12,6 +12,9 @@ public class GraphData extends XMLRoot
 	// The name of this graph
 	private String name;
 
+	// A reference to the chromosome holding the markers this graph maps to
+	private ChromosomeMap map;
+
 	// The data for the graph - stored as normalized values
 	private float[] data;
 
@@ -27,6 +30,8 @@ public class GraphData extends XMLRoot
 
 	public GraphData(ChromosomeMap map, String name)
 	{
+		this.map = map;
+
 		data = new float[map.countLoci()];
 		this.name = name;
 	}
@@ -72,14 +77,25 @@ public class GraphData extends XMLRoot
 
 	// Other methods
 
+	public void determineLimits()
+	{
+		// Work out the max and min for this array
+		for (int i = 0; i < data.length; i++)
+		{
+			if (map.getMarkerByIndex(i).dummyMarker())
+				continue;
+
+			if (data[i] < min)
+				min = data[i];
+			if (data[i] > max)
+				max = data[i];
+		}
+	}
+
 	public void setValue(int mrkIndex, float value)
 	{
 		// Add the value...
 		data[mrkIndex] = value;
-
-		// Check if it's the lowest or highest value seen yet
-		min = Math.min(value, min);
-		max = Math.max(value, max);
 	}
 
 	public void normalize()
@@ -123,13 +139,4 @@ public class GraphData extends XMLRoot
 
 	public void setArrayData(float[] data)
 		{ this.data = data; }
-
-	public void determineThreshold(Float value)
-	{
-		if (value > Float.MIN_VALUE)
-		{
-			hasThreshold = true;
-			threshold = value;
-		}
-	}
 }
