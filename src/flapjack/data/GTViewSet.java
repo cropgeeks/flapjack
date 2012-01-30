@@ -344,11 +344,14 @@ public class GTViewSet extends XMLRoot
 
 	/** Returns the total number of alleles referenced by this viewset.
 	 */
-	public int countAllAlleles()
+	public int countAllAlleles(boolean includeDummyMarkers)
 	{
 		int total = 0;
 		for (GTView view: views)
-			total += view.markerCount() * view.lineCount();
+			if (includeDummyMarkers)
+				total += view.markerCount() * view.lineCount();
+			else
+				total += view.countGenuineMarkers() * view.lineCount();
 
 		return total;
 	}

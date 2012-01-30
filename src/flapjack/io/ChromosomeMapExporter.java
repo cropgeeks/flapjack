@@ -52,10 +52,13 @@ public class ChromosomeMapExporter extends SimpleJob
 			{
 				if (useAll || view.isMarkerSelected(i))
 				{
-					out.write(view.getMarker(i).getName() + "\t"
-						+ view.getChromosomeMap().getName() + "\t"
-						+ nf.format(view.getMarker(i).getPosition()));
-					out.newLine();
+					if (view.getMarker(i).dummyMarker() == false)
+					{
+						out.write(view.getMarker(i).getName() + "\t"
+							+ view.getChromosomeMap().getName() + "\t"
+							+ nf.format(view.getMarker(i).getPosition()));
+						out.newLine();
+					}
 				}
 			}
 		}

@@ -28,7 +28,7 @@ class AlleleStatisticsPanelNB extends JPanel implements AdjustmentListener
 		tablePanel.setBackground((Color)UIManager.get("fjDialogBG"));
 
 		String name = viewSet.getName();
-		int total = viewSet.countAllAlleles();
+		int total = viewSet.countAllAlleles(false);
 
 		// i18n
 		viewLabel.setText(RB.format("gui.dialog.analysis.NBAlleleStatisticsPanel.viewLabel", name, total));

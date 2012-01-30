@@ -193,8 +193,8 @@ class MapCanvas extends JPanel
 		Marker m = canvas.view.getMarker(i);
 
 		// Don't draw dummy markers (markers that split maps)
-		if (m.dummyMarker())
-			return;
+//		if (m.dummyMarker())
+//			return;
 
 		float distance = mEPos - mSPos;
 		int xMap = (int) ((m.getPosition()-mSPos) * ((w-1) / distance));
@@ -203,10 +203,17 @@ class MapCanvas extends JPanel
 		int jiggle = canvas.pX1 % canvas.boxW;
 		int xBox = (int) ((i-xS) * canvas.boxW + (canvas.boxW/2)) - jiggle;
 
-		g.drawLine(xMap, 12, xMap, 22);
-		g.drawLine(xMap, 22, xBox, h-5);
+		if (m.dummyMarker() == false)
+		{
+			g.drawLine(xMap, 12, xMap, 22);
+			g.drawLine(xMap, 22, xBox, h-5);
+		}
+		else
+		{
+			g.drawLine(xMap, 6, xMap, 22);
+		}
 
-		if (text)
+		if (text && m.dummyMarker() == false)
 		{
 			String str = m.getName() + "  (" + nf.format(m.getRealPosition()) + ")";
 			int strWidth = g.getFontMetrics().stringWidth(str);
