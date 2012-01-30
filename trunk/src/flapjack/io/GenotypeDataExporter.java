@@ -64,7 +64,8 @@ public class GenotypeDataExporter extends SimpleJob
 
 			for (int i = 0; i < view.markerCount(); i++)
 				if (useAll || view.isMarkerSelected(i))
-					out.write(view.getMarker(i).getName() + "\t");
+					if (view.getMarker(i).dummyMarker() == false)
+						out.write(view.getMarker(i).getName() + "\t");
 		}
 
 		out.newLine();
@@ -99,6 +100,9 @@ public class GenotypeDataExporter extends SimpleJob
 					{
 						if (useAll || cView.isMarkerSelected(marker))
 						{
+							if (cView.getMarker(marker).dummyMarker())
+								continue;
+
 							int state = cView.getState(line, marker);
 							out.write(stateTable.getAlleleState(state) + "\t");
 						}

@@ -18,7 +18,7 @@ public class AlleleStatistics extends SimpleJob
 	public AlleleStatistics(GTViewSet viewSet)
 	{
 		this.viewSet = viewSet;
-		maximum = viewSet.countAllAlleles();
+		maximum = viewSet.countAllAlleles(true);
 	}
 
 	public ArrayList<int[]> getResults()
@@ -51,11 +51,15 @@ public class AlleleStatistics extends SimpleJob
 		for (int line = 0; line < view.lineCount(); line++)
 			for (int marker = 0; marker < view.markerCount() && okToRun; marker++)
 			{
-				int state = view.getState(line, marker);
-				statistics[state]++;
+				if (view.getMarker(marker).dummyMarker() == false)
+				{
+					int state = view.getState(line, marker);
+					statistics[state]++;
 
-				// Track the total
-				statistics[statistics.length-1]++;
+					// Track the total
+					statistics[statistics.length-1]++;
+				}
+
 				progress++;
 			}
 
