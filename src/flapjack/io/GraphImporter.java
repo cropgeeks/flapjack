@@ -149,6 +149,7 @@ public class GraphImporter extends SimpleJob
 			// Find the min/max over all the data for this graph
 			for (ChromosomeMap map: dataSet.getChromosomeMaps())
 			{
+				map.getGraphs().get(i).determineLimits();
 				min = Math.min(map.getGraphs().get(i).getMinimum(), min);
 				max = Math.max(map.getGraphs().get(i).getMaximum(), max);
 			}
@@ -165,7 +166,12 @@ public class GraphImporter extends SimpleJob
 		for (ChromosomeMap map: dataSet.getChromosomeMaps())
 			for (GraphData graph: map.getGraphs())
 			{
-				graph.determineThreshold(names.get(graph.getName()));
+				if (names.get(graph.getName()) != Float.MIN_VALUE)
+				{
+					graph.setThreshold(names.get(graph.getName()));
+					graph.setHasThreshold(true);
+				}
+
 				graph.normalize();
 			}
 	}
