@@ -49,11 +49,8 @@ public class FilterQTLsDialog extends JDialog implements ActionListener
 		pack();
 		setResizable(false);
 
-		// Position on screen...
-		if (Prefs.guiFilterQTLDialogX == -9999 && Prefs.guiFilterQTLDialogY == -9999)
-			setLocationRelativeTo(Flapjack.winMain);
-		else
-			setLocation(Prefs.guiFilterQTLDialogX, Prefs.guiFilterQTLDialogY);
+		SwingUtils.positionWindow(
+			this, null, Prefs.guiFilterQTLDialogX, Prefs.guiFilterQTLDialogY);
 
 		setVisible(true);
 	}

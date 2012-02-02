@@ -53,8 +53,8 @@ public class Prefs extends XMLPreferences
 	// The width, height, location and maximized status of the main window
 	public static int guiWinMainW = 1000;
 	public static int guiWinMainH = 700;
-	public static int guiWinMainX = 0;
-	public static int guiWinMainY = 0;
+	public static int guiWinMainX = Integer.MIN_VALUE;
+	public static int guiWinMainY = Integer.MIN_VALUE;
 	public static boolean guiWinMainMaximized = false;
 
 	// The location of the main splits pane divider
@@ -64,13 +64,13 @@ public class Prefs extends XMLPreferences
 	public static boolean guiOverviewDialog = false;
 	public static int guiOverviewWidth = 300;
 	public static int guiOverviewHeight = 300;
-	public static int guiOverviewX = -9999;
-	public static int guiOverviewY = -9999;
+	public static int guiOverviewX = Integer.MIN_VALUE;
+	public static int guiOverviewY = Integer.MIN_VALUE;
 	public static int guiOverviewSplitsLocation = 450;
 
 	// Position of the Filter QTLs dialog
-	public static int guiFilterQTLDialogX = -9999;
-	public static int guiFilterQTLDialogY = -9999;
+	public static int guiFilterQTLDialogX = Integer.MIN_VALUE;
+	public static int guiFilterQTLDialogY = Integer.MIN_VALUE;
 
 	// QTL splitpane location
 	public static int guiQTLSplitterLocation = 25;
@@ -109,8 +109,8 @@ public class Prefs extends XMLPreferences
 	public static int guiGraphStyle = 0;
 
 	// Finding stuff...
-	public static int guiFindDialogX = -9999;
-	public static int guiFindDialogY = -9999;
+	public static int guiFindDialogX = Integer.MIN_VALUE;
+	public static int guiFindDialogY = Integer.MIN_VALUE;
 	public static int guiFindMethod = 0;
 	public static boolean guiFindMatchCase = false;
 	public static boolean guiFindUseRegex = true;

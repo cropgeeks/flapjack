@@ -23,10 +23,8 @@ public class OverviewDialog extends JDialog
 		setSize(Prefs.guiOverviewWidth, Prefs.guiOverviewHeight);
 
 		// Position on screen...
-		if (Prefs.guiOverviewX == -9999 && Prefs.guiOverviewY == -9999)
-			setLocationRelativeTo(winMain);
-		else
-			setLocation(Prefs.guiOverviewX, Prefs.guiOverviewY);
+		SwingUtils.positionWindow(
+			this, null, Prefs.guiOverviewX, Prefs.guiOverviewY);
 
 		addListeners();
 	}
