@@ -69,15 +69,8 @@ public class WinMain extends JFrame
 		setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 
 
-		// Work out the current screen's width and height
-		int scrnW = SwingUtils.getVirtualScreenDimension().width;
-		int scrnH = SwingUtils.getVirtualScreenDimension().height;
-
-		// Determine where on screen to display
-		if (Prefs.isFirstRun || Prefs.guiWinMainX > (scrnW-50) || Prefs.guiWinMainY > (scrnH-50))
-			setLocationRelativeTo(null);
-		else
-			setLocation(Prefs.guiWinMainX, Prefs.guiWinMainY);
+		SwingUtils.positionWindow(
+			this, null, Prefs.guiWinMainX, Prefs.guiWinMainY);
 
 		// Maximize the frame if neccassary
 		if (Prefs.guiWinMainMaximized)

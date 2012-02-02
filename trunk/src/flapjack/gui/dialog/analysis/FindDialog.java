@@ -52,10 +52,8 @@ public class FindDialog extends JDialog implements ListSelectionListener
 		setResizable(false);
 
 		// Position on screen...
-		if (Prefs.guiFindDialogX == -9999 && Prefs.guiFindDialogY == -9999)
-			setLocationRelativeTo(Flapjack.winMain);
-		else
-			setLocation(Prefs.guiFindDialogX, Prefs.guiFindDialogY);
+		SwingUtils.positionWindow(
+			this, null, Prefs.guiFindDialogX, Prefs.guiFindDialogY);
 	}
 
 	private void addListeners()
