@@ -23,8 +23,10 @@ public class GraphImporter extends SimpleJob
 	protected BufferedReader in;
 	protected String str;
 
-	// Temporary object to hold a lookup table of marker data
-	protected HashMap<String, MarkerIndex> markers = new HashMap<String, MarkerIndex>();
+	// Temporary object to hold a lookup table of marker data - each element is
+	// actually a LIST of markerIndex objects, because marker (names) can be
+	// repeated multiple times if super-chromosomes are in use
+	protected HashMap<String, MarkerList> markers = new HashMap<String, MarkerList>();
 
 	// Temporary object to track which graphs exist - needed to ensure every
 	// graph will exist across every chromosome, just in case some chromosomes
@@ -100,8 +102,8 @@ public class GraphImporter extends SimpleJob
 		throws ArrayIndexOutOfBoundsException
 	{
 		// Does this marker exist?
-		MarkerIndex mIndex = markers.get(marker);
-		if (mIndex == null && marker.equalsIgnoreCase(SIG) == false)
+		MarkerList mList = markers.get(marker);
+		if (mList == null && marker.equalsIgnoreCase(SIG) == false)
 			return;
 
 		// Do we have a graph that the value can be added to?
@@ -121,13 +123,16 @@ public class GraphImporter extends SimpleJob
 		}
 
 		// Adding a marker...
-		if (mIndex != null)
+		if (mList != null)
 		{
-			// Find the graph we want to add this value to
-			String gIndex = mIndex.mapIndex + "_" + graphName;
-			GraphData graph = graphs.get(gIndex);
+			for (MarkerIndex mIndex: mList.markers)
+			{
+				// Find the graph we want to add this value to
+				String gIndex = mIndex.mapIndex + "_" + graphName;
+				GraphData graph = graphs.get(gIndex);
 
-			graph.setValue(mIndex.mkrIndex, value);
+				graph.setValue(mIndex.mkrIndex, value);
+			}
 		}
 
 		// Adding a threshold value...
@@ -188,7 +193,14 @@ public class GraphImporter extends SimpleJob
 		{
 			int mrkIndex = 0;
 			for (Marker marker: map.getMarkers())
-				markers.put(marker.getName(), new MarkerIndex(mapIndex, mrkIndex++));
+			{
+				MarkerIndex mi = new MarkerIndex(mapIndex, mrkIndex++);
+
+				if (markers.containsKey(marker.getName()))
+					markers.get(marker.getName()).add(mi);
+				else
+					markers.put(marker.getName(), new MarkerList(mi));
+			}
 
 			mapIndex++;
 		}
@@ -203,5 +215,20 @@ public class GraphImporter extends SimpleJob
 			return 0;
 
 		return Math.round(is.getBytesRead() / (float) file.length() * 5555);
+	}
+
+	private static class MarkerList
+	{
+		ArrayList<MarkerIndex> markers = new ArrayList<MarkerIndex>();
+
+		MarkerList(MarkerIndex mi)
+		{
+			add(mi);
+		}
+
+		void add(MarkerIndex mi)
+		{
+			markers.add(mi);
+		}
 	}
 }

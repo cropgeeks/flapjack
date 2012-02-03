@@ -161,6 +161,9 @@ class GraphCanvas extends JPanel
 			// Then we can get the value for it from the graph data
 			float value = data[mi.getIndex()];
 
+			if (mi.dummyMarker())
+				continue;
+
 			// Draw co-ordindates:
 			int y = (int) (value * (h-1));
 			int x = i*canvas.boxW;
