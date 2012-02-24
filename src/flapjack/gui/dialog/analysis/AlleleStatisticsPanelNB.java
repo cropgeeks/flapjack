@@ -1,5 +1,5 @@
-// Copyright 2009-2012 Information & Computational Sciences, JHI. All rights
-// reserved. Use is subject to the accompanying licence terms.
+// Copyright 2007-2011 Plant Bioinformatics Group, SCRI. All rights reserved.
+// Use is subject to the accompanying licence terms.
 
 package flapjack.gui.dialog.analysis;
 
@@ -28,7 +28,7 @@ class AlleleStatisticsPanelNB extends JPanel implements AdjustmentListener
 		tablePanel.setBackground((Color)UIManager.get("fjDialogBG"));
 
 		String name = viewSet.getName();
-		int total = viewSet.countAllAlleles(false);
+		int total = viewSet.countAllAlleles();
 
 		// i18n
 		viewLabel.setText(RB.format("gui.dialog.analysis.NBAlleleStatisticsPanel.viewLabel", name, total));

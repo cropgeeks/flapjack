@@ -1,5 +1,5 @@
-// Copyright 2009-2012 Information & Computational Sciences, JHI. All rights
-// reserved. Use is subject to the accompanying licence terms.
+// Copyright 2007-2011 Plant Bioinformatics Group, SCRI. All rights reserved.
+// Use is subject to the accompanying licence terms.
 
 package flapjack.io;
 
@@ -31,10 +31,6 @@ public class GenotypeDataExporter extends SimpleJob
 	{
 		BufferedWriter out = new BufferedWriter(new FileWriter(file));
 
-		// File header for drag and drop detection
-		out.write("# fjFile = GENOTYPE");
-		out.newLine();
-
 		// Write any required database header info
 		DBAssociation db = viewSet.getDataSet().getDbAssociation();
 		if (db.isLineSearchEnabled())
@@ -64,8 +60,7 @@ public class GenotypeDataExporter extends SimpleJob
 
 			for (int i = 0; i < view.markerCount(); i++)
 				if (useAll || view.isMarkerSelected(i))
-					if (view.getMarker(i).dummyMarker() == false)
-						out.write(view.getMarker(i).getName() + "\t");
+					out.write(view.getMarker(i).getName() + "\t");
 		}
 
 		out.newLine();
@@ -100,9 +95,6 @@ public class GenotypeDataExporter extends SimpleJob
 					{
 						if (useAll || cView.isMarkerSelected(marker))
 						{
-							if (cView.getMarker(marker).dummyMarker())
-								continue;
-
 							int state = cView.getState(line, marker);
 							out.write(stateTable.getAlleleState(state) + "\t");
 						}

@@ -1,5 +1,5 @@
-// Copyright 2009-2012 Information & Computational Sciences, JHI. All rights
-// reserved. Use is subject to the accompanying licence terms.
+// Copyright 2007-2011 Plant Bioinformatics Group, SCRI. All rights reserved.
+// Use is subject to the accompanying licence terms.
 
 package flapjack.io;
 
@@ -53,12 +53,8 @@ public class QTLImporter extends SimpleJob
 		is = new ProgressInputStream(new FileInputStream(file));
 		BufferedReader in = new BufferedReader(new InputStreamReader(is));
 
-		// Skip over any comment lines
+		// Read and process the header line
 		String str = in.readLine();
-		while (str != null && str.startsWith("#"))
-			str = in.readLine();
-
-		// Read and process the header (column title) line
 		String[] tokens = str.split("\t", -1);
 
 		// Work out how many additional "data score" headers there are
@@ -70,7 +66,7 @@ public class QTLImporter extends SimpleJob
 		// Now process the main batch of lines
 		for (int line = 1; (str = in.readLine()) != null && okToRun; line++)
 		{
-			if (str.length() == 0 || str.startsWith("#"))
+			if (str.length() == 0)
 				continue;
 
 			tokens = str.split("\t", -1);

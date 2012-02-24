@@ -1,5 +1,5 @@
-// Copyright 2009-2012 Information & Computational Sciences, JHI. All rights
-// reserved. Use is subject to the accompanying licence terms.
+// Copyright 2007-2010 Plant Bioinformatics Group, SCRI. All rights reserved.
+// Use is subject to the accompanying licence terms.
 
 package flapjack.gui.visualization;
 
@@ -120,18 +120,9 @@ class GraphCanvasML extends MouseInputAdapter implements ActionListener
 			// And what its graph value is
 			float value = data.getRealValueAt(mi.getIndex());
 
+
 			// Display on screen.
 			String graph = data.getName();
-
-			// Ignore it if it's a dummy marker
-			if (mi.dummyMarker())
-			{
-				gPanel.statusPanel.setGraphDetails(graph, " ", " ");
-				return;
-			}
-
-
-
 
 			Marker m = mi.getMarker();
 			String mStr = m.getName() + "  (" + nf.format(m.getRealPosition()) + ")";
@@ -146,7 +137,5 @@ class GraphCanvasML extends MouseInputAdapter implements ActionListener
 			gPanel.mapCanvas.setMarkerIndex(mIndex);
 			gPanel.canvas.setHighlightedIndices(-1, mIndex);
 		}
-		else
-			gPanel.statusPanel.setGraphDetails(null, null, null);
 	}
 }

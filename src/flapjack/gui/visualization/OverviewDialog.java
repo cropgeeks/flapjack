@@ -1,5 +1,5 @@
-// Copyright 2009-2012 Information & Computational Sciences, JHI. All rights
-// reserved. Use is subject to the accompanying licence terms.
+// Copyright 2007-2011 Plant Bioinformatics Group, SCRI. All rights reserved.
+// Use is subject to the accompanying licence terms.
 
 package flapjack.gui.visualization;
 
@@ -23,8 +23,10 @@ public class OverviewDialog extends JDialog
 		setSize(Prefs.guiOverviewWidth, Prefs.guiOverviewHeight);
 
 		// Position on screen...
-		SwingUtils.positionWindow(
-			this, null, Prefs.guiOverviewX, Prefs.guiOverviewY);
+		if (Prefs.guiOverviewX == -9999 && Prefs.guiOverviewY == -9999)
+			setLocationRelativeTo(winMain);
+		else
+			setLocation(Prefs.guiOverviewX, Prefs.guiOverviewY);
 
 		addListeners();
 	}

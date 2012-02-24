@@ -1,5 +1,5 @@
-// Copyright 2009-2012 Information & Computational Sciences, JHI. All rights
-// reserved. Use is subject to the accompanying licence terms.
+// Copyright 2007-2011 Plant Bioinformatics Group, SCRI. All rights reserved.
+// Use is subject to the accompanying licence terms.
 
 package flapjack.gui;
 
@@ -31,16 +31,24 @@ class FileDropAdapter extends DropTargetAdapter
 
 			for (int i = 0; i < dataFlavors.length; i++)
 			{
-				if (dataFlavors[i].isFlavorJavaFileListType())
+				if (dataFlavors[i].getRepresentationClass().equals(
+						Class.forName("java.util.List")))
 				{
 					List<?> list = (List<?>) t.getTransferData(dataFlavors[i]);
 
-					String[] filenames = new String[list.size()];
-					for (int fn = 0; fn < filenames.length; fn++)
-						filenames[fn] = list.get(fn).toString();
+					// Check for a .flapjack project
+					if (list.size() == 1)
+					{
+						String filename = list.get(0).toString();
+						if (filename.toLowerCase().endsWith(".flapjack") ||
+							filename.toLowerCase().endsWith(".xml"))
+						{
+							winMain.mFile.fileOpen(new FlapjackFile(filename));
 
-					winMain.mFile.handleDragDrop(filenames);
-					dtde.dropComplete(true);
+							dtde.dropComplete(true);
+							return;
+						}
+					}
 
 					break;
 				}

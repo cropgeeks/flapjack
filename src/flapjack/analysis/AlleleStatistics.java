@@ -1,5 +1,5 @@
-// Copyright 2009-2012 Information & Computational Sciences, JHI. All rights
-// reserved. Use is subject to the accompanying licence terms.
+// Copyright 2007-2011 Plant Bioinformatics Group, SCRI. All rights reserved.
+// Use is subject to the accompanying licence terms.
 
 package flapjack.analysis;
 
@@ -18,7 +18,7 @@ public class AlleleStatistics extends SimpleJob
 	public AlleleStatistics(GTViewSet viewSet)
 	{
 		this.viewSet = viewSet;
-		maximum = viewSet.countAllAlleles(true);
+		maximum = viewSet.countAllAlleles();
 	}
 
 	public ArrayList<int[]> getResults()
@@ -51,15 +51,11 @@ public class AlleleStatistics extends SimpleJob
 		for (int line = 0; line < view.lineCount(); line++)
 			for (int marker = 0; marker < view.markerCount() && okToRun; marker++)
 			{
-				if (view.getMarker(marker).dummyMarker() == false)
-				{
-					int state = view.getState(line, marker);
-					statistics[state]++;
+				int state = view.getState(line, marker);
+				statistics[state]++;
 
-					// Track the total
-					statistics[statistics.length-1]++;
-				}
-
+				// Track the total
+				statistics[statistics.length-1]++;
 				progress++;
 			}
 

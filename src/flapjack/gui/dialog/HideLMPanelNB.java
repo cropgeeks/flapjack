@@ -1,5 +1,5 @@
-// Copyright 2009-2012 Information & Computational Sciences, JHI. All rights
-// reserved. Use is subject to the accompanying licence terms.
+// Copyright 2007-2011 Plant Bioinformatics Group, SCRI. All rights reserved.
+// Use is subject to the accompanying licence terms.
 
 package flapjack.gui.dialog;
 
@@ -34,7 +34,7 @@ class HideLMPanelNB extends JPanel
 
 		if (i18n.equals("markers"))
 		{
-			total = view.countGenuineMarkers();
+			total = view.markerCount();
 			selected = view.countSelectedMarkers();
 		}
 		else

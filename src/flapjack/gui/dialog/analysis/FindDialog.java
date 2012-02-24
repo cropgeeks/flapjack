@@ -1,5 +1,5 @@
-// Copyright 2009-2012 Information & Computational Sciences, JHI. All rights
-// reserved. Use is subject to the accompanying licence terms.
+// Copyright 2007-2011 Plant Bioinformatics Group, SCRI. All rights reserved.
+// Use is subject to the accompanying licence terms.
 
 package flapjack.gui.dialog.analysis;
 
@@ -52,8 +52,10 @@ public class FindDialog extends JDialog implements ListSelectionListener
 		setResizable(false);
 
 		// Position on screen...
-		SwingUtils.positionWindow(
-			this, null, Prefs.guiFindDialogX, Prefs.guiFindDialogY);
+		if (Prefs.guiFindDialogX == -9999 && Prefs.guiFindDialogY == -9999)
+			setLocationRelativeTo(Flapjack.winMain);
+		else
+			setLocation(Prefs.guiFindDialogX, Prefs.guiFindDialogY);
 	}
 
 	private void addListeners()

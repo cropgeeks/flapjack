@@ -1,5 +1,5 @@
-// Copyright 2009-2012 Information & Computational Sciences, JHI. All rights
-// reserved. Use is subject to the accompanying licence terms.
+// Copyright 2007-2011 Plant Bioinformatics Group, SCRI. All rights reserved.
+// Use is subject to the accompanying licence terms.
 
 package flapjack.gui;
 
@@ -69,8 +69,15 @@ public class WinMain extends JFrame
 		setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 
 
-		SwingUtils.positionWindow(
-			this, null, Prefs.guiWinMainX, Prefs.guiWinMainY);
+		// Work out the current screen's width and height
+		int scrnW = SwingUtils.getVirtualScreenDimension().width;
+		int scrnH = SwingUtils.getVirtualScreenDimension().height;
+
+		// Determine where on screen to display
+		if (Prefs.isFirstRun || Prefs.guiWinMainX > (scrnW-50) || Prefs.guiWinMainY > (scrnH-50))
+			setLocationRelativeTo(null);
+		else
+			setLocation(Prefs.guiWinMainX, Prefs.guiWinMainY);
 
 		// Maximize the frame if neccassary
 		if (Prefs.guiWinMainMaximized)

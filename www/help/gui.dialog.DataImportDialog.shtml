@@ -30,7 +30,6 @@ chromosome and distance once they are loaded. A short example is shown
 below:</p>
 
 <pre>
-  # fjFile = MAP
   Marker1      1H     32.5
   Marker2      1H     45.0
   Marker3      2H     23.9
@@ -41,7 +40,6 @@ data per marker for that line. It also requires a header line specifying the
 marker information for each column.</p>
 
 <pre>
-  # fjFile = GENOTYPE
                Marker1   Marker2   Marker3
   Line1        A         G         G
   Line2        A         -         G/T
@@ -49,8 +47,7 @@ marker information for each column.</p>
 </pre>
 
 <p>Both the map file and the genotype file must be in plain-text, tab-delimited
-format. The <b># fjFile</b> header lines are optional (but recommended) as they allow
-the files to be loaded into Flapjack via drag and drop.</p>
+format.</p>
 
 <p>Additional import options are available to control the way that Flapjack
 will read the provided file:</p>

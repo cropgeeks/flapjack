@@ -1,6 +1,3 @@
-// Copyright 2009-2012 Information & Computational Sciences, JHI. All rights
-// reserved. Use is subject to the accompanying licence terms.
-
 package flapjack.io;
 
 import java.io.*;
@@ -34,10 +31,6 @@ public class TraitExporter extends SimpleJob
 
 		if (traits.isEmpty())
 			return;
-
-		// File header for drag and drop detection
-		out.write("# fjFile = PHENOTYPE");
-		out.newLine();
 
 		// Write out the header for the file
 		StringBuilder header = new StringBuilder();

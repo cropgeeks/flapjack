@@ -1,5 +1,5 @@
-// Copyright 2009-2012 Information & Computational Sciences, JHI. All rights
-// reserved. Use is subject to the accompanying licence terms.
+// Copyright 2007-2011 Plant Bioinformatics Group, SCRI. All rights reserved.
+// Use is subject to the accompanying licence terms.
 
 package flapjack.gui.dialog;
 
@@ -49,8 +49,11 @@ public class FilterQTLsDialog extends JDialog implements ActionListener
 		pack();
 		setResizable(false);
 
-		SwingUtils.positionWindow(
-			this, null, Prefs.guiFilterQTLDialogX, Prefs.guiFilterQTLDialogY);
+		// Position on screen...
+		if (Prefs.guiFilterQTLDialogX == -9999 && Prefs.guiFilterQTLDialogY == -9999)
+			setLocationRelativeTo(Flapjack.winMain);
+		else
+			setLocation(Prefs.guiFilterQTLDialogX, Prefs.guiFilterQTLDialogY);
 
 		setVisible(true);
 	}

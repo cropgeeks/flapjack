@@ -1,6 +1,3 @@
-// Copyright 2009-2012 Information & Computational Sciences, JHI. All rights
-// reserved. Use is subject to the accompanying licence terms.
-
 package flapjack.data;
 
 public class QTLInfo extends XMLRoot

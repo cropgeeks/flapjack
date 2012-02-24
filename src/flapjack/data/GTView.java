@@ -1,5 +1,5 @@
-// Copyright 2009-2012 Information & Computational Sciences, JHI. All rights
-// reserved. Use is subject to the accompanying licence terms.
+// Copyright 2007-2011 Plant Bioinformatics Group, SCRI. All rights reserved.
+// Use is subject to the accompanying licence terms.
 
 package flapjack.data;
 
@@ -368,10 +368,6 @@ public class GTView extends XMLRoot
 	 */
 	public boolean toggleMarkerState(int index)
 	{
-		if (markers.get(index).dummyMarker())
-			return true;
-
-
 		MarkerInfo mi = markers.get(index);
 
 		mi.selected = !mi.selected;
@@ -390,10 +386,7 @@ public class GTView extends XMLRoot
 	}
 
 	public void setMarkerState(int index, boolean selectionState)
-	{
-		if (markers.get(index).dummyMarker() == false)
-			markers.get(index).selected = selectionState;
-	}
+		{ markers.get(index).selected = selectionState; }
 
 	public void setLineState(int index, boolean selectionState)
 		{ viewSet.lines.get(index).selected = selectionState; }
@@ -402,7 +395,7 @@ public class GTView extends XMLRoot
 	{
 		int count = 0;
 		for (MarkerInfo mi: markers)
-			if (mi.selected && !mi.dummyMarker())
+			if (mi.selected)
 				count++;
 
 		return count;
@@ -470,9 +463,6 @@ public class GTView extends XMLRoot
 		if (index < 0 || index >= markers.size())
 			return;
 
-		if (markers.get(index).dummyMarker())
-			return;
-
 		hideMarkers.add(markers.remove(index));
 	}
 
@@ -535,7 +525,7 @@ public class GTView extends XMLRoot
 
 		int count = 0;
 		for (MarkerInfo mi: markers)
-			if (mi.dummyMarker() == false)
+			if (mi.getMarker().dummyMarker() == false)
 				count++;
 
 		return count;

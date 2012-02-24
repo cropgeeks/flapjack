@@ -1,5 +1,5 @@
-// Copyright 2009-2012 Information & Computational Sciences, JHI. All rights
-// reserved. Use is subject to the accompanying licence terms.
+// Copyright 2007-2011 Plant Bioinformatics Group, SCRI. All rights reserved.
+// Use is subject to the accompanying licence terms.
 
 package flapjack.gui;
 
@@ -284,32 +284,11 @@ public class MenuFile
 			RB.getString("gui.text.close"));
 	}
 
-	private GraphImporter setupGraphImporter(File file, DataSet dataSet)
-	{
-		FlapjackFile f = new FlapjackFile(file.getAbsolutePath());
-
-		if (f.canDetermineType() == false)
-			return null;
-
-		GraphImporter gi = null;
-
-		if (f.getType() == FlapjackFile.GRAPH)
-			gi = new GraphImporter(file, dataSet);
-		else if (f.getType() == FlapjackFile.WIGGLE)
-			gi = new GraphImporterWiggle(file, dataSet);
-
-		return gi;
-	}
-
 	private void importGraphData(File file)
 	{
 		DataSet dataSet = navPanel.getDataSetForSelection();
 
-		GraphImporter gi = setupGraphImporter(file, dataSet);
-
-		if (gi == null)
-			return;
-
+		GraphImporter gi = new GraphImporter(file, dataSet);
 		ProgressDialog dialog = new ProgressDialog(gi,
 			RB.format("gui.MenuFile.importGraphs.dialogTitle"),
 			RB.format("gui.MenuFile.importGraphs.dialogLabel"),
@@ -366,60 +345,6 @@ public class MenuFile
 			{
 				isOK = ProjectSerializer.save(project);
 			}
-		}
-	}
-
-	void handleDragDrop(String[] filenames)
-	{
-		System.out.println("Handle drag/drop");
-
-		FlapjackFile[] files = new FlapjackFile[filenames.length];
-		for (int i = 0; i < filenames.length; i++)
-		{
-			files[i] = new FlapjackFile(filenames[i]);
-			System.out.println("Checking " + filenames[i]);
-			files[i].canDetermineType();
-		}
-
-		// Process projects first
-		for (FlapjackFile fjFile: files)
-		{
-			if (fjFile.isProjectFile())
-			{
-				fileOpen(fjFile);
-				break;
-			}
-		}
-
-
-		// Is there a MAP/GENPTYPE pair that can be imported?
-		FlapjackFile mapFile = null, datFile = null;
-		for (FlapjackFile fjFile: files)
-		{
-			if (fjFile.getType() == FlapjackFile.MAP && mapFile == null)
-				mapFile = fjFile;
-			if (fjFile.getType() == FlapjackFile.GENOTYPE && datFile == null)
-				datFile = fjFile;
-		}
-
-		if (mapFile != null && datFile != null)
-			importGenotypeData(mapFile.getFile(), datFile.getFile(), true);
-
-
-		// Now check for other file types that can be imported into the dataset
-		for (FlapjackFile fjFile: files)
-		{
-			if (fjFile.getType() == FlapjackFile.PHENOTYPE)
-				importTraitData(fjFile.getFile());
-
-			else if (fjFile.getType() == FlapjackFile.QTL)
-				importQTLData(fjFile.getFile());
-
-			else if (fjFile.getType() == FlapjackFile.GRAPH)
-				importGraphData(fjFile.getFile());
-
-			else if (fjFile.getType() == FlapjackFile.WIGGLE)
-				importGraphData(fjFile.getFile());
 		}
 	}
 }

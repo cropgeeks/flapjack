@@ -1,5 +1,5 @@
-// Copyright 2009-2012 Information & Computational Sciences, JHI. All rights
-// reserved. Use is subject to the accompanying licence terms.
+// Copyright 2007-2011 Plant Bioinformatics Group, SCRI. All rights reserved.
+// Use is subject to the accompanying licence terms.
 
 package flapjack.gui;
 
@@ -110,6 +110,12 @@ public class Flapjack
 
 			public void windowOpened(WindowEvent e)
 			{
+				if (Prefs.isFirstRun == false && Prefs.isHuttonised == false)
+				{
+					new flapjack.gui.dialog.HuttonDialog();
+					Prefs.isHuttonised = true;
+				}
+
 				long thirtyDays = 2592000000L; // This is 30 days
 				long thirtyDaysAgo = System.currentTimeMillis() - thirtyDays;
 

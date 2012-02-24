@@ -1,5 +1,5 @@
-// Copyright 2009-2012 Information & Computational Sciences, JHI. All rights
-// reserved. Use is subject to the accompanying licence terms.
+// Copyright 2007-2011 Plant Bioinformatics Group, SCRI. All rights reserved.
+// Use is subject to the accompanying licence terms.
 
 package flapjack.gui.dialog;
 
@@ -58,7 +58,7 @@ class ExportDataPanelNB extends JPanel implements ActionListener
 			data[i][0] = new Boolean(true);
 			data[i][1] = view.getChromosomeMap().getName();
 			data[i][2] = view.countSelectedMarkers() + " / "
-				+ view.countGenuineMarkers();
+				+ view.markerCount();
 			data[i][3] = view.countSelectedLines() + " / "
 				+ view.lineCount();
 		}

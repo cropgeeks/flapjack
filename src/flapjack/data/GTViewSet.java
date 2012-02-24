@@ -1,5 +1,5 @@
-// Copyright 2009-2012 Information & Computational Sciences, JHI. All rights
-// reserved. Use is subject to the accompanying licence terms.
+// Copyright 2007-2011 Plant Bioinformatics Group, SCRI. All rights reserved.
+// Use is subject to the accompanying licence terms.
 
 package flapjack.data;
 
@@ -344,14 +344,11 @@ public class GTViewSet extends XMLRoot
 
 	/** Returns the total number of alleles referenced by this viewset.
 	 */
-	public int countAllAlleles(boolean includeDummyMarkers)
+	public int countAllAlleles()
 	{
 		int total = 0;
 		for (GTView view: views)
-			if (includeDummyMarkers)
-				total += view.markerCount() * view.lineCount();
-			else
-				total += view.countGenuineMarkers() * view.lineCount();
+			total += view.markerCount() * view.lineCount();
 
 		return total;
 	}

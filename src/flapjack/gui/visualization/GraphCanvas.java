@@ -1,5 +1,5 @@
-// Copyright 2009-2012 Information & Computational Sciences, JHI. All rights
-// reserved. Use is subject to the accompanying licence terms.
+// Copyright 2007-2011 Plant Bioinformatics Group, SCRI. All rights reserved.
+// Use is subject to the accompanying licence terms.
 
 package flapjack.gui.visualization;
 
@@ -160,9 +160,6 @@ class GraphCanvas extends JPanel
 			MarkerInfo mi = canvas.view.getMarkerInfo(i);
 			// Then we can get the value for it from the graph data
 			float value = data[mi.getIndex()];
-
-			if (mi.dummyMarker())
-				continue;
 
 			// Draw co-ordindates:
 			int y = (int) (value * (h-1));

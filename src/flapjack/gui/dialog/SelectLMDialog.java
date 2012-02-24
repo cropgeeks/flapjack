@@ -1,5 +1,5 @@
-// Copyright 2009-2012 Information & Computational Sciences, JHI. All rights
-// reserved. Use is subject to the accompanying licence terms.
+// Copyright 2007-2011 Plant Bioinformatics Group, SCRI. All rights reserved.
+// Use is subject to the accompanying licence terms.
 
 package flapjack.gui.dialog;
 
@@ -69,7 +69,5 @@ public class SelectLMDialog extends JDialog implements ActionListener
 		{ return isOK; }
 
 	public int getSelectedIndex()
-	{
-		return ((SelectLMPanelNB.IndexWrapper)nbPanel.combo.getSelectedItem()).index;
-	}
+		{ return nbPanel.combo.getSelectedIndex(); }
 }

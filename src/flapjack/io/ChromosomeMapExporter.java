@@ -1,5 +1,5 @@
-// Copyright 2009-2012 Information & Computational Sciences, JHI. All rights
-// reserved. Use is subject to the accompanying licence terms.
+// Copyright 2007-2011 Plant Bioinformatics Group, SCRI. All rights reserved.
+// Use is subject to the accompanying licence terms.
 
 package flapjack.io;
 
@@ -34,10 +34,6 @@ public class ChromosomeMapExporter extends SimpleJob
 	{
 		BufferedWriter out = new BufferedWriter(new FileWriter(file));
 
-		// File header for drag and drop detection
-		out.write("# fjFile = MAP");
-		out.newLine();
-
 		// For each chromosome...
 		for (int c = 0; c < viewSet.chromosomeCount(); c++)
 		{
@@ -52,13 +48,10 @@ public class ChromosomeMapExporter extends SimpleJob
 			{
 				if (useAll || view.isMarkerSelected(i))
 				{
-					if (view.getMarker(i).dummyMarker() == false)
-					{
-						out.write(view.getMarker(i).getName() + "\t"
-							+ view.getChromosomeMap().getName() + "\t"
-							+ nf.format(view.getMarker(i).getPosition()));
-						out.newLine();
-					}
+					out.write(view.getMarker(i).getName() + "\t"
+						+ view.getChromosomeMap().getName() + "\t"
+						+ nf.format(view.getMarker(i).getPosition()));
+					out.newLine();
 				}
 			}
 		}
