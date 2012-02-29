@@ -43,6 +43,8 @@ public class QTLExporter extends SimpleJob
 			}
 
 		maximum = qtls.size();
+		if (maximum == 0)
+			return;
 
 		// Now output the QTL to disk
 		BufferedWriter out = new BufferedWriter(new FileWriter(file));

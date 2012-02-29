@@ -44,7 +44,7 @@ public class ChromosomeMapExporter extends SimpleJob
 			GTView view = viewSet.getView(c);
 
 			// Skip any chromosomes that weren't selected
-			if (chrm[c] == false)
+			if (chrm != null && chrm[c] == false)
 				continue;
 
 			// ...and for each marker within the current chromosome...
