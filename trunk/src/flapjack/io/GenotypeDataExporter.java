@@ -59,7 +59,7 @@ public class GenotypeDataExporter extends SimpleJob
 			GTView view = viewSet.getView(c);
 
 			// Skip any chromosomes that weren't selected
-			if (chrm[c] == false)
+			if (chrm != null && chrm[c] == false)
 				continue;
 
 			for (int i = 0; i < view.markerCount(); i++)
@@ -91,7 +91,7 @@ public class GenotypeDataExporter extends SimpleJob
 					GTView cView = viewSet.getView(v);
 
 					// Skip any chromosomes that weren't selected
-					if (chrm[v] == false)
+					if (chrm != null && chrm[v] == false)
 						continue;
 
 					cView.cacheLines();

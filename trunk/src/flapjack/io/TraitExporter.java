@@ -28,12 +28,12 @@ public class TraitExporter extends SimpleJob
 
 	public void runJob(int index) throws Exception
 	{
-		BufferedWriter out = new BufferedWriter(new FileWriter(file));
-
 		ArrayList<Trait> traits = dataSet.getTraits();
 
 		if (traits.isEmpty())
 			return;
+
+		BufferedWriter out = new BufferedWriter(new FileWriter(file));
 
 		// File header for drag and drop detection
 		out.write("# fjFile = PHENOTYPE");

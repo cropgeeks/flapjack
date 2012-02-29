@@ -55,7 +55,7 @@ public class CreateProject
 
 		if (mapFile == null || genotypesFile == null || prjFile == null)
 		{
-			System.out.println("Usage: flapjack.io.CreateProject <options>\n"
+			System.out.println("Usage: createproject <options>\n"
 				+ " where valid options are:\n"
 				+ "   -map=<map_file>                (REQUIRED)\n"
 				+ "   -genotypes=<genotypes_file>    (REQUIRED)\n"
