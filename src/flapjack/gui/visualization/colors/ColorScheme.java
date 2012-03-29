@@ -24,6 +24,7 @@ public abstract class ColorScheme
 	public static final int MARKER_SIMILARITY_GS = 5;
 	public static final int SIMPLE_TWO_COLOR = 6;
 	public static final int ALLELE_FREQUENCY = 7;
+	public static final int ABH_DATA = 8;
 
 	// Random (HSB model)
 	public static final int RANDOM = 50;

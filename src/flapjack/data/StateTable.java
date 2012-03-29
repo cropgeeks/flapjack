@@ -70,7 +70,7 @@ public class StateTable extends XMLRoot
 		return states.size() - 1;
 	}
 
-	public int getHomozygousStateCount()
+	public int calculateHomozygousStateCount()
 	{
 		int count = 0;
 
@@ -127,6 +127,35 @@ public class StateTable extends XMLRoot
 		}
 
 		return (A && C && G && T);
+	}
+
+	// Scans for ABH(CD) data, and if found, also overrides the H state to be
+	// non-homozygous
+	public boolean containsABHData()
+	{
+		boolean A = false, B = false, H = false;
+
+		for (AlleleState state: states)
+		{
+			if (state.isHomozygous() && state.getState(0).equals("A"))
+				A = true;
+			if (state.isHomozygous() && state.getState(0).equals("B"))
+				B = true;
+			if (state.isHomozygous() && state.getState(0).equals("H"))
+				H = true;
+		}
+
+		if (A && B && H)
+		{
+			// Force the H state to be heterozygous
+			for (AlleleState state: states)
+				if (state.isHomozygous() && state.getState(0).equals("H"))
+					state.setHomozygous(false);
+
+			return true;
+		}
+
+		return false;
 	}
 
 	/**

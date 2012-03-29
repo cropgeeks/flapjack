@@ -169,6 +169,14 @@ public class Prefs extends XMLPreferences
 	public static Color visColorNucleotideHZ;
 	public static Color visColorNucleotideOther;
 
+	// Colors used by the ABH color scheme
+	public static Color visColorABH_A;
+	public static Color visColorABH_B;
+	public static Color visColorABH_H;
+	public static Color visColorABH_C;
+	public static Color visColorABH_D;
+	public static Color visColorABH_Other;
+
 	// Colors used by the simple two color scheme
 	public static Color visColorSimple2State1;
 	public static Color visColorSimple2State2;
@@ -214,6 +222,13 @@ public class Prefs extends XMLPreferences
 		visColorNucleotideT = new Color(120, 120, 255);
 		visColorNucleotideHZ = new Color(100, 100, 100);
 		visColorNucleotideOther = new Color(204, 204, 204);
+
+		visColorABH_A = new Color(255, 120, 120);
+		visColorABH_B = new Color(120, 120, 255);
+		visColorABH_H = new Color(120, 255, 120);
+		visColorABH_C = Color.black;
+		visColorABH_D = Color.black;
+		visColorABH_Other = new Color(204, 204, 204);
 
 		visColorSimple2State1 = new Color(255, 120, 120);
 		visColorSimple2State2 = new Color(120, 255, 120);
