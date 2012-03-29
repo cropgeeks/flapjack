@@ -58,12 +58,20 @@ public class PostImportOperations
 		GTViewSet viewSet = new GTViewSet(dataSet, name);
 		dataSet.getViewSets().add(viewSet);
 
-		int hCount = dataSet.getStateTable().getHomozygousStateCount();
+		int hCount = dataSet.getStateTable().calculateHomozygousStateCount();
 
+
+		// Nucleotide
 		if (dataSet.getStateTable().containsNucleotides())
 			viewSet.setColorScheme(ColorScheme.NUCLEOTIDE);
+		// ABH
+		else if (dataSet.getStateTable().containsABHData())
+			viewSet.setColorScheme(ColorScheme.ABH_DATA);
+		// Two colour
 		else if (hCount > 0 && hCount < 10)
 			viewSet.setColorScheme(ColorScheme.SIMPLE_TWO_COLOR);
+
+		// Random
 		else
 			viewSet.setColorScheme(ColorScheme.RANDOM);
 	}
