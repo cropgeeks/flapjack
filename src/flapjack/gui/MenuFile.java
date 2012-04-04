@@ -425,6 +425,35 @@ public class MenuFile
 
 	void fileExport()
 	{
-		QuickExportDialog dialog = new QuickExportDialog();
+		QuickExportDialog qeDialog = new QuickExportDialog();
+		String outputDir = qeDialog.getOutputDir();
+
+		if (qeDialog.isOK() == false)
+			return;
+
+
+		// Run the project splitter...
+		SplitProject splitter = new SplitProject(winMain.getProject(), outputDir);
+
+		ProgressDialog dialog = new ProgressDialog(splitter,
+			RB.format("gui.MenuFile.quickExport.dialogTitle"),
+			RB.format("gui.MenuFile.quickExport.dialogLabel"),
+			winMain);
+
+		// If the operation failed or was cancelled...
+		if (dialog.getResult() != ProgressDialog.JOB_COMPLETED)
+		{
+			if (dialog.getResult() == ProgressDialog.JOB_FAILED)
+			{
+				dialog.getException().printStackTrace();
+				TaskDialog.error(RB.format("gui.MenuFile.quickExport.error",
+					dialog.getException().getMessage()),
+					RB.getString("gui.text.close"));
+			}
+			return;
+		}
+
+		TaskDialog.info(RB.format("gui.MenuFile.quickExport.success", outputDir),
+			RB.getString("gui.text.close"));
 	}
 }

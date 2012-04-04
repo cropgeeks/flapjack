@@ -15,7 +15,7 @@ import scri.commons.gui.*;
  * project file and then split it back up into separate data files (map,
  * genotype, traits, etc)
  */
-public class SplitProject
+public class SplitProject extends SimpleJob
 {
 	private static Project project = new Project();
 
@@ -23,9 +23,27 @@ public class SplitProject
 	private static FlapjackFile prjFile;
 	private static String outputDir;
 	private static boolean decimalEnglish = false;
+	private static boolean isCommandLine = false;
 
+
+	// Constructor is called by the GUI for a File->Quick Export menu option
+	public SplitProject(Project project, String outputDir)
+	{
+		this.project = project;
+		this.outputDir = outputDir;
+
+		maximum = 4;
+	}
+
+	public SplitProject()
+	{
+	}
+
+	// Or the main method (obviously) called by the command line
 	public static void main(String[] args)
 	{
+		isCommandLine = true;
+
 		for (int i = 0; i < args.length; i++)
 		{
 			if (args[i].startsWith("-project="))
@@ -55,16 +73,34 @@ public class SplitProject
 
 		try
 		{
-			openProject();
-			exportMap();
-			exportGenotypes();
-			exportTraits();
-			exportQTL();
+			SplitProject splitter = new SplitProject();
+			splitter.runJob(0);
 		}
 		catch (Exception e)
 		{
 			e.printStackTrace();
 		}
+	}
+
+	// Actual method that does the work. Simply takes the data and runs it
+	// through each of the export options that we've added.
+	public void runJob(int index)
+		throws Exception
+	{
+		if (isCommandLine)
+			openProject();
+
+		exportMap();
+		progress = 1;
+
+		exportGenotypes();
+		progress = 2;
+
+		exportTraits();
+		progress = 3;
+
+		exportQTL();
+		progress = 4;
 	}
 
 	private static void openProject()
