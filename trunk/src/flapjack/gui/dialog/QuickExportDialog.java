@@ -15,6 +15,7 @@ import scri.commons.gui.*;
 public class QuickExportDialog extends JDialog implements ActionListener
 {
 	private JButton bOK, bCancel, bHelp;
+	private boolean isOK = false;
 	private QuickExportPanelNB nbPanel;
 
 	public QuickExportDialog()
@@ -65,7 +66,18 @@ public class QuickExportDialog extends JDialog implements ActionListener
 
 		else if (e.getSource() == bOK && nbPanel.isOK())
 		{
+			isOK = true;
 			setVisible(false);
 		}
+	}
+
+	public boolean isOK()
+	{
+		return isOK;
+	}
+
+	public String getOutputDir()
+	{
+		return nbPanel.folder.getText();
 	}
 }
