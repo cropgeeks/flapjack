@@ -20,6 +20,7 @@ public class Actions
 	public static AbstractAction fileSave;
 	public static AbstractAction fileSaveAs;
 	public static AbstractAction fileImport;
+	public static AbstractAction fileExport;
 	public static AbstractAction fileExit;
 
 	public static AbstractAction editUndo;
@@ -160,6 +161,12 @@ public class Actions
 		fileImport = new AbstractAction(RB.getString("gui.Actions.fileImport"), getIcon("FILEIMPORT")) {
 			public void actionPerformed(ActionEvent e) {
 				winMain.mFile.fileImport(0);
+			}
+		};
+
+		fileExport = new AbstractAction(RB.getString("gui.Actions.fileExport")) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.mFile.fileExport();
 			}
 		};
 

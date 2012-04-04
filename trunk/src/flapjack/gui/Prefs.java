@@ -30,6 +30,8 @@ public class Prefs extends XMLPreferences
 	public static String guiQTLHistory = "";
 	public static String guiGraphHistory = "";
 
+	public static String guiQuickExportHistory = "";
+
 	// History for selected external sort orders
 	public static String guiExternalSortHistory = "";
 

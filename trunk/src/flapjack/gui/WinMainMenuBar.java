@@ -25,6 +25,7 @@ public class WinMainMenuBar extends JMenuBar
 	private JMenuItem mFileSave;
 	private JMenuItem mFileSaveAs;
 	private JMenuItem mFileImport;
+	private JMenuItem mFileExport;
 	private JMenuItem mFileExit;
 
 	private JMenu mEdit;
@@ -139,6 +140,7 @@ public class WinMainMenuBar extends JMenuBar
 		mFileSave = getItem(Actions.fileSave, "gui.Actions.fileSave", KeyEvent.VK_S, menuShortcut);
 		mFileSaveAs = getItem(Actions.fileSaveAs, "gui.Actions.fileSaveAs", 0, 0);
 		mFileImport = getItem(Actions.fileImport, "gui.Actions.fileImport", 0, 0);
+		mFileExport = getItem(Actions.fileExport, "gui.Actions.fileExport", 0, 0);
 		mFileExit = getItem(Actions.fileExit, "gui.Actions.fileExit", 0, 0);
 
 		mFileRecent = new JMenu(RB.getString("gui.WinMainMenuBar.mFileRecent"));
@@ -152,6 +154,7 @@ public class WinMainMenuBar extends JMenuBar
 		mFile.add(mFileSaveAs);
 		mFile.addSeparator();
 		mFile.add(mFileImport);
+		mFile.add(mFileExport);
 		mFile.addSeparator();
 		mFile.add(mFileRecent);
 		// We don't add these options to OS X as they are auto-added by Apple
