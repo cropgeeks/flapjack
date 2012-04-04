@@ -7,7 +7,7 @@
 
 <link rel="stylesheet" href="../stylesheet/styles.css" type="text/css">
 
-<title>Projects</title>
+<title>Projects and Data Formats</title>
 
 </head>
 <body>
@@ -15,7 +15,7 @@
 <!--#include virtual="header.html" -->
 
 
-<h2>Projects</h2>
+<h2>Projects and Data Formats</h2>
 
 <p>Everything you do with Flapjack is stored within a project file; imported
 data, sort orders, trait information, colour schemes, etc. A Flapjack project is
