@@ -422,4 +422,9 @@ public class MenuFile
 				importGraphData(fjFile.getFile());
 		}
 	}
+
+	void fileExport()
+	{
+		QuickExportDialog dialog = new QuickExportDialog();
+	}
 }
