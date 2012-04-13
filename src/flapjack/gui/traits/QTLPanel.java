@@ -6,6 +6,7 @@ package flapjack.gui.traits;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.*;
+import java.util.*;
 import javax.swing.*;
 import javax.swing.table.*;
 
@@ -111,10 +112,20 @@ public class QTLPanel extends JPanel implements ActionListener
 
 	private void removeAllTraits()
 	{
+		// Step 1: Remove the *actual* QTLs from the chromosomes
 		for (ChromosomeMap c: dataSet.getChromosomeMaps())
 		{
 			c.getQTLs().clear();
 			c.getQTLs().trimToSize();
+		}
+
+		// Step 2: Remove the info wrappers from the views
+		for (GTViewSet viewSet: dataSet.getViewSets())
+		{
+			for (GTView view: viewSet.getViews())
+			{
+				view.setQTLs(new ArrayList<QTLInfo>());
+			}
 		}
 
 		updateModel();
