@@ -32,6 +32,9 @@ public class QTLInfo extends XMLRoot
 	public void setIndex(int index)
 		{ this.index = index; }
 
+
+	// Other methods
+
 	public float min()
 		{ return qtl.getMin(); }
 

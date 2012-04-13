@@ -180,9 +180,6 @@
 		<field name="QTL" type="flapjack.data.QTL">
 			<bind-xml reference="true" node="attribute"/>
 		</field>
-		<field name="index" type="int">
-			<bind-xml node="attribute"/>
-		</field>
 	</class>
 
 </mapping>
