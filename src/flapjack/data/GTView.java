@@ -325,6 +325,9 @@ public class GTView extends XMLRoot
 		}
 	}
 
+	// Some of the operations in this method may need to be performed like a
+	// "deep copy", as we want the clone to have its own copy of everything and
+	// not just references back to the originals
 	GTView createClone(GTViewSet clonedViewSet, boolean cloneHidden)
 	{
 		GTView clone = new GTView(clonedViewSet, map, false);
@@ -335,7 +338,11 @@ public class GTView extends XMLRoot
 		if (cloneHidden)
 			clone.setMarkersFromArray(getMarkersAsArray(false), false);
 
-		clone.setQTLs(qtls);
+		// Clone the QTLInfos
+		ArrayList<QTLInfo> clonedQTLs = new ArrayList<QTLInfo>();
+		for (QTLInfo qtl: qtls)
+			clonedQTLs.add(new QTLInfo(qtl.getQTL(), qtl.getIndex()));
+		clone.setQTLs(clonedQTLs);
 
 		clone.comparisonMarker = comparisonMarker;
 		clone.comparisonMarkerIndex = comparisonMarkerIndex;
