@@ -245,9 +245,10 @@ class MapCanvas extends JPanel
 		g.setRenderingHint(KEY_ANTIALIASING, VALUE_ANTIALIAS_ON);
 		g.setColor(Color.red);
 
-		QTL qtl = QTLCanvas.mouseOverQTL;
-		float min = qtl.getMin();
-		float max = qtl.getMax();
+		QTLInfo qtlInfo = QTLCanvas.mouseOverQTL;
+		QTL qtl = qtlInfo.getQTL();
+		float min = qtlInfo.min();
+		float max = qtlInfo.max();
 
 		// Where should it be drawn
 		float distance = mEPos - mSPos;
@@ -257,7 +258,7 @@ class MapCanvas extends JPanel
 		// And what should be drawn
 		String str = qtl.getName() + "  (";
 		str += nf.format(qtl.getPosition()) + ": ";
-		str += nf.format(min) + "-" +nf.format(max) + ")";
+		str += nf.format(qtl.getMin()) + "-" +nf.format(qtl.getMax()) + ")";
 		int strWidth = g.getFontMetrics().stringWidth(str);
 
 		g.drawString(str, getPosition(xMap, strWidth), 8);
@@ -271,8 +272,16 @@ class MapCanvas extends JPanel
 			Marker m = canvas.view.getMarker(i);
 
 			// Is this marker under the QTL?
-			if (m.getPosition() >= min && m.getPosition() <= max)
-				renderMarker(g, i, xS, false);
+			// This requires two checks: 1st: is the marker's actual position
+			// within the QTL's actual region, 2nd: in the case of a super-chromosome
+			// markers from multiple original chromosomes might meet case 1, so
+			// we need to also check against the virtual positions.
+			// We can't *just* do check 2 because chromosomes "touch" in the super
+			// chromosome so a QTL starting a zero can cover the last marker of
+			// the previous chromosome too
+			if (m.getRealPosition() >= qtl.getMin() && m.getRealPosition() <= qtl.getMax())
+				if (m.getPosition() >= min && m.getPosition() <= max)
+					renderMarker(g, i, xS, false);
 		}
 	}
 

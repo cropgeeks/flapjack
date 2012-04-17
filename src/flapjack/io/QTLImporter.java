@@ -138,18 +138,20 @@ public class QTLImporter extends SimpleJob
 
 			c.setQTLs(track);
 
-			// Add the QTLs to the GTViews
-			ArrayList<QTLInfo> qtl = new ArrayList<QTLInfo>();
-
-			for (int i=0; i < track.size(); i++)
-				qtl.add(new QTLInfo(track.get(i), i));
-
 			for (GTViewSet viewSet : dataSet.getViewSets())
 			{
+				// Add the QTLs to the GTViews
+				ArrayList<QTLInfo> qtl = new ArrayList<QTLInfo>();
+
+				for (int i=0; i < track.size(); i++)
+				qtl.add(new QTLInfo(track.get(i), i));
+
 				GTView view = viewSet.getView(c);
 				view.setQTLs(qtl);
 			}
 		}
+
+		processSuperChromosome();
 	}
 
 	private void calculateTraitColors()
@@ -206,4 +208,44 @@ public class QTLImporter extends SimpleJob
 
 	public int getFeaturesAdded()
 		{ return featuresAdded; }
+
+	private void processSuperChromosome()
+		throws Exception
+	{
+		// TODO: One day we might have more than a single super-chromosome
+		ChromosomeMap allMap = null;
+		for (ChromosomeMap c: dataSet.getChromosomeMaps())
+			if (c.isSpecialChromosome())
+			{
+				allMap = c;
+				break;
+			}
+
+		for (GTViewSet viewSet : dataSet.getViewSets())
+		{
+			// Mapoffset required for "adjusting" the display positions of QTLInfo
+			// objects that will be added to any super chromosomes
+			float mapOffset = 0;
+
+			// An array of QTLInfo objects that will span every (virtual) chromosome
+			// across the single super-chromosome
+			ArrayList<QTLInfo> qtl = new ArrayList<QTLInfo>();
+
+			for (ChromosomeMap c: dataSet.getChromosomeMaps())
+			{
+				ArrayList<QTL> track = c.getQTLs();
+
+				// We adjust each QTLInfo so that it contains the offset to the
+				// actual chromosome position
+				for (int i=0; i < track.size(); i++)
+					qtl.add(new QTLInfo(track.get(i), i, mapOffset));
+
+				mapOffset += c.getLength();
+			}
+
+			// Finally,
+			GTView view = viewSet.getView(allMap);
+			view.setQTLs(qtl);
+		}
+	}
 }
