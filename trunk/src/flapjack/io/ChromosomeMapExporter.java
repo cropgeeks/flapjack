@@ -47,6 +47,10 @@ public class ChromosomeMapExporter extends SimpleJob
 			if (chrm != null && chrm[c] == false)
 				continue;
 
+			// Skip any "super" chromosomes
+			if (view.getChromosomeMap().isSpecialChromosome())
+				continue;
+
 			// ...and for each marker within the current chromosome...
 			for (int i = 0; i < view.markerCount() && okToRun; i++, progress++)
 			{

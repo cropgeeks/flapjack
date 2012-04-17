@@ -7,6 +7,7 @@ public class QTLInfo extends XMLRoot
 {
 	private QTL qtl;
 	private int index;
+	private float mapOffset;
 
 	public QTLInfo()
 	{
@@ -14,6 +15,14 @@ public class QTLInfo extends XMLRoot
 
 	public QTLInfo(QTL qtl, int index)
 	{
+		this.qtl = qtl;
+		this.index = index;
+	}
+
+	public QTLInfo(QTL qtl, int index, float mapOffset)
+	{
+		this.mapOffset = mapOffset;
+
 		this.qtl = qtl;
 		this.index = index;
 	}
@@ -33,11 +42,15 @@ public class QTLInfo extends XMLRoot
 		{ this.index = index; }
 
 
+
 	// Other methods
 
+	public float displayPosition()
+		{ return mapOffset + qtl.getPosition(); }
+
 	public float min()
-		{ return qtl.getMin(); }
+		{ return mapOffset + qtl.getMin(); }
 
 	public float max()
-		{ return qtl.getMax(); }
+		{ return mapOffset + qtl.getMax(); }
 }

@@ -65,6 +65,13 @@ public class MenuEdit
 
 			Prefs.warnEditLineMode = !checkbox.isSelected();
 		}
+
+		Actions.editModeNavigation.putValue(Action.SELECTED_KEY,
+			Prefs.guiMouseMode == Constants.NAVIGATION);
+		Actions.editModeMarker.putValue(Action.SELECTED_KEY,
+			Prefs.guiMouseMode == Constants.MARKERMODE);
+		Actions.editModeLine.putValue(Action.SELECTED_KEY,
+			Prefs.guiMouseMode == Constants.LINEMODE);
 	}
 
 	void editSelectMarkers(int selectionType)

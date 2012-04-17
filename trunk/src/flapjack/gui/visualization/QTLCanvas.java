@@ -57,7 +57,7 @@ class QTLCanvas extends JPanel implements PropertyChangeListener
 	// Mouse handling variables
 	private int xOffset;
 	private int mouseOverTrack = -1;
-	static QTL mouseOverQTL = null;
+	static QTLInfo mouseOverQTL = null;
 
 	boolean full = false;
 
@@ -171,7 +171,7 @@ class QTLCanvas extends JPanel implements PropertyChangeListener
 					for (QTLInfo qtlInfo: fg)
 						// Don't draw features it they are offscreeen
 						if (qtlInfo.max() > mSPos && qtlInfo.min() < mEPos)
-							drawQTL(g, qtlInfo.getQTL(), trackNum, grouped);
+							drawQTL(g, qtlInfo, trackNum, grouped);
 				}
 			}
 
@@ -207,12 +207,12 @@ class QTLCanvas extends JPanel implements PropertyChangeListener
 
 
 	// Draws an individual feature
-	private void drawQTL(Graphics2D g, QTL qtl, int trackNum, boolean grouped)
+	private void drawQTL(Graphics2D g, QTLInfo qtlInfo, int trackNum, boolean grouped)
 	{
-		int minX = getPixelPosition(qtl.getMin());
-		int maxX = getPixelPosition(qtl.getMax());
+		int minX = getPixelPosition(qtlInfo.min());
+		int maxX = getPixelPosition(qtlInfo.max());
 
-		Color c = qtl.getDisplayColor();
+		Color c = qtlInfo.getQTL().getDisplayColor();
 		Color c1 = c.brighter();
 		Color c2 = c.darker();
 		g.setPaint(new GradientPaint(0, 5, c1, 0, 10, c2, true));
@@ -225,13 +225,13 @@ class QTLCanvas extends JPanel implements PropertyChangeListener
 		// Its outline...
 		if (grouped)
 			g.setColor(Color.black);
-		else if (mouseOverTrack == trackNum && mouseOverQTL == qtl)
+		else if (mouseOverTrack == trackNum && mouseOverQTL == qtlInfo)
 			g.setColor(Color.red);
 		else
 			g.setColor(Color.lightGray);
 		g.drawRect(minX, 5, (maxX-minX+1), 10);
 
-		int x = getPixelPosition(qtl.getPosition());
+		int x = getPixelPosition(qtlInfo.displayPosition());
 		g.drawLine(x, 2, x, 18);
 	}
 
@@ -300,7 +300,7 @@ class QTLCanvas extends JPanel implements PropertyChangeListener
 
 			// NOTE: the search is backwards (right to left) as F2.pos > F1.pos
 			// will mean F2 is drawn on TOP of F1
-			QTL match = null;
+			QTLInfo match = null;
 
 			//grab track that the mouse is over
 			ArrayList<FeatureGroup> onscreen = trackSet.get(mouseOverTrack);
@@ -330,7 +330,7 @@ class QTLCanvas extends JPanel implements PropertyChangeListener
 
 						if (qtl.min() <= mapPos && qtl.max() >= mapPos)
 						{
-							match = qtl.getQTL();
+							match = qtl;
 							break;
 						}
 					}
@@ -345,7 +345,7 @@ class QTLCanvas extends JPanel implements PropertyChangeListener
 				if (match == null)
 					gPanel.statusPanel.setQTLDetails(null);
 				else
-					gPanel.statusPanel.setQTLDetails(match);
+					gPanel.statusPanel.setQTLDetails(match.getQTL());
 
 				mapCanvas.repaint();
 				repaint();
@@ -368,21 +368,28 @@ class QTLCanvas extends JPanel implements PropertyChangeListener
 				canvas.view, RB.getString("gui.visualization.SelectedMarkersState.selected"));
 			markerStates.createUndoState();
 
-			float min = mouseOverQTL.getMin();
-			float max = mouseOverQTL.getMax();
+			float min = mouseOverQTL.min();
+			float max = mouseOverQTL.max();
+			QTL qtl = mouseOverQTL.getQTL();
 
 			for (MarkerInfo mi: canvas.view.getMarkers())
 			{
-				// Is this marker under the QTL?
-				if (mi.getMarker().getPosition() >= min && mi.getMarker().getPosition() <= max)
-				{
-					if (undefined)
-					{
-						state = !mi.getSelected();
-						undefined = false;
-					}
+				Marker m = mi.getMarker();
 
-					mi.setSelected(state);
+				// Is this marker under the QTL?
+				// *** See IMPORTANT comments in MapCanvas.highlightQTL() ***
+				if (m.getRealPosition() >= qtl.getMin() && m.getRealPosition() <= qtl.getMax())
+				{
+					if (m.getPosition() >= min && m.getPosition() <= max)
+					{
+						if (undefined)
+						{
+							state = !mi.getSelected();
+							undefined = false;
+						}
+
+						mi.setSelected(state);
+					}
 				}
 			}
 
