@@ -41,6 +41,11 @@ public class QTLInfo extends XMLRoot
 	public void setIndex(int index)
 		{ this.index = index; }
 
+	public float getMapOffset()
+		{ return mapOffset; }
+
+	public void setMapOffset(float mapOffset)
+		{ this.mapOffset = mapOffset; }
 
 
 	// Other methods

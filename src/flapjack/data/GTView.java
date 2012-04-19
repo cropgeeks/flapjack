@@ -341,7 +341,7 @@ public class GTView extends XMLRoot
 		// Clone the QTLInfos
 		ArrayList<QTLInfo> clonedQTLs = new ArrayList<QTLInfo>();
 		for (QTLInfo qtl: qtls)
-			clonedQTLs.add(new QTLInfo(qtl.getQTL(), qtl.getIndex()));
+			clonedQTLs.add(new QTLInfo(qtl.getQTL(), qtl.getIndex(), qtl.getMapOffset()));
 		clone.setQTLs(clonedQTLs);
 
 		clone.comparisonMarker = comparisonMarker;

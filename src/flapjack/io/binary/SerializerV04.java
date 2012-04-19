@@ -38,8 +38,11 @@ public class SerializerV04 extends SerializerV03
 		throws Exception
 	{
 		int index = in.readInt();
+		float mapOffset = in.readFloat();
+
 		QTL qtl = map.getQTLs().get(index);
-		QTLInfo qtlInfo = new QTLInfo(qtl, index);
+
+		QTLInfo qtlInfo = new QTLInfo(qtl, index, mapOffset);
 
 		return qtlInfo;
 	}
@@ -60,5 +63,6 @@ public class SerializerV04 extends SerializerV03
 		throws Exception
 	{
 		out.writeInt(qtlInfo.getIndex());
+		out.writeFloat(qtlInfo.getMapOffset());
 	}
 }
