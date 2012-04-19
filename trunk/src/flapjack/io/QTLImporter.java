@@ -35,6 +35,8 @@ public class QTLImporter extends SimpleJob
 
 	private int featuresRead, featuresAdded;
 
+	private ChromosomeMap allMap = null;
+
 	public QTLImporter(File file, DataSet dataSet)
 	{
 		this.file = file;
@@ -44,7 +46,13 @@ public class QTLImporter extends SimpleJob
 
 		// Add a storage track to each chromosome
 		for (ChromosomeMap c: dataSet.getChromosomeMaps())
+		{
 			chromosomes.put(c.getName(), new ArrayList<QTL>());
+
+			// And also look for the all-chromosome if it exists
+			if (c.isSpecialChromosome())
+				allMap = c;
+		}
 	}
 
 	public void runJob(int index)
@@ -126,7 +134,7 @@ public class QTLImporter extends SimpleJob
 		if (okToRun == false)
 			return;
 
-		// Work out a colors for the traits and QTLs
+		// Work out the colors for the traits and QTLs
 		calculateTraitColors();
 
 		// Finally, assign the QTL tracks to the chromosomes
@@ -137,21 +145,88 @@ public class QTLImporter extends SimpleJob
 			Collections.sort(track);
 
 			c.setQTLs(track);
-
-			for (GTViewSet viewSet : dataSet.getViewSets())
-			{
-				// Add the QTLs to the GTViews
-				ArrayList<QTLInfo> qtl = new ArrayList<QTLInfo>();
-
-				for (int i=0; i < track.size(); i++)
-				qtl.add(new QTLInfo(track.get(i), i));
-
-				GTView view = viewSet.getView(c);
-				view.setQTLs(qtl);
-			}
 		}
 
-		processSuperChromosome();
+		// NEW STEP:
+		// Take the *sorted* QTL from the main chromosomes and duplicate them
+		// onto the all-chromosome. This is done here rather than above because
+		// if they all went onto a single track and then got sorted, different
+		// QTL from different chromosomes (but at the same local positions)
+		// would overlap, which screws up the TrackOptimiser when it runs
+		if (allMap != null)
+		{
+			ArrayList<QTL> track = new ArrayList<QTL>();
+
+			for (ChromosomeMap map: dataSet.getChromosomeMaps())
+			{
+				if (map.isSpecialChromosome())
+					continue;
+
+				for (QTL qtl: map.getQTLs())
+				{
+					// Note the QTL's chromosome is left referring to the actual
+					// chromosome at this point, so we can work out the
+					// mapOffset (for the QTLInfo wrapper) below
+					QTL clone = qtl.createClone();
+					track.add(clone);
+				}
+			}
+
+			allMap.setQTLs(track);
+		}
+
+
+		// And then assign QTLInfo wrappers to each of the views
+		for (GTViewSet viewSet : dataSet.getViewSets())
+		{
+			for (GTView view: viewSet.getViews())
+			{
+				boolean isSuper = view.getChromosomeMap().isSpecialChromosome();
+
+				ArrayList<QTLInfo> qtls = new ArrayList<QTLInfo>();
+				ArrayList<QTL> track = view.getChromosomeMap().getQTLs();
+
+				for (int i = 0; i < track.size(); i++)
+				{
+					QTL qtl = track.get(i);
+
+					// If it's not a super-chromosome, then just add a wrapper
+					if (isSuper == false)
+						qtls.add(new QTLInfo(qtl, i, 0));
+
+					// Otherwise, work out what the mapOffset needs to be
+					else
+					{
+						ChromosomeMap map = qtl.getChromosomeMap();
+						float mapOffset = getMapOffset(map, viewSet);
+
+						qtls.add(new QTLInfo(qtl, i, mapOffset));
+						qtl.setChromosomeMap(view.getChromosomeMap());
+					}
+				}
+
+				view.setQTLs(qtls);
+			}
+		}
+	}
+
+	// Works out the mapOffset for a given map. A mapOffset is the sum total
+	// of the length of all previous chromosomes *before* this map, so that
+	// when including them together in a single view you know where to start
+	// drawing the QTL
+	private float getMapOffset(ChromosomeMap map, GTViewSet viewSet)
+	{
+		float mapOffset = 0;
+
+		for (GTView view: viewSet.getViews())
+		{
+			if (view.getChromosomeMap() == map)
+				return mapOffset;
+
+			mapOffset += view.getChromosomeMap().getLength();
+		}
+
+		return mapOffset;
 	}
 
 	private void calculateTraitColors()
@@ -208,44 +283,4 @@ public class QTLImporter extends SimpleJob
 
 	public int getFeaturesAdded()
 		{ return featuresAdded; }
-
-	private void processSuperChromosome()
-		throws Exception
-	{
-		// TODO: One day we might have more than a single super-chromosome
-		ChromosomeMap allMap = null;
-		for (ChromosomeMap c: dataSet.getChromosomeMaps())
-			if (c.isSpecialChromosome())
-			{
-				allMap = c;
-				break;
-			}
-
-		for (GTViewSet viewSet : dataSet.getViewSets())
-		{
-			// Mapoffset required for "adjusting" the display positions of QTLInfo
-			// objects that will be added to any super chromosomes
-			float mapOffset = 0;
-
-			// An array of QTLInfo objects that will span every (virtual) chromosome
-			// across the single super-chromosome
-			ArrayList<QTLInfo> qtl = new ArrayList<QTLInfo>();
-
-			for (ChromosomeMap c: dataSet.getChromosomeMaps())
-			{
-				ArrayList<QTL> track = c.getQTLs();
-
-				// We adjust each QTLInfo so that it contains the offset to the
-				// actual chromosome position
-				for (int i=0; i < track.size(); i++)
-					qtl.add(new QTLInfo(track.get(i), i, mapOffset));
-
-				mapOffset += c.getLength();
-			}
-
-			// Finally,
-			GTView view = viewSet.getView(allMap);
-			view.setQTLs(qtl);
-		}
-	}
 }

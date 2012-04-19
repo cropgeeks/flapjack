@@ -5,7 +5,7 @@ package flapjack.data;
 
 import java.awt.*;
 
-public class QTL extends XMLRoot implements Comparable<QTL>
+public class QTL extends XMLRoot implements Comparable<QTL>, Cloneable
 {
 	// Variables originally inherited from Feature.java
 	protected String name;
@@ -38,6 +38,19 @@ public class QTL extends XMLRoot implements Comparable<QTL>
 	public QTL(String name)
 	{
 		this.name = name;
+	}
+
+	protected Object clone()
+		throws CloneNotSupportedException
+	{
+		QTL clone = (QTL) super.clone();
+		return clone;
+	}
+
+	public QTL createClone()
+		throws CloneNotSupportedException
+	{
+		return (QTL) clone();
 	}
 
 
