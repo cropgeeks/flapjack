@@ -4,7 +4,10 @@
 package flapjack.gui.dialog.analysis;
 
 import java.awt.*;
+import java.awt.event.*;
 import javax.swing.*;
+import javax.swing.event.*;
+import javax.swing.table.*;
 
 import flapjack.data.*;
 import flapjack.gui.*;
@@ -12,42 +15,42 @@ import flapjack.gui.visualization.*;
 
 import scri.commons.gui.*;
 
-class SortLinesByTraitPanelNB extends JPanel
+class SortLinesByTraitPanelNB extends JPanel implements ActionListener, ListSelectionListener
 {
+	SortLinesByTraitTableModel model;
+
 	public SortLinesByTraitPanelNB(GenotypePanel gPanel)
 	{
 		initComponents();
 
 		setBackground((Color)UIManager.get("fjDialogBG"));
-		panel1.setBackground((Color)UIManager.get("fjDialogBG"));
-		panel2.setBackground((Color)UIManager.get("fjDialogBG"));
-		panel3.setBackground((Color)UIManager.get("fjDialogBG"));
 
-		panel1.setBorder(BorderFactory.createTitledBorder(RB.getString("gui.dialog.analysis.NBSortLinesByTraitPanel.panel1.title")));
-		panel2.setBorder(BorderFactory.createTitledBorder(RB.getString("gui.dialog.analysis.NBSortLinesByTraitPanel.panel2.title")));
-		panel3.setBorder(BorderFactory.createTitledBorder(RB.getString("gui.dialog.analysis.NBSortLinesByTraitPanel.panel3.title")));
-		RB.setText(rAsc1, "gui.dialog.analysis.NBSortLinesByTraitPanel.ascending");
-		RB.setText(rAsc2, "gui.dialog.analysis.NBSortLinesByTraitPanel.ascending");
-		RB.setText(rAsc3, "gui.dialog.analysis.NBSortLinesByTraitPanel.ascending");
-		RB.setText(rDes1, "gui.dialog.analysis.NBSortLinesByTraitPanel.descending");
-		RB.setText(rDes2, "gui.dialog.analysis.NBSortLinesByTraitPanel.descending");
-		RB.setText(rDes3, "gui.dialog.analysis.NBSortLinesByTraitPanel.descending");
+		RB.setText(bAdd, "gui.dialog.analysis.NBSortLinesByTraitPanel.bAdd");
+		RB.setText(bDelete, "gui.dialog.analysis.NBSortLinesByTraitPanel.bDelete");
 		RB.setText(checkAssign, "gui.dialog.analysis.NBSortLinesByTraitPanel.checkAssign");
 
-
-		// Fill the combo boxes with the possible traits
-		DataSet dataSet = gPanel.getViewSet().getDataSet();
-
-		combo2.addItem("");
-		combo3.addItem("");
-		for (Trait trait: dataSet.getTraits())
-		{
-			combo1.addItem(trait.getName() + " (" + trait.getExperiment() + ")");
-			combo2.addItem(trait.getName() + " (" + trait.getExperiment() + ")");
-			combo3.addItem(trait.getName() + " (" + trait.getExperiment() + ")");
-		}
-
+		bAdd.addActionListener(this);
+		bDelete.addActionListener(this);
 		checkAssign.setSelected(Prefs.guiAssignTraits);
+
+		updateModel(gPanel.getViewSet().getDataSet());
+
+		checkButtonStates();
+	}
+
+	public void updateModel(DataSet dataSet)
+	{
+		model = new SortLinesByTraitTableModel(dataSet);
+
+		table.setModel(model);
+		table.getTableHeader().setReorderingAllowed(false);
+		table.getSelectionModel().addListSelectionListener(this);
+
+		TableColumn c0 = table.getColumnModel().getColumn(0);
+		c0.setCellEditor(new DefaultCellEditor(model.getTraitComboBox()));
+
+		TableColumn c1 = table.getColumnModel().getColumn(1);
+		c1.setPreferredWidth(60);
 	}
 
 	boolean isOK()
@@ -55,6 +58,36 @@ class SortLinesByTraitPanelNB extends JPanel
 		Prefs.guiAssignTraits = checkAssign.isSelected();
 
 		return true;
+	}
+
+	private void checkButtonStates()
+	{
+		bAdd.setEnabled(model.getRowCount() > 0);
+
+		// Only enable the delete button if something is selected and there's
+		// 2 or more items in the table
+		if (model.getRowCount() > 1 && table.getSelectedRow() != -1)
+			bDelete.setEnabled(true);
+		else
+			bDelete.setEnabled(false);
+	}
+
+	public void valueChanged(ListSelectionEvent e)
+	{
+		if (e.getValueIsAdjusting())
+			return;
+
+		checkButtonStates();
+	}
+
+	public void actionPerformed(ActionEvent e)
+	{
+		if (e.getSource() == bAdd)
+			model.addRow();
+		else if (e.getSource() == bDelete)
+			model.deleteRow(table.getSelectedRow());
+
+		checkButtonStates();
 	}
 
     /** This method is called from within the constructor to
@@ -69,123 +102,29 @@ class SortLinesByTraitPanelNB extends JPanel
         buttonGroup1 = new javax.swing.ButtonGroup();
         buttonGroup2 = new javax.swing.ButtonGroup();
         buttonGroup3 = new javax.swing.ButtonGroup();
-        panel1 = new javax.swing.JPanel();
-        combo1 = new javax.swing.JComboBox<String>();
-        rAsc1 = new javax.swing.JRadioButton();
-        rDes1 = new javax.swing.JRadioButton();
-        panel2 = new javax.swing.JPanel();
-        combo2 = new javax.swing.JComboBox<String>();
-        rAsc2 = new javax.swing.JRadioButton();
-        rDes2 = new javax.swing.JRadioButton();
-        panel3 = new javax.swing.JPanel();
-        combo3 = new javax.swing.JComboBox<String>();
-        rAsc3 = new javax.swing.JRadioButton();
-        rDes3 = new javax.swing.JRadioButton();
         checkAssign = new javax.swing.JCheckBox();
-
-        panel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Sort on this trait first:"));
-
-        buttonGroup1.add(rAsc1);
-        rAsc1.setSelected(true);
-        rAsc1.setText("Ascending");
-
-        buttonGroup1.add(rDes1);
-        rDes1.setText("Descending");
-
-        javax.swing.GroupLayout panel1Layout = new javax.swing.GroupLayout(panel1);
-        panel1.setLayout(panel1Layout);
-        panel1Layout.setHorizontalGroup(
-            panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(combo1, 0, 438, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
-                .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(rDes1)
-                    .addComponent(rAsc1))
-                .addContainerGap())
-        );
-        panel1Layout.setVerticalGroup(
-            panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(rAsc1)
-                    .addComponent(combo1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(rDes1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        panel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Then on this trait second:"));
-
-        buttonGroup2.add(rAsc2);
-        rAsc2.setSelected(true);
-        rAsc2.setText("Ascending");
-
-        buttonGroup2.add(rDes2);
-        rDes2.setText("Descending");
-
-        javax.swing.GroupLayout panel2Layout = new javax.swing.GroupLayout(panel2);
-        panel2.setLayout(panel2Layout);
-        panel2Layout.setHorizontalGroup(
-            panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(combo2, 0, 438, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
-                .addGroup(panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(rDes2)
-                    .addComponent(rAsc2))
-                .addContainerGap())
-        );
-        panel2Layout.setVerticalGroup(
-            panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(rAsc2)
-                    .addComponent(combo2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(rDes2)
-                .addContainerGap())
-        );
-
-        panel3.setBorder(javax.swing.BorderFactory.createTitledBorder("And finally on this trait:"));
-
-        buttonGroup3.add(rAsc3);
-        rAsc3.setSelected(true);
-        rAsc3.setText("Ascending");
-
-        buttonGroup3.add(rDes3);
-        rDes3.setText("Descending");
-
-        javax.swing.GroupLayout panel3Layout = new javax.swing.GroupLayout(panel3);
-        panel3.setLayout(panel3Layout);
-        panel3Layout.setHorizontalGroup(
-            panel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(combo3, 0, 438, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
-                .addGroup(panel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(rDes3)
-                    .addComponent(rAsc3))
-                .addContainerGap())
-        );
-        panel3Layout.setVerticalGroup(
-            panel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(panel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(rAsc3)
-                    .addComponent(combo3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(rDes3)
-                .addContainerGap())
-        );
+        bAdd = new javax.swing.JButton();
+        bDelete = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        table = new javax.swing.JTable();
 
         checkAssign.setText("Auto assign these traits to the traits heatmap once the sort is completed");
+
+        bAdd.setText("Add sort level");
+
+        bDelete.setText("Delete sort level");
+
+        table.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+
+            }
+        ));
+        table.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
+        table.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jScrollPane1.setViewportView(table);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -194,22 +133,27 @@ class SortLinesByTraitPanelNB extends JPanel
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(checkAssign)
-                    .addComponent(panel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(panel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(panel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 439, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(checkAssign)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(bAdd)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(bDelete)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(panel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(bAdd)
+                    .addComponent(bDelete))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(panel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(panel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(checkAssign)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -217,21 +161,13 @@ class SortLinesByTraitPanelNB extends JPanel
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton bAdd;
+    private javax.swing.JButton bDelete;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.ButtonGroup buttonGroup3;
     private javax.swing.JCheckBox checkAssign;
-    javax.swing.JComboBox<String> combo1;
-    javax.swing.JComboBox<String> combo2;
-    javax.swing.JComboBox<String> combo3;
-    private javax.swing.JPanel panel1;
-    private javax.swing.JPanel panel2;
-    private javax.swing.JPanel panel3;
-    javax.swing.JRadioButton rAsc1;
-    javax.swing.JRadioButton rAsc2;
-    javax.swing.JRadioButton rAsc3;
-    javax.swing.JRadioButton rDes1;
-    javax.swing.JRadioButton rDes2;
-    javax.swing.JRadioButton rDes3;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable table;
     // End of variables declaration//GEN-END:variables
 }
