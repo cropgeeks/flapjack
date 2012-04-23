@@ -82,6 +82,8 @@ public class TraitValue extends XMLRoot
 	public int compareTo(TraitValue other)
 	{
 		// To begin with, are the two trait values even comparable?
+		if (!isDefined && !other.isDefined)
+			return 0;
 		if (!isDefined)
 			return -1;
 		if (!other.isDefined)

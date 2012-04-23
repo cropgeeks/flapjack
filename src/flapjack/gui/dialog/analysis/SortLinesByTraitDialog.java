@@ -33,7 +33,7 @@ public class SortLinesByTraitDialog extends JDialog implements ActionListener
 		add(nbPanel);
 		add(createButtons(), BorderLayout.SOUTH);
 
-		if (nbPanel.combo1.getItemCount() == 0)
+		if (nbPanel.model.getRowCount() == 0)
 			bOK.setEnabled(false);
 
 		getRootPane().setDefaultButton(bOK);
@@ -70,36 +70,13 @@ public class SortLinesByTraitDialog extends JDialog implements ActionListener
 	public boolean isOK()
 		{ return isOK; }
 
-	// Returns an array of length 1 to 3, containing the selected indexes of the
-	// three combo boxes
 	public int[] getTraitIndices()
 	{
-		int[] selected = new int[] {
-			nbPanel.combo1.getSelectedIndex(),
-			nbPanel.combo2.getSelectedIndex()-1,
-			nbPanel.combo3.getSelectedIndex()-1
-		};
-
-		int count = 0;
-		for (int i: selected)
-			if (i != -1) count++;
-
-		// The new array will only store values that are selected, so if only
-		// one combo box was used, the array will have length == 1
-		int[] traits = new int[count];
-		for (int i = 0, t = 0; i < selected.length; i++)
-			if (selected[i] != -1)
-				traits[t++] = selected[i];
-
-		return traits;
+		return nbPanel.model.getTraitIndices();
 	}
 
 	public boolean[] getAscendingIndices()
 	{
-		return new boolean[] {
-			nbPanel.rAsc1.isSelected(),
-			nbPanel.rAsc2.isSelected(),
-			nbPanel.rAsc3.isSelected()
-		};
+		return nbPanel.model.getAscendingIndices();
 	}
 }

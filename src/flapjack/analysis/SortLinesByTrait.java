@@ -59,6 +59,9 @@ public class SortLinesByTrait extends SortLines
 	private class LineScore implements Comparable<LineScore>
 	{
 		private LineInfo lineInfo;
+		// The tv[] array will hold TraitValue objects that match the traits[]
+		// being compared, eg if the indexes passed in are 5 and 8 then the tv
+		// object will store data from line.getTraitValues()[5] and [8]
 		private TraitValue[] tv;
 
 		LineScore(LineInfo lineInfo)
@@ -72,18 +75,16 @@ public class SortLinesByTrait extends SortLines
 			// Get the values
 			tv = new TraitValue[traits.length];
 
+			// And cache them for easy access
 			for (int i = 0; i < traits.length; i++)
-			{
-				// Values can't be retrived for a trait if the index is -1
-				if (traits[i] == -1)
-					break;
-
 				tv[i] = traitValues.get(traits[i]);
-			}
 		}
 
 		public int compareTo(LineScore other)
 		{
+			// This is a recursive procedure, which we start by calling with a
+			// traitIndex of 0 so that the two lines are compared on the first
+			// selected trait...
 			return compareTo(other, 0);
 		}
 
@@ -99,7 +100,7 @@ public class SortLinesByTrait extends SortLines
 				result = result * -1;
 
 			// If the result is equal, can we sort further?
-			if (result == 0 && (i < traits.length-1) && traits[i+1] != -1)
+			if (result == 0 && (i < traits.length-1))
 				return compareTo(other, i+1);
 
 			return result;
