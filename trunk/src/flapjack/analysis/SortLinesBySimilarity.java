@@ -51,7 +51,7 @@ public class SortLinesBySimilarity extends SortLines
 			SimilarityScore ss = new SimilarityScore(viewSet, st, line, i, chromosomes);
 
 			SimilarityScore.Score score = ss.getScore();
-			scores.add(new LineScore(lines.get(i), score.score, score.nComparisons));
+			scores.add(new LineScore(lines.get(i), score.score, score.nComparisons, score.data));
 		}
 
 		// Now sort the array based on those scores
@@ -70,12 +70,14 @@ public class SortLinesBySimilarity extends SortLines
 		LineInfo lineInfo;
 		float score;
 		float nComparisons;
+		String data;
 
-		LineScore(LineInfo lineInfo, float score, float nComparisons)
+		LineScore(LineInfo lineInfo, float score, float nComparisons, String data)
 		{
 			this.lineInfo = lineInfo;
 			this.score = score;
 			this.nComparisons = nComparisons;
+			this.data = data;
 
 			lineInfo.setScore(score);
 		}
@@ -93,7 +95,11 @@ public class SortLinesBySimilarity extends SortLines
 				if (nComparisons > other.nComparisons)
 					return -1;
 				else if (nComparisons == other.nComparisons)
-					return 0;
+				{
+					// All else being equal, use the string-version of each line
+					// to decide what order they should be in
+					return data.compareTo(other.data);
+				}
 				else
 					return 1;
 			}

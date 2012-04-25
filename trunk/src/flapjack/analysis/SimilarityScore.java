@@ -32,6 +32,7 @@ public class SimilarityScore
 	{
 		float nComparisons = 0;
 		float score = 0;
+		StringBuilder data = new StringBuilder();
 
 		for (int viewIndex = 0; viewIndex < viewSet.chromosomeCount(); viewIndex++)
 		{
@@ -54,6 +55,8 @@ public class SimilarityScore
 				// If either has no information, skip it
 				if (state1 == 0 || state2 == 0)
 					continue;
+
+				data.append("" + state2);
 
 				// Increment the score if they match
 				if (state1 == state2)
@@ -80,18 +83,20 @@ public class SimilarityScore
 			score = 0;
 
 		// The final score is the ratio of matches to comparable markers
-		return new Score(score, nComparisons);
+		return new Score(score, nComparisons, data.toString());
 	}
 
 	static class Score
 	{
 		float score;
 		float nComparisons;
+		String data;
 
-		Score(float score, float nComparisons)
+		Score(float score, float nComparisons, String data)
 		{
 			this.score = score;
 			this.nComparisons = nComparisons;
+			this.data = data;
 		}
 	}
 }
