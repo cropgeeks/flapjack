@@ -115,8 +115,8 @@ public class QTLPanel extends JPanel implements ActionListener
 		// Step 1: Remove the *actual* QTLs from the chromosomes
 		for (ChromosomeMap c: dataSet.getChromosomeMaps())
 		{
-			c.getQTLs().clear();
-			c.getQTLs().trimToSize();
+			c.getQtls().clear();
+			c.getQtls().trimToSize();
 		}
 
 		// Step 2: Remove the info wrappers from the views

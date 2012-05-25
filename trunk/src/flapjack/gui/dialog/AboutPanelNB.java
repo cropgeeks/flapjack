@@ -21,6 +21,7 @@ class AboutPanelNB extends javax.swing.JPanel implements ActionListener
 		initWebStuff();
 		setBackground(Color.white);
 		p2.setBackground(Color.white);
+		iconPanel.setBackground(Color.white);
 
 		webLabel.addActionListener(this);
 
@@ -37,19 +38,27 @@ class AboutPanelNB extends javax.swing.JPanel implements ActionListener
 		localeLabel.setText(RB.format("gui.dialog.NBAboutPanel.localeLabel", java.util.Locale.getDefault()));
 		idLabel.setText(RB.format("gui.dialog.NBAboutPanel.idLabel", Prefs.flapjackID));
 
-		scriIcon.setText("");
-		scriIcon.setIcon(Icons.getIcon("ABOUT"));
+		jhiIcon.setText("");
+		jhiIcon.setIcon(Icons.getIcon("ABOUT"));
+		cimmytIcon.setText("");
+		cimmytIcon.setIcon(Icons.getIcon("ABOUT-CIMMYT"));
 	}
 
 	private void initWebStuff()
 	{
-		final String scriHTML = "http://www.hutton.ac.uk";
-
-		scriIcon.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		scriIcon.addMouseListener(new MouseAdapter() {
+		jhiIcon.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		jhiIcon.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent event)
 			{
-				FlapjackUtils.visitURL(scriHTML);
+				FlapjackUtils.visitURL("http://www.hutton.ac.uk");
+			}
+		});
+
+		cimmytIcon.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		cimmytIcon.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent event)
+			{
+				FlapjackUtils.visitURL("http://www.cimmyt.org");
 			}
 		});
 	}
@@ -81,8 +90,10 @@ class AboutPanelNB extends javax.swing.JPanel implements ActionListener
         versionLabel = new javax.swing.JLabel();
         javaLabel = new javax.swing.JLabel();
         memLabel = new javax.swing.JLabel();
-        scriIcon = new javax.swing.JLabel();
         webLabel = new scri.commons.gui.matisse.HyperLinkLabel();
+        iconPanel = new javax.swing.JPanel();
+        jhiIcon = new javax.swing.JLabel();
+        cimmytIcon = new javax.swing.JLabel();
 
         idLabel.setForeground(java.awt.Color.gray);
         idLabel.setText("Flapjack ID:");
@@ -94,7 +105,7 @@ class AboutPanelNB extends javax.swing.JPanel implements ActionListener
 
         copyrightLabel.setText("Copyright (C) 2007-2008, Plant Bioinformatics Group, JHI");
 
-        versionLabel.setFont(new java.awt.Font("Tahoma", 1, 18));
+        versionLabel.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         versionLabel.setText("Flapjack - x.xx.xx.xx");
 
         javaLabel.setForeground(java.awt.Color.gray);
@@ -103,27 +114,50 @@ class AboutPanelNB extends javax.swing.JPanel implements ActionListener
         memLabel.setForeground(java.awt.Color.gray);
         memLabel.setText("Memory available to JVM:");
 
-        scriIcon.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        scriIcon.setText("SCRI LOGO");
-
         webLabel.setText("http://bioinf.hutton.ac.uk/flapjack");
+
+        iconPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 15, 5));
+
+        jhiIcon.setText("JHI");
+        iconPanel.add(jhiIcon);
+
+        cimmytIcon.setText("CIMMYT");
+        iconPanel.add(cimmytIcon);
 
         javax.swing.GroupLayout p2Layout = new javax.swing.GroupLayout(p2);
         p2.setLayout(p2Layout);
         p2Layout.setHorizontalGroup(
             p2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(p2Layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(p2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(versionLabel)
-                    .addComponent(copyrightLabel)
-                    .addComponent(nameLabel)
-                    .addComponent(javaLabel)
-                    .addComponent(memLabel)
-                    .addComponent(localeLabel)
-                    .addComponent(idLabel)
-                    .addComponent(scriIcon, javax.swing.GroupLayout.DEFAULT_SIZE, 414, Short.MAX_VALUE)
-                    .addComponent(webLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(p2Layout.createSequentialGroup()
+                        .addGroup(p2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(p2Layout.createSequentialGroup()
+                                .addGap(10, 10, 10)
+                                .addComponent(versionLabel))
+                            .addGroup(p2Layout.createSequentialGroup()
+                                .addGap(10, 10, 10)
+                                .addComponent(copyrightLabel))
+                            .addGroup(p2Layout.createSequentialGroup()
+                                .addGap(10, 10, 10)
+                                .addComponent(nameLabel))
+                            .addGroup(p2Layout.createSequentialGroup()
+                                .addGap(10, 10, 10)
+                                .addComponent(javaLabel))
+                            .addGroup(p2Layout.createSequentialGroup()
+                                .addGap(10, 10, 10)
+                                .addComponent(memLabel))
+                            .addGroup(p2Layout.createSequentialGroup()
+                                .addGap(10, 10, 10)
+                                .addComponent(localeLabel))
+                            .addGroup(p2Layout.createSequentialGroup()
+                                .addGap(10, 10, 10)
+                                .addComponent(idLabel))
+                            .addGroup(p2Layout.createSequentialGroup()
+                                .addGap(10, 10, 10)
+                                .addComponent(webLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(iconPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         p2Layout.setVerticalGroup(
@@ -145,8 +179,8 @@ class AboutPanelNB extends javax.swing.JPanel implements ActionListener
                 .addComponent(localeLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(idLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(scriIcon)
+                .addGap(18, 18, 18)
+                .addComponent(iconPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -170,14 +204,16 @@ class AboutPanelNB extends javax.swing.JPanel implements ActionListener
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel cimmytIcon;
     private javax.swing.JLabel copyrightLabel;
+    private javax.swing.JPanel iconPanel;
     private javax.swing.JLabel idLabel;
     private javax.swing.JLabel javaLabel;
+    private javax.swing.JLabel jhiIcon;
     private javax.swing.JLabel localeLabel;
     private javax.swing.JLabel memLabel;
     private javax.swing.JLabel nameLabel;
     private javax.swing.JPanel p2;
-    private javax.swing.JLabel scriIcon;
     private javax.swing.JLabel versionLabel;
     scri.commons.gui.matisse.HyperLinkLabel webLabel;
     // End of variables declaration//GEN-END:variables

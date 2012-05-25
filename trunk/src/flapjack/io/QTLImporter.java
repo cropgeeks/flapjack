@@ -144,7 +144,7 @@ public class QTLImporter extends SimpleJob
 			ArrayList<QTL> track = chromosomes.get(c.getName());
 			Collections.sort(track);
 
-			c.setQTLs(track);
+			c.setQtls(track);
 		}
 
 		// NEW STEP:
@@ -162,7 +162,7 @@ public class QTLImporter extends SimpleJob
 				if (map.isSpecialChromosome())
 					continue;
 
-				for (QTL qtl: map.getQTLs())
+				for (QTL qtl: map.getQtls())
 				{
 					// Note the QTL's chromosome is left referring to the actual
 					// chromosome at this point, so we can work out the
@@ -172,7 +172,7 @@ public class QTLImporter extends SimpleJob
 				}
 			}
 
-			allMap.setQTLs(track);
+			allMap.setQtls(track);
 		}
 
 
@@ -184,7 +184,7 @@ public class QTLImporter extends SimpleJob
 				boolean isSuper = view.getChromosomeMap().isSpecialChromosome();
 
 				ArrayList<QTLInfo> qtls = new ArrayList<QTLInfo>();
-				ArrayList<QTL> track = view.getChromosomeMap().getQTLs();
+				ArrayList<QTL> track = view.getChromosomeMap().getQtls();
 
 				for (int i = 0; i < track.size(); i++)
 				{

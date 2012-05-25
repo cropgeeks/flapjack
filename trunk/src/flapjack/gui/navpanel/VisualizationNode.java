@@ -65,6 +65,7 @@ public class VisualizationNode extends BaseNode
 		Actions.vizColorRandom.setEnabled(true);
 		Actions.vizColorRandomWSP.setEnabled(true);
 		Actions.vizColorNucleotide.setEnabled(true);
+//		Actions.vizColorABHData.setEnabled(true);
 		Actions.vizColorLineSim.setEnabled(true);
 		Actions.vizColorLineSimGS.setEnabled(true);
 		Actions.vizColorMarkerSim.setEnabled(true);

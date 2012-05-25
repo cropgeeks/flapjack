@@ -360,7 +360,12 @@ class NavPanel extends JPanel
 			JPanel huttonPanel = new JPanel(new BorderLayout());
 			huttonPanel.setOpaque(false);
 			huttonPanel.add(emailPanel);
-			huttonPanel.add(getHuttonLabel(), BorderLayout.EAST);
+			JPanel logoPanel = new JPanel(new BorderLayout());
+			logoPanel.setOpaque(false);
+			logoPanel.add(getHuttonLabel(), BorderLayout.WEST);
+			logoPanel.add(getCIMMYTLabel(), BorderLayout.EAST);
+			huttonPanel.add(logoPanel, BorderLayout.EAST);
+
 
 			JPanel centrePanel = new JPanel(new GridLayout(1, 2, 0, 0));
 			centrePanel.setOpaque(false);
@@ -385,6 +390,21 @@ class NavPanel extends JPanel
 		huttonLabel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				FlapjackUtils.visitURL("http://www.hutton.ac.uk");
+			}
+		});
+
+		return huttonLabel;
+	}
+
+	private static JLabel getCIMMYTLabel()
+	{
+		HyperLinkLabel huttonLabel = new HyperLinkLabel();
+		huttonLabel.setIcon(Icons.getIcon("CIMMYT"));
+		huttonLabel.setBorder(BorderFactory.createEmptyBorder(65, 10, 0, 10));
+
+		huttonLabel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				FlapjackUtils.visitURL("http://www.cimmyt.org/");
 			}
 		});
 

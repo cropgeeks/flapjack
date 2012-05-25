@@ -37,7 +37,7 @@ public class QTLExporter extends SimpleJob
 
 		// Scan each chromosome
 		for (ChromosomeMap cMap: dataSet.getChromosomeMaps())
-			for (QTL qtl: cMap.getQTLs())
+			for (QTL qtl: cMap.getQtls())
 			{
 				qtls.add(qtl);
 			}

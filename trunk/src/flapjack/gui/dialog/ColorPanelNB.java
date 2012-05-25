@@ -50,7 +50,7 @@ class ColorPanelNB extends JPanel implements ActionListener
 		// Add the various colour schemes to the combo box
 		comboModel = new DefaultComboBoxModel<ColorScheme>();
 		comboModel.addElement(new NucleotideColorScheme());
-		comboModel.addElement(new ABHDataColorScheme());
+//		comboModel.addElement(new ABHDataColorScheme());
 		comboModel.addElement(new SimpleTwoColorScheme());
 		comboModel.addElement(new LineSimilarityColorScheme());
 		comboModel.addElement(new MarkerSimilarityColorScheme());

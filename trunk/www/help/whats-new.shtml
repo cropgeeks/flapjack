@@ -22,6 +22,34 @@ that have been made to Flapjack in recent versions. For full details on all the
 changes between versions, please see the <a href="../svn.txt">
 subversion change log</a>.</p>
 
+<h3>New in 1.12.05.25</h3>
+
+<ul>
+<li>NEW: Sorting by trait can now be done on any number of sort levels.</li>
+<li>NEW: Redesigned the Sort by Trait dialog to present a tabular control for defining the sort levels.</li>
+<li>NEW: Added file header support so Flapjack can properly identify its input files.</li>
+<li>NEW: Added drag and drop support for all input files (so long as they carry header information).</li>
+<li>NEW: All generated output files now include header information in them.</li>
+<li>NEW: Graph data can now be inported into Flapjack using the Wiggle data format.</li>
+<li>NEW: Added a splitproject executable to handle importing .flapjack files and re-generating their component parts (map file, genotype file, etc).</li>
+<li>NEW: Added a new dialog for quick exporting all project data back to disk in raw file format.</li>
+<li>NEW: The split between the original chromosomes on the all-chromosomes view is now shown graphically.</li>
+<li>NEW: QTL should now be correctly drawn on the super-chromosome view.</li>
+<li>BUG: Fixed various selection state issues when using the all-chromosomes view.</li>
+<li>BUG: The show/hide dialog now displays the correct marker count when dealing with the all-chromosomes view.</li>
+<li>BUG: Fixed various display misc issues when sorting/finding/etc via the all-chromosomes view.</li>
+<li>BUG: Importing graph data for an all-chromosomes set now works correctly.</li>
+<li>BUG: The minimum and maximum values for a graph weren’t being calculated properly if some markers were missing data.</li>
+<li>BUG: Fixed dialogs disappearing if the user’s screen resolution had changed since they were last visible.</li>
+<li>BUG: Removing QTL from a project and then resaving was breaking the project file.</li>
+<li>BUG: Cloning a view was not properly copying across the QTL information.</li>
+<li>BUG: Selecting a QTL (and toggling marker states) switched the view to Marker Mode but left the toolbar/menu states incorrect.</li>
+<li>BUG: Fixed the ‘Comparison method violates its general contract’ error with certain sort operations.</li>
+<li>BUG: Exporting map and genotype data still included the duplicated markers and genotypes from any all-chromosomes view.</li>
+<li>BUG: Fixed a problem that saw QTL being duplicated after (re)saving a project in XML format.</li>
+</ul>
+
+
 <h3>New in 1.11.12.13</h3>
 
 <ul>

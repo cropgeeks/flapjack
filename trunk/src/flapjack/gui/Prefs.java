@@ -228,8 +228,8 @@ public class Prefs extends XMLPreferences
 		visColorABH_A = new Color(255, 120, 120);
 		visColorABH_B = new Color(120, 120, 255);
 		visColorABH_H = new Color(120, 255, 120);
-		visColorABH_C = Color.black;
-		visColorABH_D = Color.black;
+		visColorABH_C = new Color(208, 208, 255);
+		visColorABH_D = new Color(255, 160, 120);
 		visColorABH_Other = new Color(204, 204, 204);
 
 		visColorSimple2State1 = new Color(255, 120, 120);
