@@ -40,7 +40,7 @@ public class SerializerV04 extends SerializerV03
 		int index = in.readInt();
 		float mapOffset = in.readFloat();
 
-		QTL qtl = map.getQTLs().get(index);
+		QTL qtl = map.getQtls().get(index);
 
 		QTLInfo qtlInfo = new QTLInfo(qtl, index, mapOffset);
 

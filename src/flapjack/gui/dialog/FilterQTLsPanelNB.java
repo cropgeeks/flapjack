@@ -64,7 +64,7 @@ class FilterQTLsPanelNB extends JPanel implements ActionListener
 
 		// Scan every track in every chromosome
 		for (ChromosomeMap cMap: dataSet.getChromosomeMaps())
-			for (QTL qtl: cMap.getQTLs())
+			for (QTL qtl: cMap.getQtls())
 			{
 				count += qtl.isVisible() ? 1 : 0;
 
@@ -199,7 +199,7 @@ class FilterQTLsPanelNB extends JPanel implements ActionListener
 
 		// Scan over all the chromosomes/tracks and update the QTLs
 		for (ChromosomeMap cMap: dataSet.getChromosomeMaps())
-			for (QTL qtl: cMap.getQTLs())
+			for (QTL qtl: cMap.getQtls())
 				if (qtl.isAllowed())
 				{
 					// Make the QTL visible only if both its trait and

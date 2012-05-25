@@ -32,7 +32,7 @@
 			<bind-xml node="attribute"/>
 		</field>
 		<field name="markers" type="flapjack.data.Marker" collection="arraylist"/>
-		<field name="qtls" set-method="setQTLs" get-method="getQTLs" type="java.util.ArrayList" collection="arraylist"/>
+		<field name="qtls" type="flapjack.data.QTL" collection="arraylist"/>
 		<field name="graphs" type="flapjack.data.GraphData" collection="arraylist"/>
 	</class>
 
@@ -107,7 +107,7 @@
 		<field name="comparisonMarker" type="flapjack.data.Marker">
 			<bind-xml reference="true" node="attribute"/>
 		</field>
-		<field name="QTLs" type="flapjack.data.QTLInfo" collection="arraylist" set-method="setQTLs" get-method="getQTLs"/>
+		<field name="QTLs" type="flapjack.data.QTLInfo" collection="arraylist"/>
 	</class>
 
 	<!-- LineInfo -->

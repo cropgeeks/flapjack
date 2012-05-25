@@ -17,33 +17,27 @@
 
 <h2>Papers & Presentations</h2>
 
-<h3>October 2010</h3>
-
-<p><b>Bioinformatics</b></p>
+<p>Please use the following reference if you are citing Flapjack in your work:
 
 <ul>
-<li><a href="http://bioinformatics.oxfordjournals.org/content/early/2010/10/18/bioinformatics.btq580.abstract.html?ijkey=Z9etzoB6rJzM6Mg&keytype=ref">
-Flapjack – Graphical Genotype Visualization</a><br>
-Bioinformatics Applications Note (PDF). Please use this reference if citing Flapjack in your work.</a>
+<li>Milne I., Shaw P., Stephen G., Bayer M., Cardle L., Thomas W.T.B., Flavell A.J. and Marshall D. 2010.
+<a href="http://bioinformatics.oxfordjournals.org/content/early/2010/10/18/bioinformatics.btq580.abstract.html?ijkey=Z9etzoB6rJzM6Mg&keytype=ref"> Flapjack – graphical genotype visualization. </a>
+<b>Bioinformatics 26(24)</b>, 3133-3134.
 </ul>
 
+<p>Also available for download are:
 
-<h3>January 2009</h3>
-
-<p><b>Plant and Animal Genome XVII Conference, San Diego</b></p>
+<p><b></b></p>
 
 <ul>
 <li><a href="docs/pagxvii.pdf">Flapjack - High Performance Graphical Genotyping</a> (PDF)
-<br>One-sheet poster describing Flapjack and its interactions with the Germinate database.</li>
-</ul>
+<br>One-sheet poster describing Flapjack and its interactions with the Germinate database.
+Plant and Animal Genome XVII Conference, San Diego.</li>
 
-<h3>September 2008</h3>
 
-<p><b>Applications of Information Visualisation in Bioinformatics, RSE, Edinburgh</b></p>
-
-<ul>
 <li><a href="docs/iv2008.ppt">Flapjack</a> (PowerPoint)
-<br>Presentation slides covering an early look at Flapjack and some of its rendering techniques.</li>
+<br>Presentation slides covering an early look at Flapjack and some of its rendering techniques.
+Applications of Information Visualisation in Bioinformatics, RSE, Edinburgh</li>
 </ul>
 
 

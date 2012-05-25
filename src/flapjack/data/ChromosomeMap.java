@@ -61,10 +61,10 @@ public class ChromosomeMap extends XMLRoot implements Iterable<Marker>
 	public void setMarkers(ArrayList<Marker> markers)
 		{ this.markers = markers; }
 
-	public ArrayList<QTL> getQTLs()
+	public ArrayList<QTL> getQtls()
 		{ return qtls; }
 
-	public void setQTLs(ArrayList<QTL> qtls)
+	public void setQtls(ArrayList<QTL> qtls)
 		{ 	this.qtls = qtls; }
 
 	public boolean isSpecialChromosome()

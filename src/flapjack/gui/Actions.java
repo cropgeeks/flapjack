@@ -666,6 +666,7 @@ public class Actions
 		vizColorRandom.setEnabled(false);
 		vizColorRandomWSP.setEnabled(false);
 		vizColorNucleotide.setEnabled(false);
+		vizColorABHData.setEnabled(false);
 		vizColorLineSim.setEnabled(false);
 		vizColorLineSimGS.setEnabled(false);
 		vizColorMarkerSim.setEnabled(false);
