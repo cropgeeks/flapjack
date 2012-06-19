@@ -30,7 +30,7 @@ subversion change log</a>.</p>
 <li>NEW: Added file header support so Flapjack can properly identify its input files.</li>
 <li>NEW: Added drag and drop support for all input files (so long as they carry header information).</li>
 <li>NEW: All generated output files now include header information in them.</li>
-<li>NEW: Graph data can now be inported into Flapjack using the Wiggle data format.</li>
+<li>NEW: Graph data can now be imported into Flapjack using the Wiggle data format.</li>
 <li>NEW: Added a splitproject executable to handle importing .flapjack files and re-generating their component parts (map file, genotype file, etc).</li>
 <li>NEW: Added a new dialog for quick exporting all project data back to disk in raw file format.</li>
 <li>NEW: The split between the original chromosomes on the all-chromosomes view is now shown graphically.</li>
