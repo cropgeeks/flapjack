@@ -16,7 +16,7 @@ import scri.commons.gui.*;
 
 class QTLTableModel extends AbstractTableModel
 {
-	ArrayList<QTL> qtls = new ArrayList<QTL>();
+	ArrayList<QTL> qtls = new ArrayList<>();
 
 	private String[] columnNames;
 

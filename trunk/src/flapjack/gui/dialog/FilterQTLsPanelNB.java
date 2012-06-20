@@ -56,8 +56,8 @@ class FilterQTLsPanelNB extends JPanel implements ActionListener
 
 	private void initHashtables()
 	{
-		traits = new LinkedHashMap<String, Boolean>();
-		experiments = new LinkedHashMap<String, Boolean>();
+		traits = new LinkedHashMap<>();
+		experiments = new LinkedHashMap<>();
 
 		// Track how many QTLs are currently visible
 		int count = 0;

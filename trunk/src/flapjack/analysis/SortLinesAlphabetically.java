@@ -18,7 +18,7 @@ public class SortLinesAlphabetically extends SortLines
 	protected ArrayList<LineInfo> doSort(GTView view)
 	{
 		int numLines = view.lineCount();
-		ArrayList<LineScore> scores = new ArrayList<LineScore>(numLines);
+		ArrayList<LineScore> scores = new ArrayList<>(numLines);
 		// Create line scores for each LineInfo
 		for (int i = 0; i < numLines && okToRun; i++, linesScored++)
 		{
@@ -29,7 +29,7 @@ public class SortLinesAlphabetically extends SortLines
 		// Sort the array based on those scores
 		Collections.sort(scores);
 
-		ArrayList<LineInfo> lineOrder = new ArrayList<LineInfo>(numLines);
+		ArrayList<LineInfo> lineOrder = new ArrayList<>(numLines);
 		// Create a new line ordering for the view based on the scores
 		for (int i = 0; i < scores.size() && okToRun; i++)
 			lineOrder.add(scores.get(i).lineInfo);

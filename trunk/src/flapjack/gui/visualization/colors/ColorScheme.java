@@ -64,7 +64,7 @@ public abstract class ColorScheme
 	 */
 	public static ArrayList<ColorSummary> getStandardColorSummaries()
 	{
-		ArrayList<ColorSummary> colors = new ArrayList<ColorSummary>();
+		ArrayList<ColorSummary> colors = new ArrayList<>();
 
 		colors.add(new ColorSummary(Prefs.visColorBackground,
 			RB.getString("gui.visualization.colors.ColorScheme.background")));

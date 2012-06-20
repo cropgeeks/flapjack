@@ -29,7 +29,7 @@ public class AlleleStatistics extends SimpleJob
 	{
 		int viewCount = viewSet.getViews().size();
 
-		results = new ArrayList<int[]>(viewCount);
+		results = new ArrayList<>();
 
 		// TODO: This could be multi-core optimized
 		for (GTView view: viewSet.getViews())

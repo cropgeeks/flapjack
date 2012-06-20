@@ -15,7 +15,7 @@ import scri.commons.gui.*;
 public class WinMainStatusBar extends JPanel
 {
 	private JLabel tipsLabel, helpLabel;
-	private ArrayList<String> helpHints = new ArrayList<String>();
+	private ArrayList<String> helpHints = new ArrayList<>();
 
 	private JLabel threadLabel;
 

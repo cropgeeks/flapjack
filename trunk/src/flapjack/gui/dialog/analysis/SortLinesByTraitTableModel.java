@@ -31,7 +31,7 @@ class SortLinesByTraitTableModel extends AbstractTableModel
 		};
 
 		// Initialize the data we'll be showing
-		rows = new ArrayList<TableRow>();
+		rows = new ArrayList<>();
 
 		// Pre-fill the first row if we can
 		if (traits.size() > 0)
@@ -82,7 +82,7 @@ class SortLinesByTraitTableModel extends AbstractTableModel
 
 	JComboBox getTraitComboBox()
 	{
-		JComboBox<TraitEntry> combo = new JComboBox<TraitEntry>();
+		JComboBox<TraitEntry> combo = new JComboBox<>();
 
 		for (int i = 0; i < traits.size(); i++)
 			combo.addItem(new TraitEntry(i, traits.get(i).getName()));

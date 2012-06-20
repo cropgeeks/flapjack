@@ -14,7 +14,7 @@ import scri.commons.gui.*;
 
 public class ABHDataColorScheme extends ColorScheme
 {
-	protected ArrayList<ColorState> states = new ArrayList<ColorState>();
+	protected ArrayList<ColorState> states = new ArrayList<>();
 
 	/** Empty constructor that is ONLY used for color customization purposes. */
 	public ABHDataColorScheme() {}
@@ -91,7 +91,7 @@ public class ABHDataColorScheme extends ColorScheme
 
 	public ArrayList<ColorSummary> getColorSummaries()
 	{
-		ArrayList<ColorSummary> colors = new ArrayList<ColorSummary>();
+		ArrayList<ColorSummary> colors = new ArrayList<>();
 
 		colors.add(new ColorSummary(Prefs.visColorABH_A,
 			RB.getString("gui.visualization.colors.ABHColorScheme.a")));

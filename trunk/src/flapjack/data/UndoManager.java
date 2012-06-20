@@ -10,7 +10,7 @@ import java.util.*;
  */
 public class UndoManager
 {
-	private LinkedList<IUndoState> stack = new LinkedList<IUndoState>();
+	private LinkedList<IUndoState> stack = new LinkedList<>();
 
 	// The pointer should always be pointing to the most recent undo state that
 	// can be applied
