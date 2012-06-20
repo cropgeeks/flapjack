@@ -17,7 +17,7 @@ public class Trait extends XMLRoot
 	private static NumberFormat nf = NumberFormat.getInstance();
 
 	private String name;
-	private ArrayList<String> categories = new ArrayList<String>();
+	private ArrayList<String> categories = new ArrayList<>();
 
 	private String experiment;
 

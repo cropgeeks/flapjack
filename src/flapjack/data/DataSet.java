@@ -10,8 +10,8 @@ public class DataSet extends XMLRoot
 	private String name;
 
 	// Data information
-	private ArrayList<ChromosomeMap> chromosomes = new ArrayList<ChromosomeMap>();
-	private ArrayList<Line> lines = new ArrayList<Line>();
+	private ArrayList<ChromosomeMap> chromosomes = new ArrayList<>();
+	private ArrayList<Line> lines = new ArrayList<>();
 
 	// Dummy line data (can be used whenever we need a 'placeholder' line
 	private Line dummyLine;
@@ -21,11 +21,11 @@ public class DataSet extends XMLRoot
 	private Line splitter;
 
 	// Trait information
-	private ArrayList<Trait> traits = new ArrayList<Trait>();
+	private ArrayList<Trait> traits = new ArrayList<>();
 
 	// View information
 	private StateTable stateTable = new StateTable(0);
-	private ArrayList<GTViewSet> viewSets = new ArrayList<GTViewSet>();
+	private ArrayList<GTViewSet> viewSets = new ArrayList<>();
 
 	// DB-link/association data
 	private DBAssociation dbAssociation = new DBAssociation();

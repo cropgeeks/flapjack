@@ -16,7 +16,7 @@ public class RandomColorScheme extends ColorScheme
 {
 	private int type;
 
-	private ArrayList<ColorState> states = new ArrayList<ColorState>();
+	private ArrayList<ColorState> states = new ArrayList<>();
 
 	/** Constructor that is ONLY used for color customization purposes. */
 	public RandomColorScheme(int type)
@@ -30,7 +30,7 @@ public class RandomColorScheme extends ColorScheme
 		this.type = type;
 
 		// Temp storage for the colors as we "invent" them
-		Hashtable<String, Color> hashtable = new Hashtable<String, Color>();
+		Hashtable<String, Color> hashtable = new Hashtable<>();
 
 		// Use white for the default unknown state
 		AlleleState state = stateTable.getAlleleState(0);
@@ -150,7 +150,7 @@ public class RandomColorScheme extends ColorScheme
 	}
 
 	public ArrayList<ColorSummary> getColorSummaries()
-		{ return new ArrayList<ColorSummary>(); }
+		{ return new ArrayList<>(); }
 
 	public void setColorSummaries(ArrayList<ColorSummary> colors) {}
 }

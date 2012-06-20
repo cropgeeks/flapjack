@@ -20,7 +20,7 @@ public class FindLine extends StringFinder
 
 	public LinkedList<Result> search(String str)
 	{
-		LinkedList<Result> results = new LinkedList<Result>();
+		LinkedList<Result> results = new LinkedList<>();
 
 		// Loop over all lines, looking for matches...
 		for (int index = 0; index < view.lineCount(); index++)

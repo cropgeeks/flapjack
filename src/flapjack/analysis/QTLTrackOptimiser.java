@@ -47,8 +47,7 @@ public class QTLTrackOptimiser
 
 	public ArrayList<ArrayList<FeatureGroup>> getTracks(int size, GTView view)
 	{
-		ArrayList<ArrayList<FeatureGroup>> tracks = new
-			ArrayList<ArrayList<FeatureGroup>>();
+		ArrayList<ArrayList<FeatureGroup>> tracks = new	ArrayList<>();
 
 		ArrayList<QTLInfo> QTLInfos = view.getQTLs();
 

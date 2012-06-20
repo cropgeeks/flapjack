@@ -33,8 +33,8 @@ class ListPanel extends JPanel
 
 	private void createControls()
 	{
-		model = new DefaultListModel<LineInfo>();
-		lineList = new JList<LineInfo>(model);
+		model = new DefaultListModel<>();
+		lineList = new JList<>(model);
 		lineList.setCellRenderer(new ListRenderer());
 		lineList.setEnabled(false);
 

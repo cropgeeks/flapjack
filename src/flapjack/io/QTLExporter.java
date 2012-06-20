@@ -33,7 +33,7 @@ public class QTLExporter extends SimpleJob
 		throws Exception
 	{
 		// Get the list of QTL
-		ArrayList<QTL> qtls = new ArrayList<QTL>();
+		ArrayList<QTL> qtls = new ArrayList<>();
 
 		// Scan each chromosome
 		for (ChromosomeMap cMap: dataSet.getChromosomeMaps())

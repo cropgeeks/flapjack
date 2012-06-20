@@ -97,7 +97,7 @@ public class GenotypeDataImporter
 	{
 		long s = System.currentTimeMillis();
 
-		lines = new HashMap<String, Line>();
+		lines = new HashMap<>();
 
 		is = new ProgressInputStream(new FileInputStream(file));
 
@@ -225,7 +225,7 @@ public class GenotypeDataImporter
 	{
 		long s = System.currentTimeMillis();
 
-		lines = new HashMap<String, Line>();
+		lines = new HashMap<>();
 
 		is = new ProgressInputStream(new FileInputStream(file));
 
