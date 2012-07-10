@@ -399,12 +399,12 @@ class NavPanel extends JPanel
 	private static JLabel getCIMMYTLabel()
 	{
 		HyperLinkLabel huttonLabel = new HyperLinkLabel();
-		huttonLabel.setIcon(Icons.getIcon("CIMMYT"));
-		huttonLabel.setBorder(BorderFactory.createEmptyBorder(65, 10, 0, 10));
+		huttonLabel.setIcon(Icons.getIcon("MASAGRO"));
+		huttonLabel.setBorder(BorderFactory.createEmptyBorder(65, 0, 0, 10));
 
 		huttonLabel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				FlapjackUtils.visitURL("http://www.cimmyt.org");
+				FlapjackUtils.visitURL("http://masagro.cimmyt.org");
 			}
 		});
 

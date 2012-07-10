@@ -56,7 +56,7 @@ public class ChromosomeMapImporter
 			if (str.length() == 0 || str.startsWith("#"))
 				continue;
 
-			String[] tokens = str.split("\t");
+			String[] tokens = str.trim().split("\t");
 
 			if (tokens.length != 3)
 				throw new DataFormatException(RB.format("io.DataFormatException.mapTokenError", file, tokens.length, linesRead));
