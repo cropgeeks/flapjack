@@ -41,7 +41,7 @@ class AboutPanelNB extends javax.swing.JPanel implements ActionListener
 		jhiIcon.setText("");
 		jhiIcon.setIcon(Icons.getIcon("ABOUT"));
 		cimmytIcon.setText("");
-		cimmytIcon.setIcon(Icons.getIcon("ABOUT-CIMMYT"));
+		cimmytIcon.setIcon(Icons.getIcon("ABOUT-MASAGRO"));
 	}
 
 	private void initWebStuff()
@@ -58,7 +58,7 @@ class AboutPanelNB extends javax.swing.JPanel implements ActionListener
 		cimmytIcon.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent event)
 			{
-				FlapjackUtils.visitURL("http://www.cimmyt.org");
+				FlapjackUtils.visitURL("http://masagro.cimmyt.org");
 			}
 		});
 	}

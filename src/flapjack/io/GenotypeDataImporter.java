@@ -116,7 +116,7 @@ public class GenotypeDataImporter
 
 		// Split the first line up into an array of marker names (we ignore the
 		// first element as it's a redundant column header: i=1 in loop below)
-		String[] markerNames = str.split("\t");
+		String[] markerNames = str.trim().split("\t");
 
 		// Now work out the map indices of these markers and the indices within
 		// the map itself. This speeds up loading by pre-caching this data so we
@@ -154,7 +154,7 @@ public class GenotypeDataImporter
 				s = System.currentTimeMillis();
 			}
 
-			String[] values = str.split("\t");
+			String[] values = str.trim().split("\t");
 
 			if (values.length == 0)
 				continue;
@@ -243,7 +243,7 @@ public class GenotypeDataImporter
 		}
 
 		// Split the first line into line names
-		String [] lineNames = str.split("\t");
+		String [] lineNames = str.trim().split("\t");
 
 		// Loop over the line names ensuring there are no duplicates
 		for (int i = 1; i < lineNames.length && isOK; i++)
@@ -272,7 +272,7 @@ public class GenotypeDataImporter
 				s = System.currentTimeMillis();
 			}
 
-			String[] values = str.split("\t");
+			String[] values = str.trim().split("\t");
 
 			if (values.length == 0)
 				continue;

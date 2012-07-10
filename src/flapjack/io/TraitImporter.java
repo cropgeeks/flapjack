@@ -50,14 +50,14 @@ public class TraitImporter extends SimpleJob
 
 
 		// Parse the first line and determine what the names for the traits are
-		String[] traitNames = str.split("\t");
+		String[] traitNames = str.trim().split("\t");
 		for (int i = 1; i < traitNames.length; i++)
 			traits.add(new Trait(traitNames[i]));
 
 
 		for (int line = 2; (str = in.readLine()) != null && okToRun; line++)
 		{
-			String[] tokens = str.split("\t", -1);
+			String[] tokens = str.trim().split("\t", -1);
 
 			// Special case to handle the *optional* 2nd line that contains
 			// experiment labelling for each trait

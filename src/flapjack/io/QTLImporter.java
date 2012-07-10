@@ -67,7 +67,7 @@ public class QTLImporter extends SimpleJob
 			str = in.readLine();
 
 		// Read and process the header (column title) line
-		String[] tokens = str.split("\t", -1);
+		String[] tokens = str.trim().split("\t", -1);
 
 		// Work out how many additional "data score" headers there are
 		String[] scoreHeaders = new String[tokens.length-HEADERCOUNT];
@@ -81,7 +81,7 @@ public class QTLImporter extends SimpleJob
 			if (str.length() == 0 || str.startsWith("#"))
 				continue;
 
-			tokens = str.split("\t", -1);
+			tokens = str.trim().split("\t", -1);
 
 			// Fail if the data per line doesn't match the expected number
 			if (tokens.length != HEADERCOUNT + scoreHeaders.length)
