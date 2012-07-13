@@ -243,7 +243,7 @@ public class GenotypeDataImporter
 		}
 
 		// Split the first line into line names
-		String [] lineNames = str.trim().split("\t");
+		String [] lineNames = str.split("\t");
 
 		// Loop over the line names ensuring there are no duplicates
 		for (int i = 1; i < lineNames.length && isOK; i++)
