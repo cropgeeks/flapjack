@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<install4j version="5.1.1" transformSequenceNumber="4">
+<install4j version="5.1.2" transformSequenceNumber="4">
   <directoryPresets config="../keys/OS201206262249.pfx" />
   <application name="Flapjack" distributionSourceDir="" applicationId="9131-7045-2417-5931" mediaDir="." mediaFilePattern="${compiler:sys.shortName}_${compiler:sys.platform}_${compiler:sys.version}" compression="6" lzmaCompression="false" pack200Compression="false" excludeSignedFromPacking="true" commonExternalFiles="false" createMd5Sums="true" shrinkRuntime="true" shortName="flapjack" publisher="The James Hutton Institute" publisherWeb="http://www.hutton.ac.uk" version="x.xx.xx.xx" allPathsRelative="true" backupOnSave="false" autoSave="false" convertDotsToUnderscores="true" macSignature="????" installerName="" javaMinVersion="1.7" javaMaxVersion="" allowBetaVM="false" jdkMode="runtimeJre" jdkName="">
     <languages skipLanguageSelection="true" languageSelectionInPrincipalLanguage="false">
@@ -19,7 +19,7 @@
       <variable name="changeLog" value="Show Change Log" description="" category="" />
     </variables>
     <mergedProjects />
-    <codeSigning macEnabled="true" macPkcs12File="../keys/OS201206262249.pfx" windowsEnabled="true" windowsKeySource="pkcs12" windowsPvkFile="" windowsSpcFile="" windowsPkcs12File="../keys/OS201206262249.pfx" />
+    <codeSigning macEnabled="false" macPkcs12File="../keys/OS201206262249.pfx" windowsEnabled="true" windowsKeySource="pkcs12" windowsPvkFile="" windowsSpcFile="" windowsPkcs12File="../keys/OS201206262249.pfx" />
   </application>
   <files keepModificationTimes="false" missingFilesStrategy="warn" globalExcludeSuffixes="" defaultOverwriteMode="4" defaultUninstallMode="0" launcherOverwriteMode="3" defaultFileMode="644" defaultDirMode="755">
     <filesets />
@@ -41,7 +41,7 @@
     <components />
   </files>
   <launchers>
-    <launcher name="flapjack" id="18" customizedId="" external="false" excludeFromMenu="false" unixMode="755" menuName="Flapjack" icnsFile="../res/icons/flapjack.icns" swtApp="false" fileset="">
+    <launcher name="flapjack" id="18" customizedId="" external="false" excludeFromMenu="false" unixMode="755" menuName="Flapjack" icnsFile="../res/icons/flapjack.icns" customMacBundleIdentifier="false" macBundleIdentifier="" swtApp="false" fileset="">
       <executable name="flapjack" type="1" iconSet="true" iconFile="" executableDir="." redirectStderr="true" stderrFile="${installer:sys.userHome}/.scri-bioinf/flapjack.log" stderrMode="overwrite" redirectStdout="true" stdoutFile="${installer:sys.userHome}/.scri-bioinf/flapjack.log" stdoutMode="overwrite" failOnStderrOutput="true" executableMode="1" changeWorkingDirectory="true" workingDirectory="." singleInstance="false" serviceStartType="2" serviceDependencies="" serviceDescription="" jreLocation="" executionLevel="asInvoker" checkConsoleParameter="false" globalSingleInstance="false">
         <versionInfo include="true" fileVersion="" fileDescription="Flapjack" legalCopyright="Plant Bioinformatics Group, JHI" internalName="Flapjack" productName="Flapjack" />
       </executable>
@@ -72,7 +72,7 @@
         <file path="../res/icons/flapjack.png" />
       </iconImageFiles>
     </launcher>
-    <launcher name="createproject" id="797" customizedId="" external="false" excludeFromMenu="true" unixMode="755" menuName="" icnsFile="../res/icons/flapjack.icns" swtApp="false" fileset="">
+    <launcher name="createproject" id="797" customizedId="" external="false" excludeFromMenu="true" unixMode="755" menuName="" icnsFile="../res/icons/flapjack.icns" customMacBundleIdentifier="false" macBundleIdentifier="" swtApp="false" fileset="">
       <executable name="createproject" type="1" iconSet="false" iconFile="" executableDir="." redirectStderr="false" stderrFile="output.log" stderrMode="overwrite" redirectStdout="false" stdoutFile="output.log" stdoutMode="overwrite" failOnStderrOutput="true" executableMode="2" changeWorkingDirectory="true" workingDirectory="." singleInstance="false" serviceStartType="2" serviceDependencies="" serviceDescription="" jreLocation="" executionLevel="asInvoker" checkConsoleParameter="false" globalSingleInstance="false">
         <versionInfo include="false" fileVersion="" fileDescription="" legalCopyright="" internalName="" productName="" />
       </executable>
@@ -104,7 +104,7 @@
         <file path="../res/icons/flapjack.png" />
       </iconImageFiles>
     </launcher>
-    <launcher name="splitproject" id="1321" customizedId="" external="false" excludeFromMenu="true" unixMode="755" menuName="" icnsFile="../res/icons/flapjack.icns" swtApp="false" fileset="">
+    <launcher name="splitproject" id="1321" customizedId="" external="false" excludeFromMenu="true" unixMode="755" menuName="" icnsFile="../res/icons/flapjack.icns" customMacBundleIdentifier="false" macBundleIdentifier="" swtApp="false" fileset="">
       <executable name="splitproject" type="1" iconSet="false" iconFile="" executableDir="." redirectStderr="false" stderrFile="output.log" stderrMode="overwrite" redirectStdout="false" stdoutFile="output.log" stdoutMode="overwrite" failOnStderrOutput="true" executableMode="2" changeWorkingDirectory="true" workingDirectory="." singleInstance="false" serviceStartType="2" serviceDependencies="" serviceDescription="" jreLocation="" executionLevel="asInvoker" checkConsoleParameter="false" globalSingleInstance="false">
         <versionInfo include="false" fileVersion="" fileDescription="" legalCopyright="" internalName="" productName="" />
       </executable>

@@ -61,6 +61,9 @@ class ExportDataPanelNB extends JPanel implements ActionListener
 				+ view.countGenuineMarkers();
 			data[i][3] = view.countSelectedLines() + " / "
 				+ view.lineCount();
+
+			if (view.getChromosomeMap().isSpecialChromosome())
+				data[i][0] = new Boolean(false);
 		}
 
 		table.setModel(new DefaultTableModel(data, columnNames)
