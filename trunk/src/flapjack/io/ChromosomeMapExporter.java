@@ -48,8 +48,8 @@ public class ChromosomeMapExporter extends SimpleJob
 				continue;
 
 			// Skip any "super" chromosomes
-			if (view.getChromosomeMap().isSpecialChromosome())
-				continue;
+//			if (view.getChromosomeMap().isSpecialChromosome())
+//				continue;
 
 			// ...and for each marker within the current chromosome...
 			for (int i = 0; i < view.markerCount() && okToRun; i++, progress++)
