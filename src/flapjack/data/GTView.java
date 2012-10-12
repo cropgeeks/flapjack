@@ -20,11 +20,11 @@ public class GTView extends XMLRoot
 
 	// Holds the index positions of the markers as they appear in the actual
 	// dataset's vector of markers
-	private ArrayList<MarkerInfo> markers = new ArrayList<>();
+	private ArrayList<MarkerInfo> markers = new ArrayList<MarkerInfo>();
 	// Holds markers that we don't currently want visible
-	private ArrayList<MarkerInfo> hideMarkers = new ArrayList<>();
+	private ArrayList<MarkerInfo> hideMarkers = new ArrayList<MarkerInfo>();
 
-	private ArrayList<QTLInfo> qtls = new ArrayList<>();
+	private ArrayList<QTLInfo> qtls = new ArrayList<QTLInfo>();
 
 	// Marker and line currently under the mouse (-1 if not)
 	public int mouseOverLine = -1;
@@ -51,7 +51,7 @@ public class GTView extends XMLRoot
 		this.map = map;
 
 		// For each (original) marker in the map...
-		markers = new ArrayList<>(map.countLoci());
+		markers = new ArrayList<MarkerInfo>(map.countLoci());
 		for (int i = 0; i < map.countLoci(); i++)
 		{
 			Marker m = map.getMarkerByIndex(i);
@@ -126,7 +126,7 @@ public class GTView extends XMLRoot
 	public void cacheLines()
 	{
 		// Now cache as much data as possible to help speed rendering
-		genotypeLines = new ArrayList<>(viewSet.lines.size());
+		genotypeLines = new ArrayList<GenotypeData>(viewSet.lines.size());
 
 		for (int i = 0; i < viewSet.lines.size(); i++)
 		{
@@ -339,7 +339,7 @@ public class GTView extends XMLRoot
 			clone.setMarkersFromArray(getMarkersAsArray(false), false);
 
 		// Clone the QTLInfos
-		ArrayList<QTLInfo> clonedQTLs = new ArrayList<>();
+		ArrayList<QTLInfo> clonedQTLs = new ArrayList<QTLInfo>();
 		for (QTLInfo qtl: qtls)
 			clonedQTLs.add(new QTLInfo(qtl.getQTL(), qtl.getIndex(), qtl.getMapOffset()));
 		clone.setQTLs(clonedQTLs);

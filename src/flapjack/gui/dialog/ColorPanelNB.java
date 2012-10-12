@@ -48,7 +48,7 @@ class ColorPanelNB extends JPanel implements ActionListener
 		addMouseListener(schemeList);
 
 		// Add the various colour schemes to the combo box
-		comboModel = new DefaultComboBoxModel<>();
+		comboModel = new DefaultComboBoxModel<ColorScheme>();
 		comboModel.addElement(new NucleotideColorScheme());
 //		comboModel.addElement(new ABHDataColorScheme());
 		comboModel.addElement(new SimpleTwoColorScheme());
@@ -77,7 +77,7 @@ class ColorPanelNB extends JPanel implements ActionListener
 
 	private void initStandardList()
 	{
-		standardModel = new DefaultListModel<>();
+		standardModel = new DefaultListModel<ColorScheme.ColorSummary>();
 
 		for (ColorScheme.ColorSummary summary: ColorScheme.getStandardColorSummaries())
 			standardModel.addElement(summary);
@@ -92,7 +92,7 @@ class ColorPanelNB extends JPanel implements ActionListener
 		infoText.setText(cs.getDescription());
 		infoText.setCaretPosition(0);
 
-		schemeModel = new DefaultListModel<>();
+		schemeModel = new DefaultListModel<ColorScheme.ColorSummary>();
 
 		for (ColorScheme.ColorSummary summary: cs.getColorSummaries())
 			schemeModel.addElement(summary);
@@ -138,7 +138,7 @@ class ColorPanelNB extends JPanel implements ActionListener
 
 	private ArrayList<ColorScheme.ColorSummary> getVector(DefaultListModel model)
 	{
-		ArrayList<ColorScheme.ColorSummary> colors = new ArrayList<>();
+		ArrayList<ColorScheme.ColorSummary> colors = new ArrayList<ColorScheme.ColorSummary>();
 		for (int i = 0; i < model.size(); i++)
 			colors.add((ColorScheme.ColorSummary)model.get(i));
 

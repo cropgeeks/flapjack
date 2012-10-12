@@ -14,7 +14,7 @@ import scri.commons.gui.*;
 
 class NewViewPanelNB extends javax.swing.JPanel implements ActionListener
 {
-	private DefaultComboBoxModel<GTViewSet> model = new DefaultComboBoxModel<>();
+	private DefaultComboBoxModel<GTViewSet> model = new DefaultComboBoxModel<GTViewSet>();
 
 	public NewViewPanelNB(DataSet dataSet, GTViewSet currentViewSet)
 	{

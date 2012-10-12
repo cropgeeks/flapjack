@@ -14,7 +14,7 @@ import scri.commons.gui.*;
 
 public class SimpleTwoColorScheme extends ColorScheme
 {
-	protected ArrayList<ColorState> states = new ArrayList<>();
+	protected ArrayList<ColorState> states = new ArrayList<ColorState>();
 
 	/** Empty constructor that is ONLY used for color customization purposes. */
 	public SimpleTwoColorScheme() {}
@@ -108,7 +108,7 @@ public class SimpleTwoColorScheme extends ColorScheme
 
 	public ArrayList<ColorSummary> getColorSummaries()
 	{
-		ArrayList<ColorSummary> colors = new ArrayList<>();
+		ArrayList<ColorSummary> colors = new ArrayList<ColorSummary>();
 
 		colors.add(new ColorSummary(Prefs.visColorSimple2State1,
 			RB.getString("gui.visualization.colors.SimpleTwoColorScheme.state1")));

@@ -21,7 +21,7 @@ public class SerializerV04 extends SerializerV03
 
 		ChromosomeMap map = viewSet.getDataSet().getChromosomeMaps().get(index);
 
-		ArrayList<QTLInfo> qtls = new ArrayList<>();
+		ArrayList<QTLInfo> qtls = new ArrayList<QTLInfo>();
 
 		// Number of qtlinfos
 		int qtlCount = in.readInt();

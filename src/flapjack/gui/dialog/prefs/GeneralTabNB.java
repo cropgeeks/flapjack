@@ -28,7 +28,7 @@ class GeneralTabNB extends JPanel implements IPrefsTab
 		RB.setText(displayLabel, "gui.dialog.prefs.NBGeneralPanel.displayLabel");
 		RB.setText(checkDecimal, "gui.dialog.prefs.NBGeneralPanel.checkDecimal");
 
-        displayModel = new DefaultComboBoxModel<>();
+        displayModel = new DefaultComboBoxModel<String>();
         displayModel.addElement(RB.getString("gui.dialog.prefs.NBGeneralPanel.auto"));
         displayModel.addElement(RB.getString("gui.dialog.prefs.NBGeneralPanel.en_GB"));
         displayModel.addElement(RB.getString("gui.dialog.prefs.NBGeneralPanel.en_US"));
@@ -39,7 +39,7 @@ class GeneralTabNB extends JPanel implements IPrefsTab
         // Update settings
         RB.setText(updateLabel, "gui.dialog.prefs.NBGeneralPanel.updateLabel");
 
-        updateModel = new DefaultComboBoxModel<>();
+        updateModel = new DefaultComboBoxModel<String>();
         updateModel.addElement(RB.getString("gui.dialog.prefs.NBGeneralPanel.updateNever"));
         updateModel.addElement(RB.getString("gui.dialog.prefs.NBGeneralPanel.updateStartup"));
         updateModel.addElement(RB.getString("gui.dialog.prefs.NBGeneralPanel.updateDaily"));

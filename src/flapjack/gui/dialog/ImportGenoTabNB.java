@@ -18,8 +18,8 @@ class ImportGenoTabNB extends javax.swing.JPanel implements ActionListener
 {
 	private JDialog parent;
 
-	LinkedList<String> recentMapFiles = new LinkedList<>();
-	LinkedList<String> recentGenoFiles = new LinkedList<>();
+	LinkedList<String> recentMapFiles = new LinkedList<String>();
+	LinkedList<String> recentGenoFiles = new LinkedList<String>();
 
 	ImportGenoTabNB(JDialog parent)
 	{

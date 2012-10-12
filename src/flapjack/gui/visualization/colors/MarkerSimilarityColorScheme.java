@@ -77,7 +77,7 @@ public class MarkerSimilarityColorScheme extends SimilarityColorScheme
 
 	public ArrayList<ColorSummary> getColorSummaries()
 	{
-		ArrayList<ColorSummary> colors = new ArrayList<>();
+		ArrayList<ColorSummary> colors = new ArrayList<ColorSummary>();
 
 		colors.add(new ColorSummary(Prefs.visColorSimilarityState1Dark,
 			RB.getString("gui.visualization.colors.MarkerSimilarityColorScheme.state1Dark")));

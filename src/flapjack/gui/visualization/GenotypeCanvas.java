@@ -64,7 +64,7 @@ class GenotypeCanvas extends JPanel
 
 	// A list of renderers that will perform further drawing once the main
 	// canvas has been drawn (eg animators, minesweeper, etc)
-	LinkedList<IOverlayRenderer> overlays = new LinkedList<>();
+	LinkedList<IOverlayRenderer> overlays = new LinkedList<IOverlayRenderer>();
 
 	// Objects for multicore rendering
 	private int cores = Runtime.getRuntime().availableProcessors();

@@ -7,7 +7,7 @@ import java.util.*;
 
 public class StateTable extends XMLRoot
 {
-	private ArrayList<AlleleState> states = new ArrayList<>();
+	private ArrayList<AlleleState> states = new ArrayList<AlleleState>();
 
 	public StateTable()
 	{
@@ -165,7 +165,7 @@ public class StateTable extends XMLRoot
 	 */
 	public int calculateUniqueStateCount()
 	{
-		Hashtable<String, String> hashtable = new Hashtable<>();
+		Hashtable<String, String> hashtable = new Hashtable<String, String>();
 
 		for (AlleleState state: states)
 		{
