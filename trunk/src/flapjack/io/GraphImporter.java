@@ -26,15 +26,15 @@ public class GraphImporter extends SimpleJob
 	// Temporary object to hold a lookup table of marker data - each element is
 	// actually a LIST of markerIndex objects, because marker (names) can be
 	// repeated multiple times if super-chromosomes are in use
-	protected HashMap<String, MarkerList> markers = new HashMap<>();
+	protected HashMap<String, MarkerList> markers = new HashMap<String, MarkerList>();
 
 	// Temporary object to track which graphs exist - needed to ensure every
 	// graph will exist across every chromosome, just in case some chromosomes
 	// don't have markers with graph values (also stores significance)
-	protected HashMap<String, Float> names = new HashMap<>();
+	protected HashMap<String, Float> names = new HashMap<String, Float>();
 
 	// Stores the graphs while loading occurs: index is "CHROMOSOMEINDEX_GRAPH"
-	protected HashMap<String, GraphData> graphs = new HashMap<>();
+	protected HashMap<String, GraphData> graphs = new HashMap<String, GraphData>();
 
 
 	public GraphImporter(File file, DataSet dataSet)
@@ -219,7 +219,7 @@ public class GraphImporter extends SimpleJob
 
 	private static class MarkerList
 	{
-		ArrayList<MarkerIndex> markers = new ArrayList<>();
+		ArrayList<MarkerIndex> markers = new ArrayList<MarkerIndex>();
 
 		MarkerList(MarkerIndex mi)
 		{

@@ -110,7 +110,7 @@ public class GenotypePanel extends JPanel implements ActionListener
 
 	private void createControls(WinMain winMain)
 	{
-		combo = new JComboBox<>();
+		combo = new JComboBox<ChromosomeMap>();
 		combo.setRenderer(new ComboRenderer());
 		RB.setText(chromoLabel, "gui.visualization.GenotypePanel.chromoLabel");
 		chromoLabel.setLabelFor(combo);

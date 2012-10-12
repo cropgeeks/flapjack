@@ -17,7 +17,7 @@ public class TraitImporter extends SimpleJob
 	private File file;
 	private DataSet dataSet;
 
-	private ArrayList<Trait> traits = new ArrayList<>();
+	private ArrayList<Trait> traits = new ArrayList<Trait>();
 
 	// While reading the file, we store the trait values in a temp hashtable so
 	// no association with the line data happens until we're sure everything has
@@ -32,7 +32,7 @@ public class TraitImporter extends SimpleJob
 		this.file = file;
 		this.dataSet = dataSet;
 
-		hashtable = new Hashtable<>();
+		hashtable = new Hashtable<String, ArrayList<TraitValue>>();
 
 		maximum = 5555;
 	}
@@ -77,7 +77,7 @@ public class TraitImporter extends SimpleJob
 				throw new DataFormatException(RB.format("io.DataFormatException.traitColumnError", line));
 
 			String lineName = tokens[0];
-			ArrayList<TraitValue> values = new ArrayList<>();
+			ArrayList<TraitValue> values = new ArrayList<TraitValue>();
 
 			// For each column...
 			for (int i = 1; i < tokens.length; i++)

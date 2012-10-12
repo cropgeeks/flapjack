@@ -8,7 +8,7 @@ import java.util.*;
 /** NOT an XML document element (ie, never saved to a .flapjack project) */
 public class FeatureGroup implements Iterable<QTLInfo>
 {
-	private ArrayList<QTLInfo> qtls = new ArrayList<>();
+	private ArrayList<QTLInfo> qtls = new ArrayList<QTLInfo>();
 
 	private float min, max;
 

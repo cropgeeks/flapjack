@@ -9,10 +9,10 @@ public class Line extends XMLRoot
 {
 	private String name;
 
-	private ArrayList<GenotypeData> genotypes = new ArrayList<>();
+	private ArrayList<GenotypeData> genotypes = new ArrayList<GenotypeData>();
 
 	// Trait information (one trait value per trait associated with this line)
-	private ArrayList<TraitValue> traitValues = new ArrayList<>();
+	private ArrayList<TraitValue> traitValues = new ArrayList<TraitValue>();
 
 	public Line()
 	{

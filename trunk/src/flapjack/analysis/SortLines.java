@@ -35,7 +35,7 @@ abstract class SortLines extends SimpleJob
 		int splitter = view.getSplitterIndex();
 
 		// Store the lines up to the splitter for later use
-		ArrayList<LineInfo> splitLines = new ArrayList<>();
+		ArrayList<LineInfo> splitLines = new ArrayList<LineInfo>();
 		for (int i=0; i <= splitter; i++)
 			splitLines.add(view.getLineInfo(i));
 

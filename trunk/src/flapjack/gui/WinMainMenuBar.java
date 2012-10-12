@@ -462,7 +462,7 @@ public class WinMainMenuBar extends JMenuBar
 	void createRecentMenu(FlapjackFile file)
 	{
 		// Begin by making a list of the recent file locations
-		LinkedList<String> entries = new LinkedList<>();
+		LinkedList<String> entries = new LinkedList<String>();
 		entries.add(Prefs.guiRecentProject1);
 		entries.add(Prefs.guiRecentProject2);
 		entries.add(Prefs.guiRecentProject3);

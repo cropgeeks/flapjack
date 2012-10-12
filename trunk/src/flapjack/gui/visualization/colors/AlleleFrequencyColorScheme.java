@@ -15,8 +15,8 @@ import scri.commons.gui.*;
 
 public class AlleleFrequencyColorScheme extends ColorScheme
 {
-	private ArrayList<ColorState> hiStates = new ArrayList<>();
-	private ArrayList<ColorState> loStates = new ArrayList<>();
+	private ArrayList<ColorState> hiStates = new ArrayList<ColorState>();
+	private ArrayList<ColorState> loStates = new ArrayList<ColorState>();
 
 	private float thresholdFrequency;
 
@@ -96,7 +96,7 @@ public class AlleleFrequencyColorScheme extends ColorScheme
 
 	public ArrayList<ColorSummary> getColorSummaries()
 	{
-		ArrayList<ColorSummary> colors = new ArrayList<>();
+		ArrayList<ColorSummary> colors = new ArrayList<ColorSummary>();
 
 		colors.add(new ColorSummary(Prefs.visColorLoFreqState,
 			RB.getString("gui.visualization.colors.AlleleFrequencyColorScheme.loFreqState")));
