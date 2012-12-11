@@ -151,7 +151,7 @@ public class MenuData
 
 	public void dataFilterQTLs()
 	{
-		DataSet dataSet = gPanel.getViewSet().getDataSet();
+		DataSet dataSet = navPanel.getDataSetForSelection();
 
 		winMain.filterQTLDialog = new FilterQTLsDialog(gPanel, dataSet);
 	}
