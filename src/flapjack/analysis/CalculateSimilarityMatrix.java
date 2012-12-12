@@ -122,7 +122,7 @@ public class CalculateSimilarityMatrix extends SimpleJob
 
 		public void run()
 		{
-			StateTable st = viewSet.getDataSet().getStateTable();
+			float[][] matrix = viewSet.getDataSet().getStateTable().calculateSimilarityMatrix();
 			ArrayList<LineInfo> lines = viewSet.getLines();
 
 			// For every line...
@@ -131,7 +131,7 @@ public class CalculateSimilarityMatrix extends SimpleJob
 				// Compare it against every other line...
 				for (int j = i+1; j < lines.size() && okToRun; j++, linesScored.getAndIncrement())
 				{
-					SimilarityScore ss = new SimilarityScore(viewSet, st, i, j, chromosomes);
+					SimilarityScore ss = new SimilarityScore(viewSet, matrix, i, j, chromosomes);
 					SimilarityScore.Score score = ss.getScore();
 
 					scores[i][j] = scores[j][i] = score.score;

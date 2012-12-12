@@ -43,24 +43,26 @@ public class SimilarityScoreTest extends TestCase
 	 	viewSet = new GTViewSet(dataSet, "Default View");
 	 	viewSet.getView(0).cacheLines();
 
+	 	float[][] matrix = dataSet.getStateTable().calculateSimilarityMatrix();
+
 		// Test the first line (score of 5.0, 5 comparisons)
-	 	SimilarityScore score = new SimilarityScore(viewSet, dataSet.getStateTable(), 0, 0, new boolean[] { true } );
+	 	SimilarityScore score = new SimilarityScore(viewSet, matrix, 0, 0, new boolean[] { true } );
 	 	assertEquals(score.getScore().score, 1.0f);
 
 	 	// Test the second line (score of 2.0, 5 comparisons)
-	 	score = new SimilarityScore(viewSet, dataSet.getStateTable(), 0, 1, new boolean[] { true } );
+	 	score = new SimilarityScore(viewSet, matrix, 0, 1, new boolean[] { true } );
 	 	assertEquals(score.getScore().score, 2.0f / 5f);
 
 	 	// Test the third line (score of 2.5, 5 comparisons)
-	 	score = new SimilarityScore(viewSet, dataSet.getStateTable(), 0, 2, new boolean[] { true } );
+	 	score = new SimilarityScore(viewSet, matrix, 0, 2, new boolean[] { true } );
 	 	assertEquals(score.getScore().score, 2.5f / 5f);
 
 	 	// Test the fourth line (score of 3.0, 5 comparisons)
-	 	score = new SimilarityScore(viewSet, dataSet.getStateTable(), 0, 3, new boolean[] { true } );
+	 	score = new SimilarityScore(viewSet, matrix, 0, 3, new boolean[] { true } );
 	 	assertEquals(score.getScore().score, 3.0f / 5f);
 
 	 	// Test the fifth line (score of 1.0, 5 comparisons)
-	 	score = new SimilarityScore(viewSet, dataSet.getStateTable(), 0, 4, new boolean[] { true } );
+	 	score = new SimilarityScore(viewSet, matrix, 0, 4, new boolean[] { true } );
 	 	assertEquals(score.getScore().score, 1.0f / 5f);
 	}
 }
