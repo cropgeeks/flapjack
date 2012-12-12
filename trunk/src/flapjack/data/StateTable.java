@@ -180,4 +180,44 @@ public class StateTable extends XMLRoot
 
 		return hashtable.size() - 1;
 	}
+
+	/**
+	 * Returns a similarity matrix that can be used for comparisons between
+	 * lines.
+	 */
+	public float[][] calculateSimilarityMatrix()
+	{
+		float[][] matrix = new float[states.size()][states.size()];
+		float score;
+
+		for (int i = 0; i < states.size(); i++)
+		{
+			for (int j = 0; j < states.size(); j++)
+			{
+				// If either state is unknown, score 0
+				if (i == 0 || j == 0)
+					score = 0;
+				// If they're identical, score 1
+				else if (i == j)
+					score = 1;
+
+				// Otherwise we're in an A vs A/T type of situation and need to
+				// look for possible half scores
+				else
+				{
+					AlleleState s1 = states.get(i);
+					AlleleState s2 = states.get(j);
+
+					if (s1.matchesAnyAllele(s2))
+						score = 0.5f;
+					else
+						score = 0;
+				}
+
+				matrix[i][j] = score;
+			}
+		}
+
+		return matrix;
+	}
 }

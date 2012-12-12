@@ -38,7 +38,7 @@ public class SortLinesBySimilarity extends SortLines
 	protected ArrayList<LineInfo> doSort(GTView view)
 	{
 		ArrayList<LineScore> scores = new ArrayList<LineScore>();
-		StateTable st = viewSet.getDataSet().getStateTable();
+		float[][] matrix = viewSet.getDataSet().getStateTable().calculateSimilarityMatrix();
 
 		int line = viewSet.indexOf(comparisonLine);
 		System.out.println("Sorting using line " + line + " as comparison line");
@@ -48,7 +48,7 @@ public class SortLinesBySimilarity extends SortLines
 		// Work out what those scores are
 		for (int i = 0; i < lines.size() && okToRun; i++, linesScored++)
 		{
-			SimilarityScore ss = new SimilarityScore(viewSet, st, line, i, chromosomes);
+			SimilarityScore ss = new SimilarityScore(viewSet, matrix, line, i, chromosomes);
 
 			SimilarityScore.Score score = ss.getScore();
 			scores.add(new LineScore(lines.get(i), score.score, score.nComparisons, score.data));
