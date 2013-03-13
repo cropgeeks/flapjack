@@ -15,6 +15,8 @@ public class LineInfo extends XMLRoot
 
 	// Is this line selected or not
 	boolean selected = true;
+	// Is this line a duplicate of a 'real' line or not
+	boolean duplicate = false;
 
 	// A 'score' associated with this line (probably from a sort/rank)
 	float score;
@@ -56,9 +58,35 @@ public class LineInfo extends XMLRoot
 	public void setScore(float score)
 		{ this.score = score; }
 
+	public boolean getDuplicate()
+		{ return duplicate; }
+
+	public void setDuplicate(boolean duplicate)
+		{ this.duplicate = duplicate; }
+
 
 	// Other methods
 
 	public String toString()
-		{ return line.toString(); }
+	{
+		if (!duplicate)
+			return line.toString();
+		else
+			return line.toString() + "*";
+	}
+
+	public String name()
+	{
+		return toString();
+	}
+
+	LineInfo makeDuplicate()
+	{
+		LineInfo duplicate = new LineInfo(line, index);
+		duplicate.selected = selected;
+		duplicate.duplicate = true;
+		duplicate.score = score;
+
+		return duplicate;
+	}
 }

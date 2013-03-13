@@ -27,6 +27,8 @@ public class CanvasMenu
 	private JMenuItem mDeleteLine;
 	private JMenuItem mInsertSplitter;
 	private JMenuItem mRemoveSplitter;
+	private JMenuItem mDuplicateLine;
+	private JMenuItem mDuplicateLineRemove;
 	private JCheckBoxMenuItem mShowGenotypes;
 	private JCheckBoxMenuItem mHighlightHZ;
 	private JCheckBoxMenuItem mHighlightGaps;
@@ -74,6 +76,8 @@ public class CanvasMenu
 		mBookmark = WinMainMenuBar.getItem(Actions.viewBookmark, "gui.Actions.viewBookmark", 0, 0);
 		mInsertLine = WinMainMenuBar.getItem(Actions.editInsertLine, "gui.Actions.editInsertLine", 0, 0);
 		mDeleteLine = WinMainMenuBar.getItem(Actions.editDeleteLine, "gui.Actions.editDeleteLine", 0, 0);
+		mDuplicateLine = WinMainMenuBar.getItem(Actions.editDuplicateLine, "gui.Actions.editDuplicateLine", 0, 0);
+		mDuplicateLineRemove = WinMainMenuBar.getItem(Actions.editDuplicateLineRemove, "gui.Actions.editDuplicateLineRemove", 0, 0);
 		mInsertSplitter = WinMainMenuBar.getItem(Actions.editInsertSplitter, "gui.Actions.editInsertLine", 0, 0);
 		mRemoveSplitter = WinMainMenuBar.getItem(Actions.editDeleteSplitter, "gui.Actions.editDeleteLine", 0, 0);
 		mShowGenotypes = WinMainMenuBar.getCheckedItem(Actions.vizOverlayGenotypes, "gui.Actions.vizOverlayGenotypes", KeyEvent.VK_G, menuShortcut);
@@ -100,6 +104,9 @@ public class CanvasMenu
 		mSplitLines = new JMenu(RB.getString("gui.CanvasMenu.mSplitLines"));
 		mSplitLines.add(mInsertLine);
 		mSplitLines.add(mDeleteLine);
+		mSplitLines.addSeparator();
+		mSplitLines.add(mDuplicateLine);
+		mSplitLines.add(mDuplicateLineRemove);
 		mSplitLines.addSeparator();
 		mSplitLines.add(mInsertSplitter);
 		mSplitLines.add(mRemoveSplitter);
@@ -183,7 +190,15 @@ public class CanvasMenu
 		else
 			mRemoveSplitter.setEnabled(false);
 
+		// Can you delete a dummy line from this click?
 		mDeleteLine.setEnabled(view.hasDummyLines());
+
+		// Can you delete a duplicate line from this click?
+		mDuplicateLineRemove.setEnabled(false);
+		if (view.mouseOverLine >= 0 && view.mouseOverLine < view.lineCount())
+			if (view.getLineInfo(view.mouseOverLine).getDuplicate())
+				mDuplicateLineRemove.setEnabled(true);
+
 
 		menu.show(e.getComponent(), e.getX(), e.getY());
 	}

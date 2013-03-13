@@ -82,8 +82,8 @@ public class GenotypeDataExporter extends SimpleJob
 		GTView view = viewSet.getView(0);
 		for (int line = 0; line < view.lineCount(); line++, progress++)
 		{
-			// Don't export dummy lines
-			if (view.isDummyLine(view.getLine(line)))
+			// Don't export dummy lines, splitter lines, or duplicate lines
+			if (view.isDummyLine(line) || view.isSplitter(line) || view.isDuplicate(line))
 				continue;
 
 			if (useAll || view.isLineSelected(line))

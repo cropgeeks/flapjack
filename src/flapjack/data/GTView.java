@@ -520,14 +520,23 @@ public class GTView extends XMLRoot
 		}
 	}
 
-	public boolean isDummyLine(Line line)
+	public boolean isDummyLine(int lineInfoIndex)
 	{
-		return line == viewSet.getDataSet().getDummyLine();
+		LineInfo info = viewSet.lines.get(lineInfoIndex);
+
+		return info.getLine() == viewSet.getDataSet().getDummyLine();
 	}
 
-	public boolean isSplitter(Line line)
+	public boolean isSplitter(int lineInfoIndex)
 	{
-		return line == viewSet.getDataSet().getSplitter();
+		LineInfo info = viewSet.lines.get(lineInfoIndex);
+
+		return info.getLine() == viewSet.getDataSet().getSplitter();
+	}
+
+	public boolean isDuplicate(int lineInfoIndex)
+	{
+		return viewSet.lines.get(lineInfoIndex).duplicate;
 	}
 
 	/**

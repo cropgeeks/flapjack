@@ -193,7 +193,7 @@ public class StatusPanelNB extends JPanel implements ActionListener, ChangeListe
 		else
 		{
 			String position = (lineIndex+1) + "/" + view.lineCount();
-			lineLabel.setText((view.getLine(lineIndex).getName() + " (" + position + ")").trim());
+			lineLabel.setText((view.getLineInfo(lineIndex).name() + " (" + position + ")").trim());
 		}
 
 		// Current marker under the mouse
