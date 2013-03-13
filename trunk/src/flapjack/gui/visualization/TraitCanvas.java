@@ -129,7 +129,7 @@ class TraitCanvas extends JPanel
 
 			Line line = canvas.view.getLine(yIndex);
 			// Don't attempt to display information for dummy lines
-			if (canvas.view.isDummyLine(line) || canvas.view.isSplitter(line))
+			if (canvas.view.isDummyLine(yIndex) || canvas.view.isSplitter(yIndex))
 			{
 				gPanel.statusPanel.setHeatmapValues(" ", " ", " ");
 				return;
@@ -146,7 +146,8 @@ class TraitCanvas extends JPanel
 			else if (tv.isDefined())
 				value = tv.getTrait().format(tv);
 
-			gPanel.statusPanel.setHeatmapValues(line.getName(), trait, value);
+			String name = canvas.view.getLineInfo(yIndex).name();
+			gPanel.statusPanel.setHeatmapValues(name, trait, value);
 		}
 
 		public void mousePressed(MouseEvent e)
@@ -201,7 +202,7 @@ class TraitCanvas extends JPanel
 			{
 				Line line = canvas.view.getLine(yIndex);
 				// Skip dummy lines (they don't have trait values)
-				if (canvas.view.isDummyLine(line) || canvas.view.isSplitter(line))
+				if (canvas.view.isDummyLine(yIndex) || canvas.view.isSplitter(yIndex))
 					continue;
 
 				TraitValue tv = line.getTraitValues().get(tIndex[i]);

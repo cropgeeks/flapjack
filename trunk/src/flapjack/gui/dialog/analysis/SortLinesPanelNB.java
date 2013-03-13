@@ -36,9 +36,9 @@ class SortLinesPanelNB extends javax.swing.JPanel implements ActionListener
 
 		view = viewSet.getView(viewSet.getViewIndex());
 
-		DefaultComboBoxModel<Line> lineModel = new DefaultComboBoxModel<Line>();
+		DefaultComboBoxModel<LineInfo> lineModel = new DefaultComboBoxModel<LineInfo>();
 		for (int i = 0; i < view.lineCount(); i++)
-			lineModel.addElement(view.getLine(i));
+			lineModel.addElement(view.getLineInfo(i));
 
 		selectedLine.setModel(lineModel);
 
@@ -146,7 +146,7 @@ class SortLinesPanelNB extends javax.swing.JPanel implements ActionListener
         selectAllLabel = new scri.commons.gui.matisse.HyperLinkLabel();
         selectNoneLabel = new scri.commons.gui.matisse.HyperLinkLabel();
         linePanel = new javax.swing.JPanel();
-        selectedLine = new javax.swing.JComboBox<Line>();
+        selectedLine = new javax.swing.JComboBox<LineInfo>();
         lineLabel = new javax.swing.JLabel();
 
         tablePanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Sort over chromosomes:"));
@@ -179,8 +179,8 @@ class SortLinesPanelNB extends javax.swing.JPanel implements ActionListener
             .addGroup(tablePanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(tablePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
-                    .addComponent(tableLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(tableLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(tablePanelLayout.createSequentialGroup()
                         .addComponent(selectAllLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -217,7 +217,7 @@ class SortLinesPanelNB extends javax.swing.JPanel implements ActionListener
                 .addContainerGap()
                 .addComponent(lineLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(selectedLine, 0, 226, Short.MAX_VALUE)
+                .addComponent(selectedLine, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         linePanelLayout.setVerticalGroup(
@@ -262,7 +262,7 @@ class SortLinesPanelNB extends javax.swing.JPanel implements ActionListener
     private javax.swing.JPanel linePanel;
     private scri.commons.gui.matisse.HyperLinkLabel selectAllLabel;
     private scri.commons.gui.matisse.HyperLinkLabel selectNoneLabel;
-    javax.swing.JComboBox<Line> selectedLine;
+    javax.swing.JComboBox<LineInfo> selectedLine;
     private javax.swing.JTable table;
     private javax.swing.JLabel tableLabel;
     private javax.swing.JPanel tablePanel;

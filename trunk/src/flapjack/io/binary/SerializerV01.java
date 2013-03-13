@@ -622,12 +622,12 @@ class SerializerV01 extends FlapjackSerializer
 		int lineInfoCount = in.readInt();
 		// LineInfo data
 		for (int i = 0; i < lineInfoCount; i++)
-			loadLineInfo(viewSet.getLines(), dataSet);
+			viewSet.getLines().add(loadLineInfo(dataSet));
 
 		int hidelineInfoCount = in.readInt();
 		// Hidden lines LineInfo data
 		for (int i = 0; i < hidelineInfoCount; i++)
-			loadLineInfo(viewSet.getHideLines(), dataSet);
+			viewSet.getHideLines().add(loadLineInfo(dataSet));
 
 		// Number of views
 		int viewCount = in.readInt();
@@ -708,7 +708,7 @@ class SerializerV01 extends FlapjackSerializer
 		out.writeFloat(lineInfo.getScore());
 	}
 
-	protected void loadLineInfo(ArrayList<LineInfo> list, DataSet dataSet)
+	protected LineInfo loadLineInfo(DataSet dataSet)
 		throws Exception
 	{
 		LineInfo lineInfo = new LineInfo();
@@ -728,7 +728,7 @@ class SerializerV01 extends FlapjackSerializer
 			lineInfo.setLine(line);
 		}
 
-		list.add(lineInfo);
+		return lineInfo;
 	}
 
 	protected void saveMarkerInfo(MarkerInfo markerInfo)

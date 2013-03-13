@@ -153,7 +153,7 @@ class ListPanel extends JPanel
 		{
 			setFont(font);
 
-			if (view.isSplitter(li.getLine()))
+			if (view.isSplitter(i))
 				setText(" ");
 			else
 			{

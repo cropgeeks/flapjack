@@ -45,15 +45,15 @@ public class FindLineTest extends TestCase
 		FindLine finder = new FindLine(viewSet.getView(0), false, false);
 
 		LinkedList<FindLine.Result> results = finder.search("LINE1");
-		assertEquals(results.get(0).line.getName(), "LINE1");
+		assertEquals(results.get(0).line.getLine().getName(), "LINE1");
 
 		// Basic search for LINE10
 		results = finder.search("LINE10");
-		assertEquals(results.get(0).line.getName(), "LINE10");
+		assertEquals(results.get(0).line.getLine().getName(), "LINE10");
 
 		// Basic search for LINE50
 		results = finder.search("LINE50");
-		assertEquals(results.get(0).line.getName(), "LINE50");
+		assertEquals(results.get(0).line.getLine().getName(), "LINE50");
 
 		// Basic search for a line that doesn't exist
 		results = finder.search("NOSUCHLINE");
@@ -67,14 +67,14 @@ public class FindLineTest extends TestCase
 		results = finder.search("LINE.*");
 		assertEquals(results.size(), 100);
 		for (int i = 0; i < results.size(); i++)
-			assertEquals(results.get(i).line.getName(), "LINE" + (i+1));
+			assertEquals(results.get(i).line.getLine().getName(), "LINE" + (i+1));
 
 		// Find all lines with "3" as the first part of the number
 		results = finder.search("LINE3.*");
 		assertEquals(results.size(), 11);
-		assertEquals(results.get(0).line.getName(), "LINE3");
-		assertEquals(results.get(1).line.getName(), "LINE30");
-		assertEquals(results.get(2).line.getName(), "LINE31");
-		assertEquals(results.get(10).line.getName(), "LINE39");
+		assertEquals(results.get(0).line.getLine().getName(), "LINE3");
+		assertEquals(results.get(1).line.getLine().getName(), "LINE30");
+		assertEquals(results.get(2).line.getLine().getName(), "LINE31");
+		assertEquals(results.get(10).line.getLine().getName(), "LINE39");
 	}
 }

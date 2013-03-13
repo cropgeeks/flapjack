@@ -65,25 +65,36 @@ public class CalculateSimilarityMatrix extends SimpleJob
 
 
 		if (okToRun)
-			writeResults(lines, scores);
+			writeResults(viewSet.getView(0), lines, scores);
 
 		long e = System.currentTimeMillis();
 		System.out.println("SimMatrix time: " + (e-s) + "ms");
 	}
 
-	private void writeResults(ArrayList<LineInfo> lines, float[][] scores)
+	private void writeResults(GTView view, ArrayList<LineInfo> lines, float[][] scores)
 		throws Exception
 	{
 		BufferedWriter out = new BufferedWriter(new FileWriter(filename));
 
 		// Header line
-		for (LineInfo li: lines)
+		for (int i = 0; i < lines.size(); i++)
+		{
+			// Ignore the awkward cases
+			if (view.isDummyLine(i) || view.isSplitter(i) || view.isDuplicate(i))
+				continue;
+
+			LineInfo li = lines.get(i);
 			out.write("\t" + li.getLine().getName());
+		}
 		out.newLine();
 
 		// For each line
 		for (int i = 0; i < lines.size(); i++)
 		{
+			// Ignore the awkward cases
+			if (view.isDummyLine(i) || view.isSplitter(i) || view.isDuplicate(i))
+				continue;
+
 			// Its name
 			LineInfo li = lines.get(i);
 			out.write(li.getLine().getName());

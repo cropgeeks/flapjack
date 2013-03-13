@@ -32,7 +32,7 @@ public class SortLinesByTrait extends SortLines
 		ArrayList<LineScore> scores = new ArrayList<LineScore>(numLines);
 		for (int i = 0; i < numLines && okToRun; i++, linesScored++)
 			// Don't do a trait sort on a splitter line
-			if (!view.isSplitter(view.getViewSet().getLines().get(i).getLine()))
+			if (!view.isSplitter(i))
 				scores.add(new LineScore(view.getViewSet().getLines().get(i)));
 
 		// Now sort the array based on those scores

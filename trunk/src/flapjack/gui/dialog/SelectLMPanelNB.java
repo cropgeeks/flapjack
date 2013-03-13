@@ -24,7 +24,7 @@ class SelectLMPanelNB extends javax.swing.JPanel
 			RB.setText(label, "gui.dialog.NBSelectLMPanel.lineLabel");
 
 			for (int i = 0; i < view.lineCount(); i++)
-				combo.addItem(new IndexWrapper(view.getLine(i).getName(), i));
+				combo.addItem(new IndexWrapper(view.getLineInfo(i).name(), i));
 
 			if (view.mouseOverLine >= 0 && view.mouseOverLine < view.lineCount())
 				combo.setSelectedIndex(view.mouseOverLine);

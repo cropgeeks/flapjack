@@ -404,6 +404,22 @@ public class GTViewSet extends XMLRoot
 				lines.remove(i);
 	}
 
+	public void removeAllDuplicates()
+	{
+		// Search backwards, stripping out each duplicate line as it is found
+		for (int i = lines.size()-1; i >= 0; i--)
+			if (lines.get(i).getDuplicate())
+				lines.remove(i);
+	}
+
+	public void duplicateLine(int index)
+	{
+		LineInfo original = lines.get(index);
+		LineInfo duplicate = original.makeDuplicate();
+
+		lines.add(index+1, duplicate);
+	}
+
 	public void insertSplitterLine(int index)
 	{
 		Line splitter = dataSet.getSplitter();

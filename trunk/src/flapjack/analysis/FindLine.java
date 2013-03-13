@@ -25,13 +25,13 @@ public class FindLine extends StringFinder
 		// Loop over all lines, looking for matches...
 		for (int index = 0; index < view.lineCount(); index++)
 		{
-			Line line = view.getLine(index);
+			LineInfo line = view.getLineInfo(index);
 
 			// Don't match on dummy, or splitter lines
-			if (view.isDummyLine(line) || view.isSplitter(line))
+			if (view.isDummyLine(index) || view.isSplitter(index))
 				continue;
 
-			if (matches(line.getName(), str))
+			if (matches(line.getLine().getName(), str))
 				results.add(new Result(line));
 		}
 
@@ -40,9 +40,9 @@ public class FindLine extends StringFinder
 
 	public static class Result
 	{
-		public Line line;
+		public LineInfo line;
 
-		Result(Line line)
+		Result(LineInfo line)
 		{
 			this.line = line;
 		}

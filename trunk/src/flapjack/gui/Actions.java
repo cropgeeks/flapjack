@@ -39,6 +39,8 @@ public class Actions
 	public static AbstractAction editHideLines;
 	public static AbstractAction editInsertLine;
 	public static AbstractAction editDeleteLine;
+	public static AbstractAction editDuplicateLine;
+	public static AbstractAction editDuplicateLineRemove;
 	public static AbstractAction editInsertSplitter;
 	public static AbstractAction editDeleteSplitter;
 
@@ -270,6 +272,18 @@ public class Actions
 		editDeleteLine = new AbstractAction(RB.format("gui.Actions.editDeleteLine", "")) {
 			public void actionPerformed(ActionEvent e) {
 				winMain.mEdit.editDeleteLine();
+			}
+		};
+
+		editDuplicateLine = new AbstractAction(RB.format("gui.Actions.editDuplicateLine", "")) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.mEdit.editDuplicateLine();
+			}
+		};
+
+		editDuplicateLineRemove = new AbstractAction(RB.format("gui.Actions.editDuplicateLineRemove", "")) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.mEdit.editDuplicateLineRemove();
 			}
 		};
 
@@ -646,6 +660,8 @@ public class Actions
 		editHideLines.setEnabled(false);
 		editInsertLine.setEnabled(false);
 		editDeleteLine.setEnabled(false);
+		editDuplicateLine.setEnabled(false);
+		editDuplicateLineRemove.setEnabled(false);
 		editInsertSplitter.setEnabled(false);
 		editDeleteSplitter.setEnabled(false);
 

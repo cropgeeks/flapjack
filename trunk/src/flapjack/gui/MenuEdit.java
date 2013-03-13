@@ -234,8 +234,7 @@ public class MenuEdit
 		// Determine if it *is* actually a dummy line
 		if (index >= 0 && index < view.lineCount())
 		{
-			Line line = view.getLine(index);
-			if (view.isDummyLine(line))
+			if (view.isDummyLine(index))
 				allowSingleDelete = true;
 		}
 
@@ -264,6 +263,80 @@ public class MenuEdit
 		// Or remove all dummy lines
 		else
 			viewSet.removeAllDummyLines();
+
+		// Set the redo state
+		state.createRedoState();
+		gPanel.addUndoState(state);
+
+		view.cacheLines();
+		gPanel.refreshView();
+	}
+
+	void editDuplicateLine()
+	{
+		GTViewSet viewSet = gPanel.getViewSet();
+		GTView view = gPanel.getView();
+
+		if (view.mouseOverLine >= 0 && view.mouseOverLine < view.lineCount())
+		{
+			// Set the undo state
+			InsertedLineState state = new InsertedLineState(viewSet,
+				RB.getString("gui.visualization.InsertedLineState.duplicate"));
+			state.createUndoState();
+
+			// Insert the line
+			viewSet.duplicateLine(view.mouseOverLine);
+
+			// Set the redo state
+			state.createRedoState();
+			gPanel.addUndoState(state);
+
+			view.cacheLines();
+			gPanel.refreshView();
+		}
+	}
+
+	void editDuplicateLineRemove()
+	{
+		GTViewSet viewSet = gPanel.getViewSet();
+		GTView view = gPanel.getView();
+
+		// Get the index of the line clicked on
+		int index = view.mouseOverLine;
+		boolean allowSingleDelete = false;
+
+		// Determine if it *is* actually a duplicate line
+		if (index >= 0 && index < view.lineCount())
+		{
+			if (view.isDuplicate(index))
+				allowSingleDelete = true;
+		}
+
+		// Display the dialog prompt
+		boolean[] states = new boolean[] { allowSingleDelete, true, true };
+
+		String msg = RB.getString("gui.MenuEdit.deleteDuplicateMsg");
+
+		String[] options = new String[] {
+			RB.getString("gui.MenuEdit.deleteLine"),
+			RB.getString("gui.MenuEdit.deleteAllDuplicates"),
+			RB.getString("gui.text.cancel") };
+
+		int response = TaskDialog.show(msg, TaskDialog.QST, 0, options, states);
+		if (response == -1 || response == 2)
+			return;
+
+		// Set the undo state
+		InsertedLineState state = new InsertedLineState(viewSet,
+			RB.getString("gui.visualization.InsertedLineState.removeDuplicate"));
+		state.createUndoState();
+
+		// Remove a single line
+		if (response == 0)
+			viewSet.getLines().remove(index);
+		// Or remove all duplicate lines
+		else
+			viewSet.removeAllDuplicates();
 
 		// Set the redo state
 		state.createRedoState();
