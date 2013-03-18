@@ -22,6 +22,17 @@ that have been made to Flapjack in recent versions. For full details on all the
 changes between versions, please see the <a href="../svn.txt">
 subversion change log</a>.</p>
 
+<h3>New in 1.13.03.18</h3>
+
+<ul>
+<li>NEW: Added support for duplicating a line.</li>
+<li>NEW: Optimised some of the similarity matrix calculation code to make it about 50% faster.</li>
+<li>NEW: Enhanced SplitProject so it can selectively process datasets, with optional renaming of them.</li>
+<li>BUG: Export options for all-chromosomes were not behaving properly based on the user’s selected chromosomes.</li>
+<li>BUG: Filtering QTL on a freshly loaded project caused the Filter dialog to be blank.</li>
+</ul>
+
+
 <h3>New in 1.12.05.25</h3>
 
 <ul>
