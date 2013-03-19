@@ -333,6 +333,11 @@ public class GTViewSet extends XMLRoot
 		return -1;
 	}
 
+	public int indexOf(LineInfo line)
+	{
+		return lines.indexOf(line);
+	}
+
 	public int indexof(GTView view)
 	{
 		for (int i = 0; i < views.size(); i++)

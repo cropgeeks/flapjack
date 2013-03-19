@@ -254,8 +254,8 @@ public class FindDialog extends JDialog implements ListSelectionListener
 		{
 			Object selected = nbPanel.tableModel.getValueAt(row, 0);
 
-			if (selected instanceof Line)
-				displayLine((Line)selected);
+			if (selected instanceof LineInfo)
+				displayLine((LineInfo)selected);
 			else if (selected instanceof Marker)
 			{
 				Object map = nbPanel.tableModel.getValueAt(row, 1);
@@ -267,9 +267,9 @@ public class FindDialog extends JDialog implements ListSelectionListener
 		}
 	}
 
-	private void displayLine(Line line)
+	private void displayLine(LineInfo lineInfo)
 	{
-		int lineIndex = viewSet.indexOf(line);
+		int lineIndex = viewSet.indexOf(lineInfo);
 		jumpToPosition(lineIndex, -1);
 
 		lmHighlighter = new LMHighlighter(gPanel, lineIndex, lmHighlighter, 0);
