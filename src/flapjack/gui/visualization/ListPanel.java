@@ -146,6 +146,10 @@ class ListPanel extends JPanel
 		public ListRenderer()
 		{
 			setOpaque(true);
+
+			// Java 1.7 on Linux returns oversized Border objects for a JList.
+			// Without this, the list doesn't align with the genotypes
+			setBorder(BorderFactory.createEmptyBorder());
 		}
 
 		// Set the attributes of the class and return a reference
