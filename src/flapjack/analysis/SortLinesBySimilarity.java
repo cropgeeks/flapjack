@@ -50,7 +50,7 @@ public class SortLinesBySimilarity extends SortLines
 		{
 			SimilarityScore ss = new SimilarityScore(viewSet, matrix, line, i, chromosomes);
 
-			SimilarityScore.Score score = ss.getScore();
+			SimilarityScore.Score score = ss.getScore(true);
 			scores.add(new LineScore(lines.get(i), score.score, score.nComparisons, score.data));
 		}
 
