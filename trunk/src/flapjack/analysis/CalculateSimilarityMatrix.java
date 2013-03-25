@@ -143,7 +143,7 @@ public class CalculateSimilarityMatrix extends SimpleJob
 				for (int j = i+1; j < lines.size() && okToRun; j++, linesScored.getAndIncrement())
 				{
 					SimilarityScore ss = new SimilarityScore(viewSet, matrix, i, j, chromosomes);
-					SimilarityScore.Score score = ss.getScore();
+					SimilarityScore.Score score = ss.getScore(false);
 
 					scores[i][j] = scores[j][i] = score.score;
 				}

@@ -28,24 +28,25 @@ class GeneralTabNB extends JPanel implements IPrefsTab
 		RB.setText(displayLabel, "gui.dialog.prefs.NBGeneralPanel.displayLabel");
 		RB.setText(checkDecimal, "gui.dialog.prefs.NBGeneralPanel.checkDecimal");
 
-        displayModel = new DefaultComboBoxModel<String>();
-        displayModel.addElement(RB.getString("gui.dialog.prefs.NBGeneralPanel.auto"));
-        displayModel.addElement(RB.getString("gui.dialog.prefs.NBGeneralPanel.en_GB"));
-        displayModel.addElement(RB.getString("gui.dialog.prefs.NBGeneralPanel.en_US"));
-        displayModel.addElement(RB.getString("gui.dialog.prefs.NBGeneralPanel.de_DE"));
-        displayCombo.setModel(displayModel);
+		displayModel = new DefaultComboBoxModel<String>();
+		displayModel.addElement(RB.getString("gui.dialog.prefs.NBGeneralPanel.auto"));
+		displayModel.addElement(RB.getString("gui.dialog.prefs.NBGeneralPanel.en_GB"));
+		displayModel.addElement(RB.getString("gui.dialog.prefs.NBGeneralPanel.en_US"));
+		displayModel.addElement(RB.getString("gui.dialog.prefs.NBGeneralPanel.de_DE"));
+//		displayModel.addElement(RB.getString("gui.dialog.prefs.NBGeneralPanel.es_MX"));
+		displayCombo.setModel(displayModel);
 
 
-        // Update settings
-        RB.setText(updateLabel, "gui.dialog.prefs.NBGeneralPanel.updateLabel");
+		// Update settings
+		RB.setText(updateLabel, "gui.dialog.prefs.NBGeneralPanel.updateLabel");
 
-        updateModel = new DefaultComboBoxModel<String>();
-        updateModel.addElement(RB.getString("gui.dialog.prefs.NBGeneralPanel.updateNever"));
-        updateModel.addElement(RB.getString("gui.dialog.prefs.NBGeneralPanel.updateStartup"));
-        updateModel.addElement(RB.getString("gui.dialog.prefs.NBGeneralPanel.updateDaily"));
-        updateModel.addElement(RB.getString("gui.dialog.prefs.NBGeneralPanel.updateWeekly"));
-        updateModel.addElement(RB.getString("gui.dialog.prefs.NBGeneralPanel.updateMonthly"));
-        updateCombo.setModel(updateModel);
+		updateModel = new DefaultComboBoxModel<String>();
+		updateModel.addElement(RB.getString("gui.dialog.prefs.NBGeneralPanel.updateNever"));
+		updateModel.addElement(RB.getString("gui.dialog.prefs.NBGeneralPanel.updateStartup"));
+		updateModel.addElement(RB.getString("gui.dialog.prefs.NBGeneralPanel.updateDaily"));
+		updateModel.addElement(RB.getString("gui.dialog.prefs.NBGeneralPanel.updateWeekly"));
+		updateModel.addElement(RB.getString("gui.dialog.prefs.NBGeneralPanel.updateMonthly"));
+		updateCombo.setModel(updateModel);
 
 		projectPanel.setBorder(BorderFactory.createTitledBorder(RB.getString("gui.dialog.prefs.NBGeneralPanel.projectPanelTitle")));
 		RB.setText(projectLabel, "gui.dialog.prefs.NBGeneralPanel.projectLabel");
@@ -53,8 +54,8 @@ class GeneralTabNB extends JPanel implements IPrefsTab
 		projectCombo.addItem(RB.getString("gui.dialog.prefs.NBGeneralPanel.projectXml"));
 		projectCombo.addItem(RB.getString("gui.dialog.prefs.NBGeneralPanel.projectBin"));
 
-        initSettings();
-    }
+		initSettings();
+	}
 
     private int getLocaleIndex()
 	{
@@ -64,6 +65,8 @@ class GeneralTabNB extends JPanel implements IPrefsTab
 			return 2;
 		else if (Prefs.localeText.equals("de_DE"))
 			return 3;
+		else if (Prefs.localeText.equals("es_MX"))
+			return 4;
 		else
 			return 0;
 	}
@@ -83,6 +86,7 @@ class GeneralTabNB extends JPanel implements IPrefsTab
 			case 1:  Prefs.localeText = "en_GB"; break;
 			case 2:  Prefs.localeText = "en_US"; break;
 			case 3:  Prefs.localeText = "de_DE"; break;
+			case 4:  Prefs.localeText = "es_MX"; break;
 			default: Prefs.localeText = "auto";
 		}
 

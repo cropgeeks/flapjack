@@ -28,7 +28,7 @@ public class SimilarityScore
 		this.chromosomes = chromosomes;
 	}
 
-	public Score getScore()
+	public Score getScore(boolean useStrComparison)
 	{
 		float nComparisons = 0;
 		float score = 0;
@@ -61,7 +61,9 @@ public class SimilarityScore
 				// Count it as a comparison, regardless of match
 				nComparisons++;
 
-				data.append(state2);
+				// This is optional, because it requires quite a cpu hit if used
+				if (useStrComparison)
+					data.append(state2);
 			}
 		}
 
