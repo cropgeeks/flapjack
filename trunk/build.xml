@@ -1,15 +1,19 @@
 <project name="Flapjack" default="compile" basedir=".">
 
+	<property file="build.properties" />
+
 	<property name="src" location="src"/>
 	<property name="res" location="res"/>
 	<property name="lib" location="lib"/>
-	<property name="webstart" location="webstart"/>
+	<property name="tmp" location="tmp"/>
 	<property name="config" location="config"/>
 	<property name="lib-devel" location="lib-devel"/>
 	<property name="classes" location="classes"/>
+	<property name="servlets" location="www/servlets"/>
 
 	<property name="flapjack.jar" value="${lib}/flapjack.jar"/>
 	<property name="flapjack-resources.jar" value="${lib}/flapjack-resources.jar"/>
+	<property name="flapjack.war" value="flapjack.war"/>
 
 	<target name="init">
 	</target>
@@ -33,6 +37,7 @@
 			<fileset dir="${classes}" includes="**/*"/>
 			<fileset file="${flapjack.jar}"/>
 			<fileset file="${flapjack-resources.jar}"/>
+			<fileset file="${flapjack.war}"/>
 		</delete>
 	</target>
 
@@ -92,10 +97,6 @@
 	</target>
 
 	<target name="install4j" depends="getversion, jar">
-		<input message="Enter the private key password for signing:" addproperty="password">
-    		<handler classname="org.apache.tools.ant.input.SecureInputHandler"/>
-		</input>
-
 		<taskdef name="install4j"
 			classname="com.install4j.Install4JTask"
 			classpath="C:\Program Files\Install4j\bin\ant.jar"/>
@@ -108,8 +109,8 @@
 
 		<install4j projectfile="installer/flapjack.install4j"
 		           release="${i4j.version}"
-		           winKeystorePassword="${password}"
-		           macKeystorePassword="${password}"/>
+		           winKeystorePassword="${keystore.password}"
+		           macKeystorePassword="${keystore.password}"/>
 	</target>
 
 	<target name="run" depends="jar">
@@ -119,28 +120,43 @@
 	</target>
 
 	<target name="jnlp" depends="getversion, jar">
-		<input message="Enter the private key password for signing:" addproperty="storepass">
-    		<handler classname="org.apache.tools.ant.input.SecureInputHandler" />
-		</input>
-		<mkdir dir="${webstart}"/>
-		<copy todir="${webstart}">
+		<mkdir dir="${tmp}"/>
+		<copy todir="${tmp}">
 			<fileset dir="${lib}">
 				<include name="**/*.jar"/>
 			</fileset>
 		</copy>
-		<signjar alias="jhi" storepass="${storepass}"
+		<signjar alias="jhi" storepass="${keystore.password}"
 			preservelastmodified="true" lazy="true"
 			tsaurl="http://timestamp.globalsign.com/scripts/timstamp.dll">
-			<fileset dir="${webstart}">
+			<fileset dir="${tmp}">
 				<include name="**/*.jar"/>
 			</fileset>
 		</signjar>
 		<copy todir="\\bioinf\root\var\www\html\flapjack\webstart">
-			<fileset dir="${webstart}">
+			<fileset dir="${tmp}">
 				<include name="**/*.jar"/>
 			</fileset>
 		</copy>
-		<delete dir="${webstart}"/>
+		<delete dir="${tmp}"/>
+	</target>
+
+	<target name="war" depends="jar">
+		<war destfile="${flapjack.war}" update="false">
+			<webinf dir="${servlets}/WEB-INF"/>
+			<lib dir="${lib}"/>
+		</war>
+
+		<taskdef name="undeploy" classpathref="project.classpath"
+			classname="org.apache.catalina.ant.UndeployTask"/>
+		<taskdef name="deploy" classpathref="project.classpath"
+			classname="org.apache.catalina.ant.DeployTask"/>
+
+		<undeploy url="${tomcat.manager.url}" username="${tomcat.manager.username}" password="${tomcat.manager.password}"
+			path="/flapjack" failOnError="false"/>
+
+		<deploy url="${tomcat.manager.url}"	username="${tomcat.manager.username}" password="${tomcat.manager.password}"
+			path="/flapjack" war="${flapjack.war}"/>
 	</target>
 
 </project>
