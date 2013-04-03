@@ -71,19 +71,13 @@ public class Flapjack
 			UIManager.put("CheckBox.background", Color.white);
 			UIManager.put("RadioButton.background", Color.white);
 
-			// Use the office look for Windows (but not for Vista or 7)
-			if (SystemUtils.isWindows() && !SystemUtils.isWindowsVista() && !SystemUtils.isWindows7())
+			// Use the office look for Windows XP (but not for Vista/7/8)
+			if (SystemUtils.isWindowsXP())
 			{
 				UIManager.setLookAndFeel("org.fife.plaf.Office2003.Office2003LookAndFeel");
 
 				// Gives XP the same (nicer) grey background that Vista uses
 				UIManager.put("Panel.background", new Color(240, 240, 240));
-
-				// Overrides the JOptionPane dialogs with better icons
-				UIManager.put("OptionPane.errorIcon", Icons.getIcon("WINERROR"));
-				UIManager.put("OptionPane.informationIcon", Icons.getIcon("WININFORMATION"));
-				UIManager.put("OptionPane.warningIcon", Icons.getIcon("WINWARNING"));
-				UIManager.put("OptionPane.questionIcon", Icons.getIcon("WINQUESTION"));
 			}
 
 			// Keep Apple happy...
