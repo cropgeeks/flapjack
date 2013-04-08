@@ -19,14 +19,14 @@ public class CreateProject
 {
 	// The objects that will (hopefully) get created
 	private static Project project = new Project();
-	private static DataSet dataSet = new DataSet();
+	static DataSet dataSet = new DataSet();
 
 	// And the files required to read and write to
-	private static File mapFile;
-	private static File genotypesFile;
+	static File mapFile;
+	static File genotypesFile;
 	private static File traitsFile;
 	private static File qtlsFile;
-	private static FlapjackFile prjFile;
+	static FlapjackFile prjFile;
 	private static String name;
 	private static String format;
 	private static boolean decimalEnglish = false;
@@ -57,14 +57,14 @@ public class CreateProject
 		{
 			System.out.println("Usage: createproject <options>\n"
 				+ " where valid options are:\n"
-				+ "   -map=<map_file>                (REQUIRED)\n"
-				+ "   -genotypes=<genotypes_file>    (REQUIRED)\n"
-				+ "   -traits=<traits_file>          (optional)\n"
-				+ "   -qtls=<qtl_file>               (optional)\n"
-				+ "   -project=<project_file>        (REQUIRED)\n"
-				+ "   -datasetname=<datasetname>     (optional)\n"
-				+ "   -format=<XMLZ | XML | BIN>     (optional)\n"
-				+ "   -decimalEnglish                (optional)\n");
+				+ "   -map=<map_file>                (required input file)\n"
+				+ "   -genotypes=<genotypes_file>    (required input file)\n"
+				+ "   -traits=<traits_file>          (optional input file)\n"
+				+ "   -qtls=<qtl_file>               (optional input file)\n"
+				+ "   -project=<project_file>        (required output file)\n"
+				+ "   -datasetname=<datasetname>     (optional parameter)\n"
+				+ "   -format=<XMLZ | XML | BIN>     (optional parameter)\n"
+				+ "   -decimalEnglish                (optional parameter)\n");
 
 			return;
 		}
@@ -91,7 +91,7 @@ public class CreateProject
 		}
 	}
 
-	private static void createProject()
+	static void createProject()
 		throws Exception
 	{
 		// Read the map
