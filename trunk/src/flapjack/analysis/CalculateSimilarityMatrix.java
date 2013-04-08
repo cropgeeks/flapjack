@@ -58,11 +58,12 @@ public class CalculateSimilarityMatrix extends SimpleJob
 		ExecutorService executor = Executors.newFixedThreadPool(cores);
 		Future[] tasks = new Future[cores];
 
+		System.out.println("Calculating similarity matrix...");
+
 		for (int i = 0; i < tasks.length; i++)
 			tasks[i] = executor.submit(new Calculator(i, cores));
 		for (Future task: tasks)
 			task.get();
-
 
 		if (okToRun)
 			writeResults(viewSet.getView(0), lines, scores);
@@ -74,6 +75,8 @@ public class CalculateSimilarityMatrix extends SimpleJob
 	private void writeResults(GTView view, ArrayList<LineInfo> lines, float[][] scores)
 		throws Exception
 	{
+		System.out.println("Writing results...");
+
 		BufferedWriter out = new BufferedWriter(new FileWriter(filename));
 
 		// Header line
