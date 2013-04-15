@@ -364,6 +364,7 @@ public class MenuData
 	public void dataSimMatrix()
 	{
 		GTViewSet viewSet = gPanel.getViewSet();
+		GTView view = gPanel.getView();
 
 		String name = RB.format("gui.MenuData.simMatrix.filename", viewSet.getName());
 		File saveAs = new File(Prefs.guiCurrentDir, name);
@@ -380,7 +381,7 @@ public class MenuData
 
 
 		// Set up the calculator
-		CalculateSimilarityMatrix calculator = new CalculateSimilarityMatrix(viewSet, filename);
+		CalculateSimilarityMatrix calculator = new CalculateSimilarityMatrix(viewSet, view, filename);
 
 		ProgressDialog dialog = new ProgressDialog(calculator,
 			RB.format("gui.MenuData.simMatrix.title"),

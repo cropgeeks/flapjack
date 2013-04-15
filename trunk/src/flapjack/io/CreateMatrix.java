@@ -81,8 +81,9 @@ public class CreateMatrix
 		throws Exception
 	{
 		GTViewSet viewSet = dataSet.getViewSets().get(0);
+		GTView view = viewSet.getView(0);
 
-		CalculateSimilarityMatrix calculator = new CalculateSimilarityMatrix(viewSet, filename);
+		CalculateSimilarityMatrix calculator = new CalculateSimilarityMatrix(viewSet, view, filename);
 
 		calculator.runJob(0);
 	}

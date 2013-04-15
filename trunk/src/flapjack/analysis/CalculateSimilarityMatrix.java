@@ -16,15 +16,18 @@ import scri.commons.gui.*;
 public class CalculateSimilarityMatrix extends SimpleJob
 {
 	private GTViewSet viewSet;
+	private GTView view;
 	private String filename;
+
 	private boolean[] chromosomes;
 	private float[][] scores;
 
 	private AtomicInteger linesScored = new AtomicInteger(0);
 
-	public CalculateSimilarityMatrix(GTViewSet viewSet, String filename)
+	public CalculateSimilarityMatrix(GTViewSet viewSet, GTView view, String filename)
 	{
 		this.viewSet = viewSet;
+		this.view = view;
 		this.filename = filename;
 
 		// We're generating a square matrix, so the total number of comparisons
@@ -85,6 +88,9 @@ public class CalculateSimilarityMatrix extends SimpleJob
 			// Ignore the awkward cases
 			if (view.isDummyLine(i) || view.isSplitter(i) || view.isDuplicate(i))
 				continue;
+			// Or unselected lines
+			if (view.isLineSelected(i) == false)
+				continue;
 
 			LineInfo li = lines.get(i);
 			out.write("\t" + li.getLine().getName());
@@ -97,6 +103,9 @@ public class CalculateSimilarityMatrix extends SimpleJob
 			// Ignore the awkward cases
 			if (view.isDummyLine(i) || view.isSplitter(i) || view.isDuplicate(i))
 				continue;
+			// Or unselected lines
+			if (view.isLineSelected(i) == false)
+				continue;
 
 			// Its name
 			LineInfo li = lines.get(i);
@@ -105,6 +114,13 @@ public class CalculateSimilarityMatrix extends SimpleJob
 			// Its scores
 			for (int j = 0; j < lines.size(); j++)
 			{
+				// Ignore the awkward cases
+				if (view.isDummyLine(j) || view.isSplitter(j) || view.isDuplicate(j))
+					continue;
+				// Or unselected lines
+				if (view.isLineSelected(j) == false)
+					continue;
+
 				if (i == j)
 					out.write("\t1");
 				else
@@ -145,6 +161,13 @@ public class CalculateSimilarityMatrix extends SimpleJob
 				// Compare it against every other line...
 				for (int j = i+1; j < lines.size() && okToRun; j++, linesScored.getAndIncrement())
 				{
+					// Ignore the awkward cases
+					if (view.isDummyLine(j) || view.isSplitter(j) || view.isDuplicate(j))
+						continue;
+					// Or unselected lines
+					if (view.isLineSelected(j) == false)
+						continue;
+
 					SimilarityScore ss = new SimilarityScore(viewSet, matrix, i, j, chromosomes);
 					SimilarityScore.Score score = ss.getScore(false);
 
