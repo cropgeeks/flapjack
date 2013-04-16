@@ -20,9 +20,10 @@ public class CalculateSimilarityMatrix extends SimpleJob
 	private String filename;
 
 	private boolean[] chromosomes;
-	private float[][] scores;
+	private ArrayList<Integer> indices;
+	private ArrayList<ArrayList<Float>> lineScores;
 
-	private AtomicInteger linesScored = new AtomicInteger(0);
+	private AtomicInteger count = new AtomicInteger(0);
 
 	public CalculateSimilarityMatrix(GTViewSet viewSet, GTView view, String filename)
 	{
@@ -30,10 +31,18 @@ public class CalculateSimilarityMatrix extends SimpleJob
 		this.view = view;
 		this.filename = filename;
 
+		// Work out the indices of all the lines being compared
+		indices = new ArrayList<Integer>();
+		for (int i = 0; i < viewSet.getLines().size(); i++)
+			if (skipLine(i) == false)
+				indices.add(i);
+
 		// We're generating a square matrix, so the total number of comparisons
 		// will be the number of lines squared (divided by 2)
-		maximum = (int) (Math.pow(viewSet.getLines().size(), 2) / 2);
+		maximum = (int) (Math.pow(indices.size(), 2) / 2);
 
+
+		// TODO:
 		chromosomes = new boolean[viewSet.chromosomeCount()];
 		for (int i = 0; i < chromosomes.length; i++)
 			chromosomes[i] = true;
@@ -41,7 +50,7 @@ public class CalculateSimilarityMatrix extends SimpleJob
 
 	@Override
 	public int getValue()
-		{ return linesScored.intValue(); }
+		{ return count.intValue(); }
 
 	@Override
 	public void runJob(int index)
@@ -53,8 +62,14 @@ public class CalculateSimilarityMatrix extends SimpleJob
 			view.cacheLines();
 
 		// Set up the 2D array to hold the resultant matrix
-		ArrayList<LineInfo> lines = viewSet.getLines();
-		scores = new float[lines.size()][lines.size()];
+		lineScores = new ArrayList<ArrayList<Float>>();
+		for (int i = 0; i < indices.size(); i++)
+		{
+			lineScores.add(new ArrayList<Float>());
+//			for (int j = 0; j < indices.size(); j++)			// uncomment to generate FULL matrix (not half)
+			for (int j = 0; j <= i; j++)
+				lineScores.get(i).add(1f);
+		}
 
 		// Set up a multithreaded calculation run
 		int cores = Runtime.getRuntime().availableProcessors();
@@ -69,62 +84,43 @@ public class CalculateSimilarityMatrix extends SimpleJob
 			task.get();
 
 		if (okToRun)
-			writeResults(viewSet.getView(0), lines, scores);
+			writeResults(viewSet.getView(0));
 
 		long e = System.currentTimeMillis();
 		System.out.println("SimMatrix time: " + (e-s) + "ms");
 	}
 
-	private void writeResults(GTView view, ArrayList<LineInfo> lines, float[][] scores)
+	private void writeResults(GTView view)
 		throws Exception
 	{
+		ArrayList<LineInfo> lines = viewSet.getLines();
+
 		System.out.println("Writing results...");
 
 		BufferedWriter out = new BufferedWriter(new FileWriter(filename));
 
 		// Header line
-		for (int i = 0; i < lines.size(); i++)
+		for (int i = 0; i < indices.size(); i++)
 		{
-			// Ignore the awkward cases
-			if (view.isDummyLine(i) || view.isSplitter(i) || view.isDuplicate(i))
-				continue;
-			// Or unselected lines
-			if (view.isLineSelected(i) == false)
-				continue;
-
-			LineInfo li = lines.get(i);
+			LineInfo li = lines.get(indices.get(i));
 			out.write("\t" + li.getLine().getName());
 		}
 		out.newLine();
 
 		// For each line
-		for (int i = 0; i < lines.size(); i++)
+		for (int i = 0; i < indices.size(); i++)
 		{
-			// Ignore the awkward cases
-			if (view.isDummyLine(i) || view.isSplitter(i) || view.isDuplicate(i))
-				continue;
-			// Or unselected lines
-			if (view.isLineSelected(i) == false)
-				continue;
-
 			// Its name
-			LineInfo li = lines.get(i);
+			LineInfo li = lines.get(indices.get(i));
 			out.write(li.getLine().getName());
 
 			// Its scores
-			for (int j = 0; j < lines.size(); j++)
+			for (int j = 0; j < indices.size(); j++)
 			{
-				// Ignore the awkward cases
-				if (view.isDummyLine(j) || view.isSplitter(j) || view.isDuplicate(j))
-					continue;
-				// Or unselected lines
-				if (view.isLineSelected(j) == false)
-					continue;
-
-				if (i == j)
-					out.write("\t1");
+				if (j <= i)
+					out.write("\t" + lineScores.get(i).get(j));
 				else
-					out.write("\t" + scores[i][j]);
+					out.write("\t" + lineScores.get(j).get(i));
 			}
 
 			out.newLine();
@@ -136,7 +132,19 @@ public class CalculateSimilarityMatrix extends SimpleJob
 	@Override
 	public String getMessage()
 	{
-		return RB.format("gui.MenuData.simMatrix.message", linesScored);
+		return RB.format("gui.MenuData.simMatrix.message", count);
+	}
+
+	private boolean skipLine(int i)
+	{
+		// Ignore the awkward cases
+		if (view.isDummyLine(i) || view.isSplitter(i) || view.isDuplicate(i))
+			return true;
+		// Or unselected lines
+		if (view.isLineSelected(i) == false)
+			return true;
+
+		return false;
 	}
 
 	private class Calculator implements Runnable
@@ -153,25 +161,26 @@ public class CalculateSimilarityMatrix extends SimpleJob
 		public void run()
 		{
 			float[][] matrix = viewSet.getDataSet().getStateTable().calculateSimilarityMatrix();
-			ArrayList<LineInfo> lines = viewSet.getLines();
 
 			// For every line...
-			for (; i < lines.size() && okToRun; i += cores)
+			for (; i < indices.size() && okToRun; i += cores)
 			{
 				// Compare it against every other line...
-				for (int j = i+1; j < lines.size() && okToRun; j++, linesScored.getAndIncrement())
+				for (int j = 0; j <= i && okToRun; j++, count.getAndIncrement())
 				{
-					// Ignore the awkward cases
-					if (view.isDummyLine(j) || view.isSplitter(j) || view.isDuplicate(j))
-						continue;
-					// Or unselected lines
-					if (view.isLineSelected(j) == false)
-						continue;
+					if (i != j)
+					{
+						int a = indices.get(i); // Real index of line A
+						int b = indices.get(j); // Real index of line B
 
-					SimilarityScore ss = new SimilarityScore(viewSet, matrix, i, j, chromosomes);
-					SimilarityScore.Score score = ss.getScore(false);
+						SimilarityScore ss = new SimilarityScore(viewSet, matrix, a, b, chromosomes);
+						SimilarityScore.Score score = ss.getScore(false);
 
-					scores[i][j] = scores[j][i] = score.score;
+						// First diagonal of the matrix
+						lineScores.get(i).set(j, score.score);
+						// Second diagonal of the matrix
+//						lineScores.get(j).set(i, score.score);        // uncomment to generate FULL matrix (not half)
+					}
 				}
 			}
 		}
