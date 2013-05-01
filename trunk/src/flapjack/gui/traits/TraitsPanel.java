@@ -34,7 +34,7 @@ public class TraitsPanel extends JPanel implements ActionListener
 		table = controls.table;
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		table.getTableHeader().setReorderingAllowed(false);
-		table.setDefaultRenderer(Float.class, new NumberFormatCellRenderer());
+		table.setDefaultRenderer(Float.class, new TraitNumberFormatCellRenderer());
 
 		setLayout(new BorderLayout(0, 0));
 		setBorder(BorderFactory.createEmptyBorder(1, 1, 0, 0));
@@ -49,9 +49,6 @@ public class TraitsPanel extends JPanel implements ActionListener
 
 		table.setRowSorter(new TableRowSorter<TraitsTableModel>(model));
 		table.setModel(model);
-
-		if (model.getColumnCount() > 0)
-			table.getColumnModel().getColumn(0).setPreferredWidth(20);
 
 		// Size and set the editor for each column
 		for (int i = 0; i < table.getColumnCount(); i++)
@@ -71,12 +68,6 @@ public class TraitsPanel extends JPanel implements ActionListener
 		// Enable/disable the "remove" button based on the trait count
 		controls.bExport.setEnabled(table.getColumnCount()-1 > 0);
 		controls.bRemove.setEnabled(table.getColumnCount()-1 > 0);
-
-		// Set the table header to have the correct height for a double height
-		// header text
-		Dimension d = table.getTableHeader().getPreferredSize();
-		d.height = SystemUtils.isLinux() ? 40 : 35;
-		table.getTableHeader().setPreferredSize(d);
 	}
 
 	public void actionPerformed(ActionEvent e)
@@ -116,5 +107,27 @@ public class TraitsPanel extends JPanel implements ActionListener
 
 		updateModel();
 		Actions.projectModified();
+	}
+
+	// Deals with the fact that our fake double header for the JTable means
+	// that String data can be found in numerical columns.
+	public class TraitNumberFormatCellRenderer extends NumberFormatCellRenderer
+	{
+		@Override
+		public Component getTableCellRendererComponent(JTable table, Object value,
+			boolean isSelected, boolean hasFocus, int row, int column)
+		{
+			// If the row is our second "header" just set the text to be a
+			// String cast of the value
+			if (row == 0)
+				setText((String) value);
+
+			// Otherwise use the rendering of SCRI-Commons NumberFormatCellRenderer
+			else
+				super.getTableCellRendererComponent(table, value, isSelected,
+					hasFocus, row, column);
+
+			return this;
+		}
 	}
 }
