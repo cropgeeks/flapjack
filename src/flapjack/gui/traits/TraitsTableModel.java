@@ -34,8 +34,7 @@ class TraitsTableModel extends AbstractTableModel
 
 		columnNames[0] = RB.getString("gui.traits.TraitsTableModel.line");
 		for (int i = 1; i < columnNames.length; i++)
-			columnNames[i] = "<html><p>" + traits.get(i-1).getName() + "</p><p>"
-			+ traits.get(i-1).getExperiment() + "</p></html>";
+			columnNames[i] = traits.get(i-1).getName();
 	}
 
 	@Override
@@ -56,12 +55,22 @@ class TraitsTableModel extends AbstractTableModel
 
 	public Object getValueAt(int row, int col)
 	{
+		// Row 0 contains the experiment data
+		if (row == 0)
+		{
+			// We don't want to dispaly a line name in the experiment "header"
+			if (col == 0)
+				return null;
+			else
+				return traits.get(col-1).getExperiment();
+		}
+
 		// Column 0 contains the line data
-		if (col == 0)
-			return dataSet.getLineByIndex(row);
+		else if (col == 0)
+			return dataSet.getLineByIndex(row-1);
 
 		// Other columns are traits in the vector of values held by a line
-		Line line = dataSet.getLineByIndex(row);
+		Line line = dataSet.getLineByIndex(row-1);
 
 		Trait trait = traits.get(col-1);
 		TraitValue tv = line.getTraitValues().get(col-1);
@@ -91,7 +100,7 @@ class TraitsTableModel extends AbstractTableModel
 	@Override
 	public boolean isCellEditable(int row, int col)
 	{
-		if (col == 0)
+		if (col == 0 || row == 0)
 			return false;
 		else
 			return true;
@@ -111,7 +120,7 @@ class TraitsTableModel extends AbstractTableModel
 	@Override
 	public void setValueAt(Object value, int row, int col)
 	{
-		Line line = dataSet.getLineByIndex(row);
+		Line line = dataSet.getLineByIndex(row-1);
 		float newValue = 0;
 
 		if (value == null)
@@ -135,7 +144,7 @@ class TraitsTableModel extends AbstractTableModel
 
 		// Update it in the underlying model
 		line.getTraitValues().get(col-1).setValue(newValue);
-	    fireTableCellUpdated(row, col);
+	    fireTableCellUpdated(row-1, col);
 
 	    Actions.projectModified();
 	}
