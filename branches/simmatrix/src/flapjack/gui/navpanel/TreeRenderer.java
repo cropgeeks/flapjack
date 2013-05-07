@@ -31,6 +31,8 @@ public class TreeRenderer extends JLabel implements TreeCellRenderer
 			setIcon(Icons.getIcon("TRAITS"));
 		else if (value instanceof BookmarkNode)
 			setIcon(Icons.getIcon("BOOKMARK"));
+		else if (value instanceof SimMatrixNode)
+			setIcon(Icons.getIcon("SIMMATRIX"));
 
 		this.selected = selected;
 

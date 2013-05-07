@@ -54,6 +54,7 @@
 			<fileset dir="${classes}">
 				<exclude name="**/*Test.class"/>
 			</fileset>
+			<zipfileset dir="${src}/arrr" prefix="src/arrr"/>
 			<zipfileset dir="${config}" prefix="config"/>
 			<!-- castor.properties must be top level otherwise it's not seen -->
 			<fileset file="config/castor.properties"/>
