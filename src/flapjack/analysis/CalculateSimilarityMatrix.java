@@ -84,7 +84,10 @@ public class CalculateSimilarityMatrix extends SimpleJob
 			task.get();
 
 		if (okToRun)
-			writeResults(viewSet.getView(0));
+			viewSet.lineScores = lineScores;
+
+//		if (okToRun)
+//			writeResults(viewSet.getView(0));
 
 		long e = System.currentTimeMillis();
 		System.out.println("SimMatrix time: " + (e-s) + "ms");

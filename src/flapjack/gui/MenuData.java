@@ -5,6 +5,7 @@ package flapjack.gui;
 
 import java.io.*;
 import java.net.*;
+import java.util.*;
 import javax.swing.filechooser.*;
 
 import flapjack.analysis.*;
@@ -366,7 +367,7 @@ public class MenuData
 		GTViewSet viewSet = gPanel.getViewSet();
 		GTView view = gPanel.getView();
 
-		String name = RB.format("gui.MenuData.simMatrix.filename", viewSet.getName());
+/*		String name = RB.format("gui.MenuData.simMatrix.filename", viewSet.getName());
 		File saveAs = new File(Prefs.guiCurrentDir, name);
 		FileNameExtensionFilter filter = new FileNameExtensionFilter(
 			RB.getString("other.Filters.ttxt"), "txt");
@@ -378,7 +379,9 @@ public class MenuData
 		// Quit if the user cancelled the file selection
 		if (filename == null)
 			return;
+*/
 
+		String filename = null;
 
 		// Set up the calculator
 		CalculateSimilarityMatrix calculator = new CalculateSimilarityMatrix(viewSet, view, filename);
@@ -398,8 +401,38 @@ public class MenuData
 			return;
 		}
 
-		TaskDialog.info(
-			RB.format("gui.dialog.simMatrix.exportSuccess", filename),
-			RB.getString("gui.text.close"));
+		try
+		{
+			flapjack.servlet.DendrogramClient client = new flapjack.servlet.DendrogramClient();
+//			client.uploadFile("E:\\Data\\Flapjack\\Helena\\SimilarityMatrix-Default View.txt");
+//			client.uploadFile(filename);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+
+		// Add the result to the navigation panel
+		navPanel.addedNewSimMatrixNode(viewSet, viewSet.getDataSet());
+
+
+//		TaskDialog.info(
+//			RB.format("gui.dialog.simMatrix.exportSuccess", filename),
+//			RB.getString("gui.text.close"));
+
+	}
+
+	public void dataDendrogram(GTViewSet viewSet)
+	{
+		DendrogramGenerator dg = new DendrogramGenerator(viewSet);
+
+		try
+		{
+			dg.runJob(0);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
 	}
 }
