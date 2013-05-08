@@ -189,11 +189,11 @@ class NavPanel extends JPanel
 		tree.scrollPathToVisible(new TreePath(bmNode.getPath()));
 	}
 
-	void addedNewSimMatrixNode(GTViewSet viewSet, DataSet dataSet)
+	void addedNewSimMatrixNode(GTViewSet viewSet, SimMatrix matrix)
 	{
 		VisualizationNode node = findVisualizationNode(viewSet);
 
-		SimMatrixNode smNode = new SimMatrixNode(dataSet, viewSet);
+		SimMatrixNode smNode = new SimMatrixNode(viewSet.getDataSet(), viewSet, matrix);
 		treeModel.insertNodeInto(smNode, node, node.getChildCount());
 
 		// This will expand the + for the SimMatrix nodes if they're not visible

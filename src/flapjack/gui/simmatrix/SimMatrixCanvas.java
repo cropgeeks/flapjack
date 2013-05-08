@@ -52,14 +52,14 @@ public class SimMatrixCanvas extends JPanel
 	private ArrayList<ArrayList<Float>> lineScores;
 
 
-	public SimMatrixCanvas(SimMatrixPanel sPanel, GTViewSet viewSet)
+	public SimMatrixCanvas(SimMatrixPanel sPanel, SimMatrix matrix)
 	{
 		this.sPanel = sPanel;
 		this.viewSet = viewSet;
 
 		setOpaque(false);
 
-		lineScores = viewSet.lineScores;
+		lineScores = matrix.getLineScores();
 
 		// Prepare the background threads that will do the main painting
 		executor = Executors.newFixedThreadPool(cores);

@@ -21,7 +21,10 @@ public class CalculateSimilarityMatrix extends SimpleJob
 
 	private boolean[] chromosomes;
 	private ArrayList<Integer> indices;
+//	private ArrayList<String> lineNames;
 	private ArrayList<ArrayList<Float>> lineScores;
+
+	private SimMatrix matrix = new SimMatrix();
 
 	private AtomicInteger count = new AtomicInteger(0);
 
@@ -35,7 +38,10 @@ public class CalculateSimilarityMatrix extends SimpleJob
 		indices = new ArrayList<Integer>();
 		for (int i = 0; i < viewSet.getLines().size(); i++)
 			if (skipLine(i) == false)
+			{
 				indices.add(i);
+				matrix.getLineInfos().add(view.getLineInfo(i));
+			}
 
 		// We're generating a square matrix, so the total number of comparisons
 		// will be the number of lines squared (divided by 2)
@@ -47,6 +53,9 @@ public class CalculateSimilarityMatrix extends SimpleJob
 		for (int i = 0; i < chromosomes.length; i++)
 			chromosomes[i] = true;
 	}
+
+	public SimMatrix getMatrix()
+		{ return matrix; }
 
 	@Override
 	public int getValue()
@@ -84,7 +93,10 @@ public class CalculateSimilarityMatrix extends SimpleJob
 			task.get();
 
 		if (okToRun)
-			viewSet.lineScores = lineScores;
+		{
+			matrix.setLineScores(lineScores);
+			viewSet.matrices.add(matrix);
+		}
 
 //		if (okToRun)
 //			writeResults(viewSet.getView(0));

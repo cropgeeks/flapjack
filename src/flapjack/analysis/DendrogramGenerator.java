@@ -13,18 +13,19 @@ import scri.commons.gui.*;
 
 public class DendrogramGenerator extends SimpleJob
 {
-	private GTViewSet viewSet;
+	private SimMatrix matrix;
 
-	public DendrogramGenerator(GTViewSet viewSet)
+	public DendrogramGenerator(SimMatrix matrix)
 	{
-		this.viewSet = viewSet;
+		this.matrix = matrix;
 	}
 
 	public void runJob(int index)
 		throws Exception
 	{
 		// Send the data to the servlet
-		ArrayList<ArrayList<Float>> lineScores = viewSet.lineScores;
+		ArrayList<ArrayList<Float>> lineScores = matrix.getLineScores();
+//		ArrayList<String> lineNames = viewSet.lineNames;
 
 		StringBuilder sb1 = new StringBuilder();
 
@@ -32,7 +33,7 @@ public class DendrogramGenerator extends SimpleJob
 		int lineCount = lineScores.get(lineScores.size()-1).size();
 
 		for (int i = 0; i < lineCount; i++)
-			sb1.append((i == 0 ? "":"\t") + "LINE-" + (i+1));
+			sb1.append((i == 0 ? "":"\t") + matrix.getLineInfos().get(i).name());
 		sb1.append(System.getProperty("line.separator"));
 
 		for (int i = 0; i < lineCount; i++)
