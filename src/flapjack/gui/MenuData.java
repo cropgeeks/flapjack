@@ -6,7 +6,6 @@ package flapjack.gui;
 import java.awt.image.*;
 import java.io.*;
 import java.net.*;
-import java.util.*;
 import javax.swing.filechooser.*;
 
 import flapjack.analysis.*;
@@ -445,5 +444,6 @@ public class MenuData
 		}
 
 		BufferedImage image = dg.getImage();
+		navPanel.addedNewDendogramNode(viewSet, viewSet.getDataSet(), matrix, image);
 	}
 }

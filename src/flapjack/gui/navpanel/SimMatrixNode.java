@@ -3,20 +3,21 @@
 
 package flapjack.gui.navpanel;
 
-import java.awt.*;
 import javax.swing.*;
 
 import flapjack.data.*;
-import flapjack.gui.*;
 import flapjack.gui.simmatrix.*;
 
 public class SimMatrixNode extends BaseNode
 {
 	private SimMatrixPanel panel;
+	private SimMatrix matrix;
 
 	public SimMatrixNode(DataSet dataSet, GTViewSet viewSet, SimMatrix matrix)
 	{
 		super(dataSet);
+
+		this.matrix = matrix;
 
 		panel = new SimMatrixPanel(viewSet, matrix);
 	}
@@ -34,5 +35,10 @@ public class SimMatrixNode extends BaseNode
 	public JPanel getPanel()
 	{
 		return panel;
+	}
+
+	public SimMatrix getMatrix()
+	{
+		return matrix;
 	}
 }
