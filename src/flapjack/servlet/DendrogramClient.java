@@ -17,7 +17,7 @@ public class DendrogramClient
 	{
 	}
 
-	public void uploadFile(StringBuilder sb, int lineCount)
+	public BufferedImage doClientStuff(StringBuilder sb, int lineCount)
 		throws Exception
 	{
 		String charset = "UTF-8";
@@ -98,7 +98,7 @@ public class DendrogramClient
 
 			image = ImageIO.read(new BufferedInputStream(connection.getInputStream()));
 
-			System.out.println(image.getWidth());
+			return image;
 		}
 		else if (code == HttpURLConnection.HTTP_ACCEPTED)
 		{
@@ -119,5 +119,6 @@ public class DendrogramClient
 		}
 //		in.close();
 
+		return null;
 	}
 }
