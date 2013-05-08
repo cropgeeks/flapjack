@@ -14,11 +14,11 @@ public class SimMatrixNode extends BaseNode
 {
 	private SimMatrixPanel panel;
 
-	public SimMatrixNode(DataSet dataSet, GTViewSet viewSet)
+	public SimMatrixNode(DataSet dataSet, GTViewSet viewSet, SimMatrix matrix)
 	{
 		super(dataSet);
 
-		panel = new SimMatrixPanel(viewSet);
+		panel = new SimMatrixPanel(viewSet, matrix);
 	}
 
 	public String toString()

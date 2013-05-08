@@ -413,7 +413,8 @@ public class MenuData
 		}
 
 		// Add the result to the navigation panel
-		navPanel.addedNewSimMatrixNode(viewSet, viewSet.getDataSet());
+		SimMatrix matrix = calculator.getMatrix();
+		navPanel.addedNewSimMatrixNode(viewSet, matrix);
 
 
 //		TaskDialog.info(
@@ -422,17 +423,24 @@ public class MenuData
 
 	}
 
-	public void dataDendrogram(GTViewSet viewSet)
+	public void dataDendrogram(GTViewSet viewSet, SimMatrix matrix)
 	{
-		DendrogramGenerator dg = new DendrogramGenerator(viewSet);
+		DendrogramGenerator dg = new DendrogramGenerator(matrix);
 
-		try
+		ProgressDialog dialog = new ProgressDialog(dg,
+			"Generating Dendrogram",
+			"Generating dendrogram - please be patient", Flapjack.winMain);
+
+
+		// If the operation failed or was cancelled...
+		if (dialog.getResult() != ProgressDialog.JOB_COMPLETED)
 		{
-			dg.runJob(0);
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
+			if (dialog.getResult() == ProgressDialog.JOB_FAILED)
+				TaskDialog.error(RB.format("TODO: Error: {0}",
+					dialog.getException().getMessage()),
+					RB.getString("gui.text.close"));
+
+			return;
 		}
 	}
 }

@@ -28,7 +28,8 @@ public class GTViewSet extends XMLRoot
 	// Any bookmarks associated with this viewset
 	private ArrayList<Bookmark> bookmarks = new ArrayList<Bookmark>();
 
-	public ArrayList<ArrayList<Float>> lineScores;
+	// TODO: Simmatrix objects - waiting for their own structure
+	public ArrayList<SimMatrix> matrices = new ArrayList<SimMatrix>();
 
 	private String name;
 	private int viewIndex;

@@ -8,6 +8,8 @@ import java.util.*;
 import javax.swing.*;
 import javax.swing.table.*;
 
+import flapjack.data.*;
+
 import scri.commons.gui.*;
 
 class SimMatrixTableModel extends AbstractTableModel
@@ -15,9 +17,9 @@ class SimMatrixTableModel extends AbstractTableModel
 	private ArrayList<ArrayList<Float>> lineScores;
 	private int colCount;
 
-	SimMatrixTableModel(ArrayList<ArrayList<Float>> lineScores)
+	SimMatrixTableModel(SimMatrix matrix)
 	{
-		this.lineScores = lineScores;
+		lineScores = matrix.getLineScores();
 
 		// TODO: unsafe (needs to be actual list of line names)
 		colCount = lineScores.get(lineScores.size()-1).size();

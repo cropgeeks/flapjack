@@ -90,8 +90,6 @@ public class DendrogramClient
 		writer.append("--" + boundary + "--").append(CRLF);
 		writer.close();
 
-		System.out.println("DONE");
-
 		int code = connection.getResponseCode();
 
 		if (code == HttpURLConnection.HTTP_OK)
@@ -107,6 +105,7 @@ public class DendrogramClient
 		}
 		else
 		{
+			System.out.println("FAILED: " + code);
 		}
 
 

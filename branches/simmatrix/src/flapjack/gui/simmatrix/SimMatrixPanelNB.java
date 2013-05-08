@@ -14,10 +14,12 @@ import flapjack.gui.*;
 class SimMatrixPanelNB extends JPanel implements ActionListener
 {
 	private GTViewSet viewSet;
+	private SimMatrix matrix;
 
-	public SimMatrixPanelNB(GTViewSet viewSet)
+	public SimMatrixPanelNB(GTViewSet viewSet, SimMatrix matrix)
 	{
 		this.viewSet = viewSet;
+		this.matrix = matrix;
 
 		initComponents();
 
@@ -45,7 +47,7 @@ class SimMatrixPanelNB extends JPanel implements ActionListener
 	{
 		if (e.getSource() == bDendrogram)
 		{
-			Flapjack.winMain.mData.dataDendrogram(viewSet);
+			Flapjack.winMain.mData.dataDendrogram(viewSet, matrix);
 		}
 	}
 

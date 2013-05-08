@@ -13,6 +13,7 @@ import flapjack.gui.*;
 public class SimMatrixPanel extends JPanel
 {
 	private GTViewSet viewSet;
+	private SimMatrix matrix;
 
 	private JTabbedPane tabs;
 
@@ -26,9 +27,10 @@ public class SimMatrixPanel extends JPanel
 	private JTable table;
 	private SimMatrixTableModel model;
 
-	public SimMatrixPanel(GTViewSet viewSet)
+	public SimMatrixPanel(GTViewSet viewSet, SimMatrix matrix)
 	{
 		this.viewSet = viewSet;
+		this.matrix = matrix;
 
 		createControls();
 	}
@@ -36,7 +38,7 @@ public class SimMatrixPanel extends JPanel
 	private void createControls()
 	{
 		// Visualization setup
-		sCanvas = new SimMatrixCanvas(this, viewSet);
+		sCanvas = new SimMatrixCanvas(this, matrix);
 
 		sp = new JScrollPane();
 		sp.setViewportView(sCanvas);
@@ -48,9 +50,9 @@ public class SimMatrixPanel extends JPanel
 
 
 		// Table setup
-		tablePanel = new SimMatrixPanelNB(viewSet);
+		tablePanel = new SimMatrixPanelNB(viewSet, matrix);
 
-		model = new SimMatrixTableModel(viewSet.lineScores);
+		model = new SimMatrixTableModel(matrix);
 
 		table = tablePanel.table;
 		table.setModel(model);
