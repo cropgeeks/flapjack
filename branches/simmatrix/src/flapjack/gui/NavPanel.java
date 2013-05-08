@@ -6,6 +6,7 @@ package flapjack.gui;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.dnd.*;
+import java.awt.image.*;
 import java.beans.*;
 import javax.swing.*;
 import javax.swing.event.*;
@@ -199,6 +200,31 @@ class NavPanel extends JPanel
 		// This will expand the + for the SimMatrix nodes if they're not visible
 		tree.setSelectionPath(new TreePath(smNode.getPath()));
 		tree.scrollPathToVisible(new TreePath(smNode.getPath()));
+	}
+
+	void addedNewDendogramNode(GTViewSet viewSet, DataSet dataSet, SimMatrix matrix, BufferedImage image)
+	{
+		VisualizationNode node = findVisualizationNode(viewSet);
+
+		DefaultMutableTreeNode found;
+		// Search until we find the node for this view set
+		for (int i = 0; i < node.getChildCount(); i++)
+		{
+			found = (DefaultMutableTreeNode) node.getChildAt(i);
+
+			if (found instanceof SimMatrixNode)
+			{
+				if (((SimMatrixNode)found).getMatrix() == matrix)
+				{
+					DendogramNode dNode = new DendogramNode(dataSet, image);
+					treeModel.insertNodeInto(dNode, found, found.getChildCount());
+
+					// This will expand the + for the SimMatrix nodes if they're not visible
+					tree.setSelectionPath(new TreePath(dNode.getPath()));
+					tree.scrollPathToVisible(new TreePath(dNode.getPath()));
+				}
+			}
+		}
 	}
 
 	private DataSetNode findDataSetNode(DataSet dataSet)
