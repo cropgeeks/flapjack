@@ -3,6 +3,7 @@
 
 package flapjack.gui;
 
+import java.awt.image.*;
 import java.io.*;
 import java.net.*;
 import java.util.*;
@@ -442,5 +443,7 @@ public class MenuData
 
 			return;
 		}
+
+		BufferedImage image = dg.getImage();
 	}
 }

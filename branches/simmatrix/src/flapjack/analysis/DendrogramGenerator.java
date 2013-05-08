@@ -3,6 +3,7 @@
 
 package flapjack.analysis;
 
+import java.awt.image.*;
 import java.io.*;
 import java.util.*;
 
@@ -14,11 +15,15 @@ import scri.commons.gui.*;
 public class DendrogramGenerator extends SimpleJob
 {
 	private SimMatrix matrix;
+	private BufferedImage image;
 
 	public DendrogramGenerator(SimMatrix matrix)
 	{
 		this.matrix = matrix;
 	}
+
+	public BufferedImage getImage()
+		{ return image; }
 
 	public void runJob(int index)
 		throws Exception
@@ -55,7 +60,7 @@ public class DendrogramGenerator extends SimpleJob
 
 		// Servlet has to run R...
 		DendrogramClient client = new DendrogramClient();
-		client.uploadFile(sb1, lineCount);
+		image = client.doClientStuff(sb1, lineCount);
 
 		// Retrieve the data (hopefully a png) back from the servlet
 	}
