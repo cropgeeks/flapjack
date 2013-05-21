@@ -216,7 +216,7 @@ class NavPanel extends JPanel
 			{
 				if (((SimMatrixNode)found).getMatrix() == matrix)
 				{
-					DendogramNode dNode = new DendogramNode(dataSet, image);
+					DendrogramNode dNode = new DendrogramNode(dataSet, image);
 					treeModel.insertNodeInto(dNode, found, found.getChildCount());
 
 					// This will expand the + for the SimMatrix nodes if they're not visible

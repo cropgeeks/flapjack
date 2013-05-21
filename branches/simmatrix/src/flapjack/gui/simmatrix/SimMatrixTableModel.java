@@ -15,16 +15,23 @@ import scri.commons.gui.*;
 class SimMatrixTableModel extends AbstractTableModel
 {
 	private ArrayList<ArrayList<Float>> lineScores;
+	private ArrayList<LineInfo> lineInfos;
 	private int colCount;
 
 	SimMatrixTableModel(SimMatrix matrix)
 	{
 		lineScores = matrix.getLineScores();
+		lineInfos = matrix.getLineInfos();
 
 		// TODO: unsafe (needs to be actual list of line names)
 		colCount = lineScores.get(lineScores.size()-1).size();
 
 		System.out.println("rowCount: " + lineScores.size());
+	}
+
+	public String getColumnName(int col)
+	{
+	    return lineInfos.get(col).name();
 	}
 
 	public int getColumnCount()

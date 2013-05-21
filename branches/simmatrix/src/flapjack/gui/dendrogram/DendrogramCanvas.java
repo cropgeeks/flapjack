@@ -1,12 +1,12 @@
-package flapjack.gui.dendogram;
+package flapjack.gui.dendrogram;
 
 import java.awt.*;
 import java.awt.image.*;
 import javax.swing.*;
 
-public class DendogramCanvas extends JPanel
+public class DendrogramCanvas extends JPanel
 {
-	private DendogramPanel dPanel;
+	private DendrogramPanel dPanel;
 	// This buffer holds the current viewport (visible) area
 	BufferedImage image;
 
@@ -14,7 +14,7 @@ public class DendogramCanvas extends JPanel
 	// in the top left corner of the current view
 	int pX1, pY1;
 
-	public DendogramCanvas(DendogramPanel dPanel, BufferedImage image)
+	public DendrogramCanvas(DendrogramPanel dPanel, BufferedImage image)
 	{
 		this.dPanel = dPanel;
 

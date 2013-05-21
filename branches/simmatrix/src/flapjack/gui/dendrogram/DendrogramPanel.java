@@ -1,4 +1,4 @@
-package flapjack.gui.dendogram;
+package flapjack.gui.dendrogram;
 
 import java.awt.*;
 import java.awt.image.*;
@@ -6,15 +6,15 @@ import javax.swing.*;
 
 import flapjack.gui.*;
 
-public class DendogramPanel extends JPanel
+public class DendrogramPanel extends JPanel
 {
 	// Controls for visualization
-	private DendogramCanvas dCanvas;
+	private DendrogramCanvas dCanvas;
 	private JScrollPane sp;
 
 	private CanvasController controller;
 
-	public DendogramPanel(BufferedImage image)
+	public DendrogramPanel(BufferedImage image)
 	{
 		createControls(image);
 	}
@@ -22,7 +22,7 @@ public class DendogramPanel extends JPanel
 	private void createControls(BufferedImage image)
 	{
 		// Visualization setup
-		dCanvas = new DendogramCanvas(this, image);
+		dCanvas = new DendrogramCanvas(this, image);
 
 		sp = new JScrollPane();
 		sp.setViewportView(dCanvas);
@@ -35,7 +35,7 @@ public class DendogramPanel extends JPanel
 		add(sp);
 	}
 
-	DendogramCanvas getDendogramCanvas()
+	DendrogramCanvas getDendogramCanvas()
 	{
 		return dCanvas;
 	}
