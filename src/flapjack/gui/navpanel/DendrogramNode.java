@@ -4,17 +4,17 @@ import java.awt.image.*;
 import javax.swing.*;
 
 import flapjack.data.*;
-import flapjack.gui.dendogram.*;
+import flapjack.gui.dendrogram.*;
 
-public class DendogramNode extends BaseNode
+public class DendrogramNode extends BaseNode
 {
-	private DendogramPanel panel;
+	private DendrogramPanel panel;
 
-	public DendogramNode(DataSet dataSet, BufferedImage image)
+	public DendrogramNode(DataSet dataSet, BufferedImage image)
 	{
 		super(dataSet);
 
-		panel = new DendogramPanel(image);
+		panel = new DendrogramPanel(image);
 	}
 
 	public String toString()

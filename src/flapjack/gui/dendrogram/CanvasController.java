@@ -1,18 +1,18 @@
 // Copyright 2009-2013 Information & Computational Sciences, JHI. All rights
 // reserved. Use is subject to the accompanying licence terms.
 
-package flapjack.gui.dendogram;
+package flapjack.gui.dendrogram;
 
 import javax.swing.*;
 import javax.swing.event.*;
 
 public class CanvasController implements ChangeListener
 {
-	private DendogramCanvas dCanvas;
+	private DendrogramCanvas dCanvas;
 
 	private JViewport viewport;
 
-	CanvasController(DendogramPanel dPanel, JScrollPane sp)
+	CanvasController(DendrogramPanel dPanel, JScrollPane sp)
 	{
 		dCanvas = dPanel.getDendogramCanvas();
 
