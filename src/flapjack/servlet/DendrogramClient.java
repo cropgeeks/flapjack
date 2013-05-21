@@ -6,18 +6,26 @@ package flapjack.servlet;
 import java.awt.image.*;
 import java.io.*;
 import java.net.*;
+import java.util.*;
+import java.util.zip.*;
 import javax.imageio.*;
+
+import flapjack.data.*;
 
 public class DendrogramClient
 {
-	String url = "http://bioinf:8080/flapjack/servlets/dendrogram";
-//	String url = "http://cgi-lib.berkeley.edu/ex/simple-form.cgi";
+	private static final String url = "http://bioinf:8080/flapjack/servlets/dendrogram";
+
+	private ArrayList<Integer> lineOrder = new ArrayList<Integer>();
 
 	public DendrogramClient()
 	{
 	}
 
-	public BufferedImage doClientStuff(StringBuilder sb, int lineCount)
+	public ArrayList<Integer> getLineOrder()
+		{ return lineOrder; }
+
+	public Dendrogram doClientStuff(StringBuilder sb, int lineCount)
 		throws Exception
 	{
 		String charset = "UTF-8";
@@ -94,30 +102,66 @@ public class DendrogramClient
 
 		if (code == HttpURLConnection.HTTP_OK)
 		{
-			BufferedImage image;
+			Dendrogram d = new Dendrogram();
 
-			image = ImageIO.read(new BufferedInputStream(connection.getInputStream()));
+			ZipInputStream zis = new ZipInputStream(new BufferedInputStream(connection.getInputStream()));
+			ZipEntry entry;
 
-			return image;
+			while ((entry = zis.getNextEntry()) != null)
+			{
+				System.out.println("ENTRY: " + entry.getName());
+
+				if (entry.getName().equals("dendrogram.png"))
+				{
+					ByteArrayOutputStream bos = new ByteArrayOutputStream();
+
+					int read;
+					byte[] buffer = new byte[1024];
+
+					while ((read = zis.read(buffer, 0, buffer.length)) != -1)
+						bos.write(buffer, 0, read);
+
+					ByteArrayInputStream bis = new ByteArrayInputStream(bos.toByteArray());
+					BufferedImage image = ImageIO.read(bis);
+
+					d.setImage(image);
+				}
+				else if (entry.getName().equals("order.txt"))
+				{
+					ByteArrayOutputStream bos = new ByteArrayOutputStream();
+
+					int read;
+					byte[] buffer = new byte[1024];
+
+					while ((read = zis.read(buffer, 0, buffer.length)) != -1)
+						bos.write(buffer, 0, read);
+
+					ByteArrayInputStream bis = new ByteArrayInputStream(bos.toByteArray());
+
+					BufferedReader in = new BufferedReader(new InputStreamReader(bis));
+					String str = null;
+
+					// Read the line order
+					while ((str = in.readLine()) != null && str.length() > 0)
+						lineOrder.add(Integer.parseInt(str) - 1);
+
+					in.close();
+				}
+			}
+
+			return d;
 		}
 		else if (code == HttpURLConnection.HTTP_ACCEPTED)
 		{
+			// TODO: Assumption here is R failed for some reason (detected by
+			// servlet and perhaps handed back in error code?)
 		}
 		else
 		{
+			// TODO: Unknown failure
+
 			System.out.println("FAILED: " + code);
 		}
-
-
-
-//		BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-//		String str = null;
-//		System.out.println("RESPONSE:");
-//		while ((str = in.readLine()) != null)
-		{
-//			System.out.println(str);
-		}
-//		in.close();
 
 		return null;
 	}

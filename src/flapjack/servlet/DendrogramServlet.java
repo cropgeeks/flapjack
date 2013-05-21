@@ -9,6 +9,7 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import java.util.Enumeration;
 import java.util.Collection;
+import java.util.zip.*;
 
 import scri.commons.gui.*;
 
@@ -33,9 +34,15 @@ public class DendrogramServlet extends HttpServlet
 	{
 		Part textfile = request.getPart("textfile");
 
-		// Save the simmatrix file to disk
+		// Work out what everything is going to get called
 		String id = SystemUtils.createGUID(32);
-		File matrix = saveMatrix(textfile, id);
+		File rScript = new File(SystemUtils.getTempDirectory(), id + ".R");
+		File matrix = new File(SystemUtils.getTempDirectory(), id + ".matrix");
+		File order  = new File(SystemUtils.getTempDirectory(), id + ".order");
+		File png = new File(SystemUtils.getTempDirectory(), id + ".png");
+
+		// Save the simmatrix file to disk
+		saveMatrix(textfile, matrix, id);
 
 		// Get the number of lines
 		int lineCount = Integer.parseInt(request.getParameter("lineCount"));
@@ -44,7 +51,7 @@ public class DendrogramServlet extends HttpServlet
 		String rPath = getServletContext().getInitParameter("r-path");
 
 		// Write out the R script, replacing its variables as needed
-		File rScript = writeScript(id, lineCount);
+		writeScript(rScript, id, lineCount);
 
 		// Run R
 		try
@@ -59,7 +66,7 @@ public class DendrogramServlet extends HttpServlet
 		}
 
 
-		response.setContentType("image/png");
+/*		response.setContentType("image/png");
 		OutputStream out = response.getOutputStream();
 
 		BufferedInputStream in = new BufferedInputStream(
@@ -71,6 +78,30 @@ public class DendrogramServlet extends HttpServlet
 
 		in.close();
 		out.close();
+*/
+
+		response.setContentType("application/zip");
+		ZipOutputStream zout = new ZipOutputStream(response.getOutputStream());
+
+
+		// Send the png
+		zout.putNextEntry(new ZipEntry("dendrogram.png"));
+		BufferedInputStream in = new BufferedInputStream(new FileInputStream(png));
+		byte[] buffer = new byte[1024];
+		for (int length = 0; (length = in.read(buffer)) > 0;)
+			zout.write(buffer, 0, length);
+		in.close();
+
+		// Send the order
+		zout.putNextEntry(new ZipEntry("order.txt"));
+		in = new BufferedInputStream(new FileInputStream(order));
+		buffer = new byte[1024];
+		for (int length = 0; (length = in.read(buffer)) > 0;)
+			zout.write(buffer, 0, length);
+		in.close();
+
+		zout.close();
+
 
 //		PrintWriter out = response.getWriter();
 //		out.println("<html>");
@@ -81,16 +112,16 @@ public class DendrogramServlet extends HttpServlet
 
 		// Tomcat picks its own temp folder for io.tmpdir, so it's probably best
 		// to clean up when finished rather than assuming Tomcat will
-		matrix.delete();
 		rScript.delete();
+		matrix.delete();
+		order.delete();
+		png.delete();
 	}
 
-	private File saveMatrix(Part textfile, String id)
+	private void saveMatrix(Part textfile, File matrix, String id)
 		throws IOException
 	{
-		File file = new File(SystemUtils.getTempDirectory(), id + ".matrix");
-
-		FileOutputStream out = new FileOutputStream(file);
+		FileOutputStream out = new FileOutputStream(matrix);
         InputStream in = textfile.getInputStream();
 
 		int read = 0;
@@ -101,32 +132,27 @@ public class DendrogramServlet extends HttpServlet
 
 		out.close();
 		in.close();
-
-		return file;
 	}
 
-	private File writeScript(String id, int lineCount)
+	private void writeScript(File rScript, String id, int lineCount)
 		throws IOException
 	{
-		File file = new File(SystemUtils.getTempDirectory(), id + ".R");
-
 		BufferedReader in = new BufferedReader(new InputStreamReader(
 			getClass().getResourceAsStream("/src/arrr/Dendrogram.R")));
-		PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(file)));
+		PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(rScript)));
 
 		String str = null;
 		while ((str = in.readLine()) != null)
 		{
-			str = str.replace("$matrix", id + ".matrix");
-			str = str.replace("$png", id + ".png");
-			str = str.replace("$width", "" + (12 * lineCount));
+			str = str.replace("$MATRIX", id + ".matrix");
+			str = str.replace("$ORDER", id + ".order");
+			str = str.replace("$PNG", id + ".png");
+			str = str.replace("$WIDTH", "" + (12 * lineCount));
 
 			out.println(str);
 		}
 
 		in.close();
 		out.close();
-
-		return file;
 	}
 }

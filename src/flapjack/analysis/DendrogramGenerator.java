@@ -15,7 +15,7 @@ import scri.commons.gui.*;
 public class DendrogramGenerator extends SimpleJob
 {
 	private SimMatrix matrix;
-	private BufferedImage image;
+	private Dendrogram dendrogram;
 
 	public DendrogramGenerator(SimMatrix matrix)
 	{
@@ -23,45 +23,28 @@ public class DendrogramGenerator extends SimpleJob
 	}
 
 	public BufferedImage getImage()
-		{ return image; }
+		{ return dendrogram.getImage(); }
 
 	public void runJob(int index)
 		throws Exception
 	{
-		// Send the data to the servlet
-		ArrayList<ArrayList<Float>> lineScores = matrix.getLineScores();
-//		ArrayList<String> lineNames = viewSet.lineNames;
+		// Turn the matrix into text for easy transmission to the servlet
+		StringBuilder sb = matrix.createStringMatrix();
+		int lineCount = matrix.getLineInfos().size();
 
-		StringBuilder sb1 = new StringBuilder();
-
-		// TODO: unsafe (needs to be actual list of line names)
-		int lineCount = lineScores.get(lineScores.size()-1).size();
-
-		for (int i = 0; i < lineCount; i++)
-			sb1.append((i == 0 ? "":"\t") + matrix.getLineInfos().get(i).name());
-		sb1.append(System.getProperty("line.separator"));
-
-		for (int i = 0; i < lineCount; i++)
-		{
-			StringBuilder sb2 = new StringBuilder();
-
-			for (int j = 0; j < lineCount; j++)
-			{
-				if (j <= i)
-					sb2.append("\t" + lineScores.get(i).get(j));
-				else
-					sb2.append("\t" + lineScores.get(j).get(i));
-			}
-
-			sb1.append(sb2.toString().trim());
-			sb1.append(System.getProperty("line.separator"));
-		}
-
-
-		// Servlet has to run R...
+		// Run the servlet (upload, run, download)
 		DendrogramClient client = new DendrogramClient();
-		image = client.doClientStuff(sb1, lineCount);
+		dendrogram = client.doClientStuff(sb, lineCount);
 
-		// Retrieve the data (hopefully a png) back from the servlet
+
+		// Use the line order that was returned (as a list of ints) to determine
+		// what LineInfo order should be stored with the Dendrogram object
+		ArrayList<Integer> intOrder = client.getLineOrder();
+		ArrayList<LineInfo> order = new ArrayList<LineInfo>();
+
+		for (int i = 0; i < intOrder.size(); i++)
+			order.add(matrix.getLineInfos().get(intOrder.get(i)));
+
+		dendrogram.setOrder(order);
 	}
 }
