@@ -1,10 +1,12 @@
-A <- read.table("$matrix", sep="\t", header=TRUE)
+A <- read.table("$MATRIX", sep="\t", header=TRUE)
 
 D = dist(A)
 
 hc = hclust(D)
 
-png("$png", width=$width, height=600, units="px")
+write(hc$order, file="$ORDER", ncolumns=1)
+
+png("$PNG", width=$WIDTH, height=550, units="px")
 
 plot(hc, labels=colnames(A))
 
