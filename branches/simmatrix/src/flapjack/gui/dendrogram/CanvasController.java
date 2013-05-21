@@ -14,7 +14,7 @@ public class CanvasController implements ChangeListener
 
 	CanvasController(DendrogramPanel dPanel, JScrollPane sp)
 	{
-		dCanvas = dPanel.getDendogramCanvas();
+		dCanvas = dPanel.getDendrogramCanvas();
 
 		viewport = sp.getViewport();
 		viewport.addChangeListener(this);

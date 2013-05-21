@@ -1,16 +1,17 @@
 package flapjack.gui.dendrogram;
 
 import java.awt.*;
+import java.awt.event.*;
 import java.awt.image.*;
 import javax.swing.*;
 
 import flapjack.gui.*;
 
-public class DendrogramPanel extends JPanel
+public class DendrogramPanel extends JPanel implements ActionListener
 {
 	// Controls for visualization
 	private DendrogramCanvas dCanvas;
-	private JScrollPane sp;
+	private DendrogramPanelNB nbPanel;
 
 	private CanvasController controller;
 
@@ -23,20 +24,24 @@ public class DendrogramPanel extends JPanel
 	{
 		// Visualization setup
 		dCanvas = new DendrogramCanvas(this, image);
-
-		sp = new JScrollPane();
-		sp.setViewportView(dCanvas);
-		sp.setWheelScrollingEnabled(false);
-
-		controller = new CanvasController(this, sp);
+		nbPanel = new DendrogramPanelNB(dCanvas);
+		controller = new CanvasController(this, nbPanel.sp);
 
 		setLayout(new BorderLayout(0, 0));
-		add(new TitlePanel("Dendogram"), BorderLayout.NORTH);
-		add(sp);
+		add(new TitlePanel("Dendrogram"), BorderLayout.NORTH);
+		add(nbPanel);
 	}
 
-	DendrogramCanvas getDendogramCanvas()
+	DendrogramCanvas getDendrogramCanvas()
 	{
 		return dCanvas;
+	}
+
+	public void actionPerformed(ActionEvent e)
+	{
+		if (e.getSource() == nbPanel.button)
+		{
+			System.out.println("Do something");
+		}
 	}
 }
