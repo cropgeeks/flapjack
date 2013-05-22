@@ -22,8 +22,8 @@ public class DendrogramGenerator extends SimpleJob
 		this.matrix = matrix;
 	}
 
-	public BufferedImage getImage()
-		{ return dendrogram.getImage(); }
+	public Dendrogram getDendrogram()
+		{ return dendrogram; }
 
 	public void runJob(int index)
 		throws Exception

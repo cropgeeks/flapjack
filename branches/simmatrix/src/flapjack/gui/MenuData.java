@@ -443,7 +443,8 @@ public class MenuData
 			return;
 		}
 
-		BufferedImage image = dg.getImage();
-		navPanel.addedNewDendogramNode(viewSet, viewSet.getDataSet(), matrix, image);
+		Dendrogram dendrogram = dg.getDendrogram();
+
+		navPanel.addedNewDendogramNode(viewSet, viewSet.getDataSet(), matrix, dendrogram);
 	}
 }

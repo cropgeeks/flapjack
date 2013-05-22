@@ -10,11 +10,11 @@ public class DendrogramNode extends BaseNode
 {
 	private DendrogramPanel panel;
 
-	public DendrogramNode(DataSet dataSet, BufferedImage image)
+	public DendrogramNode(DataSet dataSet, Dendrogram dendrogram)
 	{
 		super(dataSet);
 
-		panel = new DendrogramPanel(image);
+		panel = new DendrogramPanel(dendrogram);
 	}
 
 	public String toString()

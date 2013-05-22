@@ -202,7 +202,7 @@ class NavPanel extends JPanel
 		tree.scrollPathToVisible(new TreePath(smNode.getPath()));
 	}
 
-	void addedNewDendogramNode(GTViewSet viewSet, DataSet dataSet, SimMatrix matrix, BufferedImage image)
+	void addedNewDendogramNode(GTViewSet viewSet, DataSet dataSet, SimMatrix matrix, Dendrogram dendrogram)
 	{
 		VisualizationNode node = findVisualizationNode(viewSet);
 
@@ -216,7 +216,7 @@ class NavPanel extends JPanel
 			{
 				if (((SimMatrixNode)found).getMatrix() == matrix)
 				{
-					DendrogramNode dNode = new DendrogramNode(dataSet, image);
+					DendrogramNode dNode = new DendrogramNode(dataSet, dendrogram);
 					treeModel.insertNodeInto(dNode, found, found.getChildCount());
 
 					// This will expand the + for the SimMatrix nodes if they're not visible

@@ -5,6 +5,7 @@ import java.awt.event.*;
 import java.awt.image.*;
 import javax.swing.*;
 
+import flapjack.data.*;
 import flapjack.gui.*;
 
 public class DendrogramPanel extends JPanel implements ActionListener
@@ -15,9 +16,9 @@ public class DendrogramPanel extends JPanel implements ActionListener
 
 	private CanvasController controller;
 
-	public DendrogramPanel(BufferedImage image)
+	public DendrogramPanel(Dendrogram dendrogram)
 	{
-		createControls(image);
+		createControls(dendrogram.getImage());
 	}
 
 	private void createControls(BufferedImage image)
