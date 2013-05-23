@@ -333,15 +333,21 @@ public class GTView extends XMLRoot
 		GTView clone = new GTView(clonedViewSet, map, false);
 
 		// Clone the visible markers
-		clone.setMarkersFromArray(getMarkersAsArray(true), true);
+		clone.markers.clear();
+		for (MarkerInfo mi : markers)
+			clone.markers.add(new MarkerInfo(mi));
+
 		// Clone the hidden markers
 		if (cloneHidden)
-			clone.setMarkersFromArray(getMarkersAsArray(false), false);
+		{
+			for (MarkerInfo mi : hideMarkers)
+				clone.hideMarkers.add(new MarkerInfo(mi));
+		}
 
 		// Clone the QTLInfos
 		ArrayList<QTLInfo> clonedQTLs = new ArrayList<QTLInfo>();
 		for (QTLInfo qtl: qtls)
-			clonedQTLs.add(new QTLInfo(qtl.getQTL(), qtl.getIndex(), qtl.getMapOffset()));
+			clonedQTLs.add(new QTLInfo(qtl));
 		clone.setQTLs(clonedQTLs);
 
 		clone.comparisonMarker = comparisonMarker;
