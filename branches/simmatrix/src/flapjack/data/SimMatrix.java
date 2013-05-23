@@ -13,6 +13,15 @@ public class SimMatrix extends XMLRoot
 	// The 2D matrix of scores
 	private ArrayList<ArrayList<Float>> lineScores;
 
+	public SimMatrix()
+	{
+	}
+
+	private SimMatrix(ArrayList<LineInfo> lineInfos, ArrayList<ArrayList<Float>> lineScores)
+	{
+		this.lineInfos = lineInfos;
+		this.lineScores = lineScores;
+	}
 
 	public void setLineInfos(ArrayList<LineInfo> lineInfos)
 		{ this.lineInfos = lineInfos; }
@@ -63,5 +72,41 @@ public class SimMatrix extends XMLRoot
 		}
 
 		return sb1;
+	}
+
+	public SimMatrix cloneAndReorder(ArrayList<Integer> rIntOrder, ArrayList<LineInfo> newLineOrder)
+	{
+		// Clone scores ArrayList
+		// TODO: Double check initial ArrayList creation for slowdown issues (e.g. large cimmyt data)
+		ArrayList<ArrayList<Float>> newScores = new ArrayList<ArrayList<Float>>();
+		for (int i = 0; i < rIntOrder.size(); i++)
+		{
+			newScores.add(new ArrayList<Float>());
+			for (int j = 0; j <= i; j++)
+				newScores.get(i).add(1f);
+		}
+
+		// Iterate over the old matrix and copy each value into the new matrix
+		// at its new (ordered) position
+		for (int i=0; i < lineScores.size(); i++)
+		{
+			// x = the index of the line at i in the old matrix
+			int x = rIntOrder.get(i);
+
+			for (int j=0; j <= i; j++)
+			{
+				// y = the index of the line at i in the old matrix
+				int y = rIntOrder.get(j);
+
+				// Set the score at i,j in our new line scores data structure
+				// to the score at x,y (or y,x if x > y) in the old scores data
+				// structure as this is the score for the lines at i,j in our
+				// re-ordered similarity matrix
+				float score =  x > y ? lineScores.get(x).get(y) : lineScores.get(y).get(x);
+				newScores.get(i).set(j, score);
+			}
+		}
+
+		return new SimMatrix(newLineOrder, newScores);
 	}
 }

@@ -3,8 +3,6 @@
 
 package flapjack.analysis;
 
-import java.awt.image.*;
-import java.io.*;
 import java.util.*;
 
 import flapjack.data.*;
@@ -16,14 +14,27 @@ public class DendrogramGenerator extends SimpleJob
 {
 	private SimMatrix matrix;
 	private Dendrogram dendrogram;
+	// Note: this is the *new* view that the dendrogram will ultimately hang from
+	// not the view that was used to generate the matrix
+	private GTViewSet newViewSet;
 
-	public DendrogramGenerator(SimMatrix matrix)
+	// Stores the index position of each line before it was ordered, but *this*
+	// ArrayList is in the *new* (dendrogram) order.
+	// e.g if original order = a,b,c and dendrogram new order = b,c,a
+	// then this list will store 1,2,0.
+	private ArrayList<Integer> rIntOrder;
+
+	public DendrogramGenerator(SimMatrix matrix, GTViewSet newViewSet)
 	{
 		this.matrix = matrix;
+		this.newViewSet = newViewSet;
 	}
 
 	public Dendrogram getDendrogram()
 		{ return dendrogram; }
+
+	public ArrayList<Integer> rIntOrder()
+		{ return rIntOrder; }
 
 	public void runJob(int index)
 		throws Exception
@@ -39,12 +50,13 @@ public class DendrogramGenerator extends SimpleJob
 
 		// Use the line order that was returned (as a list of ints) to determine
 		// what LineInfo order should be stored with the Dendrogram object
-		ArrayList<Integer> intOrder = client.getLineOrder();
+		rIntOrder = client.getLineOrder();
 		ArrayList<LineInfo> order = new ArrayList<LineInfo>();
 
-		for (int i = 0; i < intOrder.size(); i++)
-			order.add(matrix.getLineInfos().get(intOrder.get(i)));
+		for (int i = 0; i < rIntOrder.size(); i++)
+			order.add(newViewSet.getLines().get(rIntOrder.get(i)));
 
-		dendrogram.setOrder(order);
+		newViewSet.setLines(order);
+		dendrogram.setViewSet(newViewSet);
 	}
 }

@@ -206,25 +206,12 @@ class NavPanel extends JPanel
 	{
 		VisualizationNode node = findVisualizationNode(viewSet);
 
-		DefaultMutableTreeNode found;
-		// Search until we find the node for this view set
-		for (int i = 0; i < node.getChildCount(); i++)
-		{
-			found = (DefaultMutableTreeNode) node.getChildAt(i);
+		DendrogramNode dNode = new DendrogramNode(dataSet, dendrogram);
+		treeModel.insertNodeInto(dNode, node, node.getChildCount());
 
-			if (found instanceof SimMatrixNode)
-			{
-				if (((SimMatrixNode)found).getMatrix() == matrix)
-				{
-					DendrogramNode dNode = new DendrogramNode(dataSet, dendrogram);
-					treeModel.insertNodeInto(dNode, found, found.getChildCount());
-
-					// This will expand the + for the SimMatrix nodes if they're not visible
-					tree.setSelectionPath(new TreePath(dNode.getPath()));
-					tree.scrollPathToVisible(new TreePath(dNode.getPath()));
-				}
-			}
-		}
+		// This will expand the + for the SimMatrix nodes if they're not visible
+		tree.setSelectionPath(new TreePath(dNode.getPath()));
+		tree.scrollPathToVisible(new TreePath(dNode.getPath()));
 	}
 
 	private DataSetNode findDataSetNode(DataSet dataSet)

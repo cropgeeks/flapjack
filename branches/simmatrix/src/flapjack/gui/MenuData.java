@@ -6,6 +6,7 @@ package flapjack.gui;
 import java.awt.image.*;
 import java.io.*;
 import java.net.*;
+import java.util.*;
 import javax.swing.filechooser.*;
 
 import flapjack.analysis.*;
@@ -401,17 +402,6 @@ public class MenuData
 			return;
 		}
 
-		try
-		{
-			flapjack.servlet.DendrogramClient client = new flapjack.servlet.DendrogramClient();
-//			client.uploadFile("E:\\Data\\Flapjack\\Helena\\SimilarityMatrix-Default View.txt");
-//			client.uploadFile(filename);
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
-
 		// Add the result to the navigation panel
 		SimMatrix matrix = calculator.getMatrix();
 		navPanel.addedNewSimMatrixNode(viewSet, matrix);
@@ -420,12 +410,15 @@ public class MenuData
 //		TaskDialog.info(
 //			RB.format("gui.dialog.simMatrix.exportSuccess", filename),
 //			RB.getString("gui.text.close"));
-
 	}
 
 	public void dataDendrogram(GTViewSet viewSet, SimMatrix matrix)
 	{
-		DendrogramGenerator dg = new DendrogramGenerator(matrix);
+		String newName = viewSet.getName() + " Dendrogram";
+		System.out.println(newName);
+		GTViewSet newViewSet = viewSet.createClone(newName, false);
+
+		DendrogramGenerator dg = new DendrogramGenerator(matrix, newViewSet);
 
 		ProgressDialog dialog = new ProgressDialog(dg,
 			"Generating Dendrogram",
@@ -444,7 +437,15 @@ public class MenuData
 		}
 
 		Dendrogram dendrogram = dg.getDendrogram();
+		ArrayList<Integer> rIntOrder = dg.rIntOrder();
 
-		navPanel.addedNewDendogramNode(viewSet, viewSet.getDataSet(), matrix, dendrogram);
+		DataSet dataSet = navPanel.getDataSetForSelection();
+		dataSet.getViewSets().add(newViewSet);
+		navPanel.addedNewVisualizationNode(dataSet);
+
+
+		SimMatrix orderedMatrix = matrix.cloneAndReorder(rIntOrder, dendrogram.viewLineOrder());
+		navPanel.addedNewSimMatrixNode(newViewSet, orderedMatrix);
+		navPanel.addedNewDendogramNode(newViewSet, newViewSet.getDataSet(), matrix, dendrogram);
 	}
 }

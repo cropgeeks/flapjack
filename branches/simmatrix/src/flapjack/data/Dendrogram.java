@@ -10,7 +10,7 @@ public class Dendrogram extends XMLRoot
 {
 	private BufferedImage image;
 
-	private ArrayList<LineInfo> order;
+	private GTViewSet viewSet;
 
 
 	public BufferedImage getImage()
@@ -19,9 +19,14 @@ public class Dendrogram extends XMLRoot
 	public void setImage(BufferedImage image)
 		{ this.image = image; }
 
-	public ArrayList<LineInfo> getOrder()
-		{ return order; }
+	public GTViewSet getViewSet()
+		{ return viewSet; }
 
-	public void setOrder(ArrayList<LineInfo> order)
-		{ this.order = order; }
+	public void setViewSet(GTViewSet viewSet)
+		{ this.viewSet = viewSet; }
+
+	// Other Methods
+
+	public ArrayList<LineInfo> viewLineOrder()
+		{ return viewSet.getLines(); }
 }
