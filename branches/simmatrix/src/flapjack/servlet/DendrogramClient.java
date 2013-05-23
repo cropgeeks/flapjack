@@ -25,7 +25,7 @@ public class DendrogramClient
 	public ArrayList<Integer> getLineOrder()
 		{ return lineOrder; }
 
-	public Dendrogram doClientStuff(StringBuilder sb, int lineCount)
+	public Dendrogram doClientStuff(SimMatrix matrix, int lineCount)
 		throws Exception
 	{
 		String charset = "UTF-8";
@@ -63,14 +63,13 @@ public class DendrogramClient
 		writer.append(CRLF).flush();
 		BufferedReader reader = null;
 
+		// Send the sim-matrix
+		System.out.print("SENDING MATRIX...");
+		writer.println(matrix.createFileHeaderLine());
+		for (int i = 0; i < matrix.size(); i++)
+			writer.println(matrix.createFileLine(i));
+		System.out.println("DONE");
 
-//		reader = new BufferedReader(new InputStreamReader(new FileInputStream(textFile), charset));
-		reader = new BufferedReader(new StringReader(sb.toString()));
-		for (String line; (line = reader.readLine()) != null;)
-		{
-			writer.append(line).append(CRLF);
-		}
-		reader.close();
 
 		writer.flush();
 
