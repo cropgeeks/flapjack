@@ -39,13 +39,11 @@ public class DendrogramGenerator extends SimpleJob
 	public void runJob(int index)
 		throws Exception
 	{
-		// Turn the matrix into text for easy transmission to the servlet
-		StringBuilder sb = matrix.createStringMatrix();
 		int lineCount = matrix.getLineInfos().size();
 
 		// Run the servlet (upload, run, download)
 		DendrogramClient client = new DendrogramClient();
-		dendrogram = client.doClientStuff(sb, lineCount);
+		dendrogram = client.doClientStuff(matrix, lineCount);
 
 
 		// Use the line order that was returned (as a list of ints) to determine

@@ -42,36 +42,37 @@ public class SimMatrix extends XMLRoot
 	}
 
 	/**
-	 * Returns a StringBuilder object that represents a textual formatting of
-	 * the simmatrix object (basically the 2D array as "written out").
+	 * Returns a String representation of the "header" line that would be
+	 * associated with this matrix, that is, the column headers of line names.
 	 */
-	public StringBuilder createStringMatrix()
+	public String createFileHeaderLine()
 	{
-		StringBuilder sb1 = new StringBuilder();
+		StringBuilder sb = new StringBuilder();
 
-		int lineCount = lineInfos.size();
+		for (int i = 0; i < lineInfos.size(); i++)
+			sb.append("\t" + lineInfos.get(i).name());
 
-		for (int i = 0; i < lineCount; i++)
-			sb1.append((i == 0 ? "":"\t") + lineInfos.get(i).name());
-		sb1.append(System.getProperty("line.separator"));
+		return sb.toString().trim();
+	}
 
-		for (int i = 0; i < lineCount; i++)
+	/**
+	 * Returns a String representation of the requested row of this matrix,
+	 * suitable for writing that line of data to a text file.
+	 */
+	public String createFileLine(int i)
+	{
+		StringBuilder sb = new StringBuilder();
+
+		for (int j = 0; j < lineInfos.size(); j++)
 		{
-			StringBuilder sb2 = new StringBuilder();
-
-			for (int j = 0; j < lineCount; j++)
-			{
-				if (j <= i)
-					sb2.append("\t" + lineScores.get(i).get(j));
-				else
-					sb2.append("\t" + lineScores.get(j).get(i));
-			}
-
-			sb1.append(sb2.toString().trim());
-			sb1.append(System.getProperty("line.separator"));
+			if (j <= i)
+				sb.append("\t" + lineScores.get(i).get(j));
+			else
+				sb.append("\t" + lineScores.get(j).get(i));
 		}
 
-		return sb1;
+		// Trim off any leading/trailing tabs before returning
+		return sb.toString().trim();
 	}
 
 	public SimMatrix cloneAndReorder(ArrayList<Integer> rIntOrder, ArrayList<LineInfo> newLineOrder)
@@ -95,7 +96,7 @@ public class SimMatrix extends XMLRoot
 
 			for (int j=0; j <= i; j++)
 			{
-				// y = the index of the line at i in the old matrix
+				// y = the index of the line at j in the old matrix
 				int y = rIntOrder.get(j);
 
 				// Set the score at i,j in our new line scores data structure
