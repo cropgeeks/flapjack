@@ -19,6 +19,14 @@ public class MarkerInfo extends XMLRoot
 	{
 	}
 
+	// Copy constructor
+	MarkerInfo(MarkerInfo markerInfo)
+	{
+		this.marker = markerInfo.marker;
+		this.index = markerInfo.index;
+		this.selected = markerInfo.selected;
+	}
+
 	MarkerInfo(Marker marker, int index)
 	{
 		this.marker = marker;

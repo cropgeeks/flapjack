@@ -297,10 +297,16 @@ public class GTViewSet extends XMLRoot
 			clone.traits[i] = traits[i];
 
 		// Copy over the line data
-		clone.setLinesFromArray(getLinesAsArray(true), true);
+		clone.lines.clear();
+		for (LineInfo lineInfo : lines)
+			clone.lines.add(new LineInfo(lineInfo));
+
 		// Copy over the hidden line data
 		if (cloneHidden)
-			clone.setLinesFromArray(getLinesAsArray(false), false);
+		{
+			for (LineInfo lineInfo : hideLines)
+				clone.hideLines.add(new LineInfo(lineInfo));
+		}
 		clone.comparisonLine = comparisonLine;
 		clone.comparisonLineIndex = comparisonLineIndex;
 
