@@ -5,13 +5,22 @@ package flapjack.data;
 
 import java.util.*;
 
-public abstract class SimMatrix extends XMLRoot
+public class SimMatrix extends XMLRoot
 {
 	// Tracks the indices of the lines originally used to generate this matrix
 	protected ArrayList<LineInfo> lineInfos = new ArrayList<LineInfo>();
 
+	// The 2D matrix of scores
+	private ArrayList<float[]> lineScores;
+
 	public SimMatrix()
 	{
+	}
+
+	private SimMatrix(ArrayList<LineInfo> lineInfos, ArrayList<float[]> lineScores)
+	{
+		this.lineInfos = lineInfos;
+		this.lineScores = lineScores;
 	}
 
 
@@ -23,19 +32,40 @@ public abstract class SimMatrix extends XMLRoot
 	public ArrayList<LineInfo> getLineInfos()
 		{ return lineInfos; }
 
+	public void setLineScores(ArrayList<float[]> lineScores)
+		{ this.lineScores = lineScores; }
+
+	public ArrayList<float[]> getLineScores()
+		{ return lineScores; }
+
 
 	// Other methods
 
-	public abstract void initialize(int size);
+	public void initialize(int size)
+	{
+		lineScores = new ArrayList<float[]>(size);
+
+		for (int i = 0; i < size; i++)
+		{
+			lineScores.add(new float[i+1]);			// new float[size] to generate FULL matrix
+			Arrays.fill(lineScores.get(i), 1f);
+		}
+	}
+
+	public float valueAt(int i, int j)
+	{
+		return lineScores.get(i)[j];
+	}
+
+	public void setValueAt(int i, int j, float value)
+	{
+		lineScores.get(i)[j] = value;
+	}
 
 	public int size()
 	{
 		return lineInfos.size();
 	}
-
-	public abstract float valueAt(int i, int j);
-
-	public abstract void setValueAt(int i, int j, float value);
 
 	/**
 	 * Returns a String representation of the "header" line that would be
@@ -73,5 +103,37 @@ public abstract class SimMatrix extends XMLRoot
 		return sb.toString().trim();
 	}
 
-	public abstract SimMatrix cloneAndReorder(ArrayList<Integer> rIntOrder, ArrayList<LineInfo> newLineOrder);
+	public SimMatrix cloneAndReorder(ArrayList<Integer> rIntOrder, ArrayList<LineInfo> newLineOrder)
+	{
+		// Clone scores ArrayList
+		ArrayList<float[]> newScores = new ArrayList<float[]>(rIntOrder.size());
+		for (int i = 0; i < rIntOrder.size(); i++)
+		{
+			newScores.add(new float[i+1]);			// new float[size] to generate FULL matrix
+			Arrays.fill(newScores.get(i), 1f);
+		}
+
+		// Iterate over the old matrix and copy each value into the new matrix
+		// at its new (ordered) position
+		for (int i=0; i < lineScores.size(); i++)
+		{
+			// x = the index of the line at i in the old matrix
+			int x = rIntOrder.get(i);
+
+			for (int j=0; j <= i; j++)
+			{
+				// y = the index of the line at j in the old matrix
+				int y = rIntOrder.get(j);
+
+				// Set the score at i,j in our new line scores data structure
+				// to the score at x,y (or y,x if x > y) in the old scores data
+				// structure as this is the score for the lines at i,j in our
+				// re-ordered similarity matrix
+				float score =  x > y ? lineScores.get(x)[y] : lineScores.get(y)[x];
+				newScores.get(i)[j] = score;
+			}
+		}
+
+		return new SimMatrix(newLineOrder, newScores);
+	}
 }
