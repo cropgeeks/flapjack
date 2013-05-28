@@ -21,10 +21,9 @@ public class CalculateSimilarityMatrix extends SimpleJob
 
 	private boolean[] chromosomes;
 	private ArrayList<Integer> indices;
-//	private ArrayList<String> lineNames;
-	private ArrayList<ArrayList<Float>> lineScores;
 
-	private SimMatrix matrix = new SimMatrix();
+	// TODO: Initialize based on user selection for memory requirements
+	private SimMatrix matrix = new SimMatrixFloat();
 
 	private AtomicInteger count = new AtomicInteger(0);
 
@@ -71,14 +70,7 @@ public class CalculateSimilarityMatrix extends SimpleJob
 			view.cacheLines();
 
 		// Set up the 2D array to hold the resultant matrix
-		lineScores = new ArrayList<ArrayList<Float>>();
-		for (int i = 0; i < indices.size(); i++)
-		{
-			lineScores.add(new ArrayList<Float>());
-//			for (int j = 0; j < indices.size(); j++)			// uncomment to generate FULL matrix (not half)
-			for (int j = 0; j <= i; j++)
-				lineScores.get(i).add(1f);
-		}
+		matrix.initialize(indices.size());
 
 		// Set up a multithreaded calculation run
 		int cores = Runtime.getRuntime().availableProcessors();
@@ -93,10 +85,7 @@ public class CalculateSimilarityMatrix extends SimpleJob
 			task.get();
 
 		if (okToRun)
-		{
-			matrix.setLineScores(lineScores);
 			viewSet.matrices.add(matrix);
-		}
 
 //		if (okToRun)
 //			writeResults(viewSet.getView(0));
@@ -105,7 +94,7 @@ public class CalculateSimilarityMatrix extends SimpleJob
 		System.out.println("SimMatrix time: " + (e-s) + "ms");
 	}
 
-	private void writeResults(GTView view)
+/*	private void writeResults(GTView view)
 		throws Exception
 	{
 		ArrayList<LineInfo> lines = viewSet.getLines();
@@ -143,6 +132,7 @@ public class CalculateSimilarityMatrix extends SimpleJob
 
 		out.close();
 	}
+*/
 
 	@Override
 	public String getMessage()
@@ -175,7 +165,7 @@ public class CalculateSimilarityMatrix extends SimpleJob
 
 		public void run()
 		{
-			float[][] matrix = viewSet.getDataSet().getStateTable().calculateSimilarityMatrix();
+			float[][] stMatrix = viewSet.getDataSet().getStateTable().calculateSimilarityMatrix();
 
 			// For every line...
 			for (; i < indices.size() && okToRun; i += cores)
@@ -188,13 +178,15 @@ public class CalculateSimilarityMatrix extends SimpleJob
 						int a = indices.get(i); // Real index of line A
 						int b = indices.get(j); // Real index of line B
 
-						SimilarityScore ss = new SimilarityScore(viewSet, matrix, a, b, chromosomes);
+						SimilarityScore ss = new SimilarityScore(viewSet, stMatrix, a, b, chromosomes);
 						SimilarityScore.Score score = ss.getScore(false);
 
 						// First diagonal of the matrix
-						lineScores.get(i).set(j, score.score);
+						matrix.setValueAt(i, j, score.score);
+
 						// Second diagonal of the matrix
-//						lineScores.get(j).set(i, score.score);        // uncomment to generate FULL matrix (not half)
+						// Uncomment to generate FULL matrix (not half)
+//						matrix.setValueAt(j, i, score.score);
 					}
 				}
 			}
