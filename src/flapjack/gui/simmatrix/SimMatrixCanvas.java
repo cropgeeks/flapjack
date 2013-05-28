@@ -14,6 +14,7 @@ import flapjack.data.*;
 public class SimMatrixCanvas extends JPanel
 {
 	private SimMatrixPanel sPanel;
+	private SimMatrix matrix;
 
 	// The total number of boxes (allele states) in the dataset
 	int boxTotalX, boxTotalY;
@@ -49,17 +50,15 @@ public class SimMatrixCanvas extends JPanel
 	Point bCenter;
 
 	private GTViewSet viewSet;
-	private ArrayList<ArrayList<Float>> lineScores;
 
 
 	public SimMatrixCanvas(SimMatrixPanel sPanel, SimMatrix matrix)
 	{
 		this.sPanel = sPanel;
+		this.matrix = matrix;
 		this.viewSet = viewSet;
 
 		setOpaque(false);
-
-		lineScores = matrix.getLineScores();
 
 		// Prepare the background threads that will do the main painting
 		executor = Executors.newFixedThreadPool(cores);
@@ -73,8 +72,8 @@ public class SimMatrixCanvas extends JPanel
 		boxW = sizeX;
 		boxH = sizeY;
 
-		boxTotalX = lineScores.get(lineScores.size()-1).size();
-		boxTotalY = lineScores.size();
+		boxTotalX = matrix.size();
+		boxTotalY = matrix.size();
 
 		canvasW = (boxTotalX * boxW);
 		canvasH = (boxTotalY * boxH);
@@ -234,9 +233,9 @@ public class SimMatrixCanvas extends JPanel
 					float f = 0;
 
 					if (xIndex <= row)
-						f = lineScores.get(row).get(xIndex);
+						f = matrix.valueAt(row, xIndex);
 					else
-						f = lineScores.get(xIndex).get(row);
+						f = matrix.valueAt(xIndex, row);
 
 					float f1 = (float) (1.0 - f);
 					float f2 = (float) f;
