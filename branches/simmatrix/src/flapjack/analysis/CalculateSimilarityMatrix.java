@@ -23,7 +23,7 @@ public class CalculateSimilarityMatrix extends SimpleJob
 	private ArrayList<Integer> indices;
 
 	// TODO: Initialize based on user selection for memory requirements
-	private SimMatrix matrix = new SimMatrixFloat();
+	private SimMatrix matrix = new SimMatrix();
 
 	private AtomicInteger count = new AtomicInteger(0);
 
