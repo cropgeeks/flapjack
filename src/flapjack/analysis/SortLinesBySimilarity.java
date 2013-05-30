@@ -48,9 +48,9 @@ public class SortLinesBySimilarity extends SortLines
 		// Work out what those scores are
 		for (int i = 0; i < lines.size() && okToRun; i++, linesScored++)
 		{
-			SimilarityScore ss = new SimilarityScore(viewSet, matrix, line, i, chromosomes);
+			SimilarityScore ss = new SimilarityScore(viewSet, matrix, chromosomes);
 
-			SimilarityScore.Score score = ss.getScore(true);
+			SimilarityScore.Score score = ss.getScore(line, i);
 			scores.add(new LineScore(lines.get(i), score.score, score.nComparisons, score.data));
 		}
 

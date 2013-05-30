@@ -167,27 +167,31 @@ public class CalculateSimilarityMatrix extends SimpleJob
 		{
 			float[][] stMatrix = viewSet.getDataSet().getStateTable().calculateSimilarityMatrix();
 
+			long s = System.currentTimeMillis();
+
+			SimilarityScore ss = new SimilarityScore(viewSet, stMatrix, chromosomes);
+
 			// For every line...
-			for (; i < indices.size() && okToRun; i += cores)
+			for (int indicesSize = indices.size(); i < indicesSize && okToRun; i += cores)
 			{
+				if (i == 1150)
+					System.out.println((System.currentTimeMillis()-s) + "ms");
+
+
 				// Compare it against every other line...
-				for (int j = 0; j <= i && okToRun; j++, count.getAndIncrement())
+				for (int j = 0; j < i && okToRun; j++, count.getAndIncrement())
 				{
-					if (i != j)
-					{
-						int a = indices.get(i); // Real index of line A
-						int b = indices.get(j); // Real index of line B
+					int a = indices.get(i); // Real index of line A
+					int b = indices.get(j); // Real index of line B
 
-						SimilarityScore ss = new SimilarityScore(viewSet, stMatrix, a, b, chromosomes);
-						SimilarityScore.Score score = ss.getScore(false);
+					float score = ss.getScoreForMatrix(a, b);
 
-						// First diagonal of the matrix
-						matrix.setValueAt(i, j, score.score);
+					// First diagonal of the matrix
+					matrix.setValueAt(i, j, score);
 
-						// Second diagonal of the matrix
-						// Uncomment to generate FULL matrix (not half)
-//						matrix.setValueAt(j, i, score.score);
-					}
+					// Second diagonal of the matrix
+					// Uncomment to generate FULL matrix (not half)
+//					matrix.setValueAt(j, i, score.score);
 				}
 			}
 		}
