@@ -22,9 +22,17 @@ public class CalculateSimilarityMatrix extends SimpleJob
 	private boolean[] chromosomes;
 	private ArrayList<Integer> indices;
 
-	// TODO: Initialize based on user selection for memory requirements
-	private SimMatrix matrix = new SimMatrix();
+	// A list of selected marker indices (into the original data) across all
+	// selected chromosomes
+	private ArrayList<int[]> viewMarkers;
 
+	// Mini-matrix of allele-by-allele scores to use as a look up table
+	private float[][] stMatrix;
+	// Class that does the actual calculations for us
+	private SimilarityScore ss;
+
+	// End result...
+	private SimMatrix matrix = new SimMatrix();
 	private AtomicInteger count = new AtomicInteger(0);
 
 	public CalculateSimilarityMatrix(GTViewSet viewSet, GTView view, String filename)
@@ -69,8 +77,19 @@ public class CalculateSimilarityMatrix extends SimpleJob
 		for (GTView view: viewSet.getViews())
 			view.cacheLines();
 
+		// Build the list of selected marker indices
+		viewMarkers = new ArrayList<int[]>();
+		for (int i=0; i < viewSet.getViews().size(); i++)
+			if (chromosomes[i])
+				viewMarkers.add(selectedMarkers(viewSet.getView(i)));
+
+		// Set up the objects that can be reused on each run
+		stMatrix = viewSet.getDataSet().getStateTable().calculateSimilarityMatrix();
+		ss = new SimilarityScore(viewSet, stMatrix, chromosomes);
+
 		// Set up the 2D array to hold the resultant matrix
 		matrix.initialize(indices.size());
+
 
 		// Set up a multithreaded calculation run
 		int cores = Runtime.getRuntime().availableProcessors();
@@ -152,6 +171,18 @@ public class CalculateSimilarityMatrix extends SimpleJob
 		return false;
 	}
 
+	// Returns an array where each element is the index in a GenotypeData object
+	// that contains the allele score for each selected marker in the view.
+	private int[] selectedMarkers(GTView view)
+	{
+		int[] selected = new int[view.countSelectedMarkers()];
+		for (int i=0, j=0; i < view.getMarkers().size(); i++)
+			if (view.isMarkerSelected(i))
+				selected[j++] = view.getMarkerInfo(i).getIndex();
+
+		return selected;
+	}
+
 	private class Calculator implements Runnable
 	{
 		private int i;
@@ -165,35 +196,34 @@ public class CalculateSimilarityMatrix extends SimpleJob
 
 		public void run()
 		{
-			float[][] stMatrix = viewSet.getDataSet().getStateTable().calculateSimilarityMatrix();
-
-			long s = System.currentTimeMillis();
-
-			SimilarityScore ss = new SimilarityScore(viewSet, stMatrix, chromosomes);
-
 			// For every line...
 			for (int indicesSize = indices.size(); i < indicesSize && okToRun; i += cores)
 			{
-				if (i == 1150)
-					System.out.println((System.currentTimeMillis()-s) + "ms");
-
-
 				// Compare it against every other line...
 				for (int j = 0; j < i && okToRun; j++, count.getAndIncrement())
 				{
 					int a = indices.get(i); // Real index of line A
 					int b = indices.get(j); // Real index of line B
 
-					float score = ss.getScoreForMatrix(a, b);
+					float score = ss.getScore(getData(a), getData(b), viewMarkers);
 
-					// First diagonal of the matrix
 					matrix.setValueAt(i, j, score);
-
-					// Second diagonal of the matrix
-					// Uncomment to generate FULL matrix (not half)
-//					matrix.setValueAt(j, i, score.score);
 				}
 			}
+		}
+
+		// Builds a list of GenotypeData objects, one per selected chromosome
+		private ArrayList<GenotypeData> getData(int lineIndex)
+		{
+			Line line = viewSet.getDataSet().getLines().get(lineIndex);
+
+			ArrayList<GenotypeData> data = new ArrayList<>();
+
+			for (int i = 0; i < chromosomes.length; i++)
+				if (chromosomes[i])
+					data.add(line.getGenotypes().get(i));
+
+			return data;
 		}
 	}
 }
