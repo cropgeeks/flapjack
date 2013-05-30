@@ -3,6 +3,8 @@
 
 package flapjack.analysis;
 
+import java.util.*;
+
 import flapjack.data.*;
 
 /**
@@ -73,37 +75,25 @@ public class SimilarityScore
 		return new Score(score, nComparisons, data.toString());
 	}
 
-	/**
-	 * @param compLine the comparison line to compare the current line against
-	 * @param currLine the current line to compute a score for
-	 */
-	public float getScoreForMatrix(int compLine, int currLine)
+	public float getScore(ArrayList<GenotypeData> currLineData, ArrayList<GenotypeData> compLineData, ArrayList<int[]> mkrData)
 	{
 		float nComparisons = 0;
 		float score = 0;
 
-		for (int viewIndex = 0; viewIndex < viewSet.chromosomeCount(); viewIndex++)
+		for (int i = 0; i < currLineData.size(); i++)
 		{
-			// Don't use chromosomes that aren't selected
-			if (chromosomes[viewIndex] == false)
-				continue;
+			GenotypeData currLine = currLineData.get(i);
+			GenotypeData compLine = compLineData.get(i);
+			int[] markers = mkrData.get(i);
 
-			GTView view = viewSet.getView(viewIndex);
-
-			// For every marker across the genotype...
-			int markerCount = view.markerCount();
-			for (int marker = 0; marker < markerCount; marker++)
+			for (int j = 0; j < markers.length; j++)
 			{
-				// Don't count markers that aren't selected
-				if (view.isMarkerSelected(marker) == false)
-					continue;
-
-				int state1 = view.getState(compLine, marker);
-				int state2 = view.getState(currLine, marker);
+				int state1 = currLine.getState(markers[j]);
+				int state2 = compLine.getState(markers[j]);
 
 				// If either has no information, skip it
-				if (state1 == 0 || state2 == 0)
-					continue;
+//				if (state1 == 0 || state2 == 0)
+//					continue;
 
 				score += matrix[state1][state2];
 
