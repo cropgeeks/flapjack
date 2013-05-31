@@ -112,10 +112,10 @@ public class DendrogramServlet extends HttpServlet
 
 		// Tomcat picks its own temp folder for io.tmpdir, so it's probably best
 		// to clean up when finished rather than assuming Tomcat will
-		rScript.delete();
-		matrix.delete();
-		order.delete();
-		png.delete();
+//		rScript.delete();
+//		matrix.delete();
+//		order.delete();
+//		png.delete();
 	}
 
 	private void saveMatrix(Part textfile, File matrix, String id)
@@ -141,13 +141,17 @@ public class DendrogramServlet extends HttpServlet
 			getClass().getResourceAsStream("/src/arrr/Dendrogram.R")));
 		PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(rScript)));
 
+		// Work out what width the image should be
+		int width = 12 * lineCount;
+		width = (width < 500) ? 500 : width;
+
 		String str = null;
 		while ((str = in.readLine()) != null)
 		{
 			str = str.replace("$MATRIX", id + ".matrix");
 			str = str.replace("$ORDER", id + ".order");
 			str = str.replace("$PNG", id + ".png");
-			str = str.replace("$WIDTH", "" + (12 * lineCount));
+			str = str.replace("$WIDTH", "" + width);
 
 			out.println(str);
 		}
