@@ -416,7 +416,7 @@ public class MenuData
 	{
 		String newName = viewSet.getName() + " Dendrogram";
 		System.out.println(newName);
-		GTViewSet newViewSet = viewSet.createClone(newName, false);
+		GTViewSet newViewSet = viewSet.createClone(newName, false, true);
 
 		DendrogramGenerator dg = new DendrogramGenerator(matrix, newViewSet);
 

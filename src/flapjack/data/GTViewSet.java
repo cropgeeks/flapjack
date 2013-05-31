@@ -281,7 +281,7 @@ public class GTViewSet extends XMLRoot
 	public String toString()
 		{ return name; }
 
-	public GTViewSet createClone(String cloneName, boolean cloneHidden)
+	public GTViewSet createClone(String cloneName, boolean cloneHidden, boolean onlyCloneSelectedLines)
 	{
 		GTViewSet clone = new GTViewSet(dataSet, cloneName);
 
@@ -299,7 +299,8 @@ public class GTViewSet extends XMLRoot
 		// Copy over the line data
 		clone.lines.clear();
 		for (LineInfo lineInfo : lines)
-			clone.lines.add(new LineInfo(lineInfo));
+			if (onlyCloneSelectedLines && lineInfo.getSelected())
+				clone.lines.add(new LineInfo(lineInfo));
 
 		// Copy over the hidden line data
 		if (cloneHidden)
