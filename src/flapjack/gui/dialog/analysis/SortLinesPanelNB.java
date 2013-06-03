@@ -36,7 +36,7 @@ class SortLinesPanelNB extends javax.swing.JPanel implements ActionListener
 
 		view = viewSet.getView(viewSet.getViewIndex());
 
-		DefaultComboBoxModel<LineInfo> lineModel = new DefaultComboBoxModel<LineInfo>();
+		DefaultComboBoxModel<LineInfo> lineModel = new DefaultComboBoxModel<>();
 		for (int i = 0; i < view.lineCount(); i++)
 			lineModel.addElement(view.getLineInfo(i));
 

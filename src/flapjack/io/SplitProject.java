@@ -26,7 +26,7 @@ public class SplitProject extends SimpleJob
 	private static boolean decimalEnglish = false;
 	private static boolean isCommandLine = false;
 
-	private static HashMap<String,String> datasets = new HashMap<String,String>();
+	private static HashMap<String,String> datasets = new HashMap<>();
 
 
 	// Constructor is called by the GUI for a File->Quick Export menu option

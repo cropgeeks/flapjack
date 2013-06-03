@@ -8,7 +8,7 @@ import java.util.*;
 public class SimMatrix extends XMLRoot
 {
 	// Tracks the indices of the lines originally used to generate this matrix
-	protected ArrayList<LineInfo> lineInfos = new ArrayList<LineInfo>();
+	protected ArrayList<LineInfo> lineInfos = new ArrayList<>();
 
 	// The 2D matrix of scores
 	private ArrayList<float[]> lineScores;
@@ -106,7 +106,7 @@ public class SimMatrix extends XMLRoot
 	public SimMatrix cloneAndReorder(ArrayList<Integer> rIntOrder, ArrayList<LineInfo> newLineOrder)
 	{
 		// Clone scores ArrayList
-		ArrayList<float[]> newScores = new ArrayList<float[]>(rIntOrder.size());
+		ArrayList<float[]> newScores = new ArrayList<>(rIntOrder.size());
 		for (int i = 0; i < rIntOrder.size(); i++)
 		{
 			newScores.add(new float[i+1]);			// new float[size] to generate FULL matrix

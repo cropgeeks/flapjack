@@ -16,7 +16,7 @@ public class DendrogramClient
 {
 	private static final String url = "http://bioinf:8080/flapjack/servlets/dendrogram";
 
-	private ArrayList<Integer> lineOrder = new ArrayList<Integer>();
+	private ArrayList<Integer> lineOrder = new ArrayList<>();
 
 	public DendrogramClient()
 	{
