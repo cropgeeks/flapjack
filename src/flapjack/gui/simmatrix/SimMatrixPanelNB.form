@@ -19,6 +19,8 @@
           <Component id="tabs" pref="400" max="32767" attributes="0"/>
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace max="32767" attributes="0"/>
+              <Component id="bExport" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
               <Component id="bDendrogram" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -29,7 +31,10 @@
           <Group type="102" alignment="0" attributes="0">
               <Component id="tabs" pref="172" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="bDendrogram" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="bDendrogram" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="bExport" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -97,7 +102,15 @@
     </Container>
     <Component class="javax.swing.JButton" name="bDendrogram">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Dendrogram"/>
+        <Property name="text" type="java.lang.String" value="Create dendrogram"/>
+      </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
+      </AuxValues>
+    </Component>
+    <Component class="javax.swing.JButton" name="bExport">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Export data"/>
       </Properties>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>

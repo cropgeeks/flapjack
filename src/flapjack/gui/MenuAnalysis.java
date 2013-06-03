@@ -170,10 +170,8 @@ public class MenuAnalysis
 			return;
 */
 
-		String filename = null;
-
 		// Set up the calculator
-		CalculateSimilarityMatrix calculator = new CalculateSimilarityMatrix(viewSet, view, filename);
+		CalculateSimilarityMatrix calculator = new CalculateSimilarityMatrix(viewSet, view);
 
 		ProgressDialog dialog = new ProgressDialog(calculator,
 			RB.format("gui.MenuData.simMatrix.title"),
@@ -193,11 +191,6 @@ public class MenuAnalysis
 		// Add the result to the navigation panel
 		SimMatrix matrix = calculator.getMatrix();
 		navPanel.addedNewSimMatrixNode(viewSet, matrix);
-
-
-//		TaskDialog.info(
-//			RB.format("gui.dialog.simMatrix.exportSuccess", filename),
-//			RB.getString("gui.text.close"));
 	}
 
 	public void dendrogram(GTViewSet viewSet, SimMatrix matrix)

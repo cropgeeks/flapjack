@@ -2,12 +2,17 @@ package flapjack.gui.simmatrix;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.*;
 import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.table.*;
 
 import flapjack.data.*;
 import flapjack.gui.*;
+import flapjack.io.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
+import scri.commons.gui.*;
 
 public class SimMatrixPanelNB extends JPanel implements ActionListener
 {
@@ -33,6 +38,7 @@ public class SimMatrixPanelNB extends JPanel implements ActionListener
 
 		initComponents();
 
+
 		// Table setup
 		model = new SimMatrixTableModel(matrix);
 		matrixTable.setModel(model);
@@ -53,10 +59,15 @@ public class SimMatrixPanelNB extends JPanel implements ActionListener
 		tableScrollPane.setCorner(JScrollPane.UPPER_LEFT_CORNER, rowHeaderTable.getTableHeader());
 
 		tabs.setComponentAt(0, tabsPanel.add(sp));
-		tabs.setTitleAt(0, "Visual");
-		tabs.setTitleAt(1, "Data");
+		tabs.setTitleAt(0, RB.getString("gui.simmatrix.SimMatrixPanelNB.tab1"));
+		tabs.setTitleAt(1, RB.getString("gui.simmatrix.SimMatrixPanelNB.tab2"));
+
+		bDendrogram.setText(RB.getString("gui.simmatrix.SimMatrixPanelNB.bDendrogram"));
+		bExport.setText((RB.getString("gui.simmatrix.SimMatrixPanelNB.bExport")));
+		bExport.setIcon(Icons.getIcon("EXPORTTRAITS"));
 
 		bDendrogram.addActionListener(this);
+		bExport.addActionListener(this);
 
 		MouseHandler mh = new MouseHandler();
 		matrixTable.addMouseListener(mh);
@@ -114,6 +125,45 @@ public class SimMatrixPanelNB extends JPanel implements ActionListener
 	{
 		if (e.getSource() == bDendrogram)
 			Flapjack.winMain.mAnalysis.dendrogram(viewSet, matrix);
+
+		else if (e.getSource() == bExport)
+			exportSimMatrix();
+	}
+
+	private void exportSimMatrix()
+	{
+		String name = RB.format("gui.MenuData.simMatrix.filename", viewSet.getName());
+		File saveAs = new File(Prefs.guiCurrentDir, name);
+		FileNameExtensionFilter filter = new FileNameExtensionFilter(
+			RB.getString("other.Filters.ttxt"), "txt");
+		String filename = FlapjackUtils.getSaveFilename(RB.getString("gui.simmatrix.SimMatrixPanelNB.saveAs"), saveAs, filter);
+
+		if (filename != null)
+		{
+			try
+			{
+				SimMatrixExporter exporter = new SimMatrixExporter(matrix, filename);
+				ProgressDialog dialog = new ProgressDialog(exporter,
+				RB.format("gui.simmatrix.SimMatrixPanelNB.exportTitle"),
+				RB.format("gui.simmatrix.SimMatrixPanelNB.exportLabel"),
+				Flapjack.winMain);
+				// If the operation failed or was cancelled...
+				if (dialog.getResult() != ProgressDialog.JOB_COMPLETED)
+				{
+					if (dialog.getResult() == ProgressDialog.JOB_FAILED)
+					{
+						dialog.getException().printStackTrace();
+						TaskDialog.error(
+							RB.format("gui.simmatrix.SimMatrixPanelNB.exportException",
+							dialog.getException().getMessage()),
+							RB.getString("gui.text.close"));
+					}
+				}
+				TaskDialog.showFileOpen(RB.format("gui.simmatrix.SimMatrixPanelNB.exportSuccess", filename),
+										TaskDialog.INF, new File(filename));
+			}
+			catch (Exception ex) { ex.printStackTrace();}
+		}
 	}
 
 	private class MouseHandler extends MouseInputAdapter
@@ -174,6 +224,7 @@ public class SimMatrixPanelNB extends JPanel implements ActionListener
         tableScrollPane = new javax.swing.JScrollPane();
         matrixTable = createTable();
         bDendrogram = new javax.swing.JButton();
+        bExport = new javax.swing.JButton();
 
         javax.swing.GroupLayout tabsPanelLayout = new javax.swing.GroupLayout(tabsPanel);
         tabsPanel.setLayout(tabsPanelLayout);
@@ -205,7 +256,9 @@ public class SimMatrixPanelNB extends JPanel implements ActionListener
 
         tabs.addTab("tab2", tableScrollPane);
 
-        bDendrogram.setText("Dendrogram");
+        bDendrogram.setText("Create dendrogram");
+
+        bExport.setText("Export data");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -214,6 +267,8 @@ public class SimMatrixPanelNB extends JPanel implements ActionListener
             .addComponent(tabs, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(bExport)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(bDendrogram)
                 .addContainerGap())
         );
@@ -222,7 +277,9 @@ public class SimMatrixPanelNB extends JPanel implements ActionListener
             .addGroup(layout.createSequentialGroup()
                 .addComponent(tabs, javax.swing.GroupLayout.DEFAULT_SIZE, 172, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(bDendrogram)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(bDendrogram)
+                    .addComponent(bExport))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -230,6 +287,7 @@ public class SimMatrixPanelNB extends JPanel implements ActionListener
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     javax.swing.JButton bDendrogram;
+    javax.swing.JButton bExport;
     private javax.swing.JTable matrixTable;
     private javax.swing.JScrollPane tableScrollPane;
     private javax.swing.JTabbedPane tabs;

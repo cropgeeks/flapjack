@@ -71,28 +71,31 @@ public class SimMatrix extends XMLRoot
 	 * Returns a String representation of the "header" line that would be
 	 * associated with this matrix, that is, the column headers of line names.
 	 */
-	public String createFileHeaderLine()
+	public String createFileHeaderLine(boolean hasRowHeader)
 	{
 		StringBuilder sb = new StringBuilder();
 
 		for (int i = 0; i < lineInfos.size(); i++)
 			sb.append("\t" + lineInfos.get(i).name());
 
-		return sb.toString().trim();
+		if (hasRowHeader)
+			return "\t" + sb.toString().trim();
+		else
+			return sb.toString().trim();
 	}
 
 	/**
 	 * Returns a String representation of the requested row of this matrix,
 	 * suitable for writing that line of data to a text file.
 	 */
-	public String createFileLine(int i)
+	public String createFileLine(int i, boolean hasRowHeader)
 	{
 		StringBuilder sb = new StringBuilder();
+		if (hasRowHeader)
+			sb.append("\t" + lineInfos.get(i));
 
 		for (int j = 0; j < lineInfos.size(); j++)
 		{
-			float f = 0;
-
 			if (j <= i)
 				sb.append("\t" + valueAt(i, j));
 			else

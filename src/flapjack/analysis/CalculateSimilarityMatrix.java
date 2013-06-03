@@ -3,13 +3,11 @@
 
 package flapjack.analysis;
 
-import java.io.*;
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.*;
 
 import flapjack.data.*;
-import flapjack.gui.*;
 
 import scri.commons.gui.*;
 
@@ -17,7 +15,6 @@ public class CalculateSimilarityMatrix extends SimpleJob
 {
 	private GTViewSet viewSet;
 	private GTView view;
-	private String filename;
 
 	private boolean[] chromosomes;
 	private ArrayList<Integer> indices;
@@ -35,11 +32,10 @@ public class CalculateSimilarityMatrix extends SimpleJob
 	private SimMatrix matrix = new SimMatrix();
 	private AtomicInteger count = new AtomicInteger(0);
 
-	public CalculateSimilarityMatrix(GTViewSet viewSet, GTView view, String filename)
+	public CalculateSimilarityMatrix(GTViewSet viewSet, GTView view)
 	{
 		this.viewSet = viewSet;
 		this.view = view;
-		this.filename = filename;
 
 		// Work out the indices of all the lines being compared
 		indices = new ArrayList<Integer>();
@@ -106,52 +102,9 @@ public class CalculateSimilarityMatrix extends SimpleJob
 		if (okToRun)
 			viewSet.matrices.add(matrix);
 
-//		if (okToRun)
-//			writeResults(viewSet.getView(0));
-
 		long e = System.currentTimeMillis();
 		System.out.println("SimMatrix time: " + (e-s) + "ms");
 	}
-
-/*	private void writeResults(GTView view)
-		throws Exception
-	{
-		ArrayList<LineInfo> lines = viewSet.getLines();
-
-		System.out.println("Writing results...");
-
-		BufferedWriter out = new BufferedWriter(new FileWriter(filename));
-
-		// Header line
-		for (int i = 0; i < indices.size(); i++)
-		{
-			LineInfo li = lines.get(indices.get(i));
-			out.write("\t" + li.getLine().getName());
-		}
-		out.newLine();
-
-		// For each line
-		for (int i = 0; i < indices.size(); i++)
-		{
-			// Its name
-			LineInfo li = lines.get(indices.get(i));
-			out.write(li.getLine().getName());
-
-			// Its scores
-			for (int j = 0; j < indices.size(); j++)
-			{
-				if (j <= i)
-					out.write("\t" + lineScores.get(i).get(j));
-				else
-					out.write("\t" + lineScores.get(j).get(i));
-			}
-
-			out.newLine();
-		}
-
-		out.close();
-	}
-*/
 
 	@Override
 	public String getMessage()

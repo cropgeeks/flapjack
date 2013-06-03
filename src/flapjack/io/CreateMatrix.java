@@ -83,8 +83,10 @@ public class CreateMatrix
 		GTViewSet viewSet = dataSet.getViewSets().get(0);
 		GTView view = viewSet.getView(0);
 
-		CalculateSimilarityMatrix calculator = new CalculateSimilarityMatrix(viewSet, view, filename);
+		CalculateSimilarityMatrix calculator = new CalculateSimilarityMatrix(viewSet, view);
 
 		calculator.runJob(0);
+		SimMatrixExporter exporter = new SimMatrixExporter(calculator.getMatrix(), filename);
+		exporter.runJob(0);
 	}
 }

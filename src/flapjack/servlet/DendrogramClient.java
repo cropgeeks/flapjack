@@ -11,6 +11,7 @@ import java.util.zip.*;
 import javax.imageio.*;
 
 import flapjack.data.*;
+import flapjack.io.*;
 
 public class DendrogramClient
 {
@@ -65,9 +66,8 @@ public class DendrogramClient
 
 		// Send the sim-matrix
 		System.out.print("SENDING MATRIX...");
-		writer.println(matrix.createFileHeaderLine());
-		for (int i = 0; i < matrix.size(); i++)
-			writer.println(matrix.createFileLine(i));
+		SimMatrixExporter exporter = new SimMatrixExporter(matrix, writer);
+		exporter.runJob(0);
 		System.out.println("DONE");
 
 
