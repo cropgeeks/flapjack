@@ -80,15 +80,18 @@ public class WinMainMenuBar extends JMenuBar
 	private JCheckBoxMenuItem mVizHighlightGaps;
 	private JMenuItem mDataSelectTraits;
 
+	private JMenu mAnalysis;
+	private JMenu mAlysSortLines;
+	private JMenuItem mAlysSortLinesBySimilarity;
+	private JMenuItem mAlysSortLinesByTrait;
+	private JMenuItem mAlysSortLinesByExternal;
+	private JMenuItem mAlysSortLinesAlphabetically;
+	private JMenuItem mAlysSimMatrix;
+
+
 	private JMenu mData;
-	private JMenu mDataSortLines;
-	private JMenuItem mDataSortLinesBySimilarity;
-	private JMenuItem mDataSortLinesByTrait;
-	private JMenuItem mDataSortLinesByExternal;
-	private JMenuItem mDataSortLinesAlphabetically;
-	private JMenuItem mDataFilterQTLs;
+	private JMenuItem malysFilterQTLs;
 	private JMenuItem mDataFind;
-	private JMenuItem mDataSimMatrix;
 	private JMenuItem mDataStatistics;
 	private JMenu mDataDB;
 	private JMenuItem mDataDBLineName;
@@ -125,6 +128,7 @@ public class WinMainMenuBar extends JMenuBar
 		createEditMenu();
 		createViewMenu();
 		createVizMenu();
+		createAnalysisMenu();
 		createDataMenu();
 		createWndMenu();
 		createHelpMenu();
@@ -325,26 +329,47 @@ public class WinMainMenuBar extends JMenuBar
 		add(mViz);
 	}
 
+	private void createAnalysisMenu()
+	{
+		mAnalysis = new JMenu(RB.getString("gui.WinMainMenuBar.mAnalysis"));
+		RB.setMnemonic(mAnalysis, "gui.WinMainMenuBar.mAnalysis");
+
+		mAlysSortLines = new JMenu(RB.getString("gui.WinMainMenuBar.mAlysSortLines"));
+		RB.setMnemonic(mAlysSortLines, "gui.WinMainMenuBar.mAlysSortLines");
+
+		mAlysSortLinesBySimilarity = getItem(Actions.alysSortLinesBySimilarity, "gui.Actions.alysSortLinesBySimilarity", 0, 0);
+		mAlysSortLinesByTrait = getItem(Actions.alysSortLinesByTrait, "gui.Actions.alysSortLinesByTrait", 0, 0);
+		mAlysSortLinesByExternal = getItem(Actions.alysSortLinesByExternal, "gui.Actions.alysSortLinesByExternal", 0, 0);
+		mAlysSortLinesAlphabetically = getItem(Actions.alysSortLinesAlphabetically, "gui.Actions.alysSortLinesAlphabetically", 0, 0);
+
+		mAlysSimMatrix = getItem(Actions.alysSimMatrix, "gui.Actions.alysSimMatrix", 0, 0);
+
+		mAlysSortLines.add(mAlysSortLinesAlphabetically);
+		mAlysSortLines.addSeparator();
+		mAlysSortLines.add(mAlysSortLinesBySimilarity);
+		mAlysSortLines.add(mAlysSortLinesByTrait);
+		mAlysSortLines.add(mAlysSortLinesByExternal);
+
+		mAnalysis.add(mAlysSortLines);
+		mAnalysis.addSeparator();
+		mAnalysis.add(mAlysSimMatrix);
+
+		add(mAnalysis);
+	}
+
 	private void createDataMenu()
 	{
 		mData = new JMenu(RB.getString("gui.WinMainMenuBar.mData"));
 		RB.setMnemonic(mData, "gui.WinMainMenuBar.mData");
 
-		mDataSortLines = new JMenu(RB.getString("gui.WinMainMenuBar.mDataSortLines"));
-		RB.setMnemonic(mDataSortLines, "gui.WinMainMenuBar.mDataSortLines");
-
 		mDataDB = new JMenu(RB.getString("gui.WinMainMenuBar.mDataDB"));
 		mDataDB.setIcon(Actions.getIcon("DATABASE"));
 		RB.setMnemonic(mDataDB, "gui.WinMainMenuBar.mDataDB");
 
-		mDataSortLinesBySimilarity = getItem(Actions.dataSortLinesBySimilarity, "gui.Actions.dataSortLinesBySimilarity", 0, 0);
-		mDataSortLinesByTrait = getItem(Actions.dataSortLinesByTrait, "gui.Actions.dataSortLinesByTrait", 0, 0);
-		mDataSortLinesByExternal = getItem(Actions.dataSortLinesByExternal, "gui.Actions.dataSortLinesByExternal", 0, 0);
-		mDataSortLinesAlphabetically = getItem(Actions.dataSortLinesAlphabetically, "gui.Actions.dataSortLinesAlphabetically", 0, 0);
-		mDataFilterQTLs = getItem(Actions.dataFilterQTLs, "gui.Actions.dataFilterQTLs", 0, 0);
+		malysFilterQTLs = getItem(Actions.dataFilterQTLs, "gui.Actions.dataFilterQTLs", 0, 0);
 		mDataSelectGraph = getItem(Actions.dataSelectGraph, "gui.Actions.dataSelectGraph", 0, 0);
 		mDataFind = getItem(Actions.dataFind, "gui.Actions.dataFind", KeyEvent.VK_F, menuShortcut);
-		mDataSimMatrix = getItem(Actions.dataSimMatrix, "gui.Actions.dataSimMatrix", 0, 0);
+
 		mDataStatistics = getItem(Actions.dataStatistics, "gui.Actions.dataStatistics", 0, 0);
 		mDataDBLineName = getItem(Actions.dataDBLineName, "gui.Actions.dataDBLineName", 0, 0);
 		mDataDBMarkerName = getItem(Actions.dataDBMarkerName, "gui.Actions.dataDBMarkerName", 0, 0);
@@ -353,26 +378,17 @@ public class WinMainMenuBar extends JMenuBar
 		mDataDeleteDataSet = getItem(Actions.dataDeleteDataSet, "gui.Actions.dataDeleteDataSet", 0, 0);
 		mDataSelectTraits = getItem(Actions.dataSelectTraits, "gui.Actions.dataSelectTraits", 0, 0);
 
-		mDataSortLines.add(mDataSortLinesAlphabetically);
-		mDataSortLines.addSeparator();
-		mDataSortLines.add(mDataSortLinesBySimilarity);
-		mDataSortLines.add(mDataSortLinesByTrait);
-		mDataSortLines.add(mDataSortLinesByExternal);
-
 		mDataDB.add(mDataDBLineName);
 		mDataDB.add(mDataDBMarkerName);
 		mDataDB.addSeparator();
 		mDataDB.add(mDataDBSettings);
 
-		mData.add(mDataSortLines);
-		mData.addSeparator();
-		mData.add(mDataFilterQTLs);
+		mData.add(malysFilterQTLs);
 		mData.add(mDataSelectTraits);
 		mData.add(mDataSelectGraph);
 		mData.addSeparator();
 		mData.add(mDataFind);
 		mData.add(mDataStatistics);
-		mData.add(mDataSimMatrix);
 		mData.add(mDataDB);
 		mData.addSeparator();
 		mData.add(mDataRenameDataSet);

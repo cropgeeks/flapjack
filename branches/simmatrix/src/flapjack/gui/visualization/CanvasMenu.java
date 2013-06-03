@@ -136,13 +136,13 @@ public class CanvasMenu
 		mDataDB.addSeparator();
 		mDataDB.add(mDBSettings);
 
-		mSortLinesBySimilarity = WinMainMenuBar.getItem(Actions.dataSortLinesBySimilarity, "gui.Actions.dataSortLinesBySimilarity", 0, 0);
-		mSortLinesByTrait = WinMainMenuBar.getItem(Actions.dataSortLinesByTrait, "gui.Actions.dataSortLinesByTrait", 0, 0);
-		mSortLinesByExternal = WinMainMenuBar.getItem(Actions.dataSortLinesByExternal, "gui.Actions.dataSortLinesByExternal", 0, 0);
-		mSortLinesAlphabetically = WinMainMenuBar.getItem(Actions.dataSortLinesAlphabetically, "gui.Actions.dataSortLinesAlphabetically", 0, 0);
+		mSortLinesBySimilarity = WinMainMenuBar.getItem(Actions.alysSortLinesBySimilarity, "gui.Actions.alysSortLinesBySimilarity", 0, 0);
+		mSortLinesByTrait = WinMainMenuBar.getItem(Actions.alysSortLinesByTrait, "gui.Actions.alysSortLinesByTrait", 0, 0);
+		mSortLinesByExternal = WinMainMenuBar.getItem(Actions.alysSortLinesByExternal, "gui.Actions.alysSortLinesByExternal", 0, 0);
+		mSortLinesAlphabetically = WinMainMenuBar.getItem(Actions.alysSortLinesAlphabetically, "gui.Actions.alysSortLinesAlphabetically", 0, 0);
 
-		mSortLines = new JMenu(RB.getString("gui.WinMainMenuBar.mDataSortLines"));
-		RB.setMnemonic(mSortLines, "gui.WinMainMenuBar.mDataSortLines");
+		mSortLines = new JMenu(RB.getString("gui.WinMainMenuBar.mAlysSortLines"));
+		RB.setMnemonic(mSortLines, "gui.WinMainMenuBar.mAlysSortLines");
 		mSortLines.add(mSortLinesAlphabetically);
 		mSortLines.addSeparator();
 		mSortLines.add(mSortLinesBySimilarity);
