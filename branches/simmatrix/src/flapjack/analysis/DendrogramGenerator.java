@@ -49,7 +49,7 @@ public class DendrogramGenerator extends SimpleJob
 		// Use the line order that was returned (as a list of ints) to determine
 		// what LineInfo order should be stored with the Dendrogram object
 		rIntOrder = client.getLineOrder();
-		ArrayList<LineInfo> order = new ArrayList<LineInfo>();
+		ArrayList<LineInfo> order = new ArrayList<>();
 
 		for (int i = 0; i < rIntOrder.size(); i++)
 			order.add(newViewSet.getLines().get(rIntOrder.get(i)));

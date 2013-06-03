@@ -16,20 +16,20 @@ public class GTViewSet extends XMLRoot
 	// Track a reference to the owning dataSet
 	private DataSet dataSet;
 
-	private ArrayList<GTView> views = new ArrayList<GTView>();
+	private ArrayList<GTView> views = new ArrayList<>();
 
 	// Because the line info is the same across all views, it gets stored here
 	// Holds the index positions of the lines as they appear in the actual
 	// dataset's vector of lines
-	ArrayList<LineInfo> lines = new ArrayList<LineInfo>();
+	ArrayList<LineInfo> lines = new ArrayList<>();
 	// Holds the lines that we don't currently want visible
-	ArrayList<LineInfo> hideLines = new ArrayList<LineInfo>();
+	ArrayList<LineInfo> hideLines = new ArrayList<>();
 
 	// Any bookmarks associated with this viewset
-	private ArrayList<Bookmark> bookmarks = new ArrayList<Bookmark>();
+	private ArrayList<Bookmark> bookmarks = new ArrayList<>();
 
 	// TODO: Simmatrix objects - waiting for their own structure
-	public ArrayList<SimMatrix> matrices = new ArrayList<SimMatrix>();
+	public ArrayList<SimMatrix> matrices = new ArrayList<>();
 
 	private String name;
 	private int viewIndex;

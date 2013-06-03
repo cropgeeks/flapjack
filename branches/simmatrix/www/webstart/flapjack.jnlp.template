@@ -1,7 +1,7 @@
 <!-- Flapjack Web Start JNLP (Generated @DATE@) -->
 
 <?xml version="1.0" encoding="utf-8"?>
-<jnlp spec="6.0+" codebase="http://bioinf.hutton.ac.uk/flapjack/webstart">
+<jnlp spec="7.0+" codebase="http://bioinf.hutton.ac.uk/flapjack/webstart">
 	<information>
 		<title>Flapjack</title>
 		<vendor>The James Hutton Institute</vendor>
@@ -9,7 +9,7 @@
 		<icon href="flapjack.png" width="64" height="64" kind="default"/>
 	</information>
 	<resources>
-		<java version="1.6+" java-vm-args="@JAVA_VM_ARGS@"/>
+		<java version="1.7+" java-vm-args="@JAVA_VM_ARGS@"/>
 		<jar href="castor-1.2-xml.jar"/>
 		<jar href="commons-logging-1.1.1.jar"/>
 		<jar href="i4jruntime.jar"/>

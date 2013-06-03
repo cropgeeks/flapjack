@@ -138,7 +138,7 @@ class ColorPanelNB extends JPanel implements ActionListener
 
 	private ArrayList<ColorScheme.ColorSummary> getVector(DefaultListModel model)
 	{
-		ArrayList<ColorScheme.ColorSummary> colors = new ArrayList<ColorScheme.ColorSummary>();
+		ArrayList<ColorScheme.ColorSummary> colors = new ArrayList<>();
 		for (int i = 0; i < model.size(); i++)
 			colors.add((ColorScheme.ColorSummary)model.get(i));
 

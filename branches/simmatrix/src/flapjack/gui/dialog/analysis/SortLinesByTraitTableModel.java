@@ -82,7 +82,7 @@ class SortLinesByTraitTableModel extends AbstractTableModel
 
 	JComboBox getTraitComboBox()
 	{
-		JComboBox<TraitEntry> combo = new JComboBox<TraitEntry>();
+		JComboBox<TraitEntry> combo = new JComboBox<>();
 
 		for (int i = 0; i < traits.size(); i++)
 			combo.addItem(new TraitEntry(i, traits.get(i).getName()));

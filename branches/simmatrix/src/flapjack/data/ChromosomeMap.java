@@ -13,14 +13,14 @@ public class ChromosomeMap extends XMLRoot implements Iterable<Marker>
 	private float length;
 	private boolean isSpecialChromosome;
 
-	private ArrayList<Marker> markers = new ArrayList<Marker>();
+	private ArrayList<Marker> markers = new ArrayList<>();
 
 	// A list of vectors of Features (basically, each vector of features
 	// represents one "track" - and we may have multiple tracks
-	private ArrayList<QTL> qtls = new ArrayList<QTL>();
+	private ArrayList<QTL> qtls = new ArrayList<>();
 
 	// Stores the GraphData objects for this chromosome
-	private ArrayList<GraphData> graphs = new ArrayList<GraphData>();
+	private ArrayList<GraphData> graphs = new ArrayList<>();
 
 	public ChromosomeMap()
 	{
