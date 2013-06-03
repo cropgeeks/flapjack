@@ -75,14 +75,15 @@ public class Actions
 	public static AbstractAction vizHighlightHZ;
 	public static AbstractAction vizHighlightGaps;
 
-	public static AbstractAction dataSortLinesBySimilarity;
-	public static AbstractAction dataSortLinesByTrait;
-	public static AbstractAction dataSortLinesByExternal;
-	public static AbstractAction dataSortLinesAlphabetically;
+	public static AbstractAction alysSortLinesBySimilarity;
+	public static AbstractAction alysSortLinesByTrait;
+	public static AbstractAction alysSortLinesByExternal;
+	public static AbstractAction alysSortLinesAlphabetically;
+	public static AbstractAction alysSimMatrix;
+
 	public static AbstractAction dataFilterQTLs;
 	public static AbstractAction dataSelectGraph;
 	public static AbstractAction dataFind;
-	public static AbstractAction dataSimMatrix;
 	public static AbstractAction dataStatistics;
 	public static AbstractAction dataDBLineName;
 	public static AbstractAction dataDBMarkerName;
@@ -475,29 +476,36 @@ public class Actions
 		};
 
 
-		dataSortLinesBySimilarity = new AbstractAction(RB.getString("gui.Actions.dataSortLinesBySimilarity")) {
+		alysSortLinesBySimilarity = new AbstractAction(RB.getString("gui.Actions.alysSortLinesBySimilarity")) {
 			public void actionPerformed(ActionEvent e) {
-				winMain.mData.dataSortLines();
+				winMain.mAnalysis.sortLines();
 			}
 		};
 
-		dataSortLinesByTrait = new AbstractAction(RB.getString("gui.Actions.dataSortLinesByTrait")) {
+		alysSortLinesByTrait = new AbstractAction(RB.getString("gui.Actions.alysSortLinesByTrait")) {
 			public void actionPerformed(ActionEvent e) {
-				winMain.mData.dataSortLinesByTrait();
+				winMain.mAnalysis.sortLinesByTrait();
 			}
 		};
 
-		dataSortLinesByExternal = new AbstractAction(RB.getString("gui.Actions.dataSortLinesByExternal")) {
+		alysSortLinesByExternal = new AbstractAction(RB.getString("gui.Actions.alysSortLinesByExternal")) {
 			public void actionPerformed(ActionEvent e) {
-				winMain.mData.dataSortLinesByExternal();
+				winMain.mAnalysis.sortLinesByExternal();
 			}
 		};
 
-		dataSortLinesAlphabetically = new AbstractAction(RB.getString("gui.Actions.dataSortLinesAlphabetically")) {
+		alysSortLinesAlphabetically = new AbstractAction(RB.getString("gui.Actions.alysSortLinesAlphabetically")) {
 			public void actionPerformed(ActionEvent e) {
-				winMain.mData.dataSortLinesAlphabetically();
+				winMain.mAnalysis.sortLinesAlphabetically();
 			}
 		};
+
+		alysSimMatrix = new AbstractAction(RB.getString("gui.Actions.alysSimMatrix")) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.mAnalysis.simMatrix();
+			}
+		};
+
 
 		dataFilterQTLs = new AbstractAction(RB.getString("gui.Actions.dataFilterQTLs"), getIcon("TRAITS")) {
 			public void actionPerformed(ActionEvent e) {
@@ -508,12 +516,6 @@ public class Actions
 		dataSelectGraph = new AbstractAction(RB.getString("gui.Actions.dataSelectGraph")) {
 			public void actionPerformed(ActionEvent e) {
 				winMain.mData.dataSelectGraph();
-			}
-		};
-
-		dataSimMatrix = new AbstractAction(RB.getString("gui.Actions.dataSimMatrix")) {
-			public void actionPerformed(ActionEvent e) {
-				winMain.mData.dataSimMatrix();
 			}
 		};
 
@@ -696,14 +698,16 @@ public class Actions
 		vizHighlightHZ.setEnabled(false);
 		vizHighlightGaps.setEnabled(false);
 
-		dataSortLinesBySimilarity.setEnabled(false);
-		dataSortLinesByTrait.setEnabled(false);
-		dataSortLinesByExternal.setEnabled(false);
-		dataSortLinesAlphabetically.setEnabled(false);
+		alysSortLinesBySimilarity.setEnabled(false);
+		alysSortLinesByTrait.setEnabled(false);
+		alysSortLinesByExternal.setEnabled(false);
+		alysSortLinesAlphabetically.setEnabled(false);
+		alysSimMatrix.setEnabled(false);
+
 		dataFilterQTLs.setEnabled(false);
 		dataSelectGraph.setEnabled(false);
 		dataFind.setEnabled(false);
-		dataSimMatrix.setEnabled(false);
+
 		dataStatistics.setEnabled(false);
 		dataDBLineName.setEnabled(false);
 		dataDBMarkerName.setEnabled(false);

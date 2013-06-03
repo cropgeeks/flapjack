@@ -113,7 +113,7 @@ public class SimMatrixPanelNB extends JPanel implements ActionListener
 	public void actionPerformed(ActionEvent e)
 	{
 		if (e.getSource() == bDendrogram)
-			Flapjack.winMain.mData.dataDendrogram(viewSet, matrix);
+			Flapjack.winMain.mAnalysis.dendrogram(viewSet, matrix);
 	}
 
 	private class MouseHandler extends MouseInputAdapter
