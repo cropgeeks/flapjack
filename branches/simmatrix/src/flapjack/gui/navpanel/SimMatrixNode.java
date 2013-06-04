@@ -6,6 +6,7 @@ package flapjack.gui.navpanel;
 import javax.swing.*;
 
 import flapjack.data.*;
+import flapjack.gui.*;
 import flapjack.gui.simmatrix.*;
 
 public class SimMatrixNode extends BaseNode
@@ -29,7 +30,7 @@ public class SimMatrixNode extends BaseNode
 
 	public void setActions()
 	{
-
+		Actions.alysDendrogram.setEnabled(true);
 	}
 
 	public JPanel getPanel()

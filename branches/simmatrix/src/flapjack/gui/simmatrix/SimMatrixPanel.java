@@ -26,6 +26,12 @@ public class SimMatrixPanel extends JPanel
 		createControls();
 	}
 
+	public GTViewSet getViewSet()
+		{ return viewSet; }
+
+	public SimMatrix getSimMatrix()
+		{ return matrix; }
+
 	private void createControls()
 	{
 		// Visualization setup

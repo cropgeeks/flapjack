@@ -87,7 +87,7 @@ public class WinMainMenuBar extends JMenuBar
 	private JMenuItem mAlysSortLinesByExternal;
 	private JMenuItem mAlysSortLinesAlphabetically;
 	private JMenuItem mAlysSimMatrix;
-
+	private JMenuItem mAlysDendrogram;
 
 	private JMenu mData;
 	private JMenuItem malysFilterQTLs;
@@ -343,6 +343,7 @@ public class WinMainMenuBar extends JMenuBar
 		mAlysSortLinesAlphabetically = getItem(Actions.alysSortLinesAlphabetically, "gui.Actions.alysSortLinesAlphabetically", 0, 0);
 
 		mAlysSimMatrix = getItem(Actions.alysSimMatrix, "gui.Actions.alysSimMatrix", 0, 0);
+		mAlysDendrogram = getItem(Actions.alysDendrogram, "gui.Actions.alysDendrogram", 0, 0);
 
 		mAlysSortLines.add(mAlysSortLinesAlphabetically);
 		mAlysSortLines.addSeparator();
@@ -353,6 +354,7 @@ public class WinMainMenuBar extends JMenuBar
 		mAnalysis.add(mAlysSortLines);
 		mAnalysis.addSeparator();
 		mAnalysis.add(mAlysSimMatrix);
+		mAnalysis.add(mAlysDendrogram);
 
 		add(mAnalysis);
 	}

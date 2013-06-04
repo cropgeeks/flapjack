@@ -80,6 +80,7 @@ public class Actions
 	public static AbstractAction alysSortLinesByExternal;
 	public static AbstractAction alysSortLinesAlphabetically;
 	public static AbstractAction alysSimMatrix;
+	public static AbstractAction alysDendrogram;
 
 	public static AbstractAction dataFilterQTLs;
 	public static AbstractAction dataSelectGraph;
@@ -506,6 +507,12 @@ public class Actions
 			}
 		};
 
+		alysDendrogram = new AbstractAction(RB.getString("gui.Actions.alysDendrogram")) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.mAnalysis.dendrogram();
+			}
+		};
+
 
 		dataFilterQTLs = new AbstractAction(RB.getString("gui.Actions.dataFilterQTLs"), getIcon("TRAITS")) {
 			public void actionPerformed(ActionEvent e) {
@@ -703,6 +710,7 @@ public class Actions
 		alysSortLinesByExternal.setEnabled(false);
 		alysSortLinesAlphabetically.setEnabled(false);
 		alysSimMatrix.setEnabled(false);
+		alysDendrogram.setEnabled(false);
 
 		dataFilterQTLs.setEnabled(false);
 		dataSelectGraph.setEnabled(false);

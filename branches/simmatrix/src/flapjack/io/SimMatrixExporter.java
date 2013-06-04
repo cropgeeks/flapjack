@@ -13,6 +13,8 @@ public class SimMatrixExporter extends SimpleJob
 	// When true prints a listing of the line names in the first column of output
 	private boolean hasRowHeader;
 
+	private boolean isFileWriting;
+
 	// Constructor that creates a SimMatrixExporter to ouput using a pre-existing
 	// PrintWriter that is passed in.
 	public SimMatrixExporter(SimMatrix matrix, PrintWriter writer)
@@ -34,6 +36,7 @@ public class SimMatrixExporter extends SimpleJob
 
 		maximum = matrix.getLineInfos().size() + 1;
 		hasRowHeader = true;
+		isFileWriting = true;
 	}
 
 	@Override
@@ -47,5 +50,9 @@ public class SimMatrixExporter extends SimpleJob
 		// Write each successive line of the matrix file
 		for (int j=0; j < matrix.getLineInfos().size(); j++, progress++)
 			writer.println(matrix.createFileLine(j, hasRowHeader));
+
+
+		if (isFileWriting)
+			writer.close();
 	}
 }

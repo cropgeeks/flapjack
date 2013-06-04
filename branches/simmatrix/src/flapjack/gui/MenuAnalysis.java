@@ -13,6 +13,7 @@ import flapjack.analysis.*;
 import flapjack.data.*;
 import flapjack.gui.dialog.*;
 import flapjack.gui.dialog.analysis.*;
+import flapjack.gui.simmatrix.*;
 import flapjack.gui.visualization.*;
 import flapjack.gui.visualization.undo.*;
 import flapjack.io.*;
@@ -156,19 +157,6 @@ public class MenuAnalysis
 		GTViewSet viewSet = gPanel.getViewSet();
 		GTView view = gPanel.getView();
 
-/*		String name = RB.format("gui.MenuData.simMatrix.filename", viewSet.getName());
-		File saveAs = new File(Prefs.guiCurrentDir, name);
-		FileNameExtensionFilter filter = new FileNameExtensionFilter(
-			RB.getString("other.Filters.ttxt"), "txt");
-
-		// Ask the user for a filename to save simmatrix as
-		String filename = FlapjackUtils.getSaveFilename(
-			RB.getString("gui.MenuData.simMatrix.saveDialog"), saveAs, filter);
-
-		// Quit if the user cancelled the file selection
-		if (filename == null)
-			return;
-*/
 
 		// Set up the calculator
 		CalculateSimilarityMatrix calculator = new CalculateSimilarityMatrix(viewSet, view);
@@ -193,8 +181,15 @@ public class MenuAnalysis
 		navPanel.addedNewSimMatrixNode(viewSet, matrix);
 	}
 
-	public void dendrogram(GTViewSet viewSet, SimMatrix matrix)
+	public void dendrogram()
 	{
+		// This menu option should *only* be enabled if the user is currently
+		// viewing a simmatrix, so the following code only works in that case
+		SimMatrixPanel panel = navPanel.getActiveSimMatrixPanel();
+		GTViewSet viewSet = panel.getViewSet();
+		SimMatrix matrix = panel.getSimMatrix();
+
+
 		String newName = viewSet.getName() + " Dendrogram";
 		System.out.println(newName);
 		GTViewSet newViewSet = viewSet.createClone(newName, false, true);

@@ -15,6 +15,7 @@ import javax.swing.tree.*;
 import flapjack.data.*;
 import flapjack.gui.navpanel.*;
 import flapjack.gui.traits.*;
+import flapjack.gui.simmatrix.*;
 import flapjack.gui.visualization.*;
 
 import scri.commons.gui.*;
@@ -310,6 +311,11 @@ class NavPanel extends JPanel
 		tree.scrollPathToVisible(new TreePath(traitsNode.getPath()));
 
 		return (TabPanel) traitsNode.getPanel();
+	}
+
+	SimMatrixPanel getActiveSimMatrixPanel()
+	{
+		return (SimMatrixPanel) hSplitPane.getRightComponent();
 	}
 
 	public void valueChanged(TreeSelectionEvent e)
