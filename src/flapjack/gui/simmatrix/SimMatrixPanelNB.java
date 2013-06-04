@@ -124,7 +124,7 @@ public class SimMatrixPanelNB extends JPanel implements ActionListener
 	public void actionPerformed(ActionEvent e)
 	{
 		if (e.getSource() == bDendrogram)
-			Flapjack.winMain.mAnalysis.dendrogram(viewSet, matrix);
+			Flapjack.winMain.mAnalysis.dendrogram();
 
 		else if (e.getSource() == bExport)
 			exportSimMatrix();
