@@ -48,6 +48,9 @@ public class Flapjack
 
 		Install4j.doStartUpCheck();
 
+		// Initialize JDBC->SQLite driver
+		Class.forName("org.sqlite.JDBC");
+
 		// Start the GUI (either with or without an initial project)
 		if (args.length == 1 && args[0] != null)
 			initialProject = new FlapjackFile(args[0]);
