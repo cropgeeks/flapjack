@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<install4j version="5.1.5" transformSequenceNumber="4">
-  <directoryPresets config="../keys/OS201206262249.pfx" />
+<install4j version="5.1.6" transformSequenceNumber="4">
+  <directoryPresets config="../keys/OS201306044993.pfx" />
   <application name="Flapjack" distributionSourceDir="" applicationId="9131-7045-2417-5931" mediaDir="." mediaFilePattern="${compiler:sys.shortName}_${compiler:sys.platform}_${compiler:sys.version}" compression="6" lzmaCompression="false" pack200Compression="false" excludeSignedFromPacking="true" commonExternalFiles="false" createMd5Sums="true" shrinkRuntime="true" shortName="flapjack" publisher="The James Hutton Institute" publisherWeb="http://www.hutton.ac.uk" version="x.xx.xx.xx" allPathsRelative="true" backupOnSave="false" autoSave="false" convertDotsToUnderscores="true" macSignature="????" installerName="" javaMinVersion="1.7" javaMaxVersion="" allowBetaVM="false" jdkMode="runtimeJre" jdkName="">
     <languages skipLanguageSelection="true" languageSelectionInPrincipalLanguage="false">
       <principalLanguage id="en" customLocalizationFile="" />
@@ -19,7 +19,7 @@
       <variable name="changeLog" value="Show Change Log" description="" category="" />
     </variables>
     <mergedProjects />
-    <codeSigning macEnabled="true" macPkcs12File="../keys/OS201206262249.pfx" windowsEnabled="true" windowsKeySource="pkcs12" windowsPvkFile="" windowsSpcFile="" windowsPkcs12File="../keys/OS201206262249.pfx" />
+    <codeSigning macEnabled="true" macPkcs12File="../keys/OS201306044993.pfx" windowsEnabled="true" windowsKeySource="pkcs12" windowsPvkFile="" windowsSpcFile="" windowsPkcs12File="../keys/OS201306044993.pfx" />
   </application>
   <files keepModificationTimes="false" missingFilesStrategy="warn" globalExcludeSuffixes="" defaultOverwriteMode="4" defaultUninstallMode="0" launcherOverwriteMode="3" defaultFileMode="644" defaultDirMode="755">
     <filesets />
@@ -32,6 +32,7 @@
       <dirEntry mountPoint="17" file="../lib" overwriteMode="4" shared="false" fileMode="644" uninstallMode="0" overrideFileMode="false" overrideOverwriteMode="false" overrideUninstallMode="false" entryMode="direct" subDirectory="" excludeSuffixes="*.svn" dirMode="755" overrideDirMode="false">
         <exclude>
           <entry location="i4jruntime.jar" fileType="regular" />
+          <entry location="sqlite-jdbc-3.7.2.jar" fileType="regular" />
         </exclude>
       </dirEntry>
       <dirEntry mountPoint="1046" file="./docs" overwriteMode="4" shared="false" fileMode="644" uninstallMode="0" overrideFileMode="false" overrideOverwriteMode="false" overrideUninstallMode="false" entryMode="direct" subDirectory="" excludeSuffixes="*.svn" dirMode="755" overrideDirMode="false">
@@ -1409,7 +1410,12 @@ if (wizardContext != null) {
         <bean refId="1236" />
       </excludedBeans>
       <overriddenPrincipalLanguage id="en" customLocalizationFile="" />
-      <exclude />
+      <exclude>
+        <entry location="lib/sqlite-jdbc-3.7.2-linux32.jar" fileType="regular" />
+        <entry location="lib/sqlite-jdbc-3.7.2-linux64.jar" fileType="regular" />
+        <entry location="lib/sqlite-jdbc-3.7.2-macosx.jar" fileType="regular" />
+        <entry location="lib/sqlite-jdbc-3.7.2-win64.jar" fileType="regular" />
+      </exclude>
       <variables />
       <autoUpdate useMinUpdatableVersion="false" minUpdatableVersion="" useMaxUpdatableVersion="false" maxUpdatableVersion="">
         <commentFiles />
@@ -1424,7 +1430,12 @@ if (wizardContext != null) {
         <bean refId="974" />
       </excludedBeans>
       <overriddenPrincipalLanguage id="en" customLocalizationFile="" />
-      <exclude />
+      <exclude>
+        <entry location="lib/sqlite-jdbc-3.7.2-linux32.jar" fileType="regular" />
+        <entry location="lib/sqlite-jdbc-3.7.2-linux64.jar" fileType="regular" />
+        <entry location="lib/sqlite-jdbc-3.7.2-macosx.jar" fileType="regular" />
+        <entry location="lib/sqlite-jdbc-3.7.2-win32.jar" fileType="regular" />
+      </exclude>
       <variables />
       <autoUpdate useMinUpdatableVersion="false" minUpdatableVersion="" useMaxUpdatableVersion="false" maxUpdatableVersion="">
         <commentFiles />
@@ -1439,7 +1450,10 @@ if (wizardContext != null) {
       </excludedBeans>
       <overriddenPrincipalLanguage id="en" customLocalizationFile="" />
       <exclude>
-        <entry location=".i4j_fileset_201" fileType="regular" />
+        <entry location="lib/sqlite-jdbc-3.7.2-linux32.jar" fileType="regular" />
+        <entry location="lib/sqlite-jdbc-3.7.2-linux64.jar" fileType="regular" />
+        <entry location="lib/sqlite-jdbc-3.7.2-win32.jar" fileType="regular" />
+        <entry location="lib/sqlite-jdbc-3.7.2-win64.jar" fileType="regular" />
       </exclude>
       <variables />
       <autoUpdate useMinUpdatableVersion="false" minUpdatableVersion="" useMaxUpdatableVersion="false" maxUpdatableVersion="">
@@ -1456,8 +1470,10 @@ if (wizardContext != null) {
       </excludedBeans>
       <overriddenPrincipalLanguage id="en" customLocalizationFile="" />
       <exclude>
-        <entry location=".i4j_fileset_201" fileType="regular" />
-        <entry location=".i4j_fileset_203" fileType="regular" />
+        <entry location="lib/sqlite-jdbc-3.7.2-linux64.jar" fileType="regular" />
+        <entry location="lib/sqlite-jdbc-3.7.2-macosx.jar" fileType="regular" />
+        <entry location="lib/sqlite-jdbc-3.7.2-win32.jar" fileType="regular" />
+        <entry location="lib/sqlite-jdbc-3.7.2-win64.jar" fileType="regular" />
       </exclude>
       <variables />
       <autoUpdate useMinUpdatableVersion="false" minUpdatableVersion="" useMaxUpdatableVersion="false" maxUpdatableVersion="">
@@ -1476,25 +1492,12 @@ if (wizardContext != null) {
         <bean refId="974" />
       </excludedBeans>
       <overriddenPrincipalLanguage id="en" customLocalizationFile="" />
-      <exclude />
-      <variables />
-      <autoUpdate useMinUpdatableVersion="false" minUpdatableVersion="" useMaxUpdatableVersion="false" maxUpdatableVersion="">
-        <commentFiles />
-        <customAttributes />
-      </autoUpdate>
-      <excludedComponents />
-      <includedDownloadableComponents />
-      <installerScript mode="1" file="">
-        <content />
-      </installerScript>
-    </unixInstaller>
-    <unixInstaller name="Solaris" id="1249" customizedId="" mediaFileName="${compiler:sys.shortName}_solaris_${compiler:sys.version}" installDir="Flapjack" overridePrincipalLanguage="false" jreBitType="all" runPostProcessor="false" postProcessor="" failOnPostProcessorError="false" useLegacyMediaFileIds="false" legacyMediaFileIds="" includedJRE="" manualJREEntry="false" bundleType="1" jreURL="" jreShared="false" directDownload="false" installOnlyIfNecessary="true" customInstallBaseDir="" contentFilesType="1" downloadURL="">
-      <excludedLaunchers />
-      <excludedBeans>
-        <bean refId="974" />
-      </excludedBeans>
-      <overriddenPrincipalLanguage id="en" customLocalizationFile="" />
-      <exclude />
+      <exclude>
+        <entry location="lib/sqlite-jdbc-3.7.2-linux32.jar" fileType="regular" />
+        <entry location="lib/sqlite-jdbc-3.7.2-macosx.jar" fileType="regular" />
+        <entry location="lib/sqlite-jdbc-3.7.2-win32.jar" fileType="regular" />
+        <entry location="lib/sqlite-jdbc-3.7.2-win64.jar" fileType="regular" />
+      </exclude>
       <variables />
       <autoUpdate useMinUpdatableVersion="false" minUpdatableVersion="" useMaxUpdatableVersion="false" maxUpdatableVersion="">
         <commentFiles />
