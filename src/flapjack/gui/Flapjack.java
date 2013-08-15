@@ -46,8 +46,6 @@ public class Flapjack
 
 		setProxy();
 
-		Install4j.doStartUpCheck();
-
 		// Initialize JDBC->SQLite driver
 		Class.forName("org.sqlite.JDBC");
 
@@ -55,7 +53,21 @@ public class Flapjack
 		if (args.length == 1 && args[0] != null)
 			initialProject = new FlapjackFile(args[0]);
 
+		install4j();
+
 		new Flapjack();
+	}
+
+	// Sets up the install4j environment to check for updates
+	private static void install4j()
+	{
+		Install4j i4j = new Install4j("9131-7045-2417-5931", "418");
+
+		i4j.setUser(Prefs.guiUpdateSchedule, Prefs.flapjackID, Prefs.rating);
+		i4j.setURLs("http://bioinf.hutton.ac.uk/flapjack/installers/updates.xml",
+				    "http://bioinf.hutton.ac.uk/flapjack/logs/flapjack.pl");
+
+		i4j.doStartUpCheck(Flapjack.class);
 	}
 
 	Flapjack()

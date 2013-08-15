@@ -13,6 +13,9 @@ class ProjectSerializerDB
 	static void initConnection(FlapjackFile file, boolean isSaveOperation)
 		throws IOException, SQLException
 	{
+		if (c != null)
+			c.close();
+
 		c = DriverManager.getConnection("jdbc:sqlite:" + file.getPath());
 
 		// If we're attempting to save, then make sure it is a database!

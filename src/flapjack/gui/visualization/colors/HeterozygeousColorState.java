@@ -35,10 +35,18 @@ public class HeterozygeousColorState extends ColorState
 		String s1 = state.getState(0);
 		String s2 = state.getState(1);
 
-		drawState(g, c1.brighter(), c1.darker(), s1, w, h, true);
-		drawState(g, c2.brighter(), c2.darker(), s2, w, h, false);
+		if (Prefs.visDisableGradients)
+		{
+			drawState(g, c1, c1, s1, w, h, true);
+			drawState(g, c2, c2, s2, w, h, false);
+		}
+		else
+		{
+			drawState(g, c1.brighter(), c1.darker(), s1, w, h, true);
+			drawState(g, c2.brighter(), c2.darker(), s2, w, h, false);
+		}
 
-		if (Prefs.visHighlightGaps)
+		if (Prefs.visHighlightHoZ || Prefs.visHighlightGaps || alpha < 200)
 		{
 			g.setPaint(new Color(20, 20, 20, alpha));
 			g.fillRect(0, 0, w, h);

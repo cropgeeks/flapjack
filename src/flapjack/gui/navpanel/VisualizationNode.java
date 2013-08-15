@@ -74,11 +74,14 @@ public class VisualizationNode extends BaseNode
 		Actions.vizColorMarkerSimGS.setEnabled(true);
 		Actions.vizColorSimple2Color.setEnabled(true);
 		Actions.vizColorAlleleFreq.setEnabled(true);
+		Actions.vizColorBinned.setEnabled(true);
 		Actions.vizScalingLocal.setEnabled(true);
 		Actions.vizScalingGlobal.setEnabled(true);
 		Actions.vizScalingClassic.setEnabled(true);
 		Actions.vizOverlayGenotypes.setEnabled(true);
-		Actions.vizHighlightHZ.setEnabled(true);
+		Actions.vizDisableGradients.setEnabled(true);
+		Actions.vizHighlightHtZ.setEnabled(true);
+		Actions.vizHighlightHoZ.setEnabled(true);
 		Actions.vizHighlightGaps.setEnabled(true);
 
 		Actions.alysSortLinesBySimilarity.setEnabled(true);

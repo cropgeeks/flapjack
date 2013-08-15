@@ -68,11 +68,14 @@ public class Actions
 	public static AbstractAction vizColorMarkerSimGS;
 	public static AbstractAction vizColorSimple2Color;
 	public static AbstractAction vizColorAlleleFreq;
+	public static AbstractAction vizColorBinned;
 	public static AbstractAction vizScalingLocal;
 	public static AbstractAction vizScalingGlobal;
 	public static AbstractAction vizScalingClassic;
 	public static AbstractAction vizOverlayGenotypes;
-	public static AbstractAction vizHighlightHZ;
+	public static AbstractAction vizDisableGradients;
+	public static AbstractAction vizHighlightHtZ;
+	public static AbstractAction vizHighlightHoZ;
 	public static AbstractAction vizHighlightGaps;
 
 	public static AbstractAction alysSortLinesBySimilarity;
@@ -440,6 +443,12 @@ public class Actions
 			}
 		};
 
+		vizColorBinned = new AbstractAction(RB.getString("gui.Actions.vizColorBinned")) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.mViz.vizColor(ColorScheme.BINNED_10);
+			}
+		};
+
 		vizScalingLocal = new AbstractAction(RB.getString("gui.Actions.vizScalingLocal")) {
 			public void actionPerformed(ActionEvent e) {
 				winMain.mViz.vizScaling(Constants.LOCAL);
@@ -464,9 +473,21 @@ public class Actions
 			}
 		};
 
-		vizHighlightHZ = new AbstractAction(RB.getString("gui.Actions.vizHighlightHZ")) {
+		vizDisableGradients = new AbstractAction(RB.getString("gui.Actions.vizDisableGradients")) {
 			public void actionPerformed(ActionEvent e) {
-				winMain.mViz.vizHighlightHZ();
+				winMain.mViz.vizDisableGradients();
+			}
+		};
+
+		vizHighlightHtZ = new AbstractAction(RB.getString("gui.Actions.vizHighlightHtZ")) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.mViz.vizHighlightHtZ();
+			}
+		};
+
+		vizHighlightHoZ = new AbstractAction(RB.getString("gui.Actions.vizHighlightHoZ")) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.mViz.vizHighlightHoZ();
 			}
 		};
 
@@ -646,7 +667,8 @@ public class Actions
 			Prefs.visMapScaling == Constants.CLASSIC);
 
 		vizOverlayGenotypes.putValue(SELECTED_KEY, Prefs.visShowGenotypes);
-		vizHighlightHZ.putValue(SELECTED_KEY, Prefs.visHighlightHZ);
+		vizDisableGradients.putValue(SELECTED_KEY, Prefs.visDisableGradients);
+		vizHighlightHtZ.putValue(SELECTED_KEY, Prefs.visHighlightHtZ);
 		vizHighlightGaps.putValue(SELECTED_KEY, Prefs.visHighlightGaps);
 	}
 
@@ -698,11 +720,14 @@ public class Actions
 		vizColorMarkerSimGS.setEnabled(false);
 		vizColorSimple2Color.setEnabled(false);
 		vizColorAlleleFreq.setEnabled(false);
+		vizColorBinned.setEnabled(false);
 		vizScalingLocal.setEnabled(false);
 		vizScalingGlobal.setEnabled(false);
 		vizScalingClassic.setEnabled(false);
 		vizOverlayGenotypes.setEnabled(false);
-		vizHighlightHZ.setEnabled(false);
+		vizDisableGradients.setEnabled(false);
+		vizHighlightHtZ.setEnabled(false);
+		vizHighlightHoZ.setEnabled(false);
 		vizHighlightGaps.setEnabled(false);
 
 		alysSortLinesBySimilarity.setEnabled(false);

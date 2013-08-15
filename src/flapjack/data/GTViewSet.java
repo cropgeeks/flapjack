@@ -475,8 +475,8 @@ public class GTViewSet extends XMLRoot
 					allelesCount++;
 				}
 
-				System.out.println("Marker " + i + " missing " + missingCount + " / " + allelesCount + " ("
-					+ ((missingCount / (float)allelesCount)*100));
+//				System.out.println("Marker " + i + " missing " + missingCount + " / " + allelesCount + " ("
+//					+ ((missingCount / (float)allelesCount)*100));
 
 				// And if the percentage of missing ones is >= cutoff, then
 				// remove it from the visible set

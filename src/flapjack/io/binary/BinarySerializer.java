@@ -9,6 +9,8 @@ import flapjack.data.*;
 import flapjack.gui.*;
 import flapjack.io.*;
 
+import scri.commons.gui.*;
+
 // Changes to versions happen in THREE places, marked up with:
 ///////////////////////////////////////
 
