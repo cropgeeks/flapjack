@@ -71,12 +71,16 @@ public class WinMainMenuBar extends JMenuBar
 	private JMenuItem mVizColorMarkerSimGS;
 	private JMenuItem mVizColorSimple2Color;
 	private JMenuItem mVizColorAlleleFreq;
+	private JMenuItem mVizColorBinned;
 	private JMenu mVizScaling;
 	private JCheckBoxMenuItem mVizScalingLocal;
 	private JCheckBoxMenuItem mVizScalingGlobal;
 	private JCheckBoxMenuItem mVizScalingClassic;
 	private JCheckBoxMenuItem mVizOverlayGenotypes;
-	private JCheckBoxMenuItem mVizHighlightHZ;
+	private JCheckBoxMenuItem mVizDisableGradients;
+	private JMenu mVizHighlight;
+	private JCheckBoxMenuItem mVizHighlightHtZ;
+	private JCheckBoxMenuItem mVizHighlightHoZ;
 	private JCheckBoxMenuItem mVizHighlightGaps;
 	private JMenuItem mDataSelectTraits;
 
@@ -268,6 +272,9 @@ public class WinMainMenuBar extends JMenuBar
 		mVizScaling = new JMenu(RB.getString("gui.WinMainMenuBar.mVizScaling"));
 		RB.setMnemonic(mVizScaling, "gui.WinMainMenuBar.mVizScaling");
 
+		mVizHighlight = new JMenu(RB.getString("gui.WinMainMenuBar.mVizHighlight"));
+		RB.setMnemonic(mVizHighlight, "gui.WinMainMenuBar.mVizHighlight");
+
 		mVizExportImage = getItem(Actions.vizExportImage, "gui.Actions.vizExportImage", 0, 0);
 		mVizExportData = getItem(Actions.vizExportData, "gui.Actions.vizExportData", 0, 0);
 		mVizCreatePedigree = getItem(Actions.vizCreatePedigree, "gui.Actions.vizCreatePedigree", 0, 0);
@@ -285,10 +292,12 @@ public class WinMainMenuBar extends JMenuBar
 		mVizScalingGlobal = getCheckedItem(Actions.vizScalingGlobal, "gui.Actions.vizScalingGlobal", 0, 0);
 		mVizScalingClassic = getCheckedItem(Actions.vizScalingClassic, "gui.Actions.vizScalingClassic", 0, 0);
 		mVizColorAlleleFreq = getItem(Actions.vizColorAlleleFreq, "gui.Actions.vizColorAlleleFreq", 0, 0);
+		mVizColorBinned = getItem(Actions.vizColorBinned, "gui.Actions.vizColorBinned", 0, 0);
 		mVizOverlayGenotypes = getCheckedItem(Actions.vizOverlayGenotypes, "gui.Actions.vizOverlayGenotypes",
 			KeyEvent.VK_G, menuShortcut);
-		mVizHighlightHZ = getCheckedItem(Actions.vizHighlightHZ, "gui.Actions.vizHighlightHZ",
-			KeyEvent.VK_H, menuShortcut);
+		mVizDisableGradients = getCheckedItem(Actions.vizDisableGradients, "gui.Actions.vizDisableGradients", 0, 0);
+		mVizHighlightHtZ = getCheckedItem(Actions.vizHighlightHtZ, "gui.Actions.vizHighlightHtZ", 0, 0);
+		mVizHighlightHoZ = getCheckedItem(Actions.vizHighlightHoZ, "gui.Actions.vizHighlightHoZ", 0, 0);
 		mVizHighlightGaps = getCheckedItem(Actions.vizHighlightGaps, "gui.Actions.vizHighlightGaps", 0, 0);
 
 
@@ -305,11 +314,16 @@ public class WinMainMenuBar extends JMenuBar
 		mVizColor.add(mVizColorMarkerSim);
 //		mVizColor.add(mVizColorMarkerSimGS);
 		mVizColor.add(mVizColorAlleleFreq);
+		mVizColor.add(mVizColorBinned);
 		mVizColor.addSeparator();
 		mVizColor.add(mVizColorRandom);
 		mVizColor.add(mVizColorRandomWSP);
 		mVizColor.addSeparator();
 		mVizColor.add(mVizColorCustomize);
+
+		mVizHighlight.add(mVizHighlightHtZ);
+		mVizHighlight.add(mVizHighlightHoZ);
+		mVizHighlight.add(mVizHighlightGaps);
 
 		mVizScaling.add(mVizScalingLocal);
 		mVizScaling.add(mVizScalingGlobal);
@@ -320,11 +334,12 @@ public class WinMainMenuBar extends JMenuBar
 		mViz.addSeparator();
 //		mViz.add(mVizCreatePedigree);
 //		mViz.addSeparator();
-		mViz.add(mVizColor);
 		mViz.add(mVizScaling);
+		mViz.addSeparator();
+		mViz.add(mVizColor);
 		mViz.add(mVizOverlayGenotypes);
-		mViz.add(mVizHighlightHZ);
-		mViz.add(mVizHighlightGaps);
+		mViz.add(mVizDisableGradients);
+		mViz.add(mVizHighlight);
 
 		add(mViz);
 	}

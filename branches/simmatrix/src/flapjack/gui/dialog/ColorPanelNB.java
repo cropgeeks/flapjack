@@ -55,6 +55,7 @@ class ColorPanelNB extends JPanel implements ActionListener
 		comboModel.addElement(new LineSimilarityColorScheme());
 		comboModel.addElement(new MarkerSimilarityColorScheme());
 		comboModel.addElement(new AlleleFrequencyColorScheme());
+		comboModel.addElement(new BinnedColorScheme());
 		comboModel.addElement(new RandomColorScheme(ColorScheme.RANDOM));
 		comboModel.addElement(new RandomColorScheme(ColorScheme.RANDOM_WSP));
 		schemeCombo.setModel(comboModel);

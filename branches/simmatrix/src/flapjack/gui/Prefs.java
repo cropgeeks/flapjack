@@ -148,12 +148,16 @@ public class Prefs extends XMLPreferences
 	// Should the visualization canvas overlay the raw data?
 	public static boolean visShowGenotypes = false;
 	// Should the visualization canvas highlight heterozygotes?
-	public static boolean visHighlightHZ = false;
+	public static boolean visHighlightHtZ = false;
+	public static boolean visHighlightHoZ = false;
 	// Should the visualization canvas highlight gaps?
 	public static boolean visHighlightGaps = false;
 
 	// Mouse-over crosshair?
 	public static boolean visCrosshair = true;
+
+	// Disable gradient painting?
+	public static boolean visDisableGradients = false;
 
 	// Standard colors used regardless of scheme
 	public static Color visColorBackground;
@@ -192,6 +196,11 @@ public class Prefs extends XMLPreferences
 	// Colors used by the allele frequency scheme
 	public static Color visColorLoFreqState;
 	public static Color visColorHiFreqState;
+
+	// Colors used by the binned scheme
+	public static Color visColorBinnedLow;
+	public static Color visColorBinnedHigh;
+	public static Color visColorBinnedOther;
 
 	public static boolean miscSubscribed = false;
 	public static String miscEmail = "";
@@ -242,6 +251,10 @@ public class Prefs extends XMLPreferences
 
 		visColorLoFreqState = new Color(102, 102, 255);
 		visColorHiFreqState = new Color(204, 255, 204);
+
+		visColorBinnedLow = new Color(255, 120, 120);
+		visColorBinnedHigh = new Color(120, 255, 120);
+		visColorBinnedOther = new Color(204, 204, 204);
 	}
 
 	// Updates the array of recently accessed documents so that 'document' is
