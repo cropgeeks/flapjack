@@ -36,7 +36,7 @@ public class FindMarker extends StringFinder
 
 	public LinkedList<Result> search(String str)
 	{
-		LinkedList<Result> results = new LinkedList<Result>();
+		LinkedList<Result> results = new LinkedList<>();
 
 		// Maintain a count of the search. Once all markers have been looked at
 		// it means we didn't find a match

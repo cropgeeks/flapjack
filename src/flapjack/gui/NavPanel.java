@@ -6,6 +6,7 @@ package flapjack.gui;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.dnd.*;
+import java.awt.image.*;
 import java.beans.*;
 import javax.swing.*;
 import javax.swing.event.*;
@@ -14,6 +15,7 @@ import javax.swing.tree.*;
 import flapjack.data.*;
 import flapjack.gui.navpanel.*;
 import flapjack.gui.traits.*;
+import flapjack.gui.simmatrix.*;
 import flapjack.gui.visualization.*;
 
 import scri.commons.gui.*;
@@ -189,6 +191,30 @@ class NavPanel extends JPanel
 		tree.scrollPathToVisible(new TreePath(bmNode.getPath()));
 	}
 
+	void addedNewSimMatrixNode(GTViewSet viewSet, SimMatrix matrix)
+	{
+		VisualizationNode node = findVisualizationNode(viewSet);
+
+		SimMatrixNode smNode = new SimMatrixNode(viewSet.getDataSet(), viewSet, matrix);
+		treeModel.insertNodeInto(smNode, node, node.getChildCount());
+
+		// This will expand the + for the SimMatrix nodes if they're not visible
+		tree.setSelectionPath(new TreePath(smNode.getPath()));
+		tree.scrollPathToVisible(new TreePath(smNode.getPath()));
+	}
+
+	void addedNewDendogramNode(GTViewSet viewSet, DataSet dataSet, SimMatrix matrix, Dendrogram dendrogram)
+	{
+		VisualizationNode node = findVisualizationNode(viewSet);
+
+		DendrogramNode dNode = new DendrogramNode(dataSet, dendrogram);
+		treeModel.insertNodeInto(dNode, node, node.getChildCount());
+
+		// This will expand the + for the SimMatrix nodes if they're not visible
+		tree.setSelectionPath(new TreePath(dNode.getPath()));
+		tree.scrollPathToVisible(new TreePath(dNode.getPath()));
+	}
+
 	private DataSetNode findDataSetNode(DataSet dataSet)
 	{
 		// Search until we find the node for this data set
@@ -285,6 +311,11 @@ class NavPanel extends JPanel
 		tree.scrollPathToVisible(new TreePath(traitsNode.getPath()));
 
 		return (TabPanel) traitsNode.getPanel();
+	}
+
+	SimMatrixPanel getActiveSimMatrixPanel()
+	{
+		return (SimMatrixPanel) hSplitPane.getRightComponent();
 	}
 
 	public void valueChanged(TreeSelectionEvent e)

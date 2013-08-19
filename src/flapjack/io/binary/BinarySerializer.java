@@ -9,6 +9,8 @@ import flapjack.data.*;
 import flapjack.gui.*;
 import flapjack.io.*;
 
+import scri.commons.gui.*;
+
 // Changes to versions happen in THREE places, marked up with:
 ///////////////////////////////////////
 
@@ -22,11 +24,10 @@ public class BinarySerializer
 	{
 	}
 
-	public void serialize(Project project)
+	public void serialize(Project project, OutputStream os)
 		throws Exception
 	{
-		File file = project.fjFile.getFile();
-		DataOutputStream out = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(file)));
+		DataOutputStream out = new DataOutputStream(new BufferedOutputStream(os));
 
 		///////////////////////////////////////
 		FlapjackSerializer serializer = new SerializerV05(null, out);
@@ -39,10 +40,10 @@ public class BinarySerializer
 	}
 
 
-	public Project deserialize(FlapjackFile fjFile, boolean fullRead)
+	public Project deserialize(InputStream is, boolean fullRead)
 		throws Exception
 	{
-		DataInputStream in = new DataInputStream(new BufferedInputStream(fjFile.getInputStream()));
+		DataInputStream in = new DataInputStream(new BufferedInputStream(is));
 
 		// Header information
 		byte[] header = new byte[9];

@@ -37,6 +37,7 @@ public class WinMain extends JFrame
 	public MenuEdit mEdit = new MenuEdit();
 	public MenuView mView = new MenuView();
 	public MenuVisualization mViz = new MenuVisualization();
+	public MenuAnalysis mAnalysis = new MenuAnalysis();
 	public MenuData mData = new MenuData();
 	MenuHelp mHelp = new MenuHelp();
 
@@ -58,6 +59,7 @@ public class WinMain extends JFrame
 		mEdit.setComponents(gPanel);
 		mView.setComponents(navPanel);
 		mViz.setComponents(navPanel);
+		mAnalysis.setComponents(this, navPanel);
 		mData.setComponents(this, navPanel);
 		mHelp.setComponents(gPanel);
 

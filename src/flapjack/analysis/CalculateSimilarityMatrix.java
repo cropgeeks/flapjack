@@ -3,13 +3,11 @@
 
 package flapjack.analysis;
 
-import java.io.*;
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.*;
 
 import flapjack.data.*;
-import flapjack.gui.*;
 
 import scri.commons.gui.*;
 
@@ -17,25 +15,36 @@ public class CalculateSimilarityMatrix extends SimpleJob
 {
 	private GTViewSet viewSet;
 	private GTView view;
-	private String filename;
 
 	private boolean[] chromosomes;
 	private ArrayList<Integer> indices;
-	private ArrayList<ArrayList<Float>> lineScores;
 
+	// A list of selected marker indices (into the original data) across all
+	// selected chromosomes
+	private ArrayList<int[]> viewMarkers;
+
+	// Mini-matrix of allele-by-allele scores to use as a look up table
+	private float[][] stMatrix;
+	// Class that does the actual calculations for us
+	private SimilarityScore ss;
+
+	// End result...
+	private SimMatrix matrix = new SimMatrix();
 	private AtomicInteger count = new AtomicInteger(0);
 
-	public CalculateSimilarityMatrix(GTViewSet viewSet, GTView view, String filename)
+	public CalculateSimilarityMatrix(GTViewSet viewSet, GTView view)
 	{
 		this.viewSet = viewSet;
 		this.view = view;
-		this.filename = filename;
 
 		// Work out the indices of all the lines being compared
 		indices = new ArrayList<Integer>();
 		for (int i = 0; i < viewSet.getLines().size(); i++)
 			if (skipLine(i) == false)
+			{
 				indices.add(i);
+				matrix.getLineInfos().add(view.getLineInfo(i));
+			}
 
 		// We're generating a square matrix, so the total number of comparisons
 		// will be the number of lines squared (divided by 2)
@@ -47,6 +56,9 @@ public class CalculateSimilarityMatrix extends SimpleJob
 		for (int i = 0; i < chromosomes.length; i++)
 			chromosomes[i] = true;
 	}
+
+	public SimMatrix getMatrix()
+		{ return matrix; }
 
 	@Override
 	public int getValue()
@@ -61,15 +73,19 @@ public class CalculateSimilarityMatrix extends SimpleJob
 		for (GTView view: viewSet.getViews())
 			view.cacheLines();
 
+		// Build the list of selected marker indices
+		viewMarkers = new ArrayList<int[]>();
+		for (int i=0; i < viewSet.getViews().size(); i++)
+			if (chromosomes[i])
+				viewMarkers.add(selectedMarkers(viewSet.getView(i)));
+
+		// Set up the objects that can be reused on each run
+		stMatrix = viewSet.getDataSet().getStateTable().calculateSimilarityMatrix();
+		ss = new SimilarityScore(viewSet, stMatrix, chromosomes);
+
 		// Set up the 2D array to hold the resultant matrix
-		lineScores = new ArrayList<ArrayList<Float>>();
-		for (int i = 0; i < indices.size(); i++)
-		{
-			lineScores.add(new ArrayList<Float>());
-//			for (int j = 0; j < indices.size(); j++)			// uncomment to generate FULL matrix (not half)
-			for (int j = 0; j <= i; j++)
-				lineScores.get(i).add(1f);
-		}
+		matrix.initialize(indices.size());
+
 
 		// Set up a multithreaded calculation run
 		int cores = Runtime.getRuntime().availableProcessors();
@@ -84,49 +100,10 @@ public class CalculateSimilarityMatrix extends SimpleJob
 			task.get();
 
 		if (okToRun)
-			writeResults(viewSet.getView(0));
+			viewSet.matrices.add(matrix);
 
 		long e = System.currentTimeMillis();
 		System.out.println("SimMatrix time: " + (e-s) + "ms");
-	}
-
-	private void writeResults(GTView view)
-		throws Exception
-	{
-		ArrayList<LineInfo> lines = viewSet.getLines();
-
-		System.out.println("Writing results...");
-
-		BufferedWriter out = new BufferedWriter(new FileWriter(filename));
-
-		// Header line
-		for (int i = 0; i < indices.size(); i++)
-		{
-			LineInfo li = lines.get(indices.get(i));
-			out.write("\t" + li.getLine().getName());
-		}
-		out.newLine();
-
-		// For each line
-		for (int i = 0; i < indices.size(); i++)
-		{
-			// Its name
-			LineInfo li = lines.get(indices.get(i));
-			out.write(li.getLine().getName());
-
-			// Its scores
-			for (int j = 0; j < indices.size(); j++)
-			{
-				if (j <= i)
-					out.write("\t" + lineScores.get(i).get(j));
-				else
-					out.write("\t" + lineScores.get(j).get(i));
-			}
-
-			out.newLine();
-		}
-
-		out.close();
 	}
 
 	@Override
@@ -147,6 +124,18 @@ public class CalculateSimilarityMatrix extends SimpleJob
 		return false;
 	}
 
+	// Returns an array where each element is the index in a GenotypeData object
+	// that contains the allele score for each selected marker in the view.
+	private int[] selectedMarkers(GTView view)
+	{
+		int[] selected = new int[view.countSelectedMarkers()];
+		for (int i=0, j=0; i < view.getMarkers().size(); i++)
+			if (view.isMarkerSelected(i))
+				selected[j++] = view.getMarkerInfo(i).getIndex();
+
+		return selected;
+	}
+
 	private class Calculator implements Runnable
 	{
 		private int i;
@@ -160,29 +149,34 @@ public class CalculateSimilarityMatrix extends SimpleJob
 
 		public void run()
 		{
-			float[][] matrix = viewSet.getDataSet().getStateTable().calculateSimilarityMatrix();
-
 			// For every line...
-			for (; i < indices.size() && okToRun; i += cores)
+			for (int indicesSize = indices.size(); i < indicesSize && okToRun; i += cores)
 			{
 				// Compare it against every other line...
-				for (int j = 0; j <= i && okToRun; j++, count.getAndIncrement())
+				for (int j = 0; j < i && okToRun; j++, count.getAndIncrement())
 				{
-					if (i != j)
-					{
-						int a = indices.get(i); // Real index of line A
-						int b = indices.get(j); // Real index of line B
+					int a = indices.get(i); // Real index of line A
+					int b = indices.get(j); // Real index of line B
 
-						SimilarityScore ss = new SimilarityScore(viewSet, matrix, a, b, chromosomes);
-						SimilarityScore.Score score = ss.getScore(false);
+					float score = ss.getScore(getData(a), getData(b), viewMarkers);
 
-						// First diagonal of the matrix
-						lineScores.get(i).set(j, score.score);
-						// Second diagonal of the matrix
-//						lineScores.get(j).set(i, score.score);        // uncomment to generate FULL matrix (not half)
-					}
+					matrix.setValueAt(i, j, score);
 				}
 			}
+		}
+
+		// Builds a list of GenotypeData objects, one per selected chromosome
+		private ArrayList<GenotypeData> getData(int lineIndex)
+		{
+			Line line = viewSet.getDataSet().getLines().get(lineIndex);
+
+			ArrayList<GenotypeData> data = new ArrayList<>();
+
+			for (int i = 0; i < chromosomes.length; i++)
+				if (chromosomes[i])
+					data.add(line.getGenotypes().get(i));
+
+			return data;
 		}
 	}
 }

@@ -70,7 +70,7 @@ class ImportSampleTabNB extends JPanel implements ActionListener, Runnable
 			properties = new Properties();
 			properties.loadFromXML(url.openStream());
 
-			ArrayList<ExampleProject> list = new ArrayList<ExampleProject>();
+			ArrayList<ExampleProject> list = new ArrayList<>();
 
 			// Get a list of all the projects
 			Enumeration<Object> e = properties.keys();

@@ -27,6 +27,15 @@ public class QTLInfo extends XMLRoot
 		this.index = index;
 	}
 
+	// Copy constructor
+	QTLInfo(QTLInfo qtlInfo)
+	{
+		this.qtl = qtlInfo.qtl;
+		this.index = qtlInfo.index;
+		this.mapOffset = qtlInfo.mapOffset;
+	}
+
+
 	// Methods required for XML serialization
 
 	public QTL getQTL()

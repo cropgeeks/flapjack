@@ -71,24 +71,31 @@ public class WinMainMenuBar extends JMenuBar
 	private JMenuItem mVizColorMarkerSimGS;
 	private JMenuItem mVizColorSimple2Color;
 	private JMenuItem mVizColorAlleleFreq;
+	private JMenuItem mVizColorBinned;
 	private JMenu mVizScaling;
 	private JCheckBoxMenuItem mVizScalingLocal;
 	private JCheckBoxMenuItem mVizScalingGlobal;
 	private JCheckBoxMenuItem mVizScalingClassic;
 	private JCheckBoxMenuItem mVizOverlayGenotypes;
-	private JCheckBoxMenuItem mVizHighlightHZ;
+	private JCheckBoxMenuItem mVizDisableGradients;
+	private JMenu mVizHighlight;
+	private JCheckBoxMenuItem mVizHighlightHtZ;
+	private JCheckBoxMenuItem mVizHighlightHoZ;
 	private JCheckBoxMenuItem mVizHighlightGaps;
 	private JMenuItem mDataSelectTraits;
 
+	private JMenu mAnalysis;
+	private JMenu mAlysSortLines;
+	private JMenuItem mAlysSortLinesBySimilarity;
+	private JMenuItem mAlysSortLinesByTrait;
+	private JMenuItem mAlysSortLinesByExternal;
+	private JMenuItem mAlysSortLinesAlphabetically;
+	private JMenuItem mAlysSimMatrix;
+	private JMenuItem mAlysDendrogram;
+
 	private JMenu mData;
-	private JMenu mDataSortLines;
-	private JMenuItem mDataSortLinesBySimilarity;
-	private JMenuItem mDataSortLinesByTrait;
-	private JMenuItem mDataSortLinesByExternal;
-	private JMenuItem mDataSortLinesAlphabetically;
-	private JMenuItem mDataFilterQTLs;
+	private JMenuItem malysFilterQTLs;
 	private JMenuItem mDataFind;
-	private JMenuItem mDataSimMatrix;
 	private JMenuItem mDataStatistics;
 	private JMenu mDataDB;
 	private JMenuItem mDataDBLineName;
@@ -125,6 +132,7 @@ public class WinMainMenuBar extends JMenuBar
 		createEditMenu();
 		createViewMenu();
 		createVizMenu();
+		createAnalysisMenu();
 		createDataMenu();
 		createWndMenu();
 		createHelpMenu();
@@ -264,6 +272,9 @@ public class WinMainMenuBar extends JMenuBar
 		mVizScaling = new JMenu(RB.getString("gui.WinMainMenuBar.mVizScaling"));
 		RB.setMnemonic(mVizScaling, "gui.WinMainMenuBar.mVizScaling");
 
+		mVizHighlight = new JMenu(RB.getString("gui.WinMainMenuBar.mVizHighlight"));
+		RB.setMnemonic(mVizHighlight, "gui.WinMainMenuBar.mVizHighlight");
+
 		mVizExportImage = getItem(Actions.vizExportImage, "gui.Actions.vizExportImage", 0, 0);
 		mVizExportData = getItem(Actions.vizExportData, "gui.Actions.vizExportData", 0, 0);
 		mVizCreatePedigree = getItem(Actions.vizCreatePedigree, "gui.Actions.vizCreatePedigree", 0, 0);
@@ -281,10 +292,12 @@ public class WinMainMenuBar extends JMenuBar
 		mVizScalingGlobal = getCheckedItem(Actions.vizScalingGlobal, "gui.Actions.vizScalingGlobal", 0, 0);
 		mVizScalingClassic = getCheckedItem(Actions.vizScalingClassic, "gui.Actions.vizScalingClassic", 0, 0);
 		mVizColorAlleleFreq = getItem(Actions.vizColorAlleleFreq, "gui.Actions.vizColorAlleleFreq", 0, 0);
+		mVizColorBinned = getItem(Actions.vizColorBinned, "gui.Actions.vizColorBinned", 0, 0);
 		mVizOverlayGenotypes = getCheckedItem(Actions.vizOverlayGenotypes, "gui.Actions.vizOverlayGenotypes",
 			KeyEvent.VK_G, menuShortcut);
-		mVizHighlightHZ = getCheckedItem(Actions.vizHighlightHZ, "gui.Actions.vizHighlightHZ",
-			KeyEvent.VK_H, menuShortcut);
+		mVizDisableGradients = getCheckedItem(Actions.vizDisableGradients, "gui.Actions.vizDisableGradients", 0, 0);
+		mVizHighlightHtZ = getCheckedItem(Actions.vizHighlightHtZ, "gui.Actions.vizHighlightHtZ", 0, 0);
+		mVizHighlightHoZ = getCheckedItem(Actions.vizHighlightHoZ, "gui.Actions.vizHighlightHoZ", 0, 0);
 		mVizHighlightGaps = getCheckedItem(Actions.vizHighlightGaps, "gui.Actions.vizHighlightGaps", 0, 0);
 
 
@@ -301,11 +314,16 @@ public class WinMainMenuBar extends JMenuBar
 		mVizColor.add(mVizColorMarkerSim);
 //		mVizColor.add(mVizColorMarkerSimGS);
 		mVizColor.add(mVizColorAlleleFreq);
+		mVizColor.add(mVizColorBinned);
 		mVizColor.addSeparator();
 		mVizColor.add(mVizColorRandom);
 		mVizColor.add(mVizColorRandomWSP);
 		mVizColor.addSeparator();
 		mVizColor.add(mVizColorCustomize);
+
+		mVizHighlight.add(mVizHighlightHtZ);
+		mVizHighlight.add(mVizHighlightHoZ);
+		mVizHighlight.add(mVizHighlightGaps);
 
 		mVizScaling.add(mVizScalingLocal);
 		mVizScaling.add(mVizScalingGlobal);
@@ -316,13 +334,44 @@ public class WinMainMenuBar extends JMenuBar
 		mViz.addSeparator();
 //		mViz.add(mVizCreatePedigree);
 //		mViz.addSeparator();
-		mViz.add(mVizColor);
 		mViz.add(mVizScaling);
+		mViz.addSeparator();
+		mViz.add(mVizColor);
 		mViz.add(mVizOverlayGenotypes);
-		mViz.add(mVizHighlightHZ);
-		mViz.add(mVizHighlightGaps);
+		mViz.add(mVizDisableGradients);
+		mViz.add(mVizHighlight);
 
 		add(mViz);
+	}
+
+	private void createAnalysisMenu()
+	{
+		mAnalysis = new JMenu(RB.getString("gui.WinMainMenuBar.mAnalysis"));
+		RB.setMnemonic(mAnalysis, "gui.WinMainMenuBar.mAnalysis");
+
+		mAlysSortLines = new JMenu(RB.getString("gui.WinMainMenuBar.mAlysSortLines"));
+		RB.setMnemonic(mAlysSortLines, "gui.WinMainMenuBar.mAlysSortLines");
+
+		mAlysSortLinesBySimilarity = getItem(Actions.alysSortLinesBySimilarity, "gui.Actions.alysSortLinesBySimilarity", 0, 0);
+		mAlysSortLinesByTrait = getItem(Actions.alysSortLinesByTrait, "gui.Actions.alysSortLinesByTrait", 0, 0);
+		mAlysSortLinesByExternal = getItem(Actions.alysSortLinesByExternal, "gui.Actions.alysSortLinesByExternal", 0, 0);
+		mAlysSortLinesAlphabetically = getItem(Actions.alysSortLinesAlphabetically, "gui.Actions.alysSortLinesAlphabetically", 0, 0);
+
+		mAlysSimMatrix = getItem(Actions.alysSimMatrix, "gui.Actions.alysSimMatrix", 0, 0);
+		mAlysDendrogram = getItem(Actions.alysDendrogram, "gui.Actions.alysDendrogram", 0, 0);
+
+		mAlysSortLines.add(mAlysSortLinesAlphabetically);
+		mAlysSortLines.addSeparator();
+		mAlysSortLines.add(mAlysSortLinesBySimilarity);
+		mAlysSortLines.add(mAlysSortLinesByTrait);
+		mAlysSortLines.add(mAlysSortLinesByExternal);
+
+		mAnalysis.add(mAlysSortLines);
+		mAnalysis.addSeparator();
+		mAnalysis.add(mAlysSimMatrix);
+		mAnalysis.add(mAlysDendrogram);
+
+		add(mAnalysis);
 	}
 
 	private void createDataMenu()
@@ -330,21 +379,14 @@ public class WinMainMenuBar extends JMenuBar
 		mData = new JMenu(RB.getString("gui.WinMainMenuBar.mData"));
 		RB.setMnemonic(mData, "gui.WinMainMenuBar.mData");
 
-		mDataSortLines = new JMenu(RB.getString("gui.WinMainMenuBar.mDataSortLines"));
-		RB.setMnemonic(mDataSortLines, "gui.WinMainMenuBar.mDataSortLines");
-
 		mDataDB = new JMenu(RB.getString("gui.WinMainMenuBar.mDataDB"));
 		mDataDB.setIcon(Actions.getIcon("DATABASE"));
 		RB.setMnemonic(mDataDB, "gui.WinMainMenuBar.mDataDB");
 
-		mDataSortLinesBySimilarity = getItem(Actions.dataSortLinesBySimilarity, "gui.Actions.dataSortLinesBySimilarity", 0, 0);
-		mDataSortLinesByTrait = getItem(Actions.dataSortLinesByTrait, "gui.Actions.dataSortLinesByTrait", 0, 0);
-		mDataSortLinesByExternal = getItem(Actions.dataSortLinesByExternal, "gui.Actions.dataSortLinesByExternal", 0, 0);
-		mDataSortLinesAlphabetically = getItem(Actions.dataSortLinesAlphabetically, "gui.Actions.dataSortLinesAlphabetically", 0, 0);
-		mDataFilterQTLs = getItem(Actions.dataFilterQTLs, "gui.Actions.dataFilterQTLs", 0, 0);
+		malysFilterQTLs = getItem(Actions.dataFilterQTLs, "gui.Actions.dataFilterQTLs", 0, 0);
 		mDataSelectGraph = getItem(Actions.dataSelectGraph, "gui.Actions.dataSelectGraph", 0, 0);
 		mDataFind = getItem(Actions.dataFind, "gui.Actions.dataFind", KeyEvent.VK_F, menuShortcut);
-		mDataSimMatrix = getItem(Actions.dataSimMatrix, "gui.Actions.dataSimMatrix", 0, 0);
+
 		mDataStatistics = getItem(Actions.dataStatistics, "gui.Actions.dataStatistics", 0, 0);
 		mDataDBLineName = getItem(Actions.dataDBLineName, "gui.Actions.dataDBLineName", 0, 0);
 		mDataDBMarkerName = getItem(Actions.dataDBMarkerName, "gui.Actions.dataDBMarkerName", 0, 0);
@@ -353,26 +395,17 @@ public class WinMainMenuBar extends JMenuBar
 		mDataDeleteDataSet = getItem(Actions.dataDeleteDataSet, "gui.Actions.dataDeleteDataSet", 0, 0);
 		mDataSelectTraits = getItem(Actions.dataSelectTraits, "gui.Actions.dataSelectTraits", 0, 0);
 
-		mDataSortLines.add(mDataSortLinesAlphabetically);
-		mDataSortLines.addSeparator();
-		mDataSortLines.add(mDataSortLinesBySimilarity);
-		mDataSortLines.add(mDataSortLinesByTrait);
-		mDataSortLines.add(mDataSortLinesByExternal);
-
 		mDataDB.add(mDataDBLineName);
 		mDataDB.add(mDataDBMarkerName);
 		mDataDB.addSeparator();
 		mDataDB.add(mDataDBSettings);
 
-		mData.add(mDataSortLines);
-		mData.addSeparator();
-		mData.add(mDataFilterQTLs);
+		mData.add(malysFilterQTLs);
 		mData.add(mDataSelectTraits);
 		mData.add(mDataSelectGraph);
 		mData.addSeparator();
 		mData.add(mDataFind);
 		mData.add(mDataStatistics);
-		mData.add(mDataSimMatrix);
 		mData.add(mDataDB);
 		mData.addSeparator();
 		mData.add(mDataRenameDataSet);
@@ -462,7 +495,7 @@ public class WinMainMenuBar extends JMenuBar
 	void createRecentMenu(FlapjackFile file)
 	{
 		// Begin by making a list of the recent file locations
-		LinkedList<String> entries = new LinkedList<String>();
+		LinkedList<String> entries = new LinkedList<>();
 		entries.add(Prefs.guiRecentProject1);
 		entries.add(Prefs.guiRecentProject2);
 		entries.add(Prefs.guiRecentProject3);

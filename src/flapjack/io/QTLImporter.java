@@ -26,12 +26,12 @@ public class QTLImporter extends SimpleJob
 
 	// Store a "track" per chromsome - the QTLs will be added to the appropriate
 	// track as they are read
-	Hashtable<String, ArrayList<QTL>> chromosomes = new Hashtable<String, ArrayList<QTL>>();
+	Hashtable<String, ArrayList<QTL>> chromosomes = new Hashtable<>();
 	// And they'll also be added to this for easy reference
-	LinkedList<QTL> qtls = new LinkedList<QTL>();
+	LinkedList<QTL> qtls = new LinkedList<>();
 
 	// Store references to each trait, so colors can be assigned post-import
-	Hashtable<String, Color> traits = new Hashtable<String, Color>();
+	Hashtable<String, Color> traits = new Hashtable<>();
 
 	private int featuresRead, featuresAdded;
 
@@ -155,7 +155,7 @@ public class QTLImporter extends SimpleJob
 		// would overlap, which screws up the TrackOptimiser when it runs
 		if (allMap != null)
 		{
-			ArrayList<QTL> track = new ArrayList<QTL>();
+			ArrayList<QTL> track = new ArrayList<>();
 
 			for (ChromosomeMap map: dataSet.getChromosomeMaps())
 			{
@@ -183,7 +183,7 @@ public class QTLImporter extends SimpleJob
 			{
 				boolean isSuper = view.getChromosomeMap().isSpecialChromosome();
 
-				ArrayList<QTLInfo> qtls = new ArrayList<QTLInfo>();
+				ArrayList<QTLInfo> qtls = new ArrayList<>();
 				ArrayList<QTL> track = view.getChromosomeMap().getQtls();
 
 				for (int i = 0; i < track.size(); i++)

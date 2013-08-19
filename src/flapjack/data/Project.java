@@ -17,7 +17,7 @@ public class Project extends XMLRoot
 	public int format = -1;
 
 	// The datasets within the project
-	private ArrayList<DataSet> dataSets = new ArrayList<DataSet>();
+	private ArrayList<DataSet> dataSets = new ArrayList<>();
 
 	public Project()
 	{
