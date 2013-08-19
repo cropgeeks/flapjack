@@ -30,8 +30,11 @@ public class CanvasMenu
 	private JMenuItem mDuplicateLine;
 	private JMenuItem mDuplicateLineRemove;
 	private JCheckBoxMenuItem mShowGenotypes;
-	private JCheckBoxMenuItem mHighlightHZ;
+	private JMenu mHighlight;
+	private JCheckBoxMenuItem mHighlightHtZ;
+	private JCheckBoxMenuItem mHighlightHoZ;
 	private JCheckBoxMenuItem mHighlightGaps;
+	private JCheckBoxMenuItem mDisableGradients;
 	private JMenuItem mSelectTraits;
 	private JMenu mColor;
 	private JMenuItem mColorCustomize;
@@ -45,6 +48,7 @@ public class CanvasMenu
 	private JMenuItem mColorSimple2Color;
 	private JMenuItem mColorABHData;
 	private JMenuItem mColorAlleleFreq;
+	private JMenuItem mColorBinned;
 	private JMenuItem mToggleCanvas;
 	private JMenu mDataDB;
 	private JMenuItem mDBLineName;
@@ -81,7 +85,9 @@ public class CanvasMenu
 		mInsertSplitter = WinMainMenuBar.getItem(Actions.editInsertSplitter, "gui.Actions.editInsertLine", 0, 0);
 		mRemoveSplitter = WinMainMenuBar.getItem(Actions.editDeleteSplitter, "gui.Actions.editDeleteLine", 0, 0);
 		mShowGenotypes = WinMainMenuBar.getCheckedItem(Actions.vizOverlayGenotypes, "gui.Actions.vizOverlayGenotypes", KeyEvent.VK_G, menuShortcut);
-		mHighlightHZ = WinMainMenuBar.getCheckedItem(Actions.vizHighlightHZ, "gui.Actions.vizHighlightHZ", KeyEvent.VK_H, menuShortcut);
+		mDisableGradients = WinMainMenuBar.getCheckedItem(Actions.vizDisableGradients, "gui.Actions.vizDisableGradients", 0, 0);
+		mHighlightHtZ = WinMainMenuBar.getCheckedItem(Actions.vizHighlightHtZ, "gui.Actions.vizHighlightHtZ", 0, 0);
+		mHighlightHoZ = WinMainMenuBar.getCheckedItem(Actions.vizHighlightHoZ, "gui.Actions.vizHighlightHoZ", 0, 0);
 		mHighlightGaps = WinMainMenuBar.getCheckedItem(Actions.vizHighlightGaps, "gui.Actions.vizHighlightGaps", 0, 0);
 		mSelectTraits = WinMainMenuBar.getItem(Actions.dataSelectTraits, "gui.Actions.dataSelectTraits", 0, 0);
 		mColorCustomize = WinMainMenuBar.getItem(Actions.vizColorCustomize, "gui.Actions.vizColorCustomize", 0, 0);
@@ -95,6 +101,7 @@ public class CanvasMenu
 		mColorMarkerSim = WinMainMenuBar.getItem(Actions.vizColorMarkerSim, "gui.Actions.vizColorMarkerSim", 0, 0);
 //		mColorMarkerSimGS = WinMainMenuBar.getItem(Actions.vizColorMarkerSimGS, KeyEvent.VK_G, 0, 0);
 		mColorAlleleFreq = WinMainMenuBar.getItem(Actions.vizColorAlleleFreq, "gui.Actions.vizColorAlleleFreq", 0, 0);
+		mColorBinned = WinMainMenuBar.getItem(Actions.vizColorBinned, "gui.Actions.vizColorBinned", 0, 0);
 		mToggleCanvas = WinMainMenuBar.getItem(Actions.viewToggleCanvas, "gui.Actions.viewToggleCanvas", 0, 0);
 		mFind = WinMainMenuBar.getItem(Actions.dataFind, "gui.Actions.dataFind", KeyEvent.VK_F, menuShortcut);
 		mDBLineName = WinMainMenuBar.getItem(Actions.dataDBLineName, "gui.Actions.dataDBLineName", 0, 0);
@@ -122,11 +129,18 @@ public class CanvasMenu
 		mColor.add(mColorMarkerSim);
 //		mColor.add(mColorMarkerSimGS);
 		mColor.add(mColorAlleleFreq);
+		mColor.add(mColorBinned);
 		mColor.addSeparator();
 		mColor.add(mColorRandom);
 		mColor.add(mColorRandomWSP);
 		mColor.addSeparator();
 		mColor.add(mColorCustomize);
+
+		mHighlight = new JMenu(RB.getString("gui.WinMainMenuBar.mVizHighlight"));
+		RB.setMnemonic(mHighlight, "gui.WinMainMenuBar.mVizHighlight");
+		mHighlight.add(mHighlightHtZ);
+		mHighlight.add(mHighlightHoZ);
+		mHighlight.add(mHighlightGaps);
 
 		mDataDB = new JMenu(RB.getString("gui.WinMainMenuBar.mDataDB"));
 		mDataDB.setIcon(Actions.getIcon("DATABASE"));
@@ -136,13 +150,13 @@ public class CanvasMenu
 		mDataDB.addSeparator();
 		mDataDB.add(mDBSettings);
 
-		mSortLinesBySimilarity = WinMainMenuBar.getItem(Actions.dataSortLinesBySimilarity, "gui.Actions.dataSortLinesBySimilarity", 0, 0);
-		mSortLinesByTrait = WinMainMenuBar.getItem(Actions.dataSortLinesByTrait, "gui.Actions.dataSortLinesByTrait", 0, 0);
-		mSortLinesByExternal = WinMainMenuBar.getItem(Actions.dataSortLinesByExternal, "gui.Actions.dataSortLinesByExternal", 0, 0);
-		mSortLinesAlphabetically = WinMainMenuBar.getItem(Actions.dataSortLinesAlphabetically, "gui.Actions.dataSortLinesAlphabetically", 0, 0);
+		mSortLinesBySimilarity = WinMainMenuBar.getItem(Actions.alysSortLinesBySimilarity, "gui.Actions.alysSortLinesBySimilarity", 0, 0);
+		mSortLinesByTrait = WinMainMenuBar.getItem(Actions.alysSortLinesByTrait, "gui.Actions.alysSortLinesByTrait", 0, 0);
+		mSortLinesByExternal = WinMainMenuBar.getItem(Actions.alysSortLinesByExternal, "gui.Actions.alysSortLinesByExternal", 0, 0);
+		mSortLinesAlphabetically = WinMainMenuBar.getItem(Actions.alysSortLinesAlphabetically, "gui.Actions.alysSortLinesAlphabetically", 0, 0);
 
-		mSortLines = new JMenu(RB.getString("gui.WinMainMenuBar.mDataSortLines"));
-		RB.setMnemonic(mSortLines, "gui.WinMainMenuBar.mDataSortLines");
+		mSortLines = new JMenu(RB.getString("gui.WinMainMenuBar.mAlysSortLines"));
+		RB.setMnemonic(mSortLines, "gui.WinMainMenuBar.mAlysSortLines");
 		mSortLines.add(mSortLinesAlphabetically);
 		mSortLines.addSeparator();
 		mSortLines.add(mSortLinesBySimilarity);
@@ -172,8 +186,9 @@ public class CanvasMenu
 		menu.addSeparator();
 		menu.add(mColor);
 		menu.add(mShowGenotypes);
-		menu.add(mHighlightHZ);
-		menu.add(mHighlightGaps);
+		menu.add(mDisableGradients);
+		menu.add(mHighlight);
+		menu.addSeparator();
 		menu.add(mSelectTraits);
 		menu.addSeparator();
 		menu.add(mSortLines);

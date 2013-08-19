@@ -74,21 +74,25 @@ public class VisualizationNode extends BaseNode
 		Actions.vizColorMarkerSimGS.setEnabled(true);
 		Actions.vizColorSimple2Color.setEnabled(true);
 		Actions.vizColorAlleleFreq.setEnabled(true);
+		Actions.vizColorBinned.setEnabled(true);
 		Actions.vizScalingLocal.setEnabled(true);
 		Actions.vizScalingGlobal.setEnabled(true);
 		Actions.vizScalingClassic.setEnabled(true);
 		Actions.vizOverlayGenotypes.setEnabled(true);
-		Actions.vizHighlightHZ.setEnabled(true);
+		Actions.vizDisableGradients.setEnabled(true);
+		Actions.vizHighlightHtZ.setEnabled(true);
+		Actions.vizHighlightHoZ.setEnabled(true);
 		Actions.vizHighlightGaps.setEnabled(true);
 
-		Actions.dataSortLinesBySimilarity.setEnabled(true);
-		Actions.dataSortLinesByTrait.setEnabled(true);
-		Actions.dataSortLinesByExternal.setEnabled(true);
-		Actions.dataSortLinesAlphabetically.setEnabled(true);
+		Actions.alysSortLinesBySimilarity.setEnabled(true);
+		Actions.alysSortLinesByTrait.setEnabled(true);
+		Actions.alysSortLinesByExternal.setEnabled(true);
+		Actions.alysSortLinesAlphabetically.setEnabled(true);
+		Actions.alysSimMatrix.setEnabled(true);
+
 		// TODO: make dynamic based on inclusion of QTL data or not
 		Actions.dataFilterQTLs.setEnabled(true);
 		Actions.dataFind.setEnabled(true);
-		Actions.dataSimMatrix.setEnabled(true);
 		Actions.dataStatistics.setEnabled(true);
 		Actions.dataDBSettings.setEnabled(true);
 		Actions.dataRenameDataSet.setEnabled(true);

@@ -82,9 +82,21 @@ public class MenuVisualization
 		gPanel.refreshView();
 	}
 
-	void vizHighlightHZ()
+	void vizDisableGradients()
 	{
-		Prefs.visHighlightHZ = !Prefs.visHighlightHZ;
+		Prefs.visDisableGradients = !Prefs.visDisableGradients;
+		gPanel.refreshView();
+	}
+
+	void vizHighlightHtZ()
+	{
+		Prefs.visHighlightHtZ = !Prefs.visHighlightHtZ;
+		gPanel.refreshView();
+	}
+
+	void vizHighlightHoZ()
+	{
+		Prefs.visHighlightHoZ = !Prefs.visHighlightHoZ;
 		gPanel.refreshView();
 	}
 

@@ -77,7 +77,7 @@ public class LineSimilarityColorScheme extends SimilarityColorScheme
 
 	public ArrayList<ColorSummary> getColorSummaries()
 	{
-		ArrayList<ColorSummary> colors = new ArrayList<ColorSummary>();
+		ArrayList<ColorSummary> colors = new ArrayList<>();
 
 		colors.add(new ColorSummary(Prefs.visColorSimilarityState1Dark,
 			RB.getString("gui.visualization.colors.LineSimilarityColorScheme.state1Dark")));

@@ -25,6 +25,7 @@ public abstract class ColorScheme
 	public static final int SIMPLE_TWO_COLOR = 6;
 	public static final int ALLELE_FREQUENCY = 7;
 	public static final int ABH_DATA = 8;
+	public static final int BINNED_10 = 9;
 
 	// Random (HSB model)
 	public static final int RANDOM = 50;
@@ -64,7 +65,7 @@ public abstract class ColorScheme
 	 */
 	public static ArrayList<ColorSummary> getStandardColorSummaries()
 	{
-		ArrayList<ColorSummary> colors = new ArrayList<ColorSummary>();
+		ArrayList<ColorSummary> colors = new ArrayList<>();
 
 		colors.add(new ColorSummary(Prefs.visColorBackground,
 			RB.getString("gui.visualization.colors.ColorScheme.background")));

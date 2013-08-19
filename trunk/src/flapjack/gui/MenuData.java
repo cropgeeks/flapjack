@@ -3,8 +3,10 @@
 
 package flapjack.gui;
 
+import java.awt.image.*;
 import java.io.*;
 import java.net.*;
+import java.util.*;
 import javax.swing.filechooser.*;
 
 import flapjack.analysis.*;
@@ -29,124 +31,6 @@ public class MenuData
 		this.navPanel = navPanel;
 
 		gPanel = navPanel.getGenotypePanel();
-	}
-
-	void dataSortLines()
-	{
-		SortLinesDialog dialog = new SortLinesDialog(gPanel);
-
-		if (dialog.isOK())
-		{
-			boolean[] chromosomes = dialog.getSelectedChromosomes();
-
-			GTViewSet viewSet = gPanel.getViewSet();
-			Line line = dialog.getSelectedLine();
-
-			SortLinesBySimilarity sort = new SortLinesBySimilarity(viewSet, line, chromosomes);
-			runSort(sort);
-		}
-	}
-
-	void dataSortLinesByTrait()
-	{
-		SortLinesByTraitDialog dialog = new SortLinesByTraitDialog(gPanel);
-
-		if (dialog.isOK())
-		{
-			GTViewSet viewSet = gPanel.getViewSet();
-
-			int[] traits = dialog.getTraitIndices();
-			boolean[] asc = dialog.getAscendingIndices();
-			boolean assign = Prefs.guiAssignTraits;
-
-			SortLinesByTrait sort = new SortLinesByTrait(viewSet, traits, asc, assign);
-			runSort(sort);
-		}
-	}
-
-	void dataSortLinesByExternal()
-	{
-		String rbTitle = "gui.MenuData.sortExternal.title";
-		String rbLabel = "gui.MenuData.sortExternal.label";
-		String rbButton = "gui.MenuData.sortExternal.button";
-		String help = "gui.dialog.SortLinesExternal";
-
-		// Find out what file to import
-		BrowseDialog browseDialog = new BrowseDialog(Prefs.guiExternalSortHistory,
-			rbTitle, rbLabel, rbButton, help);
-
-		if (browseDialog.isOK())
-		{
-			File file = browseDialog.getFile();
-			Prefs.guiExternalSortHistory = browseDialog.getHistory();
-
-			GTViewSet viewSet = gPanel.getViewSet();
-			SortLinesExternally sort = new SortLinesExternally(viewSet, file);
-
-			runSort(sort);
-		}
-	}
-
-	void dataSortLinesAlphabetically()
-	{
-		GTViewSet viewSet = gPanel.getViewSet();
-		SortLinesAlphabetically sort = new SortLinesAlphabetically(viewSet);
-
-		runSort(sort);
-	}
-
-	private void runSort(ITrackableJob sort)
-	{
-		MovedLinesState state = setupSort();
-
-		ProgressDialog dialog = new ProgressDialog(sort,
-			RB.getString("gui.MenuData.sorting.title"),
-			RB.getString("gui.MenuData.sorting.label"),
-			Flapjack.winMain);
-
-		// If the operation failed or was cancelled...
-		if (dialog.getResult() != ProgressDialog.JOB_COMPLETED)
-		{
-			if (dialog.getResult() == ProgressDialog.JOB_FAILED)
-				TaskDialog.error(RB.format("gui.MenuData.sorting.error",
-					dialog.getException()), RB.getString("gui.text.close"));
-
-			return;
-		}
-
-		completeSort(state);
-	}
-
-	/**
-	 * Prepares the lines to be sorted. This includes removing any dummy lines
-	 * and also setting an undo state.
-	 */
-	private MovedLinesState setupSort()
-	{
-		MovedLinesState state = new MovedLinesState(gPanel.getViewSet(),
-			RB.getString("gui.visualization.MovedLinesState.sortedLines"));
-
-		gPanel.getViewSet().setDisplayLineScores(false);
-
-		state.createUndoState();
-
-		return state;
-	}
-
-	/**
-	 * Finish the sort action by updating the display, creating a redo state
-	 * and marking the project as having been modified (for the purposes of
-	 * prompting the user to save changes on exit).
-	 */
-	private void completeSort(MovedLinesState state)
-	{
-		state.createRedoState();
-		gPanel.addUndoState(state);
-
-		gPanel.refreshView();
-		gPanel.moveToPosition(0, -1, false);
-
-		Actions.projectModified();
 	}
 
 	public void dataFilterQTLs()
@@ -358,48 +242,6 @@ public class MenuData
 
 		TaskDialog.info(
 			RB.format("gui.dialog.ExportDataDialog.exportSuccess", filename),
-			RB.getString("gui.text.close"));
-	}
-
-	public void dataSimMatrix()
-	{
-		GTViewSet viewSet = gPanel.getViewSet();
-		GTView view = gPanel.getView();
-
-		String name = RB.format("gui.MenuData.simMatrix.filename", viewSet.getName());
-		File saveAs = new File(Prefs.guiCurrentDir, name);
-		FileNameExtensionFilter filter = new FileNameExtensionFilter(
-			RB.getString("other.Filters.ttxt"), "txt");
-
-		// Ask the user for a filename to save simmatrix as
-		String filename = FlapjackUtils.getSaveFilename(
-			RB.getString("gui.MenuData.simMatrix.saveDialog"), saveAs, filter);
-
-		// Quit if the user cancelled the file selection
-		if (filename == null)
-			return;
-
-
-		// Set up the calculator
-		CalculateSimilarityMatrix calculator = new CalculateSimilarityMatrix(viewSet, view, filename);
-
-		ProgressDialog dialog = new ProgressDialog(calculator,
-			RB.format("gui.MenuData.simMatrix.title"),
-			RB.format("gui.MenuData.simMatrix.label"), Flapjack.winMain);
-
-		// If the operation failed or was cancelled...
-		if (dialog.getResult() != ProgressDialog.JOB_COMPLETED)
-		{
-			if (dialog.getResult() == ProgressDialog.JOB_FAILED)
-				TaskDialog.error(RB.format("gui.MenuData.simMatrix.error",
-					dialog.getException().getMessage()),
-					RB.getString("gui.text.close"));
-
-			return;
-		}
-
-		TaskDialog.info(
-			RB.format("gui.dialog.simMatrix.exportSuccess", filename),
 			RB.getString("gui.text.close"));
 	}
 }

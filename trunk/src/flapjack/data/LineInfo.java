@@ -31,6 +31,16 @@ public class LineInfo extends XMLRoot
 		this.index = index;
 	}
 
+	// Copy constructor to be used for creating deep copies of line infos.
+	LineInfo(LineInfo lineInfo)
+	{
+		this.line = lineInfo.line;
+		this.index = lineInfo.index;
+		this.selected = lineInfo.selected;
+		this.duplicate = lineInfo.duplicate;
+		this.score = lineInfo.score;
+	}
+
 
 	// Methods required for XML serialization
 
@@ -82,10 +92,8 @@ public class LineInfo extends XMLRoot
 
 	LineInfo makeDuplicate()
 	{
-		LineInfo duplicate = new LineInfo(line, index);
-		duplicate.selected = selected;
+		LineInfo duplicate = new LineInfo(this);
 		duplicate.duplicate = true;
-		duplicate.score = score;
 
 		return duplicate;
 	}

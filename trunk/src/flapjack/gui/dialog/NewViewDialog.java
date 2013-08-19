@@ -92,7 +92,7 @@ public class NewViewDialog extends JDialog implements ActionListener
 		else
 		{
 			GTViewSet cloneFrom = (GTViewSet) nbPanel.cloneCombo.getSelectedItem();
-			viewSet = cloneFrom.createClone(name, Prefs.guiCloneHidden);
+			viewSet = cloneFrom.createClone(name, Prefs.guiCloneHidden, false);
 		}
 
 		return viewSet;

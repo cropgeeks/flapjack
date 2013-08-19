@@ -25,8 +25,8 @@
 	</path>
 
 	<target name="compile" depends="init">
-		<javac srcdir="${src}" destdir="${classes}" source="6" target="6" debug="true" includeantruntime="false">
-			<compilerarg value="-Xlint:-options"/>
+		<javac srcdir="${src}" destdir="${classes}" source="7" target="7" debug="true" includeantruntime="false">
+			<!--<compilerarg value="-Xlint:-options"/>-->
 			<classpath refid="project.classpath"/>
 			<exclude name="**/package-info.java"/>
 		</javac>
@@ -54,6 +54,7 @@
 			<fileset dir="${classes}">
 				<exclude name="**/*Test.class"/>
 			</fileset>
+			<zipfileset dir="${src}/arrr" prefix="src/arrr"/>
 			<zipfileset dir="${config}" prefix="config"/>
 			<!-- castor.properties must be top level otherwise it's not seen -->
 			<fileset file="config/castor.properties"/>
@@ -63,10 +64,15 @@
 					value="castor-1.2-xml.jar
 						commons-logging-1.1.1.jar
 						flapjack-resources.jar
-						i4jruntime.jar
 						office-2.0.jar
 						osxadapter.jar
-						scri-commons.jar"/>
+						scri-commons.jar
+						sqlite-jdbc-3.7.2.jar
+						sqlite-jdbc-3.7.2-linux32.jar
+						sqlite-jdbc-3.7.2-linux64.jar
+						sqlite-jdbc-3.7.2-macosx.jar
+						sqlite-jdbc-3.7.2-win32.jar
+						sqlite-jdbc-3.7.2-win64.jar"/>
 				<attribute name="Implementation-Version" value="${i4j.version}"/>
 			</manifest>
 		</jar>

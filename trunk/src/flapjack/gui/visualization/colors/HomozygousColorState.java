@@ -30,7 +30,10 @@ public class HomozygousColorState extends ColorState
 		Color c1 = c.brighter();
 		Color c2 = c.darker();
 
-		g.setPaint(new GradientPaint(0, 0, c1, w, h, c2));
+		if (Prefs.visDisableGradients)
+			g.setColor(c);
+		else
+			g.setPaint(new GradientPaint(0, 0, c1, w, h, c2));
 
 		Rectangle2D.Float r = null;
 
@@ -63,7 +66,7 @@ public class HomozygousColorState extends ColorState
 		}
 
 
-		if (Prefs.visHighlightHZ || (Prefs.visHighlightGaps && c != Prefs.visColorBackground) || alpha < 200)
+		if (Prefs.visHighlightHtZ || (Prefs.visHighlightGaps && c != Prefs.visColorBackground) || alpha < 200)
 		{
 			g.setPaint(new Color(20, 20, 20, alpha));
 			g.fillRect(0, 0, w, h);

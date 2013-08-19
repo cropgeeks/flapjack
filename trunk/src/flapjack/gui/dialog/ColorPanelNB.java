@@ -55,6 +55,7 @@ class ColorPanelNB extends JPanel implements ActionListener
 		comboModel.addElement(new LineSimilarityColorScheme());
 		comboModel.addElement(new MarkerSimilarityColorScheme());
 		comboModel.addElement(new AlleleFrequencyColorScheme());
+		comboModel.addElement(new BinnedColorScheme());
 		comboModel.addElement(new RandomColorScheme(ColorScheme.RANDOM));
 		comboModel.addElement(new RandomColorScheme(ColorScheme.RANDOM_WSP));
 		schemeCombo.setModel(comboModel);
@@ -138,7 +139,7 @@ class ColorPanelNB extends JPanel implements ActionListener
 
 	private ArrayList<ColorScheme.ColorSummary> getVector(DefaultListModel model)
 	{
-		ArrayList<ColorScheme.ColorSummary> colors = new ArrayList<ColorScheme.ColorSummary>();
+		ArrayList<ColorScheme.ColorSummary> colors = new ArrayList<>();
 		for (int i = 0; i < model.size(); i++)
 			colors.add((ColorScheme.ColorSummary)model.get(i));
 

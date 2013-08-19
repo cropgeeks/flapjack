@@ -108,7 +108,7 @@ class TraitsTableModel extends AbstractTableModel
 
 	JComboBox getCategoryComboBox(int col)
 	{
-		JComboBox<String> combo = new JComboBox<String>();
+		JComboBox<String> combo = new JComboBox<>();
 
 		for (String category: traits.get(col-1).getCategories())
 			combo.addItem(category);
