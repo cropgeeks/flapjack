@@ -126,6 +126,11 @@ public class Trait extends XMLRoot
 	public boolean traitIsNumerical()
 		{ return categories.size() == 0; }
 
+	public boolean experimentDefined()
+	{
+		return !experiment.equals(RB.getString("data.Trait.notDefined"));
+	}
+
 	/**
 	 * Returns a string suitable for display based on the categorical value
 	 * held by the passed trait value.
