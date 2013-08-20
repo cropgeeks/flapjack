@@ -50,7 +50,7 @@ public class MenuAnalysis
 		}
 	}
 
-	void sortLinesByTrait()
+	public void sortLinesByTrait()
 	{
 		SortLinesByTraitDialog dialog = new SortLinesByTraitDialog(gPanel);
 
@@ -98,7 +98,7 @@ public class MenuAnalysis
 		runSort(sort);
 	}
 
-	private void runSort(ITrackableJob sort)
+	public void runSort(ITrackableJob sort)
 	{
 		MovedLinesState state = setupSort();
 

@@ -25,6 +25,17 @@ public class SortLinesByTrait extends SortLines
 		this.autoAssign = autoAssign;
 	}
 
+	// Constructor used by the Traits Heatmap (Menu) to auto run sorts without
+	// the full GUI being presented to the user first
+	public SortLinesByTrait(GTViewSet viewSet, int trait, boolean asc)
+	{
+		super(viewSet);
+
+		this.traits = new int[] { trait };
+		this.asc = new boolean[] { asc };
+		this.autoAssign = false;
+	}
+
 	@Override
 	protected ArrayList<LineInfo> doSort(GTView view)
 	{
