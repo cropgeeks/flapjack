@@ -41,7 +41,7 @@ public class TraitImporter extends SimpleJob
 		throws IOException, DataFormatException
 	{
 		is = new ProgressInputStream(new FileInputStream(file));
-		BufferedReader in = new BufferedReader(new InputStreamReader(is));
+		BufferedReader in = new BufferedReader(new InputStreamReader(is, "UTF-8"));
 
 		// Skip over any comment lines
 		String str = in.readLine();

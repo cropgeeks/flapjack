@@ -101,7 +101,7 @@ public class GenotypeDataImporter
 
 		is = new ProgressInputStream(new FileInputStream(file));
 
-		BufferedReader in = new BufferedReader(new InputStreamReader(is));
+		BufferedReader in = new BufferedReader(new InputStreamReader(is, "UTF-8"));
 
 		String str = in.readLine();
 
@@ -229,7 +229,7 @@ public class GenotypeDataImporter
 
 		is = new ProgressInputStream(new FileInputStream(file));
 
-		BufferedReader in = new BufferedReader(new InputStreamReader(is));
+		BufferedReader in = new BufferedReader(new InputStreamReader(is, "UTF-8"));
 
 		String str = in.readLine();
 

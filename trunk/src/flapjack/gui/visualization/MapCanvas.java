@@ -46,8 +46,6 @@ class MapCanvas extends JPanel
 		this.gPanel = gPanel;
 		this.canvas = canvas;
 
-		setBackground(Color.BLUE);
-
 		setLayout(new BorderLayout());
 		setBorder(BorderFactory.createEmptyBorder(5, 0, 0, 0));
 		add(new Canvas2D());
@@ -88,9 +86,6 @@ class MapCanvas extends JPanel
 				updateBuffer = true;
 				pX2 = canvas.pX2;
 			}
-
-			g.setColor(Color.BLACK);
-			g.fillRect(5, 30, 5, 5);
 
 			// Calculate the required offset and width
 			int xOffset = gPanel.traitCanvas.getPanelWidth()
