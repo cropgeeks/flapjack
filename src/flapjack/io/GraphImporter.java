@@ -93,7 +93,7 @@ public class GraphImporter extends SimpleJob
 
 		// Read the file and populate the GraphData objects
 		is = new ProgressInputStream(new FileInputStream(file));
-		in = new BufferedReader(new InputStreamReader(is));
+		in = new BufferedReader(new InputStreamReader(is, "UTF-8"));
 
 		str = null;
 	}

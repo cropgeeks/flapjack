@@ -45,7 +45,7 @@ public class ChromosomeMapImporter
 	{
 		is = new ProgressInputStream(new FileInputStream(file));
 
-		BufferedReader in = new BufferedReader(new InputStreamReader(is));
+		BufferedReader in = new BufferedReader(new InputStreamReader(is, "UTF-8"));
 		NumberFormat nf = NumberFormat.getInstance();
 
 		String str = null;

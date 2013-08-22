@@ -29,8 +29,6 @@ class TraitCanvas extends JPanel
 		this.gPanel = gPanel;
 		this.canvas = canvas;
 
-		setBackground(Color.RED);
-
 		setLayout(new BorderLayout());
 		setBorder(BorderFactory.createEmptyBorder(1, 5, 0, 5));
 		add(traitCanvas = new Canvas2D());
@@ -49,9 +47,14 @@ class TraitCanvas extends JPanel
 		if (canvas.viewSet != null)
 			traitCount = canvas.viewSet.getTraits().length;
 
+		int oldW = w;
 		w = boxW * traitCount;
 
-		setSize(w, 0);
+		// Only reset the width if it actually changed; otherwise we get an
+		// annoying glitch where the canvas disappears for a while after doing
+		// something like a line-sort
+		if (oldW != w)
+			traitCanvas.setSize(w, 0);
 		setVisible(traitCount > 0 && Prefs.visShowTraitCanvas);
 	}
 
