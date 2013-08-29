@@ -28,10 +28,12 @@ public class AboutDialog extends JDialog implements ActionListener
 		nbPanel = new AboutPanelNB();
 
 		AvatarPanel avatars = new AvatarPanel();
+		AboutLicencePanelNB licencePanel = new AboutLicencePanelNB();
 
 		JTabbedPane tabs = new JTabbedPane();
 		tabs.add(RB.getString("gui.dialog.AboutDialog.tab1"), nbPanel);
-		tabs.add(RB.format("gui.dialog.AboutDialog.tab2", "\u0026"), avatars);
+		tabs.add(RB.getString("gui.dialog.AboutDialog.tab2"), licencePanel);
+		tabs.add(RB.format("gui.dialog.AboutDialog.tab3", "\u0026"), avatars);
 
 		add(tabs);
 		add(createButtons(), BorderLayout.SOUTH);
