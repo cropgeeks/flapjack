@@ -3,11 +3,8 @@
 
 package flapjack.gui;
 
-import java.awt.image.*;
 import java.io.*;
-import java.net.*;
 import java.util.*;
-import javax.swing.filechooser.*;
 
 import flapjack.analysis.*;
 import flapjack.data.*;
@@ -16,7 +13,6 @@ import flapjack.gui.dialog.analysis.*;
 import flapjack.gui.simmatrix.*;
 import flapjack.gui.visualization.*;
 import flapjack.gui.visualization.undo.*;
-import flapjack.io.*;
 
 import scri.commons.gui.*;
 
@@ -157,28 +153,40 @@ public class MenuAnalysis
 		GTViewSet viewSet = gPanel.getViewSet();
 		GTView view = gPanel.getView();
 
-
-		// Set up the calculator
-		CalculateSimilarityMatrix calculator = new CalculateSimilarityMatrix(viewSet, view);
-
-		ProgressDialog dialog = new ProgressDialog(calculator,
-			RB.format("gui.MenuData.simMatrix.title"),
-			RB.format("gui.MenuData.simMatrix.label"), Flapjack.winMain);
-
-		// If the operation failed or was cancelled...
-		if (dialog.getResult() != ProgressDialog.JOB_COMPLETED)
+		// If too few lines are selected we want to warn the user and not open
+		// the calculate similarity matrix dialog.
+		if (view.countSelectedLines() < 2)
 		{
-			if (dialog.getResult() == ProgressDialog.JOB_FAILED)
-				TaskDialog.error(RB.format("gui.MenuData.simMatrix.error",
-					dialog.getException().getMessage()),
-					RB.getString("gui.text.close"));
-
+			TaskDialog.warning(RB.getString("gui.MenuAnalysis.simMatrix.lineWarning"), RB.getString("gui.text.close"));
 			return;
 		}
 
-		// Add the result to the navigation panel
-		SimMatrix matrix = calculator.getMatrix();
-		navPanel.addedNewSimMatrixNode(viewSet, matrix);
+		CalculateSimMatrixDialog matrixDialog = new CalculateSimMatrixDialog(viewSet);
+
+		if (matrixDialog.isOK())
+		{
+			// Set up the calculator
+			CalculateSimilarityMatrix calculator = new CalculateSimilarityMatrix(viewSet, view, matrixDialog.getSelectedChromosomes());
+
+			ProgressDialog dialog = new ProgressDialog(calculator,
+				RB.format("gui.MenuData.simMatrix.title"),
+				RB.format("gui.MenuData.simMatrix.label"), Flapjack.winMain);
+
+			// If the operation failed or was cancelled...
+			if (dialog.getResult() != ProgressDialog.JOB_COMPLETED)
+			{
+				if (dialog.getResult() == ProgressDialog.JOB_FAILED)
+					TaskDialog.error(RB.format("gui.MenuData.simMatrix.error",
+						dialog.getException().getMessage()),
+						RB.getString("gui.text.close"));
+
+				return;
+			}
+
+			// Add the result to the navigation panel
+			SimMatrix matrix = calculator.getMatrix();
+			navPanel.addedNewSimMatrixNode(viewSet, matrix);
+		}
 	}
 
 	public void dendrogram()
