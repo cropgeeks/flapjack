@@ -16,6 +16,7 @@ public class CalculateSimilarityMatrix extends SimpleJob
 	private GTViewSet viewSet;
 	private GTView view;
 
+	// A boolean array indicating which chromosomes to use for the calculation
 	private boolean[] chromosomes;
 	private ArrayList<Integer> indices;
 
@@ -32,10 +33,11 @@ public class CalculateSimilarityMatrix extends SimpleJob
 	private SimMatrix matrix = new SimMatrix();
 	private AtomicInteger count = new AtomicInteger(0);
 
-	public CalculateSimilarityMatrix(GTViewSet viewSet, GTView view)
+	public CalculateSimilarityMatrix(GTViewSet viewSet, GTView view, boolean[] chromosomes)
 	{
 		this.viewSet = viewSet;
 		this.view = view;
+		this.chromosomes = chromosomes;
 
 		// Work out the indices of all the lines being compared
 		indices = new ArrayList<Integer>();
@@ -49,12 +51,6 @@ public class CalculateSimilarityMatrix extends SimpleJob
 		// We're generating a square matrix, so the total number of comparisons
 		// will be the number of lines squared (divided by 2)
 		maximum = (int) (Math.pow(indices.size(), 2) / 2);
-
-
-		// TODO:
-		chromosomes = new boolean[viewSet.chromosomeCount()];
-		for (int i = 0; i < chromosomes.length; i++)
-			chromosomes[i] = true;
 	}
 
 	public SimMatrix getMatrix()

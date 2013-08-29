@@ -83,7 +83,11 @@ public class CreateMatrix
 		GTViewSet viewSet = dataSet.getViewSets().get(0);
 		GTView view = viewSet.getView(0);
 
-		CalculateSimilarityMatrix calculator = new CalculateSimilarityMatrix(viewSet, view);
+		boolean[] chromosomes = new boolean[viewSet.chromosomeCount()];
+		for (int i = 0; i < chromosomes.length; i++)
+			chromosomes[i] = true;
+
+		CalculateSimilarityMatrix calculator = new CalculateSimilarityMatrix(viewSet, view, chromosomes);
 
 		calculator.runJob(0);
 		SimMatrixExporter exporter = new SimMatrixExporter(calculator.getMatrix(), filename);
