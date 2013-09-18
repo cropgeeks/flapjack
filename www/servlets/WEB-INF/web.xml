@@ -25,6 +25,18 @@
         <url-pattern>/servlets/dendrogram</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+		<servlet-name>pcoa</servlet-name>
+		<servlet-class>flapjack.servlet.PCoAServlet</servlet-class>
+		<multipart-config>
+			<location>/tmp</location>
+		</multipart-config>
+	</servlet>
+	<servlet-mapping>
+        <servlet-name>pcoa</servlet-name>
+        <url-pattern>/servlets/pcoa</url-pattern>
+    </servlet-mapping>
+
 	<context-param>
 		<param-name>r-path</param-name>
 		<param-value>/usr/bin/R</param-value>

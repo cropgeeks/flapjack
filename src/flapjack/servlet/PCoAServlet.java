@@ -14,7 +14,7 @@ import java.util.zip.*;
 import scri.commons.gui.*;
 
 @MultipartConfig
-public class DendrogramServlet extends HttpServlet
+public class PCoAServlet extends HttpServlet
 {
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 		throws ServletException, IOException
@@ -24,7 +24,7 @@ public class DendrogramServlet extends HttpServlet
 		PrintWriter out = response.getWriter();
 
 		out.println("<html>");
-		out.println("<p>DendrogramServlet - " + getClass() + "</p>");
+		out.println("<p>PCoAServlet - " + getClass() + "</p>");
 		out.println("</html>");
 		out.close();
 	}
@@ -38,20 +38,16 @@ public class DendrogramServlet extends HttpServlet
 		String id = SystemUtils.createGUID(32);
 		File rScript = new File(SystemUtils.getTempDirectory(), id + ".R");
 		File matrix = new File(SystemUtils.getTempDirectory(), id + ".matrix");
-		File order  = new File(SystemUtils.getTempDirectory(), id + ".order");
-		File png = new File(SystemUtils.getTempDirectory(), id + ".png");
+		File fit  = new File(SystemUtils.getTempDirectory(), id + ".fit");
 
 		// Save the simmatrix file to disk
 		saveMatrix(textfile, matrix, id);
-
-		// Get the number of lines
-		int lineCount = Integer.parseInt(request.getParameter("lineCount"));
 
 		// Path to R
 		String rPath = getServletContext().getInitParameter("r-path");
 
 		// Write out the R script, replacing its variables as needed
-		writeScript(rScript, id, lineCount);
+		writeScript(rScript, id);
 
 		// Run R
 		try
@@ -84,18 +80,10 @@ public class DendrogramServlet extends HttpServlet
 		ZipOutputStream zout = new ZipOutputStream(response.getOutputStream());
 
 
-		// Send the png
-		zout.putNextEntry(new ZipEntry("dendrogram.png"));
-		BufferedInputStream in = new BufferedInputStream(new FileInputStream(png));
+		// Send the fit
+		zout.putNextEntry(new ZipEntry("fit.txt"));
+		BufferedInputStream in = new BufferedInputStream(new FileInputStream(fit));
 		byte[] buffer = new byte[1024];
-		for (int length = 0; (length = in.read(buffer)) > 0;)
-			zout.write(buffer, 0, length);
-		in.close();
-
-		// Send the order
-		zout.putNextEntry(new ZipEntry("order.txt"));
-		in = new BufferedInputStream(new FileInputStream(order));
-		buffer = new byte[1024];
 		for (int length = 0; (length = in.read(buffer)) > 0;)
 			zout.write(buffer, 0, length);
 		in.close();
@@ -134,24 +122,18 @@ public class DendrogramServlet extends HttpServlet
 		in.close();
 	}
 
-	private void writeScript(File rScript, String id, int lineCount)
+	private void writeScript(File rScript, String id)
 		throws IOException
 	{
 		BufferedReader in = new BufferedReader(new InputStreamReader(
-			getClass().getResourceAsStream("/src/arrr/Dendrogram.R")));
+			getClass().getResourceAsStream("/src/arrr/PrincipalCoordinatesAnalysis.R")));
 		PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(rScript)));
-
-		// Work out what width the image should be
-		int width = 12 * lineCount;
-		width = (width < 500) ? 500 : width;
 
 		String str = null;
 		while ((str = in.readLine()) != null)
 		{
 			str = str.replace("$MATRIX", id + ".matrix");
-			str = str.replace("$ORDER", id + ".order");
-			str = str.replace("$PNG", id + ".png");
-			str = str.replace("$WIDTH", "" + width);
+			str = str.replace("$FIT", id + ".fit");
 
 			out.println(str);
 		}

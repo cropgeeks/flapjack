@@ -23,6 +23,8 @@
               <EmptySpace max="-2" attributes="0"/>
               <Component id="bDendrogram" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
+              <Component id="bPCoA" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -34,6 +36,7 @@
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="bDendrogram" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="bExport" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="bPCoA" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -115,6 +118,11 @@
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
       </AuxValues>
+    </Component>
+    <Component class="javax.swing.JButton" name="bPCoA">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Create PCoA"/>
+      </Properties>
     </Component>
   </SubComponents>
 </Form>
