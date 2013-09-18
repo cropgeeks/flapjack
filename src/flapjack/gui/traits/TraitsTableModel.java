@@ -45,7 +45,7 @@ class TraitsTableModel extends AbstractTableModel
 
 	public int getRowCount()
 	{
-		return dataSet.countLines();
+		return dataSet.countLines() + 1;
 	}
 
 	public int getColumnCount()
@@ -58,7 +58,7 @@ class TraitsTableModel extends AbstractTableModel
 		// Row 0 contains the experiment data
 		if (row == 0)
 		{
-			// We don't want to dispaly a line name in the experiment "header"
+			// We don't want to display a line name in the experiment "header"
 			if (col == 0)
 				return null;
 			else
