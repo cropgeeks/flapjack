@@ -67,6 +67,7 @@ public class SimMatrixPanelNB extends JPanel implements ActionListener
 		bExport.setIcon(Icons.getIcon("EXPORTTRAITS"));
 
 		bDendrogram.addActionListener(this);
+		bPCoA.addActionListener(this);
 		bExport.addActionListener(this);
 
 		MouseHandler mh = new MouseHandler();
@@ -125,6 +126,9 @@ public class SimMatrixPanelNB extends JPanel implements ActionListener
 	{
 		if (e.getSource() == bDendrogram)
 			Flapjack.winMain.mAnalysis.dendrogram();
+
+		else if (e.getSource() == bPCoA)
+			Flapjack.winMain.mAnalysis.principalCordAnalysis();
 
 		else if (e.getSource() == bExport)
 			exportSimMatrix();
@@ -216,8 +220,7 @@ public class SimMatrixPanelNB extends JPanel implements ActionListener
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents()
-    {
+    private void initComponents() {
 
         tabs = new javax.swing.JTabbedPane();
         tabsPanel = new javax.swing.JPanel();
@@ -225,6 +228,7 @@ public class SimMatrixPanelNB extends JPanel implements ActionListener
         matrixTable = createTable();
         bDendrogram = new javax.swing.JButton();
         bExport = new javax.swing.JButton();
+        bPCoA = new javax.swing.JButton();
 
         javax.swing.GroupLayout tabsPanelLayout = new javax.swing.GroupLayout(tabsPanel);
         tabsPanel.setLayout(tabsPanelLayout);
@@ -240,12 +244,10 @@ public class SimMatrixPanelNB extends JPanel implements ActionListener
         tabs.addTab("tab1", tabsPanel);
 
         matrixTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][]
-            {
+            new Object [][] {
 
             },
-            new String []
-            {
+            new String [] {
 
             }
         ));
@@ -260,6 +262,8 @@ public class SimMatrixPanelNB extends JPanel implements ActionListener
 
         bExport.setText("Export data");
 
+        bPCoA.setText("Create PCoA");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -270,6 +274,8 @@ public class SimMatrixPanelNB extends JPanel implements ActionListener
                 .addComponent(bExport)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(bDendrogram)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(bPCoA)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -279,7 +285,8 @@ public class SimMatrixPanelNB extends JPanel implements ActionListener
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(bDendrogram)
-                    .addComponent(bExport))
+                    .addComponent(bExport)
+                    .addComponent(bPCoA))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -288,6 +295,7 @@ public class SimMatrixPanelNB extends JPanel implements ActionListener
     // Variables declaration - do not modify//GEN-BEGIN:variables
     javax.swing.JButton bDendrogram;
     javax.swing.JButton bExport;
+    private javax.swing.JButton bPCoA;
     private javax.swing.JTable matrixTable;
     private javax.swing.JScrollPane tableScrollPane;
     private javax.swing.JTabbedPane tabs;

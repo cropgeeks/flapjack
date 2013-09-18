@@ -232,4 +232,32 @@ public class MenuAnalysis
 		navPanel.addedNewSimMatrixNode(newViewSet, orderedMatrix);
 		navPanel.addedNewDendogramNode(newViewSet, newViewSet.getDataSet(), matrix, dendrogram);
 	}
+
+	public void principalCordAnalysis()
+	{
+		// This menu option should *only* be enabled if the user is currently
+		// viewing a simmatrix, so the following code only works in that case
+		SimMatrixPanel panel = navPanel.getActiveSimMatrixPanel();
+		GTViewSet viewSet = panel.getViewSet();
+		SimMatrix matrix = panel.getSimMatrix();
+
+
+		PCoAGenerator pco = new PCoAGenerator(matrix);
+
+		ProgressDialog dialog = new ProgressDialog(pco,
+			"Generating Dendrogram",
+			"Generating dendrogram - please be patient", Flapjack.winMain);
+
+
+		// If the operation failed or was cancelled...
+		if (dialog.getResult() != ProgressDialog.JOB_COMPLETED)
+		{
+			if (dialog.getResult() == ProgressDialog.JOB_FAILED)
+				TaskDialog.error(RB.format("TODO: Error: {0}",
+					dialog.getException().getMessage()),
+					RB.getString("gui.text.close"));
+
+			return;
+		}
+	}
 }

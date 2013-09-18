@@ -1,4 +1,4 @@
-A <- read.table("$MATRIX", sep="\t", header=TRUE)
+A <- read.table("$MATRIX", sep="\t", header=TRUE, check.names=FALSE)
 
 D = dist(A)
 
