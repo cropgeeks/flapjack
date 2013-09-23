@@ -242,11 +242,11 @@ public class MenuAnalysis
 		SimMatrix matrix = panel.getSimMatrix();
 
 
-		PCoAGenerator pco = new PCoAGenerator(matrix);
+		PCoAGenerator pco = new PCoAGenerator(viewSet.getDataSet(), matrix);
 
 		ProgressDialog dialog = new ProgressDialog(pco,
-			"Generating Dendrogram",
-			"Generating dendrogram - please be patient", Flapjack.winMain);
+			"Calculating PCoA",
+			"Calculating PCoA - please be patient", Flapjack.winMain);
 
 
 		// If the operation failed or was cancelled...

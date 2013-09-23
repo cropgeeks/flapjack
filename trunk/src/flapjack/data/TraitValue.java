@@ -126,4 +126,20 @@ public class TraitValue extends XMLRoot
 
 		normal = (value - min) / (max - min);
 	}
+
+	/**
+	 * Produces String formatting that can be used when writing a CurlyWhirly
+	 * compatible file of phenotype data.
+	 */
+	public String formatForCurlyWhirly()
+	{
+		if (isDefined == false)
+			return "\t";
+
+		else if (trait.traitIsNumerical())
+			return getValue() + "\t";
+
+		else
+			return trait.format(this) + "\t";
+	}
 }
