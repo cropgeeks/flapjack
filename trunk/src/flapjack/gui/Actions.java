@@ -621,12 +621,6 @@ public class Actions
 			}
 		};
 
-		helpLicence = new AbstractAction(RB.getString("gui.Actions.helpLicence")) {
-			public void actionPerformed(ActionEvent e) {
-				winMain.mHelp.helpLicence();
-			}
-		};
-
 		helpAbout = new AbstractAction(RB.getString("gui.Actions.helpAbout")) {
 			public void actionPerformed(ActionEvent e) {
 				winMain.mHelp.helpAbout();
