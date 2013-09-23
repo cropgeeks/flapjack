@@ -49,52 +49,22 @@ public class FlapjackUtils
 	{
 		try
 		{
-			if (SystemUtils.jreVersion() >= 1.6)
-				visitURL6(html);
-			else
-				visitURL5(html);
+			Desktop desktop = Desktop.getDesktop();
+
+			URI uri = new URI(html);
+			desktop.browse(uri);
 		}
 		catch (Exception e) { System.out.println(e); }
-	}
-
-	// Java6 method for visiting a URL
-	private static void visitURL6(String html)
-		throws Exception
-	{
-		Desktop desktop = Desktop.getDesktop();
-
-		URI uri = new URI(html);
-		desktop.browse(uri);
-	}
-
-	// Java5 (OS X only) method for visiting a URL
-	private static void visitURL5(String html)
-		throws Exception
-	{
-		// See: http://www.centerkey.com/java/browser/
-
-		Class<?> fileMgr = Class.forName("com.apple.eio.FileManager");
-		Method openURL = fileMgr.getDeclaredMethod("openURL",
-			new Class[] {String.class});
-
-		openURL.invoke(null, new Object[] {html});
 	}
 
 	public static void sendFeedback()
 	{
 		try
 		{
-			if (SystemUtils.jreVersion() >= 1.6)
-				openMailClient();
+			Desktop desktop = Desktop.getDesktop();
+			desktop.mail(new URI("mailto:flapjack@hutton.ac.uk?subject=Flapjack%20Feedback"));
 		}
 		catch (Exception e) { System.out.println(e); }
-	}
-
-	private static void openMailClient()
-		throws Exception
-	{
-		Desktop desktop = Desktop.getDesktop();
-		desktop.mail(new URI("mailto:flapjack@hutton.ac.uk?subject=Flapjack%20Feedback"));
 	}
 
 	public static JPanel getButtonPanel()
