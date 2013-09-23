@@ -17,6 +17,10 @@ public class Prefs extends XMLPreferences
 	public static String visColorSeed = "" + (System.currentTimeMillis() -
 		1987200000L); // First appearance after 7 days (now-23 days)
 
+	// The local working directory for disk caching
+	public static String cacheFolder =
+		SystemUtils.getTempUserDirectory("jhi-flapjack").getPath();
+
 	// Unique Flapjack ID for this user
 	public static String flapjackID = SystemUtils.createGUID(32);
 

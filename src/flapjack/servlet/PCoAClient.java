@@ -21,7 +21,7 @@ public class PCoAClient
 	{
 	}
 
-	public void doClientStuff(SimMatrix matrix, int lineCount)
+	public void doClientStuff(SimMatrix matrix, PCoAResult result)
 		throws Exception
 	{
 		String charset = "UTF-8";
@@ -44,11 +44,13 @@ public class PCoAClient
 //		writer = new PrintWriter(new OutputStreamWriter(System.out));
 
 		// Send normal param.
-		writer.append("--" + boundary).append(CRLF);
+		// TODO: PROBABLY SEND K VALUE FOR CALCULATION
+/*		writer.append("--" + boundary).append(CRLF);
 		writer.append("Content-Disposition: form-data; name=\"lineCount\"").append(CRLF);
 		writer.append("Content-Type: text/plain; charset=" + charset).append(CRLF);
 		writer.append(CRLF);
 		writer.append("" + lineCount).append(CRLF).flush();
+*/
 
 
 		// Send text file.
@@ -120,7 +122,16 @@ public class PCoAClient
 
 					// Read the line order
 					while ((str = in.readLine()) != null && str.length() > 0)
-						System.out.println(str);
+					{
+						String[] tokens = str.split("\t");
+						float[] data = new float[tokens.length-1];
+
+						// TODO: Will R always return comma for its decimals???
+						for (int i = 1; i < tokens.length; i++)
+							data[i-1] = Float.parseFloat(tokens[i]);
+
+						result.addDataRow(data);
+					}
 
 					in.close();
 				}
