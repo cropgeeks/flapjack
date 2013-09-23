@@ -34,7 +34,7 @@
           <entry location="sqlite-jdbc-3.7.2.jar" fileType="regular" />
         </exclude>
       </dirEntry>
-      <dirEntry mountPoint="1046" file="./docs" overwriteMode="4" shared="false" fileMode="644" uninstallMode="0" overrideFileMode="false" overrideOverwriteMode="false" overrideUninstallMode="false" entryMode="direct" subDirectory="" excludeSuffixes="*.svn" dirMode="755" overrideDirMode="false">
+      <dirEntry mountPoint="1046" file="./licence" overwriteMode="4" shared="false" fileMode="644" uninstallMode="0" overrideFileMode="false" overrideOverwriteMode="false" overrideUninstallMode="false" entryMode="direct" subDirectory="" excludeSuffixes="*.svn" dirMode="755" overrideDirMode="false">
         <exclude />
       </dirEntry>
     </entries>
@@ -261,7 +261,7 @@
                       <void method="put">
                         <string>en</string>
                         <object class="com.install4j.api.beans.ExternalFile">
-                          <string>./docs/Flapjack.html</string>
+                          <string>./licence/Flapjack.html</string>
                         </object>
                       </void>
                     </void>

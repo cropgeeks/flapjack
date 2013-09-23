@@ -15,6 +15,9 @@ class AboutLicencePanelNB extends JPanel implements ActionListener
 	{
 		initComponents();
 
+		setBackground(Color.WHITE);
+		jPanel1.setBackground(Color.WHITE);
+
 		RB.setText(label, "gui.dialog.AboutLicencePanelNB.label");
 
 		DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();

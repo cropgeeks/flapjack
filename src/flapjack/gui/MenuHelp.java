@@ -28,17 +28,7 @@ class MenuHelp
 		FlapjackUtils.setHelp(bHelp, "index");
 		bHelp.doClick();
 	}
-
-	void helpLicence()
-	{
-		// This will fail if not running in an Install4j environment
-		try
-		{
-//			File licence = Install4j.getLicenceFile();
-//			FlapjackUtils.visitURL(licence.toURI().toString());
-		}
-		catch (Exception e) {}
-	}
+	
 
 	void helpPrefs()
 	{
