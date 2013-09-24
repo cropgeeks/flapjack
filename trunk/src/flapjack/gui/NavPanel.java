@@ -163,6 +163,13 @@ class NavPanel extends JPanel
 			treeModel.insertNodeInto(bmNode, node, node.getChildCount());
 		}
 
+		// Scan and potentially add any sim-matrix nodes for it
+		for (SimMatrix matrix: viewSet.getMatrices())
+		{
+			SimMatrixNode smNode = new SimMatrixNode(dataSet, viewSet, matrix);
+			treeModel.insertNodeInto(smNode, node, node.getChildCount());
+		}
+
 		return node;
 	}
 

@@ -86,6 +86,7 @@
 		<field name="hideLines" type="flapjack.data.LineInfo" collection="arraylist"/>
 		<field name="views" type="flapjack.data.GTView" collection="arraylist"/>
 		<field name="bookmarks" type="flapjack.data.Bookmark" collection="arraylist"/>
+		<field name="matrices" type="flapjack.data.SimMatrix" collection="arraylist"/>
 		<field name="comparisonLine" type="flapjack.data.Line">
 			<bind-xml reference="true" node="attribute"/>
 		</field>
@@ -178,6 +179,13 @@
 	<!-- QTLInfo -->
 	<class name="flapjack.data.QTLInfo" extends="flapjack.data.XMLRoot" auto-complete="true">
 		<field name="QTL" type="flapjack.data.QTL">
+			<bind-xml reference="true" node="attribute"/>
+		</field>
+	</class>
+
+	<!-- SimMatrix -->
+	<class name="flapjack.data.SimMatrix" extends="flapjack.data.XMLRoot" auto-complete="true">
+		<field name="lineInfos" type="flapjack.data.LineInfo" collection="arraylist">
 			<bind-xml reference="true" node="attribute"/>
 		</field>
 	</class>
