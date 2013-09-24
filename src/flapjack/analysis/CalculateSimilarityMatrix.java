@@ -34,11 +34,15 @@ public class CalculateSimilarityMatrix extends SimpleJob
 	private SimMatrix matrix = new SimMatrix();
 	private AtomicInteger count = new AtomicInteger(0);
 
-	public CalculateSimilarityMatrix(GTViewSet viewSet, GTView view, boolean[] chromosomes)
+	// True, if the resultant matrix should get serialized to disk
+	private boolean useCache;
+
+	public CalculateSimilarityMatrix(GTViewSet viewSet, GTView view, boolean[] chromosomes, boolean useCache)
 	{
 		this.viewSet = viewSet;
 		this.view = view;
 		this.chromosomes = chromosomes;
+		this.useCache = useCache;
 
 		// Work out the indices of all the lines being compared
 		indices = new ArrayList<Integer>();
@@ -104,7 +108,8 @@ public class CalculateSimilarityMatrix extends SimpleJob
 			System.out.println("SimMatrix time: " + (e-s) + "ms");
 
 			// Cache the result to disk
-			ProjectSerializerDB.cacheToDisk(matrix);
+			if (useCache)
+				ProjectSerializerDB.cacheToDisk(matrix);
 		}
 	}
 
