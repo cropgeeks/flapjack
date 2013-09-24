@@ -166,7 +166,8 @@ public class MenuAnalysis
 		if (matrixDialog.isOK())
 		{
 			// Set up the calculator
-			CalculateSimilarityMatrix calculator = new CalculateSimilarityMatrix(viewSet, view, matrixDialog.getSelectedChromosomes());
+			CalculateSimilarityMatrix calculator = new CalculateSimilarityMatrix(
+				viewSet, view, matrixDialog.getSelectedChromosomes(), true);
 
 			ProgressDialog dialog = new ProgressDialog(calculator,
 				RB.format("gui.MenuData.simMatrix.title"),

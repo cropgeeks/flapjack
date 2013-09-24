@@ -87,7 +87,8 @@ public class CreateMatrix
 		for (int i = 0; i < chromosomes.length; i++)
 			chromosomes[i] = true;
 
-		CalculateSimilarityMatrix calculator = new CalculateSimilarityMatrix(viewSet, view, chromosomes);
+		CalculateSimilarityMatrix calculator = new CalculateSimilarityMatrix(
+			viewSet, view, chromosomes, false);
 
 		calculator.runJob(0);
 		SimMatrixExporter exporter = new SimMatrixExporter(calculator.getMatrix(), filename);
