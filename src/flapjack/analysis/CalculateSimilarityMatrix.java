@@ -8,6 +8,7 @@ import java.util.concurrent.*;
 import java.util.concurrent.atomic.*;
 
 import flapjack.data.*;
+import flapjack.io.*;
 
 import scri.commons.gui.*;
 
@@ -96,10 +97,15 @@ public class CalculateSimilarityMatrix extends SimpleJob
 			task.get();
 
 		if (okToRun)
-			viewSet.matrices.add(matrix);
+		{
+			viewSet.getMatrices().add(matrix);
 
-		long e = System.currentTimeMillis();
-		System.out.println("SimMatrix time: " + (e-s) + "ms");
+			long e = System.currentTimeMillis();
+			System.out.println("SimMatrix time: " + (e-s) + "ms");
+
+			// Cache the result to disk
+			ProjectSerializerDB.cacheToDisk(matrix);
+		}
 	}
 
 	@Override

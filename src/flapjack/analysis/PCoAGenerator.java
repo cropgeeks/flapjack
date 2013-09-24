@@ -61,7 +61,7 @@ public class PCoAGenerator extends SimpleJob
 	private File writePCoAFile(PCoAResult result, String GID)
 		throws Exception
 	{
-		File pcoaFile = new File(Prefs.cacheFolder, GID + ".txt");
+		File pcoaFile = new File(FlapjackUtils.getCacheDir(), GID + ".txt");
 		BufferedWriter out = new BufferedWriter(new FileWriter(pcoaFile));
 
 		ArrayList<Trait> traits = dataSet.getTraits();
@@ -123,7 +123,7 @@ public class PCoAGenerator extends SimpleJob
 	private File writeCurlyWhirlyFile(File pcoaFile, String GID)
 		throws Exception
 	{
-		File cwFile = new File(Prefs.cacheFolder, GID + ".curlywhirly");
+		File cwFile = new File(FlapjackUtils.getCacheDir(), GID + ".curlywhirly");
 
 		BufferedWriter out = new BufferedWriter(new FileWriter(cwFile));
 		out.write("<curlywhirly>");

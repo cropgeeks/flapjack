@@ -28,8 +28,8 @@ public class GTViewSet extends XMLRoot
 	// Any bookmarks associated with this viewset
 	private ArrayList<Bookmark> bookmarks = new ArrayList<>();
 
-	// TODO: Simmatrix objects - waiting for their own structure
-	public ArrayList<SimMatrix> matrices = new ArrayList<>();
+	// A list of similarity matrices generated from this view
+	private ArrayList<SimMatrix> matrices = new ArrayList<>();
 
 	private String name;
 	private int viewIndex;
@@ -198,6 +198,12 @@ public class GTViewSet extends XMLRoot
 
 	public void setSelectedGraphs(String graphs)
 		{ this.graphs = MatrixXML.stringToIntArray(graphs); }
+
+	public ArrayList<SimMatrix> getMatrices()
+		{ return matrices; }
+
+	public void setMatrices(ArrayList<SimMatrix> matrices)
+		{ this.matrices = matrices; }
 
 
 	// Transient (non marshalled) methods

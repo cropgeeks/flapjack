@@ -66,6 +66,9 @@ public class ProjectSerializer
 			ProjectSerializerDB.initDatabase();
 			OutputStream os = ProjectSerializerDB.getProjectOutputStream();
 
+			// Dump the core "Project" (that is; the traditional xml Flapjack
+			// stuff) into the database
+			// This may be in Flapjack binary or XML format:
 			if (format == BIN)
 			{
 				BinarySerializer binSerializer = new BinarySerializer();
@@ -99,6 +102,12 @@ public class ProjectSerializer
 
 				cOut.close();
 			}
+
+			// Write any non-core cached-to-disk objects to the database
+			long t1 = System.currentTimeMillis();
+			ProjectSerializerDB.cacheToDatabase();
+			long t2 = System.currentTimeMillis();
+			System.out.println("DB Serialization Cache: " + (t2-t1) + "ms");
 
 			ProjectSerializerDB.close();
 //			ProjectSerializerDB.closeAndVacuum();
@@ -141,6 +150,8 @@ public class ProjectSerializer
 
 			int format = determineFormat(file);
 
+			XMLRoot.reset();
+
 			// Binary...
 			if (format == BIN)
 			{
@@ -180,12 +191,17 @@ public class ProjectSerializer
 				Unmarshaller unmarshaller = new Unmarshaller(mapping);
 				unmarshaller.setIgnoreExtraElements(true);
 
-				XMLRoot.reset();
 				project = (Project) unmarshaller.unmarshal(in);
 				project.fjFile = file;
 
 				in.close();
 			}
+
+			// Write any non-core cached-to-disk objects to the database
+			long t1 = System.currentTimeMillis();
+			ProjectSerializerDB.loadCache(project);
+			long t2 = System.currentTimeMillis();
+			System.out.println("DB Deserialization Cache: " + (t2-t1) + "ms");
 
 			long e = System.currentTimeMillis();
 			System.out.println("Project opened in " + (e-s) + "ms - " + format);

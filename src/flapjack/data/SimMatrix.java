@@ -5,10 +5,14 @@ package flapjack.data;
 
 import java.util.*;
 
-public class SimMatrix extends XMLRoot
+import scri.commons.gui.*;
+
+public class SimMatrix extends XMLRoot implements ISerializableDB
 {
+	private String databaseID = SystemUtils.createGUID(8);
+
 	// Tracks the indices of the lines originally used to generate this matrix
-	protected ArrayList<LineInfo> lineInfos = new ArrayList<>();
+	private ArrayList<LineInfo> lineInfos = new ArrayList<>();
 
 	// The 2D matrix of scores
 	private ArrayList<float[]> lineScores;
@@ -32,11 +36,11 @@ public class SimMatrix extends XMLRoot
 	public ArrayList<LineInfo> getLineInfos()
 		{ return lineInfos; }
 
-	public void setLineScores(ArrayList<float[]> lineScores)
-		{ this.lineScores = lineScores; }
+	public void setDatabaseID(String databaseID)
+		{ this.databaseID = databaseID; }
 
-	public ArrayList<float[]> getLineScores()
-		{ return lineScores; }
+	public String getDatabaseID()
+		{ return databaseID; }
 
 
 	// Other methods
@@ -138,5 +142,18 @@ public class SimMatrix extends XMLRoot
 		}
 
 		return new SimMatrix(newLineOrder, newScores);
+	}
+
+	public Object dbGetObject()
+	{
+		return lineScores;
+	}
+
+	@SuppressWarnings("unchecked")
+	public void dbSetObject(Object obj)
+	{
+		System.out.println("SimMatrix " + getGuid() + " received data");
+
+		lineScores = (ArrayList<float[]>) obj;
 	}
 }

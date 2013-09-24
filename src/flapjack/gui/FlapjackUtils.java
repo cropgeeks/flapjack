@@ -15,6 +15,8 @@ import scri.commons.gui.*;
 
 public class FlapjackUtils
 {
+	private static final String INSTANCE_ID = SystemUtils.createGUID(8);
+
 	public static Cursor HAND_CURSOR = new Cursor(Cursor.HAND_CURSOR);
 
 	/**
@@ -130,5 +132,16 @@ public class FlapjackUtils
 		}
 
 		return null;
+	}
+
+	public static File getCacheDir()
+	{
+		File cacheDir = SystemUtils.getTempUserDirectory("jhi-flapjack");
+
+		File instanceDir = new File(cacheDir, INSTANCE_ID);
+
+		instanceDir.mkdirs();
+
+		return instanceDir;
 	}
 }
