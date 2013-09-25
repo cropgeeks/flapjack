@@ -57,14 +57,14 @@ public class ProjectSerializerDB
 		st.execute("PRAGMA synchronous = OFF;");
 		st.execute("PRAGMA count_changes = false;");
 
-		// Create the database table
-		st.executeUpdate("CREATE TABLE IF NOT EXISTS flapjack (id INTEGER, data BLOB);");
+		// Create the database tables
+		st.executeUpdate("CREATE TABLE IF NOT EXISTS project (id INTEGER, data BLOB);");
 		st.executeUpdate("CREATE TABLE IF NOT EXISTS simmatrix (id STRING, data BLOB);");
 		st.close();
 
 
-		// Remove any previous flapjack data entries
-		PreparedStatement ps = c.prepareStatement("DELETE FROM flapjack;");
+		// Remove any previous project records
+		PreparedStatement ps = c.prepareStatement("DELETE FROM project;");
 		ps.executeUpdate();
 		ps.close();
 	}
@@ -72,18 +72,17 @@ public class ProjectSerializerDB
 	static OutputStream getProjectOutputStream()
 		throws SQLException
 	{
-		PreparedStatement ps = c.prepareStatement("INSERT INTO flapjack (id, data) VALUES (?, ?);");
-		ps.setInt(1, 0);
+		PreparedStatement ps = c.prepareStatement("INSERT INTO project (data) VALUES (?);");
 
-		return new DatabaseOutputStream(ps, 2);
+		return new DatabaseOutputStream(ps, 1);
 	}
 
 	static InputStream getProjectInputStream()
 		throws SQLException
 	{
-		PreparedStatement ps = c.prepareStatement("SELECT * FROM flapjack;");
+		PreparedStatement ps = c.prepareStatement("SELECT * FROM project;");
 
-		return new DatabaseInputStream(ps, 2);
+		return new DatabaseInputStream(ps, 1);
 	}
 
 	static void close()
