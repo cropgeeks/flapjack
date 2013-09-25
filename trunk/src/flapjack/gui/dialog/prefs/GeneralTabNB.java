@@ -21,7 +21,6 @@ class GeneralTabNB extends JPanel implements IPrefsTab
 
         setBackground((Color)UIManager.get("fjDialogBG"));
         generalPanel.setBackground((Color)UIManager.get("fjDialogBG"));
-        projectPanel.setBackground((Color)UIManager.get("fjDialogBG"));
 
 		// Interface settings
 		generalPanel.setBorder(BorderFactory.createTitledBorder(RB.getString("gui.dialog.prefs.NBGeneralPanel.generalPanelTitle")));
@@ -48,12 +47,6 @@ class GeneralTabNB extends JPanel implements IPrefsTab
 		updateModel.addElement(RB.getString("gui.dialog.prefs.NBGeneralPanel.updateMonthly"));
 		updateCombo.setModel(updateModel);
 
-		projectPanel.setBorder(BorderFactory.createTitledBorder(RB.getString("gui.dialog.prefs.NBGeneralPanel.projectPanelTitle")));
-		RB.setText(projectLabel, "gui.dialog.prefs.NBGeneralPanel.projectLabel");
-		projectCombo.addItem(RB.getString("gui.dialog.prefs.NBGeneralPanel.projectXmlz"));
-		projectCombo.addItem(RB.getString("gui.dialog.prefs.NBGeneralPanel.projectXml"));
-		projectCombo.addItem(RB.getString("gui.dialog.prefs.NBGeneralPanel.projectBin"));
-
 		initSettings();
 	}
 
@@ -76,7 +69,6 @@ class GeneralTabNB extends JPanel implements IPrefsTab
     	displayCombo.setSelectedIndex(getLocaleIndex());
 		checkDecimal.setSelected(Prefs.guiDecimalEnglish);
     	updateCombo.setSelectedIndex(Prefs.guiUpdateSchedule);
-		projectCombo.setSelectedIndex(Prefs.ioProjectFormat);
     }
 
 	public void applySettings()
@@ -92,7 +84,6 @@ class GeneralTabNB extends JPanel implements IPrefsTab
 
 		Prefs.guiDecimalEnglish = checkDecimal.isSelected();
 		Prefs.guiUpdateSchedule = updateCombo.getSelectedIndex();
-		Prefs.ioProjectFormat = projectCombo.getSelectedIndex();
 	}
 
 	public void setDefaults()
@@ -113,9 +104,6 @@ class GeneralTabNB extends JPanel implements IPrefsTab
         displayLabel = new javax.swing.JLabel();
         updateLabel = new javax.swing.JLabel();
         checkDecimal = new javax.swing.JCheckBox();
-        projectPanel = new javax.swing.JPanel();
-        projectCombo = new javax.swing.JComboBox<String>();
-        projectLabel = new javax.swing.JLabel();
 
         generalPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("General options (restart Flapjack to apply):"));
 
@@ -140,8 +128,8 @@ class GeneralTabNB extends JPanel implements IPrefsTab
                             .addComponent(updateLabel))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(generalPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(updateCombo, 0, 131, Short.MAX_VALUE)
-                            .addComponent(displayCombo, 0, 131, Short.MAX_VALUE)))
+                            .addComponent(updateCombo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(displayCombo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(generalPanelLayout.createSequentialGroup()
                         .addGap(10, 10, 10)
                         .addComponent(checkDecimal)))
@@ -163,40 +151,13 @@ class GeneralTabNB extends JPanel implements IPrefsTab
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        projectPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Project options:"));
-
-        projectLabel.setText("Format for saving projects:");
-
-        javax.swing.GroupLayout projectPanelLayout = new javax.swing.GroupLayout(projectPanel);
-        projectPanel.setLayout(projectPanelLayout);
-        projectPanelLayout.setHorizontalGroup(
-            projectPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(projectPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(projectLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(projectCombo, 0, 162, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        projectPanelLayout.setVerticalGroup(
-            projectPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(projectPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(projectPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(projectLabel)
-                    .addComponent(projectCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(projectPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(generalPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(generalPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -204,9 +165,7 @@ class GeneralTabNB extends JPanel implements IPrefsTab
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(generalPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(projectPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addContainerGap(82, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -215,9 +174,6 @@ class GeneralTabNB extends JPanel implements IPrefsTab
     private javax.swing.JComboBox<String> displayCombo;
     private javax.swing.JLabel displayLabel;
     private javax.swing.JPanel generalPanel;
-    private javax.swing.JComboBox<String> projectCombo;
-    private javax.swing.JLabel projectLabel;
-    private javax.swing.JPanel projectPanel;
     private javax.swing.JComboBox<String> updateCombo;
     private javax.swing.JLabel updateLabel;
     // End of variables declaration//GEN-END:variables

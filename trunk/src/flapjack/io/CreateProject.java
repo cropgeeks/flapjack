@@ -28,7 +28,6 @@ public class CreateProject
 	private static File qtlsFile;
 	static FlapjackFile prjFile;
 	private static String name;
-	private static String format;
 	private static boolean decimalEnglish = false;
 
 	public static void main(String[] args)
@@ -47,8 +46,6 @@ public class CreateProject
 				prjFile = new FlapjackFile(args[i].substring(9));
 			if (args[i].startsWith("-datasetname="))
 				name = args[i].substring(13);
-			if (args[i].startsWith("-format="))
-				format = args[i].substring(8);
 			if (args[i].startsWith("-decimalEnglish"))
 				decimalEnglish = true;
 		}
@@ -63,7 +60,6 @@ public class CreateProject
 				+ "   -qtls=<qtl_file>               (optional input file)\n"
 				+ "   -project=<project_file>        (required output file)\n"
 				+ "   -datasetname=<datasetname>     (optional parameter)\n"
-				+ "   -format=<XMLZ | XML | BIN>     (optional parameter)\n"
 				+ "   -decimalEnglish                (optional parameter)\n");
 
 			return;
@@ -159,25 +155,6 @@ public class CreateProject
 		throws Exception
 	{
 		project.fjFile = prjFile;
-
-		// If no format was specified...
-		if (format == null || format.isEmpty())
-		{
-			// No project exists default to XMLZ
-			if (project.format == -1)
-				project.format = ProjectSerializer.XMLZ;
-
-			// Else we'll use the format from the existing file
-		}
-		else
-		{
-			if (format.equalsIgnoreCase("XML"))
-				project.format = ProjectSerializer.XML;
-			else if (format.equalsIgnoreCase("BIN"))
-				project.format = ProjectSerializer.BIN;
-			else
-				project.format = ProjectSerializer.XMLZ;
-		}
 
 		return ProjectSerializer.save(project);
 	}

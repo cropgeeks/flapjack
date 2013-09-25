@@ -93,8 +93,6 @@ public class Prefs extends XMLPreferences
 	public static boolean ioMakeAllChromosome = false;
 	public static boolean ioTransposed = false;
 
-	public static int ioProjectFormat = 0;
-
 	// Method used when exporting images
 	public static int guiExportImageMethod = 0;
 	// Image size to use when exporting

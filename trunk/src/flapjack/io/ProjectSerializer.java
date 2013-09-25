@@ -15,7 +15,6 @@ import org.exolab.castor.xml.*;
 import flapjack.data.*;
 import flapjack.gui.*;
 import flapjack.io.*;
-import flapjack.io.binary.*;
 
 import scri.commons.gui.*;
 
@@ -23,7 +22,6 @@ public class ProjectSerializer
 {
 	public static int XMLZ = 0;
 	public static int XML  = 1;
-	public static int BIN  = 2;
 
 	private static Mapping mapping;
 
@@ -55,7 +53,6 @@ public class ProjectSerializer
 	public static boolean save(Project project)
 	{
 		FlapjackFile fjFile = project.fjFile;
-		int format = project.format;
 
 		try
 		{
@@ -68,35 +65,14 @@ public class ProjectSerializer
 
 			// Dump the core "Project" (that is; the traditional xml Flapjack
 			// stuff) into the database
-			// This may be in Flapjack binary or XML format:
-			if (format == BIN)
-			{
-				BinarySerializer binSerializer = new BinarySerializer();
-				binSerializer.serialize(project, os);
-			}
-
-			else
 			{
 				initialize();
 
-				BufferedWriter cOut = null;
-
-				if (format == XMLZ)
-				{
-					// Open an output stream to the zip...
-					ZipOutputStream zOut = new ZipOutputStream(new BufferedOutputStream(os));
-//					GZIPOutputStream gOut = new GZIPOutputStream(new BufferedOutputStream(os));
-					// And another for Castor to write to within the zip...
-					cOut = new BufferedWriter(new OutputStreamWriter(zOut));
-
-					// Write a single "flapjack.xml" entry to the zip file
-					zOut.putNextEntry(new ZipEntry("flapjack.xml"));
-				}
-				else
-					cOut = new BufferedWriter(new OutputStreamWriter(os));
+				BufferedWriter cOut = new BufferedWriter(new OutputStreamWriter(os));
 
 				// And marshall it as xml
 				Marshaller marshaller = new Marshaller(cOut);
+				marshaller.setValidation(false);
 				marshaller.setMapping(mapping);
 				marshaller.marshal(project);
 
@@ -113,7 +89,7 @@ public class ProjectSerializer
 //			ProjectSerializerDB.closeAndVacuum();
 
 			long e = System.currentTimeMillis();
-			System.out.println("Project saved in " + (e-s) + "ms - " + format);
+			System.out.println("Project saved in " + (e-s) + "ms");
 
 			return true;
 		}
@@ -148,36 +124,14 @@ public class ProjectSerializer
 		{
 			long s = System.currentTimeMillis();
 
-			int format = determineFormat(file);
-
-			XMLRoot.reset();
-
-			// Binary...
-			if (format == BIN)
 			{
-				BinarySerializer binSerializer = new BinarySerializer();
-				project = binSerializer.deserialize(getStream(file), true);
-
-				if (project == null)
-				{
-					TaskDialog.error(
-						RB.getString("io.ProjectSerializer.binVersion"),
-						RB.getString("gui.text.close"));
-
-					return null;
-				}
-
-				project.fjFile = file;
-			}
-
-			else
-			{
+				XMLRoot.reset();
 				initialize();
 
 				BufferedReader in = null;
 
 				// Compressed XML
-				if (format == XMLZ)
+				if (determineFormat(file) == XMLZ)
 				{
 					ZipInputStream zis = new ZipInputStream(getStream(file));
 					zis.getNextEntry();
@@ -190,6 +144,7 @@ public class ProjectSerializer
 
 				Unmarshaller unmarshaller = new Unmarshaller(mapping);
 				unmarshaller.setIgnoreExtraElements(true);
+				unmarshaller.setValidation(false);
 
 				project = (Project) unmarshaller.unmarshal(in);
 				project.fjFile = file;
@@ -204,7 +159,7 @@ public class ProjectSerializer
 			System.out.println("DB Deserialization Cache: " + (t2-t1) + "ms");
 
 			long e = System.currentTimeMillis();
-			System.out.println("Project opened in " + (e-s) + "ms - " + format);
+			System.out.println("Project opened in " + (e-s) + "ms");
 
 			// Validate what was loaded (it could be nonsense)
 			// (especially if coming from an older project format)
@@ -215,7 +170,6 @@ public class ProjectSerializer
 //					RB.getString("io.DataFormatException.validationError"));
 			}
 
-			project.format = format;
 			return project;
 		}
 		catch (Exception e)
@@ -370,18 +324,7 @@ public class ProjectSerializer
 		else
 			isDB = false;
 
-		// Try the Flapjack format first
-		try
-		{
-			BinarySerializer bin = new BinarySerializer();
-			bin.deserialize(getStream(file), false);
-
-			return BIN;
-		}
-		catch (IOException e) { throw e; }
-		catch (Exception e) {}
-
-		// Then see if it's zipped in a flapjack-like format?
+		// See if it's zipped in a flapjack-like format?
 		try
 		{
 			ZipInputStream zis = new ZipInputStream(getStream(file));
