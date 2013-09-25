@@ -69,12 +69,7 @@
 						office-2.0.jar
 						osxadapter.jar
 						scri-commons.jar
-						sqlite-jdbc-3.7.2.jar
-						sqlite-jdbc-3.7.2-linux32.jar
-						sqlite-jdbc-3.7.2-linux64.jar
-						sqlite-jdbc-3.7.2-macosx.jar
-						sqlite-jdbc-3.7.2-win32.jar
-						sqlite-jdbc-3.7.2-win64.jar"/>
+						sqlite-jdbc-3.7.2.jar"/>
 				<attribute name="Implementation-Version" value="${i4j.version}"/>
 			</manifest>
 		</jar>
