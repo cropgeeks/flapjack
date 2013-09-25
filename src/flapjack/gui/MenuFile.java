@@ -87,32 +87,6 @@ public class MenuFile
 	{
 		Project project = winMain.getProject();
 
-
-		int format = Prefs.ioProjectFormat;
-		if (project.format == -1)
-			project.format = format;
-
-		// Find out if we're still writing to the same format and if that's ok
-		if (project.format != format)
-		{
-			String msg = RB.format("gui.MenuFile.saveFormat",
-				RB.getString("gui.MenuFile.saveFormat." + project.format),
-				RB.getString("gui.MenuFile.saveFormat." + format));
-
-			String[] options = new String[] {
-				RB.getString("gui.MenuFile.saveFormat.continue"),
-				RB.getString("gui.MenuFile.saveFormat.switch"),
-				RB.getString("gui.text.cancel") };
-
-			int response = TaskDialog.show(msg, TaskDialog.QST, 1, options);
-			// Switch...
-			if (response == 1)
-				project.format = format;
-			// Cancel
-			else if (response == -1 || response == 2)
-				return false;
-		}
-
 		// Check that it's ok to save (or save as)
 		if (ProjectSerializer.querySave(project, saveAs) == false)
 			return false;

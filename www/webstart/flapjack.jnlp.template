@@ -10,14 +10,17 @@
 	</information>
 	<resources>
 		<java version="1.7+" java-vm-args="@JAVA_VM_ARGS@"/>
-		<jar href="castor-1.2-xml.jar"/>
+		<jar href="castor-1.3.3-rc1-core.jar"/>
+		<jar href="castor-1.3.3-rc1-xml.jar"/>
+		<jar href="commons-lang-2.6.jar"/>
 		<jar href="commons-logging-1.1.1.jar"/>
-		<jar href="i4jruntime.jar"/>
+		<jar href="flapjack.jar"/>
+		<jar href="flapjack-resources.jar"/>
 		<jar href="office-2.0.jar"/>
 		<jar href="osxadapter.jar"/>
 		<jar href="scri-commons.jar"/>
-		<jar href="flapjack.jar"/>
-		<jar href="flapjack-resources.jar"/>
+		<jar href="sqlite-jdbc-3.7.2.jar"/>
+
 	</resources>
 	<application-desc main-class="flapjack.gui.Flapjack">
 		@ARGUMENTS@
