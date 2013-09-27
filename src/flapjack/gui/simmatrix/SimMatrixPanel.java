@@ -2,11 +2,13 @@ package flapjack.gui.simmatrix;
 
 import java.awt.*;
 import javax.swing.*;
+import javax.swing.event.*;
 
 import flapjack.data.*;
 import flapjack.gui.*;
+import flapjack.io.*;
 
-public class SimMatrixPanel extends JPanel
+public class SimMatrixPanel extends JPanel implements AncestorListener
 {
 	private GTViewSet viewSet;
 	private SimMatrix matrix;
@@ -24,6 +26,8 @@ public class SimMatrixPanel extends JPanel
 		this.matrix = matrix;
 
 		createControls();
+
+		addAncestorListener(this);
 	}
 
 	public GTViewSet getViewSet()
@@ -58,5 +62,19 @@ public class SimMatrixPanel extends JPanel
 	CanvasController getController()
 	{
 		return controller;
+	}
+
+	public void ancestorAdded(AncestorEvent event)
+	{
+		ProjectSerializerDB.setFromCache(matrix);
+	}
+
+	public void ancestorRemoved(AncestorEvent event)
+	{
+		matrix.dbClear();
+	}
+
+	public void ancestorMoved(AncestorEvent event)
+	{
 	}
 }

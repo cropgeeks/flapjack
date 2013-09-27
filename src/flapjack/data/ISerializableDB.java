@@ -10,6 +10,9 @@ public interface ISerializableDB
 
 	public void dbSetObject(Object obj);
 
+	// Removes (hopefully) the object from memory
+	public void dbClear();
+
 
 	// An object's database ID will need to be stored by castor, so it's ok to
 	// just use get() here

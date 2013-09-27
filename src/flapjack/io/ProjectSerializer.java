@@ -85,7 +85,7 @@ public class ProjectSerializer
 			long t2 = System.currentTimeMillis();
 			System.out.println("DB Serialization Cache: " + (t2-t1) + "ms");
 
-			ProjectSerializerDB.close();
+//			ProjectSerializerDB.close();
 //			ProjectSerializerDB.closeAndVacuum();
 
 			long e = System.currentTimeMillis();
@@ -151,12 +151,6 @@ public class ProjectSerializer
 
 				in.close();
 			}
-
-			// Write any non-core cached-to-disk objects to the database
-			long t1 = System.currentTimeMillis();
-			ProjectSerializerDB.loadCache(project);
-			long t2 = System.currentTimeMillis();
-			System.out.println("DB Deserialization Cache: " + (t2-t1) + "ms");
 
 			long e = System.currentTimeMillis();
 			System.out.println("Project opened in " + (e-s) + "ms");
