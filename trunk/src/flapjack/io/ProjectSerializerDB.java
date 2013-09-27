@@ -162,45 +162,39 @@ public class ProjectSerializerDB
 		throw new RuntimeException("Unknown database object type");
 	}
 
-	// TEMP TESTING METHOD
-	public static void loadCache(Project project)
-		throws Exception
+	public static void setFromCache(ISerializableDB obj)
 	{
-		PreparedStatement ps1 = c.prepareStatement("SELECT DISTINCT id FROM simmatrix;");
-
-		// For each simmatrix in the table...
-		ResultSet rs = ps1.executeQuery();
-		while (rs.next())
+		try
 		{
-			String id = rs.getString(1);
+			ObjectInputStream in = null;
 
-			// Fetch it...
-			PreparedStatement ps2 = c.prepareStatement("SELECT * FROM simmatrix WHERE id=?;");
-			ps2.setString(1, id);
+			// Read from the disk cache
+			if (cache.containsKey(obj))
+			{
+				System.out.println("Load from disk...");
 
-			// Deserialize it...
-			ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(new DatabaseInputStream(ps2, 2)));
-			Object obj = in.readObject();
+				File file = new File(FlapjackUtils.getCacheDir(), obj.getDatabaseID() + ".obj");
+				in = new ObjectInputStream(new BufferedInputStream(new FileInputStream(file)));
+			}
 
+			// Or read from the database cache
+			else
+			{
+				System.out.println("Load from DB...");
+
+				PreparedStatement ps = c.prepareStatement("SELECT * FROM " + getTable(obj) + " WHERE id=?;");
+				ps.setString(1, obj.getDatabaseID());
+
+				in = new ObjectInputStream(new BufferedInputStream(new DatabaseInputStream(ps, 2)));
+			}
+
+			// Read it...
+			obj.dbSetObject(in.readObject());
 			in.close();
-
-			// Find its original owner
-			for (DataSet dataSet: project.getDataSets())
-				for (GTViewSet viewSet: dataSet.getViewSets())
-					for (SimMatrix matrix: viewSet.getMatrices())
-					{
-						System.out.println("Checking " + matrix.getDatabaseID() + " and " + id);
-
-						if (matrix.getDatabaseID().equals(id))
-							matrix.dbSetObject(obj);
-					}
 		}
-
-		rs.close();
-
-
-//		PreparedStatement ps = c.prepareStatement("SELECT * FROM simmatrix;");
-
-		//new DatabaseInputStream(ps, 2);
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
 	}
 }

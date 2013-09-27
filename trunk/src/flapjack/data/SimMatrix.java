@@ -152,8 +152,11 @@ public class SimMatrix extends XMLRoot implements ISerializableDB
 	@SuppressWarnings("unchecked")
 	public void dbSetObject(Object obj)
 	{
-		System.out.println("SimMatrix " + getGuid() + " received data");
-
 		lineScores = (ArrayList<float[]>) obj;
+	}
+
+	public void dbClear()
+	{
+		lineScores.clear();
 	}
 }
