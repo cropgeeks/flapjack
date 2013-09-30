@@ -25,7 +25,7 @@ public class SimMatrixNode extends BaseNode
 
 	public String toString()
 	{
-		return "Sim Matrix Panel";
+		return panel.getTitle();
 	}
 
 	public void setActions()

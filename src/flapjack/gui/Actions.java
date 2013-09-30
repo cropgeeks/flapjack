@@ -522,7 +522,7 @@ public class Actions
 			}
 		};
 
-		alysSimMatrix = new AbstractAction(RB.getString("gui.Actions.alysSimMatrix")) {
+		alysSimMatrix = new AbstractAction(RB.getString("gui.Actions.alysSimMatrix"), getIcon("SIMMATRIX")) {
 			public void actionPerformed(ActionEvent e) {
 				winMain.mAnalysis.simMatrix();
 			}
