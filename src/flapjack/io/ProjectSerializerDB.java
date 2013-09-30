@@ -58,7 +58,7 @@ public class ProjectSerializerDB
 		st.execute("PRAGMA count_changes = false;");
 
 		// Create the database tables
-		st.executeUpdate("CREATE TABLE IF NOT EXISTS project (id INTEGER, data BLOB);");
+		st.executeUpdate("CREATE TABLE IF NOT EXISTS project (data BLOB);");
 		st.executeUpdate("CREATE TABLE IF NOT EXISTS simmatrix (id STRING, data BLOB);");
 		st.close();
 

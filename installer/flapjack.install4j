@@ -1401,17 +1401,16 @@ if (wizardContext != null) {
     </applications>
   </installerGui>
   <mediaSets>
-    <windows name="Windows x86" id="19" customizedId="" mediaFileName="${compiler:sys.shortName}_windows_x86_${compiler:sys.version}" installDir="Flapjack" overridePrincipalLanguage="false" jreBitType="32" runPostProcessor="false" postProcessor="" failOnPostProcessorError="false" useLegacyMediaFileIds="false" legacyMediaFileIds="" includedJRE="windows-x86-1.7.0_25" manualJREEntry="false" bundleType="1" jreURL="" jreShared="false" directDownload="false" installOnlyIfNecessary="false" customInstallBaseDir="" contentFilesType="1" downloadURL="" verifyIntegrity="true">
+    <windows name="Windows x86" id="19" customizedId="" mediaFileName="${compiler:sys.shortName}_windows_x86_${compiler:sys.version}" installDir="Flapjack" overridePrincipalLanguage="false" jreBitType="32" runPostProcessor="false" postProcessor="" failOnPostProcessorError="false" useLegacyMediaFileIds="false" legacyMediaFileIds="" includedJRE="windows-x86-1.7.0_40" manualJREEntry="false" bundleType="1" jreURL="" jreShared="false" directDownload="false" installOnlyIfNecessary="false" customInstallBaseDir="" contentFilesType="1" downloadURL="" verifyIntegrity="true">
       <excludedLaunchers />
       <excludedBeans>
         <bean refId="1236" />
       </excludedBeans>
       <overriddenPrincipalLanguage id="en" customLocalizationFile="" />
       <exclude>
-        <entry location="lib/sqlite-jdbc-3.7.2-linux32.jar" fileType="regular" />
-        <entry location="lib/sqlite-jdbc-3.7.2-linux64.jar" fileType="regular" />
-        <entry location="lib/sqlite-jdbc-3.7.2-macosx.jar" fileType="regular" />
-        <entry location="lib/sqlite-jdbc-3.7.2-win64.jar" fileType="regular" />
+        <entry location="lib/sqlite-jdbc-3.7.2-linux.jar" fileType="regular" />
+        <entry location="lib/sqlite-jdbc-3.7.2-osx.jar" fileType="regular" />
+        <entry location="lib/sqlite-jdbc-3.7.2.jar" fileType="regular" />
       </exclude>
       <variables />
       <autoUpdate useMinUpdatableVersion="false" minUpdatableVersion="" useMaxUpdatableVersion="false" maxUpdatableVersion="">
@@ -1421,17 +1420,16 @@ if (wizardContext != null) {
       <excludedComponents />
       <includedDownloadableComponents />
     </windows>
-    <windows name="Windows x64" id="1234" customizedId="" mediaFileName="${compiler:sys.shortName}_windows_x64_${compiler:sys.version}" installDir="Flapjack" overridePrincipalLanguage="false" jreBitType="64" runPostProcessor="false" postProcessor="" failOnPostProcessorError="false" useLegacyMediaFileIds="false" legacyMediaFileIds="" includedJRE="windows-amd64-1.7.0_25" manualJREEntry="false" bundleType="1" jreURL="" jreShared="false" directDownload="false" installOnlyIfNecessary="false" customInstallBaseDir="" contentFilesType="1" downloadURL="" verifyIntegrity="true">
+    <windows name="Windows x64" id="1234" customizedId="" mediaFileName="${compiler:sys.shortName}_windows_x64_${compiler:sys.version}" installDir="Flapjack" overridePrincipalLanguage="false" jreBitType="64" runPostProcessor="false" postProcessor="" failOnPostProcessorError="false" useLegacyMediaFileIds="false" legacyMediaFileIds="" includedJRE="windows-amd64-1.7.0_40" manualJREEntry="false" bundleType="1" jreURL="" jreShared="false" directDownload="false" installOnlyIfNecessary="false" customInstallBaseDir="" contentFilesType="1" downloadURL="" verifyIntegrity="true">
       <excludedLaunchers />
       <excludedBeans>
         <bean refId="974" />
       </excludedBeans>
       <overriddenPrincipalLanguage id="en" customLocalizationFile="" />
       <exclude>
-        <entry location="lib/sqlite-jdbc-3.7.2-linux32.jar" fileType="regular" />
-        <entry location="lib/sqlite-jdbc-3.7.2-linux64.jar" fileType="regular" />
-        <entry location="lib/sqlite-jdbc-3.7.2-macosx.jar" fileType="regular" />
-        <entry location="lib/sqlite-jdbc-3.7.2-win32.jar" fileType="regular" />
+        <entry location="lib/sqlite-jdbc-3.7.2-linux.jar" fileType="regular" />
+        <entry location="lib/sqlite-jdbc-3.7.2-osx.jar" fileType="regular" />
+        <entry location="lib/sqlite-jdbc-3.7.2.jar" fileType="regular" />
       </exclude>
       <variables />
       <autoUpdate useMinUpdatableVersion="false" minUpdatableVersion="" useMaxUpdatableVersion="false" maxUpdatableVersion="">
@@ -1441,16 +1439,15 @@ if (wizardContext != null) {
       <excludedComponents />
       <includedDownloadableComponents />
     </windows>
-    <macos name="Mac OS X Single Bundle" id="126" customizedId="" mediaFileName="" installDir="Flapjack" overridePrincipalLanguage="false" jreBitType="all" runPostProcessor="false" postProcessor="" failOnPostProcessorError="false" useLegacyMediaFileIds="false" legacyMediaFileIds="" includedJRE="macosx-amd64-1.7.0_25" manualJREEntry="false" bundleType="1" jreURL="" jreShared="false" directDownload="false" installOnlyIfNecessary="false" appleJre="false" customInstallBaseDir="" contentFilesType="1" downloadURL="" signLaunchers="false" launcherId="18">
+    <macos name="Mac OS X Single Bundle" id="126" customizedId="" mediaFileName="" installDir="Flapjack" overridePrincipalLanguage="false" jreBitType="all" runPostProcessor="false" postProcessor="" failOnPostProcessorError="false" useLegacyMediaFileIds="false" legacyMediaFileIds="" includedJRE="macosx-amd64-1.7.0_40" manualJREEntry="false" bundleType="1" jreURL="" jreShared="false" directDownload="false" installOnlyIfNecessary="false" appleJre="false" customInstallBaseDir="" contentFilesType="1" downloadURL="" signLaunchers="false" launcherId="18">
       <excludedBeans>
         <bean refId="974" />
       </excludedBeans>
       <overriddenPrincipalLanguage id="en" customLocalizationFile="" />
       <exclude>
-        <entry location="lib/sqlite-jdbc-3.7.2-linux32.jar" fileType="regular" />
-        <entry location="lib/sqlite-jdbc-3.7.2-linux64.jar" fileType="regular" />
-        <entry location="lib/sqlite-jdbc-3.7.2-win32.jar" fileType="regular" />
-        <entry location="lib/sqlite-jdbc-3.7.2-win64.jar" fileType="regular" />
+        <entry location="lib/sqlite-jdbc-3.7.2-linux.jar" fileType="regular" />
+        <entry location="lib/sqlite-jdbc-3.7.2-windows.jar" fileType="regular" />
+        <entry location="lib/sqlite-jdbc-3.7.2.jar" fileType="regular" />
       </exclude>
       <variables />
       <autoUpdate useMinUpdatableVersion="false" minUpdatableVersion="" useMaxUpdatableVersion="false" maxUpdatableVersion="">
@@ -1467,10 +1464,9 @@ if (wizardContext != null) {
       </excludedBeans>
       <overriddenPrincipalLanguage id="en" customLocalizationFile="" />
       <exclude>
-        <entry location="lib/sqlite-jdbc-3.7.2-linux64.jar" fileType="regular" />
-        <entry location="lib/sqlite-jdbc-3.7.2-macosx.jar" fileType="regular" />
-        <entry location="lib/sqlite-jdbc-3.7.2-win32.jar" fileType="regular" />
-        <entry location="lib/sqlite-jdbc-3.7.2-win64.jar" fileType="regular" />
+        <entry location="lib/sqlite-jdbc-3.7.2-osx.jar" fileType="regular" />
+        <entry location="lib/sqlite-jdbc-3.7.2-windows.jar" fileType="regular" />
+        <entry location="lib/sqlite-jdbc-3.7.2.jar" fileType="regular" />
       </exclude>
       <variables />
       <autoUpdate useMinUpdatableVersion="false" minUpdatableVersion="" useMaxUpdatableVersion="false" maxUpdatableVersion="">
@@ -1490,10 +1486,9 @@ if (wizardContext != null) {
       </excludedBeans>
       <overriddenPrincipalLanguage id="en" customLocalizationFile="" />
       <exclude>
-        <entry location="lib/sqlite-jdbc-3.7.2-linux32.jar" fileType="regular" />
-        <entry location="lib/sqlite-jdbc-3.7.2-macosx.jar" fileType="regular" />
-        <entry location="lib/sqlite-jdbc-3.7.2-win32.jar" fileType="regular" />
-        <entry location="lib/sqlite-jdbc-3.7.2-win64.jar" fileType="regular" />
+        <entry location="lib/sqlite-jdbc-3.7.2-osx.jar" fileType="regular" />
+        <entry location="lib/sqlite-jdbc-3.7.2-windows.jar" fileType="regular" />
+        <entry location="lib/sqlite-jdbc-3.7.2.jar" fileType="regular" />
       </exclude>
       <variables />
       <autoUpdate useMinUpdatableVersion="false" minUpdatableVersion="" useMaxUpdatableVersion="false" maxUpdatableVersion="">
