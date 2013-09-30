@@ -228,8 +228,7 @@ public class MenuAnalysis
 		dataSet.getViewSets().add(newViewSet);
 		navPanel.addedNewVisualizationNode(dataSet);
 
-
-		SimMatrix orderedMatrix = matrix.cloneAndReorder(rIntOrder, dendrogram.viewLineOrder());
+		SimMatrix orderedMatrix = dg.getOrderedMatrix();
 		navPanel.addedNewSimMatrixNode(newViewSet, orderedMatrix);
 		navPanel.addedNewDendogramNode(newViewSet, newViewSet.getDataSet(), matrix, dendrogram);
 	}

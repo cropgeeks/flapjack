@@ -6,13 +6,14 @@ package flapjack.analysis;
 import java.util.*;
 
 import flapjack.data.*;
+import flapjack.io.*;
 import flapjack.servlet.*;
 
 import scri.commons.gui.*;
 
 public class DendrogramGenerator extends SimpleJob
 {
-	private SimMatrix matrix;
+	private SimMatrix matrix, orderedMatrix;
 	private Dendrogram dendrogram;
 	// Note: this is the *new* view that the dendrogram will ultimately hang from
 	// not the view that was used to generate the matrix
@@ -32,6 +33,9 @@ public class DendrogramGenerator extends SimpleJob
 
 	public Dendrogram getDendrogram()
 		{ return dendrogram; }
+
+	public SimMatrix getOrderedMatrix()
+		{ return orderedMatrix; }
 
 	public ArrayList<Integer> rIntOrder()
 		{ return rIntOrder; }
@@ -56,5 +60,8 @@ public class DendrogramGenerator extends SimpleJob
 
 		newViewSet.setLines(order);
 		dendrogram.setViewSet(newViewSet);
+
+		orderedMatrix = matrix.cloneAndReorder(rIntOrder, dendrogram.viewLineOrder());
+		ProjectSerializerDB.cacheToDisk(orderedMatrix);
 	}
 }
