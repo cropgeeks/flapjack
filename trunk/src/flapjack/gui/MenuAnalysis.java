@@ -170,14 +170,14 @@ public class MenuAnalysis
 				viewSet, view, matrixDialog.getSelectedChromosomes(), true);
 
 			ProgressDialog dialog = new ProgressDialog(calculator,
-				RB.format("gui.MenuData.simMatrix.title"),
-				RB.format("gui.MenuData.simMatrix.label"), Flapjack.winMain);
+				RB.format("gui.MenuAnalysis.simMatrix.title"),
+				RB.format("gui.MenuAnalysis.simMatrix.label"), Flapjack.winMain);
 
 			// If the operation failed or was cancelled...
 			if (dialog.getResult() != ProgressDialog.JOB_COMPLETED)
 			{
 				if (dialog.getResult() == ProgressDialog.JOB_FAILED)
-					TaskDialog.error(RB.format("gui.MenuData.simMatrix.error",
+					TaskDialog.error(RB.format("gui.MenuAnalysis.simMatrix.error",
 						dialog.getException().getMessage()),
 						RB.getString("gui.text.close"));
 
@@ -187,6 +187,8 @@ public class MenuAnalysis
 			// Add the result to the navigation panel
 			SimMatrix matrix = calculator.getMatrix();
 			navPanel.addedNewSimMatrixNode(viewSet, matrix);
+
+			Actions.projectModified();
 		}
 	}
 

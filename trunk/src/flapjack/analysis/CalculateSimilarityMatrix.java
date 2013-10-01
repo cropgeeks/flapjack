@@ -116,7 +116,7 @@ public class CalculateSimilarityMatrix extends SimpleJob
 	@Override
 	public String getMessage()
 	{
-		return RB.format("gui.MenuData.simMatrix.message", count);
+		return RB.format("gui.MenuAnalysis.simMatrix.message", count);
 	}
 
 	private boolean skipLine(int i)

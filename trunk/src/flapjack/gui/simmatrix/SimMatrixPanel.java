@@ -49,7 +49,7 @@ public class SimMatrixPanel extends JPanel implements AncestorListener
 
 		controller = new CanvasController(this, sp);
 
-		new SimMatrixCanvasML(this);
+		new SimMatrixCanvasML(this, controller);
 
 		nbPanel = new SimMatrixPanelNB(viewSet, matrix, sp);
 

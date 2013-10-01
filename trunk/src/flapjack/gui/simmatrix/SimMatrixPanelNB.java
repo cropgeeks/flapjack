@@ -136,7 +136,7 @@ public class SimMatrixPanelNB extends JPanel implements ActionListener
 
 	private void exportSimMatrix()
 	{
-		String name = RB.format("gui.MenuData.simMatrix.filename", viewSet.getName());
+		String name = RB.format("gui.simmatrix.SimMatrixPanelNB.filename", viewSet.getName());
 		File saveAs = new File(Prefs.guiCurrentDir, name);
 		FileNameExtensionFilter filter = new FileNameExtensionFilter(
 			RB.getString("other.Filters.ttxt"), "txt");
