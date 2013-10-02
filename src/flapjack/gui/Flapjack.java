@@ -182,6 +182,10 @@ public class Flapjack
 		Prefs.isFirstRun = false;
 		prefs.savePreferences(prefsFile, Prefs.class);
 
+		// Clear the cache of any files that might still exist - most stuff
+		// should be gone from deleteOnExit() calls, but just in case...
+		FileUtils.emptyDirectory(FlapjackUtils.getCacheDir(), true);
+
 		System.exit(0);
 	}
 

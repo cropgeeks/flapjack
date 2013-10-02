@@ -15,9 +15,12 @@ import scri.commons.gui.*;
 
 public class FlapjackUtils
 {
+	public static Cursor HAND_CURSOR = new Cursor(Cursor.HAND_CURSOR);
+
 	private static final String INSTANCE_ID = SystemUtils.createGUID(8);
 
-	public static Cursor HAND_CURSOR = new Cursor(Cursor.HAND_CURSOR);
+	private static File cacheDir, instanceDir;
+
 
 	/**
 	 * Registers a button to display Flapjack help on the specified topic. Will
@@ -136,11 +139,15 @@ public class FlapjackUtils
 
 	public static File getCacheDir()
 	{
-		File cacheDir = SystemUtils.getTempUserDirectory("jhi-flapjack");
+		if (instanceDir == null)
+		{
+			cacheDir = SystemUtils.getTempUserDirectory("jhi-flapjack");
+			cacheDir.deleteOnExit();
 
-		File instanceDir = new File(cacheDir, INSTANCE_ID);
-
-		instanceDir.mkdirs();
+			instanceDir = new File(cacheDir, INSTANCE_ID);
+			instanceDir.deleteOnExit();
+			instanceDir.mkdirs();
+		}
 
 		return instanceDir;
 	}
