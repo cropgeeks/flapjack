@@ -62,6 +62,8 @@ public class PCoAGenerator extends SimpleJob
 		throws Exception
 	{
 		File pcoaFile = new File(FlapjackUtils.getCacheDir(), GID + ".txt");
+		pcoaFile.deleteOnExit();
+
 		BufferedWriter out = new BufferedWriter(new FileWriter(pcoaFile));
 
 		ArrayList<Trait> traits = dataSet.getTraits();
@@ -124,6 +126,7 @@ public class PCoAGenerator extends SimpleJob
 		throws Exception
 	{
 		File cwFile = new File(FlapjackUtils.getCacheDir(), GID + ".curlywhirly");
+		cwFile.deleteOnExit();
 
 		BufferedWriter out = new BufferedWriter(new FileWriter(cwFile));
 		out.write("<curlywhirly>");

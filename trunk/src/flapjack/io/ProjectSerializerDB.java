@@ -114,6 +114,8 @@ public class ProjectSerializerDB
 		throws Exception
 	{
 		File file = new File(FlapjackUtils.getCacheDir(), obj.getDatabaseID() + ".obj");
+		file.deleteOnExit();
+
 		cache.put(obj, file);
 
 		ObjectOutputStream out = new ObjectOutputStream(
