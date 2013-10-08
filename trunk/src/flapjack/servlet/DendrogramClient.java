@@ -11,6 +11,7 @@ import java.util.zip.*;
 import javax.imageio.*;
 
 import flapjack.data.*;
+import flapjack.gui.*;
 import flapjack.io.*;
 
 public class DendrogramClient
@@ -145,6 +146,19 @@ public class DendrogramClient
 						lineOrder.add(Integer.parseInt(str) - 1);
 
 					in.close();
+				}
+				else if (entry.getName().equals("dendrogram.pdf"))
+				{
+					BufferedOutputStream os = new BufferedOutputStream(
+						new FileOutputStream(new File(FlapjackUtils.getCacheDir(), "dendrogram.pdf")));
+
+					int read;
+					byte[] buffer = new byte[1024];
+
+					while ((read = zis.read(buffer, 0, buffer.length)) != -1)
+						os.write(buffer, 0, read);
+
+					os.close();
 				}
 			}
 

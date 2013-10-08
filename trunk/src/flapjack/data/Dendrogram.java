@@ -25,6 +25,7 @@ public class Dendrogram extends XMLRoot
 	public void setViewSet(GTViewSet viewSet)
 		{ this.viewSet = viewSet; }
 
+
 	// Other Methods
 
 	public ArrayList<LineInfo> viewLineOrder()
