@@ -6,8 +6,10 @@ hc = hclust(D)
 
 write(hc$order, file="$ORDER", ncolumns=1)
 
-png("$PNG", width=$WIDTH, height=550, units="px")
-
+png("$PNG_FILE", width=$PNG_WIDTH, height=550, units="px")
 plot(hc, labels=colnames(A))
+dev.off();
 
+pdf("$PDF_FILE", width=$PDF_WIDTH, height=10)
+plot(hc, labels=colnames(A))
 dev.off();

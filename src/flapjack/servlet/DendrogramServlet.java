@@ -40,6 +40,7 @@ public class DendrogramServlet extends HttpServlet
 		File matrix = new File(SystemUtils.getTempDirectory(), id + ".matrix");
 		File order  = new File(SystemUtils.getTempDirectory(), id + ".order");
 		File png = new File(SystemUtils.getTempDirectory(), id + ".png");
+		File pdf = new File(SystemUtils.getTempDirectory(), id + ".pdf");
 
 		// Save the simmatrix file to disk
 		saveMatrix(textfile, matrix, id);
@@ -88,6 +89,14 @@ public class DendrogramServlet extends HttpServlet
 		zout.putNextEntry(new ZipEntry("dendrogram.png"));
 		BufferedInputStream in = new BufferedInputStream(new FileInputStream(png));
 		byte[] buffer = new byte[1024];
+		for (int length = 0; (length = in.read(buffer)) > 0;)
+			zout.write(buffer, 0, length);
+		in.close();
+
+		// Send the pdf
+		zout.putNextEntry(new ZipEntry("dendrogram.pdf"));
+		in = new BufferedInputStream(new FileInputStream(pdf));
+		buffer = new byte[1024];
 		for (int length = 0; (length = in.read(buffer)) > 0;)
 			zout.write(buffer, 0, length);
 		in.close();
@@ -142,16 +151,19 @@ public class DendrogramServlet extends HttpServlet
 		PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(rScript)));
 
 		// Work out what width the image should be
-		int width = 12 * lineCount;
-		width = (width < 500) ? 500 : width;
+		int pngWidth = 12 * lineCount;
+		pngWidth = (pngWidth < 500) ? 500 : pngWidth;
+		int pdfWidth = (int) Math.ceil(lineCount / 4);
 
 		String str = null;
 		while ((str = in.readLine()) != null)
 		{
 			str = str.replace("$MATRIX", id + ".matrix");
 			str = str.replace("$ORDER", id + ".order");
-			str = str.replace("$PNG", id + ".png");
-			str = str.replace("$WIDTH", "" + width);
+			str = str.replace("$PNG_FILE", id + ".png");
+			str = str.replace("$PDF_FILE", id + ".pdf");
+			str = str.replace("$PNG_WIDTH", "" + pngWidth);
+			str = str.replace("$PDF_WIDTH", "" + pdfWidth);
 
 			out.println(str);
 		}
