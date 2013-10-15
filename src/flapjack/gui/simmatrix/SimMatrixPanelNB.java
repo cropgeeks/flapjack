@@ -139,34 +139,33 @@ public class SimMatrixPanelNB extends JPanel implements ActionListener
 		String name = RB.format("gui.simmatrix.SimMatrixPanelNB.filename", viewSet.getName());
 		File saveAs = new File(Prefs.guiCurrentDir, name);
 		FileNameExtensionFilter filter = new FileNameExtensionFilter(
-			RB.getString("other.Filters.ttxt"), "txt");
+			RB.getString("other.Filters.tabtxt"), "txt");
 		String filename = FlapjackUtils.getSaveFilename(RB.getString("gui.simmatrix.SimMatrixPanelNB.saveAs"), saveAs, filter);
 
 		if (filename != null)
 		{
-			try
+			SimMatrixExporter exporter = new SimMatrixExporter(matrix, filename);
+			ProgressDialog dialog = new ProgressDialog(exporter,
+				RB.format("gui.simmatrix.SimMatrixPanelNB.exportTitle"),
+				RB.format("gui.simmatrix.SimMatrixPanelNB.exportLabel"), Flapjack.winMain);
+
+			// If the operation failed or was cancelled...
+			if (dialog.getResult() != ProgressDialog.JOB_COMPLETED)
 			{
-				SimMatrixExporter exporter = new SimMatrixExporter(matrix, filename);
-				ProgressDialog dialog = new ProgressDialog(exporter,
-					RB.format("gui.simmatrix.SimMatrixPanelNB.exportTitle"),
-					RB.format("gui.simmatrix.SimMatrixPanelNB.exportLabel"),
-				Flapjack.winMain);
-				// If the operation failed or was cancelled...
-				if (dialog.getResult() != ProgressDialog.JOB_COMPLETED)
+				if (dialog.getResult() == ProgressDialog.JOB_FAILED)
 				{
-					if (dialog.getResult() == ProgressDialog.JOB_FAILED)
-					{
-						dialog.getException().printStackTrace();
-						TaskDialog.error(
-							RB.format("gui.simmatrix.SimMatrixPanelNB.exportException",
-							dialog.getException().getMessage()),
-							RB.getString("gui.text.close"));
-					}
+					dialog.getException().printStackTrace();
+					TaskDialog.error(
+						RB.format("gui.simmatrix.SimMatrixPanelNB.exportException",
+						dialog.getException().getMessage()),
+						RB.getString("gui.text.close"));
 				}
-				TaskDialog.showFileOpen(RB.format("gui.simmatrix.SimMatrixPanelNB.exportSuccess", filename),
-					TaskDialog.INF, new File(filename));
+
+				return;
 			}
-			catch (Exception ex) { ex.printStackTrace();}
+
+			TaskDialog.showFileOpen(RB.format("gui.simmatrix.SimMatrixPanelNB.exportSuccess", filename),
+				TaskDialog.INF, new File(filename));
 		}
 	}
 
