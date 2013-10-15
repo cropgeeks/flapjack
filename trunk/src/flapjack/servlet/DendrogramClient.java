@@ -16,7 +16,7 @@ import flapjack.io.*;
 
 public class DendrogramClient
 {
-	private static final String url = "http://wildcat:8080/flapjack/servlets/dendrogram";
+	private static final String url = "http://ics.hutton.ac.uk/flapjack/servlets/dendrogram";
 
 	private ArrayList<Integer> lineOrder = new ArrayList<>();
 
@@ -46,7 +46,7 @@ public class DendrogramClient
 
 
 		OutputStream output = connection.getOutputStream();
-		writer = new PrintWriter(new OutputStreamWriter(output, charset), true); // true = autoFlush, important!
+		writer = new PrintWriter(new BufferedWriter(new OutputStreamWriter(output, charset)), true); // true = autoFlush, important!
 //		writer = new PrintWriter(new OutputStreamWriter(System.out));
 
 		// Send normal param.

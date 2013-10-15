@@ -43,6 +43,7 @@ class NavPanel extends JPanel
 
 	// The default node to view on project open
 	private DefaultMutableTreeNode defaultNode;
+	private boolean isOpening = false;
 
 	NavPanel(WinMain winMain)
 	{
@@ -110,9 +111,12 @@ class NavPanel extends JPanel
 		resetModel();
 		tree.setModel(treeModel);
 
+		isOpening = true;
 		for (int i = 0; i < project.getDataSets().size(); i++)
 			addDataSetNode(project.getDataSets().get(i));
+		isOpening = false;
 
+		// Default selection (ideally the first viewset of the first data set)
 		if (defaultNode != null)
 		{
 			tree.setSelectionPath(new TreePath(defaultNode.getPath()));
@@ -126,7 +130,10 @@ class NavPanel extends JPanel
 	{
 		treeModel.insertNodeInto(node, parent, index);
 
-		tree.setSelectionPath(new TreePath(node.getPath()));
+		// Only select a node if it's being added "live", rather than at load time
+		if (isOpening == false)
+			tree.setSelectionPath(new TreePath(node.getPath()));
+
 		tree.scrollPathToVisible(new TreePath(node.getPath()));
 	}
 

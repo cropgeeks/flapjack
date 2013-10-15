@@ -148,8 +148,8 @@ public class SimMatrixPanelNB extends JPanel implements ActionListener
 			{
 				SimMatrixExporter exporter = new SimMatrixExporter(matrix, filename);
 				ProgressDialog dialog = new ProgressDialog(exporter,
-				RB.format("gui.simmatrix.SimMatrixPanelNB.exportTitle"),
-				RB.format("gui.simmatrix.SimMatrixPanelNB.exportLabel"),
+					RB.format("gui.simmatrix.SimMatrixPanelNB.exportTitle"),
+					RB.format("gui.simmatrix.SimMatrixPanelNB.exportLabel"),
 				Flapjack.winMain);
 				// If the operation failed or was cancelled...
 				if (dialog.getResult() != ProgressDialog.JOB_COMPLETED)
@@ -164,7 +164,7 @@ public class SimMatrixPanelNB extends JPanel implements ActionListener
 					}
 				}
 				TaskDialog.showFileOpen(RB.format("gui.simmatrix.SimMatrixPanelNB.exportSuccess", filename),
-										TaskDialog.INF, new File(filename));
+					TaskDialog.INF, new File(filename));
 			}
 			catch (Exception ex) { ex.printStackTrace();}
 		}
