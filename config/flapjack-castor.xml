@@ -87,6 +87,7 @@
 		<field name="views" type="flapjack.data.GTView" collection="arraylist"/>
 		<field name="bookmarks" type="flapjack.data.Bookmark" collection="arraylist"/>
 		<field name="matrices" type="flapjack.data.SimMatrix" collection="arraylist"/>
+		<field name="dendrograms" type="flapjack.data.Dendrogram" collection="arraylist"/>
 		<field name="comparisonLine" type="flapjack.data.Line">
 			<bind-xml reference="true" node="attribute"/>
 		</field>
@@ -186,6 +187,13 @@
 	<!-- SimMatrix -->
 	<class name="flapjack.data.SimMatrix" extends="flapjack.data.XMLRoot" auto-complete="true">
 		<field name="lineInfos" type="flapjack.data.LineInfo" collection="arraylist">
+			<bind-xml reference="true" node="attribute"/>
+		</field>
+	</class>
+
+	<!-- Dendrogram -->
+	<class name="flapjack.data.Dendrogram" extends="flapjack.data.XMLRoot" auto-complete="true">
+		<field name="viewSet" type="flapjack.data.GTViewSet">
 			<bind-xml reference="true" node="attribute"/>
 		</field>
 	</class>

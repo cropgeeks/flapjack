@@ -161,35 +161,35 @@ public class MenuAnalysis
 			return;
 		}
 
+		// Prompt for settings
 		CalculateSimMatrixDialog matrixDialog = new CalculateSimMatrixDialog(viewSet);
+		if (matrixDialog.isOK() == false)
+			return;
 
-		if (matrixDialog.isOK())
+		// Set up the calculator
+		CalculateSimilarityMatrix calculator = new CalculateSimilarityMatrix(
+			viewSet, view, matrixDialog.getSelectedChromosomes(), true);
+
+		ProgressDialog dialog = new ProgressDialog(calculator,
+			RB.format("gui.MenuAnalysis.simMatrix.title"),
+			RB.format("gui.MenuAnalysis.simMatrix.label"), Flapjack.winMain);
+
+		// If the operation failed or was cancelled...
+		if (dialog.getResult() != ProgressDialog.JOB_COMPLETED)
 		{
-			// Set up the calculator
-			CalculateSimilarityMatrix calculator = new CalculateSimilarityMatrix(
-				viewSet, view, matrixDialog.getSelectedChromosomes(), true);
+			if (dialog.getResult() == ProgressDialog.JOB_FAILED)
+				TaskDialog.error(RB.format("gui.MenuAnalysis.simMatrix.error",
+					dialog.getException().getMessage()),
+					RB.getString("gui.text.close"));
 
-			ProgressDialog dialog = new ProgressDialog(calculator,
-				RB.format("gui.MenuAnalysis.simMatrix.title"),
-				RB.format("gui.MenuAnalysis.simMatrix.label"), Flapjack.winMain);
-
-			// If the operation failed or was cancelled...
-			if (dialog.getResult() != ProgressDialog.JOB_COMPLETED)
-			{
-				if (dialog.getResult() == ProgressDialog.JOB_FAILED)
-					TaskDialog.error(RB.format("gui.MenuAnalysis.simMatrix.error",
-						dialog.getException().getMessage()),
-						RB.getString("gui.text.close"));
-
-				return;
-			}
-
-			// Add the result to the navigation panel
-			SimMatrix matrix = calculator.getMatrix();
-			navPanel.addedNewSimMatrixNode(viewSet, matrix);
-
-			Actions.projectModified();
+			return;
 		}
+
+		// Add the result to the navigation panel
+		SimMatrix matrix = calculator.getMatrix();
+		navPanel.addSimMatrixNode(viewSet, matrix);
+
+		Actions.projectModified();
 	}
 
 	public void dendrogram()
@@ -223,16 +223,11 @@ public class MenuAnalysis
 			return;
 		}
 
-		Dendrogram dendrogram = dg.getDendrogram();
-		ArrayList<Integer> rIntOrder = dg.rIntOrder();
-
 		DataSet dataSet = navPanel.getDataSetForSelection();
 		dataSet.getViewSets().add(newViewSet);
-		navPanel.addedNewVisualizationNode(dataSet);
+		navPanel.addVisualizationNode(dataSet, newViewSet);
 
-		SimMatrix orderedMatrix = dg.getOrderedMatrix();
-		navPanel.addedNewSimMatrixNode(newViewSet, orderedMatrix);
-		navPanel.addedNewDendogramNode(newViewSet, newViewSet.getDataSet(), matrix, dendrogram);
+		Actions.projectModified();
 	}
 
 	public void principalCordAnalysis()

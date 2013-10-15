@@ -13,6 +13,8 @@ public interface ISerializableDB
 	// Removes (hopefully) the object from memory
 	public void dbClear();
 
+	public String dbGetType();
+
 
 	// An object's database ID will need to be stored by castor, so it's ok to
 	// just use get() here

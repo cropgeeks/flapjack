@@ -59,7 +59,7 @@ public class ProjectSerializerDB
 
 		// Create the database tables
 		st.executeUpdate("CREATE TABLE IF NOT EXISTS project (data BLOB);");
-		st.executeUpdate("CREATE TABLE IF NOT EXISTS simmatrix (id STRING, data BLOB);");
+		st.executeUpdate("CREATE TABLE IF NOT EXISTS objects (id STRING, type STRING, data BLOB);");
 		st.close();
 
 
@@ -122,6 +122,8 @@ public class ProjectSerializerDB
 			new BufferedOutputStream(new FileOutputStream(file)));
 		out.writeObject(obj.dbGetObject());
 		out.close();
+
+		System.out.println("Cached " + obj.getDatabaseID() + ": " + obj);
 	}
 
 	/**
@@ -135,11 +137,12 @@ public class ProjectSerializerDB
 	{
 		for (ISerializableDB obj: cache.keySet())
 		{
-			PreparedStatement ps = c.prepareStatement("INSERT INTO " + getTable(obj) + " (id, data) VALUES (?, ?);");
+			PreparedStatement ps = c.prepareStatement("INSERT INTO objects (id, type, data) VALUES (?, ?, ?);");
 			ps.setString(1, obj.getDatabaseID());
+			ps.setString(2, obj.dbGetType());
 
 			// Write to the DB
-			OutputStream out = new DatabaseOutputStream(ps, 2);
+			OutputStream out = new DatabaseOutputStream(ps, 3);
 			BufferedInputStream in = new BufferedInputStream(
 				new FileInputStream(cache.get(obj)));
 
@@ -154,14 +157,6 @@ public class ProjectSerializerDB
 		}
 
 		cache.clear();
-	}
-
-	private static String getTable(ISerializableDB obj)
-	{
-		if (obj instanceof SimMatrix)
-			return "simmatrix";
-
-		throw new RuntimeException("Unknown database object type");
 	}
 
 	public static void setFromCache(ISerializableDB obj)
@@ -184,10 +179,10 @@ public class ProjectSerializerDB
 			{
 				System.out.println("Load from DB...");
 
-				PreparedStatement ps = c.prepareStatement("SELECT * FROM " + getTable(obj) + " WHERE id=?;");
+				PreparedStatement ps = c.prepareStatement("SELECT data FROM objects WHERE id=?;");
 				ps.setString(1, obj.getDatabaseID());
 
-				in = new ObjectInputStream(new BufferedInputStream(new DatabaseInputStream(ps, 2)));
+				in = new ObjectInputStream(new BufferedInputStream(new DatabaseInputStream(ps, 1)));
 			}
 
 			// Read it...
