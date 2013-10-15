@@ -22,6 +22,7 @@ public class SimMatrixExporter extends SimpleJob
 		this.matrix = matrix;
 		this.writer = writer;
 
+		// +1 to count the header line too
 		maximum = matrix.getLineInfos().size() + 1;
 		hasRowHeader = false;
 	}

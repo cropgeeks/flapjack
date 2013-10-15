@@ -15,7 +15,7 @@ import flapjack.io.*;
 
 public class PCoAClient
 {
-	private static final String url = "http://wildcat:8080/flapjack/servlets/pcoa";
+	private static final String url = "http://ics.hutton.ac.uk/flapjack/servlets/pcoa";
 
 	public PCoAClient()
 	{
