@@ -41,6 +41,9 @@ class NavPanel extends JPanel
 	// as it would require too much memory to assign one per dataset
 	private GenotypePanel gPanel;
 
+	// The default node to view on project open
+	private DefaultMutableTreeNode defaultNode;
+
 	NavPanel(WinMain winMain)
 	{
 		resetModel();
@@ -99,6 +102,7 @@ class NavPanel extends JPanel
 	{
 		root = new DefaultMutableTreeNode("root");
 		treeModel = new DefaultTreeModel(root);
+		defaultNode = null;
 	}
 
 	void setProject(Project project)
@@ -109,117 +113,92 @@ class NavPanel extends JPanel
 		for (int i = 0; i < project.getDataSets().size(); i++)
 			addDataSetNode(project.getDataSets().get(i));
 
+		if (defaultNode != null)
+		{
+			tree.setSelectionPath(new TreePath(defaultNode.getPath()));
+			tree.scrollPathToVisible(new TreePath(defaultNode.getPath()));
+		}
+
 		Actions.projectSaved();
+	}
+
+	void insert(DefaultMutableTreeNode node, DefaultMutableTreeNode parent, int index)
+	{
+		treeModel.insertNodeInto(node, parent, index);
+
+		tree.setSelectionPath(new TreePath(node.getPath()));
+		tree.scrollPathToVisible(new TreePath(node.getPath()));
 	}
 
 	void addDataSetNode(DataSet dataSet)
 	{
-		// Create the nodes for the dataset's folder and its children
+		// The DataSet itself
 		DataSetNode dataSetNode = new DataSetNode(dataSet);
-		treeModel.insertNodeInto(dataSetNode, root, root.getChildCount());
+		insert(dataSetNode, root, root.getChildCount());
 
+		// The TraitsPanel
 		addTraitsNode(dataSetNode);
 
-		// Add child nodes for selecting the various views
-		BaseNode selectedNode = null;
-		for (int i = 0; i < dataSet.getViewSets().size(); i++)
-		{
-			BaseNode node = addVisualizationNode(dataSetNode, i);
-
-			if (selectedNode == null)
-				selectedNode = node;
-		}
-
-		// Deals with (the unusual) case of loading a project with no views
-		if (selectedNode == null)
-			selectedNode = dataSetNode;
-
-		// Update the tree with the new node(s)
-		tree.setSelectionPath(new TreePath(selectedNode.getPath()));
-		tree.scrollPathToVisible(new TreePath(selectedNode.getPath()));
+		// And any child GTViewSet objects
+		for (GTViewSet viewSet: dataSet.getViewSets())
+			addVisualizationNode(dataSet, viewSet);
 	}
 
-	private BaseNode addTraitsNode(DataSetNode dataSetNode)
+	private void addTraitsNode(DataSetNode dataSetNode)
 	{
 		TraitsNode node = new TraitsNode(dataSetNode.getDataSet());
-		treeModel.insertNodeInto(node, dataSetNode, dataSetNode.getChildCount());
-
-		return node;
+		insert(node, dataSetNode, 0);
 	}
 
-	private BaseNode addVisualizationNode(DataSetNode dataSetNode, int i)
+	public void addVisualizationNode(DataSet dataSet, GTViewSet viewSet)
 	{
-		DataSet dataSet = dataSetNode.getDataSet();
-		GTViewSet viewSet = dataSet.getViewSets().get(i);
+		DataSetNode dataSetNode = findDataSetNode(dataSet);
 
-		// Insert the visualization node
+		// The GTViewSet itself
 		VisualizationNode node = new VisualizationNode(dataSet, viewSet, gPanel);
-		treeModel.insertNodeInto(node, dataSetNode, dataSetNode.getChildCount());
+		insert(node, dataSetNode, dataSetNode.getChildCount());
 
-		// Then scan and potentially add any bookmark nodes for it
+		if (defaultNode == null)
+			defaultNode = node;
+
+		// Bookmark objects
 		for (Bookmark bookmark: viewSet.getBookmarks())
-		{
-			BookmarkNode bmNode = new BookmarkNode(gPanel, node, bookmark);
-			treeModel.insertNodeInto(bmNode, node, node.getChildCount());
-		}
+			addBookmarkNode(viewSet, bookmark);
 
-		// Scan and potentially add any sim-matrix nodes for it
+		// SimMatrix objects
 		for (SimMatrix matrix: viewSet.getMatrices())
-		{
-			SimMatrixNode smNode = new SimMatrixNode(dataSet, viewSet, matrix);
-			treeModel.insertNodeInto(smNode, node, node.getChildCount());
-		}
+			addSimMatrixNode(viewSet, matrix);
 
-		return node;
+		// Dendrogram objects
+		for (Dendrogram dendrogram: viewSet.getDendrograms())
+			addDendogramNode(viewSet, dendrogram);
 	}
 
-	// Finds and adds the latest GTViewSet from a DataSet into the tree, then
-	// selects it so it becomes visible too
-	void addedNewVisualizationNode(DataSet dataSet)
+	public void addBookmarkNode(GTViewSet viewSet, Bookmark bookmark)
 	{
-		DataSetNode node = findDataSetNode(dataSet);
-		int index = dataSet.getViewSets().size() - 1;
+		VisualizationNode vNode = findVisualizationNode(viewSet);
 
-		BaseNode newNode = addVisualizationNode(node, index);
-
-		tree.setSelectionPath(new TreePath(newNode.getPath()));
-		tree.scrollPathToVisible(new TreePath(newNode.getPath()));
+		// The Bookmark itself
+		BookmarkNode node = new BookmarkNode(gPanel, vNode, bookmark);
+		insert(node, vNode, vNode.getChildCount());
 	}
 
-	void addedNewBookmarkNode(GTViewSet viewSet, Bookmark bookmark)
+	public void addSimMatrixNode(GTViewSet viewSet, SimMatrix matrix)
 	{
-		VisualizationNode node = findVisualizationNode(viewSet);
+		VisualizationNode vNode = findVisualizationNode(viewSet);
 
-		BookmarkNode bmNode = new BookmarkNode(gPanel, node, bookmark);
-		treeModel.insertNodeInto(bmNode, node, node.getChildCount());
-
-		// This will expand the + for the bookmark nodes if they're not visible
-		tree.setSelectionPath(new TreePath(bmNode.getPath()));
-		tree.scrollPathToVisible(new TreePath(bmNode.getPath()));
+		// The SimMatrix itself
+		SimMatrixNode node = new SimMatrixNode(viewSet.getDataSet(), viewSet, matrix);
+		insert(node, vNode, vNode.getChildCount());
 	}
 
-	void addedNewSimMatrixNode(GTViewSet viewSet, SimMatrix matrix)
+	void addDendogramNode(GTViewSet viewSet, Dendrogram dendrogram)
 	{
-		VisualizationNode node = findVisualizationNode(viewSet);
+		VisualizationNode vNode = findVisualizationNode(viewSet);
 
-		SimMatrixNode smNode = new SimMatrixNode(viewSet.getDataSet(), viewSet, matrix);
-		treeModel.insertNodeInto(smNode, node, node.getChildCount());
-
-		// This will expand the + for the SimMatrix nodes if they're not visible
-		tree.setSelectionPath(new TreePath(smNode.getPath()));
-		tree.scrollPathToVisible(new TreePath(smNode.getPath()));
-	}
-
-	void addedNewDendogramNode(GTViewSet viewSet, DataSet dataSet, SimMatrix matrix, Dendrogram dendrogram)
-	{
-		VisualizationNode node = findVisualizationNode(viewSet);
-
-		DendrogramNode dNode = new DendrogramNode(dataSet, dendrogram);
-		treeModel.insertNodeInto(dNode, node, node.getChildCount());
-
-		// This will expand the + for the SimMatrix nodes if they're not visible
-		tree.setSelectionPath(new TreePath(dNode.getPath()));
-		tree.scrollPathToVisible(new TreePath(dNode.getPath()));
+		// The Dendrogram itself
+		DendrogramNode node = new DendrogramNode(viewSet.getDataSet(), dendrogram);
+		insert(node, vNode, vNode.getChildCount());
 	}
 
 	private DataSetNode findDataSetNode(DataSet dataSet)

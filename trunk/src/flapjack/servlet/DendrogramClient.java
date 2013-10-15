@@ -16,7 +16,7 @@ import flapjack.io.*;
 
 public class DendrogramClient
 {
-	private static final String url = "http://bioinf:8080/flapjack/servlets/dendrogram";
+	private static final String url = "http://wildcat:8080/flapjack/servlets/dendrogram";
 
 	private ArrayList<Integer> lineOrder = new ArrayList<>();
 
@@ -121,10 +121,11 @@ public class DendrogramClient
 					while ((read = zis.read(buffer, 0, buffer.length)) != -1)
 						bos.write(buffer, 0, read);
 
-					ByteArrayInputStream bis = new ByteArrayInputStream(bos.toByteArray());
-					BufferedImage image = ImageIO.read(bis);
+//					ByteArrayInputStream bis = new ByteArrayInputStream(bos.toByteArray());
+//					BufferedImage image = ImageIO.read(bis);
 
-					d.setImage(image);
+					d.getPng().image = bos.toByteArray();
+
 				}
 				else if (entry.getName().equals("order.txt"))
 				{

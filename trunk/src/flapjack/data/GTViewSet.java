@@ -27,9 +27,10 @@ public class GTViewSet extends XMLRoot
 
 	// Any bookmarks associated with this viewset
 	private ArrayList<Bookmark> bookmarks = new ArrayList<>();
-
 	// A list of similarity matrices generated from this view
 	private ArrayList<SimMatrix> matrices = new ArrayList<>();
+	// A list of dendrograms generated from this view
+	private ArrayList<Dendrogram> dendrograms = new ArrayList<>();
 
 	private String name;
 	private int viewIndex;
@@ -204,6 +205,12 @@ public class GTViewSet extends XMLRoot
 
 	public void setMatrices(ArrayList<SimMatrix> matrices)
 		{ this.matrices = matrices; }
+
+	public ArrayList<Dendrogram> getDendrograms()
+		{ return dendrograms; }
+
+	public void setDendrograms(ArrayList<Dendrogram> dendrograms)
+		{ this.dendrograms = dendrograms; }
 
 
 	// Transient (non marshalled) methods

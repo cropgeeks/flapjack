@@ -7,6 +7,7 @@ import javax.swing.*;
 public class DendrogramCanvas extends JPanel
 {
 	private DendrogramPanel dPanel;
+
 	// This buffer holds the current viewport (visible) area
 	BufferedImage image;
 
@@ -14,13 +15,16 @@ public class DendrogramCanvas extends JPanel
 	// in the top left corner of the current view
 	int pX1, pY1;
 
-	public DendrogramCanvas(DendrogramPanel dPanel, BufferedImage image)
+	public DendrogramCanvas(DendrogramPanel dPanel)
 	{
 		this.dPanel = dPanel;
 
-		this.image = image;
-
 		setBackground(Color.WHITE);
+	}
+
+	void setImage(BufferedImage image)
+	{
+		this.image = image;
 	}
 
 	// Compute real-time variables, that change as the viewpoint is moved across

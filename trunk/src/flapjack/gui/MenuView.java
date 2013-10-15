@@ -32,7 +32,7 @@ public class MenuView
 			GTViewSet newViewSet = dialog.getNewViewSet();
 
 			dataSet.getViewSets().add(newViewSet);
-			navPanel.addedNewVisualizationNode(dataSet);
+			navPanel.addVisualizationNode(dataSet, newViewSet);
 
 			Actions.projectModified();
 		}
@@ -88,7 +88,7 @@ public class MenuView
 		BookmarkHighlighter.enable = false;
 
 		view.getViewSet().getBookmarks().add(bookmark);
-		navPanel.addedNewBookmarkNode(view.getViewSet(), bookmark);
+		navPanel.addBookmarkNode(view.getViewSet(), bookmark);
 
 		Actions.projectModified();
 	}

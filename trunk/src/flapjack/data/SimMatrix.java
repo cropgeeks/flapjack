@@ -159,4 +159,7 @@ public class SimMatrix extends XMLRoot implements ISerializableDB
 	{
 		lineScores.clear();
 	}
+
+	public String dbGetType()
+		{ return "SimMatrix"; }
 }
