@@ -31,6 +31,7 @@ public class SimMatrixNode extends BaseNode
 	public void setActions()
 	{
 		Actions.alysDendrogram.setEnabled(true);
+		Actions.alysPCoA.setEnabled(true);
 	}
 
 	public JPanel getPanel()
