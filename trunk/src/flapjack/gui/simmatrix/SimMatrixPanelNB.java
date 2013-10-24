@@ -62,12 +62,14 @@ public class SimMatrixPanelNB extends JPanel implements ActionListener
 		tabs.setTitleAt(0, RB.getString("gui.simmatrix.SimMatrixPanelNB.tab1"));
 		tabs.setTitleAt(1, RB.getString("gui.simmatrix.SimMatrixPanelNB.tab2"));
 
+		bDendrogram.setAction(Actions.alysDendrogram);
 		bDendrogram.setText(RB.getString("gui.simmatrix.SimMatrixPanelNB.bDendrogram"));
+
+		bPCoA.setAction(Actions.alysPCoA);
+		bPCoA.setText((RB.getString("gui.simmatrix.SimMatrixPanelNB.bPCoA")));
+
 		bExport.setText((RB.getString("gui.simmatrix.SimMatrixPanelNB.bExport")));
 		bExport.setIcon(Icons.getIcon("EXPORTTRAITS"));
-
-		bDendrogram.addActionListener(this);
-		bPCoA.addActionListener(this);
 		bExport.addActionListener(this);
 
 		MouseHandler mh = new MouseHandler();
@@ -124,10 +126,7 @@ public class SimMatrixPanelNB extends JPanel implements ActionListener
 
 	public void actionPerformed(ActionEvent e)
 	{
-		if (e.getSource() == bDendrogram)
-			Flapjack.winMain.mAnalysis.dendrogram();
-
-		else if (e.getSource() == bPCoA)
+		if (e.getSource() == bPCoA)
 			Flapjack.winMain.mAnalysis.principalCordAnalysis();
 
 		else if (e.getSource() == bExport)

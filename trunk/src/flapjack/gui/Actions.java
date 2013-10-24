@@ -84,6 +84,7 @@ public class Actions
 	public static AbstractAction alysSortLinesAlphabetically;
 	public static AbstractAction alysSimMatrix;
 	public static AbstractAction alysDendrogram;
+	public static AbstractAction alysPCoA;
 
 	public static AbstractAction dataFilterQTLs;
 	public static AbstractAction dataSelectGraph;
@@ -528,9 +529,15 @@ public class Actions
 			}
 		};
 
-		alysDendrogram = new AbstractAction(RB.getString("gui.Actions.alysDendrogram")) {
+		alysDendrogram = new AbstractAction(RB.getString("gui.Actions.alysDendrogram"), getIcon("DENDROGRAM")) {
 			public void actionPerformed(ActionEvent e) {
 				winMain.mAnalysis.dendrogram();
+			}
+		};
+
+		alysPCoA = new AbstractAction(RB.getString("gui.Actions.alysPCoA"), getIcon("PCOA")) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.mAnalysis.principalCordAnalysis();
 			}
 		};
 
@@ -730,6 +737,7 @@ public class Actions
 		alysSortLinesAlphabetically.setEnabled(false);
 		alysSimMatrix.setEnabled(false);
 		alysDendrogram.setEnabled(false);
+		alysPCoA.setEnabled(false);
 
 		dataFilterQTLs.setEnabled(false);
 		dataSelectGraph.setEnabled(false);
