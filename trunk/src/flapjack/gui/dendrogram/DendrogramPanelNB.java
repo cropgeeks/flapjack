@@ -1,18 +1,113 @@
 package flapjack.gui.dendrogram;
 
+import java.awt.image.*;
+import java.awt.event.*;
+import java.io.*;
+import javax.imageio.*;
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
-public class DendrogramPanelNB extends JPanel
+import flapjack.data.*;
+import flapjack.gui.*;
+
+import scri.commons.gui.*;
+
+public class DendrogramPanelNB extends JPanel implements ActionListener
 {
+	private Dendrogram dendrogram;
+	private DendrogramCanvas dCanvas;
 
     /** Creates new form DendrogramPanelNB */
-    public DendrogramPanelNB(DendrogramCanvas dCanvas)
+    public DendrogramPanelNB(Dendrogram dendrogram, DendrogramCanvas dCanvas)
 	{
+		this.dendrogram = dendrogram;
+		this.dCanvas = dCanvas;
+
         initComponents();
 
 		sp.setViewportView(dCanvas);
 		sp.setWheelScrollingEnabled(false);
+
+		bExportPNG.setText((RB.getString("gui.dendrogram.DendrogramPanelNB.bExportPNG")));
+		bExportPNG.setIcon(Icons.getIcon("MIMEPNG"));
+		bExportPNG.addActionListener(this);
+
+		bExportPDF.setText((RB.getString("gui.dendrogram.DendrogramPanelNB.bExportPDF")));
+		bExportPDF.setIcon(Icons.getIcon("MIMEPDF"));
+		bExportPDF.addActionListener(this);
     }
+
+    public void actionPerformed(ActionEvent e)
+    {
+    	if (e.getSource() == bExportPNG)
+    		exportAsPNG();
+
+    	else if (e.getSource() == bExportPDF)
+    		exportAsPDF();
+    }
+
+	// Export the dendrogram as a PNG image. This is fairly simply, using the
+	// ImageIO library to dump the BufferedImage straight to disk
+    private void exportAsPNG()
+	{
+		String name = dendrogram.getTitle() + ".png";
+
+		File saveAs = new File(Prefs.guiCurrentDir, name);
+		FileNameExtensionFilter filter = new FileNameExtensionFilter(
+			RB.getString("other.Filters.png"), "png");
+		String filename = FlapjackUtils.getSaveFilename(
+			RB.getString("gui.dendrogram.DendrogramPanelNB.saveAs"), saveAs, filter);
+
+		if (filename != null)
+		{
+			try
+			{
+				ImageIO.write(dCanvas.image, "PNG", saveAs);
+
+				TaskDialog.info(RB.format("gui.dendrogram.DendrogramPanelNB.saveAsSuccess",
+					saveAs.getPath()), RB.getString("gui.text.close"));
+
+			}
+			catch (Exception e)
+			{
+				TaskDialog.error(RB.format("gui.dendrogram.DendrogramPanelNB.saveAsFail",
+					e.getMessage()), RB.getString("gui.text.close"));
+			}
+		}
+	}
+
+	// Export the dendrogram as a PDF image. This needs to extract the PDF file
+	// from the database, save it to disk, then discard it again from memory
+    private void exportAsPDF()
+	{
+		String name = dendrogram.getTitle() + ".pdf";
+
+		File saveAs = new File(Prefs.guiCurrentDir, name);
+		FileNameExtensionFilter filter = new FileNameExtensionFilter(
+			RB.getString("other.Filters.pdf"), "pdf");
+		String filename = FlapjackUtils.getSaveFilename(
+			RB.getString("gui.dendrogram.DendrogramPanelNB.saveAs"), saveAs, filter);
+
+		if (filename != null)
+		{
+			try
+			{
+				BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(saveAs));
+				byte[] data = dendrogram.getPdf().data;
+				out.write(data, 0, data.length);
+				out.close();
+
+				TaskDialog.info(RB.format("gui.dendrogram.DendrogramPanelNB.saveAsSuccess",
+					saveAs.getPath()), RB.getString("gui.text.close"));
+
+			}
+			catch (Exception e)
+			{
+				TaskDialog.error(RB.format("gui.dendrogram.DendrogramPanelNB.saveAsFail",
+					e.getMessage()), RB.getString("gui.text.close"));
+			}
+		}
+	}
 
     /** This method is called from within the constructor to
      * initialize the form.
@@ -21,21 +116,25 @@ public class DendrogramPanelNB extends JPanel
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents()
-    {
+    private void initComponents() {
 
-        button = new javax.swing.JButton();
         sp = new javax.swing.JScrollPane();
+        bExportPNG = new javax.swing.JButton();
+        bExportPDF = new javax.swing.JButton();
 
-        button.setText("Clicky");
+        bExportPNG.setText("Export as PNG");
+
+        bExportPDF.setText("Export as PDF");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(331, Short.MAX_VALUE)
-                .addComponent(button)
+                .addContainerGap(182, Short.MAX_VALUE)
+                .addComponent(bExportPNG)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(bExportPDF)
                 .addContainerGap())
             .addComponent(sp)
         );
@@ -44,14 +143,17 @@ public class DendrogramPanelNB extends JPanel
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addComponent(sp, javax.swing.GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(button)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(bExportPNG)
+                    .addComponent(bExportPDF))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    javax.swing.JButton button;
+    private javax.swing.JButton bExportPDF;
+    javax.swing.JButton bExportPNG;
     javax.swing.JScrollPane sp;
     // End of variables declaration//GEN-END:variables
 

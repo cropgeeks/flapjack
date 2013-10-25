@@ -111,23 +111,7 @@ public class DendrogramClient
 			{
 				System.out.println("ENTRY: " + entry.getName());
 
-				if (entry.getName().equals("dendrogram.png"))
-				{
-					ByteArrayOutputStream bos = new ByteArrayOutputStream();
-
-					int read;
-					byte[] buffer = new byte[1024];
-
-					while ((read = zis.read(buffer, 0, buffer.length)) != -1)
-						bos.write(buffer, 0, read);
-
-//					ByteArrayInputStream bis = new ByteArrayInputStream(bos.toByteArray());
-//					BufferedImage image = ImageIO.read(bis);
-
-					d.getPng().image = bos.toByteArray();
-
-				}
-				else if (entry.getName().equals("order.txt"))
+				if (entry.getName().equals("order.txt"))
 				{
 					ByteArrayOutputStream bos = new ByteArrayOutputStream();
 
@@ -148,18 +132,30 @@ public class DendrogramClient
 
 					in.close();
 				}
-				else if (entry.getName().equals("dendrogram.pdf"))
+				else if (entry.getName().equals("dendrogram.png"))
 				{
-					BufferedOutputStream os = new BufferedOutputStream(
-						new FileOutputStream(new File(FlapjackUtils.getCacheDir(), "dendrogram.pdf")));
+					ByteArrayOutputStream bos = new ByteArrayOutputStream();
 
 					int read;
 					byte[] buffer = new byte[1024];
 
 					while ((read = zis.read(buffer, 0, buffer.length)) != -1)
-						os.write(buffer, 0, read);
+						bos.write(buffer, 0, read);
 
-					os.close();
+					d.getPng().image = bos.toByteArray();
+
+				}
+				else if (entry.getName().equals("dendrogram.pdf"))
+				{
+					ByteArrayOutputStream bos = new ByteArrayOutputStream();
+
+					int read;
+					byte[] buffer = new byte[1024];
+
+					while ((read = zis.read(buffer, 0, buffer.length)) != -1)
+						bos.write(buffer, 0, read);
+
+					d.getPdf().data = bos.toByteArray();
 				}
 			}
 
