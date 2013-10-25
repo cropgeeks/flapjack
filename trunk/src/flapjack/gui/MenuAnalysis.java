@@ -210,7 +210,7 @@ public class MenuAnalysis
 
 		// Clone the view (as the clone will ultimately contain a reordered
 		// list of lines that match the order in the dendrogram)
-		GTViewSet newViewSet = viewSet.createClone("", false, true);
+		GTViewSet newViewSet = viewSet.createClone("", true);
 
 		DendrogramGenerator dg = new DendrogramGenerator(matrix, newViewSet);
 
