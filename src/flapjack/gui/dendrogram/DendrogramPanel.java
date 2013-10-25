@@ -13,7 +13,7 @@ import flapjack.io.*;
 
 import scri.commons.gui.*;
 
-public class DendrogramPanel extends JPanel implements ActionListener, AncestorListener
+public class DendrogramPanel extends JPanel implements AncestorListener
 {
 	private Dendrogram dendrogram;
 
@@ -36,7 +36,7 @@ public class DendrogramPanel extends JPanel implements ActionListener, AncestorL
 	{
 		// Visualization setup
 		dCanvas = new DendrogramCanvas(this);
-		nbPanel = new DendrogramPanelNB(dCanvas);
+		nbPanel = new DendrogramPanelNB(dendrogram, dCanvas);
 		controller = new CanvasController(this, nbPanel.sp);
 
 		setLayout(new BorderLayout(0, 0));
@@ -49,20 +49,14 @@ public class DendrogramPanel extends JPanel implements ActionListener, AncestorL
 		return dCanvas;
 	}
 
-	public void actionPerformed(ActionEvent e)
-	{
-		if (e.getSource() == nbPanel.button)
-		{
-			System.out.println("Do something");
-		}
-	}
-
 	public void ancestorAdded(AncestorEvent event)
 	{
 		ProjectSerializerDB.setFromCache(dendrogram.getPng());
+		ProjectSerializerDB.setFromCache(dendrogram.getPdf());
 
 		try
 		{
+			// Convert the PNG from its byte[] array into a BufferedImage
 			byte[] data = dendrogram.getPng().image;
 			ByteArrayInputStream bis = new ByteArrayInputStream(data);
 			BufferedImage image = javax.imageio.ImageIO.read(bis);
@@ -75,6 +69,8 @@ public class DendrogramPanel extends JPanel implements ActionListener, AncestorL
 	public void ancestorRemoved(AncestorEvent event)
 	{
 		dendrogram.getPng().dbClear();
+		dendrogram.getPdf().dbClear();
+
 		dCanvas.setImage(null);
 	}
 

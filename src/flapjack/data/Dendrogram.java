@@ -15,7 +15,7 @@ public class Dendrogram extends XMLRoot
 	private PngImage png = new PngImage();
 	private String pngDatabaseID = SystemUtils.createGUID(8);
 
-	private PdfImage pdf = new PdfImage();
+	private PdfDoc pdf = new PdfDoc();
 	private String pdfDatabaseID = SystemUtils.createGUID(8);
 
 	private GTViewSet viewSet;
@@ -58,11 +58,14 @@ public class Dendrogram extends XMLRoot
 	public PngImage getPng()
 		{ return png; }
 
+	public PdfDoc getPdf()
+		{ return pdf; }
+
 	public ArrayList<LineInfo> viewLineOrder()
 		{ return viewSet.getLines(); }
 
 
-	// DB Serializable wrappper around the BufferedImage holding the PNG
+	// DB Serializable wrappper around the byte array holding the PNG
 	public class PngImage implements ISerializableDB
 	{
 		public byte[] image;
@@ -87,8 +90,26 @@ public class Dendrogram extends XMLRoot
 	}
 
 	// DB Serializable wrappper around the byte array holding the PDF
-	public static class PdfImage
+	public class PdfDoc implements ISerializableDB
 	{
+		public byte[] data;
 
+		public Object dbGetObject()
+			{ return data;	}
+
+		@SuppressWarnings("unchecked")
+		public void dbSetObject(Object obj)
+		{
+			data = (byte[]) obj;
+		}
+
+		public void dbClear()
+			{ data = null;	}
+
+		public String dbGetType()
+			{ return "Dendrogram.PdfImage"; }
+
+		public String getDatabaseID()
+			{ return pdfDatabaseID; }
 	}
 }

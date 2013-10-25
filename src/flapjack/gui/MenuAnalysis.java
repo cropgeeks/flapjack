@@ -224,7 +224,7 @@ public class MenuAnalysis
 		{
 			if (dialog.getResult() == ProgressDialog.JOB_FAILED)
 				TaskDialog.error(RB.format("gui.MenuAnalysis.dendrogram.error",
-					dialog.getException().getMessage()),
+					dialog.getException().toString()),
 					RB.getString("gui.text.close"));
 
 			return;
@@ -269,7 +269,7 @@ public class MenuAnalysis
 		{
 			if (dialog.getResult() == ProgressDialog.JOB_FAILED)
 				TaskDialog.error(RB.format("TODO: Error: {0}",
-					dialog.getException().getMessage()),
+					dialog.getException().toString()),
 					RB.getString("gui.text.close"));
 
 			return;

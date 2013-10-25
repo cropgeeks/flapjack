@@ -17,8 +17,10 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="1" attributes="0">
-              <EmptySpace pref="331" max="32767" attributes="0"/>
-              <Component id="button" min="-2" max="-2" attributes="0"/>
+              <EmptySpace pref="182" max="32767" attributes="0"/>
+              <Component id="bExportPNG" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="bExportPDF" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
           <Component id="sp" alignment="0" max="32767" attributes="0"/>
@@ -29,21 +31,16 @@
           <Group type="102" alignment="1" attributes="0">
               <Component id="sp" pref="23" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="button" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="bExportPNG" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="bExportPDF" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="javax.swing.JButton" name="button">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Clicky"/>
-      </Properties>
-      <AuxValues>
-        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
-      </AuxValues>
-    </Component>
     <Container class="javax.swing.JScrollPane" name="sp">
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
@@ -51,5 +48,18 @@
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
     </Container>
+    <Component class="javax.swing.JButton" name="bExportPNG">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Export as PNG"/>
+      </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
+      </AuxValues>
+    </Component>
+    <Component class="javax.swing.JButton" name="bExportPDF">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Export as PDF"/>
+      </Properties>
+    </Component>
   </SubComponents>
 </Form>
