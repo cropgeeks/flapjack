@@ -11,6 +11,11 @@ public class SimMatrix extends XMLRoot implements ISerializableDB
 {
 	private String databaseID = SystemUtils.createGUID(8);
 
+	private String title;
+
+	// TRUE if this matrix was made from a dendrogram's line order
+	private boolean isOrdered;
+
 	// Tracks the indices of the lines originally used to generate this matrix
 	private ArrayList<LineInfo> lineInfos = new ArrayList<>();
 
@@ -29,6 +34,18 @@ public class SimMatrix extends XMLRoot implements ISerializableDB
 
 
 	// Methods required for XML serialization
+
+	public String getTitle()
+		{ return title; }
+
+	public void setTitle(String title)
+		{ this.title = title; }
+
+	public boolean getIsOrdered()
+		{ return isOrdered; }
+
+	public void setIsOrdered(boolean isOrdered)
+		{ this.isOrdered = isOrdered; }
 
 	public void setLineInfos(ArrayList<LineInfo> lineInfos)
 		{ this.lineInfos = lineInfos; }
@@ -141,7 +158,11 @@ public class SimMatrix extends XMLRoot implements ISerializableDB
 			}
 		}
 
-		return new SimMatrix(newLineOrder, newScores);
+		SimMatrix newMatrix = new SimMatrix(newLineOrder, newScores);
+		newMatrix.isOrdered = true;
+		newMatrix.setTitle(title);
+
+		return newMatrix;
 	}
 
 	public Object dbGetObject()

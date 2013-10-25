@@ -30,6 +30,9 @@ public class DataSet extends XMLRoot
 	// DB-link/association data
 	private DBAssociation dbAssociation = new DBAssociation();
 
+	// Total counts for matrices, dendrograms, etc
+	private int matrixCount, dendrogramCount;
+
 	public DataSet()
 	{
 	}
@@ -112,6 +115,18 @@ public class DataSet extends XMLRoot
 
 	public void setDbAssociation(DBAssociation dbAssociation)
 		{ this.dbAssociation = dbAssociation; }
+
+	public int getMatrixCount()
+		{ return matrixCount; }
+
+	public void setMatrixCount(int matrixCount)
+		{ this.matrixCount = matrixCount; }
+
+	public int getDendrogramCount()
+		{ return dendrogramCount; }
+
+	public void setDendrogramCount(int dendrogramCount)
+		{ this.dendrogramCount = dendrogramCount; }
 
 
 	// Other methods

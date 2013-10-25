@@ -11,6 +11,8 @@ import flapjack.data.*;
 import flapjack.gui.*;
 import flapjack.io.*;
 
+import scri.commons.gui.*;
+
 public class DendrogramPanel extends JPanel implements ActionListener, AncestorListener
 {
 	private Dendrogram dendrogram;
@@ -38,7 +40,7 @@ public class DendrogramPanel extends JPanel implements ActionListener, AncestorL
 		controller = new CanvasController(this, nbPanel.sp);
 
 		setLayout(new BorderLayout(0, 0));
-		add(new TitlePanel("Dendrogram"), BorderLayout.NORTH);
+		add(new TitlePanel(dendrogram.getTitle()), BorderLayout.NORTH);
 		add(nbPanel);
 	}
 

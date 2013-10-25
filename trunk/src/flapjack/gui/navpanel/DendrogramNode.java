@@ -9,17 +9,19 @@ import flapjack.gui.dendrogram.*;
 public class DendrogramNode extends BaseNode
 {
 	private DendrogramPanel panel;
+	private String title;
 
 	public DendrogramNode(DataSet dataSet, Dendrogram dendrogram)
 	{
 		super(dataSet);
 
 		panel = new DendrogramPanel(dendrogram);
+		title = dendrogram.getTitle();
 	}
 
 	public String toString()
 	{
-		return "Dendogram Panel";
+		return title;
 	}
 
 	public void setActions()

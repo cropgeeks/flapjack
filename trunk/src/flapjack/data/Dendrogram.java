@@ -10,6 +10,8 @@ import scri.commons.gui.*;
 
 public class Dendrogram extends XMLRoot
 {
+	private String title;
+
 	private PngImage png = new PngImage();
 	private String pngDatabaseID = SystemUtils.createGUID(8);
 
@@ -24,6 +26,12 @@ public class Dendrogram extends XMLRoot
 
 
 	// Methods required for XML serialization
+
+	public String getTitle()
+		{ return title; }
+
+	public void setTitle(String title)
+		{ this.title = title; }
 
 	public GTViewSet getViewSet()
 		{ return viewSet; }
@@ -42,6 +50,7 @@ public class Dendrogram extends XMLRoot
 
 	public void setPdfDatabaseID(String pdfDatabaseID)
 		{ this.pdfDatabaseID = pdfDatabaseID; }
+
 
 
 	// Other Methods

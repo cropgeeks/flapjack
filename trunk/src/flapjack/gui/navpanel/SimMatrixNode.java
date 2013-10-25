@@ -25,7 +25,7 @@ public class SimMatrixNode extends BaseNode
 
 	public String toString()
 	{
-		return panel.getTitle();
+		return matrix.getTitle();
 	}
 
 	public void setActions()
@@ -42,5 +42,13 @@ public class SimMatrixNode extends BaseNode
 	public SimMatrix getMatrix()
 	{
 		return matrix;
+	}
+
+	public String getIconName()
+	{
+		if (matrix.getIsOrdered())
+			return "SIMMATRIX_ORDERED";
+		else
+			return "SIMMATRIX";
 	}
 }
