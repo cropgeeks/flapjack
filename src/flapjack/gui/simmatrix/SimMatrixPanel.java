@@ -54,14 +54,8 @@ public class SimMatrixPanel extends JPanel implements AncestorListener
 		nbPanel = new SimMatrixPanelNB(viewSet, matrix, sp);
 
 		setLayout(new BorderLayout(0, 0));
-		add(new TitlePanel(getTitle()), BorderLayout.NORTH);
+		add(new TitlePanel(matrix.getTitle()), BorderLayout.NORTH);
 		add(nbPanel);
-	}
-
-	public String getTitle()
-	{
-		int lines = matrix.getLineInfos().size();
-		return RB.format("gui.simmatrix.SimMatrixPanel.title", lines, lines);
 	}
 
 	SimMatrixCanvas getSimMatrixCanvas()

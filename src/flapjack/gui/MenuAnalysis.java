@@ -185,8 +185,16 @@ public class MenuAnalysis
 			return;
 		}
 
-		// Add the result to the navigation panel
 		SimMatrix matrix = calculator.getMatrix();
+
+		// Create a title for this new matrix
+		int id = viewSet.getDataSet().getMatrixCount() + 1;
+		viewSet.getDataSet().setMatrixCount(id);
+		String title = RB.format("gui.MenuAnalysis.simMatrix.name", id,
+			matrix.getLineInfos().size(), matrix.getLineInfos().size());
+		matrix.setTitle(title);
+
+		// Add the result to the navigation panel
 		navPanel.addSimMatrixNode(viewSet, matrix);
 
 		Actions.projectModified();
@@ -200,28 +208,38 @@ public class MenuAnalysis
 		GTViewSet viewSet = panel.getViewSet();
 		SimMatrix matrix = panel.getSimMatrix();
 
-
-		String newName = viewSet.getName() + " Dendrogram";
-		System.out.println(newName);
-		GTViewSet newViewSet = viewSet.createClone(newName, false, true);
+		// Clone the view (as the clone will ultimately contain a reordered
+		// list of lines that match the order in the dendrogram)
+		GTViewSet newViewSet = viewSet.createClone("", false, true);
 
 		DendrogramGenerator dg = new DendrogramGenerator(matrix, newViewSet);
 
 		ProgressDialog dialog = new ProgressDialog(dg,
-			"Generating Dendrogram",
-			"Generating dendrogram - please be patient", Flapjack.winMain);
+			RB.format("gui.MenuAnalysis.simMatrix.title"),
+			RB.format("gui.MenuAnalysis.simMatrix.label"), Flapjack.winMain);
 
 
 		// If the operation failed or was cancelled...
 		if (dialog.getResult() != ProgressDialog.JOB_COMPLETED)
 		{
 			if (dialog.getResult() == ProgressDialog.JOB_FAILED)
-				TaskDialog.error(RB.format("TODO: Error: {0}",
+				TaskDialog.error(RB.format("gui.MenuAnalysis.dendrogram.error",
 					dialog.getException().getMessage()),
 					RB.getString("gui.text.close"));
 
 			return;
 		}
+
+		// Create a title for this new dendrogram
+		int id = viewSet.getDataSet().getDendrogramCount() + 1;
+		viewSet.getDataSet().setDendrogramCount(id);
+		String title = RB.format("gui.MenuAnalysis.dendrogram.name", id,
+			matrix.getLineInfos().size());
+		dg.getDendrogram().setTitle(title);
+
+		// And use the ID for the new view's name too
+		title = RB.format("gui.MenuAnalysis.dendrogram.view", id);
+		newViewSet.setName(title);
 
 		DataSet dataSet = navPanel.getDataSetForSelection();
 		dataSet.getViewSets().add(newViewSet);

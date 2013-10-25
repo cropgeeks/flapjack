@@ -58,7 +58,6 @@ public class DendrogramGenerator extends SimpleJob
 		for (int i = 0; i < rIntOrder.size(); i++)
 			order.add(newViewSet.getLines().get(rIntOrder.get(i)));
 
-
 		dendrogram.setViewSet(newViewSet);
 		ProjectSerializerDB.cacheToDisk(dendrogram.getPng());
 
