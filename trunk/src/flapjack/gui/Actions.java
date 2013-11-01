@@ -61,6 +61,7 @@ public class Actions
 	public static AbstractAction vizColorRandom;
 	public static AbstractAction vizColorRandomWSP;
 	public static AbstractAction vizColorNucleotide;
+	public static AbstractAction vizColorNucleotide01;
 	public static AbstractAction vizColorABHData;
 	public static AbstractAction vizColorLineSim;
 	public static AbstractAction vizColorLineSimGS;
@@ -402,6 +403,12 @@ public class Actions
 			}
 		};
 
+		vizColorNucleotide01 = new AbstractAction(RB.getString("gui.Actions.vizColorNucleotide01")) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.mViz.vizColor(ColorScheme.NUCLEOTIDE01);
+			}
+		};
+
 		vizColorABHData = new AbstractAction(RB.getString("gui.Actions.vizColorABHData")) {
 			public void actionPerformed(ActionEvent e) {
 				winMain.mViz.vizColor(ColorScheme.ABH_DATA);
@@ -714,6 +721,7 @@ public class Actions
 		vizColorRandom.setEnabled(false);
 		vizColorRandomWSP.setEnabled(false);
 		vizColorNucleotide.setEnabled(false);
+		vizColorNucleotide01.setEnabled(false);
 		vizColorABHData.setEnabled(false);
 		vizColorLineSim.setEnabled(false);
 		vizColorLineSimGS.setEnabled(false);

@@ -155,6 +155,10 @@ class GenotypeCanvas extends JPanel
 				cScheme = new NucleotideColorScheme(view, boxW, boxH);
 				break;
 
+			case ColorScheme.NUCLEOTIDE01:
+				cScheme = new Nucleotide01ColorScheme(view, boxW, boxH);
+				break;
+
 			case ColorScheme.ABH_DATA:
 				cScheme = new ABHDataColorScheme(view, boxW, boxH);
 				break;

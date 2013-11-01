@@ -23,6 +23,18 @@ public class NucleotideColorScheme extends ColorScheme
 	{
 		super(view);
 
+		// Set up the hash for mapping colours to alleles
+		HashMap<String, Color> keys = new HashMap<>();
+		keys.put("A", Prefs.visColorNucleotideA);
+		keys.put("C", Prefs.visColorNucleotideC);
+		keys.put("G", Prefs.visColorNucleotideG);
+		keys.put("T", Prefs.visColorNucleotideT);
+
+		buildStates(keys, w, h);
+	}
+
+	protected void buildStates(HashMap<String, Color> keys, int w, int h)
+	{
 		for (int i = 0; i < stateTable.size(); i++)
 		{
 			AlleleState state = stateTable.getAlleleState(i);
@@ -35,55 +47,25 @@ public class NucleotideColorScheme extends ColorScheme
 			// Homozygous states
 			else if (state.isHomozygous())
 			{
-				if (state.getRawData().equals("A"))
-					c = new HomozygousColorState(state, Prefs.visColorNucleotideA, w, h);
-				else if (state.getRawData().equals("C"))
-					c = new HomozygousColorState(state, Prefs.visColorNucleotideC, w, h);
-				else if (state.getRawData().equals("G"))
-					c = new HomozygousColorState(state, Prefs.visColorNucleotideG, w, h);
-				else if (state.getRawData().equals("T"))
-					c = new HomozygousColorState(state, Prefs.visColorNucleotideT, w, h);
+				Color c1 = keys.get(state.getRawData());
+				if (c1 == null)
+					c1 = Prefs.visColorNucleotideOther;
 
-				// Use a fixed color for any further unknown states
-				else
-					c = new HomozygousColorState(state, Prefs.visColorNucleotideOther, w, h);
+				c = new HomozygousColorState(state, c1, w, h);
 			}
 
 			// Heterozygous states
 			else
 			{
-				if (state.getState(0).equals("A") && state.getState(1).equals("G"))
-					c = new HeterozygeousColorState(state, Prefs.visColorNucleotideHZ, Prefs.visColorNucleotideA, Prefs.visColorNucleotideG, w, h);
-				else if (state.getState(0).equals("A") && state.getState(1).equals("C"))
-					c = new HeterozygeousColorState(state, Prefs.visColorNucleotideHZ, Prefs.visColorNucleotideA, Prefs.visColorNucleotideC, w, h);
-				else if (state.getState(0).equals("A") && state.getState(1).equals("T"))
-					c = new HeterozygeousColorState(state, Prefs.visColorNucleotideHZ, Prefs.visColorNucleotideA, Prefs.visColorNucleotideT, w, h);
+				Color c1 = keys.get(state.getState(0));
+				Color c2 = keys.get(state.getState(1));
 
-				else if (state.getState(0).equals("G") && state.getState(1).equals("A"))
-					c = new HeterozygeousColorState(state, Prefs.visColorNucleotideHZ, Prefs.visColorNucleotideG, Prefs.visColorNucleotideA, w, h);
-				else if (state.getState(0).equals("G") && state.getState(1).equals("C"))
-					c = new HeterozygeousColorState(state, Prefs.visColorNucleotideHZ, Prefs.visColorNucleotideG, Prefs.visColorNucleotideC, w, h);
-				else if (state.getState(0).equals("G") && state.getState(1).equals("T"))
-					c = new HeterozygeousColorState(state, Prefs.visColorNucleotideHZ, Prefs.visColorNucleotideG, Prefs.visColorNucleotideT, w, h);
+				if (c1 == null)
+					c1 = Prefs.visColorNucleotideOther;
+				if (c2 == null)
+					c2 = Prefs.visColorNucleotideOther;
 
-				else if (state.getState(0).equals("C") && state.getState(1).equals("A"))
-					c = new HeterozygeousColorState(state, Prefs.visColorNucleotideHZ, Prefs.visColorNucleotideC, Prefs.visColorNucleotideA, w, h);
-				else if (state.getState(0).equals("C") && state.getState(1).equals("G"))
-					c = new HeterozygeousColorState(state, Prefs.visColorNucleotideHZ, Prefs.visColorNucleotideC, Prefs.visColorNucleotideG, w, h);
-				else if (state.getState(0).equals("C") && state.getState(1).equals("T"))
-					c = new HeterozygeousColorState(state, Prefs.visColorNucleotideHZ, Prefs.visColorNucleotideC, Prefs.visColorNucleotideT, w, h);
-
-				else if (state.getState(0).equals("T") && state.getState(1).equals("A"))
-					c = new HeterozygeousColorState(state, Prefs.visColorNucleotideHZ, Prefs.visColorNucleotideT, Prefs.visColorNucleotideA, w, h);
-				else if (state.getState(0).equals("T") && state.getState(1).equals("G"))
-					c = new HeterozygeousColorState(state, Prefs.visColorNucleotideHZ, Prefs.visColorNucleotideT, Prefs.visColorNucleotideG, w, h);
-				else if (state.getState(0).equals("T") && state.getState(1).equals("C"))
-					c = new HeterozygeousColorState(state, Prefs.visColorNucleotideHZ, Prefs.visColorNucleotideT, Prefs.visColorNucleotideC, w, h);
-
-
-				// Use a fixed color for any further unknown states
-				else
-					c = new HeterozygeousColorState(state, Prefs.visColorNucleotideOther, Prefs.visColorNucleotideOther, Prefs.visColorNucleotideOther, w, h);
+				c = new HeterozygeousColorState(state, Prefs.visColorNucleotideHZ, c1, c2, w, h);
 			}
 
 			states.add(c);

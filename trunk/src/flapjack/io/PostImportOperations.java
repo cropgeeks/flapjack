@@ -62,7 +62,9 @@ public class PostImportOperations
 
 
 		// Nucleotide
-		if (dataSet.getStateTable().containsNucleotides())
+		if (dataSet.getStateTable().containsNucleotides01())
+			viewSet.setColorScheme(ColorScheme.NUCLEOTIDE01);
+		else if (dataSet.getStateTable().containsNucleotides())
 			viewSet.setColorScheme(ColorScheme.NUCLEOTIDE);
 		// ABH
 //		else if (dataSet.getStateTable().containsABHData())

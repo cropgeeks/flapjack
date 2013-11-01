@@ -26,6 +26,7 @@ public abstract class ColorScheme
 	public static final int ALLELE_FREQUENCY = 7;
 	public static final int ABH_DATA = 8;
 	public static final int BINNED_10 = 9;
+	public static final int NUCLEOTIDE01 = 10;
 
 	// Random (HSB model)
 	public static final int RANDOM = 50;

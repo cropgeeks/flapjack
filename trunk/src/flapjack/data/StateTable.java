@@ -129,6 +129,25 @@ public class StateTable extends XMLRoot
 		return (A && C && G && T);
 	}
 
+	/**
+	 * Scans the state table and returns true if it looks like this data set
+	 * contains nucleotide data (plus 0 and 1 data).
+	 */
+	public boolean containsNucleotides01()
+	{
+		boolean a0 = false, a1 = false;
+
+		for (AlleleState state: states)
+		{
+			if (state.isHomozygous() && state.getState(0).equals("0"))
+				a0 = true;
+			if (state.isHomozygous() && state.getState(0).equals("1"))
+				a1 = true;
+		}
+
+		return containsNucleotides() && a0 && a1;
+	}
+
 	// Scans for ABH(CD) data, and if found, also overrides the H state to be
 	// non-homozygous
 	public boolean containsABHData()
