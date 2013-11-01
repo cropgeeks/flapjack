@@ -167,6 +167,8 @@ public class Prefs extends XMLPreferences
 	public static Color visColorNucleotideC;
 	public static Color visColorNucleotideG;
 	public static Color visColorNucleotideT;
+	public static Color visColorNucleotide0;
+	public static Color visColorNucleotide1;
 	public static Color visColorNucleotideHZ;
 	public static Color visColorNucleotideOther;
 
@@ -226,6 +228,8 @@ public class Prefs extends XMLPreferences
 		visColorNucleotideC = new Color(255, 160, 120);
 		visColorNucleotideG = new Color(255, 120, 120);
 		visColorNucleotideT = new Color(120, 120, 255);
+		visColorNucleotide0 = new Color(153, 204, 255);
+		visColorNucleotide1 = new Color(255, 255, 153);
 		visColorNucleotideHZ = new Color(100, 100, 100);
 		visColorNucleotideOther = new Color(204, 204, 204);
 

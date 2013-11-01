@@ -64,6 +64,7 @@ public class WinMainMenuBar extends JMenuBar
 	private JMenuItem mVizColorRandom;
 	private JMenuItem mVizColorRandomWSP;
 	private JMenuItem mVizColorNucleotide;
+	private JMenuItem mVizColorNucleotide01;
 	private JMenuItem mVizColorABHData;
 	private JMenuItem mVizColorLineSim;
 	private JMenuItem mVizColorLineSimGS;
@@ -282,6 +283,7 @@ public class WinMainMenuBar extends JMenuBar
 		mVizColorRandom = getItem(Actions.vizColorRandom, "gui.Actions.vizColorRandom", 0, 0);
 		mVizColorRandomWSP = getItem(Actions.vizColorRandomWSP, "gui.Actions.vizColorRandomWSP", 0, 0);
 		mVizColorNucleotide = getItem(Actions.vizColorNucleotide, "gui.Actions.vizColorNucleotide", 0, 0);
+		mVizColorNucleotide01 = getItem(Actions.vizColorNucleotide01, "gui.Actions.vizColorNucleotide01", 0, 0);
 		mVizColorABHData = getItem(Actions.vizColorABHData, "gui.Actions.vizColorABHData", 0, 0);
 		mVizColorLineSim = getItem(Actions.vizColorLineSim, "gui.Actions.vizColorLineSim", 0, 0);
 //		mVizColorLineSimGS = getItem(Actions.vizColorLineSimGS, KeyEvent.VK_G, 0, 0);
@@ -307,6 +309,7 @@ public class WinMainMenuBar extends JMenuBar
 		grp.add(mVizScalingClassic);
 
 		mVizColor.add(mVizColorNucleotide);
+		mVizColor.add(mVizColorNucleotide01);
 		mVizColor.add(mVizColorABHData);
 		mVizColor.add(mVizColorSimple2Color);
 		mVizColor.add(mVizColorLineSim);

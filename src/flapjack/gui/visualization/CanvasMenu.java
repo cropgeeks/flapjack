@@ -41,6 +41,7 @@ public class CanvasMenu
 	private JMenuItem mColorRandom;
 	private JMenuItem mColorRandomWSP;
 	private JMenuItem mColorNucleotide;
+	private JMenuItem mColorNucleotide01;
 	private JMenuItem mColorLineSim;
 	private JMenuItem mColorLineSimGS;
 	private JMenuItem mColorMarkerSim;
@@ -94,6 +95,7 @@ public class CanvasMenu
 		mColorRandom = WinMainMenuBar.getItem(Actions.vizColorRandom, "gui.Actions.vizColorRandom", 0, 0);
 		mColorRandomWSP = WinMainMenuBar.getItem(Actions.vizColorRandomWSP, "gui.Actions.vizColorRandomWSP", 0, 0);
 		mColorNucleotide = WinMainMenuBar.getItem(Actions.vizColorNucleotide, "gui.Actions.vizColorNucleotide", 0, 0);
+		mColorNucleotide01 = WinMainMenuBar.getItem(Actions.vizColorNucleotide01, "gui.Actions.vizColorNucleotide01", 0, 0);
 		mColorSimple2Color = WinMainMenuBar.getItem(Actions.vizColorSimple2Color, "gui.Actions.vizColorSimple2Color", 0, 0);
 		mColorABHData = WinMainMenuBar.getItem(Actions.vizColorABHData, "gui.Actions.vizColorABHData", 0, 0);
 		mColorLineSim = WinMainMenuBar.getItem(Actions.vizColorLineSim, "gui.Actions.vizColorLineSim", 0, 0);
@@ -122,6 +124,7 @@ public class CanvasMenu
 		mColor.setIcon(Actions.getIcon("COLORS"));
 		RB.setMnemonic(mColor, "gui.WinMainMenuBar.mVizColor");
 		mColor.add(mColorNucleotide);
+		mColor.add(mColorNucleotide01);
 		mColor.add(mColorABHData);
 		mColor.add(mColorSimple2Color);
 		mColor.add(mColorLineSim);
