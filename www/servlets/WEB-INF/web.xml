@@ -14,32 +14,25 @@
 	</session-config>
 
 	<servlet>
-		<servlet-name>dendrogram</servlet-name>
-		<servlet-class>flapjack.servlet.DendrogramServlet</servlet-class>
+		<servlet-name>flapjack</servlet-name>
+		<servlet-class>flapjack.servlet.FlapjackServlet</servlet-class>
 		<multipart-config>
 			<location>/tmp</location>
 		</multipart-config>
 	</servlet>
 	<servlet-mapping>
-        <servlet-name>dendrogram</servlet-name>
-        <url-pattern>/servlets/dendrogram</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-		<servlet-name>pcoa</servlet-name>
-		<servlet-class>flapjack.servlet.PCoAServlet</servlet-class>
-		<multipart-config>
-			<location>/tmp</location>
-		</multipart-config>
-	</servlet>
-	<servlet-mapping>
-        <servlet-name>pcoa</servlet-name>
-        <url-pattern>/servlets/pcoa</url-pattern>
+        <servlet-name>flapjack</servlet-name>
+        <url-pattern>/servlets/flapjack</url-pattern>
     </servlet-mapping>
 
 	<context-param>
 		<param-name>r-path</param-name>
 		<param-value>/usr/bin/R</param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>numthreads</param-name>
+		<param-value>4</param-value>
 	</context-param>
 
 </web-app>

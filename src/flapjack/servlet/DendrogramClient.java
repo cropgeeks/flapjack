@@ -3,26 +3,19 @@
 
 package flapjack.servlet;
 
-import java.awt.image.*;
 import java.io.*;
 import java.net.*;
 import java.util.*;
 import java.util.zip.*;
-import javax.imageio.*;
 
 import flapjack.data.*;
-import flapjack.gui.*;
 import flapjack.io.*;
 
 public class DendrogramClient
 {
-	private static final String url = "http://ics.hutton.ac.uk/flapjack/servlets/dendrogram";
+	private static final String url = "http://ics.hutton.ac.uk/flapjack/servlets/flapjack";
 
 	private ArrayList<Integer> lineOrder = new ArrayList<>();
-
-	public DendrogramClient()
-	{
-	}
 
 	public ArrayList<Integer> getLineOrder()
 		{ return lineOrder; }
@@ -30,7 +23,7 @@ public class DendrogramClient
 	public Dendrogram doClientStuff(SimMatrix matrix, int lineCount)
 		throws Exception
 	{
-		String charset = "UTF-8";
+				String charset = "UTF-8";
 
 //		File textFile = new File(filename);
 //		File binaryFile = new File("/path/to/file.bin");
@@ -46,24 +39,26 @@ public class DendrogramClient
 
 
 		OutputStream output = connection.getOutputStream();
-		writer = new PrintWriter(new BufferedWriter(new OutputStreamWriter(output, charset)), true); // true = autoFlush, important!
-//		writer = new PrintWriter(new OutputStreamWriter(System.out));
+		writer = new PrintWriter(new OutputStreamWriter(output, charset), true); // true = autoFlush, important!
 
-		// Send normal param.
+		// Send normal parameter
 		writer.append("--" + boundary).append(CRLF);
 		writer.append("Content-Disposition: form-data; name=\"lineCount\"").append(CRLF);
 		writer.append("Content-Type: text/plain; charset=" + charset).append(CRLF);
 		writer.append(CRLF);
 		writer.append("" + lineCount).append(CRLF).flush();
 
+		// Send normal parameter
+		writer.append("--" + boundary).append(CRLF);
+		writer.append("Content-Disposition: form-data; name=\"analysis\"").append(CRLF);
+		writer.append("Content-Type: text/plain; charset=" + charset).append(CRLF);
+		writer.append(CRLF);
+		writer.append("DENDROGRAM").append(CRLF).flush();
 
-		// Send text file.
-//		System.out.println("WRITING FILE " + filename);
 		writer.append("--" + boundary).append(CRLF);
 		writer.append("Content-Disposition: form-data; name=\"textfile\"; filename=\"" + "FILENAME" + "\"").append(CRLF);
 		writer.append("Content-Type: text/plain; charset=" + charset).append(CRLF);
 		writer.append(CRLF).flush();
-		BufferedReader reader = null;
 
 		// Send the sim-matrix
 		System.out.print("SENDING MATRIX...");
@@ -73,6 +68,13 @@ public class DendrogramClient
 
 
 		writer.flush();
+
+
+		// Send text file.
+//		System.out.println("WRITING FILE " + filename);
+
+
+		// Send the sim-matrix
 
 			// Send binary file.
 	/*		writer.append("--" + boundary).append(CRLF);
@@ -94,7 +96,6 @@ public class DendrogramClient
 			writer.append(CRLF).flush(); // CRLF is important! It indicates end of binary boundary.
 	*/
 
-		// End of multipart/form-data.
 		writer.append("--" + boundary + "--").append(CRLF);
 		writer.close();
 
@@ -102,9 +103,30 @@ public class DendrogramClient
 
 		if (code == HttpURLConnection.HTTP_OK)
 		{
+			String id = "";
+			BufferedReader conReader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+			String line = "";
+			while ((line = conReader.readLine()) != null)
+				id = line;
+
+			HttpURLConnection newCon = (HttpURLConnection) new URL(url + "?ID=" + String.valueOf(id)).openConnection();
+			newCon.setRequestMethod("GET");
+
+			// Loop until we get a 200 response
+			int respCode = newCon.getResponseCode();
+			while (respCode != HttpURLConnection.HTTP_OK)
+			{
+				newCon.disconnect();
+				Thread.sleep(1000);
+
+				newCon = (HttpURLConnection) new URL(url + "?ID=" + String.valueOf(id)).openConnection();
+				newCon.setRequestMethod("GET");
+				respCode = newCon.getResponseCode();
+			}
+
 			Dendrogram d = new Dendrogram();
 
-			ZipInputStream zis = new ZipInputStream(new BufferedInputStream(connection.getInputStream()));
+			ZipInputStream zis = new ZipInputStream(new BufferedInputStream(newCon.getInputStream()));
 			ZipEntry entry;
 
 			while ((entry = zis.getNextEntry()) != null)
