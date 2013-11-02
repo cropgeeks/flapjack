@@ -33,9 +33,12 @@ class RunR
 		writer.close();
 
 		// Open up the input stream (to read from) (prog's out stream)
-		new StreamCatcher(proc.getInputStream(), true);
+		StreamCatcher oStream = new StreamCatcher(proc.getInputStream(), true);
 
 		proc.waitFor();
+
+		while (oStream.isAlive())
+			Thread.sleep(10);
 	}
 
 	private static class StreamCatcher extends Thread

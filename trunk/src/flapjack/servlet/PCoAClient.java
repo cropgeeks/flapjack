@@ -3,23 +3,16 @@
 
 package flapjack.servlet;
 
-import java.awt.image.*;
 import java.io.*;
 import java.net.*;
-import java.util.*;
 import java.util.zip.*;
-import javax.imageio.*;
 
 import flapjack.data.*;
 import flapjack.io.*;
 
 public class PCoAClient
 {
-	private static final String url = "http://ics.hutton.ac.uk/flapjack/servlets/pcoa";
-
-	public PCoAClient()
-	{
-	}
+	private static final String url = "http://ics.hutton.ac.uk/flapjack/servlets/flapjack";
 
 	public void doClientStuff(SimMatrix matrix, PCoAResult result)
 		throws Exception
@@ -51,7 +44,12 @@ public class PCoAClient
 		writer.append(CRLF);
 		writer.append("" + lineCount).append(CRLF).flush();
 */
-
+		// Send normal param.
+		writer.append("--" + boundary).append(CRLF);
+		writer.append("Content-Disposition: form-data; name=\"analysis\"").append(CRLF);
+		writer.append("Content-Type: text/plain; charset=" + charset).append(CRLF);
+		writer.append(CRLF);
+		writer.append("PCOA").append(CRLF).flush();
 
 		// Send text file.
 //		System.out.println("WRITING FILE " + filename);
@@ -98,7 +96,27 @@ public class PCoAClient
 
 		if (code == HttpURLConnection.HTTP_OK)
 		{
-			ZipInputStream zis = new ZipInputStream(new BufferedInputStream(connection.getInputStream()));
+			String id = "";
+			BufferedReader conReader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+			String line = "";
+			while ((line = conReader.readLine()) != null)
+				id = line;
+
+			HttpURLConnection newCon = (HttpURLConnection) new URL(url + "?ID=" + String.valueOf(id)).openConnection();
+			newCon.setRequestMethod("GET");
+
+			int respCode = newCon.getResponseCode();
+			while (respCode != HttpURLConnection.HTTP_OK)
+			{
+				newCon.disconnect();
+				Thread.sleep(1000);
+
+				newCon = (HttpURLConnection) new URL(url + "?ID=" + String.valueOf(id)).openConnection();
+				newCon.setRequestMethod("GET");
+				respCode = newCon.getResponseCode();
+			}
+
+			ZipInputStream zis = new ZipInputStream(new BufferedInputStream(newCon.getInputStream()));
 			ZipEntry entry;
 
 			while ((entry = zis.getNextEntry()) != null)
