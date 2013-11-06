@@ -62,6 +62,8 @@ public class GenotypeDataExporter extends SimpleJob
 			if (chrm != null && chrm[c] == false)
 				continue;
 
+			view.cacheLines();
+
 			// Skip any "super" chromosomes
 //			if (view.getChromosomeMap().isSpecialChromosome())
 //				continue;
@@ -101,8 +103,6 @@ public class GenotypeDataExporter extends SimpleJob
 					// Skip any "super" chromosomes
 //					if (view.getChromosomeMap().isSpecialChromosome())
 //						continue;
-
-					cView.cacheLines();
 
 					for (int marker = 0; marker < cView.markerCount() && okToRun; marker++)
 					{
