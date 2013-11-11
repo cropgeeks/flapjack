@@ -175,7 +175,9 @@ public class FlapjackFile
 
 	private boolean isGenotype(String str)
 	{
-		return str.toLowerCase().startsWith("# fjfile = genotype");
+		return
+			str.toLowerCase().startsWith("# fjfile = genotype") ||
+			str.toLowerCase().startsWith("# fjfile = allele_frequency");
 	}
 
 	private boolean isPhenotype(String str)
