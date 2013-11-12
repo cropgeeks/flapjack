@@ -29,6 +29,34 @@ public class BinnedColorScheme extends ColorScheme
 		Color col2 = Prefs.visColorBinnedHigh;
 		int[] c2 = new int[] { col2.getRed(), col2.getGreen(), col2.getBlue() };
 
+		// Scan the state table to determine how many bins there are. This needs
+		// to be the maximum value found in the table (on the offchance some
+		// bins weren't represented, eg 0, 1, 2, 3...5 (missing 4)).
+		Integer binCount = null;
+		for (int i = 1; i < stateTable.size(); i++)
+		{
+			AlleleState state = stateTable.getAlleleState(i);
+			try
+			{
+				int bin = Integer.parseInt(state.getRawData());
+				if (binCount == null || bin > binCount)
+					binCount = bin;
+			}
+			catch (NumberFormatException e) {}
+		}
+
+		// As the bins are zero-indexed, add one to the max value found
+		if (binCount != null)
+			binCount++;
+
+		// Or, if we didn't find any numbers, failsafe with the size of the
+		// table, minus 1 to ignore the empty state at the start
+		else
+			binCount = stateTable.size() - 1;
+
+
+
+		// Now apply colours for each of the states found
 		for (int i = 0; i < stateTable.size(); i++)
 		{
 			AlleleState state = stateTable.getAlleleState(i);
@@ -42,7 +70,13 @@ public class BinnedColorScheme extends ColorScheme
 				try
 				{
 					int bin = Integer.parseInt(state.getRawData());
-					float f = (bin+1)/10f;
+
+					// We want bin=0 to map to f=0 and bin=9 to map to f=1 so we
+					// use 1/binCount-1 for the range rather than 1/binCount:
+					// eg:
+					//     1/binCount   = 0.1:   0 * 0.1   = 0;  9 * 0.1 = 0.9
+					//     1/binCount-1 = 0.111: 0 * 0.111 = 0;  9 * 0.111 = 1
+					float f = bin * (1 / ((float)binCount-1));
 
 					float f1 = (float) (1.0 - f);
 					float f2 = (float) f;
@@ -54,8 +88,8 @@ public class BinnedColorScheme extends ColorScheme
 
 					states.add(new HomozygousColorState(state, color, w, h));
 				}
-				// If we can't "parse" the state as a number, then blank it
-				catch (NumberFormatException e)
+				// If we can't parse the state as a number, then blank it
+				catch (Exception e)
 				{
 					states.add(new HomozygousColorState(state, Prefs.visColorSimple2Other, w, h));
 				}
