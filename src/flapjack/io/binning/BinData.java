@@ -9,7 +9,7 @@ import java.text.*;
 
 public class BinData
 {
-	private static StandardBinner binner;
+	private static IBinner binner;
 
 	public static void main(String[] args)
 		throws Exception
@@ -28,7 +28,7 @@ public class BinData
 			float split = Float.parseFloat(args[4]);
 			int rBinCount = Integer.parseInt(args[5]);
 
-			// binner = new SplitBinner(...);
+			binner = new SplitBinner(lBinCount, split, rBinCount);
 		}
 
 		else if (method.equals("AUTO"))

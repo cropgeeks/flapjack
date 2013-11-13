@@ -16,6 +16,7 @@ import flapjack.io.*;
  * from the flapjack.gui.visualization package
  * TODO: test MovedLinesState independantly?
  */
+/*
 public class UndoManagerTest extends TestCase
 {
 	private static DataSet dataSet = new DataSet();
@@ -24,7 +25,7 @@ public class UndoManagerTest extends TestCase
 
 	public static void main(String[] args)
 	{
-		org.junit.runner.JUnitCore.main("flapjack.data.UndoManagerTest");
+//		org.junit.runner.JUnitCore.main("flapjack.data.UndoManagerTest");
 	}
 
 	private void load()
@@ -171,3 +172,4 @@ public class UndoManagerTest extends TestCase
 		return true;
 	}
 }
+*/

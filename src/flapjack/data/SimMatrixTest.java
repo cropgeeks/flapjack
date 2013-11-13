@@ -9,7 +9,7 @@ public class SimMatrixTest extends TestCase
 {
 	public static void main(String[] args)
 	{
-		org.junit.runner.JUnitCore.main("flapjack.data.UndoManagerTest");
+		org.junit.runner.JUnitCore.main("flapjack.data.SimMatrixTest");
 	}
 
 	public void testMatrix()
