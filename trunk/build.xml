@@ -87,7 +87,7 @@
 		</javadoc>
 	</target>
 
-	<target name="test" depends="compile">
+	<target name="test" depends="clean, compile">
 		<junit printsummary="on" haltonerror="true" haltonfailure="true" dir="." fork="true">
 			<jvmarg value="-Xmx512m"/>
 			<classpath refid="project.classpath"/>

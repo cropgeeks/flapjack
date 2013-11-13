@@ -3,7 +3,7 @@
 
 package flapjack.io.binning;
 
-class StandardBinner
+class StandardBinner implements IBinner
 {
 	private Float min = 0f;
 	private Float max = 1f;
@@ -28,5 +28,11 @@ class StandardBinner
 			bin = numBins-1;
 
 		return bin;
+	}
+
+	// Test method...
+	void range(int bin)
+	{
+
 	}
 }
