@@ -8,8 +8,8 @@ import java.util.*;
 
 class StandardBinner implements IBinner
 {
-	private Float min = 0f;
-	private Float max = 1f;
+	private float min = 0f;
+	private float max = 1f;
 
 	private int numBins = 10;
 	private float binSize;

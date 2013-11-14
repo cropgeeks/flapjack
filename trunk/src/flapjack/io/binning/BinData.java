@@ -4,8 +4,6 @@
 package flapjack.io.binning;
 
 import java.io.*;
-import java.util.*;
-import java.text.*;
 
 public class BinData
 {
@@ -34,8 +32,9 @@ public class BinData
 		else if (method.equals("AUTO"))
 		{
 			int numBins = Integer.parseInt(args[3]);
+			String histFile = args[4];
 
-			// binner = new AutoBinner(...);
+			binner = new AutoBinner(numBins, histFile);
 		}
 
 		String inFile = args[1];
