@@ -3,6 +3,9 @@
 
 package flapjack.io.binning;
 
+import java.text.*;
+import java.util.*;
+
 class StandardBinner implements IBinner
 {
 	private Float min = 0f;
@@ -31,8 +34,25 @@ class StandardBinner implements IBinner
 	}
 
 	// Test method...
-	void range(int bin)
+	String range(int bin)
 	{
+		NumberFormat nf = NumberFormat.getInstance();
 
+		return nf.format(bin*binSize) + " - " + nf.format(bin*binSize+binSize);
+	}
+
+	public ArrayList<float[]> getBinSummary()
+	{
+		ArrayList<float[]> list = new ArrayList<>();
+
+		for (int i = 0; i < numBins; i++)
+		{
+			float f1 = i*binSize;
+			float f2 = i*binSize + binSize;
+
+			list.add(new float[] { f1, f2 });
+		}
+
+		return list;
 	}
 }

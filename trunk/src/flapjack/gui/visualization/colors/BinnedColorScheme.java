@@ -23,6 +23,22 @@ public class BinnedColorScheme extends ColorScheme
 	{
 		super(view);
 
+		create(w, h);
+	}
+
+	/**
+	 * Special constructor to be used *only* by the io.binning.CreateImage code
+	 * that needs to use this colour scheme externally to Flapjack
+	 */
+	public BinnedColorScheme(StateTable stateTable, int w, int h)
+	{
+		this.stateTable = stateTable;
+
+		create(w, h);
+	}
+
+	private void create(int w, int h)
+	{
 		// Initialize the colors
 		Color col1 = Prefs.visColorBinnedLow;
 		int[] c1 = new int[] { col1.getRed(), col1.getGreen(), col1.getBlue() };
@@ -113,6 +129,13 @@ public class BinnedColorScheme extends ColorScheme
 	{
 		int state = view.getState(line, marker);
 		return states.get(state).getColor();
+	}
+
+	// Only used by the io.binning.CreateImage code
+	public Color getColor(int bin)
+	{
+		// Offset by 1 to ignore the empty state
+		return states.get(bin+1).getColor();
 	}
 
 	public int getModel()

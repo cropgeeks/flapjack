@@ -3,6 +3,8 @@
 
 package flapjack.io.binning;
 
+import java.util.*;
+
 class SplitBinner implements IBinner
 {
 	private Float min = 0f;
@@ -21,8 +23,6 @@ class SplitBinner implements IBinner
 		// (max - max) / numBins but tweaked for either side of the split
 		lBinSize = (split - min) / lBinCount;
 		rBinSize = (max - split) / rBinCount;
-
-		System.out.println("rBinSize: " + rBinSize);
 	}
 
 	public int bin(float value)
@@ -51,5 +51,10 @@ class SplitBinner implements IBinner
 
 			return bin;
 		}
+	}
+
+	public ArrayList<float[]> getBinSummary()
+	{
+		return new ArrayList<float[]>();
 	}
 }
