@@ -3,7 +3,11 @@
 
 package flapjack.io.binning;
 
+import java.util.*;
+
 interface IBinner
 {
 	public int bin(float value);
+
+	public ArrayList<float[]> getBinSummary();
 }
