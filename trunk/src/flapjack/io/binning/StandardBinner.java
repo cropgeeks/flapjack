@@ -33,14 +33,6 @@ class StandardBinner implements IBinner
 		return bin;
 	}
 
-	// Test method...
-	String range(int bin)
-	{
-		NumberFormat nf = NumberFormat.getInstance();
-
-		return nf.format(bin*binSize) + " - " + nf.format(bin*binSize+binSize);
-	}
-
 	public ArrayList<float[]> getBinSummary()
 	{
 		ArrayList<float[]> list = new ArrayList<>();

@@ -51,11 +51,22 @@ public class BinData
 		BufferedWriter out = new BufferedWriter(new FileWriter(outFile));
 
 		// Write the header lines
-		for (int i = 0; i < 2; i++)
+		// Line one should be the standard Flapjack header
+		out.write(in.readLine());
+		out.newLine();
+
+		// Add the mapping information
+		int binNum = 0;
+		for (float[] data: binner.getBinSummary())
 		{
-			out.write(in.readLine());
+			out.write("# bin\t" + (binNum++) + "\t" + data[0] + "\t" + data[1]);
 			out.newLine();
 		}
+
+
+		// Now the marker names (line 2 of the original input)
+		out.write(in.readLine());
+		out.newLine();
 
 		// Now write all the data, binning it as we go
 		String str = null;
