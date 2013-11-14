@@ -44,8 +44,9 @@ public class CreateImage
 		else if (method.equals("AUTO"))
 		{
 			int numBins = Integer.parseInt(args[4]);
+			String histFile = args[5];
 
-			// binner = new AutoBinner(...);
+			binner = new AutoBinner(numBins, histFile);
 		}
 
 		createImage(imageFile, w, h);
