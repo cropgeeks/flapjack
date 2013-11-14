@@ -67,11 +67,11 @@ public class CreateImage
 
 
 		// Create an image to draw on
-		BufferedImage image = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
+		BufferedImage image = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
 		Graphics2D g = (Graphics2D) image.createGraphics();
 
-		g.setColor(Color.white);
-		g.fillRect(0, 0, w, h);
+
+		g.setPaint(new Color(0, 0, 0, 255));
 
 		for (int bin = 0; bin < bins.size(); bin++)
 		{
@@ -85,14 +85,25 @@ public class CreateImage
 			int x2 = Math.round(w*f2);
 
 			g.setColor(colors.getColor(bin));
-			g.fillRect(x1, 0, x2-x1, h);
+			g.fillRect(x1, 5, x2-x1, h-10);
 
 			g.setColor(Color.black);
-			g.drawLine(x1, 0, x1, h);
+			g.drawLine(x1, 5, x1, h-5-1);
 		}
 
 		g.setColor(Color.black);
-		g.drawRect(0, 0, w-1, h-1);
+		g.drawRect(0, 5, w-1, h-10-1);
+
+		// Draw the split point if required
+		if (binner instanceof SplitBinner)
+		{
+			float split = ((SplitBinner)binner).getSplit();
+			int x = Math.round(w*split);
+
+			g.drawLine(x, 0, x, h-1);
+			g.drawLine(x-2, 0, x+2, 0);
+			g.drawLine(x-2, h-1, x+2, h-1);
+		}
 
 		g.dispose();
 		ImageIO.write(image, "png", new File(imageFile));

@@ -25,6 +25,9 @@ class SplitBinner implements IBinner
 		rBinSize = (max - split) / rBinCount;
 	}
 
+	float getSplit()
+		{ return split; }
+
 	public int bin(float value)
 	{
 		// Left of the split...
@@ -55,6 +58,26 @@ class SplitBinner implements IBinner
 
 	public ArrayList<float[]> getBinSummary()
 	{
-		return new ArrayList<float[]>();
+		ArrayList<float[]> list = new ArrayList<>();
+
+		// Left bins
+		for (int i = 0; i < lBinCount; i++)
+		{
+			float f1 = i*lBinSize;
+			float f2 = i*lBinSize + lBinSize;
+
+			list.add(new float[] { f1, f2 });
+		}
+
+		// Right bins
+		for (int i = 0; i < rBinCount; i++)
+		{
+			float f1 = split + i*rBinSize;
+			float f2 = split + i*rBinSize + rBinSize;
+
+			list.add(new float[] { f1, f2 });
+		}
+
+		return list;
 	}
 }
