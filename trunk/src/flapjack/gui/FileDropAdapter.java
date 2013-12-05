@@ -8,6 +8,8 @@ import java.awt.dnd.*;
 import java.io.*;
 import java.util.*;
 
+import javax.swing.*;
+
 import flapjack.io.*;
 
 class FileDropAdapter extends DropTargetAdapter
@@ -35,11 +37,20 @@ class FileDropAdapter extends DropTargetAdapter
 				{
 					List<?> list = (List<?>) t.getTransferData(dataFlavors[i]);
 
-					String[] filenames = new String[list.size()];
+					final String[] filenames = new String[list.size()];
 					for (int fn = 0; fn < filenames.length; fn++)
 						filenames[fn] = list.get(fn).toString();
 
-					winMain.mFile.handleDragDrop(filenames);
+
+					Runnable r = new Runnable() {
+						public void run()
+						{
+							winMain.mFile.handleDragDrop(filenames);
+						}
+					};
+
+					SwingUtilities.invokeLater(r);
+
 					dtde.dropComplete(true);
 
 					break;
