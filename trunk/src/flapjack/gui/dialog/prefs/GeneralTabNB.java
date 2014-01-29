@@ -29,10 +29,10 @@ class GeneralTabNB extends JPanel implements IPrefsTab
 
 		displayModel = new DefaultComboBoxModel<String>();
 		displayModel.addElement(RB.getString("gui.dialog.prefs.NBGeneralPanel.auto"));
-		displayModel.addElement(RB.getString("gui.dialog.prefs.NBGeneralPanel.en_GB"));
+		displayModel.addElement(RB.getString("gui.dialog.prefs.NBGeneralPanel.en"));
 		displayModel.addElement(RB.getString("gui.dialog.prefs.NBGeneralPanel.en_US"));
-		displayModel.addElement(RB.getString("gui.dialog.prefs.NBGeneralPanel.de_DE"));
-//		displayModel.addElement(RB.getString("gui.dialog.prefs.NBGeneralPanel.es_MX"));
+		displayModel.addElement(RB.getString("gui.dialog.prefs.NBGeneralPanel.de"));
+		displayModel.addElement(RB.getString("gui.dialog.prefs.NBGeneralPanel.es"));
 		displayCombo.setModel(displayModel);
 
 
@@ -52,13 +52,13 @@ class GeneralTabNB extends JPanel implements IPrefsTab
 
     private int getLocaleIndex()
 	{
-		if (Prefs.localeText.equals("en_GB"))
+		if (Prefs.localeText.equals("en"))
 			return 1;
 		else if (Prefs.localeText.equals("en_US"))
 			return 2;
-		else if (Prefs.localeText.equals("de_DE"))
+		else if (Prefs.localeText.equals("de"))
 			return 3;
-		else if (Prefs.localeText.equals("es_MX"))
+		else if (Prefs.localeText.equals("es"))
 			return 4;
 		else
 			return 0;
@@ -75,10 +75,10 @@ class GeneralTabNB extends JPanel implements IPrefsTab
 	{
 		switch (displayCombo.getSelectedIndex())
 		{
-			case 1:  Prefs.localeText = "en_GB"; break;
+			case 1:  Prefs.localeText = "en"; break;
 			case 2:  Prefs.localeText = "en_US"; break;
-			case 3:  Prefs.localeText = "de_DE"; break;
-			case 4:  Prefs.localeText = "es_MX"; break;
+			case 3:  Prefs.localeText = "de"; break;
+			case 4:  Prefs.localeText = "es"; break;
 			default: Prefs.localeText = "auto";
 		}
 
