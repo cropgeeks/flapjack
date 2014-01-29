@@ -1,4 +1,4 @@
-// Copyright 2009-2013 Information & Computational Sciences, JHI. All rights
+// Copyright 2009-2014 Information & Computational Sciences, JHI. All rights
 // reserved. Use is subject to the accompanying licence terms.
 
 package flapjack.gui.dialog;
@@ -78,16 +78,16 @@ public class AboutDialog extends JDialog implements ActionListener
 
 					String tooltip = "<html>";
 
-					if (x < 105)
+					if (x < 100)
 						tooltip += "Iain Milne";
-					else if (x >= 105 && x < 200)
-						tooltip += "Micha Bayer";
-					else if (x >= 200 && x < 290)
-						tooltip += "Linda Cardle";
-					else if (x >= 290 && x < 380)
-						tooltip += "Paul Shaw";
-					else if (x >= 380 && x < 467)
+					else if (x < 193)
 						tooltip += "Gordon Stephen";
+					else if (x < 287)
+						tooltip += "Micha Bayer";
+					else if (x < 380)
+						tooltip += "Linda Cardle";
+					else if (x < 470)
+						tooltip += "Paul Shaw";
 					else
 						tooltip += "David Marshall";
 
