@@ -1,7 +1,7 @@
 <!-- Flapjack Web Start JNLP (Generated @DATE@) -->
 
 <?xml version="1.0" encoding="utf-8"?>
-<jnlp spec="7.0+" codebase="http://bioinf.hutton.ac.uk/flapjack/webstart">
+<jnlp spec="7.0+" codebase="http://bioinf.hutton.ac.uk/flapjack/webstart" href="flapjack.jnlp">
 	<information>
 		<title>Flapjack</title>
 		<vendor>The James Hutton Institute</vendor>
