@@ -48,6 +48,9 @@
 
 		<jar jarfile="${flapjack-resources.jar}">
 			<zipfileset dir="${res}" prefix="res"/>
+			<manifest>
+				<attribute name="Permissions" value="all-permissions"/>
+			</manifest>
 		</jar>
 
 		<jar jarfile="${flapjack.jar}">
@@ -74,6 +77,9 @@
 						sqlite-jdbc-3.7.2-osx.jar
 						sqlite-jdbc-3.7.2-windows.jar"/>
 				<attribute name="Implementation-Version" value="${i4j.version}"/>
+				<attribute name="Application-Name" value="Flapjack"/>
+				<attribute name="Permissions" value="all-permissions"/>
+				<attribute name="Codebase" value="*.hutton.ac.uk"/>
 			</manifest>
 		</jar>
 	</target>
