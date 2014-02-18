@@ -4,6 +4,7 @@
 package flapjack.io;
 
 import java.io.*;
+import java.nio.file.*;
 import java.sql.*;
 import java.util.zip.*;
 import javax.swing.*;
@@ -27,6 +28,8 @@ public class ProjectSerializer
 
 	private static boolean isDB = false;
 
+	private static File oldFile, newFile;
+
 	private static void initialize()
 		throws Exception
 	{
@@ -47,6 +50,22 @@ public class ProjectSerializer
 		if (saveAs && (showSaveAsDialog(project) == false))
 			return false;
 
+
+		// Check to see if we're writing to the same file or not. If it's the
+		// latter situation, we may need to copy the old file (to the new file)
+		// to ensure all the database objects not held in memory are copied too
+		oldFile = newFile = null;
+		if (fjFile != null)
+		{
+			if (fjFile.getPath().equals(project.fjFile.getPath()) == false)
+			{
+				oldFile = fjFile.getFile();
+				newFile = project.fjFile.getFile();
+
+				// The actual copy hapens in the save() method below
+			}
+		}
+
 		return true;
 	}
 
@@ -57,6 +76,15 @@ public class ProjectSerializer
 		try
 		{
 			long s = System.currentTimeMillis();
+
+			// Do we need to perform a low-level oldFile->newFile copy first?
+			if (oldFile != null && newFile != null)
+			{
+				Files.copy(oldFile.toPath(), newFile.toPath(),
+					StandardCopyOption.REPLACE_EXISTING,
+//					StandardCopyOption.COPY_ATTRIBUTES,
+					LinkOption.NOFOLLOW_LINKS);
+			}
 
 			// Get an outputstream to the database
 			ProjectSerializerDB.initConnection(fjFile, true);
