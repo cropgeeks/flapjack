@@ -182,7 +182,7 @@ public class StateTable extends XMLRoot
 	 * including all homozygote and heterozygote alleles. For example, A, G, T,
 	 * A/T, and G/A would return 3.
 	 */
-	public int calculateUniqueStateCount()
+	public Hashtable<String, String> getUniqueAlleles()
 	{
 		Hashtable<String, String> hashtable = new Hashtable<>();
 
@@ -197,7 +197,7 @@ public class StateTable extends XMLRoot
 			}
 		}
 
-		return hashtable.size() - 1;
+		return hashtable;
 	}
 
 	/**

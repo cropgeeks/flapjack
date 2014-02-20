@@ -37,7 +37,7 @@ public class RandomColorScheme extends ColorScheme
 		states.add(new SimpleColorState(state, Prefs.visColorBackground, w, h));
 
 		int seed = view.getViewSet().getRandomColorSeed();
-		float colorsNeeded = stateTable.calculateUniqueStateCount();
+		float colorsNeeded = stateTable.getUniqueAlleles().size() - 1;
 
 		float colorSpacing = 0, fColor = 0;
 
