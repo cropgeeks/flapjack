@@ -13,7 +13,7 @@ import flapjack.gui.*;
 
 import scri.commons.gui.*;
 
-public class AlleleFrequencyColorScheme extends ColorScheme
+public class GenotypeFrequencyColorScheme extends ColorScheme
 {
 	private ArrayList<ColorState> hiStates = new ArrayList<>();
 	private ArrayList<ColorState> loStates = new ArrayList<>();
@@ -21,9 +21,9 @@ public class AlleleFrequencyColorScheme extends ColorScheme
 	private float thresholdFrequency;
 
 	/** Empty constructor that is ONLY used for color customization purposes. */
-	public AlleleFrequencyColorScheme() {}
+	public GenotypeFrequencyColorScheme() {}
 
-	public AlleleFrequencyColorScheme(GTView view, int w, int h)
+	public GenotypeFrequencyColorScheme(GTView view, int w, int h)
 	{
 		super(view);
 

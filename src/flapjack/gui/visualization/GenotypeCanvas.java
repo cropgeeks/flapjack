@@ -184,7 +184,7 @@ class GenotypeCanvas extends JPanel
 				break;
 
 			case ColorScheme.ALLELE_FREQUENCY:
-				cScheme = new AlleleFrequencyColorScheme(view, boxW, boxH);
+				cScheme = new GenotypeFrequencyColorScheme(view, boxW, boxH);
 				break;
 
 			case ColorScheme.BINNED_10:
