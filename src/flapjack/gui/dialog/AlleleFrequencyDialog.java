@@ -8,6 +8,7 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.event.*;
 
+import flapjack.analysis.*;
 import flapjack.data.*;
 import flapjack.gui.*;
 import flapjack.gui.visualization.*;
@@ -17,6 +18,8 @@ import scri.commons.gui.*;
 
 public class AlleleFrequencyDialog extends JDialog implements ActionListener, ChangeListener
 {
+	private boolean isOK = true;
+
 	private GenotypePanel gPanel;
 	private GTViewSet viewSet;
 
@@ -41,7 +44,7 @@ public class AlleleFrequencyDialog extends JDialog implements ActionListener, Ch
 		pack();
 		setLocationRelativeTo(Flapjack.winMain);
 		setResizable(false);
-		setVisible(true);
+		setVisible(isOK);
 	}
 
 	private void initComponents2()
@@ -60,10 +63,33 @@ public class AlleleFrequencyDialog extends JDialog implements ActionListener, Ch
 		slider.setValue(value);
 	}
 
+	public boolean isOK()
+	{
+		return isOK;
+	}
+
+	public static boolean calculate(GTViewSet viewSet)
+	{
+		// Ensure frequencies have been calculated for the markers
+		DataSet dataSet = viewSet.getDataSet();
+		CalculateMarkerFrequencies cmf = new CalculateMarkerFrequencies(
+			dataSet, CalculateMarkerFrequencies.ALLELE_METHOD);
+
+		ProgressDialog dialog = new ProgressDialog(cmf,
+			RB.format("gui.dialog.NBAlleleFrequencyPanel.calculatingTitle"),
+			RB.format("gui.dialog.NBAlleleFrequencyPanel.calculatingLabel"),
+			Flapjack.winMain);
+
+		return (dialog.getResult() == ProgressDialog.JOB_COMPLETED);
+	}
+
 	public void actionPerformed(ActionEvent e)
 	{
 		if (e.getSource() == bOK)
+		{
+			isOK = true;
 			setVisible(false);
+		}
 	}
 
 	public void stateChanged(ChangeEvent e)
@@ -75,10 +101,19 @@ public class AlleleFrequencyDialog extends JDialog implements ActionListener, Ch
 		percentLabel.setText(percent + "%");
 
 		viewSet.setAlleleFrequencyThreshold(threshold);
-		viewSet.setColorScheme(ColorScheme.ALLELE_FREQUENCY);
-		gPanel.refreshView();
 
-		Actions.projectModified();
+		// If the user cancels the frequency creation, we can't use the color
+		// scheme so quit out of the dialog...
+		if (calculate(viewSet) == false)
+			setVisible(isOK = false);
+
+		else
+		{
+			viewSet.setColorScheme(ColorScheme.ALLELE_FREQUENCY);
+			gPanel.refreshView();
+
+			Actions.projectModified();
+		}
 	}
 
     /** This method is called from within the constructor to

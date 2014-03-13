@@ -35,7 +35,9 @@ public class CalculateMarkerFrequenciesTest extends TestCase
 	{
 		load();
 
-		CalculateMarkerFrequencies c =  new CalculateMarkerFrequencies(dataSet);
+		CalculateMarkerFrequencies c = new CalculateMarkerFrequencies(
+			dataSet, CalculateMarkerFrequencies.GENOTYPE_METHOD);
+
 
 		// State table should be:
 		//  UNKNOWN, A, G, C, T, A/G, F, A/T

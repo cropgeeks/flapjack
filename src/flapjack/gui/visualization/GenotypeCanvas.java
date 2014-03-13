@@ -12,6 +12,7 @@ import javax.swing.*;
 
 import flapjack.data.*;
 import flapjack.gui.*;
+import flapjack.gui.dialog.*;
 import flapjack.gui.visualization.colors.*;
 
 class GenotypeCanvas extends JPanel
@@ -184,7 +185,16 @@ class GenotypeCanvas extends JPanel
 				break;
 
 			case ColorScheme.ALLELE_FREQUENCY:
-				cScheme = new GenotypeFrequencyColorScheme(view, boxW, boxH);
+				// This scheme *needs* marker frequencies before it can display
+				if (AlleleFrequencyDialog.calculate(viewSet))
+					cScheme = new AlleleFrequencyColorScheme(view, boxW, boxH);
+				// If the user doesn't allow the operation to finish, fall back
+				// on another colour scheme otherwise things will break!
+				else
+				{
+					gPanel.getViewSet().setColorScheme(ColorScheme.NUCLEOTIDE);
+					cScheme = new NucleotideColorScheme(view, boxW, boxH);
+				}
 				break;
 
 			case ColorScheme.BINNED_10:
