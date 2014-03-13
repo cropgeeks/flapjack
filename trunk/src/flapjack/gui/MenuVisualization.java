@@ -63,7 +63,12 @@ public class MenuVisualization
 
 		// Display the threshold dialog for allele frequency colouring
 		else if (colorScheme == ColorScheme.ALLELE_FREQUENCY)
-			new AlleleFrequencyDialog(gPanel);
+		{
+			AlleleFrequencyDialog dialog = new AlleleFrequencyDialog(gPanel);
+			System.out.println("dialog.isOK()=" + dialog.isOK());
+			if (dialog.isOK() == false)
+				return;
+		}
 
 		// Update the seed for random colour schemes
 		else if (colorScheme == ColorScheme.RANDOM || colorScheme == ColorScheme.RANDOM_WSP)

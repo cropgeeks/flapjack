@@ -13,8 +13,9 @@ public class Marker extends XMLRoot implements Comparable<Marker>
 	private float realPosition;
 
 	// (Might) hold summary information on the frequency of each allele state
-	// for this marker
+	// for this marker. The String[] array holds the names of each allele state.
 	private float[] frequencies;
+	private static String[] alleles;
 
 	public Marker()
 	{
@@ -89,6 +90,12 @@ public class Marker extends XMLRoot implements Comparable<Marker>
 
 	public void setFrequencies(float[] frequencies)
 		{ this.frequencies = frequencies; }
+
+	public static String[] alleles()
+		{ return alleles; }
+
+	public static void setAlleles(String[] array)
+		{ alleles = array; }
 
 	public int compareTo(Marker marker)
 	{

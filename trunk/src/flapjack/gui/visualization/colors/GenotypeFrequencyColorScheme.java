@@ -30,10 +30,6 @@ public class GenotypeFrequencyColorScheme extends ColorScheme
 		// Copy the threshold value
 		thresholdFrequency = view.getViewSet().getAlleleFrequencyThreshold();
 
-		// Ensure frequencies have been calculated for the markers
-		DataSet dataSet = view.getViewSet().getDataSet();
-		new CalculateMarkerFrequencies(dataSet).calculate();
-
 		for (int i = 0; i < stateTable.size(); i++)
 		{
 			AlleleState state = stateTable.getAlleleState(i);
