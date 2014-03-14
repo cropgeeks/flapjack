@@ -75,6 +75,13 @@ public class PCoAAnalysis implements FlapjackTask
 		in.close();
 
 		zout.close();
+
+
+		// Tomcat picks its own temp folder for io.tmpdir, so it's probably best
+		// to clean up when finished rather than assuming Tomcat will
+		rScript.delete();
+		matrix.delete();
+		fit.delete();
 	}
 
 	@Override

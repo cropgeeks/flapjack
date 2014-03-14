@@ -165,10 +165,10 @@
 			classname="org.apache.catalina.ant.DeployTask"/>
 
 		<undeploy url="${tomcat.manager.url}" username="${tomcat.manager.username}" password="${tomcat.manager.password}"
-			path="/flapjack" failOnError="false"/>
+			path="${tomcat.manager.path}" failOnError="false"/>
 
 		<deploy url="${tomcat.manager.url}"	username="${tomcat.manager.username}" password="${tomcat.manager.password}"
-			path="/flapjack" war="${flapjack.war}"/>
+			path="${tomcat.manager.path}" war="${flapjack.war}"/>
 	</target>
 
 </project>

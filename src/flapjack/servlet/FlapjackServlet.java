@@ -6,6 +6,7 @@ package flapjack.servlet;
 import java.io.*;
 import java.util.*;
 import java.util.concurrent.*;
+import java.util.logging.*;
 import javax.servlet.*;
 import javax.servlet.annotation.*;
 import javax.servlet.http.*;
@@ -16,6 +17,8 @@ import scri.commons.gui.SystemUtils;
 @MultipartConfig
 public class FlapjackServlet extends HttpServlet
 {
+	private static Logger LOG;
+
 	private ExecutorService executor;
 	private HashMap<String, FutureTask<FlapjackTask>> runningTasks;
 
@@ -32,6 +35,16 @@ public class FlapjackServlet extends HttpServlet
 		// jobs which are added to the work queue
 		executor = Executors.newFixedThreadPool(numthreads);
 		runningTasks = new HashMap<String, FutureTask<FlapjackTask>>();
+
+		// Initialise logging
+		try
+		{
+			LOG = Logger.getLogger(FlapjackServlet.class.getName());
+			FileHandler fh = new FileHandler("/home/tomcat/flapjack.log", 0, 1, true);
+			fh.setFormatter(new SimpleFormatter());
+			LOG.addHandler(fh);
+		}
+		catch (SecurityException | IOException e) {}
 	}
 
 	@Override
@@ -52,6 +65,8 @@ public class FlapjackServlet extends HttpServlet
 					FlapjackTask fTask = task.get();
 					fTask.writeResponse(response);
 					runningTasks.remove(id);
+
+					LOG.info("End\t\t" + id);
 				}
 				catch (Exception e) { e.printStackTrace(); }
 			}
@@ -76,10 +91,13 @@ public class FlapjackServlet extends HttpServlet
 		switch (analysis)
 		{
 			case "DENDROGRAM":
+				LOG.info("Run\tDendrogramAnalysis\t" + id);
 				DendrogramAnalysis dAnalysis = new DendrogramAnalysis(request, rPath);
 				submitFlapjackServletTask(dAnalysis, id);
 				break;
+
 			case "PCOA":
+				LOG.info("Run\tPCoAAnalysis\t" + id);
 				PCoAAnalysis pAnalysis = new PCoAAnalysis(request, rPath);
 				submitFlapjackServletTask(pAnalysis, id);
 				break;
@@ -94,7 +112,7 @@ public class FlapjackServlet extends HttpServlet
 
 	// Wraps the analysis in a FutureTask and submits this to the executor
 	// where it is either queued, or run immediately. Also adds the task to a
-	// HashMap where it is keyed by id. 
+	// HashMap where it is keyed by id.
 	private void submitFlapjackServletTask(FlapjackTask analysis, String id)
 	{
 		FutureTask<FlapjackTask> task = new FutureTask<FlapjackTask>(analysis);

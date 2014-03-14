@@ -52,8 +52,12 @@ public class PCoAGenerator extends SimpleJob
 			}
 			catch (Exception e)
 			{
-				// TODO: Display error
 				e.printStackTrace();
+
+				TaskDialog.error("CurlyWhirly is required to view these results, but it couldn't be found on your system.\n"
+					+ "Please download it from http://ics.hutton.ac.uk/curlywhirly\n\n"
+					+ "For reference, the results file was saved to " + cwFile.getPath(),
+					RB.getString("gui.text.close"));
 			}
 		}
 	}
