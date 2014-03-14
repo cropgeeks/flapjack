@@ -12,7 +12,7 @@ import flapjack.io.*;
 
 public class PCoAClient
 {
-	private static final String url = "http://ics.hutton.ac.uk/flapjack/servlets/flapjack";
+	private static final String url = "http://ics.hutton.ac.uk/flapjack-20140313/servlets/flapjack";
 
 	public void doClientStuff(SimMatrix matrix, PCoAResult result)
 		throws Exception

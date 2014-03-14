@@ -78,6 +78,15 @@ public class DendrogramAnalysis implements FlapjackTask
 		in.close();
 
 		zout.close();
+
+
+		// Tomcat picks its own temp folder for io.tmpdir, so it's probably best
+		// to clean up when finished rather than assuming Tomcat will
+		rScript.delete();
+		matrix.delete();
+		order.delete();
+		png.delete();
+		pdf.delete();
 	}
 
 	private void writeScript(File rScript, String id, int lineCount)

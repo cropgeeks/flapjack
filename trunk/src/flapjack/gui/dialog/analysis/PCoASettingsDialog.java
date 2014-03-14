@@ -7,7 +7,6 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-import flapjack.data.*;
 import flapjack.gui.*;
 
 import scri.commons.gui.*;
@@ -16,7 +15,7 @@ public class PCoASettingsDialog extends JDialog implements ActionListener
 {
 	private boolean isOK;
 
-	public PCoASettingsDialog(GTViewSet viewSet)
+	public PCoASettingsDialog()
 	{
 		super(
 			Flapjack.winMain,
@@ -48,6 +47,9 @@ public class PCoASettingsDialog extends JDialog implements ActionListener
 		bCancel.addActionListener(this);
 	}
 
+	public boolean isOK()
+		{ return isOK; }
+
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
@@ -68,12 +70,16 @@ public class PCoASettingsDialog extends JDialog implements ActionListener
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents()
-    {
+    private void initComponents() {
 
         dialogPanel1 = new scri.commons.gui.matisse.DialogPanel();
         bOK = new javax.swing.JButton();
         bCancel = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -83,16 +89,45 @@ public class PCoASettingsDialog extends JDialog implements ActionListener
         bCancel.setText("Cancel");
         dialogPanel1.add(bCancel);
 
+        jLabel1.setText("Warning.");
+
+        jLabel2.setText("This feature is still highly experimental, and may fail without adequate error messages to let you know what went wrong.");
+
+        jLabel3.setText("It relies on internet access to a remote server (ics.hutton.ac.uk) to perform potentially long-running calculations.");
+
+        jLabel4.setText("Proceed with caution.");
+
+        jLabel5.setText("You must have CurlyWhirly installed to be able to view any results.");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(dialogPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
+            .addComponent(dialogPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel5))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(256, Short.MAX_VALUE)
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel5)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(dialogPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -104,6 +139,11 @@ public class PCoASettingsDialog extends JDialog implements ActionListener
     private javax.swing.JButton bCancel;
     private javax.swing.JButton bOK;
     private scri.commons.gui.matisse.DialogPanel dialogPanel1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     // End of variables declaration//GEN-END:variables
 
 }

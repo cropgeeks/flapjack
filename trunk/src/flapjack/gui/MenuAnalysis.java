@@ -202,6 +202,10 @@ public class MenuAnalysis
 
 	public void dendrogram()
 	{
+		DendrogramSettingsDialog dsd = new DendrogramSettingsDialog();
+		if (dsd.isOK() == false)
+			return;
+
 		// This menu option should *only* be enabled if the user is currently
 		// viewing a simmatrix, so the following code only works in that case
 		SimMatrixPanel panel = navPanel.getActiveSimMatrixPanel();
@@ -215,8 +219,8 @@ public class MenuAnalysis
 		DendrogramGenerator dg = new DendrogramGenerator(matrix, newViewSet);
 
 		ProgressDialog dialog = new ProgressDialog(dg,
-			RB.format("gui.MenuAnalysis.simMatrix.title"),
-			RB.format("gui.MenuAnalysis.simMatrix.label"), Flapjack.winMain);
+			RB.format("gui.MenuAnalysis.dendrogram.title"),
+			RB.format("gui.MenuAnalysis.dendrogram.label"), Flapjack.winMain);
 
 
 		// If the operation failed or was cancelled...
@@ -250,6 +254,10 @@ public class MenuAnalysis
 
 	public void principalCordAnalysis()
 	{
+		PCoASettingsDialog psd = new PCoASettingsDialog();
+		if (psd.isOK() == false)
+			return;
+
 		// This menu option should *only* be enabled if the user is currently
 		// viewing a simmatrix, so the following code only works in that case
 		SimMatrixPanel panel = navPanel.getActiveSimMatrixPanel();

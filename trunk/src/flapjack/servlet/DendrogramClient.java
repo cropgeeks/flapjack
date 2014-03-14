@@ -13,7 +13,7 @@ import flapjack.io.*;
 
 public class DendrogramClient
 {
-	private static final String url = "http://ics.hutton.ac.uk/flapjack/servlets/flapjack";
+	private static final String url = "http://ics.hutton.ac.uk/flapjack-20140313/servlets/flapjack";
 
 	private ArrayList<Integer> lineOrder = new ArrayList<>();
 
