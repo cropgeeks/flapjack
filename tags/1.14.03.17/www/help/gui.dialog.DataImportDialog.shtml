@@ -1,0 +1,86 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+
+<html>
+<head>
+<meta http-equiv="Content-Language" content="en-gb">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+<link rel="stylesheet" href="stylesheet/styles.css" type="text/css">
+
+<title>Import Data</title>
+
+</head>
+<body>
+
+<!--#include virtual="header.html" -->
+
+
+<h2>Import Data</h2>
+
+<p>The <b>Import Data </b> dialog is used to provide information on which map
+and genotype data files should be used to import a data set into Flapjack.</p>
+
+<p><a href="images/gui.dialog.DataImportDialog.png">
+<img class="capture" src="images/gui.dialog.DataImportDialog2.png" alt="Flapjack Screenshot"></a></p>
+
+<p>The <b>map file</b> should contain information on the markers, the chromosome
+they are on, and their position within that chromosome. The markers do not need
+to be in any particular order as Flapjack will group and sort them by
+chromosome and distance once they are loaded. A short example is shown
+below:</p>
+
+<pre>
+  # fjFile = MAP
+  Marker1      1H     32.5
+  Marker2      1H     45.0
+  Marker3      2H     23.9
+</pre>
+
+<p>The <b>genotype file</b> should contain a list of variety lines, with allele
+data per marker for that line. It also requires a header line specifying the
+marker information for each column.</p>
+
+<pre>
+  # fjFile = GENOTYPE
+               Marker1   Marker2   Marker3
+  Line1        A         G         G
+  Line2        A         -         G/T
+  Line3        T         A         C
+</pre>
+
+<p>Both the map file and the genotype file must be in plain-text, tab-delimited
+format. The <b># fjFile</b> header lines are optional (but recommended) as they allow
+the files to be loaded into Flapjack via drag and drop.</p>
+
+<p>Additional import options are available to control the way that Flapjack
+will read the provided file:</p>
+
+<ul>
+<li><b>Don't distinguish between heterozygous alleles</b><br>
+Select this option to ensure that duplicate heterozygous alleles are replaced while
+importing the genotypes. For example, all instances of T/A would be replaced by A/T (or vice
+versa), so that the final data only contains A/T alleles.</li>
+<li><b>Expect heterozygotes to be separated by a string</b><br>
+This tells Flapjack to look for heterozygotes that are separated by a specific
+character (defined below). If your data is of the form A/T then this should be
+used, however, if the data defines AT as a heterozygote then this option should
+be deselected.</li>
+<li><b>Heterozygous separator string</b><br>
+This specifies the string that is used to define heterozygous alleles within the
+data.</li>
+<li><b>Missing data string</b><br>
+This specifies the string that is used to define missing genotype data. It can
+be left blank if no character is used within the genotype file.</li>
+</ul>
+
+<p>Flapjack will display the progress of the import operation as the data is
+read from the files:</p>
+
+<p><a href="images/gui.dialog.DataImportingDialog.png">
+<img class="capture" src="images/gui.dialog.DataImportingDialog2.png" alt="Flapjack Screenshot"></a></p>
+
+
+<!--#include virtual="footer.html" -->
+
+</body>
+</html>
