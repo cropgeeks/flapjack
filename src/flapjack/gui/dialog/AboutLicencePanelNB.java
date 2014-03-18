@@ -31,7 +31,7 @@ class AboutLicencePanelNB extends JPanel implements ActionListener
 		combo.addActionListener(this);
 
 		htmlPane.setPreferredSize(new Dimension(0, 0));
-		displayLicence("flapjack.html");
+		displayLicence("Flapjack.html");
 	}
 
 	private void displayLicence(String filename)
@@ -49,7 +49,7 @@ class AboutLicencePanelNB extends JPanel implements ActionListener
 	public void actionPerformed(ActionEvent e)
 	{
 		if (combo.getSelectedItem().equals("Flapjack"))
-			displayLicence("flapjack.html");
+			displayLicence("Flapjack.html");
 		else if (combo.getSelectedItem().equals("Apache Commons"))
 			displayLicence("ApacheCommons.txt");
 		else if (combo.getSelectedItem().equals("Castor"))

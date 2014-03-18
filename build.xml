@@ -48,6 +48,7 @@
 
 		<jar jarfile="${flapjack-resources.jar}">
 			<zipfileset dir="${res}" prefix="res"/>
+			<zipfileset dir="installer/licence" prefix="installer/licence"/>
 			<manifest>
 				<attribute name="Permissions" value="all-permissions"/>
 			</manifest>
@@ -145,7 +146,7 @@
 				<include name="**/*.jar"/>
 			</fileset>
 		</signjar>
-		<copy todir="\\bioinf\root\var\www\html\flapjack\webstart">
+		<copy todir="\\ics\root\var\www\sites\bioinf.hutton.ac.uk\html\flapjack\webstart">
 			<fileset dir="${tmp}">
 				<include name="**/*.jar"/>
 			</fileset>
