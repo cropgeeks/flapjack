@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<install4j version="5.1.8" transformSequenceNumber="4">
+<install4j version="5.1.10" transformSequenceNumber="4">
   <directoryPresets config="../keys/OS201306044993.pfx" />
   <application name="Flapjack" distributionSourceDir="" applicationId="9131-7045-2417-5931" mediaDir="." mediaFilePattern="${compiler:sys.shortName}_${compiler:sys.platform}_${compiler:sys.version}" compression="6" lzmaCompression="false" pack200Compression="false" excludeSignedFromPacking="true" commonExternalFiles="false" createMd5Sums="true" shrinkRuntime="false" shortName="flapjack" publisher="The James Hutton Institute" publisherWeb="http://www.hutton.ac.uk" version="x.xx.xx.xx" allPathsRelative="true" backupOnSave="false" autoSave="false" convertDotsToUnderscores="true" macSignature="????" installerName="" javaMinVersion="1.7" javaMaxVersion="" allowBetaVM="false" jdkMode="runtimeJre" jdkName="">
     <languages skipLanguageSelection="true" languageSelectionInPrincipalLanguage="false">
       <principalLanguage id="en" customLocalizationFile="" />
       <additionalLanguages>
         <language id="de" customLocalizationFile="" />
+        <language id="es" customLocalizationFile="" />
       </additionalLanguages>
     </languages>
     <searchSequence>
@@ -14,8 +15,8 @@
       <envVar name="JDK_HOME" />
     </searchSequence>
     <variables>
-      <variable name="urlWebsite" value="http://bioinf.hutton.ac.uk/flapjack" description="" category="" />
-      <variable name="urlWhatsNew" value="http://bioinf.hutton.ac.uk/flapjack/help/whats-new.shtml" description="" category="" />
+      <variable name="urlWebsite" value="http://ics.hutton.ac.uk/flapjack" description="" category="" />
+      <variable name="urlWhatsNew" value="http://ics.hutton.ac.uk/flapjack/download-flapjack/flapjack-release-notes" description="" category="" />
       <variable name="changeLog" value="Show Change Log" description="" category="" />
     </variables>
     <mergedProjects />
@@ -26,13 +27,9 @@
     <roots />
     <mountPoints>
       <mountPoint id="17" root="" location="lib" mode="755" />
-      <mountPoint id="1046" root="" location="docs" mode="755" />
     </mountPoints>
     <entries>
       <dirEntry mountPoint="17" file="../lib" overwriteMode="4" shared="false" fileMode="644" uninstallMode="0" overrideFileMode="false" overrideOverwriteMode="false" overrideUninstallMode="false" entryMode="direct" subDirectory="" excludeSuffixes="*.svn" dirMode="755" overrideDirMode="false">
-        <exclude />
-      </dirEntry>
-      <dirEntry mountPoint="1046" file="./licence" overwriteMode="4" shared="false" fileMode="644" uninstallMode="0" overrideFileMode="false" overrideOverwriteMode="false" overrideUninstallMode="false" entryMode="direct" subDirectory="" excludeSuffixes="*.svn" dirMode="755" overrideDirMode="false">
         <exclude />
       </dirEntry>
     </entries>
@@ -348,20 +345,6 @@
                 <serializedBean>
                   <java class="java.beans.XMLDecoder">
                     <object class="com.install4j.runtime.beans.actions.desktop.CreateProgramGroupAction">
-                      <void property="programGroupEntryConfigs">
-                        <void method="add">
-                          <object class="com.install4j.runtime.beans.screens.components.ProgramGroupFileConfig">
-                            <void property="name">
-                              <string>Flapjack Help</string>
-                            </void>
-                            <void property="target">
-                              <object class="java.io.File">
-                                <string>docs/help.url</string>
-                              </object>
-                            </void>
-                          </object>
-                        </void>
-                      </void>
                       <void property="uninstallerMenuName">
                         <string>${i18n:UninstallerMenuEntry(${compiler:sys.fullName})}</string>
                       </void>
