@@ -33,6 +33,8 @@ public class DataSet extends XMLRoot
 	// Total counts for matrices, dendrograms, etc
 	private int matrixCount, dendrogramCount;
 
+	private BinnedData bins = new BinnedData();
+
 	public DataSet()
 	{
 	}
@@ -127,6 +129,12 @@ public class DataSet extends XMLRoot
 
 	public void setDendrogramCount(int dendrogramCount)
 		{ this.dendrogramCount = dendrogramCount; }
+
+	public BinnedData getBinnedData()
+		{ return bins; }
+
+	public void setBinnedData(BinnedData binnedData)
+		{ this.bins = binnedData; }
 
 
 	// Other methods

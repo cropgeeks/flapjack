@@ -11,6 +11,7 @@ import javax.swing.event.*;
 
 import flapjack.data.*;
 import flapjack.gui.*;
+import flapjack.gui.visualization.colors.*;
 
 import scri.commons.gui.*;
 
@@ -99,7 +100,10 @@ public class StatusPanelNB extends JPanel implements ActionListener, ChangeListe
 	{
 		RB.setText(label1, "gui.visualization.StatusPanel.line");
 		RB.setText(label2, "gui.visualization.StatusPanel.marker");
-		RB.setText(label3, "gui.visualization.StatusPanel.genotype");
+		if (dataSetBinned(view))
+			RB.setText(label3, "gui.visualization.StatusPanel.bin");
+		else
+			RB.setText(label3, "gui.visualization.StatusPanel.genotype");
 	}
 
 	void setForHeatmapUse()
@@ -224,8 +228,12 @@ public class StatusPanelNB extends JPanel implements ActionListener, ChangeListe
 				StateTable st = view.getViewSet().getDataSet().getStateTable();
 				AlleleState state = st.getAlleleState(stateCode);
 
-				alleleLabel.setText(state.getRawData());
-				alleleLabel.setText(state.format());
+				// Get the BinnedData object so we can get the range for a bin
+				// if we are viewing binned data
+				BinnedData binData = view.getViewSet().getDataSet().getBinnedData();
+
+				alleleLabel.setText(state.getRawData() + " " + binData.getBinForState(state.getRawData()));
+				alleleLabel.setText(state.format() + " " + binData.getBinForState(state.getRawData()));
 			}
 		}
 	}
@@ -285,6 +293,13 @@ public class StatusPanelNB extends JPanel implements ActionListener, ChangeListe
 			markerLabel.setText(" ");
 			alleleLabel.setText(" ");
 		}
+	}
+
+	private boolean dataSetBinned(GTView view)
+	{
+		return view != null &&
+			(view.getViewSet().getDataSet().getBinnedData().containsBins()
+			|| view.getViewSet().getColorScheme() == ColorScheme.BINNED_10);
 	}
 
     /** This method is called from within the constructor to

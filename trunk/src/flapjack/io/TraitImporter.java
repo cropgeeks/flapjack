@@ -23,7 +23,7 @@ public class TraitImporter extends SimpleJob
 	// no association with the line data happens until we're sure everything has
 	// been read correctly. Each entry is stored according to its expected line
 	// name, and is a list of trait values, one per trait across the columns
-	private Hashtable<String, ArrayList<TraitValue>> hashtable;
+	private HashMap<String, ArrayList<TraitValue>> hashtable;
 
 	private int traitsCount, traitsRead;
 
@@ -32,7 +32,7 @@ public class TraitImporter extends SimpleJob
 		this.file = file;
 		this.dataSet = dataSet;
 
-		hashtable = new Hashtable<String, ArrayList<TraitValue>>();
+		hashtable = new HashMap<String, ArrayList<TraitValue>>();
 
 		maximum = 5555;
 	}
@@ -138,10 +138,10 @@ public class TraitImporter extends SimpleJob
 			Collections.sort(categories);
 
 			// Now rewrite each trait value to have the new correct lookup value
-			Enumeration<String> e = hashtable.keys();
-			while (e.hasMoreElements())
+			Set<String> e = hashtable.keySet();
+			for (String traitString : e)
 			{
-				TraitValue tv = hashtable.get(e.nextElement()).get(i);
+				TraitValue tv = hashtable.get(traitString).get(i);
 				float newVal = categories.indexOf(oldCats[(int)tv.getValue()]);
 				tv.setValue(newVal);
 			}

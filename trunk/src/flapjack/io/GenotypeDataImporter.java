@@ -196,22 +196,38 @@ public class GenotypeDataImporter
 
 	private void processHeader(String str)
 	{
-		try
+		// TODO re-work this code as bin data looks like a header, but doesn't
+		// have an equals sign.
+
+		if (str.indexOf('=') != -1)
 		{
-			String key = str.substring(1, str.indexOf("=")).trim();
-			String value = str.substring(str.indexOf("=")+1).trim();
+			try
+			{
+				String key = str.substring(1, str.indexOf('=')).trim();
+				String value = str.substring(str.indexOf('=')+1).trim();
 
-			// fjDatabaseLineSearch = a URL for querying line information
-			if (key.equals("fjDatabaseLineSearch"))
-				dataSet.getDbAssociation().setLineSearch(value);
+				// fjDatabaseLineSearch = a URL for querying line information
+				if (key.equals("fjDatabaseLineSearch"))
+					dataSet.getDbAssociation().setLineSearch(value);
 
-			// fjDatabaseMarkerSearch = a URL for querying marker information
-			if (key.equals("fjDatabaseMarkerSearch"))
-				dataSet.getDbAssociation().setMarkerSearch(value);
+				// fjDatabaseMarkerSearch = a URL for querying marker information
+				if (key.equals("fjDatabaseMarkerSearch"))
+					dataSet.getDbAssociation().setMarkerSearch(value);
+			}
+			catch (Exception e)
+			{
+				System.out.println("Invalid header: " + str);
+			}
 		}
-		catch (Exception e)
+
+		// Otherwise we have bin data
+		else if (str.startsWith("# bin"))
 		{
-			System.out.println("Invalid header: " + str);
+			String[] tokens = str.split("\t");
+			int index = Integer.parseInt(tokens[1]);
+			float min = Float.parseFloat(tokens[2]);
+			float max = Float.parseFloat(tokens[3]);
+			dataSet.getBinnedData().addBin(index, min, max);
 		}
 	}
 

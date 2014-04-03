@@ -26,12 +26,12 @@ public class QTLImporter extends SimpleJob
 
 	// Store a "track" per chromsome - the QTLs will be added to the appropriate
 	// track as they are read
-	Hashtable<String, ArrayList<QTL>> chromosomes = new Hashtable<>();
+	HashMap<String, ArrayList<QTL>> chromosomes = new HashMap<>();
 	// And they'll also be added to this for easy reference
 	LinkedList<QTL> qtls = new LinkedList<>();
 
 	// Store references to each trait, so colors can be assigned post-import
-	Hashtable<String, Color> traits = new Hashtable<>();
+	HashMap<String, Color> traits = new HashMap<>();
 
 	private int featuresRead, featuresAdded;
 
@@ -235,13 +235,13 @@ public class QTLImporter extends SimpleJob
 		float colorCount = traits.size();
 		float hue = 0;
 
-		Enumeration<String> keys = traits.keys();
-		for (int i = 0; keys.hasMoreElements(); i++)
+		Set<String> keys = traits.keySet();
+		for (String key : keys)
 		{
 			Color color = Color.getHSBColor(hue, 0.4f, 1);
 			hue += 1/colorCount;
 
-			traits.put(keys.nextElement(), color);
+			traits.put(key, color);
 		}
 
 		// Assign every QTL a colour

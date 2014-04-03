@@ -182,9 +182,9 @@ public class StateTable extends XMLRoot
 	 * including all homozygote and heterozygote alleles. For example, A, G, T,
 	 * A/T, and G/A would return 3.
 	 */
-	public Hashtable<String, String> getUniqueAlleles()
+	public HashMap<String, String> uniqueAlleles()
 	{
-		Hashtable<String, String> hashtable = new Hashtable<>();
+		HashMap<String, String> hashtable = new HashMap<>();
 
 		for (AlleleState state: states)
 		{

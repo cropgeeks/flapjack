@@ -30,14 +30,14 @@ public class RandomColorScheme extends ColorScheme
 		this.type = type;
 
 		// Temp storage for the colors as we "invent" them
-		Hashtable<String, Color> hashtable = new Hashtable<>();
+		HashMap<String, Color> hashtable = new HashMap<>();
 
 		// Use white for the default unknown state
 		AlleleState state = stateTable.getAlleleState(0);
 		states.add(new SimpleColorState(state, Prefs.visColorBackground, w, h));
 
 		int seed = view.getViewSet().getRandomColorSeed();
-		float colorsNeeded = stateTable.getUniqueAlleles().size() - 1;
+		float colorsNeeded = stateTable.uniqueAlleles().size() - 1;
 
 		float colorSpacing = 0, fColor = 0;
 

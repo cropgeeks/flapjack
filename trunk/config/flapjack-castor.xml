@@ -198,4 +198,13 @@
 		</field>
 	</class>
 
+	<!-- BinnedData -->
+	<class name="flapjack.data.BinnedData" extends="flapjack.data.XMLRoot" auto-complete="true">
+		<field name="bins" type="flapjack.data.BinnedData$BinData" collection="arraylist"/>
+	</class>
+
+	<!-- BinData -->
+	<class name="flapjack.data.BinnedData$BinData" extends="flapjack.data.XMLRoot" auto-complete="true">
+	</class>
+
 </mapping>
