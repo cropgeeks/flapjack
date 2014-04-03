@@ -73,7 +73,7 @@ public class CalculateMarkerFrequencies extends SimpleJob
 		// We need to start by working out how many total alleles there are.
 		// This count is not the same as the total number of states: A, T, A/T
 		// is three states but two alleles: A and T
-		Hashtable<String, String> names = stateTable.getUniqueAlleles();
+		HashMap<String, String> names = stateTable.uniqueAlleles();
 		alleles = names.keySet().toArray(new String[0]);
 
 		// Build a mapping construct that maps states (such as A/T) back to the

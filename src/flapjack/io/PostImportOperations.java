@@ -7,7 +7,6 @@ import java.io.*;
 
 import flapjack.analysis.*;
 import flapjack.data.*;
-import flapjack.gui.*;
 import flapjack.gui.visualization.colors.*;
 
 import scri.commons.gui.*;
@@ -66,12 +65,16 @@ public class PostImportOperations
 			viewSet.setColorScheme(ColorScheme.NUCLEOTIDE01);
 		else if (dataSet.getStateTable().containsNucleotides())
 			viewSet.setColorScheme(ColorScheme.NUCLEOTIDE);
+
 		// ABH
 //		else if (dataSet.getStateTable().containsABHData())
 //			viewSet.setColorScheme(ColorScheme.ABH_DATA);
 		// Two colour
 		else if (hCount > 0 && hCount < 10)
 			viewSet.setColorScheme(ColorScheme.SIMPLE_TWO_COLOR);
+
+		else if (dataSet.getBinnedData().containsBins())
+			viewSet.setColorScheme(ColorScheme.BINNED_10);
 
 		// Random
 		else

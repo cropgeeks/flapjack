@@ -138,6 +138,11 @@ class CanvasMouseListener extends MouseInputAdapter
 			gPanel.overRow(xIndex, yIndex);
 	}
 
+	public void mouseEntered(MouseEvent e)
+	{
+		gPanel.statusPanel.setForMainUse();
+	}
+
 	public void mouseExited(MouseEvent e)
 	{
 		// Remove highlighting if the mouse has left the canvas, but not if it's
