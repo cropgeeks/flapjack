@@ -3,9 +3,10 @@
 
 package flapjack.io;
 
-import java.io.*;
 
 import flapjack.data.*;
+import flapjack.data.BinnedData.BinData;
+import java.io.*;
 
 import scri.commons.gui.*;
 
@@ -50,6 +51,15 @@ public class GenotypeDataExporter extends SimpleJob
 		if (db.isLineSearchEnabled() || db.isMarkerSearchEnabled())
 			out.newLine();
 
+		BinnedData binnedData = viewSet.getDataSet().getBinnedData();
+		if (binnedData.containsBins())
+		{
+			for (BinData binData : binnedData.getBins())
+			{
+				out.write("# bin\t" + binData.index + "\t" + binData.min + "\t" + binData.max);
+				out.newLine();
+			}
+		}
 
 		// Empty tab before the line containing all the markers
 		out.write("\t");

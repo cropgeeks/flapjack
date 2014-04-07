@@ -103,6 +103,7 @@ public class SplitProject extends SimpleJob
 
 		RB.initialize("auto", "res.text.flapjack");
 		TaskDialog.setIsHeadless();
+		FlapjackUtils.initialiseSqlite();
 
 		if (decimalEnglish)
 			Locale.setDefault(Locale.UK);

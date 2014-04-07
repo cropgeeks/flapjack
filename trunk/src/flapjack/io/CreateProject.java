@@ -3,10 +3,11 @@
 
 package flapjack.io;
 
+import flapjack.data.*;
+import flapjack.gui.*;
 import java.io.*;
 import java.util.*;
 
-import flapjack.data.*;
 
 import scri.commons.gui.*;
 
@@ -67,6 +68,7 @@ public class CreateProject
 
 		RB.initialize("auto", "res.text.flapjack");
 		TaskDialog.setIsHeadless();
+		FlapjackUtils.initialiseSqlite();
 
 		if (decimalEnglish)
 			Locale.setDefault(Locale.UK);
