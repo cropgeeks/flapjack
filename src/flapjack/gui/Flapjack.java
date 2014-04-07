@@ -47,7 +47,7 @@ public class Flapjack
 		setProxy();
 
 		// Initialize JDBC->SQLite driver
-		Class.forName("org.sqlite.JDBC");
+		FlapjackUtils.initialiseSqlite();
 
 		// Start the GUI (either with or without an initial project)
 		if (args.length == 1 && args[0] != null)

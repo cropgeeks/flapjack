@@ -151,4 +151,17 @@ public class FlapjackUtils
 
 		return instanceDir;
 	}
+
+	public static void initialiseSqlite()
+	{
+		try
+		{
+			// Initialize JDBC->SQLite driver
+			Class.forName("org.sqlite.JDBC");
+		}
+		catch (ClassNotFoundException e)
+		{
+			e.printStackTrace();
+		}
+	}
 }
