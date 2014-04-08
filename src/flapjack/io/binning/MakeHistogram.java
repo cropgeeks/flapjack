@@ -58,12 +58,15 @@ public class MakeHistogram
 	{
 		BufferedReader in = new BufferedReader(new FileReader(inFile));
 
-		// Skip the header line
-		for (int i = 0; i < 2; i++)
-			in.readLine();
+		// Skip header lines
+		String str;
+		while ((str = in.readLine()) != null)
+			if (str.startsWith("#") == false)
+				break;
 
+		// Note we're deliberately skipping the markers header line implicitly
+		// here
 		// Now write all the data, binning it as we go
-		String str = null;
 		while ((str = in.readLine()) != null && str.length() > 0)
 		{
 			String[] split = str.split("\t");

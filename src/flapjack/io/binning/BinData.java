@@ -54,6 +54,22 @@ public class BinData
 		out.write(in.readLine());
 		out.newLine();
 
+		String line;
+		while ((line = in.readLine()) != null)
+		{
+			if (line.startsWith("#"))
+			{
+				if (line.startsWith("# bin") == false)
+				{
+					out.write(line);
+					out.newLine();
+				}
+			}
+
+			else
+				break;
+		}
+
 		// Add the mapping information
 		int binNum = 0;
 		for (float[] data: binner.getBinSummary())
@@ -62,9 +78,8 @@ public class BinData
 			out.newLine();
 		}
 
-
-		// Now the marker names (line 2 of the original input)
-		out.write(in.readLine());
+		// Now the marker names
+		out.write(line);
 		out.newLine();
 
 		// Now write all the data, binning it as we go
