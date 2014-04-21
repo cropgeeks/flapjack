@@ -34,6 +34,10 @@ public class Prefs extends XMLPreferences
 
 	// History for selected external sort orders
 	public static String guiExternalSortHistory = "";
+	// History for selected external line selections
+	public static String guiExternalLineSelectionHistory = "";
+	// History for selected external marker selections
+	public static String guiExternalMarkerSelectionHistory = "";
 
 	// Use UK English decimal mark settings
 	public static boolean guiDecimalEnglish = false;
