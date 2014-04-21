@@ -31,11 +31,13 @@ public class Actions
 	public static AbstractAction editSelectMarkersAll;
 	public static AbstractAction editSelectMarkersNone;
 	public static AbstractAction editSelectMarkersInvert;
+	public static AbstractAction editSelectMarkersImport;
 	public static AbstractAction editHideMarkers;
 	public static AbstractAction editFilterMissingMarkers;
 	public static AbstractAction editSelectLinesAll;
 	public static AbstractAction editSelectLinesNone;
 	public static AbstractAction editSelectLinesInvert;
+	public static AbstractAction editSelectLinesImport;
 	public static AbstractAction editHideLines;
 	public static AbstractAction editInsertLine;
 	public static AbstractAction editDeleteLine;
@@ -234,6 +236,12 @@ public class Actions
 			}
 		};
 
+		editSelectMarkersImport = new AbstractAction(RB.format("gui.Actions.editSelectMarkersImport", ""), getIcon("IMPORTLINEMARKER")) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.mEdit.editSelectMarkers(Constants.SELECT_IMPORT);
+			}
+		};
+
 		editHideMarkers = new AbstractAction(RB.format("gui.Actions.editHideMarkers", "")) {
 			public void actionPerformed(ActionEvent e) {
 				winMain.mEdit.editHideMarkers();
@@ -261,6 +269,12 @@ public class Actions
 		editSelectLinesInvert = new AbstractAction(RB.format("gui.Actions.editSelectLinesInvert", ""), getIcon("INVERT")) {
 			public void actionPerformed(ActionEvent e) {
 				winMain.mEdit.editSelectLines(Constants.SELECT_INVERT);
+			}
+		};
+
+		editSelectLinesImport = new AbstractAction(RB.format("gui.Actions.editSelectLinesImport", ""), getIcon("IMPORTLINEMARKER")) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.mEdit.editSelectLines(Constants.SELECT_IMPORT);
 			}
 		};
 

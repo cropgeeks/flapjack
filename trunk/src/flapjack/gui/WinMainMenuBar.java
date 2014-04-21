@@ -38,12 +38,14 @@ public class WinMainMenuBar extends JMenuBar
 	private JMenuItem mEditSelectMarkersAll;
 	private JMenuItem mEditSelectMarkersNone;
 	private JMenuItem mEditSelectMarkersInvert;
+	private JMenuItem mEditSelectMarkersImport;
 	private JMenuItem mEditHideMarkers;
 	private JMenuItem mEditFilterMissingMarkers;
 	private JMenu mEditSelectLines;
 	private JMenuItem mEditSelectLinesAll;
 	private JMenuItem mEditSelectLinesNone;
 	private JMenuItem mEditSelectLinesInvert;
+	private JMenuItem mEditSelectLinesImport;
 	private JMenuItem mEditHideLines;
 
 	private JMenu mView;
@@ -197,11 +199,13 @@ public class WinMainMenuBar extends JMenuBar
 		mEditSelectMarkersAll = getItem(Actions.editSelectMarkersAll, "gui.Actions.editSelectMarkersAll", 0, 0);
 		mEditSelectMarkersNone = getItem(Actions.editSelectMarkersNone, "gui.Actions.editSelectMarkersNone", 0, 0);
 		mEditSelectMarkersInvert = getItem(Actions.editSelectMarkersInvert, "gui.Actions.editSelectMarkersInvert", 0, 0);
+		mEditSelectMarkersImport = getItem(Actions.editSelectMarkersImport, "gui.Actions.editSelectMarkersImport", 0, 0);
 		mEditHideMarkers = getItem(Actions.editHideMarkers, "gui.Actions.editHideMarkers", 0, 0);
 		mEditFilterMissingMarkers = getItem(Actions.editFilterMissingMarkers, "gui.Actions.editFilterMissingMarkers", 0, 0);
 		mEditSelectLinesAll = getItem(Actions.editSelectLinesAll, "gui.Actions.editSelectLinesAll", 0, 0);
 		mEditSelectLinesNone = getItem(Actions.editSelectLinesNone, "gui.Actions.editSelectLinesNone", 0, 0);
 		mEditSelectLinesInvert = getItem(Actions.editSelectLinesInvert, "gui.Actions.editSelectLinesInvert", 0, 0);
+		mEditSelectLinesImport = getItem(Actions.editSelectLinesImport, "gui.Actions.editSelectLinesImport", 0, 0);
 		mEditHideLines = getItem(Actions.editHideLines, "gui.Actions.editHideLines", 0, 0);
 
 		ButtonGroup grp = new ButtonGroup();
@@ -212,9 +216,13 @@ public class WinMainMenuBar extends JMenuBar
 		mEditSelectMarkers.add(mEditSelectMarkersAll);
 		mEditSelectMarkers.add(mEditSelectMarkersNone);
 		mEditSelectMarkers.add(mEditSelectMarkersInvert);
+		mEditSelectMarkers.addSeparator();
+		mEditSelectMarkers.add(mEditSelectMarkersImport);
 		mEditSelectLines.add(mEditSelectLinesAll);
 		mEditSelectLines.add(mEditSelectLinesNone);
 		mEditSelectLines.add(mEditSelectLinesInvert);
+		mEditSelectLines.addSeparator();
+		mEditSelectLines.add(mEditSelectLinesImport);
 
 		mEdit.add(mEditUndo);
 		mEdit.add(mEditRedo);

@@ -14,6 +14,7 @@ public class Constants
 	public static final int SELECT_ALL = 0;
 	public static final int SELECT_NONE = 1;
 	public static final int SELECT_INVERT = 2;
+	public static final int SELECT_IMPORT = 3;
 
 	// Map scaling constants
 	public static final int LOCAL = 0;

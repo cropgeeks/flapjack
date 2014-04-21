@@ -3,8 +3,11 @@
 
 package flapjack.gui;
 
+import java.io.*;
+import java.util.*;
 import javax.swing.*;
 
+import flapjack.analysis.*;
 import flapjack.data.*;
 import flapjack.gui.dialog.*;
 import flapjack.gui.visualization.*;
@@ -99,12 +102,18 @@ public class MenuEdit
 				view.setMarkerState(i, false);
 		}
 		// Invert
-		if (selectionType == Constants.SELECT_INVERT)
+		else if (selectionType == Constants.SELECT_INVERT)
 		{
 			state.setMenuString(RB.getString("gui.visualization.SelectedMarkersState.selectedInvert"));
 
 			for (int i = 0; i < view.markerCount(); i++)
 				view.toggleMarkerState(i);
+		}
+		// Import
+		else if (selectionType == Constants.SELECT_IMPORT)
+		{
+			state.setMenuString(RB.getString("gui.visualization.SelectedMarkersState.selectedImport"));
+			loadMarkerSelectionFromFile(view);
 		}
 
 		// And the redo state after the operation
@@ -112,6 +121,53 @@ public class MenuEdit
 		gPanel.addUndoState(state);
 
 		editMode(Constants.MARKERMODE);
+	}
+
+	private void loadMarkerSelectionFromFile(GTView view)
+	{
+		String rbTitle = "gui.MenuEdit.externalMarkerSelection.title";
+		String rbLabel = "gui.MenuEdit.externalMarkerSelection.label";
+		String rbButton = "gui.MenuEdit.externalMarkerSelection.button";
+		String help = "gui.dialog.SelectMarkerExternal";
+
+		// Find out which file to import
+		BrowseDialog browseDialog = new BrowseDialog(Prefs.guiExternalMarkerSelectionHistory,
+			rbTitle, rbLabel, rbButton, help);
+
+		if (browseDialog.isOK())
+		{
+			File file = browseDialog.getFile();
+			Prefs.guiExternalMarkerSelectionHistory = browseDialog.getHistory();
+
+			ExternalSelection selectMarkers = new ExternalSelection(file);
+			ProgressDialog dialog = new ProgressDialog(selectMarkers,
+				RB.getString("gui.MenuEdit.markerSelection.title"),
+				RB.getString("gui.MenuEdit.markerSelection.label"),
+				Flapjack.winMain);
+
+			if (dialog.getResult() == ProgressDialog.JOB_COMPLETED)
+			{
+				// Take our list of strings and convert it to a set of line infos
+				HashSet<MarkerInfo> selectedMarkers = new HashSet<>();
+				for (MarkerInfo info : view.getMarkers())
+					for (String name : selectMarkers.selectionStrings())
+						if (info.getMarker().getName().equals(name))
+							selectedMarkers.add(info);
+
+				// Loop over the markers and select or deselect as necesarry
+				for (int i = 0; i < view.markerCount(); i++)
+					view.setMarkerState(i, selectedMarkers.contains(view.getMarkerInfo(i)));
+
+				// Display summary of selected markers
+				TaskDialog.info(RB.format("gui.MenuEdit.markerSelectionSummary", selectedMarkers.size(), selectMarkers.selectionStrings().size()), RB.getString("gui.text.ok"));
+			}
+			else
+			{
+				if (dialog.getResult() == ProgressDialog.JOB_FAILED)
+					TaskDialog.error(RB.format("gui.MenuEdit.externalMarkerSelection.error",
+						dialog.getException()), RB.getString("gui.text.close"));
+			}
+		}
 	}
 
 	void editHideMarkers()
@@ -160,7 +216,7 @@ public class MenuEdit
 				view.setLineState(i, false);
 		}
 		// Invert
-		if (selectionType == Constants.SELECT_INVERT)
+		else if (selectionType == Constants.SELECT_INVERT)
 		{
 			state.setMenuString(RB.getString("gui.visualization.SelectedLinesState.selectedInvert"));
 
@@ -168,11 +224,63 @@ public class MenuEdit
 				view.toggleLineState(i);
 		}
 
+		else if (selectionType == Constants.SELECT_IMPORT)
+		{
+			state.setMenuString(RB.getString("gui.visualization.SelectedLinesState.selectedImport"));
+			loadLineSelectionFromFile(state, view);
+		}
+
 		// And the redo state after the operation
 		state.createRedoState();
 		gPanel.addUndoState(state);
 
 		editMode(Constants.LINEMODE);
+	}
+
+	private void loadLineSelectionFromFile(SelectedLinesState state, GTView view)
+	{
+		String rbTitle = "gui.MenuEdit.externalLineSelection.title";
+		String rbLabel = "gui.MenuEdit.externalLineSelection.label";
+		String rbButton = "gui.MenuEdit.externalLineSelection.button";
+		String help = "gui.dialog.SelectLineExternal";
+
+		// Find out which file to import
+		BrowseDialog browseDialog = new BrowseDialog(Prefs.guiExternalLineSelectionHistory,
+				rbTitle, rbLabel, rbButton, help);
+
+		if (browseDialog.isOK())
+		{
+			File file = browseDialog.getFile();
+			Prefs.guiExternalLineSelectionHistory = browseDialog.getHistory();
+			ExternalSelection selectLines = new ExternalSelection(file);
+			ProgressDialog dialog = new ProgressDialog(selectLines,
+					RB.getString("gui.MenuEdit.lineSelection.title"),
+					RB.getString("gui.MenuEdit.lineSelection.label"),
+					Flapjack.winMain);
+
+			if (dialog.getResult() == ProgressDialog.JOB_COMPLETED)
+			{
+				// Take our list of strings and convert it to a set of line infos
+				HashSet<LineInfo> selectedLines = new HashSet<>();
+				for (LineInfo info : view.getViewSet().getLines())
+					for (String name : selectLines.selectionStrings())
+						if (info.getLine().getName().equals(name))
+							selectedLines.add(info);
+
+				// Loop over the lines and select or deselect as necesarry
+				for (int i = 0; i < view.lineCount(); i++)
+					view.setLineState(i, selectedLines.contains(view.getLineInfo(i)));
+
+				// Display summary of selected lines
+				TaskDialog.info(RB.format("gui.MenuEdit.lineSelectionSummary", selectedLines.size(), selectLines.selectionStrings().size()), RB.getString("gui.text.ok"));
+			}
+			else
+			{
+				if (dialog.getResult() == ProgressDialog.JOB_FAILED)
+					TaskDialog.error(RB.format("gui.MenuEdit.externalLineSelection.error",
+						dialog.getException()), RB.getString("gui.text.close"));
+			}
+		}
 	}
 
 	void editHideLines()
