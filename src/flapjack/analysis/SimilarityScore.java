@@ -92,8 +92,8 @@ public class SimilarityScore
 				int state2 = compLine.getState(markers[j]);
 
 				// If either has no information, skip it
-//				if (state1 == 0 || state2 == 0)
-//					continue;
+				if (state1 == 0 || state2 == 0)
+					continue;
 
 				score += matrix[state1][state2];
 
