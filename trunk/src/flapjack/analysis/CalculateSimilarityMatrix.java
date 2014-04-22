@@ -137,8 +137,9 @@ public class CalculateSimilarityMatrix extends SimpleJob
 	{
 		int[] selected = new int[view.countSelectedMarkers()];
 		for (int i=0, j=0; i < view.getMarkers().size(); i++)
-			if (view.isMarkerSelected(i))
-				selected[j++] = view.getMarkerInfo(i).getIndex();
+			if (view.getMarkerInfo(i).dummyMarker() == false)
+				if (view.isMarkerSelected(i))
+					selected[j++] = view.getMarkerInfo(i).getIndex();
 
 		return selected;
 	}
