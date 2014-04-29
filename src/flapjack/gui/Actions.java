@@ -60,8 +60,6 @@ public class Actions
 	public static AbstractAction vizExportData;
 	public static AbstractAction vizCreatePedigree;
 	public static AbstractAction vizColorCustomize;
-	public static AbstractAction vizColorRandom;
-	public static AbstractAction vizColorRandomWSP;
 	public static AbstractAction vizColorNucleotide;
 	public static AbstractAction vizColorNucleotide01;
 	public static AbstractAction vizColorABHData;
@@ -72,6 +70,8 @@ public class Actions
 	public static AbstractAction vizColorSimple2Color;
 	public static AbstractAction vizColorAlleleFreq;
 	public static AbstractAction vizColorBinned;
+	public static AbstractAction vizColorRandom;
+	public static AbstractAction vizColorRandomWSP;
 	public static AbstractAction vizScalingLocal;
 	public static AbstractAction vizScalingGlobal;
 	public static AbstractAction vizScalingClassic;
