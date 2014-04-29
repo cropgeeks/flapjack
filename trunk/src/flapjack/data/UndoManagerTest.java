@@ -16,7 +16,6 @@ import flapjack.io.*;
  * from the flapjack.gui.visualization package
  * TODO: test MovedLinesState independantly?
  */
-/*
 public class UndoManagerTest extends TestCase
 {
 	private static DataSet dataSet = new DataSet();
@@ -59,7 +58,7 @@ public class UndoManagerTest extends TestCase
 		assertEquals(manager.canUndo(), false);
 		assertEquals(manager.canRedo(), false);
 	}
-
+/*
 	public void testAddingUndoState1()
 	{
 		MovedLinesState state = new MovedLinesState(viewSet, null);
@@ -171,5 +170,5 @@ public class UndoManagerTest extends TestCase
 
 		return true;
 	}
-}
 */
+}

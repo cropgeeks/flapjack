@@ -3,6 +3,9 @@
 
 package flapjack.gui;
 
+import javax.swing.*;
+import javax.swing.event.*;
+
 import flapjack.analysis.*;
 import flapjack.data.*;
 import flapjack.gui.dialog.*;
@@ -147,5 +150,38 @@ public class MenuVisualization
 	{
 		Prefs.visMapScaling = method;
 		gPanel.refreshView();
+	}
+
+	// This method gets passed the JMenu "Color" menus for both the main manu
+	// and the right-click menu. It then dynamically determines which of the
+	// various colour scheme subitems should be ticked at runtime
+	public void handleColorMenu(JMenu mVizColor)
+	{
+		mVizColor.addMenuListener(new MenuListener() {
+			public void menuSelected(MenuEvent e)
+			{
+				int cScheme = 0;
+
+				try { cScheme = gPanel.getViewSet().getColorScheme(); }
+				catch (Exception ex) {}
+
+				Actions.vizColorNucleotide.putValue(Action.SELECTED_KEY, cScheme == ColorScheme.NUCLEOTIDE);
+				Actions.vizColorNucleotide01.putValue(Action.SELECTED_KEY, cScheme == ColorScheme.NUCLEOTIDE01);
+				Actions.vizColorABHData.putValue(Action.SELECTED_KEY, cScheme == ColorScheme.ABH_DATA);
+				Actions.vizColorLineSim.putValue(Action.SELECTED_KEY, cScheme == ColorScheme.LINE_SIMILARITY);
+				Actions.vizColorLineSimGS.putValue(Action.SELECTED_KEY, cScheme == ColorScheme.LINE_SIMILARITY_GS);
+				Actions.vizColorMarkerSim.putValue(Action.SELECTED_KEY, cScheme == ColorScheme.MARKER_SIMILARITY);
+				Actions.vizColorMarkerSimGS.putValue(Action.SELECTED_KEY, cScheme == ColorScheme.MARKER_SIMILARITY_GS);
+				Actions.vizColorSimple2Color.putValue(Action.SELECTED_KEY, cScheme == ColorScheme.SIMPLE_TWO_COLOR);
+				Actions.vizColorAlleleFreq.putValue(Action.SELECTED_KEY, cScheme == ColorScheme.ALLELE_FREQUENCY);
+				Actions.vizColorBinned.putValue(Action.SELECTED_KEY, cScheme == ColorScheme.BINNED_10);
+				Actions.vizColorRandom.putValue(Action.SELECTED_KEY, cScheme == ColorScheme.RANDOM);
+				Actions.vizColorRandomWSP.putValue(Action.SELECTED_KEY, cScheme == ColorScheme.RANDOM_WSP);
+			}
+
+			public void menuDeselected(MenuEvent e) {}
+
+			public void menuCanceled(MenuEvent e) {}
+		});
 	}
 }

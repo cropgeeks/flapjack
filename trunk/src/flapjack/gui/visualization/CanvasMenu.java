@@ -15,6 +15,7 @@ import scri.commons.gui.*;
 public class CanvasMenu
 {
 	private GenotypeCanvas canvas;
+	private WinMain winMain;
 
 	private int menuShortcut;
 
@@ -38,18 +39,18 @@ public class CanvasMenu
 	private JMenuItem mSelectTraits;
 	private JMenu mColor;
 	private JMenuItem mColorCustomize;
-	private JMenuItem mColorRandom;
-	private JMenuItem mColorRandomWSP;
-	private JMenuItem mColorNucleotide;
-	private JMenuItem mColorNucleotide01;
-	private JMenuItem mColorLineSim;
-	private JMenuItem mColorLineSimGS;
-	private JMenuItem mColorMarkerSim;
-	private JMenuItem mColorMarkerSimGS;
-	private JMenuItem mColorSimple2Color;
-	private JMenuItem mColorABHData;
-	private JMenuItem mColorAlleleFreq;
-	private JMenuItem mColorBinned;
+	private JCheckBoxMenuItem mColorRandom;
+	private JCheckBoxMenuItem mColorRandomWSP;
+	private JCheckBoxMenuItem mColorNucleotide;
+	private JCheckBoxMenuItem mColorNucleotide01;
+	private JCheckBoxMenuItem mColorLineSim;
+	private JCheckBoxMenuItem mColorLineSimGS;
+	private JCheckBoxMenuItem mColorMarkerSim;
+	private JCheckBoxMenuItem mColorMarkerSimGS;
+	private JCheckBoxMenuItem mColorSimple2Color;
+	private JCheckBoxMenuItem mColorABHData;
+	private JCheckBoxMenuItem mColorAlleleFreq;
+	private JCheckBoxMenuItem mColorBinned;
 	private JMenuItem mToggleCanvas;
 	private JMenu mDataDB;
 	private JMenuItem mDBLineName;
@@ -63,9 +64,10 @@ public class CanvasMenu
 	private JMenuItem mFind;
 
 
-	CanvasMenu(GenotypeCanvas canvas)
+	CanvasMenu(GenotypeCanvas canvas, WinMain winMain)
 	{
 		this.canvas = canvas;
+		this.winMain = winMain;
 
 		// Returns value for "CTRL" under most OSs, and the "apple" key for OS X
 		menuShortcut = Toolkit.getDefaultToolkit().getMenuShortcutKeyMask();
@@ -92,18 +94,18 @@ public class CanvasMenu
 		mHighlightGaps = WinMainMenuBar.getCheckedItem(Actions.vizHighlightGaps, "gui.Actions.vizHighlightGaps", 0, 0);
 		mSelectTraits = WinMainMenuBar.getItem(Actions.dataSelectTraits, "gui.Actions.dataSelectTraits", 0, 0);
 		mColorCustomize = WinMainMenuBar.getItem(Actions.vizColorCustomize, "gui.Actions.vizColorCustomize", 0, 0);
-		mColorRandom = WinMainMenuBar.getItem(Actions.vizColorRandom, "gui.Actions.vizColorRandom", 0, 0);
-		mColorRandomWSP = WinMainMenuBar.getItem(Actions.vizColorRandomWSP, "gui.Actions.vizColorRandomWSP", 0, 0);
-		mColorNucleotide = WinMainMenuBar.getItem(Actions.vizColorNucleotide, "gui.Actions.vizColorNucleotide", 0, 0);
-		mColorNucleotide01 = WinMainMenuBar.getItem(Actions.vizColorNucleotide01, "gui.Actions.vizColorNucleotide01", 0, 0);
-		mColorSimple2Color = WinMainMenuBar.getItem(Actions.vizColorSimple2Color, "gui.Actions.vizColorSimple2Color", 0, 0);
-		mColorABHData = WinMainMenuBar.getItem(Actions.vizColorABHData, "gui.Actions.vizColorABHData", 0, 0);
-		mColorLineSim = WinMainMenuBar.getItem(Actions.vizColorLineSim, "gui.Actions.vizColorLineSim", 0, 0);
-//		mColorLineSimGS = WinMainMenuBar.getItem(Actions.vizColorLineSimGS, KeyEvent.VK_G, 0, 0);
-		mColorMarkerSim = WinMainMenuBar.getItem(Actions.vizColorMarkerSim, "gui.Actions.vizColorMarkerSim", 0, 0);
-//		mColorMarkerSimGS = WinMainMenuBar.getItem(Actions.vizColorMarkerSimGS, KeyEvent.VK_G, 0, 0);
-		mColorAlleleFreq = WinMainMenuBar.getItem(Actions.vizColorAlleleFreq, "gui.Actions.vizColorAlleleFreq", 0, 0);
-		mColorBinned = WinMainMenuBar.getItem(Actions.vizColorBinned, "gui.Actions.vizColorBinned", 0, 0);
+		mColorRandom = WinMainMenuBar.getCheckedItem(Actions.vizColorRandom, "gui.Actions.vizColorRandom", 0, 0);
+		mColorRandomWSP = WinMainMenuBar.getCheckedItem(Actions.vizColorRandomWSP, "gui.Actions.vizColorRandomWSP", 0, 0);
+		mColorNucleotide = WinMainMenuBar.getCheckedItem(Actions.vizColorNucleotide, "gui.Actions.vizColorNucleotide", 0, 0);
+		mColorNucleotide01 = WinMainMenuBar.getCheckedItem(Actions.vizColorNucleotide01, "gui.Actions.vizColorNucleotide01", 0, 0);
+		mColorSimple2Color = WinMainMenuBar.getCheckedItem(Actions.vizColorSimple2Color, "gui.Actions.vizColorSimple2Color", 0, 0);
+		mColorABHData = WinMainMenuBar.getCheckedItem(Actions.vizColorABHData, "gui.Actions.vizColorABHData", 0, 0);
+		mColorLineSim = WinMainMenuBar.getCheckedItem(Actions.vizColorLineSim, "gui.Actions.vizColorLineSim", 0, 0);
+//		mColorLineSimGS = WinMainMenuBar.getCheckedItem(Actions.vizColorLineSimGS, KeyEvent.VK_G, 0, 0);
+		mColorMarkerSim = WinMainMenuBar.getCheckedItem(Actions.vizColorMarkerSim, "gui.Actions.vizColorMarkerSim", 0, 0);
+//		mColorMarkerSimGS = WinMainMenuBar.getCheckedItem(Actions.vizColorMarkerSimGS, KeyEvent.VK_G, 0, 0);
+		mColorAlleleFreq = WinMainMenuBar.getCheckedItem(Actions.vizColorAlleleFreq, "gui.Actions.vizColorAlleleFreq", 0, 0);
+		mColorBinned = WinMainMenuBar.getCheckedItem(Actions.vizColorBinned, "gui.Actions.vizColorBinned", 0, 0);
 		mToggleCanvas = WinMainMenuBar.getItem(Actions.viewToggleCanvas, "gui.Actions.viewToggleCanvas", 0, 0);
 		mFind = WinMainMenuBar.getItem(Actions.dataFind, "gui.Actions.dataFind", KeyEvent.VK_F, menuShortcut);
 		mDBLineName = WinMainMenuBar.getItem(Actions.dataDBLineName, "gui.Actions.dataDBLineName", 0, 0);
@@ -123,6 +125,8 @@ public class CanvasMenu
 		mColor = new JMenu(RB.getString("gui.WinMainMenuBar.mVizColor"));
 		mColor.setIcon(Actions.getIcon("COLORS"));
 		RB.setMnemonic(mColor, "gui.WinMainMenuBar.mVizColor");
+		winMain.mViz.handleColorMenu(mColor);
+
 		mColor.add(mColorNucleotide);
 		mColor.add(mColorNucleotide01);
 		mColor.add(mColorABHData);

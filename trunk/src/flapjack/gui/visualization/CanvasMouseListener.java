@@ -31,12 +31,12 @@ class CanvasMouseListener extends MouseInputAdapter
 
 	private boolean isOSX = SystemUtils.isMacOS();
 
-	CanvasMouseListener(GenotypePanel gPanel, GenotypeCanvas canvas)
+	CanvasMouseListener(GenotypePanel gPanel, GenotypeCanvas canvas, WinMain winMain)
 	{
 		this.gPanel = gPanel;
 		this.canvas = canvas;
 
-		canvasMenu = new CanvasMenu(canvas);
+		canvasMenu = new CanvasMenu(canvas, winMain);
 
 		canvas.addMouseListener(this);
 		canvas.addMouseMotionListener(this);

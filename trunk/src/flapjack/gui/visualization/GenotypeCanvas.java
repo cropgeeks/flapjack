@@ -73,14 +73,14 @@ class GenotypeCanvas extends JPanel
 	private Future[] tasks;
 
 
-	GenotypeCanvas(GenotypePanel gPanel)
+	GenotypeCanvas(GenotypePanel gPanel, WinMain winMain)
 	{
 		this.gPanel = gPanel;
 
 		setOpaque(false);
 		setBackground(Prefs.visColorBackground);
 
-		new CanvasMouseListener(gPanel, this);
+		new CanvasMouseListener(gPanel, this, winMain);
 
 		// Set up some keyboard navigation
 		Action pageLeft = new AbstractAction() {
