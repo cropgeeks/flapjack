@@ -38,15 +38,17 @@ public class BinnedData extends XMLRoot
 
 	public String getBinForState(String alleleState)
 	{
-		try
+		if (bins.isEmpty() == false)
 		{
-			int bin = Integer.parseInt(alleleState);
-			return getBin(bin).range();
+			try
+			{
+				int bin = Integer.parseInt(alleleState);
+				return getBin(bin).range();
+			}
+			catch (NumberFormatException e) {}
 		}
-		catch (NumberFormatException e)
-		{
-			return "";
-		}
+
+		return "";
 	}
 
 	public boolean containsBins()
