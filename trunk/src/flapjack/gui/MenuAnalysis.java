@@ -265,7 +265,7 @@ public class MenuAnalysis
 		SimMatrix matrix = panel.getSimMatrix();
 
 
-		PCoAGenerator pco = new PCoAGenerator(viewSet.getDataSet(), matrix);
+		PCoAGenerator pco = new PCoAGenerator(viewSet, matrix);
 
 		ProgressDialog dialog = new ProgressDialog(pco,
 			"Calculating PCoA",
