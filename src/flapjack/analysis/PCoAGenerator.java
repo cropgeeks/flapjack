@@ -15,13 +15,16 @@ import scri.commons.gui.*;
 
 public class PCoAGenerator extends SimpleJob
 {
+	private GTViewSet viewSet;
 	private DataSet dataSet;
 	private SimMatrix matrix;
 
-	public PCoAGenerator(DataSet dataSet, SimMatrix matrix)
+	public PCoAGenerator(GTViewSet viewSet, SimMatrix matrix)
 	{
-		this.dataSet = dataSet;
+		this.viewSet = viewSet;
 		this.matrix = matrix;
+
+		dataSet = viewSet.getDataSet();
 	}
 
 	public void runJob(int index)
@@ -70,15 +73,24 @@ public class PCoAGenerator extends SimpleJob
 
 		BufferedWriter out = new BufferedWriter(new FileWriter(pcoaFile));
 
+		int[] selectedTraits = viewSet.getTraits();
 		ArrayList<Trait> traits = dataSet.getTraits();
 		ArrayList<LineInfo> lineInfos = result.getLineInfos();
 
 		// HEADER ROW
-		if (traits.size() > 0)
+// Just send the selected traits
+//		if (traits.size() > 0)
+// Or send all the traits
+		if (selectedTraits.length > 0)
 		{
 			// Category labels
-			for (Trait trait: traits)
+// Just send the selected traits
+//			for (Trait trait: traits)
+// Or send all the traits
+			for (int i = 0; i < selectedTraits.length; i++)
 			{
+				Trait trait = traits.get(selectedTraits[i]);
+
 				out.write("categories:" + trait.getName());
 				out.write("\t");
 			}
@@ -103,11 +115,21 @@ public class PCoAGenerator extends SimpleJob
 			LineInfo lineInfo = lineInfos.get(i);
 			Line line = lineInfo.getLine();
 
-			if (traits.size() > 0)
+// Just send the selected traits
+			if (selectedTraits.length > 0)
 			{
-				for (TraitValue tv: line.getTraitValues())
+				for (int t = 0; t < selectedTraits.length; t++)
+				{
+					TraitValue tv = line.getTraitValues().get(selectedTraits[t]);
 					out.write(tv.formatForCurlyWhirly());
+				}
 			}
+// Or send all the traits
+//			if (traits.size() > 0)
+//			{
+//				for (TraitValue tv: line.getTraitValues())
+//					out.write(tv.formatForCurlyWhirly());
+//			}
 			else
 				out.write("\t");
 
