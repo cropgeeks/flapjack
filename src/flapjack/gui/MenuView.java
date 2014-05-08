@@ -3,6 +3,8 @@
 
 package flapjack.gui;
 
+import javax.swing.*;
+
 import scri.commons.gui.*;
 
 import flapjack.data.*;
@@ -123,5 +125,14 @@ public class MenuView
 	void viewPageRight()
 	{
 		gPanel.getController().pageRight();
+	}
+
+	void viewGenotypesOrChromosomes(boolean showChromosomes)
+	{
+		Prefs.visShowChromosomes = showChromosomes;
+		Actions.viewGenotypes.putValue(Action.SELECTED_KEY, !Prefs.visShowChromosomes);
+		Actions.viewChromosomes.putValue(Action.SELECTED_KEY, Prefs.visShowChromosomes);
+
+		navPanel.toggleGenotypePanelViews();
 	}
 }

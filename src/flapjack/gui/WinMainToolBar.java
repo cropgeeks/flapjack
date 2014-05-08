@@ -26,9 +26,11 @@ public class WinMainToolBar extends JToolBar
 	private JButton dataFind;
 
 	private JButton helpContents;
-	
+
 	private JButton viewPageLeft;
 	private JButton viewPageRight;
+	private JToggleButton viewGenotypes;
+	private JToggleButton viewChromosomes;
 
 	WinMainToolBar()
 	{
@@ -97,24 +99,35 @@ public class WinMainToolBar extends JToolBar
 
 
 		// Data find
-		dataFind = (JButton) getButton(false, null,
+		dataFind = (JButton) getButton(false,
 			RB.getString("gui.WinMainToolBar.dataFind"),
+			RB.getString("gui.WinMainToolBar.dataFindTT"),
 			Icons.getIcon("FIND"), Actions.dataFind);
 
 
 		helpContents = (JButton) getButton(false, null,
 			RB.getString("gui.WinMainToolBar.helpContents"),
 			Icons.getIcon("HELP"), Actions.helpContents);
-		
-		// Edit, undo
+
+		// PageLeft
 		viewPageLeft = (JButton) getButton(false, null,
 			RB.getString("gui.Actions.viewPageLeft"),
 			Icons.getIcon("PAGELEFT"), Actions.viewPageLeft);
 
-		// Edit, redo
+		// PageRight
 		viewPageRight = (JButton) getButton(false, null,
 			RB.getString("gui.Actions.viewPageRight"),
 			Icons.getIcon("PAGERIGHT"), Actions.viewPageRight);
+
+		viewGenotypes = (JToggleButton) getButton(true,
+			RB.getString("gui.WinMainToolBar.viewGenotypes"),
+			RB.getString("gui.WinMainToolBar.viewGenotypesTT"),
+			Icons.getIcon("SHOW-GENOTYPES"), Actions.viewGenotypes);
+
+		viewChromosomes = (JToggleButton) getButton(true,
+			RB.getString("gui.WinMainToolBar.viewChromosomes"),
+			RB.getString("gui.WinMainToolBar.viewChromosomesTT"),
+			Icons.getIcon("SHOW-CHROMOSOMES"), Actions.viewChromosomes);
 
 
 		if (SystemUtils.isMacOS() == false)
@@ -143,12 +156,15 @@ public class WinMainToolBar extends JToolBar
 		add(editSelectLinesInvert);
 
 		addSeparator(true);
+		add(viewGenotypes);
+		add(viewChromosomes);
+		addSeparator(true);
 		add(viewPageLeft);
 		add(viewPageRight);
 
 		addSeparator(true);
 		add(helpContents);
-		
+
 		add(new JLabel(" "));
 	}
 

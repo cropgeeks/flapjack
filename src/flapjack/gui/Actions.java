@@ -55,6 +55,8 @@ public class Actions
 	public static AbstractAction viewDeleteBookmark;
 	public static AbstractAction viewPageLeft;
 	public static AbstractAction viewPageRight;
+	public static AbstractAction viewGenotypes;
+	public static AbstractAction viewChromosomes;
 
 	public static AbstractAction vizExportImage;
 	public static AbstractAction vizExportData;
@@ -374,6 +376,18 @@ public class Actions
 			}
 		};
 
+		viewGenotypes = new AbstractAction(RB.getString("gui.Actions.viewGenotypes")) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.mView.viewGenotypesOrChromosomes(false);
+			}
+		};
+
+		viewChromosomes = new AbstractAction(RB.getString("gui.Actions.viewChromosomes")) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.mView.viewGenotypesOrChromosomes(true);
+			}
+		};
+
 
 		vizExportImage = new AbstractAction(RB.getString("gui.Actions.vizExportImage")) {
 			public void actionPerformed(ActionEvent e) {
@@ -681,6 +695,9 @@ public class Actions
 
 		viewOverview.putValue(SELECTED_KEY,	Prefs.guiOverviewDialog);
 
+		viewGenotypes.putValue(SELECTED_KEY, !Prefs.visShowChromosomes);
+		viewChromosomes.putValue(SELECTED_KEY, Prefs.visShowChromosomes);
+
 		vizScalingLocal.putValue(SELECTED_KEY,
 			Prefs.visMapScaling == Constants.LOCAL);
 		vizScalingGlobal.putValue(SELECTED_KEY,
@@ -727,6 +744,8 @@ public class Actions
 		viewDeleteBookmark.setEnabled(false);
 		viewPageLeft.setEnabled(false);
 		viewPageRight.setEnabled(false);
+		viewGenotypes.setEnabled(false);
+		viewChromosomes.setEnabled(false);
 
 		vizExportImage.setEnabled(false);
 		vizExportData.setEnabled(false);

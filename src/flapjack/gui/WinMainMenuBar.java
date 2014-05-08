@@ -31,9 +31,9 @@ public class WinMainMenuBar extends JMenuBar
 	private JMenu mEdit;
 	public static JMenuItem mEditUndo;
 	public static JMenuItem mEditRedo;
-	private JCheckBoxMenuItem mEditModeNavigation;
-	private JCheckBoxMenuItem mEditModeMarker;
-	private JCheckBoxMenuItem mEditModeLine;
+	private JRadioButtonMenuItem mEditModeNavigation;
+	private JRadioButtonMenuItem mEditModeMarker;
+	private JRadioButtonMenuItem mEditModeLine;
 	private JMenu mEditSelectMarkers;
 	private JMenuItem mEditSelectMarkersAll;
 	private JMenuItem mEditSelectMarkersNone;
@@ -56,6 +56,8 @@ public class WinMainMenuBar extends JMenuBar
 	public static JCheckBoxMenuItem mViewOverview;
 	private JMenuItem mViewPageLeft;
 	private JMenuItem mViewPageRight;
+	private JRadioButtonMenuItem mViewGenotypes;
+	private JRadioButtonMenuItem mViewChromosomes;
 
 	private JMenu mViz;
 	private JMenuItem mVizExportImage;
@@ -63,18 +65,18 @@ public class WinMainMenuBar extends JMenuBar
 	private JMenuItem mVizCreatePedigree;
 	private JMenu mVizColor;
 	private JMenuItem mVizColorCustomize;
-	private JCheckBoxMenuItem mVizColorRandom;
-	private JCheckBoxMenuItem mVizColorRandomWSP;
-	private JCheckBoxMenuItem mVizColorNucleotide;
-	private JCheckBoxMenuItem mVizColorNucleotide01;
-	private JCheckBoxMenuItem mVizColorABHData;
-	private JCheckBoxMenuItem mVizColorLineSim;
-	private JCheckBoxMenuItem mVizColorLineSimGS;
-	private JCheckBoxMenuItem mVizColorMarkerSim;
-	private JCheckBoxMenuItem mVizColorMarkerSimGS;
-	private JCheckBoxMenuItem mVizColorSimple2Color;
-	private JCheckBoxMenuItem mVizColorAlleleFreq;
-	private JCheckBoxMenuItem mVizColorBinned;
+	private JRadioButtonMenuItem mVizColorRandom;
+	private JRadioButtonMenuItem mVizColorRandomWSP;
+	private JRadioButtonMenuItem mVizColorNucleotide;
+	private JRadioButtonMenuItem mVizColorNucleotide01;
+	private JRadioButtonMenuItem mVizColorABHData;
+	private JRadioButtonMenuItem mVizColorLineSim;
+	private JRadioButtonMenuItem mVizColorLineSimGS;
+	private JRadioButtonMenuItem mVizColorMarkerSim;
+	private JRadioButtonMenuItem mVizColorMarkerSimGS;
+	private JRadioButtonMenuItem mVizColorSimple2Color;
+	private JRadioButtonMenuItem mVizColorAlleleFreq;
+	private JRadioButtonMenuItem mVizColorBinned;
 	private JMenu mVizScaling;
 	private JCheckBoxMenuItem mVizScalingLocal;
 	private JCheckBoxMenuItem mVizScalingGlobal;
@@ -190,11 +192,11 @@ public class WinMainMenuBar extends JMenuBar
 
 		mEditUndo = getItem(Actions.editUndo, "gui.Actions.editUndo", KeyEvent.VK_Z, menuShortcut);
 		mEditRedo = getItem(Actions.editRedo, "gui.Actions.editRedo", KeyEvent.VK_Y, menuShortcut);
-		mEditModeNavigation = getCheckedItem(Actions.editModeNavigation, "gui.Actions.editModeNavigation",
+		mEditModeNavigation = getRadioItem(Actions.editModeNavigation, "gui.Actions.editModeNavigation",
 			KeyEvent.VK_1, InputEvent.ALT_MASK);
-		mEditModeMarker = getCheckedItem(Actions.editModeMarker, "gui.Actions.editModeMarker",
+		mEditModeMarker = getRadioItem(Actions.editModeMarker, "gui.Actions.editModeMarker",
 			KeyEvent.VK_2, InputEvent.ALT_MASK);
-		mEditModeLine = getCheckedItem(Actions.editModeLine, "gui.Actions.editModeLine",
+		mEditModeLine = getRadioItem(Actions.editModeLine, "gui.Actions.editModeLine",
 			KeyEvent.VK_3, InputEvent.ALT_MASK);
 		mEditSelectMarkersAll = getItem(Actions.editSelectMarkersAll, "gui.Actions.editSelectMarkersAll", 0, 0);
 		mEditSelectMarkersNone = getItem(Actions.editSelectMarkersNone, "gui.Actions.editSelectMarkersNone", 0, 0);
@@ -253,10 +255,17 @@ public class WinMainMenuBar extends JMenuBar
 		mViewOverview = getCheckedItem(Actions.viewOverview, "gui.Actions.viewOverview", KeyEvent.VK_F7, 0);
 		mViewPageLeft = getItem(Actions.viewPageLeft, "gui.Actions.viewPageLeft", 0, 0);
 		mViewPageRight = getItem(Actions.viewPageRight, "gui.Actions.viewPageRight", 0, 0);
+		mViewGenotypes = getRadioItem(Actions.viewGenotypes, "gui.Actions.viewGenotypes",
+			KeyEvent.VK_5, InputEvent.ALT_MASK);
+		mViewChromosomes = getRadioItem(Actions.viewChromosomes, "gui.Actions.viewChromosomes",
+			KeyEvent.VK_6, InputEvent.ALT_MASK);
 
 		mView.add(mViewNewView);
 		mView.add(mViewRenameView);
 		mView.add(mViewDeleteView);
+		mView.addSeparator();
+		mView.add(mViewGenotypes);
+		mView.add(mViewChromosomes);
 		mView.addSeparator();
 		mView.add(mViewPageLeft);
 		mView.add(mViewPageRight);
@@ -264,6 +273,9 @@ public class WinMainMenuBar extends JMenuBar
 		mView.add(mViewToggleCanvas);
 		mView.add(mViewOverview);
 
+		ButtonGroup grp = new ButtonGroup();
+		grp.add(mViewGenotypes);
+		grp.add(mViewChromosomes);
 
 
 		add(mView);
@@ -289,18 +301,18 @@ public class WinMainMenuBar extends JMenuBar
 		mVizExportData = getItem(Actions.vizExportData, "gui.Actions.vizExportData", 0, 0);
 		mVizCreatePedigree = getItem(Actions.vizCreatePedigree, "gui.Actions.vizCreatePedigree", 0, 0);
 		mVizColorCustomize = getItem(Actions.vizColorCustomize, "gui.Actions.vizColorCustomize", 0, 0);
-		mVizColorRandom = getCheckedItem(Actions.vizColorRandom, "gui.Actions.vizColorRandom", 0, 0);
-		mVizColorRandomWSP = getCheckedItem(Actions.vizColorRandomWSP, "gui.Actions.vizColorRandomWSP", 0, 0);
-		mVizColorNucleotide = getCheckedItem(Actions.vizColorNucleotide, "gui.Actions.vizColorNucleotide", 0, 0);
-		mVizColorNucleotide01 = getCheckedItem(Actions.vizColorNucleotide01, "gui.Actions.vizColorNucleotide01", 0, 0);
-		mVizColorABHData = getCheckedItem(Actions.vizColorABHData, "gui.Actions.vizColorABHData", 0, 0);
-		mVizColorLineSim = getCheckedItem(Actions.vizColorLineSim, "gui.Actions.vizColorLineSim", 0, 0);
-//		mVizColorLineSimGS = getCheckedItem(Actions.vizColorLineSimGS, KeyEvent.VK_G, 0, 0);
-		mVizColorMarkerSim = getCheckedItem(Actions.vizColorMarkerSim, "gui.Actions.vizColorMarkerSim", 0, 0);
-//		mVizColorMarkerSimGS = getCheckedItem(Actions.vizColorMarkerSimGS, KeyEvent.VK_G, 0, 0);
-		mVizColorSimple2Color = getCheckedItem(Actions.vizColorSimple2Color, "gui.Actions.vizColorSimple2Color", 0, 0);
-		mVizColorAlleleFreq = getCheckedItem(Actions.vizColorAlleleFreq, "gui.Actions.vizColorAlleleFreq", 0, 0);
-		mVizColorBinned = getCheckedItem(Actions.vizColorBinned, "gui.Actions.vizColorBinned", 0, 0);
+		mVizColorRandom = getRadioItem(Actions.vizColorRandom, "gui.Actions.vizColorRandom", 0, 0);
+		mVizColorRandomWSP = getRadioItem(Actions.vizColorRandomWSP, "gui.Actions.vizColorRandomWSP", 0, 0);
+		mVizColorNucleotide = getRadioItem(Actions.vizColorNucleotide, "gui.Actions.vizColorNucleotide", 0, 0);
+		mVizColorNucleotide01 = getRadioItem(Actions.vizColorNucleotide01, "gui.Actions.vizColorNucleotide01", 0, 0);
+		mVizColorABHData = getRadioItem(Actions.vizColorABHData, "gui.Actions.vizColorABHData", 0, 0);
+		mVizColorLineSim = getRadioItem(Actions.vizColorLineSim, "gui.Actions.vizColorLineSim", 0, 0);
+//		mVizColorLineSimGS = getRadioItem(Actions.vizColorLineSimGS, KeyEvent.VK_G, 0, 0);
+		mVizColorMarkerSim = getRadioItem(Actions.vizColorMarkerSim, "gui.Actions.vizColorMarkerSim", 0, 0);
+//		mVizColorMarkerSimGS = getRadioItem(Actions.vizColorMarkerSimGS, KeyEvent.VK_G, 0, 0);
+		mVizColorSimple2Color = getRadioItem(Actions.vizColorSimple2Color, "gui.Actions.vizColorSimple2Color", 0, 0);
+		mVizColorAlleleFreq = getRadioItem(Actions.vizColorAlleleFreq, "gui.Actions.vizColorAlleleFreq", 0, 0);
+		mVizColorBinned = getRadioItem(Actions.vizColorBinned, "gui.Actions.vizColorBinned", 0, 0);
 		mVizScalingLocal = getCheckedItem(Actions.vizScalingLocal, "gui.Actions.vizScalingLocal", 0, 0);
 		mVizScalingGlobal = getCheckedItem(Actions.vizScalingGlobal, "gui.Actions.vizScalingGlobal", 0, 0);
 		mVizScalingClassic = getCheckedItem(Actions.vizScalingClassic, "gui.Actions.vizScalingClassic", 0, 0);
@@ -492,6 +504,17 @@ public class WinMainMenuBar extends JMenuBar
 	public static JCheckBoxMenuItem getCheckedItem(Action action, String key, int keymask, int modifiers)
 	{
 		JCheckBoxMenuItem item = new JCheckBoxMenuItem(action);
+		RB.setMnemonic(item, key);
+
+		if (keymask != 0)
+			item.setAccelerator(KeyStroke.getKeyStroke(keymask, modifiers));
+
+		return item;
+	}
+
+	public static JRadioButtonMenuItem getRadioItem(Action action, String key, int keymask, int modifiers)
+	{
+		JRadioButtonMenuItem item = new JRadioButtonMenuItem(action);
 		RB.setMnemonic(item, key);
 
 		if (keymask != 0)

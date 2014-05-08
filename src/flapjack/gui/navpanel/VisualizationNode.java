@@ -12,14 +12,16 @@ import flapjack.gui.visualization.*;
 public class VisualizationNode extends BaseNode
 {
 	private GenotypePanel gPanel;
+	private ChromosomePanel cPanel;
 	private GTViewSet viewSet;
 
-	public VisualizationNode(DataSet dataSet, GTViewSet viewSet, GenotypePanel gPanel)
+	public VisualizationNode(DataSet dataSet, GTViewSet viewSet, GenotypePanel gPanel, ChromosomePanel cPanel)
 	{
 		super(dataSet);
 
 		this.viewSet = viewSet;
 		this.gPanel = gPanel;
+		this.cPanel = cPanel;
 	}
 
 	public GTViewSet getViewSet()
@@ -59,6 +61,8 @@ public class VisualizationNode extends BaseNode
 		Actions.viewBookmark.setEnabled(true);
 		Actions.viewPageLeft.setEnabled(true);
 		Actions.viewPageRight.setEnabled(true);
+		Actions.viewGenotypes.setEnabled(true);
+		Actions.viewChromosomes.setEnabled(true);
 
 		Actions.vizExportImage.setEnabled(true);
 		Actions.vizExportData.setEnabled(true);
@@ -110,6 +114,9 @@ public class VisualizationNode extends BaseNode
 	{
 		gPanel.setViewSet(viewSet);
 
-		return gPanel;
+		if (Prefs.visShowChromosomes)
+			return cPanel;
+		else
+			return gPanel;
 	}
 }

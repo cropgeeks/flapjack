@@ -139,6 +139,9 @@ public class Prefs extends XMLPreferences
 	public static boolean visShowStatusPanel = true;
 	public static boolean visShowGraphCanvas = true;
 
+	// If true, then we're showing the main genotypes view
+	public static boolean visShowChromosomes = false;
+
 	// Link the x/y zoom sliders?
 	public static boolean visLinkSliders = true;
 	// Which is an option only visible when advanced zoom controls are used
