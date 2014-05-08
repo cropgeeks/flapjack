@@ -40,6 +40,7 @@ class NavPanel extends JPanel
 	// We maintain just one GenotypePanel that is used to display any dataset
 	// as it would require too much memory to assign one per dataset
 	private GenotypePanel gPanel;
+	private ChromosomePanel cPanel;
 
 	// The default node to view on project open
 	private DefaultMutableTreeNode defaultNode;
@@ -64,6 +65,7 @@ class NavPanel extends JPanel
 		treePanel.add(new JScrollPane(tree));
 
 		gPanel = new GenotypePanel(winMain);
+		cPanel = new ChromosomePanel();
 
 		vSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
 		vSplitPane.setBorder(BorderFactory.createEmptyBorder());
@@ -162,7 +164,7 @@ class NavPanel extends JPanel
 		DataSetNode dataSetNode = findDataSetNode(dataSet);
 
 		// The GTViewSet itself
-		VisualizationNode node = new VisualizationNode(dataSet, viewSet, gPanel);
+		VisualizationNode node = new VisualizationNode(dataSet, viewSet, gPanel, cPanel);
 		insert(node, dataSetNode, dataSetNode.getChildCount());
 
 		if (defaultNode == null)
@@ -309,6 +311,11 @@ class NavPanel extends JPanel
 	SimMatrixPanel getActiveSimMatrixPanel()
 	{
 		return (SimMatrixPanel) hSplitPane.getRightComponent();
+	}
+
+	public void toggleGenotypePanelViews()
+	{
+		valueChanged(null);
 	}
 
 	public void valueChanged(TreeSelectionEvent e)
