@@ -381,16 +381,16 @@ class NavPanel extends JPanel
 				RB.getString("gui.navpanel.NBStartHelpPanel.title")), BorderLayout.NORTH);
 			helpPanel.add(new StartPanelHelpNB());
 
-			JPanel emailPanel = new JPanel(new BorderLayout());
-			emailPanel.setOpaque(false);
-			emailPanel.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
-			emailPanel.add(new TitlePanel3(
-				RB.getString("gui.navpanel.NBStartEmailPanel.title")), BorderLayout.NORTH);
-			emailPanel.add(new StartPanelEmailNB());
+			JPanel citationPanel = new JPanel(new BorderLayout());
+			citationPanel.setOpaque(false);
+			citationPanel.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
+			citationPanel.add(new TitlePanel3(
+				RB.getString("gui.navpanel.StartPanelPublicationNB.title")), BorderLayout.NORTH);
+			citationPanel.add(new StartPanelPublicationNB());
 
 			JPanel huttonPanel = new JPanel(new BorderLayout());
 			huttonPanel.setOpaque(false);
-			huttonPanel.add(emailPanel);
+			huttonPanel.add(citationPanel);
 			JPanel logoPanel = new JPanel(new BorderLayout());
 			logoPanel.setOpaque(false);
 			logoPanel.add(getHuttonLabel(), BorderLayout.WEST);
@@ -416,7 +416,7 @@ class NavPanel extends JPanel
 	{
 		HyperLinkLabel huttonLabel = new HyperLinkLabel();
 		huttonLabel.setIcon(Icons.getIcon("HUTTON"));
-		huttonLabel.setBorder(BorderFactory.createEmptyBorder(65, 10, 0, 10));
+		huttonLabel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
 
 		huttonLabel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -431,7 +431,7 @@ class NavPanel extends JPanel
 	{
 		HyperLinkLabel huttonLabel = new HyperLinkLabel();
 		huttonLabel.setIcon(Icons.getIcon("MASAGRO"));
-		huttonLabel.setBorder(BorderFactory.createEmptyBorder(65, 0, 0, 10));
+		huttonLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 10));
 
 		huttonLabel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

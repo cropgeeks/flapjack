@@ -17,24 +17,19 @@ public class StartPanelWelcomeNB extends javax.swing.JPanel implements ActionLis
 		setOpaque(false);
 
 		flapjackLabel.setText("<html>" + RB.format("gui.navpanel.NBStartWelcomePanel.panel.label", Install4j.VERSION, "\u0026"));
-		citeLabel.setText(RB.getString("gui.navpanel.NBStartWelcomePanel.panel.cite"));
 		feedbackLabel.setText(RB.getString("gui.navpanel.NBStartWelcomePanel.panel.feedback"));
 		twitterLabel.setText(RB.getString("gui.navpanel.NBStartWelcomePanel.panel.twitter"));
 
-		citeLabel.setIcon(Icons.getIcon("WEB"));
 		feedbackLabel.setIcon(Icons.getIcon("FEEDBACK"));
 		twitterLabel.setIcon(Icons.getIcon("TWITTER"));
-		citeLabel.addActionListener(this);
 		feedbackLabel.addActionListener(this);
 		twitterLabel.addActionListener(this);
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e)
 	{
-		if(e.getSource() == citeLabel)
-			FlapjackUtils.visitURL("http://bioinf.hutton.ac.uk/flapjack/papers.shtml");
-
-		else if (e.getSource() == feedbackLabel)
+		if (e.getSource() == feedbackLabel)
 			FlapjackUtils.sendFeedback();
 
 		else if (e.getSource() == twitterLabel)
@@ -48,12 +43,12 @@ public class StartPanelWelcomeNB extends javax.swing.JPanel implements ActionLis
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+    private void initComponents()
+    {
 
         flapjackLabel = new javax.swing.JLabel();
         feedbackLabel = new scri.commons.gui.matisse.HyperLinkLabel();
         twitterLabel = new scri.commons.gui.matisse.HyperLinkLabel();
-        citeLabel = new scri.commons.gui.matisse.HyperLinkLabel();
 
         flapjackLabel.setText("<html>Flapjack x.xx.xx.xx - &copy; Plant Bioinformatics Group, JHI.");
 
@@ -63,9 +58,6 @@ public class StartPanelWelcomeNB extends javax.swing.JPanel implements ActionLis
         twitterLabel.setForeground(new java.awt.Color(68, 106, 156));
         twitterLabel.setText("Follow");
 
-        citeLabel.setForeground(new java.awt.Color(68, 106, 156));
-        citeLabel.setText("Cite");
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -73,9 +65,7 @@ public class StartPanelWelcomeNB extends javax.swing.JPanel implements ActionLis
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(flapjackLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 160, Short.MAX_VALUE)
-                .addComponent(citeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 197, Short.MAX_VALUE)
                 .addComponent(feedbackLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(twitterLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -88,15 +78,13 @@ public class StartPanelWelcomeNB extends javax.swing.JPanel implements ActionLis
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(flapjackLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(twitterLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(feedbackLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(citeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(feedbackLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private scri.commons.gui.matisse.HyperLinkLabel citeLabel;
     private scri.commons.gui.matisse.HyperLinkLabel feedbackLabel;
     private javax.swing.JLabel flapjackLabel;
     private scri.commons.gui.matisse.HyperLinkLabel twitterLabel;
