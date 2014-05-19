@@ -52,6 +52,12 @@ public class Prefs extends XMLPreferences
 	public static String guiRecentProject2;
 	public static String guiRecentProject3;
 	public static String guiRecentProject4;
+	public static String guiRecentProject5;
+	public static String guiRecentProject6;
+	public static String guiRecentProject7;
+	public static String guiRecentProject8;
+	public static String guiRecentProject9;
+	public static String guiRecentProject10;
 
 	// Display localised text in...
 	public static String localeText = "auto";

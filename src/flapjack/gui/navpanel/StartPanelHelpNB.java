@@ -23,6 +23,7 @@ public class StartPanelHelpNB extends javax.swing.JPanel implements ActionListen
 		setOpaque(false);
 
 		RB.setText(homeLabel, "gui.navpanel.NBStartHelpPanel.homeLabel");
+		RB.setText(rateLabel, "gui.navpanel.NBStartFilePanel.rateLabel");
 
 		homeLabel.setIcon(Icons.getIcon("BOOK"));
 		homeLabel.addActionListener(this);
@@ -37,12 +38,20 @@ public class StartPanelHelpNB extends javax.swing.JPanel implements ActionListen
 			RB.setText(labels[i], "gui.navpanel.NBStartHelpPanel.link" + (i+1));
 			labels[i].addActionListener(this);
 		}
+
+		ratingsPanel.doSetup(Prefs.rating,
+			Icons.getIcon("STARON"), Icons.getIcon("STAROFF"));
+		ratingsPanel.addActionListener(this);
     }
 
 	public void actionPerformed(ActionEvent e)
 	{
 		if (e.getSource() == homeLabel)
     		FlapjackUtils.visitURL(home);
+
+		else if (e.getSource() == ratingsPanel)
+			Prefs.rating = ratingsPanel.getRating();
+
 		else
 		{
 			for (int i = 0; i < labels.length; i++)
@@ -61,7 +70,8 @@ public class StartPanelHelpNB extends javax.swing.JPanel implements ActionListen
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+    private void initComponents()
+    {
 
         homeLabel = new scri.commons.gui.matisse.HyperLinkLabel();
         link1 = new scri.commons.gui.matisse.HyperLinkLabel();
@@ -72,6 +82,9 @@ public class StartPanelHelpNB extends javax.swing.JPanel implements ActionListen
         link6 = new scri.commons.gui.matisse.HyperLinkLabel();
         link7 = new scri.commons.gui.matisse.HyperLinkLabel();
         link8 = new scri.commons.gui.matisse.HyperLinkLabel();
+        rateLabel = new javax.swing.JLabel();
+        ratingsPanel = new scri.commons.gui.matisse.RatingsPanel();
+        spacerLabel = new javax.swing.JLabel();
 
         homeLabel.setForeground(new java.awt.Color(68, 106, 156));
         homeLabel.setText("Visit the online Flapjack user manual");
@@ -108,6 +121,10 @@ public class StartPanelHelpNB extends javax.swing.JPanel implements ActionListen
         link8.setIcon(Icons.getIcon("BUTTON"));
         link8.setText("link8");
 
+        rateLabel.setText("Click to rate Flapjack:");
+
+        spacerLabel.setText(" ");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -123,7 +140,12 @@ public class StartPanelHelpNB extends javax.swing.JPanel implements ActionListen
                     .addComponent(link5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(link6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(link7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(link8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(link8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(rateLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(ratingsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(spacerLabel))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -147,7 +169,13 @@ public class StartPanelHelpNB extends javax.swing.JPanel implements ActionListen
                 .addComponent(link7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(link8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(11, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(spacerLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(rateLabel)
+                    .addComponent(ratingsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -162,6 +190,9 @@ public class StartPanelHelpNB extends javax.swing.JPanel implements ActionListen
     private scri.commons.gui.matisse.HyperLinkLabel link6;
     private scri.commons.gui.matisse.HyperLinkLabel link7;
     private scri.commons.gui.matisse.HyperLinkLabel link8;
+    private javax.swing.JLabel rateLabel;
+    private scri.commons.gui.matisse.RatingsPanel ratingsPanel;
+    private javax.swing.JLabel spacerLabel;
     // End of variables declaration//GEN-END:variables
 
 }

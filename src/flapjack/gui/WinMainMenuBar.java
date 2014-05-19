@@ -535,6 +535,12 @@ public class WinMainMenuBar extends JMenuBar
 		entries.add(Prefs.guiRecentProject2);
 		entries.add(Prefs.guiRecentProject3);
 		entries.add(Prefs.guiRecentProject4);
+		entries.add(Prefs.guiRecentProject5);
+		entries.add(Prefs.guiRecentProject6);
+		entries.add(Prefs.guiRecentProject7);
+		entries.add(Prefs.guiRecentProject8);
+		entries.add(Prefs.guiRecentProject9);
+		entries.add(Prefs.guiRecentProject10);
 
 		// See if any of the items on that list match the file being accessed,
 		// moving (or adding) the entry to the first location
@@ -551,7 +557,7 @@ public class WinMainMenuBar extends JMenuBar
 
 			entries.addFirst(file.getPath());
 
-			if (entries.size() > 4)
+			if (entries.size() > 10)
 				entries.removeLast();
 		}
 
@@ -582,5 +588,11 @@ public class WinMainMenuBar extends JMenuBar
 		Prefs.guiRecentProject2 = entries.get(1);
 		Prefs.guiRecentProject3 = entries.get(2);
 		Prefs.guiRecentProject4 = entries.get(3);
+		Prefs.guiRecentProject5 = entries.get(4);
+		Prefs.guiRecentProject6 = entries.get(5);
+		Prefs.guiRecentProject7 = entries.get(6);
+		Prefs.guiRecentProject8 = entries.get(7);
+		Prefs.guiRecentProject9 = entries.get(8);
+		Prefs.guiRecentProject10 = entries.get(9);
 	}
 }
