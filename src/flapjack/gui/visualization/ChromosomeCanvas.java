@@ -7,6 +7,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.*;
 import java.text.*;
+import java.util.*;
 import javax.swing.*;
 import javax.swing.event.*;
 
@@ -62,6 +63,7 @@ class ChromosomeCanvas extends JPanel
 
 		if (redraw)
 		{
+			long s = System.currentTimeMillis();
 			// What size of viewport buffer do we need?
 			int w = getWidth();
 			int h = getHeight();
@@ -78,6 +80,7 @@ class ChromosomeCanvas extends JPanel
 
 			renderCanvas(gImage);
 			gImage.dispose();
+			System.out.println("Render time: " + (System.currentTimeMillis() - s));
 		}
 
 		g.drawImage(imageViewPort, 0, 0, null);
@@ -98,6 +101,10 @@ class ChromosomeCanvas extends JPanel
 
 		System.out.println("longestMap="+ longestMap);
 
+		// Work out how man centimorgans each pixel represents
+		int longestMapW = getWidth()-50;
+		float cmPerPixel = longestMap / longestMapW;
+		System.out.println("cmPerPixel: " + cmPerPixel);
 
 		NumberFormat nf = NumberFormat.getInstance();
 		g.setFont((Font)UIManager.get("Label.font"));
@@ -107,52 +114,102 @@ class ChromosomeCanvas extends JPanel
 
 		int y = 25;
 
+		int maxMarkers = 0;
+		ArrayList<int[]> viewMarkersPerPixel = new ArrayList<int[]>();
+		for (GTView view : viewSet.getViews())
+		{
+			// Create an array of the appropriate length for this map
+			int mapW = (int) ((view.mapLength()/longestMap) * longestMapW);
+			int[] markersPerPixel = new int[mapW];
+
+			int startMarker = 0;
+			// <= as we start at 1, not 0 and we need values for the full width
+			for (int pixel = 1; pixel <= mapW; pixel++)
+			{
+				int markerCount = 0;
+				for (int i = startMarker; i < view.markerCount(); i++)
+				{
+					Marker m = view.getMarker(i);
+					// If the marker is located within the centimorgans which
+					// make up the current pixel update the markerCount and start
+					// marker
+					if (m.getPosition() < pixel * cmPerPixel)
+					{
+						markerCount++;
+						startMarker++;
+					}
+					// Otherwise save the value to the array and update maxMarkers
+					// if required
+					else
+					{
+						markersPerPixel[pixel-1] = markerCount;
+						maxMarkers = Math.max(maxMarkers, markerCount);
+						break;
+					}
+				}
+			}
+			viewMarkersPerPixel.add(markersPerPixel);
+		}
+
+		int viewNo = 0;
 		for (GTView view: viewSet.getViews())
 		{
 			if (view.getChromosomeMap().isSpecialChromosome())
 				continue;
 
 			// Pixel width for this map
-			int longestMapW = getWidth()-50;
 //			if (DONT_SCALE)
 //				mapW = getWidth()-50;
 			int mapW = (int) ((view.mapLength()/longestMap) * longestMapW);
 
+			g.setColor(Color.BLACK);
 			// Chromosome name
 			String name = view.getChromosomeMap().getName() + ", "
 				+ nf.format(view.markerCount()) + " markers";
+			System.out.println("Name: " + name);
 			g.drawString(name, 25, y);
 			y+= 5;
 
-			// Map rectangle
-			g.setPaint(new GradientPaint(0, y, Color.LIGHT_GRAY, 0, y+8, Color.WHITE, true));
-			g.fillRect(25, y, mapW, 16);
+			int[] markersPerPixel = viewMarkersPerPixel.get(viewNo);
+
+			for (int i=0; i < mapW; i++)
+			{
+				// Percentage value of highest value within the block
+				float percent = markersPerPixel[i] / (float) maxMarkers;
+				// Work out an intensity value for it (0-255 gives light shades too
+				// close to white, so adjust the scale to 25-255)
+				int alpha = 0 + (int) (((255-0) * (255*percent)) / 255f);
+
+				// Then draw a line of height x percentage
+				g.setColor(new Color(70, 116, 162, alpha));
+				g.drawLine(i+25, y, i+25, y+16);
+			}
 			g.setColor(Color.black);
 			g.drawRect(25, y, mapW, 16);
 
 
 			// Markers
-			int markerCount = view.markerCount();
-			float xScale = (mapW) / view.mapLength();
-			g.setColor(new Color(180, 180, 180));
+//			int markerCount = view.markerCount();
+//			float xScale = (mapW) / view.mapLength();
+//			g.setColor(new Color(180, 180, 180));
+//
+//			// Tracks the x pixel position of the last drawn marker, so any further
+//			// markers that map to the same position are skipped (for performance)
+//			int lastX = 0;
 
-			// Tracks the x pixel position of the last drawn marker, so any further
-			// markers that map to the same position are skipped (for performance)
-			int lastX = 0;
-
-			for (int i = 0; i < markerCount; i++)
-			{
-				Marker m = view.getMarker(i);
-
-				// if (dummy, blank, whatever, etc, skip...
-
-				int pos = 25 + ((int) (m.getPosition() * xScale));
-				if (pos != lastX)
-				{
-					g.drawLine(pos, y-2, pos, y+18);
-					lastX = pos;
-				}
-			}
+//			for (int i = 0; i < markerCount; i++)
+//			{
+//				Marker m = view.getMarker(i);
+//
+//				// if (dummy, blank, whatever, etc, skip...
+//
+//				int pos = 25 + ((int) (m.getPosition() * xScale));
+//				if (pos != lastX)
+//				{
+//					g.drawLine(pos, y-2, pos, y+18);
+//					lastX = pos;
+//				}
+//			}
 
 			y += 30;
 
@@ -165,6 +222,7 @@ class ChromosomeCanvas extends JPanel
 
 			y+= 35;
 
+			viewNo++;
 //			g.drawString("" + y, 500, y);
 		}
 	}
