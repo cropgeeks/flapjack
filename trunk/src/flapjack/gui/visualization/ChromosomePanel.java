@@ -14,4 +14,24 @@ import scri.commons.gui.*;
 
 public class ChromosomePanel extends JPanel
 {
+	private GTViewSet viewSet;
+
+	private JScrollPane sp;
+	private ChromosomeCanvas canvas;
+
+	public ChromosomePanel()
+	{
+		canvas = new ChromosomeCanvas();
+		sp = new JScrollPane(canvas);
+
+		setLayout(new BorderLayout());
+		add(sp);
+	}
+
+	public void setViewSet(GTViewSet viewSet)
+	{
+		this.viewSet = viewSet;
+
+		canvas.setView(viewSet);
+	}
 }
