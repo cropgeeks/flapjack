@@ -113,6 +113,7 @@ public class VisualizationNode extends BaseNode
 	public JPanel getPanel()
 	{
 		gPanel.setViewSet(viewSet);
+		cPanel.setViewSet(viewSet);
 
 		if (Prefs.visShowChromosomes)
 			return cPanel;
