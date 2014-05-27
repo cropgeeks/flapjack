@@ -106,7 +106,8 @@ public class MenuEdit
 		else if (selectionType == Constants.SELECT_IMPORT)
 		{
 			state.setMenuString(RB.getString("gui.visualization.SelectedMarkersState.selectedImport"));
-			loadMarkerSelectionFromFile(view);
+			if (loadMarkerSelectionFromFile(view) == false)
+				return;
 		}
 
 		// And the redo state after the operation
@@ -116,7 +117,7 @@ public class MenuEdit
 		editMode(Constants.MARKERMODE);
 	}
 
-	private void loadMarkerSelectionFromFile(GTView view)
+	private boolean loadMarkerSelectionFromFile(GTView view)
 	{
 		String rbTitle = "gui.MenuEdit.externalMarkerSelection.title";
 		String rbLabel = "gui.MenuEdit.externalMarkerSelection.label";
@@ -153,14 +154,19 @@ public class MenuEdit
 
 				// Display summary of selected markers
 				TaskDialog.info(RB.format("gui.MenuEdit.markerSelectionSummary", selectedMarkers.size(), selectMarkers.selectionStrings().size()), RB.getString("gui.text.ok"));
+
+				return true;
 			}
 			else
 			{
 				if (dialog.getResult() == ProgressDialog.JOB_FAILED)
 					TaskDialog.error(RB.format("gui.MenuEdit.externalMarkerSelection.error",
 						dialog.getException()), RB.getString("gui.text.close"));
+
+				return false;
 			}
 		}
+		return false;
 	}
 
 	void editHideMarkers()
@@ -220,7 +226,8 @@ public class MenuEdit
 		else if (selectionType == Constants.SELECT_IMPORT)
 		{
 			state.setMenuString(RB.getString("gui.visualization.SelectedLinesState.selectedImport"));
-			loadLineSelectionFromFile(state, view);
+			if (loadLineSelectionFromFile(state, view) == false)
+				return;
 		}
 
 		// And the redo state after the operation
@@ -230,7 +237,7 @@ public class MenuEdit
 		editMode(Constants.LINEMODE);
 	}
 
-	private void loadLineSelectionFromFile(SelectedLinesState state, GTView view)
+	private boolean loadLineSelectionFromFile(SelectedLinesState state, GTView view)
 	{
 		String rbTitle = "gui.MenuEdit.externalLineSelection.title";
 		String rbLabel = "gui.MenuEdit.externalLineSelection.label";
@@ -266,14 +273,19 @@ public class MenuEdit
 
 				// Display summary of selected lines
 				TaskDialog.info(RB.format("gui.MenuEdit.lineSelectionSummary", selectedLines.size(), selectLines.selectionStrings().size()), RB.getString("gui.text.ok"));
+
+				return true;
 			}
 			else
 			{
 				if (dialog.getResult() == ProgressDialog.JOB_FAILED)
 					TaskDialog.error(RB.format("gui.MenuEdit.externalLineSelection.error",
 						dialog.getException()), RB.getString("gui.text.close"));
+
+				return false;
 			}
 		}
+		return false;
 	}
 
 	void editHideLines()
