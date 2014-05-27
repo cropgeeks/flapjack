@@ -3,6 +3,7 @@
 
 package flapjack.gui.visualization;
 
+import flapjack.data.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.*;
@@ -11,8 +12,7 @@ import java.util.*;
 import javax.swing.*;
 import javax.swing.event.*;
 
-import flapjack.data.*;
-import flapjack.gui.*;
+import scri.commons.gui.RB;
 
 class ChromosomeCanvas extends JPanel
 {
@@ -28,6 +28,13 @@ class ChromosomeCanvas extends JPanel
 
 	Point mousePos;
 
+	private int maxMarkers;
+	private ArrayList<int[]> viewMarkersPerPixel;
+	private ArrayList<Integer> viewMapWidths;
+	private float cmPerPixel;
+
+	private NumberFormat nf = NumberFormat.getInstance();
+
 	ChromosomeCanvas()
 	{
 		// This panel has to detect changes to its size, and recreate the image
@@ -39,18 +46,21 @@ class ChromosomeCanvas extends JPanel
 		});
 
 		new CanvasMouseListener(this);
+		ToolTipManager.sharedInstance().setInitialDelay(0);
 	}
 
 	void setView(GTViewSet viewSet)
 	{
 		this.viewSet = viewSet;
 
+		dimension = new Dimension(this.getWidth(), viewSet.getViews().size() * 70);
+
 		redraw = true;
 		repaint();
 	}
 
-//	public Dimension getPreferredSize()
-//		{ return dimension; }
+	public Dimension getPreferredSize()
+		{ return dimension; }
 
 	public void paintComponent(Graphics graphics)
 	{
@@ -99,12 +109,9 @@ class ChromosomeCanvas extends JPanel
 				longestMap = view.mapLength();
 		}
 
-		System.out.println("longestMap="+ longestMap);
-
 		// Work out how man centimorgans each pixel represents
 		int longestMapW = getWidth()-50;
-		float cmPerPixel = longestMap / longestMapW;
-		System.out.println("cmPerPixel: " + cmPerPixel);
+		cmPerPixel = longestMap / longestMapW;
 
 		NumberFormat nf = NumberFormat.getInstance();
 		g.setFont((Font)UIManager.get("Label.font"));
@@ -114,42 +121,7 @@ class ChromosomeCanvas extends JPanel
 
 		int y = 25;
 
-		int maxMarkers = 0;
-		ArrayList<int[]> viewMarkersPerPixel = new ArrayList<int[]>();
-		for (GTView view : viewSet.getViews())
-		{
-			// Create an array of the appropriate length for this map
-			int mapW = (int) ((view.mapLength()/longestMap) * longestMapW);
-			int[] markersPerPixel = new int[mapW];
-
-			int startMarker = 0;
-			// <= as we start at 1, not 0 and we need values for the full width
-			for (int pixel = 1; pixel <= mapW; pixel++)
-			{
-				int markerCount = 0;
-				for (int i = startMarker; i < view.markerCount(); i++)
-				{
-					Marker m = view.getMarker(i);
-					// If the marker is located within the centimorgans which
-					// make up the current pixel update the markerCount and start
-					// marker
-					if (m.getPosition() < pixel * cmPerPixel)
-					{
-						markerCount++;
-						startMarker++;
-					}
-					// Otherwise save the value to the array and update maxMarkers
-					// if required
-					else
-					{
-						markersPerPixel[pixel-1] = markerCount;
-						maxMarkers = Math.max(maxMarkers, markerCount);
-						break;
-					}
-				}
-			}
-			viewMarkersPerPixel.add(markersPerPixel);
-		}
+		calculateMarkersPerPixel(longestMap, longestMapW);
 
 		int viewNo = 0;
 		for (GTView view: viewSet.getViews())
@@ -166,7 +138,6 @@ class ChromosomeCanvas extends JPanel
 			// Chromosome name
 			String name = view.getChromosomeMap().getName() + ", "
 				+ nf.format(view.markerCount()) + " markers";
-			System.out.println("Name: " + name);
 			g.drawString(name, 25, y);
 			y+= 5;
 
@@ -227,6 +198,48 @@ class ChromosomeCanvas extends JPanel
 		}
 	}
 
+	private void calculateMarkersPerPixel(float longestMap, int longestMapW)
+	{
+		maxMarkers = 0;
+		viewMarkersPerPixel = new ArrayList<int[]>();
+		viewMapWidths = new ArrayList<Integer>();
+		for (GTView view : viewSet.getViews())
+		{
+			// Create an array of the appropriate length for this map
+			int mapW = (int) ((view.mapLength()/longestMap) * longestMapW);
+			viewMapWidths.add(mapW);
+			int[] markersPerPixel = new int[mapW];
+
+			int startMarker = 0;
+			// <= as we start at 1, not 0 and we need values for the full width
+			for (int pixel = 1; pixel <= mapW; pixel++)
+			{
+				int markerCount = 0;
+				for (int i = startMarker; i < view.markerCount(); i++)
+				{
+					Marker m = view.getMarker(i);
+					// If the marker is located within the centimorgans which
+					// make up the current pixel update the markerCount and start
+					// marker
+					if (m.getPosition() < pixel * cmPerPixel)
+					{
+						markerCount++;
+						startMarker++;
+					}
+					// Otherwise save the value to the array and update maxMarkers
+					// if required
+					else
+					{
+						markersPerPixel[pixel-1] = markerCount;
+						maxMarkers = Math.max(maxMarkers, markerCount);
+						break;
+					}
+				}
+			}
+			viewMarkersPerPixel.add(markersPerPixel);
+		}
+	}
+
 	class CanvasMouseListener extends MouseInputAdapter
 	{
 		CanvasMouseListener(ChromosomeCanvas canvas)
@@ -238,6 +251,21 @@ class ChromosomeCanvas extends JPanel
 		public void mouseMoved(MouseEvent e)
 		{
 			mousePos = e.getPoint();
+
+			setToolTipText(null);
+
+			for (int i=0; i < viewMarkersPerPixel.size(); i++)
+			{
+				// Over chromosome in the y-axis
+				if (mousePos.getY() > 30 + i*70 && mousePos.getY() < 30 + i*70 + 16)
+				{
+					int pixel = (int)mousePos.getX()-25;
+					// Over chromosome in the x-axis
+					if (pixel > 0 && pixel < viewMapWidths.get(i))
+						setToolTipText("<html>" + RB.format("gui.visualization.ChromosomeCanvas.positonTooltip",  nf.format(pixel * cmPerPixel)) +
+							"<br>" + RB.format("gui.visualization.ChromsomeCanvas.densityTooltip", viewMarkersPerPixel.get(i)[pixel]));
+				}
+			}
 			repaint();
 		}
 
