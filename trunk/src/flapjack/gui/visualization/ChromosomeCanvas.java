@@ -12,7 +12,7 @@ import java.util.*;
 import javax.swing.*;
 import javax.swing.event.*;
 
-import scri.commons.gui.RB;
+import scri.commons.gui.*;
 
 class ChromosomeCanvas extends JPanel
 {
@@ -29,6 +29,7 @@ class ChromosomeCanvas extends JPanel
 	Point mousePos;
 
 	private int maxMarkers;
+	private int minMarkers;
 	private ArrayList<int[]> viewMarkersPerPixel;
 	private ArrayList<Integer> viewMapWidths;
 	private float cmPerPixel;
@@ -151,7 +152,7 @@ class ChromosomeCanvas extends JPanel
 				// close to white, so adjust the scale to 25-255)
 				int alpha = 0 + (int) (((255-0) * (255*percent)) / 255f);
 
-				// Then draw a line of height x percentage
+				// Then draw a line of colour x percentage
 				g.setColor(new Color(70, 116, 162, alpha));
 				g.drawLine(i+25, y, i+25, y+16);
 			}
@@ -201,6 +202,7 @@ class ChromosomeCanvas extends JPanel
 	private void calculateMarkersPerPixel(float longestMap, int longestMapW)
 	{
 		maxMarkers = 0;
+		minMarkers = Integer.MAX_VALUE;
 		viewMarkersPerPixel = new ArrayList<int[]>();
 		viewMapWidths = new ArrayList<Integer>();
 		for (GTView view : viewSet.getViews())
@@ -215,13 +217,14 @@ class ChromosomeCanvas extends JPanel
 			for (int pixel = 1; pixel <= mapW; pixel++)
 			{
 				int markerCount = 0;
+				float pixelPosition = pixel * cmPerPixel;
 				for (int i = startMarker; i < view.markerCount(); i++)
 				{
 					Marker m = view.getMarker(i);
 					// If the marker is located within the centimorgans which
 					// make up the current pixel update the markerCount and start
 					// marker
-					if (m.getPosition() < pixel * cmPerPixel)
+					if (m.getPosition() < pixelPosition)
 					{
 						markerCount++;
 						startMarker++;
@@ -232,6 +235,7 @@ class ChromosomeCanvas extends JPanel
 					{
 						markersPerPixel[pixel-1] = markerCount;
 						maxMarkers = Math.max(maxMarkers, markerCount);
+						minMarkers = Math.min(minMarkers, markerCount);
 						break;
 					}
 				}
@@ -274,4 +278,10 @@ class ChromosomeCanvas extends JPanel
 			mousePos = null;
 		}
 	}
+
+	int maxMarkerCount()
+		{ return maxMarkers; }
+
+	int minMarkerCount()
+		{ return minMarkers; }
 }
