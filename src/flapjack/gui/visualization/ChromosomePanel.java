@@ -4,13 +4,9 @@
 package flapjack.gui.visualization;
 
 import java.awt.*;
-import java.awt.event.*;
 import javax.swing.*;
 
 import flapjack.data.*;
-import flapjack.gui.*;
-
-import scri.commons.gui.*;
 
 public class ChromosomePanel extends JPanel
 {
@@ -19,13 +15,18 @@ public class ChromosomePanel extends JPanel
 	private JScrollPane sp;
 	private ChromosomeCanvas canvas;
 
+	private ChromosomeCanvasKey key;
+
 	public ChromosomePanel()
 	{
 		canvas = new ChromosomeCanvas();
 		sp = new JScrollPane(canvas);
 
+		key = new ChromosomeCanvasKey(canvas);
+
 		setLayout(new BorderLayout());
 		add(sp);
+		add(key, BorderLayout.SOUTH);
 	}
 
 	public void setViewSet(GTViewSet viewSet)
