@@ -176,7 +176,7 @@ public class CalculateSimilarityMatrix extends SimpleJob
 		// Builds a list of GenotypeData objects, one per selected chromosome
 		private ArrayList<GenotypeData> getData(int lineIndex)
 		{
-			Line line = viewSet.getDataSet().getLines().get(lineIndex);
+			Line line = viewSet.getLines().get(lineIndex).getLine();
 
 			ArrayList<GenotypeData> data = new ArrayList<>();
 
