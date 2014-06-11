@@ -227,7 +227,12 @@ public class StateTable extends XMLRoot
 					AlleleState s1 = states.get(i);
 					AlleleState s2 = states.get(j);
 
-					if (s1.matchesAnyAllele(s2))
+					if (s1.matches(s2))
+						score = 1.0f;
+
+					// TODO: This is only really correct for diploid data, as
+					// A/T/A vs A/T/G should really score 0.6666
+					else if (s1.matchesAnyAllele(s2))
 						score = 0.5f;
 					else
 						score = 0;
