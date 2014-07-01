@@ -77,6 +77,7 @@ public class WinMainMenuBar extends JMenuBar
 	private JRadioButtonMenuItem mVizColorSimple2Color;
 	private JRadioButtonMenuItem mVizColorAlleleFreq;
 	private JRadioButtonMenuItem mVizColorBinned;
+	private JMenuItem mVizColorMagic;
 	private JMenu mVizScaling;
 	private JCheckBoxMenuItem mVizScalingLocal;
 	private JCheckBoxMenuItem mVizScalingGlobal;
@@ -313,6 +314,7 @@ public class WinMainMenuBar extends JMenuBar
 		mVizColorSimple2Color = getRadioItem(Actions.vizColorSimple2Color, "gui.Actions.vizColorSimple2Color", 0, 0);
 		mVizColorAlleleFreq = getRadioItem(Actions.vizColorAlleleFreq, "gui.Actions.vizColorAlleleFreq", 0, 0);
 		mVizColorBinned = getRadioItem(Actions.vizColorBinned, "gui.Actions.vizColorBinned", 0, 0);
+		mVizColorMagic = getRadioItem(Actions.vizColorMagic, "gui.Actions.vizColorMagic", 0, 0);
 		mVizScalingLocal = getCheckedItem(Actions.vizScalingLocal, "gui.Actions.vizScalingLocal", 0, 0);
 		mVizScalingGlobal = getCheckedItem(Actions.vizScalingGlobal, "gui.Actions.vizScalingGlobal", 0, 0);
 		mVizScalingClassic = getCheckedItem(Actions.vizScalingClassic, "gui.Actions.vizScalingClassic", 0, 0);
@@ -338,6 +340,7 @@ public class WinMainMenuBar extends JMenuBar
 		mVizColor.add(mVizColorMarkerSim);
 //		mVizColor.add(mVizColorMarkerSimGS);
 		mVizColor.add(mVizColorAlleleFreq);
+		mVizColor.add(mVizColorMagic);
 		mVizColor.add(mVizColorBinned);
 		mVizColor.addSeparator();
 		mVizColor.add(mVizColorRandom);
@@ -557,7 +560,7 @@ public class WinMainMenuBar extends JMenuBar
 
 			entries.addFirst(file.getPath());
 
-			if (entries.size() > 10)
+			if (entries.size() > 4)
 				entries.removeLast();
 		}
 

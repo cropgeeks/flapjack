@@ -177,6 +177,57 @@ public class StateTable extends XMLRoot
 		return false;
 	}
 
+	// A MAGIC population must have states 1-8 (and the unknown state) making 9
+	// states in total every state must be a number between 1-8 (stored and
+	// checked in the values array as 0-7.
+	public boolean containsMagic()
+	{
+		if (states.size() != 9)
+			return false;
+
+		boolean[] values = new boolean[8];
+
+		for (AlleleState state : states)
+		{
+			if (state.isHomozygous())
+			{
+				try
+				{
+					int i = Integer.parseInt(state.getState(0));
+					values[i-1] = true;
+				}
+				catch (NumberFormatException e) { }
+			}
+		}
+
+		for (boolean b : values)
+			if (b == false)
+				return false;
+
+		return true;
+	}
+
+	// With binned data every state other than the unknown must be an integer
+	public boolean containsBins()
+	{
+		for (AlleleState state : states)
+		{
+			if (state.isHomozygous() == false)
+				return false;
+
+			if (state.isUnknown())
+				continue;
+
+			try
+			{
+				Integer.parseInt(state.getState(0));
+			}
+			catch (NumberFormatException e) { return false; }
+		}
+
+		return true;
+	}
+
 	/**
 	 * Returns an exact count of the number of unique states within the table,
 	 * including all homozygote and heterozygote alleles. For example, A, G, T,

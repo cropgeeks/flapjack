@@ -1,4 +1,4 @@
-// Copyright 2009-2014 Information & Computational Sciences, JHI. All rights
+// Copyright 2009-2013 Information & Computational Sciences, JHI. All rights
 // reserved. Use is subject to the accompanying licence terms.
 
 package flapjack.gui;
@@ -74,6 +74,7 @@ public class Actions
 	public static AbstractAction vizColorBinned;
 	public static AbstractAction vizColorRandom;
 	public static AbstractAction vizColorRandomWSP;
+	public static AbstractAction vizColorMagic;
 	public static AbstractAction vizScalingLocal;
 	public static AbstractAction vizScalingGlobal;
 	public static AbstractAction vizScalingClassic;
@@ -485,6 +486,12 @@ public class Actions
 			}
 		};
 
+		vizColorMagic = new AbstractAction(RB.getString("gui.Actions.vizColorMagic")) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.mViz.vizColor(ColorScheme.MAGIC);
+			}
+		};
+
 		vizScalingLocal = new AbstractAction(RB.getString("gui.Actions.vizScalingLocal")) {
 			public void actionPerformed(ActionEvent e) {
 				winMain.mViz.vizScaling(Constants.LOCAL);
@@ -763,6 +770,7 @@ public class Actions
 		vizColorSimple2Color.setEnabled(false);
 		vizColorAlleleFreq.setEnabled(false);
 		vizColorBinned.setEnabled(false);
+		vizColorMagic.setEnabled(false);
 		vizScalingLocal.setEnabled(false);
 		vizScalingGlobal.setEnabled(false);
 		vizScalingClassic.setEnabled(false);

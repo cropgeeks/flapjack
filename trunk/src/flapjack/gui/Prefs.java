@@ -212,6 +212,16 @@ public class Prefs extends XMLPreferences
 	public static Color visColorBinnedHigh;
 	public static Color visColorBinnedOther;
 
+	// Colours used by the Magic colour scheme
+	public static Color visColorMagic1;
+	public static Color visColorMagic2;
+	public static Color visColorMagic3;
+	public static Color visColorMagic4;
+	public static Color visColorMagic5;
+	public static Color visColorMagic6;
+	public static Color visColorMagic7;
+	public static Color visColorMagic8;
+
 	public static boolean miscSubscribed = false;
 	public static String miscEmail = "";
 	public static String miscInstitution = "";
@@ -267,6 +277,15 @@ public class Prefs extends XMLPreferences
 		visColorBinnedLow = new Color(255, 120, 120);
 		visColorBinnedHigh = new Color(120, 255, 120);
 		visColorBinnedOther = new Color(204, 204, 204);
+
+		visColorMagic1 = new Color(119, 255, 255);
+		visColorMagic2 = new Color(255, 160, 120);
+		visColorMagic3 = new Color(120, 120, 255);
+		visColorMagic4 = new Color(145, 145, 145);
+		visColorMagic5 = new Color(120, 255, 120);
+		visColorMagic6 = new Color(255, 253, 119);
+		visColorMagic7 = new Color(255, 119, 231);
+		visColorMagic8 = new Color(255, 120, 120);
 	}
 
 	// Updates the array of recently accessed documents so that 'document' is
