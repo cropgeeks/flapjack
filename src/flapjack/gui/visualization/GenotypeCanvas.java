@@ -187,7 +187,7 @@ class GenotypeCanvas extends JPanel
 			case ColorScheme.ALLELE_FREQUENCY:
 				// This scheme *needs* marker frequencies before it can display
 				if (AlleleFrequencyDialog.calculate(viewSet))
-					cScheme = new AlleleFrequencyColorScheme(view, boxW, boxH);
+				cScheme = new AlleleFrequencyColorScheme(view, boxW, boxH);
 				// If the user doesn't allow the operation to finish, fall back
 				// on another colour scheme otherwise things will break!
 				else
@@ -207,6 +207,10 @@ class GenotypeCanvas extends JPanel
 
 			case ColorScheme.RANDOM_WSP:
 				cScheme = new RandomColorScheme(ColorScheme.RANDOM_WSP, view, boxW, boxH);
+				break;
+
+			case ColorScheme.MAGIC:
+				cScheme = new MagicColorScheme(view, boxW, boxH);
 				break;
 
 			default: // ColorScheme.NUCLEOTIDE

@@ -51,6 +51,7 @@ public class CanvasMenu
 	private JRadioButtonMenuItem mColorABHData;
 	private JRadioButtonMenuItem mColorAlleleFreq;
 	private JRadioButtonMenuItem mColorBinned;
+	private JMenuItem mColorMagic;
 	private JMenuItem mToggleCanvas;
 	private JMenu mDataDB;
 	private JMenuItem mDBLineName;
@@ -106,6 +107,7 @@ public class CanvasMenu
 //		mColorMarkerSimGS = WinMainMenuBar.getRadioItem(Actions.vizColorMarkerSimGS, KeyEvent.VK_G, 0, 0);
 		mColorAlleleFreq = WinMainMenuBar.getRadioItem(Actions.vizColorAlleleFreq, "gui.Actions.vizColorAlleleFreq", 0, 0);
 		mColorBinned = WinMainMenuBar.getRadioItem(Actions.vizColorBinned, "gui.Actions.vizColorBinned", 0, 0);
+		mColorMagic = WinMainMenuBar.getRadioItem(Actions.vizColorMagic, "gui.Actions.vizColorMagic", 0, 0);
 		mToggleCanvas = WinMainMenuBar.getItem(Actions.viewToggleCanvas, "gui.Actions.viewToggleCanvas", 0, 0);
 		mFind = WinMainMenuBar.getItem(Actions.dataFind, "gui.Actions.dataFind", KeyEvent.VK_F, menuShortcut);
 		mDBLineName = WinMainMenuBar.getItem(Actions.dataDBLineName, "gui.Actions.dataDBLineName", 0, 0);
@@ -136,6 +138,7 @@ public class CanvasMenu
 		mColor.add(mColorMarkerSim);
 //		mColor.add(mColorMarkerSimGS);
 		mColor.add(mColorAlleleFreq);
+		mColor.add(mColorMagic);
 		mColor.add(mColorBinned);
 		mColor.addSeparator();
 		mColor.add(mColorRandom);

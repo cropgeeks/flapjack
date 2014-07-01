@@ -177,6 +177,7 @@ public class MenuVisualization
 				Actions.vizColorBinned.putValue(Action.SELECTED_KEY, cScheme == ColorScheme.BINNED_10);
 				Actions.vizColorRandom.putValue(Action.SELECTED_KEY, cScheme == ColorScheme.RANDOM);
 				Actions.vizColorRandomWSP.putValue(Action.SELECTED_KEY, cScheme == ColorScheme.RANDOM_WSP);
+				Actions.vizColorMagic.putValue(Action.SELECTED_KEY, cScheme == ColorScheme.MAGIC);
 			}
 
 			public void menuDeselected(MenuEvent e) {}

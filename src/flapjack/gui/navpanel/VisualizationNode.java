@@ -80,6 +80,7 @@ public class VisualizationNode extends BaseNode
 		Actions.vizColorSimple2Color.setEnabled(true);
 		Actions.vizColorAlleleFreq.setEnabled(true);
 		Actions.vizColorBinned.setEnabled(true);
+		Actions.vizColorMagic.setEnabled(true);
 		Actions.vizScalingLocal.setEnabled(true);
 		Actions.vizScalingGlobal.setEnabled(true);
 		Actions.vizScalingClassic.setEnabled(true);
