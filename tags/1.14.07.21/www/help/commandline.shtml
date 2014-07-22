@@ -1,0 +1,52 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+
+<html>
+<head>
+<meta http-equiv="Content-Language" content="en-gb">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+<link rel="stylesheet" href="stylesheet/styles.css" type="text/css">
+
+<title>Command Line Support</title>
+
+</head>
+<body>
+
+<!--#include virtual="header.html" -->
+
+
+<h2>Command Line Support</h2>
+
+<p>Flapjack contains a simple command-line option that can be used to pre-create .flapjack
+project files from existing data files. This ability allows for the creation of project
+files outwith the Flapjack environment, for instance, to allow a web server (that links to
+a database) to make Flapjack project files available for download.</p>
+
+<p>The utility is run in a different way depending on the platform used. For all systems
+excluding Mac OS X, you can use the <b>createproject</b> executable located in the root
+folder where Flapjack is installed. For Mac OS X, you must manually run the utility using:</p>
+
+<b>&nbsp;&nbsp;java -cp lib/flapjack.jar flapjack.io.CreateProject &lt;options&gt;</b>
+
+<p>In all cases, the following options are available:</p>
+
+<p><b>&nbsp;-map=&lt;map_file&gt;</b> - specifies the location of the file containing map data (required).</p>
+
+<p><b>&nbsp;-genotypes=&lt;genotypes_file&gt;</b> - specifies the location of the file containing genotype data (required).</p>
+
+<p><b>&nbsp;-traits=&lt;traits_file&gt;</b> - specifies the location of the file containing trait data (optional).</p>
+
+<p><b>&nbsp;-qtls=&lt;qtls_file&gt;</b> - specifies the location of the file containing QTL data (optional).</p>
+
+<p><b>&nbsp;-project=&lt;project_file&gt;</b> - specifies the name of the project file that will be created.</p>
+
+<p>For example:<br>
+&nbsp;<b>createproject.exe -map=input.map -genotypes=input.dat -project=output.flapjack</b></p>
+
+<p>A description of the input file formats accepted is given <a href="projects.shtml">here</a>. Note also that
+the project file will be created in compressed XML format, regardless of any selections made within Flapjack itself.</p>
+
+<!--#include virtual="footer.html" -->
+
+</body>
+</html>
