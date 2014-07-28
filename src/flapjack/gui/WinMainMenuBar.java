@@ -560,7 +560,7 @@ public class WinMainMenuBar extends JMenuBar
 
 			entries.addFirst(file.getPath());
 
-			if (entries.size() > 4)
+			if (entries.size() > 10)
 				entries.removeLast();
 		}
 

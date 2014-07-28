@@ -42,9 +42,9 @@ public class StartPanelFileNB extends javax.swing.JPanel implements ActionListen
 		// Create the files array
 		files[0] = Prefs.guiRecentProject1; files[1] = Prefs.guiRecentProject2;
 		files[2] = Prefs.guiRecentProject3; files[3] = Prefs.guiRecentProject4;
-		files[4] = Prefs.guiRecentProject4; files[5] = Prefs.guiRecentProject5;
-		files[6] = Prefs.guiRecentProject6; files[7] = Prefs.guiRecentProject7;
-		files[8] = Prefs.guiRecentProject8; files[9] = Prefs.guiRecentProject9;
+		files[4] = Prefs.guiRecentProject5; files[5] = Prefs.guiRecentProject6;
+		files[6] = Prefs.guiRecentProject7; files[7] = Prefs.guiRecentProject8;
+		files[8] = Prefs.guiRecentProject9; files[9] = Prefs.guiRecentProject10;
 
 		for (int i = 0; i < labels.length; i++)
 		{
