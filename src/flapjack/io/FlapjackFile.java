@@ -133,8 +133,15 @@ public class FlapjackFile
 
 	public boolean isProjectFile()
 	{
-		return
-			filename.toLowerCase().endsWith(".xml") ||
+		try
+		{
+			if (ProjectSerializerDB.isDatabase(this))
+				return true;
+		}
+		catch (Exception e) {}
+
+		// Otherwise just look at the extension
+		return filename.toLowerCase().endsWith(".xml") ||
 			filename.toLowerCase().endsWith(".flapjack");
 	}
 

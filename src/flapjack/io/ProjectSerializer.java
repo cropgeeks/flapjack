@@ -84,6 +84,11 @@ public class ProjectSerializer
 					StandardCopyOption.REPLACE_EXISTING,
 //					StandardCopyOption.COPY_ATTRIBUTES,
 					LinkOption.NOFOLLOW_LINKS);
+
+				// If the 'old' file was read-only (which can happen if opened
+				// as an attachment from Outlook for example), then we need to
+				// override this otherwise the save to the new file won't work
+				newFile.setWritable(true);
 			}
 
 			// Get an outputstream to the database
@@ -126,7 +131,7 @@ public class ProjectSerializer
 			e.printStackTrace();
 
 			TaskDialog.error(
-				RB.format("io.ProjectSerializer.saveError", fjFile.getName(), e.getMessage()),
+				RB.format("io.ProjectSerializer.saveError", fjFile.getName(), e),
 				RB.getString("gui.text.close"));
 
 			return false;
