@@ -43,12 +43,14 @@ public class ProjectSerializer
 		FlapjackFile fjFile = project.fjFile;
 
 		// If the project has never been saved, then we have to prompt for file
-		if (fjFile == null || fjFile.isURL())
+		if (fjFile == null || fjFile.isURL() || !fjFile.getFile().canWrite())
 			saveAs = true;
 
 		// Show the file selection prompt, quitting if the user goes no further
 		if (saveAs && (showSaveAsDialog(project) == false))
 			return false;
+
+
 
 
 		// Check to see if we're writing to the same file or not. If it's the
