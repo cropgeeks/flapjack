@@ -38,6 +38,7 @@ public class Actions
 	public static AbstractAction editSelectLinesNone;
 	public static AbstractAction editSelectLinesInvert;
 	public static AbstractAction editSelectLinesImport;
+	public static AbstractAction editCustomMap;
 	public static AbstractAction editHideLines;
 	public static AbstractAction editInsertLine;
 	public static AbstractAction editDeleteLine;
@@ -284,6 +285,12 @@ public class Actions
 		editHideLines = new AbstractAction(RB.format("gui.Actions.editHideLines", "")) {
 			public void actionPerformed(ActionEvent e) {
 				winMain.mEdit.editHideLines();
+			}
+		};
+
+		editCustomMap = new AbstractAction(RB.format("gui.Actions.editCustomMap", "")) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.mEdit.editCustomMap();
 			}
 		};
 
@@ -741,6 +748,7 @@ public class Actions
 		editDuplicateLineRemove.setEnabled(false);
 		editInsertSplitter.setEnabled(false);
 		editDeleteSplitter.setEnabled(false);
+		editCustomMap.setEnabled(false);
 
 		viewNewView.setEnabled(false);
 		viewRenameView.setEnabled(false);

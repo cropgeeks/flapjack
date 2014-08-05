@@ -116,7 +116,7 @@ public class ChromosomeMap extends XMLRoot implements Iterable<Marker>
 		markers.add(marker);
 	}
 
-	void sort()
+	public void sort()
 	{
 		markers.trimToSize();
 		Collections.sort(markers);

@@ -24,6 +24,7 @@ class WarningTabNB extends JPanel implements IPrefsTab
 		RB.setText(warnDuplicateMarkers, "gui.dialog.prefs.NBWarningPanel.warnDuplicateMarkers");
 		RB.setText(warnEditMarkerMode, "gui.dialog.prefs.NBWarningPanel.warnEditMarkerMode");
 		RB.setText(warnEditLineMode, "gui.dialog.prefs.NBWarningPanel.warnEditLineMode");
+		RB.setText(warnEditCustomMap, "gui.dialog.prefs.NBWarningPanel.warnEditCustomMap");
 
 		initSettings();
     }
@@ -33,6 +34,7 @@ class WarningTabNB extends JPanel implements IPrefsTab
     	warnDuplicateMarkers.setSelected(Prefs.warnDuplicateMarkers);
 		warnEditMarkerMode.setSelected(Prefs.warnEditMarkerMode);
 		warnEditLineMode.setSelected(Prefs.warnEditLineMode);
+		warnEditCustomMap.setSelected(Prefs.warnEditCustomMap);
     }
 
 	public void applySettings()
@@ -40,6 +42,7 @@ class WarningTabNB extends JPanel implements IPrefsTab
 		Prefs.warnDuplicateMarkers = warnDuplicateMarkers.isSelected();
 		Prefs.warnEditMarkerMode = warnEditMarkerMode.isSelected();
 		Prefs.warnEditLineMode = warnEditLineMode.isSelected();
+		Prefs.warnEditCustomMap = warnEditCustomMap.isSelected();
 	}
 
 	public void setDefaults()
@@ -58,6 +61,7 @@ class WarningTabNB extends JPanel implements IPrefsTab
         warnDuplicateMarkers = new javax.swing.JCheckBox();
         warnEditMarkerMode = new javax.swing.JCheckBox();
         warnEditLineMode = new javax.swing.JCheckBox();
+        warnEditCustomMap = new javax.swing.JCheckBox();
 
         panel.setBorder(javax.swing.BorderFactory.createTitledBorder("Inform me:"));
 
@@ -66,6 +70,8 @@ class WarningTabNB extends JPanel implements IPrefsTab
         warnEditMarkerMode.setText("When switching to 'marker mode'");
 
         warnEditLineMode.setText("When switching to 'line mode'");
+
+        warnEditCustomMap.setText("When creating custom Chromosomes panel views");
 
         javax.swing.GroupLayout panelLayout = new javax.swing.GroupLayout(panel);
         panel.setLayout(panelLayout);
@@ -76,19 +82,21 @@ class WarningTabNB extends JPanel implements IPrefsTab
                 .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(warnDuplicateMarkers)
                     .addComponent(warnEditMarkerMode)
-                    .addComponent(warnEditLineMode))
+                    .addComponent(warnEditLineMode)
+                    .addComponent(warnEditCustomMap))
                 .addContainerGap(98, Short.MAX_VALUE))
         );
         panelLayout.setVerticalGroup(
             panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelLayout.createSequentialGroup()
-                .addContainerGap()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(warnDuplicateMarkers)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(warnEditMarkerMode)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(warnEditLineMode)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(warnEditCustomMap))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -105,13 +113,14 @@ class WarningTabNB extends JPanel implements IPrefsTab
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(55, Short.MAX_VALUE))
+                .addContainerGap(39, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel panel;
     private javax.swing.JCheckBox warnDuplicateMarkers;
+    private javax.swing.JCheckBox warnEditCustomMap;
     private javax.swing.JCheckBox warnEditLineMode;
     private javax.swing.JCheckBox warnEditMarkerMode;
     // End of variables declaration//GEN-END:variables

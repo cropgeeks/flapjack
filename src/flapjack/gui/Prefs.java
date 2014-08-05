@@ -94,6 +94,7 @@ public class Prefs extends XMLPreferences
 	public static boolean warnDuplicateMarkers = true;
 	public static boolean warnEditMarkerMode = true;
 	public static boolean warnEditLineMode = true;
+	public static boolean warnEditCustomMap = true;
 
 	// String matches for missing data and heterozygous values when importing
 	public static String ioMissingData = "-";
