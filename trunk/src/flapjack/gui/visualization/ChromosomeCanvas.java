@@ -3,7 +3,6 @@
 
 package flapjack.gui.visualization;
 
-import flapjack.data.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.*;
@@ -12,11 +11,17 @@ import java.util.*;
 import javax.swing.*;
 import javax.swing.event.*;
 
+import flapjack.data.*;
+
 import scri.commons.gui.*;
 
 class ChromosomeCanvas extends JPanel
 {
 	private GTViewSet viewSet;
+
+	// A list of views (chromosomes) holding information to draw. These may be
+	// references to real GTView objects, or to user-built custom maps
+	private ArrayList<GTView> views;
 
 	// Holds the current dimensions of the canvas in an AWT friendly format
 	private Dimension dimension = new Dimension();
@@ -54,7 +59,15 @@ class ChromosomeCanvas extends JPanel
 	{
 		this.viewSet = viewSet;
 
-		dimension = new Dimension(this.getWidth(), viewSet.getViews().size() * 70);
+		// Add in the normal views from the actual data
+		views = new ArrayList<>();
+		for (GTView view: viewSet.getViews())
+			if (view.getChromosomeMap().isSpecialChromosome() == false)
+				views.add(view);
+		for (GTView view: viewSet.customViews)
+			views.add(view);
+
+		dimension = new Dimension(this.getWidth(), views.size() * 70);
 
 		redraw = true;
 		repaint();
@@ -101,16 +114,13 @@ class ChromosomeCanvas extends JPanel
 	private void renderCanvas(Graphics2D g)
 	{
 		float longestMap = 0;
-		for (GTView view: viewSet.getViews())
+		for (GTView view: views)
 		{
-			if (view.getChromosomeMap().isSpecialChromosome())
-				continue;
-
 			if (view.mapLength() > longestMap)
 				longestMap = view.mapLength();
 		}
 
-		// Work out how man centimorgans each pixel represents
+		// Work out how many centimorgans each pixel represents
 		int longestMapW = getWidth()-50;
 		cmPerPixel = longestMap / longestMapW;
 
@@ -125,11 +135,8 @@ class ChromosomeCanvas extends JPanel
 		calculateMarkersPerPixel(longestMap, longestMapW);
 
 		int viewNo = 0;
-		for (GTView view: viewSet.getViews())
+		for (GTView view: views)
 		{
-			if (view.getChromosomeMap().isSpecialChromosome())
-				continue;
-
 			// Pixel width for this map
 //			if (DONT_SCALE)
 //				mapW = getWidth()-50;
@@ -137,8 +144,8 @@ class ChromosomeCanvas extends JPanel
 
 			g.setColor(Color.BLACK);
 			// Chromosome name
-			String name = view.getChromosomeMap().getName() + ", "
-				+ nf.format(view.markerCount()) + " markers";
+			String name = view.getChromosomeMap().getName() + ": "
+				+ RB.format("gui.visualization.ChromosomeCanvas.markers", nf.format(view.markerCount()));
 			g.drawString(name, 25, y);
 			y+= 5;
 
@@ -205,7 +212,8 @@ class ChromosomeCanvas extends JPanel
 		minMarkers = Integer.MAX_VALUE;
 		viewMarkersPerPixel = new ArrayList<int[]>();
 		viewMapWidths = new ArrayList<Integer>();
-		for (GTView view : viewSet.getViews())
+
+		for (GTView view : views)
 		{
 			// Create an array of the appropriate length for this map
 			int mapW = (int) ((view.mapLength()/longestMap) * longestMapW);

@@ -47,6 +47,7 @@ public class WinMainMenuBar extends JMenuBar
 	private JMenuItem mEditSelectLinesInvert;
 	private JMenuItem mEditSelectLinesImport;
 	private JMenuItem mEditHideLines;
+	private JMenuItem mEditCustomMap;
 
 	private JMenu mView;
 	private JMenuItem mViewNewView;
@@ -210,6 +211,7 @@ public class WinMainMenuBar extends JMenuBar
 		mEditSelectLinesInvert = getItem(Actions.editSelectLinesInvert, "gui.Actions.editSelectLinesInvert", 0, 0);
 		mEditSelectLinesImport = getItem(Actions.editSelectLinesImport, "gui.Actions.editSelectLinesImport", 0, 0);
 		mEditHideLines = getItem(Actions.editHideLines, "gui.Actions.editHideLines", 0, 0);
+		mEditCustomMap = getItem(Actions.editCustomMap, "gui.Actions.editCustomMap", 0, 0);
 
 		ButtonGroup grp = new ButtonGroup();
 		grp.add(mEditModeNavigation);
@@ -240,6 +242,7 @@ public class WinMainMenuBar extends JMenuBar
 		mEdit.addSeparator();
 		mEdit.add(mEditSelectLines);
 		mEdit.add(mEditHideLines);
+		mEdit.add(mEditCustomMap);
 
 		add(mEdit);
 	}

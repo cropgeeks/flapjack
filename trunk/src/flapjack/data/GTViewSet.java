@@ -18,6 +18,8 @@ public class GTViewSet extends XMLRoot
 
 	private ArrayList<GTView> views = new ArrayList<>();
 
+	public ArrayList<GTView> customViews = new ArrayList<>();
+
 	// Because the line info is the same across all views, it gets stored here
 	// Holds the index positions of the lines as they appear in the actual
 	// dataset's vector of lines

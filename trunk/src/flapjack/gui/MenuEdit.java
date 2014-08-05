@@ -537,4 +537,38 @@ public class MenuEdit
 			gPanel.addUndoState(state);
 		}
 	}
+
+	void editCustomMap()
+	{
+		GTView view = gPanel.getView();
+
+		// All-Chromocomes aren't going to work with this
+		if (view.getChromosomeMap().isSpecialChromosome())
+		{
+			TaskDialog.info(RB.getString("gui.MenuEdit.editCustomMapSpecial"),
+				RB.getString("gui.text.close"));
+			return;
+		}
+
+		if (Prefs.warnEditCustomMap)
+		{
+			JCheckBox checkbox = new JCheckBox();
+			RB.setText(checkbox, "gui.MenuEdit.warnEditCustomMap");
+
+			TaskDialog.info(
+				RB.getString("gui.MenuEdit.editCustomMap"),
+				RB.getString("gui.text.close"),
+				checkbox);
+
+			Prefs.warnEditCustomMap = !checkbox.isSelected();
+		}
+
+		GTView newView = ViewSetAnalyses.createCustomMap(view);
+
+		view.getViewSet().customViews.add(newView);
+
+		// Force the display to show the Chromosomes panel
+		gPanel.refreshView();
+		Flapjack.winMain.mView.viewGenotypesOrChromosomes(true);
+	}
 }
