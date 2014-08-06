@@ -15,7 +15,7 @@ public class ViewSetAnalyses
 	 * markers from the original view that actually have data for the *selected*
 	 * lines in the original view.
 	 */
-	public static GTView createCustomMap(GTView view)
+	public static void createCustomMap(GTView view)
 	{
 		GTViewSet viewSet = view.getViewSet();
 		view.cacheLines();
@@ -41,8 +41,8 @@ public class ViewSetAnalyses
 		}
 
 		newMap.sort();
-		GTView newView = new GTView(viewSet, newMap, true);
 
-		return newView;
+		GTView newView = new GTView(viewSet, newMap, true);
+		viewSet.getCustomMaps().add(viewSet, newView);
 	}
 }

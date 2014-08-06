@@ -85,6 +85,7 @@
 		<field name="lines" type="flapjack.data.LineInfo" collection="arraylist"/>
 		<field name="hideLines" type="flapjack.data.LineInfo" collection="arraylist"/>
 		<field name="views" type="flapjack.data.GTView" collection="arraylist"/>
+		<field name="customMaps" type="flapjack.data.CustomMaps"/>
 		<field name="bookmarks" type="flapjack.data.Bookmark" collection="arraylist"/>
 		<field name="matrices" type="flapjack.data.SimMatrix" collection="arraylist"/>
 		<field name="dendrograms" type="flapjack.data.Dendrogram" collection="arraylist"/>
@@ -205,6 +206,14 @@
 
 	<!-- BinData -->
 	<class name="flapjack.data.BinnedData$BinData" extends="flapjack.data.XMLRoot" auto-complete="true">
+	</class>
+
+	<!-- CustomMaps -->
+	<class name="flapjack.data.CustomMaps" extends="flapjack.data.XMLRoot" auto-complete="true">
+		<field name="customViews" type="flapjack.data.GTView" collection="arraylist"/>
+		<field name="allViews" type="flapjack.data.GTView" collection="arraylist">
+			<bind-xml reference="true"/>
+		</field>
 	</class>
 
 </mapping>

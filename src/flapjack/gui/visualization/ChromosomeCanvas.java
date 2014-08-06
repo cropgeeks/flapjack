@@ -59,13 +59,8 @@ class ChromosomeCanvas extends JPanel
 	{
 		this.viewSet = viewSet;
 
-		// Add in the normal views from the actual data
-		views = new ArrayList<>();
-		for (GTView view: viewSet.getViews())
-			if (view.getChromosomeMap().isSpecialChromosome() == false)
-				views.add(view);
-		for (GTView view: viewSet.customViews)
-			views.add(view);
+		viewSet.getCustomMaps().initForDisplay(viewSet);
+		views = viewSet.getCustomMaps().getAllViews();
 
 		dimension = new Dimension(this.getWidth(), views.size() * 70);
 

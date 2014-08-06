@@ -17,8 +17,7 @@ public class GTViewSet extends XMLRoot
 	private DataSet dataSet;
 
 	private ArrayList<GTView> views = new ArrayList<>();
-
-	public ArrayList<GTView> customViews = new ArrayList<>();
+	private CustomMaps customMaps = new CustomMaps();
 
 	// Because the line info is the same across all views, it gets stored here
 	// Holds the index positions of the lines as they appear in the actual
@@ -147,6 +146,12 @@ public class GTViewSet extends XMLRoot
 
 	public void setViews(ArrayList<GTView> views)
 		{ this.views = views; }
+
+	public CustomMaps getCustomMaps()
+		{ return customMaps; }
+
+	public void setCustomMaps(CustomMaps customMaps)
+		{ this.customMaps = customMaps; }
 
 	public ArrayList<Bookmark> getBookmarks()
 		{ return bookmarks; }

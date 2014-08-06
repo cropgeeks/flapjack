@@ -563,12 +563,12 @@ public class MenuEdit
 			Prefs.warnEditCustomMap = !checkbox.isSelected();
 		}
 
-		GTView newView = ViewSetAnalyses.createCustomMap(view);
-
-		view.getViewSet().customViews.add(newView);
+		ViewSetAnalyses.createCustomMap(view);
 
 		// Force the display to show the Chromosomes panel
 		gPanel.refreshView();
 		Flapjack.winMain.mView.viewGenotypesOrChromosomes(true);
+
+		Actions.projectModified();
 	}
 }
