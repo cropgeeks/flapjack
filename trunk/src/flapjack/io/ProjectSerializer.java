@@ -103,7 +103,12 @@ public class ProjectSerializer
 			{
 				initialize();
 
-				BufferedWriter cOut = new BufferedWriter(new OutputStreamWriter(os));
+				BufferedWriter cOut = null;
+
+				if (System.getenv("FJ_DEBUG").equalsIgnoreCase("TRUE"))
+					cOut = new BufferedWriter(new FileWriter(fjFile.getFile()));
+				else
+					cOut = new BufferedWriter(new OutputStreamWriter(os));
 
 				// And marshall it as xml
 				Marshaller marshaller = new Marshaller(cOut);
