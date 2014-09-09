@@ -105,7 +105,7 @@ public class ProjectSerializer
 
 				BufferedWriter cOut = null;
 
-				if (System.getenv("FJ_DEBUG").equalsIgnoreCase("TRUE"))
+				if (System.getenv("FJ_DEBUG") != null && System.getenv("FJ_DEBUG").equalsIgnoreCase("TRUE"))
 					cOut = new BufferedWriter(new FileWriter(fjFile.getFile()));
 				else
 					cOut = new BufferedWriter(new OutputStreamWriter(os));
