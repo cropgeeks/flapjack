@@ -5,6 +5,7 @@ package flapjack.io;
 
 import java.text.*;
 import java.io.*;
+import java.util.*;
 import javax.swing.*;
 
 import flapjack.data.*;
@@ -68,6 +69,8 @@ public class DataImporter extends SimpleJob
 
 		if (Prefs.ioMakeAllChromosome)
 			dataSet.createSuperChromosome(RB.getString("io.DataImporter.allChromosomes"));
+
+		Collections.sort(dataSet.getChromosomeMaps());
 
 		if(okToRun)
 		{

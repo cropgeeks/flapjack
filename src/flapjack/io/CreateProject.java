@@ -103,6 +103,8 @@ public class CreateProject
 
 		genoImporter.importGenotypeData(false);
 
+		Collections.sort(dataSet.getChromosomeMaps());
+
 		PostImportOperations pio = new PostImportOperations(dataSet);
 		pio.collapseHeterozygotes();
 		pio.createDefaultView();
