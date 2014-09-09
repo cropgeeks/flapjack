@@ -7,7 +7,7 @@ import java.util.*;
 
 import flapjack.io.*;
 
-public class ChromosomeMap extends XMLRoot implements Iterable<Marker>
+public class ChromosomeMap extends XMLRoot implements Iterable<Marker>, Comparable<ChromosomeMap>
 {
 	private String name;
 	private float length;
@@ -91,6 +91,11 @@ public class ChromosomeMap extends XMLRoot implements Iterable<Marker>
 
 	public Iterator<Marker> iterator()
 		{ return markers.iterator(); }
+
+	public int compareTo(ChromosomeMap other)
+	{
+		return name.compareTo(other.name);
+	}
 
 	public Marker getMarkerByIndex(int index)
 		throws ArrayIndexOutOfBoundsException
