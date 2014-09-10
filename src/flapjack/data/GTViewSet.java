@@ -468,42 +468,4 @@ public class GTViewSet extends XMLRoot
 
 		lines.add(index, new LineInfo(splitter, -2));
 	}
-
-	public void filterMissingMarkers(boolean allChromosomes, int cutoff)
-	{
-		for (GTView view: views)
-		{
-			// Skip if allChromosomes is false and it's not the current
-			if (allChromosomes == false && view != views.get(viewIndex))
-				continue;
-
-			view.cacheLines();
-
-			// For each marker...
-			for (int i = view.markerCount()-1; i >= 0; i--)
-			{
-				int allelesCount = 0;
-				int missingCount = 0;
-
-				// Count how many alleles are missing across all the lines...
-				for (int j = 0; j < lines.size(); j++)
-				{
-					if (view.getState(j, i) == 0)
-						missingCount++;
-
-					allelesCount++;
-				}
-
-//				System.out.println("Marker " + i + " missing " + missingCount + " / " + allelesCount + " ("
-//					+ ((missingCount / (float)allelesCount)*100));
-
-				// And if the percentage of missing ones is >= cutoff, then
-				// remove it from the visible set
-				if ((missingCount / (float)allelesCount)*100 >= cutoff)
-					// But only so long as it doesn't remove all markers!!
-					if (view.markerCount() > 1)
-						view.hideMarker(i);
-			}
-		}
-	}
 }
