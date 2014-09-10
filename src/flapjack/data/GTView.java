@@ -474,21 +474,35 @@ public class GTView extends XMLRoot
 	/** Hides all selected or unselected lines, depending on the parameter. */
 	public void hideLines(boolean hideSelected)
 	{
+		// As the hideMarkers list needs to grow bit by bit, just make it big
+		viewSet.hideLines.ensureCapacity(viewSet.lines.size());
+
 		for (int i = 0; i < viewSet.lines.size(); i++)
 		{
-			// Don't hide what we don't want hidden (!!)
-			if (viewSet.lines.get(i).selected != hideSelected)
-				continue;
-
-			// Hide, but always keep at least one line visible
-			if (viewSet.lines.size() > 1)
+			// Should we hide this line?
+			if (viewSet.lines.get(i).selected == hideSelected)
 			{
-				viewSet.hideLines.add(viewSet.lines.remove(i));
-				i--;
+				// Hide, but always keep at least one line visible
+				if (viewSet.hideLines.size() < viewSet.lines.size()-1)
+				{
+					viewSet.hideLines.add(viewSet.lines.get(i));
+					viewSet.lines.set(i, null);
+				}
+				else
+					break;
 			}
-			else
-				return;
 		}
+
+		ArrayList<LineInfo> lines = new ArrayList<>(viewSet.lines.size());
+		for (int i = 0; i < viewSet.lines.size(); i++)
+			if (viewSet.lines.get(i) != null)
+				lines.add(viewSet.lines.get(i));
+
+		viewSet.lines = lines;
+
+		// Then trim down any left over elements
+		viewSet.lines.trimToSize();
+		viewSet.hideLines.trimToSize();
 	}
 
 	/** Hides a single marker. */
