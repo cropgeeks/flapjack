@@ -518,18 +518,37 @@ public class MenuEdit
 
 	void editFilterMissingMarkers()
 	{
-		MissingMarkersDialog dialog = new MissingMarkersDialog();
+		MissingMarkersDialog mmDialog = new MissingMarkersDialog();
 
-		if (dialog.isOK())
+		if (mmDialog.isOK())
 		{
 			// Set the undo state...
 			HidMarkersState state = new HidMarkersState(gPanel.getView(),
 				RB.getString("gui.visualization.HidMarkersState.hidMarkers"));
 			state.createUndoState();
 
-			// Hide the markers
-			gPanel.getViewSet().filterMissingMarkers(
-				Prefs.guiMissingMarkerAllChromsomes, Prefs.guiMissingMarkerPcnt);
+
+			FilterMissingMarkers fmm = new FilterMissingMarkers(
+				gPanel.getViewSet(), Prefs.guiMissingMarkerAllChromsomes,
+				Prefs.guiMissingMarkerPcnt);
+
+			ProgressDialog dialog = new ProgressDialog(fmm,
+				RB.getString("gui.MenuEdit.fmm.title"),
+				RB.getString("gui.MenuEdit.fmm.label"),
+				Flapjack.winMain);
+
+			// If the operation failed or was cancelled...
+			if (dialog.getResult() != ProgressDialog.JOB_COMPLETED)
+			{
+				// As we'll now be left with some markers removed and some not,
+				// put the view back into its previous state
+				editUndoRedo(true);
+				gPanel.refreshView();
+
+				return;
+			}
+
+
 			gPanel.refreshView();
 
 			// Set the redo state...
