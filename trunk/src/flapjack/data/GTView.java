@@ -437,21 +437,38 @@ public class GTView extends XMLRoot
 	/** Hides all selected or unselected markers, depending on the parameter. */
 	public void hideMarkers(boolean hideSelected)
 	{
+		// As the hideMarkers list needs to grow bit by bit, just make it big
+		hideMarkers.ensureCapacity(markers.size());
+
 		for (int i = 0; i < markers.size(); i++)
 		{
-			// Don't hide what we don't want hidden (!!)
-			if (markers.get(i).selected != hideSelected)
-				continue;
-
-			// Hide, but always keep at least one marker visible
-			if (markers.size() > 1)
+			// Should we hide this marker?
+			if (markers.get(i).selected == hideSelected)
 			{
-				hideMarkers.add(markers.remove(i));
-				i--;
+				// Hide, but always keep at least one marker visible
+				if (hideMarkers.size() < markers.size()-1)
+				{
+					hideMarkers.add(markers.get(i));
+					markers.set(i, null);
+				}
+				else
+					break;
 			}
-			else
-				return;
 		}
+
+		// Now copy the kept markers into a new array - this is thousands of times
+		// quicker than removing/adding markers in the loop above, which would
+		// cause the ArrayLists to be recreated unnecessarily
+		ArrayList<MarkerInfo> markers2 = new ArrayList<>(markers.size());
+		for (int i = 0; i < markers.size(); i++)
+			if (markers.get(i) != null)
+				markers2.add(markers.get(i));
+
+		markers = markers2;
+
+		// Then trim down any left over elements
+		markers.trimToSize();
+		hideMarkers.trimToSize();
 	}
 
 	/** Hides all selected or unselected lines, depending on the parameter. */
