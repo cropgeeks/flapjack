@@ -442,13 +442,15 @@ public class GTView extends XMLRoot
 
 		for (int i = 0; i < markers.size(); i++)
 		{
+			MarkerInfo mi = markers.get(i);
+
 			// Should we hide this marker?
-			if (markers.get(i).selected == hideSelected)
+			if (mi.selected == hideSelected && mi.dummyMarker() == false)
 			{
 				// Hide, but always keep at least one marker visible
 				if (hideMarkers.size() < markers.size()-1)
 				{
-					hideMarkers.add(markers.get(i));
+					hideMarkers.add(mi);
 					markers.set(i, null);
 				}
 				else
