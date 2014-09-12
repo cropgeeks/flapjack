@@ -18,6 +18,7 @@ import scri.commons.gui.*;
 class ChromosomeCanvas extends JPanel
 {
 	private GTViewSet viewSet;
+	private ChromosomeCanvasKey key;
 
 	// A list of views (chromosomes) holding information to draw. These may be
 	// references to real GTView objects, or to user-built custom maps
@@ -54,6 +55,9 @@ class ChromosomeCanvas extends JPanel
 		new CanvasMouseListener(this);
 		ToolTipManager.sharedInstance().setInitialDelay(0);
 	}
+
+	void setKey(ChromosomeCanvasKey key)
+		{ this.key = key; }
 
 	void setView(GTViewSet viewSet)
 	{
@@ -128,6 +132,8 @@ class ChromosomeCanvas extends JPanel
 		int y = 25;
 
 		calculateMarkersPerPixel(longestMap, longestMapW);
+		// Once we know the new values, the key can be updated
+		key.redraw();
 
 		int viewNo = 0;
 		for (GTView view: views)

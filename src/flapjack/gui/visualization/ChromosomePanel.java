@@ -21,8 +21,11 @@ public class ChromosomePanel extends JPanel
 	{
 		canvas = new ChromosomeCanvas();
 		sp = new JScrollPane(canvas);
+		sp.getVerticalScrollBar().setUnitIncrement(10);
+		sp.getVerticalScrollBar().setBlockIncrement(10);
 
 		key = new ChromosomeCanvasKey(canvas);
+		canvas.setKey(key);
 
 		setLayout(new BorderLayout());
 		add(sp);
@@ -32,7 +35,6 @@ public class ChromosomePanel extends JPanel
 	public void setViewSet(GTViewSet viewSet)
 	{
 		this.viewSet = viewSet;
-
 		canvas.setView(viewSet);
 	}
 }
