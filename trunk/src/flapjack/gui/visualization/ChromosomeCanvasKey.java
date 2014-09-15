@@ -32,7 +32,6 @@ public class ChromosomeCanvasKey extends JPanel
 
 //		dimension = new Dimension(getWidth(), 32);
 
-		setBorder(BorderFactory.createEmptyBorder(0, 25, 0, 25));
 		setBackground(Color.WHITE);
 
 		setLayout(new BorderLayout(5, 5));
