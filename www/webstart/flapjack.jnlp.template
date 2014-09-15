@@ -16,6 +16,8 @@
 		<jar href="commons-logging-1.1.1.jar"/>
 		<jar href="flapjack.jar"/>
 		<jar href="flapjack-resources.jar"/>
+		<jar href="jcommon-1.0.23.jar"/>
+		<jar href="jfreechart-1.0.19.jar"/>
 		<jar href="office-2.0.jar"/>
 		<jar href="osxadapter.jar"/>
 		<jar href="scri-commons.jar"/>

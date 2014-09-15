@@ -19,10 +19,11 @@ class ChromosomeCanvas extends JPanel
 {
 	private GTViewSet viewSet;
 	private ChromosomeCanvasKey key;
+	private ChromosomeCanvasGraph graph;
 
 	// A list of views (chromosomes) holding information to draw. These may be
 	// references to real GTView objects, or to user-built custom maps
-	private ArrayList<GTView> views;
+	ArrayList<GTView> views;
 
 	// Holds the current dimensions of the canvas in an AWT friendly format
 	private Dimension dimension = new Dimension();
@@ -36,9 +37,9 @@ class ChromosomeCanvas extends JPanel
 
 	private int maxMarkers;
 	private int minMarkers;
-	private ArrayList<int[]> viewMarkersPerPixel;
+	ArrayList<int[]> viewMarkersPerPixel;
 	private ArrayList<Integer> viewMapWidths;
-	private float cmPerPixel;
+	float cmPerPixel;
 
 	private NumberFormat nf = NumberFormat.getInstance();
 
@@ -56,8 +57,11 @@ class ChromosomeCanvas extends JPanel
 		ToolTipManager.sharedInstance().setInitialDelay(0);
 	}
 
-	void setKey(ChromosomeCanvasKey key)
-		{ this.key = key; }
+	void setHelpers(ChromosomeCanvasKey key, ChromosomeCanvasGraph graph)
+	{
+		this.key = key;
+		this.graph = graph;
+	}
 
 	void setView(GTViewSet viewSet)
 	{
@@ -285,6 +289,18 @@ class ChromosomeCanvas extends JPanel
 		public void mouseExited(MouseEvent e)
 		{
 			mousePos = null;
+		}
+
+		public void mouseClicked(MouseEvent e)
+		{
+			for (int i=0; i < viewMarkersPerPixel.size(); i++)
+			{
+				// Over chromosome in the y-axis
+				if (mousePos.getY() > 30 + i*70 && mousePos.getY() < 30 + i*70 + 16)
+				{
+					graph.display(i);
+				}
+			}
 		}
 	}
 
