@@ -39,12 +39,14 @@ public class CustomMaps extends XMLRoot
 
 	// Other methods
 
-	public void add(GTViewSet viewSet, GTView newView)
+	public void add(GTViewSet viewSet, GTView newView, GTView cloneOf)
 	{
 		initForDisplay(viewSet);
 
 		customViews.add(newView);
-		allViews.add(newView);
+
+		int index = allViews.indexOf(cloneOf) + 1;
+		allViews.add(index, newView);
 	}
 
 	// This is dealing with the fact existing projects will not have this object

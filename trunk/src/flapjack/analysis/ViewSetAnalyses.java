@@ -21,7 +21,8 @@ public class ViewSetAnalyses
 		view.cacheLines();
 
 		// Start by making a new ChromosomeMap to hold the markers of interest
-		ChromosomeMap newMap = new ChromosomeMap("CUSTOM");
+		String name = view.getChromosomeMap().getName() + " (" + new Date() + ")";
+		ChromosomeMap newMap = new ChromosomeMap(name);
 
 		// And get a reference to the line information for the view-set
 		ArrayList<LineInfo> lines = viewSet.getLines();
@@ -43,6 +44,6 @@ public class ViewSetAnalyses
 		newMap.sort();
 
 		GTView newView = new GTView(viewSet, newMap, true);
-		viewSet.getCustomMaps().add(viewSet, newView);
+		viewSet.getCustomMaps().add(viewSet, newView, view);
 	}
 }
