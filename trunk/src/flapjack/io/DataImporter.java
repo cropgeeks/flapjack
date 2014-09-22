@@ -70,8 +70,6 @@ public class DataImporter extends SimpleJob
 		if (Prefs.ioMakeAllChromosome)
 			dataSet.createSuperChromosome(RB.getString("io.DataImporter.allChromosomes"));
 
-		Collections.sort(dataSet.getChromosomeMaps());
-
 		if(okToRun)
 		{
 			// Post-import stuff...

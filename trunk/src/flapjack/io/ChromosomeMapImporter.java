@@ -98,18 +98,27 @@ public class ChromosomeMapImporter
 		in.close();
 
 		if (isOK)
-			dataSet.sortChromosomeMaps();
+			dataSet.orderMarkersWithinMaps();
+
+		Collections.sort(dataSet.getChromosomeMaps());
 
 		System.out.println("markers.size() = " + markers.size());
 
-		// Once the data is loaded, we need to uupdate the hashmap with the
+		// Once the data is loaded, we need to update the hashmap with the
 		// index (within each map) of each marker, so that the genotype importer
 		// can use it during its loading
+		short mapIndex = 0;
 		for (ChromosomeMap map: dataSet.getChromosomeMaps())
 		{
-			int i = 0;
+			int mkrIndex = 0;
 			for (Marker marker: map)
-				markers.get(marker.getName()).mkrIndex = i++;
+			{
+				MarkerIndex mi = markers.get(marker.getName());
+				mi.mkrIndex = mkrIndex++;
+				mi.mapIndex = mapIndex;
+			}
+
+			mapIndex++;
 		}
 
 		System.out.println("assigned marker indexes");
