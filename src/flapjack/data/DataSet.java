@@ -209,7 +209,7 @@ public class DataSet extends XMLRoot
 	 * Sorts the markers within each chromosome map so that they are held in
 	 * ascending position order.
 	 */
-	public void sortChromosomeMaps()
+	public void orderMarkersWithinMaps()
 	{
 		for (ChromosomeMap map: chromosomes)
 			map.sort();
