@@ -197,12 +197,17 @@ class ChromosomeCanvas extends JPanel
 
 			y += 30;
 
-			// Chromosome lengths
+			// Chromosome lengths:
+			// Left (always 0) number
 			g.setColor(Color.black);
 			g.drawString(nf.format(0), 25, y);
 			String strLength = nf.format(view.mapLength());
+
+			// Right (cm length) number
 			int strWidth = g.getFontMetrics().stringWidth(strLength);
-			g.drawString(strLength, 25 + mapW - strWidth, y);
+			int strPos = 25 + mapW - strWidth;
+			if (strPos < 25) strPos = 40;
+			g.drawString(strLength, strPos, y);
 
 			y+= 35;
 
