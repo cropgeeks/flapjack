@@ -37,7 +37,7 @@ class ChromosomeCanvas extends JPanel
 
 	private int maxMarkers;
 	private int minMarkers;
-	ArrayList<int[]> viewMarkersPerPixel;
+	ArrayList<float[]> viewMarkersPerPixel;
 	private ArrayList<Integer> viewMapWidths;
 	float cmPerPixel;
 
@@ -118,10 +118,7 @@ class ChromosomeCanvas extends JPanel
 	{
 		float longestMap = 0;
 		for (GTView view: views)
-		{
-			if (view.mapLength() > longestMap)
-				longestMap = view.mapLength();
-		}
+			longestMap = Math.max(longestMap, view.mapLength());
 
 		// Work out how many centimorgans each pixel represents
 		int longestMapW = getWidth()-50;
@@ -154,7 +151,7 @@ class ChromosomeCanvas extends JPanel
 			g.drawString(name, 25, y);
 			y+= 5;
 
-			int[] markersPerPixel = viewMarkersPerPixel.get(viewNo);
+			float[] markersPerPixel = viewMarkersPerPixel.get(viewNo);
 
 			for (int i=0; i < mapW; i++)
 			{
@@ -216,50 +213,69 @@ class ChromosomeCanvas extends JPanel
 		}
 	}
 
+	// This is called by the main rendering code when it needs to draw the
+	// chromosome maps. This menthod calls out (one view at a time) to the
+	// other calculate method that does the actual work per chromosome, and is
+	// also used (in real-time) by the graph display code whenever a graph is
+	// clicked on
 	private void calculateMarkersPerPixel(float longestMap, int longestMapW)
 	{
 		maxMarkers = 0;
 		minMarkers = Integer.MAX_VALUE;
-		viewMarkersPerPixel = new ArrayList<int[]>();
+		viewMarkersPerPixel = new ArrayList<float[]>();
 		viewMapWidths = new ArrayList<Integer>();
 
-		for (GTView view : views)
+		for (GTView view: views)
 		{
 			// Create an array of the appropriate length for this map
-			int mapW = (int) ((view.mapLength()/longestMap) * longestMapW);
-			viewMapWidths.add(mapW);
-			int[] markersPerPixel = new int[mapW];
+			// In this case the number of bins is equal to the number of pixels
+			// that will be used to draw the chromosome
+			int nBins = (int) ((view.mapLength()/longestMap) * longestMapW);
+			viewMapWidths.add(nBins);
 
-			int startMarker = 0;
-			// <= as we start at 1, not 0 and we need values for the full width
-			for (int pixel = 1; pixel <= mapW; pixel++)
-			{
-				int markerCount = 0;
-				float pixelPosition = pixel * cmPerPixel;
-				for (int i = startMarker; i < view.markerCount(); i++)
-				{
-					Marker m = view.getMarker(i);
-					// If the marker is located within the centimorgans which
-					// make up the current pixel update the markerCount and start
-					// marker
-					if (m.getPosition() < pixelPosition)
-					{
-						markerCount++;
-						startMarker++;
-					}
-					// Otherwise save the value to the array and update maxMarkers
-					// if required
-					else
-					{
-						markersPerPixel[pixel-1] = markerCount;
-						maxMarkers = Math.max(maxMarkers, markerCount);
-						minMarkers = Math.min(minMarkers, markerCount);
-						break;
-					}
-				}
-			}
+			float[] markersPerPixel = calculateMarkersPerPixel(view, cmPerPixel, nBins);
 			viewMarkersPerPixel.add(markersPerPixel);
 		}
+	}
+
+	// nBins will either be the number of pixels used to draw the chromosome in
+	// question, or it will be a fixed size (eg 500) if this code is called by
+	// ChromosomeGraphCanvas which needs greater resolution
+	float[] calculateMarkersPerPixel(GTView view, float cmPerPixel, int nBins)
+	{
+		float[] markersPerPixel = new float[nBins];
+
+		int startMarker = 0;
+		// <= as we start at 1, not 0 and we need values for the full width
+		for (int pixel = 1; pixel <= nBins; pixel++)
+		{
+			int markerCount = 0;
+			float pixelPosition = pixel * cmPerPixel;
+			for (int i = startMarker; i < view.markerCount(); i++)
+			{
+				Marker m = view.getMarker(i);
+
+				// If the marker is located within the centimorgans which
+				// make up the current pixel update the markerCount and start
+				// marker
+				if (m.getPosition() <= pixelPosition)
+				{
+					markerCount++;
+					startMarker++;
+				}
+
+				else
+					break;
+			}
+
+			// Save the value to the array and update maxMarkers if required
+			markersPerPixel[pixel-1] = markerCount;
+			maxMarkers = Math.max(maxMarkers, markerCount);
+			minMarkers = Math.min(minMarkers, markerCount);
+		}
+
+
+		return markersPerPixel;
 	}
 
 	class CanvasMouseListener extends MouseInputAdapter

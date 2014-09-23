@@ -3,6 +3,8 @@ package flapjack.gui.visualization;
 import java.awt.*;
 import javax.swing.*;
 
+import flapjack.data.*;
+
 import scri.commons.gui.*;
 
 import org.jfree.chart.*;
@@ -47,12 +49,17 @@ public class ChromosomeCanvasGraph extends JPanel
 		// Otherwise, build the graph data for it:
 		else
 		{
-			int[] values = chromCanvas.viewMarkersPerPixel.get(chromosomeIndex);
+			GTView view = chromCanvas.views.get(chromosomeIndex);
+			// Work out how many centimorgans each bin will represent
+			int nBins = 500;
+			float cmPerPixel = view.mapLength() / nBins;
+
+			float[] values = chromCanvas.calculateMarkersPerPixel(view, cmPerPixel, nBins);
 
 			double[][] data = new double[values.length][2];
 			for (int i = 0; i < values.length; i++)
 			{
-				data[i][0] = i * chromCanvas.cmPerPixel;
+				data[i][0] = i * cmPerPixel;
 				data[i][1] = values[i];
 			}
 
