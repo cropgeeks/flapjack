@@ -62,7 +62,7 @@ public class DendrogramGenerator extends SimpleJob
 		ProjectSerializerDB.cacheToDisk(dendrogram.getPng());
 		ProjectSerializerDB.cacheToDisk(dendrogram.getPdf());
 
-		orderedMatrix = matrix.cloneAndReorder(rIntOrder, matrix.getLineInfos());
+		orderedMatrix = matrix.cloneAndReorder(rIntOrder, order);
 		ProjectSerializerDB.cacheToDisk(orderedMatrix);
 
 		newViewSet.setLines(order);
