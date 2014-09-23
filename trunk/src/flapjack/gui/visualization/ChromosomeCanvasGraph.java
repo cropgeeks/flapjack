@@ -93,7 +93,7 @@ public class ChromosomeCanvasGraph extends JPanel
 	}
 
 	private JFreeChart createChart() {
-		JFreeChart chart = ChartFactory.createXYLineChart(null, null, // xaxis title
+		JFreeChart chart = ChartFactory.createXYAreaChart(null, null, // xaxis title
 		null, // yaxis title
 		null, PlotOrientation.VERTICAL, true, true, false);
 

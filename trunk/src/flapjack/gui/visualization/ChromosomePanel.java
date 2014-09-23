@@ -7,6 +7,7 @@ import java.awt.*;
 import javax.swing.*;
 
 import flapjack.data.*;
+import flapjack.gui.*;
 
 import scri.commons.gui.*;
 
@@ -40,6 +41,9 @@ public class ChromosomePanel extends JPanel
 		panel.add(graph, BorderLayout.SOUTH);
 
 		setLayout(new BorderLayout());
+		add(new TitlePanel(
+			RB.getString("flapjack.gui.visualization.ChromosomePanel.title")),
+			BorderLayout.NORTH);
 		add(sp);
 		add(panel, BorderLayout.SOUTH);
 	}
