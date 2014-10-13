@@ -68,7 +68,7 @@ public class MenuAnalysis
 		String rbTitle = "gui.MenuData.sortExternal.title";
 		String rbLabel = "gui.MenuData.sortExternal.label";
 		String rbButton = "gui.MenuData.sortExternal.button";
-		String help = "gui.dialog.SortLinesExternal";
+		String help = "_-_Sort_Lines";
 
 		// Find out what file to import
 		BrowseDialog browseDialog = new BrowseDialog(Prefs.guiExternalSortHistory,

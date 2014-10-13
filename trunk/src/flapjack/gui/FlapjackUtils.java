@@ -29,7 +29,7 @@ public class FlapjackUtils
 	 */
 	public static void setHelp(final JButton button, String topic)
 	{
-		final String html = "http://bioinf.hutton.ac.uk/flapjack/help/" + topic + ".shtml";
+		final String html = "http://ics.hutton.ac.uk/wiki/index.php/Flapjack_Help" + topic;
 
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

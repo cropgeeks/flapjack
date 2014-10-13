@@ -84,7 +84,7 @@ public class ImportDialog extends JDialog implements ActionListener, ChangeListe
 		bCancel.addActionListener(this);
 		bHelp = SwingUtils.getButton(RB.getString("gui.text.help"));
 		RB.setText(bHelp, "gui.text.help");
-		FlapjackUtils.setHelp(bHelp, "gui.dialog.DataImportDialog");
+		FlapjackUtils.setHelp(bHelp, "_-_Import_Data");
 
 		JPanel p1 = FlapjackUtils.getButtonPanel();
 		p1.add(bImport);

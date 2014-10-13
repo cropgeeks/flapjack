@@ -49,7 +49,7 @@ public class QuickExportDialog extends JDialog implements ActionListener
 		bCancel.addActionListener(this);
 		bHelp = SwingUtils.getButton(RB.getString("gui.text.help"));
 		RB.setText(bHelp, "gui.text.help");
-		FlapjackUtils.setHelp(bHelp, "gui.dialog.QuickExportDialog");
+		FlapjackUtils.setHelp(bHelp, "_-_Quick_Export_Data");
 
 		JPanel p1 = FlapjackUtils.getButtonPanel();
 		p1.add(bOK);

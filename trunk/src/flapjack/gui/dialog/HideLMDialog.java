@@ -58,9 +58,9 @@ public class HideLMDialog extends JDialog implements ActionListener
 		bHelp = SwingUtils.getButton(RB.getString("gui.text.help"));
 		RB.setText(bHelp, "gui.text.help");
 		if (i18n.equals("lines"))
-			FlapjackUtils.setHelp(bHelp, "gui.dialog.HideLinesDialog");
+			FlapjackUtils.setHelp(bHelp, "_-_Show/Hide_Lines");
 		else
-			FlapjackUtils.setHelp(bHelp, "gui.dialog.HideMarkersDialog");
+			FlapjackUtils.setHelp(bHelp, "_-_Show/Hide_Markers");
 
 		JPanel p1 = FlapjackUtils.getButtonPanel();
 		p1.add(bOK);
