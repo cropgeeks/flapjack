@@ -25,10 +25,10 @@ class MenuHelp
 	void helpContents()
 	{
 		JButton bHelp = new JButton();
-		FlapjackUtils.setHelp(bHelp, "index");
+		FlapjackUtils.setHelp(bHelp, "");
 		bHelp.doClick();
 	}
-	
+
 
 	void helpPrefs()
 	{

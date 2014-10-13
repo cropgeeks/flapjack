@@ -59,7 +59,7 @@ public class DuplicateMarkersDialog extends JDialog implements ActionListener
 
 		bHelp = SwingUtils.getButton(RB.getString("gui.text.help"));
 		RB.setText(bHelp, "gui.text.help");
-		FlapjackUtils.setHelp(bHelp, "gui.dialog.DuplicateMarkersDialog");
+		FlapjackUtils.setHelp(bHelp, "_-_Duplicate_Markers");
 
 		JPanel p1 = FlapjackUtils.getButtonPanel();
 		p1.add(bClipboard);

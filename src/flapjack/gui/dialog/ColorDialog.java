@@ -58,7 +58,7 @@ public class ColorDialog extends JDialog implements ActionListener
 		bApply.addActionListener(this);
 		bHelp = SwingUtils.getButton(RB.getString("gui.text.help"));
 		RB.setText(bHelp, "gui.text.help");
-		FlapjackUtils.setHelp(bHelp, "gui.dialog.ColorDialog");
+		FlapjackUtils.setHelp(bHelp, "_-_Customize_Colours");
 
 		JPanel p1 = FlapjackUtils.getButtonPanel();
 		p1.add(bApply);

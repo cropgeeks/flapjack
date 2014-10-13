@@ -66,7 +66,7 @@ public class FilterQTLsDialog extends JDialog implements ActionListener
 
 		bHelp = SwingUtils.getButton(RB.getString("gui.text.help"));
 		RB.setText(bHelp, "gui.text.help");
-		FlapjackUtils.setHelp(bHelp, "gui.dialog.FilterQTLsDialog");
+		FlapjackUtils.setHelp(bHelp, "_-_Filter_QTLs");
 
 		JPanel p1 = FlapjackUtils.getButtonPanel();
 		p1.add(bFilter);

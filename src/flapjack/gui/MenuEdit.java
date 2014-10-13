@@ -122,7 +122,7 @@ public class MenuEdit
 		String rbTitle = "gui.MenuEdit.externalMarkerSelection.title";
 		String rbLabel = "gui.MenuEdit.externalMarkerSelection.label";
 		String rbButton = "gui.MenuEdit.externalMarkerSelection.button";
-		String help = "gui.dialog.SelectMarkerExternal";
+		String help = "_-_Selecting_Lines/Markers";
 
 		// Find out which file to import
 		BrowseDialog browseDialog = new BrowseDialog(Prefs.guiExternalMarkerSelectionHistory,
@@ -242,7 +242,7 @@ public class MenuEdit
 		String rbTitle = "gui.MenuEdit.externalLineSelection.title";
 		String rbLabel = "gui.MenuEdit.externalLineSelection.label";
 		String rbButton = "gui.MenuEdit.externalLineSelection.button";
-		String help = "gui.dialog.SelectLineExternal";
+		String help = "_-_Selecting_Lines/Markers";
 
 		// Find out which file to import
 		BrowseDialog browseDialog = new BrowseDialog(Prefs.guiExternalLineSelectionHistory,

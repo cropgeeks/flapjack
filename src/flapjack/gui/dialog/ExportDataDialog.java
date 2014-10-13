@@ -58,7 +58,7 @@ public class ExportDataDialog extends JDialog implements ActionListener
 		bClose.addActionListener(this);
 		bHelp = SwingUtils.getButton(RB.getString("gui.text.help"));
 		RB.setText(bHelp, "gui.text.help");
-		FlapjackUtils.setHelp(bHelp, "gui.dialog.ExportDataDialog");
+		FlapjackUtils.setHelp(bHelp, "_-_Export_Data");
 
 		JPanel p1 = FlapjackUtils.getButtonPanel();
 		p1.add(bExport);
