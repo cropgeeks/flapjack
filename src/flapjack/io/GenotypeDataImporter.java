@@ -26,6 +26,10 @@ public class GenotypeDataImporter
 	// Also track line names, for duplicate detection
 	private HashMap<String, Line> lines;
 
+	// Stores known states as we find them so we don't have to keep working them
+	// out for each allele
+	private HashMap<String, Integer> states = new HashMap<>();
+
 	private String ioMissingData;
 	private boolean ioUseHetSep;
 	private String ioHeteroSeparator;
@@ -173,8 +177,13 @@ public class GenotypeDataImporter
 				if (mapIndex[i] != -1)
 				{
 					// Determine its various states
-					int stateCode = stateTable.getStateCode(values[i], true,
-						ioMissingData, ioUseHetSep, ioHeteroSeparator);
+					Integer stateCode = states.get(values[i]);
+					if (stateCode == null)
+					{
+						stateCode = stateTable.getStateCode(values[i], true,
+							ioMissingData, ioUseHetSep, ioHeteroSeparator);
+						states.put(values[i], stateCode);
+					}
 
 					// Then apply them to the marker data
 					line.setLoci(mapIndex[i], mkrIndex[i], stateCode);
@@ -300,11 +309,14 @@ public class GenotypeDataImporter
 				// Assuming a map was found that contains this marker...
 				if (index != null && index.mapIndex != -1)
 				{
-					ChromosomeMap map = dataSet.getMapByIndex(index.mapIndex);
-
 					// Determine its various states
-					int stateCode = stateTable.getStateCode(values[i], true,
-						ioMissingData, ioUseHetSep, ioHeteroSeparator);
+					Integer stateCode = states.get(values[i]);
+					if (stateCode == null)
+					{
+						stateCode = stateTable.getStateCode(values[i], true,
+							ioMissingData, ioUseHetSep, ioHeteroSeparator);
+						states.put(values[i], stateCode);
+					}
 
 					// Then apply them to the marker data
 					lines.get(lineNames[i]).setLoci(index.mapIndex, index.mkrIndex, stateCode);
