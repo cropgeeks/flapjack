@@ -1,4 +1,4 @@
-// Copyright 2009-2014 Information & Computational Sciences, JHI. All rights
+// Copyright 2009-2015 Information & Computational Sciences, JHI. All rights
 // reserved. Use is subject to the accompanying licence terms.
 
 package flapjack.gui.dialog;
@@ -65,7 +65,7 @@ class AboutPanelNB extends javax.swing.JPanel implements ActionListener
 
 	public void actionPerformed(ActionEvent e)
 	{
-		final String flapHTML = "http://bioinf.hutton.ac.uk/flapjack";
+		final String flapHTML = "http://ics.hutton.ac.uk/flapjack";
 
 		if(e.getSource() == webLabel)
 		{
@@ -114,7 +114,7 @@ class AboutPanelNB extends javax.swing.JPanel implements ActionListener
         memLabel.setForeground(java.awt.Color.gray);
         memLabel.setText("Memory available to JVM:");
 
-        webLabel.setText("http://bioinf.hutton.ac.uk/flapjack");
+        webLabel.setText("http://ics.hutton.ac.uk/flapjack");
 
         iconPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 15, 5));
 
@@ -131,31 +131,16 @@ class AboutPanelNB extends javax.swing.JPanel implements ActionListener
             .addGroup(p2Layout.createSequentialGroup()
                 .addGroup(p2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(p2Layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
                         .addGroup(p2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(p2Layout.createSequentialGroup()
-                                .addGap(10, 10, 10)
-                                .addComponent(versionLabel))
-                            .addGroup(p2Layout.createSequentialGroup()
-                                .addGap(10, 10, 10)
-                                .addComponent(copyrightLabel))
-                            .addGroup(p2Layout.createSequentialGroup()
-                                .addGap(10, 10, 10)
-                                .addComponent(nameLabel))
-                            .addGroup(p2Layout.createSequentialGroup()
-                                .addGap(10, 10, 10)
-                                .addComponent(javaLabel))
-                            .addGroup(p2Layout.createSequentialGroup()
-                                .addGap(10, 10, 10)
-                                .addComponent(memLabel))
-                            .addGroup(p2Layout.createSequentialGroup()
-                                .addGap(10, 10, 10)
-                                .addComponent(localeLabel))
-                            .addGroup(p2Layout.createSequentialGroup()
-                                .addGap(10, 10, 10)
-                                .addComponent(idLabel))
-                            .addGroup(p2Layout.createSequentialGroup()
-                                .addGap(10, 10, 10)
-                                .addComponent(webLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(versionLabel)
+                            .addComponent(copyrightLabel)
+                            .addComponent(nameLabel)
+                            .addComponent(javaLabel)
+                            .addComponent(memLabel)
+                            .addComponent(localeLabel)
+                            .addComponent(idLabel)
+                            .addComponent(webLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(iconPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
