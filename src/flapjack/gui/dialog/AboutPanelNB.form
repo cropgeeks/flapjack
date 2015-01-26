@@ -42,39 +42,16 @@
               <Group type="102" attributes="0">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">
+                          <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" attributes="0">
-                                  <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
-                                  <Component id="versionLabel" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <Group type="102" alignment="0" attributes="0">
-                                  <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
-                                  <Component id="copyrightLabel" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <Group type="102" alignment="0" attributes="0">
-                                  <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
-                                  <Component id="nameLabel" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <Group type="102" alignment="0" attributes="0">
-                                  <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
-                                  <Component id="javaLabel" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <Group type="102" alignment="0" attributes="0">
-                                  <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
-                                  <Component id="memLabel" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <Group type="102" alignment="0" attributes="0">
-                                  <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
-                                  <Component id="localeLabel" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <Group type="102" alignment="0" attributes="0">
-                                  <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
-                                  <Component id="idLabel" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <Group type="102" alignment="0" attributes="0">
-                                  <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
-                                  <Component id="webLabel" min="-2" max="-2" attributes="0"/>
-                              </Group>
+                              <Component id="versionLabel" min="-2" max="-2" attributes="0"/>
+                              <Component id="copyrightLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="nameLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="javaLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="memLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="localeLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="idLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="webLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                       </Group>
@@ -163,7 +140,7 @@
         </Component>
         <Component class="scri.commons.gui.matisse.HyperLinkLabel" name="webLabel">
           <Properties>
-            <Property name="text" type="java.lang.String" value="http://bioinf.hutton.ac.uk/flapjack"/>
+            <Property name="text" type="java.lang.String" value="http://ics.hutton.ac.uk/flapjack"/>
           </Properties>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
