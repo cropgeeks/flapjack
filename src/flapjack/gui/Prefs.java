@@ -25,10 +25,13 @@ public class Prefs extends XMLPreferences
 	//replacements for guiCurrentMap and guiCurrentGeno
 	public static String guiMapList = "";
 	public static String guiGenoList = "";
+	public static String guiHDF5List = "";
 	// Path to the last selected trait file
 	public static String guiTraitHistory = "";
 	public static String guiQTLHistory = "";
 	public static String guiGraphHistory = "";
+
+	public static boolean guiUseHDF5 = false;
 
 	public static String guiQuickExportHistory = "";
 
