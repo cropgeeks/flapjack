@@ -99,9 +99,9 @@ public class CreateProject
 
 		// Read the data file
 		GenotypeDataImporter genoImporter = new GenotypeDataImporter(
-			genotypesFile, dataSet, mapImporter.getMarkersHashMap(), "-", true, "/");
+			genotypesFile, dataSet, mapImporter.getMarkersHashMap(), "-", true, "/", false);
 
-		genoImporter.importGenotypeData(false);
+		genoImporter.importGenotypeData();
 
 		PostImportOperations pio = new PostImportOperations(dataSet);
 		pio.collapseHeterozygotes();

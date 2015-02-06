@@ -13,7 +13,7 @@ import flapjack.gui.*;
 import scri.commons.file.*;
 import scri.commons.gui.*;
 
-public class ChromosomeMapImporter
+public class ChromosomeMapImporter implements IMapImporter
 {
 	private ProgressInputStream is;
 	private File file;
@@ -34,12 +34,15 @@ public class ChromosomeMapImporter
 		this.dataSet = dataSet;
 	}
 
+	@Override
 	public HashMap<String, MarkerIndex> getMarkersHashMap()
 		{ return markers; }
 
+	@Override
 	public void cancelImport()
 		{ isOK = false; }
 
+	@Override
 	public void importMap()
 		throws IOException, DataFormatException
 	{
@@ -124,13 +127,16 @@ public class ChromosomeMapImporter
 		System.out.println("assigned marker indexes");
 	}
 
+	@Override
 	public LinkedList<String> getDuplicates()
 		{ return duplicates; }
 
+	@Override
 	public long getBytesRead()
 		{ return (is == null) ? 0 : is.getBytesRead(); }
 
-	long getMarkerCount()
+	@Override
+	public long getMarkerCount()
 		{ return markerCount; }
 }
 

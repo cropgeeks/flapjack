@@ -12,3 +12,4 @@ SET fjcp=%fjcp%;%lib%\jfreechart-1.0.19.jar
 SET fjcp=%fjcp%;%lib%\office-2.0.jar
 SET fjcp=%fjcp%;%lib%\scri-commons.jar
 SET fjcp=%fjcp%;%lib%\sqlite-jdbc-3.7.2.jar
+SET fjcp=%fjcp%;%lib%\cisd-jhdf5-batteries_included_lin_win_mac.jar

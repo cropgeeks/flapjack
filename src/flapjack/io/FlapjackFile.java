@@ -23,6 +23,7 @@ public class FlapjackFile
 	public static final int QTL = 7;
 	public static final int GRAPH = 8;
 	public static final int WIGGLE = 9;
+	public static final int HDF5 = 10;
 
 	private String filename;
 	private URL url;
@@ -166,6 +167,8 @@ public class FlapjackFile
 					type = GRAPH;
 				else if (isWiggle(str))
 					type = WIGGLE;
+				else if (isHDF5(str))
+					type = HDF5;
 			}
 		}
 		catch (Exception e) { System.out.println(e);}
@@ -205,6 +208,11 @@ public class FlapjackFile
 	private boolean isWiggle(String str)
 	{
 		return (str.toLowerCase().startsWith("track type=wiggle_0") || str.startsWith("#"));
+	}
+
+	private boolean isHDF5(String str)
+	{
+		return str.contains("HDF");
 	}
 
 	// Attempts to read the first 2048 bytes of the file, converting the stream

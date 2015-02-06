@@ -34,10 +34,10 @@ public class DataSetTest extends TestCase
 		ChromosomeMapImporter mapImporter
 			= new ChromosomeMapImporter(file1, dataSet);
 		GenotypeDataImporter genoImporter = new GenotypeDataImporter(file2,
-			dataSet, mapImporter.getMarkersHashMap(), "", true, "/");
+			dataSet, mapImporter.getMarkersHashMap(), "", true, "/", false);
 
 		mapImporter.importMap();
-		genoImporter.importGenotypeData(false);
+		genoImporter.importGenotypeData();
 	}
 
 	public void testLoadingTiny()

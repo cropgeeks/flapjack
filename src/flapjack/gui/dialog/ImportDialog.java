@@ -170,6 +170,9 @@ public class ImportDialog extends JDialog implements ActionListener, ChangeListe
 	public File getGenotypeFile()
 		{ return genoTab.getGenotypeFile(); }
 
+	public File getHDF5File()
+		{ return genoTab.getHDF5File(); }
+
 	public File getTraitsFile()
 		{ return traitsTab.getFile(); }
 
