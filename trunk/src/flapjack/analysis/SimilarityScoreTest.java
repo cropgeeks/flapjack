@@ -29,10 +29,10 @@ public class SimilarityScoreTest extends TestCase
 		ChromosomeMapImporter mapImporter
 			= new ChromosomeMapImporter(mapFile, dataSet);
 		GenotypeDataImporter genoImporter = new GenotypeDataImporter(genoFile,
-			dataSet, mapImporter.getMarkersHashMap(), "", true, "/");
+			dataSet, mapImporter.getMarkersHashMap(), "", true, "/", false);
 
 		mapImporter.importMap();
-		genoImporter.importGenotypeData(false);
+		genoImporter.importGenotypeData();
 	}
 
 	public void testSimilarityScores()
