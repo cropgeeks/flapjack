@@ -1,0 +1,40 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+
+<html>
+<head>
+<meta http-equiv="Content-Language" content="en-gb">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+<link rel="stylesheet" href="stylesheet/styles.css" type="text/css">
+
+<title>Allele Frequency Threshold</title>
+
+</head>
+<body>
+
+<!--#include virtual="header.html" -->
+
+
+<h2>Allele Frequency Threshold</h2>
+
+<p>After selecting the <b>by allele frequency</b> colour scheme, the <b>Allele
+Frequency Threshold</b> dialog appears, allowing you to choose the cut-off
+threshold between low and high frequency alleles.</p>
+
+<p><a href="images/gui.dialog.AlleleFrequencyDialog.png">
+<img class="capture" src="images/gui.dialog.AlleleFrequencyDialog2.png" alt="Flapjack Screenshot"></a></p>
+
+<p>A low frequency allele (blue by default) will be any allele within a given marker that occurs
+at a percentage less than the chosen threshold. A high frequency allele (green by default) will be any allele within a given marker that occurs
+at a percentage greater than the chosen threshold.</p>
+
+<p>The underlying method for this scheme calculates a percentage frequency for every allele found across a
+marker, ignoring unknown genotypes. For example, if you had five lines with the
+genotypes A/A, A/T, A/A, A/T and A/A at a given locus, then the score for A is 8/10 (80%) and the
+score for T is 2/10 (20%).</p>
+
+
+<!--#include virtual="footer.html" -->
+
+</body>
+</html>
