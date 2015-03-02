@@ -47,16 +47,28 @@ public class SimMatrixExporter extends SimpleJob
 	public void runJob(int i)
 		throws Exception
 	{
+		// The dendrogram can be passed to the servlets; in this scenario we
+		// *always* want to use \r\n EOL chars...
+		String EOL = "\r\n";
+
+		// ...but for local writing to disk, the EOL should be platform-specific
 		if (filename != null)
+		{
 			writer = new PrintWriter(new FileOutputStream(new File(filename)));
+			EOL = System.getProperty("line.separator");
+		}
 
 		// Write the header line of the matrix
-		writer.println(matrix.createFileHeaderLine(hasRowHeader));
+		writer.print(matrix.createFileHeaderLine(hasRowHeader));
+		writer.print(EOL);
 		progress++;
 
 		// Write each successive line of the matrix file
 		for (int j=0; j < matrix.getLineInfos().size() && okToRun; j++, progress++)
-			writer.println(matrix.createFileLine(j, hasRowHeader));
+		{
+			writer.print(matrix.createFileLine(j, hasRowHeader));
+			writer.print(EOL);
+		}
 
 
 		if (isFileWriting)
