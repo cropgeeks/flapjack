@@ -5,7 +5,6 @@ package flapjack.io;
 
 import java.text.*;
 import java.io.*;
-import java.lang.reflect.*;
 import java.util.*;
 import javax.swing.*;
 
@@ -28,50 +27,44 @@ public class DataImporter extends SimpleJob
 	private DataSet dataSet = new DataSet();
 
 	// To load the map file...
-	private IMapImporter mapImporter;
+	private ChromosomeMapImporter mapImporter;
 
 	// To load the genotype file...
 	private File genoFile;
-	private IGenotypeImporter genoImporter;
-
-	private File hdf5File;
+	private GenotypeDataImporter genoImporter;
 
 
 	private long totalBytes;
 
-	private boolean usePrefs;
-
 	public DataImporter(File mapFile, File genoFile, boolean usePrefs)
 	{
 		this.genoFile = genoFile;
-		this.usePrefs = usePrefs;
 		totalBytes = mapFile.length() + genoFile.length();
+
+		mapImporter  = new ChromosomeMapImporter(mapFile, dataSet);
 
 		maximum = 5555;
 
-		mapImporter = new ChromosomeMapImporter(mapFile, dataSet);
+		// Initializes the data importer, passing it the required options, either
+		// from the preferences (if a user file is being opened) or with preset
+		// options if we're loading the sample file (which has a set format)
+		if (usePrefs)
+			genoImporter = new GenotypeDataImporter(genoFile, dataSet, mapImporter.getMarkersHashMap(), Prefs.ioMissingData, Prefs.ioUseHetSep, Prefs.ioHeteroSeparator);
+		else
+			genoImporter = new GenotypeDataImporter(genoFile, dataSet, mapImporter.getMarkersHashMap(), "-", true, "/");
 	}
 
-	public DataImporter(File hdf5File, boolean usePrefs)
-	{
-		this.hdf5File = hdf5File;
-		mapImporter = new Hdf5ChromosomeMapImporter(hdf5File, dataSet);
+	public DataSet getDataSet() {
+		return dataSet;
 	}
 
-	public DataSet getDataSet()
-		{ return dataSet; }
-
-	@Override
 	public void runJob(int jobIndex) throws Exception
 	{
-		long s = System.currentTimeMillis();
 		// Read the map
 		mapImporter.importMap();
 
-		setupGenotypeImport();
-
 		// Read the genotype data
-		genoImporter.importGenotypeData();
+		genoImporter.importGenotypeData(Prefs.ioTransposed);
 		genoImporter.cleanUp();
 
 		if (Prefs.ioMakeAllChromosome)
@@ -81,8 +74,7 @@ public class DataImporter extends SimpleJob
 		{
 			// Post-import stuff...
 			PostImportOperations pio = new PostImportOperations(dataSet);
-			File imported = genoFile != null ? genoFile : hdf5File;
-			pio.setName(imported);
+			pio.setName(genoFile);
 
 			// Collapse heterozyous states
 			if (Prefs.ioHeteroCollapse)
@@ -95,27 +87,6 @@ public class DataImporter extends SimpleJob
 
 		if (Prefs.warnDuplicateMarkers && okToRun)
 			displayDuplicates();
-
-		System.out.println("Time taken: " + (System.currentTimeMillis() - s) + " ms");
-	}
-
-	private void setupGenotypeImport()
-	{
-		if (Prefs.guiUseHDF5)
-		{
-			ArrayList<Integer> markerChromosomes = ((Hdf5ChromosomeMapImporter)mapImporter).markerChromosomes();
-			genoImporter = new Hdf5GenotypeDataImporter(hdf5File, dataSet, mapImporter.getMarkersHashMap(), markerChromosomes);
-		}
-		else
-		{
-			// Initializes the data importer, passing it the required options, either
-			// from the preferences (if a user file is being opened) or with preset
-			// options if we're loading the sample file (which has a set format)
-			if (usePrefs)
-				genoImporter = new GenotypeDataImporter(genoFile, dataSet, mapImporter.getMarkersHashMap(), Prefs.ioMissingData, Prefs.ioUseHetSep, Prefs.ioHeteroSeparator, Prefs.ioTransposed);
-			else
-				genoImporter = new GenotypeDataImporter(genoFile, dataSet, mapImporter.getMarkersHashMap(), "-", true, "/", Prefs.ioTransposed);
-		}
 	}
 
 	private void displayDuplicates()
@@ -124,22 +95,19 @@ public class DataImporter extends SimpleJob
 			return;
 
 		Runnable r = new Runnable() {
-			@Override
 			public void run() {
 				new DuplicateMarkersDialog(mapImporter.getDuplicates());
 			}
 		};
 
 		try { SwingUtilities.invokeAndWait(r); }
-		catch (InterruptedException | InvocationTargetException e) {}
+		catch (Exception e) {}
 	}
 
-	@Override
 	public int getMaximum()
 		{ return 5555; }
 
 
-	@Override
 	public int getValue()
 	{
 		long mapBytes = mapImporter.getBytesRead();
@@ -161,7 +129,6 @@ public class DataImporter extends SimpleJob
 			nf.format(genoImporter.getMarkerCount()));
 	}
 
-	@Override
 	public void cancelJob()
 	{
 		super.cancelJob();

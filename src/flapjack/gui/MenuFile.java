@@ -127,10 +127,9 @@ public class MenuFile
 			// Import from file
 			case 0:
 			{
-				File hdf5File = dialog.getHDF5File();
 				File mapFile = dialog.getMapFile();
 				File genoFile = dialog.getGenotypeFile();
-				importGenotypeData(mapFile, genoFile, hdf5File, true);
+				importGenotypeData(mapFile, genoFile, true);
 			}
 			break;
 
@@ -153,15 +152,11 @@ public class MenuFile
 
 	// Given a map file and a genotype (dat) file, imports that data, showing a
 	// progress bar while doing so
-	private void importGenotypeData(File mapFile, File datFile, File hdf5File, boolean usePrefs)
+	private void importGenotypeData(File mapFile, File datFile, boolean usePrefs)
 	{
 		gPanel.resetBufferedState(false);
 
-		DataImporter importer;
-		if (Prefs.guiUseHDF5)
-			importer = new DataImporter(hdf5File, usePrefs);
-		else
-			importer = new DataImporter(mapFile, datFile, usePrefs);
+		DataImporter importer = new DataImporter(mapFile, datFile, usePrefs);
 
 		ProgressDialog dialog = new ProgressDialog(importer,
 			 RB.format("gui.MenuFile.import.title"),
@@ -371,25 +366,18 @@ public class MenuFile
 		}
 
 
-		// Is there a MAP/GENOTYPE pair that can be imported?
-		FlapjackFile mapFile = null, datFile = null, hdf5File = null;
+		// Is there a MAP/GENPTYPE pair that can be imported?
+		FlapjackFile mapFile = null, datFile = null;
 		for (FlapjackFile fjFile: files)
 		{
 			if (fjFile.getType() == FlapjackFile.MAP && mapFile == null)
 				mapFile = fjFile;
 			if (fjFile.getType() == FlapjackFile.GENOTYPE && datFile == null)
 				datFile = fjFile;
-			if (fjFile.getType() == FlapjackFile.HDF5 && hdf5File == null)
-				hdf5File = fjFile;
 		}
 
 		if (mapFile != null && datFile != null)
-			importGenotypeData(mapFile.getFile(), datFile.getFile(), null, true);
-		else if (hdf5File != null)
-		{
-			Prefs.guiUseHDF5 = true;
-			importGenotypeData(null, null, hdf5File.getFile(), true);
-		}
+			importGenotypeData(mapFile.getFile(), datFile.getFile(), true);
 
 
 		// Now check for other file types that can be imported into the dataset
