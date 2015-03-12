@@ -98,7 +98,9 @@ public class VisualizationNode extends BaseNode
 			Actions.alysSortLinesByTrait.setEnabled(true);
 			Actions.alysSortLinesByExternal.setEnabled(true);
 			Actions.alysSortLinesAlphabetically.setEnabled(true);
-			Actions.alysSimMatrix.setEnabled(true);
+			// Only enable sim matrix analysis with non-binned data
+			if (viewSet.getDataSet().getBinnedData().containsBins() == false)
+				Actions.alysSimMatrix.setEnabled(true);
 
 			// TODO: make dynamic based on inclusion of QTL data or not
 			Actions.dataFilterQTLs.setEnabled(true);
