@@ -3,6 +3,11 @@
 
 package flapjack.gui.traits;
 
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+import javax.swing.table.*;
+
 import scri.commons.gui.*;
 
 class TraitsPanelNB extends javax.swing.JPanel
@@ -20,6 +25,24 @@ class TraitsPanelNB extends javax.swing.JPanel
 		bRemove.setIcon(Icons.getIcon("DELETE"));
 	}
 
+	private JTable createTable()
+	{
+		return new JTable()	{
+			protected JTableHeader createDefaultTableHeader() {
+				return new JTableHeader(columnModel)
+				{
+					public String getToolTipText(MouseEvent e)
+					{
+						Point p = e.getPoint();
+						int index = columnModel.getColumnIndexAtX(p.x);
+						int realIndex = columnModel.getColumn(index).getModelIndex();
+
+						return getModel().getColumnName(realIndex);
+					}
+				};
+		}};
+	}
+
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -33,7 +56,7 @@ class TraitsPanelNB extends javax.swing.JPanel
         statusLabel = new javax.swing.JLabel();
         bRemove = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        table = new javax.swing.JTable();
+        table = createTable();
         bExport = new javax.swing.JButton();
 
         bImport.setText("Import");
