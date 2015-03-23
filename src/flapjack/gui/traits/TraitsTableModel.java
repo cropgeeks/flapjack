@@ -34,7 +34,11 @@ class TraitsTableModel extends AbstractTableModel
 
 		columnNames[0] = RB.getString("gui.traits.TraitsTableModel.line");
 		for (int i = 1; i < columnNames.length; i++)
+		{
 			columnNames[i] = traits.get(i-1).getName();
+			if (traits.get(i-1).experimentDefined())
+				columnNames[i] += " (" + traits.get(i-1).getExperiment() + ")";
+		}
 	}
 
 	@Override
@@ -45,7 +49,7 @@ class TraitsTableModel extends AbstractTableModel
 
 	public int getRowCount()
 	{
-		return dataSet.countLines() + 1;
+		return dataSet.countLines();
 	}
 
 	public int getColumnCount()
@@ -55,22 +59,12 @@ class TraitsTableModel extends AbstractTableModel
 
 	public Object getValueAt(int row, int col)
 	{
-		// Row 0 contains the experiment data
-		if (row == 0)
-		{
-			// We don't want to display a line name in the experiment "header"
-			if (col == 0)
-				return null;
-			else
-				return traits.get(col-1).getExperiment();
-		}
-
 		// Column 0 contains the line data
-		else if (col == 0)
-			return dataSet.getLineByIndex(row-1);
+		if (col == 0)
+			return dataSet.getLineByIndex(row);
 
 		// Other columns are traits in the vector of values held by a line
-		Line line = dataSet.getLineByIndex(row-1);
+		Line line = dataSet.getLineByIndex(row);
 
 		Trait trait = traits.get(col-1);
 		TraitValue tv = line.getTraitValues().get(col-1);
@@ -100,10 +94,7 @@ class TraitsTableModel extends AbstractTableModel
 	@Override
 	public boolean isCellEditable(int row, int col)
 	{
-		if (col == 0 || row == 0)
-			return false;
-		else
-			return true;
+		return getColumnClass(col) == String.class;
 	}
 
 	JComboBox getCategoryComboBox(int col)
@@ -112,7 +103,6 @@ class TraitsTableModel extends AbstractTableModel
 
 		for (String category: traits.get(col-1).getCategories())
 			combo.addItem(category);
-		combo.addItem(null);
 
 		return combo;
 	}
@@ -120,32 +110,5 @@ class TraitsTableModel extends AbstractTableModel
 	@Override
 	public void setValueAt(Object value, int row, int col)
 	{
-		Line line = dataSet.getLineByIndex(row-1);
-		float newValue = 0;
-
-		if (value == null)
-			line.getTraitValues().get(col-1).setDefined(false);
-
-		else if (value instanceof String)
-		{
-			try
-			{
-				// Parse/determine the category
-				newValue = traits.get(col-1).computeValue((String)value);
-				line.getTraitValues().get(col-1).setDefined(true);
-			}
-			catch (Exception e) {}
-		}
-		else
-		{
-			newValue = (Float) value;
-			line.getTraitValues().get(col-1).setDefined(true);
-		}
-
-		// Update it in the underlying model
-		line.getTraitValues().get(col-1).setValue(newValue);
-	    fireTableCellUpdated(row-1, col);
-
-	    Actions.projectModified();
 	}
 }

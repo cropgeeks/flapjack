@@ -117,15 +117,8 @@ public class TraitsPanel extends JPanel implements ActionListener
 		public Component getTableCellRendererComponent(JTable table, Object value,
 			boolean isSelected, boolean hasFocus, int row, int column)
 		{
-			// If the row is our second "header" just set the text to be a
-			// String cast of the value
-			if (row == 0)
-				setText((String) value);
-
-			// Otherwise use the rendering of SCRI-Commons NumberFormatCellRenderer
-			else
-				super.getTableCellRendererComponent(table, value, isSelected,
-					hasFocus, row, column);
+			super.getTableCellRendererComponent(table, value, isSelected,
+				hasFocus, row, column);
 
 			return this;
 		}
