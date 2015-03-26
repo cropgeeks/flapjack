@@ -42,92 +42,92 @@ public class WinMainToolBar extends JToolBar
 		fileNew = (JButton) getButton(false,
 			RB.getString("gui.WinMainToolBar.fileNew"),
 			RB.getString("gui.WinMainToolBar.fileNewTT"),
-			Icons.getIcon("FILENEW"), Actions.fileNew);
+			Icons.getIcon("FILENEW", Prefs.uiScale), Actions.fileNew);
 
 		// Open Project
 		fileOpen = (JButton) getButton(false,
 			RB.getString("gui.WinMainToolBar.fileOpen"),
 			RB.getString("gui.WinMainToolBar.fileOpenTT"),
-			Icons.getIcon("FILEOPEN"), Actions.fileOpen);
+			Icons.getIcon("FILEOPEN", Prefs.uiScale), Actions.fileOpen);
 
 		// Save
 		fileSave = (JButton) getButton(false, null,
 			RB.getString("gui.WinMainToolBar.fileSaveTT"),
-			Icons.getIcon("FILESAVE"), Actions.fileSave);
+			Icons.getIcon("FILESAVE", Prefs.uiScale), Actions.fileSave);
 
 		// Import
 		fileImport = (JButton) getButton(false,
 			RB.getString("gui.WinMainToolBar.fileImport"),
 			RB.getString("gui.WinMainToolBar.fileImportTT"),
-			Icons.getIcon("FILEIMPORT"), Actions.fileImport);
+			Icons.getIcon("FILEIMPORT", Prefs.uiScale), Actions.fileImport);
 
 
 		// Edit, undo
 		editUndo = (JButton) getButton(false, null,
 			RB.getString("gui.WinMainToolBar.editUndo"),
-			Icons.getIcon("UNDO"), Actions.editUndo);
+			Icons.getIcon("UNDO", Prefs.uiScale), Actions.editUndo);
 
 		// Edit, redo
 		editRedo = (JButton) getButton(false, null,
 			RB.getString("gui.WinMainToolBar.editRedo"),
-			Icons.getIcon("REDO"), Actions.editRedo);
+			Icons.getIcon("REDO", Prefs.uiScale), Actions.editRedo);
 
 		// Edit, navigation mode
 		editModeNavigation = (JToggleButton) getButton(true, null,
 			RB.getString("gui.WinMainToolBar.editModeNavigation"),
-			Icons.getIcon("NAVIGATIONMODE"), Actions.editModeNavigation);
+			Icons.getIcon("NAVIGATIONMODE", Prefs.uiScale), Actions.editModeNavigation);
 
 		// Edit, marker selection mode
 		editModeMarker = (JToggleButton) getButton(true, null,
 			RB.getString("gui.WinMainToolBar.editModeMarker"),
-			Icons.getIcon("MARKERMODE"), Actions.editModeMarker);
+			Icons.getIcon("MARKERMODE", Prefs.uiScale), Actions.editModeMarker);
 
 		// Edit, line selection mode
 		editModeLine = (JToggleButton) getButton(true, null,
 			RB.getString("gui.WinMainToolBar.editModeLine"),
-			Icons.getIcon("LINEMODE"), Actions.editModeLine);
+			Icons.getIcon("LINEMODE", Prefs.uiScale), Actions.editModeLine);
 
 		// Edit, invert marker selection
 		editSelectMarkersInvert = (JButton) getButton(false, null,
 			RB.getString("gui.WinMainToolBar.editSelectMarkersInvert"),
-			Icons.getIcon("MARKERMODEINVERT"), Actions.editSelectMarkersInvert);
+			Icons.getIcon("MARKERMODEINVERT", Prefs.uiScale), Actions.editSelectMarkersInvert);
 
 		// Edit, invert line selection
 		editSelectLinesInvert = (JButton) getButton(false, null,
 			RB.getString("gui.WinMainToolBar.editSelectLinesInvert"),
-			Icons.getIcon("LINEMODEINVERT"), Actions.editSelectLinesInvert);
+			Icons.getIcon("LINEMODEINVERT", Prefs.uiScale), Actions.editSelectLinesInvert);
 
 
 		// Data find
 		dataFind = (JButton) getButton(false,
 			RB.getString("gui.WinMainToolBar.dataFind"),
 			RB.getString("gui.WinMainToolBar.dataFindTT"),
-			Icons.getIcon("FIND"), Actions.dataFind);
+			Icons.getIcon("FIND", Prefs.uiScale), Actions.dataFind);
 
 
 		helpContents = (JButton) getButton(false, null,
 			RB.getString("gui.WinMainToolBar.helpContents"),
-			Icons.getIcon("HELP"), Actions.helpContents);
+			Icons.getIcon("HELP", Prefs.uiScale), Actions.helpContents);
 
 		// PageLeft
 		viewPageLeft = (JButton) getButton(false, null,
 			RB.getString("gui.Actions.viewPageLeft"),
-			Icons.getIcon("PAGELEFT"), Actions.viewPageLeft);
+			Icons.getIcon("PAGELEFT", Prefs.uiScale), Actions.viewPageLeft);
 
 		// PageRight
 		viewPageRight = (JButton) getButton(false, null,
 			RB.getString("gui.Actions.viewPageRight"),
-			Icons.getIcon("PAGERIGHT"), Actions.viewPageRight);
+			Icons.getIcon("PAGERIGHT", Prefs.uiScale), Actions.viewPageRight);
 
 		viewGenotypes = (JToggleButton) getButton(true,
 			RB.getString("gui.WinMainToolBar.viewGenotypes"),
 			RB.getString("gui.WinMainToolBar.viewGenotypesTT"),
-			Icons.getIcon("SHOW-GENOTYPES"), Actions.viewGenotypes);
+			Icons.getIcon("SHOW-GENOTYPES", Prefs.uiScale), Actions.viewGenotypes);
 
 		viewChromosomes = (JToggleButton) getButton(true,
 			RB.getString("gui.WinMainToolBar.viewChromosomes"),
 			RB.getString("gui.WinMainToolBar.viewChromosomesTT"),
-			Icons.getIcon("SHOW-CHROMOSOMES"), Actions.viewChromosomes);
+			Icons.getIcon("SHOW-CHROMOSOMES", Prefs.uiScale), Actions.viewChromosomes);
 
 
 		if (SystemUtils.isMacOS() == false)

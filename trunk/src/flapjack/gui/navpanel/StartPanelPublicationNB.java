@@ -3,8 +3,9 @@
 
 package flapjack.gui.navpanel;
 
-import flapjack.gui.FlapjackUtils;
 import java.awt.event.*;
+
+import flapjack.gui.*;
 
 import scri.commons.gui.*;
 
@@ -17,7 +18,7 @@ public class StartPanelPublicationNB extends javax.swing.JPanel implements Actio
 
 		linkLabel.setText(RB.getString("gui.navpanel.StartPanelPublicationNB.linkLabel"));
 
-		linkLabel.setIcon(Icons.getIcon("WEB"));
+		linkLabel.setIcon(Icons.getIcon("WEB", Prefs.uiScale));
 		linkLabel.addActionListener(this);
     }
 

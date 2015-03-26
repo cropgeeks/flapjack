@@ -14,6 +14,8 @@ public class Prefs extends XMLPreferences
 	public static boolean isSCRIUser = false;
 	public static int rating = 0;
 
+	public static float uiScale = 1.0f;
+
 	public static String visColorSeed = "" + (System.currentTimeMillis() -
 		1987200000L); // First appearance after 7 days (now-23 days)
 

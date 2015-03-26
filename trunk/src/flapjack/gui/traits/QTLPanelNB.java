@@ -5,6 +5,8 @@ package flapjack.gui.traits;
 
 import java.awt.*;
 
+import flapjack.gui.*;
+
 import scri.commons.gui.*;
 
 class QTLPanelNB extends javax.swing.JPanel
@@ -23,10 +25,10 @@ class QTLPanelNB extends javax.swing.JPanel
 		RB.setText(bRemove, "gui.traits.NBQTLControlPanel.bRemove");
 		RB.setText(bFilter, "gui.traits.NBQTLControlPanel.bFilter");
 
-		bImport.setIcon(Icons.getIcon("IMPORTTRAITS"));
-		bExport.setIcon(Icons.getIcon("EXPORTTRAITS"));
-		bRemove.setIcon(Icons.getIcon("DELETE"));
-		bFilter.setIcon(Icons.getIcon("TRAITS"));
+		bImport.setIcon(Icons.getIcon("IMPORTTRAITS", Prefs.uiScale));
+		bExport.setIcon(Icons.getIcon("EXPORTTRAITS", Prefs.uiScale));
+		bRemove.setIcon(Icons.getIcon("DELETE", Prefs.uiScale));
+		bFilter.setIcon(Icons.getIcon("TRAITS", Prefs.uiScale));
 	}
 
     /** This method is called from within the constructor to

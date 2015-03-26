@@ -25,9 +25,9 @@ public class TabPanel extends JPanel
 
 		tabs = new JTabbedPane();
 		tabs.addTab(RB.getString("gui.traits.TabPanel.tab1"),
-			Icons.getIcon("PHENOTYPETAB"), traitsPanel);
+			Icons.getIcon("PHENOTYPETAB", Prefs.uiScale), traitsPanel);
 		tabs.addTab(RB.getString("gui.traits.TabPanel.tab2"),
-			Icons.getIcon("QTLTAB"), qtlPanel);
+			Icons.getIcon("QTLTAB", Prefs.uiScale), qtlPanel);
 
 		setLayout(new BorderLayout());
 		add(new TitlePanel(RB.getString("gui.traits.TabPanel.title")),

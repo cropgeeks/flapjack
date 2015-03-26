@@ -33,6 +33,10 @@ public class Flapjack
 		// OS X: This has to be set before anything else
 		System.setProperty("com.apple.mrj.application.apple.menu.about.name", "Flapjack");
 
+		// Log some basic version/os information
+		System.out.println("Flapjack " + Install4j.getVersion(Flapjack.class) + " on "
+			+ System.getProperty("os.name")	+ " (" + System.getProperty("os.arch") + ")");
+
 		new flapjack.gui.visualization.colors.WebsafePalette();
 
 		Prefs.setDefaults();

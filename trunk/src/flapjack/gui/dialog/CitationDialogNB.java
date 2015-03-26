@@ -13,7 +13,7 @@ import scri.commons.gui.*;
 
 public class CitationDialogNB extends javax.swing.JPanel implements ActionListener
 {
-	private static ImageIcon logo = Icons.getIcon("CITATIONDIALOG");
+	private static ImageIcon logo = Icons.getIcon("CITATIONDIALOG", Prefs.uiScale);
 
     /** Creates new form HuttonDialogNB */
     public CitationDialogNB()
