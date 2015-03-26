@@ -415,7 +415,7 @@ class NavPanel extends JPanel
 	private static JLabel getHuttonLabel()
 	{
 		HyperLinkLabel huttonLabel = new HyperLinkLabel();
-		huttonLabel.setIcon(Icons.getIcon("HUTTON"));
+		huttonLabel.setIcon(Icons.getIcon("HUTTON", Prefs.uiScale));
 		huttonLabel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
 
 		huttonLabel.addActionListener(new ActionListener() {
@@ -430,7 +430,7 @@ class NavPanel extends JPanel
 	private static JLabel getCIMMYTLabel()
 	{
 		HyperLinkLabel huttonLabel = new HyperLinkLabel();
-		huttonLabel.setIcon(Icons.getIcon("MASAGRO"));
+		huttonLabel.setIcon(Icons.getIcon("MASAGRO", Prefs.uiScale));
 		huttonLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 10));
 
 		huttonLabel.addActionListener(new ActionListener() {
@@ -444,7 +444,7 @@ class NavPanel extends JPanel
 
 	private static class LogoPanel extends JPanel
 	{
-		private static ImageIcon logo = Icons.getIcon("HUTTONLARGE");
+		private static ImageIcon logo = Icons.getIcon("HUTTONLARGE", Prefs.uiScale);
 
 		LogoPanel(LayoutManager lm)
 		{

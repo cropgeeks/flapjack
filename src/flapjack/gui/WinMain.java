@@ -45,7 +45,7 @@ public class WinMain extends JFrame
 	WinMain()
 	{
 		setTitle(RB.getString("gui.WinMain.title") + " - " + Install4j.VERSION);
-		setIconImage(Icons.getIcon("FLAPJACK").getImage());
+		setIconImage(Icons.getIcon("FLAPJACK", Prefs.uiScale).getImage());
 
 		menubar = new WinMainMenuBar(this);
 		toolbar = new WinMainToolBar();

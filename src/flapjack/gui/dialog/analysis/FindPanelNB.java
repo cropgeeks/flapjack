@@ -26,7 +26,7 @@ class FindPanelNB extends JPanel implements ActionListener
 		setBackground((Color)UIManager.get("fjDialogBG"));
 		panel.setBackground((Color)UIManager.get("fjDialogBG"));
 
-		link.setIcon(Icons.getIcon("WEB"));
+		link.setIcon(Icons.getIcon("WEB", Prefs.uiScale));
 
 		RB.setText(bHelp, "gui.text.help");
 		FlapjackUtils.setHelp(bHelp, "_-_Find_By_Name");

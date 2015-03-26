@@ -10,6 +10,7 @@ import java.util.*;
 import javax.swing.*;
 
 import flapjack.io.*;
+import flapjack.gui.*;
 
 import scri.commons.gui.*;
 
@@ -33,7 +34,7 @@ class ImportSampleTabNB extends JPanel implements ActionListener, Runnable
 		RB.setText(tabLabel, "gui.dialog.NBImportSamplePanel.tabLabel");
 
 		RB.setText(serverLabel, "gui.dialog.NBImportSamplePanel.serverLabel.connecting");
-		serverLabel.setIcon(Icons.getIcon("TIMERON"));
+		serverLabel.setIcon(Icons.getIcon("TIMERON", Prefs.uiScale));
 
 		combo.addActionListener(this);
 
@@ -106,7 +107,7 @@ class ImportSampleTabNB extends JPanel implements ActionListener, Runnable
 			serverLabel.setForeground(Color.red);
 		}
 
-		serverLabel.setIcon(Icons.getIcon("CHECKUPDATE"));
+		serverLabel.setIcon(Icons.getIcon("CHECKUPDATE", Prefs.uiScale));
 	}
 
 	// Stores details on each project, along with being to sort them too

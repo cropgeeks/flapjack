@@ -32,7 +32,7 @@ class DatabaseSettingsPanelNB extends JPanel
 		RB.setText(markerHint, "gui.dialog.NBDatabaseSettingsPanel.markerHint");
 		RB.setText(hintLabel, "gui.dialog.NBDatabaseSettingsPanel.hintLabel");
 
-		label.setIcon(Icons.getIcon("DATABASE_32"));
+		label.setIcon(Icons.getIcon("DATABASE_32", Prefs.uiScale));
 		lineText.setText(dbAssociation.getLineSearch());
 		lineText.setCaretPosition(0);
 		markerText.setText(dbAssociation.getMarkerSearch());

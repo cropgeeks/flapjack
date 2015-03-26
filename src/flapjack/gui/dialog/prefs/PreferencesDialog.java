@@ -40,13 +40,13 @@ public class PreferencesDialog extends JDialog implements ActionListener
 		tabs = new JTabbedPane();
 		tabs.setBorder(BorderFactory.createEmptyBorder(2, 2, 10, 2));
 		tabs.addTab(RB.getString("gui.dialog.prefs.PreferencesDialog.generalTab"),
-			Icons.getIcon("GENERALTAB"), generalTab);
+			Icons.getIcon("GENERALTAB", Prefs.uiScale), generalTab);
 		tabs.addTab(RB.getString("gui.dialog.prefs.PreferencesDialog.visualizationTab"),
-			Icons.getIcon("VISUALIZATIONTAB"), visualizationTab);
+			Icons.getIcon("VISUALIZATIONTAB", Prefs.uiScale), visualizationTab);
 		tabs.addTab(RB.getString("gui.dialog.prefs.PreferencesDialog.webTab"),
-			Icons.getIcon("CHECKUPDATE"), webTab);
+			Icons.getIcon("CHECKUPDATE", Prefs.uiScale), webTab);
 		tabs.addTab(RB.getString("gui.dialog.prefs.PreferencesDialog.warningTab"),
-			Icons.getIcon("WARNINGSTAB"), warningTab);
+			Icons.getIcon("WARNINGSTAB", Prefs.uiScale), warningTab);
 		tabs.setSelectedIndex(lastTab);
 
 		add(tabs);

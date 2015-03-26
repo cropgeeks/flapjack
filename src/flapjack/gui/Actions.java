@@ -139,7 +139,7 @@ public class Actions
 
 	public static ImageIcon getIcon(String name)
 	{
-		ImageIcon icon = Icons.getIcon(name);
+		ImageIcon icon = Icons.getIcon(name, Prefs.uiScale);
 
 		if (SystemUtils.isMacOS())
 			return null;

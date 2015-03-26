@@ -36,7 +36,7 @@ public class PedigreeDialog extends JFrame
 //		add(panel);
 
 		setSize(500, 500);
-		setIconImage(Icons.getIcon("FLAPJACK").getImage());
+		setIconImage(Icons.getIcon("FLAPJACK", Prefs.uiScale).getImage());
 		setTitle(RB.getString("gui.dialog.pedigrees.PedigreeDialog.title"));
 		setLocationRelativeTo(Flapjack.winMain);
 		setVisible(true);

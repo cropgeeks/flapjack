@@ -20,8 +20,8 @@ public class StartPanelWelcomeNB extends javax.swing.JPanel implements ActionLis
 		feedbackLabel.setText(RB.getString("gui.navpanel.NBStartWelcomePanel.panel.feedback"));
 		twitterLabel.setText(RB.getString("gui.navpanel.NBStartWelcomePanel.panel.twitter"));
 
-		feedbackLabel.setIcon(Icons.getIcon("FEEDBACK"));
-		twitterLabel.setIcon(Icons.getIcon("TWITTER"));
+		feedbackLabel.setIcon(Icons.getIcon("FEEDBACK", Prefs.uiScale));
+		twitterLabel.setIcon(Icons.getIcon("TWITTER", Prefs.uiScale));
 		feedbackLabel.addActionListener(this);
 		twitterLabel.addActionListener(this);
 	}
