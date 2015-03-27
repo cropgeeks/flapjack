@@ -49,11 +49,11 @@ public class WinMain extends JFrame
 
 		menubar = new WinMainMenuBar(this);
 		toolbar = new WinMainToolBar();
-		statusbar = new WinMainStatusBar();
 		setJMenuBar(menubar);
 
 		navPanel = new NavPanel(this);
 		gPanel = navPanel.getGenotypePanel();
+		statusbar = new WinMainStatusBar(gPanel);
 
 		mFile.setComponents(this, menubar, navPanel);
 		mEdit.setComponents(gPanel);

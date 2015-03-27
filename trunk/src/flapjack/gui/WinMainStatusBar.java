@@ -10,6 +10,8 @@ import java.text.*;
 import java.util.*;
 import javax.swing.*;
 
+import flapjack.gui.visualization.*;
+
 import scri.commons.gui.*;
 
 public class WinMainStatusBar extends JPanel
@@ -24,7 +26,7 @@ public class WinMainStatusBar extends JPanel
 	private MemoryMXBean mBean = ManagementFactory.getMemoryMXBean();
 	private ThreadMXBean tBean = ManagementFactory.getThreadMXBean();
 
-	WinMainStatusBar()
+	WinMainStatusBar(final GenotypePanel panel)
 	{
 		// Scan the properties file looking for tip strings to add
 		for (int i = 1; i < 1000; i++)
@@ -74,6 +76,7 @@ public class WinMainStatusBar extends JPanel
 		tipsTimer.setInitialDelay(0);
 		tipsTimer.start();
 
+
 		// Start the timer for thread monitoring
 		javax.swing.Timer threadsTimer = new javax.swing.Timer(2500,
 			new ActionListener() {
@@ -82,9 +85,10 @@ public class WinMainStatusBar extends JPanel
 					long used = mBean.getHeapMemoryUsage().getUsed()
 						+ mBean.getNonHeapMemoryUsage().getUsed();
 					int t = tBean.getThreadCount()-tBean.getDaemonThreadCount();
+					String canvas = panel.getStatusSummary();
 
-					threadLabel.setText(cores + "C, " + t + "T, "
-						+ df.format(used/1024f/1024f) + "MB");
+					threadLabel.setText(canvas + ", " + cores + "C, " + t
+						+ "T, "	+ df.format(used/1024f/1024f) + "MB");
 				}
 		});
 

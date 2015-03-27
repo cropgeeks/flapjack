@@ -384,6 +384,11 @@ public class GenotypePanel extends JPanel implements ActionListener
 		controller.moveToLater(rowIndex, colIndex, centre);
 	}
 
+	public String getStatusSummary()
+	{
+		return canvas.boxCountY + "x" + canvas.boxCountX;
+	}
+
 	class ComboRenderer extends DefaultListCellRenderer
 	{
 		public Component getListCellRendererComponent(JList list, Object value,
