@@ -43,6 +43,8 @@ public class Flapjack
 		prefs.loadPreferences(prefsFile, Prefs.class);
 		prefs.savePreferences(prefsFile, Prefs.class);
 
+		new UIScaler(Prefs.uiScale);
+
 		Icons.initialize("/res/icons", ".png");
 		RB.initialize(Prefs.localeText, "res.text.flapjack");
 		if (Prefs.guiDecimalEnglish)
