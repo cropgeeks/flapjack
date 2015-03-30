@@ -74,6 +74,7 @@ public class CalculateSimMatrixDialog extends JDialog implements ActionListener,
 		chromosomesTable.setModel(model);
 
 		chromosomesTable.getColumnModel().getColumn(0).setPreferredWidth(20);
+		UIScaler.setCellHeight(chromosomesTable);
 	}
 
 	// Generates a boolean array with a true/false selected state for each of

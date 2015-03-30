@@ -35,6 +35,7 @@ public class TraitsPanel extends JPanel implements ActionListener
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		table.getTableHeader().setReorderingAllowed(false);
 		table.setDefaultRenderer(Float.class, new TraitNumberFormatCellRenderer());
+		UIScaler.setCellHeight(table);
 
 		setLayout(new BorderLayout(0, 0));
 		setBorder(BorderFactory.createEmptyBorder(1, 1, 0, 0));

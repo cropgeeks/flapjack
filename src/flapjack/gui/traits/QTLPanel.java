@@ -41,6 +41,7 @@ public class QTLPanel extends JPanel implements ActionListener
 		table.getTableHeader().setReorderingAllowed(false);
 		table.setDefaultRenderer(String.class, new QTLTableModel.NumStrRenderer());
 		table.setDefaultRenderer(Float.class, new QTLTableModel.NumStrRenderer());
+		UIScaler.setCellHeight(table);
 
 		setLayout(new BorderLayout(0, 0));
 		setBorder(BorderFactory.createEmptyBorder(1, 1, 0, 0));

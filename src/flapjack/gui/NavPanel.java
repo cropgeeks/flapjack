@@ -56,6 +56,7 @@ class NavPanel extends JPanel
 		tree.setRootVisible(false);
 		tree.getSelectionModel().setSelectionMode(
 			TreeSelectionModel.SINGLE_TREE_SELECTION);
+		UIScaler.setCellHeight(tree);
 
 		menu = new NavPanelMenu(tree);
 		tree.addMouseListener(menu);
