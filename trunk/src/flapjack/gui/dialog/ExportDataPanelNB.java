@@ -9,6 +9,7 @@ import javax.swing.*;
 import javax.swing.table.*;
 
 import flapjack.data.*;
+import flapjack.gui.*;
 
 import scri.commons.gui.*;
 
@@ -82,6 +83,7 @@ class ExportDataPanelNB extends JPanel implements ActionListener
 
 		table.getColumnModel().getColumn(0).setPreferredWidth(30);
 		table.setDefaultRenderer(String.class, cr);
+		UIScaler.setCellHeight(table);
 	}
 
 	public void actionPerformed(ActionEvent e)

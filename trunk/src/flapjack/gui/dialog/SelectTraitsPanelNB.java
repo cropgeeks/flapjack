@@ -10,6 +10,7 @@ import javax.swing.*;
 import javax.swing.table.*;
 
 import flapjack.data.*;
+import flapjack.gui.*;
 
 import scri.commons.gui.*;
 
@@ -86,6 +87,7 @@ class SelectTraitsPanelNB extends javax.swing.JPanel implements ActionListener
 
 		TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>((DefaultTableModel)table.getModel());
 		table.setRowSorter(sorter);
+		UIScaler.setCellHeight(table);
 	}
 
 	void isOK()

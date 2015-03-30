@@ -43,6 +43,8 @@ public class DuplicateMarkersPanelNB extends javax.swing.JPanel
         		return false;
         }});
 
+        UIScaler.setCellHeight(table);
+
 		RB.setText(label1, "gui.dialog.NBDuplicateMarkersDialog.label1");
 		RB.setText(label2, "gui.dialog.NBDuplicateMarkersDialog.label2");
 		RB.setText(checkWarn, "gui.dialog.NBDuplicateMarkersDialog.checkWarn");

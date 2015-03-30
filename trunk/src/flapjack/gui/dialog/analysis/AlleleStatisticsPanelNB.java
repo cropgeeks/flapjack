@@ -96,6 +96,7 @@ class AlleleStatisticsPanelNB extends JPanel implements AdjustmentListener
 		DefaultTableCellRenderer cr = new DefaultTableCellRenderer();
 		cr.setHorizontalAlignment(JLabel.RIGHT);
         sumTable.setDefaultRenderer(Object.class, cr);
+        UIScaler.setCellHeight(sumTable);
 	}
 
 	private void createViewTable(GTViewSet viewSet, ArrayList<int[]> results)
@@ -141,6 +142,7 @@ class AlleleStatisticsPanelNB extends JPanel implements AdjustmentListener
         DefaultTableCellRenderer cr = new DefaultTableCellRenderer();
 		cr.setHorizontalAlignment(JLabel.RIGHT);
         viewTable.setDefaultRenderer(Object.class, cr);
+        UIScaler.setCellHeight(viewTable);
 	}
 
 	public void adjustmentValueChanged(AdjustmentEvent e)

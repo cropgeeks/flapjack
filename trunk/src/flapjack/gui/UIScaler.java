@@ -4,6 +4,8 @@
 package flapjack.gui;
 
 import java.awt.*;
+import java.awt.image.*;
+import javax.swing.*;
 
 /**
  * Utility class designed to aid in coding for high DPI displays.
@@ -33,5 +35,24 @@ public class UIScaler
 	public static int scale(int value)
 	{
 		return (UI == 1.0f) ? value: Math.round(value * UI);
+	}
+
+	/**
+	 * Attempts to set a suitable table/list/tree row cell height based on the
+	 * current font scaling value.
+	 */
+	public static void setCellHeight(JComponent c)
+	{
+		if (UI == 1.0f)
+			return;
+
+		Font font = UIManager.getFont("Label.font");
+		int height = c.getFontMetrics(font).getHeight();
+
+		if (c instanceof JTable)
+			((JTable)c).setRowHeight(height + scale(2));
+
+		else if (c instanceof JTree)
+			((JTree)c).setRowHeight(height + scale(2));
 	}
 }
