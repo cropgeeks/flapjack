@@ -14,6 +14,7 @@ public class Prefs extends XMLPreferences
 	public static boolean isSCRIUser = false;
 	public static int rating = 0;
 
+	public static boolean uiScaleAuto = true;
 	public static float uiScale = 1.0f;
 
 	public static String visColorSeed = "" + (System.currentTimeMillis() -
