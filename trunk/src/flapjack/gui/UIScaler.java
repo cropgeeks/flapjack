@@ -7,18 +7,36 @@ import java.awt.*;
 import java.awt.image.*;
 import javax.swing.*;
 
+import scri.commons.gui.*;
+
 /**
  * Utility class designed to aid in coding for high DPI displays.
  */
 public class UIScaler
 {
+	private static int dpi = Toolkit.getDefaultToolkit().getScreenResolution();
 	public static float UI = 1.0f;
 
-	UIScaler(float UI)
+	public static float init(float uiScale, boolean auto)
 	{
-		this.UI = UI;
+		UI = uiScale;
 
-		System.out.println("DPI: " + Toolkit.getDefaultToolkit().getScreenResolution());
+		// Attempt to work out a scaling ratio
+		if (auto)
+		{
+			// Detection doesn't seem to be possible on OS X - each system
+			// returns a different DPI (probably correctly)
+			if (SystemUtils.isMacOS())
+				UI = 1.0f;
+
+			// Windows/Linux *appear* to set a baseline of 96DPI though
+			else
+				UI = dpi / 96f;
+		}
+
+		System.out.println("DPI: " + dpi + ", scaling: " + UI + ", auto=" + auto);
+
+		return UI;
 	}
 
 	/**
