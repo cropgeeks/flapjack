@@ -26,10 +26,10 @@ public class StartPanelFileNB extends javax.swing.JPanel implements ActionListen
 		RB.setText(openLabel, "gui.navpanel.NBStartFilePanel.openLabel");
 
 
-		importLabel.setIcon(Icons.getIcon("FILEIMPORT", Prefs.uiScale));
+		importLabel.setIcon(Icons.getIcon("FILEIMPORT"));
 		importLabel.addActionListener(this);
 
-		sampleLabel.setIcon(Icons.getIcon("OPENSAMPLE", Prefs.uiScale));
+		sampleLabel.setIcon(Icons.getIcon("OPENSAMPLE"));
 		sampleLabel.addActionListener(this);
 
 		// Create the labels array

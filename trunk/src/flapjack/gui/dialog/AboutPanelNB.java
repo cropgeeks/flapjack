@@ -39,9 +39,9 @@ class AboutPanelNB extends javax.swing.JPanel implements ActionListener
 		idLabel.setText(RB.format("gui.dialog.NBAboutPanel.idLabel", Prefs.flapjackID));
 
 		jhiIcon.setText("");
-		jhiIcon.setIcon(Icons.getIcon("ABOUT", Prefs.uiScale));
+		jhiIcon.setIcon(Icons.getIcon("ABOUT"));
 		cimmytIcon.setText("");
-		cimmytIcon.setIcon(Icons.getIcon("ABOUT-MASAGRO", Prefs.uiScale));
+		cimmytIcon.setIcon(Icons.getIcon("ABOUT-MASAGRO"));
 	}
 
 	private void initWebStuff()

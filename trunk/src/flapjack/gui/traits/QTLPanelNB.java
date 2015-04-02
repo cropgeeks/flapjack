@@ -25,10 +25,10 @@ class QTLPanelNB extends javax.swing.JPanel
 		RB.setText(bRemove, "gui.traits.NBQTLControlPanel.bRemove");
 		RB.setText(bFilter, "gui.traits.NBQTLControlPanel.bFilter");
 
-		bImport.setIcon(Icons.getIcon("IMPORTTRAITS", Prefs.uiScale));
-		bExport.setIcon(Icons.getIcon("EXPORTTRAITS", Prefs.uiScale));
-		bRemove.setIcon(Icons.getIcon("DELETE", Prefs.uiScale));
-		bFilter.setIcon(Icons.getIcon("TRAITS", Prefs.uiScale));
+		bImport.setIcon(Icons.getIcon("IMPORTTRAITS"));
+		bExport.setIcon(Icons.getIcon("EXPORTTRAITS"));
+		bRemove.setIcon(Icons.getIcon("DELETE"));
+		bFilter.setIcon(Icons.getIcon("TRAITS"));
 	}
 
     /** This method is called from within the constructor to

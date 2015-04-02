@@ -25,7 +25,7 @@ public class StartPanelHelpNB extends javax.swing.JPanel implements ActionListen
 		RB.setText(homeLabel, "gui.navpanel.NBStartHelpPanel.homeLabel");
 		RB.setText(rateLabel, "gui.navpanel.NBStartFilePanel.rateLabel");
 
-		homeLabel.setIcon(Icons.getIcon("BOOK", Prefs.uiScale));
+		homeLabel.setIcon(Icons.getIcon("BOOK"));
 		homeLabel.addActionListener(this);
 
 		labels[0] = link1; labels[1] = link2;
@@ -40,7 +40,7 @@ public class StartPanelHelpNB extends javax.swing.JPanel implements ActionListen
 		}
 
 		ratingsPanel.doSetup(Prefs.rating,
-			Icons.getIcon("STARON"), Icons.getIcon("STAROFF", Prefs.uiScale));
+			Icons.getIcon("STARON"), Icons.getIcon("STAROFF"));
 		ratingsPanel.addActionListener(this);
     }
 
@@ -90,35 +90,35 @@ public class StartPanelHelpNB extends javax.swing.JPanel implements ActionListen
         homeLabel.setText("Visit the online Flapjack user manual");
 
         link1.setForeground(new java.awt.Color(68, 106, 156));
-        link1.setIcon(Icons.getIcon("BUTTON", Prefs.uiScale));
+        link1.setIcon(Icons.getIcon("BUTTON"));
         link1.setText("link1");
 
         link2.setForeground(new java.awt.Color(68, 106, 156));
-        link2.setIcon(Icons.getIcon("BUTTON", Prefs.uiScale));
+        link2.setIcon(Icons.getIcon("BUTTON"));
         link2.setText("link2");
 
         link3.setForeground(new java.awt.Color(68, 106, 156));
-        link3.setIcon(Icons.getIcon("BUTTON", Prefs.uiScale));
+        link3.setIcon(Icons.getIcon("BUTTON"));
         link3.setText("link3");
 
         link4.setForeground(new java.awt.Color(68, 106, 156));
-        link4.setIcon(Icons.getIcon("BUTTON", Prefs.uiScale));
+        link4.setIcon(Icons.getIcon("BUTTON"));
         link4.setText("link4");
 
         link5.setForeground(new java.awt.Color(68, 106, 156));
-        link5.setIcon(Icons.getIcon("BUTTON", Prefs.uiScale));
+        link5.setIcon(Icons.getIcon("BUTTON"));
         link5.setText("link5");
 
         link6.setForeground(new java.awt.Color(68, 106, 156));
-        link6.setIcon(Icons.getIcon("BUTTON", Prefs.uiScale));
+        link6.setIcon(Icons.getIcon("BUTTON"));
         link6.setText("link6");
 
         link7.setForeground(new java.awt.Color(68, 106, 156));
-        link7.setIcon(Icons.getIcon("BUTTON", Prefs.uiScale));
+        link7.setIcon(Icons.getIcon("BUTTON"));
         link7.setText("link7");
 
         link8.setForeground(new java.awt.Color(68, 106, 156));
-        link8.setIcon(Icons.getIcon("BUTTON", Prefs.uiScale));
+        link8.setIcon(Icons.getIcon("BUTTON"));
         link8.setText("link8");
 
         rateLabel.setText("Click to rate Flapjack:");
