@@ -114,7 +114,7 @@ public class GenotypePanel extends JPanel implements ActionListener
 		combo.setRenderer(new ComboRenderer());
 		RB.setText(chromoLabel, "gui.visualization.GenotypePanel.chromoLabel");
 		chromoLabel.setLabelFor(combo);
-		chromoLabel.setIcon(Icons.getIcon("CHROMOSOME", Prefs.uiScale));
+		chromoLabel.setIcon(Icons.getIcon("CHROMOSOME"));
 
 		canvas = new GenotypeCanvas(this, winMain);
 		rowCanvas = new RowCanvas(this, canvas);

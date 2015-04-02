@@ -45,23 +45,23 @@ public class ImportDialog extends JDialog implements ActionListener, ChangeListe
 
 		genoTab = new ImportGenoTabNB(this);
 		tabs.addTab(RB.getString("gui.dialog.DataImportDialog.dataTab"),
-			Icons.getIcon("DATATAB", Prefs.uiScale), genoTab);
+			Icons.getIcon("DATATAB"), genoTab);
 
 		traitsTab = new ImportTraitsTabNB(secondaryOptions);
 		tabs.addTab(RB.getString("gui.dialog.DataImportDialog.phenotypesTab"),
-			Icons.getIcon("PHENOTYPETAB", Prefs.uiScale), traitsTab);
+			Icons.getIcon("PHENOTYPETAB"), traitsTab);
 
 		featuresTab = new ImportFeaturesTabNB(secondaryOptions);
 		tabs.addTab(RB.getString("gui.dialog.DataImportDialog.featuresTab"),
-			Icons.getIcon("QTLTAB", Prefs.uiScale), featuresTab);
+			Icons.getIcon("QTLTAB"), featuresTab);
 
 		graphsTab = new ImportGraphTabNB(secondaryOptions);
 		tabs.addTab(RB.getString("gui.dialog.DataImportDialog.graphTab"),
-			Icons.getIcon("GRAPHTAB", Prefs.uiScale), graphsTab);
+			Icons.getIcon("GRAPHTAB"), graphsTab);
 
 		sampleTab = new ImportSampleTabNB(bImport);
 		tabs.addTab(RB.getString("gui.dialog.DataImportDialog.sampleTab"),
-			Icons.getIcon("HELPTAB", Prefs.uiScale), sampleTab);
+			Icons.getIcon("HELPTAB"), sampleTab);
 
 		tabs.addChangeListener(this);
 		tabs.setSelectedIndex(tabIndex);

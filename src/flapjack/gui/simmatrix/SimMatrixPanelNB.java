@@ -74,7 +74,7 @@ public class SimMatrixPanelNB extends JPanel implements ActionListener
 		bPCoA.setText((RB.getString("gui.simmatrix.SimMatrixPanelNB.bPCoA")));
 
 		bExport.setText((RB.getString("gui.simmatrix.SimMatrixPanelNB.bExport")));
-		bExport.setIcon(Icons.getIcon("EXPORTTRAITS", Prefs.uiScale));
+		bExport.setIcon(Icons.getIcon("EXPORTTRAITS"));
 		bExport.addActionListener(this);
 
 		MouseHandler mh = new MouseHandler();

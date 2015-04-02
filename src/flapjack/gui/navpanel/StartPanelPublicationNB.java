@@ -18,7 +18,7 @@ public class StartPanelPublicationNB extends javax.swing.JPanel implements Actio
 
 		linkLabel.setText(RB.getString("gui.navpanel.StartPanelPublicationNB.linkLabel"));
 
-		linkLabel.setIcon(Icons.getIcon("WEB", Prefs.uiScale));
+		linkLabel.setIcon(Icons.getIcon("WEB"));
 		linkLabel.addActionListener(this);
     }
 

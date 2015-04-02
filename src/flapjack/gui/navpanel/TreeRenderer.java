@@ -24,17 +24,17 @@ public class TreeRenderer extends JLabel implements TreeCellRenderer
 		setText(value.toString());
 
 		if (value instanceof DataSetNode)
-			setIcon(isExpanded ? Icons.getIcon("FOLDEROPEN", Prefs.uiScale) : Icons.getIcon("FOLDER", Prefs.uiScale));
+			setIcon(isExpanded ? Icons.getIcon("FOLDEROPEN") : Icons.getIcon("FOLDER"));
 		else if (value instanceof VisualizationNode)
-			setIcon(Icons.getIcon("VISUALIZATION", Prefs.uiScale));
+			setIcon(Icons.getIcon("VISUALIZATION"));
 		else if (value instanceof TraitsNode)
-			setIcon(Icons.getIcon("TRAITS", Prefs.uiScale));
+			setIcon(Icons.getIcon("TRAITS"));
 		else if (value instanceof BookmarkNode)
-			setIcon(Icons.getIcon("BOOKMARK", Prefs.uiScale));
+			setIcon(Icons.getIcon("BOOKMARK"));
 		else if (value instanceof SimMatrixNode)
-			setIcon(Icons.getIcon(((SimMatrixNode)value).getIconName(), Prefs.uiScale));
+			setIcon(Icons.getIcon(((SimMatrixNode)value).getIconName()));
 		else if (value instanceof DendrogramNode)
-			setIcon(Icons.getIcon("DENDROGRAM", Prefs.uiScale));
+			setIcon(Icons.getIcon("DENDROGRAM"));
 
 		this.selected = selected;
 

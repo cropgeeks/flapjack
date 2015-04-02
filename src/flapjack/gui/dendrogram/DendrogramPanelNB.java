@@ -32,11 +32,11 @@ public class DendrogramPanelNB extends JPanel implements ActionListener
 		sp.setWheelScrollingEnabled(false);
 
 		bExportPNG.setText((RB.getString("gui.dendrogram.DendrogramPanelNB.bExportPNG")));
-		bExportPNG.setIcon(Icons.getIcon("MIMEPNG", Prefs.uiScale));
+		bExportPNG.setIcon(Icons.getIcon("MIMEPNG"));
 		bExportPNG.addActionListener(this);
 
 		bExportPDF.setText((RB.getString("gui.dendrogram.DendrogramPanelNB.bExportPDF")));
-		bExportPDF.setIcon(Icons.getIcon("MIMEPDF", Prefs.uiScale));
+		bExportPDF.setIcon(Icons.getIcon("MIMEPDF"));
 		bExportPDF.addActionListener(this);
     }
 

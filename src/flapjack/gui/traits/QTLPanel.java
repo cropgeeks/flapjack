@@ -164,7 +164,7 @@ public class QTLPanel extends JPanel implements ActionListener
 				setIcon(new ImageIcon(image));
 			}
 			else
-				setIcon(Icons.getIcon("QTLDISABLED", Prefs.uiScale));
+				setIcon(Icons.getIcon("QTLDISABLED"));
 
 			return this;
 		}

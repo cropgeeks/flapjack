@@ -22,9 +22,9 @@ class TraitsPanelNB extends javax.swing.JPanel
 		RB.setText(bExport, "gui.traits.NBTraitsControlPanel.bExport");
 		RB.setText(bRemove, "gui.traits.NBTraitsControlPanel.bRemove");
 
-		bImport.setIcon(Icons.getIcon("IMPORTTRAITS", Prefs.uiScale));
-		bExport.setIcon(Icons.getIcon("EXPORTTRAITS", Prefs.uiScale));
-		bRemove.setIcon(Icons.getIcon("DELETE", Prefs.uiScale));
+		bImport.setIcon(Icons.getIcon("IMPORTTRAITS"));
+		bExport.setIcon(Icons.getIcon("EXPORTTRAITS"));
+		bRemove.setIcon(Icons.getIcon("DELETE"));
 	}
 
 	private JTable createTable()
