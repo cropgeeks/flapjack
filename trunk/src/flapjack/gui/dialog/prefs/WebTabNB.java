@@ -4,13 +4,14 @@
 package flapjack.gui.dialog.prefs;
 
 import java.awt.*;
+import java.awt.event.*;
 import javax.swing.*;
 
 import flapjack.gui.*;
 
 import scri.commons.gui.*;
 
-class WebTabNB extends JPanel implements IPrefsTab
+class WebTabNB extends JPanel implements IPrefsTab, ActionListener
 {
 	public WebTabNB()
     {
@@ -26,7 +27,10 @@ class WebTabNB extends JPanel implements IPrefsTab
 		RB.setText(labelUsername, "gui.dialog.prefs.NBWebPanel.labelUsername");
 		RB.setText(labelPassword, "gui.dialog.prefs.NBWebPanel.labelPassword");
 
+		checkProxy.addActionListener(this);
+
 		initSettings();
+		actionPerformed(null);
     }
 
     private void initSettings()
@@ -71,6 +75,20 @@ class WebTabNB extends JPanel implements IPrefsTab
 	{
 	}
 
+	public void actionPerformed(ActionEvent e)
+	{
+		boolean enabled = checkProxy.isSelected();
+
+		labelAddress.setEnabled(enabled);
+		proxyAddress.setEnabled(enabled);
+		labelPort.setEnabled(enabled);
+		proxyPort.setEnabled(enabled);
+		labelUsername.setEnabled(enabled);
+		proxyUsername.setEnabled(enabled);
+		labelPassword.setEnabled(enabled);
+		proxyPassword.setEnabled(enabled);
+	}
+
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -101,7 +119,7 @@ class WebTabNB extends JPanel implements IPrefsTab
         labelUsername.setText("Username:");
 
         labelPort.setLabelFor(proxyPort);
-        labelPort.setText("Port:");
+        labelPort.setText("Port number:");
 
         proxyPort.setModel(new javax.swing.SpinnerNumberModel(8080, 1, 65535, 1));
 
@@ -113,29 +131,27 @@ class WebTabNB extends JPanel implements IPrefsTab
         panelLayout.setHorizontalGroup(
             panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelLayout.createSequentialGroup()
-                .addGap(10, 10, 10)
-                .addComponent(checkProxy)
-                .addContainerGap(146, Short.MAX_VALUE))
-            .addGroup(panelLayout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(labelPassword)
-                    .addComponent(labelUsername)
-                    .addComponent(labelAddress))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(proxyPassword, javax.swing.GroupLayout.DEFAULT_SIZE, 207, Short.MAX_VALUE)
-                    .addComponent(proxyUsername, javax.swing.GroupLayout.DEFAULT_SIZE, 207, Short.MAX_VALUE)
-                    .addComponent(proxyAddress, javax.swing.GroupLayout.DEFAULT_SIZE, 207, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(labelPort)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(proxyPort, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(16, Short.MAX_VALUE))
+                    .addGroup(panelLayout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(checkProxy))
+                    .addGroup(panelLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(labelPassword)
+                            .addComponent(labelUsername)
+                            .addComponent(labelAddress))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(proxyUsername)
+                            .addComponent(proxyAddress)
+                            .addComponent(proxyPassword))
+                        .addGap(18, 18, 18)
+                        .addComponent(labelPort)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(proxyPort, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
-
-        panelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {proxyAddress, proxyPassword, proxyUsername});
-
         panelLayout.setVerticalGroup(
             panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelLayout.createSequentialGroup()
@@ -147,11 +163,11 @@ class WebTabNB extends JPanel implements IPrefsTab
                     .addComponent(proxyAddress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(proxyPort, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(labelPort))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(labelUsername)
                     .addComponent(proxyUsername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(labelPassword)
                     .addComponent(proxyPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -172,7 +188,7 @@ class WebTabNB extends JPanel implements IPrefsTab
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(25, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
