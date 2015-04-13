@@ -21,7 +21,7 @@ class TraitCanvas extends JPanel
 	private GenotypeCanvas canvas;
 	private Canvas2D traitCanvas;
 
-	private int boxW = 10;
+	private int boxW = UIScaler.scale(10);
 	private int w = 0;
 
 	TraitCanvas(GenotypePanel gPanel, GenotypeCanvas canvas)
