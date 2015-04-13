@@ -80,13 +80,7 @@ class HideLMAnimator extends Thread implements IOverlayRenderer
 
 
 		// Updates from this non-AWT thread, must happen via SwingUtilities
-		Runnable r = new Runnable() {
-			public void run()
-			{
-				gPanel.refreshView();
-			}
-		};
-
+		Runnable r = () -> { gPanel.refreshView(); };
 		SwingUtilities.invokeLater(r);
 	}
 

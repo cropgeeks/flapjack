@@ -123,12 +123,7 @@ public class DataImporter extends SimpleJob
 		if (mapImporter.getDuplicates().size() == 0)
 			return;
 
-		Runnable r = new Runnable() {
-			@Override
-			public void run() {
-				new DuplicateMarkersDialog(mapImporter.getDuplicates());
-			}
-		};
+		Runnable r = () -> { new DuplicateMarkersDialog(mapImporter.getDuplicates()); };
 
 		try { SwingUtilities.invokeAndWait(r); }
 		catch (InterruptedException | InvocationTargetException e) {}

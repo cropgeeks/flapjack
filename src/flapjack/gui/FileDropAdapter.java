@@ -42,13 +42,7 @@ class FileDropAdapter extends DropTargetAdapter
 						filenames[fn] = list.get(fn).toString();
 
 
-					Runnable r = new Runnable() {
-						public void run()
-						{
-							winMain.mFile.handleDragDrop(filenames);
-						}
-					};
-
+					Runnable r = () -> { winMain.mFile.handleDragDrop(filenames); };
 					SwingUtilities.invokeLater(r);
 
 					dtde.dropComplete(true);

@@ -103,11 +103,7 @@ public class ColorDialog extends JDialog implements ActionListener
 		// been selected, we loop 50 times, selecting a new scheme each time
 		public void run()
 		{
-			Runnable r = new Runnable() {
-				public void run() {
-					winMain.mViz.vizColor(ColorScheme.RANDOM);
-				}
-			};
+			Runnable r = () -> { winMain.mViz.vizColor(ColorScheme.RANDOM); };
 
 			for (int i = 0; i < 50; i++)
 			{
