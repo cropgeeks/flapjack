@@ -8,6 +8,8 @@ import javax.swing.*;
 
 import flapjack.gui.*;
 
+import scri.commons.gui.*;
+
 class RowCanvas extends JPanel
 {
 	private GenotypeCanvas canvas;
@@ -20,7 +22,7 @@ class RowCanvas extends JPanel
 	// How many markers are currently on screen
 	private int markerCount;
 
-	private int h = 15;
+	private int h = UIScaler.scale(15);
 
 	RowCanvas(GenotypePanel gPanel, GenotypeCanvas canvas)
 	{

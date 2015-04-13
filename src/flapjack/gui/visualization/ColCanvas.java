@@ -8,6 +8,8 @@ import javax.swing.*;
 
 import flapjack.gui.*;
 
+import scri.commons.gui.*;
+
 class ColCanvas extends JPanel
 {
 	private GenotypeCanvas canvas;
@@ -19,7 +21,8 @@ class ColCanvas extends JPanel
 	// How many lines are currently on screen
 	private int lineCount;
 
-	private int w = 45;
+	private int colW = UIScaler.scale(15);
+	private int w = UIScaler.scale(45);
 
 	ColCanvas(GenotypeCanvas canvas)
 	{
@@ -80,7 +83,7 @@ class ColCanvas extends JPanel
 				int rowIndex = (int) (yScale * y);
 
 				int x = 0;
-				for (int xIndex = markerIndex-1; xIndex < markerIndex+2; xIndex++, x+=15)
+				for (int xIndex = markerIndex-1; xIndex < markerIndex+2; xIndex++, x+=colW)
 				{
 					if (xIndex < 0 || xIndex >= canvas.view.markerCount())
 						continue;
