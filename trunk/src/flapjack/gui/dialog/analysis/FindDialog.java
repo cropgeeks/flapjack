@@ -226,11 +226,7 @@ public class FindDialog extends JDialog implements ListSelectionListener
 
 		private void updateTable(final Object[][] data)
 		{
-			Runnable r = new Runnable() {
-				public void run() {
-					setTableModel(data);
-				}
-			};
+			Runnable r = () -> { setTableModel(data); };
 
 			try { SwingUtilities.invokeAndWait(r); }
 			catch (Exception e) {}
