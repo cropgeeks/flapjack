@@ -106,12 +106,12 @@
         </Component>
         <Component class="javax.swing.JLabel" name="nameLabel">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Iain Milne, Micha Bayer, Paul Shaw, Linda Cardle, Gordon Stephen, and David Marshall"/>
+            <Property name="text" type="java.lang.String" value="@Author names"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="copyrightLabel">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Copyright (C) 2007-2008, Plant Bioinformatics Group, JHI"/>
+            <Property name="text" type="java.lang.String" value="@Copyright"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="versionLabel">

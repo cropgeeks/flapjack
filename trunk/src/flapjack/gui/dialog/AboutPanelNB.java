@@ -101,9 +101,9 @@ class AboutPanelNB extends javax.swing.JPanel implements ActionListener
         localeLabel.setForeground(java.awt.Color.gray);
         localeLabel.setText("Current Locale:");
 
-        nameLabel.setText("Iain Milne, Micha Bayer, Paul Shaw, Linda Cardle, Gordon Stephen, and David Marshall");
+        nameLabel.setText("@Author names");
 
-        copyrightLabel.setText("Copyright (C) 2007-2008, Plant Bioinformatics Group, JHI");
+        copyrightLabel.setText("@Copyright");
 
         versionLabel.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         versionLabel.setText("Flapjack - x.xx.xx.xx");
