@@ -11,6 +11,7 @@ import javax.swing.*;
 import flapjack.gui.*;
 
 import scri.commons.gui.*;
+import scri.commons.gui.matisse.*;
 
 /**
  * Common/shared class that is used in several places by different components.
@@ -58,7 +59,7 @@ public class BrowseDialog extends JDialog implements ActionListener
 		bHelp = SwingUtils.getButton(RB.getString("gui.text.help"));
 		RB.setText(bHelp, "gui.text.help");
 
-		JPanel p1 = FlapjackUtils.getButtonPanel();
+		JPanel p1 = new DialogPanel();
 		p1.add(bImport);
 		p1.add(bCancel);
 

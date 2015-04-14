@@ -13,6 +13,7 @@ import flapjack.gui.*;
 import flapjack.gui.visualization.*;
 
 import scri.commons.gui.*;
+import scri.commons.gui.matisse.*;
 
 public class FilterQTLsDialog extends JDialog implements ActionListener
 {
@@ -68,7 +69,7 @@ public class FilterQTLsDialog extends JDialog implements ActionListener
 		RB.setText(bHelp, "gui.text.help");
 		FlapjackUtils.setHelp(bHelp, "_-_Filter_QTLs");
 
-		JPanel p1 = FlapjackUtils.getButtonPanel();
+		JPanel p1 = new DialogPanel();
 		p1.add(bFilter);
 		p1.add(bClose);
 		p1.add(bHelp);

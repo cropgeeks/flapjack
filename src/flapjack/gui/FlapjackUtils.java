@@ -72,17 +72,6 @@ public class FlapjackUtils
 		catch (Exception e) { System.out.println(e); }
 	}
 
-	public static JPanel getButtonPanel()
-	{
-		JPanel p1 = new JPanel(new FlowLayout(FlowLayout.RIGHT, 5, 0));
-
-		p1.setBorder(BorderFactory.createCompoundBorder(
-			BorderFactory.createMatteBorder(1, 0, 0, 0, new Color(219, 219, 219)),
-			BorderFactory.createEmptyBorder(10, 0, 10, 5)));
-
-		return p1;
-	}
-
 	/**
 	 * Shows a SAVE file dialog, returning the path to the file selected as a
 	 * string. Also prompts to ensure the user really does want to overwrite an

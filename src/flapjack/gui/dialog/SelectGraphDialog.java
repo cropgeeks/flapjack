@@ -7,10 +7,11 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-import scri.commons.gui.*;
-
 import flapjack.gui.*;
 import flapjack.gui.visualization.*;
+
+import scri.commons.gui.*;
+import scri.commons.gui.matisse.*;
 
 public class SelectGraphDialog extends JDialog implements ActionListener
 {
@@ -50,7 +51,7 @@ public class SelectGraphDialog extends JDialog implements ActionListener
 		bClose = SwingUtils.getButton(RB.getString("gui.text.close"));
 		bClose.addActionListener(this);
 
-		JPanel p1 = FlapjackUtils.getButtonPanel();
+		JPanel p1 = new DialogPanel();
 		p1.add(bClose);
 
 		return p1;

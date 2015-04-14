@@ -11,6 +11,7 @@ import flapjack.data.*;
 import flapjack.gui.*;
 
 import scri.commons.gui.*;
+import scri.commons.gui.matisse.*;
 
 public class SelectLMDialog extends JDialog implements ActionListener
 {
@@ -50,7 +51,7 @@ public class SelectLMDialog extends JDialog implements ActionListener
 		bCancel = SwingUtils.getButton(RB.getString("gui.text.cancel"));
 		bCancel.addActionListener(this);
 
-		JPanel p1 = FlapjackUtils.getButtonPanel();
+		JPanel p1 = new DialogPanel();
 		p1.add(bOK);
 		p1.add(bCancel);
 
