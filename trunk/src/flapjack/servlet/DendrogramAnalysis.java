@@ -9,6 +9,7 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 
 import scri.commons.gui.*;
+import scri.commons.io.*;
 
 public class DendrogramAnalysis implements FlapjackTask
 {
@@ -30,11 +31,11 @@ public class DendrogramAnalysis implements FlapjackTask
 
 		// Work out what everything is going to get called
 		String id = SystemUtils.createGUID(32);
-		rScript = new File(SystemUtils.getTempDirectory(), id + ".R");
-		matrix = new File(SystemUtils.getTempDirectory(), id + ".matrix");
-		order  = new File(SystemUtils.getTempDirectory(), id + ".order");
-		png = new File(SystemUtils.getTempDirectory(), id + ".png");
-		pdf = new File(SystemUtils.getTempDirectory(), id + ".pdf");
+		rScript = new File(FileUtils.getTempDirectory(), id + ".R");
+		matrix = new File(FileUtils.getTempDirectory(), id + ".matrix");
+		order  = new File(FileUtils.getTempDirectory(), id + ".order");
+		png = new File(FileUtils.getTempDirectory(), id + ".png");
+		pdf = new File(FileUtils.getTempDirectory(), id + ".pdf");
 
 		// Save the simmatrix file to disk
 		textfile.write(matrix.getPath());

@@ -12,6 +12,7 @@ import javax.swing.*;
 import javax.swing.filechooser.*;
 
 import scri.commons.gui.*;
+import scri.commons.io.*;
 
 public class FlapjackUtils
 {
@@ -130,7 +131,7 @@ public class FlapjackUtils
 	{
 		if (instanceDir == null)
 		{
-			cacheDir = SystemUtils.getTempUserDirectory("jhi-flapjack");
+			cacheDir = FileUtils.getTempUserDirectory("jhi-flapjack");
 			cacheDir.deleteOnExit();
 
 			instanceDir = new File(cacheDir, INSTANCE_ID);
