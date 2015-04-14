@@ -13,7 +13,7 @@ import javax.swing.*;
 import flapjack.gui.dialog.*;
 import flapjack.io.*;
 
-import scri.commons.file.*;
+import scri.commons.io.*;
 import scri.commons.gui.*;
 
 import apple.dts.samplecode.osxadapter.*;
