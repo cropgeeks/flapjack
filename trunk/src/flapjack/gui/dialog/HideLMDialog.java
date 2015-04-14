@@ -12,6 +12,7 @@ import flapjack.gui.visualization.*;
 import flapjack.gui.visualization.undo.*;
 
 import scri.commons.gui.*;
+import scri.commons.gui.matisse.*;
 
 public class HideLMDialog extends JDialog implements ActionListener
 {
@@ -62,7 +63,7 @@ public class HideLMDialog extends JDialog implements ActionListener
 		else
 			FlapjackUtils.setHelp(bHelp, "_-_Show/Hide_Markers");
 
-		JPanel p1 = FlapjackUtils.getButtonPanel();
+		JPanel p1 = new DialogPanel();
 		p1.add(bOK);
 		p1.add(bCancel);
 		p1.add(bHelp);

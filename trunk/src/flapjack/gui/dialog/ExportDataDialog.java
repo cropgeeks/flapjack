@@ -14,6 +14,7 @@ import flapjack.gui.*;
 import flapjack.io.*;
 
 import scri.commons.gui.*;
+import scri.commons.gui.matisse.*;
 
 public class ExportDataDialog extends JDialog implements ActionListener
 {
@@ -60,7 +61,7 @@ public class ExportDataDialog extends JDialog implements ActionListener
 		RB.setText(bHelp, "gui.text.help");
 		FlapjackUtils.setHelp(bHelp, "_-_Export_Data");
 
-		JPanel p1 = FlapjackUtils.getButtonPanel();
+		JPanel p1 = new DialogPanel();
 		p1.add(bExport);
 		p1.add(bClose);
 		p1.add(bHelp);

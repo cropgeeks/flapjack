@@ -13,6 +13,7 @@ import flapjack.gui.*;
 import flapjack.io.*;
 
 import scri.commons.gui.*;
+import scri.commons.gui.matisse.*;
 
 public class ImportDialog extends JDialog implements ActionListener, ChangeListener
 {
@@ -86,7 +87,7 @@ public class ImportDialog extends JDialog implements ActionListener, ChangeListe
 		RB.setText(bHelp, "gui.text.help");
 		FlapjackUtils.setHelp(bHelp, "_-_Import_Data");
 
-		JPanel p1 = FlapjackUtils.getButtonPanel();
+		JPanel p1 = new DialogPanel();
 		p1.add(bImport);
 		p1.add(bCancel);
 		p1.add(bHelp);

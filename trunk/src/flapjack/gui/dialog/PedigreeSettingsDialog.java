@@ -11,6 +11,7 @@ import javax.swing.*;
 import flapjack.gui.*;
 
 import scri.commons.gui.*;
+import scri.commons.gui.matisse.*;
 
 public class PedigreeSettingsDialog extends JDialog implements ActionListener
 {
@@ -52,7 +53,7 @@ public class PedigreeSettingsDialog extends JDialog implements ActionListener
 		RB.setText(bHelp, "gui.text.help");
 //		FlapjackUtils.setHelp(bHelp, "gui.dialog.DataImportDialog");
 
-		JPanel p1 = FlapjackUtils.getButtonPanel();
+		JPanel p1 = new DialogPanel();
 		p1.add(bGenerate);
 		p1.add(bCancel);
 //		p1.add(bHelp);

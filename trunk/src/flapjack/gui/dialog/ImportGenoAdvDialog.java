@@ -10,6 +10,7 @@ import javax.swing.*;
 import flapjack.gui.*;
 
 import scri.commons.gui.*;
+import scri.commons.gui.matisse.*;
 
 class ImportGenoAdvDialog extends JDialog implements ActionListener
 {
@@ -49,7 +50,7 @@ class ImportGenoAdvDialog extends JDialog implements ActionListener
 		RB.setText(bHelp, "gui.text.help");
 		FlapjackUtils.setHelp(bHelp, "_-_Import_Data");
 
-		JPanel p1 = FlapjackUtils.getButtonPanel();
+		JPanel p1 = new DialogPanel();
 		p1.add(bOK);
 		p1.add(bCancel);
 		p1.add(bHelp);

@@ -11,6 +11,7 @@ import flapjack.data.*;
 import flapjack.gui.*;
 
 import scri.commons.gui.*;
+import scri.commons.gui.matisse.*;
 
 public class NewViewDialog extends JDialog implements ActionListener
 {
@@ -55,7 +56,7 @@ public class NewViewDialog extends JDialog implements ActionListener
 		RB.setText(bHelp, "gui.text.help");
 		FlapjackUtils.setHelp(bHelp, "_-_Create_New_View");
 
-		JPanel p1 = FlapjackUtils.getButtonPanel();
+		JPanel p1 = new DialogPanel();
 		p1.add(bOK);
 		p1.add(bCancel);
 		p1.add(bHelp);

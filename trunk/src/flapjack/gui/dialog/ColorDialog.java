@@ -12,6 +12,7 @@ import flapjack.gui.visualization.*;
 import flapjack.gui.visualization.colors.*;
 
 import scri.commons.gui.*;
+import scri.commons.gui.matisse.*;
 
 public class ColorDialog extends JDialog implements ActionListener
 {
@@ -60,7 +61,7 @@ public class ColorDialog extends JDialog implements ActionListener
 		RB.setText(bHelp, "gui.text.help");
 		FlapjackUtils.setHelp(bHelp, "_-_Customize_Colours");
 
-		JPanel p1 = FlapjackUtils.getButtonPanel();
+		JPanel p1 = new DialogPanel();
 		p1.add(bApply);
 		p1.add(bDefaults);
 		p1.add(bClose);

@@ -12,6 +12,7 @@ import javax.swing.*;
 import flapjack.gui.*;
 
 import scri.commons.gui.*;
+import scri.commons.gui.matisse.*;
 
 public class DuplicateMarkersDialog extends JDialog implements ActionListener
 {
@@ -61,7 +62,7 @@ public class DuplicateMarkersDialog extends JDialog implements ActionListener
 		RB.setText(bHelp, "gui.text.help");
 		FlapjackUtils.setHelp(bHelp, "_-_Duplicate_Markers");
 
-		JPanel p1 = FlapjackUtils.getButtonPanel();
+		JPanel p1 = new DialogPanel();
 		p1.add(bClipboard);
 		p1.add(bClose);
 		p1.add(bHelp);
