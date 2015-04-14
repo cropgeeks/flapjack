@@ -51,11 +51,11 @@ public class ExportImageDialog extends JDialog implements ActionListener
 
 	private JPanel createButtons()
 	{
-		bExport = SwingUtils.getButton(RB.getString("gui.dialog.ExportImageDialog.bExport"));
+		bExport = new JButton(RB.getString("gui.dialog.ExportImageDialog.bExport"));
 		bExport.addActionListener(this);
-		bClose = SwingUtils.getButton(RB.getString("gui.text.close"));
+		bClose = new JButton(RB.getString("gui.text.close"));
 		bClose.addActionListener(this);
-		bHelp = SwingUtils.getButton(RB.getString("gui.text.help"));
+		bHelp = new JButton(RB.getString("gui.text.help"));
 		RB.setText(bHelp, "gui.text.help");
 		FlapjackUtils.setHelp(bHelp, "_-_Export_Image");
 

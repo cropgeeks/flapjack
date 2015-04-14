@@ -52,11 +52,11 @@ public class BrowseDialog extends JDialog implements ActionListener
 
 	private JPanel createButtons(String rbButton, String help)
 	{
-		bImport = SwingUtils.getButton(RB.getString(rbButton));
+		bImport = new JButton(RB.getString(rbButton));
 		bImport.addActionListener(this);
-		bCancel = SwingUtils.getButton(RB.getString("gui.text.cancel"));
+		bCancel = new JButton(RB.getString("gui.text.cancel"));
 		bCancel.addActionListener(this);
-		bHelp = SwingUtils.getButton(RB.getString("gui.text.help"));
+		bHelp = new JButton(RB.getString("gui.text.help"));
 		RB.setText(bHelp, "gui.text.help");
 
 		JPanel p1 = new DialogPanel();

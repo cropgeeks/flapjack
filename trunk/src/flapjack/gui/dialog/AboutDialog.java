@@ -50,7 +50,7 @@ public class AboutDialog extends JDialog implements ActionListener
 
 	private JPanel createButtons()
 	{
-		bClose = SwingUtils.getButton(RB.getString("gui.text.close"));
+		bClose = new JButton(RB.getString("gui.text.close"));
 		bClose.addActionListener(this);
 
 		JPanel p1 = new DialogPanel();
