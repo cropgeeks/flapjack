@@ -10,6 +10,7 @@ import javax.swing.*;
 import flapjack.gui.*;
 
 import scri.commons.gui.*;
+import scri.commons.gui.matisse.*;
 
 public class PreferencesDialog extends JDialog implements ActionListener
 {
@@ -38,7 +39,7 @@ public class PreferencesDialog extends JDialog implements ActionListener
 		warningTab = new WarningTabNB();
 
 		tabs = new JTabbedPane();
-		tabs.setBorder(BorderFactory.createEmptyBorder(2, 2, 10, 2));
+//		tabs.setBorder(BorderFactory.createEmptyBorder(2, 2, 10, 2));
 		tabs.addTab(RB.getString("gui.dialog.prefs.PreferencesDialog.generalTab"),
 			Icons.getIcon("GENERALTAB"), generalTab);
 		tabs.addTab(RB.getString("gui.dialog.prefs.PreferencesDialog.visualizationTab"),
@@ -73,8 +74,7 @@ public class PreferencesDialog extends JDialog implements ActionListener
 		RB.setText(bHelp, "gui.text.help");
 		FlapjackUtils.setHelp(bHelp, "_-_Preferences");
 
-		JPanel p1 = new JPanel(new FlowLayout(FlowLayout.RIGHT, 5, 0));
-		p1.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 5));
+		JPanel p1 = new DialogPanel();
 		p1.add(bOK);
 //		p1.add(bDefault);
 		p1.add(bCancel);
