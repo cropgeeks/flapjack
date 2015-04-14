@@ -9,6 +9,7 @@ import javax.servlet.http.*;
 import java.util.zip.*;
 
 import scri.commons.gui.*;
+import scri.commons.io.*;
 
 public class PCoAAnalysis implements FlapjackTask
 {
@@ -28,9 +29,9 @@ public class PCoAAnalysis implements FlapjackTask
 
 		// Work out what everything is going to get called
 		String id = SystemUtils.createGUID(32);
-		rScript = new File(SystemUtils.getTempDirectory(), id + ".R");
-		matrix = new File(SystemUtils.getTempDirectory(), id + ".matrix");
-		fit  = new File(SystemUtils.getTempDirectory(), id + ".fit");
+		rScript = new File(FileUtils.getTempDirectory(), id + ".R");
+		matrix = new File(FileUtils.getTempDirectory(), id + ".matrix");
+		fit  = new File(FileUtils.getTempDirectory(), id + ".fit");
 
 		// Save the simmatrix file to disk
 		textfile.write(matrix.getPath());
