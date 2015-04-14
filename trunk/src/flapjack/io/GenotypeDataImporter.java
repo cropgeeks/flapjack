@@ -8,7 +8,7 @@ import java.util.*;
 
 import flapjack.data.*;
 
-import scri.commons.file.*;
+import scri.commons.io.*;
 import scri.commons.gui.*;
 
 public class GenotypeDataImporter implements IGenotypeImporter

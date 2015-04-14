@@ -10,7 +10,7 @@ import java.text.*;
 import flapjack.data.*;
 import flapjack.gui.*;
 
-import scri.commons.file.*;
+import scri.commons.io.*;
 import scri.commons.gui.*;
 
 public class ChromosomeMapImporter implements IMapImporter

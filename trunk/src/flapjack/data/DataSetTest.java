@@ -10,7 +10,7 @@ import junit.framework.*;
 
 import flapjack.io.*;
 
-import scri.commons.file.*;
+import scri.commons.io.*;
 
 public class DataSetTest extends TestCase
 {

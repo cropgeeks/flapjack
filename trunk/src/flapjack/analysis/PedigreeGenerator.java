@@ -11,7 +11,7 @@ import javax.imageio.*;
 import flapjack.data.*;
 
 import scri.commons.gui.*;
-import scri.commons.file.*;
+import scri.commons.io.*;
 
 public class PedigreeGenerator extends SimpleJob
 {
