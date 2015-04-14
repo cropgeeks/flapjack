@@ -48,11 +48,11 @@ public class NewViewDialog extends JDialog implements ActionListener
 
 	private JPanel createButtons()
 	{
-		bOK = SwingUtils.getButton(RB.getString("gui.dialog.NewViewDialog.createButton"));
+		bOK = new JButton(RB.getString("gui.dialog.NewViewDialog.createButton"));
 		bOK.addActionListener(this);
-		bCancel = SwingUtils.getButton(RB.getString("gui.text.cancel"));
+		bCancel = new JButton(RB.getString("gui.text.cancel"));
 		bCancel.addActionListener(this);
-		bHelp = SwingUtils.getButton(RB.getString("gui.text.help"));
+		bHelp = new JButton(RB.getString("gui.text.help"));
 		RB.setText(bHelp, "gui.text.help");
 		FlapjackUtils.setHelp(bHelp, "_-_Create_New_View");
 

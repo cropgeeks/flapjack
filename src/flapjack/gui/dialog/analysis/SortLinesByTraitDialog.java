@@ -48,9 +48,9 @@ public class SortLinesByTraitDialog extends JDialog implements ActionListener
 
 	private JPanel createButtons()
 	{
-		bOK = SwingUtils.getButton(RB.getString("gui.text.ok"));
+		bOK = new JButton(RB.getString("gui.text.ok"));
 		bOK.addActionListener(this);
-		bCancel = SwingUtils.getButton(RB.getString("gui.text.cancel"));
+		bCancel = new JButton(RB.getString("gui.text.cancel"));
 		bCancel.addActionListener(this);
 
 		JPanel p1 = new DialogPanel();

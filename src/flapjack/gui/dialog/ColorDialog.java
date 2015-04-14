@@ -49,15 +49,15 @@ public class ColorDialog extends JDialog implements ActionListener
 
 	private JPanel createButtons()
 	{
-		bClose = SwingUtils.getButton(RB.getString("gui.text.close"));
+		bClose = new JButton(RB.getString("gui.text.close"));
 		bClose.addActionListener(this);
-		bDefaults = SwingUtils.getButton(RB.getString("gui.dialog.ColorDialog.bDefaults"));
+		bDefaults = new JButton(RB.getString("gui.dialog.ColorDialog.bDefaults"));
 		RB.setMnemonic(bDefaults, "gui.dialog.ColorDialog.bDefaults");
 		bDefaults.addActionListener(this);
-		bApply = SwingUtils.getButton(RB.getString("gui.dialog.ColorDialog.bApply"));
+		bApply = new JButton(RB.getString("gui.dialog.ColorDialog.bApply"));
 		RB.setMnemonic(bApply, "gui.dialog.ColorDialog.bApply");
 		bApply.addActionListener(this);
-		bHelp = SwingUtils.getButton(RB.getString("gui.text.help"));
+		bHelp = new JButton(RB.getString("gui.text.help"));
 		RB.setText(bHelp, "gui.text.help");
 		FlapjackUtils.setHelp(bHelp, "_-_Customize_Colours");
 

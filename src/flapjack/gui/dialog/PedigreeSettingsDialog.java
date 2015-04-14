@@ -45,11 +45,11 @@ public class PedigreeSettingsDialog extends JDialog implements ActionListener
 
 	private JPanel createButtons()
 	{
-		bGenerate = SwingUtils.getButton(RB.getString("gui.dialog.PedigreeSettingsDialog.bGenerate"));
+		bGenerate = new JButton(RB.getString("gui.dialog.PedigreeSettingsDialog.bGenerate"));
 		bGenerate.addActionListener(this);
-		bCancel = SwingUtils.getButton(RB.getString("gui.text.cancel"));
+		bCancel = new JButton(RB.getString("gui.text.cancel"));
 		bCancel.addActionListener(this);
-		bHelp = SwingUtils.getButton(RB.getString("gui.text.help"));
+		bHelp = new JButton(RB.getString("gui.text.help"));
 		RB.setText(bHelp, "gui.text.help");
 //		FlapjackUtils.setHelp(bHelp, "gui.dialog.DataImportDialog");
 

@@ -44,9 +44,9 @@ public class RenameDialog extends JDialog implements ActionListener
 
 	private JPanel createButtons()
 	{
-		bOK = SwingUtils.getButton(RB.getString("gui.dialog.RenameDialog.renameButton"));
+		bOK = new JButton(RB.getString("gui.dialog.RenameDialog.renameButton"));
 		bOK.addActionListener(this);
-		bCancel = SwingUtils.getButton(RB.getString("gui.text.cancel"));
+		bCancel = new JButton(RB.getString("gui.text.cancel"));
 		bCancel.addActionListener(this);
 
 		JPanel p1 = new DialogPanel();

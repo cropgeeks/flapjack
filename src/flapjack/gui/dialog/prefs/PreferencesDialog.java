@@ -63,13 +63,13 @@ public class PreferencesDialog extends JDialog implements ActionListener
 
 	private JPanel createButtons()
 	{
-		bOK = SwingUtils.getButton(RB.getString("gui.text.ok"));
+		bOK = new JButton(RB.getString("gui.text.ok"));
 		bOK.addActionListener(this);
-		bDefault = SwingUtils.getButton(RB.getString("gui.text.default"));
+		bDefault = new JButton(RB.getString("gui.text.default"));
 		bDefault.addActionListener(this);
-		bCancel = SwingUtils.getButton(RB.getString("gui.text.cancel"));
+		bCancel = new JButton(RB.getString("gui.text.cancel"));
 		bCancel.addActionListener(this);
-		bHelp = SwingUtils.getButton(RB.getString("gui.text.help"));
+		bHelp = new JButton(RB.getString("gui.text.help"));
 		RB.setText(bHelp, "gui.text.help");
 		FlapjackUtils.setHelp(bHelp, "_-_Preferences");
 
