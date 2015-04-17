@@ -1,44 +1,42 @@
 <project name="Flapjack" default="compile" basedir=".">
 
-	<property file="build.properties" />
+	<property file="build.properties"/>
 
 	<property name="src" location="src"/>
 	<property name="res" location="res"/>
 	<property name="lib" location="lib"/>
-	<property name="tmp" location="tmp"/>
-	<property name="config" location="config"/>
-	<property name="lib-devel" location="lib-devel"/>
-	<property name="classes" location="classes"/>
-	<property name="servlets" location="www/servlets"/>
+	<property name="cfg" location="config"/>
+	<property name="cls" location="classes"/>
+	<property name="jar" value="${lib}/flapjack.jar"/>
+	<property name="war" value="flapjack.war"/>
 
-	<property name="flapjack.jar" value="${lib}/flapjack.jar"/>
-	<property name="flapjack-resources.jar" value="${lib}/flapjack-resources.jar"/>
-	<property name="flapjack.war" value="flapjack.war"/>
-
-	<target name="init">
-	</target>
-
+	<!-- Development classpath -->
 	<path id="project.classpath">
-		<pathelement path="${classes}"/>
+		<pathelement path="${cls}"/>
 		<fileset dir="${lib}"/>
-		<fileset dir="${lib-devel}"/>
 	</path>
 
-	<target name="compile" depends="init">
-		<javac srcdir="${src}" destdir="${classes}" source="8" target="8" debug="true" includeantruntime="false">
-			<!--<compilerarg value="-Xlint:-options"/>-->
-			<classpath refid="project.classpath"/>
-			<exclude name="**/package-info.java"/>
-		</javac>
-	</target>
+	<!-- Runtime classpath (manifest formatted) -->
+	<manifestclasspath property="jar.classpath" jarfile="${jar}">
+        <classpath>
+        	<fileset dir="${lib}">
+        		<exclude name="**/lib-devel/**"/>
+        	</fileset>
+        </classpath>
+    </manifestclasspath>
 
 	<target name="clean">
 		<delete includeemptydirs="true">
-			<fileset dir="${classes}" includes="**/*"/>
-			<fileset file="${flapjack.jar}"/>
-			<fileset file="${flapjack-resources.jar}"/>
-			<fileset file="${flapjack.war}"/>
+			<fileset dir="${cls}" includes="**/*"/>
+			<fileset file="${jar}"/>
+			<fileset file="${war}"/>
 		</delete>
+	</target>
+
+	<target name="compile">
+		<javac srcdir="${src}" destdir="${cls}" source="8" target="8" debug="true" includeantruntime="false">
+			<classpath refid="project.classpath"/>
+		</javac>
 	</target>
 
 	<target name="jar" depends="clean, compile">
@@ -46,62 +44,25 @@
 			<equals arg1="${i4j.version}" arg2="${i4j.version}"/>
 		</condition>
 
-		<jar jarfile="${flapjack-resources.jar}">
-			<zipfileset dir="${res}" prefix="res"/>
-			<zipfileset dir="installer/licence" prefix="installer/licence"/>
-			<manifest>
-				<attribute name="Permissions" value="all-permissions"/>
-			</manifest>
-		</jar>
-
-		<jar jarfile="${flapjack.jar}">
-			<fileset dir="${classes}">
+		<jar jarfile="${jar}">
+			<fileset dir="${cls}">
 				<exclude name="**/*Test.class"/>
 			</fileset>
 			<zipfileset dir="${src}/arrr" prefix="src/arrr"/>
-			<zipfileset dir="${config}" prefix="config"/>
+			<zipfileset dir="${cfg}" prefix="config"/>
+			<zipfileset dir="${res}" prefix="res"/>
+			<zipfileset dir="installer/licence" prefix="installer/licence"/>
 			<!-- castor.properties must be top level otherwise it's not seen -->
 			<fileset file="config/castor.properties"/>
 			<manifest>
 				<attribute name="Main-Class" value="flapjack.gui.Flapjack"/>
-				<attribute name="Class-Path"
-					value="castor-1.3.3-rc1-core.jar
-					    castor-1.3.3-rc1-xml.jar
-					    commons-lang-2.6.jar
-						commons-logging-1.1.1.jar
-						flapjack-resources.jar
-						jcommon-1.0.23.jar
-						jfreechart-1.0.19.jar
-						office-2.0.jar
-						osxadapter.jar
-						scri-commons.jar
-						sqlite-jdbc-3.7.2.jar"/>
+				<attribute name="Class-Path" value="${jar.classpath}"/>
 				<attribute name="Implementation-Version" value="${i4j.version}"/>
 				<attribute name="Application-Name" value="Flapjack"/>
 				<attribute name="Permissions" value="all-permissions"/>
 				<attribute name="Codebase" value="*.hutton.ac.uk"/>
 			</manifest>
 		</jar>
-	</target>
-
-	<target name="javadoc">
-		<javadoc destdir="docs/api" author="true" version="true" use="true">
-			<fileset dir="${src}" defaultexcludes="yes">
-				<include name="**/*.java"/>
-			</fileset>
-			<classpath refid="project.classpath"/>
-		</javadoc>
-	</target>
-
-	<target name="test" depends="clean, compile">
-		<junit printsummary="on" haltonerror="true" haltonfailure="true" dir="." fork="true">
-			<jvmarg value="-Xmx512m"/>
-			<classpath refid="project.classpath"/>
-			<formatter type="plain" usefile="false"/>
-			<batchtest>
-				<fileset dir="${classes}" includes="**/*Test.class"/>
-			</batchtest>
-		</junit>
 	</target>
 
 	<target name="getversion">
@@ -120,42 +81,33 @@
 		</delete>
 
 		<install4j projectfile="installer/flapjack.install4j"
-		           release="${i4j.version}"
-		           winKeystorePassword="${keystore.password}"
-		           macKeystorePassword="${keystore.password}"/>
-	</target>
-
-	<target name="run" depends="jar">
-		<java jar="${flapjack.jar}">
-			<jvmarg value="-Xmx1024m"/>
-		</java>
+			release="${i4j.version}"
+			winKeystorePassword="${keystore.password}"
+			macKeystorePassword="${keystore.password}"/>
 	</target>
 
 	<target name="jnlp" depends="getversion, jar">
+		<property name="tmp" location="temp"/>
 		<mkdir dir="${tmp}"/>
 		<copy todir="${tmp}">
 			<fileset dir="${lib}">
-				<include name="**/*.jar"/>
-			</fileset>
+        		<exclude name="**/lib-devel/**"/>
+        	</fileset>
 		</copy>
 		<signjar alias="jhi" storepass="${keystore.password}"
 			preservelastmodified="true" lazy="true"
 			tsaurl="http://timestamp.globalsign.com/scripts/timstamp.dll">
-			<fileset dir="${tmp}">
-				<include name="**/*.jar"/>
-			</fileset>
+			<fileset dir="${tmp}"/>
 		</signjar>
-		<copy todir="\\ics\root\var\www\sites\bioinf.hutton.ac.uk\html\flapjack\webstart">
-			<fileset dir="${tmp}">
-				<include name="**/*.jar"/>
-			</fileset>
+		<copy todir="\\ics\root\var\www\sites\bioinf.hutton.ac.uk\html\flapjack\webstart2">
+			<fileset dir="${tmp}"/>
 		</copy>
 		<delete dir="${tmp}"/>
 	</target>
 
 	<target name="war" depends="jar">
-		<war destfile="${flapjack.war}" update="false">
-			<webinf dir="${servlets}/WEB-INF"/>
+		<war destfile="${war}" update="false">
+			<webinf dir="www/servlets/WEB-INF"/>
 			<lib dir="${lib}"/>
 		</war>
 
@@ -168,7 +120,36 @@
 			path="${tomcat.manager.path}" failOnError="false"/>
 
 		<deploy url="${tomcat.manager.url}"	username="${tomcat.manager.username}" password="${tomcat.manager.password}"
-			path="${tomcat.manager.path}" war="${flapjack.war}"/>
+			path="${tomcat.manager.path}" war="${war}"/>
+	</target>
+
+
+	<!-- Less frequently used tasks from this point onwards -->
+
+	<target name="run" depends="jar">
+		<java jar="${jar}" fork="true">
+			<jvmarg value="-Xmx1024m"/>
+		</java>
+	</target>
+
+	<target name="test" depends="clean, compile">
+		<junit printsummary="on" haltonerror="true" haltonfailure="true" dir="." fork="true">
+			<jvmarg value="-Xmx512m"/>
+			<classpath refid="project.classpath"/>
+			<formatter type="plain" usefile="false"/>
+			<batchtest>
+				<fileset dir="${cls}" includes="**/*Test.class"/>
+			</batchtest>
+		</junit>
+	</target>
+
+	<target name="javadoc">
+		<javadoc destdir="docs/api" author="true" version="true" use="true">
+			<fileset dir="${src}" defaultexcludes="yes">
+				<include name="**/*.java"/>
+			</fileset>
+			<classpath refid="project.classpath"/>
+		</javadoc>
 	</target>
 
 </project>
