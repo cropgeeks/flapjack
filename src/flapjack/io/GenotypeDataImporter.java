@@ -7,11 +7,12 @@ import java.io.*;
 import java.util.*;
 
 import flapjack.data.*;
+import flapjack.gui.*;
 
-import scri.commons.io.*;
+import scri.commons.file.*;
 import scri.commons.gui.*;
 
-public class GenotypeDataImporter implements IGenotypeImporter
+public class GenotypeDataImporter
 {
 	private ProgressInputStream is;
 	private File file;
@@ -40,10 +41,8 @@ public class GenotypeDataImporter implements IGenotypeImporter
 
 	private boolean isOK = true;
 
-	private boolean isTransposed;
-
 	public GenotypeDataImporter(File file, DataSet dataSet, HashMap<String, MarkerIndex> markers,
-		String ioMissingData, boolean ioUseHetSep, String ioHeteroSeparator, boolean isTransposed)
+		String ioMissingData, boolean ioUseHetSep, String ioHeteroSeparator)
 	{
 		this.file = file;
 		this.dataSet = dataSet;
@@ -51,38 +50,36 @@ public class GenotypeDataImporter implements IGenotypeImporter
 		this.ioMissingData = ioMissingData;
 		this.ioUseHetSep = ioUseHetSep;
 		this.ioHeteroSeparator = ioHeteroSeparator;
-		this.isTransposed = isTransposed;
 
 		stateTable = dataSet.getStateTable();
 	}
 
-	@Override
 	public void cleanUp()
 	{
 		markers.clear();
 		lines.clear();
 	}
 
-	@Override
 	public void cancelImport()
 		{ isOK = false; }
 
-	@Override
+	public File getFile()
+		{ return file; }
+
 	public long getLineCount()
 		{ return lines != null ? lines.size() : 0; }
 
-	@Override
 	public long getMarkerCount()
 		{ return markerCount; }
 
-	@Override
-	public void importGenotypeData()
+	public void importGenotypeData(boolean isTransposed)
 		throws IOException, DataFormatException
 	{
 		if (readData(isTransposed) == false)
 		{
 			dataSet.getLines().clear();
 			stateTable.resetTable();
+			states.clear();
 			useByteStorage = false;
 
 			lineCount = 0;
@@ -244,7 +241,6 @@ public class GenotypeDataImporter implements IGenotypeImporter
 		}
 	}
 
-	@Override
 	public long getBytesRead()
 		{ return (is == null) ? 0 : is.getBytesRead(); }
 
