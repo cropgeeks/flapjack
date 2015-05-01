@@ -3,6 +3,7 @@
 
 package flapjack.gui.traits;
 
+import java.awt.*;
 import java.util.*;
 import javax.swing.*;
 import javax.swing.table.*;
@@ -110,5 +111,20 @@ class TraitsTableModel extends AbstractTableModel
 	@Override
 	public void setValueAt(Object value, int row, int col)
 	{
+	}
+
+	Color displayColor(int row, int col)
+	{
+		if (col > 0)
+		{
+			Line line = dataSet.getLineByIndex(row);
+			Trait trait = traits.get(col-1);
+			TraitValue tv = line.getTraitValues().get(col-1);
+
+			if (tv.isDefined())
+				return tv.displayColor();
+		}
+
+		return null;
 	}
 }

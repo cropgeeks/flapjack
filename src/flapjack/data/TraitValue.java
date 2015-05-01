@@ -3,6 +3,8 @@
 
 package flapjack.data;
 
+import java.awt.*;
+
 public class TraitValue extends XMLRoot
 {
 	// A reference to the trait that this value corresponds to
@@ -141,5 +143,17 @@ public class TraitValue extends XMLRoot
 
 		else
 			return trait.format(this) + "\t";
+	}
+
+	/**
+	 * Returns the color to be used when graphically displaying the value for
+	 * this TV. It may be a color stored specifically for this object, or for
+	 * a cateogy within the parent trait, or an override of the low/high color
+	 * graients for the entire trait, or finally just the old-style heatmap
+	 * color worked out from the global low/high values.
+	 */
+	public Color displayColor()
+	{
+		return trait.displayColor(value, normal);
 	}
 }

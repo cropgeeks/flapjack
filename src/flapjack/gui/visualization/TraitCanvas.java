@@ -93,11 +93,6 @@ class TraitCanvas extends JPanel
 		int[] tIndex = canvas.viewSet.getTraits();
 		int boxH = canvas.boxH;
 
-		Color col1 = Prefs.visColorHeatmapLow;
-		int[] c1 = new int[] { col1.getRed(), col1.getGreen(), col1.getBlue() };
-		Color col2 = Prefs.visColorHeatmapHigh;
-		int[] c2 = new int[] { col2.getRed(), col2.getGreen(), col2.getBlue() };
-
 		for (int i = 0; i < tIndex.length; i++)
 		{
 			// If there's no index for this location, skip it
@@ -117,13 +112,7 @@ class TraitCanvas extends JPanel
 				if (tv.isDefined() == false)
 					continue;
 
-				float f1 = (float) (1.0 - tv.getNormal());
-				float f2 = (float) tv.getNormal();
-
-				g.setColor(new Color(
-          			(int) (f1 * c1[0] + f2 * c2[0]),
-      				(int) (f1 * c1[1] + f2 * c2[1]),
-      				(int) (f1 * c1[2] + f2 * c2[2])));
+				g.setColor(tv.displayColor());
 
 				g.fillRect(i*boxW, y, boxW, boxH);
 			}
