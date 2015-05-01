@@ -5,6 +5,7 @@ package flapjack.gui.traits;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.text.*;
 import javax.swing.*;
 import javax.swing.table.*;
 
@@ -34,7 +35,8 @@ public class TraitsPanel extends JPanel implements ActionListener
 		table = controls.table;
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		table.getTableHeader().setReorderingAllowed(false);
-		table.setDefaultRenderer(Float.class, new TraitNumberFormatCellRenderer());
+		table.setDefaultRenderer(Float.class, new TraitCellRenderer());
+		table.setDefaultRenderer(String.class, new TraitCellRenderer());
 		UIScaler.setCellHeight(table);
 
 		setLayout(new BorderLayout(0, 0));
@@ -112,14 +114,31 @@ public class TraitsPanel extends JPanel implements ActionListener
 
 	// Deals with the fact that our fake double header for the JTable means
 	// that String data can be found in numerical columns.
-	public class TraitNumberFormatCellRenderer extends NumberFormatCellRenderer
+	public class TraitCellRenderer extends DefaultTableCellRenderer
 	{
+		protected final NumberFormat nf = NumberFormat.getInstance();
+
 		@Override
 		public Component getTableCellRendererComponent(JTable table, Object value,
 			boolean isSelected, boolean hasFocus, int row, int column)
 		{
 			super.getTableCellRendererComponent(table, value, isSelected,
 				hasFocus, row, column);
+
+			if (value instanceof Float && value != null)
+			{
+				setText(nf.format((Number)value));
+				setHorizontalAlignment(JLabel.RIGHT);
+			}
+			else
+				setHorizontalAlignment(JLabel.LEFT);
+
+			Color bg = model.displayColor(row, column);
+
+			if (bg != null)
+				setBackground(bg);
+			else
+				setBackground(UIManager.getColor("Table.background"));
 
 			return this;
 		}

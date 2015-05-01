@@ -3,6 +3,7 @@
 
 package flapjack.data;
 
+import java.awt.*;
 import java.text.*;
 import java.util.*;
 
@@ -19,6 +20,8 @@ public class Trait extends XMLRoot
 	private String name;
 	private ArrayList<String> categories = new ArrayList<>();
 
+	private TraitColors colors = new TraitColors();
+
 	private String experiment;
 
 	// NOTE: This is only used at read-time...the value isn't stored and can't
@@ -33,7 +36,6 @@ public class Trait extends XMLRoot
 
 	public Trait()
 	{
-		experiment = RB.getString("data.Trait.notDefined");
 	}
 
 	public Trait(String name)
@@ -46,12 +48,19 @@ public class Trait extends XMLRoot
 	void validate()
 		throws NullPointerException
 	{
+		// Really old projects didn't have experiments
+		if (experiment == null)
+			experiment = RB.getString("data.Trait.notDefined");
+
 		if (name == null)
 			throw new NullPointerException();
 	}
 
 	public String toString()
 		{ return name; }
+
+
+	// Methods required for XML serialization
 
 	public String getName()
 		{ return name; }
@@ -70,6 +79,15 @@ public class Trait extends XMLRoot
 
 	public void setExperiment(String experiment)
 		{ this.experiment = experiment; }
+
+	public TraitColors getColors()
+		{ return colors; }
+
+	public void setColors(TraitColors colors)
+		{ this.colors = colors; }
+
+
+	// Other methods
 
 
 	/**
@@ -144,5 +162,10 @@ public class Trait extends XMLRoot
 		{
 			return "UNDEFINED";
 		}
+	}
+
+	Color displayColor(float value, float normal)
+	{
+		return colors.displayColor(value, normal);
 	}
 }
