@@ -43,6 +43,13 @@ public class Trait extends XMLRoot
 		this.name = name;
 
 		experiment = RB.getString("data.Trait.notDefined");
+
+//		if (name.equals("EAR - DENSITY"))
+//		{
+//			colors.put("FLAPJACK_LW", Color.yellow);
+//			colors.put("FLAPJACK_HG", Color.orange);
+//			colors.put("lax", Color.pink);
+//		}
 	}
 
 	void validate()
@@ -166,6 +173,6 @@ public class Trait extends XMLRoot
 
 	Color displayColor(float value, float normal)
 	{
-		return colors.displayColor(value, normal);
+		return colors.displayColor(this, value, normal);
 	}
 }

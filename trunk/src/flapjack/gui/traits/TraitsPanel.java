@@ -118,6 +118,9 @@ public class TraitsPanel extends JPanel implements ActionListener
 	{
 		protected final NumberFormat nf = NumberFormat.getInstance();
 
+		private Color bgCol1 = UIManager.getColor("Table.selectionBackground");
+		private Color bgCol2 = UIManager.getColor("Table.background");
+
 		@Override
 		public Component getTableCellRendererComponent(JTable table, Object value,
 			boolean isSelected, boolean hasFocus, int row, int column)
@@ -135,10 +138,10 @@ public class TraitsPanel extends JPanel implements ActionListener
 
 			Color bg = model.displayColor(row, column);
 
-			if (bg != null)
-				setBackground(bg);
+			if (Prefs.guiColorTraitTable && bg != null)
+				setBackground(isSelected ? bg.darker() : bg);
 			else
-				setBackground(UIManager.getColor("Table.background"));
+				setBackground(isSelected ? bgCol1 : bgCol2);
 
 			return this;
 		}

@@ -27,6 +27,7 @@ public class TraitColors extends XMLRoot
 
 
 	// Other methods
+
 	public void put(String key, Color value)
 	{
 		colors.put(key, value.getRGB());
@@ -42,11 +43,45 @@ public class TraitColors extends XMLRoot
 			return null;
 	}
 
-	Color displayColor(float value, float normal)
+	// Returns a LOW value for use with the heatmap
+	private Color getLow()
 	{
-		Color col1 = Prefs.visColorHeatmapLow;
+		if (colors.size() > 0 && colors.containsKey("FLAPJACK_LW"))
+			return get("FLAPJACK_LW");
+
+		return Prefs.visColorHeatmapLow;
+
+	}
+
+	// Returns a HIGH value for use with the heatmap
+	private Color getHigh()
+	{
+		if (colors.size() > 0 && colors.containsKey("FLAPJACK_HG"))
+			return get("FLAPJACK_HG");
+
+		return Prefs.visColorHeatmapHigh;
+
+	}
+
+	Color displayColor(Trait trait, float value, float normal)
+	{
+		// Start by looking for a custom colour for the specific category
+		if (colors.size() > 0)
+		{
+			// TODO: Should we be looking for custom colours for numericals?
+			if (trait.traitIsNumerical() == false)
+			{
+				String key = trait.getCategories().get((int)value);
+				if (colors.containsKey(key))
+					return get(key);
+			}
+		}
+
+		// If that fails, then work out a gradiant paint somewhere on the
+		// low/high scale
+		Color col1 = getLow();
 		int[] c1 = new int[] { col1.getRed(), col1.getGreen(), col1.getBlue() };
-		Color col2 = Prefs.visColorHeatmapHigh;
+		Color col2 = getHigh();
 		int[] c2 = new int[] { col2.getRed(), col2.getGreen(), col2.getBlue() };
 
 		float f1 = 1f - normal;
@@ -56,8 +91,6 @@ public class TraitColors extends XMLRoot
 			(int) (f1 * c1[0] + f2 * c2[0]),
 			(int) (f1 * c1[1] + f2 * c2[1]),
 			(int) (f1 * c1[2] + f2 * c2[2]));
-
-		// DON'T LOOK UP HASHTABLE IF IT'S EMPTY
 
 		return color;
 	}
