@@ -12,12 +12,13 @@ import flapjack.gui.*;
 
 import scri.commons.gui.*;
 
-class TraitsPanelNB extends javax.swing.JPanel
+class TraitsPanelNB extends JPanel
 {
 	TraitsPanelNB()
 	{
 		initComponents();
 
+		RB.setText(checkColor, "gui.traits.NBTraitsControlPanel.checkColor");
 		RB.setText(bImport, "gui.traits.NBTraitsControlPanel.bImport");
 		RB.setText(bExport, "gui.traits.NBTraitsControlPanel.bExport");
 		RB.setText(bRemove, "gui.traits.NBTraitsControlPanel.bRemove");
@@ -25,6 +26,12 @@ class TraitsPanelNB extends javax.swing.JPanel
 		bImport.setIcon(Icons.getIcon("IMPORTTRAITS"));
 		bExport.setIcon(Icons.getIcon("EXPORTTRAITS"));
 		bRemove.setIcon(Icons.getIcon("DELETE"));
+
+		checkColor.setSelected(Prefs.guiColorTraitTable);
+		checkColor.addActionListener(e -> {
+			Prefs.guiColorTraitTable = checkColor.isSelected();
+			Flapjack.winMain.repaint();
+		});
 	}
 
 	private JTable createTable()
@@ -60,6 +67,7 @@ class TraitsPanelNB extends javax.swing.JPanel
         jScrollPane1 = new javax.swing.JScrollPane();
         table = createTable();
         bExport = new javax.swing.JButton();
+        checkColor = new javax.swing.JCheckBox();
 
         bImport.setText("Import");
 
@@ -79,27 +87,37 @@ class TraitsPanelNB extends javax.swing.JPanel
 
         bExport.setText("Export");
 
+        checkColor.setText("Colour the table cells using heat map values");
+        checkColor.setOpaque(false);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 424, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(statusLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 114, Short.MAX_VALUE)
-                .addComponent(bImport)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(bExport)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(bRemove)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(checkColor)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(statusLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 114, Short.MAX_VALUE)
+                        .addComponent(bImport)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(bExport)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(bRemove)))
                 .addContainerGap())
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 424, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 103, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 118, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(checkColor)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(bRemove)
                     .addComponent(statusLabel)
@@ -114,6 +132,7 @@ class TraitsPanelNB extends javax.swing.JPanel
     javax.swing.JButton bExport;
     javax.swing.JButton bImport;
     javax.swing.JButton bRemove;
+    private javax.swing.JCheckBox checkColor;
     private javax.swing.JScrollPane jScrollPane1;
     javax.swing.JLabel statusLabel;
     javax.swing.JTable table;
