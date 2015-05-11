@@ -12,12 +12,9 @@ import javax.swing.*;
 import flapjack.data.*;
 import flapjack.gui.*;
 import flapjack.gui.dialog.*;
+import flapjack.io.brapi.*;
 
 import scri.commons.gui.*;
-
-// TODO: This dialog allows itself to be closed during the loading operation
-// which cancels the load in terms of data appearing in the interface, but the
-// actual loading thread (in the background) will still run to completion.
 
 /**
  * Dialog that appears during the importing of data. Shows a progress bar and
@@ -25,6 +22,9 @@ import scri.commons.gui.*;
  */
 public class DataImporter extends SimpleJob
 {
+	public static final int IMPORT_BRAPI = 1;
+	public static final int IMPORT_CLASSIC = 0;
+	public static final int IMPORT_HDF5 = 2;
 	private DataSet dataSet = new DataSet();
 
 	// To load the map file...
@@ -35,12 +35,13 @@ public class DataImporter extends SimpleJob
 	private IGenotypeImporter genoImporter;
 
 	private File hdf5File;
-
+	private BrapiRequest request;
 
 	private long totalBytes;
 
 	private boolean usePrefs;
 
+	// Tab-delimited text loading
 	public DataImporter(File mapFile, File genoFile, boolean usePrefs)
 	{
 		this.genoFile = genoFile;
@@ -52,9 +53,21 @@ public class DataImporter extends SimpleJob
 		mapImporter = new ChromosomeMapImporter(mapFile, dataSet);
 	}
 
+	// BRAPI loading
+	public DataImporter(BrapiRequest request, boolean usePrefs)
+	{
+		this.usePrefs = usePrefs;
+		this.request = request;
+
+		mapImporter = new BrapiMapImporter(request, dataSet);
+	}
+
+	// HDF5 loading
 	public DataImporter(File hdf5File, boolean usePrefs)
 	{
 		this.hdf5File = hdf5File;
+		this.usePrefs = usePrefs;
+
 		mapImporter = new Hdf5ChromosomeMapImporter(hdf5File, dataSet);
 	}
 
@@ -101,20 +114,41 @@ public class DataImporter extends SimpleJob
 
 	private void setupGenotypeImport()
 	{
-		if (Prefs.guiUseHDF5)
+		switch (Prefs.guiImportType)
 		{
-			ArrayList<Integer> markerChromosomes = ((Hdf5ChromosomeMapImporter)mapImporter).markerChromosomes();
-			genoImporter = new Hdf5GenotypeDataImporter(hdf5File, dataSet, mapImporter.getMarkersHashMap(), markerChromosomes);
-		}
-		else
-		{
-			// Initializes the data importer, passing it the required options, either
-			// from the preferences (if a user file is being opened) or with preset
-			// options if we're loading the sample file (which has a set format)
-			if (usePrefs)
-				genoImporter = new GenotypeDataImporter(genoFile, dataSet, mapImporter.getMarkersHashMap(), Prefs.ioMissingData, Prefs.ioUseHetSep, Prefs.ioHeteroSeparator, Prefs.ioTransposed);
-			else
-				genoImporter = new GenotypeDataImporter(genoFile, dataSet, mapImporter.getMarkersHashMap(), "-", true, "/", Prefs.ioTransposed);
+			case IMPORT_CLASSIC:
+			{
+				// Initializes the data importer, passing it the required options, either
+				// from the preferences (if a user file is being opened) or with preset
+				// options if we're loading the sample file (which has a set format)
+				if (usePrefs)
+					genoImporter = new GenotypeDataImporter(genoFile, dataSet,
+						mapImporter.getMarkersHashMap(), Prefs.ioMissingData,
+						Prefs.ioUseHetSep, Prefs.ioHeteroSeparator, Prefs.ioTransposed);
+				else
+					genoImporter = new GenotypeDataImporter(genoFile, dataSet,
+						mapImporter.getMarkersHashMap(), "-", true, "/",
+						Prefs.ioTransposed);
+
+				break;
+			}
+
+			case IMPORT_BRAPI:
+			{
+				genoImporter = new BrapiGenotypeImporter(request, dataSet,
+					mapImporter.getMarkersHashMap(), Prefs.ioMissingData,
+						Prefs.ioUseHetSep, Prefs.ioHeteroSeparator);
+
+				break;
+			}
+
+			case IMPORT_HDF5:
+			{
+				ArrayList<Integer> markerChromosomes = ((Hdf5ChromosomeMapImporter)mapImporter).markerChromosomes();
+				genoImporter = new Hdf5GenotypeDataImporter(hdf5File, dataSet, mapImporter.getMarkersHashMap(), markerChromosomes);
+
+				break;
+			}
 		}
 	}
 

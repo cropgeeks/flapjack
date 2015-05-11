@@ -41,7 +41,7 @@ public class Hdf5ChromosomeMapImporter implements IMapImporter
 
 	@Override
 	public void importMap()
-		throws IOException, DataFormatException
+		throws Exception
 	{
 		long s = System.currentTimeMillis();
 		IHDF5ReaderConfigurator config = HDF5Factory.configureForReading(file);

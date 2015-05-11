@@ -1,7 +1,7 @@
 // Copyright 2009-2015 Information & Computational Sciences, JHI. All rights
 // reserved. Use is subject to the accompanying licence terms.
 
-package flapjack.gui.dialog;
+package flapjack.gui.dialog.importer;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -9,6 +9,7 @@ import java.io.*;
 import javax.swing.*;
 
 import flapjack.gui.*;
+import flapjack.io.DataImporter;
 
 import scri.commons.gui.*;
 import scri.commons.gui.matisse.HistoryComboBox;
@@ -58,8 +59,8 @@ class ImportGenoTabNB extends javax.swing.JPanel implements ActionListener
 		ButtonGroup bg = new ButtonGroup();
 		bg.add(useText);
 		bg.add(useHDF5);
-		useText.setSelected(!Prefs.guiUseHDF5);
-		useHDF5.setSelected(Prefs.guiUseHDF5);
+		useText.setSelected(Prefs.guiImportType == 0);
+		useHDF5.setSelected(Prefs.guiImportType == 2);
 		setStates();
 
 		mapComboBox.addActionListener(this);
@@ -90,7 +91,7 @@ class ImportGenoTabNB extends javax.swing.JPanel implements ActionListener
 
 	private void setStates()
 	{
-		Prefs.guiUseHDF5 = useHDF5.isSelected();
+		Prefs.guiImportType = useHDF5.isSelected() ? DataImporter.IMPORT_HDF5 : DataImporter.IMPORT_CLASSIC;
 
 		mapLabel.setEnabled(useText.isSelected());
 		mapComboBox.setEnabled(useText.isSelected());
@@ -127,7 +128,7 @@ class ImportGenoTabNB extends javax.swing.JPanel implements ActionListener
 	boolean isOK()
 	{
 		// Fail if the map/genotype boxes are empty
-		if (!Prefs.guiUseHDF5 && (mapComboBox.getText().length() == 0 || genoComboBox.getText().length() == 0))
+		if (useText.isSelected() && (mapComboBox.getText().length() == 0 || genoComboBox.getText().length() == 0))
 		{
 			TaskDialog.warning(
 				RB.getString("gui.dialog.NBDataImportPanel.warn1"),
@@ -136,7 +137,7 @@ class ImportGenoTabNB extends javax.swing.JPanel implements ActionListener
 			return false;
 		}
 		// Fail if the HDF5 box is empty
-		else if (Prefs.guiUseHDF5 && hdf5ComboBox.getText().length() == 0)
+		else if (useHDF5.isSelected() && hdf5ComboBox.getText().length() == 0)
 		{
 			TaskDialog.warning(
 				RB.getString("gui.dialog.NBDataImportPanel.warn2"),
