@@ -5,6 +5,8 @@ package flapjack.gui;
 
 import java.awt.*;
 
+import flapjack.io.*;
+
 import scri.commons.gui.*;
 
 public class Prefs extends XMLPreferences
@@ -33,8 +35,6 @@ public class Prefs extends XMLPreferences
 	public static String guiTraitHistory = "";
 	public static String guiQTLHistory = "";
 	public static String guiGraphHistory = "";
-
-	public static boolean guiUseHDF5 = false;
 
 	public static String guiQuickExportHistory = "";
 
@@ -95,6 +95,9 @@ public class Prefs extends XMLPreferences
 
 	// When to check for updates
 	public static int guiUpdateSchedule = Install4j.STARTUP;
+
+	// Data import type: 0=classic, 1=brapi, 2=hdf5
+	public static int guiImportType = DataImporter.IMPORT_CLASSIC;
 
 	// Warning messages
 	public static boolean warnDuplicateMarkers = true;

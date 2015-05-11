@@ -1,7 +1,7 @@
 // Copyright 2009-2015 Information & Computational Sciences, JHI. All rights
 // reserved. Use is subject to the accompanying licence terms.
 
-package flapjack.gui.dialog;
+package flapjack.gui.dialog.importer;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -13,29 +13,29 @@ import flapjack.gui.*;
 
 import scri.commons.gui.*;
 
-class ImportGraphTabNB extends JPanel implements ActionListener
+class ImportFeaturesTabNB extends JPanel implements ActionListener
 {
-	ImportGraphTabNB(boolean isEnabled)
+	ImportFeaturesTabNB(boolean isEnabled)
 	{
 		initComponents();
 
 		setBackground((Color)UIManager.get("fjDialogBG"));
 		panel.setBackground((Color)UIManager.get("fjDialogBG"));
 
-		TitledBorder brdr = BorderFactory.createTitledBorder(RB.getString("gui.dialog.NBImportGraphPanel.panel"));
+		TitledBorder brdr = BorderFactory.createTitledBorder(RB.getString("gui.dialog.NBImportFeaturesPanel.panel"));
 		panel.setBorder(brdr);
-		RB.setText(label, "gui.dialog.NBImportGraphPanel.label");
+		RB.setText(label, "gui.dialog.NBImportFeaturesPanel.label");
 		RB.setText(bBrowse, "gui.text.browse");
 		if (isEnabled)
-			RB.setText(tabLabel, "gui.dialog.NBImportGraphPanel.tabEnabled");
+			RB.setText(tabLabel, "gui.dialog.NBImportFeaturesPanel.tabEnabled");
 		else
 		{
-			RB.setText(tabLabel, "gui.dialog.NBImportGraphPanel.tabDisabled");
+			RB.setText(tabLabel, "gui.dialog.NBImportFeaturesPanel.tabDisabled");
 			brdr.setTitleColor((Color)UIManager.get("Label.disabledForeground"));
 		}
 
 		bBrowse.addActionListener(this);
-		browseComboBox.setHistory(Prefs.guiGraphHistory);
+		browseComboBox.setHistory(Prefs.guiQTLHistory);
 		browseComboBox.setPrototypeDisplayValue("");
 
 		panel.setEnabled(isEnabled);
@@ -54,7 +54,7 @@ class ImportGraphTabNB extends JPanel implements ActionListener
 			return false;
 		}
 
-		Prefs.guiGraphHistory = browseComboBox.getHistory();
+		Prefs.guiQTLHistory = browseComboBox.getHistory();
 
 		return true;
 	}
@@ -101,10 +101,10 @@ class ImportGraphTabNB extends JPanel implements ActionListener
         browseComboBox = new scri.commons.gui.matisse.HistoryComboBox();
         tabLabel = new javax.swing.JLabel();
 
-        panel.setBorder(javax.swing.BorderFactory.createTitledBorder("Graph file to import:"));
+        panel.setBorder(javax.swing.BorderFactory.createTitledBorder("Features file to import:"));
 
         label.setLabelFor(browseComboBox);
-        label.setText("Graph file:");
+        label.setText("Features file:");
 
         bBrowse.setText("Browse...");
 
@@ -119,7 +119,7 @@ class ImportGraphTabNB extends JPanel implements ActionListener
                 .addContainerGap()
                 .addComponent(label)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 235, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 221, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(bBrowse)
                 .addContainerGap())

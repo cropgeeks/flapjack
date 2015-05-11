@@ -1,22 +1,21 @@
 // Copyright 2009-2015 Information & Computational Sciences, JHI. All rights
 // reserved. Use is subject to the accompanying licence terms.
 
-package flapjack.io;
+package flapjack.io.brapi;
 
 import java.io.*;
-import java.util.*;
 import java.text.*;
+import java.util.*;
 
 import flapjack.data.*;
 import flapjack.gui.*;
+import flapjack.io.*;
 
-import scri.commons.io.*;
-import scri.commons.gui.*;
+import uk.ac.hutton.brapi.resource.*;
 
-public class ChromosomeMapImporter implements IMapImporter
+public class BrapiMapImporter implements IMapImporter
 {
-	private ProgressInputStream is;
-	private File file;
+	BrapiRequest request;
 	private DataSet dataSet;
 
 	// Each marker's name is stored (only while loading) in a hashmap, along
@@ -28,9 +27,9 @@ public class ChromosomeMapImporter implements IMapImporter
 
 	private boolean isOK = true;
 
-	public ChromosomeMapImporter(File file, DataSet dataSet)
+	public BrapiMapImporter(BrapiRequest request, DataSet dataSet)
 	{
-		this.file = file;
+		this.request = request;
 		this.dataSet = dataSet;
 	}
 
@@ -46,48 +45,34 @@ public class ChromosomeMapImporter implements IMapImporter
 	public void importMap()
 		throws Exception
 	{
-		is = new ProgressInputStream(new FileInputStream(file));
-
-		BufferedReader in = new BufferedReader(new InputStreamReader(is, "UTF-8"));
 		NumberFormat nf = NumberFormat.getInstance();
 
-		String str = null;
-		int linesRead = 1;
+		MapDetail mapDetail = BrapiClient.getMapDetail(request.getMapIndex());
 
-		while ((str = in.readLine()) != null && isOK)
+		for (MapEntry me: mapDetail.getEntries())
 		{
-			if (str.length() == 0 || str.startsWith("#"))
-				continue;
+			// Each MapEntry represents a marker: its name, chromosome, and
+			// location on chromosome
 
-			String[] tokens = str.trim().split("\t");
+			float position = nf.parse(me.getLocation()).floatValue();
+			String chromosome = me.getChromosome();
 
-			if (tokens.length != 3)
-				throw new DataFormatException(RB.format("io.DataFormatException.mapTokenError", file, tokens.length, linesRead));
+			Marker marker = new Marker(me.getMarkerName(), position);
+			System.out.println(marker);
 
-			// Parse out the marker's position
-			float position = 0;
-			try { position = nf.parse(tokens[2]).floatValue(); }
-			catch (Exception e)	{
-				throw new DataFormatException(RB.format("io.DataFormatException.parseDistanceError", file, tokens[2], linesRead));
-			}
-
-			// (And its name), using them to create a new marker
-			Marker marker = new Marker(tokens[0].trim(), position);
 
 			// Check to see if this marker already exists (in any map)?
 			MarkerIndex index = markers.get(marker.getName());
 			if (index != null)
 			{
 				if (Prefs.warnDuplicateMarkers)
-					duplicates.add(marker.getName() + "\t" + tokens[1] + "\t"
+					duplicates.add(marker.getName() + "\t" + chromosome + "\t"
 						+ dataSet.getMapByIndex(index.mapIndex).getName());
-
-				System.out.println("DUP: " + duplicates.get(0));
 			}
 			else
 			{
 				// Retrieve the map it should be added to
-				ChromosomeMap.Wrapper w = dataSet.getMapByName(tokens[1], true);
+				ChromosomeMap.Wrapper w = dataSet.getMapByName(chromosome, true);
 				// And add it
 				w.map.addMarker(marker);
 
@@ -96,11 +81,7 @@ public class ChromosomeMapImporter implements IMapImporter
 
 				markerCount++;
 			}
-
-			linesRead++;
 		}
-
-		in.close();
 
 		if (isOK)
 			dataSet.orderMarkersWithinMaps();
@@ -125,8 +106,6 @@ public class ChromosomeMapImporter implements IMapImporter
 
 			mapIndex++;
 		}
-
-		System.out.println("assigned marker indexes");
 	}
 
 	@Override
@@ -135,7 +114,7 @@ public class ChromosomeMapImporter implements IMapImporter
 
 	@Override
 	public long getBytesRead()
-		{ return (is == null) ? 0 : is.getBytesRead(); }
+		{ return 0; }
 
 	@Override
 	public long getMarkerCount()

@@ -5,7 +5,7 @@ import java.util.*;
 
 public interface IMapImporter
 {
-	public void importMap() throws IOException, DataFormatException;
+	public void importMap() throws Exception;
 
 	public void cancelImport();
 
@@ -15,5 +15,5 @@ public interface IMapImporter
 
 	public long getBytesRead();
 
-	long getMarkerCount();
+	public long getMarkerCount();
 }

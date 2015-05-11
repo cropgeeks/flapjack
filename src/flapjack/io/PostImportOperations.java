@@ -34,13 +34,18 @@ public class PostImportOperations
 
 	public void setName(File importFile)
 	{
-		String name = importFile.getName();
+		if (importFile != null)
+		{
+			String name = importFile.getName();
 
-		// Strip away the extension (if there is one)
-		if (name.lastIndexOf(".") != -1)
-			name = name.substring(0, name.lastIndexOf("."));
+			// Strip away the extension (if there is one)
+			if (name.lastIndexOf(".") != -1)
+				name = name.substring(0, name.lastIndexOf("."));
 
-		setName(name);
+			setName(name);
+		}
+		else
+			setName("BRAPI");
 	}
 
 	public void setName(String name)

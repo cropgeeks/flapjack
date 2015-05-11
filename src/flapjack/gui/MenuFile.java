@@ -7,11 +7,13 @@ import java.io.*;
 
 import flapjack.data.*;
 import flapjack.gui.dialog.*;
+import flapjack.gui.dialog.importer.*;
 import flapjack.gui.traits.*;
 import flapjack.gui.visualization.*;
 import flapjack.io.*;
 
 import scri.commons.gui.*;
+import flapjack.io.brapi.BrapiRequest;
 
 public class MenuFile
 {
@@ -113,6 +115,30 @@ public class MenuFile
 		return false;
 	}
 
+	public void fileImportSelect()
+	{
+		DataSourceDialog dialog = new DataSourceDialog();
+
+		if (dialog.isOK() == false)
+			return;
+
+		if (Prefs.guiImportType == 0)
+			fileImport(0);
+		else
+			fileBrapi();
+	}
+
+	private void fileBrapi()
+	{
+		BrapiImportDialog dialog = new BrapiImportDialog();
+
+		if (dialog.isOK())
+		{
+			BrapiRequest request = dialog.getBrapiRequest();
+			importGenotypeData(null, null, null, request, true);
+		}
+	}
+
 	public void fileImport(int tabIndex)
 	{
 		boolean secondaryOptions = navPanel.getDataSetForSelection() != null;
@@ -130,7 +156,7 @@ public class MenuFile
 				File hdf5File = dialog.getHDF5File();
 				File mapFile = dialog.getMapFile();
 				File genoFile = dialog.getGenotypeFile();
-				importGenotypeData(mapFile, genoFile, hdf5File, true);
+				importGenotypeData(mapFile, genoFile, hdf5File, null, true);
 			}
 			break;
 
@@ -153,15 +179,25 @@ public class MenuFile
 
 	// Given a map file and a genotype (dat) file, imports that data, showing a
 	// progress bar while doing so
-	private void importGenotypeData(File mapFile, File datFile, File hdf5File, boolean usePrefs)
+	private void importGenotypeData(File mapFile, File datFile, File hdf5File, BrapiRequest request, boolean usePrefs)
 	{
 		gPanel.resetBufferedState(false);
 
-		DataImporter importer;
-		if (Prefs.guiUseHDF5)
-			importer = new DataImporter(hdf5File, usePrefs);
-		else
-			importer = new DataImporter(mapFile, datFile, usePrefs);
+		DataImporter importer = null;
+		switch (Prefs.guiImportType)
+		{
+			case DataImporter.IMPORT_CLASSIC:
+				importer = new DataImporter(mapFile, datFile, usePrefs);
+				break;
+
+			case DataImporter.IMPORT_BRAPI:
+				importer = new DataImporter(request, usePrefs);
+				break;
+
+			case DataImporter.IMPORT_HDF5:
+				importer = new DataImporter(hdf5File, usePrefs);
+				break;
+		}
 
 		ProgressDialog dialog = new ProgressDialog(importer,
 			 RB.format("gui.MenuFile.import.title"),
@@ -384,11 +420,11 @@ public class MenuFile
 		}
 
 		if (mapFile != null && datFile != null)
-			importGenotypeData(mapFile.getFile(), datFile.getFile(), null, true);
+			importGenotypeData(mapFile.getFile(), datFile.getFile(), null, null, true);
 		else if (hdf5File != null)
 		{
-			Prefs.guiUseHDF5 = true;
-			importGenotypeData(null, null, hdf5File.getFile(), true);
+			Prefs.guiImportType = DataImporter.IMPORT_HDF5;
+			importGenotypeData(null, null, hdf5File.getFile(), null, true);
 		}
 
 
