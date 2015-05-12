@@ -137,8 +137,8 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 				}
 			}
 
-			try { Thread.sleep(50); }
-			catch (Exception e) {}
+//			try { Thread.sleep(50); }
+//			catch (Exception e) {}
 
 			if (useByteStorage && stateTable.size() > 127)
 				return false;
