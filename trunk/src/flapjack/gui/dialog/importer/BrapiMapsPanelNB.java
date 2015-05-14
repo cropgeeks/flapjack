@@ -33,18 +33,24 @@ class BrapiMapsPanelNB extends javax.swing.JPanel
 	private void displayMap()
 	{
 		int index = mapsCombo.getSelectedIndex();
-		Map map = maps.getMaps().get(index);
 
-		request.setMapIndex(map.getId());
+		if (index >= 0)
+		{
+			Map map = maps.getMaps().get(index);
 
-		String str = "Species: " + map.getSpecies() + "\n" +
-			"Type: " + map.getType() + "\n" +
-			"Unit: " + map.getUnit() + "\n" +
-			"Date: " + map.getDate() + "\n" +
-			"Markers: " + map.getMarkerCount() + "\n" +
-			"Chromosomes: " + map.getChromosomeCount();
+			request.setMapIndex(map.getId());
 
-		text.setText(str);
+			String str = "Species: " + map.getSpecies() + "\n" +
+				"Type: " + map.getType() + "\n" +
+				"Unit: " + map.getUnit() + "\n" +
+				"Date: " + map.getDate() + "\n" +
+				"Markers: " + map.getMarkerCount() + "\n" +
+				"Chromosomes: " + map.getChromosomeCount();
+
+			text.setText(str);
+		}
+		else
+			text.setText("");
 	}
 
 	void refreshMaps()

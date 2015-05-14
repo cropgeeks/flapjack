@@ -19,7 +19,7 @@ public class BrapiImportDialog extends JDialog implements ActionListener
 	private BrapiMapsPanelNB mapsPanel;
 
 	private CardLayout cards = new CardLayout();
-	Panel panel = new Panel();
+	private JPanel panel = new JPanel();
 	private int screen = 0;
 
 	private BrapiRequest request = new BrapiRequest();
@@ -45,6 +45,13 @@ public class BrapiImportDialog extends JDialog implements ActionListener
 
 		getRootPane().setDefaultButton(bNext);
 		SwingUtils.addCloseHandler(this, bCancel);
+
+		addWindowListener(new WindowAdapter() {
+			public void windowOpened(WindowEvent e)
+			{
+				dataPanel.refreshData();
+			}
+		});
 
 		pack();
 		setLocationRelativeTo(Flapjack.winMain);
