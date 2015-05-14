@@ -3,7 +3,9 @@
 
 package flapjack.io.brapi;
 
+import java.net.*;
 import java.util.logging.*;
+import javax.xml.bind.*;
 
 import org.restlet.resource.*;
 
@@ -17,8 +19,10 @@ public class BrapiClient
 	public static MapList getMaps()
 		throws ResourceException
 	{
+//		cr.accept(MediaType.APPLICATION_JSON);
+
 		cr.setReference("http://wildcat:8080/brapi/maps/");
-		cr.getLogger().setLevel(Level.OFF);
+		cr.getLogger().setLevel(Level.WARNING);
 		MapList list = cr.get(MapList.class);
 
 		return list;
@@ -29,7 +33,6 @@ public class BrapiClient
 		throws ResourceException
 	{
 		cr.setReference("http://wildcat:8080/brapi/maps/" + mapIndex);
-		cr.getLogger().setLevel(Level.OFF);
 		MapDetail mapDetail = cr.get(MapDetail.class);
 
 		return mapDetail;
@@ -40,7 +43,6 @@ public class BrapiClient
 		throws ResourceException
 	{
 		cr.setReference("http://wildcat:8080/brapi/germplasm/");
-		cr.getLogger().setLevel(Level.OFF);
 		GermplasmList list = cr.get(GermplasmList.class);
 
 		return list;
@@ -52,15 +54,25 @@ public class BrapiClient
 	public static MarkerProfile getMarkerProfile(int germplasmID)
 	{
 		cr.setReference("http://wildcat:8080/brapi/germplasm/" + germplasmID + "/markerprofiles/");
-		cr.getLogger().setLevel(Level.OFF);
 		GermplasmMarkerProfileList list = cr.get(GermplasmMarkerProfileList.class);
 
 		String firstID = list.getMarkerProfiles().get(0);
 
 		cr.setReference("http://wildcat:8080/brapi/markerprofiles/" + firstID);
-		cr.getLogger().setLevel(Level.OFF);
 		MarkerProfile profile = cr.get(MarkerProfile.class);
 
 		return profile;
+	}
+
+	public static XmlBrapiProvider getBrapiProviders()
+		throws Exception
+	{
+		URL url = new URL("http://ics.hutton.ac.uk/resources/brapi/brapi-resources.xml");
+
+		JAXBContext jaxbContext = JAXBContext.newInstance(XmlBrapiProvider.class);
+		Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+		XmlBrapiProvider p = (XmlBrapiProvider) jaxbUnmarshaller.unmarshal(url);
+
+		return p;
 	}
 }
