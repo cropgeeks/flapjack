@@ -27,8 +27,8 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="panel" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="32767" attributes="0"/>
+              <Component id="panel" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -70,6 +70,7 @@
                               </Group>
                           </Group>
                       </Group>
+                      <Component id="checkAllowDupLines" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
@@ -98,6 +99,8 @@
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="checkTransposed" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <Component id="checkAllowDupLines" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
@@ -147,6 +150,11 @@
         <Component class="javax.swing.JCheckBox" name="checkTransposed">
           <Properties>
             <Property name="text" type="java.lang.String" value="Genotype data has been transposed (markers are now rows)"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JCheckBox" name="checkAllowDupLines">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Allow data with duplicate line names to be imported (experimental)"/>
           </Properties>
         </Component>
       </SubComponents>
