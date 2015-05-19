@@ -100,6 +100,9 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 		{
 			// Check for duplicate line names
 			String name = germplasm.getGermplasmName();
+			if (name == null)
+				name = "" + germplasm.getId();
+
 			if (lines.get(name) != null)
 				throw new DataFormatException(RB.format("io.DataFormatException.duplicateLineError2", name));
 
@@ -111,6 +114,12 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 			System.out.println("ID: #" + germplasm.getId() + "#");
 
 			MarkerProfile profile = BrapiClient.getMarkerProfile(germplasm.getId());
+
+			// Not all lines will have a usable MarkerProfile - this is ok (as
+			// the line will remain empty of alleles), although this needs to be
+			// revisited if we ever try to build a map from line info alone
+			if (profile == null)
+				continue;
 
 			HashMap<String,String> data = profile.getData();
 			for (String markerName: data.keySet())

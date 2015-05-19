@@ -32,7 +32,7 @@ public class BrapiImportDialog extends JDialog implements ActionListener
 			true
 		);
 
-		dataPanel = new BrapiDataPanelNB();
+		dataPanel = new BrapiDataPanelNB(request, this);
 		mapsPanel = new BrapiMapsPanelNB(request);
 
 		panel.setLayout(cards);
@@ -62,6 +62,7 @@ public class BrapiImportDialog extends JDialog implements ActionListener
 	private JPanel createButtons()
 	{
 		bNext = new JButton("Next >");
+		bNext.setEnabled(false);
 		bNext.addActionListener(this);
 		bBack = new JButton("< Back");
 		bBack.setVisible(false);
@@ -79,6 +80,11 @@ public class BrapiImportDialog extends JDialog implements ActionListener
 		p1.add(bHelp);
 
 		return p1;
+	}
+
+	void enableNext(boolean enabled)
+	{
+		bNext.setEnabled(enabled);
 	}
 
 	public void actionPerformed(ActionEvent e)

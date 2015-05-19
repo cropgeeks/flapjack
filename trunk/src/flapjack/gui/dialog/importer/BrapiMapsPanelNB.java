@@ -38,7 +38,7 @@ class BrapiMapsPanelNB extends javax.swing.JPanel
 		{
 			Map map = maps.getMaps().get(index);
 
-			request.setMapIndex(map.getId());
+			request.setMapID(map.getId());
 
 			String str = "Species: " + map.getSpecies() + "\n" +
 				"Type: " + map.getType() + "\n" +
@@ -63,6 +63,8 @@ class BrapiMapsPanelNB extends javax.swing.JPanel
 	{
 		try
 		{
+			BrapiClient.setBaseURL(request.getResource().getUrl());
+
 			maps = BrapiClient.getMaps();
 			System.out.println(maps);
 		}

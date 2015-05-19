@@ -7,13 +7,20 @@ import uk.ac.hutton.brapi.resource.*;
 
 public class BrapiRequest
 {
-	private int mapIndex;
+	// The resource selected by the user for use
+	private XmlResource resource;
 
+	private int mapID;
 
+	public XmlResource getResource()
+		{ return resource; }
 
-	public int getMapIndex()
-		{ return mapIndex; }
+	public void setResource(XmlResource resource)
+		{ this.resource = resource; }
 
-	public void setMapIndex(int mapIndex)
-		{ this.mapIndex = mapIndex; }
+	public int getMapID()
+		{ return mapID; }
+
+	public void setMapID(int mapIndex)
+		{ this.mapID = mapIndex; }
 }
