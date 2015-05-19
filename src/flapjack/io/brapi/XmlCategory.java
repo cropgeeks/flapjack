@@ -13,7 +13,7 @@ public class XmlCategory
 	private String name;
 	private String description;
 	private ImageIcon image;
-	private ArrayList<XmlResource> resources;
+	private ArrayList<XmlResource> resources = new ArrayList<>();
 
 	@Override
 	public String toString() {

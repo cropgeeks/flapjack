@@ -7,32 +7,40 @@ import java.net.*;
 import java.util.logging.*;
 import javax.xml.bind.*;
 
+import org.restlet.data.*;
 import org.restlet.resource.*;
 
 import uk.ac.hutton.brapi.resource.*;
 
 public class BrapiClient
 {
+	private static String baseURL;
 	private static ClientResource cr = new ClientResource("");
+
+	public static void setBaseURL(String url)
+	{
+		baseURL = url;
+	}
 
 	// Returns a list of available maps
 	public static MapList getMaps()
 		throws ResourceException
 	{
 //		cr.accept(MediaType.APPLICATION_JSON);
+		cr.accept(Encoding.ZIP);
 
-		cr.setReference("http://wildcat:8080/brapi/maps/");
-		cr.getLogger().setLevel(Level.WARNING);
+		cr.setReference(baseURL + "/maps/");
+		cr.getLogger().setLevel(Level.INFO);
 		MapList list = cr.get(MapList.class);
 
 		return list;
 	}
 
 	// Returns the details (markers, chromosomes, positions) for a given map
-	public static MapDetail getMapDetail(int mapIndex)
+	public static MapDetail getMapDetail(int mapID)
 		throws ResourceException
 	{
-		cr.setReference("http://wildcat:8080/brapi/maps/" + mapIndex);
+		cr.setReference(baseURL + "/maps/" + mapID);
 		MapDetail mapDetail = cr.get(MapDetail.class);
 
 		return mapDetail;
@@ -42,7 +50,7 @@ public class BrapiClient
 	public static GermplasmList getGermplasms()
 		throws ResourceException
 	{
-		cr.setReference("http://wildcat:8080/brapi/germplasm/");
+		cr.setReference(baseURL + "/germplasm/");
 		GermplasmList list = cr.get(GermplasmList.class);
 
 		return list;
@@ -53,15 +61,22 @@ public class BrapiClient
 	// still needs to decide how this will work
 	public static MarkerProfile getMarkerProfile(int germplasmID)
 	{
-		cr.setReference("http://wildcat:8080/brapi/germplasm/" + germplasmID + "/markerprofiles/");
+//		System.out.println(baseURL + "/germplasm/" + germplasmID + "/markerprofiles/");
+		cr.setReference(baseURL + "/germplasm/" + germplasmID + "/markerprofiles/");
 		GermplasmMarkerProfileList list = cr.get(GermplasmMarkerProfileList.class);
 
-		String firstID = list.getMarkerProfiles().get(0);
+		if (list.getMarkerProfiles().size() > 0)
+		{
+			// TODO: Which one do we use?
+			String firstID = list.getMarkerProfiles().get(0);
 
-		cr.setReference("http://wildcat:8080/brapi/markerprofiles/" + firstID);
-		MarkerProfile profile = cr.get(MarkerProfile.class);
+//			System.out.println(baseURL + "/markerprofiles/" + firstID);
+			cr.setReference(baseURL + "/markerprofiles/" + firstID);
 
-		return profile;
+			return cr.get(MarkerProfile.class);
+		}
+
+		return null;
 	}
 
 	public static XmlBrapiProvider getBrapiProviders()

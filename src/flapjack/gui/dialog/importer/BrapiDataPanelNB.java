@@ -10,12 +10,17 @@ import scri.commons.gui.*;
 
 class BrapiDataPanelNB extends javax.swing.JPanel
 {
+	private BrapiRequest request;
+	private BrapiImportDialog dialog;
+
 	private DefaultComboBoxModel<XmlCategory> catModel = new DefaultComboBoxModel<XmlCategory>();
 	private DefaultComboBoxModel<XmlResource> resModel = new DefaultComboBoxModel<XmlResource>();
-	private XmlBrapiProvider data;
 
-	public BrapiDataPanelNB()
+	public BrapiDataPanelNB(BrapiRequest request, BrapiImportDialog dialog)
 	{
+		this.request = request;
+		this.dialog = dialog;
+
 		initComponents();
 
 		catCombo.setModel(catModel);
@@ -33,6 +38,8 @@ class BrapiDataPanelNB extends javax.swing.JPanel
 
 	private void getData()
 	{
+		XmlBrapiProvider data;
+
 		try
 		{
 			data = BrapiClient.getBrapiProviders();
@@ -56,8 +63,6 @@ class BrapiDataPanelNB extends javax.swing.JPanel
 	{
 		int index = catCombo.getSelectedIndex();
 
-		System.out.println(catLogo.getSize().width + ", " + catLogo.getSize().height);
-
 		if (index >= 0)
 		{
 			// Display the description text
@@ -70,11 +75,13 @@ class BrapiDataPanelNB extends javax.swing.JPanel
 				resModel.addElement(resource);
 
 			// Finally, see if we can grab an image for use in the logo panel
-			if (cat.getLogo() != null)
-				setIcon(cat.getImage(), catLogo);
+			setIcon(cat.getImage(), catLogo);
 		}
 		else
+		{
 			catText.setText(null);
+			setIcon(null, catLogo);
+		}
 	}
 
 	private void displayResource()
@@ -88,27 +95,39 @@ class BrapiDataPanelNB extends javax.swing.JPanel
 			resText.setText(res.getDescription());
 
 			// Finally, see if we can grab an image for use in the logo panel
-			if (res.getLogo() != null)
-				setIcon(res.getImage(), resLogo);
+			setIcon(res.getImage(), resLogo);
+
+			request.setResource(res);
+			dialog.enableNext(true);
 		}
 		else
+		{
 			resText.setText(null);
+			setIcon(null, resLogo);
+			dialog.enableNext(false);
+		}
 	}
 
 	// Scales up/down the image to fit the window size
 	private void setIcon(ImageIcon icon, JLabel label)
 	{
-		int w = icon.getIconWidth();
-		int h = icon.getIconHeight();
+		if (icon == null)
+			label.setIcon(null);
 
-		double scalex = (double) label.getSize().width / w;
-		double scaley = (double) label.getSize().height / h;
-		double scale = Math.min(scalex, scaley);
+		else
+		{
+			int w = icon.getIconWidth();
+			int h = icon.getIconHeight();
 
-		Image i = icon.getImage().getScaledInstance(
-			(int)(w*scale), (int)(h*scale), Image.SCALE_SMOOTH);
+			double scalex = (double) label.getSize().width / w;
+			double scaley = (double) label.getSize().height / h;
+			double scale = Math.min(scalex, scaley);
 
-		label.setIcon(new ImageIcon(i));
+			Image i = icon.getImage().getScaledInstance(
+				(int)(w*scale), (int)(h*scale), Image.SCALE_SMOOTH);
+
+			label.setIcon(new ImageIcon(i));
+		}
 	}
 
 	/**

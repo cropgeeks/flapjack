@@ -47,7 +47,7 @@ public class BrapiMapImporter implements IMapImporter
 	{
 		NumberFormat nf = NumberFormat.getInstance();
 
-		MapDetail mapDetail = BrapiClient.getMapDetail(request.getMapIndex());
+		MapDetail mapDetail = BrapiClient.getMapDetail(request.getMapID());
 
 		for (MapEntry me: mapDetail.getEntries())
 		{
@@ -58,7 +58,7 @@ public class BrapiMapImporter implements IMapImporter
 			String chromosome = me.getChromosome();
 
 			Marker marker = new Marker(me.getMarkerName(), position);
-			System.out.println(marker);
+	//		System.out.println(marker);
 
 
 			// Check to see if this marker already exists (in any map)?
