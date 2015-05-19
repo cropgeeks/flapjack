@@ -112,6 +112,7 @@ public class Prefs extends XMLPreferences
 	public static boolean ioUseHetSep = true;
 	public static boolean ioMakeAllChromosome = false;
 	public static boolean ioTransposed = false;
+	public static boolean ioAllowDupLines = false;
 
 	// Method used when exporting images
 	public static int guiExportImageMethod = 0;

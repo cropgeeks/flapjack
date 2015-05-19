@@ -7,6 +7,7 @@ import java.io.*;
 import java.util.*;
 
 import flapjack.data.*;
+import flapjack.gui.*;
 
 import scri.commons.io.*;
 import scri.commons.gui.*;
@@ -171,7 +172,8 @@ public class GenotypeDataImporter implements IGenotypeImporter
 			// Check for duplicate line names
 			String name = values[0].trim();
 			if (lines.get(name) != null)
-				throw new DataFormatException(RB.format("io.DataFormatException.duplicateLineError", name, lineCount+1));
+				if (Prefs.ioAllowDupLines == false)
+					throw new DataFormatException(RB.format("io.DataFormatException.duplicateLineError", name, lineCount+1));
 
 			Line line = dataSet.createLine(name, useByteStorage);
 			lines.put(name, line);
