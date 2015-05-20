@@ -96,6 +96,8 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 
 		GermplasmList list = BrapiClient.getGermplasms();
 
+		System.out.println("Recevied info on " + list.getGermplasm().size() + " lines");
+
 		for (Germplasm germplasm: list.getGermplasm())
 		{
 			// Check for duplicate line names
