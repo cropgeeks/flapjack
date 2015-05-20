@@ -4,33 +4,49 @@
 package flapjack.io.brapi;
 
 import java.net.*;
+import java.util.*;
 import java.util.logging.*;
 import javax.xml.bind.*;
 
+import org.restlet.*;
 import org.restlet.data.*;
+import org.restlet.engine.application.*;
 import org.restlet.resource.*;
 
 import uk.ac.hutton.brapi.resource.*;
 
 public class BrapiClient
 {
+	private static ClientResource cr;
 	private static String baseURL;
-	private static ClientResource cr = new ClientResource("");
 
 	public static void setBaseURL(String url)
 	{
 		baseURL = url;
+
+		cr = new ClientResource(baseURL);
+
+		// Set up the connection for both HTTP and HTTPS
+		Protocol[] protocols = { Protocol.HTTP, Protocol.HTTPS };
+		Client client = new Client(Arrays.asList(protocols));
+
+		// The decoder handles de-compression
+		Decoder decoder = new Decoder(client.getContext(), false, true);
+		decoder.setNext(client);
+		cr.setNext(decoder);
+
+		// So long as the server knows we can accept a compressed response
+		cr.accept(Encoding.GZIP);
+		cr.accept(Encoding.DEFLATE);
+
+		cr.getLogger().setLevel(Level.INFO);
 	}
 
 	// Returns a list of available maps
 	public static MapList getMaps()
 		throws ResourceException
 	{
-//		cr.accept(MediaType.APPLICATION_JSON);
-		cr.accept(Encoding.ZIP);
-
 		cr.setReference(baseURL + "/maps/");
-		cr.getLogger().setLevel(Level.INFO);
 		MapList list = cr.get(MapList.class);
 
 		return list;
