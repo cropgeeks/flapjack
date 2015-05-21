@@ -154,7 +154,12 @@ public class Flapjack
 			}
 		});
 
+		// Basic TaskDialog init
 		TaskDialog.initialize(winMain, "Flapjack");
+		// And then the additional stuff for error popups with logs, etc
+		TaskDialog.initialize(FlapjackUtils.getLogFile(),
+			RB.getString("gui.text.log"),
+			RB.getString("gui.text.close"));
 
 		winMain.setVisible(true);
 	}

@@ -70,6 +70,8 @@ class BrapiMapsPanelNB extends javax.swing.JPanel
 		}
 		catch (Exception e)
 		{
+			e.printStackTrace();
+
 			TaskDialog.error("BRAPI error: " + e, RB.getString("gui.text.close"));
 			return;
 		}

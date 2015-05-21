@@ -168,8 +168,9 @@ public class SimMatrixPanelNB extends JPanel implements ActionListener
 				return;
 			}
 
-			TaskDialog.showFileOpen(RB.format("gui.simmatrix.SimMatrixPanelNB.exportSuccess", filename),
-				TaskDialog.INF, new File(filename));
+			TaskDialog.showFileOpen(
+				RB.format("gui.simmatrix.SimMatrixPanelNB.exportSuccess", filename),
+				RB.getString("gui.text.open"), TaskDialog.INF, new File(filename));
 		}
 	}
 
