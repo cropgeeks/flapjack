@@ -204,18 +204,8 @@ public class MenuFile
 			 RB.format("gui.MenuFile.import.message"),
 			 Flapjack.winMain);
 
-		if (dialog.getResult() != ProgressDialog.JOB_COMPLETED)
-		{
-			if (dialog.getResult() == ProgressDialog.JOB_FAILED)
-			{
-				TaskDialog.error(
-					RB.format("gui.MenuFile.import.error",
-					dialog.getException()),
-					RB.getString("gui.text.close"));
-			}
-
+		if (dialog.failed("gui.error"))
 			return;
-		}
 
 		// If everything was ok...
 		DataSet dataSet = importer.getDataSet();
@@ -243,17 +233,8 @@ public class MenuFile
 			Flapjack.winMain);
 
 		// If the operation failed or was cancelled...
-		if (dialog.getResult() != ProgressDialog.JOB_COMPLETED)
-		{
-			if (dialog.getResult() == ProgressDialog.JOB_FAILED)
-			{
-				dialog.getException().printStackTrace();
-				TaskDialog.error(RB.format("gui.MenuFile.importTraits.error",
-					file, dialog.getException().getMessage()),
-					RB.getString("gui.text.close"));
-			}
+		if (dialog.failed("gui.error"))
 			return;
-		}
 
 		for (GTViewSet viewSet : dataSet.getViewSets())
 			viewSet.assignTraits();
@@ -278,17 +259,8 @@ public class MenuFile
 			Flapjack.winMain);
 
 		// If the operation failed or was cancelled...
-		if (dialog.getResult() != ProgressDialog.JOB_COMPLETED)
-		{
-			if (dialog.getResult() == ProgressDialog.JOB_FAILED)
-			{
-				dialog.getException().printStackTrace();
-				TaskDialog.error(RB.format("gui.MenuFile.importQTLs.error",
-					file, dialog.getException().getMessage()),
-					RB.getString("gui.text.close"));
-			}
+		if (dialog.failed("gui.error"))
 			return;
-		}
 
 		TabPanel ttp = navPanel.getTraitsPanel(dataSet);
 		ttp.getQTLPanel().updateModel();
@@ -331,17 +303,8 @@ public class MenuFile
 			Flapjack.winMain);
 
 		// If the operation failed or was cancelled...
-		if (dialog.getResult() != ProgressDialog.JOB_COMPLETED)
-		{
-			if (dialog.getResult() == ProgressDialog.JOB_FAILED)
-			{
-				dialog.getException().printStackTrace();
-				TaskDialog.error(RB.format("gui.MenuFile.importGraphs.error",
-					file, dialog.getException().getMessage()),
-					RB.getString("gui.text.close"));
-			}
+		if (dialog.failed("gui.error"))
 			return;
-		}
 
 		// Set (or reset) any existing selected graphs
 		for (GTViewSet viewSet: dataSet.getViewSets())
@@ -463,17 +426,8 @@ public class MenuFile
 			winMain);
 
 		// If the operation failed or was cancelled...
-		if (dialog.getResult() != ProgressDialog.JOB_COMPLETED)
-		{
-			if (dialog.getResult() == ProgressDialog.JOB_FAILED)
-			{
-				dialog.getException().printStackTrace();
-				TaskDialog.error(RB.format("gui.MenuFile.quickExport.error",
-					dialog.getException().getMessage()),
-					RB.getString("gui.text.close"));
-			}
+		if (dialog.failed("gui.error"))
 			return;
-		}
 
 		TaskDialog.info(RB.format("gui.MenuFile.quickExport.success", outputDir),
 			RB.getString("gui.text.close"));

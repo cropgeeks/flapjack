@@ -86,19 +86,8 @@ public class ExportImageDialog extends JDialog implements ActionListener
 			 Flapjack.winMain);
 
 		// If the operation failed or was cancelled...
-		if (dialog.getResult() != ProgressDialog.JOB_COMPLETED)
-		{
-			if (dialog.getResult() == ProgressDialog.JOB_FAILED)
-			{
-				dialog.getException().printStackTrace();
-				TaskDialog.error(
-					RB.format("gui.dialog.ExportImageDialog.exception",
-					dialog.getException().getMessage()),
-					RB.getString("gui.text.close"));
-			}
-
+		if (dialog.failed("gui.error"))
 			return;
-		}
 
 		TaskDialog.info(
 			RB.format("gui.dialog.ExportImageDialog.success", file),

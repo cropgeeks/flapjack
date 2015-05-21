@@ -104,14 +104,8 @@ public class MenuAnalysis
 			Flapjack.winMain);
 
 		// If the operation failed or was cancelled...
-		if (dialog.getResult() != ProgressDialog.JOB_COMPLETED)
-		{
-			if (dialog.getResult() == ProgressDialog.JOB_FAILED)
-				TaskDialog.error(RB.format("gui.MenuData.sorting.error",
-					dialog.getException()), RB.getString("gui.text.close"));
-
+		if (dialog.failed("gui.error"))
 			return;
-		}
 
 		completeSort(state);
 	}
@@ -175,15 +169,8 @@ public class MenuAnalysis
 			RB.format("gui.MenuAnalysis.simMatrix.label"), Flapjack.winMain);
 
 		// If the operation failed or was cancelled...
-		if (dialog.getResult() != ProgressDialog.JOB_COMPLETED)
-		{
-			if (dialog.getResult() == ProgressDialog.JOB_FAILED)
-				TaskDialog.error(RB.format("gui.MenuAnalysis.simMatrix.error",
-					dialog.getException().getMessage()),
-					RB.getString("gui.text.close"));
-
+		if (dialog.failed("gui.error"))
 			return;
-		}
 
 		SimMatrix matrix = calculator.getMatrix();
 
@@ -224,15 +211,8 @@ public class MenuAnalysis
 
 
 		// If the operation failed or was cancelled...
-		if (dialog.getResult() != ProgressDialog.JOB_COMPLETED)
-		{
-			if (dialog.getResult() == ProgressDialog.JOB_FAILED)
-				TaskDialog.error(RB.format("gui.MenuAnalysis.dendrogram.error",
-					dialog.getException().toString()),
-					RB.getString("gui.text.close"));
-
+		if (dialog.failed("gui.error"))
 			return;
-		}
 
 		// Create a title for this new dendrogram
 		int id = viewSet.getDataSet().getDendrogramCount() + 1;
@@ -273,14 +253,7 @@ public class MenuAnalysis
 
 
 		// If the operation failed or was cancelled...
-		if (dialog.getResult() != ProgressDialog.JOB_COMPLETED)
-		{
-			if (dialog.getResult() == ProgressDialog.JOB_FAILED)
-				TaskDialog.error(RB.format("TODO: Error: {0}",
-					dialog.getException().toString()),
-					RB.getString("gui.text.close"));
-
+		if (dialog.failed("gui.error"))
 			return;
-		}
 	}
 }
