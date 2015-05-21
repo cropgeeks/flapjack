@@ -154,4 +154,17 @@ public class FlapjackUtils
 			e.printStackTrace();
 		}
 	}
+
+	public static File getLogFile()
+	{
+		try
+		{
+			File root = new File(System.getProperty("user.home"));
+			File folder = new File(root, ".scri-bioinf");
+			File logFile = new File(folder, "flapjack.log");
+
+			return logFile;
+		}
+		catch (Throwable e) { return new File(""); }
+	}
 }

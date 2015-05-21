@@ -4,12 +4,14 @@ import java.awt.*;
 import java.net.*;
 import javax.swing.*;
 
+import flapjack.gui.*;
 import flapjack.io.brapi.*;
 
 import scri.commons.gui.*;
 
 class BrapiDataPanelNB extends javax.swing.JPanel
 {
+	private XmlBrapiProvider data;
 	private BrapiRequest request;
 	private BrapiImportDialog dialog;
 
@@ -32,31 +34,26 @@ class BrapiDataPanelNB extends javax.swing.JPanel
 
 	void refreshData()
 	{
-		Runnable r = () -> getData();
-		new Thread(r).start();
+		ProgressDialog dialog = new ProgressDialog(new DataDownloader(),
+			 "Fetching BRAPI Providers",
+			 "Fetching BRAPI providers - please be patient...",
+			 Flapjack.winMain);
+
+		if (dialog.failed("BRAPI error: {0}"))
+			return;
+
+		catModel.removeAllElements();
+		for (XmlCategory cat: data.getCategories())
+			catModel.addElement(cat);
 	}
 
-	private void getData()
+	private class DataDownloader extends SimpleJob
 	{
-		XmlBrapiProvider data;
-
-		try
+		public void runJob(int jobID)
+			throws Exception
 		{
 			data = BrapiClient.getBrapiProviders();
 		}
-		catch (Exception e)
-		{
-			TaskDialog.error("BRAPI error: " + e, RB.getString("gui.text.close"));
-			return;
-		}
-
-		Runnable r = () -> {
-			catModel.removeAllElements();
-			for (XmlCategory cat: data.getCategories())
-				catModel.addElement(cat);
-		};
-
-		SwingUtilities.invokeLater(r);
 	}
 
 	private void displayCategory()
