@@ -39,7 +39,7 @@ class BrapiDataPanelNB extends javax.swing.JPanel
 			 "Fetching BRAPI providers - please be patient...",
 			 Flapjack.winMain);
 
-		if (dialog.failed("BRAPI error: {0}"))
+		if (dialog.failed("gui.error"))
 			return;
 
 		catModel.removeAllElements();

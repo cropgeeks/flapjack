@@ -154,19 +154,8 @@ public class SimMatrixPanelNB extends JPanel implements ActionListener
 				RB.format("gui.simmatrix.SimMatrixPanelNB.exportLabel"), Flapjack.winMain);
 
 			// If the operation failed or was cancelled...
-			if (dialog.getResult() != ProgressDialog.JOB_COMPLETED)
-			{
-				if (dialog.getResult() == ProgressDialog.JOB_FAILED)
-				{
-					dialog.getException().printStackTrace();
-					TaskDialog.error(
-						RB.format("gui.simmatrix.SimMatrixPanelNB.exportException",
-						dialog.getException().getMessage()),
-						RB.getString("gui.text.close"));
-				}
-
+			if (dialog.failed("gui.error"))
 				return;
-			}
 
 			TaskDialog.showFileOpen(
 				RB.format("gui.simmatrix.SimMatrixPanelNB.exportSuccess", filename),

@@ -187,18 +187,8 @@ public class MenuData
 			RB.format("gui.dialog.ExportDataDialog.exportTitle"),
 			 RB.format("gui.dialog.ExportDataDialog.exportLabel"), winMain);
 
-		if (dialog.getResult() != ProgressDialog.JOB_COMPLETED)
-		{
-			if (dialog.getResult() == ProgressDialog.JOB_FAILED)
-			{
-				TaskDialog.error(
-					RB.format("gui.dialog.ExportDataDialog.exportException",
-					dialog.getException().getMessage()),
-					RB.getString("gui.text.close"));
-			}
-
+		if (dialog.failed("gui.error"))
 			return;
-		}
 
 		TaskDialog.info(
 			RB.format("gui.dialog.ExportDataDialog.exportSuccess", filename),
@@ -227,18 +217,8 @@ public class MenuData
 			RB.format("gui.dialog.ExportDataDialog.exportTitle"),
 			 RB.format("gui.dialog.ExportDataDialog.exportLabel"), winMain);
 
-		if (dialog.getResult() != ProgressDialog.JOB_COMPLETED)
-		{
-			if (dialog.getResult() == ProgressDialog.JOB_FAILED)
-			{
-				TaskDialog.error(
-					RB.format("gui.dialog.ExportDataDialog.exportException",
-					dialog.getException().getMessage()),
-					RB.getString("gui.text.close"));
-			}
-
+		if (dialog.failed("gui.error"))
 			return;
-		}
 
 		TaskDialog.info(
 			RB.format("gui.dialog.ExportDataDialog.exportSuccess", filename),

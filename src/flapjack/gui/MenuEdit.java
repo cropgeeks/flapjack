@@ -159,11 +159,8 @@ public class MenuEdit
 			}
 			else
 			{
-				if (dialog.getResult() == ProgressDialog.JOB_FAILED)
-					TaskDialog.error(RB.format("gui.MenuEdit.externalMarkerSelection.error",
-						dialog.getException()), RB.getString("gui.text.close"));
-
-				return false;
+				if (dialog.failed("gui.error"))
+					return false;
 			}
 		}
 		return false;

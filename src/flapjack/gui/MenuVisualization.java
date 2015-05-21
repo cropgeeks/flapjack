@@ -116,34 +116,6 @@ public class MenuVisualization
 
 	void vizCreatePedigree()
 	{
-		PedigreeSettingsDialog dialog = new PedigreeSettingsDialog(
-			Prefs.guiPedigreeList);
-
-		if (dialog.isOK() == false)
-			return;
-
-		Prefs.guiPedigreeList = dialog.getHistory();
-
-		GTViewSet viewSet = gPanel.getViewSet();
-		PedigreeGenerator pg = new PedigreeGenerator(viewSet, dialog.getFile(), dialog.getSelectedButton());
-
-		ProgressDialog pDialog = new ProgressDialog(pg,
-			"Communicating with Server",
-			"Communicating with server - please be patient...",
-			Flapjack.winMain);
-
-		if (pDialog.getResult() != ProgressDialog.JOB_COMPLETED)
-		{
-			if (pDialog.getResult() == ProgressDialog.JOB_FAILED)
-			{
-				pDialog.getException().printStackTrace();
-				TaskDialog.error(pDialog.getException().toString(), "Close");
-			}
-
-			return;
-		}
-
-		new PedigreeDialog(pg.getImage());
 	}
 
 	void vizScaling(int method)
