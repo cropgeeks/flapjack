@@ -63,7 +63,7 @@ class BrapiMapsPanelNB extends javax.swing.JPanel
 	{
 		try
 		{
-			BrapiClient.setBaseURL(request.getResource().getUrl());
+			BrapiClient.setXmlResource(request.getResource());
 
 			maps = BrapiClient.getMaps();
 			System.out.println(maps);
