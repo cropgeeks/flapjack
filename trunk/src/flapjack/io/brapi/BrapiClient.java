@@ -3,15 +3,21 @@
 
 package flapjack.io.brapi;
 
+import java.io.*;
 import java.net.*;
+import java.security.*;
+import java.security.cert.*;
 import java.util.*;
 import java.util.logging.*;
+import javax.net.ssl.*;
 import javax.xml.bind.*;
 
 import org.restlet.*;
 import org.restlet.data.*;
 import org.restlet.engine.application.*;
+import org.restlet.engine.ssl.*;
 import org.restlet.resource.*;
+import org.restlet.util.*;
 
 import uk.ac.hutton.brapi.resource.*;
 
@@ -20,9 +26,10 @@ public class BrapiClient
 	private static ClientResource cr;
 	private static String baseURL;
 
-	public static void setBaseURL(String url)
+	public static void setXmlResource(XmlResource resource)
+		throws Exception
 	{
-		baseURL = url;
+		baseURL = resource.getUrl();
 
 		cr = new ClientResource(baseURL);
 
@@ -36,10 +43,14 @@ public class BrapiClient
 		cr.setNext(decoder);
 
 		// So long as the server knows we can accept a compressed response
+//		cr.accept(MediaType.ALL);
 		cr.accept(Encoding.GZIP);
 		cr.accept(Encoding.DEFLATE);
 
 		cr.getLogger().setLevel(Level.INFO);
+
+		// Set up the connection to use any required SSL certificates
+		initCertificates(client, resource);
 	}
 
 	// Returns a list of available maps
@@ -105,5 +116,45 @@ public class BrapiClient
 		XmlBrapiProvider p = (XmlBrapiProvider) jaxbUnmarshaller.unmarshal(url);
 
 		return p;
+	}
+
+	private static void initCertificates(Client client, XmlResource resource)
+		throws Exception
+	{
+		if (resource.getCertificate() == null)
+			return;
+
+		// Download the "trusted" certificate needed for this resource
+		URLConnection yc = new URL(resource.getCertificate()).openConnection();
+
+		CertificateFactory cf = CertificateFactory.getInstance("X.509");
+		InputStream in = new BufferedInputStream(yc.getInputStream());
+		java.security.cert.Certificate cer;
+		try {
+			cer = cf.generateCertificate(in);
+		} finally { in.close();	}
+
+		// Create a KeyStore to hold the certificate
+		KeyStore keyStore = KeyStore.getInstance(KeyStore.getDefaultType());
+		keyStore.load(null, null);
+		keyStore.setCertificateEntry("cer", cer);
+
+		// Create a TrustManager that trusts the certificate in the KeyStore
+		String tmfAlgorithm = TrustManagerFactory.getDefaultAlgorithm();
+		TrustManagerFactory tmf = TrustManagerFactory.getInstance(tmfAlgorithm);
+		tmf.init(keyStore);
+
+		// Create an SSLContext that uses the TrustManager
+		SSLContext sslContext = SSLContext.getInstance("TLS");
+		sslContext.init(null, tmf.getTrustManagers(), null);
+
+		// Then *finally*, apply the TrustManager info to Restlet
+		client.setContext(new Context());
+		Context context = client.getContext();
+
+		context.getAttributes().put("sslContextFactory", new SslContextFactory() {
+		    public void init(Series<Parameter> parameters) { }
+		   	public SSLContext createSslContext() throws Exception { return sslContext; }
+		});
 	}
 }

@@ -11,6 +11,7 @@ public class XmlResource
 {
 	private String name;
 	private String url;
+	private String certificate;
 	private ImageIcon image;
 	private String description;
 
@@ -47,6 +48,14 @@ public class XmlResource
 	@XmlElement (name="base-url")
 	public void setUrl(String url) {
 		this.url = url;
+	}
+
+	public String getCertificate()
+		{ return certificate; }
+
+	@XmlElement
+	public void setCertificate(String certificate) {
+		this.certificate = certificate;
 	}
 
 	public String getDescription() {
