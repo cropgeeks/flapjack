@@ -3,8 +3,6 @@
 
 package flapjack.io.brapi;
 
-import uk.ac.hutton.brapi.resource.*;
-
 public class BrapiRequest
 {
 	// The resource selected by the user for use

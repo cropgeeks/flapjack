@@ -19,7 +19,7 @@ import org.restlet.engine.ssl.*;
 import org.restlet.resource.*;
 import org.restlet.util.*;
 
-import uk.ac.hutton.brapi.resource.*;
+import hutton.brapi.resource.*;
 
 public class BrapiClient
 {
@@ -109,7 +109,7 @@ public class BrapiClient
 	public static XmlBrapiProvider getBrapiProviders()
 		throws Exception
 	{
-		URL url = new URL("http://ics.hutton.ac.uk/resources/brapi/brapi-resources.xml");
+		URL url = new URL("https://ics.hutton.ac.uk/resources/brapi/brapi-resources.xml");
 
 		JAXBContext jaxbContext = JAXBContext.newInstance(XmlBrapiProvider.class);
 		Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();

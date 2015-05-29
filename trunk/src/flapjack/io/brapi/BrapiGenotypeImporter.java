@@ -9,10 +9,9 @@ import java.util.*;
 import flapjack.data.*;
 import flapjack.io.*;
 
-import scri.commons.io.*;
 import scri.commons.gui.*;
 
-import uk.ac.hutton.brapi.resource.*;
+import hutton.brapi.resource.*;
 
 public class BrapiGenotypeImporter implements IGenotypeImporter
 {
@@ -103,7 +102,7 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 			// Check for duplicate line names
 			String name = germplasm.getGermplasmName();
 			if (name == null)
-				name = "" + germplasm.getId();
+				name = "" + germplasm.getGermplasmId();
 
 			if (lines.get(name) != null)
 				throw new DataFormatException(RB.format("io.DataFormatException.duplicateLineError2", name));
@@ -113,9 +112,9 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 
 			// Grab the allele information
 
-			System.out.println("ID: #" + germplasm.getId() + "#");
+			System.out.println("ID: #" + germplasm.getGermplasmId() + "#");
 
-			MarkerProfile profile = BrapiClient.getMarkerProfile(germplasm.getId());
+			MarkerProfile profile = BrapiClient.getMarkerProfile(germplasm.getGermplasmId());
 
 			// Not all lines will have a usable MarkerProfile - this is ok (as
 			// the line will remain empty of alleles), although this needs to be

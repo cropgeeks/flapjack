@@ -3,7 +3,6 @@
 
 package flapjack.io.brapi;
 
-import java.io.*;
 import java.text.*;
 import java.util.*;
 
@@ -11,7 +10,7 @@ import flapjack.data.*;
 import flapjack.gui.*;
 import flapjack.io.*;
 
-import uk.ac.hutton.brapi.resource.*;
+import hutton.brapi.resource.*;
 
 public class BrapiMapImporter implements IMapImporter
 {
