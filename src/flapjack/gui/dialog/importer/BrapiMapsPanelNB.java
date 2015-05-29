@@ -11,7 +11,7 @@ import flapjack.io.brapi.*;
 
 import scri.commons.gui.*;
 
-import uk.ac.hutton.brapi.resource.*;
+import hutton.brapi.resource.*;
 
 class BrapiMapsPanelNB extends javax.swing.JPanel
 {
@@ -38,12 +38,12 @@ class BrapiMapsPanelNB extends javax.swing.JPanel
 		{
 			Map map = maps.getMaps().get(index);
 
-			request.setMapID(map.getId());
+			request.setMapID(map.getMapId());
 
 			String str = "Species: " + map.getSpecies() + "\n" +
 				"Type: " + map.getType() + "\n" +
 				"Unit: " + map.getUnit() + "\n" +
-				"Date: " + map.getDate() + "\n" +
+				"Date: " + map.getPublishedDate() + "\n" +
 				"Markers: " + map.getMarkerCount() + "\n" +
 				"Chromosomes: " + map.getChromosomeCount();
 
@@ -79,7 +79,7 @@ class BrapiMapsPanelNB extends javax.swing.JPanel
 		model = new DefaultComboBoxModel<String>();
 
 		for (Map map: maps.getMaps())
-			model.addElement(map.getId() + " - " + map.getName());
+			model.addElement(map.getMapId() + " - " + map.getName());
 
 		mapsCombo.setModel(model);
 		displayMap();
