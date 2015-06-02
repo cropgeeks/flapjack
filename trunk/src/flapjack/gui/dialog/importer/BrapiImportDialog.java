@@ -28,12 +28,12 @@ public class BrapiImportDialog extends JDialog implements ActionListener
 	{
 		super(
 			Flapjack.winMain,
-			"BRAPI Data Import Wizard",
+			RB.getString("gui.dialog.importer.BrapiImportDialog.title"),
 			true
 		);
 
 		dataPanel = new BrapiDataPanelNB(request, this);
-		mapsPanel = new BrapiMapsPanelNB(request);
+		mapsPanel = new BrapiMapsPanelNB(request, this);
 
 		panel.setLayout(cards);
 		panel.add(dataPanel, "data");
