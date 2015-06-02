@@ -34,12 +34,12 @@ class BrapiDataPanelNB extends javax.swing.JPanel
 
 	void refreshData()
 	{
-		ProgressDialog dialog = new ProgressDialog(new DataDownloader(),
-			 "Fetching BRAPI Providers",
-			 "Fetching BRAPI providers - please be patient...",
+		ProgressDialog pd = new ProgressDialog(new DataDownloader(),
+			 RB.getString("gui.dialog.importer.BrapiDataPanelNB.title"),
+			 RB.getString("gui.dialog.importer.BrapiDataPanelNB.message"),
 			 Flapjack.winMain);
 
-		if (dialog.failed("gui.error"))
+		if (pd.failed("gui.error"))
 			return;
 
 		catModel.removeAllElements();

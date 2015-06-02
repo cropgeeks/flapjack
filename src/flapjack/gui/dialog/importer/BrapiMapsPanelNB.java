@@ -7,6 +7,7 @@ package flapjack.gui.dialog.importer;
 
 import javax.swing.*;
 
+import flapjack.gui.*;
 import flapjack.io.brapi.*;
 
 import scri.commons.gui.*;
@@ -17,17 +18,18 @@ class BrapiMapsPanelNB extends javax.swing.JPanel
 {
 	private BrapiRequest request;
 	private MapList maps;
+	private BrapiImportDialog dialog;
 
 	private DefaultComboBoxModel<String> model;
 
-	public BrapiMapsPanelNB(BrapiRequest request)
+	public BrapiMapsPanelNB(BrapiRequest request, BrapiImportDialog dialog)
 	{
 		this.request = request;
+		this.dialog = dialog;
 
 		initComponents();
 
 		mapsCombo.addActionListener(e -> displayMap() );
-		bRefresh.addActionListener(e -> refreshMaps() );
 	}
 
 	private void displayMap()
@@ -51,30 +53,21 @@ class BrapiMapsPanelNB extends javax.swing.JPanel
 		}
 		else
 			text.setText("");
+
+		dialog.enableNext(index >= 0);
 	}
 
 	void refreshMaps()
 	{
-		Runnable r = () -> getMaps();
-		new Thread(r).start();
-	}
+		dialog.enableNext(false);
 
-	private void getMaps()
-	{
-		try
-		{
-			BrapiClient.setXmlResource(request.getResource());
+		ProgressDialog pd = new ProgressDialog(new DataDownloader(),
+			 RB.getString("gui.dialog.importer.BrapiMapsPanelNB.title"),
+			 RB.getString("gui.dialog.importer.BrapiMapsPanelNB.message"),
+			 Flapjack.winMain);
 
-			maps = BrapiClient.getMaps();
-			System.out.println(maps);
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-
-			TaskDialog.error("BRAPI error: " + e, RB.getString("gui.text.close"));
+		if (pd.failed("gui.error"))
 			return;
-		}
 
 		model = new DefaultComboBoxModel<String>();
 
@@ -83,6 +76,18 @@ class BrapiMapsPanelNB extends javax.swing.JPanel
 
 		mapsCombo.setModel(model);
 		displayMap();
+	}
+
+	private class DataDownloader extends SimpleJob
+	{
+		public void runJob(int jobID)
+			throws Exception
+		{
+			BrapiClient.setXmlResource(request.getResource());
+
+			maps = BrapiClient.getMaps();
+			System.out.println(maps);
+		}
 	}
 
 	/**
@@ -97,7 +102,6 @@ class BrapiMapsPanelNB extends javax.swing.JPanel
         jPanel2 = new javax.swing.JPanel();
         mapsLabel = new javax.swing.JLabel();
         mapsCombo = new javax.swing.JComboBox<String>();
-        bRefresh = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         text = new javax.swing.JTextArea();
         detailsLabel = new javax.swing.JLabel();
@@ -109,8 +113,6 @@ class BrapiMapsPanelNB extends javax.swing.JPanel
 
         mapsLabel.setLabelFor(mapsCombo);
         mapsLabel.setText("Available maps:");
-
-        bRefresh.setText("Refresh");
 
         text.setEditable(false);
         text.setColumns(20);
@@ -126,13 +128,11 @@ class BrapiMapsPanelNB extends javax.swing.JPanel
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 430, Short.MAX_VALUE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(mapsLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(mapsCombo, 0, 274, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(bRefresh))
+                        .addComponent(mapsCombo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(detailsLabel)
                         .addGap(0, 0, Short.MAX_VALUE)))
@@ -144,12 +144,11 @@ class BrapiMapsPanelNB extends javax.swing.JPanel
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(mapsLabel)
-                    .addComponent(mapsCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(bRefresh))
+                    .addComponent(mapsCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(detailsLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 123, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -173,7 +172,6 @@ class BrapiMapsPanelNB extends javax.swing.JPanel
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton bRefresh;
     private javax.swing.JLabel detailsLabel;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;

@@ -57,13 +57,11 @@
               <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jScrollPane1" max="32767" attributes="0"/>
+                      <Component id="jScrollPane1" pref="430" max="32767" attributes="0"/>
                       <Group type="102" attributes="0">
                           <Component id="mapsLabel" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="mapsCombo" pref="274" max="32767" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="bRefresh" min="-2" max="-2" attributes="0"/>
+                          <Component id="mapsCombo" max="32767" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="detailsLabel" min="-2" max="-2" attributes="0"/>
@@ -81,12 +79,11 @@
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="mapsLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="mapsCombo" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="bRefresh" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="detailsLabel" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jScrollPane1" pref="123" max="32767" attributes="0"/>
+                  <Component id="jScrollPane1" pref="126" max="32767" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -110,11 +107,6 @@
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
           </AuxValues>
-        </Component>
-        <Component class="javax.swing.JButton" name="bRefresh">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Refresh"/>
-          </Properties>
         </Component>
         <Container class="javax.swing.JScrollPane" name="jScrollPane1">
           <AuxValues>
