@@ -82,7 +82,7 @@ public class ChromosomeMapImporter implements IMapImporter
 					duplicates.add(marker.getName() + "\t" + tokens[1] + "\t"
 						+ dataSet.getMapByIndex(index.mapIndex).getName());
 
-				System.out.println("DUP: " + duplicates.get(0));
+//				System.out.println("DUP: " + duplicates.get(0));
 			}
 			else
 			{
