@@ -136,7 +136,8 @@ public class TraitsPanel extends JPanel implements ActionListener
 			else
 				setHorizontalAlignment(JLabel.LEFT);
 
-			Color bg = model.displayColor(row, column);
+			int iRow = table.getRowSorter().convertRowIndexToModel(row);
+			Color bg = model.displayColor(iRow, column);
 
 			if (Prefs.guiColorTraitTable && bg != null)
 				setBackground(isSelected ? bg.darker() : bg);
