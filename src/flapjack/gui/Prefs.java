@@ -99,6 +99,8 @@ public class Prefs extends XMLPreferences
 	// Data import type: 0=classic, 1=brapi, 2=hdf5
 	public static int guiImportType = DataImporter.IMPORT_CLASSIC;
 
+	public static boolean guiBrapiSkipMap = false;
+
 	// Warning messages
 	public static boolean warnDuplicateMarkers = true;
 	public static boolean warnEditMarkerMode = true;
