@@ -43,7 +43,7 @@ public class BrapiClient
 		cr.setNext(decoder);
 
 		// So long as the server knows we can accept a compressed response
-//		cr.accept(MediaType.ALL);
+		cr.accept(MediaType.ALL);
 		cr.accept(Encoding.GZIP);
 		cr.accept(Encoding.DEFLATE);
 
@@ -51,6 +51,14 @@ public class BrapiClient
 
 		// Set up the connection to use any required SSL certificates
 		initCertificates(client, resource);
+
+//		Context c = client.getContext();
+//		if (c == null)
+//		{
+//			c = new Context();
+//			client.setContext(c);
+//		}
+//		c.getParameters().add("tracing", "true");
 	}
 
 	// Returns a list of available maps
@@ -71,6 +79,55 @@ public class BrapiClient
 		MapDetail mapDetail = cr.get(MapDetail.class);
 
 		return mapDetail;
+	}
+
+	public static MarkerProfileMethodList getMethods()
+		throws ResourceException
+	{
+		cr.setReference(baseURL + "/markerprofiles/methods");
+		MarkerProfileMethodList list = cr.get(MarkerProfileMethodList.class);
+
+		return list;
+	}
+
+	public static AlleleMatrix getAlleleMatrix(List<MarkerProfile> markerprofiles)
+		throws ResourceException
+	{
+		cr.setReference(baseURL + "/allelematrix");
+
+		StringBuilder sb = new StringBuilder();
+		for (MarkerProfile mp: markerprofiles)
+		{
+			if (sb.length() > 0)
+				sb.append("&");
+			sb.append("markerprofileId="+mp.getMarkerprofileId());
+		}
+
+		Form form = new Form(sb.toString());
+//		for (MarkerProfile mp: markerprofiles)
+//		{
+//			System.out.println("FORM: " + mp.getMarkerprofileId());
+  //      	form.add("markerprofileId", mp.getMarkerprofileId());
+	//	}
+
+
+		AlleleMatrix matrix = cr.post(form.getWebRepresentation(), AlleleMatrix.class);
+
+//		AlleleMatrix matrix = cr.post(form, MediaType.TEXT_PLAIN);
+
+
+		return matrix;
+	}
+
+	public static MarkerProfileList getMarkerProfiles(String methodID)
+		throws ResourceException
+	{
+		cr.setReference(baseURL + "/markerprofiles/");// +
+	//		methodID == null ? "/" : "&method=" + methodID);
+
+		MarkerProfileList list = cr.get(MarkerProfileList.class);
+
+		return list;
 	}
 
 	// Returns a list of line names

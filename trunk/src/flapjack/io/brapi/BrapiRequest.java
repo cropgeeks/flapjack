@@ -10,6 +10,14 @@ public class BrapiRequest
 
 	private int mapID;
 
+	private String methodID;
+
+	public String getMethodID()
+		{ return methodID; }
+
+	public void setMethodID(String methodID)
+		{ this.methodID = methodID;	}
+
 	public XmlResource getResource()
 		{ return resource; }
 
