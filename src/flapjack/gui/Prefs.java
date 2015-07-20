@@ -149,6 +149,9 @@ public class Prefs extends XMLPreferences
 	// What type of map scaling should be used (local=0, global=1)
 	public static int visMapScaling = Constants.LOCAL;
 
+	// Display category boundaries on the traits heatmap?
+	public static boolean visShowCatBoundaries = true;
+
 	public static boolean visShowMiniMapCanvas = true;
 	public static boolean visShowLinePanel = true;
 	public static boolean visShowMapCanvas = true;

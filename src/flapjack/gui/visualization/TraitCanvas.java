@@ -99,22 +99,42 @@ class TraitCanvas extends JPanel
 			if (tIndex[i] == -1)
 				continue;
 
+			Color prev = null;
+
 			for (int yIndex = yS, y = 0; yIndex <= yE; yIndex++, y += boxH)
 			{
 				Line line = canvas.view.getLine(yIndex);
 				// Skip dummy lines (they don't have trait values)
 				if (canvas.view.isDummyLine(yIndex) || canvas.view.isSplitter(yIndex))
+				{
+					prev = null;
 					continue;
+				}
 
 				TraitValue tv = line.getTraitValues().get(tIndex[i]);
 
 				// Or if the trait is undefined, just skip it
 				if (tv.isDefined() == false)
+				{
+					prev = null;
 					continue;
+				}
 
-				g.setColor(tv.displayColor());
+				Color c = tv.displayColor();
 
+				g.setColor(c);
 				g.fillRect(i*boxW, y, boxW, boxH);
+
+				// Should we draw a cateogry boundary line?
+				if (tv.getTrait().traitIsNumerical() == false)
+					if (Prefs.visShowCatBoundaries)
+						if (c.equals(prev) == false)
+						{
+							g.setColor(new Color(128,128,128));
+							g.drawLine(i*boxW, y, (i*boxW)+boxW, y);
+						}
+
+				prev = c;
 			}
 		}
 	}

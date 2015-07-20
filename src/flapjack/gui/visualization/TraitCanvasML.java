@@ -29,6 +29,7 @@ class TraitCanvasML extends MouseInputAdapter implements ActionListener
 	private int menuTraitIndex;
 	private JMenuItem sortAsc, sortDec, sortAdv;
 	private JMenuItem selectTraits;
+	private JCheckBoxMenuItem showCatBoundaries;
 
 	TraitCanvasML(GenotypePanel gPanel, GenotypeCanvas canvas, int boxW)
 	{
@@ -150,11 +151,19 @@ class TraitCanvasML extends MouseInputAdapter implements ActionListener
 		RB.setText(selectTraits, "gui.visualization.TraitCanvasML.selectTraits");
 		selectTraits.addActionListener(this);
 
+		// Show category boundaries
+		showCatBoundaries = new JCheckBoxMenuItem();
+		RB.setText(showCatBoundaries, "gui.visualization.TraitCanvasML.showCatBoundaries");
+		showCatBoundaries.setSelected(Prefs.visShowCatBoundaries);
+		showCatBoundaries.addActionListener(this);
+
 		menu.add(sortAsc);
 		menu.add(sortDec);
 		menu.add(sortAdv);
 		menu.addSeparator();
 		menu.add(selectTraits);
+		menu.addSeparator();
+		menu.add(showCatBoundaries);
 
 		menu.show(e.getComponent(), e.getX(), e.getY());
 	}
@@ -172,6 +181,9 @@ class TraitCanvasML extends MouseInputAdapter implements ActionListener
 
 		else if (e.getSource() == sortAdv)
 			Flapjack.winMain.mAnalysis.sortLinesByTrait();
+
+		else if (e.getSource() == showCatBoundaries)
+			toggleCatBoundaries();
 	}
 
 	// Runs the selected sort menu item by creating a new SortLines object and
@@ -190,5 +202,11 @@ class TraitCanvasML extends MouseInputAdapter implements ActionListener
 	{
 		DataSet dataSet = gPanel.getViewSet().getDataSet();
 		return dataSet.getTraits().get(menuTraitIndex);
+	}
+
+	private void toggleCatBoundaries()
+	{
+		Prefs.visShowCatBoundaries = !Prefs.visShowCatBoundaries;
+		Flapjack.winMain.repaint();
 	}
 }
