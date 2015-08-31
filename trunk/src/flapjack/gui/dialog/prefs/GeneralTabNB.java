@@ -58,6 +58,8 @@ class GeneralTabNB extends JPanel implements IPrefsTab, ActionListener
 		uiSlider.setLabelTable(uiLabels);
 		checkUI.addActionListener(this);
 
+		scalePanel.setVisible(false);
+
 		initSettings();
 	}
 
