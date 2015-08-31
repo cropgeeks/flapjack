@@ -28,6 +28,7 @@ class ImportGenoAdvPanelNB extends JPanel implements ActionListener
 		checkUseHetSep.setSelected(Prefs.ioUseHetSep);
 		checkMarkers.setSelected(Prefs.ioMakeAllChromosome);
 		checkTransposed.setSelected(Prefs.ioTransposed);
+		checkAllowDupLines.setSelected(Prefs.ioAllowDupLines);
 
 		// Apply localized text
 		panel.setBorder(BorderFactory.createTitledBorder(RB.getString("gui.dialog.NBAdvancedDataImportPanel.panel")));
