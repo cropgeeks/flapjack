@@ -1,0 +1,93 @@
+// Copyright 2009-2015 Information & Computational Sciences, JHI. All rights
+// reserved. Use is subject to the accompanying licence terms.
+
+package jhi.flapjack.io;
+
+import java.io.*;
+
+import jhi.flapjack.analysis.*;
+import jhi.flapjack.data.*;
+import jhi.flapjack.gui.visualization.colors.*;
+
+import scri.commons.gui.*;
+
+public class PostImportOperations
+{
+	private DataSet dataSet;
+
+	public PostImportOperations(DataSet dataSet)
+	{
+		this.dataSet = dataSet;
+	}
+
+	public void collapseHeterozygotes()
+	{
+		long s = System.currentTimeMillis();
+
+		// Remove duplicate allele states
+		CollapseHeterozygotes c = new CollapseHeterozygotes(dataSet);
+		c.collapse();
+
+		long e = System.currentTimeMillis();
+		System.out.println("Genotypes collapsed in " + (e-s) + "ms");
+	}
+
+	public void setName(File importFile)
+	{
+		if (importFile != null)
+		{
+			String name = importFile.getName();
+
+			// Strip away the extension (if there is one)
+			if (name.lastIndexOf(".") != -1)
+				name = name.substring(0, name.lastIndexOf("."));
+
+			setName(name);
+		}
+		else
+			setName("BRAPI");
+	}
+
+	public void setName(String name)
+	{
+		name += " " + dataSet.countLines() + "x" + dataSet.countGenuineMarkers();
+
+		dataSet.setName(name);
+	}
+
+	public void createDefaultView()
+	{
+		// Create (and add) a default view of the dataset
+		String name = RB.getString("gui.navpanel.VisualizationNode.defaultView");
+		GTViewSet viewSet = new GTViewSet(dataSet, name);
+		dataSet.getViewSets().add(viewSet);
+
+		StateTable st = dataSet.getStateTable();
+
+		int hCount = st.calculateHomozygousStateCount();
+
+
+		// Nucleotide
+		if (st.containsNucleotides01())
+			viewSet.setColorScheme(ColorScheme.NUCLEOTIDE01);
+		else if (st.containsNucleotides())
+			viewSet.setColorScheme(ColorScheme.NUCLEOTIDE);
+
+		else if (st.containsMagic())
+			viewSet.setColorScheme(ColorScheme.MAGIC);
+
+		else if (dataSet.getBinnedData().containsBins() || st.containsBins())
+			viewSet.setColorScheme(ColorScheme.BINNED_10);
+
+		// ABH
+//		else if (dataSet.getStateTable().containsABHData())
+//			viewSet.setColorScheme(ColorScheme.ABH_DATA);
+		// Two colour
+		else if (hCount > 0 && hCount < 10)
+			viewSet.setColorScheme(ColorScheme.SIMPLE_TWO_COLOR);
+
+		// Random
+		else
+			viewSet.setColorScheme(ColorScheme.RANDOM);
+	}
+}
