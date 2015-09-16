@@ -55,7 +55,7 @@
 			<!-- castor.properties must be top level otherwise it's not seen -->
 			<fileset file="config/castor.properties"/>
 			<manifest>
-				<attribute name="Main-Class" value="flapjack.gui.Flapjack"/>
+				<attribute name="Main-Class" value="jhi.flapjack.gui.Flapjack"/>
 				<attribute name="Class-Path" value="${jar.classpath}"/>
 				<attribute name="Implementation-Version" value="${i4j.version}"/>
 				<attribute name="Application-Name" value="Flapjack"/>
@@ -99,7 +99,7 @@
 			tsaurl="http://timestamp.globalsign.com/scripts/timstamp.dll">
 			<fileset dir="${tmp}"/>
 		</signjar>
-		<copy todir="\\ics\root\var\www\sites\bioinf.hutton.ac.uk\html\flapjack\webstart2">
+		<copy todir="\\ics\root\var\www\sites\bioinf.hutton.ac.uk\html\flapjack\webstart">
 			<fileset dir="${tmp}"/>
 		</copy>
 		<delete dir="${tmp}"/>

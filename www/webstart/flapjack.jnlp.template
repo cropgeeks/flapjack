@@ -23,7 +23,7 @@
 		<jar href="scri-commons.jar"/>
 		<jar href="sqlite-jdbc-3.7.2.jar"/>
 	</resources>
-	<application-desc main-class="flapjack.gui.Flapjack">
+	<application-desc main-class="jhi.flapjack.gui.Flapjack">
 		@ARGUMENTS@
 	</application-desc>
 	<security>
