@@ -15,7 +15,7 @@
 
 	<servlet>
 		<servlet-name>flapjack</servlet-name>
-		<servlet-class>flapjack.servlet.FlapjackServlet</servlet-class>
+		<servlet-class>jhi.flapjack.servlet.FlapjackServlet</servlet-class>
 		<multipart-config>
 			<location>/tmp</location>
 		</multipart-config>

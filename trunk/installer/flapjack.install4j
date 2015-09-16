@@ -48,7 +48,7 @@
           <versionLine x="20" y="40" text="version ${compiler:sys.version}" fontSize="8" fontColor="0,0,0" bold="false" />
         </text>
       </splashScreen>
-      <java mainClass="flapjack.gui.Flapjack" vmParameters="" arguments="" allowVMPassthroughParameters="false" preferredVM="" bundleRuntime="true">
+      <java mainClass="jhi.flapjack.gui.Flapjack" vmParameters="" arguments="" allowVMPassthroughParameters="false" preferredVM="" bundleRuntime="true">
         <classPath>
           <archive location="lib/flapjack.jar" failOnError="false" />
         </classPath>
@@ -79,7 +79,7 @@
           <versionLine x="20" y="40" text="version ${compiler:sys.version}" fontSize="8" fontColor="0,0,0" bold="false" />
         </text>
       </splashScreen>
-      <java mainClass="flapjack.io.CreateProject" vmParameters="-Xmx1024m" arguments="" allowVMPassthroughParameters="false" preferredVM="" bundleRuntime="true">
+      <java mainClass="jhi.flapjack.io.CreateProject" vmParameters="-Xmx1024m" arguments="" allowVMPassthroughParameters="false" preferredVM="" bundleRuntime="true">
         <classPath>
           <archive location="lib/flapjack.jar" failOnError="false" />
         </classPath>
@@ -111,7 +111,7 @@
           <versionLine x="20" y="40" text="version ${compiler:sys.version}" fontSize="8" fontColor="0,0,0" bold="false" />
         </text>
       </splashScreen>
-      <java mainClass="flapjack.io.SplitProject" vmParameters="-Xmx1024m" arguments="" allowVMPassthroughParameters="false" preferredVM="" bundleRuntime="true">
+      <java mainClass="jhi.flapjack.io.SplitProject" vmParameters="-Xmx1024m" arguments="" allowVMPassthroughParameters="false" preferredVM="" bundleRuntime="true">
         <classPath>
           <archive location="lib/flapjack.jar" failOnError="false" />
         </classPath>
@@ -143,7 +143,7 @@
           <versionLine x="20" y="40" text="version ${compiler:sys.version}" fontSize="8" fontColor="0,0,0" bold="false" />
         </text>
       </splashScreen>
-      <java mainClass="flapjack.io.CreateMatrix" vmParameters="-Xmx1024m" arguments="" allowVMPassthroughParameters="false" preferredVM="" bundleRuntime="true">
+      <java mainClass="jhi.flapjack.io.CreateMatrix" vmParameters="-Xmx1024m" arguments="" allowVMPassthroughParameters="false" preferredVM="" bundleRuntime="true">
         <classPath>
           <archive location="lib/flapjack.jar" failOnError="false" />
         </classPath>
