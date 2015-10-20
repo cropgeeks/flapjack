@@ -77,6 +77,26 @@ public class PCoAGenerator extends SimpleJob
 		ArrayList<Trait> traits = dataSet.getTraits();
 		ArrayList<LineInfo> lineInfos = result.getLineInfos();
 
+		// Write any required database header info
+		DBAssociation db = dataSet.getDbAssociation();
+		if (db.isLineSearchEnabled())
+		{
+			out.write("# cwDatabaseLineSearch=" + db.getLineSearch());
+			out.newLine();
+		}
+		if (db.isGroupPreivewEnabled())
+		{
+			out.write("# cwDatabaseGroupPreview=" + db.getGroupPreview());
+			out.newLine();
+		}
+		if (db.isGroupUploadEnabled())
+		{
+			out.write("# cwDatabaseGroupUpload=" + db.getGroupUpload());
+			out.newLine();
+		}
+		if (db.isLineSearchEnabled() || db.isGroupPreivewEnabled() || db.isGroupUploadEnabled())
+			out.newLine();
+
 		// HEADER ROW
 // Just send the selected traits
 //		if (traits.size() > 0)

@@ -48,7 +48,17 @@ public class GenotypeDataExporter extends SimpleJob
 			out.write("# fjDatabaseMarkerSearch = " + db.getMarkerSearch());
 			out.newLine();
 		}
-		if (db.isLineSearchEnabled() || db.isMarkerSearchEnabled())
+		if (db.isGroupPreivewEnabled())
+		{
+			out.write("# fjDatabaseGroupPreview = " + db.getGroupPreview());
+			out.newLine();
+		}
+		if (db.isGroupUploadEnabled())
+		{
+			out.write("# fjDatabaseGroupUpload = " + db.getGroupUpload());
+			out.newLine();
+		}
+		if (db.isLineSearchEnabled() || db.isMarkerSearchEnabled() || db.isGroupPreivewEnabled() || db.isGroupUploadEnabled())
 			out.newLine();
 
 		BinnedData binnedData = viewSet.getDataSet().getBinnedData();

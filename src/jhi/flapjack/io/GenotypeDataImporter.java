@@ -229,6 +229,14 @@ public class GenotypeDataImporter implements IGenotypeImporter
 				// fjDatabaseMarkerSearch = a URL for querying marker information
 				if (key.equals("fjDatabaseMarkerSearch"))
 					dataSet.getDbAssociation().setMarkerSearch(value);
+
+				// fjDatabaseGroupPreview = a URL for creating a group in germinate / another db system
+				if (key.equals("fjDatabaseGroupPreview"))
+					dataSet.getDbAssociation().setGroupPreview(value);
+
+				// fjDatabaseGroupUpload = a URL for sending a group to germinate / another db system
+				if (key.equals("fjDatabaseGroupUpload"))
+					dataSet.getDbAssociation().setGroupUpload(value);
 			}
 			catch (Exception e)
 			{

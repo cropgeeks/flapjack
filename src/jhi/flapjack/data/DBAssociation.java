@@ -11,6 +11,8 @@ public class DBAssociation extends XMLRoot
 {
 	private String lineSearch = "";
 	private String markerSearch = "";
+	private String groupPreview = "";
+	private String groupUpload = "";
 
 	public DBAssociation()
 	{
@@ -31,6 +33,26 @@ public class DBAssociation extends XMLRoot
 	public void setMarkerSearch(String markerSearch)
 		{ this.markerSearch = markerSearch; }
 
+	public String getGroupPreview()
+	{
+		return groupPreview;
+	}
+
+	public void setGroupPreview(String groupPreview)
+	{
+		this.groupPreview = groupPreview;
+	}
+
+	public String getGroupUpload()
+	{
+		return groupUpload;
+	}
+
+	public void setGroupUpload(String groupUpload)
+	{
+		this.groupUpload = groupUpload;
+	}
+
 
 	// Other methods
 
@@ -43,4 +65,8 @@ public class DBAssociation extends XMLRoot
 	{
 		return markerSearch.length() > 0;
 	}
+
+	public boolean isGroupPreivewEnabled() { return groupPreview.length() > 0; }
+
+	public boolean isGroupUploadEnabled() { return groupUpload.length() > 0; }
 }
