@@ -4,10 +4,9 @@
 package jhi.flapjack.io.binning;
 
 import java.awt.*;
-import java.awt.image.*;
 import java.io.*;
+import java.text.*;
 import java.util.*;
-import javax.imageio.*;
 
 import jhi.flapjack.data.*;
 import jhi.flapjack.gui.*;
@@ -58,6 +57,8 @@ public class CreateImage
 		// Get the binning information
 		ArrayList<float[]> bins = binner.getBinSummary();
 
+		float totalSize = bins.get(bins.size()-1)[1];
+
 		// Fake up a state table that can be used to feed the colour scheme
 		StateTable stateTable = new StateTable(0);
 		for (int i = 0; i < bins.size(); i++)
@@ -66,47 +67,39 @@ public class CreateImage
 		Prefs.setColorDefaults();
 		BinnedColorScheme colors = new BinnedColorScheme(stateTable, 5, 5);
 
+		PrintWriter writer = new PrintWriter(new FileWriter(new File(imageFile)));
+		NumberFormat nf = NumberFormat.getNumberInstance();
 
-		// Create an image to draw on
-		BufferedImage image = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
-		Graphics2D g = (Graphics2D) image.createGraphics();
-
-
-		g.setPaint(new Color(0, 0, 0, 255));
-
-		for (int bin = 0; bin < bins.size(); bin++)
+		// For each bin output its size (as a percentage of the overall set of
+		// bins) as part of a comma separated list
+		for (int bin=0; bin < bins.size(); bin++)
 		{
-			float f1 = bins.get(bin)[0];
-			float f2 = bins.get(bin)[1];
+			float[] binArr = bins.get(bin);
+			float percent = ((binArr[1]-binArr[0])/totalSize)*100f;
 
-			System.out.println(f1 + " - " + f2);
+			String out;
+			if (bin < bins.size()-1)
+				out = nf.format(percent) + ", ";
+			else
+				out = "" + nf.format(percent);
 
-			// Starting and ending pixels for this bin
-			int x1 = Math.round(w*f1);
-			int x2 = Math.round(w*f2);
+			writer.print(out);
+		}
+		// Write end of line character so we can include other data
+		writer.println();
 
-			g.setColor(colors.getColor(bin));
-			g.fillRect(x1, 5, x2-x1, h-10);
+		// For each bin output its colour as a hex string.
+		for (int bin=0; bin < bins.size(); bin++)
+		{
+			Color color = colors.getColor(bin);
+			String hex = String.format("#%02x%02x%02x", color.getRed(), color.getGreen(), color.getBlue());
 
-			g.setColor(Color.black);
-			g.drawLine(x1, 5, x1, h-5-1);
+			if (bin < bins.size()-1)
+				writer.print(hex + ", ");
+			else
+				writer.println(hex);
 		}
 
-		g.setColor(Color.black);
-		g.drawRect(0, 5, w-1, h-10-1);
-
-		// Draw the split point if required
-		if (binner instanceof SplitBinner)
-		{
-			float split = ((SplitBinner)binner).getSplit();
-			int x = Math.round(w*split);
-
-			g.drawLine(x, 0, x, h-1);
-			g.drawLine(x-2, 0, x+2, 0);
-			g.drawLine(x-2, h-1, x+2, h-1);
-		}
-
-		g.dispose();
-		ImageIO.write(image, "png", new File(imageFile));
+		writer.close();
 	}
 }
