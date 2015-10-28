@@ -11,6 +11,8 @@ import javax.swing.*;
 import jhi.flapjack.data.*;
 import jhi.flapjack.gui.*;
 
+import scri.commons.gui.*;
+
 class MiniMapCanvas extends JPanel
 {
 	private GenotypePanel gPanel;
@@ -18,7 +20,7 @@ class MiniMapCanvas extends JPanel
 
 	private BufferFactory bufferFactory;
 	private BufferedImage image;
-	private int h = 11;
+	private int h = UIScaler.scale(11);
 
 	private int w;
 
@@ -75,7 +77,8 @@ class MiniMapCanvas extends JPanel
 		if (forBuffer)
 		{
 			g.setColor(Color.lightGray);
-			g.drawLine(0, 5, w-1, 5);
+			int y = UIScaler.scale(5);
+			g.drawLine(0, y, w-1, y);
 
 			// Draw all the markers
 			xS = 0;
@@ -98,7 +101,9 @@ class MiniMapCanvas extends JPanel
 			Marker m = canvas.view.getMarker(i);
 
 			int pos = (int) (m.getPosition() * xScale);
-			g.drawLine(pos, 2, pos, 8);
+			int y1 = UIScaler.scale(2);
+			int y2 = UIScaler.scale(8);
+			g.drawLine(pos, y1, pos, y2);
 		}
 	}
 
