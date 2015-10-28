@@ -7,6 +7,8 @@ import java.awt.*;
 import java.awt.geom.*;
 import javax.swing.*;
 
+import static scri.commons.gui.UIScaler.*;
+
 public class TitlePanel extends JPanel
 {
 	private String title;
@@ -21,7 +23,7 @@ public class TitlePanel extends JPanel
 
 	public Dimension getPreferredSize()
 	{
-		return new Dimension(50, 20);
+		return new Dimension(50, scale(20));
 	}
 
 	public void paintComponent(Graphics graphics)
