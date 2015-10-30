@@ -44,9 +44,13 @@ class TraitsPanelNB extends JPanel
 					{
 						Point p = e.getPoint();
 						int index = columnModel.getColumnIndexAtX(p.x);
-						int realIndex = columnModel.getColumn(index).getModelIndex();
-
-						return getModel().getColumnName(realIndex);
+						if (index >= 0 && index < columnModel.getColumnCount())
+						{
+							int realIndex = columnModel.getColumn(index).getModelIndex();
+							return getModel().getColumnName(realIndex);
+						}
+						else
+							return null;
 					}
 				};
 		}};
