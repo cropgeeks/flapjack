@@ -4,8 +4,9 @@
 package jhi.flapjack.gui.traits;
 
 import java.awt.*;
-
-import jhi.flapjack.gui.*;
+import java.awt.event.*;
+import javax.swing.*;
+import javax.swing.table.*;
 
 import scri.commons.gui.*;
 
@@ -31,6 +32,28 @@ class QTLPanelNB extends javax.swing.JPanel
 		bFilter.setIcon(Icons.getIcon("TRAITS"));
 	}
 
+	private JTable createTable()
+	{
+		return new JTable()	{
+			protected JTableHeader createDefaultTableHeader() {
+				return new JTableHeader(columnModel)
+				{
+					public String getToolTipText(MouseEvent e)
+					{
+						Point p = e.getPoint();
+						int index = columnModel.getColumnIndexAtX(p.x);
+						if (index >= 0 && index < columnModel.getColumnCount())
+						{
+							int realIndex = columnModel.getColumn(index).getModelIndex();
+							return getModel().getColumnName(realIndex);
+						}
+						else
+							return null;
+					}
+				};
+		}};
+	}
+
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -42,7 +65,7 @@ class QTLPanelNB extends javax.swing.JPanel
 
         errorLabel = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        table = new javax.swing.JTable();
+        table = createTable();
         statusLabel = new javax.swing.JLabel();
         bImport = new javax.swing.JButton();
         bExport = new javax.swing.JButton();
@@ -75,22 +98,21 @@ class QTLPanelNB extends javax.swing.JPanel
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(statusLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 176, Short.MAX_VALUE)
-                .addComponent(bImport)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(bExport)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(bFilter)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(bRemove)
-                .addContainerGap())
             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 548, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(errorLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 501, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(statusLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 176, Short.MAX_VALUE)
+                        .addComponent(bImport)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(bExport)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(bFilter)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(bRemove))
+                    .addComponent(errorLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 501, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(

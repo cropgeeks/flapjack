@@ -39,6 +39,10 @@ class TraitsTableModel extends AbstractTableModel
 			columnNames[i] = traits.get(i-1).getName();
 			if (traits.get(i-1).experimentDefined())
 				columnNames[i] += " (" + traits.get(i-1).getExperiment() + ")";
+			if (traits.get(i-1).traitIsNumerical())
+				columnNames[i] += " - numerical";
+			else
+				columnNames[i] += " - categorical";
 		}
 	}
 
