@@ -31,7 +31,7 @@ public class TraitValue extends XMLRoot
 		isDefined = false;
 	}
 
-	/** Constucts a new trait value for the trait and value provided. */
+	/** Constructs a new trait value for the trait and value provided. */
 	public TraitValue(Trait trait, float value)
 	{
 		this.trait = trait;

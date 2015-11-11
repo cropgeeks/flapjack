@@ -28,6 +28,11 @@ public class TraitColors extends XMLRoot
 
 	// Other methods
 
+	public void clear()
+	{
+		colors.clear();
+	}
+
 	public void put(String key, Color value)
 	{
 		colors.put(key, value.getRGB());
@@ -44,7 +49,7 @@ public class TraitColors extends XMLRoot
 	}
 
 	// Returns a LOW value for use with the heatmap
-	private Color getLow()
+	public Color queryLow()
 	{
 		if (colors.size() > 0 && colors.containsKey("FLAPJACK_LW"))
 			return get("FLAPJACK_LW");
@@ -54,7 +59,7 @@ public class TraitColors extends XMLRoot
 	}
 
 	// Returns a HIGH value for use with the heatmap
-	private Color getHigh()
+	public Color queryHigh()
 	{
 		if (colors.size() > 0 && colors.containsKey("FLAPJACK_HG"))
 			return get("FLAPJACK_HG");
@@ -79,9 +84,9 @@ public class TraitColors extends XMLRoot
 
 		// If that fails, then work out a gradiant paint somewhere on the
 		// low/high scale
-		Color col1 = getLow();
+		Color col1 = queryLow();
 		int[] c1 = new int[] { col1.getRed(), col1.getGreen(), col1.getBlue() };
-		Color col2 = getHigh();
+		Color col2 = queryHigh();
 		int[] c2 = new int[] { col2.getRed(), col2.getGreen(), col2.getBlue() };
 
 		float f1 = 1f - normal;

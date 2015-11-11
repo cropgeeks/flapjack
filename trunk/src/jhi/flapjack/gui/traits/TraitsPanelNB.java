@@ -22,10 +22,12 @@ class TraitsPanelNB extends JPanel
 		RB.setText(bImport, "gui.traits.NBTraitsControlPanel.bImport");
 		RB.setText(bExport, "gui.traits.NBTraitsControlPanel.bExport");
 		RB.setText(bRemove, "gui.traits.NBTraitsControlPanel.bRemove");
+		RB.setText(bColors, "gui.traits.NBTraitsControlPanel.bColors");
 
 		bImport.setIcon(Icons.getIcon("IMPORTTRAITS"));
 		bExport.setIcon(Icons.getIcon("EXPORTTRAITS"));
 		bRemove.setIcon(Icons.getIcon("DELETE"));
+		bColors.setIcon(Icons.getIcon("VISUALIZATIONTAB"));
 
 		checkColor.setSelected(Prefs.guiColorTraitTable);
 		checkColor.addActionListener(e -> {
@@ -72,6 +74,7 @@ class TraitsPanelNB extends JPanel
         table = createTable();
         bExport = new javax.swing.JButton();
         checkColor = new javax.swing.JCheckBox();
+        bColors = new javax.swing.JButton();
 
         bImport.setText("Import");
 
@@ -94,6 +97,8 @@ class TraitsPanelNB extends JPanel
         checkColor.setText("Colour the table cells using heat map values");
         checkColor.setOpaque(false);
 
+        bColors.setText("Colors");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -107,10 +112,12 @@ class TraitsPanelNB extends JPanel
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(statusLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 114, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(bImport)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(bExport)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(bColors)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(bRemove)))
                 .addContainerGap())
@@ -126,13 +133,15 @@ class TraitsPanelNB extends JPanel
                     .addComponent(bRemove)
                     .addComponent(statusLabel)
                     .addComponent(bImport)
-                    .addComponent(bExport))
+                    .addComponent(bExport)
+                    .addComponent(bColors))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    javax.swing.JButton bColors;
     javax.swing.JButton bExport;
     javax.swing.JButton bImport;
     javax.swing.JButton bRemove;

@@ -11,6 +11,7 @@ import javax.swing.table.*;
 
 import jhi.flapjack.data.*;
 import jhi.flapjack.gui.*;
+import jhi.flapjack.gui.dialog.*;
 
 import scri.commons.gui.*;
 
@@ -31,6 +32,7 @@ public class TraitsPanel extends JPanel implements ActionListener
 		controls.bImport.addActionListener(this);
 		controls.bExport.addActionListener(this);
 		controls.bRemove.addActionListener(this);
+		controls.bColors.addActionListener(this);
 
 		table = controls.table;
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
@@ -92,6 +94,12 @@ public class TraitsPanel extends JPanel implements ActionListener
 
 			if (response == 0)
 				removeAllTraits();
+		}
+
+		else if (e.getSource() == controls.bColors)
+		{
+			TraitColorsDialog dialog = new TraitColorsDialog(dataSet);
+
 		}
 	}
 
