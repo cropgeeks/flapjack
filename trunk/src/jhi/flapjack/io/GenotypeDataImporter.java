@@ -292,7 +292,10 @@ public class GenotypeDataImporter implements IGenotypeImporter
 			lineNames[i] = lineNames[i].trim();
 
 			if (lines.get(lineNames[i]) != null)
+			{
+				if (Prefs.ioAllowDupLines == false)
 					throw new DataFormatException(RB.format("io.DataFormatException.duplicateLineError", lineNames[i], lineCount+1));
+			}
 			else
 			{
 				// Create the line and add it to our lines hashmap
