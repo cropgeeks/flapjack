@@ -5,6 +5,7 @@ package jhi.flapjack.io.binning;
 
 import java.text.*;
 import java.io.*;
+import java.util.*;
 
 public class MakeHistogram
 {
@@ -20,40 +21,68 @@ public class MakeHistogram
 
 	private DecimalFormat df = new DecimalFormat("0.000000000000000");
 
+	private String inputFile;
+	private String outputFile;
+
+	private static List<String> output;
+
 	// Generates a histogram from allele frequency input data.
 	// args[0] should be the allele frequency input data.
 	// args[1] should be the desired path to the output file.
 	// args[2] should be the desired number of bins for the histogram.
-	// args[3] should be the desried path for histogram stats file (averages)...
 	public static void main(String[] args)
 		throws Exception
 	{
 		long s = System.currentTimeMillis();
 
-		MakeHistogram mh = new MakeHistogram(Integer.parseInt(args[2]));
-
-		System.out.println("Writing binned data...");
-		mh.writeBinFile(args[0], args[1]);
-
-		mh.outputStats();
+		MakeHistogram mh = new MakeHistogram(Integer.parseInt(args[2]), args[0], args[1]);
+		mh.createHistogram();
 
 		long e = System.currentTimeMillis();
-		System.out.println("Time: " + (e-s) + "ms");
-
+		logMessage("Time: " + (e-s) + "ms");
 	}
 
-	MakeHistogram(int numBins)
-		throws Exception
+	/**
+	 * Takes a number of bins which will be the number of bins used to create a histogram, as well as a String which
+	 * should represent the path to a file of allele frequency data which is the data which will be histogrammed and
+	 * finally a string which represents the path where the output file will be written to.
+	 *
+	 * @param numBins		The number of bins with which to create the histogram.
+	 * @param inputFile		The path to the input file containing allele frequency data.
+	 * @param outputFile	The desired path to the output file.
+	 */
+	public MakeHistogram(int numBins, String inputFile, String outputFile)
 	{
 		this.numBins = numBins;
+		this.inputFile = inputFile;
+		this.outputFile = outputFile;
+
+		output = new ArrayList<String>();
+	}
+
+	private void setupBinner(int numBins)
+	{
 		binner = new StandardBinner(numBins);
 		histogram = new int[numBins];
 
 		binSize = (max - min) / numBins;
-		System.out.println(" binsize: " + df.format(binSize));
+		logMessage(" binsize: " + df.format(binSize));
 	}
 
-	int[] calculateHistogram(String inFile)
+	public List<String> createHistogram()
+		throws Exception
+	{
+		setupBinner(numBins);
+
+		logMessage("Writing binned data...");
+		writeBinFile(inputFile, outputFile);
+
+		outputStats();
+
+		return output;
+	}
+
+	private int[] calculateHistogram(String inFile)
 		throws Exception
 	{
 		BufferedReader in = new BufferedReader(new FileReader(inFile));
@@ -117,9 +146,9 @@ public class MakeHistogram
 		int meanBin = getMeanBin(total);
 
 		// Print to stdout for display on Germinate page
-		System.out.println("Mean\t" + getBinRangeString(meanBin));
-		System.out.println("Median\t" + getBinRangeString(medianBin));
-		System.out.println("Mode\t" + getBinRangeString(modeBin));
+		logMessage("Mean\t" + getBinRangeString(meanBin));
+		logMessage("Median\t" + getBinRangeString(medianBin));
+		logMessage("Mode\t" + getBinRangeString(modeBin));
 	}
 
 	private int getMeanBin(int total)
@@ -163,5 +192,11 @@ public class MakeHistogram
 		df.setMaximumFractionDigits(3);
 
 		return df.format(bin*binSize) + "-" + df.format((bin+1)*binSize);
+	}
+
+	private static void logMessage(String message)
+	{
+		System.out.println(message);
+		output.add(message);
 	}
 }

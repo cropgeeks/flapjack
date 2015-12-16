@@ -14,44 +14,69 @@ import jhi.flapjack.gui.visualization.colors.*;
 
 public class CreateImage
 {
-	private static IBinner binner;
+	private IBinner binner;
+
+	private String imageFile;
 
 	public static void main(String[] args)
 		throws Exception
 	{
 		String imageFile = args[0];
-		int w = Integer.parseInt(args[1]);
-		int h = Integer.parseInt(args[2]);
+		CreateImage imageCreator = new CreateImage(imageFile);
 
-		String method = args[3].toUpperCase();
+		String method = args[1].toUpperCase();
 
 		if (method.equals("STANDARD"))
 		{
-			int numBins = Integer.parseInt(args[4]);
-			binner = new StandardBinner(numBins);
+			int numBins = Integer.parseInt(args[2]);
+			imageCreator.createStandardImage(numBins);
 		}
 
 		else if (method.equals("SPLIT"))
 		{
-			int lBinCount = Integer.parseInt(args[4]);
-			float split = Float.parseFloat(args[5]);
-			int rBinCount = Integer.parseInt(args[6]);
+			int lBinCount = Integer.parseInt(args[2]);
+			float split = Float.parseFloat(args[3]);
+			int rBinCount = Integer.parseInt(args[4]);
 
-			binner = new SplitBinner(lBinCount, split, rBinCount);
+			imageCreator.createSplitImage(lBinCount, split, rBinCount);
 		}
 
 		else if (method.equals("AUTO"))
 		{
-			int numBins = Integer.parseInt(args[4]);
-			String histFile = args[5];
+			int numBins = Integer.parseInt(args[2]);
+			String histFile = args[3];
 
-			binner = new AutoBinner(numBins, histFile);
+			imageCreator.createAutoImage(numBins, histFile);
 		}
-
-		createImage(imageFile, w, h);
 	}
 
-	private static void createImage(String imageFile, int w, int h)
+	public CreateImage(String imageFile)
+	{
+		this.imageFile = imageFile;
+	}
+
+	public void createStandardImage(int numBins)
+		throws Exception
+	{
+		binner = new StandardBinner(numBins);
+		createImage();
+	}
+
+	public void createAutoImage(int numBins, String histogramFile)
+		throws Exception
+	{
+		binner = new AutoBinner(numBins, histogramFile);
+		createImage();
+	}
+
+	public void createSplitImage(int lBinCount, float split, int rBinCount)
+		throws Exception
+	{
+		binner = new SplitBinner(lBinCount, split, rBinCount);
+		createImage();
+	}
+
+	private void createImage()
 		throws Exception
 	{
 		// Get the binning information

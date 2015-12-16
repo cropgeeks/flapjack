@@ -9,15 +9,23 @@ public class BinData
 {
 	private static IBinner binner;
 
+	private String inFile;
+	private String outFile;
+
 	public static void main(String[] args)
 		throws Exception
 	{
 		String method = args[0].toUpperCase();
 
+		String inFile = args[1];
+		String outFile = args[2];
+
+		BinData binData = new BinData(inFile, outFile);
+
 		if (method.equals("STANDARD"))
 		{
 			int numBins = Integer.parseInt(args[3]);
-			binner = new StandardBinner(numBins);
+			binData.writeStandardFile(numBins);
 		}
 
 		else if (method.equals("SPLIT"))
@@ -26,7 +34,7 @@ public class BinData
 			float split = Float.parseFloat(args[4]);
 			int rBinCount = Integer.parseInt(args[5]);
 
-			binner = new SplitBinner(lBinCount, split, rBinCount);
+			binData.writeSplitFile(lBinCount, split, rBinCount);
 		}
 
 		else if (method.equals("AUTO"))
@@ -34,16 +42,38 @@ public class BinData
 			int numBins = Integer.parseInt(args[3]);
 			String histFile = args[4];
 
-			binner = new AutoBinner(numBins, histFile);
+			binData.writeAutoFile(numBins, histFile);
 		}
-
-		String inFile = args[1];
-		String outFile = args[2];
-
-		writeBinFile(inFile, outFile);
 	}
 
-	private static void writeBinFile(String inFile, String outFile)
+	public BinData(String inFile, String outFile)
+	{
+		this.inFile = inFile;
+		this.outFile = outFile;
+	}
+
+	public void writeStandardFile(int numBins)
+		throws Exception
+	{
+		binner = new StandardBinner(numBins);
+		writeBinFile();
+	}
+
+	public void writeSplitFile(int lBinCount, float split, int rBinCount)
+		throws Exception
+	{
+		binner = new SplitBinner(lBinCount, split, rBinCount);
+		writeBinFile();
+	}
+
+	public void writeAutoFile(int numBins, String histFile)
+		throws Exception
+	{
+		binner = new AutoBinner(numBins, histFile);
+		writeBinFile();
+	}
+
+	private void writeBinFile()
 		throws Exception
 	{
 		BufferedReader in = new BufferedReader(new FileReader(inFile));
