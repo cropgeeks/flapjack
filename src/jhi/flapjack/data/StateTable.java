@@ -196,7 +196,7 @@ public class StateTable extends XMLRoot
 					int i = Integer.parseInt(state.getState(0));
 					values[i-1] = true;
 				}
-				catch (NumberFormatException e) { }
+				catch (Exception e) { }
 			}
 		}
 
