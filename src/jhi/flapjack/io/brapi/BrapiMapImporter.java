@@ -10,7 +10,7 @@ import jhi.flapjack.data.*;
 import jhi.flapjack.gui.*;
 import jhi.flapjack.io.*;
 
-import hutton.brapi.resource.*;
+import jhi.brapi.resource.*;
 
 public class BrapiMapImporter implements IMapImporter
 {
@@ -46,17 +46,17 @@ public class BrapiMapImporter implements IMapImporter
 	{
 		NumberFormat nf = NumberFormat.getInstance();
 
-		MapDetail mapDetail = BrapiClient.getMapDetail(request.getMapID());
+		List<BrapiMarker> list = BrapiClient.getMapMarkerData(request.getMapID());
 
-		for (MapEntry me: mapDetail.getEntries())
+		for (BrapiMarker bm: list)
 		{
 			// Each MapEntry represents a marker: its name, chromosome, and
 			// location on chromosome
 
-			float position = nf.parse(me.getLocation()).floatValue();
-			String chromosome = me.getChromosome();
+			float position = nf.parse(bm.getLocation()).floatValue();
+			String chromosome = bm.getLinkageGroup();
 
-			Marker marker = new Marker(me.getMarkerName(), position);
+			Marker marker = new Marker(bm.getMarkerName(), position);
 	//		System.out.println(marker);
 
 

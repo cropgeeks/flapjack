@@ -8,7 +8,7 @@ public class BrapiRequest
 	// The resource selected by the user for use
 	private XmlResource resource;
 
-	private int mapID;
+	private String mapID;
 
 	private String methodID;
 
@@ -24,9 +24,9 @@ public class BrapiRequest
 	public void setResource(XmlResource resource)
 		{ this.resource = resource; }
 
-	public int getMapID()
+	public String getMapID()
 		{ return mapID; }
 
-	public void setMapID(int mapIndex)
+	public void setMapID(String mapIndex)
 		{ this.mapID = mapIndex; }
 }
