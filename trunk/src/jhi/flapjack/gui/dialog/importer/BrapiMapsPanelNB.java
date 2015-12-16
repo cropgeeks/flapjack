@@ -5,6 +5,7 @@
  */
 package jhi.flapjack.gui.dialog.importer;
 
+import java.util.List;
 import javax.swing.*;
 
 import jhi.flapjack.gui.*;
@@ -12,13 +13,13 @@ import jhi.flapjack.io.brapi.*;
 
 import scri.commons.gui.*;
 
-import hutton.brapi.resource.*;
+import jhi.brapi.resource.*;
 
 class BrapiMapsPanelNB extends javax.swing.JPanel
 {
 	private BrapiRequest request;
-	private MapList maps;
-	private MarkerProfileMethodList methods;
+	private List<BrapiGenomeMap> maps;
+	private List<BrapiMarkerProfileMethod> methods;
 	private BrapiImportDialog dialog;
 
 	private DefaultComboBoxModel<String> mapModel, methodsModel;
@@ -46,7 +47,7 @@ class BrapiMapsPanelNB extends javax.swing.JPanel
 
 		if (index >= 0)
 		{
-			Map map = maps.getMaps().get(index);
+			BrapiGenomeMap map = maps.get(index);
 
 			request.setMapID(map.getMapId());
 
@@ -55,7 +56,7 @@ class BrapiMapsPanelNB extends javax.swing.JPanel
 				"Unit: " + map.getUnit() + "\n" +
 				"Date: " + map.getPublishedDate() + "\n" +
 				"Markers: " + map.getMarkerCount() + "\n" +
-				"Chromosomes: " + map.getChromosomeCount();
+				"Chromosomes: " + map.getLinkageGroupCount();
 
 			text.setText(str);
 		}
@@ -70,7 +71,7 @@ class BrapiMapsPanelNB extends javax.swing.JPanel
 		int index = methodCombo.getSelectedIndex();
 
 		if (index >= 0)
-			request.setMethodID(methods.getMethods().get(index).getMethodId());
+			request.setMethodID(methods.get(index).getMethodId());
 		else
 			request.setMethodID(null);
 	}
@@ -90,7 +91,7 @@ class BrapiMapsPanelNB extends javax.swing.JPanel
 		// Populate the maps combo box
 		mapModel = new DefaultComboBoxModel<String>();
 
-		for (Map map: maps.getMaps())
+		for (BrapiGenomeMap map: maps)
 			mapModel.addElement(map.getMapId() + " - " + map.getName());
 
 		mapsCombo.setModel(mapModel);
@@ -100,10 +101,13 @@ class BrapiMapsPanelNB extends javax.swing.JPanel
 		// Populate the methods combo box
 		methodsModel = new DefaultComboBoxModel<String>();
 
-		for (MarkerProfileMethod method: methods.getMethods())
-			methodsModel.addElement(method.getMethodId() + " - " + method.getName());
+		if (methods != null)
+		{
+			for (BrapiMarkerProfileMethod method: methods)
+				methodsModel.addElement(method.getMethodId() + " - " + method.getName());
 
-		methodCombo.setModel(methodsModel);
+			methodCombo.setModel(methodsModel);
+		}
 	}
 
 	private class DataDownloader extends SimpleJob
@@ -114,10 +118,7 @@ class BrapiMapsPanelNB extends javax.swing.JPanel
 			BrapiClient.setXmlResource(request.getResource());
 
 			maps = BrapiClient.getMaps();
-			System.out.println(maps);
-
-			methods = BrapiClient.getMethods();
-			System.out.println(methods);
+			methods = BrapiClient.getMarkerProfileMethods();
 		}
 	}
 

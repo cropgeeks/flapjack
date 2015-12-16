@@ -12,6 +12,8 @@ import java.util.logging.*;
 import javax.net.ssl.*;
 import javax.xml.bind.*;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.restlet.*;
 import org.restlet.data.*;
 import org.restlet.engine.application.*;
@@ -19,7 +21,7 @@ import org.restlet.engine.ssl.*;
 import org.restlet.resource.*;
 import org.restlet.util.*;
 
-import hutton.brapi.resource.*;
+import jhi.brapi.resource.*;
 
 public class BrapiClient
 {
@@ -37,6 +39,9 @@ public class BrapiClient
 		Protocol[] protocols = { Protocol.HTTP, Protocol.HTTPS };
 		Client client = new Client(Arrays.asList(protocols));
 
+//		cr.setChallengeResponse(ChallengeScheme.HTTP_BASIC, "user", "pass");
+
+
 		// The decoder handles de-compression
 		Decoder decoder = new Decoder(client.getContext(), false, true);
 		decoder.setNext(client);
@@ -52,55 +57,105 @@ public class BrapiClient
 		// Set up the connection to use any required SSL certificates
 		initCertificates(client, resource);
 
-//		Context c = client.getContext();
-//		if (c == null)
-//		{
-//			c = new Context();
-//			client.setContext(c);
-//		}
+		Context c = client.getContext();
+		if (c == null)
+		{
+			c = new Context();
+			client.setContext(c);
+		}
+		c.getParameters().add("socketTimeout", "10000");
 //		c.getParameters().add("tracing", "true");
 	}
 
 	// Returns a list of available maps
-	public static MapList getMaps()
+	public static List<BrapiGenomeMap> getMaps()
 		throws ResourceException
 	{
-		cr.setReference(baseURL + "/maps/");
-		MapList list = cr.get(MapList.class);
+		cr.setReference(baseURL + "/maps");
+
+		LinkedHashMap hashMap = cr.get(LinkedHashMap.class);
+		BasicResource<BrapiGenomeMap> br = new ObjectMapper().convertValue(hashMap,
+			new TypeReference<BasicResource<BrapiGenomeMap>>() {});
+
+		List<BrapiGenomeMap> list = br.getResult();
+
+		return list;
+	}
+
+	// Returns a list of available "MarkerProfileMethods" - this isn't something
+	// that really exists in Germinate (yet)
+	public static List<BrapiMarkerProfileMethod> getMarkerProfileMethods()
+		throws ResourceException
+	{
+		cr.setReference(baseURL + "/markerprofiles/methods");
+
+		LinkedHashMap hashMap = cr.get(LinkedHashMap.class);
+		BasicResource<BrapiMarkerProfileMethod> br = new ObjectMapper().convertValue(hashMap,
+			new TypeReference<BasicResource<BrapiMarkerProfileMethod>>() {});
+
+		List<BrapiMarkerProfileMethod> list = br.getResult();
 
 		return list;
 	}
 
 	// Returns the details (markers, chromosomes, positions) for a given map
-	public static MapDetail getMapDetail(int mapID)
+	public static List<BrapiMarker> getMapMarkerData(String mapID)
 		throws ResourceException
 	{
-		cr.setReference(baseURL + "/maps/" + mapID);
-		MapDetail mapDetail = cr.get(MapDetail.class);
+		// TODO: /map/{id} = map basics
 
-		return mapDetail;
-	}
+		cr.setReference(baseURL + "/maps/" + mapID + "/positions");
 
-	public static MarkerProfileMethodList getMethods()
-		throws ResourceException
-	{
-		cr.setReference(baseURL + "/markerprofiles/methods");
-		MarkerProfileMethodList list = cr.get(MarkerProfileMethodList.class);
+		LinkedHashMap hashMap = cr.get(LinkedHashMap.class);
+		BasicResource<BrapiMarker> br = new ObjectMapper().convertValue(hashMap,
+			new TypeReference<BasicResource<BrapiMarker>>() {});
+
+		List<BrapiMarker> list = br.getResult();
 
 		return list;
 	}
 
-	public static AlleleMatrix getAlleleMatrix(List<MarkerProfile> markerprofiles)
+	// Returns a list of line names
+	public static List<BrapiGermplasm> getGermplasms()
+		throws ResourceException
+	{
+		cr.setReference(baseURL + "/germplasm/");
+
+		LinkedHashMap hashMap = cr.get(LinkedHashMap.class);
+		BasicResource<BrapiGermplasm> br = new ObjectMapper().convertValue(hashMap,
+			new TypeReference<BasicResource<BrapiGermplasm>>() {});
+
+		List<BrapiGermplasm> list = br.getResult();
+
+		return list;
+	}
+
+	public static List<BrapiMarkerProfile> getMarkerProfiles(String methodID)
+		throws ResourceException
+	{
+		cr.setReference(baseURL + "/markerprofiles/");// +
+	//		methodID == null ? "/" : "&method=" + methodID);
+
+		LinkedHashMap hashMap = cr.get(LinkedHashMap.class);
+		BasicResource<BrapiMarkerProfile> br = new ObjectMapper().convertValue(hashMap,
+			new TypeReference<BasicResource<BrapiMarkerProfile>>() {});
+
+		List<BrapiMarkerProfile> list = br.getResult();
+
+		return list;
+	}
+
+	public static List<BrapiAlleleMatrix> getAlleleMatrix(List<BrapiMarkerProfile> markerprofiles)
 		throws ResourceException
 	{
 		cr.setReference(baseURL + "/allelematrix");
 
 		StringBuilder sb = new StringBuilder();
-		for (MarkerProfile mp: markerprofiles)
+		for (BrapiMarkerProfile mp: markerprofiles)
 		{
 			if (sb.length() > 0)
 				sb.append("&");
-			sb.append("markerprofileId="+mp.getMarkerprofileId());
+			sb.append("markerprofileDbId=" + mp.getMarkerprofileId());
 		}
 
 		Form form = new Form(sb.toString());
@@ -111,57 +166,44 @@ public class BrapiClient
 	//	}
 
 
-		AlleleMatrix matrix = cr.post(form.getWebRepresentation(), AlleleMatrix.class);
+		LinkedHashMap hashMap = cr.post(form.getWebRepresentation(), LinkedHashMap.class);
+		BasicResource<BrapiAlleleMatrix> br = new ObjectMapper().convertValue(hashMap,
+			new TypeReference<BasicResource<BrapiAlleleMatrix>>() {});
 
-//		AlleleMatrix matrix = cr.post(form, MediaType.TEXT_PLAIN);
-
-
-		return matrix;
-	}
-
-	public static MarkerProfileList getMarkerProfiles(String methodID)
-		throws ResourceException
-	{
-		cr.setReference(baseURL + "/markerprofiles/");// +
-	//		methodID == null ? "/" : "&method=" + methodID);
-
-		MarkerProfileList list = cr.get(MarkerProfileList.class);
+		List<BrapiAlleleMatrix> list = br.getResult();
 
 		return list;
 	}
 
-	// Returns a list of line names
-	public static GermplasmList getGermplasms()
-		throws ResourceException
-	{
-		cr.setReference(baseURL + "/germplasm/");
-		GermplasmList list = cr.get(GermplasmList.class);
 
-		return list;
-	}
+
+
+
+	// This is commented out because it was probably mid-seattle code that probably
+	// isn't used / needed anymore.
 
 	// Returns allele information for a given germplasm (for a markerprofile)
 	// TODO: The first call could return multiple MarkerProfile objects. Gordon
 	// still needs to decide how this will work
-	public static MarkerProfile getMarkerProfile(int germplasmID)
-	{
-//		System.out.println(baseURL + "/germplasm/" + germplasmID + "/markerprofiles/");
-		cr.setReference(baseURL + "/germplasm/" + germplasmID + "/markerprofiles/");
-		GermplasmMarkerProfileList list = cr.get(GermplasmMarkerProfileList.class);
-
-		if (list.getMarkerProfiles().size() > 0)
-		{
-			// TODO: Which one do we use?
-			String firstID = list.getMarkerProfiles().get(0);
-
-//			System.out.println(baseURL + "/markerprofiles/" + firstID);
-			cr.setReference(baseURL + "/markerprofiles/" + firstID);
-
-			return cr.get(MarkerProfile.class);
-		}
-
-		return null;
-	}
+//	public static BrapiMarkerProfile getMarkerProfile(int germplasmID)
+//	{
+////		System.out.println(baseURL + "/germplasm/" + germplasmID + "/markerprofiles/");
+//		cr.setReference(baseURL + "/germplasm/" + germplasmID + "/markerprofiles/");
+//		GermplasmMarkerProfileList list = cr.get(GermplasmMarkerProfileList.class);
+//
+//		if (list.getMarkerProfiles().size() > 0)
+//		{
+//			// TODO: Which one do we use?
+//			String firstID = list.getMarkerProfiles().get(0);
+//
+////			System.out.println(baseURL + "/markerprofiles/" + firstID);
+//			cr.setReference(baseURL + "/markerprofiles/" + firstID);
+//
+//			return cr.get(BrapiMarkerProfile.class);
+//		}
+//
+//		return null;
+//	}
 
 	public static XmlBrapiProvider getBrapiProviders()
 		throws Exception

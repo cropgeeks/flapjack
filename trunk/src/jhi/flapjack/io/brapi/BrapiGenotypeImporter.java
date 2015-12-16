@@ -11,7 +11,7 @@ import jhi.flapjack.io.*;
 
 import scri.commons.gui.*;
 
-import hutton.brapi.resource.*;
+import jhi.brapi.resource.*;
 
 public class BrapiGenotypeImporter implements IGenotypeImporter
 {
@@ -90,22 +90,22 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 	private boolean readData()
 		throws IOException, DataFormatException
 	{
-		GermplasmList list = BrapiClient.getGermplasms();
-		System.out.println("Recevied info on " + list.getGermplasm().size() + " lines");
+		List<BrapiGermplasm> list = BrapiClient.getGermplasms();
+		System.out.println("Recevied info on " + list.size() + " lines");
 
 		// We need three (!) lookup tables - one to track duplicate names, one
 		// to find them by BRAPI germplasm ID and another to find them by BRAPI
 		// marker profile ID
 		HashMap<String, Line> linesByName = new HashMap<>();
-		HashMap<Integer, Line> linesByGermplasmID = new HashMap<>();
-		HashMap<String,Line> linesByProfileID = new HashMap<>();
+		HashMap<String, Line> linesByGermplasmID = new HashMap<>();
+		HashMap<String, Line> linesByProfileID = new HashMap<>();
 
-		for (Germplasm germplasm: list.getGermplasm())
+		for (BrapiGermplasm germplasm: list)
 		{
 			// Check for duplicate line names
 			String name = germplasm.getGermplasmName();
 			if (name == null)
-				name = "" + germplasm.getGermplasmId();
+				name = germplasm.getGermplasmId();
 
 			if (linesByName.get(name) != null)
 				throw new DataFormatException(RB.format("io.DataFormatException.duplicateLineError2", name));
@@ -114,27 +114,32 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 			linesByName.put(name, line);
 			linesByGermplasmID.put(germplasm.getGermplasmId(), line);
 
-			System.out.println("ID: #" + germplasm.getGermplasmId() + "#");
+//			System.out.println("GID: #" + germplasm.getGermplasmId() + "#, name: " + name);
 		}
 
 		// Call /markerprofiles for list of all profile IDs so those parameters
 		// can be fed into the /allelematrix call
 		String methodID = request.getMethodID();
-		MarkerProfileList profilelist = BrapiClient.getMarkerProfiles(methodID);
+		List<BrapiMarkerProfile> profiles = BrapiClient.getMarkerProfiles(methodID);
 
-		List<MarkerProfile> profiles = profilelist.getMarkerprofiles();
-
-		for (MarkerProfile mp: profiles)
+		for (BrapiMarkerProfile mp: profiles)
 		{
+//			System.out.print("GID: #" + mp.getGermplasmId() + "#, name: ");
+
 			Line line = linesByGermplasmID.get(mp.getGermplasmId());
 			linesByProfileID.put(mp.getMarkerprofileId(), line);
+
+//			System.out.println(line == null ? "NULL" : line.getName());
 		}
 
 
 
 		// Now retrieve the allele data using the /brapi/allelematrix call
-		AlleleMatrix matrix = BrapiClient.getAlleleMatrix(profiles);
+		List<BrapiAlleleMatrix> matrixList = BrapiClient.getAlleleMatrix(profiles);
+		if (matrixList.size() == 0)
+			throw new IOException("List contains zero BRAPI AlleleMatrix objects");
 
+		BrapiAlleleMatrix matrix = matrixList.get(0);
 
 		// A list of IDs that need to be mapped back to the original list of marker profile IDs that
 		// were asked for
@@ -159,7 +164,10 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 					Line line = linesByProfileID.get(mpID);
 
 					if (line == null)
+					{
+						System.out.println("NULL:" + mpID);
 						break;
+					}
 
 					String allele = alleles.get(i);
 
