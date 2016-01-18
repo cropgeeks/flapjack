@@ -70,7 +70,7 @@ public class GenotypeDataImporter implements IGenotypeImporter
 
 	@Override
 	public long getLineCount()
-		{ return lines != null ? lines.size() : 0; }
+		{ return dataSet.getLines().size(); }
 
 	@Override
 	public long getMarkerCount()
