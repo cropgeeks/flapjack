@@ -92,7 +92,7 @@ public class ProjectSerializerDB
 			c.close();
 	}
 
-	static void closeAndVacuum()
+	public static void vacuum()
 		throws SQLException
 	{
 		if (c != null)
@@ -100,8 +100,6 @@ public class ProjectSerializerDB
 			PreparedStatement ps = c.prepareStatement("VACUUM;");
 			ps.execute();
 			ps.close();
-
-			c.close();
 		}
 	}
 

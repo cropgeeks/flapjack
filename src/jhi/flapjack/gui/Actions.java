@@ -19,6 +19,7 @@ public class Actions
 	public static AbstractAction fileOpen;
 	public static AbstractAction fileSave;
 	public static AbstractAction fileSaveAs;
+	public static AbstractAction fileOptimize;
 	public static AbstractAction fileImport;
 	public static AbstractAction fileExport;
 	public static AbstractAction fileExit;
@@ -127,10 +128,15 @@ public class Actions
 		// Flapjack starts with a new (unmodified) project already created so
 		// you can't save it as there's nothing (yet) to be saved
 		fileSave.setEnabled(false);
+		fileOptimize.setEnabled(false);
 	}
 
-	public static void projectSaved() {
+	public static void projectSaved()
+	{
 		fileSave.setEnabled(false);
+
+		// If the project was saved, then there must be a file for optimization
+		fileOptimize.setEnabled(true);
 	}
 
 	public static void projectModified() {
@@ -170,6 +176,12 @@ public class Actions
 		fileSaveAs = new AbstractAction(RB.getString("gui.Actions.fileSaveAs"), getIcon("FILESAVEAS")) {
 			public void actionPerformed(ActionEvent e) {
 				winMain.mFile.fileSave(true);
+			}
+		};
+
+		fileOptimize = new AbstractAction(RB.getString("gui.Actions.fileOptimize")) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.mFile.fileOptimize();
 			}
 		};
 

@@ -126,7 +126,7 @@ public class ProjectSerializer
 			System.out.println("DB Serialization Cache: " + (t2-t1) + "ms");
 
 //			ProjectSerializerDB.close();
-//			ProjectSerializerDB.closeAndVacuum();
+//			ProjectSerializerDB.vacuum();
 
 			long e = System.currentTimeMillis();
 			System.out.println("Project saved in " + (e-s) + "ms");

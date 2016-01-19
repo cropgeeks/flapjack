@@ -24,6 +24,7 @@ public class WinMainMenuBar extends JMenuBar
 	private JMenuItem mFileOpen;
 	private JMenuItem mFileSave;
 	private JMenuItem mFileSaveAs;
+	private JMenuItem mFileOptimize;
 	private JMenuItem mFileImport;
 	private JMenuItem mFileExport;
 	private JMenuItem mFileExit;
@@ -154,6 +155,7 @@ public class WinMainMenuBar extends JMenuBar
 		mFileOpen = getItem(Actions.fileOpen, "gui.Actions.fileOpen", KeyEvent.VK_O, menuShortcut);
 		mFileSave = getItem(Actions.fileSave, "gui.Actions.fileSave", KeyEvent.VK_S, menuShortcut);
 		mFileSaveAs = getItem(Actions.fileSaveAs, "gui.Actions.fileSaveAs", 0, 0);
+		mFileOptimize = getItem(Actions.fileOptimize, "gui.Actions.fileOptimize", 0, 0);
 		mFileImport = getItem(Actions.fileImport, "gui.Actions.fileImport", 0, 0);
 		mFileExport = getItem(Actions.fileExport, "gui.Actions.fileExport", 0, 0);
 		mFileExit = getItem(Actions.fileExit, "gui.Actions.fileExit", 0, 0);
@@ -167,6 +169,7 @@ public class WinMainMenuBar extends JMenuBar
 		mFile.addSeparator();
 		mFile.add(mFileSave);
 		mFile.add(mFileSaveAs);
+		mFile.add(mFileOptimize);
 		mFile.addSeparator();
 		mFile.add(mFileImport);
 		mFile.add(mFileExport);
