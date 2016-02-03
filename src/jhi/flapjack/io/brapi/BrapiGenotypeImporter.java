@@ -105,14 +105,14 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 			// Check for duplicate line names
 			String name = germplasm.getGermplasmName();
 			if (name == null)
-				name = germplasm.getGermplasmId();
+				name = germplasm.getGermplasmDbId();
 
 			if (linesByName.get(name) != null)
 				throw new DataFormatException(RB.format("io.DataFormatException.duplicateLineError2", name));
 
 			Line line = dataSet.createLine(name, useByteStorage);
 			linesByName.put(name, line);
-			linesByGermplasmID.put(germplasm.getGermplasmId(), line);
+			linesByGermplasmID.put(germplasm.getGermplasmDbId(), line);
 
 //			System.out.println("GID: #" + germplasm.getGermplasmId() + "#, name: " + name);
 		}
