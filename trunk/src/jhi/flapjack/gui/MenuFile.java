@@ -5,6 +5,7 @@ package jhi.flapjack.gui;
 
 import java.io.*;
 
+import jhi.flapjack.analysis.*;
 import jhi.flapjack.data.*;
 import jhi.flapjack.gui.dialog.*;
 import jhi.flapjack.gui.dialog.importer.*;
@@ -115,13 +116,32 @@ public class MenuFile
 		return false;
 	}
 
+	public void fileOptimize()
+	{
+		String msg = RB.getString("gui.MenuFile.optimizeMsg");
+
+		String[] options = new String[] {
+				RB.getString("gui.MenuFile.optimize"),
+				RB.getString("gui.text.cancel") };
+
+		if (TaskDialog.show(msg, TaskDialog.QST, 1, options) != 0)
+			return;
+
+		OptimizeProject optimize = new OptimizeProject();
+
+		ProgressDialog dialog = new ProgressDialog(optimize,
+			 RB.format("gui.MenuFile.optimizeTitle"),
+			 RB.format("gui.MenuFile.optimizing"),
+			 Flapjack.winMain);
+	}
+
 	public void fileImportSelect()
 	{
 //		DataSourceDialog dialog = new DataSourceDialog();
-
+//
 //		if (dialog.isOK() == false)
 //			return;
-
+//
 //		if (Prefs.guiImportType == 0)
 			fileImport(0);
 //		else
