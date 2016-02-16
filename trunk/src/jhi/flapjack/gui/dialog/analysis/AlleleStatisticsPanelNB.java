@@ -20,7 +20,7 @@ class AlleleStatisticsPanelNB extends JPanel implements AdjustmentListener
 	private NumberFormat nf = NumberFormat.getInstance();
 	private DecimalFormat d = new DecimalFormat("0.0");
 
-	public AlleleStatisticsPanelNB(GTViewSet viewSet, ArrayList<int[]> results)
+	public AlleleStatisticsPanelNB(GTViewSet viewSet, ArrayList<long[]> results)
 	{
 		initComponents();
 
@@ -28,7 +28,7 @@ class AlleleStatisticsPanelNB extends JPanel implements AdjustmentListener
 		tablePanel.setBackground((Color)UIManager.get("fjDialogBG"));
 
 		String name = viewSet.getName();
-		int total = viewSet.countAllAlleles(false);
+		long total = viewSet.countAllAlleles(false);
 
 		// i18n
 		viewLabel.setText(RB.format("gui.dialog.analysis.NBAlleleStatisticsPanel.viewLabel", name, total));
@@ -43,7 +43,7 @@ class AlleleStatisticsPanelNB extends JPanel implements AdjustmentListener
 		sp2.getVerticalScrollBar().addAdjustmentListener(this);
 	}
 
-	private void createSumTable(GTViewSet viewSet, ArrayList<int[]> results)
+	private void createSumTable(GTViewSet viewSet, ArrayList<long[]> results)
 	{
 		StateTable stateTable = viewSet.getDataSet().getStateTable();
 
@@ -56,14 +56,14 @@ class AlleleStatisticsPanelNB extends JPanel implements AdjustmentListener
 
 		// Calculate the sum of each row's allele count (the total number of
 		// each allele type)
-		int[] totals = new int[r.length];
-		int alleleTotal = 0;
+		long[] totals = new long[r.length];
+		long alleleTotal = 0;
 
 		// For each allele...
 		for (int i = 0; i < r.length; i++)
 		{
 			// Count up each chromosome's number for that allele
-			for (int[] data: results)
+			for (long[] data: results)
 				totals[i] += data[i];
 
 			// And track the overal number across all chromosomes
@@ -99,7 +99,7 @@ class AlleleStatisticsPanelNB extends JPanel implements AdjustmentListener
         UIScaler.setCellHeight(sumTable);
 	}
 
-	private void createViewTable(GTViewSet viewSet, ArrayList<int[]> results)
+	private void createViewTable(GTViewSet viewSet, ArrayList<long[]> results)
 	{
 		StateTable stateTable = viewSet.getDataSet().getStateTable();
 
@@ -117,10 +117,10 @@ class AlleleStatisticsPanelNB extends JPanel implements AdjustmentListener
 		// Enter the data for each chromosome
 		for (int view = 0, col=0; view < viewCount; view++, col+=2)
 		{
-			int[] data = results.get(view);
+			long[] data = results.get(view);
 			for (int i = 0; i < r.length; i++)
 			{
-				int value = data[i];
+				long value = data[i];
 				float prct = (((float)data[i] / data[data.length-1]) * 100);
 				r[i][col] = nf.format(value);
 				r[i][col+1] = d.format(prct);
