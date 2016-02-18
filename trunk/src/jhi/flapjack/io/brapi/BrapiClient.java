@@ -115,17 +115,47 @@ public class BrapiClient
 		return list;
 	}
 
+	// Returns true if another 'page' of data should be requsted
+	private static boolean pageCheck(jhi.brapi.resource.Metadata metadata, String url)
+	{
+		Pagination p = metadata.getPagination();
+		System.out.println(p);
+
+		if (p.getTotalPages() == 0)
+			return false;
+
+		if (p.getCurrentPage() == p.getTotalPages()-1)
+			return false;
+
+		// If it's ok to request another page, update the URL (for the next call)
+		// so that it does so
+		cr.setReference(url);
+		cr.addQueryParameter("pageSize", "" + p.getPageSize());
+		cr.addQueryParameter("currentPage", "" + (p.getCurrentPage()+1));
+
+		return true;
+	}
+
 	// Returns a list of line names
 	public static List<BrapiGermplasm> getGermplasms()
 		throws ResourceException
 	{
-		cr.setReference(baseURL + "/germplasm/");
+		String url = baseURL + "/germplasm/";
+		cr.setReference(url);
 
-		LinkedHashMap hashMap = cr.get(LinkedHashMap.class);
-		BasicResource<BrapiGermplasm> br = new ObjectMapper().convertValue(hashMap,
-			new TypeReference<BasicResource<BrapiGermplasm>>() {});
+		List<BrapiGermplasm> list = new ArrayList<>();
+		boolean requestPage = true;
 
-		List<BrapiGermplasm> list = br.getResult();
+		while (requestPage)
+		{
+			LinkedHashMap hashMap = cr.get(LinkedHashMap.class);
+			BasicResource<BrapiGermplasm> br = new ObjectMapper().convertValue(hashMap,
+				new TypeReference<BasicResource<BrapiGermplasm>>() {});
+
+			list.addAll(br.getResult());
+
+			requestPage = pageCheck(br.getMetadata(), url);
+		}
 
 		return list;
 	}
