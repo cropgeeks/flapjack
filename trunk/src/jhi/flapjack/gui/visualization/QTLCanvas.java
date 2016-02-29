@@ -296,7 +296,8 @@ class QTLCanvas extends JPanel implements PropertyChangeListener
 				return;
 
 			// Work out where (in map distances) the mouse is
-			float mapPos = getMapPosition(e.getX() - xOffset);
+//			float mapPos = getMapPosition(e.getX() - xOffset);
+//			System.out.println("mapPos=" + mapPos);
 
 			// NOTE: the search is backwards (right to left) as F2.pos > F1.pos
 			// will mean F2 is drawn on TOP of F1
@@ -328,7 +329,9 @@ class QTLCanvas extends JPanel implements PropertyChangeListener
 					{
 						QTLInfo qtl = fg.get(fIndex);
 
-						if (qtl.min() <= mapPos && qtl.max() >= mapPos)
+						int mouseX = e.getX() - xOffset;
+						if (getPixelPosition(qtl.min()) <= mouseX && getPixelPosition(qtl.max()) >= mouseX)
+//						if (qtl.min() <= mapPos && qtl.max() >= mapPos)
 						{
 							match = qtl;
 							break;
