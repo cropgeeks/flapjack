@@ -18,15 +18,17 @@ import scri.commons.gui.*;
  */
 public class SplitProject extends SimpleJob
 {
-	private static Project project = new Project();
+	private Project project = new Project();
 
 	// Command line parameters
-	private static FlapjackFile prjFile;
-	private static String outputDir;
-	private static boolean decimalEnglish = false;
-	private static boolean isCommandLine = false;
+	private FlapjackFile prjFile;
+	private String outputDir;
+	private boolean decimalEnglish = false;
+	private boolean isCommandLine = false;
 
-	private static HashMap<String,String> datasets = new HashMap<>();
+	private HashMap<String,String> datasets = new HashMap<>();
+
+	private static List<String> output = new ArrayList<>();
 
 
 	// Constructor is called by the GUI for a File->Quick Export menu option
@@ -38,19 +40,26 @@ public class SplitProject extends SimpleJob
 		maximum = 4;
 	}
 
-	public SplitProject()
+	public SplitProject(String prjFilePath, String outputDir, HashMap<String, String> datasets, boolean decimalEnglish)
 	{
+		this.prjFile = new FlapjackFile(prjFilePath);
+		this.outputDir = outputDir;
+		this.datasets = datasets;
+		this.decimalEnglish = decimalEnglish;
 	}
 
 	// Or the main method (obviously) called by the command line
 	public static void main(String[] args)
 	{
-		isCommandLine = true;
+		String prjFilePath = null;
+		String outputDir = null;
+		boolean decimalEnglish = false;
+		HashMap<String, String> datasets = new HashMap<>();
 
 		for (int i = 0; i < args.length; i++)
 		{
 			if (args[i].toUpperCase().startsWith("-PROJECT="))
-				prjFile = new FlapjackFile(args[i].substring(9));
+				prjFilePath = args[i].substring(9);
 			if (args[i].toUpperCase().startsWith("-DIR="))
 				outputDir = args[i].substring(5);
 			if (args[i].toUpperCase().startsWith("-DECIMALENGLISH"))
@@ -77,7 +86,7 @@ public class SplitProject extends SimpleJob
 		}
 
 
-		if (prjFile == null || outputDir == null)
+		if (prjFilePath == null || outputDir == null)
 		{
 			System.out.println("Flapjack " + Install4j.VERSION + "\n\n"
 				+ "Splits a Flapjack project into multiple raw data text files.\n\n"
@@ -101,6 +110,14 @@ public class SplitProject extends SimpleJob
 			return;
 		}
 
+		SplitProject splitProject = new SplitProject(prjFilePath, outputDir, datasets, decimalEnglish);
+		splitProject.doSplit();
+	}
+
+	public List<String> doSplit()
+	{
+		isCommandLine = true;
+
 		RB.initialize("auto", "res.text.flapjack");
 		TaskDialog.setIsHeadless();
 		FlapjackUtils.initialiseSqlite();
@@ -110,13 +127,14 @@ public class SplitProject extends SimpleJob
 
 		try
 		{
-			SplitProject splitter = new SplitProject();
-			splitter.runJob(0);
+			runJob(0);
 		}
 		catch (Exception e)
 		{
-			e.printStackTrace();
+			logMessage(e.getMessage());
 		}
+
+		return output;
 	}
 
 	// Actual method that does the work. Simply takes the data and runs it
@@ -140,7 +158,7 @@ public class SplitProject extends SimpleJob
 		progress = 4;
 	}
 
-	private static void openProject()
+	private void openProject()
 		throws Exception
 	{
 		project = ProjectSerializer.open(prjFile);
@@ -148,7 +166,7 @@ public class SplitProject extends SimpleJob
 
 	// Returns the name to use for the output of this dataset. It will either be
 	// the original name, or the overriden name if the user passed one in
-	private static String getName(DataSet dataSet)
+	private String getName(DataSet dataSet)
 	{
 		if (datasets.containsKey(dataSet.getName()))
 			return datasets.get(dataSet.getName());
@@ -160,7 +178,7 @@ public class SplitProject extends SimpleJob
 	// this is: if no named datasets, then all will be extracted; otherwise,
 	// only named datasets will return true (regardless of whether they have a
 	// name override too)
-	private static boolean processDataSet(DataSet dataSet)
+	private boolean processDataSet(DataSet dataSet)
 	{
 		if (datasets.size() == 0)
 			return true;
@@ -171,7 +189,7 @@ public class SplitProject extends SimpleJob
 			return false;
 	}
 
-	private static void exportMap()
+	private void exportMap()
 		throws Exception
 	{
 		for (DataSet dataSet: project.getDataSets())
@@ -187,13 +205,13 @@ public class SplitProject extends SimpleJob
 					new File(outputDir, name),
 					viewSet, true, null, 0);
 
-				System.out.println("Exporting map:       " + name);
+				logMessage("Exporting map:       " + name);
 				exporter.runJob(0);
 			}
 		}
 	}
 
-	private static void exportGenotypes()
+	private void exportGenotypes()
 		throws Exception
 	{
 		for (DataSet dataSet: project.getDataSets())
@@ -209,13 +227,13 @@ public class SplitProject extends SimpleJob
 					new File(outputDir, name),
 					viewSet, true, null, 0);
 
-				System.out.println("Exporting genotypes: " + name);
+				logMessage("Exporting genotypes: " + name);
 				exporter.runJob(0);
 			}
 		}
 	}
 
-	private static void exportTraits()
+	private void exportTraits()
 		throws Exception
 	{
 		for (DataSet dataSet: project.getDataSets())
@@ -228,12 +246,12 @@ public class SplitProject extends SimpleJob
 			TraitExporter exporter = new TraitExporter(
 				dataSet, new File(outputDir, name));
 
-			System.out.println("Exporting traits:    " + name);
+			logMessage("Exporting traits:    " + name);
 			exporter.runJob(0);
 		}
 	}
 
-	private static void exportQTL()
+	private void exportQTL()
 		throws Exception
 	{
 		for (DataSet dataSet: project.getDataSets())
@@ -246,8 +264,14 @@ public class SplitProject extends SimpleJob
 			QTLExporter exporter = new QTLExporter(
 				dataSet, new File(outputDir, name));
 
-			System.out.println("Exporting QTL:       " + name);
+			logMessage("Exporting QTL:       " + name);
 			exporter.runJob(0);
 		}
+	}
+
+	private static void logMessage(String message)
+	{
+		System.out.println(message);
+		output.add(message);
 	}
 }

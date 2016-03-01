@@ -51,6 +51,22 @@ public class CreateMatrix
 			return;
 		}
 
+		CreateMatrix cMatrix = new CreateMatrix(mapFile, genotypesFile, filename, decimalEnglish);
+		cMatrix.doMatrixCreation();
+
+		System.exit(0);
+	}
+
+	public CreateMatrix(File mapFile, File genotypesFile, String filename, boolean decimalEnglish)
+	{
+		this.mapFile = mapFile;
+		this.genotypesFile = genotypesFile;
+		this.filename = filename;
+		this.decimalEnglish = decimalEnglish;
+	}
+
+	public void doMatrixCreation()
+	{
 		RB.initialize("auto", "res.text.flapjack");
 		TaskDialog.setIsHeadless();
 
@@ -73,11 +89,9 @@ public class CreateMatrix
 			System.out.println(e);
 			System.exit(1);
 		}
-
-		System.exit(0);
 	}
 
-	private static void CreateSimMatrix()
+	private void CreateSimMatrix()
 		throws Exception
 	{
 		GTViewSet viewSet = dataSet.getViewSets().get(0);
