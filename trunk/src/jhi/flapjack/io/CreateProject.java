@@ -31,6 +31,8 @@ public class CreateProject
 	private static String name;
 	private static boolean decimalEnglish = false;
 
+	private static List<String> output = new ArrayList<>();
+
 	public static void main(String[] args)
 	{
 		for (int i = 0; i < args.length; i++)
@@ -66,6 +68,33 @@ public class CreateProject
 			return;
 		}
 
+		CreateProject cProj = new CreateProject(mapFile, genotypesFile, traitsFile, qtlsFile, prjFile, decimalEnglish);
+		cProj.doProjectCreation();
+	}
+
+	/**
+	 * Constructor for setting up project creation. Call this, then doProjectCreation() to create a project.
+	 *
+	 * @param mapFile			The map File object for this project (requried)
+	 * @param genotypesFile 	The genotypes File object for this project (required)
+	 * @param traitsFile		The traits File object for this project (optional - can be null)
+	 * @param qtlsFile			The qtls File object for this project (optional - can be null)
+	 * @param name				The name for this project as a string (required)
+	 * @param decimalEnglish	Whether or not we use English decimal points (required - boolean).
+	 */
+	public CreateProject(File mapFile, File genotypesFile, File traitsFile, File qtlsFile, FlapjackFile prjFile, boolean decimalEnglish)
+	{
+		this.mapFile = mapFile;
+		this.genotypesFile = genotypesFile;
+		this.traitsFile = traitsFile;
+		this.qtlsFile = qtlsFile;
+		this.decimalEnglish = decimalEnglish;
+
+		this.prjFile = prjFile;
+	}
+
+	public List<String> doProjectCreation()
+	{
 		RB.initialize("auto", "res.text.flapjack");
 		TaskDialog.setIsHeadless();
 		FlapjackUtils.initialiseSqlite();
@@ -81,12 +110,16 @@ public class CreateProject
 			importQTLs();
 
 			if (saveProject())
-				System.out.println("\nProject Created");
+				logMessage("\nProject Created");
+
+			ProjectSerializerDB.close();
 		}
 		catch (Exception e)
 		{
-			e.printStackTrace();
+			logMessage(e.getMessage());
 		}
+
+		return output;
 	}
 
 	static void createProject()
@@ -124,7 +157,7 @@ public class CreateProject
 		if (traitsFile == null)
 			return;
 
-		System.out.println("Importing traits from " + traitsFile);
+		logMessage("Importing traits from " + traitsFile);
 		TraitImporter importer = new TraitImporter(traitsFile, dataSet);
 		importer.runJob(0);
 
@@ -138,7 +171,7 @@ public class CreateProject
 		if(qtlsFile == null)
 			return;
 
-		System.out.println("Importing QTLs from " + qtlsFile);
+		logMessage("Importing QTLs from " + qtlsFile);
 		QTLImporter importer = new QTLImporter(qtlsFile, dataSet);
 		importer.runJob(0);
 
@@ -159,5 +192,11 @@ public class CreateProject
 		project.fjFile = prjFile;
 
 		return ProjectSerializer.save(project);
+	}
+
+	private static void logMessage(String message)
+	{
+		System.out.println(message);
+		output.add(message);
 	}
 }
