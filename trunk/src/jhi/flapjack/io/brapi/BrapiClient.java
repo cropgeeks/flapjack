@@ -67,54 +67,6 @@ public class BrapiClient
 //		c.getParameters().add("tracing", "true");
 	}
 
-	// Returns a list of available maps
-	public static List<BrapiGenomeMap> getMaps()
-		throws ResourceException
-	{
-		cr.setReference(baseURL + "/maps");
-
-		LinkedHashMap hashMap = cr.get(LinkedHashMap.class);
-		BasicResource<BrapiGenomeMap> br = new ObjectMapper().convertValue(hashMap,
-			new TypeReference<BasicResource<BrapiGenomeMap>>() {});
-
-		List<BrapiGenomeMap> list = br.getResult();
-
-		return list;
-	}
-
-	// Returns a list of available "MarkerProfileMethods" - this isn't something
-	// that really exists in Germinate (yet)
-	public static List<BrapiMarkerProfileMethod> getMarkerProfileMethods()
-		throws ResourceException
-	{
-		cr.setReference(baseURL + "/markerprofiles/methods");
-
-		LinkedHashMap hashMap = cr.get(LinkedHashMap.class);
-		BasicResource<BrapiMarkerProfileMethod> br = new ObjectMapper().convertValue(hashMap,
-			new TypeReference<BasicResource<BrapiMarkerProfileMethod>>() {});
-
-		List<BrapiMarkerProfileMethod> list = br.getResult();
-
-		return list;
-	}
-
-	// Returns the details (markers, chromosomes, positions) for a given map
-	public static List<BrapiMarker> getMapMarkerData(String mapID)
-		throws ResourceException
-	{
-		// TODO: /map/{id} = map basics
-
-		cr.setReference(baseURL + "/maps/" + mapID + "/positions");
-
-		LinkedHashMap hashMap = cr.get(LinkedHashMap.class);
-		BasicResource<BrapiMarker> br = new ObjectMapper().convertValue(hashMap,
-			new TypeReference<BasicResource<BrapiMarker>>() {});
-
-		List<BrapiMarker> list = br.getResult();
-
-		return list;
-	}
-
 	// Returns true if another 'page' of data should be requsted
 	private static boolean pageCheck(jhi.brapi.resource.Metadata metadata, String url)
 	{
@@ -136,6 +88,77 @@ public class BrapiClient
 		return true;
 	}
 
+	// Returns a list of available maps
+	public static List<BrapiGenomeMap> getMaps()
+		throws ResourceException
+	{
+		String url = baseURL + "/maps/";
+		cr.setReference(url);
+
+		List<BrapiGenomeMap> list = new ArrayList<>();
+		boolean requestPage = true;
+
+		while (requestPage)
+		{
+			LinkedHashMap hashMap = cr.get(LinkedHashMap.class);
+			BasicResource<BrapiGenomeMap> br = new ObjectMapper().convertValue(hashMap,
+				new TypeReference<BasicResource<BrapiGenomeMap>>() {});
+
+			list.addAll(br.getResult());
+			requestPage = pageCheck(br.getMetadata(), url);
+		}
+
+		return list;
+	}
+
+	// Returns a list of available "MarkerProfileMethods" - this isn't something
+	// that really exists in Germinate (yet)
+	public static List<BrapiMarkerProfileMethod> getMarkerProfileMethods()
+		throws ResourceException
+	{
+		String url = baseURL + "/markerprofiles/methods/";
+		cr.setReference(url);
+
+		List<BrapiMarkerProfileMethod> list = new ArrayList<>();
+		boolean requestPage = true;
+
+		while (requestPage)
+		{
+			LinkedHashMap hashMap = cr.get(LinkedHashMap.class);
+			BasicResource<BrapiMarkerProfileMethod> br = new ObjectMapper().convertValue(hashMap,
+				new TypeReference<BasicResource<BrapiMarkerProfileMethod>>() {});
+
+			list.addAll(br.getResult());
+			requestPage = pageCheck(br.getMetadata(), url);
+		}
+
+		return list;
+	}
+
+	// Returns the details (markers, chromosomes, positions) for a given map
+	public static List<BrapiMarker> getMapMarkerData(String mapID)
+		throws ResourceException
+	{
+		// TODO: /map/{id} = map basics
+		String url = baseURL + "/maps/" + mapID + "/positions";
+		cr.setReference(url);
+
+		List<BrapiMarker> list = new ArrayList<>();
+		boolean requestPage = true;
+
+		while (requestPage)
+		{
+			LinkedHashMap hashMap = cr.get(LinkedHashMap.class);
+			BasicResource<BrapiMarker> br = new ObjectMapper().convertValue(hashMap,
+				new TypeReference<BasicResource<BrapiMarker>>() {});
+
+			list.addAll(br.getResult());
+			requestPage = pageCheck(br.getMetadata(), url);
+		}
+
+		return list;
+	}
+
 	// Returns a list of line names
 	public static List<BrapiGermplasm> getGermplasms()
 		throws ResourceException
@@ -153,7 +176,6 @@ public class BrapiClient
 				new TypeReference<BasicResource<BrapiGermplasm>>() {});
 
 			list.addAll(br.getResult());
-
 			requestPage = pageCheck(br.getMetadata(), url);
 		}
 
@@ -163,14 +185,22 @@ public class BrapiClient
 	public static List<BrapiMarkerProfile> getMarkerProfiles(String methodID)
 		throws ResourceException
 	{
-		cr.setReference(baseURL + "/markerprofiles/");// +
+		String url = baseURL + "/markerprofiles/";// +
 	//		methodID == null ? "/" : "&method=" + methodID);
+		cr.setReference(url);
 
-		LinkedHashMap hashMap = cr.get(LinkedHashMap.class);
-		BasicResource<BrapiMarkerProfile> br = new ObjectMapper().convertValue(hashMap,
-			new TypeReference<BasicResource<BrapiMarkerProfile>>() {});
+		List<BrapiMarkerProfile> list = new ArrayList<>();
+		boolean requestPage = true;
 
-		List<BrapiMarkerProfile> list = br.getResult();
+		while (requestPage)
+		{
+			LinkedHashMap hashMap = cr.get(LinkedHashMap.class);
+			BasicResource<BrapiMarkerProfile> br = new ObjectMapper().convertValue(hashMap,
+				new TypeReference<BasicResource<BrapiMarkerProfile>>() {});
+
+			list.addAll(br.getResult());
+			requestPage = pageCheck(br.getMetadata(), url);
+		}
 
 		return list;
 	}
@@ -178,35 +208,35 @@ public class BrapiClient
 	public static List<BrapiAlleleMatrix> getAlleleMatrix(List<BrapiMarkerProfile> markerprofiles)
 		throws ResourceException
 	{
-		cr.setReference(baseURL + "/allelematrix");
+		String url = baseURL + "/allelematrix";
+		cr.setReference(url);
 
-		StringBuilder sb = new StringBuilder();
-		for (BrapiMarkerProfile mp: markerprofiles)
+		List<BrapiAlleleMatrix> list = new ArrayList<>();
+		boolean requestPage = true;
+
+		while (requestPage)
 		{
-			if (sb.length() > 0)
-				sb.append("&");
-			sb.append("markerprofileDbId=" + mp.getMarkerprofileId());
+			// Annoying to have to resend all this for every paged (re)POST
+			StringBuilder sb = new StringBuilder();
+			for (BrapiMarkerProfile mp: markerprofiles)
+			{
+				if (sb.length() > 0)
+					sb.append("&");
+				sb.append("markerprofileDbId=" + mp.getMarkerprofileId());
+			}
+
+			Form form = new Form(sb.toString());
+
+			LinkedHashMap hashMap = cr.post(form.getWebRepresentation(), LinkedHashMap.class);
+			BasicResource<BrapiAlleleMatrix> br = new ObjectMapper().convertValue(hashMap,
+				new TypeReference<BasicResource<BrapiAlleleMatrix>>() {});
+
+			list.addAll(br.getResult());
+			requestPage = pageCheck(br.getMetadata(), url);
 		}
-
-		Form form = new Form(sb.toString());
-//		for (MarkerProfile mp: markerprofiles)
-//		{
-//			System.out.println("FORM: " + mp.getMarkerprofileId());
-  //      	form.add("markerprofileId", mp.getMarkerprofileId());
-	//	}
-
-
-		LinkedHashMap hashMap = cr.post(form.getWebRepresentation(), LinkedHashMap.class);
-		BasicResource<BrapiAlleleMatrix> br = new ObjectMapper().convertValue(hashMap,
-			new TypeReference<BasicResource<BrapiAlleleMatrix>>() {});
-
-		List<BrapiAlleleMatrix> list = br.getResult();
 
 		return list;
 	}
-
-
-
 
 
 	// This is commented out because it was probably mid-seattle code that probably
