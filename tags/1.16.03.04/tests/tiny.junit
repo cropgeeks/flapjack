@@ -1,0 +1,19 @@
+1 map(s) by 5 line(s)
+
+0	
+1	A
+2	G
+3	C
+4	T
+5	A/G
+6	F
+7	A/T
+
+Map 1H (5 loci)
+	MARKER1 (1.00)	MARKER2 (2.00)	MARKER3 (3.00)	MARKER4 (4.00)	MARKER5 (5.00)
+LINE0	1	2	3	4	5
+LINE1	3	2	2	1	5
+LINE2	1	2	6	2	7
+LINE3	2	2	3	2	5
+LINE4	4	4	1	2	5
+

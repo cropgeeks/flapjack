@@ -1,0 +1,235 @@
+<?xml version="1.0"?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
+                         "http://castor.org/mapping.dtd">
+
+<mapping>
+
+	<class name="jhi.flapjack.data.XMLRoot" identity="guid">
+		<field name="guid" type="string">
+			<bind-xml node="attribute"/>
+		</field>
+	</class>
+
+	<!-- Project -->
+	<class name="jhi.flapjack.data.Project" extends="jhi.flapjack.data.XMLRoot" auto-complete="true">
+		<field name="dataSets" type="jhi.flapjack.data.DataSet" collection="arraylist"/>
+	</class>
+
+	<!-- DataSet -->
+	<class name="jhi.flapjack.data.DataSet" extends="jhi.flapjack.data.XMLRoot" auto-complete="true">
+		<field name="chromosomeMaps" type="jhi.flapjack.data.ChromosomeMap" collection="arraylist"/>
+		<field name="lines" type="jhi.flapjack.data.Line" collection="arraylist"/>
+		<field name="viewSets" type="jhi.flapjack.data.GTViewSet" collection="arraylist"/>
+		<field name="traits" type="jhi.flapjack.data.Trait" collection="arraylist"/>
+
+		<field name="dummyLine" type="jhi.flapjack.data.Line" transient="true"/>
+		<field name="splitter" type="jhi.flapjack.data.Line" transient="true"/>
+	</class>
+
+	<!-- ChromosomeMap -->
+	<class name="jhi.flapjack.data.ChromosomeMap" extends="jhi.flapjack.data.XMLRoot" auto-complete="true">
+		<field name="name" type="string">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="markers" type="jhi.flapjack.data.Marker" collection="arraylist"/>
+		<field name="qtls" type="jhi.flapjack.data.QTL" collection="arraylist"/>
+		<field name="graphs" type="jhi.flapjack.data.GraphData" collection="arraylist"/>
+	</class>
+
+	<!-- GraphData -->
+	<class name="jhi.flapjack.data.GraphData" extends="jhi.flapjack.data.XMLRoot" auto-complete="true">
+		<field name="name" type="string">
+			<bind-xml node="attribute"/>
+		</field>
+	</class>
+
+	<!-- Marker -->
+	<class name="jhi.flapjack.data.Marker" extends="jhi.flapjack.data.XMLRoot" auto-complete="true">
+		<field name="name" type="string">
+			<bind-xml node="attribute"/>
+		</field>
+	</class>
+
+	<!-- Line -->
+	<class name="jhi.flapjack.data.Line" extends="jhi.flapjack.data.XMLRoot" auto-complete="true">
+		<field name="name" type="string">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="genotypes" type="jhi.flapjack.data.GenotypeData" collection="arraylist"/>
+		<field name="traitValues" type="jhi.flapjack.data.TraitValue" collection="arraylist"/>
+	</class>
+
+	<!-- GenotypeData -->
+	<class name="jhi.flapjack.data.GenotypeData" extends="jhi.flapjack.data.XMLRoot" auto-complete="true">
+		<field name="chromosomeMap" type="jhi.flapjack.data.ChromosomeMap">
+			<bind-xml reference="true" node="attribute"/>
+		</field>
+	</class>
+
+	<!-- StateTable -->
+	<class name="jhi.flapjack.data.StateTable" extends="jhi.flapjack.data.XMLRoot" auto-complete="true">
+		<field name="states" type="jhi.flapjack.data.AlleleState" collection="arraylist"/>
+	</class>
+
+	<!-- AlleleState -->
+	<class name="jhi.flapjack.data.AlleleState" extends="jhi.flapjack.data.XMLRoot" auto-complete="true"/>
+
+	<!-- GTViewSet -->
+	<class name="jhi.flapjack.data.GTViewSet" extends="jhi.flapjack.data.XMLRoot" auto-complete="true">
+		<field name="dataSet" type="jhi.flapjack.data.DataSet">
+			<bind-xml reference="true" node="attribute"/>
+		</field>
+		<field name="name" type="string">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="lines" type="jhi.flapjack.data.LineInfo" collection="arraylist"/>
+		<field name="hideLines" type="jhi.flapjack.data.LineInfo" collection="arraylist"/>
+		<field name="views" type="jhi.flapjack.data.GTView" collection="arraylist"/>
+		<field name="customMaps" type="jhi.flapjack.data.CustomMaps"/>
+		<field name="bookmarks" type="jhi.flapjack.data.Bookmark" collection="arraylist"/>
+		<field name="matrices" type="jhi.flapjack.data.SimMatrix" collection="arraylist"/>
+		<field name="dendrograms" type="jhi.flapjack.data.Dendrogram" collection="arraylist"/>
+		<field name="comparisonLine" type="jhi.flapjack.data.Line">
+			<bind-xml reference="true" node="attribute"/>
+		</field>
+		<!-- transient stops this field from being marshalled -->
+		<field name="traits" type="integer" collection="array" transient="true"/>
+		<field name="graphs" type="integer" collection="array" transient="true"/>
+	</class>
+
+	<!-- GTView -->
+	<class name="jhi.flapjack.data.GTView" extends="jhi.flapjack.data.XMLRoot" auto-complete="true">
+		<field name="viewSet" type="jhi.flapjack.data.GTViewSet">
+			<bind-xml reference="true" node="attribute"/>
+		</field>
+		<field name="chromosomeMap" type="jhi.flapjack.data.ChromosomeMap">
+			<bind-xml reference="true" node="attribute"/>
+		</field>
+		<field name="markers" type="jhi.flapjack.data.MarkerInfo" collection="arraylist"/>
+		<field name="hideMarkers" type="jhi.flapjack.data.MarkerInfo" collection="arraylist"/>
+		<field name="comparisonMarker" type="jhi.flapjack.data.Marker">
+			<bind-xml reference="true" node="attribute"/>
+		</field>
+		<field name="QTLs" type="jhi.flapjack.data.QTLInfo" collection="arraylist"/>
+	</class>
+
+	<!-- LineInfo -->
+	<class name="jhi.flapjack.data.LineInfo" extends="jhi.flapjack.data.XMLRoot" auto-complete="true">
+		<field name="line" type="jhi.flapjack.data.Line">
+			<bind-xml reference="true" node="attribute"/>
+		</field>
+	</class>
+
+	<!-- MarkerInfo -->
+	<class name="jhi.flapjack.data.MarkerInfo" extends="jhi.flapjack.data.XMLRoot" auto-complete="true">
+		<field name="marker" type="jhi.flapjack.data.Marker">
+			<bind-xml reference="true" node="attribute"/>
+		</field>
+	</class>
+
+	<!-- Trait -->
+	<class name="jhi.flapjack.data.Trait" extends="jhi.flapjack.data.XMLRoot" auto-complete="true">
+		<field name="name" type="string">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="experiment" type="string">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="categories" type="string" collection="arraylist"/>
+	</class>
+
+	<!-- TraitValue -->
+	<class name="jhi.flapjack.data.TraitValue" extends="jhi.flapjack.data.XMLRoot" auto-complete="true">
+		<field name="trait" type="jhi.flapjack.data.Trait">
+			<bind-xml reference="true" node="attribute"/>
+		</field>
+	</class>
+
+	<!-- DBAssociation -->
+	<class name="jhi.flapjack.data.DBAssociation" extends="jhi.flapjack.data.XMLRoot" auto-complete="true"/>
+
+	<!-- Bookmark -->
+	<class name="jhi.flapjack.data.Bookmark" extends="jhi.flapjack.data.XMLRoot" auto-complete="true">
+		<field name="chromosome" type="jhi.flapjack.data.ChromosomeMap">
+			<bind-xml reference="true" node="attribute"/>
+		</field>
+		<field name="line" type="jhi.flapjack.data.Line">
+			<bind-xml reference="true" node="attribute"/>
+		</field>
+		<field name="marker" type="jhi.flapjack.data.Marker">
+			<bind-xml reference="true" node="attribute"/>
+		</field>
+	</class>
+
+
+	<!-- QTL -->
+	<class name="jhi.flapjack.data.QTL" extends="jhi.flapjack.data.XMLRoot" auto-complete="true">
+		<field name="name" type="string">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="chromosomeMap" type="jhi.flapjack.data.ChromosomeMap">
+			<bind-xml reference="true" node="attribute"/>
+		</field>
+		<field name="trait" type="string">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="experiment" type="string">
+			<bind-xml node="attribute"/>
+		</field>
+	</class>
+
+	<!-- QTLInfo -->
+	<class name="jhi.flapjack.data.QTLInfo" extends="jhi.flapjack.data.XMLRoot" auto-complete="true">
+		<field name="QTL" type="jhi.flapjack.data.QTL">
+			<bind-xml reference="true" node="attribute"/>
+		</field>
+	</class>
+
+	<!-- SimMatrix -->
+	<class name="jhi.flapjack.data.SimMatrix" extends="jhi.flapjack.data.XMLRoot" auto-complete="true">
+		<field name="lineInfos" type="jhi.flapjack.data.LineInfo" collection="arraylist">
+			<bind-xml reference="true" node="attribute"/>
+		</field>
+	</class>
+
+	<!-- Dendrogram -->
+	<class name="jhi.flapjack.data.Dendrogram" extends="jhi.flapjack.data.XMLRoot" auto-complete="true">
+		<field name="viewSet" type="jhi.flapjack.data.GTViewSet">
+			<bind-xml reference="true" node="attribute"/>
+		</field>
+	</class>
+
+	<!-- BinnedData -->
+	<class name="jhi.flapjack.data.BinnedData" extends="jhi.flapjack.data.XMLRoot" auto-complete="true">
+		<field name="bins" type="jhi.flapjack.data.BinnedData$BinData" collection="arraylist"/>
+	</class>
+
+	<!-- BinData -->
+	<class name="jhi.flapjack.data.BinnedData$BinData" extends="jhi.flapjack.data.XMLRoot" auto-complete="true">
+	</class>
+
+	<!-- CustomMaps -->
+	<class name="jhi.flapjack.data.CustomMaps" extends="jhi.flapjack.data.XMLRoot" auto-complete="true">
+		<field name="customViews" type="jhi.flapjack.data.GTView" collection="arraylist"/>
+		<field name="allViews" type="jhi.flapjack.data.GTView" collection="arraylist">
+			<bind-xml reference="true"/>
+		</field>
+	</class>
+
+	<!-- TraitColors -->
+	<class name="jhi.flapjack.data.TraitColors" extends="jhi.flapjack.data.XMLRoot" auto-complete="true">
+		<field name="colors" collection="map">
+			<bind-xml name="color">
+				<class name="org.exolab.castor.mapping.MapItem">
+					<field name="key" type="java.lang.String">
+						<bind-xml name="key" node="attribute"/>
+					</field>
+					<field name="value" type="integer">
+						<bind-xml name="val" node="attribute"/>
+					</field>
+				</class>
+			</bind-xml>
+		</field>
+	</class>
+
+</mapping>
