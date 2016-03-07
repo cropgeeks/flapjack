@@ -137,58 +137,61 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 		if (matrixList.size() == 0)
 			throw new IOException("List contains zero BRAPI AlleleMatrix objects");
 
-		BrapiAlleleMatrix matrix = matrixList.get(0);
-
-		// A list of IDs that need to be mapped back to the original list of marker profile IDs that
-		// were asked for
-		List<String> markerprofileIds = matrix.getMarkerprofileIds();
-
-
-		// MarkerName, list of scores (index of each one mapped to index in markerprofile/germplasm index)
-		HashMap<String, List<String>> scores = matrix.getScores();
-
-		for (String markerName: scores.keySet())
+//		BrapiAlleleMatrix matrix = matrixList.get(0);
+		for (BrapiAlleleMatrix matrix : matrixList)
 		{
-			MarkerIndex index = markers.get(markerName);   // todo build map from these markers?
 
-			if (index != null)
+			// A list of IDs that need to be mapped back to the original list of marker profile IDs that
+			// were asked for
+			List<String> markerprofileIds = matrix.getMarkerprofileIds();
+
+
+			// MarkerName, list of scores (index of each one mapped to index in markerprofile/germplasm index)
+			HashMap<String, List<String>> scores = matrix.getScores();
+
+			for (String markerName : scores.keySet())
 			{
-				List<String> alleles = scores.get(markerName);
+				MarkerIndex index = markers.get(markerName);   // todo build map from these markers?
 
-				for (int i = 0; i < alleles.size(); i++)
+				if (index != null)
 				{
-					// Retrieve the line matching this
-					String mpID = markerprofileIds.get(i);
-					Line line = linesByProfileID.get(mpID);
+					List<String> alleles = scores.get(markerName);
 
-					if (line == null)
+					for (int i = 0; i < alleles.size(); i++)
 					{
-						System.out.println("NULL:" + mpID);
+						// Retrieve the line matching this
+						String mpID = markerprofileIds.get(i);
+						Line line = linesByProfileID.get(mpID);
+
+						if (line == null)
+						{
+							System.out.println("NULL:" + mpID);
+							break;
+						}
+
+						String allele = alleles.get(i);
+
+						// Determine its various states
+						Integer stateCode = states.get(allele);
+						if (stateCode == null)
+						{
+							stateCode = stateTable.getStateCode(allele, true,
+								ioMissingData, ioUseHetSep, ioHeteroSeparator);
+							states.put(allele, stateCode);
+						}
+
+						// Then apply them to the marker data
+						line.setLoci(index.mapIndex, index.mkrIndex, stateCode);
+
+						alleleCount++;
+					}
+
+					if (useByteStorage && stateTable.size() > 127)
+						return false;
+
+					if (isOK == false)
 						break;
-					}
-
-					String allele = alleles.get(i);
-
-					// Determine its various states
-					Integer stateCode = states.get(allele);
-					if (stateCode == null)
-					{
-						stateCode = stateTable.getStateCode(allele, true,
-							ioMissingData, ioUseHetSep, ioHeteroSeparator);
-						states.put(allele, stateCode);
-					}
-
-					// Then apply them to the marker data
-					line.setLoci(index.mapIndex, index.mkrIndex, stateCode);
-
-					alleleCount++;
 				}
-
-				if (useByteStorage && stateTable.size() > 127)
-					return false;
-
-				if (isOK == false)
-					break;
 			}
 		}
 
