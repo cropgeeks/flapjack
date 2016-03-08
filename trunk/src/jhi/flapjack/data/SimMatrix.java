@@ -60,6 +60,18 @@ public class SimMatrix extends XMLRoot implements ISerializableDB
 		{ return databaseID; }
 
 
+	// New methods 25/09/2015
+	public ArrayList<float[]> getLineScores()
+	{
+		return lineScores;
+	}
+
+	public void setLineScores(ArrayList<float[]> lineScores)
+	{
+		this.lineScores = lineScores;
+	}
+
+
 	// Other methods
 
 	public void initialize(int size)

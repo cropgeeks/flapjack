@@ -7,8 +7,8 @@ import java.util.*;
 
 import jhi.flapjack.data.*;
 import jhi.flapjack.io.*;
-import jhi.flapjack.servlet.*;
 
+import jhi.flapjack.servlet.DendrogramClient;
 import scri.commons.gui.*;
 
 public class DendrogramGenerator extends SimpleJob
@@ -24,6 +24,8 @@ public class DendrogramGenerator extends SimpleJob
 	// e.g if original order = a,b,c and dendrogram new order = b,c,a
 	// then this list will store 1,2,0.
 	private ArrayList<Integer> rIntOrder;
+
+	private DendrogramClient client;
 
 	public DendrogramGenerator(SimMatrix matrix, GTViewSet newViewSet)
 	{
@@ -46,27 +48,38 @@ public class DendrogramGenerator extends SimpleJob
 		int lineCount = matrix.getLineInfos().size();
 
 		// Run the servlet (upload, run, download)
-		DendrogramClient client = new DendrogramClient();
-		dendrogram = client.doClientStuff(matrix, lineCount);
+		client = new DendrogramClient(matrix, lineCount);
+		dendrogram = client.generateDendrogram();
 
+		// We've got a result so let Flapjack crete new views and cahce things to db
+		if (okToRun)
+		{
+			// Use the line order that was returned (as a list of ints) to determine
+			// what LineInfo order should be stored with the Dendrogram object
+			rIntOrder = client.getLineOrder();
+			ArrayList<LineInfo> order = new ArrayList<>();
 
-		// Use the line order that was returned (as a list of ints) to determine
-		// what LineInfo order should be stored with the Dendrogram object
-		rIntOrder = client.getLineOrder();
-		ArrayList<LineInfo> order = new ArrayList<>();
+			for (int i = 0; i < rIntOrder.size(); i++)
+				order.add(newViewSet.getLines().get(rIntOrder.get(i)));
 
-		for (int i = 0; i < rIntOrder.size(); i++)
-			order.add(newViewSet.getLines().get(rIntOrder.get(i)));
+			dendrogram.setViewSet(newViewSet);
+			ProjectSerializerDB.cacheToDisk(dendrogram.getPng());
+			ProjectSerializerDB.cacheToDisk(dendrogram.getPdf());
 
-		dendrogram.setViewSet(newViewSet);
-		ProjectSerializerDB.cacheToDisk(dendrogram.getPng());
-		ProjectSerializerDB.cacheToDisk(dendrogram.getPdf());
+			orderedMatrix = matrix.cloneAndReorder(rIntOrder, order);
+			ProjectSerializerDB.cacheToDisk(orderedMatrix);
 
-		orderedMatrix = matrix.cloneAndReorder(rIntOrder, order);
-		ProjectSerializerDB.cacheToDisk(orderedMatrix);
+			newViewSet.setLines(order);
+			newViewSet.getDendrograms().add(dendrogram);
+			newViewSet.getMatrices().add(orderedMatrix);
+		}
+	}
 
-		newViewSet.setLines(order);
-		newViewSet.getDendrograms().add(dendrogram);
-		newViewSet.getMatrices().add(orderedMatrix);
+	public void cancelJob()
+	{
+		super.cancelJob();
+//		SwingUtilities.invokeLater(() -> client.cancelJob());
+
+		new Thread(() -> client.cancelJob()).start();
 	}
 }

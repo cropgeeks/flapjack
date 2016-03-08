@@ -84,6 +84,8 @@ public class MenuData
 				else
 					url += "&application=flapjack";
 
+				System.out.println("URL String: " + url.toString());
+
 				FlapjackUtils.visitURL(url.toString());
 			}
 			catch (Exception e) {}

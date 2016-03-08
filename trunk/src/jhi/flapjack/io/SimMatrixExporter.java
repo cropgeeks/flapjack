@@ -60,14 +60,18 @@ public class SimMatrixExporter extends SimpleJob
 
 		// Write the header line of the matrix
 		writer.print(matrix.createFileHeaderLine(hasRowHeader));
+		writer.flush();
 		writer.print(EOL);
+		writer.flush();
 		progress++;
 
 		// Write each successive line of the matrix file
 		for (int j=0; j < matrix.getLineInfos().size() && okToRun; j++, progress++)
 		{
 			writer.print(matrix.createFileLine(j, hasRowHeader));
+			writer.flush();
 			writer.print(EOL);
+			writer.flush();
 		}
 
 
