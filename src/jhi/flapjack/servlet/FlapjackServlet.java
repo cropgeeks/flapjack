@@ -1,122 +1,131 @@
-// Copyright 2009-2016 Information & Computational Sciences, JHI. All rights
-// reserved. Use is subject to the accompanying licence terms.
-
 package jhi.flapjack.servlet;
 
-import java.io.*;
 import java.util.*;
 import java.util.concurrent.*;
-import java.util.logging.*;
-import javax.servlet.*;
-import javax.servlet.annotation.*;
-import javax.servlet.http.*;
 
-import jhi.flapjack.servlet.DendrogramAnalysis.*;
-import scri.commons.gui.SystemUtils;
+import org.restlet.*;
+import org.restlet.routing.*;
 
-@MultipartConfig
-public class FlapjackServlet extends HttpServlet
+public class FlapjackServlet extends Application
 {
-	private static Logger LOG;
+	private static ExecutorService executor;
+	private static HashMap<String, FutureTask<FlapjackTask>> runningTasks;
+	private static HashMap<String, Integer> tasksByUser;
 
-	private ExecutorService executor;
-	private HashMap<String, FutureTask<FlapjackTask>> runningTasks;
+	private static Set<String> cancelledTasks;
 
-	@Override
-	public void init(ServletConfig servletConfig)
-		throws ServletException
+	private static final int NUM_THREADS = 4;
+
+	public static final String BASE_URL = "http://localhost:8080/flapjack-test/";
+
+	public static final String DENDROGRAM = "dendrogram/";
+	public static final String DENDROGRAM_TASK = DENDROGRAM + "task/";
+	public static final String PCOA = "pcoa/";
+	public static final String PCOA_TASK = PCOA + "task/";
+
+	public static final String DENDROGRAM_TASK_ROUTE = BASE_URL + DENDROGRAM_TASK;
+	public static final String DENDROGRAM_ROUTE = BASE_URL + DENDROGRAM;
+	public static final String PCOA_TASK_ROUTE = BASE_URL + PCOA_TASK;
+	public static final String PCOA_ROUTE = BASE_URL + PCOA;
+
+	public static final String R_PATH = "C:/Program Files/R/R-3.2.3/bin/R.exe";
+	//		String rPath = "/usr/bin/R";
+
+	public FlapjackServlet()
 	{
-		super.init(servletConfig);
-
-		// Get the number of threads to use that is specified in the web.xml
-		int numthreads = Integer.parseInt(getServletContext().getInitParameter("numthreads"));
+		setName("Restful Flapjack Server");
+		setDescription("Test plant breeding API (BRAPI) implementation");
+		setOwner("The James Hutton Institute");
+		setAuthor("Information & Computational Sciences, JHI");
 
 		// Creates a fixed size thread pool which automatically queues any additional
 		// jobs which are added to the work queue
-		executor = Executors.newFixedThreadPool(numthreads);
+		executor = Executors.newFixedThreadPool(NUM_THREADS);
 		runningTasks = new HashMap<String, FutureTask<FlapjackTask>>();
-
-		// Initialise logging
-		try
-		{
-			LOG = Logger.getLogger(FlapjackServlet.class.getName());
-			FileHandler fh = new FileHandler("/home/tomcat/flapjack.log", 0, 1, true);
-			fh.setFormatter(new SimpleFormatter());
-			LOG.addHandler(fh);
-		}
-		catch (SecurityException | IOException e) {}
+		cancelledTasks = new HashSet<String>();
+		tasksByUser = new HashMap<String, Integer>();
 	}
 
 	@Override
-	public void doGet(HttpServletRequest request, HttpServletResponse response)
-		throws ServletException, IOException
+	public Restlet createInboundRoot()
 	{
-		String id = request.getParameter("ID");
+		Router router = new Router(getContext());
 
+		router.attach("/" + PCOA, 						PCoAServerResource.class);
+		router.attach("/" + PCOA + "{id}", 				PCoAByIdServerResource.class);
+		router.attach("/" + PCOA_TASK + "{id}", 		TaskServerResource.class);
+		router.attach("/" + DENDROGRAM, 				DendrogramServerResource.class);
+		router.attach("/" + DENDROGRAM + "{id}", 		DendrogramByIdServerResource.class);
+		router.attach("/" + DENDROGRAM_TASK + "{id}", 	TaskServerResource.class);
+
+		return router;
+	}
+
+	public static boolean checkTask(String id)
+	{
+		return runningTasks.get(id).isDone();
+	}
+
+	public static FlapjackTask getTask(String id)
+	{
 		FutureTask<FlapjackTask> task = runningTasks.get(id);
-		if (task != null && task.isDone())
+		if (task.isDone())
 		{
-			if (task.isDone())
+			try
 			{
-				try
-				{
-					// The task has completed and we can send the response via
-					// out returend FlapjackTask object.
-					FlapjackTask fTask = task.get();
-					fTask.writeResponse(response);
-					runningTasks.remove(id);
-
-					LOG.info("End\t\t" + id);
-				}
-				catch (Exception e) { e.printStackTrace(); }
+				return task.get();
 			}
+			catch (Exception e) { e.printStackTrace(); }
 		}
-
-		// If the task is still running send a service unavailable response
-		response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
+		return null;
 	}
 
-	@Override
-	public void doPost(HttpServletRequest request, HttpServletResponse response)
-		throws ServletException, IOException
+	public static FlapjackTask getAndRemoveTask(String id)
 	{
-		// Get the path to R defined in the web.xml file
-		String rPath = getServletContext().getInitParameter("r-path");
-
-		// The type of analysis the request wants to carry out
-		String analysis = request.getParameter("analysis");
-
-		String id = SystemUtils.createGUID(8);
-
-		switch (analysis)
+		FutureTask<FlapjackTask> task = runningTasks.get(id);
+		if (task.isDone())
 		{
-			case "DENDROGRAM":
-				LOG.info("Run\tDendrogramAnalysis\t" + id);
-				DendrogramAnalysis dAnalysis = new DendrogramAnalysis(request, rPath);
-				submitFlapjackServletTask(dAnalysis, id);
-				break;
-
-			case "PCOA":
-				LOG.info("Run\tPCoAAnalysis\t" + id);
-				PCoAAnalysis pAnalysis = new PCoAAnalysis(request, rPath);
-				submitFlapjackServletTask(pAnalysis, id);
-				break;
+			try
+			{
+				runningTasks.remove(id);
+				return task.get();
+			}
+			catch (Exception e) { e.printStackTrace(); }
 		}
+		return null;
+	}
 
-		// Return the job id so we can poll
-		response.setContentType("text/plain");
-		PrintWriter out = response.getWriter();
-		out.println(id);
-		out.close();
+	public static void cancelTask(String id)
+	{
+		FutureTask<FlapjackTask> task = runningTasks.get(id);
+		if (task != null)
+		{
+			task.cancel(true);
+			runningTasks.remove(id);
+			cancelledTasks.add(id);
+		}
 	}
 
 	// Wraps the analysis in a FutureTask and submits this to the executor
 	// where it is either queued, or run immediately. Also adds the task to a
 	// HashMap where it is keyed by id.
-	private void submitFlapjackServletTask(FlapjackTask analysis, String id)
+	public static void submitFlapjackServletTask(FlapjackTask analysis, String taskId)
 	{
-		FutureTask<FlapjackTask> task = new FutureTask<FlapjackTask>(analysis);
+		FutureTask<FlapjackTask> task = new FutureTask<>(analysis);
 		executor.submit(task);
-		runningTasks.put(id, task);
+		runningTasks.put(taskId, task);
+	}
+
+	public static String getUserTaskId(String flapjackId)
+	{
+		String taskId;
+
+		Integer result = tasksByUser.putIfAbsent(flapjackId, 0);
+		if (result != null)
+			taskId =  flapjackId + "-" + tasksByUser.put(flapjackId, result + 1);
+		else
+			taskId =  flapjackId + "-" + 0;
+
+		return taskId;
 	}
 }

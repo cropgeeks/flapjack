@@ -1,4 +1,4 @@
-// Copyright 2009-2016 Information & Computational Sciences, JHI. All rights
+// Copyright 2009-2015 Information & Computational Sciences, JHI. All rights
 // reserved. Use is subject to the accompanying licence terms.
 
 package jhi.flapjack.servlet;
@@ -15,6 +15,10 @@ class RunR
 		this.rPath = rPath;
 		this.wrkDir = wrkDir;
 		this.rScript = rScript;
+
+		System.out.println(rPath);
+		System.out.println(wrkDir);
+		System.out.println(rScript);
 	}
 
 	void runR()
@@ -25,20 +29,24 @@ class RunR
 		pb.redirectErrorStream(true);
 
 		Process proc = pb.start();
+		System.out.println("Process started");
 
 		// Open up the output stream (to write to) (prog's in stream)
 		PrintWriter writer = new PrintWriter(new OutputStreamWriter(
 			proc.getOutputStream()));
-		writer.print("source(\"" + rScript.getPath() + "\")");
+		writer.print("source(\"" + rScript.getPath().replace('\\', '/') + "\")");
 		writer.close();
 
 		// Open up the input stream (to read from) (prog's out stream)
 		StreamCatcher oStream = new StreamCatcher(proc.getInputStream(), true);
 
 		proc.waitFor();
+		System.out.println("Waiting for process");
 
 		while (oStream.isAlive())
 			Thread.sleep(10);
+
+		System.out.println("Completed process");
 	}
 
 	private static class StreamCatcher extends Thread

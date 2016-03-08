@@ -9,8 +9,8 @@ import java.util.*;
 
 import jhi.flapjack.data.*;
 import jhi.flapjack.gui.*;
-import jhi.flapjack.servlet.*;
 
+import jhi.flapjack.servlet.PCoAClient;
 import scri.commons.gui.*;
 
 public class PCoAGenerator extends SimpleJob
@@ -18,6 +18,8 @@ public class PCoAGenerator extends SimpleJob
 	private GTViewSet viewSet;
 	private DataSet dataSet;
 	private SimMatrix matrix;
+
+	private PCoAClient client;
 
 	public PCoAGenerator(GTViewSet viewSet, SimMatrix matrix)
 	{
@@ -30,37 +32,37 @@ public class PCoAGenerator extends SimpleJob
 	public void runJob(int index)
 		throws Exception
 	{
-		PCoAResult result = new PCoAResult(matrix.getLineInfos());
-
 		// Run the servlet (upload, run, download)
-		PCoAClient client = new PCoAClient();
-		client.doClientStuff(matrix, result);
+		client = new PCoAClient();
+		PCoAResult result = client.generatePco(matrix);
 
-
-		// Save the result (and a .curlywhirly file) to temp
-		String GID = SystemUtils.createGUID(12);
-
-		File pcoaFile = writePCoAFile(result, GID);
-		File cwFile = writeCurlyWhirlyFile(pcoaFile, GID);
-
-
-		// Now try to open CurlyWhirly to display the result
-		if (Desktop.isDesktopSupported())
+		if (okToRun)
 		{
-			Desktop desktop = Desktop.getDesktop();
+			// Save the result (and a .curlywhirly file) to temp
+			String GID = SystemUtils.createGUID(12);
 
-			try
-			{
-				desktop.open(cwFile);
-			}
-			catch (Exception e)
-			{
-				e.printStackTrace();
+			File pcoaFile = writePCoAFile(result, GID);
+			File cwFile = writeCurlyWhirlyFile(pcoaFile, GID);
 
-				TaskDialog.error("CurlyWhirly is required to view these results, but it couldn't be found on your system.\n"
-					+ "Please download it from http://ics.hutton.ac.uk/curlywhirly\n\n"
-					+ "For reference, the results file was saved to " + cwFile.getPath(),
-					RB.getString("gui.text.close"));
+
+			// Now try to open CurlyWhirly to display the result
+			if (Desktop.isDesktopSupported())
+			{
+				Desktop desktop = Desktop.getDesktop();
+
+				try
+				{
+					desktop.open(cwFile);
+				}
+				catch (Exception e)
+				{
+					e.printStackTrace();
+
+					TaskDialog.error("CurlyWhirly is required to view these results, but it couldn't be found on your system.\n"
+						+ "Please download it from http://ics.hutton.ac.uk/curlywhirly\n\n"
+						+ "For reference, the results file was saved to "
+						+ cwFile.getPath(), RB.getString("gui.text.close"));
+				}
 			}
 		}
 	}
@@ -183,5 +185,11 @@ public class PCoAGenerator extends SimpleJob
 		out.close();
 
 		return cwFile;
+	}
+
+	public void cancelJob()
+	{
+		super.cancelJob();
+		client.cancelJob();
 	}
 }

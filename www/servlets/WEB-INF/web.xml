@@ -14,16 +14,30 @@
 	</session-config>
 
 	<servlet>
-		<servlet-name>flapjack</servlet-name>
-		<servlet-class>jhi.flapjack.servlet.FlapjackServlet</servlet-class>
-		<multipart-config>
-			<location>/tmp</location>
-		</multipart-config>
+		<servlet-name>flapjack-test</servlet-name>
+		<servlet-class>org.restlet.ext.servlet.ServerServlet</servlet-class>
+		<init-param>
+			<param-name>org.restlet.application</param-name>
+			<param-value>jhi.flapjack.servlet.FlapjackServlet</param-value>
+		</init-param>
 	</servlet>
+
 	<servlet-mapping>
-        <servlet-name>flapjack</servlet-name>
-        <url-pattern>/servlets/flapjack</url-pattern>
-    </servlet-mapping>
+		<servlet-name>flapjack-test</servlet-name>
+		<url-pattern>/*</url-pattern>
+	</servlet-mapping>
+
+	<!--<servlet>-->
+		<!--<servlet-name>flapjack</servlet-name>-->
+		<!--<servlet-class>jhi.flapjack.servlet.FlapjackServlet</servlet-class>-->
+		<!--<multipart-config>-->
+			<!--<location>/tmp</location>-->
+		<!--</multipart-config>-->
+	<!--</servlet>-->
+	<!--<servlet-mapping>-->
+        <!--<servlet-name>flapjack</servlet-name>-->
+        <!--<url-pattern>/servlets/flapjack</url-pattern>-->
+    <!--</servlet-mapping>-->
 
 	<context-param>
 		<param-name>r-path</param-name>
