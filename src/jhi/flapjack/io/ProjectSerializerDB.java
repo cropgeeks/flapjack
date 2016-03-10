@@ -85,7 +85,7 @@ public class ProjectSerializerDB
 		return new DatabaseInputStream(ps, 1);
 	}
 
-	static void close()
+	public static void close()
 		throws SQLException
 	{
 		if (c != null)

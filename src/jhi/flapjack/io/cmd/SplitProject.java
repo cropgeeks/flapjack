@@ -1,7 +1,9 @@
-// Copyright 2009-2016 Information & Computational Sciences, JHI. All rights
-// reserved. Use is subject to the accompanying licence terms.
+/*
+ * // Copyright 2009-2016 Information & Computational Sciences, JHI. All rights
+ * // reserved. Use is subject to the accompanying licence terms.
+ */
 
-package jhi.flapjack.io;
+package jhi.flapjack.io.cmd;
 
 import java.io.*;
 import java.util.*;
@@ -9,6 +11,7 @@ import java.util.*;
 import jhi.flapjack.data.*;
 import jhi.flapjack.gui.*;
 
+import jhi.flapjack.io.*;
 import scri.commons.gui.*;
 
 /**

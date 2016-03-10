@@ -92,7 +92,7 @@ public class FlapjackFile
 		catch (Exception e) { return 0; }
 	}
 
-	boolean exists()
+	public boolean exists()
 	{
 		if (file != null)
 			return file.exists();

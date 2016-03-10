@@ -12,9 +12,11 @@ import jhi.flapjack.gui.dialog.importer.*;
 import jhi.flapjack.gui.traits.*;
 import jhi.flapjack.gui.visualization.*;
 import jhi.flapjack.io.*;
+import jhi.flapjack.io.brapi.*;
+import jhi.flapjack.io.cmd.*;
 
 import scri.commons.gui.*;
-import jhi.flapjack.io.brapi.BrapiRequest;
+
 
 public class MenuFile
 {
