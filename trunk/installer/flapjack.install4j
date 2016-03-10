@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<install4j version="6.1" transformSequenceNumber="5">
+<install4j version="6.1.1" transformSequenceNumber="5">
   <directoryPresets config="../keys/OS201306044993.pfx" />
   <application name="Flapjack" distributionSourceDir="" applicationId="9131-7045-2417-5931" mediaDir="." mediaFilePattern="${compiler:sys.shortName}_${compiler:sys.platform}_${compiler:sys.version}" compression="6" lzmaCompression="false" pack200Compression="false" excludeSignedFromPacking="true" commonExternalFiles="false" createMd5Sums="true" shrinkRuntime="false" shortName="flapjack" publisher="The James Hutton Institute" publisherWeb="http://www.hutton.ac.uk" version="x.xx.xx.xx" allPathsRelative="true" backupOnSave="false" autoSave="false" convertDotsToUnderscores="true" macSignature="????" macVolumeId="c00051f261301646" javaMinVersion="1.8" javaMaxVersion="" allowBetaVM="false" jdkMode="runtimeJre" jdkName="">
     <languages skipLanguageSelection="true" languageSelectionInPrincipalLanguage="false">
@@ -80,7 +80,7 @@
           <versionLine x="20" y="40" text="version ${compiler:sys.version}" fontSize="8" fontColor="0,0,0" bold="false" />
         </text>
       </splashScreen>
-      <java mainClass="jhi.flapjack.io.CreateProject" vmParameters="-Xmx1024m" arguments="" allowVMPassthroughParameters="false" preferredVM="" bundleRuntime="true">
+      <java mainClass="jhi.flapjack.io.cmd.CreateProject" vmParameters="-Xmx1024m" arguments="" allowVMPassthroughParameters="false" preferredVM="" bundleRuntime="true">
         <classPath>
           <archive location="lib/flapjack.jar" failOnError="false" />
         </classPath>
@@ -113,7 +113,7 @@
           <versionLine x="20" y="40" text="version ${compiler:sys.version}" fontSize="8" fontColor="0,0,0" bold="false" />
         </text>
       </splashScreen>
-      <java mainClass="jhi.flapjack.io.SplitProject" vmParameters="-Xmx1024m" arguments="" allowVMPassthroughParameters="false" preferredVM="" bundleRuntime="true">
+      <java mainClass="jhi.flapjack.io.cmd.SplitProject" vmParameters="-Xmx1024m" arguments="" allowVMPassthroughParameters="false" preferredVM="" bundleRuntime="true">
         <classPath>
           <archive location="lib/flapjack.jar" failOnError="false" />
         </classPath>
@@ -146,7 +146,73 @@
           <versionLine x="20" y="40" text="version ${compiler:sys.version}" fontSize="8" fontColor="0,0,0" bold="false" />
         </text>
       </splashScreen>
-      <java mainClass="jhi.flapjack.io.CreateMatrix" vmParameters="-Xmx1024m" arguments="" allowVMPassthroughParameters="false" preferredVM="" bundleRuntime="true">
+      <java mainClass="jhi.flapjack.io.cmd.CreateMatrix" vmParameters="-Xmx1024m" arguments="" allowVMPassthroughParameters="false" preferredVM="" bundleRuntime="true">
+        <classPath>
+          <archive location="lib/flapjack.jar" failOnError="false" />
+        </classPath>
+        <nativeLibraryDirectories />
+        <vmOptions />
+      </java>
+      <includedFiles />
+      <unextractableFiles />
+      <vmOptionsFile mode="none" overwriteMode="0" fileMode="644">
+        <content />
+      </vmOptionsFile>
+      <customScript mode="1" file="">
+        <content />
+      </customScript>
+      <infoPlist mode="1" file="">
+        <content />
+      </infoPlist>
+      <iconImageFiles>
+        <file path="../res/icons/flapjack.png" />
+        <file path="../res/icons/flapjack.png" />
+      </iconImageFiles>
+    </launcher>
+    <launcher name="hdf52geno" id="1513" customizedId="" external="false" excludeFromMenu="true" unixMode="755" menuName="" icnsFile="../res/icons/flapjack.icns" customMacBundleIdentifier="false" macBundleIdentifier="" swtApp="false" fileset="" macBundleBinary="JavaApplicationStub" addMacEntitlements="false" macEntitlementsFile="" useCustomMacosExecutableName="false" customMacosExecutableName="">
+      <executable name="hdf52geno" type="1" iconSet="false" iconFile="" executableDir="." redirectStderr="false" stderrFile="output.log" stderrMode="overwrite" redirectStdout="false" stdoutFile="output.log" stdoutMode="overwrite" failOnStderrOutput="true" executableMode="2" changeWorkingDirectory="true" workingDirectory="." singleInstance="false" serviceStartType="2" serviceDependencies="" serviceDescription="" jreLocation="" executionLevel="asInvoker" checkConsoleParameter="false" globalSingleInstance="false" singleInstanceActivate="true" dpiAware="false">
+        <versionInfo include="false" fileVersion="" fileDescription="" legalCopyright="" internalName="" productName="" />
+      </executable>
+      <splashScreen show="false" width="0" height="0" bitmapFile="" windowsNative="false" textOverlay="false">
+        <text>
+          <statusLine x="20" y="20" text="" fontSize="8" fontColor="0,0,0" bold="false" />
+          <versionLine x="20" y="40" text="version ${compiler:sys.version}" fontSize="8" fontColor="0,0,0" bold="false" />
+        </text>
+      </splashScreen>
+      <java mainClass="jhi.flapjack.io.cmd.Hdf5ToGenotypeConverter" vmParameters="-Xmx1024m" arguments="" allowVMPassthroughParameters="false" preferredVM="" bundleRuntime="true">
+        <classPath>
+          <archive location="lib/flapjack.jar" failOnError="false" />
+        </classPath>
+        <nativeLibraryDirectories />
+        <vmOptions />
+      </java>
+      <includedFiles />
+      <unextractableFiles />
+      <vmOptionsFile mode="none" overwriteMode="0" fileMode="644">
+        <content />
+      </vmOptionsFile>
+      <customScript mode="1" file="">
+        <content />
+      </customScript>
+      <infoPlist mode="1" file="">
+        <content />
+      </infoPlist>
+      <iconImageFiles>
+        <file path="../res/icons/flapjack.png" />
+        <file path="../res/icons/flapjack.png" />
+      </iconImageFiles>
+    </launcher>
+    <launcher name="geno2hdf5" id="1514" customizedId="" external="false" excludeFromMenu="true" unixMode="755" menuName="" icnsFile="../res/icons/flapjack.icns" customMacBundleIdentifier="false" macBundleIdentifier="" swtApp="false" fileset="" macBundleBinary="JavaApplicationStub" addMacEntitlements="false" macEntitlementsFile="" useCustomMacosExecutableName="false" customMacosExecutableName="">
+      <executable name="geno2hdf5" type="1" iconSet="false" iconFile="" executableDir="." redirectStderr="false" stderrFile="output.log" stderrMode="overwrite" redirectStdout="false" stdoutFile="output.log" stdoutMode="overwrite" failOnStderrOutput="true" executableMode="2" changeWorkingDirectory="true" workingDirectory="." singleInstance="false" serviceStartType="2" serviceDependencies="" serviceDescription="" jreLocation="" executionLevel="asInvoker" checkConsoleParameter="false" globalSingleInstance="false" singleInstanceActivate="true" dpiAware="false">
+        <versionInfo include="false" fileVersion="" fileDescription="" legalCopyright="" internalName="" productName="" />
+      </executable>
+      <splashScreen show="false" width="0" height="0" bitmapFile="" windowsNative="false" textOverlay="false">
+        <text>
+          <statusLine x="20" y="20" text="" fontSize="8" fontColor="0,0,0" bold="false" />
+          <versionLine x="20" y="40" text="version ${compiler:sys.version}" fontSize="8" fontColor="0,0,0" bold="false" />
+        </text>
+      </splashScreen>
+      <java mainClass="jhi.flapjack.io.cmd.GenotypeToHdf5Converter" vmParameters="-Xmx1024m" arguments="" allowVMPassthroughParameters="false" preferredVM="" bundleRuntime="true">
         <classPath>
           <archive location="lib/flapjack.jar" failOnError="false" />
         </classPath>

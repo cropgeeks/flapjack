@@ -3,7 +3,7 @@
  * // reserved. Use is subject to the accompanying licence terms.
  */
 
-package jhi.flapjack.io;
+package jhi.flapjack.io.cmd;
 
 import java.io.*;
 import java.util.*;
@@ -20,25 +20,29 @@ public class GenotypeToHdf5Converter
 
 	private static final String STATE_TABLE = "StateTable";
 
-	private File genotypeFile;
-	private File hdf5File;
+	private static File genotypeFile;
+	private static File hdf5File;
 
 	public static void main(String args[])
 	{
-		if (args.length == 2)
-		{
-			System.out.println("Assuming default missing data string and heterozygous separator.");
+		System.out.println("Assuming default missing data string and heterozygous separator.");
 
-			File dat = new File(args[0]);
-			File out = new File(args[1]);
-
-			GenotypeToHdf5Converter converter = new GenotypeToHdf5Converter(dat, out);
-			converter.convertToHdf5();
-		}
-		else
+		for (int i = 0; i < args.length; i++)
 		{
-			System.out.println("Usage: jhi.flapjack.io.hdf5.GenotypeToHdf5Converter data_file output_file");
+			if (args[i].startsWith("-genotypes="))
+				genotypeFile = new File(args[i].substring(11));
+			if (args[i].startsWith("-hdf5="))
+				hdf5File = new File(args[i].substring(6));
 		}
+
+		if (genotypeFile == null || hdf5File == null)
+		{
+			printHelp();
+			return;
+		}
+
+		GenotypeToHdf5Converter converter = new GenotypeToHdf5Converter(genotypeFile, hdf5File);
+		converter.convertToHdf5();
 	}
 
 	public GenotypeToHdf5Converter(File genotypeFile, File hdf5File)
@@ -55,7 +59,7 @@ public class GenotypeToHdf5Converter
 		else
 		{
 			System.out.println("Genotype file doesn't exist. Please specify a valid genotype file.");
-			System.out.println("Usage: jhi.flapjack.io.hdf5.GenotypeToHdf5Converter data_file output_file");
+			printHelp();
 			return false;
 		}
 	}
@@ -124,5 +128,13 @@ public class GenotypeToHdf5Converter
 			outBytes[i++] = b.byteValue();
 
 		return outBytes;
+	}
+
+	private static void printHelp()
+	{
+		System.out.println("Usage: geno2hdf5 <options>\n"
+			+ " where valid options are:\n"
+			+ "   -genotypes=<genotypes_file>    (required input file)\n"
+			+ "   -hdf5=<hdf5_file>              (required output file)\n");
 	}
 }
