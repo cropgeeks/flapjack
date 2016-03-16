@@ -5,25 +5,26 @@ package jhi.flapjack.servlet;
 
 import java.io.*;
 import java.util.*;
-import java.util.concurrent.*;
 import java.util.zip.*;
 
 import jhi.flapjack.data.*;
 import jhi.flapjack.gui.*;
 
+import static org.restlet.data.Status.*;
 import org.restlet.data.*;
 import org.restlet.resource.*;
+import org.restlet.representation.*;
 
 public class DendrogramClient
 {
+	private final String URL = "http://wildcat:8080/flapjack-test/dendrogram/";
+
 	private final SimMatrix matrix;
 	private final int lineCount;
 
 	private ArrayList<Integer> lineOrder = new ArrayList<>();
 
 	private boolean okToRun = true;
-	private UriPoller poller;
-	private FutureTask<Boolean> pollTask;
 
 	public DendrogramClient(SimMatrix matrix, int lineCount)
 	{
@@ -40,7 +41,7 @@ public class DendrogramClient
 	public Dendrogram generateDendrogram()
 		throws Exception
 	{
-		Reference dendrogramTaskUri  = postSimMatrix();
+		Reference dendrogramTaskUri = postSimMatrix();
 
 		if (okToRun)
 		{
@@ -49,16 +50,12 @@ public class DendrogramClient
 			if (dendrogramBytes != null)
 				return createDendrogramFromZip(dendrogramBytes);
 		}
-		else
-		{
-			RestUtils.cancelJob(dendrogramTaskUri);
-		}
 
 		return null;
 	}
 
 	/**
-	 * Sends a similairty matrix using HTTP POST to the dendrogram server resource and returns a Reference which
+	 * Sends a similarity matrix using HTTP POST to the dendrogram server resource and returns a Reference which
 	 * contains the URI to a task resource which can be polled to discover the current status of the job to create the
 	 * Dendrogram.
 	 *
@@ -66,31 +63,20 @@ public class DendrogramClient
 	 */
 	private Reference postSimMatrix()
 	{
-		ClientResource dendrogramResource = setupDendrogramResource();
+		ClientResource dendrogramResource = new ClientResource(URL);
+
+		System.out.println("POSTING TO " + URL);
+
+		// If we allow Restlet to follow redirects it makes processing our asynchronous job more difficult in the client
+		dendrogramResource.setFollowingRedirects(false);
+		dendrogramResource.addQueryParameter("lineCount", "" + lineCount);
+		dendrogramResource.addQueryParameter("flapjackId", Prefs.flapjackID);
 
 		// Create a representation of the SimMatrix that allows its content to be streamed to the server
 		SimMatrixWriterRepresentation writerRep = new SimMatrixWriterRepresentation(MediaType.TEXT_PLAIN, matrix);
 		dendrogramResource.post(writerRep);
 
 		return dendrogramResource.getLocationRef();
-	}
-
-	/**
-	 * Creates a ClientResource object which can be used to interact with the server resource which can be found at the
-	 * URI defined by FlapjackServlet.DENDROGRAM_ROUTE. Doesn't automatically follow redirects and has the number of
-	 * lines in the {@link SimMatrix#getLineInfos() SimMatrix} and the user's flapjack id passed in as query parameters.
-	 *
-	 * @return	a ClientResource for communicating with the DendrogramServerResource
-	 */
-	private ClientResource setupDendrogramResource()
-	{
-		ClientResource dendrogramResource = new ClientResource(FlapjackServlet.DENDROGRAM_ROUTE);
-		// If we allow Restlet to follow redirects it makes processing our asynchronous job more difficult in the client
-		dendrogramResource.setFollowingRedirects(false);
-		dendrogramResource.addQueryParameter("lineCount", "" + lineCount);
-		dendrogramResource.addQueryParameter("flapjackId", Prefs.flapjackID);
-
-		return dendrogramResource;
 	}
 
 	/**
@@ -102,10 +88,38 @@ public class DendrogramClient
 	 * @return	a byte[] representing a zipFile
 	 * @throws	IOException
 	 */
-	private byte[] getDendrogramAsByteArray(Reference dendrogramTaskUri)
+	private byte[] getDendrogramAsByteArray(Reference uri)
 		throws Exception
 	{
-		poller = new UriPoller(dendrogramTaskUri);
+		ClientResource cr = new ClientResource(uri);
+		cr.accept(MediaType.APPLICATION_ZIP);
+		Representation r = cr.get();
+
+		while (okToRun && cr.getStatus().equals(SUCCESS_NO_CONTENT))
+		{
+			System.out.println("Waiting for result...");
+
+			try { Thread.sleep(500); }
+			catch (InterruptedException e) {}
+
+			cr.setReference(uri);
+			r = cr.get();
+		}
+
+		if (okToRun && cr.getStatus().equals(SUCCESS_OK))
+		{
+			System.out.println("Grabbing result...");
+
+			ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+			r.write(outputStream);
+
+			return outputStream.toByteArray();
+		}
+
+		return null;
+
+
+/*		poller = new UriPoller(dendrogramTaskUri);
 		pollTask = new FutureTask<Boolean>(poller);
 		pollTask.run();
 
@@ -121,6 +135,7 @@ public class DendrogramClient
 		}
 
 		return null;
+*/
 	}
 
 	/**
@@ -206,11 +221,6 @@ public class DendrogramClient
 
 	public void cancelJob()
 	{
-		this.okToRun = false;
-		if (poller != null)
-		{
-			pollTask.cancel(true);
-			poller.cancelJob();
-		}
+		okToRun = false;
 	}
 }

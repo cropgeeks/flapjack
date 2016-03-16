@@ -31,8 +31,8 @@ public class PCoATask implements FlapjackTask
 		{
 			writeScript(rScript, taskId);
 
-			RunR runner = new RunR(FlapjackServlet.R_PATH, matrix.getParentFile(), rScript);
-			runner.runR();
+//			RunR runner = new RunR(matrix.getParentFile(), rScript);
+//			runner.runR();
 
 			rScript.delete();
 			matrix.delete();
@@ -77,6 +77,7 @@ public class PCoATask implements FlapjackTask
 	@Override
 	public String getURI()
 	{
-		return FlapjackServlet.PCOA_ROUTE;
+//		return FlapjackServlet.PCOA_ROUTE;
+		return null;
 	}
 }

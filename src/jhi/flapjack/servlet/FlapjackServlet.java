@@ -1,49 +1,52 @@
 package jhi.flapjack.servlet;
 
-import java.util.*;
-import java.util.concurrent.*;
+import java.io.*;
+import javax.servlet.*;
 
 import org.restlet.*;
 import org.restlet.routing.*;
 
-public class FlapjackServlet extends Application
+import org.ggf.drmaa.*;
+import org.restlet.resource.ResourceException;
+
+public class FlapjackServlet extends Application implements ServletContextListener
 {
-	private static ExecutorService executor;
-	private static HashMap<String, FutureTask<FlapjackTask>> runningTasks;
-	private static HashMap<String, Integer> tasksByUser;
+	// DRMAA session object for submitting jobs to a queue mangement engine
+	private static Session session = null;
 
-	private static Set<String> cancelledTasks;
-
-	private static final int NUM_THREADS = 4;
-
-	public static final String BASE_URL = "http://localhost:8080/flapjack-test/";
-
-	public static final String DENDROGRAM = "dendrogram/";
-	public static final String DENDROGRAM_TASK = DENDROGRAM + "task/";
-	public static final String PCOA = "pcoa/";
-	public static final String PCOA_TASK = PCOA + "task/";
-
-	public static final String DENDROGRAM_TASK_ROUTE = BASE_URL + DENDROGRAM_TASK;
-	public static final String DENDROGRAM_ROUTE = BASE_URL + DENDROGRAM;
-	public static final String PCOA_TASK_ROUTE = BASE_URL + PCOA_TASK;
-	public static final String PCOA_ROUTE = BASE_URL + PCOA;
-
-	public static final String R_PATH = "C:/Program Files/R/R-3.2.3/bin/R.exe";
-	//		String rPath = "/usr/bin/R";
+	// Servlet context-parameters (overriden by values in WEB-INF/web.xml)
+	public static String rPath = "/usr/bin/R";
+	public static String tmpPath = "/tmp/flapjack-services";
 
 	public FlapjackServlet()
 	{
-		setName("Restful Flapjack Server");
-		setDescription("Test plant breeding API (BRAPI) implementation");
+		setName("Flapjack");
+		setDescription("Flapjack Web Services");
 		setOwner("The James Hutton Institute");
 		setAuthor("Information & Computational Sciences, JHI");
 
-		// Creates a fixed size thread pool which automatically queues any additional
-		// jobs which are added to the work queue
-		executor = Executors.newFixedThreadPool(NUM_THREADS);
-		runningTasks = new HashMap<String, FutureTask<FlapjackTask>>();
-		cancelledTasks = new HashSet<String>();
-		tasksByUser = new HashMap<String, Integer>();
+//		String rPath = getContext().getParameters().getFirstValue("r.path");
+//		String tmpPath = getContext().getParameters().getFirstValue("tmp.path");
+	}
+
+	@Override
+	public void contextInitialized(ServletContextEvent arg0)
+	{
+
+	}
+
+	@Override
+	public void contextDestroyed(ServletContextEvent arg0)
+	{
+		try
+		{
+			if (session != null)
+				session.exit();
+		}
+		catch (DrmaaException e)
+		{
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -51,81 +54,82 @@ public class FlapjackServlet extends Application
 	{
 		Router router = new Router(getContext());
 
-		router.attach("/" + PCOA, 						PCoAServerResource.class);
-		router.attach("/" + PCOA + "{id}", 				PCoAByIdServerResource.class);
-		router.attach("/" + PCOA_TASK + "{id}", 		TaskServerResource.class);
-		router.attach("/" + DENDROGRAM, 				DendrogramServerResource.class);
-		router.attach("/" + DENDROGRAM + "{id}", 		DendrogramByIdServerResource.class);
-		router.attach("/" + DENDROGRAM_TASK + "{id}", 	TaskServerResource.class);
+		router.attach("/pcoa/",				PCoAServerResource.class);
+//		router.attach("/pcoa/{id}", 		PCoAByIdServerResource.class);
+		router.attach("/dendrogram/",		DendrogramServerResource.class);
+		router.attach("/dendrogram/{id}",	DendrogramServerResource.class);
 
 		return router;
 	}
 
-	public static boolean checkTask(String id)
+	static File getWorkingDir(String taskId)
 	{
-		return runningTasks.get(id).isDone();
+		File tmpdir = new File(FlapjackServlet.tmpPath);
+		File wrkdir = new File(tmpdir, taskId);
+		wrkdir.mkdirs();
+
+		return wrkdir;
 	}
 
-	public static FlapjackTask getTask(String id)
+	public static boolean isJobFinished(String id)
 	{
-		FutureTask<FlapjackTask> task = runningTasks.get(id);
-		if (task.isDone())
+		// Strip off the DRMAA job id
+		String drmaaID = id.substring(id.lastIndexOf("-")+1);
+
+		try
 		{
-			try
+			int status = session.getJobProgramStatus(drmaaID);
+
+			switch (status)
 			{
-				return task.get();
+				case Session.DONE:
+					System.out.println("####### Job " + drmaaID + " is DONE");
+					return true;
+
+				case Session.UNDETERMINED:
+				case Session.FAILED:
+					throw new ResourceException(500);
+
+				default:
+					System.out.println("####### Job " + drmaaID + " is " + status);
+					return false;
 			}
-			catch (Exception e) { e.printStackTrace(); }
 		}
-		return null;
+		catch (DrmaaException e)
+		{
+			e.printStackTrace();
+			throw new ResourceException(500);
+		}
 	}
 
-	public static FlapjackTask getAndRemoveTask(String id)
+	public static void cancelJob(String id)
 	{
-		FutureTask<FlapjackTask> task = runningTasks.get(id);
-		if (task.isDone())
+		// Strip off the DRMAA job id
+		String drmaaID = id.substring(id.lastIndexOf("-")+1);
+
+		// TODO
+	}
+
+	static Session getDRMAASession()
+	{
+		// DRMAA NOTES:
+		// We added the following to wildcat.tomcat's .bashrc file
+		// export LD_LIBRARY_PATH=/opt/sge/lib/lx-amd64:$LD_LIBRARY_PATH
+
+		try
 		{
-			try
+			if (session == null)
 			{
-				runningTasks.remove(id);
-				return task.get();
+				SessionFactory factory = SessionFactory.getFactory();
+				session = factory.getSession();
+				session.init(null);
 			}
-			catch (Exception e) { e.printStackTrace(); }
 		}
-		return null;
-	}
-
-	public static void cancelTask(String id)
-	{
-		FutureTask<FlapjackTask> task = runningTasks.get(id);
-		if (task != null)
+		catch (DrmaaException e)
 		{
-			task.cancel(true);
-			runningTasks.remove(id);
-			cancelledTasks.add(id);
+			e.printStackTrace();
 		}
-	}
 
-	// Wraps the analysis in a FutureTask and submits this to the executor
-	// where it is either queued, or run immediately. Also adds the task to a
-	// HashMap where it is keyed by id.
-	public static void submitFlapjackServletTask(FlapjackTask analysis, String taskId)
-	{
-		FutureTask<FlapjackTask> task = new FutureTask<>(analysis);
-		executor.submit(task);
-		runningTasks.put(taskId, task);
-	}
-
-	public static String getUserTaskId(String flapjackId)
-	{
-		String taskId;
-
-		Integer result = tasksByUser.putIfAbsent(flapjackId, 0);
-		if (result != null)
-			taskId =  flapjackId + "-" + tasksByUser.put(flapjackId, result + 1);
-		else
-			taskId =  flapjackId + "-" + 0;
-
-		return taskId;
+		return session;
 	}
 }
