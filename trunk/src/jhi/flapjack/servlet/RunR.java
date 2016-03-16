@@ -8,17 +8,13 @@ import java.io.*;
 class RunR
 {
 	private String rPath;
-	private File wrkDir, rScript;
+	private final File wrkDir, rScript;
 
 	RunR(String rPath, File wrkDir, File rScript)
 	{
 		this.rPath = rPath;
 		this.wrkDir = wrkDir;
 		this.rScript = rScript;
-
-		System.out.println(rPath);
-		System.out.println(wrkDir);
-		System.out.println(rScript);
 	}
 
 	void runR()

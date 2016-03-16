@@ -3,52 +3,43 @@ package jhi.flapjack.servlet;
 import java.io.*;
 import java.util.zip.*;
 
-import org.restlet.data.*;
-import org.restlet.representation.*;
-import org.restlet.resource.*;
-
-import scri.commons.io.*;
-
-public class DendrogramTask implements FlapjackTask
+public class DendrogramTask
 {
-	private final int lineCount;
+	private int lineCount;
 
-	private final String taskId;
+	private String rPath;
+	private String wrkDir;
 
-	public DendrogramTask(String taskId, int lineCount)
-	{
-		this.taskId = taskId;
-		this.lineCount = lineCount;
-	}
-
-	@Override
-	public DendrogramTask call()
+	public static void main(String args[])
 		throws Exception
 	{
-		File rScript = new File(FileUtils.getTempDirectory(), taskId + ".R");
-		File matrix = new File(FileUtils.getTempDirectory(), taskId + ".matrix");
+		DendrogramTask task = new DendrogramTask();
 
-		// Write out the R script, replacing its variables as needed
-		try
-		{
-			writeScript(rScript, taskId, lineCount);
+		task.rPath = args[0];
+		task.wrkDir = args[1];
+		task.lineCount = Integer.parseInt(args[2]);
 
-			RunR runner = new RunR(FlapjackServlet.R_PATH, matrix.getParentFile(), rScript);
-			runner.runR();
-
-			rScript.delete();
-			matrix.delete();
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-			throw new ResourceException(404);
-		}
-
-		return this;
+		task.run();
 	}
 
-	private void writeScript(File rScript, String simMatrixId, int lineCount)
+	private void run()
+		throws Exception
+	{
+		File rScript = new File(wrkDir, "script.R");
+		File matrix = new File(wrkDir, "matrix.txt");
+
+		// Write out the R script, replacing its variables as needed
+		writeScript(rScript, lineCount);
+
+		// Run R
+		RunR runner = new RunR(rPath, matrix.getParentFile(), rScript);
+		runner.runR();
+
+		// And then make a zip of the results
+		zipResults();
+	}
+
+	private void writeScript(File rScript, int lineCount)
 		throws IOException
 	{
 		BufferedReader in = new BufferedReader(new InputStreamReader(
@@ -63,10 +54,10 @@ public class DendrogramTask implements FlapjackTask
 		String str;
 		while ((str = in.readLine()) != null)
 		{
-			str = str.replace("$MATRIX", simMatrixId + ".matrix");
-			str = str.replace("$ORDER", simMatrixId + ".order");
-			str = str.replace("$PNG_FILE", simMatrixId + ".png");
-			str = str.replace("$PDF_FILE", simMatrixId + ".pdf");
+			str = str.replace("$MATRIX", "matrix.txt");
+			str = str.replace("$ORDER", "order.txt");
+			str = str.replace("$PNG_FILE", "dendrogram.png");
+			str = str.replace("$PDF_FILE", "dendrogram.pdf");
 			str = str.replace("$PNG_WIDTH", "" + pngWidth);
 			str = str.replace("$PDF_WIDTH", "" + pdfWidth);
 
@@ -77,14 +68,13 @@ public class DendrogramTask implements FlapjackTask
 		out.close();
 	}
 
-	@Override
-	public Representation getRepresentation()
+	private void zipResults()
 	{
-		File order  = new File(FileUtils.getTempDirectory(), taskId + ".order");
-		File png = new File(FileUtils.getTempDirectory(), taskId + ".png");
-		File pdf = new File(FileUtils.getTempDirectory(), taskId + ".pdf");
+		File order  = new File(wrkDir, "order.txt");
+		File png = new File(wrkDir, "dendrogram.png");
+		File pdf = new File(wrkDir, "dendrogram.pdf");
 
-		File zipFile = new File(FileUtils.getTempDirectory(), taskId + ".zip");
+		File zipFile = new File(wrkDir, "results.zip");
 		try(ZipOutputStream zout = new ZipOutputStream(new FileOutputStream(zipFile));
 			BufferedInputStream pngIn = new BufferedInputStream(new FileInputStream(png));
 			BufferedInputStream pdfIn = new BufferedInputStream(new FileInputStream(pdf));
@@ -97,12 +87,7 @@ public class DendrogramTask implements FlapjackTask
 		catch (Exception e)
 		{
 			e.printStackTrace();
-			throw new ResourceException(500);
 		}
-
-		FileRepresentation fileRep = new FileRepresentation(zipFile, MediaType.APPLICATION_ZIP);
-
-		return fileRep;
 	}
 
 	private void createZipEntry(ZipOutputStream zout, String name, BufferedInputStream inStream)
@@ -115,11 +100,5 @@ public class DendrogramTask implements FlapjackTask
 		for (int length; (length = inStream.read(buffer)) > 0; )
 			zout.write(buffer, 0, length);
 		inStream.close();
-	}
-
-	@Override
-	public String getURI()
-	{
-		return FlapjackServlet.DENDROGRAM_ROUTE;
 	}
 }

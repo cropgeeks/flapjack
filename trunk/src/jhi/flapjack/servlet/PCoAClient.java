@@ -15,10 +15,9 @@ import org.restlet.resource.*;
 
 public class PCoAClient
 {
-	private boolean okToRun = true;
-	private UriPoller poller;
+	private final String URL = "http://wildcat:8080/flapjack-test/pcoa/";
 
-	private FutureTask<Boolean> pollTask;
+	private boolean okToRun = true;
 
 	public PCoAResult generatePco(SimMatrix matrix)
 		throws Exception
@@ -35,7 +34,7 @@ public class PCoAClient
 
 	private Reference postPcoa(SimMatrix matrix)
 	{
-		ClientResource pcoaResource = new ClientResource(FlapjackServlet.PCOA_ROUTE);
+		ClientResource pcoaResource = new ClientResource(URL);
 		pcoaResource.setFollowingRedirects(false);
 		pcoaResource.addQueryParameter("flapjackId", Prefs.flapjackID);
 
@@ -49,7 +48,7 @@ public class PCoAClient
 	private String getPcoa(Reference pcoaTaskUri)
 		throws Exception
 	{
-		poller = new UriPoller(pcoaTaskUri);
+/*		poller = new UriPoller(pcoaTaskUri);
 		pollTask = new FutureTask<Boolean>(poller);
 		pollTask.run();
 
@@ -62,7 +61,7 @@ public class PCoAClient
 
 			return pcoaRep.getText();
 		}
-
+*/
 		return null;
 	}
 
@@ -101,11 +100,5 @@ public class PCoAClient
 	public void cancelJob()
 	{
 		okToRun = false;
-
-		if (poller != null)
-		{
-			pollTask.cancel(true);
-			poller.cancelJob();
-		}
 	}
 }
