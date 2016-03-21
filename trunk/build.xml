@@ -108,7 +108,9 @@
 	<target name="war" depends="jar">
 		<war destfile="${war}" update="false">
 			<webinf dir="www/servlets/WEB-INF"/>
-			<lib dir="${lib}"/>
+			<lib dir="${lib}">
+				<exclude name="**/lib-devel/**"/>
+			</lib>
 		</war>
 
 		<taskdef name="undeploy" classpathref="project.classpath"

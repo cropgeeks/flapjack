@@ -113,8 +113,11 @@ public class FlapjackServlet extends Application implements ServletContextListen
 	static Session getDRMAASession()
 	{
 		// DRMAA NOTES:
-		// We added the following to wildcat.tomcat's .bashrc file
-		// export LD_LIBRARY_PATH=/opt/sge/lib/lx-amd64:$LD_LIBRARY_PATH
+		// Added drmaa.jar to ${catalina.base}/shared/lib/
+		// Added the following to tomcat's .bashrc file:
+		//   export LD_LIBRARY_PATH=/opt/sge/lib/lx-amd64
+		// Added the following to ${catalina.base}/conf/catalina.properties
+		//   shared.loader="${catalina.base}/shared/lib/*.jar"
 
 		try
 		{
