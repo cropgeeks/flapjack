@@ -84,7 +84,7 @@ public class Hdf5ToGenotypeConverter
 
 			Hdf5ToGenotypeConverter extractor = new Hdf5ToGenotypeConverter(hdf5File, lines, markers, missingDataFilter, heterozygousFilter);
 			extractor.readInput();
-			extractor.extractData(outputFilePath);
+			extractor.extractData(outputFilePath, "");
 		}
 		catch (IOException e)
 		{
@@ -118,7 +118,7 @@ public class Hdf5ToGenotypeConverter
 		reader.close();
 	}
 
-	public void extractData(String outputFile)
+	public void extractData(String outputFile, String headerLines)
 	{
 		System.out.println();
 		long s = System.currentTimeMillis();
@@ -134,6 +134,13 @@ public class Hdf5ToGenotypeConverter
 		// Write our output file line by line
 		try (PrintWriter writer = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outputFile), "UTF8"))))
 		{
+			// Write header for drag and drop
+			writer.println("# fjFile = GENOTYPE");
+
+			// Output any extra header lines that have been provided such as db link urls
+			if (!headerLines.isEmpty())
+				writer.print(headerLines);
+
 			// Write the header line of a Flapjack file
 			writer.println(markers.parallelStream().collect(Collectors.joining("\t", "Accession/Marker\t", "")));
 
