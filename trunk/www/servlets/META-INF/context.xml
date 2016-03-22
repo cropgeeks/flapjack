@@ -1,0 +1,6 @@
+<?xml version='1.0' encoding='utf-8'?>
+
+<Context>
+	<Parameter name="r.path" value="/usr/bin/R" override="false"/>
+	<Parameter name="tmp.path" value="/tmp/flapjack-services" override="false"/>
+</Context>
