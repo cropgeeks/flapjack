@@ -18,12 +18,12 @@ import ch.systemsx.cisd.hdf5.*;
  */
 public class Hdf5ToGenotypeConverter
 {
-	private static File hdf5File;
-	private static String outputFilePath = null;
-	private static List<String> lines = null;
-	private static List<String> markers = null;
-	private static boolean missingDataFilter = false;
-	private static boolean heterozygousFilter = false;
+	private File hdf5File;
+	private String outputFilePath = null;
+	private List<String> lines = null;
+	private List<String> markers = null;
+	private boolean missingDataFilter = false;
+	private boolean heterozygousFilter = false;
 
 	private final Map<String, String> linesReplaced;
 
@@ -51,6 +51,13 @@ public class Hdf5ToGenotypeConverter
 
 	public static void main(String[] args)
 	{
+		File hdf5File = null;
+		String outputFilePath = null;
+		List<String> lines = null;
+		List<String> markers = null;
+		boolean missingDataFilter = false;
+		boolean heterozygousFilter = false;
+
 		try
 		{
 			for (int i = 0; i < args.length; i++)

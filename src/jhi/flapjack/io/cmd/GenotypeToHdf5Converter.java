@@ -20,11 +20,14 @@ public class GenotypeToHdf5Converter
 
 	private static final String STATE_TABLE = "StateTable";
 
-	private static File genotypeFile;
-	private static File hdf5File;
+	private File genotypeFile;
+	private File hdf5File;
 
 	public static void main(String args[])
 	{
+		File genotypeFile = null;
+		File hdf5File = null;
+
 		System.out.println("Assuming default missing data string and heterozygous separator.");
 
 		for (int i = 0; i < args.length; i++)

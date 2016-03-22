@@ -21,16 +21,21 @@ import scri.commons.gui.*;
 public class CreateMatrix
 {
 	// The objects that will (hopefully) get created
-	private static DataSet dataSet = new DataSet();
+	private DataSet dataSet = new DataSet();
 
 	// And the files required to read and write to
-	private static File mapFile;
-	private static File genotypesFile;
-	private static boolean decimalEnglish = false;
-	private static String filename;
+	private File mapFile;
+	private File genotypesFile;
+	private boolean decimalEnglish = false;
+	private String filename;
 
 	public static void main(String[] args)
 	{
+		File mapFile = null;
+		File genotypesFile = null;
+		String filename = null;
+		boolean decimalEnglish = false;
+
 		for (int i = 0; i < args.length; i++)
 		{
 			if (args[i].startsWith("-map="))
@@ -77,14 +82,16 @@ public class CreateMatrix
 		if (decimalEnglish)
 			Locale.setDefault(Locale.UK);
 
-		CreateProject.mapFile = mapFile;
-		CreateProject.genotypesFile = genotypesFile;
-		CreateProject.prjFile = new FlapjackFile("temp");
+		CreateProject createProject = new CreateProject(mapFile, genotypesFile, null, null, new FlapjackFile("temp"), false);
+
+//		CreateProject.mapFile = mapFile;
+//		CreateProject.genotypesFile = genotypesFile;
+//		CreateProject.prjFile = new FlapjackFile("temp");
 
 		try
 		{
-			CreateProject.createProject();
-			dataSet = CreateProject.dataSet;
+			createProject.createProject();
+			dataSet = createProject.dataSet();
 
 			CreateSimMatrix();
 		}
