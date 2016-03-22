@@ -3,7 +3,7 @@ package jhi.flapjack.servlet;
 import java.io.*;
 import java.util.*;
 
-import org.restlet.data.MediaType;
+import org.restlet.data.*;
 import org.restlet.representation.*;
 import org.restlet.resource.*;
 
@@ -24,7 +24,7 @@ public class DendrogramServerResource extends ServerResource
 		// Params for POST
 		try
 		{
-			flapjackUID = getQueryValue("flapjackId");
+			flapjackUID = getQueryValue("flapjackUID");
 			lineCount = Integer.parseInt(getQueryValue("lineCount"));
 		}
 		catch (Exception e) {}

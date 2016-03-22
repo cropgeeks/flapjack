@@ -10,6 +10,8 @@ import jhi.flapjack.data.*;
 import jhi.flapjack.gui.*;
 
 import org.restlet.data.*;
+import static org.restlet.data.Status.SUCCESS_NO_CONTENT;
+import static org.restlet.data.Status.SUCCESS_OK;
 import org.restlet.representation.*;
 import org.restlet.resource.*;
 
@@ -22,12 +24,15 @@ public class PCoAClient
 	public PCoAResult generatePco(SimMatrix matrix)
 		throws Exception
 	{
-		Reference pcoaId  = postPcoa(matrix);
-
-		String pcoaText = getPcoa(pcoaId);
+		Reference pcoaId = postPcoa(matrix);
 
 		if (okToRun)
-			return createPcoaFromResponse(pcoaText, matrix);
+		{
+			String pcoaText = getPcoa(pcoaId);
+
+			if (pcoaText != null && pcoaText.isEmpty() == false)
+				return createPcoaFromResponse(pcoaText, matrix);
+		}
 
 		return null;
 	}
@@ -36,35 +41,41 @@ public class PCoAClient
 	{
 		ClientResource pcoaResource = new ClientResource(URL);
 		pcoaResource.setFollowingRedirects(false);
-		pcoaResource.addQueryParameter("flapjackId", Prefs.flapjackID);
+		pcoaResource.addQueryParameter("flapjackUID", Prefs.flapjackID);
 
 		SimMatrixWriterRepresentation writerRep = new SimMatrixWriterRepresentation(MediaType.TEXT_PLAIN, matrix);
-
 		pcoaResource.post(writerRep);
 
 		return pcoaResource.getLocationRef();
 	}
 
-	private String getPcoa(Reference pcoaTaskUri)
+	private String getPcoa(Reference uri)
 		throws Exception
 	{
-/*		poller = new UriPoller(pcoaTaskUri);
-		pollTask = new FutureTask<Boolean>(poller);
-		pollTask.run();
+		ClientResource cr = new ClientResource(uri);
+		cr.accept(MediaType.TEXT_PLAIN);
+		Representation r = cr.get();
 
-		if (okToRun && pollTask.get())
+		while (okToRun && cr.getStatus().equals(SUCCESS_NO_CONTENT))
 		{
-			Reference ref = poller.result();
+			System.out.println("Waiting for result...");
 
-			ClientResource resultResource = new ClientResource(ref);
-			Representation pcoaRep = resultResource.get();
+			try { Thread.sleep(500); }
+			catch (InterruptedException e) {}
 
-			return pcoaRep.getText();
+			cr.setReference(uri);
+			r = cr.get();
 		}
-*/
+
+		if (okToRun && cr.getStatus().equals(SUCCESS_OK))
+		{
+			System.out.println("Grabbing result...");
+
+			return r.getText();
+		}
+
 		return null;
 	}
-
 
 	private PCoAResult createPcoaFromResponse(String responseText, SimMatrix matrix)
 	{
