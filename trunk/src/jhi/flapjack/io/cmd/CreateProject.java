@@ -22,22 +22,29 @@ import scri.commons.gui.*;
 public class CreateProject
 {
 	// The objects that will (hopefully) get created
-	private static Project project = new Project();
-	static DataSet dataSet = new DataSet();
+	private Project project = new Project();
+	private DataSet dataSet = new DataSet();
 
 	// And the files required to read and write to
-	static File mapFile;
-	static File genotypesFile;
-	private static File traitsFile;
-	private static File qtlsFile;
-	static FlapjackFile prjFile;
-	private static String name;
-	private static boolean decimalEnglish = false;
+	private File mapFile;
+	private File genotypesFile;
+	private File traitsFile;
+	private File qtlsFile;
+	private FlapjackFile prjFile;
+	private String name;
+	private boolean decimalEnglish = false;
 
 	private static List<String> output = new ArrayList<>();
 
 	public static void main(String[] args)
 	{
+		File mapFile = null;
+		File genotypesFile = null;
+		File traitsFile = null;
+		File qtlsFile = null;
+		FlapjackFile prjFile = null;
+		boolean decimalEnglish = false;
+
 		for (int i = 0; i < args.length; i++)
 		{
 			if (args[i].startsWith("-map="))
@@ -50,8 +57,6 @@ public class CreateProject
 				qtlsFile = new File(args[i].substring(6));
 			if (args[i].startsWith("-project="))
 				prjFile = new FlapjackFile(args[i].substring(9));
-			if (args[i].startsWith("-datasetname="))
-				name = args[i].substring(13);
 			if (args[i].startsWith("-decimalEnglish"))
 				decimalEnglish = true;
 		}
@@ -65,7 +70,6 @@ public class CreateProject
 				+ "   -traits=<traits_file>          (optional input file)\n"
 				+ "   -qtls=<qtl_file>               (optional input file)\n"
 				+ "   -project=<project_file>        (required output file)\n"
-				+ "   -datasetname=<datasetname>     (optional parameter)\n"
 				+ "   -decimalEnglish                (optional parameter)\n");
 
 			return;
@@ -82,7 +86,6 @@ public class CreateProject
 	 * @param genotypesFile 	The genotypes File object for this project (required)
 	 * @param traitsFile		The traits File object for this project (optional - can be null)
 	 * @param qtlsFile			The qtls File object for this project (optional - can be null)
-	 * @param name				The name for this project as a string (required)
 	 * @param decimalEnglish	Whether or not we use English decimal points (required - boolean).
 	 */
 	public CreateProject(File mapFile, File genotypesFile, File traitsFile, File qtlsFile, FlapjackFile prjFile, boolean decimalEnglish)
@@ -125,7 +128,7 @@ public class CreateProject
 		return output;
 	}
 
-	static void createProject()
+	void createProject()
 		throws Exception
 	{
 		// Read the map
@@ -153,7 +156,7 @@ public class CreateProject
 		project.addDataSet(dataSet);
 	}
 
-	private static void importTraits()
+	private void importTraits()
 		throws Exception
 	{
 		// The traits file may be optional
@@ -168,7 +171,7 @@ public class CreateProject
 		dataSet.getViewSets().get(0).assignTraits();
 	}
 
-	private static void importQTLs()
+	private void importQTLs()
 			throws Exception
 	{
 		if(qtlsFile == null)
@@ -182,14 +185,14 @@ public class CreateProject
 //		optimiser.optimizeTrackUsage();
 	}
 
-	private static void openProject()
+	private void openProject()
 		throws Exception
 	{
 		if (prjFile.exists())
 			project = ProjectSerializer.open(prjFile);
 	}
 
-	private static boolean saveProject()
+	private boolean saveProject()
 		throws Exception
 	{
 		project.fjFile = prjFile;
@@ -201,5 +204,10 @@ public class CreateProject
 	{
 		System.out.println(message);
 		output.add(message);
+	}
+
+	DataSet dataSet()
+	{
+		return dataSet;
 	}
 }
