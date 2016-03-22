@@ -108,6 +108,7 @@
 	<target name="war" depends="jar">
 		<war destfile="${war}" update="false">
 			<webinf dir="www/servlets/WEB-INF"/>
+			<metainf dir="www/servlets/META-INF"/>
 			<lib dir="${lib}">
 				<exclude name="**/lib-devel/**"/>
 			</lib>

@@ -24,9 +24,17 @@ public class FlapjackServlet extends Application implements ServletContextListen
 		setDescription("Flapjack Web Services");
 		setOwner("The James Hutton Institute");
 		setAuthor("Information & Computational Sciences, JHI");
+	}
 
-//		String rPath = getContext().getParameters().getFirstValue("r.path");
-//		String tmpPath = getContext().getParameters().getFirstValue("tmp.path");
+	@Override
+	public void start()
+		throws Exception
+	{
+		super.start();
+
+		// Read context parameters (context is null during the constructor)
+		rPath = getContext().getParameters().getFirstValue("r.path");
+		tmpPath = getContext().getParameters().getFirstValue("tmp.path");
 	}
 
 	@Override
@@ -58,6 +66,9 @@ public class FlapjackServlet extends Application implements ServletContextListen
 //		router.attach("/pcoa/{id}", 		PCoAByIdServerResource.class);
 		router.attach("/dendrogram/",		DendrogramServerResource.class);
 		router.attach("/dendrogram/{id}",	DendrogramServerResource.class);
+
+
+
 
 		return router;
 	}
