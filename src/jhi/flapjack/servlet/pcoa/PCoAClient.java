@@ -1,17 +1,16 @@
-// Copyright 2009-2015 Information & Computational Sciences, JHI. All rights
+// Copyright 2009-2016 Information & Computational Sciences, JHI. All rights
 // reserved. Use is subject to the accompanying licence terms.
 
-package jhi.flapjack.servlet;
+package jhi.flapjack.servlet.pcoa;
 
 import java.io.*;
-import java.util.concurrent.*;
 
 import jhi.flapjack.data.*;
 import jhi.flapjack.gui.*;
+import jhi.flapjack.servlet.*;
 
+import static org.restlet.data.Status.*;
 import org.restlet.data.*;
-import static org.restlet.data.Status.SUCCESS_NO_CONTENT;
-import static org.restlet.data.Status.SUCCESS_OK;
 import org.restlet.representation.*;
 import org.restlet.resource.*;
 

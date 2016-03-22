@@ -1,7 +1,7 @@
-// Copyright 2009-2015 Information & Computational Sciences, JHI. All rights
+// Copyright 2009-2016 Information & Computational Sciences, JHI. All rights
 // reserved. Use is subject to the accompanying licence terms.
 
-package jhi.flapjack.servlet;
+package jhi.flapjack.servlet.dendrogram;
 
 import java.io.*;
 import java.util.*;
@@ -9,6 +9,7 @@ import java.util.zip.*;
 
 import jhi.flapjack.data.*;
 import jhi.flapjack.gui.*;
+import jhi.flapjack.servlet.*;
 
 import static org.restlet.data.Status.*;
 import org.restlet.data.*;
