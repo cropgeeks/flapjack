@@ -11,10 +11,10 @@ import org.restlet.resource.ResourceException;
 
 public class FlapjackServlet extends Application implements ServletContextListener
 {
-	// DRMAA session object for submitting jobs to a queue mangement engine
+	// DRMAA session object for submitting jobs to a queue management engine
 	private static Session session = null;
 
-	// Servlet context-parameters (overriden by values in WEB-INF/web.xml)
+	// Servlet context-parameters (overriden by values in META-INF/context.xml)
 	public static String rPath = "/usr/bin/R";
 	public static String tmpPath = "/tmp/flapjack-services";
 
@@ -63,12 +63,9 @@ public class FlapjackServlet extends Application implements ServletContextListen
 		Router router = new Router(getContext());
 
 		router.attach("/pcoa/",				PCoAServerResource.class);
-//		router.attach("/pcoa/{id}", 		PCoAByIdServerResource.class);
+		router.attach("/pcoa/{id}", 		PCoAServerResource.class);
 		router.attach("/dendrogram/",		DendrogramServerResource.class);
 		router.attach("/dendrogram/{id}",	DendrogramServerResource.class);
-
-
-
 
 		return router;
 	}

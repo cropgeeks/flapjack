@@ -65,12 +65,10 @@ public class DendrogramClient
 	{
 		ClientResource dendrogramResource = new ClientResource(URL);
 
-		System.out.println("POSTING TO " + URL);
-
 		// If we allow Restlet to follow redirects it makes processing our asynchronous job more difficult in the client
 		dendrogramResource.setFollowingRedirects(false);
 		dendrogramResource.addQueryParameter("lineCount", "" + lineCount);
-		dendrogramResource.addQueryParameter("flapjackId", Prefs.flapjackID);
+		dendrogramResource.addQueryParameter("flapjackUID", Prefs.flapjackID);
 
 		// Create a representation of the SimMatrix that allows its content to be streamed to the server
 		SimMatrixWriterRepresentation writerRep = new SimMatrixWriterRepresentation(MediaType.TEXT_PLAIN, matrix);
@@ -117,25 +115,6 @@ public class DendrogramClient
 		}
 
 		return null;
-
-
-/*		poller = new UriPoller(dendrogramTaskUri);
-		pollTask = new FutureTask<Boolean>(poller);
-		pollTask.run();
-
-		if (okToRun && pollTask.get())
-		{
-			Reference ref = poller.result();
-
-			ClientResource resultResource = new ClientResource(ref);
-			ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-			resultResource.get().write(outputStream);
-
-			return outputStream.toByteArray();
-		}
-
-		return null;
-*/
 	}
 
 	/**
@@ -217,7 +196,7 @@ public class DendrogramClient
 	}
 
 	public ArrayList<Integer> getLineOrder()
-	{ return lineOrder; }
+		{ return lineOrder; }
 
 	public void cancelJob()
 	{
