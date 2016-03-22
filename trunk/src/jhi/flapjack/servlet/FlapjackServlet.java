@@ -1,7 +1,13 @@
+// Copyright 2009-2016 Information & Computational Sciences, JHI. All rights
+// reserved. Use is subject to the accompanying licence terms.
+
 package jhi.flapjack.servlet;
 
 import java.io.*;
 import javax.servlet.*;
+
+import jhi.flapjack.servlet.dendrogram.*;
+import jhi.flapjack.servlet.pcoa.*;
 
 import org.restlet.*;
 import org.restlet.routing.*;
@@ -70,7 +76,7 @@ public class FlapjackServlet extends Application implements ServletContextListen
 		return router;
 	}
 
-	static File getWorkingDir(String taskId)
+	public static File getWorkingDir(String taskId)
 	{
 		File tmpdir = new File(FlapjackServlet.tmpPath);
 		File wrkdir = new File(tmpdir, taskId);
@@ -118,7 +124,7 @@ public class FlapjackServlet extends Application implements ServletContextListen
 		// TODO
 	}
 
-	static Session getDRMAASession()
+	public static Session getDRMAASession()
 	{
 		// DRMAA NOTES:
 		// Added drmaa.jar to ${catalina.base}/shared/lib/

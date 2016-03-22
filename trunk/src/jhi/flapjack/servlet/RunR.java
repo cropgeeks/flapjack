@@ -1,23 +1,23 @@
-// Copyright 2009-2015 Information & Computational Sciences, JHI. All rights
+// Copyright 2009-2016 Information & Computational Sciences, JHI. All rights
 // reserved. Use is subject to the accompanying licence terms.
 
 package jhi.flapjack.servlet;
 
 import java.io.*;
 
-class RunR
+public class RunR
 {
 	private String rPath;
 	private final File wrkDir, rScript;
 
-	RunR(String rPath, File wrkDir, File rScript)
+	public RunR(String rPath, File wrkDir, File rScript)
 	{
 		this.rPath = rPath;
 		this.wrkDir = wrkDir;
 		this.rScript = rScript;
 	}
 
-	void runR()
+	public void runR()
 		throws Exception
 	{
 		ProcessBuilder pb = new ProcessBuilder(rPath, "--vanilla");

@@ -10,7 +10,8 @@ import java.util.*;
 import jhi.flapjack.data.*;
 import jhi.flapjack.gui.*;
 
-import jhi.flapjack.servlet.PCoAClient;
+import jhi.flapjack.servlet.pcoa.*;
+
 import scri.commons.gui.*;
 
 public class PCoAGenerator extends SimpleJob

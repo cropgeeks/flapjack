@@ -8,7 +8,8 @@ import java.util.*;
 import jhi.flapjack.data.*;
 import jhi.flapjack.io.*;
 
-import jhi.flapjack.servlet.DendrogramClient;
+import jhi.flapjack.servlet.dendrogram.*;
+
 import scri.commons.gui.*;
 
 public class DendrogramGenerator extends SimpleJob

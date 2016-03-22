@@ -1,20 +1,24 @@
-package jhi.flapjack.servlet;
+// Copyright 2009-2016 Information & Computational Sciences, JHI. All rights
+// reserved. Use is subject to the accompanying licence terms.
+
+package jhi.flapjack.servlet.pcoa;
 
 import java.io.*;
 import java.util.*;
 
+import jhi.flapjack.servlet.*;
+
+import org.ggf.drmaa.*;
 import org.restlet.data.*;
+
 import org.restlet.representation.*;
 import org.restlet.resource.*;
 
-import org.ggf.drmaa.*;
-
-public class DendrogramServerResource extends ServerResource
+public class PCoAServerResource extends ServerResource
 {
 	private String id;
 
 	private String flapjackUID;
-	private int lineCount;
 
 	@Override
 	public void doInit()
@@ -25,7 +29,6 @@ public class DendrogramServerResource extends ServerResource
 		try
 		{
 			flapjackUID = getQueryValue("flapjackUID");
-			lineCount = Integer.parseInt(getQueryValue("lineCount"));
 		}
 		catch (Exception e) {}
 
@@ -57,10 +60,9 @@ public class DendrogramServerResource extends ServerResource
 			List<String> args = new ArrayList<>();
 			args.add("-cp");
 			args.add("/home/tomcat/www/webapps/flapjack-test/WEB-INF/lib/flapjack.jar");
-			args.add("jhi.flapjack.servlet.DendrogramTask");
+			args.add("jhi.flapjack.servlet.pcoa.PCoATask");
 			args.add(FlapjackServlet.rPath);
 			args.add(wrkDir.toString());
-			args.add("" + lineCount);
 			jt.setArgs(args);
 
 			jt.setWorkingDirectory(wrkDir.toString());
@@ -80,11 +82,11 @@ public class DendrogramServerResource extends ServerResource
 	@Get("html")
 	public Representation getHtml()
 	{
-		return new StringRepresentation("/dendrogram - " + new Date());
+		return new StringRepresentation("/pcoa - " + new Date());
 	}
 
-	@Get("zip")
-	public Representation getDendrogramAsZipFile()
+	@Get("txt")
+	public Representation getFitAsTextFile()
 	{
 		// TODO: How can we really be sure the job finished correctly?
 		if (FlapjackServlet.isJobFinished(id))
@@ -93,8 +95,8 @@ public class DendrogramServerResource extends ServerResource
 			String taskId = id.substring(0, id.indexOf("-"));
 			File wrkDir = FlapjackServlet.getWorkingDir(taskId);
 
-			File zipFile = new File(wrkDir, "results.zip");
-			return new FileRepresentation(zipFile, MediaType.APPLICATION_ZIP);
+			File fit = new File(wrkDir, "fit.txt");
+			return new FileRepresentation(fit, MediaType.TEXT_PLAIN);
 		}
 
 		else

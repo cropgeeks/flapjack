@@ -1,7 +1,12 @@
-package jhi.flapjack.servlet;
+// Copyright 2009-2016 Information & Computational Sciences, JHI. All rights
+// reserved. Use is subject to the accompanying licence terms.
+
+package jhi.flapjack.servlet.dendrogram;
 
 import java.io.*;
 import java.util.zip.*;
+
+import jhi.flapjack.servlet.*;
 
 public class DendrogramTask
 {
