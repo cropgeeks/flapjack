@@ -59,7 +59,7 @@ public class PCoAServerResource extends ServerResource
 			jt.setRemoteCommand("java");
 			List<String> args = new ArrayList<>();
 			args.add("-cp");
-			args.add("/home/tomcat/www/webapps/flapjack-test/WEB-INF/lib/flapjack.jar");
+			args.add(FlapjackServlet.fjPath);
 			args.add("jhi.flapjack.servlet.pcoa.PCoATask");
 			args.add(FlapjackServlet.rPath);
 			args.add(wrkDir.toString());
@@ -101,6 +101,7 @@ public class PCoAServerResource extends ServerResource
 
 		else
 		{
+			// HTTP 204 NO CONTENT
 			setStatus(org.restlet.data.Status.SUCCESS_NO_CONTENT);
 			return null;
 		}
