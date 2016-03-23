@@ -3,7 +3,6 @@
 
 package jhi.flapjack.data;
 
-import java.io.*;
 import java.util.*;
 
 import jhi.flapjack.io.*;
@@ -16,6 +15,10 @@ public class Project extends XMLRoot
 
 	// The datasets within the project
 	private ArrayList<DataSet> dataSets = new ArrayList<>();
+
+	private String treeState = "";
+
+	private int[] treeSelectedRows;
 
 	public Project()
 	{
@@ -37,6 +40,25 @@ public class Project extends XMLRoot
 	public void setDataSets(ArrayList<DataSet> dataSets)
 		{ this.dataSets = dataSets; }
 
+	public String getTreeState()
+	{
+		return treeState;
+	}
+
+	public void setTreeState(String treeState)
+	{
+		this.treeState = treeState;
+	}
+
+	public int[] getTreeSelectedRows()
+	{
+		return treeSelectedRows;
+	}
+
+	public void setTreeSelectedRows(int[] treeSelectedRows)
+	{
+		this.treeSelectedRows = treeSelectedRows;
+	}
 
 	// Other methods
 
