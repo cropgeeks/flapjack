@@ -78,7 +78,7 @@ public class FlapjackServlet extends Application implements ServletContextListen
 
 	public static File getWorkingDir(String taskId)
 	{
-		File tmpdir = new File(FlapjackServlet.tmpPath);
+		File tmpdir = new File(System.getProperty("java.io.tmpdir"), "flapjack");
 		File wrkdir = new File(tmpdir, taskId);
 		wrkdir.mkdirs();
 
@@ -128,7 +128,7 @@ public class FlapjackServlet extends Application implements ServletContextListen
 	{
 		// DRMAA NOTES:
 		// Added drmaa.jar to ${catalina.base}/shared/lib/
-		// Added the following to tomcat's .bashrc file:
+		// Added the following to tomcat's bin/setenv.sh file:
 		//   export LD_LIBRARY_PATH=/opt/sge/lib/lx-amd64
 		// Added the following to ${catalina.base}/conf/catalina.properties
 		//   shared.loader="${catalina.base}/shared/lib/*.jar"
