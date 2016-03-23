@@ -394,6 +394,10 @@ class NavPanel extends JPanel
 	// Takes a string representing an expansion state for the tree and updates the tree to match that state
 	public void setExpansionState(String s)
 	{
+		// If we have no information on the tree state, do nothing
+		if (s.isEmpty())
+			return;
+
 		// The string is a list of numbers separated by commas, so we split on commas
 		String[] indexes = s.split(",");
 
@@ -401,7 +405,7 @@ class NavPanel extends JPanel
 		tree.removeTreeExpansionListener(this);
 
 		// Collapse all rows in the tree
-		for (int i=tree.getRowCount()-1; i >= 0; i--)
+		for (int i = tree.getRowCount() - 1; i >= 0; i--)
 			tree.collapseRow(i);
 
 		// Expand the rows found in the string passed to the method
