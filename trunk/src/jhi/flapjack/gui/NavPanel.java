@@ -6,7 +6,6 @@ package jhi.flapjack.gui;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.dnd.*;
-import java.awt.image.*;
 import java.beans.*;
 import javax.swing.*;
 import javax.swing.event.*;
@@ -27,7 +26,7 @@ import scri.commons.gui.matisse.*;
  * dictate what will be displayed in the main right-hand panel.
  */
 class NavPanel extends JPanel
-	implements TreeSelectionListener, PropertyChangeListener
+	implements TreeSelectionListener, PropertyChangeListener, TreeExpansionListener
 {
 	private JTree tree;
 	private DefaultTreeModel treeModel;
@@ -52,6 +51,7 @@ class NavPanel extends JPanel
 
 		tree = new JTree(treeModel);
 		tree.addTreeSelectionListener(this);
+		tree.addTreeExpansionListener(this);
 		tree.setCellRenderer(new TreeRenderer());
 		tree.setRootVisible(false);
 		tree.getSelectionModel().setSelectionMode(
@@ -107,20 +107,33 @@ class NavPanel extends JPanel
 		root = new DefaultMutableTreeNode("root");
 		treeModel = new DefaultTreeModel(root);
 		defaultNode = null;
+
+		updateTreeState();
 	}
 
 	void setProject(Project project)
 	{
+		String treeState = project.getTreeState();
+		int[] selectedRows = project.getTreeSelectedRows();
+
 		resetModel();
 		tree.setModel(treeModel);
 
 		isOpening = true;
 		for (int i = 0; i < project.getDataSets().size(); i++)
 			addDataSetNode(project.getDataSets().get(i));
+
+		setExpansionState(treeState);
+
 		isOpening = false;
 
 		// Default selection (ideally the first viewset of the first data set)
-		if (defaultNode != null)
+		if (selectedRows != null)
+		{
+			tree.setSelectionRows(selectedRows);
+			tree.scrollRowToVisible(selectedRows[0]);
+		}
+		else if (defaultNode != null)
 		{
 			tree.setSelectionPath(new TreePath(defaultNode.getPath()));
 			tree.scrollPathToVisible(new TreePath(defaultNode.getPath()));
@@ -294,7 +307,6 @@ class NavPanel extends JPanel
 		treeModel.removeNodeFromParent(node);
 		tree.setSelectionPath(new TreePath(baseNode.getPath()));
 		tree.scrollPathToVisible(new TreePath(baseNode.getPath()));
-
 		return node.getBookmark();
 	}
 
@@ -338,6 +350,8 @@ class NavPanel extends JPanel
 
 			// Enable the appropriate actions for it
 			node.setActions();
+
+			Flapjack.winMain.getProject().setTreeSelectedRows(tree.getSelectionRows());
 		}
 		else
 			hSplitPane.setRightComponent(new IntroPanel());
@@ -347,6 +361,64 @@ class NavPanel extends JPanel
 		// If we're viewing a visualization node, then enable the overview
 		OverviewManager.setVisible(node instanceof VisualizationNode ||
 			node instanceof BookmarkNode);
+	}
+
+	@Override
+	public void treeExpanded(TreeExpansionEvent event)
+	{
+		updateTreeState();
+	}
+
+	@Override
+	public void treeCollapsed(TreeExpansionEvent event)
+	{
+		updateTreeState();
+	}
+
+	// Updates our tracking of the tree expansion state
+	private void updateTreeState()
+	{
+		if (tree != null)
+		{
+			StringBuilder sb = new StringBuilder();
+
+			// For each row that is expanded add its index to the string
+			for (int i = 0; i < tree.getRowCount(); i++)
+				if (tree.isExpanded(i))
+					sb.append(i).append(",");
+
+			Flapjack.winMain.getProject().setTreeState(sb.toString());
+		}
+	}
+
+	// Takes a string representing an expansion state for the tree and updates the tree to match that state
+	public void setExpansionState(String s)
+	{
+		// The string is a list of numbers separated by commas, so we split on commas
+		String[] indexes = s.split(",");
+
+		// Temporarily remove the expansion listener so it doesn't respond to events
+		tree.removeTreeExpansionListener(this);
+
+		// Collapse all rows in the tree
+		for (int i=tree.getRowCount()-1; i >= 0; i--)
+			tree.collapseRow(i);
+
+		// Expand the rows found in the string passed to the method
+		for ( String st : indexes )
+		{
+			if (!st.isEmpty())
+			{
+				int row = Integer.parseInt(st);
+				tree.expandRow(row);
+			}
+		}
+
+		// Save this reloaded tree state
+		updateTreeState();
+
+		// Add the listener again so we can update the tree state as appropriate
+		tree.addTreeExpansionListener(this);
 	}
 
 	/**

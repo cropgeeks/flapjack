@@ -117,7 +117,7 @@ public class WinMain extends JFrame
 		return ProjectSerializer.okToContinue(project, true);
 	}
 
-	Project getProject()
+	public Project getProject()
 		{ return project; }
 
 	void setProject(Project project)
@@ -149,7 +149,7 @@ public class WinMain extends JFrame
 			filterQTLDialog.setVisible(false);
 	}
 
-	NavPanel getNavPanel()
+	public NavPanel getNavPanel()
 	{
 		return navPanel;
 	}
