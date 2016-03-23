@@ -22,7 +22,8 @@ public class FlapjackServlet extends Application implements ServletContextListen
 
 	// Servlet context-parameters (overriden by values in META-INF/context.xml)
 	public static String rPath = "/usr/bin/R";
-	public static String tmpPath = "/tmp/flapjack-services";
+	
+	public static String fjPath;
 
 	public FlapjackServlet()
 	{
@@ -40,7 +41,11 @@ public class FlapjackServlet extends Application implements ServletContextListen
 
 		// Read context parameters (context is null during the constructor)
 		rPath = getContext().getParameters().getFirstValue("r.path");
-		tmpPath = getContext().getParameters().getFirstValue("tmp.path");
+
+		// Path to flapjack.jar
+		ServletContext sc = (ServletContext) getContext().getAttributes().get(
+			"org.restlet.ext.servlet.ServletContext");
+		fjPath = sc.getRealPath("/WEB-INF/lib/flapjack.jar");
 	}
 
 	@Override

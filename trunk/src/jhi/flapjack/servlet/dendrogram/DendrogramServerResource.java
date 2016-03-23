@@ -61,7 +61,7 @@ public class DendrogramServerResource extends ServerResource
 			jt.setRemoteCommand("java");
 			List<String> args = new ArrayList<>();
 			args.add("-cp");
-			args.add("/home/tomcat/www/webapps/flapjack-test/WEB-INF/lib/flapjack.jar");
+			args.add(FlapjackServlet.fjPath);
 			args.add("jhi.flapjack.servlet.dendrogram.DendrogramTask");
 			args.add(FlapjackServlet.rPath);
 			args.add(wrkDir.toString());
@@ -104,6 +104,7 @@ public class DendrogramServerResource extends ServerResource
 
 		else
 		{
+			// HTTP 204 NO CONTENT
 			setStatus(org.restlet.data.Status.SUCCESS_NO_CONTENT);
 			return null;
 		}
