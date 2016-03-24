@@ -13,10 +13,19 @@ public class RestUtils
 {
 	// Client helper methods
 	public static void cancelJob(Reference uri)
-		throws Exception
 	{
-		ClientResource cancel = new ClientResource(uri);
-		cancel.delete();
+		// We don't care about any exceptions - we tried to cancel...so be it if
+		// it fails for whatever reason - the client doesn't care.
+
+		try
+		{
+			ClientResource cancel = new ClientResource(uri);
+			cancel.delete();
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
 	}
 
 	// Servlet helper methods
