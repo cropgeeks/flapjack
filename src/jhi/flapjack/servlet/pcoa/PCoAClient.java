@@ -17,17 +17,18 @@ import org.restlet.resource.*;
 public class PCoAClient
 {
 	private final String URL = "http://wildcat:8080/flapjack-test/pcoa/";
+	private Reference taskURI;
 
 	private boolean okToRun = true;
 
 	public PCoAResult generatePco(SimMatrix matrix)
 		throws Exception
 	{
-		Reference pcoaId = postPcoa(matrix);
+		taskURI = postPcoa(matrix);
 
 		if (okToRun)
 		{
-			String pcoaText = getPcoa(pcoaId);
+			String pcoaText = getPcoa(taskURI);
 
 			if (pcoaText != null && pcoaText.isEmpty() == false)
 				return createPcoaFromResponse(pcoaText, matrix);
@@ -62,8 +63,12 @@ public class PCoAClient
 			try { Thread.sleep(500); }
 			catch (InterruptedException e) {}
 
-			cr.setReference(uri);
-			r = cr.get();
+			// We've been waiting a while...the user may have cancelled
+			if (okToRun)
+			{
+				cr.setReference(uri);
+				r = cr.get();
+			}
 		}
 
 		if (okToRun && cr.getStatus().equals(SUCCESS_OK))
@@ -110,5 +115,6 @@ public class PCoAClient
 	public void cancelJob()
 	{
 		okToRun = false;
+		RestUtils.cancelJob(taskURI);
 	}
 }

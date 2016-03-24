@@ -13,6 +13,7 @@ public class RestUtils
 {
 	// Client helper methods
 	public static void cancelJob(Reference uri)
+		throws Exception
 	{
 		ClientResource cancel = new ClientResource(uri);
 		cancel.delete();
