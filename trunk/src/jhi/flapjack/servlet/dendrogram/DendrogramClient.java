@@ -207,10 +207,6 @@ public class DendrogramClient
 	public void cancelJob()
 	{
 		okToRun = false;
-
-		// We don't care about any exceptions - we tried to cancel...so be it if
-		// it fails for whatever reason. The client won't care anymore.
-		try { RestUtils.cancelJob(taskURI); }
-		catch (Exception e) { e.printStackTrace(); }
+		RestUtils.cancelJob(taskURI);
 	}
 }
