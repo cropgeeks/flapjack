@@ -22,7 +22,7 @@ public class FlapjackServlet extends Application implements ServletContextListen
 
 	// Servlet context-parameters (overriden by values in META-INF/context.xml)
 	public static String rPath = "/usr/bin/R";
-	
+
 	public static String fjPath;
 
 	public FlapjackServlet()
@@ -107,6 +107,7 @@ public class FlapjackServlet extends Application implements ServletContextListen
 
 				case Session.UNDETERMINED:
 				case Session.FAILED:
+					System.out.println("####### Job " + drmaaID + " UNDERTERMINED OR FAILED");
 					throw new ResourceException(500);
 
 				default:
@@ -123,10 +124,18 @@ public class FlapjackServlet extends Application implements ServletContextListen
 
 	public static void cancelJob(String id)
 	{
-		// Strip off the DRMAA job id
-		String drmaaID = id.substring(id.lastIndexOf("-")+1);
+		try
+		{
+			// Strip off the DRMAA job id
+			String drmaaID = id.substring(id.lastIndexOf("-")+1);
 
-		// TODO
+			session.control(drmaaID, Session.TERMINATE);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			throw new ResourceException(500);
+		}
 	}
 
 	public static Session getDRMAASession()

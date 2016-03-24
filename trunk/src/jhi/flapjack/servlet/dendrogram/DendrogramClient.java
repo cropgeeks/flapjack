@@ -19,6 +19,7 @@ import org.restlet.representation.*;
 public class DendrogramClient
 {
 	private final String URL = "http://wildcat:8080/flapjack-test/dendrogram/";
+	private Reference taskURI;
 
 	private final SimMatrix matrix;
 	private final int lineCount;
@@ -42,11 +43,11 @@ public class DendrogramClient
 	public Dendrogram generateDendrogram()
 		throws Exception
 	{
-		Reference dendrogramTaskUri = postSimMatrix();
+		taskURI = postSimMatrix();
 
 		if (okToRun)
 		{
-			byte[] dendrogramBytes = getDendrogramAsByteArray(dendrogramTaskUri);
+			byte[] dendrogramBytes = getDendrogramAsByteArray(taskURI);
 
 			if (dendrogramBytes != null)
 				return createDendrogramFromZip(dendrogramBytes);
@@ -101,8 +102,12 @@ public class DendrogramClient
 			try { Thread.sleep(500); }
 			catch (InterruptedException e) {}
 
-			cr.setReference(uri);
-			r = cr.get();
+			// We've been waiting a while...the user may have cancelled
+			if (okToRun)
+			{
+				cr.setReference(uri);
+				r = cr.get();
+			}
 		}
 
 		if (okToRun && cr.getStatus().equals(SUCCESS_OK))
@@ -202,5 +207,10 @@ public class DendrogramClient
 	public void cancelJob()
 	{
 		okToRun = false;
+
+		// We don't care about any exceptions - we tried to cancel...so be it if
+		// it fails for whatever reason. The client won't care anymore.
+		try { RestUtils.cancelJob(taskURI); }
+		catch (Exception e) { e.printStackTrace(); }
 	}
 }
