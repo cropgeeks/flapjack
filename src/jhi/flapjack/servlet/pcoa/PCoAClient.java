@@ -21,10 +21,10 @@ public class PCoAClient
 
 	private boolean okToRun = true;
 
-	public PCoAResult generatePco(SimMatrix matrix)
+	public PCoAResult generatePco(SimMatrix matrix, String noDimensions)
 		throws Exception
 	{
-		taskURI = postPcoa(matrix);
+		taskURI = postPcoa(matrix, noDimensions);
 
 		if (okToRun)
 		{
@@ -37,11 +37,14 @@ public class PCoAClient
 		return null;
 	}
 
-	private Reference postPcoa(SimMatrix matrix)
+	private Reference postPcoa(SimMatrix matrix, String noDimensions)
 	{
 		ClientResource pcoaResource = new ClientResource(URL);
 		pcoaResource.setFollowingRedirects(false);
 		pcoaResource.addQueryParameter("flapjackUID", Prefs.flapjackID);
+		pcoaResource.addQueryParameter("noDimensions", noDimensions);
+
+		System.out.println("Posting to: " + URL);
 
 		SimMatrixWriterRepresentation writerRep = new SimMatrixWriterRepresentation(MediaType.TEXT_PLAIN, matrix);
 		pcoaResource.post(writerRep);
@@ -66,9 +69,9 @@ public class PCoAClient
 			// We've been waiting a while...the user may have cancelled
 			if (okToRun)
 			{
-				cr.setReference(uri);
-				r = cr.get();
-			}
+			cr.setReference(uri);
+			r = cr.get();
+		}
 		}
 
 		if (okToRun && cr.getStatus().equals(SUCCESS_OK))

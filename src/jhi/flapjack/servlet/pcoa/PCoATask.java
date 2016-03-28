@@ -12,6 +12,8 @@ public class PCoATask
 	private String rPath;
 	private String wrkDir;
 
+	private String noDimensions;
+
 	public static void main(String args[])
 		throws Exception
 	{
@@ -19,6 +21,7 @@ public class PCoATask
 
 		task.rPath = args[0];
 		task.wrkDir = args[1];
+		task.noDimensions = args[2];
 
 		task.run();
 	}
@@ -53,6 +56,7 @@ public class PCoATask
 		{
 			str = str.replace("$MATRIX", "matrix.txt");
 			str = str.replace("$FIT", "fit.txt");
+			str = str.replace("$K", noDimensions);
 
 			out.println(str);
 		}

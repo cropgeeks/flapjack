@@ -234,7 +234,9 @@ public class MenuAnalysis
 
 	public void principalCordAnalysis()
 	{
-		PCoASettingsDialog psd = new PCoASettingsDialog();
+		int noLines = navPanel.getActiveSimMatrixPanel().getViewSet().getLines().size();
+
+		PCoASettingsDialog psd = new PCoASettingsDialog(noLines);
 		if (psd.isOK() == false)
 			return;
 
@@ -244,13 +246,13 @@ public class MenuAnalysis
 		GTViewSet viewSet = panel.getViewSet();
 		SimMatrix matrix = panel.getSimMatrix();
 
+		String noDimensions = psd.getNoDimensions();
 
-		PCoAGenerator pco = new PCoAGenerator(viewSet, matrix);
+		PCoAGenerator pco = new PCoAGenerator(viewSet, matrix, noDimensions);
 
 		ProgressDialog dialog = new ProgressDialog(pco,
-			"Calculating PCoA",
-			"Calculating PCoA - please be patient", Flapjack.winMain);
-
+			RB.format("gui.MenuAnalysis.pcoa.title"),
+			RB.format("gui.MenuAnalysis.pcoa.label"), Flapjack.winMain);
 
 		// If the operation failed or was cancelled...
 		if (dialog.failed("gui.error"))

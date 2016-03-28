@@ -6,6 +6,6 @@ D <- as.dist(A)
 
 Z <- 1-D
 
-FIT <- cmdscale(Z, k=5)
+FIT <- cmdscale(Z, k="$K")
 
 write.table(FIT, file="$FIT", sep="\t", row.names=TRUE, col.names=FALSE, quote=FALSE)

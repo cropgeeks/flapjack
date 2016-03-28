@@ -15,7 +15,11 @@ public class PCoASettingsDialog extends JDialog implements ActionListener
 {
 	private boolean isOK;
 
-	public PCoASettingsDialog()
+	private SpinnerNumberModel dimSpinnerModel;
+
+	private int noLines;
+
+	public PCoASettingsDialog(int noLines)
 	{
 		super(
 			Flapjack.winMain,
@@ -25,9 +29,16 @@ public class PCoASettingsDialog extends JDialog implements ActionListener
 
 		isOK = false;
 
+		this.noLines = noLines;
+
 		initComponents();
 		initComponents2();
 		getContentPane().setBackground(Color.WHITE);
+
+		setupComponentText();
+		setupDimensionSpinner();
+
+		curlywhirlyLinkLabel.addActionListener(this);
 
 		getRootPane().setDefaultButton(bOK);
 		SwingUtils.addCloseHandler(this, bOK);
@@ -47,6 +58,27 @@ public class PCoASettingsDialog extends JDialog implements ActionListener
 		bCancel.addActionListener(this);
 	}
 
+	private void setupComponentText()
+	{
+		RB.setText(pcoaLabel, "gui.dialog.analysis.PCoASettingsDialog.pcoaLabel");
+		RB.setText(curlywhirlyLabel, "gui.dialog.analysis.PCoASettingsDialog.curlywhirlyLabel");
+		RB.setText(curlywhirlyLinkLabel, "gui.dialog.analysis.PCoASettingsDialog.curlywhirlyLinkLabel");
+		RB.setText(pcoaDimLablel, "gui.dialog.analysis.PCoASettingsDialog.pcoaDimLablel");
+		RB.setText(dimensionHelpLabel, "gui.dialog.analysis.PCoASettingsDialog.dimensionHelpLabel");
+	}
+
+	private void setupDimensionSpinner()
+	{
+		int maxPossDims = noLines - 1;
+
+		int min = 1;
+		int max = maxPossDims > 20 ? 20 : maxPossDims;
+		int def = maxPossDims < 3 ? maxPossDims : 3;
+
+		dimSpinnerModel = new SpinnerNumberModel(def, min, max, 1);
+		dimSpinner.setModel(dimSpinnerModel);
+	}
+
 	public boolean isOK()
 		{ return isOK; }
 
@@ -61,6 +93,14 @@ public class PCoASettingsDialog extends JDialog implements ActionListener
 
 		else if (e.getSource() == bCancel)
 			setVisible(false);
+
+		else if (e.getSource() == curlywhirlyLinkLabel)
+			FlapjackUtils.visitURL("http://ics.hutton.ac.uk/curlywhirly");
+	}
+
+	public String getNoDimensions()
+	{
+		return dimSpinner.getValue().toString();
 	}
 
     /** This method is called from within the constructor to
@@ -70,16 +110,18 @@ public class PCoASettingsDialog extends JDialog implements ActionListener
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+    private void initComponents()
+    {
 
         dialogPanel1 = new scri.commons.gui.matisse.DialogPanel();
         bOK = new javax.swing.JButton();
         bCancel = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
+        pcoaLabel = new javax.swing.JLabel();
+        curlywhirlyLabel = new javax.swing.JLabel();
+        curlywhirlyLinkLabel = new scri.commons.gui.matisse.HyperLinkLabel();
+        dimSpinner = new javax.swing.JSpinner();
+        pcoaDimLablel = new javax.swing.JLabel();
+        dimensionHelpLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -89,15 +131,15 @@ public class PCoASettingsDialog extends JDialog implements ActionListener
         bCancel.setText("Cancel");
         dialogPanel1.add(bCancel);
 
-        jLabel1.setText("Warning.");
+        pcoaLabel.setText("PCoA generation relies on internet access to a remote server (ics.hutton.ac.uk) to perform the analysis.");
 
-        jLabel2.setText("This feature is still highly experimental, and may fail without adequate error messages to let you know what went wrong.");
+        curlywhirlyLabel.setText("You must have CurlyWhirly installed to be able to view any results.");
 
-        jLabel3.setText("It relies on internet access to a remote server (ics.hutton.ac.uk) to perform potentially long-running calculations.");
+        curlywhirlyLinkLabel.setText("(CurlyWhirly)");
 
-        jLabel4.setText("Proceed with caution.");
+        pcoaDimLablel.setText("Number of PCoA Dimensions:");
 
-        jLabel5.setText("You must have CurlyWhirly installed to be able to view any results.");
+        dimensionHelpLabel.setText("(cannot equal or excede number of lines, must be less than 20)");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -107,26 +149,33 @@ public class PCoASettingsDialog extends JDialog implements ActionListener
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel5))
+                    .addComponent(pcoaLabel)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(pcoaDimLablel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(dimSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(dimensionHelpLabel))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(curlywhirlyLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(curlywhirlyLinkLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel2)
+                .addComponent(pcoaLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel5)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(curlywhirlyLabel)
+                    .addComponent(curlywhirlyLinkLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jLabel4)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(pcoaDimLablel)
+                    .addComponent(dimSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(dimensionHelpLabel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(dialogPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -138,12 +187,13 @@ public class PCoASettingsDialog extends JDialog implements ActionListener
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bCancel;
     private javax.swing.JButton bOK;
+    private javax.swing.JLabel curlywhirlyLabel;
+    private scri.commons.gui.matisse.HyperLinkLabel curlywhirlyLinkLabel;
     private scri.commons.gui.matisse.DialogPanel dialogPanel1;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
+    private javax.swing.JSpinner dimSpinner;
+    private javax.swing.JLabel dimensionHelpLabel;
+    private javax.swing.JLabel pcoaDimLablel;
+    private javax.swing.JLabel pcoaLabel;
     // End of variables declaration//GEN-END:variables
 
 }
