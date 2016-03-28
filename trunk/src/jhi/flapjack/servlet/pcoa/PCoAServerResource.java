@@ -20,6 +20,8 @@ public class PCoAServerResource extends ServerResource
 
 	private String flapjackUID;
 
+	private String noDimensions;
+
 	@Override
 	public void doInit()
 	{
@@ -29,6 +31,7 @@ public class PCoAServerResource extends ServerResource
 		try
 		{
 			flapjackUID = getQueryValue("flapjackUID");
+			noDimensions = getQueryValue("noDimensions");
 		}
 		catch (Exception e) {}
 
@@ -63,6 +66,7 @@ public class PCoAServerResource extends ServerResource
 			args.add("jhi.flapjack.servlet.pcoa.PCoATask");
 			args.add(FlapjackServlet.rPath);
 			args.add(wrkDir.toString());
+			args.add(noDimensions);
 			jt.setArgs(args);
 
 			jt.setWorkingDirectory(wrkDir.toString());

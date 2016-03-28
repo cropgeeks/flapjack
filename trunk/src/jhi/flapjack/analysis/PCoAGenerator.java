@@ -20,14 +20,17 @@ public class PCoAGenerator extends SimpleJob
 	private DataSet dataSet;
 	private SimMatrix matrix;
 
+	private String noDimensions;
+
 	private PCoAClient client;
 
 	private boolean callingCurlyWhirly = false;
 
-	public PCoAGenerator(GTViewSet viewSet, SimMatrix matrix)
+	public PCoAGenerator(GTViewSet viewSet, SimMatrix matrix, String noDimensions)
 	{
 		this.viewSet = viewSet;
 		this.matrix = matrix;
+		this.noDimensions = noDimensions;
 
 		dataSet = viewSet.getDataSet();
 	}
@@ -46,7 +49,7 @@ public class PCoAGenerator extends SimpleJob
 	{
 		// Run the servlet (upload, run, download)
 		client = new PCoAClient();
-		PCoAResult result = client.generatePco(matrix);
+		PCoAResult result = client.generatePco(matrix, noDimensions);
 
 		if (okToRun)
 		{

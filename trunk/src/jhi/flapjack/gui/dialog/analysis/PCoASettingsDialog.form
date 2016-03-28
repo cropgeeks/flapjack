@@ -27,11 +27,19 @@
           <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jLabel1" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Component id="jLabel2" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Component id="jLabel3" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Component id="jLabel4" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Component id="jLabel5" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="pcoaLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <Component id="pcoaDimLablel" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="dimSpinner" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="dimensionHelpLabel" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Component id="curlywhirlyLabel" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="curlywhirlyLinkLabel" min="-2" max="-2" attributes="0"/>
+                  </Group>
               </Group>
               <EmptySpace max="32767" attributes="0"/>
           </Group>
@@ -41,15 +49,18 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
+              <Component id="pcoaLabel" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="curlywhirlyLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="curlywhirlyLinkLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="pcoaDimLablel" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="dimSpinner" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="dimensionHelpLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
               <EmptySpace max="32767" attributes="0"/>
               <Component id="dialogPanel1" min="-2" max="-2" attributes="0"/>
           </Group>
@@ -76,29 +87,31 @@
         </Component>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JLabel" name="jLabel1">
+    <Component class="javax.swing.JLabel" name="pcoaLabel">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Warning."/>
+        <Property name="text" type="java.lang.String" value="PCoA generation relies on internet access to a remote server (ics.hutton.ac.uk) to perform the analysis."/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="jLabel2">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="This feature is still highly experimental, and may fail without adequate error messages to let you know what went wrong."/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JLabel" name="jLabel3">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="It relies on internet access to a remote server (ics.hutton.ac.uk) to perform potentially long-running calculations."/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JLabel" name="jLabel4">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Proceed with caution."/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JLabel" name="jLabel5">
+    <Component class="javax.swing.JLabel" name="curlywhirlyLabel">
       <Properties>
         <Property name="text" type="java.lang.String" value="You must have CurlyWhirly installed to be able to view any results."/>
+      </Properties>
+    </Component>
+    <Component class="scri.commons.gui.matisse.HyperLinkLabel" name="curlywhirlyLinkLabel">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="(CurlyWhirly)"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JSpinner" name="dimSpinner">
+    </Component>
+    <Component class="javax.swing.JLabel" name="pcoaDimLablel">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Number of PCoA Dimensions:"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="dimensionHelpLabel">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="(cannot equal or excede number of lines, must be less than 20)"/>
       </Properties>
     </Component>
   </SubComponents>
