@@ -22,12 +22,23 @@ public class PCoAGenerator extends SimpleJob
 
 	private PCoAClient client;
 
+	private boolean callingCurlyWhirly = false;
+
 	public PCoAGenerator(GTViewSet viewSet, SimMatrix matrix)
 	{
 		this.viewSet = viewSet;
 		this.matrix = matrix;
 
 		dataSet = viewSet.getDataSet();
+	}
+
+	@Override
+	public String getMessage()
+	{
+		if (callingCurlyWhirly)
+			return RB.getString("analysis.PCoAGenerator.cwMessage");
+		else
+			return null;
 	}
 
 	public void runJob(int index)
@@ -54,15 +65,20 @@ public class PCoAGenerator extends SimpleJob
 				try
 				{
 					desktop.open(cwFile);
+
+					callingCurlyWhirly = true;
+					Thread.sleep(5000);
 				}
+				// Windows 10 (and 8?) pops up its stupid "how do you want to
+				// handle this app" dialog, which doesn't cause an exception
 				catch (Exception e)
 				{
 					e.printStackTrace();
 
-					TaskDialog.error("CurlyWhirly is required to view these results, but it couldn't be found on your system.\n"
-						+ "Please download it from http://ics.hutton.ac.uk/curlywhirly\n\n"
-						+ "For reference, the results file was saved to "
-						+ cwFile.getPath(), RB.getString("gui.text.close"));
+					//
+					TaskDialog.error(
+						RB.format("analysis.PCoAGenerator.cwError",
+						cwFile.getPath()), RB.getString("gui.text.close"));
 				}
 			}
 		}
