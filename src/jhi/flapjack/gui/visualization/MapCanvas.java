@@ -180,7 +180,7 @@ class MapCanvas extends JPanel
 		g.setColor(Color.lightGray);
 
 		// Local/global maps always fit the screen
-		if (Prefs.visMapScaling != 2)
+		if (Prefs.visMapScaling != Constants.CLASSIC)
 			g.drawRect(0, y, w-1, yH);
 		// Classic maps fit the total width (and have "edges")
 		else
@@ -190,6 +190,34 @@ class MapCanvas extends JPanel
 
 		for (int i = xS; i <= xE; i++)
 			renderMarker(g, i, xS, false);
+
+
+		// Start/End notches
+//		g.setColor(Color.black);
+		int y1 = y-scale(5);
+		int y2 = y+yH+scale(5);
+		if (Prefs.visMapScaling == Constants.GLOBAL)
+		{
+			g.drawLine(0, y1, 0, y2);
+			g.drawLine(w-1, y1, w-1, y2);
+		}
+		else if (Prefs.visMapScaling == Constants.LOCAL)
+		{
+			// Similar to global, but only draw the notches if the start/end
+			// markers are at the very start/end of the map
+			if (mSPos == 0)
+				g.drawLine(0, y1, 0, y2);
+			if (mEPos == canvas.view.mapLength())
+				g.drawLine(w-1, y1, w-1, y2);
+		}
+		else if (Prefs.visMapScaling == Constants.CLASSIC)
+		{
+			int x1 = -canvas.pX1;
+			int x2 = canvas.canvasW-canvas.pX1-1;
+
+			g.drawLine(x1, y1, x1, y2);
+			g.drawLine(x2, y1, x2, y2);
+		}
 	}
 
 	private void renderMarker(Graphics2D g, int i, int xS, boolean text)
@@ -318,7 +346,7 @@ class MapCanvas extends JPanel
 	private void setScaling(int xS, int xE)
 	{
 		// Local scaling
-		if (Prefs.visMapScaling == 0)
+		if (Prefs.visMapScaling == Constants.LOCAL)
 		{
 			mSPos = canvas.view.getMarker(xS).getPosition();
 			mEPos = canvas.view.getMarker(xE).getPosition();
@@ -339,10 +367,11 @@ class MapCanvas extends JPanel
 		}
 
 		// Global scaling
-		else if (Prefs.visMapScaling == 1)
+		else if (Prefs.visMapScaling == Constants.GLOBAL)
 		{
 			mSPos = 0;//canvas.view.getMarker(0).getPosition();
-			mEPos = canvas.view.getMarker(canvas.view.markerCount()-1).getPosition();
+//			mEPos = canvas.view.getMarker(canvas.view.markerCount()-1).getPosition();
+			mEPos = canvas.view.mapLength();
 		}
 
 		// "Classic" Flapjack scaling

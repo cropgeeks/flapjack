@@ -147,7 +147,7 @@ public class Prefs extends XMLPreferences
 	public static int guiMissingMarkerPcnt = 95;
 
 	// What type of map scaling should be used (local=0, global=1)
-	public static int visMapScaling = Constants.LOCAL;
+	public static int visMapScaling = Constants.GLOBAL;
 
 	// Display category boundaries on the traits heatmap?
 	public static boolean visShowCatBoundaries = true;

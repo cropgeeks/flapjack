@@ -12,7 +12,7 @@ import jhi.flapjack.gui.*;
 
 import scri.commons.gui.*;
 
-class MapCanvasML extends MouseInputAdapter implements ActionListener
+class MapCanvasML extends MouseInputAdapter
 {
 	private JCheckBoxMenuItem mVizScalingLocal;
 	private JCheckBoxMenuItem mVizScalingGlobal;
@@ -76,14 +76,10 @@ class MapCanvasML extends MouseInputAdapter implements ActionListener
 	{
 		JPopupMenu menu = new JPopupMenu();
 
-		menu.add(mVizScalingLocal);
 		menu.add(mVizScalingGlobal);
+		menu.add(mVizScalingLocal);
 		menu.add(mVizScalingClassic);
 
 		menu.show(e.getComponent(), e.getX(), e.getY());
-	}
-
-	public void actionPerformed(ActionEvent e)
-	{
 	}
 }
