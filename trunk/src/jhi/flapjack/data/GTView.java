@@ -4,6 +4,7 @@
 package jhi.flapjack.data;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class GTView extends XMLRoot
 {
@@ -616,5 +617,13 @@ public class GTView extends XMLRoot
 				return true;
 
 		return false;
+	}
+
+	/** Returns only currently selected markers. */
+	public ArrayList<MarkerInfo> selectedMarkersAsList()
+	{
+		return markers.stream()
+				.filter(mi -> mi.selected)
+				.collect(Collectors.toCollection(ArrayList::new));
 	}
 }

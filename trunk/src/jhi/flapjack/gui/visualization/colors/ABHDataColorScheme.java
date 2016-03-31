@@ -39,23 +39,25 @@ public class ABHDataColorScheme extends ColorScheme
 					c = new HomozygousColorState(state, Prefs.visColorABH_A, w, h);
 				else if (state.getRawData().equals("B"))
 					c = new HomozygousColorState(state, Prefs.visColorABH_B, w, h);
+				else if (state.getRawData().equals("H"))
+					c = new HomozygousColorState(state, Prefs.visColorABH_H, w, h);
 
 				else
 					c = new HomozygousColorState(state, Prefs.visColorABH_Other, w, h);
 			}
 
 			// Heterozygous states
-			else
+/*			else
 			{
 				System.out.println("STATE: " + state.getRawData());
 
-				if (state.getRawData().equals("H"))
-					c = new HomozygousColorState(state, Prefs.visColorABH_H, w, h);
+				if (state.getRawData().equals("A/B"))
+					c = new HeterozygeousColorState(state, Prefs.visColorABH_B, Prefs.visColorABH_A, Prefs.visColorABH_Other, w, h);
 
 				else
 					c = new HeterozygeousColorState(state, Prefs.visColorABH_Other, Prefs.visColorABH_Other, Prefs.visColorABH_Other, w, h);
 			}
-
+*/
 			states.add(c);
 		}
 	}

@@ -93,6 +93,7 @@ public class Actions
 	public static AbstractAction alysSimMatrix;
 	public static AbstractAction alysDendrogram;
 	public static AbstractAction alysPCoA;
+	public static AbstractAction alysMABC;
 
 	public static AbstractAction dataFilterQTLs;
 	public static AbstractAction dataSelectGraph;
@@ -602,6 +603,12 @@ public class Actions
 			}
 		};
 
+		alysMABC = new AbstractAction(RB.getString("gui.Actions.alysMABC")) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.mAnalysis.gobiiMABC();
+			}
+		};
+
 
 		dataFilterQTLs = new AbstractAction(RB.getString("gui.Actions.dataFilterQTLs"), getIcon("TRAITS")) {
 			public void actionPerformed(ActionEvent e) {
@@ -807,6 +814,7 @@ public class Actions
 		alysSimMatrix.setEnabled(false);
 		alysDendrogram.setEnabled(false);
 		alysPCoA.setEnabled(false);
+		alysMABC.setEnabled(false);
 
 		dataFilterQTLs.setEnabled(false);
 		dataSelectGraph.setEnabled(false);

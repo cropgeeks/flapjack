@@ -58,4 +58,9 @@ public class MarkerInfo extends XMLRoot
 		{ return marker.dummyMarker(); }
 
 	// Other methods
+
+	public float position()
+	{
+		return marker.getPosition();
+	}
 }

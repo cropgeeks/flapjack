@@ -258,4 +258,18 @@ public class MenuAnalysis
 		if (dialog.failed("gui.error"))
 			return;
 	}
+
+	public void gobiiMABC()
+	{
+		// TODO: Checks for data type? ABH, etc?
+
+		GTViewSet viewSet = gPanel.getViewSet();
+
+		MABCStats stats = new MABCStats(viewSet);
+
+		ProgressDialog dialog = new ProgressDialog(stats,
+			"Running MABC Stats",
+			"Running MABC stats - please be patient...",
+			Flapjack.winMain);
+	}
 }
