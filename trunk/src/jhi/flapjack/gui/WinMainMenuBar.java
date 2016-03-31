@@ -358,8 +358,8 @@ public class WinMainMenuBar extends JMenuBar
 		mVizHighlight.add(mVizHighlightHoZ);
 		mVizHighlight.add(mVizHighlightGaps);
 
-		mVizScaling.add(mVizScalingLocal);
 		mVizScaling.add(mVizScalingGlobal);
+		mVizScaling.add(mVizScalingLocal);
 		mVizScaling.add(mVizScalingClassic);
 
 		mViz.add(mVizExportImage);
@@ -405,6 +405,8 @@ public class WinMainMenuBar extends JMenuBar
 		mAnalysis.add(mAlysSimMatrix);
 		mAnalysis.add(mAlysDendrogram);
 		mAnalysis.add(mAlysPCoA);
+		mAnalysis.addSeparator();
+
 
 		add(mAnalysis);
 	}
