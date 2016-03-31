@@ -177,8 +177,6 @@ public class DataSet extends XMLRoot
 		ChromosomeMap map = new ChromosomeMap(mapName);
 		chromosomes.add(map);
 
-//		System.out.println("Added map " + map + " to dataset");
-
 		return new ChromosomeMap.Wrapper(map, chromosomes.size()-1);
 	}
 
