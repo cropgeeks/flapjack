@@ -101,6 +101,7 @@ public class WinMainMenuBar extends JMenuBar
 	private JMenuItem mAlysSimMatrix;
 	private JMenuItem mAlysDendrogram;
 	private JMenuItem mAlysPCoA;
+	private JMenuItem mAlysMABC;
 
 	private JMenu mData;
 	private JMenuItem malysFilterQTLs;
@@ -393,6 +394,7 @@ public class WinMainMenuBar extends JMenuBar
 		mAlysSimMatrix = getItem(Actions.alysSimMatrix, "gui.Actions.alysSimMatrix", 0, 0);
 		mAlysDendrogram = getItem(Actions.alysDendrogram, "gui.Actions.alysDendrogram", 0, 0);
 		mAlysPCoA = getItem(Actions.alysPCoA, "gui.Actions.alysPCoA", 0, 0);
+		mAlysMABC = getItem(Actions.alysMABC, "gui.Actions.alysMABC", 0, 0);
 
 		mAlysSortLines.add(mAlysSortLinesAlphabetically);
 		mAlysSortLines.addSeparator();
@@ -406,6 +408,7 @@ public class WinMainMenuBar extends JMenuBar
 		mAnalysis.add(mAlysDendrogram);
 		mAnalysis.add(mAlysPCoA);
 		mAnalysis.addSeparator();
+		mAnalysis.add(mAlysMABC);
 
 
 		add(mAnalysis);
