@@ -76,7 +76,7 @@ public class VisualizationNode extends BaseNode
 			Actions.vizColorRandomWSP.setEnabled(true);
 			Actions.vizColorNucleotide.setEnabled(true);
 			Actions.vizColorNucleotide01.setEnabled(true);
-	//		Actions.vizColorABHData.setEnabled(true);
+			Actions.vizColorABHData.setEnabled(true);
 			Actions.vizColorLineSim.setEnabled(true);
 			Actions.vizColorLineSimGS.setEnabled(true);
 			Actions.vizColorMarkerSim.setEnabled(true);
@@ -101,6 +101,7 @@ public class VisualizationNode extends BaseNode
 			// Only enable sim matrix analysis with non-binned data
 			if (viewSet.getDataSet().getBinnedData().containsBins() == false)
 				Actions.alysSimMatrix.setEnabled(true);
+			Actions.alysMABC.setEnabled(true);
 
 			// TODO: make dynamic based on inclusion of QTL data or not
 			Actions.dataFilterQTLs.setEnabled(true);

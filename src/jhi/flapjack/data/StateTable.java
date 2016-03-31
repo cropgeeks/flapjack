@@ -167,10 +167,14 @@ public class StateTable extends XMLRoot
 		if (A && B && H)
 		{
 			// Force the H state to be heterozygous
-			for (AlleleState state: states)
+/*			for (AlleleState state: states)
 				if (state.isHomozygous() && state.getState(0).equals("H"))
+				{
+					state.setRawData("A/B");
+					state.setStates(new String[] { "A", "B" });
 					state.setHomozygous(false);
-
+				}
+*/
 			return true;
 		}
 
@@ -294,5 +298,14 @@ public class StateTable extends XMLRoot
 		}
 
 		return matrix;
+	}
+
+	public int indexOf(String rawData)
+	{
+		for (int i = 0; i < states.size(); i++)
+			if (states.get(i).getRawData().equals(rawData))
+				return i;
+
+		return -1;
 	}
 }
