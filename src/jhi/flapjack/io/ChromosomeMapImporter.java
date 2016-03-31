@@ -52,52 +52,71 @@ public class ChromosomeMapImporter implements IMapImporter
 		NumberFormat nf = NumberFormat.getInstance();
 
 		String str = null;
-		int linesRead = 1;
+		int linesRead = 0;
 
 		while ((str = in.readLine()) != null && isOK)
 		{
-			if (str.length() == 0 || str.startsWith("#"))
+			linesRead++;
+
+			if (str.isEmpty() || str.startsWith("#"))
 				continue;
 
 			String[] tokens = str.trim().split("\t");
 
-			if (tokens.length != 3)
-				throw new DataFormatException(RB.format("io.DataFormatException.mapTokenError", file, tokens.length, linesRead));
+			// Each line needs to be either be 2 or 3 columns
+			if (tokens.length < 2 || tokens.length > 3)
+				throw new DataFormatException(RB.format("io.DataFormatException.mapTokenError", file));
 
-			// Parse out the marker's position
-			float position = 0;
-			try { position = nf.parse(tokens[2]).floatValue(); }
-			catch (Exception e)	{
-				throw new DataFormatException(RB.format("io.DataFormatException.parseDistanceError", file, tokens[2], linesRead));
-			}
-
-			// (And its name), using them to create a new marker
-			Marker marker = new Marker(tokens[0].trim(), position);
-
-			// Check to see if this marker already exists (in any map)?
-			MarkerIndex index = markers.get(marker.getName());
-			if (index != null)
+			// Dealing with a chromosome
+			if (tokens.length == 2)
 			{
-				if (Prefs.warnDuplicateMarkers)
-					duplicates.add(marker.getName() + "\t" + tokens[1] + "\t"
-						+ dataSet.getMapByIndex(index.mapIndex).getName());
+				String name = tokens[0].trim();
 
-//				System.out.println("DUP: " + duplicates.get(0));
+				// Parse out its length
+				float length = 0;
+				try { length = nf.parse(tokens[1]).floatValue(); }
+				catch (Exception e)	{
+					throw new DataFormatException(RB.format("io.DataFormatException.parseLengthError", file, tokens[1], linesRead));
+				}
+
+				ChromosomeMap.Wrapper w = dataSet.getMapByName(name, true);
+				w.map.setLength(length);
 			}
-			else
+
+			// Dealing with a marker
+			else if (tokens.length == 3)
 			{
-				// Retrieve the map it should be added to
-				ChromosomeMap.Wrapper w = dataSet.getMapByName(tokens[1], true);
-				// And add it
-				w.map.addMarker(marker);
+				// Parse out the marker's position
+				float position = 0;
+				try { position = nf.parse(tokens[2]).floatValue(); }
+				catch (Exception e)	{
+					throw new DataFormatException(RB.format("io.DataFormatException.parseDistanceError", file, tokens[2], linesRead));
+				}
 
-				// And store it in the hashmap too
-				markers.put(marker.getName(), new MarkerIndex(w.index, 0));
+				// (And its name), using them to create a new marker
+				Marker marker = new Marker(tokens[0].trim(), position);
 
-				markerCount++;
+				// Check to see if this marker already exists (in any map)?
+				MarkerIndex index = markers.get(marker.getName());
+				if (index != null)
+				{
+					if (Prefs.warnDuplicateMarkers)
+						duplicates.add(marker.getName() + "\t" + tokens[1] + "\t"
+							+ dataSet.getMapByIndex(index.mapIndex).getName());
+				}
+				else
+				{
+					// Retrieve the map it should be added to
+					ChromosomeMap.Wrapper w = dataSet.getMapByName(tokens[1], true);
+					// And add it
+					w.map.addMarker(marker);
+
+					// And store it in the hashmap too
+					markers.put(marker.getName(), new MarkerIndex(w.index, 0));
+
+					markerCount++;
+				}
 			}
-
-			linesRead++;
 		}
 
 		in.close();

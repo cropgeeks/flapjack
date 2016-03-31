@@ -126,7 +126,10 @@ public class ChromosomeMap extends XMLRoot implements Iterable<Marker>, Comparab
 		markers.trimToSize();
 		Collections.sort(markers);
 
-		length = markers.get(markers.size()-1).getPosition();
+		// If the length hasn't been set at import time, then we'll use the
+		// position of the last marker as the map's length
+		if (length == 0f)
+			length = markers.get(markers.size()-1).getPosition();
 
 		System.out.println("Map " + name + " has length " + length);
 	}

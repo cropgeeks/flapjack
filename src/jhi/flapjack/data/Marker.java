@@ -7,7 +7,7 @@ public class Marker extends XMLRoot implements Comparable<Marker>
 {
 	private String name;
 
-	// The marker's poistion on the chromosome
+	// The marker's position on the chromosome
 	private float position;
 	// And its "actual" position, if different (used by all-chromsome markers)
 	private float realPosition;

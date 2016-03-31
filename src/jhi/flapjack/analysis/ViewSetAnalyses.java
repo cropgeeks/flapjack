@@ -23,6 +23,7 @@ public class ViewSetAnalyses
 		// Start by making a new ChromosomeMap to hold the markers of interest
 		String name = view.getChromosomeMap().getName() + " (" + new Date() + ")";
 		ChromosomeMap newMap = new ChromosomeMap(name);
+		newMap.setLength(view.getChromosomeMap().getLength());
 
 		// And get a reference to the line information for the view-set
 		ArrayList<LineInfo> lines = viewSet.getLines();
