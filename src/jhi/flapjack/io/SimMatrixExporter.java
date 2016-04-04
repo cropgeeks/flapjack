@@ -5,7 +5,7 @@ package jhi.flapjack.io;
 
 import java.io.*;
 
-import jhi.flapjack.data.*;
+import jhi.flapjack.data.results.*;
 
 import scri.commons.gui.*;
 

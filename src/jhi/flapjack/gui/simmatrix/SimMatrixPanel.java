@@ -8,10 +8,9 @@ import javax.swing.*;
 import javax.swing.event.*;
 
 import jhi.flapjack.data.*;
+import jhi.flapjack.data.results.*;
 import jhi.flapjack.gui.*;
 import jhi.flapjack.io.*;
-
-import scri.commons.gui.*;
 
 public class SimMatrixPanel extends JPanel implements AncestorListener
 {

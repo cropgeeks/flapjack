@@ -8,6 +8,7 @@ import java.util.*;
 import java.util.zip.*;
 
 import jhi.flapjack.data.*;
+import jhi.flapjack.data.results.*;
 import jhi.flapjack.gui.*;
 import jhi.flapjack.servlet.*;
 

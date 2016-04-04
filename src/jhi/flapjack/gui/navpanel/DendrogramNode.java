@@ -7,6 +7,7 @@ import java.awt.image.*;
 import javax.swing.*;
 
 import jhi.flapjack.data.*;
+import jhi.flapjack.data.results.*;
 import jhi.flapjack.gui.dendrogram.*;
 
 public class DendrogramNode extends BaseNode

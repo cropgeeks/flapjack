@@ -5,11 +5,11 @@ package jhi.flapjack.gui.simmatrix;
 
 import java.awt.*;
 import java.awt.image.*;
-import java.util.*;
 import java.util.concurrent.*;
 import javax.swing.*;
 
 import jhi.flapjack.data.*;
+import jhi.flapjack.data.results.*;
 
 public class SimMatrixCanvas extends JPanel
 {

@@ -87,8 +87,8 @@
 		<field name="views" type="jhi.flapjack.data.GTView" collection="arraylist"/>
 		<field name="customMaps" type="jhi.flapjack.data.CustomMaps"/>
 		<field name="bookmarks" type="jhi.flapjack.data.Bookmark" collection="arraylist"/>
-		<field name="matrices" type="jhi.flapjack.data.SimMatrix" collection="arraylist"/>
-		<field name="dendrograms" type="jhi.flapjack.data.Dendrogram" collection="arraylist"/>
+		<field name="matrices" type="jhi.flapjack.data.results.SimMatrix" collection="arraylist"/>
+		<field name="dendrograms" type="jhi.flapjack.data.results.Dendrogram" collection="arraylist"/>
 		<field name="comparisonLine" type="jhi.flapjack.data.Line">
 			<bind-xml reference="true" node="attribute"/>
 		</field>
@@ -186,14 +186,14 @@
 	</class>
 
 	<!-- SimMatrix -->
-	<class name="jhi.flapjack.data.SimMatrix" extends="jhi.flapjack.data.XMLRoot" auto-complete="true">
+	<class name="jhi.flapjack.data.results.SimMatrix" extends="jhi.flapjack.data.XMLRoot" auto-complete="true">
 		<field name="lineInfos" type="jhi.flapjack.data.LineInfo" collection="arraylist">
 			<bind-xml reference="true" node="attribute"/>
 		</field>
 	</class>
 
 	<!-- Dendrogram -->
-	<class name="jhi.flapjack.data.Dendrogram" extends="jhi.flapjack.data.XMLRoot" auto-complete="true">
+	<class name="jhi.flapjack.data.results.Dendrogram" extends="jhi.flapjack.data.XMLRoot" auto-complete="true">
 		<field name="viewSet" type="jhi.flapjack.data.GTViewSet">
 			<bind-xml reference="true" node="attribute"/>
 		</field>

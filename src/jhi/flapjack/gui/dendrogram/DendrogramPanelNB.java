@@ -3,14 +3,13 @@
 
 package jhi.flapjack.gui.dendrogram;
 
-import java.awt.image.*;
 import java.awt.event.*;
 import java.io.*;
 import javax.imageio.*;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import jhi.flapjack.data.*;
+import jhi.flapjack.data.results.*;
 import jhi.flapjack.gui.*;
 
 import scri.commons.gui.*;

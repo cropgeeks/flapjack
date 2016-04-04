@@ -5,7 +5,7 @@ package jhi.flapjack.servlet;
 
 import java.io.*;
 
-import jhi.flapjack.data.*;
+import jhi.flapjack.data.results.*;
 import jhi.flapjack.io.*;
 
 import org.restlet.data.*;

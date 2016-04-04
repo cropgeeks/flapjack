@@ -8,8 +8,8 @@ import java.io.*;
 import java.util.*;
 
 import jhi.flapjack.data.*;
+import jhi.flapjack.data.results.*;
 import jhi.flapjack.gui.*;
-
 import jhi.flapjack.servlet.pcoa.*;
 
 import scri.commons.gui.*;

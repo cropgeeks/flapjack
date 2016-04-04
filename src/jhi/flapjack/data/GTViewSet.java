@@ -5,6 +5,8 @@ package jhi.flapjack.data;
 
 import java.util.*;
 
+import jhi.flapjack.data.results.*;
+
 import scri.commons.*;
 
 /**

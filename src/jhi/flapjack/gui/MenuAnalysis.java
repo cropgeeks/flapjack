@@ -4,10 +4,10 @@
 package jhi.flapjack.gui;
 
 import java.io.*;
-import java.util.*;
 
 import jhi.flapjack.analysis.*;
 import jhi.flapjack.data.*;
+import jhi.flapjack.data.results.*;
 import jhi.flapjack.gui.dialog.*;
 import jhi.flapjack.gui.dialog.analysis.*;
 import jhi.flapjack.gui.simmatrix.*;

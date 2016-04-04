@@ -1,9 +1,11 @@
 // Copyright 2009-2016 Information & Computational Sciences, JHI. All rights
 // reserved. Use is subject to the accompanying licence terms.
 
-package jhi.flapjack.data;
+package jhi.flapjack.data.results;
 
 import java.util.*;
+
+import jhi.flapjack.data.*;
 
 import scri.commons.gui.*;
 
