@@ -12,6 +12,7 @@ import javax.swing.event.*;
 import javax.swing.tree.*;
 
 import jhi.flapjack.data.*;
+import jhi.flapjack.data.results.*;
 import jhi.flapjack.gui.navpanel.*;
 import jhi.flapjack.gui.traits.*;
 import jhi.flapjack.gui.simmatrix.*;

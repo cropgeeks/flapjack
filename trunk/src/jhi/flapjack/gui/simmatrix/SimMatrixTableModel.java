@@ -9,6 +9,7 @@ import javax.swing.*;
 import javax.swing.table.*;
 
 import jhi.flapjack.data.*;
+import jhi.flapjack.data.results.*;
 
 import scri.commons.gui.*;
 

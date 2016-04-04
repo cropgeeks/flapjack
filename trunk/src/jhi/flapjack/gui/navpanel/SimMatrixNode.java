@@ -6,6 +6,7 @@ package jhi.flapjack.gui.navpanel;
 import javax.swing.*;
 
 import jhi.flapjack.data.*;
+import jhi.flapjack.data.results.*;
 import jhi.flapjack.gui.*;
 import jhi.flapjack.gui.simmatrix.*;
 

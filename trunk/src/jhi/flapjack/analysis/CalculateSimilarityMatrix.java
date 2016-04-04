@@ -8,6 +8,7 @@ import java.util.concurrent.*;
 import java.util.concurrent.atomic.*;
 
 import jhi.flapjack.data.*;
+import jhi.flapjack.data.results.*;
 import jhi.flapjack.io.*;
 
 import scri.commons.gui.*;

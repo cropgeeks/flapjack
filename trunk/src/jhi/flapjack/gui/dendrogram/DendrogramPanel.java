@@ -4,17 +4,14 @@
 package jhi.flapjack.gui.dendrogram;
 
 import java.awt.*;
-import java.awt.event.*;
 import java.awt.image.*;
 import java.io.*;
 import javax.swing.*;
 import javax.swing.event.*;
 
-import jhi.flapjack.data.*;
+import jhi.flapjack.data.results.*;
 import jhi.flapjack.gui.*;
 import jhi.flapjack.io.*;
-
-import scri.commons.gui.*;
 
 public class DendrogramPanel extends JPanel implements AncestorListener
 {

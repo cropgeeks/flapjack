@@ -6,8 +6,8 @@ package jhi.flapjack.analysis;
 import java.util.*;
 
 import jhi.flapjack.data.*;
+import jhi.flapjack.data.results.*;
 import jhi.flapjack.io.*;
-
 import jhi.flapjack.servlet.dendrogram.*;
 
 import scri.commons.gui.*;

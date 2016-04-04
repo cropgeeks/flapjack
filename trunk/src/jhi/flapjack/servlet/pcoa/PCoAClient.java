@@ -6,6 +6,7 @@ package jhi.flapjack.servlet.pcoa;
 import java.io.*;
 
 import jhi.flapjack.data.*;
+import jhi.flapjack.data.results.*;
 import jhi.flapjack.gui.*;
 import jhi.flapjack.servlet.*;
 

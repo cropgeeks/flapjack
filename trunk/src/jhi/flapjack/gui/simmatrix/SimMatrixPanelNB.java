@@ -11,6 +11,7 @@ import javax.swing.event.*;
 import javax.swing.table.*;
 
 import jhi.flapjack.data.*;
+import jhi.flapjack.data.results.*;
 import jhi.flapjack.gui.*;
 import jhi.flapjack.io.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
