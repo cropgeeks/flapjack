@@ -7,6 +7,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.dnd.*;
 import java.beans.*;
+import java.util.*;
 import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.tree.*;
@@ -204,6 +205,14 @@ class NavPanel extends JPanel
 
 		// The Bookmark itself
 		BookmarkNode node = new BookmarkNode(gPanel, vNode, bookmark);
+		insert(node, vNode, vNode.getChildCount());
+	}
+
+	public void addMabcNode(GTViewSet viewSet, ArrayList<MABCLineStats> lineStats)
+	{
+		VisualizationNode vNode = findVisualizationNode(viewSet);
+
+		MabcNode node = new MabcNode(viewSet.getDataSet(), viewSet, lineStats);
 		insert(node, vNode, vNode.getChildCount());
 	}
 

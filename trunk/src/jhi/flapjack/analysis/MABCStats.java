@@ -6,32 +6,43 @@ package jhi.flapjack.analysis;
 import java.util.*;
 
 import jhi.flapjack.data.*;
+import jhi.flapjack.data.results.*;
 
 import scri.commons.gui.*;
 
+/**
+ * Marker assisted backcrossing.
+ * We calculate 'gaps' between markers, including chrStart to first marker and
+ * last marker to chrEnd as well. No gap is allowed to be bigger than the
+ * maxMarkerCoverage variable.
+ * For each line, we look at its alleles across the markers, and assign RPP
+ * scores based on whether the allele is A or H, using the gap/coverage before
+ * and after each allele's marker.
+ */
 public class MABCStats extends SimpleJob
 {
 	private GTViewSet viewSet;
 
 	private float maxMarkerCoverage = 10;
 
+	private ArrayList<MABCLineStats> lineStats = new ArrayList<>();
+
 	public MABCStats(GTViewSet viewSet)
 	{
 		this.viewSet = viewSet;
 	}
 
-	ArrayList<LineStats> initLineStats()
+	public ArrayList<MABCLineStats> getLineStats()
+		{ return lineStats; }
+
+	private void initLineStats()
 		throws Exception
 	{
 		// TODO: HANDLE ALL CHROMOSOMES!!!
 		int chrCount = viewSet.chromosomeCount();
 
-		ArrayList<LineStats> lineStats = new ArrayList<>();
-
 		for (LineInfo line: viewSet.getLines())
-			lineStats.add(new LineStats(chrCount));
-
-		return lineStats;
+			lineStats.add(new MABCLineStats(line, chrCount));
 	}
 
 	public void runJob(int index)
@@ -41,7 +52,7 @@ public class MABCStats extends SimpleJob
 		// TODO: Deal with all chromosomes view: marker.position vs marker.getRealPosition
 		// TODO: Deal with FJ not having a chr length (as opposed to last marker's pos)
 
-		ArrayList<LineStats> lineStats = initLineStats();
+		initLineStats();
 
 		int A = viewSet.getDataSet().getStateTable().indexOf("A");
 		int H = viewSet.getDataSet().getStateTable().indexOf("H");
@@ -99,7 +110,7 @@ public class MABCStats extends SimpleJob
 				for (int j = 0; j < lines.size(); j++)
 				{
 					LineInfo line = lines.get(j);
-					LineStats stats = lineStats.get(j);
+					MABCLineStats stats = lineStats.get(j);
 
 					if (i == 0)
 					{
@@ -169,129 +180,30 @@ public class MABCStats extends SimpleJob
 			genomeLength += view.mapLength();
 
 
-
-
-		for (int c = 0; c < viewSet.chromosomeCount(); c++)
-		{
-
-		}
-
-
-
-
-
-/*		for (ChrStats cStats: chrStats)
-		{
-			System.out.println("NEW CHR");
-			System.out.println("************");
-			for (int i = 0; i < cStats.sums.size(); i++)
-			{
-				Sums sums = cStats.sums.get(i);
-
-
-
-//				double col5 = sums.sumRP * (1.0/stats.genomeCoverage);
-//				System.out.println("col5 = " + col5);
-
-				sums.sumRP *= 1.0/cStats.coverage;
-				System.out.println(sums.sumRP);
-			}
-		}
-*/
-		for (LineStats lStats: lineStats)
+		for (MABCLineStats lStats: lineStats)
 		{
 			// Calculate RPP Total for this line
-			for (double d: lStats.sumRP)
-				lStats.rppTotal += d;
+			double rppTotal = 0;
+			for (double d: lStats.getSumRP())
+				rppTotal += d;
 
-			lStats.rppTotal *= (1.0/genomeCoverage);
+			rppTotal *= (1.0/genomeCoverage);
+			lStats.setRppTotal(rppTotal);
+			lStats.setCoverage(genomeCoverage/genomeLength);
 
 			// Update the stored RP values to be ??? percentages?
-			for (int c = 0; c < lStats.sumRP.size(); c++)
+			for (int c = 0; c < lStats.getSumRP().size(); c++)
 			{
-				double value = lStats.sumRP.get(c);
-				lStats.sumRP.set(c, value * (1.0/coverage[c]));
+				double value = lStats.getSumRP().get(c);
+				lStats.getSumRP().set(c, value * (1.0/coverage[c]));
 			}
 
-			System.out.println(lStats + "\t" + (genomeCoverage/genomeLength));
+//			System.out.println(lStats + "\t" + (genomeCoverage/genomeLength));
 		}
 
+		// TODO : Store globally for this result set
 		genomeCoverage /= genomeLength;
-		System.out.println("COVERAGE: " + genomeCoverage);
 	}
 
-	/*
 
-	#dividing sums by length of covered genome for each chromosome and the total
-	for(i in c(1:nChr)){
-		sumRP[,(nChr+1)]=sumRP[,(nChr+1)]+(sumRP[,i]*(1/sum(covered)))
-		sumRP[,i]=sumRP[,i]*1/covered[i]
-		sumDonor[,(nChr+1)]=sumDonor[,(nChr+1)]+(sumDonor[,i] *(1/sum(covered)))
-		sumDonor[,i]=sumDonor[,i]*1/covered[i]
-	}
-		#calculating coverage by dividing covered genome by total genome length
-		sumRP[,(nChr+2)]=sum(covered/sumTotal)
-		sumDonor[,(nChr+2)]=sum(covered/sumTotal)
-
-	write(t(sumRP),file="RPP.csv",ncol=length(sumRP[1,]),sep=",")
-
-	*/
-
-
-	private static class Stats
-	{
-		// Per chromosome RPPs for every line
-		ArrayList<Double> chrRPPs = new ArrayList<>();
-		// And a summary total per line
-		ArrayList<Double> rppTotals = new ArrayList<>();
-
-		double genomeCoverage;
-	}
-
-	private static class Sums
-	{
-		double sumRP;
-		double sumDO;
-	}
-
-	private static class LineStats
-	{
-		// One per chromosome...
-		ArrayList<Double> sumRP = new ArrayList<>();
-		ArrayList<Double> sumDO = new ArrayList<>();
-
-		double rppTotal;
-
-		LineStats(int chrCount)
-		{
-			for (int i = 0; i < chrCount; i++)
-			{
-				sumRP.add(0.0);
-				sumDO.add(0.0);
-			}
-		}
-
-		// Fudge to do a += on values held in the ArrayList
-		void updateRP(int index, double value)
-		{
-			sumRP.set(index, sumRP.get(index) + value);
-		}
-
-		void updateDO(int index, double value)
-		{
-			sumDO.set(index, sumDO.get(index) + value);
-		}
-
-		public String toString()
-		{
-			java.text.NumberFormat nf = java.text.NumberFormat.getInstance();
-
-			String str = "";
-			for (double d: sumRP)
-				str += nf.format(d) + "\t";
-			str += nf.format(rppTotal);
-
-			return str;
-		}
-	}
 }
