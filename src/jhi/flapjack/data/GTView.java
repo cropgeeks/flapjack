@@ -624,6 +624,7 @@ public class GTView extends XMLRoot
 	{
 		return markers.stream()
 				.filter(mi -> mi.selected)
+				.filter(mi -> !mi.dummyMarker())
 				.collect(Collectors.toCollection(ArrayList::new));
 	}
 }

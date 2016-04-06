@@ -4,6 +4,7 @@
 package jhi.flapjack.gui;
 
 import java.io.*;
+import java.util.*;
 
 import jhi.flapjack.analysis.*;
 import jhi.flapjack.data.*;
@@ -271,5 +272,9 @@ public class MenuAnalysis
 			"Running MABC Stats",
 			"Running MABC stats - please be patient...",
 			Flapjack.winMain);
+
+		ArrayList<MABCLineStats> lineStats = stats.getLineStats();
+
+		navPanel.addMabcNode(viewSet, lineStats);
 	}
 }
