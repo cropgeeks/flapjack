@@ -23,6 +23,8 @@ public class MABCStats extends SimpleJob
 {
 	private GTViewSet viewSet;
 
+	private HashMap<QTLInfo, QTLParams> qtlHash = new HashMap<>();
+
 	private float maxMarkerCoverage = 10;
 
 	private ArrayList<MABCLineStats> lineStats = new ArrayList<>();
@@ -48,11 +50,18 @@ public class MABCStats extends SimpleJob
 	public void runJob(int index)
 		throws Exception
 	{
+		initLineStats();
+
+		calculateRPP();
+		calculateLinkageDrag();
+	}
+
+	private void calculateRPP()
+		throws Exception
+	{
 		// TODO: Deal with dummy lines, markers, etc
 		// TODO: Deal with all chromosomes view: marker.position vs marker.getRealPosition
 		// TODO: Deal with FJ not having a chr length (as opposed to last marker's pos)
-
-		initLineStats();
 
 		int A = viewSet.getDataSet().getStateTable().indexOf("A");
 		int H = viewSet.getDataSet().getStateTable().indexOf("H");
@@ -63,7 +72,7 @@ public class MABCStats extends SimpleJob
 		double genomeCoverage = 0;
 
 		// For every chromsome
-		for (int c = 0; c < viewSet.getViews().size(); c++)
+		for (int c = 0; c < viewSet.getViews().size(); c++) // <---- ALL CHROMOSOMES
 		{
 			GTView view = viewSet.getView(c);
 			view.cacheLines();
@@ -205,5 +214,128 @@ public class MABCStats extends SimpleJob
 		genomeCoverage /= genomeLength;
 	}
 
+	// *****
+	// selectedMarkersAsList (or lines etc) only works until we do view.getState(line, marker)
+	// at which point the indices will all be wrong. MORE TO THINK ABOUT!!!
+	// Could we build an AnalysisView wrapper that is given lists of lines, markers, etc
+	// and duplicates hte functionality of view.getState() but obviously only
+	// using the subsetted arrays rather than the full view??
+	// *****
 
+	private void calculateLinkageDrag()
+	{
+		int A = viewSet.getDataSet().getStateTable().indexOf("A");
+
+		for (GTView view: viewSet.getViews())
+			indexQTLs(view);
+
+
+		// For each line in the dataset
+		for (int j = 0; j < lineStats.size(); j++)
+		{
+			// Get its MABC stats collector thing
+			MABCLineStats stats = lineStats.get(j);
+
+			// For each QTL (across each of the chromosomes)
+			for (GTView view: viewSet.getViews()) // <---- ALL CHROMOSOMES
+			{
+				ArrayList<MarkerInfo> markers = view.selectedMarkersAsList();
+
+				for (QTLInfo qtl: view.visibleQTLsAsList())
+				{
+					QTLParams p = qtlHash.get(qtl);
+					if (p == null)
+						continue;
+
+					MABCLineStats.QTLScore score = new MABCLineStats.QTLScore();
+					stats.getQTLScores().add(score);
+
+					// Calculate drag to left
+					// Increase drag by the distance between this marker and its
+					// left-neighbour (or chrStart), until neighbour is from DP (eg "A")
+					for (int m = p.LM; m >= 0; m--)
+					{
+						if (m > 0 && view.getState(j, m-1) == A)
+							break;
+						if (m == 0)
+							score.drag += markers.get(m).position();
+						else
+							score.drag += markers.get(m).position()-markers.get(m-1).position();
+					}
+
+					// Calculate drag to the right
+					for (int m = p.RM; m < markers.size(); m++)
+					{
+						if (m < markers.size()-2 && view.getState(j, m+1) == A)
+							break;
+						if (m == markers.size()-1)
+							score.drag += view.getChromosomeMap().getLength()-markers.get(m).position();
+						else
+							score.drag += markers.get(m+1).position()-markers.get(m).position();
+					}
+
+					// Finally, confirm status
+					for (int m = p.LM; m <= p.RM; m++)
+					{
+						int allele = view.getState(j, m);
+						if (p.isDP && allele == A || !p.isDP && allele != A)
+							score.status = false;
+					}
+				}
+			}
+
+		}
+	}
+
+	// Build a lookup table for each QTL, that tracks the left-most and
+	// right-most markers under its region
+	// THIS NEEDS SERIOUS OPTIMIZATION
+	// Too many iterations over the markers array - want to loop once ideally
+	private void indexQTLs(GTView view)
+	{
+		ArrayList<MarkerInfo> markers = view.selectedMarkersAsList();
+
+		for (QTLInfo qtl: view.visibleQTLsAsList())
+		{
+			QTLParams params = new QTLParams();
+
+			// Work out the QTL's source value
+			String source = qtl.getQTL().valueOf("Source");
+			// If it's not there, we can't use it
+			if (source == null)
+				continue;
+			if (source.equalsIgnoreCase("DP"))
+				params.isDP = true;
+
+
+			float min = qtl.getQTL().getMin();
+			float max = qtl.getQTL().getMax();
+
+			// Array indices of the left and right flanking markers
+			for (int m = 0; m < markers.size(); m++)
+			{
+				float pos = markers.get(m).position();
+
+				if (pos >= min && params.LM == -1)
+					params.LM = m;
+				if (pos >= min && pos <= max)
+					params.RM = m;
+
+				// Quit searching once beyond this QTL's region
+				if (pos > max)
+					break;
+			}
+
+			// If there are no markers under this QTL, skip it for now... check with Kelly for options
+			if (params.LM != -1 && params.RM != -1)
+				qtlHash.put(qtl, params);
+		}
+	}
+
+	private static class QTLParams
+	{
+		int LM = -1;	// index of left marker under the QTL (flanking?)
+		int RM = -1;	// index of right marker under the QTL
+		boolean isDP;	// "Source" tag set to "DP" or not
+	}
 }

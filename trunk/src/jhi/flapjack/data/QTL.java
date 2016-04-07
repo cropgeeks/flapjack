@@ -4,6 +4,7 @@
 package jhi.flapjack.data;
 
 import java.awt.*;
+import java.util.*;
 
 public class QTL extends XMLRoot implements Comparable<QTL>, Cloneable
 {
@@ -182,5 +183,13 @@ public class QTL extends XMLRoot implements Comparable<QTL>, Cloneable
 				break;
 			}
 		}
+	}
+
+	/** Searches this QTL's additional (vNames) parameter list and returns the
+	 * the value of the element matching the given name. */
+	public String valueOf(String parameter)
+	{
+		int index = Arrays.asList(vNames).indexOf(parameter);
+		return values[index];
 	}
 }
