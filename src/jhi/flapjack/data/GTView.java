@@ -627,4 +627,12 @@ public class GTView extends XMLRoot
 				.filter(mi -> !mi.dummyMarker())
 				.collect(Collectors.toCollection(ArrayList::new));
 	}
+
+	public ArrayList<QTLInfo> visibleQTLsAsList()
+	{
+		return qtls.stream()
+			.filter(qtl -> qtl.getQTL().isAllowed())
+			.filter(qtl -> qtl.getQTL().isVisible())
+			.collect(Collectors.toCollection(ArrayList::new));
+	}
 }

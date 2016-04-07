@@ -19,6 +19,10 @@ public class MABCLineStats
 	private double rppTotal;
 	private double coverage;
 
+
+	// One per QTL
+	private ArrayList<QTLScore> qtlScores = new ArrayList<>();
+
 	public MABCLineStats(LineInfo line, int chrCount)
 	{
 		this.line = line;
@@ -29,6 +33,9 @@ public class MABCLineStats
 			sumDO.add(0.0);
 		}
 	}
+
+	public ArrayList<QTLScore> getQTLScores()
+		{ return qtlScores; }
 
 	// TODO: Lose - coverage only needs to be stored ONCE, not for every line
 	public double getCoverage()
@@ -74,5 +81,12 @@ public class MABCLineStats
 		str += nf.format(rppTotal);
 
 		return str;
+	}
+
+	public static class QTLScore
+	{
+		public QTLInfo qtl;
+		public double drag;
+		public boolean status = true;
 	}
 }

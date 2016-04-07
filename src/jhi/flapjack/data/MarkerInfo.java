@@ -57,10 +57,14 @@ public class MarkerInfo extends XMLRoot
 	public boolean dummyMarker()
 		{ return marker.dummyMarker(); }
 
+
 	// Other methods
 
 	public float position()
 	{
-		return marker.getPosition();
+		if (dummyMarker())
+			return marker.getRealPosition();
+		else
+			return marker.getPosition();
 	}
 }
