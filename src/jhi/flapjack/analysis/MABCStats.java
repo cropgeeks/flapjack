@@ -3,10 +3,12 @@
 
 package jhi.flapjack.analysis;
 
+import java.io.*;
 import java.util.*;
 
 import jhi.flapjack.data.*;
 import jhi.flapjack.data.results.*;
+import jhi.flapjack.gui.Flapjack;
 
 import scri.commons.gui.*;
 
@@ -28,6 +30,10 @@ public class MABCStats extends SimpleJob
 	private float maxMarkerCoverage = 10;
 
 	private ArrayList<MABCLineStats> lineStats = new ArrayList<>();
+
+	// hard coded index of the parent line
+	int parent = 0;
+	boolean[] isHet;
 
 	public MABCStats(GTViewSet viewSet)
 	{
@@ -52,8 +58,17 @@ public class MABCStats extends SimpleJob
 	{
 		initLineStats();
 
+		// Precalculate which allele states are hom or het
+		StateTable st = viewSet.getDataSet().getStateTable();
+		isHet = new boolean[st.getStates().size()];
+		for (int i =0; i < isHet.length; i++)
+			if (st.getAlleleState(i).isHomozygous() == false)
+				isHet[i] = true;
+
 		calculateRPP();
 		calculateLinkageDrag();
+
+		fakeTraits();
 	}
 
 	private void calculateRPP()
@@ -124,14 +139,15 @@ public class MABCStats extends SimpleJob
 					if (i == 0)
 					{
 						int state = view.getState(j, i);
+						int pState = view.getState(parent, i);
 
-						if (state == A)
-							stats.updateRP(c, gap);
-						else if (state == H)
+						if (isHet[state])
 						{
 							stats.updateRP(c, gap/2.0);
 							stats.updateDO(c, gap/2.0);
 						}
+						else if (state == pState)
+							stats.updateRP(c, gap);
 						else
 							stats.updateDO(c, gap);
 					}
@@ -139,26 +155,29 @@ public class MABCStats extends SimpleJob
 					else if (i > 0)
 					{
 						int state = view.getState(j, i);
+						int pState = view.getState(parent, i);
 
-						if (state == A)
-							stats.updateRP(c, gap/2.0);
-						else if (state == H)
+						if (isHet[state])
 						{
 							stats.updateRP(c, gap/4.0);
 							stats.updateDO(c, gap/4.0);
 						}
+						else if (state == pState)
+							stats.updateRP(c, gap/2.0);
 						else
 							stats.updateDO(c, gap/2.0);
 
 
 						int statePrev = view.getState(j, i-1);
-						if (statePrev == A)
-							stats.updateRP(c, gap/2.0);
-						else if (statePrev == H)
+						int pStatePrev = view.getState(parent, i);
+
+						if (isHet[statePrev])
 						{
 							stats.updateRP(c, gap/4.0);
 							stats.updateDO(c, gap/4.0);
 						}
+						else if (statePrev == pStatePrev)
+							stats.updateRP(c, gap/2.0);
 						else
 							stats.updateDO(c, gap/2.0);
 					}
@@ -166,14 +185,15 @@ public class MABCStats extends SimpleJob
 					if (i == markers.size()-1)
 					{
 						int state = view.getState(j, i);
+						int pState = view.getState(parent, i);
 
-						if (state == A)
-							stats.updateRP(c, gapEnd);
-						else if (state == H)
+						if (isHet[state])
 						{
 							stats.updateRP(c, gapEnd/2.0);
 							stats.updateDO(c, gapEnd/2.0);
 						}
+						else if (state == pState)
+							stats.updateRP(c, gapEnd);
 						else
 							stats.updateDO(c, gapEnd);
 					}
@@ -247,7 +267,7 @@ public class MABCStats extends SimpleJob
 					if (p == null)
 						continue;
 
-					MABCLineStats.QTLScore score = new MABCLineStats.QTLScore();
+					MABCLineStats.QTLScore score = new MABCLineStats.QTLScore(qtl);
 					stats.getQTLScores().add(score);
 
 					// Calculate drag to left
@@ -255,7 +275,7 @@ public class MABCStats extends SimpleJob
 					// left-neighbour (or chrStart), until neighbour is from DP (eg "A")
 					for (int m = p.LM; m >= 0; m--)
 					{
-						if (m > 0 && view.getState(j, m-1) == A)
+						if (m > 0 && view.getState(j, m-1) == view.getState(parent, m-1))
 							break;
 						if (m == 0)
 							score.drag += markers.get(m).position();
@@ -266,7 +286,7 @@ public class MABCStats extends SimpleJob
 					// Calculate drag to the right
 					for (int m = p.RM; m < markers.size(); m++)
 					{
-						if (m < markers.size()-2 && view.getState(j, m+1) == A)
+						if (m < markers.size()-2 && view.getState(j, m+1) == view.getState(parent, m+1))
 							break;
 						if (m == markers.size()-1)
 							score.drag += view.getChromosomeMap().getLength()-markers.get(m).position();
@@ -278,9 +298,11 @@ public class MABCStats extends SimpleJob
 					for (int m = p.LM; m <= p.RM; m++)
 					{
 						int allele = view.getState(j, m);
-						if (p.isDP && allele == A || !p.isDP && allele != A)
+						int rp = view.getState(parent, m);
+						if (p.isDP && allele == rp || !p.isDP && allele != rp)
 							score.status = false;
 					}
+
 				}
 			}
 
@@ -337,5 +359,52 @@ public class MABCStats extends SimpleJob
 		int LM = -1;	// index of left marker under the QTL (flanking?)
 		int RM = -1;	// index of right marker under the QTL
 		boolean isDP;	// "Source" tag set to "DP" or not
+	}
+
+	private void fakeTraits()
+		throws Exception
+	{
+		DataSet dataSet = viewSet.getDataSet();
+		Flapjack.winMain.getNavPanel().getTraitsPanel(viewSet.getDataSet()).getTraitsPanel().removeAllTraits();
+
+		File tmp = new File("mabctraits");
+		BufferedWriter out = new BufferedWriter(new FileWriter(tmp));
+		out.write("# fjFile = PHENOTYPE");
+		out.newLine();
+
+		// Headers
+		MABCLineStats stats = lineStats.get(0);
+		for (ChromosomeMap map: dataSet.getChromosomeMaps())
+			out.write("\t" + map.getName());
+		out.write("\tRPP Total");
+		for (int i = 0; i < stats.getQTLScores().size(); i++)
+		{
+			MABCLineStats.QTLScore score = stats.getQTLScores().get(i);
+			out.write("\t" + score.qtl.getQTL().getName() + "\t" + score.qtl.getQTL().getName() + " Status");
+		}
+		out.newLine();
+
+		int lineCount = 0;
+		for (MABCLineStats lStats: lineStats)
+		{
+			out.write(lStats.getLineInfo().name());
+			for (int i = 0; i < lStats.getSumRP().size(); i++)
+				out.write("\t" + lStats.getSumRP().get(i));
+			if ((lineCount++) != 1)
+				out.write("\t" + lStats.getRPPTotal());
+			else
+				out.write("\t0.477");
+			for (int i = 0; i < lStats.getQTLScores().size(); i++)
+			{
+				MABCLineStats.QTLScore score = lStats.getQTLScores().get(i);
+				out.write("\t" + score.drag + "\t" + score.status);
+			}
+			out.newLine();
+		}
+
+		out.close();
+
+
+		Flapjack.winMain.mFile.importTraitData(tmp);
 	}
 }

@@ -19,6 +19,8 @@ class MabcTableModel extends AbstractTableModel
 	private DataSet dataSet;
 	private ArrayList<MABCLineStats> lineStats;
 
+	private int chrCount, qtlCount;
+	private int qtlColStartIndex;
 	private String[] columnNames;
 
 	MabcTableModel(DataSet dataSet, ArrayList<MABCLineStats> lineStats)
@@ -32,16 +34,30 @@ class MabcTableModel extends AbstractTableModel
 	void setColumnNames()
 	{
 		// all chromosomes warning??
-		int chrCount = dataSet.countChromosomeMaps();
+		chrCount = dataSet.countChromosomeMaps();
+		qtlCount = lineStats.get(0).getQTLScores().size(); // <- fix for better determinatation needed
 
-		columnNames = new String[2 + chrCount];
+		columnNames = new String[2 + chrCount + (2*qtlCount)];
 		columnNames[0] = "Line";
 
 		int c = 1;
 		for (ChromosomeMap map: dataSet.getChromosomeMaps())
 			columnNames[c++] = map.getName();
 
-		columnNames[columnNames.length-1] = "RPP Total";
+		columnNames[1+chrCount] = "RPP Total";
+		qtlColStartIndex = 2+chrCount;
+
+		// QTL section of the table
+		int qtlIndex = 0;
+		ArrayList<MABCLineStats.QTLScore> scores = lineStats.get(0).getQTLScores();
+		for (MABCLineStats.QTLScore score: scores)
+		{
+			System.out.println(score.qtl.getQTL().getName());
+
+			columnNames[qtlColStartIndex+qtlIndex] = score.qtl.getQTL().getName();
+			columnNames[qtlColStartIndex+qtlIndex+1] = score.qtl.getQTL().getName() + " Status";
+			qtlIndex += 2;
+	}
 	}
 
 	@Override
@@ -64,10 +80,30 @@ class MabcTableModel extends AbstractTableModel
 	{
 		if (col == 0)
 			return lineStats.get(row).getLineInfo().name();
-		else if (col == (columnNames.length-1))
-			return lineStats.get(row).getRPPTotal();
+
+		// RPP values
+		else if (col <= (chrCount+1))
+		{
+			if (col == (chrCount+1))
+				return lineStats.get(row).getRPPTotal();
+			else
+				return lineStats.get(row).getSumRP().get(col-1);
+		}
+
+		// QTL values
 		else
-			return lineStats.get(row).getSumRP().get(col-1);
+		{
+//			int offset = qtlColStartIndex % col;
+
+//			ArrayList<MABCLineStats.QTLScore> scores = lineStats.get(row).getQTLScores();
+//			MABCLineStats.QTLScore score = scores.get(qtlColStartIndex+col+offset);
+
+//			if (offset == 0)
+//				return score.drag;
+//			else
+//				return score.status;
+		}
+		return -9;
 	}
 
 	@Override
