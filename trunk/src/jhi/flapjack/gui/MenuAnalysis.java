@@ -263,12 +263,16 @@ public class MenuAnalysis
 	public void gobiiMABC()
 	{
 		// TODO: Checks for data type? ABH, etc?
-
 		GTViewSet viewSet = gPanel.getViewSet();
+
+		MABCStatsDialog dialog = new MABCStatsDialog(viewSet);
+		if (dialog.isOK() == false)
+			return;
+		
 
 		MABCStats stats = new MABCStats(viewSet);
 
-		ProgressDialog dialog = new ProgressDialog(stats,
+		ProgressDialog pDialog = new ProgressDialog(stats,
 			"Running MABC Stats",
 			"Running MABC stats - please be patient...",
 			Flapjack.winMain);

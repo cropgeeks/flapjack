@@ -88,5 +88,8 @@ public class MABCLineStats
 		public QTLInfo qtl;
 		public double drag;
 		public boolean status = true;
+
+		public QTLScore(QTLInfo qtl)
+			{ this.qtl = qtl; }
 	}
 }

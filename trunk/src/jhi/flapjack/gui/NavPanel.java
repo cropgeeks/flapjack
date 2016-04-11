@@ -27,7 +27,7 @@ import scri.commons.gui.matisse.*;
  * forms the left-hand side column of the main interface; selections of which
  * dictate what will be displayed in the main right-hand panel.
  */
-class NavPanel extends JPanel
+public class NavPanel extends JPanel
 	implements TreeSelectionListener, PropertyChangeListener, TreeExpansionListener
 {
 	private JTree tree;
@@ -320,7 +320,7 @@ class NavPanel extends JPanel
 		return node.getBookmark();
 	}
 
-	TabPanel getTraitsPanel(DataSet dataSet)
+	public TabPanel getTraitsPanel(DataSet dataSet)
 	{
 		DataSetNode dataSetNode = findDataSetNode(dataSet);
 		TraitsNode traitsNode = (TraitsNode) dataSetNode.getChildAt(0);
