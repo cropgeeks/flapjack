@@ -45,6 +45,9 @@ public class TraitValue extends XMLRoot
 	{
 		if (trait == null)
 			throw new NullPointerException();
+
+		if (new Float(normal).isNaN())
+			normal = 0;
 	}
 
 
@@ -127,6 +130,9 @@ public class TraitValue extends XMLRoot
 		float max = trait.max;
 
 		normal = (value - min) / (max - min);
+
+		if (new Float(normal).isNaN())
+			normal = 0;
 	}
 
 	/**
