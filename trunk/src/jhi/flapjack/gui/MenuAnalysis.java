@@ -268,7 +268,7 @@ public class MenuAnalysis
 		MABCStatsDialog dialog = new MABCStatsDialog(viewSet);
 		if (dialog.isOK() == false)
 			return;
-		
+
 
 		MABCStats stats = new MABCStats(viewSet);
 
@@ -280,5 +280,20 @@ public class MenuAnalysis
 		ArrayList<MABCLineStats> lineStats = stats.getLineStats();
 
 		navPanel.addMabcNode(viewSet, lineStats);
+	}
+
+	public void gobiiPedVer()
+	{
+		// TODO: Checks for data type? ABH, etc?
+		GTViewSet viewSet = gPanel.getViewSet();
+
+		PedVerStats stats = new PedVerStats(viewSet);
+
+		ProgressDialog pDialog = new ProgressDialog(stats,
+			"Running PedVer Stats",
+			"Running PedVer stats - please be patient...",
+			Flapjack.winMain);
+
+
 	}
 }

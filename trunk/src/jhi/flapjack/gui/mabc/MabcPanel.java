@@ -35,8 +35,11 @@ public class MabcPanel extends JPanel implements ActionListener
 		table.setDefaultRenderer(String.class, new TraitCellRenderer());
 		UIScaler.setCellHeight(table);
 
-		setLayout(new BorderLayout(0, 0));
-		setBorder(BorderFactory.createEmptyBorder(1, 1, 0, 0));
+		setLayout(new BorderLayout());
+		add(new TitlePanel("MABC Results"), BorderLayout.NORTH);
+
+//		setLayout(new BorderLayout(0, 0));
+//		setBorder(BorderFactory.createEmptyBorder(1, 1, 0, 0));
 		add(controls);
 
 		updateModel(viewset.getDataSet(), lineStats);

@@ -102,6 +102,7 @@ public class VisualizationNode extends BaseNode
 			if (viewSet.getDataSet().getBinnedData().containsBins() == false)
 				Actions.alysSimMatrix.setEnabled(true);
 			Actions.alysMABC.setEnabled(true);
+			Actions.alysPedVer.setEnabled(true);
 
 			// TODO: make dynamic based on inclusion of QTL data or not
 			Actions.dataFilterQTLs.setEnabled(true);

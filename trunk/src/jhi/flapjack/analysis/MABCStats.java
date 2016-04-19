@@ -382,6 +382,7 @@ public class MABCStats extends SimpleJob
 			MABCLineStats.QTLScore score = stats.getQTLScores().get(i);
 			out.write("\t" + score.qtl.getQTL().getName() + "\t" + score.qtl.getQTL().getName() + " Status");
 		}
+		out.write("\tQTLs Present\tRank\tComment");
 		out.newLine();
 
 		int lineCount = 0;
@@ -394,11 +395,16 @@ public class MABCStats extends SimpleJob
 				out.write("\t" + lStats.getRPPTotal());
 			else
 				out.write("\t0.477");
+			int count = 0;
 			for (int i = 0; i < lStats.getQTLScores().size(); i++)
 			{
 				MABCLineStats.QTLScore score = lStats.getQTLScores().get(i);
-				out.write("\t" + score.drag + "\t" + score.status);
+				out.write("\t" + score.drag + "\t" + (score.status ? "1" : "0"));
+				if (score.status)
+					count++;
 			}
+			out.write("\t" + count);
+			out.write("\t1\t ");
 			out.newLine();
 		}
 
