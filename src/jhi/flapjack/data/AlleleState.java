@@ -99,15 +99,6 @@ public class AlleleState extends XMLRoot
 		return true;
 	}
 
-	boolean matchesAlleleState(String rawData)
-	{
-		for (int i = 0; i < states.length; i++)
-			if (states[i].equalsIgnoreCase("" + rawData.charAt(i)) == false)
-				return false;
-
-		return true;
-	}
-
 	// Returns a count of the number of times this allele appears in this data
 	// (eg, will return 2 for A/A/T on a search of A)
 	private int countState(String allele)
