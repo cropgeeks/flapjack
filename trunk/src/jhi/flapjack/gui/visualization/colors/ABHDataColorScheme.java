@@ -35,11 +35,11 @@ public class ABHDataColorScheme extends ColorScheme
 			// Homozygous states
 			else if (state.isHomozygous())
 			{
-				if (state.getRawData().equals("A"))
+				if (state.homzAllele().equals("A"))
 					c = new HomozygousColorState(state, Prefs.visColorABH_A, w, h);
-				else if (state.getRawData().equals("B"))
+				else if (state.homzAllele().equals("B"))
 					c = new HomozygousColorState(state, Prefs.visColorABH_B, w, h);
-				else if (state.getRawData().equals("H"))
+				else if (state.homzAllele().equals("H"))
 					c = new HomozygousColorState(state, Prefs.visColorABH_H, w, h);
 
 				else

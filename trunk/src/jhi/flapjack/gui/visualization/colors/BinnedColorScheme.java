@@ -52,13 +52,18 @@ public class BinnedColorScheme extends ColorScheme
 		for (int i = 1; i < stateTable.size(); i++)
 		{
 			AlleleState state = stateTable.getAlleleState(i);
-			try
+			if (state.isHomozygous())
 			{
-				int bin = Integer.parseInt(state.getRawData());
-				if (binCount == null || bin > binCount)
-					binCount = bin;
+				try
+				{
+					int bin = Integer.parseInt(state.homzAllele());
+					if (binCount == null || bin > binCount)
+						binCount = bin;
+				}
+				catch (NumberFormatException e)
+				{
+				}
 			}
-			catch (NumberFormatException e) {}
 		}
 
 		// As the bins are zero-indexed, add one to the max value found
@@ -81,11 +86,11 @@ public class BinnedColorScheme extends ColorScheme
 			if (state.isUnknown())
 				states.add(new SimpleColorState(state, Prefs.visColorBackground, w, h));
 
-			else
+			else if (state.isHomozygous())
 			{
 				try
 				{
-					int bin = Integer.parseInt(state.getRawData());
+					int bin = Integer.parseInt(state.homzAllele());
 
 					// We want bin=0 to map to f=0 and bin=9 to map to f=1 so we
 					// use 1/binCount-1 for the range rather than 1/binCount:

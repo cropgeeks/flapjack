@@ -21,8 +21,7 @@ public class StateTable extends XMLRoot
 	void validate()
 		throws NullPointerException
 	{
-		for (AlleleState state: states)
-			state.validate();
+		states.forEach(AlleleState::validate);
 	}
 
 
@@ -87,13 +86,6 @@ public class StateTable extends XMLRoot
 		states.remove(index);
 	}
 
-	public void print()
-	{
-		System.out.println("State Table:");
-		for (AlleleState state: states)
-			System.out.println(state);
-	}
-
 	public void resetTable()
 	{
 		// Keep the default empty state
@@ -116,13 +108,13 @@ public class StateTable extends XMLRoot
 
 		for (AlleleState state: states)
 		{
-			if (state.isHomozygous() && state.getState(0).equals("A"))
+			if (state.isHomozygous() && state.homzAllele().equals("A"))
 				A = true;
-			if (state.isHomozygous() && state.getState(0).equals("C"))
+			if (state.isHomozygous() && state.homzAllele().equals("C"))
 				C = true;
-			if (state.isHomozygous() && state.getState(0).equals("G"))
+			if (state.isHomozygous() && state.homzAllele().equals("G"))
 				G = true;
-			if (state.isHomozygous() && state.getState(0).equals("T"))
+			if (state.isHomozygous() && state.homzAllele().equals("T"))
 				T = true;
 		}
 
@@ -139,9 +131,9 @@ public class StateTable extends XMLRoot
 
 		for (AlleleState state: states)
 		{
-			if (state.isHomozygous() && state.getState(0).equals("0"))
+			if (state.isHomozygous() && state.homzAllele().equals("0"))
 				a0 = true;
-			if (state.isHomozygous() && state.getState(0).equals("1"))
+			if (state.isHomozygous() && state.homzAllele().equals("1"))
 				a1 = true;
 		}
 
@@ -156,11 +148,11 @@ public class StateTable extends XMLRoot
 
 		for (AlleleState state: states)
 		{
-			if (state.isHomozygous() && state.getState(0).equals("A"))
+			if (state.isHomozygous() && state.homzAllele().equals("A"))
 				A = true;
-			if (state.isHomozygous() && state.getState(0).equals("B"))
+			if (state.isHomozygous() && state.homzAllele().equals("B"))
 				B = true;
-			if (state.isHomozygous() && state.getState(0).equals("H"))
+			if (state.isHomozygous() && state.homzAllele().equals("H"))
 				H = true;
 		}
 
@@ -197,7 +189,7 @@ public class StateTable extends XMLRoot
 			{
 				try
 				{
-					int i = Integer.parseInt(state.getState(0));
+					int i = Integer.parseInt(state.homzAllele());
 					values[i-1] = true;
 				}
 				catch (Exception e) { }
@@ -224,7 +216,7 @@ public class StateTable extends XMLRoot
 
 			try
 			{
-				Integer.parseInt(state.getState(0));
+				Integer.parseInt(state.homzAllele());
 			}
 			catch (NumberFormatException e) { return false; }
 		}
@@ -242,15 +234,8 @@ public class StateTable extends XMLRoot
 		HashMap<String, String> hashtable = new HashMap<>();
 
 		for (AlleleState state: states)
-		{
-			if (state.isHomozygous())
-				hashtable.put(state.getState(0), state.getState(0));
-			else
-			{
-				hashtable.put(state.getState(0), state.getState(0));
-				hashtable.put(state.getState(1), state.getState(1));
-			}
-		}
+			for (String allele : state.getStates())
+				hashtable.put(allele, allele);
 
 		return hashtable;
 	}
@@ -298,14 +283,5 @@ public class StateTable extends XMLRoot
 		}
 
 		return matrix;
-	}
-
-	public int indexOf(String rawData)
-	{
-		for (int i = 0; i < states.size(); i++)
-			if (states.get(i).getRawData().equals(rawData))
-				return i;
-
-		return -1;
 	}
 }

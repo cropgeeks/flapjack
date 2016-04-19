@@ -232,8 +232,7 @@ public class StatusPanelNB extends JPanel implements ActionListener, ChangeListe
 				// if we are viewing binned data
 				BinnedData binData = view.getViewSet().getDataSet().getBinnedData();
 
-				alleleLabel.setText(state.getRawData() + " " + binData.getBinForState(state.getRawData()));
-				alleleLabel.setText(state.format() + " " + binData.getBinForState(state.getRawData()));
+				alleleLabel.setText(state.toString() + " " + binData.getBinForState(state.toString()));
 			}
 		}
 	}

@@ -47,7 +47,7 @@ public class NucleotideColorScheme extends ColorScheme
 			// Homozygous states
 			else if (state.isHomozygous())
 			{
-				Color c1 = keys.get(state.getRawData());
+				Color c1 = keys.get(state.homzAllele());
 				if (c1 == null)
 					c1 = Prefs.visColorNucleotideOther;
 

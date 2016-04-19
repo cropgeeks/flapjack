@@ -7,7 +7,6 @@ import java.awt.*;
 import java.awt.image.*;
 import java.util.*;
 
-import jhi.flapjack.analysis.*;
 import jhi.flapjack.data.*;
 import jhi.flapjack.gui.*;
 
@@ -51,8 +50,8 @@ public class AlleleFrequencyColorScheme extends ColorScheme
 			// Homozygous states
 			else if (state.isHomozygous())
 			{
-				colors.put(state.getRawData() + "H", new HomozygousColorState(state, Prefs.visColorHiFreqState, w, h));
-				colors.put(state.getRawData() + "L", new HomozygousColorState(state, Prefs.visColorLoFreqState, w, h));
+				colors.put(state.homzAllele() + "H", new HomozygousColorState(state, Prefs.visColorHiFreqState, w, h));
+				colors.put(state.homzAllele() + "L", new HomozygousColorState(state, Prefs.visColorLoFreqState, w, h));
 			}
 
 			// Heterozygous states

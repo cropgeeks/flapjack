@@ -3,10 +3,11 @@
 
 package jhi.flapjack.data;
 
+import java.util.stream.*;
+
 public class AlleleState extends XMLRoot
 {
 	private String[] states;
-	private String rawData;
 
 	private boolean isHomozygous = true;
 
@@ -16,7 +17,7 @@ public class AlleleState extends XMLRoot
 
 	public AlleleState(String rawData, boolean useHetSep, String hetSepStr)
 	{
-		this.rawData = new String(rawData.toUpperCase());
+		rawData = new String(rawData.toUpperCase());
 
 		// If we want to separate on a known string, eg A/B as A & B
 		if (useHetSep)
@@ -37,7 +38,7 @@ public class AlleleState extends XMLRoot
 	void validate()
 		throws NullPointerException
 	{
-		if (states == null || rawData == null)
+		if (states == null)
 			throw new NullPointerException();
 	}
 
@@ -50,12 +51,6 @@ public class AlleleState extends XMLRoot
 	public void setStates(String[] states)
 		{ this.states = states; }
 
-	public String getRawData()
-		{ return rawData; }
-
-	public void setRawData(String rawData)
-		{ this.rawData = rawData; }
-
 	public boolean isHomozygous()
 		{ return isHomozygous; }
 
@@ -67,7 +62,15 @@ public class AlleleState extends XMLRoot
 
 	public String toString()
 	{
-		return rawData;
+		return Stream.of(states).collect(Collectors.joining("/"));
+	}
+
+	public String homzAllele()
+	{
+		if (!isHomozygous())
+			throw new IllegalStateException("Attempted to get a homozygous state for an AlleleState that is heterozygous.");
+
+		return states[0];
 	}
 
 	public String getState(int index)
@@ -98,11 +101,12 @@ public class AlleleState extends XMLRoot
 
 	boolean matchesAlleleState(String rawData)
 	{
-		return this.rawData.equalsIgnoreCase(rawData);
-	}
+		for (int i = 0; i < states.length; i++)
+			if (states[i].equalsIgnoreCase("" + rawData.charAt(i)) == false)
+				return false;
 
-	public boolean isUnknown()
-		{ return rawData.equals(""); }
+		return true;
+	}
 
 	// Returns a count of the number of times this allele appears in this data
 	// (eg, will return 2 for A/A/T on a search of A)
@@ -116,14 +120,9 @@ public class AlleleState extends XMLRoot
 		return count;
 	}
 
-	public String format()
+	public boolean isUnknown()
 	{
-		String str = states[0];
-
-		for (int i = 1; i < states.length; i++)
-			str += "/" + states[i];
-
-		return str;
+		return states[0].isEmpty();
 	}
 
 	/**

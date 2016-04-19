@@ -42,7 +42,7 @@ public class MagicColorScheme extends ColorScheme
 			{
 				for (int j=0; j < colorIds.length; j++)
 				{
-					if (state.getRawData().equals(colorIds[j]))
+					if (state.homzAllele().equals(colorIds[j]))
 					{
 						c = new HomozygousColorState(state, colors[j], w, h);
 						break;

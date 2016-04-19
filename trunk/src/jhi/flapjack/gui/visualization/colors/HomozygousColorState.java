@@ -50,7 +50,7 @@ public class HomozygousColorState extends ColorState
 
 		if (Prefs.visShowGenotypes && h >= 7 && Prefs.visLinkSliders)
 		{
-			String str = state.toString();
+			String str = state.homzAllele();
 
 			Font font = g.getFont().deriveFont(Font.PLAIN, h-3);
 			g.setFont(font);

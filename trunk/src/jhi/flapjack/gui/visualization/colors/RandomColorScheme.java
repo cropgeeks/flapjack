@@ -60,7 +60,7 @@ public class RandomColorScheme extends ColorScheme
 
 			if (state.isHomozygous())
 			{
-				Color color = hashtable.get(state.toString());
+				Color color = hashtable.get(state.homzAllele());
 				if (color == null)
 				{
 					if (type == RANDOM)
@@ -69,7 +69,7 @@ public class RandomColorScheme extends ColorScheme
 						color = WebsafePalette.getColor((int)fColor);
 					fColor += colorSpacing;
 
-					hashtable.put(state.toString(), color);
+					hashtable.put(state.homzAllele(), color);
 				}
 
 				states.add(new HomozygousColorState(state, color, w, h));
