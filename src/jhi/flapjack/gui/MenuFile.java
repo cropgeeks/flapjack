@@ -139,15 +139,15 @@ public class MenuFile
 
 	public void fileImportSelect()
 	{
-//		DataSourceDialog dialog = new DataSourceDialog();
-//
-//		if (dialog.isOK() == false)
-//			return;
-//
-//		if (Prefs.guiImportType == 0)
+		DataSourceDialog dialog = new DataSourceDialog();
+
+		if (dialog.isOK() == false)
+			return;
+
+		if (Prefs.guiImportType == 0)
 			fileImport(0);
-//		else
-//			fileBrapi();
+		else
+			fileBrapi();
 	}
 
 	private void fileBrapi()
@@ -239,7 +239,7 @@ public class MenuFile
 		Actions.projectModified();
 	}
 
-	private void importTraitData(File file)
+	public void importTraitData(File file)
 	{
 		DataSet dataSet = navPanel.getDataSetForSelection();
 
