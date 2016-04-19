@@ -6,8 +6,8 @@ package jhi.flapjack.gui.visualization;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.*;
-import java.text.*;
 import javax.swing.*;
+import javax.swing.table.*;
 
 import jhi.flapjack.data.*;
 import jhi.flapjack.gui.*;
@@ -19,8 +19,10 @@ class ListPanel extends JPanel
 	private GTViewSet viewSet;
 	private GTView view;
 
-	private JList<LineInfo> lineList;
-	private DefaultListModel<LineInfo> model;
+	private JTable lineTable;
+	// TODO: For now we can use a DefaultTableModel this is likely to change going forward to support some sort of
+	// 		 TraitTableModel base class concept?
+	private DefaultTableModel lineModel;
 	private static Font font;
 
 	ListPanel()
@@ -28,17 +30,35 @@ class ListPanel extends JPanel
 		createControls();
 
 		setLayout(new BorderLayout());
-		add(lineList);
+		setBorder(BorderFactory.createEmptyBorder(1, 2, 0, 0));
+		setBackground(Color.WHITE);
+		add(lineTable);
 	}
 
 	private void createControls()
 	{
-		model = new DefaultListModel<LineInfo>();
-		lineList = new JList<LineInfo>(model);
-		lineList.setCellRenderer(new ListRenderer());
-		lineList.setEnabled(false);
+		// Setup our table with a default table model
+		lineModel = new DefaultTableModel();
+		lineTable = new JTable(lineModel)
+		{
+			// Set the cell renderers so that we get the LineInfo version for the first column and the base class
+			// HighlightTableCellRenderer by default for all others
+			public TableCellRenderer getCellRenderer(int row, int column)
+			{
+				switch (column)
+				{
+					case 0:	return new LineInfoCellRenderer();
 
-		lineList.addMouseListener(new MouseAdapter() {
+					default: return new HighlightTableCellRenderer();
+				}
+			}
+		};
+		lineTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		lineTable.setEnabled(false);
+		lineTable.setDefaultRenderer(LineInfo.class, new LineInfoCellRenderer());
+		lineTable.setShowGrid(false);
+
+		lineTable.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
 				handlePopup(e);
 			}
@@ -64,16 +84,50 @@ class ListPanel extends JPanel
 		if (view == null)
 			return;
 
-		model.clear();
+		// TODO: Probably best to have our models define a clear method
+		lineModel = new DefaultTableModel() {
+			@Override
+			public Class<?> getColumnClass(int columnIndex) {
+				if (columnIndex == 0)
+					return LineInfo.class;
+				else if (columnIndex == 1)
+					return String.class;
+				else
+					return Integer.class;
+			}
+		};
+		// TODO: Probably query this out of the model
+		lineModel.setColumnCount(1);
 
 		for (int i = 0; i < view.lineCount(); i++)
-			model.add(i, view.getLineInfo(i));
+		{
+			lineModel.addRow(new Object[] { view.getLineInfo(i) });
+		}
+		lineTable.setModel(lineModel);
 	}
 
 	void computeDimensions(int size)
 	{
 		font = new Font("Monospaced", Font.PLAIN, size);
-		lineList.setFont(font);
+		lineTable.setFont(font);
+		// Re-size the height of the rows by getting the height of the font using font metrics
+		// TODO: This can only be called when we have a graphics object....
+		lineTable.setRowHeight(lineTable.getGraphics().getFontMetrics().getHeight());
+
+		// Re-size columns so that they fit their content perfectly
+		// TODO: Can we cache the "widest" element of the column so we have less re-calculating to do
+		for (int col = 0; col < lineTable.getColumnCount(); col++)
+		{
+			int width = 0;
+			for (int row = 0; row < lineTable.getRowCount(); row++)
+			{
+				TableCellRenderer renderer = lineTable.getCellRenderer(row, col);
+				Component comp = lineTable.prepareRenderer(renderer, row, col);
+				width = Math.max(comp.getPreferredSize().width + 1, width);
+			}
+			lineTable.getColumnModel().getColumn(col).setPreferredWidth(width);
+		}
+
 //		populateList();
 	}
 
@@ -84,12 +138,15 @@ class ListPanel extends JPanel
 		// something in the way JList handles changes to its data must be the
 		// reason why it's slow.
 
-		if (fromIndex >= model.size() || toIndex >= model.size())
+		// TODO 19/04/2016: We need to make sure that this works for an entire row...think about the best way to do this
+		// 					probably going to require a moveRow method in the model class...
+
+		if (fromIndex >= lineModel.getRowCount() || toIndex >= lineModel.getRowCount())
 			return;
 
-		LineInfo li = (LineInfo) model.get(fromIndex);
-		model.set(fromIndex, model.get(toIndex));
-		model.set(toIndex, li);
+		LineInfo li = (LineInfo) lineModel.getValueAt(fromIndex, 0);
+		lineModel.setValueAt( lineModel.getValueAt(toIndex, 0), fromIndex, 0);
+		lineModel.setValueAt(li, toIndex, 0);
 	}
 
 	BufferedImage createSavableImage(boolean full, int yPos)
@@ -100,10 +157,10 @@ class ListPanel extends JPanel
 				BufferedImage.TYPE_INT_RGB);
 
 		// Paint a copy of this panel (forcing its background to white too)
-		Color background = lineList.getBackground();
-		lineList.setBackground(Color.white);
+		Color background = lineTable.getBackground();
+		lineTable.setBackground(Color.white);
 		Graphics2D g = image.createGraphics();
-		lineList.setBackground(background);
+		lineTable.setBackground(background);
 
 		if(!full)
 		{
@@ -136,48 +193,55 @@ class ListPanel extends JPanel
 		menu.show(e.getComponent(), e.getX(), e.getY());
 	}
 
-	class ListRenderer extends JLabel implements ListCellRenderer<LineInfo>
+	// Base class for any renderer which needs to highlight table cells based on the row under the mouse on the main
+	// canvas. Defaults to setting the text to value's toString()
+	public class HighlightTableCellRenderer extends JLabel implements TableCellRenderer
 	{
-		private DecimalFormat df = new DecimalFormat("0.000");
-
 		private Color selectedBG = new Color(240, 240, 240);
 		private Color selectedFG = new Color(255, 0, 0);
 
-		public ListRenderer()
+		public HighlightTableCellRenderer()
 		{
 			setOpaque(true);
-
-			// Java 1.7 on Linux returns oversized Border objects for a JList.
-			// Without this, the list doesn't align with the genotypes
-			setBorder(BorderFactory.createEmptyBorder());
 		}
 
-		// Set the attributes of the class and return a reference
-		public Component getListCellRendererComponent(JList list, LineInfo li, int i, boolean iss, boolean chf)
+		@Override
+		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
+													   int row, int column)
 		{
 			setFont(font);
 
-			if (view.isSplitter(i))
-				setText(" ");
-			else
-			{
-				if (viewSet.getDisplayLineScores())
-					setText(" " + df.format(li.getScore()) + " " + li);
-				else
-					setText(" " + li.toString());
-			}
+			setText(value.toString());
 
 			// Highlight the line "under" the mouse
-			if (i == view.mouseOverLine)
+			if (row == view.mouseOverLine)
 			{
 				setBackground(selectedBG);
 				setForeground(selectedFG);
 			}
 			else
 			{
-				setBackground(list.getBackground());
-				setForeground(list.getForeground());
+				setBackground(table.getBackground());
+				setForeground(table.getForeground());
 			}
+
+			return this;
+		}
+	}
+
+	// Sets the text of a cell to the LineInfo's name
+	public class LineInfoCellRenderer extends HighlightTableCellRenderer
+	{
+
+		@Override
+		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
+													   int row, int column)
+		{
+			super.getTableCellRendererComponent(table, value, isSelected,
+				hasFocus, row, column);
+
+			if (value instanceof LineInfo && value != null)
+				setText(((LineInfo)value).name());
 
 			return this;
 		}
