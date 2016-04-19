@@ -24,10 +24,6 @@ public class SortLinesBySimilarity extends SortLines
 	{
 		long s = System.currentTimeMillis();
 
-		// Pre-cache the information that will be needed
-		for (GTView view: viewSet.getViews())
-			view.cacheLines();
-
 		super.runJob(jobIndex);
 
 		viewSet.setDisplayLineScores(true);

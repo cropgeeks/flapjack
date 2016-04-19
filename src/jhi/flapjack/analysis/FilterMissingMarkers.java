@@ -48,8 +48,6 @@ public class FilterMissingMarkers extends SimpleJob
 			if (allChromosomes == false && view != views.get(viewSet.getViewIndex()))
 				continue;
 
-			view.cacheLines();
-
 			// For each marker...
 			for (int i = view.markerCount()-1; i >= 0 && okToRun; i--)
 			{

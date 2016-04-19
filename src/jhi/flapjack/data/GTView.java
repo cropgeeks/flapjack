@@ -8,16 +8,14 @@ import java.util.stream.Collectors;
 
 public class GTView extends XMLRoot
 {
-	// For faster rendering, maintain a local cache of the data to be drawn
-	// This saves having to query every line for the data by first telling it
-	// what map we're looking it - this object simply holds data for all the
-	// lines, but only for the map in question
-	private ArrayList<GenotypeData> genotypeLines;
-
 	// This view forms part of the viewSet:
 	private GTViewSet viewSet;
+	// Quick reference to the lines held in the viewSet
+	private ArrayList<LineInfo> lines;
 	// ...specifically being a view upon the chromosome:
 	private ChromosomeMap map;
+	// Quick reference to this chromosome's index
+	private int chrIndex;
 
 	// Holds the index positions of the markers as they appear in the actual
 	// dataset's vector of markers
@@ -49,7 +47,9 @@ public class GTView extends XMLRoot
 	public GTView(GTViewSet viewSet, ChromosomeMap map, boolean isNew)
 	{
 		this.viewSet = viewSet;
+		lines = viewSet.lines;
 		this.map = map;
+		chrIndex = viewSet.getDataSet().getChromosomeMaps().indexOf(map);
 
 		// For each (original) marker in the map...
 		markers = new ArrayList<MarkerInfo>(map.countLoci());
@@ -69,6 +69,11 @@ public class GTView extends XMLRoot
 	{
 		if (viewSet == null || map == null || markers == null)
 			throw new NullPointerException();
+
+		// 19/04/2016 - added a reference to the viewSet's lines, so this
+		// ensure's existing views loaded from a project get the reference too
+		lines = viewSet.lines;
+		chrIndex = viewSet.getDataSet().getChromosomeMaps().indexOf(map);
 	}
 
 
@@ -122,21 +127,8 @@ public class GTView extends XMLRoot
 	public void setQTLs(ArrayList<QTLInfo> qtl)
 		{ this.qtls = qtl; }
 
+
 	// Other methods
-
-	public void cacheLines()
-	{
-		// Now cache as much data as possible to help speed rendering
-		genotypeLines = new ArrayList<GenotypeData>(viewSet.lines.size());
-
-		for (int i = 0; i < viewSet.lines.size(); i++)
-		{
-			Line line = viewSet.lines.get(i).line;
-			GenotypeData data = line.getGenotypeDataByMap(map);
-
-			genotypeLines.add(data);
-		}
-	}
 
 	/**
 	 * Returns the Line at the specified index position within this view.
@@ -157,14 +149,14 @@ public class GTView extends XMLRoot
 	/**
 	 * Returns the state information at the position of the line and marker (for
 	 * this view).
-	 * @param line the index of the line to query
-	 * @param marker the index of the marker to query
+	 * @param lineIndex the index of the line to query
+	 * @param markerIndex the index of the marker to query
 	 * @return the state information at the position of the line and marker
 	 */
-	public int getState(int line, int marker)
+	public int getState(int lineIndex, int markerIndex)
 		throws ArrayIndexOutOfBoundsException
 	{
-		return genotypeLines.get(line).getState(markers.get(marker).index);
+		return lines.get(lineIndex).getState(chrIndex, markerIndex);
 	}
 
 	public int markerCount()
@@ -213,11 +205,6 @@ public class GTView extends XMLRoot
 			viewSet.comparisonLineIndex = toIndex;
 		else if (viewSet.comparisonLineIndex == toIndex)
 			viewSet.comparisonLineIndex = fromIndex;
-
-		// And swap the cache too
-		GenotypeData oldData = genotypeLines.get(fromIndex);
-		genotypeLines.set(fromIndex, genotypeLines.get(toIndex));
-		genotypeLines.set(toIndex, oldData);
 	}
 
 	public void moveMarker(int fromIndex, int toIndex)
@@ -510,6 +497,9 @@ public class GTView extends XMLRoot
 		// Then trim down any left over elements
 		viewSet.lines.trimToSize();
 		viewSet.hideLines.trimToSize();
+
+		// Update the View's quick-ref to the ViewSet's list of lines
+		this.lines = lines;
 	}
 
 	/** Hides a single marker. */

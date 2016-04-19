@@ -325,7 +325,6 @@ public class MenuEdit
 			state.createRedoState();
 			gPanel.addUndoState(state);
 
-			view.cacheLines();
 			gPanel.refreshView();
 		}
 	}
@@ -378,7 +377,6 @@ public class MenuEdit
 		state.createRedoState();
 		gPanel.addUndoState(state);
 
-		view.cacheLines();
 		gPanel.refreshView();
 	}
 
@@ -401,7 +399,6 @@ public class MenuEdit
 			state.createRedoState();
 			gPanel.addUndoState(state);
 
-			view.cacheLines();
 			gPanel.refreshView();
 		}
 	}
@@ -452,7 +449,6 @@ public class MenuEdit
 		state.createRedoState();
 		gPanel.addUndoState(state);
 
-		view.cacheLines();
 		gPanel.refreshView();
 	}
 
@@ -479,7 +475,6 @@ public class MenuEdit
 			state.createRedoState();
 			gPanel.addUndoState(state);
 
-			view.cacheLines();
 			gPanel.refreshView();
 		}
 	}
@@ -509,7 +504,6 @@ public class MenuEdit
 		state.createRedoState();
 		gPanel.addUndoState(state);
 
-		view.cacheLines();
 		gPanel.refreshView();
 	}
 

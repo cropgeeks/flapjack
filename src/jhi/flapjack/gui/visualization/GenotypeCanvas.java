@@ -113,8 +113,6 @@ class GenotypeCanvas extends JPanel
 	{
 		this.viewSet = viewSet;
 		this.view = view;
-
-		view.cacheLines();
 	}
 
 	// Compute canvas related dimensions that only change if the data or the

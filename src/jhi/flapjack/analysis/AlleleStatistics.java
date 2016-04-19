@@ -55,8 +55,6 @@ public class AlleleStatistics extends SimpleJob
 		// alleles within this view (chromosome)
 		long[] statistics = new long[stateCount+1];
 
-		view.cacheLines();
-
 		for (int line = 0; line < view.lineCount() && okToRun; line++)
 		{
 			for (int marker = 0; marker < view.markerCount() && okToRun; marker++)

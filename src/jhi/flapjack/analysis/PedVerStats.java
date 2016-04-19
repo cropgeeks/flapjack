@@ -46,9 +46,6 @@ public class PedVerStats extends SimpleJob
 			if (st.getAlleleState(i).isHomozygous() == false)
 				isHet[i] = true;
 
-		for (GTView view: viewSet.getViews())
-			view.cacheLines();
-
 		int lineCount = viewSet.getLines().size();
 		for (int line = 0; line < lineCount; line++)     // <-- selectedLinesAsArray ??
 		{

@@ -78,8 +78,8 @@ public class MABCStats extends SimpleJob
 		// TODO: Deal with all chromosomes view: marker.position vs marker.getRealPosition
 		// TODO: Deal with FJ not having a chr length (as opposed to last marker's pos)
 
-		int A = viewSet.getDataSet().getStateTable().indexOf("A");
-		int H = viewSet.getDataSet().getStateTable().indexOf("H");
+//		int A = viewSet.getDataSet().getStateTable().indexOf("A");
+//		int H = viewSet.getDataSet().getStateTable().indexOf("H");
 
 		// Stores results for each chromosome
 		double[] coverage = new double[viewSet.chromosomeCount()];         // <---- ALL CHROMOSOMES
@@ -90,7 +90,6 @@ public class MABCStats extends SimpleJob
 		for (int c = 0; c < viewSet.getViews().size(); c++) // <---- ALL CHROMOSOMES
 		{
 			GTView view = viewSet.getView(c);
-			view.cacheLines();
 
 			ArrayList<MarkerInfo> markers = view.selectedMarkersAsList(); //view.getMarkers();
 			for (int i=0; i < markers.size(); i++)
@@ -244,7 +243,7 @@ public class MABCStats extends SimpleJob
 
 	private void calculateLinkageDrag()
 	{
-		int A = viewSet.getDataSet().getStateTable().indexOf("A");
+//		int A = viewSet.getDataSet().getStateTable().indexOf("A");
 
 		for (GTView view: viewSet.getViews())
 			indexQTLs(view);

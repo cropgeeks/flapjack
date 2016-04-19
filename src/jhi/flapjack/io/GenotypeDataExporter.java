@@ -82,8 +82,6 @@ public class GenotypeDataExporter extends SimpleJob
 			if (chrm != null && chrm[c] == false)
 				continue;
 
-			view.cacheLines();
-
 			// Skip any "super" chromosomes
 //			if (view.getChromosomeMap().isSpecialChromosome())
 //				continue;
