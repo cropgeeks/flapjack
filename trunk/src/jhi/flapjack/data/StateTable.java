@@ -9,13 +9,19 @@ public class StateTable extends XMLRoot
 {
 	private ArrayList<AlleleState> states = new ArrayList<>();
 
+	// USED AT LOAD TIME ONLY
+	private HashMap<String,AlleleState> rawToAlleleHash = new HashMap<>();
+
 	public StateTable()
 	{
 	}
 
 	public StateTable(int notused)
 	{
-		states.add(new AlleleState("", true, "/"));
+		AlleleState unknown = new AlleleState("", true, "/");
+
+		states.add(unknown);
+		rawToAlleleHash.put("", unknown);
 	}
 
 	void validate()
@@ -57,15 +63,19 @@ public class StateTable extends XMLRoot
 			if (rawData.matches(rawData.charAt(0) + "{"+rawData.length()+"}+")) // regex: X{n}+
 				rawData = "" + rawData.charAt(0);
 
-		for (int i = 0; i < states.size(); i++)
-			if (states.get(i).matchesAlleleState(rawData))
-				return i;
+
+		// See if we already have an AlleleState for this rawData string?
+		if (rawToAlleleHash.containsKey(rawData))
+			return states.indexOf(rawToAlleleHash.get(rawData));
 
 		if (create == false)
 			return -1;
 
-		// If it wasn't found and needs to be created, then add it
-		states.add(new AlleleState(rawData, useHetSep, hetSepStr));
+		// If it wasn't found and needs to be created, then create/add it
+		AlleleState newState = new AlleleState(rawData, useHetSep, hetSepStr);
+		states.add(newState);
+		rawToAlleleHash.put(rawData, newState);
+
 		return states.size() - 1;
 	}
 
@@ -93,9 +103,11 @@ public class StateTable extends XMLRoot
 
 		// Clear the table
 		states.clear();
+		rawToAlleleHash.clear();
 
 		// Then readd the empty state
 		states.add(emptyState);
+		rawToAlleleHash.put("", emptyState);
 	}
 
 	/**
