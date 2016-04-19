@@ -72,9 +72,6 @@ public class CalculateSimilarityMatrix extends SimpleJob
 	{
 		long s = System.currentTimeMillis();
 
-		for (GTView view: viewSet.getViews())
-			view.cacheLines();
-
 		// Build the list of selected marker indices
 		viewMarkers = new ArrayList<int[]>();
 		for (int i=0; i < viewSet.getViews().size(); i++)

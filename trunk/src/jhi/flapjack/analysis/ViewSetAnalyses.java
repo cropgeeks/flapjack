@@ -18,7 +18,6 @@ public class ViewSetAnalyses
 	public static void createCustomMap(GTView view)
 	{
 		GTViewSet viewSet = view.getViewSet();
-		view.cacheLines();
 
 		// Start by making a new ChromosomeMap to hold the markers of interest
 		String name = view.getChromosomeMap().getName() + " (" + new Date() + ")";

@@ -97,4 +97,9 @@ public class LineInfo extends XMLRoot
 
 		return duplicate;
 	}
+
+	public int getState(int chromosome, int marker)
+	{
+		return line.getState(chromosome, marker);
+	}
 }

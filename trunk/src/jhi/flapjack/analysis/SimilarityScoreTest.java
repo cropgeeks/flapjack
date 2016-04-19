@@ -41,7 +41,6 @@ public class SimilarityScoreTest extends TestCase
 		load();
 
 	 	viewSet = new GTViewSet(dataSet, "Default View");
-	 	viewSet.getView(0).cacheLines();
 
 	 	float[][] matrix = dataSet.getStateTable().calculateSimilarityMatrix();
 
