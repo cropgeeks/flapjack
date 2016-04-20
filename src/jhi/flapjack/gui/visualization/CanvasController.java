@@ -114,8 +114,16 @@ public class CanvasController extends JPanel implements ChangeListener
 		int zoomX = statusPanel.getZoomX();
 		int zoomY = statusPanel.getZoomY();
 
-		// Put this in an invokeLater so it isn't called until we have a graphics object
-		SwingUtilities.invokeLater(() -> listPanel.computeDimensions(zoomY));
+		// Fails on first run, but we want it to happen instantly ever other time
+		try
+		{
+			listPanel.computeDimensions(zoomY);
+		}
+		catch (Exception e)
+		{
+			// So when it fails, invoke it later and we still get a correct display
+			SwingUtilities.invokeLater(() -> listPanel.computeDimensions(zoomY));
+		}
 		canvas.setDimensions(zoomX, zoomY);
 
 		setScrollbarAdjustmentValues(canvas.boxW, canvas.boxH);
