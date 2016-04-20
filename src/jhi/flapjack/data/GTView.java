@@ -10,8 +10,6 @@ public class GTView extends XMLRoot
 {
 	// This view forms part of the viewSet:
 	private GTViewSet viewSet;
-	// Quick reference to the lines held in the viewSet
-	private ArrayList<LineInfo> lines;
 	// ...specifically being a view upon the chromosome:
 	private ChromosomeMap map;
 	// Quick reference to this chromosome's index
@@ -47,7 +45,6 @@ public class GTView extends XMLRoot
 	public GTView(GTViewSet viewSet, ChromosomeMap map, boolean isNew)
 	{
 		this.viewSet = viewSet;
-		lines = viewSet.lines;
 		this.map = map;
 		chrIndex = viewSet.getDataSet().getChromosomeMaps().indexOf(map);
 
@@ -72,7 +69,6 @@ public class GTView extends XMLRoot
 
 		// 19/04/2016 - added a reference to the viewSet's lines, so this
 		// ensure's existing views loaded from a project get the reference too
-		lines = viewSet.lines;
 		chrIndex = viewSet.getDataSet().getChromosomeMaps().indexOf(map);
 	}
 
@@ -156,7 +152,7 @@ public class GTView extends XMLRoot
 	public int getState(int lineIndex, int markerIndex)
 		throws ArrayIndexOutOfBoundsException
 	{
-		return lines.get(lineIndex).getState(chrIndex, markerIndex);
+		return viewSet.lines.get(lineIndex).getState(chrIndex, markers.get(markerIndex).index);
 	}
 
 	public int markerCount()
@@ -497,9 +493,6 @@ public class GTView extends XMLRoot
 		// Then trim down any left over elements
 		viewSet.lines.trimToSize();
 		viewSet.hideLines.trimToSize();
-
-		// Update the View's quick-ref to the ViewSet's list of lines
-		this.lines = lines;
 	}
 
 	/** Hides a single marker. */
