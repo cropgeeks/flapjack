@@ -36,8 +36,8 @@ public class AlleleStatistics extends SimpleJob
 	{
 		AnalysisSet as = new AnalysisSet(viewSet)
 			.withViews(null)
-			.withSelectedLines()
-			.withSelectedMarkers();
+			.withAllLines()
+			.withAllMarkers();
 
 		alleleCount = as.countAlleles();
 		// Actual progress will be cast back to a scale from 0 to 50K
