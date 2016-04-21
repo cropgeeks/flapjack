@@ -378,20 +378,6 @@ public class GTViewSet extends XMLRoot
 		return -1;
 	}
 
-	/** Returns the total number of alleles referenced by this viewset.
-	 */
-	public long countAllAlleles(boolean includeDummyMarkers)
-	{
-		long total = 0;
-		for (GTView view: views)
-			if (includeDummyMarkers)
-				total += (long)view.markerCount() * (long)view.lineCount();
-			else
-				total += (long)view.countGenuineMarkers() * (long)view.lineCount();
-
-		return total;
-	}
-
 	/**
 	 * Maps trait column indices onto a view after trait data has been loaded.
 	 * Assuming enough traits are available, and no previous indices were set,

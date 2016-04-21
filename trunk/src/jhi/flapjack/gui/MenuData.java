@@ -62,7 +62,8 @@ public class MenuData
 			 Flapjack.winMain);
 
 		if (dialog.getResult() == ProgressDialog.JOB_COMPLETED)
-			new AlleleStatisticsDialog(viewSet, statistics.getResults());
+			new AlleleStatisticsDialog(viewSet, statistics.getResults(),
+				statistics.getAlleleCount());
 	}
 
 	// Fires off a URL request to a linked database for information on a line

@@ -20,7 +20,7 @@ class AlleleStatisticsPanelNB extends JPanel implements AdjustmentListener
 	private NumberFormat nf = NumberFormat.getInstance();
 	private DecimalFormat d = new DecimalFormat("0.0");
 
-	public AlleleStatisticsPanelNB(GTViewSet viewSet, ArrayList<long[]> results)
+	public AlleleStatisticsPanelNB(GTViewSet viewSet, ArrayList<long[]> results, long alleleCount)
 	{
 		initComponents();
 
@@ -28,10 +28,9 @@ class AlleleStatisticsPanelNB extends JPanel implements AdjustmentListener
 		tablePanel.setBackground((Color)UIManager.get("fjDialogBG"));
 
 		String name = viewSet.getName();
-		long total = viewSet.countAllAlleles(false);
 
 		// i18n
-		viewLabel.setText(RB.format("gui.dialog.analysis.NBAlleleStatisticsPanel.viewLabel", name, total));
+		viewLabel.setText(RB.format("gui.dialog.analysis.NBAlleleStatisticsPanel.viewLabel", name, alleleCount));
 		tablePanel.setBorder(BorderFactory.createTitledBorder(RB.getString("gui.dialog.analysis.NBAlleleStatisticsPanel.tablePanel.title")));
 		RB.setText(tableLabel1, "gui.dialog.analysis.NBAlleleStatisticsPanel.tableLabel1");
 		RB.setText(tableLabel2, "gui.dialog.analysis.NBAlleleStatisticsPanel.tableLabel2");
