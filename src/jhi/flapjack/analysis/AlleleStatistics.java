@@ -15,18 +15,18 @@ public class AlleleStatistics extends SimpleJob
 	private GTViewSet viewSet;
 
 	private ArrayList<long[]> results;
+	private long alleleCount;
 
 	// To deal with cases when the number of alleles breaks the 32bit INT limit
-	private double max, prg;
+	private double prg;
 
 	public AlleleStatistics(GTViewSet viewSet)
 	{
 		this.viewSet = viewSet;
-		max = viewSet.countAllAlleles(true);
-
-		// Actual progress will be cast back to a scale from 0 to 50K
-		maximum = 50000;
 	}
+
+	public long getAlleleCount()
+		{ return alleleCount; }
 
 	public ArrayList<long[]> getResults()
 		{ return results; }
@@ -34,20 +34,25 @@ public class AlleleStatistics extends SimpleJob
 	public void runJob(int index)
 		throws Exception
 	{
-		int viewCount = viewSet.getViews().size();
+		AnalysisSet as = new AnalysisSet(viewSet)
+			.withViews(null)
+			.withSelectedLines()
+			.withSelectedMarkers();
+
+		alleleCount = as.countAlleles();
+		// Actual progress will be cast back to a scale from 0 to 50K
+		maximum = 50000;
 
 		results = new ArrayList<long[]>();
 
 		// TODO: This could be multi-core optimized
-		for (GTView view: viewSet.getViews())
-			results.add(getStatistics(view));
-
-//		results = viewSet.getViews().parallelStream().map(view -> getStatistics(view)).collect(Collectors.toCollection(ArrayList::new));
+		for (int i = 0; i < as.getViewCount(); i++)
+			results.add(getStatistics(as, i));
 	}
 
 	// Returns an array with each element being the total number of alleles for
 	// that state (where each index is equivalent to a state in the state table.
-	private long[] getStatistics(GTView view)
+	private long[] getStatistics(AnalysisSet as, int chrIndex)
 	{
 		int stateCount = viewSet.getDataSet().getStateTable().size();
 
@@ -55,22 +60,19 @@ public class AlleleStatistics extends SimpleJob
 		// alleles within this view (chromosome)
 		long[] statistics = new long[stateCount+1];
 
-		for (int line = 0; line < view.lineCount() && okToRun; line++)
+		for (int line = 0; line < as.getLines().size() && okToRun; line++)
 		{
-			for (int marker = 0; marker < view.markerCount() && okToRun; marker++)
+			for (int marker = 0; marker < as.getMarkers(chrIndex).size() && okToRun; marker++)
 			{
-				if (view.getMarker(marker).dummyMarker() == false)
-				{
-					int state = view.getState(line, marker);
-					statistics[state]++;
+				int state = as.getState(chrIndex, line, marker);
+				statistics[state]++;
 
-					// Track the total
-					statistics[statistics.length-1]++;
-				}
+				// Track the total
+				statistics[statistics.length-1]++;
 
 				prg++;
 
-				progress = (int) ((prg/max) * 50000f);
+				progress = (int) ((prg/(double)alleleCount) * 50000f);
 			}
 		}
 
