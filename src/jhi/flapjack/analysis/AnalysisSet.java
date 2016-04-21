@@ -43,10 +43,9 @@ public class AnalysisSet
 		return this;
 	}
 
-	public AnalysisSet withSelectedLines()
+	public AnalysisSet withAllLines()
 	{
 		lines = viewSet.getLines().stream()
-			.filter(li -> li.getSelected())
 			.filter(li -> li.getDuplicate() == false)
 			.filter(li -> li.getLine() != dataSet.getDummyLine())
 			.filter(li -> li.getLine() != dataSet.getSplitter())
@@ -55,14 +54,38 @@ public class AnalysisSet
 		return this;
 	}
 
-	public AnalysisSet withSelectedMarkers()
+	public AnalysisSet withSelectedLines()
 	{
-		for (View view: views)
+		withAllLines();
+
+		lines = lines.stream()
+			.filter(li -> li.getSelected())
+			.collect(Collectors.toCollection(ArrayList::new));
+
+		return this;
+	}
+
+	public AnalysisSet withAllMarkers()
+	{
+		for (View view : views)
 		{
 			ArrayList<MarkerInfo> allMarkers = viewSet.getView(view.chrIndex).getMarkers();
 			view.markers = allMarkers.stream()
-				.filter(mi -> mi.getSelected())
 				.filter(mi -> !mi.dummyMarker())
+				.collect(Collectors.toCollection(ArrayList::new));
+		}
+
+		return this;
+	}
+
+	public AnalysisSet withSelectedMarkers()
+	{
+		withAllMarkers();
+
+		for (View view: views)
+		{
+			view.markers = view.markers.stream()
+				.filter(mi -> mi.getSelected())
 				.collect(Collectors.toCollection(ArrayList::new));
 		}
 
