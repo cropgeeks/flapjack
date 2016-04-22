@@ -57,7 +57,6 @@ public class AlleleState extends XMLRoot
 	public void setHomozygous(boolean isHomozygous)
 		{ this.isHomozygous = isHomozygous; }
 
-
 	// Other methods
 
 	public String toString()
@@ -129,4 +128,8 @@ public class AlleleState extends XMLRoot
 
 		return false;
 	}
+
+	// ***DO NOT USE*** for compatability with old versions only
+	public String xmlGetRawData()
+		{ return toString(); }
 }

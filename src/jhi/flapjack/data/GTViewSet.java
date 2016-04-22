@@ -147,7 +147,7 @@ public class GTViewSet extends XMLRoot
 		{ return views; }
 
 	public void setViews(ArrayList<GTView> views)
-		{ this.views = views; }
+	{ this.views = views; }
 
 	public CustomMaps getCustomMaps()
 		{ return customMaps; }

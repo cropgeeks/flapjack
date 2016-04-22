@@ -72,7 +72,9 @@
 	</class>
 
 	<!-- AlleleState -->
-	<class name="jhi.flapjack.data.AlleleState" extends="jhi.flapjack.data.XMLRoot" auto-complete="true"/>
+	<class name="jhi.flapjack.data.AlleleState" extends="jhi.flapjack.data.XMLRoot" auto-complete="true">
+		<field name="rawData" type="string" get-method="xmlGetRawData"/>
+	</class>
 
 	<!-- GTViewSet -->
 	<class name="jhi.flapjack.data.GTViewSet" extends="jhi.flapjack.data.XMLRoot" auto-complete="true">
