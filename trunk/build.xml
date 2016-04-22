@@ -8,7 +8,7 @@
 	<property name="cfg" location="config"/>
 	<property name="cls" location="classes"/>
 	<property name="jar" value="${lib}/flapjack.jar"/>
-	<property name="war" value="flapjack.war"/>
+	<property name="war" value="${ant.project.name}.war"/>
 
 	<!-- Development classpath -->
 	<path id="project.classpath">
@@ -120,10 +120,10 @@
 			classname="org.apache.catalina.ant.DeployTask"/>
 
 		<undeploy url="${tomcat.manager.url}" username="${tomcat.manager.username}" password="${tomcat.manager.password}"
-			path="${tomcat.manager.path}" failOnError="false"/>
+			path="/${project.name}" failOnError="false"/>
 
 		<deploy url="${tomcat.manager.url}"	username="${tomcat.manager.username}" password="${tomcat.manager.password}"
-			path="${tomcat.manager.path}" war="${war}"/>
+			path="/${project.name}" war="${war}"/>
 	</target>
 
 
