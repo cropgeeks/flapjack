@@ -19,45 +19,67 @@ class MabcTableModel extends AbstractTableModel
 	private DataSet dataSet;
 	private ArrayList<MABCLineStats> stats;
 
-	private int chrCount, qtlCount;
-	private int qtlColStartIndex;
 	private String[] columnNames;
+
+	private int chrCount, qtlCount;
+
+	// Indices to track what goes where
+	private int rppIndex, rppTotalIndex, rppCoverageIndex;
+	private int qtlIndex;
+
 
 	MabcTableModel(DataSet dataSet, ArrayList<MABCLineStats> stats)
 	{
 		this.dataSet = dataSet;
 		this.stats = stats;
 
-		setColumnNames();
+		initModel();
 	}
 
-	void setColumnNames()
+	void initModel()
 	{
-		// all chromosomes warning??
-		chrCount = dataSet.countChromosomeMaps();
-		qtlCount = stats.get(0).getQTLScores().size(); // <- fix for better determinatation needed
+		// Use information from the first result to determine the UI
+		MABCLineStats s = stats.get(0);
+		chrCount = s.getChrScores().size();
+		qtlCount = s.getQTLScores().size();
 
-		columnNames = new String[2 + chrCount + (2*qtlCount)];
+		// Column indices
+		rppIndex = 1;
+		rppTotalIndex = rppIndex + chrCount;
+		rppCoverageIndex = rppTotalIndex + 1;
+		qtlIndex = rppCoverageIndex + 1;
+
+		// TODO: UPDATE!
+		int colCount = rppCoverageIndex + 1;
+		columnNames = new String[colCount];
+
+		// LineInfo column
 		columnNames[0] = "Line";
 
-		int c = 1;
-		for (ChromosomeMap map: dataSet.getChromosomeMaps())
-			columnNames[c++] = map.getName();
+		// For each chromosome's RPP result:
+		for (int i = 0; i < s.getChrScores().size(); i++)
+		{
+			MABCLineStats.ChrScore cs = s.getChrScores().get(i);
+			ChromosomeMap map = dataSet.getChromosomeMaps().get(cs.chrMapIndex);
+			columnNames[rppIndex+i] = map.getName();
+		}
 
-		columnNames[1+chrCount] = "RPP Total";
-		qtlColStartIndex = 2+chrCount;
+		columnNames[rppTotalIndex] = "RPP Total";
+		columnNames[rppCoverageIndex] = "RPP Coverage";
 
-		// QTL section of the table
+
+/*		// QTL section of the table
 		int qtlIndex = 0;
 		ArrayList<MABCLineStats.QTLScore> scores = stats.get(0).getQTLScores();
 		for (MABCLineStats.QTLScore score: scores)
 		{
 			System.out.println(score.qtl.getQTL().getName());
 
-			columnNames[qtlColStartIndex+qtlIndex] = score.qtl.getQTL().getName();
-			columnNames[qtlColStartIndex+qtlIndex+1] = score.qtl.getQTL().getName() + " Status";
+			columnNames[qtlIndex+qtlIndex] = score.qtl.getQTL().getName();
+			columnNames[qtlIndex+qtlIndex+1] = score.qtl.getQTL().getName() + " Status";
 			qtlIndex += 2;
 	}
+		*/
 	}
 
 	@Override
@@ -78,18 +100,24 @@ class MabcTableModel extends AbstractTableModel
 
 	public Object getValueAt(int row, int col)
 	{
+		// Line name
 		if (col == 0)
 			return stats.get(row).getLineInfo().name();
 
 		// RPP values
-/*		else if (col <= (chrCount+1))
+		else if (col >= rppIndex && col < rppTotalIndex)
 		{
-			if (col == (chrCount+1))
-				return lineStats.get(row).getRPPTotal();
-			else
-				return lineStats.get(row).getSumRP().get(col-1);
+			return stats.get(row).getChrScores().get(col-rppIndex).sumRP;
 		}
-*/
+
+		// RPP Total
+		else if (col == rppTotalIndex)
+			return stats.get(row).getRPPTotal();
+
+		// RPP Coverage
+		else if (col == rppCoverageIndex)
+			return stats.get(row).getGenomeCoverage();
+
 		// QTL values
 		else
 		{
@@ -118,7 +146,8 @@ class MabcTableModel extends AbstractTableModel
 	@Override
 	public boolean isCellEditable(int row, int col)
 	{
-		return getColumnClass(col) == String.class;
+		return false;
+//		return getColumnClass(col) == String.class;
 	}
 
 	@Override
