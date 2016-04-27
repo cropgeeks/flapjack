@@ -17,7 +17,6 @@ public class CalculateSimMatrixDialog extends JDialog implements ActionListener,
 {
 	private GTViewSet viewSet;
 
-	private CalculateSimMatrixTableModel model;
 	private boolean isOK;
 
 	public CalculateSimMatrixDialog(GTViewSet viewSet)
@@ -56,37 +55,14 @@ public class CalculateSimMatrixDialog extends JDialog implements ActionListener,
 		RB.setText(bCancel, "gui.text.cancel");
 		bCancel.addActionListener(this);
 
-		GTView view = viewSet.getView(0);
-		lblSelectedLines.setText(RB.format("gui.dialog.analysis.CalculateSimMatrixDialog.lblSelectedLines", view.countSelectedLines(), view.lineCount()));
-
-		RB.setText(selectAllLabel, "gui.dialog.analysis.CalculateSimMatrixDialog.selectAll");
-		RB.setText(selectNoneLabel, "gui.dialog.analysis.CalculateSimMatrixDialog.selectNone");
-
-		selectAllLabel.addActionListener(this);
-		selectNoneLabel.addActionListener(this);
-		createTable(viewSet);
-	}
-
-	private void createTable(GTViewSet viewSet)
-	{
-		model = new CalculateSimMatrixTableModel(viewSet);
-		model.addTableModelListener(this);
-		chromosomesTable.setModel(model);
-
-		chromosomesTable.getColumnModel().getColumn(0).setPreferredWidth(20);
-		UIScaler.setCellHeight(chromosomesTable);
+		chromosomeSelectionPanel.setupComponents(viewSet);
 	}
 
 	// Generates a boolean array with a true/false selected state for each of
 	// the possible chromosomes that could be used in the sort
 	public boolean[] getSelectedChromosomes()
 	{
-		boolean[] array = new boolean[model.getRowCount()];
-
-		for (int i = 0; i < array.length; i++)
-			array[i] = (Boolean) model.getValueAt(i, 0);
-
-		return array;
+		return chromosomeSelectionPanel.getSelectedChromosomes();
 	}
 
 	public boolean isOK()
@@ -95,15 +71,7 @@ public class CalculateSimMatrixDialog extends JDialog implements ActionListener,
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
-		if (e.getSource() == selectAllLabel)
-			for (int i = 0; i < model.getRowCount(); i++)
-				model.setValueAt(true, i, 0);
-
-		else if (e.getSource() == selectNoneLabel)
-			for (int i = 0; i < model.getRowCount(); i++)
-				model.setValueAt(false, i, 0);
-
-		else if (e.getSource() == bOK)
+		if (e.getSource() == bOK)
 		{
 			isOK = true;
 			setVisible(false);
@@ -138,13 +106,7 @@ public class CalculateSimMatrixDialog extends JDialog implements ActionListener,
         dialogPanel1 = new scri.commons.gui.matisse.DialogPanel();
         bOK = new javax.swing.JButton();
         bCancel = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        chromosomesTable = new javax.swing.JTable();
-        selectAllLabel = new scri.commons.gui.matisse.HyperLinkLabel();
-        jLabel2 = new javax.swing.JLabel();
-        selectNoneLabel = new scri.commons.gui.matisse.HyperLinkLabel();
-        lblSelectedLines = new javax.swing.JLabel();
+        chromosomeSelectionPanel = new jhi.flapjack.gui.dialog.analysis.ChromosomeSelectionPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -154,28 +116,6 @@ public class CalculateSimMatrixDialog extends JDialog implements ActionListener,
         bCancel.setText("Cancel");
         dialogPanel1.add(bCancel);
 
-        jLabel1.setText("Only markers from the following selected chromosomes will be used:");
-
-        chromosomesTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][]
-            {
-
-            },
-            new String []
-            {
-
-            }
-        ));
-        jScrollPane1.setViewportView(chromosomesTable);
-
-        selectAllLabel.setText("Select all");
-
-        jLabel2.setText("|");
-
-        selectNoneLabel.setText("Select none");
-
-        lblSelectedLines.setText("Only the currently selected lines will be used: 0 / 0");
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -183,35 +123,14 @@ public class CalculateSimMatrixDialog extends JDialog implements ActionListener,
             .addComponent(dialogPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(selectAllLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(selectNoneLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(lblSelectedLines))
-                        .addGap(0, 55, Short.MAX_VALUE)))
-                .addContainerGap())
+                .addComponent(chromosomeSelectionPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(13, 13, 13)
-                .addComponent(lblSelectedLines)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(1, 1, 1)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 168, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(selectAllLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2)
-                    .addComponent(selectNoneLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap()
+                .addComponent(chromosomeSelectionPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 239, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(dialogPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -223,14 +142,8 @@ public class CalculateSimMatrixDialog extends JDialog implements ActionListener,
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bCancel;
     private javax.swing.JButton bOK;
-    javax.swing.JTable chromosomesTable;
+    private jhi.flapjack.gui.dialog.analysis.ChromosomeSelectionPanel chromosomeSelectionPanel;
     private scri.commons.gui.matisse.DialogPanel dialogPanel1;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel lblSelectedLines;
-    scri.commons.gui.matisse.HyperLinkLabel selectAllLabel;
-    scri.commons.gui.matisse.HyperLinkLabel selectNoneLabel;
     // End of variables declaration//GEN-END:variables
 
 }
