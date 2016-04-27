@@ -46,7 +46,7 @@ public class AlleleStatistics extends SimpleJob
 		results = new ArrayList<long[]>();
 
 		// TODO: This could be multi-core optimized
-		for (int i = 0; i < as.getViewCount(); i++)
+		for (int i = 0; i < as.viewCount(); i++)
 			results.add(getStatistics(as, i));
 	}
 
@@ -60,9 +60,9 @@ public class AlleleStatistics extends SimpleJob
 		// alleles within this view (chromosome)
 		long[] statistics = new long[stateCount+1];
 
-		for (int line = 0; line < as.getLines().size() && okToRun; line++)
+		for (int line = 0; line < as.lineCount() && okToRun; line++)
 		{
-			for (int marker = 0; marker < as.getMarkers(chrIndex).size() && okToRun; marker++)
+			for (int marker = 0; marker < as.markerCount(chrIndex) && okToRun; marker++)
 			{
 				int state = as.getState(chrIndex, line, marker);
 				statistics[state]++;

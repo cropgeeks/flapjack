@@ -31,9 +31,8 @@ public class MABCStats extends SimpleJob
 
 	private ArrayList<MABCLineStats> lineStats = new ArrayList<>();
 
-	// hard coded index of the parent line
-	int parent = 0;
-	boolean[] isHet;
+	// hard coded index of the RP line (index of the line minus duplicate, etc)
+	int rpIndex = 0;
 
 	public MABCStats(GTViewSet viewSet)
 	{
@@ -43,7 +42,7 @@ public class MABCStats extends SimpleJob
 	public ArrayList<MABCLineStats> getLineStats()
 		{ return lineStats; }
 
-	private void initLineStats()
+/*	private void initLineStats()
 		throws Exception
 	{
 		// TODO: HANDLE ALL CHROMOSOMES!!!
@@ -52,185 +51,161 @@ public class MABCStats extends SimpleJob
 		for (LineInfo line: viewSet.getLines())
 			lineStats.add(new MABCLineStats(line, chrCount));
 	}
-
+*/
 	public void runJob(int index)
 		throws Exception
 	{
-		initLineStats();
-
-		// Precalculate which allele states are hom or het
-		StateTable st = viewSet.getDataSet().getStateTable();
-		isHet = new boolean[st.getStates().size()];
-		for (int i =0; i < isHet.length; i++)
-			if (st.getAlleleState(i).isHomozygous() == false)
-				isHet[i] = true;
+	//	initLineStats();
 
 		calculateRPP();
 		calculateLinkageDrag();
 
-		fakeTraits();
+//		fakeTraits();
 	}
 
 	private void calculateRPP()
 		throws Exception
 	{
-		// TODO: Deal with dummy lines, markers, etc
-		// TODO: Deal with all chromosomes view: marker.position vs marker.getRealPosition
-		// TODO: Deal with FJ not having a chr length (as opposed to last marker's pos)
+		StateTable st = viewSet.getDataSet().getStateTable();
 
-//		int A = viewSet.getDataSet().getStateTable().indexOf("A");
-//		int H = viewSet.getDataSet().getStateTable().indexOf("H");
+		// This analysis will run on selected lines/markers only
+		AnalysisSet as = new AnalysisSet(viewSet)
+			.withViews(null)													// <-- USER STILL NEEDS TO PICK CHROMOSOMES TO WORK WITH (in dialog)
+			.withSelectedLines()
+			.withSelectedMarkers();
 
-		// Stores results for each chromosome
-		double[] coverage = new double[viewSet.chromosomeCount()];         // <---- ALL CHROMOSOMES
-		// Store genome coverage
-		double genomeCoverage = 0;
 
-		// For every chromsome
-		for (int c = 0; c < viewSet.getViews().size(); c++) // <---- ALL CHROMOSOMES
+		// For each line that we need to calculate stats for...
+		for (int lineIndex = 0; lineIndex < as.lineCount(); lineIndex++)
 		{
-			GTView view = viewSet.getView(c);
+			LineInfo line = as.getLine(lineIndex);
+			MABCLineStats stats = new MABCLineStats(line);
+			lineStats.add(stats);
 
-			ArrayList<MarkerInfo> markers = view.selectedMarkersAsList(); //view.getMarkers();
-			for (int i=0; i < markers.size(); i++)
+			// ...loop over each chromosome and work out RPP for it
+			for (int viewIndex = 0; viewIndex < as.viewCount(); viewIndex++)
 			{
-				MarkerInfo marker = markers.get(i);
+				MABCLineStats.ChrScore chrScore = new MABCLineStats.ChrScore();
+				stats.getChrScores().add(chrScore);
 
-				double gap = 0;
-				double gapEnd = 0;
-
-				// Add gap from 0 to first marker's position
-				if (i == 0)
+				for (int mrkIndex = 0; mrkIndex < as.markerCount(viewIndex); mrkIndex++)
 				{
-					float pos = marker.position();
-					gap = Math.min(pos, maxMarkerCoverage);
-				}
+					MarkerInfo marker = as.getMarker(viewIndex, mrkIndex);
 
-				// For every other marker, add gap between marker and previous
-				else if (i > 0)
-				{
+					double gap = 0;
+					double gapEnd = 0;
 
-					float pos1 = marker.position();
-					float prevPos = markers.get(i-1).position();
-
-					gap = Math.min(pos1 - prevPos, maxMarkerCoverage);
-				}
-
-				// Add gap from last marker to chromosome's end/length
-				if (i == markers.size()-1)
-				{
-
-					float chrLength = view.getChromosomeMap().getLength();
-					float dist = chrLength - marker.position();
-
-					gapEnd = Math.min(dist, maxMarkerCoverage);
-				}
-
-				coverage[c] += (gap + gapEnd);
-
-
-				ArrayList<LineInfo> lines = view.getViewSet().getLines();
-				for (int j = 0; j < lines.size(); j++)
-				{
-					LineInfo line = lines.get(j);
-					MABCLineStats stats = lineStats.get(j);
-
-					if (i == 0)
+					// Add gap from 0 to first marker's position
+					if (mrkIndex == 0)
 					{
-						int state = view.getState(j, i);
-						int pState = view.getState(parent, i);
-
-						if (isHet[state])
-						{
-							stats.updateRP(c, gap/2.0);
-							stats.updateDO(c, gap/2.0);
-						}
-						else if (state == pState)
-							stats.updateRP(c, gap);
-						else
-							stats.updateDO(c, gap);
+						float pos = marker.position();
+						gap = Math.min(pos, maxMarkerCoverage);
 					}
 
-					else if (i > 0)
+					// For every other marker, add gap between marker and previous
+					else if (mrkIndex > 0)
 					{
-						int state = view.getState(j, i);
-						int pState = view.getState(parent, i);
 
-						if (isHet[state])
+						float pos1 = marker.position();
+						float prevPos = as.getMarker(viewIndex, mrkIndex-1).position();
+
+						gap = Math.min(pos1 - prevPos, maxMarkerCoverage);
+					}
+
+					// Add gap from last marker to chromosome's end/length
+					if (mrkIndex == as.markerCount(viewIndex)-1)
+					{
+						float chrLength = as.getMapLength(viewIndex);
+						float dist = chrLength - marker.position();
+
+						gapEnd = Math.min(dist, maxMarkerCoverage);
+					}
+
+					chrScore.coverage += (gap + gapEnd);
+
+					int state = as.getState(viewIndex, lineIndex, mrkIndex);
+					int pState = as.getState(viewIndex, rpIndex, mrkIndex);
+
+
+					if (mrkIndex == 0)
+					{
+						if (st.isHet(state))
 						{
-							stats.updateRP(c, gap/4.0);
-							stats.updateDO(c, gap/4.0);
+							chrScore.sumRP += gap/2.0;
+							chrScore.sumDO += gap/2.0;
 						}
 						else if (state == pState)
-							stats.updateRP(c, gap/2.0);
+							chrScore.sumRP += gap;
 						else
-							stats.updateDO(c, gap/2.0);
+							chrScore.sumDO += gap;
+					}
 
-
-						int statePrev = view.getState(j, i-1);
-						int pStatePrev = view.getState(parent, i);
-
-						if (isHet[statePrev])
+					else if (mrkIndex > 0)
+					{
+						if (st.isHet(state))
 						{
-							stats.updateRP(c, gap/4.0);
-							stats.updateDO(c, gap/4.0);
+							chrScore.sumRP += gap/4.0;
+							chrScore.sumDO += gap/4.0;
+						}
+						else if (state == pState)
+							chrScore.sumRP += gap/2.0;
+						else
+							chrScore.sumDO += gap/2.0;
+
+
+						int statePrev = as.getState(viewIndex, lineIndex, mrkIndex-1);
+						int pStatePrev = as.getState(viewIndex, rpIndex, mrkIndex-1);
+
+						if (st.isHet(statePrev))
+						{
+							chrScore.sumRP += gap/4.0;
+							chrScore.sumDO += gap/4.0;
 						}
 						else if (statePrev == pStatePrev)
-							stats.updateRP(c, gap/2.0);
+							chrScore.sumRP += gap/2.0;
 						else
-							stats.updateDO(c, gap/2.0);
+							chrScore.sumDO += gap/2.0;
 					}
 
-					if (i == markers.size()-1)
+					if (mrkIndex == as.markerCount(viewIndex)-1)
 					{
-						int state = view.getState(j, i);
-						int pState = view.getState(parent, i);
-
-						if (isHet[state])
+						if (st.isHet(state))
 						{
-							stats.updateRP(c, gapEnd/2.0);
-							stats.updateDO(c, gapEnd/2.0);
+							chrScore.sumRP += gapEnd/2.0;
+							chrScore.sumDO += gapEnd/2.0;
 						}
 						else if (state == pState)
-							stats.updateRP(c, gapEnd);
+							chrScore.sumRP += gapEnd;
 						else
-							stats.updateDO(c, gapEnd);
+							chrScore.sumDO += gapEnd;
 					}
+
+
 				}
+
+				// Update the overal genome coverage
+				stats.updateAndAddGenomeCoverage(chrScore.coverage);
 			}
 
-			// Update the overal genome coverage
-			genomeCoverage += coverage[c];
-		}
+			float genomeLength = 0;
+			for (int viewIndex = 0; viewIndex < as.viewCount(); viewIndex++)
+				genomeLength += as.getMapLength(viewIndex);
 
-		float genomeLength = 0;
-		for (GTView view: viewSet.getViews())
-			genomeLength += view.mapLength();
-
-
-		for (MABCLineStats lStats: lineStats)
-		{
-			// Calculate RPP Total for this line
 			double rppTotal = 0;
-			for (double d: lStats.getSumRP())
-				rppTotal += d;
-
-			rppTotal *= (1.0/genomeCoverage);
-			lStats.setRppTotal(rppTotal);
-			lStats.setCoverage(genomeCoverage/genomeLength);
-
-			// Update the stored RP values to be ??? percentages?
-			for (int c = 0; c < lStats.getSumRP().size(); c++)
+			for (int viewIndex = 0; viewIndex < as.viewCount(); viewIndex++)
 			{
-				double value = lStats.getSumRP().get(c);
-				lStats.getSumRP().set(c, value * (1.0/coverage[c]));
+				MABCLineStats.ChrScore chrScore = stats.getChrScores().get(viewIndex);
+
+				// Calculate RPP Total for this line
+				rppTotal += chrScore.sumRP;
+				// Update the stored RP values to be ??? percentages?
+				chrScore.sumRP *= (1.0/chrScore.coverage);
 			}
 
-//			System.out.println(lStats + "\t" + (genomeCoverage/genomeLength));
+			// Update rppTotal to be a percentage of genome coverage (?)
+			rppTotal *= (1.0/stats.getGenomeCoverage());
+			stats.setGenomeCoverage(stats.getGenomeCoverage()/genomeLength);
 		}
-
-		// TODO : Store globally for this result set
-		genomeCoverage /= genomeLength;
 	}
 
 	// *****
@@ -274,7 +249,7 @@ public class MABCStats extends SimpleJob
 					// left-neighbour (or chrStart), until neighbour is from DP (eg "A")
 					for (int m = p.LM; m >= 0; m--)
 					{
-						if (m > 0 && view.getState(j, m-1) == view.getState(parent, m-1))
+						if (m > 0 && view.getState(j, m-1) == view.getState(rpIndex, m-1))
 							break;
 						if (m == 0)
 							score.drag += markers.get(m).position();
@@ -285,7 +260,7 @@ public class MABCStats extends SimpleJob
 					// Calculate drag to the right
 					for (int m = p.RM; m < markers.size(); m++)
 					{
-						if (m < markers.size()-2 && view.getState(j, m+1) == view.getState(parent, m+1))
+						if (m < markers.size()-2 && view.getState(j, m+1) == view.getState(rpIndex, m+1))
 							break;
 						if (m == markers.size()-1)
 							score.drag += view.getChromosomeMap().getLength()-markers.get(m).position();
@@ -297,7 +272,7 @@ public class MABCStats extends SimpleJob
 					for (int m = p.LM; m <= p.RM; m++)
 					{
 						int allele = view.getState(j, m);
-						int rp = view.getState(parent, m);
+						int rp = view.getState(rpIndex, m);
 						if (p.isDP && allele == rp || !p.isDP && allele != rp)
 							score.status = false;
 					}
@@ -359,7 +334,7 @@ public class MABCStats extends SimpleJob
 		int RM = -1;	// index of right marker under the QTL
 		boolean isDP;	// "Source" tag set to "DP" or not
 	}
-
+/*
 	private void fakeTraits()
 		throws Exception
 	{
@@ -412,4 +387,5 @@ public class MABCStats extends SimpleJob
 
 		Flapjack.winMain.mFile.importTraitData(tmp);
 	}
+*/
 }

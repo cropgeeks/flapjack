@@ -17,16 +17,16 @@ import scri.commons.gui.*;
 class MabcTableModel extends AbstractTableModel
 {
 	private DataSet dataSet;
-	private ArrayList<MABCLineStats> lineStats;
+	private ArrayList<MABCLineStats> stats;
 
 	private int chrCount, qtlCount;
 	private int qtlColStartIndex;
 	private String[] columnNames;
 
-	MabcTableModel(DataSet dataSet, ArrayList<MABCLineStats> lineStats)
+	MabcTableModel(DataSet dataSet, ArrayList<MABCLineStats> stats)
 	{
 		this.dataSet = dataSet;
-		this.lineStats = lineStats;
+		this.stats = stats;
 
 		setColumnNames();
 	}
@@ -35,7 +35,7 @@ class MabcTableModel extends AbstractTableModel
 	{
 		// all chromosomes warning??
 		chrCount = dataSet.countChromosomeMaps();
-		qtlCount = lineStats.get(0).getQTLScores().size(); // <- fix for better determinatation needed
+		qtlCount = stats.get(0).getQTLScores().size(); // <- fix for better determinatation needed
 
 		columnNames = new String[2 + chrCount + (2*qtlCount)];
 		columnNames[0] = "Line";
@@ -49,7 +49,7 @@ class MabcTableModel extends AbstractTableModel
 
 		// QTL section of the table
 		int qtlIndex = 0;
-		ArrayList<MABCLineStats.QTLScore> scores = lineStats.get(0).getQTLScores();
+		ArrayList<MABCLineStats.QTLScore> scores = stats.get(0).getQTLScores();
 		for (MABCLineStats.QTLScore score: scores)
 		{
 			System.out.println(score.qtl.getQTL().getName());
@@ -68,7 +68,7 @@ class MabcTableModel extends AbstractTableModel
 
 	public int getRowCount()
 	{
-		return lineStats.size();
+		return stats.size();
 	}
 
 	public int getColumnCount()
@@ -79,17 +79,17 @@ class MabcTableModel extends AbstractTableModel
 	public Object getValueAt(int row, int col)
 	{
 		if (col == 0)
-			return lineStats.get(row).getLineInfo().name();
+			return stats.get(row).getLineInfo().name();
 
 		// RPP values
-		else if (col <= (chrCount+1))
+/*		else if (col <= (chrCount+1))
 		{
 			if (col == (chrCount+1))
 				return lineStats.get(row).getRPPTotal();
 			else
 				return lineStats.get(row).getSumRP().get(col-1);
 		}
-
+*/
 		// QTL values
 		else
 		{

@@ -45,6 +45,8 @@ public class AnalysisSet
 
 	public AnalysisSet withAllLines()
 	{
+		// Filters the GTViewSet's list of lines so we only get actual lines
+		// (and not dummies, sort splitters, or duplicates)
 		lines = viewSet.getLines().stream()
 			.filter(li -> li.getDuplicate() == false)
 			.filter(li -> li.getLine() != dataSet.getDummyLine())
@@ -69,6 +71,8 @@ public class AnalysisSet
 	{
 		for (View view : views)
 		{
+			// Filters the GTView's list of markers so that we only get actual
+			// markers, and not any of the dummy ones
 			ArrayList<MarkerInfo> allMarkers = viewSet.getView(view.chrIndex).getMarkers();
 			view.markers = allMarkers.stream()
 				.filter(mi -> !mi.dummyMarker())
@@ -92,20 +96,39 @@ public class AnalysisSet
 		return this;
 	}
 
-	/** Returns a count of the number of views held by this AnalysisSet. */
-	public int getViewCount()
-		{ return views.size(); }
-
-	public ArrayList<LineInfo> getLines()
+/*	public ArrayList<LineInfo> getLines()
 		{ return lines; }
 
 	public ArrayList<MarkerInfo> getMarkers(int chrIndex)
 		{ return views.get(chrIndex).markers; }
-
+*/
 	public int getState(int view, int line, int marker)
 	{
 		return views.get(view).getState(line, marker);
 	}
+
+	public float getMapLength(int view)
+	{
+		return views.get(view).mapLength();
+	}
+
+	/** Returns a count of the number of views held by this AnalysisSet. */
+	public int viewCount()
+		{ return views.size(); }
+
+	public int lineCount()
+		{ return lines.size(); }
+
+	public int markerCount(int chrIndex)
+		{ return views.get(chrIndex).markers.size(); }
+
+	public LineInfo getLine(int lineIndex)
+		{ return lines.get(lineIndex); }
+
+	public MarkerInfo getMarker(int chrIndex, int markerIndex)
+		{ return views.get(chrIndex).markers.get(markerIndex); }
+
+
 
 	/** Returns a count of all the alleles (markerCount x lineCount). */
 	public long countAlleles()
@@ -120,6 +143,7 @@ public class AnalysisSet
 	private class View
 	{
 		private ArrayList<MarkerInfo> markers;
+		// The index of the chromosome in the original (full) DataSet
 		private int chrIndex;
 
 		View(int chrIndex)
@@ -133,6 +157,11 @@ public class AnalysisSet
 			int mrkIndex = markers.get(markerIndex).getIndex();
 			// And then look up the allele at this position for the line
 			return lines.get(lineIndex).getState(chrIndex, mrkIndex);
+		}
+
+		public float mapLength()
+		{
+			return viewSet.getView(chrIndex).getChromosomeMap().getLength();
 		}
 	}
 }
