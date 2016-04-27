@@ -41,10 +41,6 @@ public class PedVerStats extends SimpleJob
 	{
 		// Precalculate which allele states are hom or het
 		StateTable st = viewSet.getDataSet().getStateTable();
-		boolean[] isHet = new boolean[st.getStates().size()];
-		for (int i =0; i < isHet.length; i++)
-			if (st.getAlleleState(i).isHomozygous() == false)
-				isHet[i] = true;
 
 		int lineCount = viewSet.getLines().size();
 		for (int line = 0; line < lineCount; line++)     // <-- selectedLinesAsArray ??
@@ -68,7 +64,7 @@ public class PedVerStats extends SimpleJob
 
 					if (state == 0)
 						score.misCount++;
-					else if (isHet[state])
+					else if (st.isHet(state))
 						score.hetCount++;
 					else
 						score.homCount++;

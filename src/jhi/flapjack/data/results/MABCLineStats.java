@@ -13,37 +13,29 @@ public class MABCLineStats
 	private LineInfo line;
 
 	// One per chromosome...
-	private ArrayList<Double> sumRP = new ArrayList<>();
-	private ArrayList<Double> sumDO = new ArrayList<>();
-
+	private ArrayList<ChrScore> chrScores = new ArrayList<>();
 	private double rppTotal;
-	private double coverage;
-
+	private double genomeCoverage;
 
 	// One per QTL
 	private ArrayList<QTLScore> qtlScores = new ArrayList<>();
 
-	public MABCLineStats(LineInfo line, int chrCount)
+	public MABCLineStats(LineInfo line)
 	{
 		this.line = line;
-
-		for (int i = 0; i < chrCount; i++)
-		{
-			sumRP.add(0.0);
-			sumDO.add(0.0);
-		}
 	}
+
+	public ArrayList<ChrScore> getChrScores()
+		{ return chrScores; }
 
 	public ArrayList<QTLScore> getQTLScores()
 		{ return qtlScores; }
 
-	// TODO: Lose - coverage only needs to be stored ONCE, not for every line
-	public double getCoverage()
-		{ return coverage; }
+		public double getGenomeCoverage()
+		{ return genomeCoverage; }
 
-	public void setCoverage(double coverage)
-		{ this.coverage = coverage; }
-	/////////////////////////////////////////////////////////////////////////
+	public void setGenomeCoverage(double genomeCoverage)
+		{ this.genomeCoverage = genomeCoverage; }
 
 	public LineInfo getLineInfo()
 		{ return line; }
@@ -54,33 +46,16 @@ public class MABCLineStats
 	public void setRppTotal(double rppTotal)
 		{ this.rppTotal = rppTotal; }
 
-	public ArrayList<Double> getSumRP()
-		{ return sumRP; }
 
-	public ArrayList<Double> getSumDO()
-		{ return sumDO; }
-
-	// Fudge to do a += on values held in the ArrayList
-	public void updateRP(int index, double value)
+	public void updateAndAddGenomeCoverage(double value)
 	{
-		sumRP.set(index, sumRP.get(index) + value);
+		genomeCoverage += value;
 	}
 
-	public void updateDO(int index, double value)
+	public static class ChrScore
 	{
-		sumDO.set(index, sumDO.get(index) + value);
-	}
-
-	public String toString()
-	{
-		java.text.NumberFormat nf = java.text.NumberFormat.getInstance();
-
-		String str = "";
-		for (double d: sumRP)
-			str += nf.format(d) + "\t";
-		str += nf.format(rppTotal);
-
-		return str;
+//		public int chrIndex;
+		public double coverage, sumRP, sumDO;
 	}
 
 	public static class QTLScore

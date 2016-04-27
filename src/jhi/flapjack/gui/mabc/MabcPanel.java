@@ -60,7 +60,7 @@ public class MabcPanel extends JPanel implements ActionListener
 		}
 
 		NumberFormat nf = NumberFormat.getInstance();
-		controls.coverageLabel.setText("RPP Coverage: " + nf.format(lineStats.get(0).getCoverage()));
+//		controls.coverageLabel.setText("RPP Coverage: " + nf.format(lineStats.get(0).getCoverage()));
 	}
 
 	public void actionPerformed(ActionEvent e)

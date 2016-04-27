@@ -96,6 +96,11 @@ public class StateTable extends XMLRoot
 		states.remove(index);
 	}
 
+	public boolean isHet(int stateIndex)
+	{
+		return (states.get(stateIndex).isHomozygous() == false);
+	}
+
 	public void resetTable()
 	{
 		// Keep the default empty state
