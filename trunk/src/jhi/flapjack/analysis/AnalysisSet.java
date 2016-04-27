@@ -73,7 +73,7 @@ public class AnalysisSet
 		{
 			// Filters the GTView's list of markers so that we only get actual
 			// markers, and not any of the dummy ones
-			ArrayList<MarkerInfo> allMarkers = viewSet.getView(view.chrIndex).getMarkers();
+			ArrayList<MarkerInfo> allMarkers = viewSet.getView(view.chrMapIndex).getMarkers();
 			view.markers = allMarkers.stream()
 				.filter(mi -> !mi.dummyMarker())
 				.collect(Collectors.toCollection(ArrayList::new));
@@ -107,10 +107,13 @@ public class AnalysisSet
 		return views.get(view).getState(line, marker);
 	}
 
-	public float getMapLength(int view)
-	{
-		return views.get(view).mapLength();
-	}
+	public float mapLength(int view)
+		{ return views.get(view).mapLength(); }
+
+	/** Returns the index within the original DataSet of the ChromosomeMap/GTView
+	 * currently at index 'view' in this AnalysisSet. */
+	public int chrMapIndex(int view)
+		{ return views.get(view).chrMapIndex(); }
 
 	/** Returns a count of the number of views held by this AnalysisSet. */
 	public int viewCount()
@@ -144,11 +147,11 @@ public class AnalysisSet
 	{
 		private ArrayList<MarkerInfo> markers;
 		// The index of the chromosome in the original (full) DataSet
-		private int chrIndex;
+		private int chrMapIndex;
 
-		View(int chrIndex)
+		View(int chrMapIndex)
 		{
-			this.chrIndex = chrIndex;
+			this.chrMapIndex = chrMapIndex;
 		}
 
 		public int getState(int lineIndex, int markerIndex)
@@ -156,12 +159,19 @@ public class AnalysisSet
 			// Get the real index (in the original data) of the marker
 			int mrkIndex = markers.get(markerIndex).getIndex();
 			// And then look up the allele at this position for the line
-			return lines.get(lineIndex).getState(chrIndex, mrkIndex);
+			return lines.get(lineIndex).getState(chrMapIndex, mrkIndex);
 		}
+
+		// If the number of "getter" methods here starts to get above five, we
+		// should rethink whether they should even be here, or whether
+		// AnalysisSet simple returns a reference to the view/chromosomes/whatever
 
 		public float mapLength()
 		{
-			return viewSet.getView(chrIndex).getChromosomeMap().getLength();
+			return viewSet.getView(chrMapIndex).getChromosomeMap().getLength();
 		}
+
+		public int chrMapIndex()
+			{ return chrMapIndex; }
 	}
 }

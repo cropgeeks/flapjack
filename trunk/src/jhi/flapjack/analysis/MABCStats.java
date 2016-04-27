@@ -86,6 +86,7 @@ public class MABCStats extends SimpleJob
 			for (int viewIndex = 0; viewIndex < as.viewCount(); viewIndex++)
 			{
 				MABCLineStats.ChrScore chrScore = new MABCLineStats.ChrScore();
+				chrScore.chrMapIndex = as.chrMapIndex(viewIndex);
 				stats.getChrScores().add(chrScore);
 
 				for (int mrkIndex = 0; mrkIndex < as.markerCount(viewIndex); mrkIndex++)
@@ -115,7 +116,7 @@ public class MABCStats extends SimpleJob
 					// Add gap from last marker to chromosome's end/length
 					if (mrkIndex == as.markerCount(viewIndex)-1)
 					{
-						float chrLength = as.getMapLength(viewIndex);
+						float chrLength = as.mapLength(viewIndex);
 						float dist = chrLength - marker.position();
 
 						gapEnd = Math.min(dist, maxMarkerCoverage);
@@ -189,7 +190,7 @@ public class MABCStats extends SimpleJob
 
 			float genomeLength = 0;
 			for (int viewIndex = 0; viewIndex < as.viewCount(); viewIndex++)
-				genomeLength += as.getMapLength(viewIndex);
+				genomeLength += as.mapLength(viewIndex);
 
 			double rppTotal = 0;
 			for (int viewIndex = 0; viewIndex < as.viewCount(); viewIndex++)
@@ -204,6 +205,7 @@ public class MABCStats extends SimpleJob
 
 			// Update rppTotal to be a percentage of genome coverage (?)
 			rppTotal *= (1.0/stats.getGenomeCoverage());
+			stats.setRppTotal(rppTotal);
 			stats.setGenomeCoverage(stats.getGenomeCoverage()/genomeLength);
 		}
 	}
