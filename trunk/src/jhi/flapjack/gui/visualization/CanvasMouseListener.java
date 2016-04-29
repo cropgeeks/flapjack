@@ -21,6 +21,9 @@ class CanvasMouseListener extends MouseInputAdapter
 	// Deals with pop-up menus
 	private CanvasMenu canvasMenu;
 
+	// Infopane overlay renderer
+	private GenotypeCanvasInfoPane infoPane;
+
 	// Deals with interative issues
 	private InteractiveHandler iHandler = new InteractiveHandler();
 	// Deals with navigation issues
@@ -37,6 +40,8 @@ class CanvasMouseListener extends MouseInputAdapter
 		this.canvas = canvas;
 
 		canvasMenu = new CanvasMenu(canvas, winMain);
+		infoPane = new GenotypeCanvasInfoPane(gPanel, canvas);
+		canvas.overlays.add(infoPane);
 
 		canvas.addMouseListener(this);
 		canvas.addMouseMotionListener(this);
@@ -136,6 +141,8 @@ class CanvasMouseListener extends MouseInputAdapter
 
 		if (canvasMenu.isShowingMenu() == false)
 			gPanel.overRow(xIndex, yIndex);
+
+		infoPane.setMousePosition(e.getPoint());
 	}
 
 	public void mouseEntered(MouseEvent e)
@@ -149,6 +156,8 @@ class CanvasMouseListener extends MouseInputAdapter
 		// over the canvas but "off" the canvas due to being in the popup menu
 		if (canvasMenu.isShowingMenu() == false)
 			gPanel.overRow(-1, -1);
+
+		infoPane.setMousePosition(null);
 	}
 
 	public void mouseWheelMoved(MouseWheelEvent e)

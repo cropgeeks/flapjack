@@ -180,6 +180,8 @@ public class Prefs extends XMLPreferences
 
 	// Mouse-over crosshair?
 	public static boolean visCrosshair = true;
+	// Mouse-over tooltips?
+	public static boolean visTooltip = true;
 
 	// Disable gradient painting?
 	public static boolean visDisableGradients = false;

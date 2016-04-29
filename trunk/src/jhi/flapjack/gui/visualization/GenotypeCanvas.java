@@ -261,7 +261,7 @@ class GenotypeCanvas extends JPanel
 			view.mouseOverMarker = colIndex;
 		}
 
-		if (Prefs.visCrosshair)
+		if (Prefs.visCrosshair || Prefs.visTooltip)
 			repaint();
 	}
 

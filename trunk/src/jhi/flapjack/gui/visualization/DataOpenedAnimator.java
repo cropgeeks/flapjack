@@ -25,7 +25,7 @@ public class DataOpenedAnimator extends Thread implements IOverlayRenderer
 
 	public void run()
 	{
-		canvas.overlays.add(this);
+		canvas.overlays.addFirst(this);
 
 		// This wait is needed as when Flapjack is first loaded, the canvas will
 		// not have size values set properly until it is displayed
