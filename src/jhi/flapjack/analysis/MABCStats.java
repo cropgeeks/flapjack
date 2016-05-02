@@ -42,38 +42,25 @@ public class MABCStats extends SimpleJob
 	public ArrayList<MABCLineStats> getLineStats()
 		{ return lineStats; }
 
-/*	private void initLineStats()
-		throws Exception
-	{
-		// TODO: HANDLE ALL CHROMOSOMES!!!
-		int chrCount = viewSet.chromosomeCount();
-
-		for (LineInfo line: viewSet.getLines())
-			lineStats.add(new MABCLineStats(line, chrCount));
-	}
-*/
 	public void runJob(int index)
 		throws Exception
 	{
-	//	initLineStats();
-
-		calculateRPP();
-		calculateLinkageDrag();
-
-//		fakeTraits();
-	}
-
-	private void calculateRPP()
-		throws Exception
-	{
-		StateTable st = viewSet.getDataSet().getStateTable();
-
 		// This analysis will run on selected lines/markers only
 		AnalysisSet as = new AnalysisSet(viewSet)
 			.withViews(null)													// <-- USER STILL NEEDS TO PICK CHROMOSOMES TO WORK WITH (in dialog)
 			.withSelectedLines()
 			.withSelectedMarkers();
 
+		calculateRPP(as);
+		calculateLinkageDrag(as);
+
+//		fakeTraits();
+	}
+
+	private void calculateRPP(AnalysisSet as)
+		throws Exception
+	{
+		StateTable st = viewSet.getDataSet().getStateTable();
 
 		// For each line that we need to calculate stats for...
 		for (int lineIndex = 0; lineIndex < as.lineCount(); lineIndex++)
@@ -210,34 +197,24 @@ public class MABCStats extends SimpleJob
 		}
 	}
 
-	// *****
-	// selectedMarkersAsList (or lines etc) only works until we do view.getState(line, marker)
-	// at which point the indices will all be wrong. MORE TO THINK ABOUT!!!
-	// Could we build an AnalysisView wrapper that is given lists of lines, markers, etc
-	// and duplicates hte functionality of view.getState() but obviously only
-	// using the subsetted arrays rather than the full view??
-	// *****
-
-	private void calculateLinkageDrag()
+	private void calculateLinkageDrag(AnalysisSet as)
 	{
-//		int A = viewSet.getDataSet().getStateTable().indexOf("A");
-
-		for (GTView view: viewSet.getViews())
-			indexQTLs(view);
+		for (int viewIndex = 0; viewIndex < as.viewCount(); viewIndex++)
+			indexQTLs(as, viewIndex);
 
 
 		// For each line in the dataset
-		for (int j = 0; j < lineStats.size(); j++)
+		for (int lineIndex = 0; lineIndex < lineStats.size(); lineIndex++)
 		{
 			// Get its MABC stats collector thing
-			MABCLineStats stats = lineStats.get(j);
+			MABCLineStats stats = lineStats.get(lineIndex);
 
 			// For each QTL (across each of the chromosomes)
-			for (GTView view: viewSet.getViews()) // <---- ALL CHROMOSOMES
+			for (int viewIndex = 0; viewIndex < as.viewCount(); viewIndex++)
 			{
-				ArrayList<MarkerInfo> markers = view.selectedMarkersAsList();
+				ArrayList<MarkerInfo> markers = as.getMarkers(viewIndex);
 
-				for (QTLInfo qtl: view.visibleQTLsAsList())
+				for (QTLInfo qtl: as.qtls(viewIndex))
 				{
 					QTLParams p = qtlHash.get(qtl);
 					if (p == null)
@@ -251,7 +228,7 @@ public class MABCStats extends SimpleJob
 					// left-neighbour (or chrStart), until neighbour is from DP (eg "A")
 					for (int m = p.LM; m >= 0; m--)
 					{
-						if (m > 0 && view.getState(j, m-1) == view.getState(rpIndex, m-1))
+						if (m > 0 && as.getState(viewIndex, lineIndex, m-1) == as.getState(viewIndex, rpIndex, m-1))
 							break;
 						if (m == 0)
 							score.drag += markers.get(m).position();
@@ -262,10 +239,10 @@ public class MABCStats extends SimpleJob
 					// Calculate drag to the right
 					for (int m = p.RM; m < markers.size(); m++)
 					{
-						if (m < markers.size()-2 && view.getState(j, m+1) == view.getState(rpIndex, m+1))
+						if (m <= markers.size()-2 && as.getState(viewIndex, lineIndex, m+1) == as.getState(viewIndex, rpIndex, m+1))
 							break;
 						if (m == markers.size()-1)
-							score.drag += view.getChromosomeMap().getLength()-markers.get(m).position();
+							score.drag += as.mapLength(viewIndex)-markers.get(m).position();
 						else
 							score.drag += markers.get(m+1).position()-markers.get(m).position();
 					}
@@ -273,8 +250,8 @@ public class MABCStats extends SimpleJob
 					// Finally, confirm status
 					for (int m = p.LM; m <= p.RM; m++)
 					{
-						int allele = view.getState(j, m);
-						int rp = view.getState(rpIndex, m);
+						int allele = as.getState(viewIndex, lineIndex, m);
+						int rp = as.getState(viewIndex, rpIndex, m);
 						if (p.isDP && allele == rp || !p.isDP && allele != rp)
 							score.status = false;
 					}
@@ -289,11 +266,11 @@ public class MABCStats extends SimpleJob
 	// right-most markers under its region
 	// THIS NEEDS SERIOUS OPTIMIZATION
 	// Too many iterations over the markers array - want to loop once ideally
-	private void indexQTLs(GTView view)
+	private void indexQTLs(AnalysisSet as, int viewIndex)
 	{
-		ArrayList<MarkerInfo> markers = view.selectedMarkersAsList();
+		ArrayList<MarkerInfo> markers = as.getMarkers(viewIndex);
 
-		for (QTLInfo qtl: view.visibleQTLsAsList())
+		for (QTLInfo qtl: as.qtls(viewIndex))
 		{
 			QTLParams params = new QTLParams();
 
