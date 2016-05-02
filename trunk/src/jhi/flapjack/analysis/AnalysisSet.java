@@ -115,6 +115,9 @@ public class AnalysisSet
 	public int chrMapIndex(int view)
 		{ return views.get(view).chrMapIndex(); }
 
+	public ArrayList<QTLInfo> qtls(int view)
+		{ return views.get(view).qtls(); }
+
 	/** Returns a count of the number of views held by this AnalysisSet. */
 	public int viewCount()
 		{ return views.size(); }
@@ -131,6 +134,8 @@ public class AnalysisSet
 	public MarkerInfo getMarker(int chrIndex, int markerIndex)
 		{ return views.get(chrIndex).markers.get(markerIndex); }
 
+	public ArrayList<MarkerInfo> getMarkers(int chrIndex)
+		{ return views.get(chrIndex).markers; }
 
 
 	/** Returns a count of all the alleles (markerCount x lineCount). */
@@ -173,5 +178,8 @@ public class AnalysisSet
 
 		public int chrMapIndex()
 			{ return chrMapIndex; }
+
+		public ArrayList<QTLInfo> qtls()
+			{ return viewSet.getView(chrMapIndex).getQTLs(); }
 	}
 }

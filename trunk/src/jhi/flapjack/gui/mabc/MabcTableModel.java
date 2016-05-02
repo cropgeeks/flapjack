@@ -50,7 +50,7 @@ class MabcTableModel extends AbstractTableModel
 		qtlIndex = rppCoverageIndex + 1;
 
 		// TODO: UPDATE!
-		int colCount = rppCoverageIndex + 1;
+		int colCount = qtlIndex + (qtlCount*2);
 		columnNames = new String[colCount];
 
 		// LineInfo column
@@ -67,19 +67,14 @@ class MabcTableModel extends AbstractTableModel
 		columnNames[rppTotalIndex] = "RPP Total";
 		columnNames[rppCoverageIndex] = "RPP Coverage";
 
-
-/*		// QTL section of the table
-		int qtlIndex = 0;
-		ArrayList<MABCLineStats.QTLScore> scores = stats.get(0).getQTLScores();
-		for (MABCLineStats.QTLScore score: scores)
+		// QTL section of the table
+		int qtl = 0;
+		for (MABCLineStats.QTLScore score: s.getQTLScores())
 		{
-			System.out.println(score.qtl.getQTL().getName());
-
-			columnNames[qtlIndex+qtlIndex] = score.qtl.getQTL().getName();
-			columnNames[qtlIndex+qtlIndex+1] = score.qtl.getQTL().getName() + " Status";
-			qtlIndex += 2;
-	}
-		*/
+			columnNames[qtlIndex+(qtl*2)] = score.qtl.getQTL().getName() + " LD";
+			columnNames[qtlIndex+(qtl*2)+1] = score.qtl.getQTL().getName() + " Status";
+			qtl++;
+		}
 	}
 
 	@Override
@@ -119,18 +114,19 @@ class MabcTableModel extends AbstractTableModel
 			return stats.get(row).getGenomeCoverage();
 
 		// QTL values
-		else
+		else if (col >= qtlIndex)
 		{
-//			int offset = qtlColStartIndex % col;
+			col = col-qtlIndex;
+			int qtl = col / 2;
 
-//			ArrayList<MABCLineStats.QTLScore> scores = lineStats.get(row).getQTLScores();
-//			MABCLineStats.QTLScore score = scores.get(qtlColStartIndex+col+offset);
+			MABCLineStats.QTLScore score = stats.get(row).getQTLScores().get(qtl);
 
-//			if (offset == 0)
-//				return score.drag;
-//			else
-//				return score.status;
+			if (col % 2 == 0)
+				return score.drag;
+			else
+				return score.status ? 1 : 0;
 		}
+
 		return -9;
 	}
 
