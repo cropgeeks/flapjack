@@ -17,7 +17,6 @@ public class MABCStatsDialog extends JDialog implements ActionListener, TableMod
 {
 	private GTViewSet viewSet;
 
-	private CalculateSimMatrixTableModel model;
 	private boolean isOK;
 
 	public MABCStatsDialog(GTViewSet viewSet)
@@ -56,36 +55,14 @@ public class MABCStatsDialog extends JDialog implements ActionListener, TableMod
 		RB.setText(bCancel, "gui.text.cancel");
 		bCancel.addActionListener(this);
 
-		GTView view = viewSet.getView(0);
-
-		RB.setText(selectAllLabel, "gui.dialog.analysis.CalculateSimMatrixDialog.selectAll");
-		RB.setText(selectNoneLabel, "gui.dialog.analysis.CalculateSimMatrixDialog.selectNone");
-
-		selectAllLabel.addActionListener(this);
-		selectNoneLabel.addActionListener(this);
-		createTable(viewSet);
-	}
-
-	private void createTable(GTViewSet viewSet)
-	{
-		model = new CalculateSimMatrixTableModel(viewSet);
-		model.addTableModelListener(this);
-		chromosomesTable.setModel(model);
-
-		chromosomesTable.getColumnModel().getColumn(0).setPreferredWidth(20);
-		UIScaler.setCellHeight(chromosomesTable);
+		chromosomeSelectionPanel.setupComponents(viewSet);
 	}
 
 	// Generates a boolean array with a true/false selected state for each of
 	// the possible chromosomes that could be used in the sort
 	public boolean[] getSelectedChromosomes()
 	{
-		boolean[] array = new boolean[model.getRowCount()];
-
-		for (int i = 0; i < array.length; i++)
-			array[i] = (Boolean) model.getValueAt(i, 0);
-
-		return array;
+		return chromosomeSelectionPanel.getSelectedChromosomes();
 	}
 
 	public boolean isOK()
@@ -94,15 +71,7 @@ public class MABCStatsDialog extends JDialog implements ActionListener, TableMod
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
-		if (e.getSource() == selectAllLabel)
-			for (int i = 0; i < model.getRowCount(); i++)
-				model.setValueAt(true, i, 0);
-
-		else if (e.getSource() == selectNoneLabel)
-			for (int i = 0; i < model.getRowCount(); i++)
-				model.setValueAt(false, i, 0);
-
-		else if (e.getSource() == bOK)
+		if (e.getSource() == bOK)
 		{
 			isOK = true;
 			setVisible(false);
@@ -137,14 +106,9 @@ public class MABCStatsDialog extends JDialog implements ActionListener, TableMod
         dialogPanel1 = new scri.commons.gui.matisse.DialogPanel();
         bOK = new javax.swing.JButton();
         bCancel = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        chromosomesTable = new javax.swing.JTable();
-        selectAllLabel = new scri.commons.gui.matisse.HyperLinkLabel();
-        jLabel2 = new javax.swing.JLabel();
-        selectNoneLabel = new scri.commons.gui.matisse.HyperLinkLabel();
         jLabel3 = new javax.swing.JLabel();
         jSpinner1 = new javax.swing.JSpinner();
+        chromosomeSelectionPanel = new jhi.flapjack.gui.dialog.analysis.ChromosomeSelectionPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -153,26 +117,6 @@ public class MABCStatsDialog extends JDialog implements ActionListener, TableMod
 
         bCancel.setText("Cancel");
         dialogPanel1.add(bCancel);
-
-        jLabel1.setText("Limit analysis to selected markers/lines from the following chromosomes only:");
-
-        chromosomesTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][]
-            {
-
-            },
-            new String []
-            {
-
-            }
-        ));
-        jScrollPane1.setViewportView(chromosomesTable);
-
-        selectAllLabel.setText("Select all");
-
-        jLabel2.setText("|");
-
-        selectNoneLabel.setText("Select none");
 
         jLabel3.setText("Max coverage per marker (cM): ");
 
@@ -184,22 +128,12 @@ public class MABCStatsDialog extends JDialog implements ActionListener, TableMod
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(selectAllLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(selectNoneLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(chromosomeSelectionPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -208,18 +142,10 @@ public class MABCStatsDialog extends JDialog implements ActionListener, TableMod
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE)
+                .addComponent(chromosomeSelectionPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 213, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(selectAllLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2)
-                    .addComponent(selectNoneLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(22, 22, 22)
-                .addComponent(dialogPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addComponent(dialogPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
@@ -229,15 +155,10 @@ public class MABCStatsDialog extends JDialog implements ActionListener, TableMod
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bCancel;
     private javax.swing.JButton bOK;
-    javax.swing.JTable chromosomesTable;
+    private jhi.flapjack.gui.dialog.analysis.ChromosomeSelectionPanel chromosomeSelectionPanel;
     private scri.commons.gui.matisse.DialogPanel dialogPanel1;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSpinner jSpinner1;
-    scri.commons.gui.matisse.HyperLinkLabel selectAllLabel;
-    scri.commons.gui.matisse.HyperLinkLabel selectNoneLabel;
     // End of variables declaration//GEN-END:variables
 
 }
