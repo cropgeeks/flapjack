@@ -22,11 +22,6 @@ public class ChromosomeSelectionPanel extends JPanel implements ActionListener
 
 		setBackground(Color.WHITE);
 
-		RB.setText(lblMarkersFromChr, "gui.dialog.analysis.ChromosomeSelectionPanel.lblMarkersFromChr");
-
-		RB.setText(selectAllLabel, "gui.dialog.analysis.ChromosomeSelectionPanel.selectAll");
-		RB.setText(selectNoneLabel, "gui.dialog.analysis.ChromosomeSelectionPanel.selectNone");
-
 		selectAllLabel.addActionListener(this);
 		selectNoneLabel.addActionListener(this);
     }
@@ -41,6 +36,11 @@ public class ChromosomeSelectionPanel extends JPanel implements ActionListener
 		selectedLines.withSelectedLines();
 
 		lblSelectedLines.setText(RB.format("gui.dialog.analysis.ChromosomeSelectionPanel.lblSelectedLines", selectedLines.lineCount(), allLines.lineCount()));
+
+		RB.setText(lblMarkersFromChr, "gui.dialog.analysis.ChromosomeSelectionPanel.lblMarkersFromChr");
+
+		RB.setText(selectAllLabel, "gui.dialog.analysis.ChromosomeSelectionPanel.selectAll");
+		RB.setText(selectNoneLabel, "gui.dialog.analysis.ChromosomeSelectionPanel.selectNone");
 
 		// Setup analysis objects from which we'll get our counts of selected and all markers for each chromosome, as
 		// well as the chromosome names
