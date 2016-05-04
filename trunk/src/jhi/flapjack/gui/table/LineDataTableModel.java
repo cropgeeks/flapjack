@@ -3,6 +3,7 @@
 
 package jhi.flapjack.gui.table;
 
+import java.awt.*;
 import javax.swing.table.*;
 
 import jhi.flapjack.data.*;
@@ -10,8 +11,8 @@ import jhi.flapjack.data.*;
 public abstract class LineDataTableModel extends AbstractTableModel
 {
 	protected DataSet dataSet;
-
 	protected String[] columnNames;
+
 
 	@Override
 	public String getColumnName(int col)
@@ -23,5 +24,10 @@ public abstract class LineDataTableModel extends AbstractTableModel
 	public int getColumnCount()
 	{
 		return columnNames.length;
+	}
+
+	public Color getDisplayColor(int row, int col)
+	{
+		return null;
 	}
 }

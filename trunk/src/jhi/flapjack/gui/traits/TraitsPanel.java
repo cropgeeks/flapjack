@@ -35,8 +35,6 @@ public class TraitsPanel extends JPanel implements ActionListener
 		controls.bColors.addActionListener(this);
 
 		table = controls.table;
-		table.setDefaultRenderer(Float.class, new TraitCellRenderer());
-		table.setDefaultRenderer(String.class, new TraitCellRenderer());
 
 		setLayout(new BorderLayout(0, 0));
 		setBorder(BorderFactory.createEmptyBorder(1, 1, 0, 0));
@@ -49,14 +47,12 @@ public class TraitsPanel extends JPanel implements ActionListener
 	{
 		model = new TraitsTableModel(dataSet);
 
-		table.setRowSorter(new TableRowSorter<TraitsTableModel>(model));
 		table.setModel(model);
 
-		// Size and set the editor for each column
+		// Use combo boxes for the categorical entries
 		for (int i = 0; i < table.getColumnCount(); i++)
 		{
 			TableColumn column = table.getColumnModel().getColumn(i);
-			column.setPreferredWidth(120);
 
 			if (table.getColumnClass(i) == String.class)
 				column.setCellEditor(
@@ -115,41 +111,5 @@ public class TraitsPanel extends JPanel implements ActionListener
 
 		updateModel();
 		Actions.projectModified();
-	}
-
-	// Deals with the fact that our fake double header for the JTable means
-	// that String data can be found in numerical columns.
-	public class TraitCellRenderer extends DefaultTableCellRenderer
-	{
-		protected final NumberFormat nf = NumberFormat.getInstance();
-
-		private Color bgCol1 = UIManager.getColor("Table.selectionBackground");
-		private Color bgCol2 = UIManager.getColor("Table.background");
-
-		@Override
-		public Component getTableCellRendererComponent(JTable table, Object value,
-			boolean isSelected, boolean hasFocus, int row, int column)
-		{
-			super.getTableCellRendererComponent(table, value, isSelected,
-				hasFocus, row, column);
-
-			if (value instanceof Float && value != null)
-			{
-				setText(nf.format((Number)value));
-				setHorizontalAlignment(JLabel.RIGHT);
-			}
-			else
-				setHorizontalAlignment(JLabel.LEFT);
-
-			int iRow = table.getRowSorter().convertRowIndexToModel(row);
-			Color bg = model.displayColor(iRow, column);
-
-			if (Prefs.guiColorTraitTable && bg != null)
-				setBackground(isSelected ? bg.darker() : bg);
-			else
-				setBackground(isSelected ? bgCol1 : bgCol2);
-
-			return this;
-		}
 	}
 }

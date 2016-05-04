@@ -99,7 +99,8 @@ class TraitsTableModel extends LineDataTableModel
 		return combo;
 	}
 
-	Color displayColor(int row, int col)
+	@Override
+	public Color getDisplayColor(int row, int col)
 	{
 		if (col > 0)
 		{
