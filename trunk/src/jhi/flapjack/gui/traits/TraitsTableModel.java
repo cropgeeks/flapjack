@@ -10,15 +10,13 @@ import javax.swing.table.*;
 
 import jhi.flapjack.data.*;
 import jhi.flapjack.gui.*;
+import jhi.flapjack.gui.table.*;
 
 import scri.commons.gui.*;
 
-class TraitsTableModel extends AbstractTableModel
+class TraitsTableModel extends LineDataTableModel
 {
-	private DataSet dataSet;
 	private ArrayList<Trait> traits;
-
-	private String[] columnNames;
 
 	TraitsTableModel(DataSet dataSet)
 	{
@@ -46,20 +44,9 @@ class TraitsTableModel extends AbstractTableModel
 		}
 	}
 
-	@Override
-	public String getColumnName(int col)
-	{
-	    return columnNames[col];
-	}
-
 	public int getRowCount()
 	{
 		return dataSet.countLines();
-	}
-
-	public int getColumnCount()
-	{
-		return columnNames.length;
 	}
 
 	public Object getValueAt(int row, int col)
@@ -110,11 +97,6 @@ class TraitsTableModel extends AbstractTableModel
 			combo.addItem(category);
 
 		return combo;
-	}
-
-	@Override
-	public void setValueAt(Object value, int row, int col)
-	{
 	}
 
 	Color displayColor(int row, int col)

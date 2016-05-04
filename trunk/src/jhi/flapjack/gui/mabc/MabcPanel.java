@@ -29,11 +29,8 @@ public class MabcPanel extends JPanel implements ActionListener
 		controls = new MabcPanelNB();
 
 		table = controls.table;
-		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-		table.getTableHeader().setReorderingAllowed(false);
 		table.setDefaultRenderer(Float.class, new TraitCellRenderer());
 		table.setDefaultRenderer(String.class, new TraitCellRenderer());
-		UIScaler.setCellHeight(table);
 
 		setLayout(new BorderLayout());
 		add(new TitlePanel("MABC Results"), BorderLayout.NORTH);

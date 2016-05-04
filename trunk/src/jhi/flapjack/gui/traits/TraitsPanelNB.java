@@ -9,6 +9,7 @@ import javax.swing.*;
 import javax.swing.table.*;
 
 import jhi.flapjack.gui.*;
+import jhi.flapjack.gui.table.*;
 
 import scri.commons.gui.*;
 
@@ -36,28 +37,6 @@ class TraitsPanelNB extends JPanel
 		});
 	}
 
-	private JTable createTable()
-	{
-		return new JTable()	{
-			protected JTableHeader createDefaultTableHeader() {
-				return new JTableHeader(columnModel)
-				{
-					public String getToolTipText(MouseEvent e)
-					{
-						Point p = e.getPoint();
-						int index = columnModel.getColumnIndexAtX(p.x);
-						if (index >= 0 && index < columnModel.getColumnCount())
-						{
-							int realIndex = columnModel.getColumn(index).getModelIndex();
-							return getModel().getColumnName(realIndex);
-						}
-						else
-							return null;
-					}
-				};
-		}};
-	}
-
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -65,13 +44,14 @@ class TraitsPanelNB extends JPanel
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+    private void initComponents()
+    {
 
         bImport = new javax.swing.JButton();
         statusLabel = new javax.swing.JLabel();
         bRemove = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        table = createTable();
+        table = new LineDataTable();
         bExport = new javax.swing.JButton();
         checkColor = new javax.swing.JCheckBox();
         bColors = new javax.swing.JButton();
@@ -83,10 +63,12 @@ class TraitsPanelNB extends JPanel
         bRemove.setText("Clear");
 
         table.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
+            new Object [][]
+            {
 
             },
-            new String [] {
+            new String []
+            {
 
             }
         ));
