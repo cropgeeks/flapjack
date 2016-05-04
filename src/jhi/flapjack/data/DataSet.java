@@ -30,8 +30,10 @@ public class DataSet extends XMLRoot
 	// DB-link/association data
 	private DBAssociation dbAssociation = new DBAssociation();
 
+	// Some "global" (to the dataset) UI variables
 	// Total counts for matrices, dendrograms, etc
 	private int matrixCount, dendrogramCount;
+	private boolean colorTraitTable = true;
 
 	private BinnedData bins = new BinnedData();
 
@@ -129,6 +131,12 @@ public class DataSet extends XMLRoot
 
 	public void setDendrogramCount(int dendrogramCount)
 		{ this.dendrogramCount = dendrogramCount; }
+
+	public boolean getColorTraitTable()
+		{ return colorTraitTable; }
+
+	public void setColorTraitTable(boolean colorTraitTable)
+		{ this.colorTraitTable = colorTraitTable; }
 
 	public BinnedData getBinnedData()
 		{ return bins; }

@@ -13,7 +13,6 @@ public abstract class LineDataTableModel extends AbstractTableModel
 	protected DataSet dataSet;
 	protected String[] columnNames;
 
-
 	@Override
 	public String getColumnName(int col)
 	{

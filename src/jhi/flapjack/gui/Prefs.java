@@ -124,8 +124,7 @@ public class Prefs extends XMLPreferences
 
 	// Auto assign traits to the heatmap after a sort-by-trait?
 	public static boolean guiAssignTraits = true;
-	public static boolean guiColorTraitTable = true;
-
+	
 	// Graphs (against markers)
 	public static int guiGraphStyle = 0;
 
