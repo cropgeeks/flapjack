@@ -11,22 +11,19 @@ import javax.swing.table.*;
 import jhi.flapjack.data.*;
 import jhi.flapjack.data.results.*;
 import jhi.flapjack.gui.*;
+import jhi.flapjack.gui.table.*;
 
 import scri.commons.gui.*;
 
-class MabcTableModel extends AbstractTableModel
+class MabcTableModel extends LineDataTableModel
 {
-	private DataSet dataSet;
 	private ArrayList<MABCLineStats> stats;
-
-	private String[] columnNames;
 
 	private int chrCount, qtlCount;
 
 	// Indices to track what goes where
 	private int rppIndex, rppTotalIndex, rppCoverageIndex;
 	private int qtlIndex;
-
 
 	MabcTableModel(DataSet dataSet, ArrayList<MABCLineStats> stats)
 	{
@@ -77,27 +74,16 @@ class MabcTableModel extends AbstractTableModel
 		}
 	}
 
-	@Override
-	public String getColumnName(int col)
-	{
-	    return columnNames[col];
-	}
-
 	public int getRowCount()
 	{
 		return stats.size();
-	}
-
-	public int getColumnCount()
-	{
-		return columnNames.length;
 	}
 
 	public Object getValueAt(int row, int col)
 	{
 		// Line name
 		if (col == 0)
-			return stats.get(row).getLineInfo().name();
+			return stats.get(row).getLineInfo().getLine();
 
 		// RPP values
 		else if (col >= rppIndex && col < rppTotalIndex)
@@ -134,20 +120,8 @@ class MabcTableModel extends AbstractTableModel
 	public Class getColumnClass(int col)
 	{
 		if (col == 0)
-			return String.class;
+			return Line.class;
 		else
 			return Double.class;
-	}
-
-	@Override
-	public boolean isCellEditable(int row, int col)
-	{
-		return false;
-//		return getColumnClass(col) == String.class;
-	}
-
-	@Override
-	public void setValueAt(Object value, int row, int col)
-	{
 	}
 }

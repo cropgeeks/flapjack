@@ -5,6 +5,8 @@
  */
 package jhi.flapjack.gui.mabc;
 
+import jhi.flapjack.gui.table.*;
+
 /**
  *
  * @author im40824
@@ -31,7 +33,7 @@ public class MabcPanelNB extends javax.swing.JPanel
     {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        table = new javax.swing.JTable();
+        table = new LineDataTable();
         coverageLabel = new javax.swing.JLabel();
         bExport = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
