@@ -28,7 +28,7 @@ public class TraitsPanel extends JPanel implements ActionListener
 	{
 		this.dataSet = dataSet;
 
-		controls = new TraitsPanelNB();
+		controls = new TraitsPanelNB(dataSet);
 		controls.bImport.addActionListener(this);
 		controls.bExport.addActionListener(this);
 		controls.bRemove.addActionListener(this);

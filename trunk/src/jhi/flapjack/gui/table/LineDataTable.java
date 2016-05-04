@@ -17,6 +17,8 @@ public class LineDataTable extends JTable
 {
 	private LineDataTableModel model;
 
+	private boolean colorCells = true;
+
 	public LineDataTable()
 	{
 		setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
@@ -28,6 +30,12 @@ public class LineDataTable extends JTable
 
 		UIScaler.setCellHeight(this);
 	}
+
+	public boolean colorCells()
+		{ return colorCells; }
+
+	public void setColorCells(boolean colorCells)
+		{ this.colorCells = colorCells; }
 
 	// Ensures all column headers have tooltips
 	@Override
@@ -95,13 +103,16 @@ public class LineDataTable extends JTable
 				setHorizontalAlignment(JLabel.RIGHT);
 			}
 
-			int iRow = table.getRowSorter().convertRowIndexToModel(row);
-			Color bg = model.getDisplayColor(iRow, column);
+			if (colorCells)
+			{
+				int iRow = table.getRowSorter().convertRowIndexToModel(row);
+				Color bg = model.getDisplayColor(iRow, column);
 
-			if (/*Prefs.guiColorTraitTable &&*/ bg != null)
-				setBackground(isSelected ? bg.darker() : bg);
-			else
-				setBackground(isSelected ? bgCol1 : bgCol2);
+				if (bg != null)
+					setBackground(isSelected ? bg.darker() : bg);
+				else
+					setBackground(isSelected ? bgCol1 : bgCol2);
+			}
 
 			return this;
 		}

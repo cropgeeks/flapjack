@@ -8,6 +8,7 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.table.*;
 
+import jhi.flapjack.data.*;
 import jhi.flapjack.gui.*;
 import jhi.flapjack.gui.table.*;
 
@@ -15,7 +16,7 @@ import scri.commons.gui.*;
 
 class TraitsPanelNB extends JPanel
 {
-	TraitsPanelNB()
+	TraitsPanelNB(DataSet dataSet)
 	{
 		initComponents();
 
@@ -30,9 +31,10 @@ class TraitsPanelNB extends JPanel
 		bRemove.setIcon(Icons.getIcon("DELETE"));
 		bColors.setIcon(Icons.getIcon("VISUALIZATIONTAB"));
 
-		checkColor.setSelected(Prefs.guiColorTraitTable);
+		checkColor.setSelected(dataSet.getColorTraitTable());
 		checkColor.addActionListener(e -> {
-			Prefs.guiColorTraitTable = checkColor.isSelected();
+			dataSet.setColorTraitTable(checkColor.isSelected());
+			((LineDataTable)table).setColorCells(checkColor.isSelected());
 			Flapjack.winMain.repaint();
 		});
 	}
