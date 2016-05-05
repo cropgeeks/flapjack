@@ -32,7 +32,7 @@ public class DataSet extends XMLRoot
 
 	// Some "global" (to the dataset) UI variables
 	// Total counts for matrices, dendrograms, etc
-	private int matrixCount, dendrogramCount;
+	private int matrixCount, dendrogramCount, mabcCount;
 	private boolean colorTraitTable = true;
 
 	private BinnedData bins = new BinnedData();
@@ -131,6 +131,12 @@ public class DataSet extends XMLRoot
 
 	public void setDendrogramCount(int dendrogramCount)
 		{ this.dendrogramCount = dendrogramCount; }
+
+	public int getMabcCount()
+		{ return mabcCount; }
+
+	public void setMabcCount(int mabcCount)
+		{ this.mabcCount = mabcCount; }
 
 	public boolean getColorTraitTable()
 		{ return colorTraitTable; }
