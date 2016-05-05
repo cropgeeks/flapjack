@@ -267,7 +267,7 @@ public class MenuAnalysis
 
 		// Clone the view (as the clone will ultimately contain a reordered
 		// list of lines that match the order in the dendrogram)
-		GTViewSet newViewSet = viewSet.createClone("Wibble", false);
+		GTViewSet newViewSet = viewSet.createClone("", true);
 
 		// Prompt the user for input variables
 		MABCStatsDialog dialog = new MABCStatsDialog(newViewSet);
