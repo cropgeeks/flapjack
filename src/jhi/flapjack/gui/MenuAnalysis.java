@@ -166,8 +166,8 @@ public class MenuAnalysis
 			viewSet, view, matrixDialog.getSelectedChromosomes(), true);
 
 		ProgressDialog dialog = new ProgressDialog(calculator,
-			RB.format("gui.MenuAnalysis.simMatrix.title"),
-			RB.format("gui.MenuAnalysis.simMatrix.label"), Flapjack.winMain);
+			RB.getString("gui.MenuAnalysis.simMatrix.title"),
+			RB.getString("gui.MenuAnalysis.simMatrix.label"), Flapjack.winMain);
 
 		// If the operation failed or was cancelled...
 		if (dialog.failed("gui.error"))
@@ -207,8 +207,8 @@ public class MenuAnalysis
 		DendrogramGenerator dg = new DendrogramGenerator(matrix, newViewSet);
 
 		ProgressDialog dialog = new ProgressDialog(dg,
-			RB.format("gui.MenuAnalysis.dendrogram.title"),
-			RB.format("gui.MenuAnalysis.dendrogram.label"), Flapjack.winMain);
+			RB.getString("gui.MenuAnalysis.dendrogram.title"),
+			RB.getString("gui.MenuAnalysis.dendrogram.label"), Flapjack.winMain);
 
 
 		// If the operation failed or was cancelled...
@@ -252,8 +252,8 @@ public class MenuAnalysis
 		PCoAGenerator pco = new PCoAGenerator(viewSet, matrix, noDimensions);
 
 		ProgressDialog dialog = new ProgressDialog(pco,
-			RB.format("gui.MenuAnalysis.pcoa.title"),
-			RB.format("gui.MenuAnalysis.pcoa.label"), Flapjack.winMain);
+			RB.getString("gui.MenuAnalysis.pcoa.title"),
+			RB.getString("gui.MenuAnalysis.pcoa.label"), Flapjack.winMain);
 
 		// If the operation failed or was cancelled...
 		if (dialog.failed("gui.error"))
@@ -262,24 +262,37 @@ public class MenuAnalysis
 
 	public void gobiiMABC()
 	{
-		// TODO: Checks for data type? ABH, etc?
+		DataSet dataSet = navPanel.getDataSetForSelection();
 		GTViewSet viewSet = gPanel.getViewSet();
 
-		MABCStatsDialog dialog = new MABCStatsDialog(viewSet);
+		// Clone the view (as the clone will ultimately contain a reordered
+		// list of lines that match the order in the dendrogram)
+		GTViewSet newViewSet = viewSet.createClone("Wibble", false);
+
+		// Prompt the user for input variables
+		MABCStatsDialog dialog = new MABCStatsDialog(newViewSet);
 		if (dialog.isOK() == false)
 			return;
 
-
-		MABCStats stats = new MABCStats(viewSet);
-
+		// Run the stats calculations
+		MABCStats stats = new MABCStats(newViewSet);
 		ProgressDialog pDialog = new ProgressDialog(stats,
-			"Running MABC Stats",
-			"Running MABC stats - please be patient...",
-			Flapjack.winMain);
+			RB.getString("gui.MenuAnalysis.mabc.title"),
+			RB.getString("gui.MenuAnalysis.pcoa.label"), Flapjack.winMain);
+
+		// Create titles for the new view and its results table
+		int id = dataSet.getMabcCount() + 1;
+		dataSet.setMabcCount(id);
+		newViewSet.setName(RB.format("gui.MenuAnalysis.mabc.view", id));
+		// mabc thingy. RB.format("gui.MenuAnalysis.mabc.panel", id);
+		// set?
 
 		ArrayList<MABCLineStats> lineStats = stats.getLineStats();
 
-		navPanel.addMabcNode(viewSet, lineStats);
+		// Create new NavPanel components to hold the results
+		dataSet.getViewSets().add(newViewSet);
+		navPanel.addVisualizationNode(dataSet, newViewSet);
+		navPanel.addMabcNode(newViewSet, lineStats);
 	}
 
 	public void gobiiPedVer()
