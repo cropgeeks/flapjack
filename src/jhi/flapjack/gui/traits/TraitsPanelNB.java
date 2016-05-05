@@ -35,6 +35,8 @@ class TraitsPanelNB extends JPanel
 		checkColor.addActionListener(e -> {
 			dataSet.setColorTraitTable(checkColor.isSelected());
 			((LineDataTable)table).setColorCells(checkColor.isSelected());
+
+			Actions.projectModified();
 			Flapjack.winMain.repaint();
 		});
 	}

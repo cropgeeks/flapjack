@@ -103,16 +103,13 @@ public class LineDataTable extends JTable
 				setHorizontalAlignment(JLabel.RIGHT);
 			}
 
-			if (colorCells)
-			{
-				int iRow = table.getRowSorter().convertRowIndexToModel(row);
-				Color bg = model.getDisplayColor(iRow, column);
+			int iRow = table.getRowSorter().convertRowIndexToModel(row);
+			Color bg = model.getDisplayColor(iRow, column);
 
-				if (bg != null)
-					setBackground(isSelected ? bg.darker() : bg);
-				else
-					setBackground(isSelected ? bgCol1 : bgCol2);
-			}
+			if (colorCells && bg != null)
+				setBackground(isSelected ? bg.darker() : bg);
+			else
+				setBackground(isSelected ? bgCol1 : bgCol2);
 
 			return this;
 		}
