@@ -3,136 +3,140 @@
 
 package jhi.flapjack.analysis;
 
-import java.io.*;
 import java.util.*;
 
 import jhi.flapjack.data.*;
 import jhi.flapjack.data.results.*;
-import jhi.flapjack.gui.Flapjack;
 
 import scri.commons.gui.*;
 
 public class PedVerStats extends SimpleJob
 {
-	private GTViewSet viewSet;
+	private AnalysisSet as;
+	private StateTable stateTable;
 
-	private ArrayList<Score> scores = new ArrayList<>();
+	private LineInfo parent1Info;
+	private LineInfo parent2Info;
+	private LineInfo f1LineInfo;
 
-	public PedVerStats(GTViewSet viewSet)
+	private PedVerKnownParentsResults result;
+
+	private int f1HetCount = 0;
+	private int totalMarkerCount = 0;
+	private float f1PercentCount = 0;
+
+	public PedVerStats(AnalysisSet as, StateTable stateTable, LineInfo parent1Info, LineInfo parent2Info, LineInfo f1LineInfo)
 	{
-		this.viewSet = viewSet;
-	}
-
-	// Code copied from simmatrix for refernece
-	private boolean skipLine(int i, GTView view)
-	{
-		// Ignore the awkward cases
-		if (view.isDummyLine(i) || view.isSplitter(i) || view.isDuplicate(i))
-			return true;
-		// Or unselected lines
-//		if (view.isLineSelected(i) == false)
-//			return true;
-
-		return false;
+		this.as = as;
+		this.stateTable = stateTable;
+		this.parent1Info = parent1Info;
+		this.parent2Info = parent2Info;
+		this.f1LineInfo = f1LineInfo;
 	}
 
 	public void runJob(int index)
 		throws Exception
 	{
-		// Precalculate which allele states are hom or het
-		StateTable st = viewSet.getDataSet().getStateTable();
+		calculateStats(as);
+	}
 
-		int lineCount = viewSet.getLines().size();
-		for (int line = 0; line < lineCount; line++)     // <-- selectedLinesAsArray ??
+	private void calculateStats(AnalysisSet as)
+	{
+		calculateExpectedF1Stats(as);
+
+		ArrayList<PedVerKnownParentsLineStats> statsArrayList = new ArrayList<>();
+
+		for (int l=0; l < as.lineCount(); l++)
 		{
-			if (skipLine(line, viewSet.getViews().get(0))) // < ffs iain what a mess :)
+			if (as.getLines().indexOf(parent1Info) == l || as.getLines().indexOf(parent2Info) == l || as.getLines().indexOf(f1LineInfo) == l)
 				continue;
 
-			Score score = new Score(viewSet.getLines().get(line));
-			scores.add(score);
+			PedVerKnownParentsLineStats lineStat = calculateStatsForLine(as, l);
+			statsArrayList.add(lineStat);
+		}
 
-			for (GTView view: viewSet.getViews())
+		result = new PedVerKnownParentsResults(totalMarkerCount, f1HetCount, f1PercentCount, statsArrayList);
+	}
+
+	private PedVerKnownParentsLineStats calculateStatsForLine(AnalysisSet as1, int l)
+	{
+		PedVerKnownParentsLineStats lineStat = new PedVerKnownParentsLineStats(as1.getLine(l));
+
+		int foundMarkers = 0;
+		int hetMarkers = 0;
+		int p1Contained = 0;
+		int p2Contained = 0;
+		int matchesExpF1 = 0;
+
+		for (int c = 0; c < as1.viewCount(); c++)
+		{
+			for (int m = 0; m < as1.markerCount(c); m++)
 			{
-				int markerCount = view.markerCount();
-				for (int marker = 0; marker < markerCount; marker++)
-				{
-					// Don't count markers that aren't selected
-					if (view.isMarkerSelected(marker) == false)
-						continue;
+				int code = as1.getState(c, l, m);
 
-					int state = view.getState(line, marker);
+				// Skip unknown states
+				if (code == 0)
+					continue;
 
-					if (state == 0)
-						score.misCount++;
-					else if (st.isHet(state))
-						score.hetCount++;
-					else
-						score.homCount++;
+				// Otherwise we have an allele so increment foundMarkers
+				if (code > 0)
+					foundMarkers++;
 
-					score.mrkCount++;
-				}
+				// If the allele is heterozygous increment the het counter
+				if (stateTable.isHet(code))
+					hetMarkers++;
+
+				// Compare state code of the current allele with the equivalent
+				// in both parents and the expected F1
+				AlleleState p1State = stateTable.getAlleleState(as1.getState(c, 0, m));
+				AlleleState p2State = stateTable.getAlleleState(as1.getState(c, 1, m));
+				AlleleState expF1State = stateTable.getAlleleState(f1LineInfo.getState(c, m));
+				AlleleState currState = stateTable.getAlleleState(code);
+
+				if (currState.matchesAnyAllele(p1State))
+					p1Contained++;
+
+				if (currState.matchesAnyAllele(p2State))
+					p2Contained++;
+
+				if (currState.matches(expF1State))
+					matchesExpF1++;
 			}
 		}
 
-		fakeTraits();
+		lineStat.setLine(as1.getLine(l));
+		lineStat.setMarkerCount(foundMarkers);
+		lineStat.setPercentMissing((1 - (foundMarkers / (float) totalMarkerCount)) * 100);
+		lineStat.setHeterozygousCount(hetMarkers);
+		lineStat.setPercentHeterozygous((hetMarkers / (float)foundMarkers) * 100);
+		lineStat.setPercentDeviationFromExpected(f1PercentCount - ((hetMarkers / (float)foundMarkers) * 100));
+		lineStat.setCountP1Contained(p1Contained);
+		lineStat.setPercentP1Contained((p1Contained / (float)foundMarkers) * 100);
+		lineStat.setCountP2Contained(p2Contained);
+		lineStat.setPercentP2Contained((p2Contained / (float)foundMarkers) * 100);
+		lineStat.setCountAlleleMatchExpected(matchesExpF1);
+		lineStat.setPercentAlleleMatchExpected((matchesExpF1 / (float)foundMarkers) * 100);
+
+		return lineStat;
 	}
 
-	private static class Score
+	private void calculateExpectedF1Stats(AnalysisSet as1)
 	{
-		LineInfo line;
-
-		int mrkCount = 0;
-		int hetCount = 0;
-		int homCount = 0;
-		int misCount = 0;
-		float perHet;
-		float perHetAdjMis;
-
-		Score(LineInfo line)
+		for (int c = 0; c < as1.viewCount(); c++)
 		{
-			this.line = line;
+			totalMarkerCount += as1.markerCount(c);
+			for (int m = 0; m < as1.markerCount(c); m++)
+			{
+				int stateCode = f1LineInfo.getState(c, m);
+				if (stateTable.isHet(stateCode))
+					f1HetCount++;
+			}
 		}
-
-		void calc()
-		{
-			perHet = (hetCount / (float)mrkCount) * 100;
-			perHetAdjMis = (hetCount / (float)(mrkCount-misCount)) * 100;
-		}
+		f1PercentCount = (f1HetCount / (float)totalMarkerCount) * 100;
 	}
 
-
-	private void fakeTraits()
-		throws Exception
+	public PedVerKnownParentsResults getResult()
 	{
-		DataSet dataSet = viewSet.getDataSet();
-		Flapjack.winMain.getNavPanel().getTraitsPanel(viewSet.getDataSet()).getTraitsPanel().removeAllTraits();
-
-		File tmp = new File("mabctraits");
-		BufferedWriter out = new BufferedWriter(new FileWriter(tmp));
-
-		// Headers
-		out.write("# fjFile = PHENOTYPE");
-		out.newLine();
-//		out.write("Line\tMrkCount\tHomCount\tHetCount\tMisCount\t%Het\t%HetAdjMis");
-		out.write("Line\tHomCount\tHetCount\tMisCount\t%Het\t%HetAdjMis");
-		out.newLine();
-
-		for (Score score: scores)
-		{
-			score.calc();
-
-			out.write(score.line.name());
-//			out.write("\t" + score.mrkCount);
-			out.write("\t" + score.homCount);
-			out.write("\t" + score.hetCount);
-			out.write("\t" + score.misCount);
-			out.write("\t" + score.perHet);
-			out.write("\t" + score.perHetAdjMis);
-			out.newLine();
-		}
-
-		out.close();
-
-		Flapjack.winMain.mFile.importTraitData(tmp);
+		return result;
 	}
 }

@@ -25,7 +25,7 @@ public class LineInfo extends XMLRoot
 	{
 	}
 
-	LineInfo(Line line, int index)
+	public LineInfo(Line line, int index)
 	{
 		this.line = line;
 		this.index = index;

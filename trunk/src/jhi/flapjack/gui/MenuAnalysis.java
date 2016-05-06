@@ -298,15 +298,56 @@ public class MenuAnalysis
 	public void gobiiPedVer()
 	{
 		// TODO: Checks for data type? ABH, etc?
+		DataSet dataSet = navPanel.getDataSetForSelection();
 		GTViewSet viewSet = gPanel.getViewSet();
 
-		PedVerStats stats = new PedVerStats(viewSet);
+		// Clone the view (as the clone will ultimately contain a reordered
+		// list of lines that match the order in the dendrogram)
+		GTViewSet newViewSet = viewSet.createClone("", true);
 
+		AnalysisSet as = new AnalysisSet(newViewSet)
+			.withViews(null)
+			.withSelectedLines()
+			.withSelectedMarkers();
+
+		PedVerStatsDialog dialog = new PedVerStatsDialog(as);
+		if (dialog.isOK() == false)
+			return;
+
+		LineInfo p1LineInfo = dialog.getParent1();
+		LineInfo p2LineInfo = dialog.getParent2();
+		LineInfo f1LineInfo = dialog.getF1();
+
+		if (dialog.simulateF1())
+		{
+			SimulateF1 f1Sim = new SimulateF1(newViewSet, p1LineInfo, p2LineInfo);
+
+			ProgressDialog pDialog = new ProgressDialog(f1Sim,
+				"Running F1 Simulation",
+				"Running F1 simulation - please be patient...",
+				Flapjack.winMain);
+
+			f1LineInfo = f1Sim.getF1LineInfo();
+		}
+
+		// Move the parent lines to the top of the display
+		GTView view = newViewSet.getView(0);
+		view.moveLine(newViewSet.getLines().indexOf(p1LineInfo), 0);
+		view.moveLine(newViewSet.getLines().indexOf(p2LineInfo), 1);
+		// Move the f1 to just below the parents
+		view.moveLine(newViewSet.getLines().indexOf(f1LineInfo), 2);
+
+		PedVerStats stats = new PedVerStats(as, newViewSet.getDataSet().getStateTable(), p1LineInfo, p2LineInfo, f1LineInfo);
 		ProgressDialog pDialog = new ProgressDialog(stats,
 			"Running PedVer Stats",
 			"Running PedVer stats - please be patient...",
 			Flapjack.winMain);
 
+		newViewSet.setName("PedVer View");
 
+		// Create new NavPanel components to hold the results
+		dataSet.getViewSets().add(newViewSet);
+		navPanel.addVisualizationNode(dataSet, newViewSet);
+		navPanel.addPedVerNode(newViewSet, stats.getResult());
 	}
 }

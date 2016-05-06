@@ -76,7 +76,25 @@ public class AnalysisSet
 			ArrayList<MarkerInfo> allMarkers = viewSet.getView(view.chrMapIndex).getMarkers();
 			view.markers = allMarkers.stream()
 				.filter(mi -> !mi.dummyMarker())
+				.sorted()
 				.collect(Collectors.toCollection(ArrayList::new));
+		}
+
+		return this;
+	}
+
+	public AnalysisSet withAllMarkersIncludingHidden()
+	{
+		withAllMarkers();
+
+		for (View view : views)
+		{
+			ArrayList<MarkerInfo> hiddenMarkers = viewSet.getView(view.chrMapIndex).getHideMarkers();
+			view.markers.addAll(hiddenMarkers.stream()
+				.filter(mi -> !mi.dummyMarker())
+				.collect(Collectors.toCollection(ArrayList::new)));
+
+			Collections.sort(view.markers);
 		}
 
 		return this;
@@ -96,10 +114,10 @@ public class AnalysisSet
 		return this;
 	}
 
-/*	public ArrayList<LineInfo> getLines()
+	public ArrayList<LineInfo> getLines()
 		{ return lines; }
 
-	public ArrayList<MarkerInfo> getMarkers(int chrIndex)
+/*	public ArrayList<MarkerInfo> getMarkers(int chrIndex)
 		{ return views.get(chrIndex).markers; }
 */
 	public int getState(int view, int line, int marker)
