@@ -7,7 +7,7 @@ package jhi.flapjack.data;
  * Wrapper class that represents a marker within a view. We store a reference to
  * the marker itself, along with its index position in the original dataset.
  */
-public class MarkerInfo extends XMLRoot
+public class MarkerInfo extends XMLRoot implements Comparable<MarkerInfo>
 {
 	// A reference to the marker, and to its index within the original data
 	Marker marker;
@@ -66,5 +66,10 @@ public class MarkerInfo extends XMLRoot
 			return marker.getRealPosition();
 		else
 			return marker.getPosition();
+	}
+
+	public int compareTo(MarkerInfo markerInfo)
+	{
+		return marker.compareTo(markerInfo.marker);
 	}
 }

@@ -216,6 +216,14 @@ public class NavPanel extends JPanel
 		insert(node, vNode, vNode.getChildCount());
 	}
 
+	public void addPedVerNode(GTViewSet viewSet, PedVerKnownParentsResults result)
+	{
+		VisualizationNode vNode = findVisualizationNode(viewSet);
+
+		PedVerNode node = new PedVerNode(viewSet.getDataSet(), viewSet, result);
+		insert(node, vNode, vNode.getChildCount());
+	}
+
 	public void addSimMatrixNode(GTViewSet viewSet, SimMatrix matrix)
 	{
 		VisualizationNode vNode = findVisualizationNode(viewSet);
