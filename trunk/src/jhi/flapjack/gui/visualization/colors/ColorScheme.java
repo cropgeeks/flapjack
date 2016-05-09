@@ -19,15 +19,16 @@ public abstract class ColorScheme
 {
 	public static final int NUCLEOTIDE = 1;
 	public static final int LINE_SIMILARITY = 2;
-	public static final int LINE_SIMILARITY_GS = 3;
+//	public static final int LINE_SIMILARITY_GS = 3;  This functionality was removed on 09/05/2016 after being disabled on 18/04/2008
 	public static final int MARKER_SIMILARITY = 4;
-	public static final int MARKER_SIMILARITY_GS = 5;
+//	public static final int MARKER_SIMILARITY_GS = 5; This functionality was removed on 09/05/2016 after being disabled on 18/04/2008
 	public static final int SIMPLE_TWO_COLOR = 6;
 	public static final int ALLELE_FREQUENCY = 7;
 	public static final int ABH_DATA = 8;
 	public static final int BINNED_10 = 9;
 	public static final int NUCLEOTIDE01 = 10;
 	public static final int MAGIC = 11;
+	public static final int LINE_SIMILARITY_EXACT_MATCH = 12;
 
 	// Random (HSB model)
 	public static final int RANDOM = 50;

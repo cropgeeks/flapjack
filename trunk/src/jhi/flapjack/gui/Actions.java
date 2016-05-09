@@ -68,9 +68,8 @@ public class Actions
 	public static AbstractAction vizColorNucleotide01;
 	public static AbstractAction vizColorABHData;
 	public static AbstractAction vizColorLineSim;
-	public static AbstractAction vizColorLineSimGS;
+	public static AbstractAction vizColorLineSimExact;
 	public static AbstractAction vizColorMarkerSim;
-	public static AbstractAction vizColorMarkerSimGS;
 	public static AbstractAction vizColorSimple2Color;
 	public static AbstractAction vizColorAlleleFreq;
 	public static AbstractAction vizColorBinned;
@@ -471,21 +470,15 @@ public class Actions
 			}
 		};
 
-		vizColorLineSimGS = new AbstractAction(RB.getString("gui.Actions.vizColorLineSimGS")) {
-			public void actionPerformed(ActionEvent e) {
-				winMain.mViz.vizColor(ColorScheme.LINE_SIMILARITY_GS);
-			}
-		};
-
 		vizColorMarkerSim = new AbstractAction(RB.getString("gui.Actions.vizColorMarkerSim")) {
 			public void actionPerformed(ActionEvent e) {
 				winMain.mViz.vizColor(ColorScheme.MARKER_SIMILARITY);
 			}
 		};
 
-		vizColorMarkerSimGS = new AbstractAction(RB.getString("gui.Actions.vizColorMarkerSimGS")) {
+		vizColorLineSimExact = new AbstractAction(RB.getString("gui.Actions.vizColorLineSimExact")) {
 			public void actionPerformed(ActionEvent e) {
-				winMain.mViz.vizColor(ColorScheme.MARKER_SIMILARITY_GS);
+				winMain.mViz.vizColor(ColorScheme.LINE_SIMILARITY_EXACT_MATCH);
 			}
 		};
 
@@ -798,9 +791,8 @@ public class Actions
 		vizColorNucleotide01.setEnabled(false);
 		vizColorABHData.setEnabled(false);
 		vizColorLineSim.setEnabled(false);
-		vizColorLineSimGS.setEnabled(false);
+		vizColorLineSimExact.setEnabled(false);
 		vizColorMarkerSim.setEnabled(false);
-		vizColorMarkerSimGS.setEnabled(false);
 		vizColorSimple2Color.setEnabled(false);
 		vizColorAlleleFreq.setEnabled(false);
 		vizColorBinned.setEnabled(false);

@@ -78,9 +78,8 @@ public class VisualizationNode extends BaseNode
 			Actions.vizColorNucleotide01.setEnabled(true);
 			Actions.vizColorABHData.setEnabled(true);
 			Actions.vizColorLineSim.setEnabled(true);
-			Actions.vizColorLineSimGS.setEnabled(true);
+			Actions.vizColorLineSimExact.setEnabled(true);
 			Actions.vizColorMarkerSim.setEnabled(true);
-			Actions.vizColorMarkerSimGS.setEnabled(true);
 			Actions.vizColorSimple2Color.setEnabled(true);
 			Actions.vizColorAlleleFreq.setEnabled(true);
 			Actions.vizColorBinned.setEnabled(true);

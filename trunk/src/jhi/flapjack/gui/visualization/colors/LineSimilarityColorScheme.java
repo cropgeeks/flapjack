@@ -22,7 +22,7 @@ public class LineSimilarityColorScheme extends SimilarityColorScheme
 		super(view, w, h);
 	}
 
-	private ColorState getState(int line, int marker)
+	protected ColorState getState(int line, int marker)
 	{
 		int state = view.getState(line, marker);
 		int comparisonIndex = view.getViewSet().getComparisonLineIndex();

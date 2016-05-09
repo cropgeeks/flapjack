@@ -44,9 +44,8 @@ public class CanvasMenu
 	private JRadioButtonMenuItem mColorNucleotide;
 	private JRadioButtonMenuItem mColorNucleotide01;
 	private JRadioButtonMenuItem mColorLineSim;
-	private JRadioButtonMenuItem mColorLineSimGS;
+	private JRadioButtonMenuItem mColorLineSimExact;
 	private JRadioButtonMenuItem mColorMarkerSim;
-	private JRadioButtonMenuItem mColorMarkerSimGS;
 	private JRadioButtonMenuItem mColorSimple2Color;
 	private JRadioButtonMenuItem mColorABHData;
 	private JRadioButtonMenuItem mColorAlleleFreq;
@@ -102,9 +101,8 @@ public class CanvasMenu
 		mColorSimple2Color = WinMainMenuBar.getRadioItem(Actions.vizColorSimple2Color, "gui.Actions.vizColorSimple2Color", 0, 0);
 		mColorABHData = WinMainMenuBar.getRadioItem(Actions.vizColorABHData, "gui.Actions.vizColorABHData", 0, 0);
 		mColorLineSim = WinMainMenuBar.getRadioItem(Actions.vizColorLineSim, "gui.Actions.vizColorLineSim", 0, 0);
-//		mColorLineSimGS = WinMainMenuBar.getRadioItem(Actions.vizColorLineSimGS, KeyEvent.VK_G, 0, 0);
+		mColorLineSimExact = WinMainMenuBar.getRadioItem(Actions.vizColorLineSimExact, "gui.Actions.vizColorLineSimExact", 0, 0);
 		mColorMarkerSim = WinMainMenuBar.getRadioItem(Actions.vizColorMarkerSim, "gui.Actions.vizColorMarkerSim", 0, 0);
-//		mColorMarkerSimGS = WinMainMenuBar.getRadioItem(Actions.vizColorMarkerSimGS, KeyEvent.VK_G, 0, 0);
 		mColorAlleleFreq = WinMainMenuBar.getRadioItem(Actions.vizColorAlleleFreq, "gui.Actions.vizColorAlleleFreq", 0, 0);
 		mColorBinned = WinMainMenuBar.getRadioItem(Actions.vizColorBinned, "gui.Actions.vizColorBinned", 0, 0);
 		mColorMagic = WinMainMenuBar.getRadioItem(Actions.vizColorMagic, "gui.Actions.vizColorMagic", 0, 0);
@@ -134,9 +132,8 @@ public class CanvasMenu
 		mColor.add(mColorABHData);
 		mColor.add(mColorSimple2Color);
 		mColor.add(mColorLineSim);
-//		mColor.add(mColorLineSimGS);
+		mColor.add(mColorLineSimExact);
 		mColor.add(mColorMarkerSim);
-//		mColor.add(mColorMarkerSimGS);
 		mColor.add(mColorAlleleFreq);
 		mColor.add(mColorMagic);
 		mColor.add(mColorBinned);

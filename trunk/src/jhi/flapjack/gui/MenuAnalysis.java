@@ -13,6 +13,7 @@ import jhi.flapjack.gui.dialog.*;
 import jhi.flapjack.gui.dialog.analysis.*;
 import jhi.flapjack.gui.simmatrix.*;
 import jhi.flapjack.gui.visualization.*;
+import jhi.flapjack.gui.visualization.colors.*;
 import jhi.flapjack.gui.visualization.undo.*;
 
 import scri.commons.gui.*;
@@ -342,6 +343,11 @@ public class MenuAnalysis
 			Flapjack.winMain);
 
 		newViewSet.setName("PedVer View");
+		// Set the colour scheme to the similarity to line exact match scheme and set the comparison line equal to the
+		// F1
+		newViewSet.setColorScheme(ColorScheme.LINE_SIMILARITY_EXACT_MATCH);
+		newViewSet.setComparisonLineIndex(newViewSet.getLines().indexOf(f1LineInfo));
+		newViewSet.setComparisonLine(f1LineInfo.getLine());
 
 		// Create new NavPanel components to hold the results
 		dataSet.getViewSets().add(newViewSet);
