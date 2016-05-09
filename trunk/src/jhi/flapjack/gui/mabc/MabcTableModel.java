@@ -17,7 +17,8 @@ import scri.commons.gui.*;
 
 class MabcTableModel extends LineDataTableModel
 {
-	private ArrayList<MABCLineStats> stats;
+	// This results table is *linked* with the given view
+	private GTViewSet viewSet;
 
 	private int chrCount, qtlCount;
 
@@ -25,10 +26,10 @@ class MabcTableModel extends LineDataTableModel
 	private int rppIndex, rppTotalIndex, rppCoverageIndex;
 	private int qtlIndex;
 
-	MabcTableModel(DataSet dataSet, ArrayList<MABCLineStats> stats)
+	MabcTableModel(GTViewSet viewSet)
 	{
-		this.dataSet = dataSet;
-		this.stats = stats;
+		this.viewSet = viewSet;
+		this.dataSet = viewSet.getDataSet();
 
 		initModel();
 	}
@@ -36,7 +37,8 @@ class MabcTableModel extends LineDataTableModel
 	void initModel()
 	{
 		// Use information from the first result to determine the UI
-		MABCLineStats s = stats.get(0);
+		LineInfo line = viewSet.getLines().get(0);
+		MABCLineStats s = line.results().getMABCLineStats();
 		chrCount = s.getChrScores().size();
 		qtlCount = s.getQTLScores().size();
 
@@ -76,28 +78,34 @@ class MabcTableModel extends LineDataTableModel
 
 	public int getRowCount()
 	{
-		return stats.size();
+		return viewSet.getLines().size();
 	}
 
 	public Object getValueAt(int row, int col)
 	{
+		LineInfo line = viewSet.getLines().get(row);
+		MABCLineStats stats = line.results().getMABCLineStats();
+
 		// Line name
 		if (col == 0)
-			return stats.get(row).getLineInfo().getLine();
+			return line.name();
+
+		if (stats == null)
+			return null;
 
 		// RPP values
-		else if (col >= rppIndex && col < rppTotalIndex)
+		if (col >= rppIndex && col < rppTotalIndex)
 		{
-			return stats.get(row).getChrScores().get(col-rppIndex).sumRP;
+			return stats.getChrScores().get(col-rppIndex).sumRP;
 		}
 
 		// RPP Total
 		else if (col == rppTotalIndex)
-			return stats.get(row).getRPPTotal();
+			return stats.getRPPTotal();
 
 		// RPP Coverage
 		else if (col == rppCoverageIndex)
-			return stats.get(row).getGenomeCoverage();
+			return stats.getGenomeCoverage();
 
 		// QTL values
 		else if (col >= qtlIndex)
@@ -105,7 +113,7 @@ class MabcTableModel extends LineDataTableModel
 			col = col-qtlIndex;
 			int qtl = col / 2;
 
-			MABCLineStats.QTLScore score = stats.get(row).getQTLScores().get(qtl);
+			MABCLineStats.QTLScore score = stats.getQTLScores().get(qtl);
 
 			if (col % 2 == 0)
 				return score.drag;
@@ -113,7 +121,7 @@ class MabcTableModel extends LineDataTableModel
 				return score.status ? 1 : 0;
 		}
 
-		return -9;
+		return null;
 	}
 
 	@Override

@@ -18,11 +18,11 @@ public class MabcNode extends BaseNode
 {
 	private MabcPanel panel;
 
-	public MabcNode(DataSet dataSet, GTViewSet viewSet, ArrayList<MABCLineStats> lineStats)
+	public MabcNode(DataSet dataSet, GTViewSet viewSet)
 	{
 		super(dataSet);
 
-		panel = new MabcPanel(viewSet, lineStats);
+		panel = new MabcPanel(viewSet);
 	}
 
 	public String toString()

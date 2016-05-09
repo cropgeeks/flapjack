@@ -3,6 +3,8 @@
 
 package jhi.flapjack.data;
 
+import jhi.flapjack.data.results.*;
+
 /**
  * Wrapper class that represents a line within a view. We store a reference to
  * the line itself, along with its index position in the original dataset.
@@ -20,6 +22,8 @@ public class LineInfo extends XMLRoot
 
 	// A 'score' associated with this line (probably from a sort/rank)
 	float score;
+
+	LineResults results = new LineResults(this);
 
 	public LineInfo()
 	{
@@ -102,4 +106,7 @@ public class LineInfo extends XMLRoot
 	{
 		return line.getState(chromosome, marker);
 	}
+
+	public LineResults results()
+		{ return results; }
 }

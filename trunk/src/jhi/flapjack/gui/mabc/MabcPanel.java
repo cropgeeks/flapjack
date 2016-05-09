@@ -24,7 +24,7 @@ public class MabcPanel extends JPanel implements ActionListener
 
 	private MabcPanelNB controls;
 
-	public MabcPanel(GTViewSet viewset, ArrayList<MABCLineStats> lineStats)
+	public MabcPanel(GTViewSet viewset)
 	{
 		controls = new MabcPanelNB();
 
@@ -37,12 +37,12 @@ public class MabcPanel extends JPanel implements ActionListener
 //		setBorder(BorderFactory.createEmptyBorder(1, 1, 0, 0));
 		add(controls);
 
-		updateModel(viewset.getDataSet(), lineStats);
+		updateModel(viewset);
 	}
 
-	public void updateModel(DataSet dataSet, ArrayList<MABCLineStats> lineStats)
+	public void updateModel(GTViewSet viewset)
 	{
-		model = new MabcTableModel(dataSet, lineStats);
+		model = new MabcTableModel(viewset);
 
 		table.setModel(model);
 	}

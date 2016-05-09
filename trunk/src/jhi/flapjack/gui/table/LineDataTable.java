@@ -7,6 +7,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.text.*;
 import javax.swing.*;
+import javax.swing.event.*;
 import javax.swing.table.*;
 
 import jhi.flapjack.gui.*;
@@ -63,20 +64,28 @@ public class LineDataTable extends JTable
 	{
 		super.setModel(tm);
 
+		// Set a default width per column
+		for (int i = 0; i < getColumnCount(); i++)
+		{
+			TableColumn column = getColumnModel().getColumn(i);
+			column.setPreferredWidth(UIScaler.scale(120));
+		}
+
 		// Safety net for Matisse code calling setModel with a DefaultTableModel
 		if (tm instanceof LineDataTableModel)
 		{
 			model = (LineDataTableModel) tm;
 
-			// Let the user sort by column
-			setRowSorter(new TableRowSorter<LineDataTableModel>(model));
-		}
+			TableRowSorter<LineDataTableModel> sorter = new TableRowSorter<>(model);
 
-		// Also set a default width per column
-		for (int i = 0; i < getColumnCount(); i++)
-		{
-			TableColumn column = getColumnModel().getColumn(i);
-			column.setPreferredWidth(UIScaler.scale(120));
+			// Let the user sort by column
+			setRowSorter(sorter);
+
+			// Catch sort events
+			sorter.addRowSorterListener((RowSorterEvent e) ->
+			{
+				System.out.println("SORTED");
+			});
 		}
 	}
 

@@ -287,12 +287,10 @@ public class MenuAnalysis
 		// mabc thingy. RB.format("gui.MenuAnalysis.mabc.panel", id);
 		// set?
 
-		ArrayList<MABCLineStats> lineStats = stats.getLineStats();
-
 		// Create new NavPanel components to hold the results
 		dataSet.getViewSets().add(newViewSet);
 		navPanel.addVisualizationNode(dataSet, newViewSet);
-		navPanel.addMabcNode(newViewSet, lineStats);
+		navPanel.addMabcNode(newViewSet);
 	}
 
 	public void gobiiPedVer()
