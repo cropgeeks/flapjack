@@ -73,9 +73,8 @@ public class WinMainMenuBar extends JMenuBar
 	private JRadioButtonMenuItem mVizColorNucleotide01;
 	private JRadioButtonMenuItem mVizColorABHData;
 	private JRadioButtonMenuItem mVizColorLineSim;
-	private JRadioButtonMenuItem mVizColorLineSimGS;
+	private JRadioButtonMenuItem mVizColorLineSimExact;
 	private JRadioButtonMenuItem mVizColorMarkerSim;
-	private JRadioButtonMenuItem mVizColorMarkerSimGS;
 	private JRadioButtonMenuItem mVizColorSimple2Color;
 	private JRadioButtonMenuItem mVizColorAlleleFreq;
 	private JRadioButtonMenuItem mVizColorBinned;
@@ -316,9 +315,8 @@ public class WinMainMenuBar extends JMenuBar
 		mVizColorNucleotide01 = getRadioItem(Actions.vizColorNucleotide01, "gui.Actions.vizColorNucleotide01", 0, 0);
 		mVizColorABHData = getRadioItem(Actions.vizColorABHData, "gui.Actions.vizColorABHData", 0, 0);
 		mVizColorLineSim = getRadioItem(Actions.vizColorLineSim, "gui.Actions.vizColorLineSim", 0, 0);
-//		mVizColorLineSimGS = getRadioItem(Actions.vizColorLineSimGS, KeyEvent.VK_G, 0, 0);
+		mVizColorLineSimExact = getRadioItem(Actions.vizColorLineSimExact, "gui.Actions.vizColorLineSimExact", 0, 0);
 		mVizColorMarkerSim = getRadioItem(Actions.vizColorMarkerSim, "gui.Actions.vizColorMarkerSim", 0, 0);
-//		mVizColorMarkerSimGS = getRadioItem(Actions.vizColorMarkerSimGS, KeyEvent.VK_G, 0, 0);
 		mVizColorSimple2Color = getRadioItem(Actions.vizColorSimple2Color, "gui.Actions.vizColorSimple2Color", 0, 0);
 		mVizColorAlleleFreq = getRadioItem(Actions.vizColorAlleleFreq, "gui.Actions.vizColorAlleleFreq", 0, 0);
 		mVizColorBinned = getRadioItem(Actions.vizColorBinned, "gui.Actions.vizColorBinned", 0, 0);
@@ -344,9 +342,8 @@ public class WinMainMenuBar extends JMenuBar
 		mVizColor.add(mVizColorABHData);
 		mVizColor.add(mVizColorSimple2Color);
 		mVizColor.add(mVizColorLineSim);
-//		mVizColor.add(mVizColorLineSimGS);
+		mVizColor.add(mVizColorLineSimExact);
 		mVizColor.add(mVizColorMarkerSim);
-//		mVizColor.add(mVizColorMarkerSimGS);
 		mVizColor.add(mVizColorAlleleFreq);
 		mVizColor.add(mVizColorMagic);
 		mVizColor.add(mVizColorBinned);

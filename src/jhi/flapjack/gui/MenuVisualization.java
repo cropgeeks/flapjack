@@ -6,14 +6,9 @@ package jhi.flapjack.gui;
 import javax.swing.*;
 import javax.swing.event.*;
 
-import jhi.flapjack.analysis.*;
-import jhi.flapjack.data.*;
 import jhi.flapjack.gui.dialog.*;
-import jhi.flapjack.gui.dialog.pedigrees.*;
 import jhi.flapjack.gui.visualization.*;
 import jhi.flapjack.gui.visualization.colors.*;
-
-import scri.commons.gui.*;
 
 public class MenuVisualization
 {
@@ -44,7 +39,7 @@ public class MenuVisualization
 	public void vizColor(int colorScheme)
 	{
 		// Set the initial index positions for similarity colouring (if needbe)
-		if (colorScheme == ColorScheme.LINE_SIMILARITY || colorScheme == ColorScheme.LINE_SIMILARITY_GS)
+		if (colorScheme == ColorScheme.LINE_SIMILARITY || colorScheme == ColorScheme.LINE_SIMILARITY_EXACT_MATCH)
 		{
 			SelectLMDialog dialog = new SelectLMDialog(gPanel.getView(), true);
 			if (dialog.isOK() == false)
@@ -54,7 +49,7 @@ public class MenuVisualization
 			gPanel.getView().initializeComparisons();
 		}
 
-		else if (colorScheme == ColorScheme.MARKER_SIMILARITY || colorScheme == ColorScheme.MARKER_SIMILARITY_GS)
+		else if (colorScheme == ColorScheme.MARKER_SIMILARITY)
 		{
 			SelectLMDialog dialog = new SelectLMDialog(gPanel.getView(), false);
 			if (dialog.isOK() == false)
@@ -141,9 +136,8 @@ public class MenuVisualization
 				Actions.vizColorNucleotide01.putValue(Action.SELECTED_KEY, cScheme == ColorScheme.NUCLEOTIDE01);
 				Actions.vizColorABHData.putValue(Action.SELECTED_KEY, cScheme == ColorScheme.ABH_DATA);
 				Actions.vizColorLineSim.putValue(Action.SELECTED_KEY, cScheme == ColorScheme.LINE_SIMILARITY);
-				Actions.vizColorLineSimGS.putValue(Action.SELECTED_KEY, cScheme == ColorScheme.LINE_SIMILARITY_GS);
+				Actions.vizColorLineSimExact.putValue(Action.SELECTED_KEY, cScheme == ColorScheme.LINE_SIMILARITY_EXACT_MATCH);
 				Actions.vizColorMarkerSim.putValue(Action.SELECTED_KEY, cScheme == ColorScheme.MARKER_SIMILARITY);
-				Actions.vizColorMarkerSimGS.putValue(Action.SELECTED_KEY, cScheme == ColorScheme.MARKER_SIMILARITY_GS);
 				Actions.vizColorSimple2Color.putValue(Action.SELECTED_KEY, cScheme == ColorScheme.SIMPLE_TWO_COLOR);
 				Actions.vizColorAlleleFreq.putValue(Action.SELECTED_KEY, cScheme == ColorScheme.ALLELE_FREQUENCY);
 				Actions.vizColorBinned.putValue(Action.SELECTED_KEY, cScheme == ColorScheme.BINNED_10);
