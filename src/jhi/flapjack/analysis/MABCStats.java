@@ -29,8 +29,6 @@ public class MABCStats extends SimpleJob
 
 	private float maxMarkerCoverage = 10;
 
-	private ArrayList<MABCLineStats> lineStats = new ArrayList<>();
-
 	// hard coded index of the RP line (index of the line minus duplicate, etc)
 	int rpIndex = 0;
 
@@ -38,9 +36,6 @@ public class MABCStats extends SimpleJob
 	{
 		this.viewSet = viewSet;
 	}
-
-	public ArrayList<MABCLineStats> getLineStats()
-		{ return lineStats; }
 
 	public void runJob(int index)
 		throws Exception
@@ -53,8 +48,6 @@ public class MABCStats extends SimpleJob
 
 		calculateRPP(as);
 		calculateLinkageDrag(as);
-
-//		fakeTraits();
 	}
 
 	private void calculateRPP(AnalysisSet as)
@@ -67,7 +60,7 @@ public class MABCStats extends SimpleJob
 		{
 			LineInfo line = as.getLine(lineIndex);
 			MABCLineStats stats = new MABCLineStats(line);
-			lineStats.add(stats);
+			line.results().setMABCLineStats(stats);
 
 			// ...loop over each chromosome and work out RPP for it
 			for (int viewIndex = 0; viewIndex < as.viewCount(); viewIndex++)
@@ -204,10 +197,11 @@ public class MABCStats extends SimpleJob
 
 
 		// For each line in the dataset
-		for (int lineIndex = 0; lineIndex < lineStats.size(); lineIndex++)
+		for (int lineIndex = 0; lineIndex < as.lineCount(); lineIndex++)
 		{
 			// Get its MABC stats collector thing
-			MABCLineStats stats = lineStats.get(lineIndex);
+			LineInfo line = as.getLine(lineIndex);
+			MABCLineStats stats = line.results().getMABCLineStats();
 
 			// For each QTL (across each of the chromosomes)
 			for (int viewIndex = 0; viewIndex < as.viewCount(); viewIndex++)
@@ -313,58 +307,4 @@ public class MABCStats extends SimpleJob
 		int RM = -1;	// index of right marker under the QTL
 		boolean isDP;	// "Source" tag set to "DP" or not
 	}
-/*
-	private void fakeTraits()
-		throws Exception
-	{
-		DataSet dataSet = viewSet.getDataSet();
-		Flapjack.winMain.getNavPanel().getTraitsPanel(viewSet.getDataSet()).getTraitsPanel().removeAllTraits();
-
-		File tmp = new File("mabctraits");
-		BufferedWriter out = new BufferedWriter(new FileWriter(tmp));
-		out.write("# fjFile = PHENOTYPE");
-		out.newLine();
-
-		// Headers
-		MABCLineStats stats = lineStats.get(0);
-		for (ChromosomeMap map: dataSet.getChromosomeMaps())
-			out.write("\t" + map.getName());
-		out.write("\tRPP Total");
-		for (int i = 0; i < stats.getQTLScores().size(); i++)
-		{
-			MABCLineStats.QTLScore score = stats.getQTLScores().get(i);
-			out.write("\t" + score.qtl.getQTL().getName() + "\t" + score.qtl.getQTL().getName() + " Status");
-		}
-		out.write("\tQTLs Present\tRank\tComment");
-		out.newLine();
-
-		int lineCount = 0;
-		for (MABCLineStats lStats: lineStats)
-		{
-			out.write(lStats.getLineInfo().name());
-			for (int i = 0; i < lStats.getSumRP().size(); i++)
-				out.write("\t" + lStats.getSumRP().get(i));
-			if ((lineCount++) != 1)
-				out.write("\t" + lStats.getRPPTotal());
-			else
-				out.write("\t0.477");
-			int count = 0;
-			for (int i = 0; i < lStats.getQTLScores().size(); i++)
-			{
-				MABCLineStats.QTLScore score = lStats.getQTLScores().get(i);
-				out.write("\t" + score.drag + "\t" + (score.status ? "1" : "0"));
-				if (score.status)
-					count++;
-			}
-			out.write("\t" + count);
-			out.write("\t1\t ");
-			out.newLine();
-		}
-
-		out.close();
-
-
-		Flapjack.winMain.mFile.importTraitData(tmp);
-	}
-*/
 }

@@ -208,11 +208,11 @@ public class NavPanel extends JPanel
 		insert(node, vNode, vNode.getChildCount());
 	}
 
-	public void addMabcNode(GTViewSet viewSet, ArrayList<MABCLineStats> lineStats)
+	public void addMabcNode(GTViewSet viewSet)
 	{
 		VisualizationNode vNode = findVisualizationNode(viewSet);
 
-		MabcNode node = new MabcNode(viewSet.getDataSet(), viewSet, lineStats);
+		MabcNode node = new MabcNode(viewSet.getDataSet(), viewSet);
 		insert(node, vNode, vNode.getChildCount());
 	}
 
