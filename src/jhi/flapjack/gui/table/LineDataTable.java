@@ -6,11 +6,12 @@ package jhi.flapjack.gui.table;
 import java.awt.*;
 import java.awt.event.*;
 import java.text.*;
+import java.util.*;
 import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.table.*;
 
-import jhi.flapjack.gui.*;
+import jhi.flapjack.data.*;
 
 import scri.commons.gui.*;
 
@@ -19,6 +20,8 @@ public class LineDataTable extends JTable
 	private LineDataTableModel model;
 
 	private boolean colorCells = true;
+
+	private GTViewSet viewSet;
 
 	public LineDataTable()
 	{
@@ -60,7 +63,8 @@ public class LineDataTable extends JTable
 		};
 	}
 
-	@Override public void setModel(TableModel tm)
+	@Override
+	public void setModel(TableModel tm)
 	{
 		super.setModel(tm);
 
@@ -84,9 +88,36 @@ public class LineDataTable extends JTable
 			// Catch sort events
 			sorter.addRowSorterListener((RowSorterEvent e) ->
 			{
-				System.out.println("SORTED");
+				// We only want to deal with events of type sorted...not sort order changed
+				if (e.getType() == RowSorterEvent.Type.SORTED)
+				{
+					ArrayList<LineInfo> orderedLines = new ArrayList<>();
+					for (int i = 0; i < getRowCount(); i++)
+						orderedLines.add((LineInfo)model.getValueAt(convertRowIndexToModel(i), 0));
+
+					if (viewSet != null)
+						viewSet.setLines(orderedLines);
+				}
 			});
 		}
+	}
+
+	public void setViewSet(GTViewSet viewSet)
+	{
+		this.viewSet = viewSet;
+	}
+
+	@Override
+	public Object getValueAt(int row, int column)
+	{
+		// WATCH OUT FOR THIS FUNKY CODE. Because we need the main view to reflect the sorting of the table we end up
+		// applying the sort to the list which the TableModel wraps. This then breaks the sorting of the table as its
+		// array of view to model indexes points at the locations of elements in the pre-sorted list. To work our way
+		// around this (but still have the niceties of JTable sorting) we simply make the table look straight at the
+		// model instread by calling convertRowIndexToView with the row the table is looking for.
+		row = convertRowIndexToView(row);
+
+		return super.getValueAt(row, column);
 	}
 
 	// Deals with the fact that our fake double header for the JTable means

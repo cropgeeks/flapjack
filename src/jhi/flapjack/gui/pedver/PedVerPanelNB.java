@@ -11,13 +11,13 @@ public class PedVerPanelNB extends JPanel
 	/**
 	 * Creates new form MabcPanelNB
 	 */
-	public PedVerPanelNB(PedVerKnownParentsResults results)
+	public PedVerPanelNB()
 	{
 		initComponents();
 
-		lblF1MarkerCount.setText("Expected F1 marker count: " + results.getF1MarkerCount());
-		lblF1HetCount.setText("Expected F1 heterozygous allele count: " + results.getF1HeterozygousCount());
-		lblF1HetPercentage.setText("Expected F1 heterozygous allele percentage: " + results.getF1PercentHeterozygous());
+//		lblF1MarkerCount.setText("Expected F1 marker count: " + results.getF1MarkerCount());
+//		lblF1HetCount.setText("Expected F1 heterozygous allele count: " + results.getF1HeterozygousCount());
+//		lblF1HetPercentage.setText("Expected F1 heterozygous allele percentage: " + results.getF1PercentHeterozygous());
 	}
 
 	/**

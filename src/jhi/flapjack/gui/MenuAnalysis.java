@@ -336,7 +336,12 @@ public class MenuAnalysis
 		// Move the f1 to just below the parents
 		view.moveLine(newViewSet.getLines().indexOf(f1LineInfo), 2);
 
-		PedVerStats stats = new PedVerStats(as, newViewSet.getDataSet().getStateTable(), p1LineInfo, p2LineInfo, f1LineInfo);
+		AnalysisSet f1Set = new AnalysisSet(newViewSet)
+			.withViews(null)
+			.withSelectedLines()
+			.withSelectedMarkers();
+
+		PedVerStats stats = new PedVerStats(f1Set, newViewSet.getDataSet().getStateTable(), p1LineInfo, p2LineInfo, f1LineInfo);
 		ProgressDialog pDialog = new ProgressDialog(stats,
 			"Running PedVer Stats",
 			"Running PedVer stats - please be patient...",
@@ -352,6 +357,6 @@ public class MenuAnalysis
 		// Create new NavPanel components to hold the results
 		dataSet.getViewSets().add(newViewSet);
 		navPanel.addVisualizationNode(dataSet, newViewSet);
-		navPanel.addPedVerNode(newViewSet, stats.getResult());
+		navPanel.addPedVerNode(newViewSet);
 	}
 }
