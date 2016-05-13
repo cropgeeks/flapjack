@@ -16,11 +16,11 @@ public class PedVerNode extends BaseNode
 {
 	private PedVerPanel panel;
 
-	public PedVerNode(DataSet dataSet, GTViewSet viewSet, PedVerKnownParentsResults result)
+	public PedVerNode(DataSet dataSet, GTViewSet viewSet)
 	{
 		super(dataSet);
 
-		panel = new PedVerPanel(viewSet, result);
+		panel = new PedVerPanel(viewSet);
 	}
 
 	public String toString()

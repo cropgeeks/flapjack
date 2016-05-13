@@ -8,8 +8,8 @@ import java.awt.event.*;
 import javax.swing.*;
 
 import jhi.flapjack.data.*;
-import jhi.flapjack.data.results.*;
 import jhi.flapjack.gui.*;
+import jhi.flapjack.gui.table.*;
 
 public class PedVerPanel extends JPanel implements ActionListener
 {
@@ -18,9 +18,9 @@ public class PedVerPanel extends JPanel implements ActionListener
 
 	private PedVerPanelNB controls;
 
-	public PedVerPanel(GTViewSet viewset, PedVerKnownParentsResults results)
+	public PedVerPanel(GTViewSet viewSet)
 	{
-		controls = new PedVerPanelNB(results);
+		controls = new PedVerPanelNB();
 
 		table = controls.table;
 
@@ -31,17 +31,23 @@ public class PedVerPanel extends JPanel implements ActionListener
 //		setBorder(BorderFactory.createEmptyBorder(1, 1, 0, 0));
 		add(controls);
 
-		updateModel(viewset.getDataSet(), results);
+		updateModel(viewSet.getDataSet(), viewSet);
 	}
 
-	public void updateModel(DataSet dataSet, PedVerKnownParentsResults results)
+	public void updateModel(DataSet dataSet, GTViewSet viewSet)
 	{
-		model = new PedVerTableModel(dataSet, results);
+		model = new PedVerTableModel(dataSet, viewSet);
 
 		table.setModel(model);
+		((LineDataTable)table).setViewSet(viewSet);
 	}
 
 	public void actionPerformed(ActionEvent e)
 	{
+	}
+
+	public void modelChanged()
+	{
+		model.fireTableStructureChanged();
 	}
 }

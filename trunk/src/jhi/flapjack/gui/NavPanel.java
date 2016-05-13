@@ -7,7 +7,6 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.dnd.*;
 import java.beans.*;
-import java.util.*;
 import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.tree.*;
@@ -216,11 +215,11 @@ public class NavPanel extends JPanel
 		insert(node, vNode, vNode.getChildCount());
 	}
 
-	public void addPedVerNode(GTViewSet viewSet, PedVerKnownParentsResults result)
+	public void addPedVerNode(GTViewSet viewSet)
 	{
 		VisualizationNode vNode = findVisualizationNode(viewSet);
 
-		PedVerNode node = new PedVerNode(viewSet.getDataSet(), viewSet, result);
+		PedVerNode node = new PedVerNode(viewSet.getDataSet(), viewSet);
 		insert(node, vNode, vNode.getChildCount());
 	}
 
@@ -272,6 +271,23 @@ public class NavPanel extends JPanel
 					return (VisualizationNode) node;
 		}
 
+		return null;
+	}
+
+	public PedVerNode getPedVerNode(GTViewSet viewSet)
+	{
+		VisualizationNode node = findVisualizationNode(viewSet);
+
+		if (node != null)
+		{
+			for (int i = 0; i < node.getChildCount(); i++)
+			{
+				DefaultMutableTreeNode child = (DefaultMutableTreeNode) node.getChildAt(i);
+
+				if (child instanceof PedVerNode)
+					return (PedVerNode) child;
+			}
+		}
 		return null;
 	}
 

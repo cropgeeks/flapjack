@@ -19,8 +19,6 @@ public class PedVerStats extends SimpleJob
 	private LineInfo parent2Info;
 	private LineInfo f1LineInfo;
 
-	private PedVerKnownParentsResults result;
-
 	private int f1HetCount = 0;
 	private int totalMarkerCount = 0;
 	private float f1PercentCount = 0;
@@ -42,25 +40,22 @@ public class PedVerStats extends SimpleJob
 
 	private void calculateStats(AnalysisSet as)
 	{
-		calculateExpectedF1Stats(as);
-
-		ArrayList<PedVerKnownParentsLineStats> statsArrayList = new ArrayList<>();
+		calculateExpectedF1Stats();
 
 		for (int l=0; l < as.lineCount(); l++)
 		{
-			if (as.getLines().indexOf(parent1Info) == l || as.getLines().indexOf(parent2Info) == l || as.getLines().indexOf(f1LineInfo) == l)
-				continue;
+//			if (as.getLines().indexOf(parent1Info) == l || as.getLines().indexOf(parent2Info) == l || as.getLines().indexOf(f1LineInfo) == l)
+//				continue;
 
-			PedVerKnownParentsLineStats lineStat = calculateStatsForLine(as, l);
-			statsArrayList.add(lineStat);
+			calculateStatsForLine(l);
 		}
-
-		result = new PedVerKnownParentsResults(totalMarkerCount, f1HetCount, f1PercentCount, statsArrayList);
 	}
 
-	private PedVerKnownParentsLineStats calculateStatsForLine(AnalysisSet as1, int l)
+	private PedVerKnownParentsLineStats calculateStatsForLine(int lineIndex)
 	{
-		PedVerKnownParentsLineStats lineStat = new PedVerKnownParentsLineStats(as1.getLine(l));
+		LineInfo lineInfo = as.getLine(lineIndex);
+		PedVerKnownParentsLineStats lineStat = new PedVerKnownParentsLineStats(lineInfo);
+		lineInfo.results().setPedVerStats(lineStat);
 
 		int foundMarkers = 0;
 		int hetMarkers = 0;
@@ -68,11 +63,11 @@ public class PedVerStats extends SimpleJob
 		int p2Contained = 0;
 		int matchesExpF1 = 0;
 
-		for (int c = 0; c < as1.viewCount(); c++)
+		for (int c = 0; c < as.viewCount(); c++)
 		{
-			for (int m = 0; m < as1.markerCount(c); m++)
+			for (int m = 0; m < as.markerCount(c); m++)
 			{
-				int code = as1.getState(c, l, m);
+				int code = as.getState(c, lineIndex, m);
 
 				// Skip unknown states
 				if (code == 0)
@@ -88,8 +83,8 @@ public class PedVerStats extends SimpleJob
 
 				// Compare state code of the current allele with the equivalent
 				// in both parents and the expected F1
-				AlleleState p1State = stateTable.getAlleleState(as1.getState(c, 0, m));
-				AlleleState p2State = stateTable.getAlleleState(as1.getState(c, 1, m));
+				AlleleState p1State = stateTable.getAlleleState(as.getState(c, 0, m));
+				AlleleState p2State = stateTable.getAlleleState(as.getState(c, 1, m));
 				AlleleState expF1State = stateTable.getAlleleState(f1LineInfo.getState(c, m));
 				AlleleState currState = stateTable.getAlleleState(code);
 
@@ -104,7 +99,7 @@ public class PedVerStats extends SimpleJob
 			}
 		}
 
-		lineStat.setLine(as1.getLine(l));
+		lineStat.setLine(lineInfo);
 		lineStat.setMarkerCount(foundMarkers);
 		lineStat.setPercentMissing((1 - (foundMarkers / (float) totalMarkerCount)) * 100);
 		lineStat.setHeterozygousCount(hetMarkers);
@@ -120,12 +115,12 @@ public class PedVerStats extends SimpleJob
 		return lineStat;
 	}
 
-	private void calculateExpectedF1Stats(AnalysisSet as1)
+	private void calculateExpectedF1Stats()
 	{
-		for (int c = 0; c < as1.viewCount(); c++)
+		for (int c = 0; c < as.viewCount(); c++)
 		{
-			totalMarkerCount += as1.markerCount(c);
-			for (int m = 0; m < as1.markerCount(c); m++)
+			totalMarkerCount += as.markerCount(c);
+			for (int m = 0; m < as.markerCount(c); m++)
 			{
 				int stateCode = f1LineInfo.getState(c, m);
 				if (stateTable.isHet(stateCode))
@@ -137,6 +132,6 @@ public class PedVerStats extends SimpleJob
 
 	public PedVerKnownParentsResults getResult()
 	{
-		return result;
+		return null;
 	}
 }

@@ -16,6 +16,8 @@ public class LineResults
 	// MABC analysis result
 	private MABCLineStats mabcLineStats;
 
+	private PedVerKnownParentsLineStats pedVerStats;
+
 	public LineResults(LineInfo lineInfo)
 	{
 		this.lineInfo = lineInfo;
@@ -32,4 +34,10 @@ public class LineResults
 
 	public void setMABCLineStats(MABCLineStats mabcLineStats)
 		{ this.mabcLineStats = mabcLineStats; }
+
+	public PedVerKnownParentsLineStats getPedVerStats()
+		{ return pedVerStats; }
+
+	public void setPedVerStats(PedVerKnownParentsLineStats pedVerStats)
+		{ this.pedVerStats = pedVerStats; }
 }
