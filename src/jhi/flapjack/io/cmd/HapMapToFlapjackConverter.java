@@ -1,7 +1,4 @@
-// Copyright 2009-2016 Information & Computational Sciences, JHI. All rights
-// reserved. Use is subject to the accompanying licence terms.
-
-package jhi.flapjack.io;
+package jhi.flapjack.io.cmd;
 
 import java.io.*;
 import java.util.*;
@@ -14,7 +11,7 @@ import java.util.stream.*;
  */
 public class HapMapToFlapjackConverter
 {
-	private static final String HAPMAP_HEADER_ID = "rs#";
+	private static final String HAPMAP_HEADER_ID = "rs";
 
 	// The HapMap input file
 	private File hapMap;
@@ -33,23 +30,35 @@ public class HapMapToFlapjackConverter
 
 	public static void main(String[] args)
 	{
-		if (args.length == 4 && (args[0].equals("-s") || args[0].equals("-t")))
-		{
-			String separator;
-			if (args[0].equals("-s"))
-				separator = SPACE_SEPARATOR;
-			else
-				separator = TAB_SEPARATOR;
+		File genotypeFile = null;
+		File mapFile = null;
+		File hapMapFile = null;
+		String separator = null;
 
-			HapMapToFlapjackConverter toFlapjack = new HapMapToFlapjackConverter(new File(args[1]), new File(args[2]), new File(args[3]), separator);
-			toFlapjack.convert();
+		for (int i = 0; i < args.length; i++)
+		{
+			if (args[i].startsWith("-genotypes="))
+				genotypeFile = new File(args[i].substring(11));
+			if (args[i].startsWith("-separator="))
+				separator = args[i].substring(11);
+			if (args[i].startsWith("-map="))
+				mapFile = new File(args[i].substring(5));
+			if (args[i].startsWith("-hapmap="))
+				hapMapFile = new File(args[i].substring(8));
 		}
+
+		if (genotypeFile == null || mapFile == null || hapMapFile == null || separator == null || separator != null && (!separator.equals("s") && !separator.equals("t")))
+			printHelp();
+
 		else
 		{
-			System.out.println();
-			System.out.println("Usage for space separated input files: java -jar hapmaptoflapjack.jar -s hapMapFilePath mapOutputPath genotypeOutputPath");
-			System.out.println();
-			System.out.println("Usage for tab separated input files: java -jar hapmaptoflapjack.jar -t hapMapFilePath mapOutputPath genotypeOutputPath");
+			if (separator.equals("s"))
+				separator = SPACE_SEPARATOR;
+			else if (separator.equals("t"))
+				separator = TAB_SEPARATOR;
+
+			HapMapToFlapjackConverter toFlapjack = new HapMapToFlapjackConverter(hapMapFile, mapFile, genotypeFile, separator);
+			toFlapjack.convert();
 		}
 	}
 
@@ -58,9 +67,9 @@ public class HapMapToFlapjackConverter
 	 * map file to be output and the Flapjack genotype file to be output. The HapMap file should already exist, whereas
 	 * the two output files shouldn't.
 	 *
-	 * @param hapMap		the HapMap formatted file we are converting to Flapjack format files
-	 * @param map			the Flapjack map file to be producecd by the converter
-	 * @param genoytpyes	the Flapjack genotype file to be produced by the converter
+	 * @param hapMap     the HapMap formatted file we are converting to Flapjack format files
+	 * @param map        the Flapjack map file to be producecd by the converter
+	 * @param genoytpyes the Flapjack genotype file to be produced by the converter
 	 */
 	public HapMapToFlapjackConverter(File hapMap, File map, File genoytpyes, String separator)
 	{
@@ -85,8 +94,8 @@ public class HapMapToFlapjackConverter
 
 	/**
 	 * Reads a HapMap (version 3?) file line by line, splits each line on whitespace separators and either passes the
-	 * header line to be processed by {@link HapMapToFlapjackConverter#processHapMapFile} and all other lines to be
-	 * processed by within this method.
+	 * header line to be processed by {@link HapMapToFlapjackConverter#processHapMapFile} and all other lines to be processed by
+	 * within this method.
 	 */
 	private boolean processHapMapFile()
 	{
@@ -95,7 +104,7 @@ public class HapMapToFlapjackConverter
 
 		try (BufferedReader reader = new BufferedReader(new FileReader(hapMap)))
 		{
-			int i=0;
+			int i = 0;
 			String line;
 			while ((line = reader.readLine()) != null)
 			{
@@ -133,12 +142,12 @@ public class HapMapToFlapjackConverter
 	/**
 	 * Converts an array of line names into an array of {@link HapMapToFlapjackConverter.Line} objects.
 	 *
-	 * @param lineNames	a String array of names for the lines found in the file
+	 * @param lineNames a String array of names for the lines found in the file
 	 */
 	private void processHeaderLine(String[] lineNames)
 	{
 		lines = new Line[lineNames.length];
-		for (int i=0; i < lineNames.length; i++)
+		for (int i = 0; i < lineNames.length; i++)
 			lines[i] = new Line(lineNames[i]);
 	}
 
@@ -146,9 +155,9 @@ public class HapMapToFlapjackConverter
 	 * Takes a marker name, chromosome, position and list of snpCalls and creates a marker and adds it to the list of
 	 * markers held in the class.
 	 *
-	 * @param name			The String name of the marker we're creating
-	 * @param chromosome	The String name of the chromosome the marker is on
-	 * @param position		The String position of the marker in its chromosome
+	 * @param name       The String name of the marker we're creating
+	 * @param chromosome The String name of the chromosome the marker is on
+	 * @param position   The String position of the marker in its chromosome
 	 */
 	private void createMarker(String name, String chromosome, String position)
 	{
@@ -164,7 +173,7 @@ public class HapMapToFlapjackConverter
 	 */
 	private void addSnpCallsToLines(String[] snpCalls)
 	{
-		for (int i=0; i < snpCalls.length; i++)
+		for (int i = 0; i < snpCalls.length; i++)
 			lines[i].addSnpCall(convertAndCollapseSnpCall(snpCalls[i]));
 	}
 
@@ -172,8 +181,50 @@ public class HapMapToFlapjackConverter
 	{
 		String converted;
 
+		if (call.length() == 1)
+		{
+			switch (call)
+			{
+				case "A":
+					converted = "A";
+					break;
+				case "G":
+					converted = "G";
+					break;
+				case "C":
+					converted = "C";
+					break;
+				case "T":
+					converted = "T";
+					break;
+				case "Y":
+					converted = "C/T";
+					break;
+				case "R":
+					converted = "A/G";
+					break;
+				case "W":
+					converted = "A/T";
+					break;
+				case "S":
+					converted = "G/C";
+					break;
+				case "K":
+					converted = "T/G";
+					break;
+				case "M":
+					converted = "C/A";
+					break;
+				default:
+					converted = "N";
+					break;
+			}
+
+			return converted;
+		}
+
 		if (call.charAt(0) == call.charAt(1))
-			converted = call.substring(0, 1).equals("N") ? "-" : call.substring(0,1);
+			converted = call.substring(0, 1).equals("N") ? "-" : call.substring(0, 1);
 		else
 			converted = call.substring(0, 1) + "/" + call.substring(1, 2);
 
@@ -284,5 +335,15 @@ public class HapMapToFlapjackConverter
 		{
 			return snpCalls;
 		}
+	}
+
+	private static void printHelp()
+	{
+		System.out.println("Usage: hapmap2flapjack <options>\n"
+			+ " where valid options are:\n"
+			+ "   -separator=<s or t>            (required separator used in input file)\n"
+			+ "   -hapmap=<hapmap_file>          (required input file)\n"
+			+ "   -map=<map_file>                (required output file)\n"
+			+ "   -genotypes=<genotype_file>     (required output file)\n");
 	}
 }
