@@ -5,17 +5,11 @@ package jhi.flapjack.gui.mabc;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.text.*;
-import java.util.*;
 import javax.swing.*;
-import javax.swing.table.*;
 
 import jhi.flapjack.data.*;
-import jhi.flapjack.data.results.*;
 import jhi.flapjack.gui.*;
-import jhi.flapjack.gui.dialog.*;
-
-import scri.commons.gui.*;
+import jhi.flapjack.gui.table.*;
 
 public class MabcPanel extends JPanel implements ActionListener
 {
@@ -38,6 +32,8 @@ public class MabcPanel extends JPanel implements ActionListener
 		add(controls);
 
 		updateModel(viewset);
+
+		controls.bExport.addActionListener(this);
 	}
 
 	public void updateModel(GTViewSet viewset)
@@ -49,5 +45,9 @@ public class MabcPanel extends JPanel implements ActionListener
 
 	public void actionPerformed(ActionEvent e)
 	{
+		if (e.getSource() == controls.bExport)
+		{
+			((LineDataTable)table).exportData();
+		}
 	}
 }
