@@ -91,7 +91,7 @@ public class MabcPanelNB extends javax.swing.JPanel
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton bExport;
+    javax.swing.JButton bExport;
     javax.swing.JLabel coverageLabel;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
