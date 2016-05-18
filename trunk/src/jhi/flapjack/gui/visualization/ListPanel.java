@@ -12,6 +12,8 @@ import javax.swing.table.*;
 import jhi.flapjack.data.*;
 import jhi.flapjack.gui.*;
 
+import jhi.flapjack.gui.table.LineDataTable;
+import jhi.flapjack.gui.table.LineDataTableModel;
 import scri.commons.gui.*;
 
 class ListPanel extends JPanel
@@ -19,10 +21,10 @@ class ListPanel extends JPanel
 	private GTViewSet viewSet;
 	private GTView view;
 
-	private JTable lineTable;
+	private LineDataTable lineTable;
 	// TODO: For now we can use a DefaultTableModel this is likely to change going forward to support some sort of
 	// 		 TraitTableModel base class concept?
-	private DefaultTableModel lineModel;
+	private LineDataTableModel lineModel;
 	private static Font font;
 
 	ListPanel()
@@ -38,8 +40,9 @@ class ListPanel extends JPanel
 	private void createControls()
 	{
 		// Setup our table with a default table model
-		lineModel = new DefaultTableModel();
-		lineTable = new JTable(lineModel)
+		lineModel = new TablePanelTableModel(viewSet);
+
+		lineTable = new LineDataTable()
 		{
 			// Set the cell renderers so that we get the LineInfo version for the first column and the base class
 			// HighlightTableCellRenderer by default for all others
@@ -53,7 +56,7 @@ class ListPanel extends JPanel
 				}
 			}
 		};
-		lineTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		lineTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 		lineTable.setEnabled(false);
 		lineTable.setDefaultRenderer(LineInfo.class, new LineInfoCellRenderer());
 		lineTable.setShowGrid(false);
@@ -66,6 +69,8 @@ class ListPanel extends JPanel
 				handlePopup(e);
 			}
 		});
+
+		lineTable.setModel(lineModel);
 	}
 
 	int getPanelWidth()
@@ -84,26 +89,21 @@ class ListPanel extends JPanel
 		if (view == null)
 			return;
 
-		// TODO: Probably best to have our models define a clear method
-		lineModel = new DefaultTableModel() {
-			@Override
-			public Class<?> getColumnClass(int columnIndex) {
-				if (columnIndex == 0)
-					return LineInfo.class;
-				else if (columnIndex == 1)
-					return String.class;
-				else
-					return Integer.class;
-			}
-		};
-		// TODO: Probably query this out of the model
-		lineModel.setColumnCount(1);
+		lineModel = new TablePanelTableModel(viewSet);
 
-		for (int i = 0; i < view.lineCount(); i++)
-		{
-			lineModel.addRow(new Object[] { view.getLineInfo(i) });
-		}
+		// TODO: Probably best to have our models define a clear method
+		// TODO: Probably query this out of the model
+//		lineModel.setColumnCount(1);
+
+//		for (int i = 0; i < view.lineCount(); i++)
+//		{
+//			lineModel.addRow(new Object[] { view.getLineInfo(i) });
+//		}
 		lineTable.setModel(lineModel);
+
+		// Force a computeDimensions incase the number of columns in the model has changed
+		if (font != null)
+			computeDimensions(font.getSize());
 	}
 
 	void computeDimensions(int size)
@@ -182,11 +182,10 @@ class ListPanel extends JPanel
 		final JCheckBoxMenuItem mShowScores = new JCheckBoxMenuItem();
 		RB.setText(mShowScores, "gui.visualization.ListPanel.showScores");
 		mShowScores.setSelected(viewSet.getDisplayLineScores());
-		mShowScores.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				viewSet.setDisplayLineScores(mShowScores.isSelected());
-				populateList();
-			}
+		mShowScores.addActionListener(event ->
+		{
+			viewSet.setDisplayLineScores(mShowScores.isSelected());
+			populateList();
 		});
 
 		menu.add(mShowScores);
