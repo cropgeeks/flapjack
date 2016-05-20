@@ -16,8 +16,6 @@ public class TablePanelTableModel extends LineDataTableModel
 
 	private DecimalFormat df = new DecimalFormat("0.00");
 
-	private int chrCount;
-	private int qtlCount;
 	private int rppIndex;
 	private int rppTotalIndex;
 	private int rppCoverageIndex;
@@ -42,8 +40,8 @@ public class TablePanelTableModel extends LineDataTableModel
 				if (lineStats != null)
 				{
 					// Use information from the first result to determine the UI
-					chrCount = lineStats.getChrScores().size();
-					qtlCount = lineStats.getQTLScores().size();
+					int chrCount = lineStats.getChrScores().size();
+					int qtlCount = lineStats.getQTLScores().size();
 
 					// Column indices
 					rppIndex = noCols;

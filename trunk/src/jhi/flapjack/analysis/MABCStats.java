@@ -24,6 +24,7 @@ import scri.commons.gui.*;
 public class MABCStats extends SimpleJob
 {
 	private GTViewSet viewSet;
+	private boolean[] selectedChromosomes;
 
 	private HashMap<QTLInfo, QTLParams> qtlHash = new HashMap<>();
 
@@ -32,9 +33,10 @@ public class MABCStats extends SimpleJob
 	// hard coded index of the RP line (index of the line minus duplicate, etc)
 	int rpIndex = 0;
 
-	public MABCStats(GTViewSet viewSet)
+	public MABCStats(GTViewSet viewSet, boolean[] selectedChromosomes)
 	{
 		this.viewSet = viewSet;
+		this.selectedChromosomes = selectedChromosomes;
 	}
 
 	public void runJob(int index)
@@ -42,7 +44,7 @@ public class MABCStats extends SimpleJob
 	{
 		// This analysis will run on selected lines/markers only
 		AnalysisSet as = new AnalysisSet(viewSet)
-			.withViews(null)													// <-- USER STILL NEEDS TO PICK CHROMOSOMES TO WORK WITH (in dialog)
+			.withViews(selectedChromosomes)													// <-- USER STILL NEEDS TO PICK CHROMOSOMES TO WORK WITH (in dialog)
 			.withSelectedLines()
 			.withSelectedMarkers();
 

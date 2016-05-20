@@ -303,7 +303,7 @@ public class GTViewSet extends XMLRoot
 	public String toString()
 		{ return name; }
 
-	public GTViewSet createClone(String cloneName, boolean onlyCloneSelectedLines)
+	public GTViewSet createClone(String cloneName, boolean onlyCloneSelectedLines, boolean[] selectedChromosomes)
 	{
 		GTViewSet clone = new GTViewSet(dataSet, cloneName);
 
@@ -334,8 +334,9 @@ public class GTViewSet extends XMLRoot
 
 		// Copy over the chromosomes views
 		clone.views.clear();
-		for (GTView view: views)
-			clone.views.add(view.createClone(clone));
+		for (int i=0; i < views.size(); i++)
+			if (selectedChromosomes == null || selectedChromosomes[i])
+				clone.views.add(views.get(i).createClone(clone));
 
 		return clone;
 	}
