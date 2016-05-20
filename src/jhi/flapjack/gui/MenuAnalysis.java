@@ -203,7 +203,7 @@ public class MenuAnalysis
 
 		// Clone the view (as the clone will ultimately contain a reordered
 		// list of lines that match the order in the dendrogram)
-		GTViewSet newViewSet = viewSet.createClone("", true);
+		GTViewSet newViewSet = viewSet.createClone("", true, null);
 
 		DendrogramGenerator dg = new DendrogramGenerator(matrix, newViewSet);
 
@@ -268,15 +268,19 @@ public class MenuAnalysis
 
 		// Clone the view (as the clone will ultimately contain a reordered
 		// list of lines that match the order in the dendrogram)
-		GTViewSet newViewSet = viewSet.createClone("", true);
+		GTViewSet dialogViewSet = viewSet.createClone("", true, null);
 
 		// Prompt the user for input variables
-		MABCStatsDialog dialog = new MABCStatsDialog(newViewSet);
+		MABCStatsDialog dialog = new MABCStatsDialog(dialogViewSet);
 		if (dialog.isOK() == false)
 			return;
 
+		boolean[] selectedChromosomes = dialog.getSelectedChromosomes();
+
+		GTViewSet finalViewSet = dialogViewSet.createClone("", true, selectedChromosomes);
+
 		// Run the stats calculations
-		MABCStats stats = new MABCStats(newViewSet);
+		MABCStats stats = new MABCStats(finalViewSet, selectedChromosomes);
 		ProgressDialog pDialog = new ProgressDialog(stats,
 			RB.getString("gui.MenuAnalysis.mabc.title"),
 			RB.getString("gui.MenuAnalysis.pcoa.label"), Flapjack.winMain);
@@ -284,14 +288,14 @@ public class MenuAnalysis
 		// Create titles for the new view and its results table
 		int id = dataSet.getMabcCount() + 1;
 		dataSet.setMabcCount(id);
-		newViewSet.setName(RB.format("gui.MenuAnalysis.mabc.view", id));
+		finalViewSet.setName(RB.format("gui.MenuAnalysis.mabc.view", id));
 		// mabc thingy. RB.format("gui.MenuAnalysis.mabc.panel", id);
 		// set?
 
 		// Create new NavPanel components to hold the results
-		dataSet.getViewSets().add(newViewSet);
-		navPanel.addVisualizationNode(dataSet, newViewSet);
-		navPanel.addMabcNode(newViewSet);
+		dataSet.getViewSets().add(finalViewSet);
+		navPanel.addVisualizationNode(dataSet, finalViewSet);
+		navPanel.addMabcNode(finalViewSet);
 	}
 
 	public void gobiiPedVer()
@@ -302,7 +306,7 @@ public class MenuAnalysis
 
 		// Clone the view (as the clone will ultimately contain a reordered
 		// list of lines that match the order in the dendrogram)
-		GTViewSet newViewSet = viewSet.createClone("", true);
+		GTViewSet newViewSet = viewSet.createClone("", true, null);
 
 		AnalysisSet as = new AnalysisSet(newViewSet)
 			.withViews(null)
