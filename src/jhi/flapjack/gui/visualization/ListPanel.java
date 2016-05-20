@@ -27,6 +27,8 @@ class ListPanel extends JPanel
 	private LineDataTableModel lineModel;
 	private static Font font;
 
+	private boolean showMabc = false;
+
 	ListPanel()
 	{
 		createControls();
@@ -40,7 +42,7 @@ class ListPanel extends JPanel
 	private void createControls()
 	{
 		// Setup our table with a default table model
-		lineModel = new TablePanelTableModel(viewSet);
+		lineModel = new TablePanelTableModel(viewSet, showMabc);
 
 		lineTable = new LineDataTable()
 		{
@@ -89,16 +91,8 @@ class ListPanel extends JPanel
 		if (view == null)
 			return;
 
-		lineModel = new TablePanelTableModel(viewSet);
+		lineModel = new TablePanelTableModel(viewSet, showMabc);
 
-		// TODO: Probably best to have our models define a clear method
-		// TODO: Probably query this out of the model
-//		lineModel.setColumnCount(1);
-
-//		for (int i = 0; i < view.lineCount(); i++)
-//		{
-//			lineModel.addRow(new Object[] { view.getLineInfo(i) });
-//		}
 		lineTable.setModel(lineModel);
 
 		// Force a computeDimensions incase the number of columns in the model has changed
@@ -112,7 +106,8 @@ class ListPanel extends JPanel
 		lineTable.setFont(font);
 		// Re-size the height of the rows by getting the height of the font using font metrics
 		// TODO: This can only be called when we have a graphics object....
-		lineTable.setRowHeight(lineTable.getGraphics().getFontMetrics().getHeight());
+		if (lineTable.getGraphics() != null)
+			lineTable.setRowHeight(lineTable.getGraphics().getFontMetrics().getHeight());
 
 		// Re-size columns so that they fit their content perfectly
 		// TODO: Can we cache the "widest" element of the column so we have less re-calculating to do
@@ -188,7 +183,17 @@ class ListPanel extends JPanel
 			populateList();
 		});
 
+		final JCheckBoxMenuItem mShowMabcResults = new JCheckBoxMenuItem();
+		mShowMabcResults.setText("Show MABC results");
+		mShowMabcResults.setSelected(showMabc);
+		mShowMabcResults.addActionListener(event ->
+		{
+			showMabc = !showMabc;
+			populateList();
+		});
+
 		menu.add(mShowScores);
+		menu.add(mShowMabcResults);
 		menu.show(e.getComponent(), e.getX(), e.getY());
 	}
 
@@ -211,6 +216,7 @@ class ListPanel extends JPanel
 			setFont(font);
 
 			setText(value.toString());
+			setBorder(BorderFactory.createEmptyBorder(0, 2, 0, 2));
 
 			// Highlight the line "under" the mouse
 			if (row == view.mouseOverLine)
@@ -238,6 +244,8 @@ class ListPanel extends JPanel
 		{
 			super.getTableCellRendererComponent(table, value, isSelected,
 				hasFocus, row, column);
+
+			setBorder(BorderFactory.createEmptyBorder());
 
 			if (value instanceof LineInfo && value != null)
 				setText(((LineInfo)value).name());
