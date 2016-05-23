@@ -56,6 +56,18 @@ public class TablePanelTableModel extends LineDataTableModel
 		}
 
 		columnNames = new String[noCols];
+
+		columnNames[0] = "Accession";
+		if (showMabc)
+		{
+			for (int i=1; i+rppIndex <= rppTotalIndex; i++)
+			{
+				columnNames[rppIndex + (i-1)] = "RPP " + i;
+			}
+			columnNames[rppTotalIndex] = "RPP Total";
+			columnNames[rppCoverageIndex] = "RPP Coverage";
+		}
+//		columnNames[qtlIndex] = "QTL";
 	}
 
 	@Override
