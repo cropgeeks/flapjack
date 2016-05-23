@@ -16,7 +16,7 @@ import jhi.flapjack.gui.table.LineDataTable;
 import jhi.flapjack.gui.table.LineDataTableModel;
 import scri.commons.gui.*;
 
-class ListPanel extends JPanel
+class ListPanel extends JPanel implements MouseMotionListener, MouseListener
 {
 	private GTViewSet viewSet;
 	private GTView view;
@@ -29,6 +29,8 @@ class ListPanel extends JPanel
 
 	private boolean showMabc = false;
 
+	private int rowUnderMouse = -1;
+
 	ListPanel()
 	{
 		createControls();
@@ -37,6 +39,9 @@ class ListPanel extends JPanel
 		setBorder(BorderFactory.createEmptyBorder(1, 2, 0, 0));
 		setBackground(Color.WHITE);
 		add(lineTable);
+
+		lineTable.addMouseMotionListener(this);
+		lineTable.addMouseListener(this);
 	}
 
 	private void createControls()
@@ -197,6 +202,45 @@ class ListPanel extends JPanel
 		menu.show(e.getComponent(), e.getX(), e.getY());
 	}
 
+	@Override
+	public void mouseDragged(MouseEvent e)
+	{
+	}
+
+	@Override
+	public void mouseMoved(MouseEvent e)
+	{
+		rowUnderMouse = lineTable.rowAtPoint(e.getPoint());
+		lineTable.repaint();
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e)
+	{
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e)
+	{
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e)
+	{
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e)
+	{
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e)
+	{
+		rowUnderMouse = -1;
+		lineTable.repaint();
+	}
+
 	// Base class for any renderer which needs to highlight table cells based on the row under the mouse on the main
 	// canvas. Defaults to setting the text to value's toString()
 	public class HighlightTableCellRenderer extends JLabel implements TableCellRenderer
@@ -219,7 +263,7 @@ class ListPanel extends JPanel
 			setBorder(BorderFactory.createEmptyBorder(0, 2, 0, 2));
 
 			// Highlight the line "under" the mouse
-			if (row == view.mouseOverLine)
+			if (row == view.mouseOverLine || row == rowUnderMouse)
 			{
 				setBackground(selectedBG);
 				setForeground(selectedFG);
@@ -229,6 +273,8 @@ class ListPanel extends JPanel
 				setBackground(table.getBackground());
 				setForeground(table.getForeground());
 			}
+
+			setToolTipText(table.getColumnName(column) + ": " + value);
 
 			return this;
 		}
