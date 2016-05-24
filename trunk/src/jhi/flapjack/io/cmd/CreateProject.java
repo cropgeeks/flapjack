@@ -34,7 +34,7 @@ public class CreateProject
 	private String name;
 	private boolean decimalEnglish = false;
 
-	private static List<String> output = new ArrayList<>();
+	private List<String> output = new ArrayList<>();
 
 	public static void main(String[] args)
 	{
@@ -200,7 +200,7 @@ public class CreateProject
 		return ProjectSerializer.save(project);
 	}
 
-	private static void logMessage(String message)
+	private void logMessage(String message)
 	{
 		System.out.println(message);
 		output.add(message);
