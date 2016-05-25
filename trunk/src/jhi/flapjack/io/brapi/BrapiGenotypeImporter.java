@@ -124,8 +124,8 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 		{
 //			System.out.print("GID: #" + mp.getGermplasmId() + "#, name: ");
 
-			Line line = linesByGermplasmID.get(mp.getGermplasmId());
-			linesByProfileID.put(mp.getMarkerprofileId(), line);
+			Line line = linesByGermplasmID.get("" + mp.getGermplasmDbId());
+			linesByProfileID.put(mp.getMarkerProfileDbId(), line);
 
 //			System.out.println(line == null ? "NULL" : line.getName());
 		}
@@ -143,11 +143,11 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 
 			// A list of IDs that need to be mapped back to the original list of marker profile IDs that
 			// were asked for
-			List<String> markerprofileIds = matrix.getMarkerprofileIds();
+			List<String> markerprofileIds = matrix.getMarkerprofileDbIds();
 
 
 			// MarkerName, list of scores (index of each one mapped to index in markerprofile/germplasm index)
-			HashMap<String, List<String>> scores = matrix.getScores();
+			HashMap<String, List<String>> scores = matrix.getData();
 
 			for (String markerName : scores.keySet())
 			{

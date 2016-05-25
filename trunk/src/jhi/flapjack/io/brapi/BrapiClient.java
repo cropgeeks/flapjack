@@ -94,6 +94,7 @@ public class BrapiClient
 	{
 		String url = baseURL + "/maps/";
 		cr.setReference(url);
+		System.out.println("Querying: " + url);
 
 		List<BrapiGenomeMap> list = new ArrayList<>();
 		boolean requestPage = true;
@@ -101,10 +102,10 @@ public class BrapiClient
 		while (requestPage)
 		{
 			LinkedHashMap hashMap = cr.get(LinkedHashMap.class);
-			BasicResource<BrapiGenomeMap> br = new ObjectMapper().convertValue(hashMap,
-				new TypeReference<BasicResource<BrapiGenomeMap>>() {});
+			BasicResource<DataResult<BrapiGenomeMap>> br = new ObjectMapper().convertValue(hashMap,
+				new TypeReference<BasicResource<DataResult<BrapiGenomeMap>>>() {});
 
-			list.addAll(br.getResult());
+			list.addAll(br.getResult().getData());
 			requestPage = pageCheck(br.getMetadata(), url);
 		}
 
@@ -125,10 +126,10 @@ public class BrapiClient
 		while (requestPage)
 		{
 			LinkedHashMap hashMap = cr.get(LinkedHashMap.class);
-			BasicResource<BrapiMarkerProfileMethod> br = new ObjectMapper().convertValue(hashMap,
-				new TypeReference<BasicResource<BrapiMarkerProfileMethod>>() {});
+			BasicResource<DataResult<BrapiMarkerProfileMethod>> br = new ObjectMapper().convertValue(hashMap,
+				new TypeReference<BasicResource<DataResult<BrapiMarkerProfileMethod>>>() {});
 
-			list.addAll(br.getResult());
+			list.addAll(br.getResult().getData());
 			requestPage = pageCheck(br.getMetadata(), url);
 		}
 
@@ -149,10 +150,10 @@ public class BrapiClient
 		while (requestPage)
 		{
 			LinkedHashMap hashMap = cr.get(LinkedHashMap.class);
-			BasicResource<BrapiMarker> br = new ObjectMapper().convertValue(hashMap,
-				new TypeReference<BasicResource<BrapiMarker>>() {});
+			BasicResource<DataResult<BrapiMarker>> br = new ObjectMapper().convertValue(hashMap,
+				new TypeReference<BasicResource<DataResult<BrapiMarker>>>() {});
 
-			list.addAll(br.getResult());
+			list.addAll(br.getResult().getData());
 			requestPage = pageCheck(br.getMetadata(), url);
 		}
 
@@ -172,10 +173,10 @@ public class BrapiClient
 		while (requestPage)
 		{
 			LinkedHashMap hashMap = cr.get(LinkedHashMap.class);
-			BasicResource<BrapiGermplasm> br = new ObjectMapper().convertValue(hashMap,
-				new TypeReference<BasicResource<BrapiGermplasm>>() {});
+			BasicResource<DataResult<BrapiGermplasm>> br = new ObjectMapper().convertValue(hashMap,
+				new TypeReference<BasicResource<DataResult<BrapiGermplasm>>>() {});
 
-			list.addAll(br.getResult());
+			list.addAll(br.getResult().getData());
 			requestPage = pageCheck(br.getMetadata(), url);
 		}
 
@@ -195,10 +196,10 @@ public class BrapiClient
 		while (requestPage)
 		{
 			LinkedHashMap hashMap = cr.get(LinkedHashMap.class);
-			BasicResource<BrapiMarkerProfile> br = new ObjectMapper().convertValue(hashMap,
-				new TypeReference<BasicResource<BrapiMarkerProfile>>() {});
+			BasicResource<DataResult<BrapiMarkerProfile>> br = new ObjectMapper().convertValue(hashMap,
+				new TypeReference<BasicResource<DataResult<BrapiMarkerProfile>>>() {});
 
-			list.addAll(br.getResult());
+			list.addAll(br.getResult().getData());
 			requestPage = pageCheck(br.getMetadata(), url);
 		}
 
@@ -222,7 +223,7 @@ public class BrapiClient
 			{
 				if (sb.length() > 0)
 					sb.append("&");
-				sb.append("markerprofileDbId=" + mp.getMarkerprofileId());
+				sb.append("markerprofileDbId=" + mp.getMarkerProfileDbId());
 			}
 
 			Form form = new Form(sb.toString());
@@ -231,7 +232,9 @@ public class BrapiClient
 			BasicResource<BrapiAlleleMatrix> br = new ObjectMapper().convertValue(hashMap,
 				new TypeReference<BasicResource<BrapiAlleleMatrix>>() {});
 
-			list.addAll(br.getResult());
+			ArrayList<BrapiAlleleMatrix> temp = new ArrayList<>();
+			temp.add(br.getResult());
+			list.addAll(temp);
 			requestPage = pageCheck(br.getMetadata(), url);
 		}
 
