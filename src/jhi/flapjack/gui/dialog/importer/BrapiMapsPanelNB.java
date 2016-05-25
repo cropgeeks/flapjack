@@ -47,7 +47,7 @@ class BrapiMapsPanelNB extends javax.swing.JPanel
 		{
 			BrapiGenomeMap map = maps.get(index);
 
-			request.setMapID(map.getMapId());
+			request.setMapID("" + map.getMapId());
 
 			String str = "Species: " + map.getSpecies() + "\n" +
 				"Type: " + map.getType() + "\n" +
@@ -116,7 +116,7 @@ class BrapiMapsPanelNB extends javax.swing.JPanel
 			BrapiClient.setXmlResource(request.getResource());
 
 			maps = BrapiClient.getMaps();
-			methods = BrapiClient.getMarkerProfileMethods();
+//			methods = BrapiClient.getMarkerProfileMethods();
 		}
 	}
 
