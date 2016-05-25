@@ -25,7 +25,7 @@ public class Hdf5ToGenotypeConverter
 	private boolean missingDataFilter = false;
 	private boolean heterozygousFilter = false;
 
-	private final Map<String, String> linesReplaced;
+	private Map<String, String> linesReplaced;
 
 	private HashMap<String, Integer> markerInds;
 
@@ -38,10 +38,7 @@ public class Hdf5ToGenotypeConverter
 	{
 		// Setup input and output files
 		this.hdf5File = hdf5File;
-		// Create a mapping of line names with slashes in to the replaced version so we can output the originals at the end
-		this.linesReplaced = lines.stream().filter(line -> line.contains("/")).collect(Collectors.toMap(line -> line.replaceAll("/", "_"), Function.identity()));
-		// Replace slashes as HDF5 treats a slash as the start of a sub-folder
-		this.lines = lines.stream().map(line -> line.replaceAll("/", "_")).collect(Collectors.toCollection(ArrayList::new));
+		this.lines = lines;
 		this.markers = markers;
 
 		// TODO: work out how we can implement these filters in a time efficient way
@@ -101,6 +98,14 @@ public class Hdf5ToGenotypeConverter
 		long s = System.currentTimeMillis();
 		hdf5Lines = reader.getGroupMembers("Lines");
 
+		if(lines == null)
+			lines = hdf5Lines;
+
+		// Create a mapping of line names with slashes in to the replaced version so we can output the originals at the end
+		linesReplaced = lines.stream().filter(line -> line.contains("/")).collect(Collectors.toMap(line -> line.replaceAll("/", "_"), Function.identity()));
+		// Replace slashes as HDF5 treats a slash as the start of a sub-folder
+		lines = lines.stream().map(line -> line.replaceAll("/", "_")).collect(Collectors.toCollection(ArrayList::new));
+
 		lines.retainAll(hdf5Lines);
 		System.out.println();
 		System.out.println("Read and filtered lines: " + (System.currentTimeMillis() - s) + " (ms)");
@@ -109,6 +114,9 @@ public class Hdf5ToGenotypeConverter
 		// Load markers from HDF5 and find the indices of our loaded markers
 		String[] hdf5MarkersArray = reader.readStringArray("Markers");
 		hdf5Markers = Arrays.asList(hdf5MarkersArray);
+
+		if(markers == null)
+			markers = hdf5Markers;
 
 		markerInds = new HashMap<>();
 		for (int i=0; i < hdf5MarkersArray.length; i++)
