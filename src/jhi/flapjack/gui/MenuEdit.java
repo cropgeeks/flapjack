@@ -27,6 +27,10 @@ public class MenuEdit
 	void editUndoRedo(boolean undo)
 	{
 		gPanel.processUndoRedo(undo);
+
+		// Sometimes we change a view in such a way that any linked-tables need
+		// to be repainted too. Ideally this would be a table-event?
+		Flapjack.winMain.repaint();
 	}
 
 	public void editMode(int newMode)

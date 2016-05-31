@@ -12,6 +12,7 @@ import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.filechooser.*;
 import javax.swing.table.*;
+import jhi.flapjack.analysis.SortLinesByLineDataModel;
 
 import jhi.flapjack.data.*;
 import jhi.flapjack.gui.*;
@@ -21,6 +22,7 @@ import scri.commons.gui.*;
 public class LineDataTable extends JTable
 {
 	private LineDataTableModel model;
+	private TableRowSorter<LineDataTableModel> sorter;
 
 	private boolean colorCells = true;
 
@@ -83,9 +85,8 @@ public class LineDataTable extends JTable
 		{
 			model = (LineDataTableModel) tm;
 
-			TableRowSorter<LineDataTableModel> sorter = new TableRowSorter<>(model);
-
 			// Let the user sort by column
+			sorter = new TableRowSorter<>(model);
 			setRowSorter(sorter);
 
 			// Catch sort events
@@ -123,6 +124,45 @@ public class LineDataTable extends JTable
 		return super.getValueAt(row, column);
 	}
 
+	public void exportData()
+	{
+		String name = "table-data.txt";
+		File saveAs = new File(Prefs.guiCurrentDir, name);
+		FileNameExtensionFilter filter = new FileNameExtensionFilter(
+			RB.getString("other.Filters.txt"), "txt");
+
+		// Ask the user for a filename to save the current view as
+		String filename = FlapjackUtils.getSaveFilename("Save table data as", saveAs, filter);
+
+		// Quit if the user cancelled the file selection
+		if (filename == null)
+			return;
+
+		LineDataTableExporter exporter = new LineDataTableExporter(this, new File(filename));
+		ProgressDialog dialog = new ProgressDialog(exporter,
+			RB.format("gui.dialog.ExportDataDialog.exportTitle"),
+			RB.format("gui.dialog.ExportDataDialog.exportLabel"), Flapjack.winMain);
+
+		if (dialog.failed("gui.error"))
+			return;
+
+		TaskDialog.info(
+			RB.format("gui.dialog.ExportDataDialog.exportSuccess", filename),
+			RB.getString("gui.text.close"));
+	}
+
+	public void multiColumnSort()
+	{
+		SortDialog dialog = new SortDialog(model.getSortableColumns());
+
+		LineDataTableModel.SortableColumn[] data = dialog.getSortInfo();
+
+		SortLinesByLineDataModel s = new SortLinesByLineDataModel(viewSet, sorter, data);
+		Flapjack.winMain.mAnalysis.runSort(s);
+
+		model.fireTableDataChanged();
+	}
+
 	// Deals with the fact that our fake double header for the JTable means
 	// that String data can be found in numerical columns.
 	private class ColoredCellRenderer extends DefaultTableCellRenderer
@@ -156,32 +196,5 @@ public class LineDataTable extends JTable
 
 			return this;
 		}
-	}
-
-	public void exportData()
-	{
-		String name = "table-data.txt";
-		File saveAs = new File(Prefs.guiCurrentDir, name);
-		FileNameExtensionFilter filter = new FileNameExtensionFilter(
-			RB.getString("other.Filters.txt"), "txt");
-
-		// Ask the user for a filename to save the current view as
-		String filename = FlapjackUtils.getSaveFilename("Save table data as", saveAs, filter);
-
-		// Quit if the user cancelled the file selection
-		if (filename == null)
-			return;
-
-		LineDataTableExporter exporter = new LineDataTableExporter(this, new File(filename));
-		ProgressDialog dialog = new ProgressDialog(exporter,
-			RB.format("gui.dialog.ExportDataDialog.exportTitle"),
-			RB.format("gui.dialog.ExportDataDialog.exportLabel"), Flapjack.winMain);
-
-		if (dialog.failed("gui.error"))
-			return;
-
-		TaskDialog.info(
-			RB.format("gui.dialog.ExportDataDialog.exportSuccess", filename),
-			RB.getString("gui.text.close"));
 	}
 }

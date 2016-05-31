@@ -81,14 +81,16 @@ class MabcTableModel extends LineDataTableModel
 		return viewSet.getLines().size();
 	}
 
+	@Override
 	public Object getValueAt(int row, int col)
 	{
 		LineInfo line = viewSet.getLines().get(row);
+
 		MABCLineStats stats = line.results().getMABCLineStats();
 
 		// Line name
 		if (col == 0)
-			return line.name();
+			return line;
 
 		if (stats == null)
 			return null;
@@ -128,7 +130,7 @@ class MabcTableModel extends LineDataTableModel
 	public Class getColumnClass(int col)
 	{
 		if (col == 0)
-			return Line.class;
+			return LineInfo.class;
 		else
 			return Double.class;
 	}
