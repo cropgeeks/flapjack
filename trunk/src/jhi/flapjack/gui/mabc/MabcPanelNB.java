@@ -17,9 +17,11 @@ public class MabcPanelNB extends javax.swing.JPanel
 	/**
 	 * Creates new form MabcPanelNB
 	 */
-	public MabcPanelNB()
+	public MabcPanelNB(MabcPanel panel)
 	{
 		initComponents();
+
+		bSort.addActionListener(panel);
 	}
 
 	/**
@@ -36,7 +38,7 @@ public class MabcPanelNB extends javax.swing.JPanel
         table = new LineDataTable();
         coverageLabel = new javax.swing.JLabel();
         bExport = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        bSort = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
 
         table.setModel(new javax.swing.table.DefaultTableModel(
@@ -55,7 +57,7 @@ public class MabcPanelNB extends javax.swing.JPanel
 
         bExport.setText("Export");
 
-        jButton2.setText("Sort");
+        bSort.setText("Sort");
 
         jButton3.setText("Filter");
 
@@ -70,7 +72,7 @@ public class MabcPanelNB extends javax.swing.JPanel
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton2)
+                .addComponent(bSort)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(bExport)
                 .addContainerGap())
@@ -83,7 +85,7 @@ public class MabcPanelNB extends javax.swing.JPanel
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(coverageLabel)
                     .addComponent(bExport)
-                    .addComponent(jButton2)
+                    .addComponent(bSort)
                     .addComponent(jButton3))
                 .addContainerGap())
         );
@@ -92,8 +94,8 @@ public class MabcPanelNB extends javax.swing.JPanel
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     javax.swing.JButton bExport;
+    javax.swing.JButton bSort;
     javax.swing.JLabel coverageLabel;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JScrollPane jScrollPane1;
     javax.swing.JTable table;
