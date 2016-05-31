@@ -4,7 +4,6 @@
 package jhi.flapjack.gui;
 
 import java.io.*;
-import java.util.*;
 
 import jhi.flapjack.analysis.*;
 import jhi.flapjack.data.*;
@@ -345,7 +344,11 @@ public class MenuAnalysis
 			.withSelectedLines()
 			.withSelectedMarkers();
 
-		PedVerStats stats = new PedVerStats(f1Set, newViewSet.getDataSet().getStateTable(), p1LineInfo, p2LineInfo, f1LineInfo);
+		int parent1Index = newViewSet.getLines().indexOf(p1LineInfo);
+		int parent2Index = newViewSet.getLines().indexOf(p2LineInfo);
+		int f1Index = newViewSet.getLines().indexOf(f1LineInfo);
+
+		PedVerF1Stats stats = new PedVerF1Stats(f1Set, newViewSet.getDataSet().getStateTable(), parent1Index, parent2Index, f1Index);
 		ProgressDialog pDialog = new ProgressDialog(stats,
 			"Running PedVer Stats",
 			"Running PedVer stats - please be patient...",
@@ -362,5 +365,62 @@ public class MenuAnalysis
 		dataSet.getViewSets().add(newViewSet);
 		navPanel.addVisualizationNode(dataSet, newViewSet);
 		navPanel.addPedVerNode(newViewSet);
+	}
+
+	public void gobiiPedVerLines()
+	{
+		// TODO: Checks for data type? ABH, etc?
+		DataSet dataSet = navPanel.getDataSetForSelection();
+		GTViewSet viewSet = gPanel.getViewSet();
+
+		// Clone the view (as the clone will ultimately contain a reordered
+		// list of lines that match the order in the dendrogram)
+		GTViewSet newViewSet = viewSet.createClone("", true, null);
+
+		AnalysisSet as = new AnalysisSet(newViewSet)
+			.withViews(null)
+			.withSelectedLines()
+			.withSelectedMarkers();
+
+//		PedVerStatsDialog dialog = new PedVerStatsDialog(as);
+//		if (dialog.isOK() == false)
+//			return;
+
+		// TODO: Pick these from a dialog (or some other selection method)
+		LineInfo ref = as.getLine(0);
+		LineInfo test = as.getLine(1);
+
+		// Move the parent lines to the top of the display
+//		GTView view = newViewSet.getView(0);
+//		view.moveLine(newViewSet.getLines().indexOf(p1LineInfo), 0);
+//		view.moveLine(newViewSet.getLines().indexOf(p2LineInfo), 1);
+//		// Move the f1 to just below the parents
+//		view.moveLine(newViewSet.getLines().indexOf(f1LineInfo), 2);
+
+//		AnalysisSet f1Set = new AnalysisSet(newViewSet)
+//			.withViews(null)
+//			.withSelectedLines()
+//			.withSelectedMarkers();
+
+		int refIndex = newViewSet.getLines().indexOf(ref);
+		int testIndex = newViewSet.getLines().indexOf(test);
+
+		PedVerLinesStats stats = new PedVerLinesStats(as, newViewSet.getDataSet().getStateTable(), refIndex, testIndex);
+		ProgressDialog pDialog = new ProgressDialog(stats,
+			"Running PedVer Stats",
+			"Running PedVer stats - please be patient...",
+			Flapjack.winMain);
+
+		newViewSet.setName("PedVer Lines View");
+		// Set the colour scheme to the similarity to line exact match scheme and set the comparison line equal to the
+		// F1
+		newViewSet.setColorScheme(ColorScheme.LINE_SIMILARITY);
+		newViewSet.setComparisonLineIndex(newViewSet.getLines().indexOf(test));
+		newViewSet.setComparisonLine(test.getLine());
+
+		// Create new NavPanel components to hold the results
+		dataSet.getViewSets().add(newViewSet);
+		navPanel.addVisualizationNode(dataSet, newViewSet);
+		navPanel.addPedVerLinesNode(newViewSet);
 	}
 }

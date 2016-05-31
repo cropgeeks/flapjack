@@ -94,6 +94,7 @@ public class Actions
 	public static AbstractAction alysPCoA;
 	public static AbstractAction alysMABC;
 	public static AbstractAction alysPedVer;
+	public static AbstractAction alysPedVerLines;
 
 	public static AbstractAction dataFilterQTLs;
 	public static AbstractAction dataSelectGraph;
@@ -609,6 +610,12 @@ public class Actions
 			}
 		};
 
+		alysPedVerLines = new AbstractAction(RB.getString("gui.Actions.alysPedVerLines")) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.mAnalysis.gobiiPedVerLines();
+			}
+		};
+
 
 		dataFilterQTLs = new AbstractAction(RB.getString("gui.Actions.dataFilterQTLs"), getIcon("TRAITS")) {
 			public void actionPerformed(ActionEvent e) {
@@ -815,6 +822,7 @@ public class Actions
 		alysPCoA.setEnabled(false);
 		alysMABC.setEnabled(false);
 		alysPedVer.setEnabled(false);
+		alysPedVerLines.setEnabled(false);
 
 		dataFilterQTLs.setEnabled(false);
 		dataSelectGraph.setEnabled(false);

@@ -18,6 +18,8 @@ public class LineResults
 
 	private PedVerKnownParentsLineStats pedVerStats;
 
+	private PedVerLinesLineStats pedVerLinesStats;
+
 	public LineResults(LineInfo lineInfo)
 	{
 		this.lineInfo = lineInfo;
@@ -40,4 +42,14 @@ public class LineResults
 
 	public void setPedVerStats(PedVerKnownParentsLineStats pedVerStats)
 		{ this.pedVerStats = pedVerStats; }
+
+	public PedVerLinesLineStats getPedVerLinesStats()
+	{
+		return pedVerLinesStats;
+	}
+
+	public void setPedVerLinesStats(PedVerLinesLineStats pedVerLinesStats)
+	{
+		this.pedVerLinesStats = pedVerLinesStats;
+	}
 }
