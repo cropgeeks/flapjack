@@ -332,21 +332,21 @@ public class MenuAnalysis
 			f1LineInfo = f1Sim.getF1LineInfo();
 		}
 
+		int parent1Index = newViewSet.getLines().indexOf(p1LineInfo);
+		int parent2Index = newViewSet.getLines().indexOf(p2LineInfo);
+		int f1Index = newViewSet.getLines().indexOf(f1LineInfo);
+
 		// Move the parent lines to the top of the display
 		GTView view = newViewSet.getView(0);
-		view.moveLine(newViewSet.getLines().indexOf(p1LineInfo), 0);
-		view.moveLine(newViewSet.getLines().indexOf(p2LineInfo), 1);
+		view.moveLine(parent1Index, 0);
+		view.moveLine(parent2Index, 1);
 		// Move the f1 to just below the parents
-		view.moveLine(newViewSet.getLines().indexOf(f1LineInfo), 2);
+		view.moveLine(f1Index, 2);
 
 		AnalysisSet f1Set = new AnalysisSet(newViewSet)
 			.withViews(null)
 			.withSelectedLines()
 			.withSelectedMarkers();
-
-		int parent1Index = newViewSet.getLines().indexOf(p1LineInfo);
-		int parent2Index = newViewSet.getLines().indexOf(p2LineInfo);
-		int f1Index = newViewSet.getLines().indexOf(f1LineInfo);
 
 		PedVerF1Stats stats = new PedVerF1Stats(f1Set, newViewSet.getDataSet().getStateTable(), parent1Index, parent2Index, f1Index);
 		ProgressDialog pDialog = new ProgressDialog(stats,
@@ -382,30 +382,27 @@ public class MenuAnalysis
 			.withSelectedLines()
 			.withSelectedMarkers();
 
-//		PedVerStatsDialog dialog = new PedVerStatsDialog(as);
-//		if (dialog.isOK() == false)
-//			return;
+		PedVerLinesStatsDialog dialog = new PedVerLinesStatsDialog(as);
+		if (dialog.isOK() == false)
+			return;
 
-		// TODO: Pick these from a dialog (or some other selection method)
-		LineInfo ref = as.getLine(0);
-		LineInfo test = as.getLine(1);
-
-		// Move the parent lines to the top of the display
-//		GTView view = newViewSet.getView(0);
-//		view.moveLine(newViewSet.getLines().indexOf(p1LineInfo), 0);
-//		view.moveLine(newViewSet.getLines().indexOf(p2LineInfo), 1);
-//		// Move the f1 to just below the parents
-//		view.moveLine(newViewSet.getLines().indexOf(f1LineInfo), 2);
-
-//		AnalysisSet f1Set = new AnalysisSet(newViewSet)
-//			.withViews(null)
-//			.withSelectedLines()
-//			.withSelectedMarkers();
+		LineInfo ref = dialog.getReferenceLine();
+		LineInfo test = dialog.getTestLine();
 
 		int refIndex = newViewSet.getLines().indexOf(ref);
 		int testIndex = newViewSet.getLines().indexOf(test);
 
-		PedVerLinesStats stats = new PedVerLinesStats(as, newViewSet.getDataSet().getStateTable(), refIndex, testIndex);
+		// Move the parent lines to the top of the display
+		GTView view = newViewSet.getView(0);
+		view.moveLine(refIndex, 0);
+		view.moveLine(testIndex, 1);
+
+		AnalysisSet linesSet = new AnalysisSet(newViewSet)
+			.withViews(null)
+			.withSelectedLines()
+			.withSelectedMarkers();
+
+		PedVerLinesStats stats = new PedVerLinesStats(linesSet, newViewSet.getDataSet().getStateTable(), refIndex, testIndex);
 		ProgressDialog pDialog = new ProgressDialog(stats,
 			"Running PedVer Stats",
 			"Running PedVer stats - please be patient...",
