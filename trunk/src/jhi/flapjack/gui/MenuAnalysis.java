@@ -402,7 +402,7 @@ public class MenuAnalysis
 			.withSelectedLines()
 			.withSelectedMarkers();
 
-		PedVerLinesStats stats = new PedVerLinesStats(linesSet, newViewSet.getDataSet().getStateTable(), refIndex, testIndex);
+		PedVerLinesStats stats = new PedVerLinesStats(linesSet, newViewSet, newViewSet.getDataSet().getStateTable(), refIndex, testIndex);
 		ProgressDialog pDialog = new ProgressDialog(stats,
 			"Running PedVer Stats",
 			"Running PedVer stats - please be patient...",

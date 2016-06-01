@@ -118,10 +118,10 @@ public class PedVerLinesPanelNB extends JPanel
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel lblTestHetCount;
-    private javax.swing.JLabel lblTestHetPercentage;
-    private javax.swing.JLabel lblTestMarkerCount;
-    private javax.swing.JLabel lblTestPercentage;
+    javax.swing.JLabel lblTestHetCount;
+    javax.swing.JLabel lblTestHetPercentage;
+    javax.swing.JLabel lblTestMarkerCount;
+    javax.swing.JLabel lblTestPercentage;
     javax.swing.JTable table;
     // End of variables declaration//GEN-END:variables
 }
