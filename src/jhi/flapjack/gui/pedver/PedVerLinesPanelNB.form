@@ -106,21 +106,33 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Test line marker count: {0}"/>
       </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
+      </AuxValues>
     </Component>
     <Component class="javax.swing.JLabel" name="lblTestHetCount">
       <Properties>
         <Property name="text" type="java.lang.String" value="Test line heterozygous allele count: {0}"/>
       </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
+      </AuxValues>
     </Component>
     <Component class="javax.swing.JLabel" name="lblTestHetPercentage">
       <Properties>
         <Property name="text" type="java.lang.String" value="Test line heterozygous allele percentage: {0}"/>
       </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
+      </AuxValues>
     </Component>
     <Component class="javax.swing.JLabel" name="lblTestPercentage">
       <Properties>
         <Property name="text" type="java.lang.String" value="Test line marker not missing percentage: {0}"/>
       </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
+      </AuxValues>
     </Component>
   </SubComponents>
 </Form>

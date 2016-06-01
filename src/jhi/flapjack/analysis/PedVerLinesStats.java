@@ -13,14 +13,16 @@ import scri.commons.gui.*;
 public class PedVerLinesStats extends SimpleJob
 {
 	private AnalysisSet as;
+	private GTViewSet viewSet;
 	private StateTable stateTable;
 
 	private int refIndex;
 	private int testIndex;
 
-	public PedVerLinesStats(AnalysisSet as, StateTable stateTable, int refIndex, int testIndex)
+	public PedVerLinesStats(AnalysisSet as, GTViewSet viewSet, StateTable stateTable, int refIndex, int testIndex)
 	{
 		this.as = as;
+		this.viewSet = viewSet;
 		this.stateTable = stateTable;
 		this.refIndex = refIndex;
 		this.testIndex = testIndex;
@@ -47,13 +49,21 @@ public class PedVerLinesStats extends SimpleJob
 			for (int c = 0; c < as.viewCount(); c++)
 				chrMatch.add(stats.matchesAlleleCountForView(c, testIndex, lineIndex));
 
+			float missingPerc = (1 - (foundMarkers / (float) totalMarkers)) * 100;
+			float hetPerc = (hetMarkers / (float)foundMarkers) * 100;
 			lineStat.setMarkerCount(foundMarkers);
-			lineStat.setMissingPerc((1 - (foundMarkers / (float) totalMarkers)) * 100);
+			lineStat.setMissingPerc(missingPerc);
 			lineStat.setHetCount(hetMarkers);
-			lineStat.setHetPerc((hetMarkers / (float)foundMarkers) * 100);
+			lineStat.setHetPerc(hetPerc);
 			lineStat.setMatchCount(totalMatches);
 			lineStat.setMatchPerc((totalMatches / (float)foundMarkers) * 100);
 			lineStat.setChrMatchCount(chrMatch);
+
+			if (lineIndex == testIndex)
+			{
+				PedVerLinesResults results = new PedVerLinesResults(foundMarkers, (missingPerc/100f), hetMarkers, (hetPerc/100f));
+				viewSet.setPedVerLinesResults(results);
+			}
 		}
 	}
 }

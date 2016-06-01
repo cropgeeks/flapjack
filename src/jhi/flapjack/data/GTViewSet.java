@@ -35,6 +35,8 @@ public class GTViewSet extends XMLRoot
 	// A list of dendrograms generated from this view
 	private ArrayList<Dendrogram> dendrograms = new ArrayList<>();
 
+	private PedVerLinesResults pedVerLinesResults;
+
 	private String name;
 	private int viewIndex;
 
@@ -220,6 +222,12 @@ public class GTViewSet extends XMLRoot
 
 	public void setDendrograms(ArrayList<Dendrogram> dendrograms)
 		{ this.dendrograms = dendrograms; }
+
+	public PedVerLinesResults getPedVerLinesResults()
+		{ return pedVerLinesResults; }
+
+	public void setPedVerLinesResults(PedVerLinesResults pedVerLinesResults)
+		{ this.pedVerLinesResults = pedVerLinesResults; }
 
 
 	// Transient (non marshalled) methods
