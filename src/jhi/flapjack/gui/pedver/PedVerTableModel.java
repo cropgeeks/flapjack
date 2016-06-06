@@ -43,7 +43,7 @@ class PedVerTableModel extends LineDataTableModel
 		PedVerKnownParentsLineStats stats = line.results().getPedVerStats();
 
 		if (col == 0)
-			return line.name();
+			return line;
 
 		if (stats == null)
 			return null;
@@ -78,7 +78,7 @@ class PedVerTableModel extends LineDataTableModel
 	public Class getColumnClass(int col)
 	{
 		if (col == 0)
-			return Line.class;
+			return LineInfo.class;
 		else
 			return Double.class;
 	}
