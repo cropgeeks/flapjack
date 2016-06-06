@@ -1,27 +1,17 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package jhi.flapjack.gui.mabc;
 
 import jhi.flapjack.gui.table.*;
 
-/**
- *
- * @author im40824
- */
+import scri.commons.gui.*;
+
 public class MabcPanelNB extends javax.swing.JPanel
 {
-
-	/**
-	 * Creates new form MabcPanelNB
-	 */
 	public MabcPanelNB(MabcPanel panel)
 	{
 		initComponents();
 
 		bSort.addActionListener(panel);
+		bSort.setIcon(Icons.getIcon("SORT"));
 	}
 
 	/**
@@ -57,7 +47,7 @@ public class MabcPanelNB extends javax.swing.JPanel
 
         bExport.setText("Export");
 
-        bSort.setText("Sort");
+        bSort.setText("Sort...");
 
         jButton3.setText("Filter");
 

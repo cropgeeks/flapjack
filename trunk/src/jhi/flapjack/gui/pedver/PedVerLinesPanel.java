@@ -27,7 +27,7 @@ public class PedVerLinesPanel extends JPanel implements ActionListener
 
 	public PedVerLinesPanel(GTViewSet viewSet)
 	{
-		controls = new PedVerLinesPanelNB();
+		controls = new PedVerLinesPanelNB(this);
 
 		table = controls.table;
 
@@ -60,6 +60,8 @@ public class PedVerLinesPanel extends JPanel implements ActionListener
 
 	public void actionPerformed(ActionEvent e)
 	{
+		if (e.getSource() == controls.bSort)
+			((LineDataTable)table).multiColumnSort();
 	}
 
 	public void modelChanged()

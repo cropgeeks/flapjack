@@ -6,27 +6,37 @@ package jhi.flapjack.gui.table;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import javax.swing.event.*;
 import javax.swing.table.*;
 
 import jhi.flapjack.gui.*;
 
 import scri.commons.gui.*;
 
-public class SortDialog extends JDialog implements ActionListener
+public class SortDialog extends JDialog implements ActionListener, ListSelectionListener
 {
-	SortDialogTableModel model;
+	private boolean isOK = false;
+	private SortDialogTableModel model;
 
 	public SortDialog(LineDataTableModel.SortableColumn[] data)
 	{
-		super(Flapjack.winMain, "Advanced Sort", true);
+		super(Flapjack.winMain, RB.getString("gui.table.SortDialog.title"), true);
 
 		initComponents();
 		initTable(data);
 
+		RB.setText(bCancel, "gui.text.cancel");
+		RB.setText(bSort, "gui.table.SortDialog.bSort");
+		RB.setText(bAdd, "gui.table.SortDialog.bAdd");
+		RB.setText(bDelete, "gui.table.SortDialog.bDelete");
+
 		setBackground((Color)UIManager.get("fjDialogBG"));
 		bSort.addActionListener(this);
+		bCancel.addActionListener(this);
 		bAdd.addActionListener(this);
 		bDelete.addActionListener(this);
+
+		checkButtonStates();
 
 		pack();
 		setLocationRelativeTo(Flapjack.winMain);
@@ -39,15 +49,14 @@ public class SortDialog extends JDialog implements ActionListener
 		model = new SortDialogTableModel(data);
 
 		table.setModel(model);
-//		table.getTableHeader().setReorderingAllowed(false);
-//		table.getSelectionModel().addListSelectionListener(this);
+		table.getTableHeader().setReorderingAllowed(false);
+		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		table.getSelectionModel().addListSelectionListener(this);
 		UIScaler.setCellHeight(table);
 
-		TableColumn c0 = table.getColumnModel().getColumn(0);
-		c0.setCellEditor(new DefaultCellEditor(model.getComboBox()));
-
-//		TableColumn c1 = table.getColumnModel().getColumn(1);
-//		c1.setPreferredWidth(60);
+		table.getColumnModel().getColumn(0).setCellEditor(
+			new DefaultCellEditor(model.getComboBox()));
+		table.getColumnModel().getColumn(1).setPreferredWidth(60);
 	}
 
 	public void actionPerformed(ActionEvent e)
@@ -57,7 +66,14 @@ public class SortDialog extends JDialog implements ActionListener
 		else if (e.getSource() == bDelete)
 			model.deleteRow(table.getSelectedRow());
 
-		else if (e.getSource() == bSort)
+		checkButtonStates();
+
+		if (e.getSource() == bSort)
+		{
+			isOK = true;
+			setVisible(false);
+		}
+		else if (e.getSource() == bCancel)
 			setVisible(false);
 	}
 
@@ -65,6 +81,29 @@ public class SortDialog extends JDialog implements ActionListener
 	{
 		return model.getSortInfo();
 	}
+
+	private void checkButtonStates()
+	{
+		bAdd.setEnabled(model.getRowCount() > 0);
+
+		// Only enable the delete button if something is selected and there's
+		// 2 or more items in the table
+		if (model.getRowCount() > 1 && table.getSelectedRow() != -1)
+			bDelete.setEnabled(true);
+		else
+			bDelete.setEnabled(false);
+	}
+
+	public void valueChanged(ListSelectionEvent e)
+	{
+		if (e.getValueIsAdjusting())
+			return;
+
+		checkButtonStates();
+	}
+
+	public boolean isOK()
+		{ return isOK; }
 
 	/**
 	 * This method is called from within the constructor to initialize the form.

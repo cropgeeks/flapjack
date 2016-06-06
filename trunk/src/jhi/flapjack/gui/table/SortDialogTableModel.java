@@ -26,8 +26,8 @@ class SortDialogTableModel extends AbstractTableModel
 		this.data = data;
 
 		columnNames = new String[] {
-			"Sort by",
-			"Ascending"
+			RB.getString("gui.table.SortDialog.col1"),
+			RB.getString("gui.table.SortDialog.col2")
 		};
 
 		// Initialize the data we'll be showing

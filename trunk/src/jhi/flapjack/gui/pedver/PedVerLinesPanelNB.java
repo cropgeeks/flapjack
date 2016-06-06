@@ -5,15 +5,20 @@ import javax.swing.*;
 import jhi.flapjack.data.results.*;
 import jhi.flapjack.gui.table.*;
 
+import scri.commons.gui.*;
+
 public class PedVerLinesPanelNB extends JPanel
 {
 
 	/**
 	 * Creates new form MabcPanelNB
 	 */
-	public PedVerLinesPanelNB()
+	public PedVerLinesPanelNB(PedVerLinesPanel panel)
 	{
 		initComponents();
+
+		bSort.addActionListener(panel);
+		bSort.setIcon(Icons.getIcon("SORT"));
 
 //		lblF1MarkerCount.setText("Expected F1 marker count: " + results.getF1MarkerCount());
 //		lblF1HetCount.setText("Expected F1 heterozygous allele count: " + results.getF1HeterozygousCount());
@@ -33,7 +38,7 @@ public class PedVerLinesPanelNB extends JPanel
         jScrollPane1 = new javax.swing.JScrollPane();
         table = new LineDataTable();
         bExport = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        bSort = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         lblTestMarkerCount = new javax.swing.JLabel();
         lblTestHetCount = new javax.swing.JLabel();
@@ -54,7 +59,7 @@ public class PedVerLinesPanelNB extends JPanel
 
         bExport.setText("Export");
 
-        jButton2.setText("Sort");
+        bSort.setText("Sort...");
 
         jButton3.setText("Filter");
 
@@ -78,7 +83,7 @@ public class PedVerLinesPanelNB extends JPanel
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jButton3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton2)
+                        .addComponent(bSort)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(bExport))
                     .addGroup(layout.createSequentialGroup()
@@ -106,7 +111,7 @@ public class PedVerLinesPanelNB extends JPanel
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(bExport)
-                    .addComponent(jButton2)
+                    .addComponent(bSort)
                     .addComponent(jButton3))
                 .addContainerGap())
         );
@@ -115,7 +120,7 @@ public class PedVerLinesPanelNB extends JPanel
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bExport;
-    private javax.swing.JButton jButton2;
+    javax.swing.JButton bSort;
     private javax.swing.JButton jButton3;
     private javax.swing.JScrollPane jScrollPane1;
     javax.swing.JLabel lblTestHetCount;

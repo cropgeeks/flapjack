@@ -154,6 +154,8 @@ public class LineDataTable extends JTable
 	public void multiColumnSort()
 	{
 		SortDialog dialog = new SortDialog(model.getSortableColumns());
+		if (dialog.isOK() == false)
+			return;
 
 		LineDataTableModel.SortableColumn[] data = dialog.getSortInfo();
 
