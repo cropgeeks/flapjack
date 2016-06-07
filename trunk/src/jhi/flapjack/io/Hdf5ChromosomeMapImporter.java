@@ -58,7 +58,7 @@ public class Hdf5ChromosomeMapImporter implements IMapImporter
 
 		for (int i=0; i < names.length && isOK; i++)
 		{
-			Marker marker = new Marker(names[i], (float)positions[i]);
+			Marker marker = new Marker(names[i], positions[i]);
 
 			MarkerIndex index = markers.get(marker.getName());
 			if (index == null)

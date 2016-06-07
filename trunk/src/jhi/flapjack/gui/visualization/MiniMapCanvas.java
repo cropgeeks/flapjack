@@ -72,7 +72,7 @@ class MiniMapCanvas extends JPanel
 		// Starting and ending indexes to draw
 		int xS, xE;
 
-		float xScale = (w-1) / canvas.view.mapLength();
+		double xScale = (w-1) / canvas.view.mapLength();
 
 		if (forBuffer)
 		{

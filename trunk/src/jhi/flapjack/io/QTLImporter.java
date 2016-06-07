@@ -92,9 +92,10 @@ public class QTLImporter extends SimpleJob
 			String cName = tokens[1];
 
 			// Position values
-			qtl.setPosition(nf.parse(tokens[2]).floatValue());
-			qtl.setMin(nf.parse(tokens[3]).floatValue());
-			qtl.setMax(nf.parse(tokens[4]).floatValue());
+			// Position values
+			qtl.setPosition(nf.parse(tokens[2]).doubleValue());
+			qtl.setMin(nf.parse(tokens[3]).doubleValue());
+			qtl.setMax(nf.parse(tokens[4]).doubleValue());
 
 			// Categorical information
 			qtl.setTrait(tokens[5]);
@@ -198,7 +199,7 @@ public class QTLImporter extends SimpleJob
 					else
 					{
 						ChromosomeMap map = qtl.getChromosomeMap();
-						float mapOffset = getMapOffset(map, viewSet);
+						double mapOffset = getMapOffset(map, viewSet);
 
 						qtls.add(new QTLInfo(qtl, i, mapOffset));
 						qtl.setChromosomeMap(view.getChromosomeMap());
@@ -214,9 +215,9 @@ public class QTLImporter extends SimpleJob
 	// of the length of all previous chromosomes *before* this map, so that
 	// when including them together in a single view you know where to start
 	// drawing the QTL
-	private float getMapOffset(ChromosomeMap map, GTViewSet viewSet)
+	private double getMapOffset(ChromosomeMap map, GTViewSet viewSet)
 	{
-		float mapOffset = 0;
+		double mapOffset = 0;
 
 		for (GTView view: viewSet.getViews())
 		{

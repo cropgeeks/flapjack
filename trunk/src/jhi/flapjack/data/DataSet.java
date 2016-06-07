@@ -240,7 +240,7 @@ public class DataSet extends XMLRoot
 		ChromosomeMap allMap = new ChromosomeMap(chromosomeName);
 		allMap.setSpecialChromosome(true);
 
-		float mapOffset = 0;
+		double mapOffset = 0;
 
 		// Traverse each existing chromsome...
 		for (int i = 0; i < chromosomes.size(); i++)
@@ -251,8 +251,8 @@ public class DataSet extends XMLRoot
 			for (Marker marker: map)
 			{
 				// Offset each marker's position
-				float position = mapOffset + marker.getPosition();
-				float realPosition = marker.getPosition();
+				double position = mapOffset + marker.getPosition();
+				double realPosition = marker.getPosition();
 
 				Marker m = new Marker(marker.getName(), position, realPosition);
 				allMap.addMarker(m);

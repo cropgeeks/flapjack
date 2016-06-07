@@ -8,9 +8,9 @@ public class Marker extends XMLRoot implements Comparable<Marker>
 	private String name;
 
 	// The marker's position on the chromosome
-	private float position;
+	private double position;
 	// And its "actual" position, if different (used by all-chromsome markers)
-	private float realPosition;
+	private double realPosition;
 
 	// (Might) hold summary information on the frequency of each allele state
 	// for this marker. The String[] array holds the names of each allele state.
@@ -21,7 +21,7 @@ public class Marker extends XMLRoot implements Comparable<Marker>
 	{
 	}
 
-	public Marker(String name, float position)
+	public Marker(String name, double position)
 	{
 		this.name = new String(name);
 		this.position = position;
@@ -29,14 +29,14 @@ public class Marker extends XMLRoot implements Comparable<Marker>
 		realPosition = position;
 	}
 
-	public Marker(String name, float position, float realPosition)
+	public Marker(String name, double position, double realPosition)
 	{
 		this.name = new String(name);
 		this.position = position;
 		this.realPosition = realPosition;
 	}
 
-	public Marker(boolean dummy, float position)
+	public Marker(boolean dummy, double position)
 	{
 		this.name = "DUMMYMARKER";
 		this.position = position;
@@ -66,16 +66,16 @@ public class Marker extends XMLRoot implements Comparable<Marker>
 	public void setName(String name)
 		{ this.name = name; }
 
-	public float getPosition()
+	public double getPosition()
 		{ return position; }
 
-	public void setPosition(float position)
+	public void setPosition(double position)
 		{ this.position = position; }
 
-	public float getRealPosition()
+	public double getRealPosition()
 		{ return realPosition; }
 
-	public void setRealPosition(float realPosition)
+	public void setRealPosition(double realPosition)
 		{ this.realPosition = realPosition; }
 
 

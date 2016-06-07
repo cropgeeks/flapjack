@@ -35,7 +35,7 @@ class MapCanvas extends JPanel
 
 	// Chromosome map values for the lowest (first) and highest (last) markers
 	// currently visible on screen
-	float mSPos, mEPos;
+	double mSPos, mEPos;
 
 	// What is the current drawing width
 	private int w;
@@ -122,12 +122,12 @@ class MapCanvas extends JPanel
 			// How far along this width (as a ratio) is the mouse position?
 			float posAsRatio = mousePos / canvasWidth;
 			// Now work out the length (in cM) of what's on screen
-			float chromosomeLength = mEPos - mSPos;
+			double chromosomeLength = mEPos - mSPos;
 
 
 			// The actual position of the mouse is now just an offset + the
 			// ratio of this length
-			float chromosomePos = mSPos + (posAsRatio * chromosomeLength);
+			double chromosomePos = mSPos + (posAsRatio * chromosomeLength);
 
 
 			// Don't draw if the mouse is beyond the (visible) canvas extents
@@ -228,7 +228,7 @@ class MapCanvas extends JPanel
 //		if (m.dummyMarker())
 //			return;
 
-		float distance = mEPos - mSPos;
+		double distance = mEPos - mSPos;
 		int xMap = (int) ((m.getPosition()-mSPos) * ((w-1) / distance));
 
 		// "Jiggle" adjustment (for the genotype lines)
@@ -279,11 +279,11 @@ class MapCanvas extends JPanel
 
 		QTLInfo qtlInfo = QTLCanvas.mouseOverQTL;
 		QTL qtl = qtlInfo.getQTL();
-		float min = qtlInfo.min();
-		float max = qtlInfo.max();
+		double min = qtlInfo.min();
+		double max = qtlInfo.max();
 
 		// Where should it be drawn
-		float distance = mEPos - mSPos;
+		double distance = mEPos - mSPos;
 		int xMap = (int) (((min + ((max-min)/2)-mSPos)) * ((w-1) / distance));
 
 
@@ -357,7 +357,7 @@ class MapCanvas extends JPanel
 			{
 				for (int i = xS; i <= xE; i++)
 				{
-					float pos = canvas.view.getMarker(i).getPosition();
+					double pos = canvas.view.getMarker(i).getPosition();
 					if (pos < mSPos)
 						mSPos = pos;
 					else if (pos > mEPos)
@@ -377,7 +377,7 @@ class MapCanvas extends JPanel
 		// "Classic" Flapjack scaling
 		else
 		{
-			float xScale = (canvas.canvasW-1) / canvas.view.mapLength();
+			double xScale = (canvas.canvasW-1) / canvas.view.mapLength();
 
 			mSPos = canvas.pX1 / xScale;
 			mEPos = canvas.pX2 / xScale;

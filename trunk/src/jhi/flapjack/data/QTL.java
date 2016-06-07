@@ -10,7 +10,8 @@ public class QTL extends XMLRoot implements Comparable<QTL>, Cloneable
 {
 	// Variables originally inherited from Feature.java
 	protected String name;
-	protected float min, max;
+	protected double min;
+	protected double max;
 
 	// Display-related variables
 	protected boolean isVisible = true;
@@ -20,7 +21,7 @@ public class QTL extends XMLRoot implements Comparable<QTL>, Cloneable
 
 
 	// QTL's exact position on the map (error margin will be min/max from parent)
-	private float position;
+	private double position;
 
 	// A reference to the chromosome it is on
 	private ChromosomeMap chromosome;
@@ -63,16 +64,16 @@ public class QTL extends XMLRoot implements Comparable<QTL>, Cloneable
 	public void setName(String name)
 		{ this.name = name; }
 
-	public float getMin()
+	public double getMin()
 		{ return min; }
 
-	public void setMin(float min)
+	public void setMin(double min)
 		{ this.min = min; }
 
-	public float getMax()
+	public double getMax()
 		{ return max; }
 
-	public void setMax(float max)
+	public void setMax(double max)
 		{ this.max = max; }
 
 	public boolean isVisible()
@@ -105,10 +106,10 @@ public class QTL extends XMLRoot implements Comparable<QTL>, Cloneable
 	public void setBlue(int blue)
 		{ this.blue = blue; }
 
-	public float getPosition()
+	public double getPosition()
 		{ return position; }
 
-	public void setPosition(float position)
+	public void setPosition(double position)
 		{ this.position = position; }
 
 	public ChromosomeMap getChromosomeMap()

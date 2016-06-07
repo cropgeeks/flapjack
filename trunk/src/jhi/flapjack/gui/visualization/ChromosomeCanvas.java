@@ -39,7 +39,7 @@ class ChromosomeCanvas extends JPanel
 	private int minMarkers;
 	ArrayList<float[]> viewMarkersPerPixel;
 	private ArrayList<Integer> viewMapWidths;
-	float cmPerPixel;
+	double cmPerPixel;
 
 	private NumberFormat nf = NumberFormat.getInstance();
 
@@ -116,7 +116,7 @@ class ChromosomeCanvas extends JPanel
 
 	private void renderCanvas(Graphics2D g)
 	{
-		float longestMap = 0;
+		double longestMap = 0;
 		for (GTView view: views)
 			longestMap = Math.max(longestMap, view.mapLength());
 
@@ -218,7 +218,7 @@ class ChromosomeCanvas extends JPanel
 	// other calculate method that does the actual work per chromosome, and is
 	// also used (in real-time) by the graph display code whenever a graph is
 	// clicked on
-	private void calculateMarkersPerPixel(float longestMap, int longestMapW)
+	private void calculateMarkersPerPixel(double longestMap, int longestMapW)
 	{
 		maxMarkers = 0;
 		minMarkers = Integer.MAX_VALUE;
@@ -241,7 +241,7 @@ class ChromosomeCanvas extends JPanel
 	// nBins will either be the number of pixels used to draw the chromosome in
 	// question, or it will be a fixed size (eg 500) if this code is called by
 	// ChromosomeGraphCanvas which needs greater resolution
-	float[] calculateMarkersPerPixel(GTView view, float cmPerPixel, int nBins)
+	float[] calculateMarkersPerPixel(GTView view, double cmPerPixel, int nBins)
 	{
 		float[] markersPerPixel = new float[nBins];
 
@@ -250,7 +250,7 @@ class ChromosomeCanvas extends JPanel
 		for (int pixel = 1; pixel <= nBins; pixel++)
 		{
 			int markerCount = 0;
-			float pixelPosition = pixel * cmPerPixel;
+			double pixelPosition = pixel * cmPerPixel;
 			for (int i = startMarker; i < view.markerCount(); i++)
 			{
 				Marker m = view.getMarker(i);
