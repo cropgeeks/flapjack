@@ -4,6 +4,7 @@
 package jhi.flapjack.io;
 
 import java.io.*;
+import java.text.*;
 import java.util.*;
 
 import jhi.flapjack.data.*;
@@ -42,6 +43,8 @@ public class GenotypeDataImporter implements IGenotypeImporter
 	private boolean isOK = true;
 
 	private boolean isTransposed;
+
+	private NumberFormat nf = NumberFormat.getInstance();
 
 	public GenotypeDataImporter(File file, DataSet dataSet, HashMap<String, MarkerIndex> markers,
 		String ioMissingData, boolean ioUseHetSep, String ioHeteroSeparator, boolean isTransposed)
@@ -249,9 +252,14 @@ public class GenotypeDataImporter implements IGenotypeImporter
 		{
 			String[] tokens = str.split("\t");
 			int index = Integer.parseInt(tokens[1]);
-			float min = Float.parseFloat(tokens[2]);
-			float max = Float.parseFloat(tokens[3]);
-			dataSet.getBinnedData().addBin(index, min, max);
+
+			try
+			{
+				float min = nf.parse(tokens[2]).floatValue();
+				float max = nf.parse(tokens[3]).floatValue();
+				dataSet.getBinnedData().addBin(index, min, max);
+
+			} catch (Exception e) {}
 		}
 	}
 

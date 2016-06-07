@@ -21,6 +21,8 @@ public class CreateImage
 	public static void main(String[] args)
 		throws Exception
 	{
+		NumberFormat nf = NumberFormat.getInstance();
+
 		String imageFile = args[0];
 		CreateImage imageCreator = new CreateImage(imageFile);
 
@@ -35,7 +37,7 @@ public class CreateImage
 		else if (method.equals("SPLIT"))
 		{
 			int lBinCount = Integer.parseInt(args[2]);
-			float split = Float.parseFloat(args[3]);
+			float split = nf.parse(args[3]).floatValue();
 			int rBinCount = Integer.parseInt(args[4]);
 
 			imageCreator.createSplitImage(lBinCount, split, rBinCount);
