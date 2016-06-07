@@ -44,11 +44,11 @@ class QTLCanvas extends JPanel implements PropertyChangeListener
 	// What is the current drawing width
 	private int w;
 	// Over what chromosome distance
-	private float distance;
+	private double distance;
 
 	// Chromosome map values for the lowest (first) and highest (last) markers
 	// currently visible on screen
-	private float mSPos, mEPos;
+	private double mSPos, mEPos;
 
 	private BasicStroke dashed = new BasicStroke(1, BasicStroke.CAP_BUTT,
 		BasicStroke.JOIN_MITER, 10, new float[] { 5,2 }, 0);
@@ -194,13 +194,13 @@ class QTLCanvas extends JPanel implements PropertyChangeListener
 	// to map, the distance currently visible on screen, and the s(tart) and
 	// e(nd) chromosome positions for that distance. The method's return differs
 	// based on the type of map scaling being used (local or global).
-	private int getPixelPosition(float mapPos)
+	private int getPixelPosition(double mapPos)
 	{
 		return (int) ((mapPos-mSPos) * ((w-1) / distance));
 	}
 
 	// Reverse mapping of the above (pixel on screen to chromosome)
-	private float getMapPosition(int pixelPos)
+	private double getMapPosition(int pixelPos)
 	{
 		return ((distance * pixelPos) / (float) (w-1)) + mSPos;
 	}
@@ -235,15 +235,15 @@ class QTLCanvas extends JPanel implements PropertyChangeListener
 		g.drawLine(x, 2, x, 18);
 	}
 
-	private int binarySearch(ArrayList<FeatureGroup> trackData, int low, int high, float canvasLeft, float canvasRight)
+	private int binarySearch(ArrayList<FeatureGroup> trackData, int low, int high, double canvasLeft, double canvasRight)
 	{
 		if (high < low)
 			return -1;
 
 		int mid = low + ((high-low) /2);
 
-		float max = trackData.get(mid).getMax();
-		float min = trackData.get(mid).getMin();
+		double max = trackData.get(mid).getMax();
+		double min = trackData.get(mid).getMin();
 
 		if (max < canvasLeft)
 			return binarySearch(trackData, mid+1, high, canvasLeft, canvasRight);
@@ -371,8 +371,8 @@ class QTLCanvas extends JPanel implements PropertyChangeListener
 				canvas.view, RB.getString("gui.visualization.SelectedMarkersState.selected"));
 			markerStates.createUndoState();
 
-			float min = mouseOverQTL.min();
-			float max = mouseOverQTL.max();
+			double min = mouseOverQTL.min();
+			double max = mouseOverQTL.max();
 			QTL qtl = mouseOverQTL.getQTL();
 
 			for (MarkerInfo mi: canvas.view.getMarkers())

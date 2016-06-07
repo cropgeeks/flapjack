@@ -60,7 +60,7 @@ public class MarkerInfo extends XMLRoot implements Comparable<MarkerInfo>
 
 	// Other methods
 
-	public float position()
+	public double position()
 	{
 		if (dummyMarker())
 			return marker.getRealPosition();

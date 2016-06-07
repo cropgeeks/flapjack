@@ -73,8 +73,8 @@ public class ChromosomeMapImporter implements IMapImporter
 				String name = tokens[0].trim();
 
 				// Parse out its length
-				float length = 0;
-				try { length = nf.parse(tokens[1]).floatValue(); }
+				double length = 0;
+				try { length = nf.parse(tokens[1]).doubleValue(); }
 				catch (Exception e)	{
 					throw new DataFormatException(RB.format("io.DataFormatException.parseLengthError", file, tokens[1], linesRead));
 				}
@@ -87,8 +87,8 @@ public class ChromosomeMapImporter implements IMapImporter
 			else if (tokens.length == 3)
 			{
 				// Parse out the marker's position
-				float position = 0;
-				try { position = nf.parse(tokens[2]).floatValue(); }
+				double position = 0;
+				try { position = nf.parse(tokens[2]).doubleValue(); }
 				catch (Exception e)	{
 					throw new DataFormatException(RB.format("io.DataFormatException.parseDistanceError", file, tokens[2], linesRead));
 				}

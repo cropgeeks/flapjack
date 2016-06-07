@@ -46,7 +46,7 @@ public class GraphImporterWiggle extends GraphImporter
 		String[] tokens = str.split(" ");
 		if (tokens.length == 2)
 		{
-			float markerPos = nf.parse(tokens[0]).floatValue();
+			double markerPos = nf.parse(tokens[0]).doubleValue();
 			float value = nf.parse(tokens[1]).floatValue();
 
 			String marker = getMarkerNameAtPosition(chrom, markerPos);
@@ -56,7 +56,7 @@ public class GraphImporterWiggle extends GraphImporter
 		}
 	}
 
-	private String getMarkerNameAtPosition(String chrom, float pos)
+	private String getMarkerNameAtPosition(String chrom, double pos)
 		throws Exception
 	{
 		String markerName = "";

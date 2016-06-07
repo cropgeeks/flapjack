@@ -125,7 +125,7 @@ public class AnalysisSet
 		return views.get(view).getState(line, marker);
 	}
 
-	public float mapLength(int view)
+	public double mapLength(int view)
 		{ return views.get(view).mapLength(); }
 
 	/** Returns the index within the original DataSet of the ChromosomeMap/GTView
@@ -189,7 +189,7 @@ public class AnalysisSet
 		// should rethink whether they should even be here, or whether
 		// AnalysisSet simple returns a reference to the view/chromosomes/whatever
 
-		public float mapLength()
+		public double mapLength()
 		{
 			return viewSet.getView(chrMapIndex).getChromosomeMap().getLength();
 		}

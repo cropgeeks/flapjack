@@ -10,7 +10,7 @@ import jhi.flapjack.io.*;
 public class ChromosomeMap extends XMLRoot implements Iterable<Marker>, Comparable<ChromosomeMap>
 {
 	private String name;
-	private float length;
+	private double length;
 	private boolean isSpecialChromosome;
 
 	private ArrayList<Marker> markers = new ArrayList<>();
@@ -49,10 +49,10 @@ public class ChromosomeMap extends XMLRoot implements Iterable<Marker>, Comparab
 	public void setName(String name)
 		{ this.name = name; }
 
-	public float getLength()
+	public double getLength()
 		{ return length; }
 
-	public void setLength(float length)
+	public void setLength(double length)
 		{ this.length = length; }
 
 	public ArrayList<Marker> getMarkers()

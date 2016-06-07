@@ -55,7 +55,7 @@ public class ChromosomeCanvasGraph extends JPanel
 			GTView view = chromCanvas.views.get(chromosomeIndex);
 			// Work out how many centimorgans each bin will represent
 			int nBins = 500;
-			float cmPerPixel = view.mapLength() / nBins;
+			double cmPerPixel = view.mapLength() / nBins;
 
 			float[] values = chromCanvas.calculateMarkersPerPixel(view, cmPerPixel, nBins);
 

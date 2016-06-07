@@ -165,7 +165,7 @@ public class GTView extends XMLRoot
 		return viewSet.lines.size();
 	}
 
-	public float mapLength()
+	public double mapLength()
 	{
 		return map.getLength();
 	}
@@ -522,7 +522,7 @@ public class GTView extends XMLRoot
 		while (hideMarkers.size() > 0)
 		{
 			MarkerInfo mi = hideMarkers.remove(0);
-			float position = mi.marker.getPosition();
+			double position = mi.marker.getPosition();
 
 			int insertAt = 0;
 			// Search for the best position to restore this marker to

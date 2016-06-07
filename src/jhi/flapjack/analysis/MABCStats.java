@@ -3,12 +3,10 @@
 
 package jhi.flapjack.analysis;
 
-import java.io.*;
 import java.util.*;
 
 import jhi.flapjack.data.*;
 import jhi.flapjack.data.results.*;
-import jhi.flapjack.gui.Flapjack;
 
 import scri.commons.gui.*;
 
@@ -81,7 +79,7 @@ public class MABCStats extends SimpleJob
 					// Add gap from 0 to first marker's position
 					if (mrkIndex == 0)
 					{
-						float pos = marker.position();
+						double pos = marker.position();
 						gap = Math.min(pos, maxMarkerCoverage);
 					}
 
@@ -89,8 +87,8 @@ public class MABCStats extends SimpleJob
 					else if (mrkIndex > 0)
 					{
 
-						float pos1 = marker.position();
-						float prevPos = as.getMarker(viewIndex, mrkIndex-1).position();
+						double pos1 = marker.position();
+						double prevPos = as.getMarker(viewIndex, mrkIndex-1).position();
 
 						gap = Math.min(pos1 - prevPos, maxMarkerCoverage);
 					}
@@ -98,8 +96,8 @@ public class MABCStats extends SimpleJob
 					// Add gap from last marker to chromosome's end/length
 					if (mrkIndex == as.markerCount(viewIndex)-1)
 					{
-						float chrLength = as.mapLength(viewIndex);
-						float dist = chrLength - marker.position();
+						double chrLength = as.mapLength(viewIndex);
+						double dist = chrLength - marker.position();
 
 						gapEnd = Math.min(dist, maxMarkerCoverage);
 					}
@@ -170,7 +168,7 @@ public class MABCStats extends SimpleJob
 				stats.updateAndAddGenomeCoverage(chrScore.coverage);
 			}
 
-			float genomeLength = 0;
+			double genomeLength = 0;
 			for (int viewIndex = 0; viewIndex < as.viewCount(); viewIndex++)
 				genomeLength += as.mapLength(viewIndex);
 
@@ -279,13 +277,13 @@ public class MABCStats extends SimpleJob
 				params.isDP = true;
 
 
-			float min = qtl.getQTL().getMin();
-			float max = qtl.getQTL().getMax();
+			double min = qtl.getQTL().getMin();
+			double max = qtl.getQTL().getMax();
 
 			// Array indices of the left and right flanking markers
 			for (int m = 0; m < markers.size(); m++)
 			{
-				float pos = markers.get(m).position();
+				double pos = markers.get(m).position();
 
 				if (pos >= min && params.LM == -1)
 					params.LM = m;

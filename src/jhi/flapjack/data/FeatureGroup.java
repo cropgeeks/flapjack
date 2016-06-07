@@ -10,7 +10,7 @@ public class FeatureGroup implements Iterable<QTLInfo>
 {
 	private ArrayList<QTLInfo> qtls = new ArrayList<>();
 
-	private float min, max;
+	private double min, max;
 
 	public FeatureGroup(QTLInfo qtlInfo)
 	{
@@ -42,9 +42,9 @@ public class FeatureGroup implements Iterable<QTLInfo>
 	public int size()
 		{ return qtls.size(); }
 
-	public float getMin()
+	public double getMin()
 		{ return min; }
 
-	public float getMax()
+	public double getMax()
 		{ return max; }
 }
