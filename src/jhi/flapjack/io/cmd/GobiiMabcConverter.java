@@ -6,6 +6,7 @@
 package jhi.flapjack.io.cmd;
 
 import java.io.*;
+import java.text.*;
 import java.util.*;
 
 import jhi.flapjack.io.*;
@@ -15,6 +16,7 @@ import scri.commons.io.*;
 public class GobiiMabcConverter
 {
 	private static File wrkDir;
+	private static NumberFormat nf = NumberFormat.getInstance();
 
 	// Tracks all the markers we've loaded
 	private ArrayList<Marker> markers = new ArrayList<>();
@@ -185,10 +187,11 @@ public class GobiiMabcConverter
 		float pos;
 
 		Marker(int index, String chr, String pos)
+			throws Exception
 		{
 			name = "m" + (index+1);
 			this.chr = chr;
-			this.pos = Float.parseFloat(pos);
+			this.pos = nf.parse(pos).floatValue();
 		}
 	}
 }

@@ -4,6 +4,7 @@
 package jhi.flapjack.io.binning;
 
 import java.io.*;
+import java.text.*;
 
 public class BinData
 {
@@ -15,6 +16,8 @@ public class BinData
 	public static void main(String[] args)
 		throws Exception
 	{
+		NumberFormat nf = NumberFormat.getInstance();
+
 		String method = args[0].toUpperCase();
 
 		String inFile = args[1];
@@ -31,7 +34,7 @@ public class BinData
 		else if (method.equals("SPLIT"))
 		{
 			int lBinCount = Integer.parseInt(args[3]);
-			float split = Float.parseFloat(args[4]);
+			float split = nf.parse(args[4]).floatValue();
 			int rBinCount = Integer.parseInt(args[5]);
 
 			binData.writeSplitFile(lBinCount, split, rBinCount);
@@ -76,6 +79,8 @@ public class BinData
 	private void writeBinFile()
 		throws Exception
 	{
+		NumberFormat nf = NumberFormat.getInstance();
+
 		BufferedReader in = new BufferedReader(new FileReader(inFile));
 		BufferedWriter out = new BufferedWriter(new FileWriter(outFile));
 
@@ -129,7 +134,7 @@ public class BinData
 					out.write("\t");
 				else
 				{
-					float value = Float.parseFloat(split[i]);
+					float value = nf.parse(split[i]).floatValue();
 					int bin = binner.bin(value);
 
 					out.write("\t" + bin);

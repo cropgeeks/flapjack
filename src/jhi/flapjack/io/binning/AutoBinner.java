@@ -4,6 +4,7 @@
 package jhi.flapjack.io.binning;
 
 import java.io.*;
+import java.text.*;
 import java.util.*;
 
 public class AutoBinner implements IBinner
@@ -13,6 +14,8 @@ public class AutoBinner implements IBinner
 	private ArrayList<Integer> histogram;
 	private ArrayList<Float> binSizes;
 	private float[] binEnds;
+
+	private NumberFormat nf = NumberFormat.getInstance();
 
 	AutoBinner(int numBins, String histFile)
 		throws Exception
@@ -38,7 +41,7 @@ public class AutoBinner implements IBinner
 					continue;
 
 				String[] tokens = line.split("\t");
-				binSizes.add(Float.parseFloat(tokens[0]));
+				binSizes.add(nf.parse(tokens[0]).floatValue());
 				histogram.add(Integer.parseInt(tokens[1]));
 			}
 		}

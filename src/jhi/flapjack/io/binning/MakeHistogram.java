@@ -24,6 +24,8 @@ public class MakeHistogram
 	private String inputFile;
 	private String outputFile;
 
+	NumberFormat nf = NumberFormat.getInstance();
+
 	private static List<String> output;
 
 	// Generates a histogram from allele frequency input data.
@@ -106,7 +108,7 @@ public class MakeHistogram
 				// Ignore empty strings
 				if (split[i].isEmpty() == false)
 				{
-					float value = Float.parseFloat(split[i]);
+					float value = nf.parse(split[i]).floatValue();
 
 					int bin = binner.bin(value);
 					histogram[bin]++;

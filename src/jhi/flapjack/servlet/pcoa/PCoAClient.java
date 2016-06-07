@@ -4,6 +4,7 @@
 package jhi.flapjack.servlet.pcoa;
 
 import java.io.*;
+import java.text.*;
 
 import jhi.flapjack.data.*;
 import jhi.flapjack.data.results.*;
@@ -87,6 +88,8 @@ public class PCoAClient
 
 	private PCoAResult createPcoaFromResponse(String responseText, SimMatrix matrix)
 	{
+		NumberFormat nf = NumberFormat.getInstance();
+
 		try (BufferedReader in = new BufferedReader(new StringReader(responseText)))
 		{
 			PCoAResult result = new PCoAResult(matrix.getLineInfos());
@@ -101,14 +104,14 @@ public class PCoAClient
 
 				// TODO: Will R always return comma for its decimals???
 				for (int i = 1; i < tokens.length; i++)
-					data[i - 1] = Float.parseFloat(tokens[i]);
+					data[i - 1] = nf.parse(tokens[i]).floatValue();
 
 				result.addDataRow(data);
 			}
 
 			return result;
 		}
-		catch (IOException e)
+		catch (Exception e)
 		{
 			e.printStackTrace();
 		}
