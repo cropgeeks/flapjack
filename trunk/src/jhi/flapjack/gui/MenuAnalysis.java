@@ -265,18 +265,14 @@ public class MenuAnalysis
 		DataSet dataSet = navPanel.getDataSetForSelection();
 		GTViewSet viewSet = gPanel.getViewSet();
 
-		// Clone the view (as the clone will ultimately contain a reordered
-		// list of lines that match the order in the dendrogram)
-		GTViewSet dialogViewSet = viewSet.createClone("", true, null);
-
 		// Prompt the user for input variables
-		MABCStatsDialog dialog = new MABCStatsDialog(dialogViewSet);
+		MABCStatsDialog dialog = new MABCStatsDialog(viewSet);
 		if (dialog.isOK() == false)
 			return;
 
 		boolean[] selectedChromosomes = dialog.getSelectedChromosomes();
 
-		GTViewSet finalViewSet = dialogViewSet.createClone("", true, selectedChromosomes);
+		GTViewSet finalViewSet = viewSet.createClone("", true, selectedChromosomes);
 
 		// Run the stats calculations
 		MABCStats stats = new MABCStats(finalViewSet, selectedChromosomes);

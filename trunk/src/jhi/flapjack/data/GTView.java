@@ -312,18 +312,20 @@ public class GTView extends XMLRoot
 	// Some of the operations in this method may need to be performed like a
 	// "deep copy", as we want the clone to have its own copy of everything and
 	// not just references back to the originals
-	GTView createClone(GTViewSet clonedViewSet)
+	GTView createClone(GTViewSet clonedViewSet, boolean selectedMrkrsOnly)
 	{
 		GTView clone = new GTView(clonedViewSet, map, false);
 
 		// Clone the visible markers
 		clone.markers.clear();
 		for (MarkerInfo mi : markers)
-			clone.markers.add(new MarkerInfo(mi));
+			if (!selectedMrkrsOnly || (selectedMrkrsOnly && mi.getSelected()))
+				clone.markers.add(new MarkerInfo(mi));
 
 		// Clone the hidden markers
-		for (MarkerInfo mi : hideMarkers)
-			clone.hideMarkers.add(new MarkerInfo(mi));
+		if (selectedMrkrsOnly == false)
+			for (MarkerInfo mi : hideMarkers)
+				clone.hideMarkers.add(new MarkerInfo(mi));
 
 		// Clone the QTLInfos
 		ArrayList<QTLInfo> clonedQTLs = new ArrayList<>();

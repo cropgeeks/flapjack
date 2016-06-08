@@ -14,6 +14,7 @@ import scri.commons.gui.*;
 public class ChromosomeSelectionPanel extends JPanel implements ActionListener
 {
 	private ChromosomeSelectionTableModel model;
+	private JButton bOK;
 
     /** Creates new form ChromosomeSelectionPanel */
     public ChromosomeSelectionPanel()
@@ -26,8 +27,10 @@ public class ChromosomeSelectionPanel extends JPanel implements ActionListener
 		selectNoneLabel.addActionListener(this);
     }
 
-	public void setupComponents(GTViewSet viewSet)
+	public void setupComponents(GTViewSet viewSet, JButton bOK)
 	{
+		this.bOK = bOK;
+
 		// Set up analysis objects to get counts of all and selected lines
 		AnalysisSet allLines = new AnalysisSet(viewSet);
 		allLines.withAllLines();
@@ -53,28 +56,44 @@ public class ChromosomeSelectionPanel extends JPanel implements ActionListener
 		selectedMarkers.withSelectedMarkers();
 
 		ArrayList<String> markerSelectionValues = new ArrayList<>();
-		ArrayList<String> chromosomeNames = new ArrayList<>();
+		ArrayList<ChromosomeMap> maps = new ArrayList<>();
 		for (int i=0; i < allMarkers.viewCount(); i++)
 		{
 			markerSelectionValues.add(selectedMarkers.markerCount(i) + "/" + allMarkers.markerCount(i));
-			chromosomeNames.add(viewSet.getView(allMarkers.chrMapIndex(i)).getChromosomeMap().getName());
+			maps.add(viewSet.getView(allMarkers.chrMapIndex(i)).getChromosomeMap());
 		}
 
 		// Setup the table model and make the first column of the table small enough for a checkbox
-		model = new ChromosomeSelectionTableModel(chromosomeNames, markerSelectionValues);
+		model = new ChromosomeSelectionTableModel(maps, markerSelectionValues);
 		chromosomesTable.setModel(model);
 		chromosomesTable.getColumnModel().getColumn(0).setPreferredWidth(20);
 
 		UIScaler.setCellHeight(chromosomesTable);
+
+		checkButtonState();
+	}
+
+	private void checkButtonState()
+	{
+		boolean enabled = false;
+		for (int i = 0; i < model.getRowCount(); i++)
+			if (((Boolean)model.getValueAt(i, 0)))
+				enabled = true;
+
+		bOK.setEnabled(enabled);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
 		if (e.getSource() == selectAllLabel)
+		{
 			for (int i = 0; i < model.getRowCount(); i++)
-				model.setValueAt(true, i, 0);
-
+			{
+				if (model.isCellEditable(i, 0))
+					model.setValueAt(true, i, 0);
+			}
+		}
 		else if (e.getSource() == selectNoneLabel)
 			for (int i = 0; i < model.getRowCount(); i++)
 				model.setValueAt(false, i, 0);
@@ -84,6 +103,8 @@ public class ChromosomeSelectionPanel extends JPanel implements ActionListener
 	// the possible chromosomes that could be used in the sort
 	public boolean[] getSelectedChromosomes()
 	{
+		model.updateForFinalSelection();
+
 		boolean[] array = new boolean[model.getRowCount()];
 
 		for (int i = 0; i < array.length; i++)
@@ -97,16 +118,17 @@ public class ChromosomeSelectionPanel extends JPanel implements ActionListener
 		private final String[] columnNames;
 		private final boolean[] selected;
 
-		private final int rowCount;
+		private int rowCount;
+		private boolean rowCountModified = false;
 
-		private final ArrayList<String> chromosomeNames;
+		private final ArrayList<ChromosomeMap> maps;
 		private final ArrayList<String> markerSelectionValues;
 
-		ChromosomeSelectionTableModel(ArrayList<String> chromosomeNames, ArrayList<String> markerSelectionValues)
+		ChromosomeSelectionTableModel(ArrayList<ChromosomeMap> maps, ArrayList<String> markerSelectionValues)
 		{
-			this.chromosomeNames = chromosomeNames;
+			this.maps = maps;
 			this.markerSelectionValues = markerSelectionValues;
-			this.rowCount = chromosomeNames.size();
+			this.rowCount = maps.size();
 
 			columnNames = new String[] {
 				RB.getString("gui.dialog.analysis.ChromosomeSelectionPanel.column1"),
@@ -116,7 +138,23 @@ public class ChromosomeSelectionPanel extends JPanel implements ActionListener
 
 			selected = new boolean[rowCount];
 			for (int i=0; i < selected.length; i++)
-				selected[i] = true;
+				if (markerSelectionValues.get(i).startsWith("0") == false)
+					selected[i] = true;
+
+			// Fudge to hide any 'all chromsomes' view from the table, and also
+			// to ensure it's pre-deselected for later
+			if (maps.get(rowCount-1).isSpecialChromosome())
+			{
+				rowCountModified = true;
+				selected[rowCount-1] = false;
+				rowCount--;
+			}
+		}
+
+		void updateForFinalSelection()
+		{
+			if (rowCountModified)
+				rowCount++;
 		}
 
 		@Override
@@ -143,7 +181,7 @@ public class ChromosomeSelectionPanel extends JPanel implements ActionListener
 			switch (columnIndex)
 			{
 				case 0: return selected[rowIndex];
-				case 1: return chromosomeNames.get(rowIndex);
+				case 1: return maps.get(rowIndex);
 				case 2: return markerSelectionValues.get(rowIndex);
 
 				default: return null;
@@ -157,6 +195,7 @@ public class ChromosomeSelectionPanel extends JPanel implements ActionListener
 				selected[rowIndex] = (boolean) value;
 
 			fireTableCellUpdated(rowIndex, columnIndex);
+			checkButtonState();
 		}
 
 		@Override
@@ -168,6 +207,9 @@ public class ChromosomeSelectionPanel extends JPanel implements ActionListener
 		@Override
 		public boolean isCellEditable(int row, int col)
 		{
+			if (markerSelectionValues.get(row).startsWith("0"))
+				return false;
+
 			return col == 0;
 		}
 	}
