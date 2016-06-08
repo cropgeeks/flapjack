@@ -41,7 +41,7 @@ class CanvasMouseListener extends MouseInputAdapter
 
 		canvasMenu = new CanvasMenu(canvas, winMain);
 		infoPane = new GenotypeCanvasInfoPane(gPanel, canvas);
-		canvas.overlays.add(infoPane);
+//		canvas.overlays.add(infoPane);
 
 		canvas.addMouseListener(this);
 		canvas.addMouseMotionListener(this);
