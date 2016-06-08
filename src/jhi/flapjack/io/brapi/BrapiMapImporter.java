@@ -53,7 +53,7 @@ public class BrapiMapImporter implements IMapImporter
 			// Each MapEntry represents a marker: its name, chromosome, and
 			// location on chromosome
 
-			float position = nf.parse(bm.getLocation()).floatValue();
+			double position = nf.parse(bm.getLocation()).doubleValue();
 			String chromosome = bm.getLinkageGroup();
 
 			Marker marker = new Marker(bm.getMarkerName(), position);
