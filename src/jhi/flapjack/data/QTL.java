@@ -191,6 +191,10 @@ public class QTL extends XMLRoot implements Comparable<QTL>, Cloneable
 	public String valueOf(String parameter)
 	{
 		int index = Arrays.asList(vNames).indexOf(parameter);
-		return values[index];
+
+		if (index != -1)
+			return values[index];
+		else
+			return null;
 	}
 }
