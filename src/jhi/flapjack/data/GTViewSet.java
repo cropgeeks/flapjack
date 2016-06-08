@@ -311,7 +311,7 @@ public class GTViewSet extends XMLRoot
 	public String toString()
 		{ return name; }
 
-	public GTViewSet createClone(String cloneName, boolean onlyCloneSelectedLines, boolean[] selectedChromosomes)
+	public GTViewSet createClone(String cloneName, boolean selectedLMOnly, boolean[] selectedChromosomes)
 	{
 		GTViewSet clone = new GTViewSet(dataSet, cloneName);
 
@@ -329,11 +329,11 @@ public class GTViewSet extends XMLRoot
 		// Copy over the line data
 		clone.lines.clear();
 		for (LineInfo lineInfo : lines)
-			if (!onlyCloneSelectedLines || (onlyCloneSelectedLines && lineInfo.getSelected()))
+			if (!selectedLMOnly || (selectedLMOnly && lineInfo.getSelected()))
 				clone.lines.add(new LineInfo(lineInfo));
 
 		// Copy over the hidden line data
-		if (onlyCloneSelectedLines == false)
+		if (selectedLMOnly == false)
 			for (LineInfo lineInfo : hideLines)
 				clone.hideLines.add(new LineInfo(lineInfo));
 
@@ -344,7 +344,7 @@ public class GTViewSet extends XMLRoot
 		clone.views.clear();
 		for (int i=0; i < views.size(); i++)
 			if (selectedChromosomes == null || selectedChromosomes[i])
-				clone.views.add(views.get(i).createClone(clone));
+				clone.views.add(views.get(i).createClone(clone, selectedLMOnly));
 
 		return clone;
 	}
