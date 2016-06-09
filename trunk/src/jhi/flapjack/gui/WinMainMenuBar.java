@@ -93,6 +93,7 @@ public class WinMainMenuBar extends JMenuBar
 
 	private JMenu mAnalysis;
 	private JMenu mAlysSortLines;
+	private JMenu mAlysStatsPedVer;
 	private JMenuItem mAlysSortLinesBySimilarity;
 	private JMenuItem mAlysSortLinesByTrait;
 	private JMenuItem mAlysSortLinesByExternal;
@@ -385,6 +386,9 @@ public class WinMainMenuBar extends JMenuBar
 		mAlysSortLines = new JMenu(RB.getString("gui.WinMainMenuBar.mAlysSortLines"));
 		RB.setMnemonic(mAlysSortLines, "gui.WinMainMenuBar.mAlysSortLines");
 
+		mAlysStatsPedVer = new JMenu(RB.getString("gui.WinMainMenuBar.mAlysStatsPedVer"));
+		RB.setMnemonic(mAlysStatsPedVer, "gui.WinMainMenuBar.mAlysStatsPedVer");
+
 		mAlysSortLinesBySimilarity = getItem(Actions.alysSortLinesBySimilarity, "gui.Actions.alysSortLinesBySimilarity", 0, 0);
 		mAlysSortLinesByTrait = getItem(Actions.alysSortLinesByTrait, "gui.Actions.alysSortLinesByTrait", 0, 0);
 		mAlysSortLinesByExternal = getItem(Actions.alysSortLinesByExternal, "gui.Actions.alysSortLinesByExternal", 0, 0);
@@ -403,6 +407,10 @@ public class WinMainMenuBar extends JMenuBar
 		mAlysSortLines.add(mAlysSortLinesByTrait);
 		mAlysSortLines.add(mAlysSortLinesByExternal);
 
+		mAlysStatsPedVer.add(mAlysPedVer);
+		mAlysStatsPedVer.addSeparator();
+		mAlysStatsPedVer.add(mAlysPedVerLines);
+
 		mAnalysis.add(mAlysSortLines);
 		mAnalysis.addSeparator();
 		mAnalysis.add(mAlysSimMatrix);
@@ -410,8 +418,7 @@ public class WinMainMenuBar extends JMenuBar
 		mAnalysis.add(mAlysPCoA);
 		mAnalysis.addSeparator();
 		mAnalysis.add(mAlysMABC);
-		mAnalysis.add(mAlysPedVer);
-		mAnalysis.add(mAlysPedVerLines);
+		mAnalysis.add(mAlysStatsPedVer);
 
 
 		add(mAnalysis);
