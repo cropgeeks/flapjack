@@ -111,8 +111,7 @@ class ListPanel extends JPanel implements MouseMotionListener, MouseListener
 		lineTable.setFont(font);
 		// Re-size the height of the rows by getting the height of the font using font metrics
 		// TODO: This can only be called when we have a graphics object....
-		if (lineTable.getGraphics() != null)
-			lineTable.setRowHeight(lineTable.getGraphics().getFontMetrics().getHeight());
+		lineTable.setRowHeight(lineTable.getFontMetrics(font).getHeight());
 
 		// Re-size columns so that they fit their content perfectly
 		// TODO: Can we cache the "widest" element of the column so we have less re-calculating to do
@@ -127,8 +126,6 @@ class ListPanel extends JPanel implements MouseMotionListener, MouseListener
 			}
 			lineTable.getColumnModel().getColumn(col).setPreferredWidth(width);
 		}
-
-//		populateList();
 	}
 
 	void moveLine(int fromIndex, int toIndex)
