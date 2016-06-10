@@ -60,7 +60,7 @@ public class ChromosomeSelectionPanel extends JPanel implements ActionListener
 		for (int i=0; i < allMarkers.viewCount(); i++)
 		{
 			markerSelectionValues.add(selectedMarkers.markerCount(i) + "/" + allMarkers.markerCount(i));
-			maps.add(viewSet.getView(allMarkers.chrMapIndex(i)).getChromosomeMap());
+			maps.add(allMarkers.getGTView(i).getChromosomeMap());
 		}
 
 		// Setup the table model and make the first column of the table small enough for a checkbox

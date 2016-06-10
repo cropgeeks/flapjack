@@ -42,7 +42,7 @@ public class MABCStats extends SimpleJob
 	{
 		// This analysis will run on selected lines/markers only
 		AnalysisSet as = new AnalysisSet(viewSet)
-			.withViews(selectedChromosomes)													// <-- USER STILL NEEDS TO PICK CHROMOSOMES TO WORK WITH (in dialog)
+			.withViews(selectedChromosomes)
 			.withSelectedLines()
 			.withSelectedMarkers();
 
@@ -66,7 +66,7 @@ public class MABCStats extends SimpleJob
 			for (int viewIndex = 0; viewIndex < as.viewCount(); viewIndex++)
 			{
 				MABCLineStats.ChrScore chrScore = new MABCLineStats.ChrScore();
-				chrScore.chrMapIndex = as.chrMapIndex(viewIndex);
+				chrScore.view = as.getGTView(viewIndex);
 				stats.getChrScores().add(chrScore);
 
 				for (int mrkIndex = 0; mrkIndex < as.markerCount(viewIndex); mrkIndex++)

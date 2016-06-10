@@ -59,8 +59,7 @@ class MabcTableModel extends LineDataTableModel
 		for (int i = 0; i < s.getChrScores().size(); i++)
 		{
 			MABCLineStats.ChrScore cs = s.getChrScores().get(i);
-			ChromosomeMap map = dataSet.getChromosomeMaps().get(cs.chrMapIndex);
-			columnNames[rppIndex+i] = map.getName();
+			columnNames[rppIndex+i] = cs.view.getChromosomeMap().getName();
 		}
 
 		columnNames[rppTotalIndex] = "RPP Total";

@@ -275,7 +275,7 @@ public class MenuAnalysis
 		GTViewSet finalViewSet = viewSet.createClone("", true, selectedChromosomes);
 
 		// Run the stats calculations
-		MABCStats stats = new MABCStats(finalViewSet, selectedChromosomes);
+		MABCStats stats = new MABCStats(finalViewSet, null);
 		ProgressDialog pDialog = new ProgressDialog(stats,
 			RB.getString("gui.MenuAnalysis.mabc.title"),
 			RB.getString("gui.MenuAnalysis.pcoa.label"), Flapjack.winMain);
