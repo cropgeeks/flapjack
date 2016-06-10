@@ -24,7 +24,7 @@ public class AnalysisSet
 	private GTViewSet viewSet;
 
 	private ArrayList<LineInfo> lines;
-	private ArrayList<View> views;
+	private ArrayList<ViewInfo> views;
 
 	public AnalysisSet(GTViewSet viewSet)
 	{
@@ -34,11 +34,11 @@ public class AnalysisSet
 
 	public AnalysisSet withViews(boolean[] selectedChromosomes)
 	{
-		views = new ArrayList<View>();
+		views = new ArrayList<ViewInfo>();
 
 		for (int i = 0; i < viewSet.getViews().size(); i++)
 			if (selectedChromosomes == null || selectedChromosomes[i])
-				views.add(new View(i));
+				views.add(new ViewInfo(viewSet.getView(i)));
 
 		return this;
 	}
@@ -69,12 +69,12 @@ public class AnalysisSet
 
 	public AnalysisSet withAllMarkers()
 	{
-		for (View view : views)
+		for (ViewInfo vInfo : views)
 		{
 			// Filters the GTView's list of markers so that we only get actual
 			// markers, and not any of the dummy ones
-			ArrayList<MarkerInfo> allMarkers = viewSet.getView(view.chrMapIndex).getMarkers();
-			view.markers = allMarkers.stream()
+			ArrayList<MarkerInfo> allMarkers = vInfo.view.getMarkers();
+			vInfo.markers = allMarkers.stream()
 				.filter(mi -> !mi.dummyMarker())
 				.sorted()
 				.collect(Collectors.toCollection(ArrayList::new));
@@ -87,14 +87,14 @@ public class AnalysisSet
 	{
 		withAllMarkers();
 
-		for (View view : views)
+		for (ViewInfo vInfo : views)
 		{
-			ArrayList<MarkerInfo> hiddenMarkers = viewSet.getView(view.chrMapIndex).getHideMarkers();
-			view.markers.addAll(hiddenMarkers.stream()
+			ArrayList<MarkerInfo> hiddenMarkers = vInfo.view.getHideMarkers();
+			vInfo.markers.addAll(hiddenMarkers.stream()
 				.filter(mi -> !mi.dummyMarker())
 				.collect(Collectors.toCollection(ArrayList::new)));
 
-			Collections.sort(view.markers);
+			Collections.sort(vInfo.markers);
 		}
 
 		return this;
@@ -104,9 +104,9 @@ public class AnalysisSet
 	{
 		withAllMarkers();
 
-		for (View view: views)
+		for (ViewInfo vInfo: views)
 		{
-			view.markers = view.markers.stream()
+			vInfo.markers = vInfo.markers.stream()
 				.filter(mi -> mi.getSelected())
 				.collect(Collectors.toCollection(ArrayList::new));
 		}
@@ -125,13 +125,11 @@ public class AnalysisSet
 		return views.get(view).getState(line, marker);
 	}
 
+	public GTView getGTView(int view)
+		{ return views.get(view).getGTView(); }
+
 	public double mapLength(int view)
 		{ return views.get(view).mapLength(); }
-
-	/** Returns the index within the original DataSet of the ChromosomeMap/GTView
-	 * currently at index 'view' in this AnalysisSet. */
-	public int chrMapIndex(int view)
-		{ return views.get(view).chrMapIndex(); }
 
 	public ArrayList<QTLInfo> qtls(int view)
 		{ return views.get(view).qtls(); }
@@ -143,38 +141,51 @@ public class AnalysisSet
 	public int lineCount()
 		{ return lines.size(); }
 
-	public int markerCount(int chrIndex)
-		{ return views.get(chrIndex).markers.size(); }
+	public int markerCount(int view)
+		{ return views.get(view).markers.size(); }
 
 	public LineInfo getLine(int lineIndex)
 		{ return lines.get(lineIndex); }
 
-	public MarkerInfo getMarker(int chrIndex, int markerIndex)
-		{ return views.get(chrIndex).markers.get(markerIndex); }
+	public MarkerInfo getMarker(int view, int markerIndex)
+		{ return views.get(view).markers.get(markerIndex); }
 
-	public ArrayList<MarkerInfo> getMarkers(int chrIndex)
-		{ return views.get(chrIndex).markers; }
+	public ArrayList<MarkerInfo> getMarkers(int view)
+		{ return views.get(view).markers; }
 
 
 	/** Returns a count of all the alleles (markerCount x lineCount). */
 	public long countAlleles()
 	{
 		long totalMarkers = 0;
-		for (View view: views)
+		for (ViewInfo view: views)
 			totalMarkers += (long)view.markers.size();
 
 		return totalMarkers * (long)lines.size();
 	}
 
-	private class View
+	private class ViewInfo
 	{
 		private ArrayList<MarkerInfo> markers;
 		// The index of the chromosome in the original (full) DataSet
+		// ** DO NOT EXPOSE THIS OUTSIDE OF THIS ViewInfo CLASS ***
 		private int chrMapIndex;
+		// ** DO NOT EXPOSE THIS OUTSIDE OF THIS ViewInfo CLASS ***
+		// The danger is it being used in a subsetted viewSet with less chromosomes
+		// meaning this index is not valid for that subset. It only works when
+		// going back to the original data (eg a list of chromsomes from the
+		// DataSet itself). It's safer to just expose the GTView (see below)
 
-		View(int chrMapIndex)
+		private GTView view;
+
+		ViewInfo(GTView view)
 		{
-			this.chrMapIndex = chrMapIndex;
+			this.view = view;
+
+			// We need this index, because we need to query the correct
+			// GenotypeData object within the original Line class
+			this.chrMapIndex = viewSet.getDataSet().getChromosomeMaps()
+				.indexOf(view.getChromosomeMap());
 		}
 
 		public int getState(int lineIndex, int markerIndex)
@@ -189,15 +200,15 @@ public class AnalysisSet
 		// should rethink whether they should even be here, or whether
 		// AnalysisSet simple returns a reference to the view/chromosomes/whatever
 
-		public double mapLength()
+		GTView getGTView()
+			{ return view; }
+
+		double mapLength()
 		{
-			return viewSet.getView(chrMapIndex).getChromosomeMap().getLength();
+			return view.getChromosomeMap().getLength();
 		}
 
-		public int chrMapIndex()
-			{ return chrMapIndex; }
-
-		public ArrayList<QTLInfo> qtls()
-			{ return viewSet.getView(chrMapIndex).getQTLs(); }
+		ArrayList<QTLInfo> qtls()
+			{ return view.getQTLs(); }
 	}
 }

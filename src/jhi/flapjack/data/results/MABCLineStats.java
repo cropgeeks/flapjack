@@ -54,7 +54,7 @@ public class MABCLineStats
 
 	public static class ChrScore
 	{
-		public int chrMapIndex;
+		public GTView view;
 		public double coverage, sumRP, sumDO;
 	}
 
