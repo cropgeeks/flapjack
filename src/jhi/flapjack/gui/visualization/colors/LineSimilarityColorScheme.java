@@ -79,11 +79,11 @@ public class LineSimilarityColorScheme extends SimilarityColorScheme
 	{
 		ArrayList<ColorSummary> colors = new ArrayList<>();
 
-		colors.add(new ColorSummary(Prefs.visColorSimilarityState1Dark,
+		colors.add(new ColorSummary(Prefs.visColorSimStateMatchDark,
 			RB.getString("gui.visualization.colors.LineSimilarityColorScheme.state1Dark")));
-		colors.add(new ColorSummary(Prefs.visColorSimilarityState1,
+		colors.add(new ColorSummary(Prefs.visColorSimStateMatch,
 			RB.getString("gui.visualization.colors.LineSimilarityColorScheme.state1")));
-		colors.add(new ColorSummary(Prefs.visColorSimilarityState2,
+		colors.add(new ColorSummary(Prefs.visColorSimStateNoMatch,
 			RB.getString("gui.visualization.colors.LineSimilarityColorScheme.state2")));
 
 		return colors;

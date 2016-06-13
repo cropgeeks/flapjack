@@ -36,9 +36,9 @@ abstract class SimilarityColorScheme extends ColorScheme
 
 		// Shorthand names for the colours (makes the code below more readable)
 		Color sHz = Prefs.visColorNucleotideHZ;
-		Color drk = Prefs.visColorSimilarityState1Dark;
-		Color s1  = Prefs.visColorSimilarityState1;
-		Color s2  = Prefs.visColorSimilarityState2;
+		Color drk = Prefs.visColorSimStateMatchDark;
+		Color s1  = Prefs.visColorSimStateMatch;
+		Color s2  = Prefs.visColorSimStateNoMatch;
 
 		for (int i = 0; i < stateTable.size(); i++)
 		{
@@ -84,9 +84,9 @@ abstract class SimilarityColorScheme extends ColorScheme
 
 	public void setColorSummaries(ArrayList<ColorSummary> colors)
 	{
-		Prefs.visColorSimilarityState1Dark = colors.get(0).color;
-		Prefs.visColorSimilarityState1 = colors.get(1).color;
-		Prefs.visColorSimilarityState2 = colors.get(2).color;
+		Prefs.visColorSimStateMatchDark = colors.get(0).color;
+		Prefs.visColorSimStateMatch = colors.get(1).color;
+		Prefs.visColorSimStateNoMatch = colors.get(2).color;
 	}
 
 	private void createLookupTable()
