@@ -124,7 +124,7 @@ public class Prefs extends XMLPreferences
 
 	// Auto assign traits to the heatmap after a sort-by-trait?
 	public static boolean guiAssignTraits = true;
-	
+
 	// Graphs (against markers)
 	public static int guiGraphStyle = 0;
 
@@ -217,9 +217,9 @@ public class Prefs extends XMLPreferences
 	public static Color visColorSimple2Other;
 
 	// Colors used by the similarity schemes
-	public static Color visColorSimilarityState1;
-	public static Color visColorSimilarityState1Dark;
-	public static Color visColorSimilarityState2;
+	public static Color visColorSimStateMatch;
+	public static Color visColorSimStateMatchDark;
+	public static Color visColorSimStateNoMatch;
 
 	// Colors used by the allele frequency scheme
 	public static Color visColorLoFreqState;
@@ -285,9 +285,9 @@ public class Prefs extends XMLPreferences
 		visColorSimple2State2 = new Color(120, 255, 120);
 		visColorSimple2Other = new Color(204, 204, 204);
 
-		visColorSimilarityState1 = new Color(255, 120, 120);
-		visColorSimilarityState1Dark = new Color(255, 90, 90);
-		visColorSimilarityState2 = new Color(120, 255, 120);
+		visColorSimStateMatch = new Color(120, 255, 120);
+		visColorSimStateMatchDark = new Color(90, 255, 90);
+		visColorSimStateNoMatch = new Color(255, 120, 120);
 
 		visColorLoFreqState = new Color(102, 102, 255);
 		visColorHiFreqState = new Color(204, 255, 204);
