@@ -31,7 +31,7 @@ public class MABCLineStats
 	public ArrayList<QTLScore> getQTLScores()
 		{ return qtlScores; }
 
-		public double getGenomeCoverage()
+	public double getGenomeCoverage()
 		{ return genomeCoverage; }
 
 	public void setGenomeCoverage(double genomeCoverage)
