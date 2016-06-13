@@ -50,6 +50,19 @@ public class MABCStats extends SimpleJob
 		calculateLinkageDrag(as);
 	}
 
+	// Searchs backwards through a line's worth of allele data (for a single
+	// chromosome, returning the index of the marker closest to the end of the
+	// chromosome that is usable (no missing data etc)
+	private int findLastUsableMarker(AnalysisSet as, int viewIndex, int lineIndex)
+		throws Exception
+	{
+		for (int mrkIndex = as.markerCount(viewIndex)-1; mrkIndex >= 0; mrkIndex--)
+			if (as.getState(viewIndex, lineIndex, mrkIndex) != 0)
+				return mrkIndex;
+
+		return -1;
+	}
+
 	private void calculateRPP(AnalysisSet as)
 		throws Exception
 	{
@@ -69,32 +82,51 @@ public class MABCStats extends SimpleJob
 				chrScore.view = as.getGTView(viewIndex);
 				stats.getChrScores().add(chrScore);
 
+				// The index of the previous marker used (eg wasn't an allele
+				// with missing data at that index)
+				int prevMrkIndex = -1;
+				// The index of the last (ie, closed to chromosome-end) marker
+				// that is usable (no missing data etc)
+				int lastMrkIndex = findLastUsableMarker(as, viewIndex, lineIndex);
+
+
 				for (int mrkIndex = 0; mrkIndex < as.markerCount(viewIndex); mrkIndex++)
 				{
 					MarkerInfo marker = as.getMarker(viewIndex, mrkIndex);
 
+					// Can we use this marker? We'll skip any that are missing
+					int state = as.getState(viewIndex, lineIndex, mrkIndex);
+					if (state == 0)
+						continue;
+
+					// What state does the recurrant parent have at this marker?
+					int pState = as.getState(viewIndex, rpIndex, mrkIndex);
+					// If it's missing, or het, skip this position
+					if (pState == 0 || st.isHet(pState))
+						continue;
+
+
 					double gap = 0;
 					double gapEnd = 0;
 
-					// Add gap from 0 to first marker's position
-					if (mrkIndex == 0)
+					// Add gap from 0 to first (usable) marker's position
+					if (prevMrkIndex == -1)
 					{
 						double pos = marker.position();
 						gap = Math.min(pos, maxMarkerCoverage);
 					}
 
 					// For every other marker, add gap between marker and previous
-					else if (mrkIndex > 0)
+					else if (mrkIndex < as.markerCount(viewIndex))
 					{
-
 						double pos1 = marker.position();
-						double prevPos = as.getMarker(viewIndex, mrkIndex-1).position();
+						double prevPos = as.getMarker(viewIndex, prevMrkIndex).position();
 
 						gap = Math.min(pos1 - prevPos, maxMarkerCoverage);
 					}
 
-					// Add gap from last marker to chromosome's end/length
-					if (mrkIndex == as.markerCount(viewIndex)-1)
+					// Add gap from last (usable) marker to chromosome's end/length
+					if (mrkIndex == lastMrkIndex)
 					{
 						double chrLength = as.mapLength(viewIndex);
 						double dist = chrLength - marker.position();
@@ -102,13 +134,11 @@ public class MABCStats extends SimpleJob
 						gapEnd = Math.min(dist, maxMarkerCoverage);
 					}
 
+
 					chrScore.coverage += (gap + gapEnd);
 
-					int state = as.getState(viewIndex, lineIndex, mrkIndex);
-					int pState = as.getState(viewIndex, rpIndex, mrkIndex);
 
-
-					if (mrkIndex == 0)
+					if (prevMrkIndex == -1)
 					{
 						if (st.isHet(state))
 						{
@@ -121,7 +151,7 @@ public class MABCStats extends SimpleJob
 							chrScore.sumDO += gap;
 					}
 
-					else if (mrkIndex > 0)
+					else if (mrkIndex < as.markerCount(viewIndex))
 					{
 						if (st.isHet(state))
 						{
@@ -134,21 +164,21 @@ public class MABCStats extends SimpleJob
 							chrScore.sumDO += gap/2.0;
 
 
-						int statePrev = as.getState(viewIndex, lineIndex, mrkIndex-1);
-						int pStatePrev = as.getState(viewIndex, rpIndex, mrkIndex-1);
+						int statePrev = as.getState(viewIndex, lineIndex, prevMrkIndex);
+						int pStatePrev = as.getState(viewIndex, rpIndex, prevMrkIndex);
 
 						if (st.isHet(statePrev))
 						{
 							chrScore.sumRP += gap/4.0;
 							chrScore.sumDO += gap/4.0;
 						}
-						else if (statePrev == pStatePrev)
-							chrScore.sumRP += gap/2.0;
+						else if (statePrev == pStatePrev)		// Do we worry about pStatePrev potentially being missing/het?
+							chrScore.sumRP += gap/2.0;			// Perhaps not, as this 'else if' catchs hom-prev vs anything-prev-parent, and if the parent was missing/het then it won't match anyway
 						else
 							chrScore.sumDO += gap/2.0;
 					}
 
-					if (mrkIndex == as.markerCount(viewIndex)-1)
+					if (mrkIndex == lastMrkIndex)
 					{
 						if (st.isHet(state))
 						{
@@ -161,7 +191,7 @@ public class MABCStats extends SimpleJob
 							chrScore.sumDO += gapEnd;
 					}
 
-
+					prevMrkIndex = mrkIndex;
 				}
 
 				// Update the overal genome coverage
@@ -181,10 +211,14 @@ public class MABCStats extends SimpleJob
 				rppTotal += chrScore.sumRP;
 				// Update the stored RP values to be ??? percentages?
 				chrScore.sumRP *= (1.0/chrScore.coverage);
+				if (Double.isNaN(chrScore.sumRP))
+					chrScore.sumRP = 0;
 			}
 
 			// Update rppTotal to be a percentage of genome coverage (?)
 			rppTotal *= (1.0/stats.getGenomeCoverage());
+			if (Double.isNaN(rppTotal))
+				rppTotal = 0;
 			stats.setRppTotal(rppTotal);
 			stats.setGenomeCoverage(stats.getGenomeCoverage()/genomeLength);
 		}
