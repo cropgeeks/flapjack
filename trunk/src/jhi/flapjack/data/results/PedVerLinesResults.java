@@ -10,7 +10,12 @@ public class PedVerLinesResults
 	private int testHetCount;
 	private float testHetPercentage;
 
-	public PedVerLinesResults(int testMarkerCount, float testMarkerPresentPercentage, int testHetCount, float testHetPercentage)
+	public PedVerLinesResults()
+	{
+
+	}
+
+	public void set(int testMarkerCount, float testMarkerPresentPercentage, int testHetCount, float testHetPercentage)
 	{
 		this.testMarkerCount = testMarkerCount;
 		this.testMarkerPresentPercentage = testMarkerPresentPercentage;

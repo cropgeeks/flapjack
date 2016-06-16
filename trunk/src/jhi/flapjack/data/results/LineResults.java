@@ -44,12 +44,8 @@ public class LineResults
 		{ this.pedVerStats = pedVerStats; }
 
 	public PedVerLinesLineStats getPedVerLinesStats()
-	{
-		return pedVerLinesStats;
-	}
+		{ return pedVerLinesStats; }
 
 	public void setPedVerLinesStats(PedVerLinesLineStats pedVerLinesStats)
-	{
-		this.pedVerLinesStats = pedVerLinesStats;
-	}
+		{ this.pedVerLinesStats = pedVerLinesStats; }
 }
