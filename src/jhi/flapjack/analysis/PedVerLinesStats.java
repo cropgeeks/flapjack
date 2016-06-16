@@ -32,11 +32,14 @@ public class PedVerLinesStats extends SimpleJob
 		throws Exception
 	{
 		PedVerStats stats = new PedVerStats(as, stateTable);
+		PedVerLinesResults testResults = new PedVerLinesResults();
 
 		for (int lineIndex=0; lineIndex < as.lineCount(); lineIndex++)
 		{
 			LineInfo lineInfo = as.getLine(lineIndex);
+			
 			PedVerLinesLineStats lineStat = new PedVerLinesLineStats();
+			lineStat.setPedVerLinesResults(testResults);
 			lineInfo.results().setPedVerLinesStats(lineStat);
 
 			int totalMarkers = stats.countAllelesForLine();
@@ -61,8 +64,7 @@ public class PedVerLinesStats extends SimpleJob
 
 			if (lineIndex == testIndex)
 			{
-				PedVerLinesResults results = new PedVerLinesResults(foundMarkers, (missingPerc/100f), hetMarkers, (hetPerc/100f));
-				viewSet.setPedVerLinesResults(results);
+				testResults.set(foundMarkers, (missingPerc/100f), hetMarkers, (hetPerc/100f));
 			}
 		}
 	}

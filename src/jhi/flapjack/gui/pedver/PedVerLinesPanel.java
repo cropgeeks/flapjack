@@ -3,18 +3,17 @@
 
 package jhi.flapjack.gui.pedver;
 
-import jhi.flapjack.data.DataSet;
-import jhi.flapjack.data.GTViewSet;
-import jhi.flapjack.data.results.PedVerLinesResults;
-import jhi.flapjack.gui.TitlePanel;
-import jhi.flapjack.gui.table.LineDataTable;
-import scri.commons.gui.RB;
-
-import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.text.NumberFormat;
+import java.awt.event.*;
+import java.text.*;
+import javax.swing.*;
+
+import jhi.flapjack.data.*;
+import jhi.flapjack.data.results.*;
+import jhi.flapjack.gui.*;
+import jhi.flapjack.gui.table.*;
+
+import scri.commons.gui.*;
 
 public class PedVerLinesPanel extends JPanel implements ActionListener
 {
@@ -33,7 +32,10 @@ public class PedVerLinesPanel extends JPanel implements ActionListener
 
 		nf.setMinimumFractionDigits(2);
 
-		PedVerLinesResults results = viewSet.getPedVerLinesResults();
+		// Extract the test line's info from the first line in the view (they
+		// all hold the same reference anyway)
+		LineInfo line = viewSet.getLines().get(0);
+		PedVerLinesResults results = line.results().getPedVerLinesStats().getPedVerLinesResults();
 
 		controls.lblTestMarkerCount.setText(RB.format("gui.pedver.PedVerLinesPanel.markerCount", results.getTestMarkerCount()));
 		controls.lblTestPercentage.setText(RB.format("gui.pedver.PedVerLinesPanel.markerPercentage", nf.format(results.getTestMarkerPresentPercentage())));
