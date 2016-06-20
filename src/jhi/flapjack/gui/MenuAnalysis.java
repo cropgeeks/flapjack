@@ -202,7 +202,7 @@ public class MenuAnalysis
 
 		// Clone the view (as the clone will ultimately contain a reordered
 		// list of lines that match the order in the dendrogram)
-		GTViewSet newViewSet = viewSet.createClone("", true, null);
+		GTViewSet newViewSet = viewSet.createClone("", true);
 
 		DendrogramGenerator dg = new DendrogramGenerator(matrix, newViewSet);
 
@@ -272,7 +272,7 @@ public class MenuAnalysis
 
 		boolean[] selectedChromosomes = dialog.getSelectedChromosomes();
 
-		GTViewSet finalViewSet = viewSet.createClone("", true, selectedChromosomes);
+		GTViewSet finalViewSet = viewSet.createClone("", true);
 
 		// Run the stats calculations
 		MABCStats stats = new MABCStats(finalViewSet, null);
@@ -301,7 +301,7 @@ public class MenuAnalysis
 
 		// Clone the view (as the clone will ultimately contain a reordered
 		// list of lines that match the order in the dendrogram)
-		GTViewSet newViewSet = viewSet.createClone("", true, null);
+		GTViewSet newViewSet = viewSet.createClone("", true);
 
 		AnalysisSet as = new AnalysisSet(newViewSet)
 			.withViews(null)
@@ -371,7 +371,7 @@ public class MenuAnalysis
 
 		// Clone the view (as the clone will ultimately contain a reordered
 		// list of lines that match the order in the dendrogram)
-		GTViewSet newViewSet = viewSet.createClone("", true, null);
+		GTViewSet newViewSet = viewSet.createClone("", true);
 
 		AnalysisSet as = new AnalysisSet(newViewSet)
 			.withViews(null)
