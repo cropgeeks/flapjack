@@ -250,8 +250,10 @@ class OverviewCanvas extends JPanel
 					int dataY = (int) (y * yScale);
 
 					// Then finding and drawing that data
-					g.setColor(cScheme.getColor(dataY, dataX));
-					g.drawLine(x, y, x, y);
+					try {
+						g.setColor(cScheme.getColor(dataY, dataX));
+						g.drawLine(x, y, x, y);
+					} catch (IndexOutOfBoundsException e) {}
 				}
 			}
 

@@ -156,7 +156,7 @@ class MiniMapCanvas extends JPanel
 			try { Thread.sleep(500); }
 			catch (InterruptedException e) {}
 
-			if (killMe)
+			if (killMe || w == 0 || h == 0)
 				return;
 
 			// Run everything under try/catch conditions due to changes in the
@@ -178,6 +178,7 @@ class MiniMapCanvas extends JPanel
 			catch (Exception e)
 			{
 				System.out.println("MiniMapCanvas: " + e);
+				e.printStackTrace();
 			}
 		}
 	}

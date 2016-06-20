@@ -424,8 +424,7 @@ public class GTView extends XMLRoot
 	public void hideMarkers(boolean hideSelected)
 	{
 		// As the hideMarkers list needs to grow bit by bit, just make it big
-		hideMarkers.ensureCapacity(markers.size());
-		int nullCount = 0;
+		hideMarkers.ensureCapacity(markers.size());		int nullCount = 0;
 
 		for (int i = 0; i < markers.size(); i++)
 		{
@@ -434,15 +433,8 @@ public class GTView extends XMLRoot
 			// Should we hide this marker?
 			if (mi.selected == hideSelected && mi.dummyMarker() == false)
 			{
-				// Hide, but always keep at least one marker visible
-				if (nullCount < markers.size()-1)
-				{
-					hideMarkers.add(mi);
-					markers.set(i, null);
-					nullCount++;
-				}
-				else
-					break;
+				hideMarkers.add(mi);
+				markers.set(i, null);
 			}
 		}
 
@@ -466,22 +458,14 @@ public class GTView extends XMLRoot
 	{
 		// As the hideMarkers list needs to grow bit by bit, just make it big
 		viewSet.hideLines.ensureCapacity(viewSet.lines.size());
-		int nullCount = 0;
 
 		for (int i = 0; i < viewSet.lines.size(); i++)
 		{
 			// Should we hide this line?
 			if (viewSet.lines.get(i).selected == hideSelected)
 			{
-				// Hide, but always keep at least one line visible
-				if (nullCount < viewSet.lines.size()-1)
-				{
-					viewSet.hideLines.add(viewSet.lines.get(i));
-					viewSet.lines.set(i, null);
-					nullCount++;
-				}
-				else
-					break;
+				viewSet.hideLines.add(viewSet.lines.get(i));
+				viewSet.lines.set(i, null);
 			}
 		}
 

@@ -69,9 +69,7 @@ public class FilterMissingMarkers extends SimpleJob
 				// And if the percentage of missing ones is >= cutoff, then
 				// remove it from the visible set
 				if ((missingCount / (float)allelesCount)*100 >= cutoff)
-					// But only so long as it doesn't remove all markers!!
-					if (view.markerCount() > 1)
-						view.hideMarker(i);
+					view.hideMarker(i);
 
 				progress++;
 			}

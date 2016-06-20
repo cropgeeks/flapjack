@@ -307,6 +307,9 @@ class GenotypeCanvas extends JPanel
 			// What size of viewport buffer do we need?
 			int w = pX2-pX1+1, h = pY2-pY1+1;
 
+			// Safefty check for no data - the BufferedImage can't be 0x0
+			if (w == 0 || h == 0) w = h = 1;
+
 			// Only make a new buffer if we really really need to, as this has
 			// a noticeable effect on performance
 			if (imageViewPort == null ||
@@ -322,10 +325,18 @@ class GenotypeCanvas extends JPanel
 			renderRegion(gImage);
 
 			gImage.dispose();
+
+
+			if (w == 1 || h == 1)
+			{
+				g.drawString("nothing to show", getSize().width/2, getSize().height/2);
+			}
 		}
 
 		g.drawImage(imageViewPort, pX1, pY1, null);
 		redraw = false;
+
+
 	}
 
 	private void renderRegion(Graphics2D g)

@@ -114,7 +114,7 @@ class MapCanvas extends JPanel
 		private void drawChromosomePosition(Graphics2D g, int xOffset)
 		{
 			Integer mousePos = mapCanvasML.mousePos;
-			if (mousePos == null)
+			if (mousePos == null || canvas.view.markerCount() == 0)
 				return;
 
 			// What is the width of the actual drawing canvas?
@@ -171,6 +171,9 @@ class MapCanvas extends JPanel
 
 	void render(Graphics2D g, int xS, int xE)
 	{
+		if (canvas.view.markerCount() == 0)
+			return;
+
 		int y = scale(12);
 		int yH = scale(10);
 
@@ -222,7 +225,7 @@ class MapCanvas extends JPanel
 
 	private void renderMarker(Graphics2D g, int i, int xS, boolean text)
 	{
-		Marker m = canvas.view.getMarker(i);
+		Marker m = canvas.view.getMarker(i);;
 
 		// Don't draw dummy markers (markers that split maps)
 //		if (m.dummyMarker())
