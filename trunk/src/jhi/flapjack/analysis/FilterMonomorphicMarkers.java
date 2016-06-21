@@ -3,17 +3,19 @@
 
 package jhi.flapjack.analysis;
 
+import java.util.*;
+
 import jhi.flapjack.data.*;
 
 import scri.commons.gui.*;
 
-public class FilterMissingMarkers extends SimpleJob
+public class FilterMonomorphicMarkers extends SimpleJob
 {
 	private GTViewSet viewSet;
 	private boolean[] selectedChromosomes;
 	private int cutoff;
 
-	public FilterMissingMarkers(GTViewSet viewSet, boolean[] selectedChromosomes, int cutoff)
+	public FilterMonomorphicMarkers(GTViewSet viewSet, boolean[] selectedChromosomes, int cutoff)
 	{
 		this.viewSet = viewSet;
 		this.selectedChromosomes = selectedChromosomes;
@@ -35,28 +37,28 @@ public class FilterMissingMarkers extends SimpleJob
 		for (int view = 0; view < as.viewCount(); view++)
 		{
 			// For each marker...
-			for (int i = as.markerCount(view)-1; i >= 0 && okToRun; i--)
+			for (int marker = as.markerCount(view)-1; marker >= 0 && okToRun; marker--)
 			{
-				int allelesCount = 0;
-				int missingCount = 0;
+				HashSet<Integer> foundStates = new HashSet<>();
 
-				// Count how many alleles are missing across all the lines...
-				for (int j = 0; j < as.lineCount() && okToRun; j++)
+				for (int line = 0; line < as.lineCount(); line++)
 				{
-					if (as.getState(view, j, i) == 0)
-						missingCount++;
+					int state = as.getState(view, line, marker);
 
-					allelesCount++;
+					// We don't want to add the unknown state
+					if (state != 0)
+						foundStates.add(state);
+
+					// If we've found more than one state this marker isn't monomorphic
+					if (foundStates.size() > 1)
+						break;
 				}
 
-//				System.out.println("Marker " + i + " missing " + missingCount + " / " + allelesCount + " ("
-//					+ ((missingCount / (float)allelesCount)*100));
-
-				// And if the percentage of missing ones is >= cutoff, then
-				// remove it from the visible set
-				if ((missingCount / (float)allelesCount)*100 >= cutoff)
+				// Remove markers with either all missing data, or any that have
+				// just a single state across all their alleles
+				if (foundStates.isEmpty() || foundStates.size() == 1)
 				{
-					MarkerInfo mi = as.getMarker(view, i);
+					MarkerInfo mi = as.getMarker(view, marker);
 					as.getGTView(view).hideMarker(mi);
 				}
 
