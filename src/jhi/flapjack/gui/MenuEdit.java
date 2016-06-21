@@ -513,7 +513,8 @@ public class MenuEdit
 
 	void editFilterMissingMarkers()
 	{
-		MissingMarkersDialog mmDialog = new MissingMarkersDialog();
+		GTViewSet viewSet = gPanel.getViewSet();
+		MissingMarkersDialog mmDialog = new MissingMarkersDialog(viewSet);
 
 		if (mmDialog.isOK())
 		{
@@ -524,7 +525,7 @@ public class MenuEdit
 
 
 			FilterMissingMarkers fmm = new FilterMissingMarkers(
-				gPanel.getViewSet(), Prefs.guiMissingMarkerAllChromsomes,
+				gPanel.getViewSet(), mmDialog.getSelectedChromosomes(),
 				Prefs.guiMissingMarkerPcnt);
 
 			ProgressDialog dialog = new ProgressDialog(fmm,

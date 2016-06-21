@@ -12,52 +12,40 @@ import scri.commons.gui.*;
 public class FilterMissingMarkers extends SimpleJob
 {
 	private GTViewSet viewSet;
-	private boolean allChromosomes;
+	private boolean[] selectedChromosomes;
 	private int cutoff;
 
-	public FilterMissingMarkers(GTViewSet viewSet, boolean allChromosomes, int cutoff)
+	public FilterMissingMarkers(GTViewSet viewSet, boolean[] selectedChromosomes, int cutoff)
 	{
 		this.viewSet = viewSet;
-		this.allChromosomes = allChromosomes;
+		this.selectedChromosomes = selectedChromosomes;
 		this.cutoff = cutoff;
-
-		// The total number of markers being processed is either:
-		if (allChromosomes)
-		{
-			// A count of all markers across all chromosomes
-			for (GTView view: viewSet.getViews())
-				maximum += view.markerCount();
-		}
-		// Or just a count of markers in the currently active view
-		else
-		{
-			int viewIndex = viewSet.getViewIndex();
-			GTView current = viewSet.getViews().get(viewIndex);
-			maximum = current.markerCount();
-		}
 	}
 
 	public void runJob(int index)
 		throws Exception
 	{
-		ArrayList<GTView> views = viewSet.getViews();
+		AnalysisSet as = new AnalysisSet(viewSet)
+			.withViews(selectedChromosomes)
+			.withSelectedLines()
+			.withSelectedMarkers();
 
-		for (GTView view: views)
+		for (int i = 0; i < as.viewCount(); i++)
+			maximum += as.markerCount(index);
+
+
+		for (int view = 0; view < as.viewCount(); view++)
 		{
-			// Skip if allChromosomes is false and it's not the current
-			if (allChromosomes == false && view != views.get(viewSet.getViewIndex()))
-				continue;
-
 			// For each marker...
-			for (int i = view.markerCount()-1; i >= 0 && okToRun; i--)
+			for (int i = as.markerCount(view)-1; i >= 0 && okToRun; i--)
 			{
 				int allelesCount = 0;
 				int missingCount = 0;
 
 				// Count how many alleles are missing across all the lines...
-				for (int j = 0; j < viewSet.getLines().size() && okToRun; j++)
+				for (int j = 0; j < as.lineCount() && okToRun; j++)
 				{
-					if (view.getState(j, i) == 0)
+					if (as.getState(view, j, i) == 0)
 						missingCount++;
 
 					allelesCount++;
@@ -69,7 +57,10 @@ public class FilterMissingMarkers extends SimpleJob
 				// And if the percentage of missing ones is >= cutoff, then
 				// remove it from the visible set
 				if ((missingCount / (float)allelesCount)*100 >= cutoff)
-					view.hideMarker(i);
+				{
+					MarkerInfo mi = as.getMarker(view, i);
+					as.getGTView(view).hideMarker(mi);
+				}
 
 				progress++;
 			}

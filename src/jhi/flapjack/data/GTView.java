@@ -482,15 +482,10 @@ public class GTView extends XMLRoot
 	}
 
 	/** Hides a single marker. */
-	public void hideMarker(int index)
+	public void hideMarker(MarkerInfo mi)
 	{
-		if (index < 0 || index >= markers.size())
-			return;
-
-		if (markers.get(index).dummyMarker())
-			return;
-
-		hideMarkers.add(markers.remove(index));
+		markers.remove(mi);
+		hideMarkers.add(mi);
 	}
 
 	/** Hides a single line. */

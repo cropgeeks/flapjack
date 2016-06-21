@@ -7,6 +7,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
+import jhi.flapjack.data.*;
 import jhi.flapjack.gui.*;
 
 import scri.commons.gui.*;
@@ -17,9 +18,9 @@ public class MissingMarkersDialog extends JDialog implements ActionListener
 	private JButton bOK, bCancel, bHelp;
 	private boolean isOK = false;
 
-	private MissingMarkersPanelNB nbPanel = new MissingMarkersPanelNB();
+	private MissingMarkersPanelNB nbPanel;
 
-	public MissingMarkersDialog()
+	public MissingMarkersDialog(GTViewSet viewSet)
 	{
 		super(
 			Flapjack.winMain,
@@ -27,9 +28,9 @@ public class MissingMarkersDialog extends JDialog implements ActionListener
 			true
 		);
 
-		add(new TitlePanel2(), BorderLayout.NORTH);
-		add(nbPanel);
 		add(createButtons(), BorderLayout.SOUTH);
+		nbPanel = new MissingMarkersPanelNB(viewSet, bOK);
+		add(nbPanel);
 
 		getRootPane().setDefaultButton(bOK);
 		SwingUtils.addCloseHandler(this, bCancel);
@@ -71,4 +72,9 @@ public class MissingMarkersDialog extends JDialog implements ActionListener
 
 	public boolean isOK()
 		{ return isOK; }
+
+	public boolean[] getSelectedChromosomes()
+	{
+		return nbPanel.chrSelPanel.getSelectedChromosomes();
+	}
 }
