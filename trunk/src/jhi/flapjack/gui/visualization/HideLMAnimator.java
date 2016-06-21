@@ -6,7 +6,7 @@ package jhi.flapjack.gui.visualization;
 import java.awt.*;
 import javax.swing.*;
 
-import jhi.flapjack.gui.*;
+import jhi.flapjack.data.*;
 import jhi.flapjack.gui.visualization.undo.*;
 
 import scri.commons.gui.*;
@@ -56,7 +56,8 @@ class HideLMAnimator extends Thread implements IOverlayRenderer
 				RB.getString("gui.visualization.HidMarkersState.hidMarkers"));
 			state.createUndoState();
 
-			canvas.view.hideMarker(index);
+			MarkerInfo mi = canvas.view.getMarkers().get(index);
+			canvas.view.hideMarker(mi);
 			canvas.overlays.remove(this);
 
 			state.createRedoState();

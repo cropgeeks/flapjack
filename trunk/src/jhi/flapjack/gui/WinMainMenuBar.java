@@ -248,6 +248,7 @@ public class WinMainMenuBar extends JMenuBar
 		mEdit.addSeparator();
 		mEdit.add(mEditSelectLines);
 		mEdit.add(mEditHideLines);
+		mEdit.addSeparator();
 		mEdit.add(mEditCustomMap);
 
 		add(mEdit);
