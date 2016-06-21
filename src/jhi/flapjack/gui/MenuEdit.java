@@ -10,6 +10,7 @@ import javax.swing.*;
 import jhi.flapjack.analysis.*;
 import jhi.flapjack.data.*;
 import jhi.flapjack.gui.dialog.*;
+import jhi.flapjack.gui.dialog.analysis.FilterMonomorphicDialog;
 import jhi.flapjack.gui.visualization.*;
 import jhi.flapjack.gui.visualization.undo.*;
 
@@ -531,6 +532,50 @@ public class MenuEdit
 			ProgressDialog dialog = new ProgressDialog(fmm,
 				RB.getString("gui.MenuEdit.fmm.title"),
 				RB.getString("gui.MenuEdit.fmm.label"),
+				Flapjack.winMain);
+
+			// If the operation failed or was cancelled...
+			if (dialog.getResult() != ProgressDialog.JOB_COMPLETED)
+			{
+				// As we'll now be left with some markers removed and some not,
+				// put the view back into its previous state
+				editUndoRedo(true);
+				gPanel.refreshView();
+
+				return;
+			}
+
+
+			gPanel.refreshView();
+
+			// Set the redo state...
+			state.createRedoState();
+			gPanel.addUndoState(state);
+		}
+	}
+
+	// This code is almost identical to editFilterMissingMarkers - perhaps some
+	// refactoring is needed??
+	void editFilterMonomorphicMarkers()
+	{
+		GTViewSet viewSet = gPanel.getViewSet();
+		FilterMonomorphicDialog mDialog = new FilterMonomorphicDialog(viewSet);
+
+		if (mDialog.isOK())
+		{
+			// Set the undo state...
+			HidMarkersState state = new HidMarkersState(gPanel.getView(),
+				RB.getString("gui.visualization.HidMarkersState.hidMarkers"));
+			state.createUndoState();
+
+
+			FilterMonomorphicMarkers fmm = new FilterMonomorphicMarkers(
+				gPanel.getViewSet(), mDialog.getSelectedChromosomes(),
+				Prefs.guiMissingMarkerPcnt);
+
+			ProgressDialog dialog = new ProgressDialog(fmm,
+				RB.getString("gui.MenuEdit.fmono.title"),
+				RB.getString("gui.MenuEdit.fmono.label"),
 				Flapjack.winMain);
 
 			// If the operation failed or was cancelled...
