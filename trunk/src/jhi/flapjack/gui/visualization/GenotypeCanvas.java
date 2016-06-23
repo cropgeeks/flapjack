@@ -67,6 +67,8 @@ class GenotypeCanvas extends JPanel
 	// canvas has been drawn (eg animators, minesweeper, etc)
 	LinkedList<IOverlayRenderer> overlays = new LinkedList<>();
 
+	private HashSet<Integer> qtlHash = new HashSet<>();
+
 	// Objects for multicore rendering
 	private int cores = Runtime.getRuntime().availableProcessors();
 	private ExecutorService executor;
@@ -113,6 +115,13 @@ class GenotypeCanvas extends JPanel
 	{
 		this.viewSet = viewSet;
 		this.view = view;
+
+		qtlHash = new HashSet<>();
+
+		for (MarkerInfo info : view.getMarkers())
+			for (QTLInfo qtlInfo : view.getQTLs())
+				if (qtlInfo.getQTL().isVisible() && info.position() >= qtlInfo.min() && info.position() <= qtlInfo.max())
+					qtlHash.add(info.getIndex());
 	}
 
 	// Compute canvas related dimensions that only change if the data or the
