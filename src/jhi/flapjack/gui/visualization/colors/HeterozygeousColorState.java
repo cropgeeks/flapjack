@@ -22,7 +22,7 @@ public class HeterozygeousColorState extends ColorState
 		super(state, primary, w, h);
 
 		image = createBuffer(state1, state2);
-		gsImage = createBuffer(getGreyScale(state1), getGreyScale(state2));
+		imageUnderQTL = createBuffer(state1.brighter(), state2.brighter());
 
 		createUnselectedImage(w, h);
 	}

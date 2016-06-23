@@ -118,16 +118,16 @@ public class BinnedColorScheme extends ColorScheme
 		}
 	}
 
-	public BufferedImage getSelectedImage(int line, int marker)
+	public BufferedImage getSelectedImage(int line, int marker, boolean underQTL)
 	{
 		int state = view.getState(line, marker);
-		return states.get(state).getImage();
+		return states.get(state).getImage(underQTL);
 	}
 
-	public BufferedImage getUnselectedImage(int line, int marker)
+	public BufferedImage getUnselectedImage(int line, int marker, boolean underQTL)
 	{
 		int state = view.getState(line, marker);
-		return states.get(state).getUnselectedImage();
+		return states.get(state).getUnselectedImage(underQTL);
 	}
 
 	public Color getColor(int line, int marker)

@@ -17,7 +17,6 @@ public class SimpleColorState extends ColorState
 		super(state, c, w, h);
 
 		image = createBuffer(color);
-		gsImage = createBuffer(getGreyScale(color));
 
 		createUnselectedImage(w, h);
 	}
