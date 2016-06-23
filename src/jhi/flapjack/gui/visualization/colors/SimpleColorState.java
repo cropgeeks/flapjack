@@ -16,7 +16,10 @@ public class SimpleColorState extends ColorState
 	{
 		super(state, c, w, h);
 
+		// This class is ONLY used to paint missing data, so we want to use the
+		// same colour in both cases (Prefs.visColorBackground)
 		image = createBuffer(color);
+		imageUnderQTL = createBuffer(color);
 
 		createUnselectedImage(w, h);
 	}
