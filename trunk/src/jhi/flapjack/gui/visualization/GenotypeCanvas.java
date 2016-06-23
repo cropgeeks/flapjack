@@ -406,15 +406,17 @@ class GenotypeCanvas extends JPanel
 			{
 				for (int xIndex = xS, x = (boxW*xS); xIndex <= xE; xIndex++, x += boxW)
 				{
+					boolean underQTL = qtlHash.contains(xIndex);
+
 					// "Allowed" states for an enabled/selected allele
 					if (navMode || (markerMode && view.isMarkerSelected(xIndex)) ||
 						(lineMode && view.isLineSelected(row)))
 					{
-						g.drawImage(cScheme.getSelectedImage(row, xIndex), x, y, null);
+						g.drawImage(cScheme.getSelectedImage(row, xIndex, underQTL), x, y, null);
 					}
 					// Otherwise, draw it disabled/unselected
 					else
-						g.drawImage(cScheme.getUnselectedImage(row, xIndex), x, y, null);
+						g.drawImage(cScheme.getUnselectedImage(row, xIndex, underQTL), x, y, null);
 				}
 			}
 		}

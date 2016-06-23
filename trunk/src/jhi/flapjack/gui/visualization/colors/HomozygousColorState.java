@@ -17,7 +17,7 @@ public class HomozygousColorState extends ColorState
 		super(state, c, w, h);
 
 		image = createBuffer(color);
-		gsImage = createBuffer(getGreyScale(color));
+		imageUnderQTL = createBuffer(c.brighter());
 
 		createUnselectedImage(w, h);
 	}

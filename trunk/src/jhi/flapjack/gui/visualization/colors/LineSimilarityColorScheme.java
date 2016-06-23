@@ -49,14 +49,14 @@ public class LineSimilarityColorScheme extends SimilarityColorScheme
 		return mtchStatesN.get(state);
 	}
 
-	public BufferedImage getSelectedImage(int line, int marker)
+	public BufferedImage getSelectedImage(int line, int marker, boolean underQTL)
 	{
-		return getState(line, marker).getImage();
+		return getState(line, marker).getImage(underQTL);
 	}
 
-	public BufferedImage getUnselectedImage(int line, int marker)
+	public BufferedImage getUnselectedImage(int line, int marker, boolean underQTL)
 	{
-		return getState(line, marker).getUnselectedImage();
+		return getState(line, marker).getUnselectedImage(underQTL);
 	}
 
 	public Color getColor(int line, int marker)

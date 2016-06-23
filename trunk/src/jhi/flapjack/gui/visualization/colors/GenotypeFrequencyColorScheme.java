@@ -70,11 +70,11 @@ public class GenotypeFrequencyColorScheme extends ColorScheme
 			return hiStates.get(state);
 	}
 
-	public BufferedImage getSelectedImage(int line, int marker)
-		{ return getState(line, marker).getImage(); }
+	public BufferedImage getSelectedImage(int line, int marker, boolean underQTL)
+		{ return getState(line, marker).getImage(underQTL); }
 
-	public BufferedImage getUnselectedImage(int line, int marker)
-		{ return getState(line, marker).getUnselectedImage(); }
+	public BufferedImage getUnselectedImage(int line, int marker, boolean underQTL)
+		{ return getState(line, marker).getUnselectedImage(underQTL); }
 
 	public Color getColor(int line, int marker)
 		{ return getState(line, marker).getColor(); }
