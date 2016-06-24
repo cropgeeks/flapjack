@@ -21,13 +21,13 @@ public class HeterozygeousColorState extends ColorState
 	{
 		super(state, primary, w, h);
 
-		image = createBuffer(state1, state2);
-		imageUnderQTL = createBuffer(state1.brighter(), state2.brighter());
+		image = createBuffer(state1, state2, false);
+		imageUnderQTL = createBuffer(state1, state2, true);
 
 		createUnselectedImage(w, h);
 	}
 
-	private BufferedImage createBuffer(Color c1, Color c2)
+	private BufferedImage createBuffer(Color c1, Color c2, boolean isUnderQTL)
 	{
 		BufferedImage image = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
 		Graphics2D g = image.createGraphics();
@@ -44,6 +44,12 @@ public class HeterozygeousColorState extends ColorState
 		{
 			drawState(g, c1.brighter(), c1.darker(), s1, w, h, true);
 			drawState(g, c2.brighter(), c2.darker(), s2, w, h, false);
+		}
+
+		if (isUnderQTL)
+		{
+//			g.setPaint(new Color(20, 20, 20, 75));
+//			g.fillRect(0, 0, w, h);
 		}
 
 		if (Prefs.visHighlightHoZ || Prefs.visHighlightGaps || alpha < 200)

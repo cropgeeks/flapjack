@@ -16,13 +16,13 @@ public class HomozygousColorState extends ColorState
 	{
 		super(state, c, w, h);
 
-		image = createBuffer(color);
-		imageUnderQTL = createBuffer(color.brighter());
+		image = createBuffer(color, false);
+		imageUnderQTL = createBuffer(color, true);
 
 		createUnselectedImage(w, h);
 	}
 
-	private BufferedImage createBuffer(Color c)
+	private BufferedImage createBuffer(Color c, boolean isUnderQTL)
 	{
 		BufferedImage image = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
 		Graphics2D g = image.createGraphics();
@@ -47,6 +47,11 @@ public class HomozygousColorState extends ColorState
 
 		g.fill(r);
 
+		if (isUnderQTL)
+		{
+//			g.setPaint(new Color(20, 20, 20, 75));
+//			g.fillRect(0, 0, w, h);
+		}
 
 		if (Prefs.visShowGenotypes && h >= 7 && Prefs.visLinkSliders)
 		{
@@ -59,7 +64,10 @@ public class HomozygousColorState extends ColorState
 			Rectangle2D bounds = fm.getStringBounds(str, g);
 
 			g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-			g.setColor(Prefs.visColorText);
+	//		if (isUnderQTL)
+	//			g.setColor(Color.red);
+	//		else
+				g.setColor(Prefs.visColorText);
 			g.drawString(str,
 				(int)((float)w/2-bounds.getWidth()/2),
 				h - fm.getMaxDescent());

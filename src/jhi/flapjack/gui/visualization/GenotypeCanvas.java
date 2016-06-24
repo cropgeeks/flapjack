@@ -67,7 +67,7 @@ class GenotypeCanvas extends JPanel
 	// canvas has been drawn (eg animators, minesweeper, etc)
 	LinkedList<IOverlayRenderer> overlays = new LinkedList<>();
 
-	private HashSet<Integer> qtlHash = new HashSet<>();
+	HashSet<Integer> qtlHash = new HashSet<>();
 
 	// Objects for multicore rendering
 	private int cores = Runtime.getRuntime().availableProcessors();
