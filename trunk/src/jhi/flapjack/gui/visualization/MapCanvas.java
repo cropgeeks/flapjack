@@ -240,8 +240,27 @@ class MapCanvas extends JPanel
 
 		if (m.dummyMarker() == false)
 		{
+			Color current = g.getColor();
+
+			if (g.getColor() != Color.red && canvas.qtlHash.contains(i))
+				g.setColor(new Color(128, 128, 128));
+
 			g.drawLine(xMap, scale(12), xMap, scale(22));
-			g.drawLine(xMap, scale(22), xBox, h-scale(5));
+			g.drawLine(xMap, scale(22), xBox, h-scale(9));
+
+			if (canvas.qtlHash.contains(i))
+			{
+				int xBoxL = (int) ((i-xS) * canvas.boxW) - jiggle;
+
+				g.setColor(Color.yellow);
+				g.fillRect(xBoxL, h-scale(7), canvas.boxW-1, 5);
+				g.setColor(Color.lightGray);
+				g.drawRect(xBoxL, h-scale(7), canvas.boxW-1, 5);
+			}
+			else
+				g.drawLine(xBox, h-scale(9), xBox, h-scale(5));
+
+			g.setColor(current);
 		}
 		else
 		{
