@@ -22,7 +22,7 @@ class MapCanvas extends JPanel
 	private GenotypePanel gPanel;
 	private GenotypeCanvas canvas;
 
-	private int h = scale(50);
+	private int h = scale(55);
 
 	private BufferedImage buffer, aaBuffer;
 	boolean updateBuffer = true;
