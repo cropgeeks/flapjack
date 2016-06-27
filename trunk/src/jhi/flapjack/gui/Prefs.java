@@ -250,6 +250,9 @@ public class Prefs extends XMLPreferences
 	public static String proxyUsername = "";
 	public static String proxyPassword = "";
 
+	// MABC stats
+	public static double mabcMaxMrkrCoverage = 10.0d;
+
 	static void setDefaults()
 	{
 		setColorDefaults();

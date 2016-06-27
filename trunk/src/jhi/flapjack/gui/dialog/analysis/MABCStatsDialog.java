@@ -49,6 +49,8 @@ public class MABCStatsDialog extends JDialog implements ActionListener
 
 	private void initComponents2()
 	{
+		maxMrkrCoverage.setValue(Prefs.mabcMaxMrkrCoverage);
+
 		RB.setText(bOK, "gui.text.ok");
 		bOK.addActionListener(this);
 
@@ -73,6 +75,8 @@ public class MABCStatsDialog extends JDialog implements ActionListener
 	{
 		if (e.getSource() == bOK)
 		{
+			Prefs.mabcMaxMrkrCoverage = (Double) maxMrkrCoverage.getValue();
+
 			isOK = true;
 			setVisible(false);
 		}
@@ -96,7 +100,7 @@ public class MABCStatsDialog extends JDialog implements ActionListener
         bCancel = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
-        jSpinner1 = new javax.swing.JSpinner();
+        maxMrkrCoverage = new javax.swing.JSpinner();
         lblParent1 = new javax.swing.JLabel();
         recurrentCombo = new javax.swing.JComboBox<>();
         lblParent2 = new javax.swing.JLabel();
@@ -116,6 +120,8 @@ public class MABCStatsDialog extends JDialog implements ActionListener
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("General settings:"));
 
         jLabel3.setText("Maximum coverage per marker (cM): ");
+
+        maxMrkrCoverage.setModel(new javax.swing.SpinnerNumberModel(10.0d, 0.0d, null, 0.25d));
 
         lblParent1.setText("Select recurrent parent line:");
         lblParent1.setToolTipText("");
@@ -140,7 +146,7 @@ public class MABCStatsDialog extends JDialog implements ActionListener
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jSpinner1)))
+                        .addComponent(maxMrkrCoverage)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -157,7 +163,7 @@ public class MABCStatsDialog extends JDialog implements ActionListener
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(maxMrkrCoverage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -217,9 +223,9 @@ public class MABCStatsDialog extends JDialog implements ActionListener
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JSpinner jSpinner1;
     private javax.swing.JLabel lblParent1;
     private javax.swing.JLabel lblParent2;
+    private javax.swing.JSpinner maxMrkrCoverage;
     private javax.swing.JComboBox<LineInfo> recurrentCombo;
     // End of variables declaration//GEN-END:variables
 

@@ -26,15 +26,16 @@ public class MABCStats extends SimpleJob
 
 	private HashMap<QTLInfo, QTLParams> qtlHash = new HashMap<>();
 
-	private float maxMarkerCoverage = 10;
+	private double maxMarkerCoverage;
 
 	// hard coded index of the RP line (index of the line minus duplicate, etc)
 	int rpIndex = 0;
 
-	public MABCStats(GTViewSet viewSet, boolean[] selectedChromosomes)
+	public MABCStats(GTViewSet viewSet, boolean[] selectedChromosomes, double maxMarkerCoverage)
 	{
 		this.viewSet = viewSet;
 		this.selectedChromosomes = selectedChromosomes;
+		this.maxMarkerCoverage = maxMarkerCoverage;
 	}
 
 	public void runJob(int index)
@@ -85,7 +86,7 @@ public class MABCStats extends SimpleJob
 				// The index of the previous marker used (eg wasn't an allele
 				// with missing data at that index)
 				int prevMrkIndex = -1;
-				// The index of the last (ie, closed to chromosome-end) marker
+				// The index of the last (ie, closest to chromosome-end) marker
 				// that is usable (no missing data etc)
 				int lastMrkIndex = findLastUsableMarker(as, viewIndex, lineIndex);
 
