@@ -275,7 +275,8 @@ public class MenuAnalysis
 		GTViewSet finalViewSet = viewSet.createClone("", true);
 
 		// Run the stats calculations
-		MABCStats stats = new MABCStats(finalViewSet, null);
+		MABCStats stats = new MABCStats(
+			finalViewSet, null, Prefs.mabcMaxMrkrCoverage);
 		ProgressDialog pDialog = new ProgressDialog(stats,
 			RB.getString("gui.MenuAnalysis.mabc.title"),
 			RB.getString("gui.MenuAnalysis.pcoa.label"), Flapjack.winMain);
