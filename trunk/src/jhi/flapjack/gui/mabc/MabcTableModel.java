@@ -3,17 +3,9 @@
 
 package jhi.flapjack.gui.mabc;
 
-import java.awt.*;
-import java.util.*;
-import javax.swing.*;
-import javax.swing.table.*;
-
 import jhi.flapjack.data.*;
 import jhi.flapjack.data.results.*;
-import jhi.flapjack.gui.*;
 import jhi.flapjack.gui.table.*;
-
-import scri.commons.gui.*;
 
 class MabcTableModel extends LineDataTableModel
 {
@@ -24,7 +16,7 @@ class MabcTableModel extends LineDataTableModel
 
 	// Indices to track what goes where
 	private int rppIndex, rppTotalIndex, rppCoverageIndex;
-	private int qtlIndex;
+	private int qtlIndex, qtlStatusIndex;
 
 	MabcTableModel(GTViewSet viewSet)
 	{
@@ -47,9 +39,10 @@ class MabcTableModel extends LineDataTableModel
 		rppTotalIndex = rppIndex + chrCount;
 		rppCoverageIndex = rppTotalIndex + 1;
 		qtlIndex = rppCoverageIndex + 1;
+		qtlStatusIndex = qtlIndex + (qtlCount*2);
 
 		// TODO: UPDATE!
-		int colCount = qtlIndex + (qtlCount*2);
+		int colCount = qtlStatusIndex + 1;
 		columnNames = new String[colCount];
 
 		// LineInfo column
@@ -73,6 +66,8 @@ class MabcTableModel extends LineDataTableModel
 			columnNames[qtlIndex+(qtl*2)+1] = score.qtl.getQTL().getName() + " Status";
 			qtl++;
 		}
+
+		columnNames[qtlStatusIndex] = "QTL Status Count";
 	}
 
 	public int getRowCount()
@@ -109,7 +104,7 @@ class MabcTableModel extends LineDataTableModel
 			return stats.getGenomeCoverage();
 
 		// QTL values
-		else if (col >= qtlIndex)
+		else if (col >= qtlIndex && col < qtlStatusIndex)
 		{
 			col = col-qtlIndex;
 			int qtl = col / 2;
@@ -121,6 +116,10 @@ class MabcTableModel extends LineDataTableModel
 			else
 				return score.status ? 1 : 0;
 		}
+
+		// Sum of QTL status (where status == 1)
+		else if (col == qtlStatusIndex)
+			return stats.getQtlStatusCount();
 
 		return null;
 	}
