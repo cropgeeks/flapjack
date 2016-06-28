@@ -28,6 +28,9 @@ public class LineDataTable extends JTable
 
 	private GTViewSet viewSet;
 
+	// The list of SortableColumn objects used the last time a sort was run
+	private SortableColumn[] lastSort;
+
 	public LineDataTable()
 	{
 		setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
@@ -153,11 +156,14 @@ public class LineDataTable extends JTable
 
 	public void multiColumnSort()
 	{
-		SortDialog dialog = new SortDialog(model.getSortableColumns());
+		SortDialog dialog = new SortDialog(model.getSortableColumns(), lastSort);
 		if (dialog.isOK() == false)
 			return;
 
-		LineDataTableModel.SortableColumn[] data = dialog.getSortInfo();
+		// Get the list of columns to use for the sort
+		SortableColumn[] data = dialog.getSortInfo();
+		// And also remember it for next time in case the user runs another sort
+		lastSort = dialog.getSortInfo();
 
 		SortLinesByLineDataModel s = new SortLinesByLineDataModel(viewSet, sorter, data);
 		Flapjack.winMain.mAnalysis.runSort(s);

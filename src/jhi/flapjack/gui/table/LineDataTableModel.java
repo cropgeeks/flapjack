@@ -39,29 +39,4 @@ public abstract class LineDataTableModel extends AbstractTableModel
 
 		return cols;
 	}
-
-	public static class SortableColumn
-	{
-		// The index of this column in the model
-		public int colIndex;
-		// Its name
-		public String name;
-		// Whether to sort this column's data ascending or decending
-		public SortOrder sortOrder;
-
-		private SortableColumn(int colIndex, String name, SortOrder sortOrder)
-		{
-			this.colIndex = colIndex;
-			this.name = name;
-			this.sortOrder = sortOrder;
-		}
-
-		SortableColumn cloneMe()
-		{
-			return new SortableColumn(colIndex, name, sortOrder);
-		}
-
-		public String toString()
-			{ return name; }
-	}
 }
