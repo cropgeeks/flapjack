@@ -18,12 +18,12 @@ public class SortDialog extends JDialog implements ActionListener, ListSelection
 	private boolean isOK = false;
 	private SortDialogTableModel model;
 
-	public SortDialog(LineDataTableModel.SortableColumn[] data)
+	public SortDialog(SortableColumn[] allCols, SortableColumn[] lastUsedCols)
 	{
 		super(Flapjack.winMain, RB.getString("gui.table.SortDialog.title"), true);
 
 		initComponents();
-		initTable(data);
+		initTable(allCols, lastUsedCols);
 
 		RB.setText(bCancel, "gui.text.cancel");
 		RB.setText(bSort, "gui.table.SortDialog.bSort");
@@ -44,9 +44,9 @@ public class SortDialog extends JDialog implements ActionListener, ListSelection
 		setVisible(true);
 	}
 
-	private void initTable(LineDataTableModel.SortableColumn[] data)
+	private void initTable(SortableColumn[] allCols, SortableColumn[] lastUsedCols)
 	{
-		model = new SortDialogTableModel(data);
+		model = new SortDialogTableModel(allCols, lastUsedCols);
 
 		table.setModel(model);
 		table.getTableHeader().setReorderingAllowed(false);
@@ -77,7 +77,7 @@ public class SortDialog extends JDialog implements ActionListener, ListSelection
 			setVisible(false);
 	}
 
-	public LineDataTableModel.SortableColumn[] getSortInfo()
+	public SortableColumn[] getSortInfo()
 	{
 		return model.getSortInfo();
 	}

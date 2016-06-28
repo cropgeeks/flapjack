@@ -15,13 +15,13 @@ import scri.commons.gui.*;
 class SortDialogTableModel extends AbstractTableModel
 {
 	// An array of every possible column the user can sort on
-	private LineDataTableModel.SortableColumn[] data;
+	private SortableColumn[] data;
 	// And a list of the ones they actually *will* sort on
-	private ArrayList<LineDataTableModel.SortableColumn> rows;
+	private ArrayList<SortableColumn> rows;
 
 	private String[] columnNames;
 
-	SortDialogTableModel(LineDataTableModel.SortableColumn[] data)
+	SortDialogTableModel(SortableColumn[] data, SortableColumn[] lastUsed)
 	{
 		this.data = data;
 
@@ -31,13 +31,18 @@ class SortDialogTableModel extends AbstractTableModel
 		};
 
 		// Initialize the data we'll be showing
-		rows = new ArrayList<LineDataTableModel.SortableColumn>();
-		rows.add(data[0].cloneMe());
+		rows = new ArrayList<SortableColumn>();
+
+		if (lastUsed == null)
+			rows.add(data[0].cloneMe());
+		else
+			for (SortableColumn entry: lastUsed)
+				rows.add(entry.cloneMe());
 	}
 
-	LineDataTableModel.SortableColumn[] getSortInfo()
+	SortableColumn[] getSortInfo()
 	{
-		return rows.toArray(new LineDataTableModel.SortableColumn[] {});
+		return rows.toArray(new SortableColumn[] {});
 	}
 
 	@Override
@@ -83,7 +88,7 @@ class SortDialogTableModel extends AbstractTableModel
 
 	JComboBox getComboBox()
 	{
-		JComboBox<LineDataTableModel.SortableColumn> combo = new JComboBox<>();
+		JComboBox<SortableColumn> combo = new JComboBox<>();
 
 		for (int i = 0; i < data.length; i++)
 			combo.addItem(data[i].cloneMe());
@@ -94,12 +99,12 @@ class SortDialogTableModel extends AbstractTableModel
 	@Override
 	public void setValueAt(Object value, int row, int col)
 	{
-		LineDataTableModel.SortableColumn entry = rows.get(row);
+		SortableColumn entry = rows.get(row);
 
 		if (col == 0)
 		{
-			entry.colIndex = ((LineDataTableModel.SortableColumn)value).colIndex;
-			entry.name = ((LineDataTableModel.SortableColumn)value).name;
+			entry.colIndex = ((SortableColumn)value).colIndex;
+			entry.name = ((SortableColumn)value).name;
 		}
 		else
 		{
