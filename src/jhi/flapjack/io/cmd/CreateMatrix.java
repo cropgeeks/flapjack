@@ -48,11 +48,11 @@ public class CreateMatrix
 				decimalEnglish = true;
 		}
 
-		if (mapFile == null || genotypesFile == null || filename == null)
+		if (genotypesFile == null || filename == null)
 		{
 			System.out.println("Usage: creatematrix <options>\n"
 				+ " where valid options are:\n"
-				+ "   -map=<map_file>                (required input file)\n"
+				+ "   -map=<map_file>                (optional input file)\n"
 				+ "   -genotypes=<genotypes_file>    (required input file)\n"
 				+ "   -matrix=<matrix_file>          (required output file)\n"
 				+ "   -decimalEnglish                (optional parameter)\n");

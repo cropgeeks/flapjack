@@ -61,11 +61,11 @@ public class CreateProject
 				decimalEnglish = true;
 		}
 
-		if (mapFile == null || genotypesFile == null || prjFile == null)
+		if (genotypesFile == null || prjFile == null)
 		{
 			System.out.println("Usage: createproject <options>\n"
 				+ " where valid options are:\n"
-				+ "   -map=<map_file>                (required input file)\n"
+				+ "   -map=<map_file>                (optional input file)\n"
 				+ "   -genotypes=<genotypes_file>    (required input file)\n"
 				+ "   -traits=<traits_file>          (optional input file)\n"
 				+ "   -qtls=<qtl_file>               (optional input file)\n"
