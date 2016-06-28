@@ -46,7 +46,10 @@ public class DataImporter extends SimpleJob
 	{
 		this.genoFile = genoFile;
 		this.usePrefs = usePrefs;
-		totalBytes = mapFile.length() + genoFile.length();
+
+		if (mapFile != null)
+			totalBytes += mapFile.length();
+		totalBytes = genoFile.length();
 
 		maximum = 5555;
 

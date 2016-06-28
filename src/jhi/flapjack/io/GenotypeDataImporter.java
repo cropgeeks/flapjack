@@ -46,6 +46,8 @@ public class GenotypeDataImporter implements IGenotypeImporter
 
 	private NumberFormat nf = NumberFormat.getInstance();
 
+	private boolean mapWasProvided;
+
 	public GenotypeDataImporter(File file, DataSet dataSet, HashMap<String, MarkerIndex> markers,
 		String ioMissingData, boolean ioUseHetSep, String ioHeteroSeparator, boolean isTransposed)
 	{
@@ -58,6 +60,7 @@ public class GenotypeDataImporter implements IGenotypeImporter
 		this.isTransposed = isTransposed;
 
 		stateTable = dataSet.getStateTable();
+		mapWasProvided = markers.size() > 0;
 	}
 
 	@Override
@@ -105,6 +108,35 @@ public class GenotypeDataImporter implements IGenotypeImporter
 			return readNonTransposedData();
 	}
 
+	private MarkerIndex queryMarker(String name)
+	{
+		// If a map was provided, then just use the hashtable
+		if (mapWasProvided)
+			return markers.get(name);
+
+		// Otherwise, we're into the special case for no map
+
+		// Make sure it's not a duplicate marker
+		if (markers.get(name) != null)
+			return null;
+
+		// Its position will just be based no how many we've added so far
+		int position = markers.size();
+		Marker marker = new Marker(name, position);
+
+		// There's only one map, so just grab it and add the marker to it
+		ChromosomeMap map = dataSet.getChromosomeMaps().get(0);
+		map.addMarker(marker);
+		// Updating its length as we go
+		map.setLength(position);
+
+		// We can set the ChrIndex to 0 as we know there's only one
+		MarkerIndex mi = new MarkerIndex(0, markers.size());
+		markers.put(marker.getName(), mi);
+
+		return mi;
+	}
+
 	private boolean readNonTransposedData()
 		throws IOException, DataFormatException
 	{
@@ -139,7 +171,7 @@ public class GenotypeDataImporter implements IGenotypeImporter
 
 		for (int i = 1; i < markerNames.length && isOK; i++)
 		{
-			MarkerIndex index = markers.get(markerNames[i].trim());
+			MarkerIndex index = queryMarker(markerNames[i].trim());
 
 			// Check that the marker does exists on map
 			if (index != null)
@@ -331,7 +363,7 @@ public class GenotypeDataImporter implements IGenotypeImporter
 
 			for (int i = 1; i < values.length; i++)
 			{
-				MarkerIndex index = markers.get(values[0].trim());
+				MarkerIndex index = queryMarker(values[0].trim());
 
 				// Assuming a map was found that contains this marker...
 				if (index != null && index.mapIndex != -1)

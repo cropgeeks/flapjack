@@ -66,15 +66,15 @@
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
                           <Group type="103" groupAlignment="1" attributes="0">
-                              <Group type="102" alignment="0" attributes="0">
-                                  <Component id="hdf5Label" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
+                              <Group type="102" attributes="0">
+                                  <Component id="hdf5Label" linkSize="1" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
                                   <Component id="hdf5ComboBox" max="32767" attributes="0"/>
                               </Group>
-                              <Group type="102" alignment="0" attributes="0">
+                              <Group type="102" attributes="0">
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Component id="genoLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      <Component id="mapLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="mapLabel" linkSize="1" alignment="0" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
@@ -136,7 +136,7 @@
             <Property name="labelFor" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
               <ComponentRef name="mapComboBox"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Map file:"/>
+            <Property name="text" type="java.lang.String" value="Map file (optional):"/>
           </Properties>
         </Component>
         <Component class="scri.commons.gui.matisse.HistoryComboBox" name="mapComboBox">

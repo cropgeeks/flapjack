@@ -46,6 +46,15 @@ public class ChromosomeMapImporter implements IMapImporter
 	public void importMap()
 		throws Exception
 	{
+		if (file == null)
+		{
+			// Create a "fake" map to hold any markers that are found in the
+			// genotype file instead
+			dataSet.getMapByName("1", true);
+
+			return;
+		}
+
 		is = new ProgressInputStream(new FileInputStream(file));
 
 		BufferedReader in = new BufferedReader(new InputStreamReader(is, "UTF-8"));
