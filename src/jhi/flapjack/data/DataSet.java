@@ -188,6 +188,10 @@ public class DataSet extends XMLRoot
 			if (chromosomes.get(i).getName().equals(mapName))
 				return new ChromosomeMap.Wrapper(chromosomes.get(i), i);
 
+		// If there's no chromosome with this name, don't make a new one
+		if (create == false)
+			return null;
+
 		ChromosomeMap map = new ChromosomeMap(mapName);
 		chromosomes.add(map);
 
