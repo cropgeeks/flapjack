@@ -285,9 +285,11 @@ public class MABCStats extends SimpleJob
 							score.status = false;
 					}
 
+					// Update the sum of qtl status count (where status == 1)
+					if (score.status)
+						stats.setQtlStatusCount(stats.getQtlStatusCount()+1);
 				}
 			}
-
 		}
 	}
 

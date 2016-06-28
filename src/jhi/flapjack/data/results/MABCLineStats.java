@@ -19,6 +19,9 @@ public class MABCLineStats
 
 	// One per QTL
 	private ArrayList<QTLScore> qtlScores = new ArrayList<>();
+	// Count of qtl (status=1) (sum of status count)
+	private int qtlStatusCount;
+
 
 	public MABCLineStats(LineInfo line)
 	{
@@ -30,6 +33,12 @@ public class MABCLineStats
 
 	public ArrayList<QTLScore> getQTLScores()
 		{ return qtlScores; }
+
+	public int getQtlStatusCount()
+		{ return qtlStatusCount; }
+
+	public void setQtlStatusCount(int qtlStatusCount)
+		{ this.qtlStatusCount = qtlStatusCount; }
 
 	public double getGenomeCoverage()
 		{ return genomeCoverage; }
