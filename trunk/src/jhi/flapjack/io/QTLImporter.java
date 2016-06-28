@@ -258,17 +258,19 @@ public class QTLImporter extends SimpleJob
 	// Adds a QTL to its chromosome, but also checks if it is on the map itself
 	private void checkChromosome(QTL qtl, String cName)
 	{
-		ChromosomeMap cMap = dataSet.getMapByName(cName, false).map;
+		ChromosomeMap.Wrapper cw = dataSet.getMapByName(cName, false);
+		if (cw == null)
+			return;
 
-		if (qtl.getMin() < 0 || qtl.getMax() > cMap.getLength() ||
-			qtl.getMax() < 0 || qtl.getMin() > cMap.getLength() ||
-			qtl.getPosition() < 0 || qtl.getPosition() > cMap.getLength())
+		if (qtl.getMin() < 0 || qtl.getMax() > cw.map.getLength() ||
+			qtl.getMax() < 0 || qtl.getMin() > cw.map.getLength() ||
+			qtl.getPosition() < 0 || qtl.getPosition() > cw.map.getLength())
 		{
 			qtl.setAllowed(false);
 			qtl.setVisible(false);
 		}
 
-		qtl.setChromosomeMap(cMap);
+		qtl.setChromosomeMap(cw.map);
 	}
 
 	public int getValue()
