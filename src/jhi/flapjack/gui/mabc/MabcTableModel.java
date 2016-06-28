@@ -135,7 +135,10 @@ class MabcTableModel extends LineDataTableModel
 			return line.results().getRank();
 
 		else if (col == commentIndex)
-			return line.results().getComments();
+		{
+			String comment = line.results().getComments();
+			return comment == null ? "" : comment;
+		}
 
 		return null;
 	}

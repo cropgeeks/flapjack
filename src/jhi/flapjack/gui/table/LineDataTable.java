@@ -4,6 +4,7 @@
 package jhi.flapjack.gui.table;
 
 import java.awt.*;
+import java.awt.datatransfer.*;
 import java.awt.event.*;
 import java.io.File;
 import java.text.*;
@@ -152,6 +153,41 @@ public class LineDataTable extends JTable
 		TaskDialog.info(
 			RB.format("gui.dialog.ExportDataDialog.exportSuccess", filename),
 			RB.getString("gui.text.close"));
+	}
+
+	public void copyTableToClipboard()
+	{
+		StringBuilder text = new StringBuilder();
+		String newline = System.getProperty("line.separator");
+		NumberFormat nf = NumberFormat.getInstance();
+
+		// Column headers
+		for (int c = 0; c < model.getColumnCount(); c++)
+		{
+			text.append(model.getColumnName(c));
+			text.append(c < model.getColumnCount()-1 ? "\t" : newline);
+		}
+
+		// Each row
+		for (int r = 0; r < getRowCount(); r++)
+		{
+			int row = convertRowIndexToModel(r);
+
+			for (int c = 0; c < model.getColumnCount(); c++)
+			{
+				Object obj = model.getValueAt(row, c);
+				if (obj instanceof Float || obj instanceof Double)
+					text.append(nf.format(obj));
+				else
+					text.append(obj);
+
+				text.append(c < model.getColumnCount()-1 ? "\t" : newline);
+			}
+		}
+
+		StringSelection selection = new StringSelection(text.toString());
+		Toolkit.getDefaultToolkit().getSystemClipboard().setContents(
+			selection, null);
 	}
 
 	public void multiColumnSort()

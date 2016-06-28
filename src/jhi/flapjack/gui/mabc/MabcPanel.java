@@ -6,12 +6,12 @@ package jhi.flapjack.gui.mabc;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import javax.swing.table.*;
 
-import jhi.flapjack.analysis.*;
 import jhi.flapjack.data.*;
 import jhi.flapjack.gui.*;
 import jhi.flapjack.gui.table.*;
+
+import scri.commons.gui.*;
 
 public class MabcPanel extends JPanel implements ActionListener
 {
@@ -37,7 +37,14 @@ public class MabcPanel extends JPanel implements ActionListener
 
 		updateModel(viewSet);
 
-		controls.bExport.addActionListener(this);
+		table.addMouseListener(new MouseAdapter() {
+			public void mousePressed(MouseEvent e) {
+				handlePopup(e);
+			}
+			public void mouseReleased(MouseEvent e) {
+				handlePopup(e);
+			}
+		});
 	}
 
 	public void updateModel(GTViewSet viewset)
@@ -55,5 +62,33 @@ public class MabcPanel extends JPanel implements ActionListener
 
 		else if (e.getSource() == controls.bExport)
 			((LineDataTable)table).exportData();
+	}
+
+	private void handlePopup(MouseEvent e)
+	{
+		if (e.isPopupTrigger() == false)
+			return;
+
+		JPopupMenu menu = new JPopupMenu();
+
+		final JMenuItem mCopy = new JMenuItem();
+		mCopy.setText("Copy to clipboard");
+		mCopy.setIcon(Icons.getIcon("COPY"));
+		mCopy.addActionListener(event ->
+		{
+			((LineDataTable)table).copyTableToClipboard();
+		});
+
+		final JMenuItem mExport = new JMenuItem();
+		mExport.setText("Export to file");
+		mExport.setIcon(Icons.getIcon("EXPORTTRAITS"));
+		mExport.addActionListener(event ->
+		{
+			((LineDataTable)table).exportData();
+		});
+
+		menu.add(mCopy);
+		menu.add(mExport);
+		menu.show(e.getComponent(), e.getX(), e.getY());
 	}
 }
