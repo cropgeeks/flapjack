@@ -34,7 +34,7 @@ public class LineDataTable extends JTable
 	public LineDataTable()
 	{
 		setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-		getTableHeader().setReorderingAllowed(false);
+//		getTableHeader().setReorderingAllowed(false);
 
 		setDefaultRenderer(String.class, new ColoredCellRenderer());
 		setDefaultRenderer(Float.class, new ColoredCellRenderer());

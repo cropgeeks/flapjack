@@ -17,8 +17,13 @@ public class LineResults
 	private MABCLineStats mabcLineStats;
 
 	private PedVerKnownParentsLineStats pedVerStats;
-
 	private PedVerLinesLineStats pedVerLinesStats;
+
+	// (Hopefully) common variables shared by multiple results types; a line can
+	// have a rank (to assist in selection (that itself is held in the LineInfo)
+	// and also some brief comments
+	private int rank;
+	private String comments;
 
 	public LineResults(LineInfo lineInfo)
 	{
@@ -48,4 +53,16 @@ public class LineResults
 
 	public void setPedVerLinesStats(PedVerLinesLineStats pedVerLinesStats)
 		{ this.pedVerLinesStats = pedVerLinesStats; }
+
+	public int getRank()
+		{ return rank; }
+
+	public void setRank(int rank)
+		{ this.rank = rank; }
+
+	public String getComments()
+		{ return comments; }
+
+	public void setComments(String comments)
+		{ this.comments = comments; }
 }
