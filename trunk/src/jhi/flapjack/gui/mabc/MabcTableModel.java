@@ -17,6 +17,7 @@ class MabcTableModel extends LineDataTableModel
 	// Indices to track what goes where
 	private int rppIndex, rppTotalIndex, rppCoverageIndex;
 	private int qtlIndex, qtlStatusIndex;
+	private int selectedIndex, rankIndex, commentIndex;
 
 	MabcTableModel(GTViewSet viewSet)
 	{
@@ -40,9 +41,12 @@ class MabcTableModel extends LineDataTableModel
 		rppCoverageIndex = rppTotalIndex + 1;
 		qtlIndex = rppCoverageIndex + 1;
 		qtlStatusIndex = qtlIndex + (qtlCount*2);
+		selectedIndex = qtlStatusIndex + 1;
+		rankIndex = selectedIndex + 1;
+		commentIndex = rankIndex + 1;
 
 		// TODO: UPDATE!
-		int colCount = qtlStatusIndex + 1;
+		int colCount = commentIndex + 1;
 		columnNames = new String[colCount];
 
 		// LineInfo column
@@ -68,8 +72,12 @@ class MabcTableModel extends LineDataTableModel
 		}
 
 		columnNames[qtlStatusIndex] = "QTL Status Count";
+		columnNames[selectedIndex] = "Selected";
+		columnNames[rankIndex] = "Rank";
+		columnNames[commentIndex] = "Comments";
 	}
 
+	@Override
 	public int getRowCount()
 	{
 		return viewSet.getLines().size();
@@ -79,7 +87,6 @@ class MabcTableModel extends LineDataTableModel
 	public Object getValueAt(int row, int col)
 	{
 		LineInfo line = viewSet.getLines().get(row);
-
 		MABCLineStats stats = line.results().getMABCLineStats();
 
 		// Line name
@@ -121,6 +128,15 @@ class MabcTableModel extends LineDataTableModel
 		else if (col == qtlStatusIndex)
 			return stats.getQtlStatusCount();
 
+		else if (col == selectedIndex)
+			return line.getSelected();
+
+		else if (col == rankIndex)
+			return line.results().getRank();
+
+		else if (col == commentIndex)
+			return line.results().getComments();
+
 		return null;
 	}
 
@@ -129,7 +145,37 @@ class MabcTableModel extends LineDataTableModel
 	{
 		if (col == 0)
 			return LineInfo.class;
+		else if (col == commentIndex)
+			return String.class;
+		else if (col == selectedIndex)
+			return Boolean.class;
+		else if (col == rankIndex)
+			return Integer.class;
 		else
 			return Double.class;
+	}
+
+	@Override
+	public boolean isCellEditable(int row, int col)
+	{
+		return (col == selectedIndex ||
+				col == rankIndex ||
+				col == commentIndex);
+	}
+
+	@Override
+	public void setValueAt(Object value, int row, int col)
+	{
+		LineInfo line = viewSet.getLines().get(row);
+		MABCLineStats stats = line.results().getMABCLineStats();
+
+		if (col == selectedIndex)
+			line.setSelected((boolean)value);
+
+		else if (col == rankIndex)
+			line.results().setRank((int)value);
+
+		else if (col == commentIndex)
+			line.results().setComments((String)value);
 	}
 }
