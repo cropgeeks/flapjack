@@ -29,8 +29,8 @@ public class LineDataTable extends JTable
 
 	private GTViewSet viewSet;
 
-	// The list of SortableColumn objects used the last time a sort was run
-	private SortableColumn[] lastSort;
+	// A list of objects used the last time a sort or a filter was run
+	private SortFilterColumn[] lastSort, lastFilter;
 
 	public LineDataTable()
 	{
@@ -197,7 +197,7 @@ public class LineDataTable extends JTable
 			return;
 
 		// Get the list of columns to use for the sort
-		SortableColumn[] data = dialog.getSortInfo();
+		SortFilterColumn[] data = dialog.getSortInfo();
 		// And also remember it for next time in case the user runs another sort
 		lastSort = dialog.getSortInfo();
 
@@ -205,6 +205,13 @@ public class LineDataTable extends JTable
 		Flapjack.winMain.mAnalysis.runSort(s);
 
 		model.fireTableDataChanged();
+	}
+
+	public void filter()
+	{
+		FilterDialog dialog = new FilterDialog(model.getSortableColumns(), lastFilter);
+		if (dialog.isOK() == false)
+			return;
 	}
 
 	// Deals with the fact that our fake double header for the JTable means

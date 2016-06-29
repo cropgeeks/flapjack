@@ -12,7 +12,7 @@ import jhi.flapjack.gui.*;
 
 import scri.commons.gui.*;
 
-class SortDialogTableModel extends AbstractTableModel
+class FilterDialogTableModel extends AbstractTableModel
 {
 	// An array of every possible column the user can sort on
 	private SortFilterColumn[] data;
@@ -21,23 +21,25 @@ class SortDialogTableModel extends AbstractTableModel
 
 	private String[] columnNames;
 
-	SortDialogTableModel(SortFilterColumn[] data, SortFilterColumn[] lastUsed)
+	FilterDialogTableModel(SortFilterColumn[] data, SortFilterColumn[] lastUsed)
 	{
 		this.data = data;
 
 		columnNames = new String[] {
-			RB.getString("gui.table.SortDialog.col1"),
-			RB.getString("gui.table.SortDialog.col2")
+			RB.getString("gui.table.FilterDialog.col1"),
+			RB.getString("gui.table.FilterDialog.col2"),
+			RB.getString("gui.table.FilterDialog.col3")
 		};
 
 		// Initialize the data we'll be showing
 		rows = new ArrayList<SortFilterColumn>();
 
-		if (lastUsed == null)
-			rows.add(data[0].cloneMe());
-		else
-			for (SortFilterColumn entry: lastUsed)
-				rows.add(entry.cloneMe());
+		// Shall we add fresh columns, or the ones from last time?
+		SortFilterColumn[] colsToAdd = data;
+		if (lastUsed != null) colsToAdd = lastUsed;
+
+		for (SortFilterColumn entry: colsToAdd)
+			rows.add(entry.cloneMe());
 	}
 
 	SortFilterColumn[] getSortInfo()
@@ -67,11 +69,13 @@ class SortDialogTableModel extends AbstractTableModel
 	public Object getValueAt(int row, int col)
 	{
 		if (col == 0)
-		{
 			return rows.get(row).name;
-		}
+
+		else if (col == 1)
+			return rows.get(row).filter;
+
 		else
-			return rows.get(row).sortOrder == SortOrder.ASCENDING;
+			return rows.get(row).cutoff;
 	}
 
 	@Override
@@ -80,21 +84,27 @@ class SortDialogTableModel extends AbstractTableModel
 		if (col == 0)
 			return String.class;
 
-		return Boolean.class;
+		else if (col == 1)
+			return SortFilterColumn.Filter.class;
+
+		else
+			return Double.class;
 	}
 
 	@Override
 	public boolean isCellEditable(int row, int col)
 	{
-		return true;
+		// We don't want to allow editing of the first column
+		return col > 0;
 	}
 
-	JComboBox getComboBox()
+	// Creates a list of possible filters that can be selected from
+	JComboBox getFilterComboBox()
 	{
-		JComboBox<SortFilterColumn> combo = new JComboBox<>();
+		JComboBox<SortFilterColumn.Filter> combo = new JComboBox<>();
 
-		for (int i = 0; i < data.length; i++)
-			combo.addItem(data[i].cloneMe());
+		for (SortFilterColumn.Filter filter: SortFilterColumn.getFilters())
+			combo.addItem(filter);
 
 		return combo;
 	}
@@ -104,32 +114,14 @@ class SortDialogTableModel extends AbstractTableModel
 	{
 		SortFilterColumn entry = rows.get(row);
 
-		if (col == 0)
+		if (col == 1)
 		{
-			entry.colIndex = ((SortFilterColumn)value).colIndex;
-			entry.name = ((SortFilterColumn)value).name;
+			SortFilterColumn.Filter filter = (SortFilterColumn.Filter)value;
+			entry.filter = new SortFilterColumn.Filter(filter.type);
 		}
-		else
-		{
-			if (entry.sortOrder == SortOrder.ASCENDING)
-				entry.sortOrder = SortOrder.DESCENDING;
-			else
-				entry.sortOrder = SortOrder.ASCENDING;
-		}
+		else if (col == 2)
+			entry.cutoff = (double) value;
 
 		fireTableCellUpdated(row, col);
-	}
-
-	void addRow()
-	{
-		rows.add(data[0].cloneMe());
-
-		fireTableDataChanged();
-	}
-
-	void deleteRow(int row)
-	{
-		rows.remove(row);
-		fireTableDataChanged();
 	}
 }
