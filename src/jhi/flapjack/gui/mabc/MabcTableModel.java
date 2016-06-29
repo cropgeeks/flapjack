@@ -7,7 +7,7 @@ import jhi.flapjack.data.*;
 import jhi.flapjack.data.results.*;
 import jhi.flapjack.gui.table.*;
 
-class MabcTableModel extends LineDataTableModel
+public class MabcTableModel extends LineDataTableModel
 {
 	// This results table is *linked* with the given view
 	private GTViewSet viewSet;
@@ -19,7 +19,7 @@ class MabcTableModel extends LineDataTableModel
 	private int qtlIndex, qtlStatusIndex;
 	private int selectedIndex, rankIndex, commentIndex;
 
-	MabcTableModel(GTViewSet viewSet)
+	public MabcTableModel(GTViewSet viewSet)
 	{
 		this.viewSet = viewSet;
 		this.dataSet = viewSet.getDataSet();
