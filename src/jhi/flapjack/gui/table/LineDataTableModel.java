@@ -31,11 +31,11 @@ public abstract class LineDataTableModel extends AbstractTableModel
 		return null;
 	}
 
-	public SortableColumn[] getSortableColumns()
+	public SortFilterColumn[] getSortableColumns()
 	{
-		SortableColumn[] cols = new SortableColumn[columnNames.length];
+		SortFilterColumn[] cols = new SortFilterColumn[columnNames.length];
 		for (int i = 0; i < cols.length; i++)
-			cols[i] = new SortableColumn(i, columnNames[i], SortOrder.DESCENDING);
+			cols[i] = new SortFilterColumn(i, columnNames[i], SortOrder.DESCENDING);
 
 		return cols;
 	}

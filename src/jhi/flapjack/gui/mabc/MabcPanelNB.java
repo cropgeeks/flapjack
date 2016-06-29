@@ -10,6 +10,9 @@ public class MabcPanelNB extends javax.swing.JPanel
 	{
 		initComponents();
 
+		bFilter.addActionListener(panel);
+		bFilter.setIcon(Icons.getIcon("FILTER"));
+
 		bSort.addActionListener(panel);
 		bSort.setIcon(Icons.getIcon("SORT"));
 
@@ -32,7 +35,7 @@ public class MabcPanelNB extends javax.swing.JPanel
         coverageLabel = new javax.swing.JLabel();
         bExport = new javax.swing.JButton();
         bSort = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        bFilter = new javax.swing.JButton();
 
         table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][]
@@ -52,7 +55,7 @@ public class MabcPanelNB extends javax.swing.JPanel
 
         bSort.setText("Sort...");
 
-        jButton3.setText("Filter");
+        bFilter.setText("Filter");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -63,7 +66,7 @@ public class MabcPanelNB extends javax.swing.JPanel
                 .addContainerGap()
                 .addComponent(coverageLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton3)
+                .addComponent(bFilter)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(bSort)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -79,7 +82,7 @@ public class MabcPanelNB extends javax.swing.JPanel
                     .addComponent(coverageLabel)
                     .addComponent(bExport)
                     .addComponent(bSort)
-                    .addComponent(jButton3))
+                    .addComponent(bFilter))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -87,9 +90,9 @@ public class MabcPanelNB extends javax.swing.JPanel
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     javax.swing.JButton bExport;
+    javax.swing.JButton bFilter;
     javax.swing.JButton bSort;
     javax.swing.JLabel coverageLabel;
-    private javax.swing.JButton jButton3;
     private javax.swing.JScrollPane jScrollPane1;
     javax.swing.JTable table;
     // End of variables declaration//GEN-END:variables
