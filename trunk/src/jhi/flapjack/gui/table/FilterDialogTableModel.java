@@ -116,8 +116,7 @@ class FilterDialogTableModel extends AbstractTableModel
 
 		if (col == 1)
 		{
-			SortFilterColumn.Filter filter = (SortFilterColumn.Filter)value;
-			entry.filter = new SortFilterColumn.Filter(filter.type);
+			entry.filter.type = ((SortFilterColumn.Filter)value).type;
 		}
 		else if (col == 2)
 			entry.value = (String) value;
