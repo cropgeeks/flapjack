@@ -109,7 +109,7 @@ public class TablePanelTableModel extends LineDataTableModel
 					if (columnIndex % 2 == 0)
 						return df.format(score.drag);
 					else
-						return score.status ? 1 : 0;
+						return score.status;
 				}
 			}
 		}

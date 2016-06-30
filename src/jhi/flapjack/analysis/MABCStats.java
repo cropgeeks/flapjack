@@ -281,12 +281,13 @@ public class MABCStats extends SimpleJob
 					{
 						int allele = as.getState(viewIndex, lineIndex, m);
 						int rp = as.getState(viewIndex, rpIndex, m);
-						if (p.isDP && allele == rp || !p.isDP && allele != rp)
-							score.status = false;
+
+						if (allele == 0 || p.isDP && allele == rp || !p.isDP && allele != rp)
+							score.status = 0;
 					}
 
 					// Update the sum of qtl status count (where status == 1)
-					if (score.status)
+					if (score.status == 1)
 						stats.setQtlStatusCount(stats.getQtlStatusCount()+1);
 				}
 			}

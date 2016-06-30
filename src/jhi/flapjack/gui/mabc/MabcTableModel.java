@@ -121,7 +121,7 @@ public class MabcTableModel extends LineDataTableModel
 			if (col % 2 == 0)
 				return score.drag;
 			else
-				return score.status ? 1 : 0;
+				return score.status;
 		}
 
 		// Sum of QTL status (where status == 1)
