@@ -70,7 +70,8 @@ public class CitationDialogNB extends javax.swing.JPanel implements ActionListen
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+    private void initComponents()
+    {
 
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -93,12 +94,12 @@ public class CitationDialogNB extends javax.swing.JPanel implements ActionListen
         jLabel3.setText("<html>Milne I, et al. 2010. <em>Bioinformatics</em> 26(24) 3133-3134.</html>");
 
         link3.setForeground(new java.awt.Color(68, 106, 156));
-        link3.setText("Flapjack – graphical genotype visualization");
-        link3.setFont(new java.awt.Font("Calibri", 0, 16));
+        link3.setText("Flapjack - graphical genotype visualization");
+        link3.setFont(new java.awt.Font("Calibri", 0, 16)); // NOI18N
 
         link1.setForeground(new java.awt.Color(68, 106, 156));
         link1.setText("You can close this window in 10 seconds");
-        link1.setFont(new java.awt.Font("Calibri", 0, 16));
+        link1.setFont(new java.awt.Font("Calibri", 0, 16)); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
