@@ -77,9 +77,9 @@ public class SortDialog extends JDialog implements ActionListener, ListSelection
 			setVisible(false);
 	}
 
-	public SortFilterColumn[] getSortInfo()
+	public SortFilterColumn[] getResults()
 	{
-		return model.getSortInfo();
+		return model.getResults();
 	}
 
 	private void checkButtonStates()

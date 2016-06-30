@@ -42,7 +42,7 @@ class FilterDialogTableModel extends AbstractTableModel
 			rows.add(entry.cloneMe());
 	}
 
-	SortFilterColumn[] getSortInfo()
+	SortFilterColumn[] getResults()
 	{
 		return rows.toArray(new SortFilterColumn[] {});
 	}
@@ -75,7 +75,7 @@ class FilterDialogTableModel extends AbstractTableModel
 			return rows.get(row).filter;
 
 		else
-			return rows.get(row).cutoff;
+			return rows.get(row).value;
 	}
 
 	@Override
@@ -88,7 +88,7 @@ class FilterDialogTableModel extends AbstractTableModel
 			return SortFilterColumn.Filter.class;
 
 		else
-			return Double.class;
+			return String.class;
 	}
 
 	@Override
@@ -120,7 +120,7 @@ class FilterDialogTableModel extends AbstractTableModel
 			entry.filter = new SortFilterColumn.Filter(filter.type);
 		}
 		else if (col == 2)
-			entry.cutoff = (double) value;
+			entry.value = (String) value;
 
 		fireTableCellUpdated(row, col);
 	}

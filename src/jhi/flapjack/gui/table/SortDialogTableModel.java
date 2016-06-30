@@ -40,7 +40,7 @@ class SortDialogTableModel extends AbstractTableModel
 				rows.add(entry.cloneMe());
 	}
 
-	SortFilterColumn[] getSortInfo()
+	SortFilterColumn[] getResults()
 	{
 		return rows.toArray(new SortFilterColumn[] {});
 	}

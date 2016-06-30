@@ -26,17 +26,16 @@ public class SortFilterColumn
 	// Filter options:
 	public Filter filter;
 	// Cutoff value for the filter
-	public Double cutoff;
+	public String value;
 
 	private SortFilterColumn()
 	{
 	}
 
-	SortFilterColumn(int colIndex, String name, SortOrder sortOrder)
+	SortFilterColumn(int colIndex, String name)
 	{
 		this.colIndex = colIndex;
 		this.name = name;
-		this.sortOrder = sortOrder;
 	}
 
 	SortFilterColumn cloneMe()
@@ -47,7 +46,8 @@ public class SortFilterColumn
 
 		clone.sortOrder = sortOrder;
 
-		clone.cutoff = cutoff;
+		clone.filter = filter;
+		clone.value = value;
 
 		return clone;
 	}
