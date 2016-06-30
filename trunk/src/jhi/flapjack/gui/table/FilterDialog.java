@@ -63,9 +63,9 @@ public class FilterDialog extends JDialog implements ActionListener, ListSelecti
 			setVisible(false);
 	}
 
-	public SortFilterColumn[] getSortInfo()
+	public SortFilterColumn[] getResults()
 	{
-		return model.getSortInfo();
+		return model.getResults();
 	}
 
 	@Override
@@ -97,7 +97,6 @@ public class FilterDialog extends JDialog implements ActionListener, ListSelecti
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         bFilter.setText("Filter");
-        bFilter.setEnabled(false);
         dialogPanel1.add(bFilter);
 
         bCancel.setText("Cancel");

@@ -197,9 +197,9 @@ public class LineDataTable extends JTable
 			return;
 
 		// Get the list of columns to use for the sort
-		SortFilterColumn[] data = dialog.getSortInfo();
-		// And also remember it for next time in case the user runs another sort
-		lastSort = dialog.getSortInfo();
+		SortFilterColumn[] data = dialog.getResults();
+		// Remember it for next time in case the user runs another sort
+		lastSort = dialog.getResults();
 
 		SortLinesByLineDataModel s = new SortLinesByLineDataModel(viewSet, sorter, data);
 		Flapjack.winMain.mAnalysis.runSort(s);
@@ -209,9 +209,17 @@ public class LineDataTable extends JTable
 
 	public void filter()
 	{
-		FilterDialog dialog = new FilterDialog(model.getSortableColumns(), lastFilter);
+		FilterDialog dialog = new FilterDialog(model.getFilterableColumns(), lastFilter);
 		if (dialog.isOK() == false)
 			return;
+
+		// Get the list of columns to use for the filtering
+		SortFilterColumn[] data = dialog.getResults();
+		// Remember it for next time in case the user runs another filter
+		lastFilter = dialog.getResults();
+
+		for (SortFilterColumn entry: data)
+			System.out.println(entry.name + ": " + entry.filter + " - " + entry.value);
 	}
 
 	// Deals with the fact that our fake double header for the JTable means

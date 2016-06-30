@@ -4,6 +4,7 @@
 package jhi.flapjack.gui.table;
 
 import java.awt.*;
+import java.util.*;
 import javax.swing.*;
 import javax.swing.table.*;
 
@@ -31,12 +32,29 @@ public abstract class LineDataTableModel extends AbstractTableModel
 		return null;
 	}
 
+	// Returns a list of all columns (because we can sort on any column)
 	public SortFilterColumn[] getSortableColumns()
 	{
 		SortFilterColumn[] cols = new SortFilterColumn[columnNames.length];
 		for (int i = 0; i < cols.length; i++)
-			cols[i] = new SortFilterColumn(i, columnNames[i], SortOrder.DESCENDING);
+			cols[i] = new SortFilterColumn(i, columnNames[i]);
 
 		return cols;
+	}
+
+	// Returns only those columns that make sense for filtering (by numbers)
+	public SortFilterColumn[] getFilterableColumns()
+	{
+		ArrayList<SortFilterColumn> cols = new ArrayList<>();
+
+		for (int i = 0; i < getColumnCount(); i++)
+		{
+			Class c = getColumnClass(i);
+
+			if (c == Double.class || c == Integer.class || c == Boolean.class)
+				cols.add(new SortFilterColumn(i, columnNames[i]));
+		}
+
+		return cols.toArray(new SortFilterColumn[] {});
 	}
 }
