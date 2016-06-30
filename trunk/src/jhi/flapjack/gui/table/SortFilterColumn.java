@@ -57,6 +57,26 @@ public class SortFilterColumn
 		return name;
 	}
 
+	@Override
+	public boolean equals(Object o)
+	{
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
+
+		SortFilterColumn other = (SortFilterColumn) o;
+
+		return name != null ? name.equals(other.name) : other.name == null;
+
+	}
+
+	@Override
+	public int hashCode()
+	{
+		return name != null ? name.hashCode() : 0;
+	}
+
 	public static Filter[] getFilters()
 	{
 		return new Filter[] {
@@ -74,6 +94,23 @@ public class SortFilterColumn
 
 		Filter(RowFilter.ComparisonType type)
 			{ this.type = type;	}
+
+		@Override
+		public boolean equals(Object o)
+		{
+			if (this == o)
+				return true;
+			if (o == null || getClass() != o.getClass())
+				return false;
+
+			return type == ((Filter)o).type;
+		}
+
+		@Override
+		public int hashCode()
+		{
+			return type != null ? type.hashCode() : 0;
+		}
 
 		public String toString()
 		{

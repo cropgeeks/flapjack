@@ -68,7 +68,7 @@ class SortDialogTableModel extends AbstractTableModel
 	{
 		if (col == 0)
 		{
-			return rows.get(row).name;
+			return rows.get(row);
 		}
 		else
 			return rows.get(row).sortOrder == SortOrder.ASCENDING;
@@ -78,7 +78,7 @@ class SortDialogTableModel extends AbstractTableModel
 	public Class getColumnClass(int col)
 	{
 		if (col == 0)
-			return String.class;
+			return SortFilterColumn.class;
 
 		return Boolean.class;
 	}
@@ -89,7 +89,7 @@ class SortDialogTableModel extends AbstractTableModel
 		return true;
 	}
 
-	JComboBox getComboBox()
+	JComboBox<SortFilterColumn> getComboBox()
 	{
 		JComboBox<SortFilterColumn> combo = new JComboBox<>();
 
