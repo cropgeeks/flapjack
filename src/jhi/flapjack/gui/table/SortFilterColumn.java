@@ -24,7 +24,7 @@ public class SortFilterColumn
 	public SortOrder sortOrder = SortOrder.DESCENDING;
 
 	// Filter options:
-	public Filter filter;
+	public Filter filter = new Filter(null);
 	// Cutoff value for the filter
 	public String value;
 
@@ -52,6 +52,7 @@ public class SortFilterColumn
 		return clone;
 	}
 
+	@Override
 	public String toString()
 	{
 		return name;
@@ -112,6 +113,7 @@ public class SortFilterColumn
 			return type != null ? type.hashCode() : 0;
 		}
 
+		@Override
 		public String toString()
 		{
 			if (type != null)
