@@ -21,7 +21,7 @@ public class SortFilterColumn
 
 	// Sort options:
 	// Whether to sort this column's data ascending or decending
-	public SortOrder sortOrder;
+	public SortOrder sortOrder = SortOrder.DESCENDING;
 
 	// Filter options:
 	public Filter filter;
