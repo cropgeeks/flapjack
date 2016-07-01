@@ -8,6 +8,7 @@ import java.util.*;
 import jhi.flapjack.data.*;
 import jhi.flapjack.data.results.*;
 
+import jhi.flapjack.gui.visualization.colors.ColorScheme;
 import scri.commons.gui.*;
 
 /**
@@ -30,12 +31,15 @@ public class MABCStats extends SimpleJob
 
 	// hard coded index of the RP line (index of the line minus duplicate, etc)
 	int rpIndex = 0;
+	int dpIndex = 1;
 
-	public MABCStats(GTViewSet viewSet, boolean[] selectedChromosomes, double maxMarkerCoverage)
+	public MABCStats(GTViewSet viewSet, boolean[] selectedChromosomes, double maxMarkerCoverage, int rpIndex, int dpIndex)
 	{
 		this.viewSet = viewSet;
 		this.selectedChromosomes = selectedChromosomes;
 		this.maxMarkerCoverage = maxMarkerCoverage;
+		this.rpIndex = rpIndex;
+		this.dpIndex = dpIndex;
 	}
 
 	public void runJob(int index)
@@ -49,6 +53,7 @@ public class MABCStats extends SimpleJob
 
 		calculateRPP(as);
 		calculateLinkageDrag(as);
+		prepareForVisualization();
 	}
 
 	// Searchs backwards through a line's worth of allele data (for a single
@@ -337,6 +342,19 @@ public class MABCStats extends SimpleJob
 			if (params.LM != -1 && params.RM != -1)
 				qtlHash.put(qtl, params);
 		}
+	}
+
+	private void prepareForVisualization()
+	{
+		// Move the parent lines to the top of the display
+		GTView view = viewSet.getView(0);
+		view.moveLine(rpIndex, 0);
+		view.moveLine(dpIndex, 1);
+
+		// Set the colour scheme to LINE_SIMILARITY and set the comparison line to the recurrent parent
+		viewSet.setColorScheme(ColorScheme.LINE_SIMILARITY);
+		viewSet.setComparisonLineIndex(0);
+		viewSet.setComparisonLine(viewSet.getLines().get(0).getLine());
 	}
 
 	private static class QTLParams
