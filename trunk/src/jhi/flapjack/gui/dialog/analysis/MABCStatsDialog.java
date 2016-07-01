@@ -6,8 +6,8 @@ package jhi.flapjack.gui.dialog.analysis;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import javax.swing.event.*;
 
+import jhi.flapjack.analysis.*;
 import jhi.flapjack.data.*;
 import jhi.flapjack.gui.*;
 
@@ -16,6 +16,11 @@ import scri.commons.gui.*;
 public class MABCStatsDialog extends JDialog implements ActionListener
 {
 	private GTViewSet viewSet;
+
+	private AnalysisSet as;
+
+	private DefaultComboBoxModel<LineInfo> rpModel;
+	private DefaultComboBoxModel<LineInfo> dpModel;
 
 	private boolean isOK;
 
@@ -29,6 +34,12 @@ public class MABCStatsDialog extends JDialog implements ActionListener
 
 		this.viewSet = viewSet;
 		isOK = false;
+
+		// This analysis will run on selected lines/markers only
+		as = new AnalysisSet(this.viewSet)
+			.withViews(null)
+			.withSelectedLines()
+			.withSelectedMarkers();
 
 		initComponents();
 		initComponents2();
@@ -58,6 +69,30 @@ public class MABCStatsDialog extends JDialog implements ActionListener
 		bCancel.addActionListener(this);
 
 		chromosomeSelectionPanel.setupComponents(viewSet, bOK);
+
+		setupComboBoxes(as);
+	}
+
+	private void setupComboBoxes(AnalysisSet as)
+	{
+		rpModel = createComboModelFrom(as);
+		recurrentCombo.setModel(rpModel);
+		if (as.lineCount() >= 1)
+			recurrentCombo.setSelectedIndex(0);
+
+		dpModel = createComboModelFrom(as);
+		donorCombo.setModel(dpModel);
+		if (as.lineCount() >= 2)
+			donorCombo.setSelectedIndex(1);
+	}
+
+	private DefaultComboBoxModel<LineInfo> createComboModelFrom(AnalysisSet as)
+	{
+		DefaultComboBoxModel<LineInfo> model = new DefaultComboBoxModel<>();
+		for (int i = 0; i < as.lineCount(); i++)
+			model.addElement(as.getLine(i));
+
+		return model;
 	}
 
 	// Generates a boolean array with a true/false selected state for each of
@@ -65,6 +100,16 @@ public class MABCStatsDialog extends JDialog implements ActionListener
 	public boolean[] getSelectedChromosomes()
 	{
 		return chromosomeSelectionPanel.getSelectedChromosomes();
+	}
+
+	public int getRecurrentParent()
+	{
+		return recurrentCombo.getSelectedIndex();
+	}
+
+	public int getDonorParent()
+	{
+		return donorCombo.getSelectedIndex();
 	}
 
 	public boolean isOK()
@@ -104,7 +149,7 @@ public class MABCStatsDialog extends JDialog implements ActionListener
         lblParent1 = new javax.swing.JLabel();
         recurrentCombo = new javax.swing.JComboBox<>();
         lblParent2 = new javax.swing.JLabel();
-        donarCombo = new javax.swing.JComboBox<>();
+        donorCombo = new javax.swing.JComboBox<>();
         jPanel2 = new javax.swing.JPanel();
         chromosomeSelectionPanel = new jhi.flapjack.gui.dialog.analysis.ChromosomeSelectionPanel();
 
@@ -126,7 +171,7 @@ public class MABCStatsDialog extends JDialog implements ActionListener
         lblParent1.setText("Select recurrent parent line:");
         lblParent1.setToolTipText("");
 
-        lblParent2.setText("Select donar parent line:");
+        lblParent2.setText("Select donor parent line:");
         lblParent2.setToolTipText("");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -137,7 +182,7 @@ public class MABCStatsDialog extends JDialog implements ActionListener
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(recurrentCombo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(donarCombo, 0, 345, Short.MAX_VALUE)
+                    .addComponent(donorCombo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblParent1)
@@ -159,7 +204,7 @@ public class MABCStatsDialog extends JDialog implements ActionListener
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblParent2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(donarCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(donorCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
@@ -176,14 +221,13 @@ public class MABCStatsDialog extends JDialog implements ActionListener
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(chromosomeSelectionPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addComponent(chromosomeSelectionPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 345, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(chromosomeSelectionPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 183, Short.MAX_VALUE)
+                .addComponent(chromosomeSelectionPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 230, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -219,7 +263,7 @@ public class MABCStatsDialog extends JDialog implements ActionListener
     private javax.swing.JButton bOK;
     private jhi.flapjack.gui.dialog.analysis.ChromosomeSelectionPanel chromosomeSelectionPanel;
     private scri.commons.gui.matisse.DialogPanel dialogPanel1;
-    private javax.swing.JComboBox<LineInfo> donarCombo;
+    private javax.swing.JComboBox<LineInfo> donorCombo;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;

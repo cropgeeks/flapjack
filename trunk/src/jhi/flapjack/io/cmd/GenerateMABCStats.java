@@ -124,7 +124,8 @@ public class GenerateMABCStats
 		for (int i = 0; i < chromosomes.length; i++)
 			chromosomes[i] = true;
 
-		MABCStats stats = new MABCStats(viewSet, chromosomes, maxMarkerCoverage);
+		// TODO: How do we get the rpIndex and dpIndex for passing to MABCStats?
+		MABCStats stats = new MABCStats(viewSet, chromosomes, maxMarkerCoverage, 0, 1);
 		stats.runJob(0);
 
 		MabcTableModel model = new MabcTableModel(viewSet);
