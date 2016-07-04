@@ -6,6 +6,7 @@ package jhi.flapjack.gui.mabc;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import javax.swing.event.*;
 
 import jhi.flapjack.data.*;
 import jhi.flapjack.gui.*;
@@ -13,7 +14,7 @@ import jhi.flapjack.gui.table.*;
 
 import scri.commons.gui.*;
 
-public class MabcPanel extends JPanel implements ActionListener
+public class MabcPanel extends JPanel implements ActionListener, ListSelectionListener
 {
 	private JTable table;
 	private MabcTableModel model;
@@ -21,7 +22,9 @@ public class MabcPanel extends JPanel implements ActionListener
 
 	private MabcPanelNB controls;
 
-	private int prevQTLCount = 0;
+	// Variables used to 'remember' what the user picked last time they
+	// auto-selected or ranked lines
+	private int qtlStatusCount = 0, rank = 1;
 
 	public MabcPanel(GTViewSet viewSet)
 	{
@@ -29,12 +32,10 @@ public class MabcPanel extends JPanel implements ActionListener
 		this.viewSet = viewSet;
 
 		table = controls.table;
+		table.getSelectionModel().addListSelectionListener(this);
 
 		setLayout(new BorderLayout());
 		add(new TitlePanel(RB.getString("gui.mabc.MabcPanel.title")), BorderLayout.NORTH);
-
-//		setLayout(new BorderLayout(0, 0));
-//		setBorder(BorderFactory.createEmptyBorder(1, 1, 0, 0));
 		add(controls);
 
 		updateModel(viewSet);
@@ -71,6 +72,19 @@ public class MabcPanel extends JPanel implements ActionListener
 
 		else if (e.getSource() == controls.bAuto)
 			displayAutoSelectDialog();
+
+		else if (e.getSource() == controls.bRank)
+			rankSelectedLines();
+	}
+
+	@Override
+	public void valueChanged(ListSelectionEvent e)
+	{
+		if (e.getValueIsAdjusting())
+			return;
+
+		controls.bRank.setEnabled(
+			table.getSelectionModel().getMinSelectionIndex() != -1);
 	}
 
 	private void handlePopup(MouseEvent e)
@@ -113,7 +127,7 @@ public class MabcPanel extends JPanel implements ActionListener
 	private void displayAutoSelectDialog()
 	{
 		int qtlCount = viewSet.getLines().get(0).results().getMABCLineStats().getQTLScores().size();
-		SpinnerNumberModel sModel = new SpinnerNumberModel(prevQTLCount, 0, qtlCount, 1);
+		SpinnerNumberModel sModel = new SpinnerNumberModel(qtlStatusCount, 0, qtlCount, 1);
 		JSpinner spinner = new JSpinner(sModel);
 		((JSpinner.DefaultEditor)spinner.getEditor()).getTextField().setColumns(4);
 
@@ -125,15 +139,43 @@ public class MabcPanel extends JPanel implements ActionListener
 			RB.getString("gui.mabc.MabcPanel.autoSelectDialogTitle"),
 			JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
 
+		if (option == JOptionPane.OK_OPTION)
+		{
+			qtlStatusCount = (int)spinner.getValue();
+			int selected = model.selectQTL(qtlStatusCount);
+
+			int total = model.getRowCount();
+			TaskDialog.info(
+				RB.format("gui.mabc.MabcPanel.selectedLines", selected, total),
+				RB.getString("gui.text.close"));
+		}
+	}
+
+	private void rankSelectedLines()
+	{
+		SpinnerNumberModel sModel = new SpinnerNumberModel(
+			rank, Integer.MIN_VALUE, Integer.MAX_VALUE, 1);
+		JSpinner spinner = new JSpinner(sModel);
+		((JSpinner.DefaultEditor)spinner.getEditor()).getTextField().setColumns(4);
+
+		JPanel panel = new JPanel(new FlowLayout());
+		panel.add(new JLabel(RB.getString("gui.mabc.MabcPanel.rankLabel")));
+		panel.add(spinner);
+
+		int option = JOptionPane.showOptionDialog(Flapjack.winMain, panel,
+			RB.getString("gui.mabc.MabcPanel.rankTitle"),
+			JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
 
 		if (option == JOptionPane.OK_OPTION)
 		{
-			int selected = model.selectQTL((int)spinner.getValue());
-			prevQTLCount = (int)spinner.getValue();
+			rank = (int)spinner.getValue();
+			ListSelectionModel lsModel = table.getSelectionModel();
 
-			int total = model.getRowCount();
-			String message = RB.format("gui.mabc.MabcPanel.selectedLines", selected, total);
-			JOptionPane.showMessageDialog(Flapjack.winMain, message);
+			// Loop over every (selected) row, convert it to a model row, and
+			// then set the new rank value on it
+			for (int i = 0; i < table.getRowCount(); i++)
+				if (lsModel.isSelectedIndex(i))
+					model.setRank(table.convertRowIndexToModel(i), rank);
 		}
 	}
 }

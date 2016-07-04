@@ -185,20 +185,26 @@ public class MabcTableModel extends LineDataTableModel
 
 	int selectQTL(int number)
 	{
-		int selected = 0;
-		for (int i=0; i < getRowCount(); i++)
+		int selectedCount = 0;
+		for (int row=0; row < getRowCount(); row++)
 		{
-			if ((int) getValueAt(i, qtlStatusIndex) >= number)
+			if ((int) getValueAt(row, qtlStatusIndex) >= number)
 			{
-				setValueAt(true, i, selectedIndex);
-				selected++;
+				setValueAt(true, row, selectedIndex);
+				selectedCount++;
 			}
 			else
-				setValueAt(false, i, selectedIndex);
+				setValueAt(false, row, selectedIndex);
+
+			fireTableRowsUpdated(row, row);
 		}
 
-		fireTableDataChanged();
+		return selectedCount;
+	}
 
-		return selected;
+	void setRank(int row, int rank)
+	{
+		setValueAt(rank, row, rankIndex);
+		fireTableRowsUpdated(row, row);
 	}
 }
