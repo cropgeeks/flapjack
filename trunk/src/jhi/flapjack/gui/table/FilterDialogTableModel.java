@@ -132,4 +132,15 @@ class FilterDialogTableModel extends AbstractTableModel
 	{
 		return rows.get(row).colClass == Boolean.class;
 	}
+
+	void clear()
+	{
+		for (FilterColumn entry: rows)
+		{
+			entry.filter = FilterColumn.NONE;
+			entry.value = null;
+		}
+
+		fireTableDataChanged();
+	}
 }

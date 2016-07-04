@@ -55,6 +55,11 @@
             <Property name="text" type="java.lang.String" value="Filter"/>
           </Properties>
         </Component>
+        <Component class="javax.swing.JButton" name="bReset">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Reset"/>
+          </Properties>
+        </Component>
         <Component class="javax.swing.JButton" name="bCancel">
           <Properties>
             <Property name="text" type="java.lang.String" value="Cancel"/>
