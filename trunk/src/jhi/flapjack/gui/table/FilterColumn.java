@@ -37,11 +37,6 @@ public class FilterColumn extends AbstractColumn
 		this.filter = filter;
 	}
 
-	FilterColumn cloneMe()
-	{
-		return new FilterColumn(colIndex, colClass, name, filter);
-	}
-
 	@Override
 	public String toString()
 	{
@@ -58,7 +53,7 @@ public class FilterColumn extends AbstractColumn
 		}
 	}
 
-	public static JComboBox<FilterColumn> getNumericalFilters()
+	static JComboBox<FilterColumn> getNumericalFilters()
 	{
 		JComboBox<FilterColumn> combo = new JComboBox<>();
 
@@ -71,7 +66,7 @@ public class FilterColumn extends AbstractColumn
 		return combo;
 	}
 
-	public static JComboBox<FilterColumn> getBooleanFilters()
+	static JComboBox<FilterColumn> getBooleanFilters()
 	{
 		JComboBox<FilterColumn> combo = new JComboBox<>();
 
@@ -82,11 +77,41 @@ public class FilterColumn extends AbstractColumn
 		return combo;
 	}
 
-	public boolean disabled()
+	boolean disabled()
 	{
 		// This isn't a usable filter, if:
 		//   - it's set to none
 		//   - it's numercial, but a value hasn't been set
 		return (filter == NONE || (filter < FALSE && value == null));
+	}
+
+	RowFilter<LineDataTableModel, Object> createRowFilter()
+	{
+		if (colClass != Boolean.class)
+		{
+			double num = Double.parseDouble(value);
+
+			switch (filter)
+			{
+				case LESS_THAN:
+					return RowFilter.numberFilter(RowFilter.ComparisonType.BEFORE, num, colIndex);
+				case GREATER_THAN:
+					return RowFilter.numberFilter(RowFilter.ComparisonType.AFTER, num, colIndex);
+				case EQUAL:
+					return RowFilter.numberFilter(RowFilter.ComparisonType.EQUAL, num, colIndex);
+				case NOT_EQUAL:
+					return RowFilter.numberFilter(RowFilter.ComparisonType.NOT_EQUAL, num, colIndex);
+			}
+		}
+
+		else
+		{
+			if (filter == FALSE)
+				return RowFilter.regexFilter(Boolean.toString(false), colIndex);
+			else
+				return RowFilter.regexFilter(Boolean.toString(true), colIndex);
+		}
+
+		return null;
 	}
 }
