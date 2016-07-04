@@ -115,9 +115,16 @@ public class MabcPanel extends JPanel implements ActionListener
 		int qtlCount = viewSet.getLines().get(0).results().getMABCLineStats().getQTLScores().size();
 		SpinnerNumberModel sModel = new SpinnerNumberModel(prevQTLCount, 0, qtlCount, 1);
 		JSpinner spinner = new JSpinner(sModel);
+		((JSpinner.DefaultEditor)spinner.getEditor()).getTextField().setColumns(4);
 
-		int option = JOptionPane.showOptionDialog(null, spinner, RB.getString("gui.mabc.MabcPanel.autoSelectDialogTitle"),
-											JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+		JPanel panel = new JPanel(new FlowLayout());
+		panel.add(new JLabel(RB.getString("gui.mabc.MabcPanel.autoSelectDialogLabel")));
+		panel.add(spinner);
+
+		int option = JOptionPane.showOptionDialog(Flapjack.winMain, panel,
+			RB.getString("gui.mabc.MabcPanel.autoSelectDialogTitle"),
+			JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+
 
 		if (option == JOptionPane.OK_OPTION)
 		{
@@ -126,7 +133,7 @@ public class MabcPanel extends JPanel implements ActionListener
 
 			int total = model.getRowCount();
 			String message = RB.format("gui.mabc.MabcPanel.selectedLines", selected, total);
-			JOptionPane.showMessageDialog(null, message);
+			JOptionPane.showMessageDialog(Flapjack.winMain, message);
 		}
 	}
 }
