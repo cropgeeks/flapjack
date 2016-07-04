@@ -15,13 +15,13 @@ import scri.commons.gui.*;
 class FilterDialogTableModel extends AbstractTableModel
 {
 	// An array of every possible column the user can sort on
-	private SortFilterColumn[] data;
+	private FilterColumn[] data;
 	// And a list of the ones they actually *will* sort on
-	private ArrayList<SortFilterColumn> rows;
+	private ArrayList<FilterColumn> rows;
 
 	private String[] columnNames;
 
-	FilterDialogTableModel(SortFilterColumn[] data, SortFilterColumn[] lastUsed)
+	FilterDialogTableModel(FilterColumn[] data, FilterColumn[] lastUsed)
 	{
 		this.data = data;
 
@@ -32,19 +32,19 @@ class FilterDialogTableModel extends AbstractTableModel
 		};
 
 		// Initialize the data we'll be showing
-		rows = new ArrayList<SortFilterColumn>();
+		rows = new ArrayList<FilterColumn>();
 
 		// Shall we add fresh columns, or the ones from last time?
-		SortFilterColumn[] colsToAdd = data;
+		FilterColumn[] colsToAdd = data;
 		if (lastUsed != null) colsToAdd = lastUsed;
 
-		for (SortFilterColumn entry: colsToAdd)
+		for (FilterColumn entry: colsToAdd)
 			rows.add(entry.cloneMe());
 	}
 
-	SortFilterColumn[] getResults()
+	FilterColumn[] getResults()
 	{
-		return rows.toArray(new SortFilterColumn[] {});
+		return rows.toArray(new FilterColumn[] {});
 	}
 
 	@Override
@@ -72,7 +72,7 @@ class FilterDialogTableModel extends AbstractTableModel
 			return rows.get(row).name;
 
 		else if (col == 1)
-			return rows.get(row).filter;
+			return rows.get(row);
 
 		else
 			return rows.get(row).value;
@@ -85,7 +85,7 @@ class FilterDialogTableModel extends AbstractTableModel
 			return String.class;
 
 		else if (col == 1)
-			return SortFilterColumn.Filter.class;
+			return FilterColumn.class;
 
 		else
 			return String.class;
@@ -98,29 +98,34 @@ class FilterDialogTableModel extends AbstractTableModel
 		return col > 0;
 	}
 
-	// Creates a list of possible filters that can be selected from
-	JComboBox getFilterComboBox()
-	{
-		JComboBox<SortFilterColumn.Filter> combo = new JComboBox<>();
-
-		for (SortFilterColumn.Filter filter: SortFilterColumn.getFilters())
-			combo.addItem(filter);
-
-		return combo;
-	}
-
 	@Override
 	public void setValueAt(Object value, int row, int col)
 	{
-		SortFilterColumn entry = rows.get(row);
+		FilterColumn entry = rows.get(row);
 
 		if (col == 1)
 		{
-			entry.filter.type = ((SortFilterColumn.Filter)value).type;
+			entry.filter = ((FilterColumn)value).filter;
 		}
 		else if (col == 2)
-			entry.value = (String) value;
+		{
+			try
+			{
+				// Catch the user typing non numerical text into the box
+				double d = Double.parseDouble((String)value);
+				entry.value = (String) value;
+			}
+			catch (Exception e) {}
+		}
 
 		fireTableCellUpdated(row, col);
+	}
+
+	// Returns true if the column (in the original table) represented by the row
+	// in the FilterDialog's view should be using a Boolean filter (true/false)
+	// rather than the numerical (less than, greater than, etc) filter
+	boolean needsBooleanFilter(int row)
+	{
+		return rows.get(row).colClass == Boolean.class;
 	}
 }

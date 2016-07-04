@@ -13,9 +13,9 @@ import jhi.flapjack.gui.table.*;
 public class SortLinesByLineDataModel extends SortLines
 {
 	private TableRowSorter<LineDataTableModel> sorter;
-	private SortFilterColumn[] data;
+	private SortColumn[] data;
 
-	public SortLinesByLineDataModel(GTViewSet viewSet, TableRowSorter<LineDataTableModel> sorter, SortFilterColumn[] data)
+	public SortLinesByLineDataModel(GTViewSet viewSet, TableRowSorter<LineDataTableModel> sorter, SortColumn[] data)
 	{
 		super(viewSet);
 
@@ -29,7 +29,7 @@ public class SortLinesByLineDataModel extends SortLines
 		List<RowSorter.SortKey> sortKeys = new ArrayList<>();
 
 		// Multi-column sort (handled by JTable) using "sort keys"
-		for (SortFilterColumn entry: data)
+		for (SortColumn entry: data)
 			sortKeys.add(new RowSorter.SortKey(entry.colIndex, entry.sortOrder));
 
 		sorter.setSortKeys(sortKeys);

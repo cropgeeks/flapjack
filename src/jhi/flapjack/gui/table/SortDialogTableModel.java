@@ -15,13 +15,13 @@ import scri.commons.gui.*;
 class SortDialogTableModel extends AbstractTableModel
 {
 	// An array of every possible column the user can sort on
-	private SortFilterColumn[] data;
+	private SortColumn[] data;
 	// And a list of the ones they actually *will* sort on
-	private ArrayList<SortFilterColumn> rows;
+	private ArrayList<SortColumn> rows;
 
 	private String[] columnNames;
 
-	SortDialogTableModel(SortFilterColumn[] data, SortFilterColumn[] lastUsed)
+	SortDialogTableModel(SortColumn[] data, SortColumn[] lastUsed)
 	{
 		this.data = data;
 
@@ -31,18 +31,18 @@ class SortDialogTableModel extends AbstractTableModel
 		};
 
 		// Initialize the data we'll be showing
-		rows = new ArrayList<SortFilterColumn>();
+		rows = new ArrayList<SortColumn>();
 
 		if (lastUsed == null)
 			rows.add(data[0].cloneMe());
 		else
-			for (SortFilterColumn entry: lastUsed)
+			for (SortColumn entry: lastUsed)
 				rows.add(entry.cloneMe());
 	}
 
-	SortFilterColumn[] getResults()
+	SortColumn[] getResults()
 	{
-		return rows.toArray(new SortFilterColumn[] {});
+		return rows.toArray(new SortColumn[] {});
 	}
 
 	@Override
@@ -78,7 +78,7 @@ class SortDialogTableModel extends AbstractTableModel
 	public Class getColumnClass(int col)
 	{
 		if (col == 0)
-			return SortFilterColumn.class;
+			return SortColumn.class;
 
 		return Boolean.class;
 	}
@@ -89,9 +89,9 @@ class SortDialogTableModel extends AbstractTableModel
 		return true;
 	}
 
-	JComboBox<SortFilterColumn> getComboBox()
+	JComboBox<SortColumn> getComboBox()
 	{
-		JComboBox<SortFilterColumn> combo = new JComboBox<>();
+		JComboBox<SortColumn> combo = new JComboBox<>();
 
 		for (int i = 0; i < data.length; i++)
 			combo.addItem(data[i].cloneMe());
@@ -102,12 +102,12 @@ class SortDialogTableModel extends AbstractTableModel
 	@Override
 	public void setValueAt(Object value, int row, int col)
 	{
-		SortFilterColumn entry = rows.get(row);
+		SortColumn entry = rows.get(row);
 
 		if (col == 0)
 		{
-			entry.colIndex = ((SortFilterColumn)value).colIndex;
-			entry.name = ((SortFilterColumn)value).name;
+			entry.colIndex = ((SortColumn)value).colIndex;
+			entry.name = ((SortColumn)value).name;
 		}
 		else
 		{
