@@ -6,14 +6,13 @@ package jhi.flapjack.gui.table;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import javax.swing.event.*;
 import javax.swing.table.*;
 
 import jhi.flapjack.gui.*;
 
 import scri.commons.gui.*;
 
-public class FilterDialog extends JDialog implements ActionListener, ListSelectionListener
+public class FilterDialog extends JDialog implements ActionListener
 {
 	private boolean isOK = false;
 	private FilterDialogTableModel model;
@@ -27,9 +26,11 @@ public class FilterDialog extends JDialog implements ActionListener, ListSelecti
 
 		RB.setText(bCancel, "gui.text.cancel");
 		RB.setText(bFilter, "gui.table.FilterDialog.bFilter");
+		RB.setText(bReset, "gui.table.FilterDialog.bReset");
 
 		setBackground((Color)UIManager.get("fjDialogBG"));
 		bFilter.addActionListener(this);
+		bReset.addActionListener(this);
 		bCancel.addActionListener(this);
 
 		getRootPane().setDefaultButton(bFilter);
@@ -69,10 +70,7 @@ public class FilterDialog extends JDialog implements ActionListener, ListSelecti
 		table.setModel(model);
 		table.getTableHeader().setReorderingAllowed(false);
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		table.getSelectionModel().addListSelectionListener(this);
 		UIScaler.setCellHeight(table);
-
-//		table.getColumnModel().getColumn(1).setPreferredWidth(60);
 	}
 
 	@Override
@@ -83,6 +81,10 @@ public class FilterDialog extends JDialog implements ActionListener, ListSelecti
 			isOK = true;
 			setVisible(false);
 		}
+
+		else if (e.getSource() == bReset)
+			model.clear();
+
 		else if (e.getSource() == bCancel)
 			setVisible(false);
 	}
@@ -90,13 +92,6 @@ public class FilterDialog extends JDialog implements ActionListener, ListSelecti
 	public FilterColumn[] getResults()
 	{
 		return model.getResults();
-	}
-
-	@Override
-	public void valueChanged(ListSelectionEvent e)
-	{
-		if (e.getValueIsAdjusting())
-			return;
 	}
 
 	public boolean isOK()
@@ -114,6 +109,7 @@ public class FilterDialog extends JDialog implements ActionListener, ListSelecti
 
         dialogPanel1 = new scri.commons.gui.matisse.DialogPanel();
         bFilter = new javax.swing.JButton();
+        bReset = new javax.swing.JButton();
         bCancel = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         table = createTable();
@@ -122,6 +118,9 @@ public class FilterDialog extends JDialog implements ActionListener, ListSelecti
 
         bFilter.setText("Filter");
         dialogPanel1.add(bFilter);
+
+        bReset.setText("Reset");
+        dialogPanel1.add(bReset);
 
         bCancel.setText("Cancel");
         dialogPanel1.add(bCancel);
@@ -165,6 +164,7 @@ public class FilterDialog extends JDialog implements ActionListener, ListSelecti
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bCancel;
     private javax.swing.JButton bFilter;
+    private javax.swing.JButton bReset;
     private scri.commons.gui.matisse.DialogPanel dialogPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable table;
