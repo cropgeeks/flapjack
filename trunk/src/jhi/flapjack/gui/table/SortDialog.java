@@ -7,7 +7,6 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.event.*;
-import javax.swing.table.*;
 
 import jhi.flapjack.gui.*;
 
@@ -18,7 +17,7 @@ public class SortDialog extends JDialog implements ActionListener, ListSelection
 	private boolean isOK = false;
 	private SortDialogTableModel model;
 
-	public SortDialog(SortFilterColumn[] allCols, SortFilterColumn[] lastUsedCols)
+	public SortDialog(SortColumn[] allCols, SortColumn[] lastUsedCols)
 	{
 		super(Flapjack.winMain, RB.getString("gui.table.SortDialog.title"), true);
 
@@ -38,13 +37,16 @@ public class SortDialog extends JDialog implements ActionListener, ListSelection
 
 		checkButtonStates();
 
+		getRootPane().setDefaultButton(bSort);
+		SwingUtils.addCloseHandler(this, bCancel);
+
 		pack();
 		setLocationRelativeTo(Flapjack.winMain);
 		setResizable(false);
 		setVisible(true);
 	}
 
-	private void initTable(SortFilterColumn[] allCols, SortFilterColumn[] lastUsedCols)
+	private void initTable(SortColumn[] allCols, SortColumn[] lastUsedCols)
 	{
 		model = new SortDialogTableModel(allCols, lastUsedCols);
 
@@ -77,7 +79,7 @@ public class SortDialog extends JDialog implements ActionListener, ListSelection
 			setVisible(false);
 	}
 
-	public SortFilterColumn[] getResults()
+	public SortColumn[] getResults()
 	{
 		return model.getResults();
 	}

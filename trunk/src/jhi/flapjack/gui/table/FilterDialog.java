@@ -7,6 +7,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.event.*;
+import javax.swing.table.*;
 
 import jhi.flapjack.gui.*;
 
@@ -17,7 +18,7 @@ public class FilterDialog extends JDialog implements ActionListener, ListSelecti
 	private boolean isOK = false;
 	private FilterDialogTableModel model;
 
-	public FilterDialog(SortFilterColumn[] allCols, SortFilterColumn[] lastUsedCols)
+	public FilterDialog(FilterColumn[] allCols, FilterColumn[] lastUsedCols)
 	{
 		super(Flapjack.winMain, RB.getString("gui.table.FilterDialog.title"), true);
 
@@ -31,13 +32,37 @@ public class FilterDialog extends JDialog implements ActionListener, ListSelecti
 		bFilter.addActionListener(this);
 		bCancel.addActionListener(this);
 
+		getRootPane().setDefaultButton(bFilter);
+		SwingUtils.addCloseHandler(this, bCancel);
+
 		pack();
 		setLocationRelativeTo(Flapjack.winMain);
 		setResizable(false);
 		setVisible(true);
 	}
 
-	private void initTable(SortFilterColumn[] allCols, SortFilterColumn[] lastUsedCols)
+	private JTable createTable()
+	{
+		return new JTable()
+		{
+			public TableCellEditor getCellEditor(int row, int column)
+			{
+				int modelColumn = convertColumnIndexToModel(column);
+
+				if (modelColumn == 1)
+				{
+					if (model.needsBooleanFilter(row))
+						return new DefaultCellEditor(FilterColumn.getBooleanFilters());
+					else
+						return new DefaultCellEditor(FilterColumn.getNumericalFilters());
+				}
+				else
+					return super.getCellEditor(row, column);
+			}
+		};
+	}
+
+	private void initTable(FilterColumn[] allCols, FilterColumn[] lastUsedCols)
 	{
 		model = new FilterDialogTableModel(allCols, lastUsedCols);
 
@@ -47,11 +72,10 @@ public class FilterDialog extends JDialog implements ActionListener, ListSelecti
 		table.getSelectionModel().addListSelectionListener(this);
 		UIScaler.setCellHeight(table);
 
-		table.getColumnModel().getColumn(1).setCellEditor(
-			new DefaultCellEditor(model.getFilterComboBox()));
 //		table.getColumnModel().getColumn(1).setPreferredWidth(60);
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e)
 	{
 		if (e.getSource() == bFilter)
@@ -63,7 +87,7 @@ public class FilterDialog extends JDialog implements ActionListener, ListSelecti
 			setVisible(false);
 	}
 
-	public SortFilterColumn[] getResults()
+	public FilterColumn[] getResults()
 	{
 		return model.getResults();
 	}
@@ -92,7 +116,7 @@ public class FilterDialog extends JDialog implements ActionListener, ListSelecti
         bFilter = new javax.swing.JButton();
         bCancel = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        table = new javax.swing.JTable();
+        table = createTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 

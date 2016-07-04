@@ -76,6 +76,9 @@
             </Property>
             <Property name="autoResizeMode" type="int" value="4"/>
           </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="createTable()"/>
+          </AuxValues>
         </Component>
       </SubComponents>
     </Container>

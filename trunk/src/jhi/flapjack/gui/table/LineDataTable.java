@@ -30,7 +30,8 @@ public class LineDataTable extends JTable
 	private GTViewSet viewSet;
 
 	// A list of objects used the last time a sort or a filter was run
-	private SortFilterColumn[] lastSort, lastFilter;
+	private SortColumn[] lastSort;
+	private FilterColumn[] lastFilter;
 
 	public LineDataTable()
 	{
@@ -99,12 +100,13 @@ public class LineDataTable extends JTable
 				// We only want to deal with events of type sorted...not sort order changed
 				if (e.getType() == RowSorterEvent.Type.SORTED)
 				{
-					ArrayList<LineInfo> orderedLines = new ArrayList<>();
+/*					ArrayList<LineInfo> orderedLines = new ArrayList<>();
 					for (int i = 0; i < getRowCount(); i++)
 						orderedLines.add((LineInfo)model.getValueAt(convertRowIndexToModel(i), 0));
 
 					if (viewSet != null)
 						viewSet.setLines(orderedLines);
+*/
 				}
 			});
 		}
@@ -115,7 +117,7 @@ public class LineDataTable extends JTable
 		this.viewSet = viewSet;
 	}
 
-	@Override
+/*	@Override
 	public Object getValueAt(int row, int column)
 	{
 		// WATCH OUT FOR THIS FUNKY CODE. Because we need the main view to reflect the sorting of the table we end up
@@ -127,7 +129,7 @@ public class LineDataTable extends JTable
 
 		return super.getValueAt(row, column);
 	}
-
+*/
 	public void exportData()
 	{
 		String name = "table-data.txt";
@@ -197,7 +199,7 @@ public class LineDataTable extends JTable
 			return;
 
 		// Get the list of columns to use for the sort
-		SortFilterColumn[] data = dialog.getResults();
+		SortColumn[] data = dialog.getResults();
 		// Remember it for next time in case the user runs another sort
 		lastSort = dialog.getResults();
 
@@ -214,12 +216,42 @@ public class LineDataTable extends JTable
 			return;
 
 		// Get the list of columns to use for the filtering
-		SortFilterColumn[] data = dialog.getResults();
+		FilterColumn[] data = dialog.getResults();
 		// Remember it for next time in case the user runs another filter
 		lastFilter = dialog.getResults();
 
-		for (SortFilterColumn entry: data)
+		// Build up a list of filters to apply to the table
+		ArrayList<RowFilter<LineDataTableModel,Object>> filters = new ArrayList<>();
+
+		for (FilterColumn entry: data)
+		{
+			if (entry.disabled())
+				continue;
+
 			System.out.println(entry.name + ": " + entry.filter + " - " + entry.value);
+
+			RowFilter<LineDataTableModel, Object> rf = null;
+
+			// Process Integer columns
+//			if (model.getColumnClass(entry.colIndex) == Integer.class)
+			{
+//				int num = Integer.parseInt(entry.value);
+//				rf = RowFilter.numberFilter(entry.filter.type, num, entry.colIndex);
+			}
+//			else if (model.getColumnClass(entry.colIndex) == Double.class)
+			{
+//				double num = Double.parseDouble(entry.value);
+//				rf = RowFilter.numberFilter(entry.filter.type, num, entry.colIndex);
+//				rf = RowFilter.regexFilter(entry.value, entry.colIndex);
+			}
+
+			if (rf != null)
+				filters.add(rf);
+		}
+
+		RowFilter<LineDataTableModel,Object> f = RowFilter.andFilter(filters);
+
+		sorter.setRowFilter(f);
 	}
 
 	// Deals with the fact that our fake double header for the JTable means

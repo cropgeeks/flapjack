@@ -33,28 +33,28 @@ public abstract class LineDataTableModel extends AbstractTableModel
 	}
 
 	// Returns a list of all columns (because we can sort on any column)
-	public SortFilterColumn[] getSortableColumns()
+	public SortColumn[] getSortableColumns()
 	{
-		SortFilterColumn[] cols = new SortFilterColumn[columnNames.length];
+		SortColumn[] cols = new SortColumn[columnNames.length];
 		for (int i = 0; i < cols.length; i++)
-			cols[i] = new SortFilterColumn(i, columnNames[i]);
+			cols[i] = new SortColumn(i, columnNames[i]);
 
 		return cols;
 	}
 
 	// Returns only those columns that make sense for filtering (by numbers)
-	public SortFilterColumn[] getFilterableColumns()
+	public FilterColumn[] getFilterableColumns()
 	{
-		ArrayList<SortFilterColumn> cols = new ArrayList<>();
+		ArrayList<FilterColumn> cols = new ArrayList<>();
 
 		for (int i = 0; i < getColumnCount(); i++)
 		{
 			Class c = getColumnClass(i);
 
 			if (c == Double.class || c == Integer.class || c == Boolean.class)
-				cols.add(new SortFilterColumn(i, columnNames[i]));
+				cols.add(new FilterColumn(i, c, columnNames[i], FilterColumn.NONE));
 		}
 
-		return cols.toArray(new SortFilterColumn[] {});
+		return cols.toArray(new FilterColumn[] {});
 	}
 }
