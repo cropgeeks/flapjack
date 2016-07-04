@@ -39,7 +39,7 @@ class FilterDialogTableModel extends AbstractTableModel
 		if (lastUsed != null) colsToAdd = lastUsed;
 
 		for (FilterColumn entry: colsToAdd)
-			rows.add(entry.cloneMe());
+			rows.add(entry);
 	}
 
 	FilterColumn[] getResults()
@@ -95,7 +95,7 @@ class FilterDialogTableModel extends AbstractTableModel
 	public boolean isCellEditable(int row, int col)
 	{
 		// We don't want to allow editing of the first column
-		return col > 0;
+		return col == 1 || (col == 2 && !needsBooleanFilter(row));
 	}
 
 	@Override
@@ -109,13 +109,17 @@ class FilterDialogTableModel extends AbstractTableModel
 		}
 		else if (col == 2)
 		{
-			try
+			// Allow the user to clear the cell
+			if (((String)value).isEmpty())
+				entry.value = null;
+			else
 			{
-				// Catch the user typing non numerical text into the box
-				double d = Double.parseDouble((String)value);
-				entry.value = (String) value;
+				// But don't allow them to type something that isn't a number
+				try {
+					Double.parseDouble((String)value);
+					entry.value = (String) value;
+				} catch (Exception e) {}
 			}
-			catch (Exception e) {}
 		}
 
 		fireTableCellUpdated(row, col);

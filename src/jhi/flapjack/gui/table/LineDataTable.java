@@ -223,31 +223,10 @@ public class LineDataTable extends JTable
 		// Build up a list of filters to apply to the table
 		ArrayList<RowFilter<LineDataTableModel,Object>> filters = new ArrayList<>();
 
+		// Scan and build the needed filters
 		for (FilterColumn entry: data)
-		{
-			if (entry.disabled())
-				continue;
-
-			System.out.println(entry.name + ": " + entry.filter + " - " + entry.value);
-
-			RowFilter<LineDataTableModel, Object> rf = null;
-
-			// Process Integer columns
-//			if (model.getColumnClass(entry.colIndex) == Integer.class)
-			{
-//				int num = Integer.parseInt(entry.value);
-//				rf = RowFilter.numberFilter(entry.filter.type, num, entry.colIndex);
-			}
-//			else if (model.getColumnClass(entry.colIndex) == Double.class)
-			{
-//				double num = Double.parseDouble(entry.value);
-//				rf = RowFilter.numberFilter(entry.filter.type, num, entry.colIndex);
-//				rf = RowFilter.regexFilter(entry.value, entry.colIndex);
-			}
-
-			if (rf != null)
-				filters.add(rf);
-		}
+			if (!entry.disabled())
+				filters.add(entry.createRowFilter());
 
 		RowFilter<LineDataTableModel,Object> f = RowFilter.andFilter(filters);
 
