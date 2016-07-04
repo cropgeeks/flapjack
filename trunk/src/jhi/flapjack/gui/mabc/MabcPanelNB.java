@@ -60,9 +60,9 @@ public class MabcPanelNB extends javax.swing.JPanel
 
         bSort.setText("Sort...");
 
-        bFilter.setText("Filter");
+        bFilter.setText("Filter...");
 
-        bAuto.setText("Auto select");
+        bAuto.setText("Auto select...");
 
         jLabel1.setText("|");
 

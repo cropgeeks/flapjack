@@ -2,23 +2,24 @@ package jhi.flapjack.gui.pedver;
 
 import javax.swing.*;
 
-import jhi.flapjack.data.results.*;
 import jhi.flapjack.gui.table.*;
 
 import scri.commons.gui.*;
 
-public class PedVerPanelNB extends JPanel
+class PedVerPanelNB extends JPanel
 {
-
-	/**
-	 * Creates new form MabcPanelNB
-	 */
-	public PedVerPanelNB(PedVerPanel panel)
+	PedVerPanelNB(PedVerPanel panel)
 	{
 		initComponents();
 
+		bFilter.addActionListener(panel);
+		bFilter.setIcon(Icons.getIcon("FILTER"));
+
 		bSort.addActionListener(panel);
 		bSort.setIcon(Icons.getIcon("SORT"));
+
+		bExport.addActionListener(panel);
+		bExport.setIcon(Icons.getIcon("EXPORTTRAITS"));
 
 //		lblF1MarkerCount.setText("Expected F1 marker count: " + results.getF1MarkerCount());
 //		lblF1HetCount.setText("Expected F1 heterozygous allele count: " + results.getF1HeterozygousCount());
@@ -39,7 +40,7 @@ public class PedVerPanelNB extends JPanel
         table = new LineDataTable();
         bExport = new javax.swing.JButton();
         bSort = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        bFilter = new javax.swing.JButton();
         lblF1MarkerCount = new javax.swing.JLabel();
         lblF1HetCount = new javax.swing.JLabel();
         lblF1HetPercentage = new javax.swing.JLabel();
@@ -60,7 +61,7 @@ public class PedVerPanelNB extends JPanel
 
         bSort.setText("Sort...");
 
-        jButton3.setText("Filter");
+        bFilter.setText("Filter...");
 
         lblF1MarkerCount.setText("Expected F1 marker count: {0}");
 
@@ -78,7 +79,7 @@ public class PedVerPanelNB extends JPanel
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 415, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton3)
+                        .addComponent(bFilter)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(bSort)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -106,16 +107,16 @@ public class PedVerPanelNB extends JPanel
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(bExport)
                     .addComponent(bSort)
-                    .addComponent(jButton3))
+                    .addComponent(bFilter))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton bExport;
+    javax.swing.JButton bExport;
+    javax.swing.JButton bFilter;
     javax.swing.JButton bSort;
-    private javax.swing.JButton jButton3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblF1HetCount;
     private javax.swing.JLabel lblF1HetPercentage;
