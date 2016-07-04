@@ -21,6 +21,8 @@ public class MabcPanel extends JPanel implements ActionListener
 
 	private MabcPanelNB controls;
 
+	private int prevQTLCount = 0;
+
 	public MabcPanel(GTViewSet viewSet)
 	{
 		controls = new MabcPanelNB(this);
@@ -29,7 +31,7 @@ public class MabcPanel extends JPanel implements ActionListener
 		table = controls.table;
 
 		setLayout(new BorderLayout());
-		add(new TitlePanel("MABC Results"), BorderLayout.NORTH);
+		add(new TitlePanel(RB.getString("gui.mabc.MabcPanel.title")), BorderLayout.NORTH);
 
 //		setLayout(new BorderLayout(0, 0));
 //		setBorder(BorderFactory.createEmptyBorder(1, 1, 0, 0));
@@ -55,6 +57,7 @@ public class MabcPanel extends JPanel implements ActionListener
 		((LineDataTable)table).setViewSet(viewSet);
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e)
 	{
 		if (e.getSource() == controls.bFilter)
@@ -65,6 +68,9 @@ public class MabcPanel extends JPanel implements ActionListener
 
 		else if (e.getSource() == controls.bExport)
 			((LineDataTable)table).exportData();
+
+		else if (e.getSource() == controls.bAuto)
+			displayAutoSelectDialog();
 	}
 
 	private void handlePopup(MouseEvent e)
@@ -75,7 +81,7 @@ public class MabcPanel extends JPanel implements ActionListener
 		JPopupMenu menu = new JPopupMenu();
 
 		final JMenuItem mCopy = new JMenuItem();
-		mCopy.setText("Copy to clipboard");
+		mCopy.setText(RB.getString("gui.mabc.MabcPanel.copy"));
 		mCopy.setIcon(Icons.getIcon("COPY"));
 		mCopy.addActionListener(event ->
 		{
@@ -83,15 +89,44 @@ public class MabcPanel extends JPanel implements ActionListener
 		});
 
 		final JMenuItem mExport = new JMenuItem();
-		mExport.setText("Export to file");
+		mExport.setText(RB.getString("gui.mabc.MabcPanel.export"));
 		mExport.setIcon(Icons.getIcon("EXPORTTRAITS"));
 		mExport.addActionListener(event ->
 		{
 			((LineDataTable)table).exportData();
 		});
 
+		final JMenuItem mAutoSelect = new JMenuItem();
+		mAutoSelect.setText(RB.getString("gui.mabc.MabcPanel.autoSelect"));
+		mAutoSelect.setIcon(Icons.getIcon("AUTOSELECT"));
+		mAutoSelect.addActionListener(event ->
+		{
+			displayAutoSelectDialog();
+		});
+
 		menu.add(mCopy);
 		menu.add(mExport);
+		menu.add(mAutoSelect);
 		menu.show(e.getComponent(), e.getX(), e.getY());
+	}
+
+	private void displayAutoSelectDialog()
+	{
+		int qtlCount = viewSet.getLines().get(0).results().getMABCLineStats().getQTLScores().size();
+		SpinnerNumberModel sModel = new SpinnerNumberModel(prevQTLCount, 0, qtlCount, 1);
+		JSpinner spinner = new JSpinner(sModel);
+
+		int option = JOptionPane.showOptionDialog(null, spinner, RB.getString("gui.mabc.MabcPanel.autoSelectDialogTitle"),
+											JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+
+		if (option == JOptionPane.OK_OPTION)
+		{
+			int selected = model.selectQTL((int)spinner.getValue());
+			prevQTLCount = (int)spinner.getValue();
+
+			int total = model.getRowCount();
+			String message = RB.format("gui.mabc.MabcPanel.selectedLines", selected, total);
+			JOptionPane.showMessageDialog(null, message);
+		}
 	}
 }
