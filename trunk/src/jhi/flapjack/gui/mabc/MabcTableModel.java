@@ -40,8 +40,8 @@ public class MabcTableModel extends LineDataTableModel
 		rppTotalIndex = rppIndex + chrCount;
 		rppCoverageIndex = rppTotalIndex + 1;
 		qtlIndex = rppCoverageIndex + 1;
-		qtlStatusIndex = qtlIndex + (qtlCount*2);
-		selectedIndex = qtlStatusIndex + 1;
+		qtlStatusIndex = qtlCount > 0 ? qtlIndex + (qtlCount*2) : -1;
+		selectedIndex = qtlCount> 0 ? qtlStatusIndex + 1 : qtlIndex;
 		rankIndex = selectedIndex + 1;
 		commentIndex = rankIndex + 1;
 
@@ -71,7 +71,8 @@ public class MabcTableModel extends LineDataTableModel
 			qtl++;
 		}
 
-		columnNames[qtlStatusIndex] = "QTL Status Count";
+		if (qtlStatusIndex != -1)
+			columnNames[qtlStatusIndex] = "QTL Status Count";
 		columnNames[selectedIndex] = "Selected";
 		columnNames[rankIndex] = "Rank";
 		columnNames[commentIndex] = "Comments";
@@ -180,5 +181,24 @@ public class MabcTableModel extends LineDataTableModel
 
 		else if (col == commentIndex)
 			line.results().setComments((String)value);
+	}
+
+	int selectQTL(int number)
+	{
+		int selected = 0;
+		for (int i=0; i < getRowCount(); i++)
+		{
+			if ((int) getValueAt(i, qtlStatusIndex) >= number)
+			{
+				setValueAt(true, i, selectedIndex);
+				selected++;
+			}
+			else
+				setValueAt(false, i, selectedIndex);
+		}
+
+		fireTableDataChanged();
+
+		return selected;
 	}
 }
