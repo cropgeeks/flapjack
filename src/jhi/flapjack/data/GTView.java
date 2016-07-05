@@ -312,7 +312,7 @@ public class GTView extends XMLRoot
 	// Some of the operations in this method may need to be performed like a
 	// "deep copy", as we want the clone to have its own copy of everything and
 	// not just references back to the originals
-	GTView createClone(GTViewSet clonedViewSet, boolean selectedMrkrsOnly)
+	public GTView createClone(GTViewSet clonedViewSet, boolean selectedMrkrsOnly)
 	{
 		GTView clone = new GTView(clonedViewSet, map, false);
 
