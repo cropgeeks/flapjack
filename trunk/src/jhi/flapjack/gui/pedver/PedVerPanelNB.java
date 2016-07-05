@@ -18,7 +18,7 @@ class PedVerPanelNB extends JPanel
 		bSort.addActionListener(panel);
 		bSort.setIcon(Icons.getIcon("SORT"));
 
-		bExport.addActionListener(panel);
+		bExport.setPopup(((LineDataTable)table).getExportMenu());
 		bExport.setIcon(Icons.getIcon("EXPORTTRAITS"));
 
 //		lblF1MarkerCount.setText("Expected F1 marker count: " + results.getF1MarkerCount());
@@ -38,12 +38,12 @@ class PedVerPanelNB extends JPanel
 
         jScrollPane1 = new javax.swing.JScrollPane();
         table = new LineDataTable();
-        bExport = new javax.swing.JButton();
         bSort = new javax.swing.JButton();
         bFilter = new javax.swing.JButton();
         lblF1MarkerCount = new javax.swing.JLabel();
         lblF1HetCount = new javax.swing.JLabel();
         lblF1HetPercentage = new javax.swing.JLabel();
+        bExport = new scri.commons.gui.matisse.MenuButton();
 
         table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][]
@@ -57,8 +57,6 @@ class PedVerPanelNB extends JPanel
         ));
         jScrollPane1.setViewportView(table);
 
-        bExport.setText("Export");
-
         bSort.setText("Sort...");
 
         bFilter.setText("Filter...");
@@ -68,6 +66,8 @@ class PedVerPanelNB extends JPanel
         lblF1HetCount.setText("Expected F1 heterozygous allele count: {0}");
 
         lblF1HetPercentage.setText("Expected F1 heterozygous allele percentage: {0}");
+
+        bExport.setText("Export");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -83,7 +83,7 @@ class PedVerPanelNB extends JPanel
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(bSort)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(bExport))
+                        .addComponent(bExport, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblF1MarkerCount)
@@ -105,16 +105,16 @@ class PedVerPanelNB extends JPanel
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 27, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(bExport)
                     .addComponent(bSort)
-                    .addComponent(bFilter))
+                    .addComponent(bFilter)
+                    .addComponent(bExport, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    javax.swing.JButton bExport;
+    scri.commons.gui.matisse.MenuButton bExport;
     javax.swing.JButton bFilter;
     javax.swing.JButton bSort;
     private javax.swing.JScrollPane jScrollPane1;

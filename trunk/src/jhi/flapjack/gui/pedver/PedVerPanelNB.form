@@ -54,9 +54,9 @@
               <Component id="jScrollPane1" pref="27" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="bExport" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="bSort" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="bFilter" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="bExport" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -84,14 +84,6 @@
         </Component>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JButton" name="bExport">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Export"/>
-      </Properties>
-      <AuxValues>
-        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
-      </AuxValues>
-    </Component>
     <Component class="javax.swing.JButton" name="bSort">
       <Properties>
         <Property name="text" type="java.lang.String" value="Sort..."/>
@@ -122,6 +114,14 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Expected F1 heterozygous allele percentage: {0}"/>
       </Properties>
+    </Component>
+    <Component class="scri.commons.gui.matisse.MenuButton" name="bExport">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Export"/>
+      </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
+      </AuxValues>
     </Component>
   </SubComponents>
 </Form>

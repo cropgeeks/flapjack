@@ -67,9 +67,6 @@ public class PedVerLinesPanel extends JPanel implements ActionListener
 
 		else if (e.getSource() == controls.bSort)
 			((LineDataTable)table).multiColumnSort();
-
-		else if (e.getSource() == controls.bExport)
-			((LineDataTable)table).exportData();
 	}
 
 	public void modelChanged()

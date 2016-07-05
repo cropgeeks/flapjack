@@ -13,8 +13,8 @@ import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.filechooser.*;
 import javax.swing.table.*;
-import jhi.flapjack.analysis.SortLinesByLineDataModel;
 
+import jhi.flapjack.analysis.*;
 import jhi.flapjack.data.*;
 import jhi.flapjack.gui.*;
 
@@ -130,7 +130,66 @@ public class LineDataTable extends JTable
 		return super.getValueAt(row, column);
 	}
 */
-	public void exportData()
+	public JPopupMenu getExportMenu()
+	{
+		JPopupMenu menu = new JPopupMenu();
+
+		JMenuItem exportAll = new JMenuItem("Export all lines");
+		exportAll.addActionListener(e -> exportData(false));
+
+		JMenuItem exportSelected = new JMenuItem("Export selected lines");
+		exportSelected.addActionListener(e -> exportData(true));
+
+		menu.add(exportAll);
+		menu.add(exportSelected);
+
+		return menu;
+	}
+
+	public JPopupMenu getPopupMenu()
+	{
+		JPopupMenu menu = new JPopupMenu();
+
+		final JMenuItem mCopy = new JMenuItem();
+		mCopy.setText(RB.getString("gui.mabc.MabcPanel.copy"));
+		mCopy.setIcon(Icons.getIcon("COPY"));
+		mCopy.addActionListener(e -> copyTableToClipboard());
+
+		final JMenuItem mFilter = new JMenuItem();
+		mFilter.setText("Filter...");
+		mFilter.setIcon(Icons.getIcon("FILTER"));
+		mFilter.addActionListener(e -> filter());
+
+		final JMenuItem mSort = new JMenuItem();
+		mSort.setText("Sort...");
+		mSort.setIcon(Icons.getIcon("SORT"));
+		mSort.addActionListener(e -> multiColumnSort());
+
+		final JMenu menuExport = new JMenu();
+		menuExport.setText(RB.getString("gui.mabc.MabcPanel.export"));
+		menuExport.setIcon(Icons.getIcon("EXPORTTRAITS"));
+
+		final JMenuItem mExportAll = new JMenuItem();
+		mExportAll.setText("Export all lines");
+		mExportAll.addActionListener(e -> exportData(false));
+
+		final JMenuItem mExportSelected = new JMenuItem();
+		mExportSelected.setText("Export selected lines");
+		mExportSelected.addActionListener(e -> exportData(true));
+
+		menuExport.add(mExportAll);
+		menuExport.add(mExportSelected);
+
+		menu.add(mCopy);
+		menu.addSeparator();
+		menu.add(mFilter);
+		menu.add(mSort);
+		menu.add(menuExport);
+
+		return menu;
+	}
+
+	public void exportData(boolean onlySelected)
 	{
 		String name = "table-data.txt";
 		File saveAs = new File(Prefs.guiCurrentDir, name);
@@ -144,7 +203,7 @@ public class LineDataTable extends JTable
 		if (filename == null)
 			return;
 
-		LineDataTableExporter exporter = new LineDataTableExporter(this, new File(filename));
+		LineDataTableExporter exporter = new LineDataTableExporter(this, new File(filename), onlySelected);
 		ProgressDialog dialog = new ProgressDialog(exporter,
 			RB.format("gui.dialog.ExportDataDialog.exportTitle"),
 			RB.format("gui.dialog.ExportDataDialog.exportLabel"), Flapjack.winMain);

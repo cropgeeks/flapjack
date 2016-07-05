@@ -67,9 +67,6 @@ public class MabcPanel extends JPanel implements ActionListener, ListSelectionLi
 		else if (e.getSource() == controls.bSort)
 			((LineDataTable)table).multiColumnSort();
 
-		else if (e.getSource() == controls.bExport)
-			((LineDataTable)table).exportData();
-
 		else if (e.getSource() == controls.bAuto)
 			displayAutoSelectDialog();
 
@@ -92,35 +89,23 @@ public class MabcPanel extends JPanel implements ActionListener, ListSelectionLi
 		if (e.isPopupTrigger() == false)
 			return;
 
-		JPopupMenu menu = new JPopupMenu();
+		JPopupMenu menu = ((LineDataTable)table).getPopupMenu();
 
-		final JMenuItem mCopy = new JMenuItem();
-		mCopy.setText(RB.getString("gui.mabc.MabcPanel.copy"));
-		mCopy.setIcon(Icons.getIcon("COPY"));
-		mCopy.addActionListener(event ->
-		{
-			((LineDataTable)table).copyTableToClipboard();
-		});
+		final JMenuItem mSelect = new JMenuItem();
+		mSelect.setText(RB.getString("gui.mabc.MabcPanel.autoSelect"));
+		mSelect.setIcon(Icons.getIcon("AUTOSELECT"));
+		mSelect.addActionListener(event -> displayAutoSelectDialog());
 
-		final JMenuItem mExport = new JMenuItem();
-		mExport.setText(RB.getString("gui.mabc.MabcPanel.export"));
-		mExport.setIcon(Icons.getIcon("EXPORTTRAITS"));
-		mExport.addActionListener(event ->
-		{
-			((LineDataTable)table).exportData();
-		});
+		final JMenuItem mRank = new JMenuItem();
+		mRank.setText("Rank...");
+		mRank.setIcon(Icons.getIcon("RANK"));
+		mRank.addActionListener(event -> rankSelectedLines());
+		mRank.setEnabled(table.getSelectionModel().getMinSelectionIndex() != -1);
 
-		final JMenuItem mAutoSelect = new JMenuItem();
-		mAutoSelect.setText(RB.getString("gui.mabc.MabcPanel.autoSelect"));
-		mAutoSelect.setIcon(Icons.getIcon("AUTOSELECT"));
-		mAutoSelect.addActionListener(event ->
-		{
-			displayAutoSelectDialog();
-		});
+		menu.add(mSelect, 0);
+		menu.add(mRank, 1);
+		menu.add(new JPopupMenu.Separator(), 2);
 
-		menu.add(mCopy);
-		menu.add(mExport);
-		menu.add(mAutoSelect);
 		menu.show(e.getComponent(), e.getX(), e.getY());
 	}
 

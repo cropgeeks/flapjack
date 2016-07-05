@@ -134,7 +134,7 @@ public class GenerateMABCStats
 		table.setModel(model);
 		table.setViewSet(viewSet);
 
-		LineDataTableExporter exporter = new LineDataTableExporter(table, new File(filename));
+		LineDataTableExporter exporter = new LineDataTableExporter(table, new File(filename), false);
 		exporter.runJob(0);
 	}
 }
