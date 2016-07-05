@@ -220,7 +220,7 @@ public class LineDataTable extends JTable
 	{
 		StringBuilder text = new StringBuilder();
 		String newline = System.getProperty("line.separator");
-		NumberFormat nf = NumberFormat.getInstance();
+		DecimalFormat df = new DecimalFormat("#.#########");;
 
 		// Column headers
 		for (int c = 0; c < model.getColumnCount(); c++)
@@ -238,7 +238,7 @@ public class LineDataTable extends JTable
 			{
 				Object obj = model.getValueAt(row, c);
 				if (obj instanceof Float || obj instanceof Double)
-					text.append(nf.format(obj));
+					text.append(df.format(obj));
 				else
 					text.append(obj);
 
