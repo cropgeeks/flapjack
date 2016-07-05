@@ -7,9 +7,10 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 import java.net.*;
-import java.lang.reflect.*;
 import javax.swing.*;
 import javax.swing.filechooser.*;
+
+import jhi.flapjack.data.*;
 
 import scri.commons.gui.*;
 import scri.commons.io.*;
@@ -166,5 +167,17 @@ public class FlapjackUtils
 			return logFile;
 		}
 		catch (Throwable e) { return new File(""); }
+	}
+
+	public static void addAllChromosomesViewToClonedViewSet(GTViewSet originalViewSet, GTViewSet clonedViewSet)
+	{
+		for (GTView view : originalViewSet.getViews())
+		{
+			if (view.getChromosomeMap().isSpecialChromosome())
+			{
+				GTView clone = view.createClone(clonedViewSet, true);
+				clonedViewSet.addView(clone);
+			}
+		}
 	}
 }
