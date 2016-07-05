@@ -1,7 +1,9 @@
 package jhi.flapjack.gui.table;
 
 import java.io.*;
-import java.text.NumberFormat;
+import java.text.*;
+
+import jhi.flapjack.data.*;
 
 import scri.commons.gui.*;
 
@@ -12,13 +14,17 @@ public class LineDataTableExporter extends SimpleJob
 {
 	private final LineDataTable table;
 	private final File file;
+	private final boolean onlySelected;
 
-	private final NumberFormat nf = NumberFormat.getInstance();
+	private final DecimalFormat df;
 
-	public LineDataTableExporter(LineDataTable table, File file)
+	public LineDataTableExporter(LineDataTable table, File file, boolean onlySelected)
 	{
 		this.table = table;
 		this.file = file;
+		this.onlySelected = onlySelected;
+
+		df = new DecimalFormat("#.#########");
 	}
 
 	@Override
@@ -39,12 +45,17 @@ public class LineDataTableExporter extends SimpleJob
 		// Print table data
 		for (int row = 0; row < table.getRowCount(); row++)
 		{
+			LineInfo line = (LineInfo)table.getValueAt(table.convertRowIndexToModel(row), 0);
+			if (onlySelected && !line.getSelected())
+				continue;
+
 			StringBuilder builder = new StringBuilder();
 			for (int col=0; col < table.getColumnCount(); col++)
 			{
 				Object obj = table.getValueAt(table.convertRowIndexToModel(row), col);
+
 				if (obj instanceof Float || obj instanceof Double)
-					builder.append(nf.format(obj));
+					builder.append(df.format(obj));
 				else
 					builder.append(table.getValueAt(table.convertRowIndexToModel(row), col));
 
