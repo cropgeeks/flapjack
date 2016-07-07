@@ -100,6 +100,16 @@ public class FilterColumn extends AbstractColumn
 		return (filter == NONE || (filter < FALSE && value == null));
 	}
 
+	Double convert(Object o)
+	{
+		if (o instanceof Double)
+			return (Double)o;
+		else if (o instanceof Integer)
+			return (double)(Integer)o;
+
+		return null;
+	}
+
 	RowFilter<LineDataTableModel, Object> createRowFilter()
 	{
 		if (colClass != Boolean.class)
@@ -114,7 +124,7 @@ public class FilterColumn extends AbstractColumn
 				case LESS_THAN_EQ:
 					return new RowFilter<LineDataTableModel, Object>() {
 						public boolean include(Entry<? extends LineDataTableModel, ? extends Object> entry)
-							{ return (((Double)entry.getValue(colIndex)) <= value); }
+							{ return convert(entry.getValue(colIndex)) <= value; }
 					};
 
 				case EQUAL:
@@ -123,7 +133,7 @@ public class FilterColumn extends AbstractColumn
 				case GREATER_THAN_EQ:
 					return new RowFilter<LineDataTableModel, Object>() {
 						public boolean include(Entry<? extends LineDataTableModel, ? extends Object> entry)
-							{ return (((Double)entry.getValue(colIndex)) >= value); }
+							{ return convert(entry.getValue(colIndex)) >= value; }
 					};
 
 				case GREATER_THAN:
