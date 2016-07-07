@@ -25,12 +25,14 @@ public class FilterDialog extends JDialog implements ActionListener
 		return dialog;
 	}
 
+	// Changes the text of the dialog to make it appear like a Select dialog
 	public static FilterDialog getSelectDialog(FilterColumn[] allCols, FilterColumn[] lastUsedCols)
 	{
 		FilterDialog dialog = new FilterDialog(allCols, lastUsedCols);
 
 		dialog.setTitle(RB.getString("gui.table.FilterDialog.titleAS"));
 		RB.setText(dialog.bFilter, "gui.table.FilterDialog.bFilterAS");
+		dialog.model.setColumnName(1, RB.getString("gui.table.FilterDialog.col2AS"));
 		dialog.setVisible(true);
 
 		return dialog;

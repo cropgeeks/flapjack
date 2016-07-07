@@ -4,11 +4,7 @@
 package jhi.flapjack.gui.table;
 
 import java.util.*;
-import javax.swing.*;
 import javax.swing.table.*;
-
-import jhi.flapjack.data.*;
-import jhi.flapjack.gui.*;
 
 import scri.commons.gui.*;
 
@@ -51,6 +47,13 @@ class FilterDialogTableModel extends AbstractTableModel
 	public String getColumnName(int col)
 	{
 		return columnNames[col];
+	}
+
+	// Override used for toggling between 'filter' or 'criteria' display
+	void setColumnName(int col, String name)
+	{
+		columnNames[col] = name;
+		fireTableStructureChanged();
 	}
 
 	@Override
