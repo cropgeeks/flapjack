@@ -67,7 +67,7 @@ public class MabcPanel extends JPanel implements ActionListener, ListSelectionLi
 		else if (e.getSource() == controls.bSort)
 			((LineDataTable)table).multiColumnSort();
 
-		else if (e.getSource() == controls.bAuto)
+		else if (e.getSource() == controls.bSelect)
 			displayAutoSelectDialog();
 
 		else if (e.getSource() == controls.bRank)

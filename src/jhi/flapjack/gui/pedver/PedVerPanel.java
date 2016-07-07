@@ -5,6 +5,7 @@ package jhi.flapjack.gui.pedver;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.*;
 import javax.swing.*;
 
 import jhi.flapjack.data.*;
@@ -17,6 +18,9 @@ public class PedVerPanel extends JPanel implements ActionListener
 	private PedVerTableModel model;
 
 	private PedVerPanelNB controls;
+
+	// Remembers the last set of auto-select values used
+	private FilterColumn[] lastSelect;
 
 	public PedVerPanel(GTViewSet viewSet)
 	{
@@ -49,10 +53,27 @@ public class PedVerPanel extends JPanel implements ActionListener
 
 		else if (e.getSource() == controls.bSort)
 			((LineDataTable)table).multiColumnSort();
+
+		else if (e.getSource() == controls.bSelect)
+			displayAutoSelectDialog();
 	}
 
 	public void modelChanged()
 	{
 		model.fireTableStructureChanged();
+	}
+
+	public void displayAutoSelectDialog()
+	{
+		FilterDialog dialog = FilterDialog.getSelectDialog(model.getFilterableColumns(), lastSelect);
+		if (dialog.isOK() == false)
+			return;
+
+		// Get the list of columns to use for selection
+		FilterColumn[] data = dialog.getResults();
+		// Remember it for next time in case the user runs it again
+		lastSelect = dialog.getResults();
+
+		model.selectLines(data);
 	}
 }

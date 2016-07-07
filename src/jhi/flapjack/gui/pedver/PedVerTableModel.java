@@ -26,7 +26,7 @@ class PedVerTableModel extends LineDataTableModel
 
 	void initModel()
 	{
-		columnNames = new String[] { "Line", "Marker count", "% missing",
+		columnNames = new String[] { "Line", "Selected", "Marker count", "% missing",
 			"Het count", "% het", "% deviation from expected", "Count P1 contained",
 			"% P1 contained", "Count P2 contained", "% P2 contained",
 			"Count allele match to expected", "% allele match to expected" };
@@ -49,26 +49,29 @@ class PedVerTableModel extends LineDataTableModel
 			return null;
 
 		else if (col == 1)
-			return stats.getMarkerCount();
+			return line.getSelected();
+
 		else if (col == 2)
-			return stats.getPercentMissing();
+			return stats.getMarkerCount();
 		else if (col == 3)
-			return stats.getHeterozygousCount();
+			return stats.getPercentMissing();
 		else if (col == 4)
-			return stats.getPercentHeterozygous();
+			return stats.getHeterozygousCount();
 		else if (col == 5)
-			return stats.getPercentDeviationFromExpected();
+			return stats.getPercentHeterozygous();
 		else if (col == 6)
-			return stats.getCountP1Contained();
+			return stats.getPercentDeviationFromExpected();
 		else if (col == 7)
-			return stats.getPercentP1Contained();
+			return stats.getCountP1Contained();
 		else if (col == 8)
-			return stats.getCountP2Contained();
+			return stats.getPercentP1Contained();
 		else if (col == 9)
-			return stats.getPercentP2Contained();
+			return stats.getCountP2Contained();
 		else if (col == 10)
-			return stats.getCountAlleleMatchExpected();
+			return stats.getPercentP2Contained();
 		else if (col == 11)
+			return stats.getCountAlleleMatchExpected();
+		else if (col == 12)
 			return stats.getPercentAlleleMatchExpected();
 
 		return -1;
@@ -79,7 +82,49 @@ class PedVerTableModel extends LineDataTableModel
 	{
 		if (col == 0)
 			return LineInfo.class;
+		else if (col == 1)
+			return Boolean.class;
 		else
 			return Double.class;
+	}
+
+	@Override
+	public boolean isCellEditable(int row, int col)
+	{
+		return (col == 1);
+	}
+
+	@Override
+	public void setValueAt(Object value, int row, int col)
+	{
+		LineInfo line = (LineInfo) getValueAt(row, 0);
+
+		if (col == 1)
+			line.setSelected((boolean)value);
+	}
+
+	void selectLines(FilterColumn[] data)
+	{
+		for (int i = 0; i < getRowCount(); i++)
+		{
+			LineInfo line = (LineInfo) getValueAt(i, 0);
+			line.setSelected(false);
+
+			boolean newState = true;
+			for (FilterColumn entry: data)
+			{
+				if (entry.disabled())
+					continue;
+
+				Object value = getValueAt(i, entry.colIndex);
+
+				if (entry.matches(value) == false)
+					newState = false;
+
+				line.setSelected(newState);
+			}
+		}
+
+		fireTableDataChanged();
 	}
 }

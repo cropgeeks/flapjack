@@ -92,7 +92,7 @@ public class FilterColumn extends AbstractColumn
 		return combo;
 	}
 
-	boolean disabled()
+	public boolean disabled()
 	{
 		// This isn't a usable filter, if:
 		//   - it's set to none
@@ -104,33 +104,33 @@ public class FilterColumn extends AbstractColumn
 	{
 		if (colClass != Boolean.class)
 		{
-			double num = Double.parseDouble(value);
+			double value = Double.parseDouble(this.value);
 
 			switch (filter)
 			{
 				case LESS_THAN:
-					return RowFilter.numberFilter(RowFilter.ComparisonType.BEFORE, num, colIndex);
+					return RowFilter.numberFilter(RowFilter.ComparisonType.BEFORE, value, colIndex);
 
 				case LESS_THAN_EQ:
 					return new RowFilter<LineDataTableModel, Object>() {
 						public boolean include(Entry<? extends LineDataTableModel, ? extends Object> entry)
-							{ return (((Double)entry.getValue(colIndex)) <= num); }
+							{ return (((Double)entry.getValue(colIndex)) <= value); }
 					};
 
 				case EQUAL:
-					return RowFilter.numberFilter(RowFilter.ComparisonType.EQUAL, num, colIndex);
+					return RowFilter.numberFilter(RowFilter.ComparisonType.EQUAL, value, colIndex);
 
 				case GREATER_THAN_EQ:
 					return new RowFilter<LineDataTableModel, Object>() {
 						public boolean include(Entry<? extends LineDataTableModel, ? extends Object> entry)
-							{ return (((Double)entry.getValue(colIndex)) >= num); }
+							{ return (((Double)entry.getValue(colIndex)) >= value); }
 					};
 
 				case GREATER_THAN:
-					return RowFilter.numberFilter(RowFilter.ComparisonType.AFTER, num, colIndex);
+					return RowFilter.numberFilter(RowFilter.ComparisonType.AFTER, value, colIndex);
 
 				case NOT_EQUAL:
-					return RowFilter.numberFilter(RowFilter.ComparisonType.NOT_EQUAL, num, colIndex);
+					return RowFilter.numberFilter(RowFilter.ComparisonType.NOT_EQUAL, value, colIndex);
 			}
 		}
 
@@ -143,5 +143,36 @@ public class FilterColumn extends AbstractColumn
 		}
 
 		return null;
+	}
+
+	// This is used when we're using the FilterColumn objects to auto-select
+	// values in the table. It's a simple does the entry in the given column
+	// match the value of this 'filter'
+	public boolean matches(Object oEntry)
+	{
+		if (colClass != Boolean.class)
+		{
+			double entry = Double.parseDouble(oEntry.toString());
+			double value = Double.parseDouble(this.value);
+
+			switch (filter)
+			{
+				case LESS_THAN:       return entry < value;
+				case LESS_THAN_EQ:    return entry <= value;
+				case EQUAL:           return entry == value;
+				case GREATER_THAN_EQ: return entry >= value;
+				case GREATER_THAN:    return entry > value;
+				case NOT_EQUAL:       return entry != value;
+			}
+		}
+		else
+		{
+			if (filter == FALSE)
+				return (Boolean)oEntry == false;
+			else
+				return (Boolean)oEntry == true;
+		}
+
+		return false;
 	}
 }

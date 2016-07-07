@@ -270,7 +270,7 @@ public class LineDataTable extends JTable
 
 	public void filter()
 	{
-		FilterDialog dialog = new FilterDialog(model.getFilterableColumns(), lastFilter);
+		FilterDialog dialog = FilterDialog.getFilterDialog(model.getFilterableColumns(), lastFilter);
 		if (dialog.isOK() == false)
 			return;
 
