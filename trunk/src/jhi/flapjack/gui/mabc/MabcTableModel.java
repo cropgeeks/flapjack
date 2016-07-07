@@ -170,7 +170,7 @@ public class MabcTableModel extends LineDataTableModel
 	@Override
 	public void setValueAt(Object value, int row, int col)
 	{
-		LineInfo line = viewSet.getLines().get(row);
+		LineInfo line = (LineInfo) getValueAt(row, 0);
 		MABCLineStats stats = line.results().getMABCLineStats();
 
 		if (col == selectedIndex)

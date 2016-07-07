@@ -17,7 +17,26 @@ public class FilterDialog extends JDialog implements ActionListener
 	private boolean isOK = false;
 	private FilterDialogTableModel model;
 
-	public FilterDialog(FilterColumn[] allCols, FilterColumn[] lastUsedCols)
+	public static FilterDialog getFilterDialog(FilterColumn[] allCols, FilterColumn[] lastUsedCols)
+	{
+		FilterDialog dialog = new FilterDialog(allCols, lastUsedCols);
+		dialog.setVisible(true);
+
+		return dialog;
+	}
+
+	public static FilterDialog getSelectDialog(FilterColumn[] allCols, FilterColumn[] lastUsedCols)
+	{
+		FilterDialog dialog = new FilterDialog(allCols, lastUsedCols);
+
+		dialog.setTitle(RB.getString("gui.table.FilterDialog.titleAS"));
+		RB.setText(dialog.bFilter, "gui.table.FilterDialog.bFilterAS");
+		dialog.setVisible(true);
+
+		return dialog;
+	}
+
+	private FilterDialog(FilterColumn[] allCols, FilterColumn[] lastUsedCols)
 	{
 		super(Flapjack.winMain, RB.getString("gui.table.FilterDialog.title"), true);
 
@@ -39,6 +58,15 @@ public class FilterDialog extends JDialog implements ActionListener
 		pack();
 		setLocationRelativeTo(Flapjack.winMain);
 		setResizable(false);
+	}
+
+	// We construct the dialog on the assumption of use as a 'Filter' (as seen
+	// by the user), but if isAutoSelect=true, then we'll change the buttons so
+	// it can be used as a 'Select' dialog instead
+	public void setUsageAndDisplay(boolean isAutoSelect)
+	{
+		setTitle(RB.getString("gui.table.FilterDialog.titleAS"));
+
 		setVisible(true);
 	}
 

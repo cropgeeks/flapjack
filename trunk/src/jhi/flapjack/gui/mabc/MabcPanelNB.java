@@ -19,8 +19,8 @@ public class MabcPanelNB extends javax.swing.JPanel
 		bExport.setPopup(((LineDataTable)table).getExportMenu());
 		bExport.setIcon(Icons.getIcon("EXPORTTRAITS"));
 
-		bAuto.addActionListener(panel);
-		bAuto.setIcon(Icons.getIcon("AUTOSELECT"));
+		bSelect.addActionListener(panel);
+		bSelect.setIcon(Icons.getIcon("AUTOSELECT"));
 
 		bRank.addActionListener(panel);
 		bRank.setIcon(Icons.getIcon("RANK"));
@@ -41,7 +41,7 @@ public class MabcPanelNB extends javax.swing.JPanel
         table = new LineDataTable();
         bSort = new javax.swing.JButton();
         bFilter = new javax.swing.JButton();
-        bAuto = new javax.swing.JButton();
+        bSelect = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         filler3 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
         filler4 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
@@ -64,7 +64,7 @@ public class MabcPanelNB extends javax.swing.JPanel
 
         bFilter.setText("Filter...");
 
-        bAuto.setText("Select...");
+        bSelect.setText("Select...");
 
         jLabel1.setText("|");
 
@@ -80,7 +80,7 @@ public class MabcPanelNB extends javax.swing.JPanel
             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 492, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(bAuto)
+                .addComponent(bSelect)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(bRank)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -107,7 +107,7 @@ public class MabcPanelNB extends javax.swing.JPanel
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(bSort)
                             .addComponent(bFilter)
-                            .addComponent(bAuto)
+                            .addComponent(bSelect)
                             .addComponent(jLabel1)
                             .addComponent(bRank)
                             .addComponent(bExport, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -123,10 +123,10 @@ public class MabcPanelNB extends javax.swing.JPanel
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    javax.swing.JButton bAuto;
     scri.commons.gui.matisse.MenuButton bExport;
     javax.swing.JButton bFilter;
     javax.swing.JButton bRank;
+    javax.swing.JButton bSelect;
     javax.swing.JButton bSort;
     private javax.swing.Box.Filler filler3;
     private javax.swing.Box.Filler filler4;
