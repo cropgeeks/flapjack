@@ -35,9 +35,6 @@ public class LineDataTable extends JTable
 
 	public LineDataTable()
 	{
-		setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-//		getTableHeader().setReorderingAllowed(false);
-
 		setDefaultRenderer(String.class, new ColoredCellRenderer());
 		setDefaultRenderer(Float.class, new ColoredCellRenderer());
 		setDefaultRenderer(Double.class, new ColoredCellRenderer());
@@ -116,6 +113,15 @@ public class LineDataTable extends JTable
 	{
 		this.viewSet = viewSet;
 	}
+
+	public void autoResize(boolean autoResize)
+	{
+		if (autoResize)
+			setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+		else
+			setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+	}
+
 
 /*	@Override
 	public Object getValueAt(int row, int column)

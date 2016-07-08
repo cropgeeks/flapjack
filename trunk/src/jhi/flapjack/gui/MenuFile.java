@@ -139,15 +139,15 @@ public class MenuFile
 
 	public void fileImportSelect()
 	{
-		DataSourceDialog dialog = new DataSourceDialog();
+//		DataSourceDialog dialog = new DataSourceDialog();
 
-		if (dialog.isOK() == false)
-			return;
+//		if (dialog.isOK() == false)
+//			return;
 
-		if (Prefs.guiImportType == 0)
+//		if (Prefs.guiImportType == 0)
 			fileImport(0);
-		else
-			fileBrapi();
+//		else
+//			fileBrapi();
 	}
 
 	private void fileBrapi()
