@@ -10,6 +10,7 @@ import scri.commons.gui.*;
 
 public class PedVerF1Stats extends SimpleJob
 {
+	private GTViewSet viewSet;
 	private AnalysisSet as;
 	private StateTable stateTable;
 
@@ -21,13 +22,34 @@ public class PedVerF1Stats extends SimpleJob
 	private int totalMarkerCount = 0;
 	private float f1PercentCount = 0;
 
-	public PedVerF1Stats(AnalysisSet as, StateTable stateTable, int parent1Index, int parent2Index, int f1Index)
+	public PedVerF1Stats(GTViewSet viewSet, boolean[] selectedChromosomes, int parent1Index, int parent2Index, int f1Index)
 	{
-		this.as = as;
-		this.stateTable = stateTable;
+		this.viewSet = viewSet;
+		this.stateTable = viewSet.getDataSet().getStateTable();
 		this.parent1Index = parent1Index;
 		this.parent2Index = parent2Index;
 		this.f1Index = f1Index;
+
+		moveParentsToTop();
+
+		as = new AnalysisSet(viewSet)
+		.withViews(selectedChromosomes)
+		.withSelectedLines()
+		.withSelectedMarkers();
+	}
+
+	private void moveParentsToTop()
+	{
+		LineInfo p1 = viewSet.getLines().get(parent1Index);
+		LineInfo p2 = viewSet.getLines().get(parent2Index);
+		LineInfo f1 = viewSet.getLines().get(f1Index);
+
+		// Move the parent lines to the top of the display
+		GTView view = viewSet.getView(0);
+		view.moveLine(viewSet.getLines().indexOf(p1), 0);
+		view.moveLine(viewSet.getLines().indexOf(p2), 1);
+		// Move the f1 to just below the parents
+		view.moveLine(viewSet.getLines().indexOf(f1), 2);
 	}
 
 	public void runJob(int index)
@@ -46,21 +68,19 @@ public class PedVerF1Stats extends SimpleJob
 
 	private PedVerKnownParentsLineStats calculateStatsForLine(int lineIndex)
 	{
-		PedVerStats stats = new PedVerStats(as, stateTable);
-
 		LineInfo lineInfo = as.getLine(lineIndex);
 		PedVerKnownParentsLineStats lineStat = new PedVerKnownParentsLineStats(lineInfo);
 		lineInfo.results().setPedVerStats(lineStat);
 
-		int foundMarkers = stats.nonMissingAllelesForLine(lineIndex);
-		int hetMarkers = stats.hetAllelesForLine(lineIndex);
-		int p1Contained = stats.matchesAnyAlleleCount(parent1Index, lineIndex);
-		int p2Contained = stats.matchesAnyAlleleCount(parent2Index, lineIndex);
-		int matchesExpF1 = stats.matchesAlleleCount(f1Index, lineIndex);
+		int foundMarkers = usableMarkerCount(lineIndex);
+		int hetMarkers = hetMarkerCount(lineIndex);
+		int p1Contained = containedInLine(lineIndex, parent1Index);
+		int p2Contained = containedInLine(lineIndex, parent2Index);
+		int matchesExpF1 = matchesExpF1(lineIndex);
 
 		lineStat.setLine(lineInfo);
 		lineStat.setMarkerCount(foundMarkers);
-		lineStat.setPercentMissing((1 - (foundMarkers / (float) totalMarkerCount)) * 100);
+		lineStat.setPercentDeviationFromExpected((1 - (foundMarkers / (float) totalMarkerCount)) * 100);
 		lineStat.setHeterozygousCount(hetMarkers);
 		lineStat.setPercentHeterozygous((hetMarkers / (float)foundMarkers) * 100);
 		lineStat.setPercentDeviationFromExpected(f1PercentCount - ((hetMarkers / (float)foundMarkers) * 100));
@@ -74,23 +94,112 @@ public class PedVerF1Stats extends SimpleJob
 		return lineStat;
 	}
 
+	 // Loops over all the alleles in the expected F1 as identified by f1Index
+	 // and counts the total number of usable markers and the total number of
+	 // heterozygous alleles. Finally it calculates the percentage of alleles in
+	 //the (expected) F1 line that are heterozygous.
 	private void calculateExpectedF1Stats()
 	{
 		for (int c = 0; c < as.viewCount(); c++)
 		{
-			totalMarkerCount += as.markerCount(c);
 			for (int m = 0; m < as.markerCount(c); m++)
 			{
-				int stateCode = as.getState(c, f1Index, m);
-				if (stateTable.isHet(stateCode))
-					f1HetCount++;
+				if (isUsableMarker(c, f1Index, m))
+				{
+					totalMarkerCount++;
+
+					int stateCode = as.getState(c, f1Index, m);
+					if (stateTable.isHet(stateCode))
+						f1HetCount++;
+				}
 			}
 		}
 		f1PercentCount = (f1HetCount / (float)totalMarkerCount) * 100;
 	}
 
-	public PedVerKnownParentsResults getResult()
+	// Checks to see if this allele is usable. It first checks that the allele
+	// itself isn't unknown, then checks that the parental and f1 alleles at
+	// this location aren't known. Finally it checks that the parental alleles
+	// aren't hets at this location.
+	private boolean isUsableMarker(int chr, int line, int marker)
 	{
-		return null;
+		return as.getState(chr, line, marker) != 0
+			&& as.getState(chr, parent1Index, marker) != 0
+			&& as.getState(chr, parent2Index, marker) != 0
+			&& as.getState(chr, f1Index, marker) != 0
+			&& !stateTable.isHet(as.getState(chr, parent1Index, marker))
+			&& !stateTable.isHet(as.getState(chr, parent2Index, marker));
+	}
+
+	private int usableMarkerCount(int lineIndex)
+	{
+		int foundMarkers = 0;
+
+		for (int c = 0; c < as.viewCount(); c++)
+			for (int m = 0; m < as.markerCount(c); m++)
+				if (isUsableMarker(c, lineIndex, m))
+					foundMarkers++;
+
+		return foundMarkers;
+	}
+
+	private int hetMarkerCount(int lineIndex)
+	{
+		int hetMarkers = 0;
+
+		for (int c = 0; c < as.viewCount(); c++)
+			for (int m = 0; m < as.markerCount(c); m++)
+				if (isUsableMarker(c, lineIndex, m) && stateTable.isHet(as.getState(c, lineIndex, m)))
+					hetMarkers++;
+
+		return hetMarkers;
+	}
+
+	// Checks if the current allele has any partial match to a given comparison
+	// line. It is likely the comparison line will be one of the two parental
+	// lines.
+	private int containedInLine(int line, int comparisonLine)
+	{
+		int contained = 0;
+
+		for (int c = 0; c < as.viewCount(); c++)
+		{
+			for (int m = 0; m < as.markerCount(c); m++)
+			{
+				if (isUsableMarker(c, line, m))
+				{
+					// Compare state code of the current line with the equivalent in test line
+					AlleleState testState = stateTable.getAlleleState(as.getState(c, comparisonLine, m));
+					AlleleState currState = stateTable.getAlleleState(as.getState(c, line, m));
+
+					if (currState.matchesAnyAllele(testState))
+						contained++;
+				}
+			}
+		}
+
+		return contained;
+	}
+
+	private int matchesExpF1(int lineIndex)
+	{
+		int matchesExpF1 = 0;
+
+		for (int c = 0; c < as.viewCount(); c++)
+		{
+			for (int m = 0; m < as.markerCount(c); m++)
+			{
+				if (isUsableMarker(c, lineIndex, m))
+				{
+					// Compare state code of the current line with the equivalent in test line
+					AlleleState testState = stateTable.getAlleleState(as.getState(c, f1Index, m));
+					AlleleState currState = stateTable.getAlleleState(as.getState(c, lineIndex, m));
+
+					if (currState.matches(testState))
+						matchesExpF1++;
+				}
+			}
+		}
+		return matchesExpF1;
 	}
 }
