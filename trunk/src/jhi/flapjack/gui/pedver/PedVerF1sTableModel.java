@@ -9,14 +9,14 @@ import jhi.flapjack.data.*;
 import jhi.flapjack.data.results.*;
 import jhi.flapjack.gui.table.*;
 
-class PedVerTableModel extends LineDataTableModel
+class PedVerF1sTableModel extends LineDataTableModel
 {
 	// This results table is *linked* with the given view
 	private GTViewSet viewSet;
 
 	private PedVerKnownParentsResults results;
 
-	PedVerTableModel(DataSet dataSet, GTViewSet viewSet)
+	PedVerF1sTableModel(DataSet dataSet, GTViewSet viewSet)
 	{
 		this.dataSet = dataSet;
 		this.viewSet = viewSet;

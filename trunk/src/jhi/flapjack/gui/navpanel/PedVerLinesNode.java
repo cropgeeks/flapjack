@@ -1,17 +1,16 @@
-package jhi.flapjack.gui.navpanel;
+// Copyright 2009-2016 Information & Computational Sciences, JHI. All rights
+// reserved. Use is subject to the accompanying licence terms.
 
-import jhi.flapjack.data.DataSet;
-import jhi.flapjack.data.GTViewSet;
-import jhi.flapjack.gui.Actions;
-import jhi.flapjack.gui.pedver.PedVerLinesPanel;
-import jhi.flapjack.gui.pedver.PedVerPanel;
-import scri.commons.gui.RB;
+package jhi.flapjack.gui.navpanel;
 
 import javax.swing.*;
 
-/**
- * Created by gs40939 on 06/05/2016.
- */
+import jhi.flapjack.data.*;
+import jhi.flapjack.gui.*;
+import jhi.flapjack.gui.pedver.*;
+
+import scri.commons.gui.RB;
+
 public class PedVerLinesNode extends BaseNode
 {
 	private PedVerLinesPanel panel;

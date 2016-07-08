@@ -12,19 +12,19 @@ import jhi.flapjack.data.*;
 import jhi.flapjack.gui.*;
 import jhi.flapjack.gui.table.*;
 
-public class PedVerPanel extends JPanel implements ActionListener
+public class PedVerF1sPanel extends JPanel implements ActionListener
 {
 	private JTable table;
-	private PedVerTableModel model;
+	private PedVerF1sTableModel model;
 
-	private PedVerPanelNB controls;
+	private PedVerF1sPanelNB controls;
 
 	// Remembers the last set of auto-select values used
 	private FilterColumn[] lastSelect;
 
-	public PedVerPanel(GTViewSet viewSet)
+	public PedVerF1sPanel(GTViewSet viewSet)
 	{
-		controls = new PedVerPanelNB(this);
+		controls = new PedVerF1sPanelNB(this);
 
 		table = controls.table;
 
@@ -40,7 +40,7 @@ public class PedVerPanel extends JPanel implements ActionListener
 
 	public void updateModel(DataSet dataSet, GTViewSet viewSet)
 	{
-		model = new PedVerTableModel(dataSet, viewSet);
+		model = new PedVerF1sTableModel(dataSet, viewSet);
 
 		table.setModel(model);
 		((LineDataTable)table).setViewSet(viewSet);
