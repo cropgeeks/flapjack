@@ -1,3 +1,6 @@
+// Copyright 2009-2016 Information & Computational Sciences, JHI. All rights
+// reserved. Use is subject to the accompanying licence terms.
+
 package jhi.flapjack.gui.pedver;
 
 import javax.swing.*;
@@ -6,9 +9,9 @@ import jhi.flapjack.gui.table.*;
 
 import scri.commons.gui.*;
 
-class PedVerPanelNB extends JPanel
+class PedVerF1sPanelNB extends JPanel
 {
-	PedVerPanelNB(PedVerPanel panel)
+	PedVerF1sPanelNB(PedVerF1sPanel panel)
 	{
 		initComponents();
 

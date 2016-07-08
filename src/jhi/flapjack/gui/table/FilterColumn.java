@@ -100,6 +100,8 @@ public class FilterColumn extends AbstractColumn
 		return (filter == NONE || (filter < FALSE && value == null));
 	}
 
+	// Safety net catch for Integer values being passed into createRowFilter
+	// below, that can't be cast to a Double (despite int->double being ok)
 	Double convert(Object o)
 	{
 		if (o instanceof Double)

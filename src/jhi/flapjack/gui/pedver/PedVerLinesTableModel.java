@@ -3,14 +3,9 @@
 
 package jhi.flapjack.gui.pedver;
 
-import jhi.flapjack.data.DataSet;
-import jhi.flapjack.data.GTViewSet;
-import jhi.flapjack.data.Line;
-import jhi.flapjack.data.LineInfo;
-import jhi.flapjack.data.results.PedVerKnownParentsLineStats;
-import jhi.flapjack.data.results.PedVerKnownParentsResults;
-import jhi.flapjack.data.results.PedVerLinesLineStats;
-import jhi.flapjack.gui.table.LineDataTableModel;
+import jhi.flapjack.data.*;
+import jhi.flapjack.data.results.*;
+import jhi.flapjack.gui.table.*;
 
 class PedVerLinesTableModel extends LineDataTableModel
 {
