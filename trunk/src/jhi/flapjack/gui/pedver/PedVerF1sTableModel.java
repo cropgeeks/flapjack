@@ -29,14 +29,17 @@ class PedVerF1sTableModel extends LineDataTableModel
 		columnNames = new String[] { "Line", "Selected", "Marker count", "% missing",
 			"Het count", "% het", "% deviation from expected", "Count P1 contained",
 			"% P1 contained", "Count P2 contained", "% P2 contained",
-			"Count allele match to expected", "% allele match to expected" };
+			"Count allele match to expected", "% allele match to expected",
+			"Comments" };
 	}
 
+	@Override
 	public int getRowCount()
 	{
 		return viewSet.getLines().size();
 	}
 
+	@Override
 	public Object getValueAt(int row, int col)
 	{
 		LineInfo line = viewSet.getLines().get(row);
@@ -48,33 +51,27 @@ class PedVerF1sTableModel extends LineDataTableModel
 		if (stats == null)
 			return null;
 
-		else if (col == 1)
-			return line.getSelected();
+		switch (col)
+		{
+			case 1: return line.getSelected();
+			case 2: return stats.getMarkerCount();
+			case 3: return stats.getPercentMissing();
+			case 4: return stats.getHeterozygousCount();
+			case 5: return stats.getPercentHeterozygous();
+			case 6: return stats.getPercentDeviationFromExpected();
+			case 7: return stats.getCountP1Contained();
+			case 8: return stats.getPercentP1Contained();
+			case 9: return stats.getCountP2Contained();
+			case 10: return stats.getPercentP2Contained();
+			case 11: return stats.getCountAlleleMatchExpected();
+			case 12: return stats.getPercentAlleleMatchExpected();
 
-		else if (col == 2)
-			return stats.getMarkerCount();
-		else if (col == 3)
-			return stats.getPercentMissing();
-		else if (col == 4)
-			return stats.getHeterozygousCount();
-		else if (col == 5)
-			return stats.getPercentHeterozygous();
-		else if (col == 6)
-			return stats.getPercentDeviationFromExpected();
-		else if (col == 7)
-			return stats.getCountP1Contained();
-		else if (col == 8)
-			return stats.getPercentP1Contained();
-		else if (col == 9)
-			return stats.getCountP2Contained();
-		else if (col == 10)
-			return stats.getPercentP2Contained();
-		else if (col == 11)
-			return stats.getCountAlleleMatchExpected();
-		else if (col == 12)
-			return stats.getPercentAlleleMatchExpected();
+			case 13:
+				String comment = line.results().getComments();
+				return comment == null ? "" : comment;
 
-		return -1;
+			default: return null;
+		}
 	}
 
 	@Override
@@ -84,6 +81,8 @@ class PedVerF1sTableModel extends LineDataTableModel
 			return LineInfo.class;
 		else if (col == 1)
 			return Boolean.class;
+		else if (col == 13)
+			return String.class;
 		else
 			return Double.class;
 	}
@@ -91,7 +90,7 @@ class PedVerF1sTableModel extends LineDataTableModel
 	@Override
 	public boolean isCellEditable(int row, int col)
 	{
-		return (col == 1);
+		return (col == 1 || col == 13);
 	}
 
 	@Override
@@ -101,6 +100,8 @@ class PedVerF1sTableModel extends LineDataTableModel
 
 		if (col == 1)
 			line.setSelected((boolean)value);
+		else if (col == 13)
+			line.results().setComments((String)value);
 	}
 
 	void selectLines(FilterColumn[] data)
