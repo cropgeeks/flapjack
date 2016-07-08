@@ -103,29 +103,4 @@ class PedVerF1sTableModel extends LineDataTableModel
 		else if (col == 13)
 			line.results().setComments((String)value);
 	}
-
-	void selectLines(FilterColumn[] data)
-	{
-		for (int i = 0; i < getRowCount(); i++)
-		{
-			LineInfo line = (LineInfo) getValueAt(i, 0);
-			line.setSelected(false);
-
-			boolean newState = true;
-			for (FilterColumn entry: data)
-			{
-				if (entry.disabled())
-					continue;
-
-				Object value = getValueAt(i, entry.colIndex);
-
-				if (entry.matches(value) == false)
-					newState = false;
-
-				line.setSelected(newState);
-			}
-		}
-
-		fireTableDataChanged();
-	}
 }

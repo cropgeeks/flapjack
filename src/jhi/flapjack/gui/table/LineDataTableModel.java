@@ -57,4 +57,34 @@ public abstract class LineDataTableModel extends AbstractTableModel
 
 		return cols.toArray(new FilterColumn[] {});
 	}
+
+	void selectLines(FilterColumn[] data)
+	{
+		// For every line...
+		for (int i = 0; i < getRowCount(); i++)
+		{
+			LineInfo line = (LineInfo) getValueAt(i, 0);
+
+			// For every filter
+			for (FilterColumn selectFilter: data)
+			{
+				if (selectFilter.disabled())
+					continue;
+
+				Object value = getValueAt(i, selectFilter.colIndex);
+				// If the value matches, we can set its state to true
+				if (selectFilter.matches(value))
+					line.setSelected(true);
+				// But any false match on any filter, will deselect the line
+				// and quit without even bothering to check remaining filters
+				else
+				{
+					line.setSelected(false);
+					break;
+				}
+			}
+		}
+
+		fireTableDataChanged();
+	}
 }

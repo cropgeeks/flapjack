@@ -29,9 +29,9 @@ public class LineDataTable extends JTable
 
 	private GTViewSet viewSet;
 
-	// A list of objects used the last time a sort or a filter was run
+	// A list of objects used the last time a sortDialog, filterDialog, or selectDialog was run
 	private SortColumn[] lastSort;
-	private FilterColumn[] lastFilter;
+	private FilterColumn[] lastFilter, lastSelect;
 
 	public LineDataTable()
 	{
@@ -158,12 +158,12 @@ public class LineDataTable extends JTable
 		final JMenuItem mFilter = new JMenuItem();
 		mFilter.setText("Filter...");
 		mFilter.setIcon(Icons.getIcon("FILTER"));
-		mFilter.addActionListener(e -> filter());
+		mFilter.addActionListener(e -> filterDialog());
 
 		final JMenuItem mSort = new JMenuItem();
 		mSort.setText("Sort...");
 		mSort.setIcon(Icons.getIcon("SORT"));
-		mSort.addActionListener(e -> multiColumnSort());
+		mSort.addActionListener(e -> sortDialog());
 
 		final JMenu menuExport = new JMenu();
 		menuExport.setText(RB.getString("gui.mabc.MabcPanel.export"));
@@ -251,15 +251,15 @@ public class LineDataTable extends JTable
 			selection, null);
 	}
 
-	public void multiColumnSort()
+	public void sortDialog()
 	{
 		SortDialog dialog = new SortDialog(model.getSortableColumns(), lastSort);
 		if (dialog.isOK() == false)
 			return;
 
-		// Get the list of columns to use for the sort
+		// Get the list of columns to use for the sortDialog
 		SortColumn[] data = dialog.getResults();
-		// Remember it for next time in case the user runs another sort
+		// Remember it for next time in case the user runs another sortDialog
 		lastSort = dialog.getResults();
 
 		SortLinesByLineDataModel s = new SortLinesByLineDataModel(viewSet, sorter, data);
@@ -268,7 +268,7 @@ public class LineDataTable extends JTable
 		model.fireTableDataChanged();
 	}
 
-	public void filter()
+	public void filterDialog()
 	{
 		FilterDialog dialog = FilterDialog.getFilterDialog(model.getFilterableColumns(), lastFilter);
 		if (dialog.isOK() == false)
@@ -276,7 +276,7 @@ public class LineDataTable extends JTable
 
 		// Get the list of columns to use for the filtering
 		FilterColumn[] data = dialog.getResults();
-		// Remember it for next time in case the user runs another filter
+		// Remember it for next time in case the user runs another filterDialog
 		lastFilter = dialog.getResults();
 
 		// Build up a list of filters to apply to the table
@@ -290,6 +290,20 @@ public class LineDataTable extends JTable
 		RowFilter<LineDataTableModel,Object> f = RowFilter.andFilter(filters);
 
 		sorter.setRowFilter(f);
+	}
+
+	public void selectDialog()
+	{
+		FilterDialog dialog = FilterDialog.getSelectDialog(model.getFilterableColumns(), lastSelect);
+		if (dialog.isOK() == false)
+			return;
+
+		// Get the list of columns to use for selection
+		FilterColumn[] data = dialog.getResults();
+		// Remember it for next time in case the user runs it again
+		lastSelect = dialog.getResults();
+
+		model.selectLines(data);
 	}
 
 	// Deals with the fact that our fake double header for the JTable means
