@@ -88,7 +88,7 @@ public class GenotypeToHdf5Converter
 
 				// We need to generate a mapping between the marker indices in the
 				// genotype file and those in the map file
-				String[] tokens = line.split("\t");
+				String[] tokens = line.split("\t", -1);
 				String[] markers = Arrays.copyOfRange(tokens, 1, tokens.length);
 				writer.string().writeArray(MARKERS, markers, HDF5GenericStorageFeatures.GENERIC_DEFLATE);
 
@@ -97,7 +97,7 @@ public class GenotypeToHdf5Converter
 					if (counter % 1000 == 0)
 						System.out.println("Processed: " + counter);
 
-					String[] columns = line.split("\t");
+					String[] columns = line.split("\t", -1);
 					// The actual SNP calls are all but the first element of the
 					// split line
 					String[] snpCalls = Arrays.copyOfRange(columns, 1, columns.length);
