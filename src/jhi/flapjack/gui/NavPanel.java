@@ -219,7 +219,7 @@ public class NavPanel extends JPanel
 	{
 		VisualizationNode vNode = findVisualizationNode(viewSet);
 
-		PedVerNode node = new PedVerNode(viewSet.getDataSet(), viewSet);
+		PedVerF1sNode node = new PedVerF1sNode(viewSet.getDataSet(), viewSet);
 		insert(node, vNode, vNode.getChildCount());
 	}
 
@@ -282,7 +282,7 @@ public class NavPanel extends JPanel
 		return null;
 	}
 
-	public PedVerNode getPedVerNode(GTViewSet viewSet)
+	public PedVerF1sNode getPedVerNode(GTViewSet viewSet)
 	{
 		VisualizationNode node = findVisualizationNode(viewSet);
 
@@ -292,8 +292,8 @@ public class NavPanel extends JPanel
 			{
 				DefaultMutableTreeNode child = (DefaultMutableTreeNode) node.getChildAt(i);
 
-				if (child instanceof PedVerNode)
-					return (PedVerNode) child;
+				if (child instanceof PedVerF1sNode)
+					return (PedVerF1sNode) child;
 			}
 		}
 		return null;

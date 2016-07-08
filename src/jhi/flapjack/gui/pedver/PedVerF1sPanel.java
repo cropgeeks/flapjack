@@ -26,7 +26,7 @@ public class PedVerF1sPanel extends JPanel implements ActionListener
 		table = controls.table;
 
 		setLayout(new BorderLayout());
-		add(new TitlePanel("PedVer Known Parents Results"), BorderLayout.NORTH);
+		add(new TitlePanel("Pedigree Verification of F1s (Known Parents)"), BorderLayout.NORTH);
 
 //		setLayout(new BorderLayout(0, 0));
 //		setBorder(BorderFactory.createEmptyBorder(1, 1, 0, 0));
