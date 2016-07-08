@@ -339,11 +339,6 @@ public class MenuAnalysis
 			Flapjack.winMain);
 
 		newViewSet.setName("PedVerF1s View");
-		// Set the colour scheme to the similarity to line exact match scheme and set the comparison line equal to the
-		// F1
-		newViewSet.setColorScheme(ColorScheme.LINE_SIMILARITY_EXACT_MATCH);
-		newViewSet.setComparisonLineIndex(f1Index);
-		newViewSet.setComparisonLine(newViewSet.getLines().get(f1Index).getLine());
 
 		// TODO: temporary workaround to get all chromosomes view back into MABC view
 //		FlapjackUtils.addAllChromosomesViewToClonedViewSet(viewSet, newViewSet);

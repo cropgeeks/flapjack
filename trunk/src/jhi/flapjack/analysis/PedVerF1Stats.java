@@ -5,6 +5,7 @@ package jhi.flapjack.analysis;
 
 import jhi.flapjack.data.*;
 import jhi.flapjack.data.results.*;
+import jhi.flapjack.gui.visualization.colors.*;
 
 import scri.commons.gui.*;
 
@@ -50,6 +51,12 @@ public class PedVerF1Stats extends SimpleJob
 		view.moveLine(viewSet.getLines().indexOf(p2), 1);
 		// Move the f1 to just below the parents
 		view.moveLine(viewSet.getLines().indexOf(f1), 2);
+
+		// Set the colour scheme to the similarity to line exact match scheme and set the comparison line equal to the
+		// F1
+		viewSet.setColorScheme(ColorScheme.LINE_SIMILARITY_EXACT_MATCH);
+		viewSet.setComparisonLineIndex(viewSet.getLines().indexOf(f1));
+		viewSet.setComparisonLine(f1.getLine());
 	}
 
 	public void runJob(int index)
@@ -77,9 +84,11 @@ public class PedVerF1Stats extends SimpleJob
 		int p1Contained = containedInLine(lineIndex, parent1Index);
 		int p2Contained = containedInLine(lineIndex, parent2Index);
 		int matchesExpF1 = matchesExpF1(lineIndex);
+		int missingCount = countMissingAlleles(lineIndex);
 
 		lineStat.setLine(lineInfo);
 		lineStat.setMarkerCount(foundMarkers);
+		lineStat.setPercentMissing((missingCount / (float) totalMarkerCount) * 100);
 		lineStat.setPercentDeviationFromExpected((1 - (foundMarkers / (float) totalMarkerCount)) * 100);
 		lineStat.setHeterozygousCount(hetMarkers);
 		lineStat.setPercentHeterozygous((hetMarkers / (float)foundMarkers) * 100);
@@ -94,7 +103,7 @@ public class PedVerF1Stats extends SimpleJob
 		return lineStat;
 	}
 
-	 // Loops over all the alleles in the expected F1 as identified by f1Index
+	// Loops over all the alleles in the expected F1 as identified by f1Index
 	 // and counts the total number of usable markers and the total number of
 	 // heterozygous alleles. Finally it calculates the percentage of alleles in
 	 //the (expected) F1 line that are heterozygous.
@@ -141,6 +150,27 @@ public class PedVerF1Stats extends SimpleJob
 					foundMarkers++;
 
 		return foundMarkers;
+	}
+
+	private int countMissingAlleles(int lineIndex)
+	{
+		int missingCount = 0;
+		for (int c = 0; c < as.viewCount(); c++)
+		{
+			for (int m = 0; m < as.markerCount(c); m++)
+			{
+				if (as.getState(c, lineIndex, m) == 0
+					&& as.getState(c, parent1Index, m) != 0
+					&& as.getState(c, parent2Index, m) != 0
+					&& as.getState(c, f1Index, m) != 0
+					&& !stateTable.isHet(as.getState(c, parent1Index, m))
+					&& !stateTable.isHet(as.getState(c, parent2Index, m)))
+				{
+					missingCount++;
+				}
+			}
+		}
+		return missingCount;
 	}
 
 	private int hetMarkerCount(int lineIndex)
