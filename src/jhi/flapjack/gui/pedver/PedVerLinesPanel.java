@@ -37,11 +37,6 @@ public class PedVerLinesPanel extends JPanel implements ActionListener
 		LineInfo line = viewSet.getLines().get(0);
 		PedVerLinesResults results = line.results().getPedVerLinesStats().getPedVerLinesResults();
 
-		controls.lblTestMarkerCount.setText(RB.format("gui.pedver.PedVerLinesPanel.markerCount", results.getTestMarkerCount()));
-		controls.lblTestPercentage.setText(RB.format("gui.pedver.PedVerLinesPanel.markerPercentage", nf.format(results.getTestMarkerPresentPercentage())));
-		controls.lblTestHetCount.setText(RB.format("gui.pedver.PedVerLinesPanel.hetCount", results.getTestHetCount()));
-		controls.lblTestHetPercentage.setText(RB.format("gui.pedver.PedVerLinesPanel.hetPercentage", nf.format(results.getTestHetPercentage())));
-
 		setLayout(new BorderLayout());
 		add(new TitlePanel(RB.getString("gui.pedver.PedVerLinesPanel.title")), BorderLayout.NORTH);
 
