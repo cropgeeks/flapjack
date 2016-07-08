@@ -72,6 +72,10 @@ public class MabcPanel extends JPanel implements ActionListener, ListSelectionLi
 
 		else if (e.getSource() == controls.bRank)
 			rankSelectedLines();
+
+		else if (e.getSource() == controls.autoResize)
+			((LineDataTable)table).autoResize(controls.autoResize.isSelected());
+
 	}
 
 	@Override

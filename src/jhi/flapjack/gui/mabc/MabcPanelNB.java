@@ -1,5 +1,6 @@
 package jhi.flapjack.gui.mabc;
 
+import java.awt.Color;
 import jhi.flapjack.gui.table.*;
 
 import scri.commons.gui.*;
@@ -24,6 +25,8 @@ public class MabcPanelNB extends javax.swing.JPanel
 
 		bRank.addActionListener(panel);
 		bRank.setIcon(Icons.getIcon("RANK"));
+
+		autoResize.addActionListener(panel);
 	}
 
 	/**
@@ -45,6 +48,7 @@ public class MabcPanelNB extends javax.swing.JPanel
         jLabel1 = new javax.swing.JLabel();
         bRank = new javax.swing.JButton();
         bExport = new scri.commons.gui.matisse.MenuButton();
+        autoResize = new javax.swing.JCheckBox();
 
         table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][]
@@ -71,13 +75,19 @@ public class MabcPanelNB extends javax.swing.JPanel
 
         bExport.setText("Export");
 
+        autoResize.setSelected(true);
+        autoResize.setText("Auto-fit columns");
+        autoResize.setOpaque(false);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 492, Short.MAX_VALUE)
+            .addComponent(jScrollPane1)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
+                .addComponent(autoResize)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
                 .addComponent(bSelect)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(bRank)
@@ -102,13 +112,15 @@ public class MabcPanelNB extends javax.swing.JPanel
                     .addComponent(bSelect)
                     .addComponent(jLabel1)
                     .addComponent(bRank)
-                    .addComponent(bExport, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(bExport, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(autoResize))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    javax.swing.JCheckBox autoResize;
     scri.commons.gui.matisse.MenuButton bExport;
     javax.swing.JButton bFilter;
     javax.swing.JButton bRank;

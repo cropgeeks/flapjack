@@ -27,9 +27,7 @@ class PedVerLinesPanelNB extends JPanel
 		bSelect.addActionListener(panel);
 		bSelect.setIcon(Icons.getIcon("AUTOSELECT"));
 
-//		lblF1MarkerCount.setText("Expected F1 marker count: " + results.getF1MarkerCount());
-//		lblF1HetCount.setText("Expected F1 heterozygous allele count: " + results.getF1HeterozygousCount());
-//		lblF1HetPercentage.setText("Expected F1 heterozygous allele percentage: " + results.getF1PercentHeterozygous());
+		autoResize.addActionListener(panel);
 	}
 
 	/**
@@ -49,6 +47,7 @@ class PedVerLinesPanelNB extends JPanel
         bExport = new scri.commons.gui.matisse.MenuButton();
         jLabel1 = new javax.swing.JLabel();
         bSelect = new javax.swing.JButton();
+        autoResize = new javax.swing.JCheckBox();
 
         table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][]
@@ -72,37 +71,40 @@ class PedVerLinesPanelNB extends JPanel
 
         bSelect.setText("Auto Select...");
 
+        autoResize.setSelected(true);
+        autoResize.setText("Auto-fit columns");
+        autoResize.setOpaque(false);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 415, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(bSelect)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(bFilter)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(bSort)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(bExport, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addComponent(autoResize)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 107, Short.MAX_VALUE)
+                .addComponent(bSelect)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(bFilter)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(bSort)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(bExport, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
+            .addComponent(jScrollPane1)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 27, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel1)
-                        .addComponent(bSelect))
+                        .addComponent(bSelect)
+                        .addComponent(autoResize))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(bSort)
                         .addComponent(bFilter)
@@ -113,6 +115,7 @@ class PedVerLinesPanelNB extends JPanel
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    javax.swing.JCheckBox autoResize;
     scri.commons.gui.matisse.MenuButton bExport;
     javax.swing.JButton bFilter;
     javax.swing.JButton bSelect;

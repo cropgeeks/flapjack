@@ -65,6 +65,9 @@ public class PedVerLinesPanel extends JPanel implements ActionListener
 
 		else if (e.getSource() == controls.bSelect)
 			((LineDataTable)table).selectDialog();
+
+		else if (e.getSource() == controls.autoResize)
+			((LineDataTable)table).autoResize(controls.autoResize.isSelected());
 	}
 
 	public void modelChanged()
