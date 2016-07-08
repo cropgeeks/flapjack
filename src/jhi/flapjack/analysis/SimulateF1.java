@@ -11,15 +11,15 @@ public class SimulateF1 extends SimpleJob
 {
 	private GTViewSet viewSet;
 
-	private LineInfo p1LineInfo;
-	private LineInfo p2LineInfo;
-	private LineInfo f1LineInfo;
+	private int p1Index;
+	private int p2Index;
+	private int f1Index;
 
-	public SimulateF1(GTViewSet viewSet, LineInfo p1LineInfo, LineInfo p2LineInfo)
+	public SimulateF1(GTViewSet viewSet, int p1Index, int p2Index)
 	{
 		this.viewSet = viewSet;
-		this.p1LineInfo = p1LineInfo;
-		this.p2LineInfo = p2LineInfo;
+		this.p1Index = p1Index;
+		this.p2Index = p2Index;
 	}
 
 	@Override
@@ -41,10 +41,7 @@ public class SimulateF1 extends SimpleJob
 		// TODO: Define the parental lines in some way so they can be set from input file, or UI
 
 		// Create dummy name of expected F1
-		String f1Name = "Exp F1:" + p1LineInfo.name() + "x" + p2LineInfo.name();
-
-		int p1Index = as.getLines().indexOf(p1LineInfo);
-		int p2Index = as.getLines().indexOf(p2LineInfo);
+		String f1Name = "Exp F1:" + as.getLines().get(p1Index).name() + "x" + as.getLines().get(p2Index).name();
 
 		// Create a line for our F1 so we can simulate data for it
 		Line f1 = viewSet.getDataSet().createLine(f1Name, true);
@@ -80,8 +77,8 @@ public class SimulateF1 extends SimpleJob
 		}
 
 		// Create a LineInfo for the f1 and add it to the viewSet
-		f1LineInfo = new LineInfo(f1, viewSet.getDataSet().countLines());
-		viewSet.getLines().add(2, f1LineInfo);
+		viewSet.getLines().add(new LineInfo(f1, viewSet.getDataSet().countLines()));
+		f1Index = viewSet.getLines().size()-1;
 	}
 
 	private int findCodeForHet(StateTable stateTable, int p1StateCode, int p2StateCode)
@@ -112,8 +109,8 @@ public class SimulateF1 extends SimpleJob
 		return codeForHet;
 	}
 
-	public LineInfo getF1LineInfo()
+	public int getF1Index()
 	{
-		return f1LineInfo;
+		return f1Index;
 	}
 }

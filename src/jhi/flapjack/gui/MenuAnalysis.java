@@ -310,48 +310,29 @@ public class MenuAnalysis
 		// list of lines that match the order in the dendrogram)
 		GTViewSet newViewSet = viewSet.createClone("", true);
 
-		AnalysisSet as = new AnalysisSet(newViewSet)
-			.withViews(null)
-			.withSelectedLines()
-			.withSelectedMarkers();
-
-		PedVerStatsDialog dialog = new PedVerStatsDialog(as);
+		PedVerF1StatsDialog dialog = new PedVerF1StatsDialog(viewSet);
 		if (dialog.isOK() == false)
 			return;
 
-		LineInfo p1LineInfo = dialog.getParent1();
-		LineInfo p2LineInfo = dialog.getParent2();
-		LineInfo f1LineInfo = dialog.getF1();
+		// Retrieve information required for analysis from dialog
+		boolean[] selectedChromosomes = dialog.getSelectedChromosomes();
+		int p1Index = dialog.getParent1();
+		int p2Index = dialog.getParent2();
+		int f1Index = dialog.getF1();
 
 		if (dialog.simulateF1())
 		{
-			SimulateF1 f1Sim = new SimulateF1(newViewSet, p1LineInfo, p2LineInfo);
+			SimulateF1 f1Sim = new SimulateF1(newViewSet, p1Index, p2Index);
 
 			ProgressDialog pDialog = new ProgressDialog(f1Sim,
 				"Running F1 Simulation",
 				"Running F1 simulation - please be patient...",
 				Flapjack.winMain);
 
-			f1LineInfo = f1Sim.getF1LineInfo();
+			f1Index = f1Sim.getF1Index();
 		}
 
-		int parent1Index = newViewSet.getLines().indexOf(p1LineInfo);
-		int parent2Index = newViewSet.getLines().indexOf(p2LineInfo);
-		int f1Index = newViewSet.getLines().indexOf(f1LineInfo);
-
-		// Move the parent lines to the top of the display
-		GTView view = newViewSet.getView(0);
-		view.moveLine(parent1Index, 0);
-		view.moveLine(parent2Index, 1);
-		// Move the f1 to just below the parents
-		view.moveLine(f1Index, 2);
-
-		AnalysisSet f1Set = new AnalysisSet(newViewSet)
-			.withViews(null)
-			.withSelectedLines()
-			.withSelectedMarkers();
-
-		PedVerF1Stats stats = new PedVerF1Stats(f1Set, newViewSet.getDataSet().getStateTable(), parent1Index, parent2Index, f1Index);
+		PedVerF1Stats stats = new PedVerF1Stats(newViewSet, selectedChromosomes, p1Index, p2Index, f1Index);
 		ProgressDialog pDialog = new ProgressDialog(stats,
 			"Running PedVer Stats",
 			"Running PedVer stats - please be patient...",
@@ -361,8 +342,11 @@ public class MenuAnalysis
 		// Set the colour scheme to the similarity to line exact match scheme and set the comparison line equal to the
 		// F1
 		newViewSet.setColorScheme(ColorScheme.LINE_SIMILARITY_EXACT_MATCH);
-		newViewSet.setComparisonLineIndex(newViewSet.getLines().indexOf(f1LineInfo));
-		newViewSet.setComparisonLine(f1LineInfo.getLine());
+		newViewSet.setComparisonLineIndex(f1Index);
+		newViewSet.setComparisonLine(newViewSet.getLines().get(f1Index).getLine());
+
+		// TODO: temporary workaround to get all chromosomes view back into MABC view
+//		FlapjackUtils.addAllChromosomesViewToClonedViewSet(viewSet, newViewSet);
 
 		// Create new NavPanel components to hold the results
 		dataSet.getViewSets().add(newViewSet);
