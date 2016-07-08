@@ -32,14 +32,6 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="bExport" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="lblF1MarkerCount" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="lblF1HetCount" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="lblF1HetPercentage" alignment="0" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                  </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -48,12 +40,6 @@
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="lblF1MarkerCount" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="lblF1HetCount" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="lblF1HetPercentage" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jScrollPane1" pref="27" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
@@ -105,21 +91,6 @@
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
       </AuxValues>
-    </Component>
-    <Component class="javax.swing.JLabel" name="lblF1MarkerCount">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Expected F1 marker count: {0}"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JLabel" name="lblF1HetCount">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Expected F1 heterozygous allele count: {0}"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JLabel" name="lblF1HetPercentage">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Expected F1 heterozygous allele percentage: {0}"/>
-      </Properties>
     </Component>
     <Component class="scri.commons.gui.matisse.MenuButton" name="bExport">
       <Properties>

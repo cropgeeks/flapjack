@@ -46,10 +46,6 @@ class PedVerLinesPanelNB extends JPanel
         table = new LineDataTable();
         bSort = new javax.swing.JButton();
         bFilter = new javax.swing.JButton();
-        lblTestMarkerCount = new javax.swing.JLabel();
-        lblTestHetCount = new javax.swing.JLabel();
-        lblTestHetPercentage = new javax.swing.JLabel();
-        lblTestPercentage = new javax.swing.JLabel();
         bExport = new scri.commons.gui.matisse.MenuButton();
         jLabel1 = new javax.swing.JLabel();
         bSelect = new javax.swing.JButton();
@@ -69,14 +65,6 @@ class PedVerLinesPanelNB extends JPanel
         bSort.setText("Sort...");
 
         bFilter.setText("Filter...");
-
-        lblTestMarkerCount.setText("Test line marker count: {0}");
-
-        lblTestHetCount.setText("Test line heterozygous allele count: {0}");
-
-        lblTestHetPercentage.setText("Test line heterozygous allele percentage: {0}");
-
-        lblTestPercentage.setText("Test line marker not missing percentage: {0}");
 
         bExport.setText("Export");
 
@@ -102,28 +90,13 @@ class PedVerLinesPanelNB extends JPanel
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(bSort)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(bExport, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblTestMarkerCount)
-                            .addComponent(lblTestHetCount)
-                            .addComponent(lblTestHetPercentage)
-                            .addComponent(lblTestPercentage))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addComponent(bExport, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lblTestMarkerCount)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblTestPercentage)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblTestHetCount)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblTestHetPercentage)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 27, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -146,10 +119,6 @@ class PedVerLinesPanelNB extends JPanel
     javax.swing.JButton bSort;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
-    javax.swing.JLabel lblTestHetCount;
-    javax.swing.JLabel lblTestHetPercentage;
-    javax.swing.JLabel lblTestMarkerCount;
-    javax.swing.JLabel lblTestPercentage;
     javax.swing.JTable table;
     // End of variables declaration//GEN-END:variables
 }

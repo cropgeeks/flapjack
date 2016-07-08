@@ -46,9 +46,6 @@ class PedVerF1sPanelNB extends JPanel
         table = new LineDataTable();
         bSort = new javax.swing.JButton();
         bFilter = new javax.swing.JButton();
-        lblF1MarkerCount = new javax.swing.JLabel();
-        lblF1HetCount = new javax.swing.JLabel();
-        lblF1HetPercentage = new javax.swing.JLabel();
         bExport = new scri.commons.gui.matisse.MenuButton();
         jLabel1 = new javax.swing.JLabel();
         bSelect = new javax.swing.JButton();
@@ -68,12 +65,6 @@ class PedVerF1sPanelNB extends JPanel
         bSort.setText("Sort...");
 
         bFilter.setText("Filter...");
-
-        lblF1MarkerCount.setText("Expected F1 marker count: {0}");
-
-        lblF1HetCount.setText("Expected F1 heterozygous allele count: {0}");
-
-        lblF1HetPercentage.setText("Expected F1 heterozygous allele percentage: {0}");
 
         bExport.setText("Export");
 
@@ -99,25 +90,13 @@ class PedVerF1sPanelNB extends JPanel
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(bSort)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(bExport, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblF1MarkerCount)
-                            .addComponent(lblF1HetCount)
-                            .addComponent(lblF1HetPercentage))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addComponent(bExport, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lblF1MarkerCount)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblF1HetCount)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblF1HetPercentage)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 27, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -138,9 +117,6 @@ class PedVerF1sPanelNB extends JPanel
     javax.swing.JButton bSort;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel lblF1HetCount;
-    private javax.swing.JLabel lblF1HetPercentage;
-    private javax.swing.JLabel lblF1MarkerCount;
     javax.swing.JTable table;
     // End of variables declaration//GEN-END:variables
 }
