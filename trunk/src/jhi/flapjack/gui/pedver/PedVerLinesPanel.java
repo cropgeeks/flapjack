@@ -63,10 +63,13 @@ public class PedVerLinesPanel extends JPanel implements ActionListener
 	public void actionPerformed(ActionEvent e)
 	{
 		if (e.getSource() == controls.bFilter)
-			((LineDataTable)table).filter();
+			((LineDataTable)table).filterDialog();
 
 		else if (e.getSource() == controls.bSort)
-			((LineDataTable)table).multiColumnSort();
+			((LineDataTable)table).sortDialog();
+
+		else if (e.getSource() == controls.bSelect)
+			((LineDataTable)table).selectDialog();
 	}
 
 	public void modelChanged()

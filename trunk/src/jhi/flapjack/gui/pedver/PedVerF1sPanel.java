@@ -19,9 +19,6 @@ public class PedVerF1sPanel extends JPanel implements ActionListener
 
 	private PedVerF1sPanelNB controls;
 
-	// Remembers the last set of auto-select values used
-	private FilterColumn[] lastSelect;
-
 	public PedVerF1sPanel(GTViewSet viewSet)
 	{
 		controls = new PedVerF1sPanelNB(this);
@@ -49,31 +46,12 @@ public class PedVerF1sPanel extends JPanel implements ActionListener
 	public void actionPerformed(ActionEvent e)
 	{
 		if (e.getSource() == controls.bFilter)
-			((LineDataTable)table).filter();
+			((LineDataTable)table).filterDialog();
 
 		else if (e.getSource() == controls.bSort)
-			((LineDataTable)table).multiColumnSort();
+			((LineDataTable)table).sortDialog();
 
 		else if (e.getSource() == controls.bSelect)
-			displayAutoSelectDialog();
-	}
-
-	public void modelChanged()
-	{
-		model.fireTableStructureChanged();
-	}
-
-	public void displayAutoSelectDialog()
-	{
-		FilterDialog dialog = FilterDialog.getSelectDialog(model.getFilterableColumns(), lastSelect);
-		if (dialog.isOK() == false)
-			return;
-
-		// Get the list of columns to use for selection
-		FilterColumn[] data = dialog.getResults();
-		// Remember it for next time in case the user runs it again
-		lastSelect = dialog.getResults();
-
-		model.selectLines(data);
+			((LineDataTable)table).selectDialog();
 	}
 }

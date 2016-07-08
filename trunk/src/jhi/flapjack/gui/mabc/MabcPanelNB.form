@@ -28,13 +28,9 @@
               <Component id="bSelect" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="bRank" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="filler3" min="-2" pref="5" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
               <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="filler4" min="-2" pref="5" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
               <Component id="bFilter" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="bSort" min="-2" max="-2" attributes="0"/>
@@ -48,26 +44,14 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <Component id="jScrollPane1" pref="143" max="32767" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="bSort" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="bFilter" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="bSelect" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="bRank" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="bExport" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                  </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
-                      <Component id="filler3" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="filler4" min="-2" max="-2" attributes="0"/>
-                  </Group>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="bSort" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="bFilter" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="bSelect" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="bRank" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="bExport" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -113,7 +97,7 @@
     </Component>
     <Component class="javax.swing.JButton" name="bSelect">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Select..."/>
+        <Property name="text" type="java.lang.String" value="Auto Select..."/>
       </Properties>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
@@ -123,26 +107,6 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="|"/>
       </Properties>
-    </Component>
-    <Component class="javax.swing.Box$Filler" name="filler3">
-      <Properties>
-        <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-          <Dimension value="[32767, 0]"/>
-        </Property>
-      </Properties>
-      <AuxValues>
-        <AuxValue name="classDetails" type="java.lang.String" value="Box.Filler.HorizontalGlue"/>
-      </AuxValues>
-    </Component>
-    <Component class="javax.swing.Box$Filler" name="filler4">
-      <Properties>
-        <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-          <Dimension value="[32767, 0]"/>
-        </Property>
-      </Properties>
-      <AuxValues>
-        <AuxValue name="classDetails" type="java.lang.String" value="Box.Filler.HorizontalGlue"/>
-      </AuxValues>
     </Component>
     <Component class="javax.swing.JButton" name="bRank">
       <Properties>

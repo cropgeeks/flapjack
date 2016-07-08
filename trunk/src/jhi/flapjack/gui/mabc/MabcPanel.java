@@ -62,13 +62,13 @@ public class MabcPanel extends JPanel implements ActionListener, ListSelectionLi
 	public void actionPerformed(ActionEvent e)
 	{
 		if (e.getSource() == controls.bFilter)
-			((LineDataTable)table).filter();
+			((LineDataTable)table).filterDialog();
 
 		else if (e.getSource() == controls.bSort)
-			((LineDataTable)table).multiColumnSort();
+			((LineDataTable)table).sortDialog();
 
 		else if (e.getSource() == controls.bSelect)
-			displayAutoSelectDialog();
+			((LineDataTable)table).selectDialog();
 
 		else if (e.getSource() == controls.bRank)
 			rankSelectedLines();
@@ -92,9 +92,9 @@ public class MabcPanel extends JPanel implements ActionListener, ListSelectionLi
 		JPopupMenu menu = ((LineDataTable)table).getPopupMenu();
 
 		final JMenuItem mSelect = new JMenuItem();
-		mSelect.setText(RB.getString("gui.mabc.MabcPanel.autoSelect"));
+		mSelect.setText(RB.getString("gui.mabc.MabcPanel.select"));
 		mSelect.setIcon(Icons.getIcon("AUTOSELECT"));
-		mSelect.addActionListener(event -> displayAutoSelectDialog());
+		mSelect.addActionListener(event -> ((LineDataTable)table).selectDialog());
 
 		final JMenuItem mRank = new JMenuItem();
 		mRank.setText("Rank...");
@@ -107,33 +107,6 @@ public class MabcPanel extends JPanel implements ActionListener, ListSelectionLi
 		menu.add(new JPopupMenu.Separator(), 2);
 
 		menu.show(e.getComponent(), e.getX(), e.getY());
-	}
-
-	private void displayAutoSelectDialog()
-	{
-		int qtlCount = viewSet.getLines().get(0).results().getMABCLineStats().getQTLScores().size();
-		SpinnerNumberModel sModel = new SpinnerNumberModel(qtlStatusCount, 0, qtlCount, 1);
-		JSpinner spinner = new JSpinner(sModel);
-		((JSpinner.DefaultEditor)spinner.getEditor()).getTextField().setColumns(4);
-
-		JPanel panel = new JPanel(new FlowLayout());
-		panel.add(new JLabel(RB.getString("gui.mabc.MabcPanel.autoSelectDialogLabel")));
-		panel.add(spinner);
-
-		int option = JOptionPane.showOptionDialog(Flapjack.winMain, panel,
-			RB.getString("gui.mabc.MabcPanel.autoSelectDialogTitle"),
-			JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
-
-		if (option == JOptionPane.OK_OPTION)
-		{
-			qtlStatusCount = (int)spinner.getValue();
-			int selected = model.selectQTL(qtlStatusCount);
-
-			int total = model.getRowCount();
-			TaskDialog.info(
-				RB.format("gui.mabc.MabcPanel.selectedLines", selected, total),
-				RB.getString("gui.text.close"));
-		}
 	}
 
 	private void rankSelectedLines()
