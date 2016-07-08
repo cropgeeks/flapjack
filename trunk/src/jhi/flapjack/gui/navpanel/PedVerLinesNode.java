@@ -24,7 +24,7 @@ public class PedVerLinesNode extends BaseNode
 
 	public String toString()
 	{
-		return RB.getString("gui.navpanel.MabcNode.node");
+		return "PedVerLines Results";
 	}
 
 	public void setActions()

@@ -338,7 +338,7 @@ public class MenuAnalysis
 			"Running PedVer stats - please be patient...",
 			Flapjack.winMain);
 
-		newViewSet.setName("PedVer View");
+		newViewSet.setName("PedVerF1s View");
 		// Set the colour scheme to the similarity to line exact match scheme and set the comparison line equal to the
 		// F1
 		newViewSet.setColorScheme(ColorScheme.LINE_SIMILARITY_EXACT_MATCH);
@@ -395,7 +395,7 @@ public class MenuAnalysis
 			"Running PedVer stats - please be patient...",
 			Flapjack.winMain);
 
-		newViewSet.setName("PedVer Lines View");
+		newViewSet.setName("PedVerLines View");
 		// Set the colour scheme to the similarity to line exact match scheme and set the comparison line equal to the
 		// F1
 		newViewSet.setColorScheme(ColorScheme.LINE_SIMILARITY);

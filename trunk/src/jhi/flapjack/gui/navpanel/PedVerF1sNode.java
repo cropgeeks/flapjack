@@ -11,11 +11,11 @@ import jhi.flapjack.gui.pedver.*;
 
 import scri.commons.gui.*;
 
-public class PedVerNode extends BaseNode
+public class PedVerF1sNode extends BaseNode
 {
 	private PedVerF1sPanel panel;
 
-	public PedVerNode(DataSet dataSet, GTViewSet viewSet)
+	public PedVerF1sNode(DataSet dataSet, GTViewSet viewSet)
 	{
 		super(dataSet);
 
@@ -24,7 +24,7 @@ public class PedVerNode extends BaseNode
 
 	public String toString()
 	{
-		return RB.getString("gui.navpanel.MabcNode.node");
+		return "PedVerF1s Results";
 	}
 
 	public void setActions()
