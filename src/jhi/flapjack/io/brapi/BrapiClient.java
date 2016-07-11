@@ -12,8 +12,9 @@ import java.util.logging.*;
 import javax.net.ssl.*;
 import javax.xml.bind.*;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.core.type.*;
+import com.fasterxml.jackson.databind.*;
+
 import org.restlet.*;
 import org.restlet.data.*;
 import org.restlet.engine.application.*;
@@ -83,7 +84,7 @@ public class BrapiClient
 		// so that it does so
 		cr.setReference(url);
 		cr.addQueryParameter("pageSize", "" + p.getPageSize());
-		cr.addQueryParameter("currentPage", "" + (p.getCurrentPage()+1));
+		cr.addQueryParameter("page", "" + (p.getCurrentPage()+1));
 
 		return true;
 	}
@@ -192,14 +193,11 @@ public class BrapiClient
 
 		List<BrapiMarkerProfile> list = new ArrayList<>();
 		boolean requestPage = true;
-
+		
 		while (requestPage)
 		{
 			LinkedHashMap hashMap = cr.get(LinkedHashMap.class);
-			BasicResource<DataResult<BrapiMarkerProfile>> br = new ObjectMapper().convertValue(hashMap,
-				new TypeReference<BasicResource<DataResult<BrapiMarkerProfile>>>() {});
-
-			list.addAll(br.getResult().getData());
+			BasicResource<DataResult<BrapiMarkerProfile>> br = new ObjectMapper().convertValue(hashMap, new TypeReference<BasicResource<DataResult<BrapiMarkerProfile>>>() {});
 			requestPage = pageCheck(br.getMetadata(), url);
 		}
 
@@ -223,7 +221,7 @@ public class BrapiClient
 			{
 				if (sb.length() > 0)
 					sb.append("&");
-				sb.append("markerprofileDbId=" + mp.getMarkerProfileDbId());
+				sb.append("markerprofileDbId=" + mp.getMarkerprofileDbId());
 			}
 
 			Form form = new Form(sb.toString());
