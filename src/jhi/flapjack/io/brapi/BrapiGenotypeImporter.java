@@ -48,6 +48,10 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 		this.ioUseHetSep = ioUseHetSep;
 		this.ioHeteroSeparator = ioHeteroSeparator;
 
+		this.ioMissingData = "--";
+		this.ioUseHetSep = false;
+
+
 		stateTable = dataSet.getStateTable();
 	}
 
@@ -145,8 +149,8 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 			// were asked for
 			List<String> markerprofileIds = matrix.getMarkerprofileDbIds();
 
-			for (String s : markerprofileIds)
-				System.out.println(s);
+//			for (String s : markerprofileIds)
+//				System.out.println(s);
 
 
 			// MarkerName, list of scores (index of each one mapped to index in markerprofile/germplasm index)
