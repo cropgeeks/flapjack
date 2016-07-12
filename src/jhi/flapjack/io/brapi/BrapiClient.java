@@ -198,6 +198,8 @@ public class BrapiClient
 		{
 			LinkedHashMap hashMap = cr.get(LinkedHashMap.class);
 			BasicResource<DataResult<BrapiMarkerProfile>> br = new ObjectMapper().convertValue(hashMap, new TypeReference<BasicResource<DataResult<BrapiMarkerProfile>>>() {});
+			list.addAll(br.getResult().getData());
+
 			requestPage = pageCheck(br.getMetadata(), url);
 		}
 
