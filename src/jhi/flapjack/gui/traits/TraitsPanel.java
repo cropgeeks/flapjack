@@ -12,6 +12,7 @@ import javax.swing.table.*;
 import jhi.flapjack.data.*;
 import jhi.flapjack.gui.*;
 import jhi.flapjack.gui.dialog.*;
+import jhi.flapjack.gui.table.*;
 
 import scri.commons.gui.*;
 
@@ -19,7 +20,7 @@ public class TraitsPanel extends JPanel implements ActionListener
 {
 	private DataSet dataSet;
 
-	private JTable table;
+	private LineDataTable table;
 	private TraitsTableModel model;
 
 	private TraitsPanelNB controls;
@@ -34,7 +35,8 @@ public class TraitsPanel extends JPanel implements ActionListener
 		controls.bRemove.addActionListener(this);
 		controls.bColors.addActionListener(this);
 
-		table = controls.table;
+		table = (LineDataTable) controls.table;
+		table.autoResize(false);
 
 		setLayout(new BorderLayout(0, 0));
 		setBorder(BorderFactory.createEmptyBorder(1, 1, 0, 0));
