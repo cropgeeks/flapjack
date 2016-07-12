@@ -88,7 +88,12 @@ public class FilterDialog extends JDialog implements ActionListener
 						return new DefaultCellEditor(FilterColumn.getNumericalFilters());
 				}
 				else
-					return super.getCellEditor(row, column);
+				{
+					DefaultCellEditor editor =
+						(DefaultCellEditor)super.getCellEditor(row, column);
+					editor.setClickCountToStart(1);
+					return editor;
+				}
 			}
 		};
 	}
@@ -101,6 +106,10 @@ public class FilterDialog extends JDialog implements ActionListener
 		table.getTableHeader().setReorderingAllowed(false);
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		UIScaler.setCellHeight(table);
+
+		// Deals with the table not storing edits when focus is lost (mainly due
+		// to the user pressing OK, which is when we *want* edits saved!!
+		table.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE);
 	}
 
 	@Override
