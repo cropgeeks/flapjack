@@ -49,6 +49,8 @@ public class MabcPanelNB extends javax.swing.JPanel
         bRank = new javax.swing.JButton();
         bExport = new scri.commons.gui.matisse.MenuButton();
         autoResize = new javax.swing.JCheckBox();
+        filterLabel = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
 
         table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][]
@@ -79,6 +81,10 @@ public class MabcPanelNB extends javax.swing.JPanel
         autoResize.setText("Auto-fit columns");
         autoResize.setOpaque(false);
 
+        filterLabel.setText("Lines visible:");
+
+        jLabel2.setText("|");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -87,7 +93,11 @@ public class MabcPanelNB extends javax.swing.JPanel
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(autoResize)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(filterLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 107, Short.MAX_VALUE)
                 .addComponent(bSelect)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(bRank)
@@ -113,7 +123,9 @@ public class MabcPanelNB extends javax.swing.JPanel
                     .addComponent(jLabel1)
                     .addComponent(bRank)
                     .addComponent(bExport, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(autoResize))
+                    .addComponent(autoResize)
+                    .addComponent(filterLabel)
+                    .addComponent(jLabel2))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -126,7 +138,9 @@ public class MabcPanelNB extends javax.swing.JPanel
     javax.swing.JButton bRank;
     javax.swing.JButton bSelect;
     javax.swing.JButton bSort;
+    javax.swing.JLabel filterLabel;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     javax.swing.JTable table;

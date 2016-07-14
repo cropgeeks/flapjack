@@ -15,7 +15,7 @@ import jhi.flapjack.gui.table.*;
 
 import scri.commons.gui.*;
 
-public class PedVerLinesPanel extends JPanel implements ActionListener
+public class PedVerLinesPanel extends JPanel implements ActionListener, ITableViewListener
 {
 	private JTable table;
 	private PedVerLinesTableModel model;
@@ -29,6 +29,7 @@ public class PedVerLinesPanel extends JPanel implements ActionListener
 		controls = new PedVerLinesPanelNB(this);
 
 		table = controls.table;
+		((LineDataTable)table).addViewListener(this);
 
 		nf.setMinimumFractionDigits(2);
 
@@ -53,6 +54,8 @@ public class PedVerLinesPanel extends JPanel implements ActionListener
 
 		table.setModel(model);
 		((LineDataTable)table).setViewSet(viewSet);
+
+		tableFiltered();
 	}
 
 	public void actionPerformed(ActionEvent e)
@@ -70,8 +73,9 @@ public class PedVerLinesPanel extends JPanel implements ActionListener
 			((LineDataTable)table).autoResize(controls.autoResize.isSelected());
 	}
 
-	public void modelChanged()
+	public void tableFiltered()
 	{
-		model.fireTableStructureChanged();
+		controls.filterLabel.setText(
+			"Visible lines: " + table.getRowCount() + "/" + model.getRowCount());
 	}
 }

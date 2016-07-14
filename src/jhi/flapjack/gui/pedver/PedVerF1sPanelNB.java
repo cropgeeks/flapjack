@@ -52,6 +52,8 @@ class PedVerF1sPanelNB extends JPanel
         jLabel1 = new javax.swing.JLabel();
         bSelect = new javax.swing.JButton();
         autoResize = new javax.swing.JCheckBox();
+        filterLabel = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
 
         table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][]
@@ -79,6 +81,10 @@ class PedVerF1sPanelNB extends JPanel
         autoResize.setText("Auto-fit columns");
         autoResize.setOpaque(false);
 
+        filterLabel.setText("Lines visible:");
+
+        jLabel2.setText("|");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -86,7 +92,11 @@ class PedVerF1sPanelNB extends JPanel
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(autoResize)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 107, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(filterLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 65, Short.MAX_VALUE)
                 .addComponent(bSelect)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel1)
@@ -110,7 +120,9 @@ class PedVerF1sPanelNB extends JPanel
                     .addComponent(bExport, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1)
                     .addComponent(bSelect)
-                    .addComponent(autoResize))
+                    .addComponent(autoResize)
+                    .addComponent(filterLabel)
+                    .addComponent(jLabel2))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -122,7 +134,9 @@ class PedVerF1sPanelNB extends JPanel
     javax.swing.JButton bFilter;
     javax.swing.JButton bSelect;
     javax.swing.JButton bSort;
+    javax.swing.JLabel filterLabel;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     javax.swing.JTable table;
     // End of variables declaration//GEN-END:variables
