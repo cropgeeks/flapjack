@@ -65,7 +65,8 @@ public class DataSourceDialog extends JDialog
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+    private void initComponents()
+    {
 
         buttons = new javax.swing.ButtonGroup();
         dialogPanel1 = new scri.commons.gui.matisse.DialogPanel();
@@ -91,16 +92,20 @@ public class DataSourceDialog extends JDialog
 
         buttons.add(bLocal);
         bLocal.setText("Import data locally from Flapjack-formated tab-delimited text files");
-        bLocal.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
+        bLocal.addMouseListener(new java.awt.event.MouseAdapter()
+        {
+            public void mouseClicked(java.awt.event.MouseEvent evt)
+            {
                 radioMouseClicked(evt);
             }
         });
 
         buttons.add(bRemote);
-        bRemote.setText("Import data remotely from BRAPI enabled services");
-        bRemote.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
+        bRemote.setText("Import data remotely from BrAPI enabled services");
+        bRemote.addMouseListener(new java.awt.event.MouseAdapter()
+        {
+            public void mouseClicked(java.awt.event.MouseEvent evt)
+            {
                 radioMouseClicked(evt);
             }
         });

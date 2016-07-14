@@ -74,17 +74,15 @@ class BrapiMapsPanelNB extends javax.swing.JPanel
 			request.setMethodID(null);
 	}
 
-	void refreshMaps()
+	boolean refreshMaps()
 	{
-		dialog.enableNext(false);
-
 		ProgressDialog pd = new ProgressDialog(new DataDownloader(),
 			 RB.getString("gui.dialog.importer.BrapiMapsPanelNB.title"),
 			 RB.getString("gui.dialog.importer.BrapiMapsPanelNB.message"),
 			 Flapjack.winMain);
 
 		if (pd.failed("gui.error"))
-			return;
+			return false;
 
 		// Populate the maps combo box
 		mapModel = new DefaultComboBoxModel<String>();
@@ -106,6 +104,8 @@ class BrapiMapsPanelNB extends javax.swing.JPanel
 
 			methodCombo.setModel(methodsModel);
 		}
+
+		return true;
 	}
 
 	private class DataDownloader extends SimpleJob
@@ -113,7 +113,11 @@ class BrapiMapsPanelNB extends javax.swing.JPanel
 		public void runJob(int jobID)
 			throws Exception
 		{
-			BrapiClient.setXmlResource(request.getResource());
+			BrapiClient.setXmlResource(
+				request.getResource());
+
+			BrapiClient.doAuthentication(
+				request.getUsername(), request.getPassword());
 
 			maps = BrapiClient.getMaps();
 //			methods = BrapiClient.getMarkerProfileMethods();
@@ -127,17 +131,18 @@ class BrapiMapsPanelNB extends javax.swing.JPanel
 	 */
 	@SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+    private void initComponents()
+    {
 
         jPanel2 = new javax.swing.JPanel();
         mapsLabel = new javax.swing.JLabel();
-        mapsCombo = new javax.swing.JComboBox<String>();
+        mapsCombo = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
         text = new javax.swing.JTextArea();
         detailsLabel = new javax.swing.JLabel();
         checkSkipMap = new javax.swing.JCheckBox();
         methodLabel = new javax.swing.JLabel();
-        methodCombo = new javax.swing.JComboBox<String>();
+        methodCombo = new javax.swing.JComboBox<>();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -196,7 +201,7 @@ class BrapiMapsPanelNB extends javax.swing.JPanel
                 .addGap(18, 18, 18)
                 .addComponent(detailsLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 115, Short.MAX_VALUE)
+                .addComponent(jScrollPane1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(checkSkipMap)
                 .addContainerGap())

@@ -137,16 +137,17 @@ class BrapiDataPanelNB extends javax.swing.JPanel
 	 */
 	@SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+    private void initComponents()
+    {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         hyperLinkLabel1 = new scri.commons.gui.matisse.HyperLinkLabel();
-        catCombo = new javax.swing.JComboBox<XmlCategory>();
+        catCombo = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
         catText = new javax.swing.JTextArea();
         jLabel3 = new javax.swing.JLabel();
-        resCombo = new javax.swing.JComboBox<XmlResource>();
+        resCombo = new javax.swing.JComboBox<>();
         jScrollPane2 = new javax.swing.JScrollPane();
         resText = new javax.swing.JTextArea();
         jPanel2 = new javax.swing.JPanel();

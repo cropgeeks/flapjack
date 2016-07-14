@@ -33,6 +33,7 @@ public class BrapiClient
 		throws Exception
 	{
 		baseURL = resource.getUrl();
+//		baseURL = "http://localhost:2000/brapi";
 
 		cr = new ClientResource(baseURL);
 
@@ -68,7 +69,7 @@ public class BrapiClient
 //		c.getParameters().add("tracing", "true");
 	}
 
-	// Returns true if another 'page' of data should be requsted
+	// Returns true if another 'page' of data should be requested
 	private static boolean pageCheck(jhi.brapi.resource.Metadata metadata, String url)
 	{
 		Pagination p = metadata.getPagination();
@@ -89,13 +90,45 @@ public class BrapiClient
 		return true;
 	}
 
+	private static String enc(String str)
+	{
+		try { return URLEncoder.encode(str, "UTF-8"); }
+		catch (UnsupportedEncodingException e) { return str; }
+	}
+
+	public static void doAuthentication(String username, String password)
+		throws Exception
+	{
+		if (username == null && password == null)
+			return;
+
+		String url = baseURL + "/token/";
+		cr.setReference(url);
+
+		String params = "grant_type=password&username=" + enc(username)
+			+ "&password=" + enc(password) + "&client_id=flapjack";
+		Form form = new Form(params);
+
+		System.out.println(": " + params);
+
+		BrapiSessionToken token = cr.post(form.getWebRepresentation(), BrapiSessionToken.class);
+
+		System.out.println();
+		System.out.println(token.getSessionToken());
+		System.out.println();
+
+
+//		ChallengeResponse challenge = new ChallengeResponse(ChallengeScheme.HTTP_OAUTH_BEARER);
+//		challenge.setRawValue("1234567890");
+//		cr.setChallengeResponse(challenge);
+	}
+
 	// Returns a list of available maps
 	public static List<BrapiGenomeMap> getMaps()
 		throws ResourceException
 	{
 		String url = baseURL + "/maps/";
 		cr.setReference(url);
-		System.out.println("Querying: " + url);
 
 		List<BrapiGenomeMap> list = new ArrayList<>();
 		boolean requestPage = true;
@@ -142,7 +175,7 @@ public class BrapiClient
 		throws ResourceException
 	{
 		// TODO: /map/{id} = map basics
-		String url = baseURL + "/maps/" + mapID + "/positions";
+		String url = baseURL + "/maps/" + enc(mapID) + "/positions";
 		cr.setReference(url);
 
 		List<BrapiMarker> list = new ArrayList<>();
@@ -193,7 +226,7 @@ public class BrapiClient
 
 		List<BrapiMarkerProfile> list = new ArrayList<>();
 		boolean requestPage = true;
-		
+
 		while (requestPage)
 		{
 			LinkedHashMap hashMap = cr.get(LinkedHashMap.class);
@@ -215,19 +248,20 @@ public class BrapiClient
 		List<BrapiAlleleMatrix> list = new ArrayList<>();
 		boolean requestPage = true;
 
+		// Annoying to have to resend all this for every paged (re)POST
+		StringBuilder sb = new StringBuilder();
+		for (BrapiMarkerProfile mp: markerprofiles)
+		{
+			if (sb.length() > 0)
+				sb.append("&");
+			sb.append("markerprofileDbId=");
+			sb.append(enc(mp.getMarkerprofileDbId()));
+		}
+
+		Form form = new Form(sb.toString());
+
 		while (requestPage)
 		{
-			// Annoying to have to resend all this for every paged (re)POST
-			StringBuilder sb = new StringBuilder();
-			for (BrapiMarkerProfile mp: markerprofiles)
-			{
-				if (sb.length() > 0)
-					sb.append("&");
-				sb.append("markerprofileDbId=" + mp.getMarkerprofileDbId());
-			}
-
-			Form form = new Form(sb.toString());
-
 			LinkedHashMap hashMap = cr.post(form.getWebRepresentation(), LinkedHashMap.class);
 			BasicResource<BrapiAlleleMatrix> br = new ObjectMapper().convertValue(hashMap,
 				new TypeReference<BasicResource<BrapiAlleleMatrix>>() {});
