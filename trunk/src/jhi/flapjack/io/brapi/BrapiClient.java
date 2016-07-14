@@ -33,7 +33,7 @@ public class BrapiClient
 		throws Exception
 	{
 		baseURL = resource.getUrl();
-//		baseURL = "http://localhost:2000/brapi";
+//		baseURL = "http://localhost:2000/brapi/cactuar/v1";
 
 		cr = new ClientResource(baseURL);
 
@@ -109,18 +109,12 @@ public class BrapiClient
 			+ "&password=" + enc(password) + "&client_id=flapjack";
 		Form form = new Form(params);
 
-		System.out.println(": " + params);
-
 		BrapiSessionToken token = cr.post(form.getWebRepresentation(), BrapiSessionToken.class);
 
-		System.out.println();
-		System.out.println(token.getSessionToken());
-		System.out.println();
-
-
-//		ChallengeResponse challenge = new ChallengeResponse(ChallengeScheme.HTTP_OAUTH_BEARER);
-//		challenge.setRawValue("1234567890");
-//		cr.setChallengeResponse(challenge);
+		// Add the token information to all further calls
+		ChallengeResponse challenge = new ChallengeResponse(ChallengeScheme.HTTP_OAUTH_BEARER);
+		challenge.setRawValue(token.getSessionToken());
+		cr.setChallengeResponse(challenge);
 	}
 
 	// Returns a list of available maps
