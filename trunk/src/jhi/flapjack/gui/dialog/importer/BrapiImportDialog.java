@@ -19,6 +19,7 @@ public class BrapiImportDialog extends JDialog implements ActionListener
 	private boolean isOK = false;
 
 	private BrapiDataPanelNB dataPanel;
+	private BrapiPassPanelNB passPanel;
 	private BrapiMapsPanelNB mapsPanel;
 
 	private CardLayout cards = new CardLayout();
@@ -36,10 +37,12 @@ public class BrapiImportDialog extends JDialog implements ActionListener
 		);
 
 		dataPanel = new BrapiDataPanelNB(request, this);
+		passPanel = new BrapiPassPanelNB(request, this);
 		mapsPanel = new BrapiMapsPanelNB(request, this);
 
 		panel.setLayout(cards);
 		panel.add(dataPanel, "data");
+		panel.add(passPanel, "pass");
 		panel.add(mapsPanel, "maps");
 //		cards.first(panel);
 
@@ -52,7 +55,7 @@ public class BrapiImportDialog extends JDialog implements ActionListener
 		addWindowListener(new WindowAdapter() {
 			public void windowOpened(WindowEvent e)
 			{
-				dataPanel.refreshData();
+				setScreen(0);
 			}
 		});
 
@@ -68,7 +71,7 @@ public class BrapiImportDialog extends JDialog implements ActionListener
 		bNext.setEnabled(false);
 		bNext.addActionListener(this);
 		bBack = new JButton("< Back");
-		bBack.setVisible(false);
+		bBack.setEnabled(false);
 		bBack.addActionListener(this);
 		bCancel = new JButton(RB.getString("gui.text.cancel"));
 		bCancel.addActionListener(this);
@@ -86,42 +89,73 @@ public class BrapiImportDialog extends JDialog implements ActionListener
 	}
 
 	void enableNext(boolean enabled)
-	{
-		bNext.setEnabled(enabled);
-	}
+		{ bNext.setEnabled(enabled); }
+
+	void enableBack(boolean enabled)
+		{ bBack.setEnabled(enabled); }
 
 	public void actionPerformed(ActionEvent e)
 	{
 		if (e.getSource() == bNext)
-		{
-			if (screen == 0)
-			{
-				mapsPanel.refreshMaps();
-				cards.next(panel);
-				bBack.setVisible(true);
-
-				screen = 1;
-			}
-			else if (screen == 1)
-			{
-				isOK = true;
-				setVisible(false);
-			}
-		}
+			setScreen(screen+1);
 
 		else if (e.getSource() == bBack)
-		{
-			if (screen == 1)
-			{
-				bBack.setVisible(false);
-				cards.previous(panel);
+			setScreen(screen-1);
 
-				screen = 0;
+		else if (e.getSource() == bCancel)
+			setVisible(false);
+	}
+
+	private void setScreen(int newScreen)
+	{
+		// Displaying the DataSource screen
+		if (newScreen == 0)
+		{
+			enableBack(false);
+			enableNext(false);
+
+			// Grab the data sources
+			dataPanel.refreshData();
+
+			cards.show(panel, "data");
+			screen = 0;
+		}
+
+		// Displaying the Authentication screen
+		else if (newScreen == 1)
+		{
+			enableBack(true);
+
+			// Update the label showing the data source information
+			passPanel.updateLabels();
+
+			cards.show(panel, "pass");
+			screen = 1;
+		}
+
+		// Displaying the SelectMaps screen
+		else if (newScreen == 2)
+		{
+			enableBack(true);
+
+			// Save details entered on the previous screen (if any)
+			passPanel.saveOptions();
+
+			// Download the list of maps and their metadata
+			if (mapsPanel.refreshMaps())
+			{
+				cards.show(panel, "maps");
+				screen = 2;
 			}
 		}
 
-		if (e.getSource() == bCancel)
+		// There is no screen '3' - close and continue
+		else if (newScreen == 3)
+		{
+			isOK = true;
 			setVisible(false);
+		}
+
 	}
 
 	public boolean isOK()
