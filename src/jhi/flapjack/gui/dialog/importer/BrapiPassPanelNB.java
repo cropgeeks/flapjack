@@ -60,7 +60,11 @@ class BrapiPassPanelNB extends JPanel implements ActionListener
 
 	void updateLabels()
 	{
+		Image img = request.getResource().getImage().getImage();
+		img = img.getScaledInstance(48, 48, Image.SCALE_SMOOTH);
+		connectionLabel.setIcon(new ImageIcon(img));
 
+		connectionLabel.setText("Connecting to " + request.getResource().getName());
 	}
 
 	/**
@@ -80,6 +84,7 @@ class BrapiPassPanelNB extends JPanel implements ActionListener
         passLabel = new javax.swing.JLabel();
         password = new javax.swing.JPasswordField();
         useAuthentication = new javax.swing.JCheckBox();
+        jCheckBox1 = new javax.swing.JCheckBox();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -101,24 +106,31 @@ class BrapiPassPanelNB extends JPanel implements ActionListener
         useAuthentication.setText("This resource requires me to authenticate with it:");
         useAuthentication.setOpaque(false);
 
+        jCheckBox1.setText("Remember my credentials");
+        jCheckBox1.setEnabled(false);
+        jCheckBox1.setOpaque(false);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(useAuthentication)
                             .addComponent(connectionLabel))
                         .addGap(0, 221, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(passLabel)
                             .addComponent(userLabel))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jCheckBox1)
+                                .addGap(0, 0, Short.MAX_VALUE))
                             .addComponent(username)
                             .addComponent(password))))
                 .addContainerGap())
@@ -138,6 +150,8 @@ class BrapiPassPanelNB extends JPanel implements ActionListener
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(passLabel)
                     .addComponent(password, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jCheckBox1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -162,6 +176,7 @@ class BrapiPassPanelNB extends JPanel implements ActionListener
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel connectionLabel;
+    private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel passLabel;
     private javax.swing.JPasswordField password;
