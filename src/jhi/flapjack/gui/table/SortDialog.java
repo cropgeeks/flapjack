@@ -57,8 +57,14 @@ public class SortDialog extends JDialog implements ActionListener, ListSelection
 		UIScaler.setCellHeight(table);
 
 		table.getColumnModel().getColumn(0).setCellEditor(
-			new DefaultCellEditor(model.getComboBox()));
+			new DefaultCellEditor(model.getColumnNameComboBox()));
+		table.getColumnModel().getColumn(1).setCellEditor(
+			new DefaultCellEditor(model.getSortOrderComboBox()));
 		table.getColumnModel().getColumn(1).setPreferredWidth(60);
+
+		// Needed when combo box editors lose focus (pressing Delete) and they
+		// can end up calling setValueAt after the row has been removed
+		table.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE);
 	}
 
 	public void actionPerformed(ActionEvent e)

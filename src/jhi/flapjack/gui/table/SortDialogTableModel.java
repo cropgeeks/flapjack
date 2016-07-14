@@ -7,9 +7,6 @@ import java.util.*;
 import javax.swing.*;
 import javax.swing.table.*;
 
-import jhi.flapjack.data.*;
-import jhi.flapjack.gui.*;
-
 import scri.commons.gui.*;
 
 class SortDialogTableModel extends AbstractTableModel
@@ -20,10 +17,15 @@ class SortDialogTableModel extends AbstractTableModel
 	private ArrayList<SortColumn> rows;
 
 	private String[] columnNames;
+	private static String ASC;
+	private static String DEC;
 
 	SortDialogTableModel(SortColumn[] data, SortColumn[] lastUsed)
 	{
 		this.data = data;
+
+		ASC = RB.getString("gui.table.SortDialog.asc");
+		DEC = RB.getString("gui.table.SortDialog.dec");
 
 		columnNames = new String[] {
 			RB.getString("gui.table.SortDialog.col1"),
@@ -71,7 +73,12 @@ class SortDialogTableModel extends AbstractTableModel
 			return rows.get(row);
 		}
 		else
-			return rows.get(row).sortOrder == SortOrder.ASCENDING;
+		{
+			if (rows.get(row).sortOrder == SortOrder.ASCENDING)
+				return ASC;
+			else
+				return DEC;
+		}
 	}
 
 	@Override
@@ -80,7 +87,7 @@ class SortDialogTableModel extends AbstractTableModel
 		if (col == 0)
 			return SortColumn.class;
 
-		return Boolean.class;
+		return String.class;
 	}
 
 	@Override
@@ -89,12 +96,22 @@ class SortDialogTableModel extends AbstractTableModel
 		return true;
 	}
 
-	JComboBox<SortColumn> getComboBox()
+	JComboBox<SortColumn> getColumnNameComboBox()
 	{
 		JComboBox<SortColumn> combo = new JComboBox<>();
 
 		for (int i = 0; i < data.length; i++)
 			combo.addItem(data[i].cloneMe());
+
+		return combo;
+	}
+
+	JComboBox<String> getSortOrderComboBox()
+	{
+		JComboBox<String> combo = new JComboBox<>();
+
+		combo.addItem(DEC);
+		combo.addItem(ASC);
 
 		return combo;
 	}
@@ -111,10 +128,10 @@ class SortDialogTableModel extends AbstractTableModel
 		}
 		else
 		{
-			if (entry.sortOrder == SortOrder.ASCENDING)
-				entry.sortOrder = SortOrder.DESCENDING;
-			else
+			if (((String)value).equals(ASC))
 				entry.sortOrder = SortOrder.ASCENDING;
+			else
+				entry.sortOrder = SortOrder.DESCENDING;
 		}
 
 		fireTableCellUpdated(row, col);
@@ -123,13 +140,12 @@ class SortDialogTableModel extends AbstractTableModel
 	void addRow()
 	{
 		rows.add(data[0].cloneMe());
-
-		fireTableDataChanged();
+		fireTableRowsInserted(rows.size()-1, rows.size()-1);
 	}
 
 	void deleteRow(int row)
 	{
 		rows.remove(row);
-		fireTableDataChanged();
+		fireTableRowsDeleted(row, row);
 	}
 }

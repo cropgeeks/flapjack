@@ -53,6 +53,10 @@ class SortLinesByTraitPanelNB extends JPanel implements ActionListener, ListSele
 
 		TableColumn c1 = table.getColumnModel().getColumn(1);
 		c1.setPreferredWidth(60);
+
+		// Needed when combo box editors lose focus (pressing Delete) and they
+		// can end up calling setValueAt after the row has been removed
+		table.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE);
 	}
 
 	boolean isOK()
