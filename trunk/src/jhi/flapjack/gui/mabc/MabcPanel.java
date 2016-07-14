@@ -14,7 +14,7 @@ import jhi.flapjack.gui.table.*;
 
 import scri.commons.gui.*;
 
-public class MabcPanel extends JPanel implements ActionListener, ListSelectionListener
+public class MabcPanel extends JPanel implements ActionListener, ListSelectionListener, ITableViewListener
 {
 	private JTable table;
 	private MabcTableModel model;
@@ -33,6 +33,7 @@ public class MabcPanel extends JPanel implements ActionListener, ListSelectionLi
 
 		table = controls.table;
 		table.getSelectionModel().addListSelectionListener(this);
+		((LineDataTable)table).addViewListener(this);
 
 		setLayout(new BorderLayout());
 		add(new TitlePanel(RB.getString("gui.mabc.MabcPanel.title")), BorderLayout.NORTH);
@@ -56,6 +57,8 @@ public class MabcPanel extends JPanel implements ActionListener, ListSelectionLi
 
 		table.setModel(model);
 		((LineDataTable)table).setViewSet(viewSet);
+
+		tableFiltered();
 	}
 
 	@Override
@@ -139,5 +142,11 @@ public class MabcPanel extends JPanel implements ActionListener, ListSelectionLi
 				if (lsModel.isSelectedIndex(i))
 					model.setRank(table.convertRowIndexToModel(i), rank);
 		}
+	}
+
+	public void tableFiltered()
+	{
+		controls.filterLabel.setText(
+			"Visible lines: " + table.getRowCount() + "/" + model.getRowCount());
 	}
 }

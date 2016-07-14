@@ -48,6 +48,8 @@ class PedVerLinesPanelNB extends JPanel
         jLabel1 = new javax.swing.JLabel();
         bSelect = new javax.swing.JButton();
         autoResize = new javax.swing.JCheckBox();
+        jLabel2 = new javax.swing.JLabel();
+        filterLabel = new javax.swing.JLabel();
 
         table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][]
@@ -75,6 +77,10 @@ class PedVerLinesPanelNB extends JPanel
         autoResize.setText("Auto-fit columns");
         autoResize.setOpaque(false);
 
+        jLabel2.setText("|");
+
+        filterLabel.setText("Lines visible:");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -82,7 +88,11 @@ class PedVerLinesPanelNB extends JPanel
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(autoResize)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 107, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(filterLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 108, Short.MAX_VALUE)
                 .addComponent(bSelect)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel1)
@@ -104,7 +114,9 @@ class PedVerLinesPanelNB extends JPanel
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel1)
                         .addComponent(bSelect)
-                        .addComponent(autoResize))
+                        .addComponent(autoResize)
+                        .addComponent(jLabel2)
+                        .addComponent(filterLabel))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(bSort)
                         .addComponent(bFilter)
@@ -120,7 +132,9 @@ class PedVerLinesPanelNB extends JPanel
     javax.swing.JButton bFilter;
     javax.swing.JButton bSelect;
     javax.swing.JButton bSort;
+    javax.swing.JLabel filterLabel;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     javax.swing.JTable table;
     // End of variables declaration//GEN-END:variables

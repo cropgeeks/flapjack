@@ -12,7 +12,7 @@ import jhi.flapjack.data.*;
 import jhi.flapjack.gui.*;
 import jhi.flapjack.gui.table.*;
 
-public class PedVerF1sPanel extends JPanel implements ActionListener
+public class PedVerF1sPanel extends JPanel implements ActionListener, ITableViewListener
 {
 	private JTable table;
 	private PedVerF1sTableModel model;
@@ -24,6 +24,7 @@ public class PedVerF1sPanel extends JPanel implements ActionListener
 		controls = new PedVerF1sPanelNB(this);
 
 		table = controls.table;
+		((LineDataTable)table).addViewListener(this);
 
 		setLayout(new BorderLayout());
 		add(new TitlePanel("Pedigree Verification of F1s (Known Parents)"), BorderLayout.NORTH);
@@ -41,6 +42,8 @@ public class PedVerF1sPanel extends JPanel implements ActionListener
 
 		table.setModel(model);
 		((LineDataTable)table).setViewSet(viewSet);
+
+		tableFiltered();
 	}
 
 	public void actionPerformed(ActionEvent e)
@@ -56,5 +59,11 @@ public class PedVerF1sPanel extends JPanel implements ActionListener
 
 		else if (e.getSource() == controls.autoResize)
 			((LineDataTable)table).autoResize(controls.autoResize.isSelected());
+	}
+
+	public void tableFiltered()
+	{
+		controls.filterLabel.setText(
+			"Visible lines: " + table.getRowCount() + "/" + model.getRowCount());
 	}
 }

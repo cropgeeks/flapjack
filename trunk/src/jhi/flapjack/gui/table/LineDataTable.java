@@ -22,6 +22,8 @@ import scri.commons.gui.*;
 
 public class LineDataTable extends JTable
 {
+	private LinkedList<ITableViewListener> viewListeners;
+
 	private LineDataTableModel model;
 	private TableRowSorter<LineDataTableModel> sorter;
 
@@ -35,11 +37,18 @@ public class LineDataTable extends JTable
 
 	public LineDataTable()
 	{
+		viewListeners = new LinkedList<ITableViewListener>();
+
 		setDefaultRenderer(String.class, new ColoredCellRenderer());
 		setDefaultRenderer(Float.class, new ColoredCellRenderer());
 		setDefaultRenderer(Double.class, new ColoredCellRenderer());
 
 		UIScaler.setCellHeight(this);
+	}
+
+	public void addViewListener(ITableViewListener listener)
+	{
+		viewListeners.add(listener);
 	}
 
 	public boolean colorCells()
@@ -296,6 +305,10 @@ public class LineDataTable extends JTable
 		RowFilter<LineDataTableModel,Object> f = RowFilter.andFilter(filters);
 
 		sorter.setRowFilter(f);
+
+		// Notify listeners of the filter event
+		for (ITableViewListener listener: viewListeners)
+			listener.tableFiltered();
 	}
 
 	public void selectDialog()
