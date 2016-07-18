@@ -46,9 +46,9 @@ public class BrapiMapImporter implements IMapImporter
 	{
 		NumberFormat nf = NumberFormat.getInstance();
 
-		List<BrapiMarker> list = BrapiClient.getMapMarkerData(request.getMapID());
+		List<BrapiMarkerPosition> list = BrapiClient.getMapMarkerData(request.getMapID());
 
-		for (BrapiMarker bm: list)
+		for (BrapiMarkerPosition bm: list)
 		{
 			// Each MapEntry represents a marker: its name, chromosome, and
 			// location on chromosome
