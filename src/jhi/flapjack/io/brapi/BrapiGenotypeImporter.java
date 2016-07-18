@@ -6,6 +6,7 @@ package jhi.flapjack.io.brapi;
 import java.io.*;
 import java.util.*;
 
+import jhi.brapi.resource.*;
 import jhi.flapjack.data.*;
 import jhi.flapjack.io.*;
 
@@ -142,8 +143,9 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 			throw new IOException("List contains zero BRAPI AlleleMatrix objects");
 
 //		BrapiAlleleMatrix matrix = matrixList.get(0);
-		for (BrapiAlleleMatrix matrix : matrixList)
+		for (int m = 0; m < matrixList.size(); m++)
 		{
+			BrapiAlleleMatrix matrix = matrixList.get(m);
 
 			// A list of IDs that need to be mapped back to the original list of marker profile IDs that
 			// were asked for
@@ -168,10 +170,48 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 					{
 						List<String> alleles = score.get(markerName);
 
+						if(m > 0 && i == 0 && alleles.size() != markerprofileIds.size())
+						{
+							BrapiAlleleMatrix oldMatrix = matrixList.get(m - 1);
+							LinkedHashMap<String, List<String>> oldScores = oldMatrix.getData().get(oldMatrix.getData().size() - 1);
+
+							List<String> oldAlleles = oldScores.get(markerName);
+
+							for (int j = 0; j < oldAlleles.size(); j++)
+							{
+								// Retrieve the line matching this
+								String mpID = markerprofileIds.get(j);
+								Line line = linesByProfileID.get(mpID);
+
+								if (line == null)
+								{
+									System.out.println("NULL:" + mpID);
+									break;
+								}
+
+								String allele = oldAlleles.get(j);
+
+								// Determine its various states
+								Integer stateCode = states.get(allele);
+								if (stateCode == null)
+								{
+									stateCode = stateTable.getStateCode(allele, true, ioMissingData, ioUseHetSep, ioHeteroSeparator);
+									states.put(allele, stateCode);
+								}
+
+								// Then apply them to the marker data
+								line.setLoci(index.mapIndex, index.mkrIndex, stateCode);
+
+								alleleCount++;
+							}
+						}
+
+						int offset = markerprofileIds.size() - alleles.size();
+
 						for (int j = 0; j < alleles.size(); j++)
 						{
 							// Retrieve the line matching this
-							String mpID = markerprofileIds.get(j);
+							String mpID = markerprofileIds.get(j + offset);
 							Line line = linesByProfileID.get(mpID);
 
 							if (line == null)

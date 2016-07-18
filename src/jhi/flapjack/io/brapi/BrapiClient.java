@@ -165,21 +165,21 @@ public class BrapiClient
 	}
 
 	// Returns the details (markers, chromosomes, positions) for a given map
-	public static List<BrapiMarker> getMapMarkerData(String mapID)
+	public static List<BrapiMarkerPosition> getMapMarkerData(String mapID)
 		throws ResourceException
 	{
 		// TODO: /map/{id} = map basics
 		String url = baseURL + "/maps/" + enc(mapID) + "/positions";
 		cr.setReference(url);
 
-		List<BrapiMarker> list = new ArrayList<>();
+		List<BrapiMarkerPosition> list = new ArrayList<>();
 		boolean requestPage = true;
 
 		while (requestPage)
 		{
 			LinkedHashMap hashMap = cr.get(LinkedHashMap.class);
-			BasicResource<DataResult<BrapiMarker>> br = new ObjectMapper().convertValue(hashMap,
-				new TypeReference<BasicResource<DataResult<BrapiMarker>>>() {});
+			BasicResource<DataResult<BrapiMarkerPosition>> br = new ObjectMapper().convertValue(hashMap,
+				new TypeReference<BasicResource<DataResult<BrapiMarkerPosition>>>() {});
 
 			list.addAll(br.getResult().getData());
 			requestPage = pageCheck(br.getMetadata(), url);
