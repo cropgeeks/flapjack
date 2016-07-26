@@ -4,6 +4,7 @@
 package jhi.flapjack.io.brapi;
 
 import java.io.*;
+import java.net.URI;
 import java.util.*;
 
 import jhi.brapi.resource.*;
@@ -76,7 +77,7 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 
 	@Override
 	public void importGenotypeData()
-		throws IOException, DataFormatException
+		throws Exception
 	{
 		// If the first read failed, clear everything and start again using int
 		// storage rather than byte
@@ -93,7 +94,7 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 	}
 
 	private boolean readData()
-		throws IOException, DataFormatException
+		throws Exception
 	{
 		List<BrapiGermplasm> list = BrapiClient.getGermplasms();
 		System.out.println("Recevied info on " + list.size() + " lines");
@@ -136,7 +137,85 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 		}
 
 
+//		if (true)
+//			return readTSVAlleleMatrix(linesByProfileID, profiles);
+//		else
+			return readJSONAlleleMatrix(linesByProfileID, profiles);
 
+
+	}
+
+	@Override
+	public long getBytesRead()
+		{ return 0; }
+
+	private boolean readTSVAlleleMatrix(HashMap<String, Line> linesByProfileID, List<BrapiMarkerProfile> profiles)
+		throws Exception
+	{
+		URI uri = BrapiClient.getAlleleMatrixTSV(profiles);
+
+		BufferedReader in = new BufferedReader(new InputStreamReader(uri.toURL().openStream()));
+
+		// The first line is a list of marker profile IDs
+		String str = in.readLine();
+
+		// A list of IDs that need to be mapped back to the original list of marker profile IDs that
+		// were asked for
+		String[] tmpstr = str.split("\t");
+		List<String> markerprofileIds = Arrays.asList(tmpstr);
+//		markerprofileIds = markerprofileIds.subList(1, markerprofileIds.size()-1);
+
+		while ((str = in.readLine()) != null && !str.isEmpty())
+		{
+			String[] tokens = str.split("\t");
+			String markerID = tokens[0];
+
+			MarkerIndex index = markers.get(markerID);
+
+
+			for (int j = 1; j < tokens.length; j++)
+			{
+				// Retrieve the line matching this
+				String mpID = markerprofileIds.get(j);
+				Line line = linesByProfileID.get(mpID);
+
+				if (line == null)
+				{
+					System.out.println("NULL:" + mpID);
+					break;
+				}
+
+				String allele = tokens[j];
+
+				// Determine its various states
+				Integer stateCode = states.get(allele);
+				if (stateCode == null)
+				{
+					stateCode = stateTable.getStateCode(allele, true, ioMissingData, ioUseHetSep, ioHeteroSeparator);
+					states.put(allele, stateCode);
+				}
+
+				// Then apply them to the marker data
+				line.setLoci(index.mapIndex, index.mkrIndex, stateCode);
+
+				alleleCount++;
+			}
+
+			if (useByteStorage && stateTable.size() > 127)
+				return false;
+
+			if (isOK == false)
+				break;
+		}
+
+		in.close();
+
+		return true;
+	}
+
+	private boolean readJSONAlleleMatrix(HashMap<String, Line> linesByProfileID, List<BrapiMarkerProfile> profiles)
+		throws IOException
+	{
 		// Now retrieve the allele data using the /brapi/allelematrix call
 		List<BrapiAlleleMatrix> matrixList = BrapiClient.getAlleleMatrix(profiles);
 		if (matrixList.size() == 0)
@@ -177,7 +256,7 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 
 							List<String> oldAlleles = oldScores.get(markerName);
 
-							for (int j = 0; j < oldAlleles.size(); j++)
+							for (int j = 0; oldAlleles != null && j < oldAlleles.size(); j++)
 							{
 								// Retrieve the line matching this
 								String mpID = markerprofileIds.get(j);
@@ -248,8 +327,4 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 
 		return true;
 	}
-
-	@Override
-	public long getBytesRead()
-		{ return 0; }
 }

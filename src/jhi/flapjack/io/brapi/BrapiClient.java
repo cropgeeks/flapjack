@@ -33,7 +33,8 @@ public class BrapiClient
 		throws Exception
 	{
 		baseURL = resource.getUrl();
-//		baseURL = "http://localhost:2000/brapi/cactuar/v1";
+		baseURL = "http://localhost:2000/brapi/cactuar/v1";
+//		baseURL = "http://localhost:2000/brapi/gobii/v1";
 
 		cr = new ClientResource(baseURL);
 
@@ -267,6 +268,42 @@ public class BrapiClient
 		}
 
 		return list;
+	}
+
+	public static URI getAlleleMatrixTSV(List<BrapiMarkerProfile> markerprofiles)
+		throws Exception
+	{
+		String url = baseURL + "/allelematrix";
+		cr.setReference(url);
+
+		List<BrapiAlleleMatrix> list = new ArrayList<>();
+		boolean requestPage = true;
+
+		StringBuilder sb = new StringBuilder();
+		for (BrapiMarkerProfile mp: markerprofiles)
+		{
+			if (sb.length() > 0)
+				sb.append("&");
+			sb.append("markerprofileDbId=");
+			sb.append(enc(mp.getMarkerprofileDbId()));
+		}
+		if (sb.length() > 0)
+			sb.append("&");
+		sb.append("format=tsv");
+
+		Form form = new Form(sb.toString());
+
+		// Force no pagination
+		LinkedHashMap hashMap = cr.post(form.getWebRepresentation(), LinkedHashMap.class);
+		BasicResource<BrapiAlleleMatrix> br = new ObjectMapper().convertValue(hashMap,
+			new TypeReference<BasicResource<BrapiAlleleMatrix>>() {});
+
+		jhi.brapi.resource.Metadata md = br.getMetadata();
+		List<Datafile> files = md.getDatafiles();
+
+		System.out.println("FILES: " + files);
+
+		return new URI(files.get(0).getUrl());
 	}
 
 
