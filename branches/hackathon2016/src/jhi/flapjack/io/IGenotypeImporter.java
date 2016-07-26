@@ -7,7 +7,7 @@ import java.io.*;
 
 public interface IGenotypeImporter
 {
-	public void importGenotypeData() throws IOException, DataFormatException;
+	public void importGenotypeData() throws Exception;
 
 	public void cancelImport();
 
