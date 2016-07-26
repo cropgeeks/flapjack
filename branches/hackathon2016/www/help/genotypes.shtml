@@ -1,0 +1,142 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+
+<html>
+<head>
+<meta http-equiv="Content-Language" content="en-gb">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+<link rel="stylesheet" href="stylesheet/styles.css" type="text/css">
+
+<title>Genotype Visualization</title>
+
+</head>
+<body>
+
+<!--#include virtual="header.html" -->
+
+
+<h2>Genotype Visualization</h2>
+
+<p>Flapjack's main display is all about genotype visualization. The screen is
+divided up into several separate areas, each one showing a
+different component of the various genotype-related visualizations.</p>
+
+<p>(Note that this
+section of help only discusses genotype visualization. Please see the separate
+entries for help with <a href="qtls.shtml">QTL Visualization</a> or
+Phenotype Visualization.)</p>
+
+
+<h3>Genotype display</h3>
+
+<p>The genotype display panel is the primary visualization component, showing
+a graphical representation of the genotype values for each homozygous (single
+block) or heterozygous (split diagonal block) allele within the current chromosome.
+Data on lines is shown horizontally, with data on the markers shown
+vertically. You can zoom in or out of the view by adjusting the zoom slider.</p>
+
+<p><a href="images/alleles.png">
+<img class="capture" src="images/alleles2.png" alt="Flapjack Screenshot"></a></p>
+
+<p>By default, Flapjack will show a colour per allele type. To overlay
+the underlying textual value, select <b>Visualization > Overlay genotypes</b>
+from the menu bar. Note that the colours in use are dependant on the
+<a href="colours.shtml">colour scheme </a> selected.</p>
+
+<p>Moving the mouse over any allele will provide more specific details about it
+in the lower information pane. This includes the name of the line currently under
+the mouse, the name of the marker currently under the mouse, and the value of
+the allele at that position.</p>
+
+<p><a href="images/zoomPanel.png">
+<img class="capture" src="images/zoomPanel2.png" alt="Flapjack Screenshot"></a></p>
+
+
+<h3>Chromosome overviews</h3>
+
+<p>Depending on the zoom level, the main display may only be showing a subset of
+the available data for the current chromosome. A scaled-to-fit overview of the
+entire chromosome is visible in the bottom left corner of Flapjack's main window.
+(This can also be popped out into its own window by selecting <b>Visualization >
+Show overview</b>.)
+
+<p><a href="images/overviewWindow.png">
+<img class="capture" src="images/overviewWindow2.png" alt="Flapjack Screenshot"></a></p>
+
+<p>The overview window displays all the data, with an inset region (marked in
+red) that represents how much of the data is currently visible within the main
+genotype display area.</p>
+
+<p>Note also, that although the current colour scheme is maintained within the
+overview, for some schemes it is impossible for Flapjack to correctly render
+heterozygotes in an overview. In these cases, <i>all</i> such alleles are
+coloured in grey rather than their split diagonal colouring.</p>
+
+
+<h3>Line information</h3>
+
+<p>Information on each line is provided by the list of lines names that is
+displayed to the left-hand side of the genotype display area. As the mouse is
+moved over the genotypes, the current line's name will be highlighted in red
+within the list.</p>
+
+
+<h3>Chromosome display</h3>
+
+<p><a href="images/chromosomeSummary.png">
+<img class="capture" src="images/chromosomeSummary2.png" alt="Flapjack Screenshot"></a></p>
+
+<p>Flapjack displays one chromosome at a time from within a given data set. A
+drop down list of all available chromosomes can be found in the chromosome
+summary panel towards the top of the display area. This gives the name of the
+currently selected chromosome, along with a count of the number of active lines
+and markers within it, and its length in centimorgans (cM). (Active lines or
+markers refers to the number that are currently visible - see
+<a href="hiding.shtml">Selecting Lines/Markers</a> for more information.)</p>
+
+<p>Below the chromosome summary is a graphical representation of the chromosome
+map. This displays the chromosome itself, along with the positions of all its
+markers, and how each marker maps from the chromosome to the genotype display
+area within Flapjack.</p>
+
+<p><a href="images/chromosomeMap.png">
+<img class="capture" src="images/chromosomeMap2.png" alt="Flapjack Screenshot"></a></p>
+
+<p>As the mouse is moved over the genotypes, the current marker under the mouse
+is highlighted in red. Its name and position on the chromosome (in brackets) is
+displayed as well.</p>
+
+
+<h3>Line and marker overviews</h3>
+
+<p>The final elements of the visualization are the two overview displays; one for
+markers, shown to the right of the main genotype display; and one for lines,
+shown below the genotype display.</p>
+
+<p>
+<table>
+<tr>
+  <td><a href="images/markerOverview.png">
+      <img class="capture" src="images/markerOverview2.png" alt="Flapjack Screenshot"></a>
+  </td>
+  <td><a href="images/lineOverview.png">
+      <img class="capture" src="images/lineOverview2.png" alt="Flapjack Screenshot"></a>
+  </td>
+</tr>
+</table>
+</p>
+
+<p>Each of these displays is active whenever the mouse is moved over the genotypes.
+The markers overview will display a scaled-to-fit visualization of all the data
+for the marker currently under the mouse, along with its two nearest neighbours.
+Similarly, the line overview will display a scaled-to-fit visualization of all
+the data for (just) the current line under the mouse.</p>
+
+<p>As with the main overview display, each of these components will highlight
+what portion of the (entire) line or marker data is currently visible within
+the main genotype display by outlining that section within the overview.</p>
+
+<!--#include virtual="footer.html" -->
+
+</body>
+</html>
