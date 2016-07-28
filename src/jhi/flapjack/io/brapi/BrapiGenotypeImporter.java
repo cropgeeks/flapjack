@@ -50,8 +50,9 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 		this.ioUseHetSep = ioUseHetSep;
 		this.ioHeteroSeparator = ioHeteroSeparator;
 
-		this.ioMissingData = "--";
-		this.ioUseHetSep = false;
+		this.ioMissingData = "N";
+		this.ioUseHetSep = true;
+		this.ioHeteroSeparator = "/";
 
 
 		stateTable = dataSet.getStateTable();
@@ -96,53 +97,25 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 	private boolean readData()
 		throws Exception
 	{
-		List<BrapiGermplasm> list = BrapiClient.getGermplasms();
-		System.out.println("Recevied info on " + list.size() + " lines");
-
-		// We need three (!) lookup tables - one to track duplicate names, one
-		// to find them by BRAPI germplasm ID and another to find them by BRAPI
-		// marker profile ID
-		HashMap<String, Line> linesByName = new HashMap<>();
-		HashMap<String, Line> linesByGermplasmID = new HashMap<>();
-		HashMap<String, Line> linesByProfileID = new HashMap<>();
-
-		for (BrapiGermplasm germplasm: list)
-		{
-			// Check for duplicate line names
-			String name = germplasm.getDefaultDisplayName();
-
-			if (linesByName.get(name) != null)
-				throw new DataFormatException(RB.format("io.DataFormatException.duplicateLineError2", name));
-
-			Line line = dataSet.createLine(name, useByteStorage);
-			linesByName.put(name, line);
-			linesByGermplasmID.put(germplasm.getGermplasmDbId(), line);
-
-//			System.out.println("GID: #" + germplasm.getGermplasmId() + "#, name: " + name);
-		}
-
 		// Call /markerprofiles for list of all profile IDs so those parameters
 		// can be fed into the /allelematrix call
 		String methodID = request.getMethodID();
-		List<BrapiMarkerProfile> profiles = BrapiClient.getMarkerProfiles(methodID);
+		List<BrapiMarkerProfile> profiles = BrapiClient.getMarkerProfiles(methodID, request.getStudyID());
+
+		HashMap<String, Line> linesByProfileID = new HashMap<>();
 
 		for (BrapiMarkerProfile mp: profiles)
 		{
-//			System.out.print("GID: #" + mp.getGermplasmId() + "#, name: ");
+			String name = mp.getUniqueDisplayName();
 
-			Line line = linesByGermplasmID.get("" + mp.getGermplasmDbId());
+			// TODO: Call specifies unique name but should we check for duplicates just in case???
+			Line line = dataSet.createLine(name, useByteStorage);
+
 			linesByProfileID.put(mp.getMarkerprofileDbId(), line);
-
-//			System.out.println(line == null ? "NULL" : line.getName());
 		}
 
-
-//		if (true)
 //			return readTSVAlleleMatrix(linesByProfileID, profiles);
-//		else
 			return readJSONAlleleMatrix(linesByProfileID, profiles);
-
-
 	}
 
 	@Override

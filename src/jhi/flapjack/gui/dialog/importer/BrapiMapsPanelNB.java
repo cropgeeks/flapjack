@@ -47,7 +47,7 @@ class BrapiMapsPanelNB extends javax.swing.JPanel
 		{
 			BrapiGenomeMap map = maps.get(index);
 
-			request.setMapID("" + map.getMapId());
+			request.setMapID("" + map.getMapDbId());
 
 			String str = "Species: " + map.getSpecies() + "\n" +
 				"Type: " + map.getType() + "\n" +
@@ -88,7 +88,7 @@ class BrapiMapsPanelNB extends javax.swing.JPanel
 		mapModel = new DefaultComboBoxModel<String>();
 
 		for (BrapiGenomeMap map: maps)
-			mapModel.addElement(map.getMapId() + " - " + map.getName());
+			mapModel.addElement(map.getMapDbId() + " - " + map.getName());
 
 		mapsCombo.setModel(mapModel);
 		displayMap();

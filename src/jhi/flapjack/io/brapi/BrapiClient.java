@@ -33,7 +33,7 @@ public class BrapiClient
 		throws Exception
 	{
 		baseURL = resource.getUrl();
-		baseURL = "http://localhost:2000/brapi/cactuar/v1";
+//		baseURL = "http://localhost:2000/brapi/cactuar/v1";
 //		baseURL = "http://localhost:2000/brapi/gobii/v1";
 
 		cr = new ClientResource(baseURL);
@@ -190,7 +190,7 @@ public class BrapiClient
 	}
 
 	// Returns a list of line names
-	public static List<BrapiGermplasm> getGermplasms()
+/*	public static List<BrapiGermplasm> getGermplasms()
 		throws ResourceException
 	{
 		String url = baseURL + "/germplasm/";
@@ -211,12 +211,38 @@ public class BrapiClient
 
 		return list;
 	}
+*/
 
-	public static List<BrapiMarkerProfile> getMarkerProfiles(String methodID)
+	// Returns a list of available studies
+	public static List<BrapiStudies> getStudies()
+		throws ResourceException
+	{
+		String url = baseURL + "/studies/";
+		cr.addQueryParameter("studyType", "genotype");
+		cr.setReference(url);
+
+		List<BrapiStudies> list = new ArrayList<>();
+		boolean requestPage = true;
+
+		while (requestPage)
+		{
+			LinkedHashMap hashMap = cr.get(LinkedHashMap.class);
+			BasicResource<DataResult<BrapiStudies>> br = new ObjectMapper().convertValue(hashMap,
+				new TypeReference<BasicResource<DataResult<BrapiStudies>>>() {});
+
+			list.addAll(br.getResult().getData());
+			requestPage = pageCheck(br.getMetadata(), url);
+		}
+
+		return list;
+	}
+
+	public static List<BrapiMarkerProfile> getMarkerProfiles(String methodID, String studyDbId)
 		throws ResourceException
 	{
 		String url = baseURL + "/markerprofiles/";// +
 	//		methodID == null ? "/" : "&method=" + methodID);
+		cr.addQueryParameter("studyDbId", studyDbId);
 		cr.setReference(url);
 
 		List<BrapiMarkerProfile> list = new ArrayList<>();

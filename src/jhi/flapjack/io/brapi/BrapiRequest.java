@@ -12,6 +12,7 @@ public class BrapiRequest
 	private String password;
 
 	private String mapID;
+	private String studyID;
 	private String methodID;
 
 
@@ -44,4 +45,10 @@ public class BrapiRequest
 
 	public void setMapID(String mapIndex)
 		{ this.mapID = mapIndex; }
+
+	public String getStudyID()
+		{ return studyID; }
+
+	public void setStudyID(String studyID)
+		{ this.studyID = studyID; }
 }
