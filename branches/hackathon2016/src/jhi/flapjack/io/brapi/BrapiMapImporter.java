@@ -52,7 +52,7 @@ public class BrapiMapImporter implements IMapImporter
 
 		for (BrapiMarkerPosition bm: list)
 		{
-			namesToIDs.put(bm.getMarkerName(), bm.getMarkerId());
+			namesToIDs.put(bm.getMarkerName(), bm.getMarkerDbId());
 
 			// Each MapEntry represents a marker: its name, chromosome, and
 			// location on chromosome
@@ -84,7 +84,7 @@ public class BrapiMapImporter implements IMapImporter
 				// This is different from normal load code that uses names; here we#re using IDs as that's
 				// what BRAPI returns, but we've used the hash above to map between names and IDs
 				// *************
-				markers.put(bm.getMarkerId(), new MarkerIndex(w.index, 0));
+				markers.put(bm.getMarkerDbId(), new MarkerIndex(w.index, 0));
 
 				markerCount++;
 			}
