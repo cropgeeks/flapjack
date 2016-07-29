@@ -141,30 +141,6 @@ public class BrapiClient
 		return list;
 	}
 
-	// Returns a list of available "MarkerProfileMethods" - this isn't something
-	// that really exists in Germinate (yet)
-	public static List<BrapiMarkerProfileMethod> getMarkerProfileMethods()
-		throws ResourceException
-	{
-		String url = baseURL + "/markerprofiles/methods/";
-		cr.setReference(url);
-
-		List<BrapiMarkerProfileMethod> list = new ArrayList<>();
-		boolean requestPage = true;
-
-		while (requestPage)
-		{
-			LinkedHashMap hashMap = cr.get(LinkedHashMap.class);
-			BasicResource<DataResult<BrapiMarkerProfileMethod>> br = new ObjectMapper().convertValue(hashMap,
-				new TypeReference<BasicResource<DataResult<BrapiMarkerProfileMethod>>>() {});
-
-			list.addAll(br.getResult().getData());
-			requestPage = pageCheck(br.getMetadata(), url);
-		}
-
-		return list;
-	}
-
 	// Returns the details (markers, chromosomes, positions) for a given map
 	public static List<BrapiMarkerPosition> getMapMarkerData(String mapID)
 		throws ResourceException
@@ -189,35 +165,11 @@ public class BrapiClient
 		return list;
 	}
 
-	// Returns a list of line names
-/*	public static List<BrapiGermplasm> getGermplasms()
-		throws ResourceException
-	{
-		String url = baseURL + "/germplasm/";
-		cr.setReference(url);
-
-		List<BrapiGermplasm> list = new ArrayList<>();
-		boolean requestPage = true;
-
-		while (requestPage)
-		{
-			LinkedHashMap hashMap = cr.get(LinkedHashMap.class);
-			BasicResource<DataResult<BrapiGermplasm>> br = new ObjectMapper().convertValue(hashMap,
-				new TypeReference<BasicResource<DataResult<BrapiGermplasm>>>() {});
-
-			list.addAll(br.getResult().getData());
-			requestPage = pageCheck(br.getMetadata(), url);
-		}
-
-		return list;
-	}
-*/
-
 	// Returns a list of available studies
 	public static List<BrapiStudies> getStudies()
 		throws ResourceException
 	{
-		String url = baseURL + "/studies/";
+		String url = baseURL + "/studies-search/";
 		cr.addQueryParameter("studyType", "genotype");
 		cr.setReference(url);
 
@@ -263,7 +215,7 @@ public class BrapiClient
 	public static List<BrapiAlleleMatrix> getAlleleMatrix(List<BrapiMarkerProfile> markerprofiles)
 		throws ResourceException
 	{
-		String url = baseURL + "/allelematrix";
+		String url = baseURL + "/allelematrix-search";
 		cr.setReference(url);
 
 		List<BrapiAlleleMatrix> list = new ArrayList<>();
@@ -299,7 +251,7 @@ public class BrapiClient
 	public static URI getAlleleMatrixTSV(List<BrapiMarkerProfile> markerprofiles)
 		throws Exception
 	{
-		String url = baseURL + "/allelematrix";
+		String url = baseURL + "/allelematrix-search";
 		cr.setReference(url);
 
 		List<BrapiAlleleMatrix> list = new ArrayList<>();

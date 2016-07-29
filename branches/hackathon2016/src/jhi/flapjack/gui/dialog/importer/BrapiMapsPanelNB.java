@@ -17,10 +17,10 @@ class BrapiMapsPanelNB extends javax.swing.JPanel
 {
 	private BrapiRequest request;
 	private List<BrapiGenomeMap> maps;
-	private List<BrapiMarkerProfileMethod> methods;
+
 	private BrapiImportDialog dialog;
 
-	private DefaultComboBoxModel<String> mapModel, methodsModel;
+	private DefaultComboBoxModel<String> mapModel;
 
 	public BrapiMapsPanelNB(BrapiRequest request, BrapiImportDialog dialog)
 	{
@@ -36,7 +36,6 @@ class BrapiMapsPanelNB extends javax.swing.JPanel
 		});
 
 		mapsCombo.addActionListener(e -> displayMap() );
-		methodCombo.addActionListener(e -> displayMethod() );
 	}
 
 	private void displayMap()
@@ -64,16 +63,6 @@ class BrapiMapsPanelNB extends javax.swing.JPanel
 		dialog.enableNext(index >= 0 || checkSkipMap.isSelected());
 	}
 
-	private void displayMethod()
-	{
-		int index = methodCombo.getSelectedIndex();
-
-		if (index >= 0)
-			request.setMethodID(methods.get(index).getMethodId());
-		else
-			request.setMethodID(null);
-	}
-
 	boolean refreshMaps()
 	{
 		ProgressDialog pd = new ProgressDialog(new DataDownloader(),
@@ -93,18 +82,6 @@ class BrapiMapsPanelNB extends javax.swing.JPanel
 		mapsCombo.setModel(mapModel);
 		displayMap();
 
-
-		// Populate the methods combo box
-		methodsModel = new DefaultComboBoxModel<String>();
-
-		if (methods != null)
-		{
-			for (BrapiMarkerProfileMethod method: methods)
-				methodsModel.addElement(method.getMethodId() + " - " + method.getName());
-
-			methodCombo.setModel(methodsModel);
-		}
-
 		return true;
 	}
 
@@ -120,7 +97,6 @@ class BrapiMapsPanelNB extends javax.swing.JPanel
 				request.getUsername(), request.getPassword());
 
 			maps = BrapiClient.getMaps();
-//			methods = BrapiClient.getMarkerProfileMethods();
 		}
 	}
 
@@ -141,8 +117,6 @@ class BrapiMapsPanelNB extends javax.swing.JPanel
         text = new javax.swing.JTextArea();
         detailsLabel = new javax.swing.JLabel();
         checkSkipMap = new javax.swing.JCheckBox();
-        methodLabel = new javax.swing.JLabel();
-        methodCombo = new javax.swing.JComboBox<>();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -161,9 +135,6 @@ class BrapiMapsPanelNB extends javax.swing.JPanel
 
         checkSkipMap.setText("Skip using a map (not recommended) - a 'dummy' chromosome will hold markers instead");
 
-        methodLabel.setLabelFor(methodCombo);
-        methodLabel.setText("Analysis method:");
-
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -173,18 +144,14 @@ class BrapiMapsPanelNB extends javax.swing.JPanel
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1)
                     .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(mapsLabel)
+                        .addGap(11, 11, 11)
+                        .addComponent(mapsCombo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(checkSkipMap)
                             .addComponent(detailsLabel))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(mapsLabel)
-                            .addComponent(methodLabel))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(methodCombo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(mapsCombo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -194,14 +161,10 @@ class BrapiMapsPanelNB extends javax.swing.JPanel
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(mapsLabel)
                     .addComponent(mapsCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(methodLabel)
-                    .addComponent(methodCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(detailsLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 127, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(checkSkipMap)
                 .addContainerGap())
@@ -233,8 +196,6 @@ class BrapiMapsPanelNB extends javax.swing.JPanel
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JComboBox<String> mapsCombo;
     private javax.swing.JLabel mapsLabel;
-    private javax.swing.JComboBox<String> methodCombo;
-    private javax.swing.JLabel methodLabel;
     private javax.swing.JTextArea text;
     // End of variables declaration//GEN-END:variables
 }
