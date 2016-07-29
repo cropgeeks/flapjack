@@ -34,7 +34,7 @@ public class BrapiClient
 	{
 		baseURL = resource.getUrl();
 		baseURL = "http://localhost:2000/brapi/cactuar/v1";
-//		baseURL = "http://localhost:2000/brapi/gobii/v1";
+		baseURL = "http://localhost:2000/brapi/gobii/v1";
 
 		cr = new ClientResource(baseURL);
 
