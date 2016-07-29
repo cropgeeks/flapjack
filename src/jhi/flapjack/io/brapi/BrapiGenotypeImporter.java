@@ -191,111 +191,39 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 	{
 		// Now retrieve the allele data using the /brapi/allelematrix call
 		List<BrapiAlleleMatrix> matrixList = BrapiClient.getAlleleMatrix(profiles);
-		if (matrixList.size() == 0)
-			throw new IOException("List contains zero BRAPI AlleleMatrix objects");
 
-//		BrapiAlleleMatrix matrix = matrixList.get(0);
 		for (int m = 0; m < matrixList.size(); m++)
 		{
 			BrapiAlleleMatrix matrix = matrixList.get(m);
 
-			// A list of IDs that need to be mapped back to the original list of marker profile IDs that
-			// were asked for
-			List<String> markerprofileIds = matrix.getMarkerprofileDbIds();
-
-//			for (String s : markerprofileIds)
-//				System.out.println(s);
-
-
-			// MarkerName, list of scores (index of each one mapped to index in markerprofile/germplasm index)
-			List<LinkedHashMap<String, List<String>>> scores = matrix.getData();
-
-			for (int i = 0; i < scores.size(); i++)
+			for (int call = 0; call < matrix.getData().size(); call++)
 			{
-				LinkedHashMap<String, List<String>> score = scores.get(i);
+				String markerDbId = matrix.getData().get(call).get(0);
+				String markerprofileDbId = matrix.getData().get(call).get(1);
+				String allele = matrix.getData().get(call).get(2);
 
-				for (String markerName : score.keySet())
+				Line line = linesByProfileID.get(markerprofileDbId);
+				MarkerIndex index = markers.get(markerDbId);
+
+				// Determine its various states
+				Integer stateCode = states.get(allele);
+				if (stateCode == null)
 				{
-					MarkerIndex index = markers.get(markerName);   // todo build map from these markers?
-
-					if (index != null)
-					{
-						List<String> alleles = score.get(markerName);
-
-						if(m > 0 && i == 0 && alleles.size() != markerprofileIds.size())
-						{
-							BrapiAlleleMatrix oldMatrix = matrixList.get(m - 1);
-							LinkedHashMap<String, List<String>> oldScores = oldMatrix.getData().get(oldMatrix.getData().size() - 1);
-
-							List<String> oldAlleles = oldScores.get(markerName);
-
-							for (int j = 0; oldAlleles != null && j < oldAlleles.size(); j++)
-							{
-								// Retrieve the line matching this
-								String mpID = markerprofileIds.get(j);
-								Line line = linesByProfileID.get(mpID);
-
-								if (line == null)
-								{
-									System.out.println("NULL:" + mpID);
-									break;
-								}
-
-								String allele = oldAlleles.get(j);
-
-								// Determine its various states
-								Integer stateCode = states.get(allele);
-								if (stateCode == null)
-								{
-									stateCode = stateTable.getStateCode(allele, true, ioMissingData, ioUseHetSep, ioHeteroSeparator);
-									states.put(allele, stateCode);
-								}
-
-								// Then apply them to the marker data
-								line.setLoci(index.mapIndex, index.mkrIndex, stateCode);
-
-								alleleCount++;
-							}
-						}
-
-						int offset = markerprofileIds.size() - alleles.size();
-
-						for (int j = 0; j < alleles.size(); j++)
-						{
-							// Retrieve the line matching this
-							String mpID = markerprofileIds.get(j + offset);
-							Line line = linesByProfileID.get(mpID);
-
-							if (line == null)
-							{
-								System.out.println("NULL:" + mpID);
-								break;
-							}
-
-							String allele = alleles.get(j);
-
-							// Determine its various states
-							Integer stateCode = states.get(allele);
-							if (stateCode == null)
-							{
-								stateCode = stateTable.getStateCode(allele, true, ioMissingData, ioUseHetSep, ioHeteroSeparator);
-								states.put(allele, stateCode);
-							}
-
-							// Then apply them to the marker data
-							line.setLoci(index.mapIndex, index.mkrIndex, stateCode);
-
-							alleleCount++;
-						}
-
-						if (useByteStorage && stateTable.size() > 127)
-							return false;
-
-						if (isOK == false)
-							break;
-					}
+					stateCode = stateTable.getStateCode(allele, true, ioMissingData, ioUseHetSep, ioHeteroSeparator);
+					states.put(allele, stateCode);
 				}
+
+				// Then apply them to the marker data
+				line.setLoci(index.mapIndex, index.mkrIndex, stateCode);
+
+				alleleCount++;
+
+				if (useByteStorage && stateTable.size() > 127)
+					return false;
 			}
+
+			if (isOK == false)
+					break;
 		}
 
 		return true;
