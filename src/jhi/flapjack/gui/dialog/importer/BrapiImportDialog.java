@@ -136,7 +136,7 @@ public class BrapiImportDialog extends JDialog implements ActionListener
 			screen = 1;
 		}
 
-		// Displaying the SelectMaps screen
+		// Displaying the SelectStudies screen
 		else if (newScreen == 2)
 		{
 			enableBack(true);
@@ -144,23 +144,23 @@ public class BrapiImportDialog extends JDialog implements ActionListener
 			// Save details entered on the previous screen (if any)
 			passPanel.saveOptions();
 
-			// Download the list of maps and their metadata
-			if (mapsPanel.refreshMaps())
-			{
-				cards.show(panel, "maps");
-				screen = 2;
-			}
-		}
-
-		// Displaying the SelectStudies screen
-		else if (newScreen == 3)
-		{
-			enableBack(true);
-
 			// Download the list of studies and their metadata
 			if (studiesPanel.refreshStudies())
 			{
 				cards.show(panel, "studies");
+				screen = 2;
+			}
+		}
+
+		// Displaying the SelectMaps screen
+		else if (newScreen == 3)
+		{
+			enableBack(true);
+
+			// Download the list of maps and their metadata
+			if (mapsPanel.refreshMaps())
+			{
+				cards.show(panel, "maps");
 				screen = 3;
 			}
 		}
@@ -171,7 +171,6 @@ public class BrapiImportDialog extends JDialog implements ActionListener
 			isOK = true;
 			setVisible(false);
 		}
-
 	}
 
 	public boolean isOK()

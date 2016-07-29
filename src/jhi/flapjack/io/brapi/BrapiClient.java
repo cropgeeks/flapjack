@@ -33,7 +33,7 @@ public class BrapiClient
 		throws Exception
 	{
 		baseURL = resource.getUrl();
-//		baseURL = "http://localhost:2000/brapi/cactuar/v1";
+		baseURL = "http://localhost:2000/brapi/cactuar/v1";
 //		baseURL = "http://localhost:2000/brapi/gobii/v1";
 
 		cr = new ClientResource(baseURL);
@@ -170,8 +170,8 @@ public class BrapiClient
 		throws ResourceException
 	{
 		String url = baseURL + "/studies-search/";
-		cr.addQueryParameter("studyType", "genotype");
 		cr.setReference(url);
+		cr.addQueryParameter("studyType", "genotype");
 
 		List<BrapiStudies> list = new ArrayList<>();
 		boolean requestPage = true;
