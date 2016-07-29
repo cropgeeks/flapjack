@@ -58,23 +58,17 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="jScrollPane1" max="32767" attributes="0"/>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="mapsLabel" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
+                          <Component id="mapsCombo" max="32767" attributes="0"/>
+                      </Group>
                       <Group type="102" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="checkSkipMap" min="-2" max="-2" attributes="0"/>
                               <Component id="detailsLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                      </Group>
-                      <Group type="102" alignment="0" attributes="0">
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="mapsLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="methodLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="methodCombo" alignment="0" max="32767" attributes="0"/>
-                              <Component id="mapsCombo" alignment="0" max="32767" attributes="0"/>
-                          </Group>
                       </Group>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
@@ -89,15 +83,10 @@
                       <Component id="mapsLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="mapsCombo" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="methodLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="methodCombo" alignment="3" min="-2" max="-2" attributes="0"/>
-                  </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="detailsLabel" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jScrollPane1" max="32767" attributes="0"/>
+                  <Component id="jScrollPane1" pref="127" max="32767" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="checkSkipMap" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
@@ -149,24 +138,6 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Skip using a map (not recommended) - a &apos;dummy&apos; chromosome will hold markers instead"/>
           </Properties>
-        </Component>
-        <Component class="javax.swing.JLabel" name="methodLabel">
-          <Properties>
-            <Property name="labelFor" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
-              <ComponentRef name="methodCombo"/>
-            </Property>
-            <Property name="text" type="java.lang.String" value="Analysis method:"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JComboBox" name="methodCombo">
-          <Properties>
-            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="0"/>
-            </Property>
-          </Properties>
-          <AuxValues>
-            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
-          </AuxValues>
         </Component>
       </SubComponents>
     </Container>
