@@ -228,7 +228,7 @@ public class BrapiClient
 			if (sb.length() > 0)
 				sb.append("&");
 			sb.append("markerprofileDbId=");
-			sb.append(enc(mp.getMarkerprofileDbId()));
+			sb.append(enc(mp.getMarkerProfileDbId()));
 		}
 
 		Form form = new Form(sb.toString());
@@ -263,7 +263,7 @@ public class BrapiClient
 			if (sb.length() > 0)
 				sb.append("&");
 			sb.append("markerprofileDbId=");
-			sb.append(enc(mp.getMarkerprofileDbId()));
+			sb.append(enc(mp.getMarkerProfileDbId()));
 		}
 		if (sb.length() > 0)
 			sb.append("&");

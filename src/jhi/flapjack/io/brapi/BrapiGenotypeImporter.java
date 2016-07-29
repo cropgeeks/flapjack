@@ -111,7 +111,7 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 			// TODO: Call specifies unique name but should we check for duplicates just in case???
 			Line line = dataSet.createLine(name, useByteStorage);
 
-			linesByProfileID.put(mp.getMarkerprofileDbId(), line);
+			linesByProfileID.put(mp.getMarkerProfileDbId(), line);
 		}
 
 //			return readTSVAlleleMatrix(linesByProfileID, profiles);
