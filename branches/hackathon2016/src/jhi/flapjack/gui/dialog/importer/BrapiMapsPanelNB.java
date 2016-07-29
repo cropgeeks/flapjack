@@ -90,12 +90,6 @@ class BrapiMapsPanelNB extends javax.swing.JPanel
 		public void runJob(int jobID)
 			throws Exception
 		{
-			BrapiClient.setXmlResource(
-				request.getResource());
-
-			BrapiClient.doAuthentication(
-				request.getUsername(), request.getPassword());
-
 			maps = BrapiClient.getMaps();
 		}
 	}
