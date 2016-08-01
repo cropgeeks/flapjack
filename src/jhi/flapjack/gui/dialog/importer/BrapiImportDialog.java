@@ -21,6 +21,7 @@ public class BrapiImportDialog extends JDialog implements ActionListener
 	private BrapiDataPanelNB dataPanel;
 	private BrapiPassPanelNB passPanel;
 	private BrapiMapsPanelNB mapsPanel;
+	private BrapiStudiesPanelNB studiesPanel;
 
 	private CardLayout cards = new CardLayout();
 	private JPanel panel = new JPanel();
@@ -39,11 +40,13 @@ public class BrapiImportDialog extends JDialog implements ActionListener
 		dataPanel = new BrapiDataPanelNB(request, this);
 		passPanel = new BrapiPassPanelNB(request, this);
 		mapsPanel = new BrapiMapsPanelNB(request, this);
+		studiesPanel = new BrapiStudiesPanelNB(request, this);
 
 		panel.setLayout(cards);
 		panel.add(dataPanel, "data");
 		panel.add(passPanel, "pass");
 		panel.add(mapsPanel, "maps");
+		panel.add(studiesPanel, "studies");
 //		cards.first(panel);
 
 		add(panel);
@@ -133,7 +136,7 @@ public class BrapiImportDialog extends JDialog implements ActionListener
 			screen = 1;
 		}
 
-		// Displaying the SelectMaps screen
+		// Displaying the SelectStudies screen
 		else if (newScreen == 2)
 		{
 			enableBack(true);
@@ -141,21 +144,33 @@ public class BrapiImportDialog extends JDialog implements ActionListener
 			// Save details entered on the previous screen (if any)
 			passPanel.saveOptions();
 
-			// Download the list of maps and their metadata
-			if (mapsPanel.refreshMaps())
+			// Download the list of studies and their metadata
+			if (studiesPanel.refreshStudies())
 			{
-				cards.show(panel, "maps");
+				cards.show(panel, "studies");
 				screen = 2;
 			}
 		}
 
-		// There is no screen '3' - close and continue
+		// Displaying the SelectMaps screen
 		else if (newScreen == 3)
+		{
+			enableBack(true);
+
+			// Download the list of maps and their metadata
+			if (mapsPanel.refreshMaps())
+			{
+				cards.show(panel, "maps");
+				screen = 3;
+			}
+		}
+
+		// There is no screen '4' - close and continue
+		else if (newScreen == 4)
 		{
 			isOK = true;
 			setVisible(false);
 		}
-
 	}
 
 	public boolean isOK()

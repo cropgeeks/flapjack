@@ -46,7 +46,7 @@
         </Property>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-            <TitledBorder title="Map selection:"/>
+            <TitledBorder title="Study selection:"/>
           </Border>
         </Property>
       </Properties>
@@ -61,14 +61,11 @@
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="mapsLabel" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
-                          <Component id="mapsCombo" max="32767" attributes="0"/>
+                          <Component id="studiesCombo" max="32767" attributes="0"/>
                       </Group>
                       <Group type="102" attributes="0">
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="checkSkipMap" min="-2" max="-2" attributes="0"/>
-                              <Component id="detailsLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                          <Component id="detailsLabel" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="0" pref="405" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
@@ -81,14 +78,12 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="mapsLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="mapsCombo" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="studiesCombo" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="detailsLabel" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jScrollPane1" pref="127" max="32767" attributes="0"/>
-                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                  <Component id="checkSkipMap" min="-2" max="-2" attributes="0"/>
+                  <Component id="jScrollPane1" pref="153" max="32767" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -98,12 +93,12 @@
         <Component class="javax.swing.JLabel" name="mapsLabel">
           <Properties>
             <Property name="labelFor" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
-              <ComponentRef name="mapsCombo"/>
+              <ComponentRef name="studiesCombo"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Available maps:"/>
+            <Property name="text" type="java.lang.String" value="Available studies:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JComboBox" name="mapsCombo">
+        <Component class="javax.swing.JComboBox" name="studiesCombo">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
               <StringArray count="0"/>
@@ -132,11 +127,6 @@
         <Component class="javax.swing.JLabel" name="detailsLabel">
           <Properties>
             <Property name="text" type="java.lang.String" value="Details:"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JCheckBox" name="checkSkipMap">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Skip using a map (not recommended) - a &apos;dummy&apos; chromosome will hold markers instead"/>
           </Properties>
         </Component>
       </SubComponents>

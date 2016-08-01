@@ -48,8 +48,12 @@ public class BrapiMapImporter implements IMapImporter
 
 		List<BrapiMarkerPosition> list = BrapiClient.getMapMarkerData(request.getMapID());
 
+		HashMap<String,String> namesToIDs = new HashMap<>();
+
 		for (BrapiMarkerPosition bm: list)
 		{
+			namesToIDs.put(bm.getMarkerName(), bm.getMarkerDbId());
+
 			// Each MapEntry represents a marker: its name, chromosome, and
 			// location on chromosome
 
@@ -76,7 +80,11 @@ public class BrapiMapImporter implements IMapImporter
 				w.map.addMarker(marker);
 
 				// And store it in the hashmap too
-				markers.put(marker.getName(), new MarkerIndex(w.index, 0));
+				// NOTE *********
+				// This is different from normal load code that uses names; here we#re using IDs as that's
+				// what BRAPI returns, but we've used the hash above to map between names and IDs
+				// *************
+				markers.put(bm.getMarkerDbId(), new MarkerIndex(w.index, 0));
 
 				markerCount++;
 			}
@@ -98,7 +106,7 @@ public class BrapiMapImporter implements IMapImporter
 			int mkrIndex = 0;
 			for (Marker marker: map)
 			{
-				MarkerIndex mi = markers.get(marker.getName());
+				MarkerIndex mi = markers.get(namesToIDs.get(marker.getName()));
 				mi.mkrIndex = mkrIndex++;
 				mi.mapIndex = mapIndex;
 			}
