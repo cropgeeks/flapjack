@@ -34,6 +34,7 @@ public class BrapiClient
 	{
 		baseURL = resource.getUrl();
 //		baseURL = "http://localhost:2000/brapi/cactuar/v1";
+//		baseURL = "http://localhost:2000/brapi/gobii/v1";
 
 		cr = new ClientResource(baseURL);
 
@@ -140,30 +141,6 @@ public class BrapiClient
 		return list;
 	}
 
-	// Returns a list of available "MarkerProfileMethods" - this isn't something
-	// that really exists in Germinate (yet)
-	public static List<BrapiMarkerProfileMethod> getMarkerProfileMethods()
-		throws ResourceException
-	{
-		String url = baseURL + "/markerprofiles/methods/";
-		cr.setReference(url);
-
-		List<BrapiMarkerProfileMethod> list = new ArrayList<>();
-		boolean requestPage = true;
-
-		while (requestPage)
-		{
-			LinkedHashMap hashMap = cr.get(LinkedHashMap.class);
-			BasicResource<DataResult<BrapiMarkerProfileMethod>> br = new ObjectMapper().convertValue(hashMap,
-				new TypeReference<BasicResource<DataResult<BrapiMarkerProfileMethod>>>() {});
-
-			list.addAll(br.getResult().getData());
-			requestPage = pageCheck(br.getMetadata(), url);
-		}
-
-		return list;
-	}
-
 	// Returns the details (markers, chromosomes, positions) for a given map
 	public static List<BrapiMarkerPosition> getMapMarkerData(String mapID)
 		throws ResourceException
@@ -188,21 +165,22 @@ public class BrapiClient
 		return list;
 	}
 
-	// Returns a list of line names
-	public static List<BrapiGermplasm> getGermplasms()
+	// Returns a list of available studies
+	public static List<BrapiStudies> getStudies()
 		throws ResourceException
 	{
-		String url = baseURL + "/germplasm/";
+		String url = baseURL + "/studies-search/";
 		cr.setReference(url);
+		cr.addQueryParameter("studyType", "genotype");
 
-		List<BrapiGermplasm> list = new ArrayList<>();
+		List<BrapiStudies> list = new ArrayList<>();
 		boolean requestPage = true;
 
 		while (requestPage)
 		{
 			LinkedHashMap hashMap = cr.get(LinkedHashMap.class);
-			BasicResource<DataResult<BrapiGermplasm>> br = new ObjectMapper().convertValue(hashMap,
-				new TypeReference<BasicResource<DataResult<BrapiGermplasm>>>() {});
+			BasicResource<DataResult<BrapiStudies>> br = new ObjectMapper().convertValue(hashMap,
+				new TypeReference<BasicResource<DataResult<BrapiStudies>>>() {});
 
 			list.addAll(br.getResult().getData());
 			requestPage = pageCheck(br.getMetadata(), url);
@@ -211,11 +189,12 @@ public class BrapiClient
 		return list;
 	}
 
-	public static List<BrapiMarkerProfile> getMarkerProfiles(String methodID)
+	public static List<BrapiMarkerProfile> getMarkerProfiles(String methodID, String studyDbId)
 		throws ResourceException
 	{
 		String url = baseURL + "/markerprofiles/";// +
 	//		methodID == null ? "/" : "&method=" + methodID);
+		cr.addQueryParameter("studyDbId", studyDbId);
 		cr.setReference(url);
 
 		List<BrapiMarkerProfile> list = new ArrayList<>();
@@ -236,7 +215,7 @@ public class BrapiClient
 	public static List<BrapiAlleleMatrix> getAlleleMatrix(List<BrapiMarkerProfile> markerprofiles)
 		throws ResourceException
 	{
-		String url = baseURL + "/allelematrix";
+		String url = baseURL + "/allelematrix-search";
 		cr.setReference(url);
 
 		List<BrapiAlleleMatrix> list = new ArrayList<>();
@@ -249,7 +228,7 @@ public class BrapiClient
 			if (sb.length() > 0)
 				sb.append("&");
 			sb.append("markerprofileDbId=");
-			sb.append(enc(mp.getMarkerprofileDbId()));
+			sb.append(enc(mp.getMarkerProfileDbId()));
 		}
 
 		Form form = new Form(sb.toString());
@@ -267,6 +246,42 @@ public class BrapiClient
 		}
 
 		return list;
+	}
+
+	public static URI getAlleleMatrixTSV(List<BrapiMarkerProfile> markerprofiles)
+		throws Exception
+	{
+		String url = baseURL + "/allelematrix-search";
+		cr.setReference(url);
+
+		List<BrapiAlleleMatrix> list = new ArrayList<>();
+		boolean requestPage = true;
+
+		StringBuilder sb = new StringBuilder();
+		for (BrapiMarkerProfile mp: markerprofiles)
+		{
+			if (sb.length() > 0)
+				sb.append("&");
+			sb.append("markerprofileDbId=");
+			sb.append(enc(mp.getMarkerProfileDbId()));
+		}
+		if (sb.length() > 0)
+			sb.append("&");
+		sb.append("format=tsv");
+
+		Form form = new Form(sb.toString());
+
+		// Force no pagination
+		LinkedHashMap hashMap = cr.post(form.getWebRepresentation(), LinkedHashMap.class);
+		BasicResource<BrapiAlleleMatrix> br = new ObjectMapper().convertValue(hashMap,
+			new TypeReference<BasicResource<BrapiAlleleMatrix>>() {});
+
+		jhi.brapi.resource.Metadata md = br.getMetadata();
+		List<Datafile> files = md.getDatafiles();
+
+		System.out.println("FILES: " + files);
+
+		return new URI(files.get(0).getUrl());
 	}
 
 
