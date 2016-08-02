@@ -45,19 +45,19 @@ public class LineDataTableExporter extends SimpleJob
 		// Print table data
 		for (int row = 0; row < table.getRowCount(); row++)
 		{
-			LineInfo line = (LineInfo)table.getValueAt(table.convertRowIndexToModel(row), 0);
+			LineInfo line = (LineInfo)table.getValueAt(row, 0);
 			if (onlySelected && !line.getSelected())
 				continue;
 
 			StringBuilder builder = new StringBuilder();
 			for (int col=0; col < table.getColumnCount(); col++)
 			{
-				Object obj = table.getValueAt(table.convertRowIndexToModel(row), col);
+				Object obj = table.getValueAt(row, col);
 
 				if (obj instanceof Float || obj instanceof Double)
 					builder.append(df.format(obj));
 				else
-					builder.append(table.getValueAt(table.convertRowIndexToModel(row), col));
+					builder.append(obj);
 
 				if (col < table.getColumnCount()-1)
 					builder.append("\t");
