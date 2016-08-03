@@ -292,7 +292,7 @@ public class MenuAnalysis
 		// set?
 
 		// TODO: temporary workaround to get all chromosomes view back into MABC view
-		FlapjackUtils.addAllChromosomesViewToClonedViewSet(viewSet, finalViewSet);
+//		FlapjackUtils.addAllChromosomesViewToClonedViewSet(viewSet, finalViewSet);
 
 		// Create new NavPanel components to hold the results
 		dataSet.getViewSets().add(finalViewSet);

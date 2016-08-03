@@ -3,26 +3,27 @@
 
 package jhi.flapjack.gui.dialog.analysis;
 
-import java.awt.*;
-import java.awt.event.*;
+import jhi.flapjack.data.GTViewSet;
+import jhi.flapjack.gui.Flapjack;
+import scri.commons.gui.RB;
+import scri.commons.gui.SwingUtils;
+
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-import jhi.flapjack.data.*;
-import jhi.flapjack.gui.*;
-
-import scri.commons.gui.*;
-
-public class FilterMonomorphicDialog extends JDialog implements ActionListener
+public class DataSummaryDialog1 extends JDialog implements ActionListener
 {
 	private GTViewSet viewSet;
 
 	private boolean isOK;
 
-	public FilterMonomorphicDialog(GTViewSet viewSet)
+	public DataSummaryDialog1(GTViewSet viewSet)
 	{
 		super(
 			Flapjack.winMain,
-			RB.getString("gui.dialog.analysis.FilterMonomorphicDialog.title"),
+			RB.getString("gui.dialog.analysis.DataSummaryDialog1.title"),
 			true
 		);
 
@@ -50,7 +51,7 @@ public class FilterMonomorphicDialog extends JDialog implements ActionListener
 		RB.setText(bCancel, "gui.text.cancel");
 		bCancel.addActionListener(this);
 
-		chromosomeSelectionPanel.setupComponents(viewSet, bOK, false);
+		chromosomeSelectionPanel.setupComponents(viewSet, bOK, true);
 	}
 
 	// Generates a boolean array with a true/false selected state for each of
@@ -87,12 +88,12 @@ public class FilterMonomorphicDialog extends JDialog implements ActionListener
     {
 
         dialogPanel1 = new scri.commons.gui.matisse.DialogPanel();
-        bOK = new javax.swing.JButton();
-        bCancel = new javax.swing.JButton();
-        jPanel2 = new javax.swing.JPanel();
-        chromosomeSelectionPanel = new jhi.flapjack.gui.dialog.analysis.ChromosomeSelectionPanel();
+        bOK = new JButton();
+        bCancel = new JButton();
+        jPanel2 = new JPanel();
+        chromosomeSelectionPanel = new ChromosomeSelectionPanel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
         bOK.setText("OK");
         dialogPanel1.add(bOK);
@@ -100,43 +101,43 @@ public class FilterMonomorphicDialog extends JDialog implements ActionListener
         bCancel.setText("Cancel");
         dialogPanel1.add(bCancel);
 
-        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Data selection settings:"));
+        jPanel2.setBackground(new Color(255, 255, 255));
+        jPanel2.setBorder(BorderFactory.createTitledBorder("Data selection settings:"));
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        GroupLayout jPanel2Layout = new GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(chromosomeSelectionPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(chromosomeSelectionPanel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(chromosomeSelectionPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 219, Short.MAX_VALUE)
+                .addComponent(chromosomeSelectionPanel, GroupLayout.DEFAULT_SIZE, 219, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        GroupLayout layout = new GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(dialogPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 377, Short.MAX_VALUE)
+            layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+            .addComponent(dialogPanel1, GroupLayout.DEFAULT_SIZE, 377, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel2, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(dialogPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jPanel2, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(dialogPanel1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
@@ -144,11 +145,11 @@ public class FilterMonomorphicDialog extends JDialog implements ActionListener
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton bCancel;
-    private javax.swing.JButton bOK;
-    private jhi.flapjack.gui.dialog.analysis.ChromosomeSelectionPanel chromosomeSelectionPanel;
+    private JButton bCancel;
+    private JButton bOK;
+    private ChromosomeSelectionPanel chromosomeSelectionPanel;
     private scri.commons.gui.matisse.DialogPanel dialogPanel1;
-    private javax.swing.JPanel jPanel2;
+    private JPanel jPanel2;
     // End of variables declaration//GEN-END:variables
 
 }

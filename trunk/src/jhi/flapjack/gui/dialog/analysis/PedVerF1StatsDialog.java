@@ -51,7 +51,7 @@ public class PedVerF1StatsDialog extends JDialog implements ActionListener
 			.withSelectedLines()
 			.withSelectedMarkers();
 
-		chromosomeSelectionPanel.setupComponents(viewSet, bOK);
+		chromosomeSelectionPanel.setupComponents(viewSet, bOK, true);
 		setupF1ButtonGroup();
 		setupComboBoxes(as);
 

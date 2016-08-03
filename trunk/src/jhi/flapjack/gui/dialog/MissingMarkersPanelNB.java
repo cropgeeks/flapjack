@@ -26,7 +26,7 @@ class MissingMarkersPanelNB extends JPanel implements ChangeListener
 		slider.addChangeListener(this);
 		slider.setValue(value);
 
-		chrSelPanel.setupComponents(viewSet, bOK);
+		chrSelPanel.setupComponents(viewSet, bOK, false);
 	}
 
 	private void formatLabel()

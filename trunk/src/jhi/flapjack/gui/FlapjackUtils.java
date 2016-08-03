@@ -168,16 +168,4 @@ public class FlapjackUtils
 		}
 		catch (Throwable e) { return new File(""); }
 	}
-
-	public static void addAllChromosomesViewToClonedViewSet(GTViewSet originalViewSet, GTViewSet clonedViewSet)
-	{
-		for (GTView view : originalViewSet.getViews())
-		{
-			if (view.getChromosomeMap().isSpecialChromosome())
-			{
-				GTView clone = view.createClone(clonedViewSet, true);
-				clonedViewSet.addView(clone);
-			}
-		}
-	}
 }

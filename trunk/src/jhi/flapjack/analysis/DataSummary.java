@@ -10,9 +10,10 @@ import jhi.flapjack.data.*;
 
 import scri.commons.gui.*;
 
-public class AlleleStatistics extends SimpleJob
+public class DataSummary extends SimpleJob
 {
 	private GTViewSet viewSet;
+	private boolean[] selectedChromosomes;
 
 	private ArrayList<long[]> results;
 	private long alleleCount;
@@ -20,9 +21,10 @@ public class AlleleStatistics extends SimpleJob
 	// To deal with cases when the number of alleles breaks the 32bit INT limit
 	private double prg;
 
-	public AlleleStatistics(GTViewSet viewSet)
+	public DataSummary(GTViewSet viewSet, boolean[] selectedChromosomes)
 	{
 		this.viewSet = viewSet;
+		this.selectedChromosomes = selectedChromosomes;
 	}
 
 	public long getAlleleCount()
@@ -35,7 +37,7 @@ public class AlleleStatistics extends SimpleJob
 		throws Exception
 	{
 		AnalysisSet as = new AnalysisSet(viewSet)
-			.withViews(null)
+			.withViews(selectedChromosomes)
 			.withAllLines()
 			.withAllMarkers();
 
