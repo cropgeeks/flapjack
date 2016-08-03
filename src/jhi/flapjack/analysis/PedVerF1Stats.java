@@ -52,6 +52,11 @@ public class PedVerF1Stats extends SimpleJob
 		// Move the f1 to just below the parents
 		view.moveLine(viewSet.getLines().indexOf(f1), 2);
 
+		// Reset out indexes as we've moved the lines in the dataset
+		parent1Index = 0;
+		parent2Index = 1;
+		f1Index = 2;
+
 		// Set the colour scheme to the similarity to line exact match scheme and set the comparison line equal to the
 		// F1
 		viewSet.setColorScheme(ColorScheme.LINE_SIMILARITY_EXACT_MATCH);

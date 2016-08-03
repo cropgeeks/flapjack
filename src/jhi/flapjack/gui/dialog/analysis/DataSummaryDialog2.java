@@ -8,19 +8,20 @@ import java.awt.event.*;
 import java.util.*;
 import javax.swing.*;
 
+import jhi.flapjack.analysis.AnalysisSet;
 import jhi.flapjack.data.*;
 import jhi.flapjack.gui.*;
 
 import scri.commons.gui.*;
 import scri.commons.gui.matisse.*;
 
-public class AlleleStatisticsDialog extends JDialog implements ActionListener
+public class DataSummaryDialog2 extends JDialog implements ActionListener
 {
 	private JButton bClose;
 
-	private AlleleStatisticsPanelNB nbPanel;
+	private DataSummaryPanelNB2 nbPanel;
 
-	public AlleleStatisticsDialog(GTViewSet viewSet, ArrayList<long[]> results, long alleleCount)
+	public DataSummaryDialog2(GTViewSet viewSet, boolean[] selectedChromosoems, ArrayList<long[]> results, long alleleCount)
 	{
 		super(
 			Flapjack.winMain,
@@ -28,7 +29,12 @@ public class AlleleStatisticsDialog extends JDialog implements ActionListener
 			true
 		);
 
-		nbPanel = new AlleleStatisticsPanelNB(viewSet, results, alleleCount);
+		AnalysisSet as = new AnalysisSet(viewSet)
+			.withViews(selectedChromosoems)
+			.withAllLines()
+			.withAllMarkers();
+
+		nbPanel = new DataSummaryPanelNB2(viewSet, as, results, alleleCount);
 
 		add(new TitlePanel2(), BorderLayout.NORTH);
 		add(nbPanel);

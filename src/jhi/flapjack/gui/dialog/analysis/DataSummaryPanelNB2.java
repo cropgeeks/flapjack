@@ -8,19 +8,21 @@ import java.awt.event.*;
 import java.util.*;
 import java.text.*;
 import javax.swing.*;
+import javax.swing.plaf.nimbus.State;
 import javax.swing.table.*;
 
+import jhi.flapjack.analysis.AnalysisSet;
 import jhi.flapjack.data.*;
 import jhi.flapjack.gui.*;
 
 import scri.commons.gui.*;
 
-class AlleleStatisticsPanelNB extends JPanel implements AdjustmentListener
+class DataSummaryPanelNB2 extends JPanel implements AdjustmentListener
 {
 	private NumberFormat nf = NumberFormat.getInstance();
 	private DecimalFormat d = new DecimalFormat("0.0");
 
-	public AlleleStatisticsPanelNB(GTViewSet viewSet, ArrayList<long[]> results, long alleleCount)
+	public DataSummaryPanelNB2(GTViewSet viewSet, AnalysisSet as, ArrayList<long[]> results, long alleleCount)
 	{
 		initComponents();
 
@@ -35,17 +37,15 @@ class AlleleStatisticsPanelNB extends JPanel implements AdjustmentListener
 		RB.setText(tableLabel1, "gui.dialog.analysis.NBAlleleStatisticsPanel.tableLabel1");
 		RB.setText(tableLabel2, "gui.dialog.analysis.NBAlleleStatisticsPanel.tableLabel2");
 
-		createSumTable(viewSet, results);
-		createViewTable(viewSet, results);
+		createSumTable(viewSet.getDataSet().getStateTable(), results);
+		createViewTable(viewSet.getDataSet().getStateTable(), as, results);
 
 		sp1.getVerticalScrollBar().addAdjustmentListener(this);
 		sp2.getVerticalScrollBar().addAdjustmentListener(this);
 	}
 
-	private void createSumTable(GTViewSet viewSet, ArrayList<long[]> results)
+	private void createSumTable(StateTable stateTable, ArrayList<long[]> results)
 	{
-		StateTable stateTable = viewSet.getDataSet().getStateTable();
-
 		// Results array
 		Object[][] r = new Object[stateTable.size()][3];
 
@@ -98,16 +98,14 @@ class AlleleStatisticsPanelNB extends JPanel implements AdjustmentListener
         UIScaler.setCellHeight(sumTable);
 	}
 
-	private void createViewTable(GTViewSet viewSet, ArrayList<long[]> results)
+	private void createViewTable(StateTable stateTable, AnalysisSet as, ArrayList<long[]> results)
 	{
-		StateTable stateTable = viewSet.getDataSet().getStateTable();
-
 		// Column headers
-		int viewCount = viewSet.getViews().size();
+		int viewCount = as.viewCount();
 		String[] names = new String[viewCount*2];
 		for (int i = 0, col=0; i < viewCount; i++, col+=2)
 		{
-			names[col] = viewSet.getView(i).getChromosomeMap().getName();
+			names[col] = as.getGTView(i).getChromosomeMap().getName();
 			names[col+1] = "%";
 		}
 

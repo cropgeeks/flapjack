@@ -3,10 +3,8 @@
 
 package jhi.flapjack.gui;
 
-import java.awt.image.*;
 import java.io.*;
 import java.net.*;
-import java.util.*;
 import javax.swing.filechooser.*;
 
 import jhi.flapjack.analysis.*;
@@ -14,7 +12,6 @@ import jhi.flapjack.data.*;
 import jhi.flapjack.gui.dialog.*;
 import jhi.flapjack.gui.dialog.analysis.*;
 import jhi.flapjack.gui.visualization.*;
-import jhi.flapjack.gui.visualization.undo.*;
 import jhi.flapjack.io.*;
 
 import scri.commons.gui.*;
@@ -54,15 +51,22 @@ public class MenuData
 	{
 		GTViewSet viewSet = gPanel.getViewSet();
 
-		AlleleStatistics statistics = new AlleleStatistics(viewSet);
+		// Prompt the user for input variables
+		DataSummaryDialog1 dialog = new DataSummaryDialog1(viewSet);
+		if (dialog.isOK() == false)
+			return;
 
-		ProgressDialog dialog = new ProgressDialog(statistics,
+		boolean[] selectedChromosomes = dialog.getSelectedChromosomes();
+
+		DataSummary statistics = new DataSummary(viewSet, selectedChromosomes);
+
+		ProgressDialog pd = new ProgressDialog(statistics,
 			 RB.format("gui.MenuData.statistics.title"),
 			 RB.format("gui.MenuData.statistics.label"),
 			 Flapjack.winMain);
 
-		if (dialog.getResult() == ProgressDialog.JOB_COMPLETED)
-			new AlleleStatisticsDialog(viewSet, statistics.getResults(),
+		if (pd.getResult() == ProgressDialog.JOB_COMPLETED)
+			new DataSummaryDialog2(viewSet, selectedChromosomes, statistics.getResults(),
 				statistics.getAlleleCount());
 	}
 

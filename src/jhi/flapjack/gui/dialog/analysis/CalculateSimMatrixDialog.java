@@ -55,7 +55,7 @@ public class CalculateSimMatrixDialog extends JDialog implements ActionListener,
 		RB.setText(bCancel, "gui.text.cancel");
 		bCancel.addActionListener(this);
 
-		chromosomeSelectionPanel.setupComponents(viewSet, bOK);
+		chromosomeSelectionPanel.setupComponents(viewSet, bOK, true);
 	}
 
 	// Generates a boolean array with a true/false selected state for each of

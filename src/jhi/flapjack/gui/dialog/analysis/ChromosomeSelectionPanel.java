@@ -15,6 +15,7 @@ public class ChromosomeSelectionPanel extends JPanel implements ActionListener
 {
 	private ChromosomeSelectionTableModel model;
 	private JButton bOK;
+	private boolean hideAllChrs;
 
     /** Creates new form ChromosomeSelectionPanel */
     public ChromosomeSelectionPanel()
@@ -27,9 +28,10 @@ public class ChromosomeSelectionPanel extends JPanel implements ActionListener
 		selectNoneLabel.addActionListener(this);
     }
 
-	public void setupComponents(GTViewSet viewSet, JButton bOK)
+	public void setupComponents(GTViewSet viewSet, JButton bOK, boolean hideAllChrs)
 	{
 		this.bOK = bOK;
+		this.hideAllChrs = hideAllChrs;
 
 		// Set up analysis objects to get counts of all and selected lines
 		AnalysisSet allLines = new AnalysisSet(viewSet);
@@ -143,7 +145,7 @@ public class ChromosomeSelectionPanel extends JPanel implements ActionListener
 
 			// Fudge to hide any 'all chromsomes' view from the table, and also
 			// to ensure it's pre-deselected for later
-			if (maps.get(rowCount-1).isSpecialChromosome())
+			if (hideAllChrs && maps.get(rowCount-1).isSpecialChromosome())
 			{
 				rowCountModified = true;
 				selected[rowCount-1] = false;

@@ -11,13 +11,13 @@ import junit.framework.*;
 import jhi.flapjack.data.*;
 import jhi.flapjack.io.*;
 
-public class AlleleStatisticsTest extends TestCase
+public class DataSummaryTest extends TestCase
 {
 	private DataSet dataSet = new DataSet();
 
 	public static void main(String[] args)
 	{
-		org.junit.runner.JUnitCore.main("flapjack.analysis.AlleleStatisticsTest");
+		org.junit.runner.JUnitCore.main("flapjack.analysis.DataSummaryTest");
 	}
 
 	private void load()
@@ -42,7 +42,9 @@ public class AlleleStatisticsTest extends TestCase
 
 		GTViewSet viewSet = new GTViewSet(dataSet, "Default View");
 
-		AlleleStatistics statistics = new AlleleStatistics(viewSet);
+		boolean[] selectedChromosomes = new boolean[] { true };
+
+		DataSummary statistics = new DataSummary(viewSet, selectedChromosomes);
 		statistics.runJob(0);
 
 		ArrayList<long[]> results = statistics.getResults();

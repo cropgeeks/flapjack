@@ -68,7 +68,7 @@ public class MABCStatsDialog extends JDialog implements ActionListener
 		RB.setText(bCancel, "gui.text.cancel");
 		bCancel.addActionListener(this);
 
-		chromosomeSelectionPanel.setupComponents(viewSet, bOK);
+		chromosomeSelectionPanel.setupComponents(viewSet, bOK, true);
 
 		setupComboBoxes(as);
 	}
