@@ -225,8 +225,9 @@ class MapCanvas extends JPanel
 
 	private void renderMarker(Graphics2D g, int i, int xS, boolean text)
 	{
-		Marker m = canvas.view.getMarker(i);;
-
+		Marker m = canvas.view.getMarker(i);
+		int markerIndex = canvas.view.getMarkerInfo(i).getIndex();
+		
 		// Don't draw dummy markers (markers that split maps)
 //		if (m.dummyMarker())
 //			return;
@@ -242,13 +243,13 @@ class MapCanvas extends JPanel
 		{
 			Color current = g.getColor();
 
-			if (g.getColor() != Color.red && canvas.qtlHash.contains(i))
+			if (g.getColor() != Color.red && canvas.qtlHash.contains(markerIndex))
 				g.setColor(new Color(128, 128, 128));
 
 			g.drawLine(xMap, scale(12), xMap, scale(22));
 			g.drawLine(xMap, scale(22), xBox, h-scale(9));
 
-			if (canvas.qtlHash.contains(i))
+			if (canvas.qtlHash.contains(markerIndex))
 			{
 				int xBoxL = (int) ((i-xS) * canvas.boxW) - jiggle;
 
