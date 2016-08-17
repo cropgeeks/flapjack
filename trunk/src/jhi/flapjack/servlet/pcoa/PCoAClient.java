@@ -18,7 +18,7 @@ import org.restlet.resource.*;
 
 public class PCoAClient
 {
-	private final String URL = "http://wildcat:8080/flapjack-test/pcoa/";
+	private final String URL = "https://ics.hutton.ac.uk/flapjack-services-20160817/pcoa/";
 	private Reference taskURI;
 
 	private boolean okToRun = true;

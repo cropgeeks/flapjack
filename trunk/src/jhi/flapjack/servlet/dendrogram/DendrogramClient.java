@@ -19,7 +19,7 @@ import org.restlet.representation.*;
 
 public class DendrogramClient
 {
-	private final String URL = "http://wildcat:8080/flapjack-test/dendrogram/";
+	private final String URL = "https://ics.hutton.ac.uk/flapjack-services-20160817/dendrogram/";
 	private Reference taskURI;
 
 	private final SimMatrix matrix;

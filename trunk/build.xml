@@ -8,7 +8,7 @@
 	<property name="cfg" location="config"/>
 	<property name="cls" location="classes"/>
 	<property name="jar" value="${lib}/flapjack.jar"/>
-	<property name="war" value="${ant.project.name}.war"/>
+	<property name="war" value="${tomcat.manager.app}.war"/>
 
 	<!-- Development classpath -->
 	<path id="project.classpath">
@@ -86,7 +86,7 @@
 			macKeystorePassword="${keystore.password}"/>
 	</target>
 
-	<target name="jnlp" depends="getversion, jar">
+    <target name="jnlp" depends="getversion, jar">
 		<property name="tmp" location="temp"/>
 		<mkdir dir="${tmp}"/>
 		<copy todir="${tmp}">
@@ -94,11 +94,17 @@
         		<exclude name="**/lib-devel/**"/>
         	</fileset>
 		</copy>
-		<signjar alias="jhi" storepass="${keystore.password}"
-			preservelastmodified="true" lazy="true"
-			tsaurl="http://timestamp.globalsign.com/scripts/timstamp.dll">
+		<apply executable="jarsigner">
+			<arg line="-keystore NONE"/>
+			<arg line="-storepass ${keystore.password}"/>
+			<arg line="-tsa http://timestamp.globalsign.com/scripts/timstamp.dll"/>
+			<arg line="-storetype PKCS11"/>
+			<arg line="-providerClass sun.security.pkcs11.SunPKCS11"/>
+			<arg line="-providerArg ${keystore.tokencfg}"/>
+			<srcfile/>
+			<arg value="te-0af9da4e-0c7e-4806-9449-9ec946169587"/>
 			<fileset dir="${tmp}"/>
-		</signjar>
+		</apply>
 		<copy todir="\\ics\root\var\www\sites\bioinf.hutton.ac.uk\html\flapjack\webstart">
 			<fileset dir="${tmp}"/>
 		</copy>
@@ -120,10 +126,10 @@
 			classname="org.apache.catalina.ant.DeployTask"/>
 
 		<undeploy url="${tomcat.manager.url}" username="${tomcat.manager.username}" password="${tomcat.manager.password}"
-			path="/${project.name}" failOnError="false"/>
+			path="/${tomcat.manager.app}" failOnError="false"/>
 
 		<deploy url="${tomcat.manager.url}"	username="${tomcat.manager.username}" password="${tomcat.manager.password}"
-			path="/${project.name}" war="${war}"/>
+			path="/${tomcat.manager.app}" war="${war}"/>
 	</target>
 
 
