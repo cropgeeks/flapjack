@@ -67,7 +67,7 @@ public class GenotypeToHdf5Converter
 		}
 	}
 
-	void convertToHdf5()
+	public void convertToHdf5()
 	{
 		if (checkFileExists(genotypeFile))
 		{
