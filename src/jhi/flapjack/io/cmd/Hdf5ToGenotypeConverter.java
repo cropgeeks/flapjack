@@ -102,11 +102,10 @@ public class Hdf5ToGenotypeConverter
 			lines = hdf5Lines;
 
 		// Create a mapping of line names with slashes in to the replaced version so we can output the originals at the end
-		linesReplaced = lines.stream().filter(line -> line.contains("/")).collect(Collectors.toMap(line -> line.replaceAll("/", "_"), Function.identity()));
+		linesReplaced = lines.parallelStream().filter(line -> line.contains("/")).collect(Collectors.toMap(line -> line.replaceAll("/", "_"), Function.identity()));
 		// Replace slashes as HDF5 treats a slash as the start of a sub-folder
-		lines = lines.stream().map(line -> line.replaceAll("/", "_")).collect(Collectors.toCollection(ArrayList::new));
+		lines = lines.parallelStream().map(line -> line.replaceAll("/", "_")).filter(line -> hdf5Lines.contains(line)).collect(Collectors.toCollection(ArrayList::new));
 
-		lines.retainAll(hdf5Lines);
 		System.out.println();
 		System.out.println("Read and filtered lines: " + (System.currentTimeMillis() - s) + " (ms)");
 
