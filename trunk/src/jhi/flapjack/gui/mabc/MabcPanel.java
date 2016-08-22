@@ -14,11 +14,13 @@ import jhi.flapjack.gui.table.*;
 
 import scri.commons.gui.*;
 
-public class MabcPanel extends JPanel implements ActionListener, ListSelectionListener, ITableViewListener
+public class MabcPanel extends JPanel implements ActionListener, ListSelectionListener, ITableViewListener, TableModelListener
 {
 	private JTable table;
 	private MabcTableModel model;
 	private GTViewSet viewSet;
+
+	private LinkedTableHandler tableHandler;
 
 	private MabcPanelNB controls;
 
@@ -49,11 +51,15 @@ public class MabcPanel extends JPanel implements ActionListener, ListSelectionLi
 				handlePopup(e);
 			}
 		});
+
+		tableHandler = viewSet.tableHandler();
+		tableHandler.linkTable((LineDataTable)table, model);
 	}
 
-	public void updateModel(GTViewSet viewset)
+	private void updateModel(GTViewSet viewset)
 	{
 		model = new MabcTableModel(viewset);
+		model.addTableModelListener(this);
 
 		table.setModel(model);
 		((LineDataTable)table).setViewSet(viewSet);
@@ -78,6 +84,9 @@ public class MabcPanel extends JPanel implements ActionListener, ListSelectionLi
 
 		else if (e.getSource() == controls.autoResize)
 			((LineDataTable)table).autoResize(controls.autoResize.isSelected());
+
+		else if (e.getSource() == controls.bResetFilter)
+			((LineDataTable)table).resetFilters();
 
 	}
 
@@ -142,6 +151,15 @@ public class MabcPanel extends JPanel implements ActionListener, ListSelectionLi
 				if (lsModel.isSelectedIndex(i))
 					model.setRank(table.convertRowIndexToModel(i), rank);
 		}
+	}
+
+	public void tableSorted()
+	{
+	}
+
+	public void tableChanged(TableModelEvent e)
+	{
+		tableFiltered();
 	}
 
 	public void tableFiltered()

@@ -347,9 +347,8 @@ public class MABCStats extends SimpleJob
 	private void prepareForVisualization()
 	{
 		// Move the parent lines to the top of the display
-		GTView view = viewSet.getView(0);
-		view.moveLine(rpIndex, 0);
-		view.moveLine(dpIndex, 1);
+		viewSet.moveLine(rpIndex, 0);
+		viewSet.moveLine(dpIndex, 1);
 
 		// Set the colour scheme to LINE_SIMILARITY and set the comparison line to the recurrent parent
 		viewSet.setColorScheme(ColorScheme.LINE_SIMILARITY);

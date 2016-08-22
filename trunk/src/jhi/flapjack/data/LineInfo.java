@@ -19,6 +19,8 @@ public class LineInfo extends XMLRoot
 	boolean selected = true;
 	// Is this line a duplicate of a 'real' line or not
 	boolean duplicate = false;
+	// Is this line filtered/hidden (when used in a linked-table view)
+	boolean filtered = false;
 
 	// A 'score' associated with this line (probably from a sort/rank)
 	float score;
@@ -42,6 +44,7 @@ public class LineInfo extends XMLRoot
 		this.index = lineInfo.index;
 		this.selected = lineInfo.selected;
 		this.duplicate = lineInfo.duplicate;
+		this.filtered = lineInfo.filtered;
 		this.score = lineInfo.score;
 	}
 
@@ -77,6 +80,13 @@ public class LineInfo extends XMLRoot
 
 	public void setDuplicate(boolean duplicate)
 		{ this.duplicate = duplicate; }
+
+	public boolean getFiltered()
+		{ return filtered; }
+
+	public void setFiltered(boolean filtered)
+		{ this.filtered = filtered; }
+
 
 
 	// Other methods

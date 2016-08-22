@@ -82,13 +82,18 @@ public class LineDataTable extends JTable
 	@Override
 	public void setModel(TableModel tm)
 	{
+		boolean firstInit = (getModel() == null);
+
 		super.setModel(tm);
 
-		// Set a default width per column
-		for (int i = 0; i < getColumnCount(); i++)
+		// Set a default width per column (only when first creating the table)
+		if (firstInit)
 		{
-			TableColumn column = getColumnModel().getColumn(i);
-			column.setPreferredWidth(UIScaler.scale(120));
+			for (int i = 0; i < getColumnCount(); i++)
+			{
+				TableColumn column = getColumnModel().getColumn(i);
+				column.setPreferredWidth(UIScaler.scale(120));
+			}
 		}
 
 		// Safety net for Matisse code calling setModel with a DefaultTableModel
@@ -106,6 +111,9 @@ public class LineDataTable extends JTable
 				// We only want to deal with events of type sorted...not sort order changed
 				if (e.getType() == RowSorterEvent.Type.SORTED)
 				{
+					for (ITableViewListener listener: viewListeners)
+						listener.tableSorted();
+
 /*					ArrayList<LineInfo> orderedLines = new ArrayList<>();
 					for (int i = 0; i < getRowCount(); i++)
 						orderedLines.add((LineInfo)model.getValueAt(convertRowIndexToModel(i), 0));
@@ -115,6 +123,9 @@ public class LineDataTable extends JTable
 */
 				}
 			});
+
+			// Set the initial filter to not show any manually hidden lines
+			sorter.setRowFilter(RowFilter.andFilter(createBaseFilters()));
 		}
 	}
 
@@ -283,6 +294,28 @@ public class LineDataTable extends JTable
 		model.fireTableDataChanged();
 	}
 
+	// Creates an initial filter for the table that states: for any LineInfo in
+	// the model that was manually hidden in the original view (meaning its
+	// filtered flag = true), don't show it in the table.
+	private ArrayList<RowFilter<LineDataTableModel,Object>> createBaseFilters()
+	{
+		ArrayList<RowFilter<LineDataTableModel,Object>> filters = new ArrayList<>();
+
+		filters.add(new RowFilter<LineDataTableModel, Object>() {
+			public boolean include(RowFilter.Entry<? extends LineDataTableModel, ? extends Object> entry)
+			{
+				// TODO: Exception due to TraitsPanel still using Line rather
+				// than LineInfo in column 0
+				try { return ((LineInfo)entry.getValue(0)).getFiltered() == false; }
+				catch (ClassCastException e)
+				{ return true; }
+			}
+		});
+
+
+		return filters;
+	}
+
 	public void filterDialog()
 	{
 		FilterDialog dialog = FilterDialog.getFilterDialog(model.getFilterableColumns(), lastFilter);
@@ -295,7 +328,7 @@ public class LineDataTable extends JTable
 		lastFilter = dialog.getResults();
 
 		// Build up a list of filters to apply to the table
-		ArrayList<RowFilter<LineDataTableModel,Object>> filters = new ArrayList<>();
+		ArrayList<RowFilter<LineDataTableModel,Object>> filters = createBaseFilters();
 
 		// Scan and build the needed filters
 		for (FilterColumn entry: data)
@@ -305,6 +338,16 @@ public class LineDataTable extends JTable
 		RowFilter<LineDataTableModel,Object> f = RowFilter.andFilter(filters);
 
 		sorter.setRowFilter(f);
+
+		// Notify listeners of the filter event
+		for (ITableViewListener listener: viewListeners)
+			listener.tableFiltered();
+	}
+
+	public void resetFilters()
+	{
+		model.clearAllFilters();
+		sorter.setRowFilter(RowFilter.andFilter(createBaseFilters()));
 
 		// Notify listeners of the filter event
 		for (ITableViewListener listener: viewListeners)

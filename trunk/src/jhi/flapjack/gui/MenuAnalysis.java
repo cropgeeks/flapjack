@@ -375,9 +375,8 @@ public class MenuAnalysis
 		int testIndex = newViewSet.getLines().indexOf(test);
 
 		// Move the parent lines to the top of the display
-		GTView view = newViewSet.getView(0);
-		view.moveLine(refIndex, 0);
-		view.moveLine(testIndex, 1);
+		newViewSet.moveLine(refIndex, 0);
+		newViewSet.moveLine(testIndex, 1);
 
 		AnalysisSet linesSet = new AnalysisSet(newViewSet)
 			.withViews(null)
