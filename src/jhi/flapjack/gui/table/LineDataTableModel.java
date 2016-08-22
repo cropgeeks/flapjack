@@ -5,7 +5,7 @@ package jhi.flapjack.gui.table;
 
 import java.awt.*;
 import java.util.*;
-import javax.swing.*;
+import java.util.stream.Collectors;
 import javax.swing.table.*;
 
 import jhi.flapjack.data.*;
@@ -14,6 +14,26 @@ public abstract class LineDataTableModel extends AbstractTableModel
 {
 	protected DataSet dataSet;
 	protected String[] columnNames;
+
+	// A list of lines being shown. This list (although containing the same
+	// LineInfo objects as a GTViewSet's list) is *not* the same list from the
+	// view...
+	protected ArrayList<LineInfo> lines;
+
+	public void setLines(ArrayList<LineInfo> lines)
+	{
+		this.lines = lines;
+//		fireTableDataChanged();
+	}
+
+	public ArrayList<LineInfo> getLines()
+		{ return lines; }
+
+//	public ArrayList<LineInfo> getFilteredLines()
+//	{
+//		return lines.stream().filter(LineInfo::getFiltered)
+//			.collect(Collectors.toCollection(ArrayList::new));
+//	}
 
 	@Override
 	public String getColumnName(int col)
@@ -86,5 +106,11 @@ public abstract class LineDataTableModel extends AbstractTableModel
 		}
 
 		fireTableDataChanged();
+	}
+
+	void clearAllFilters()
+	{
+		for (LineInfo line: lines)
+			line.setFiltered(false);
 	}
 }

@@ -46,11 +46,10 @@ public class PedVerF1Stats extends SimpleJob
 		LineInfo f1 = viewSet.getLines().get(f1Index);
 
 		// Move the parent lines to the top of the display
-		GTView view = viewSet.getView(0);
-		view.moveLine(viewSet.getLines().indexOf(p1), 0);
-		view.moveLine(viewSet.getLines().indexOf(p2), 1);
+		viewSet.moveLine(viewSet.getLines().indexOf(p1), 0);
+		viewSet.moveLine(viewSet.getLines().indexOf(p2), 1);
 		// Move the f1 to just below the parents
-		view.moveLine(viewSet.getLines().indexOf(f1), 2);
+		viewSet.moveLine(viewSet.getLines().indexOf(f1), 2);
 
 		// Reset out indexes as we've moved the lines in the dataset
 		parent1Index = 0;

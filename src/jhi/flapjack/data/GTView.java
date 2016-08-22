@@ -183,26 +183,6 @@ public class GTView extends XMLRoot
 		return markers.get(index);
 	}
 
-	public void moveLine(int fromIndex, int toIndex)
-	{
-		// Check we're not out of bounds
-		if (toIndex < 0 || fromIndex < 0)
-			return;
-		if (toIndex >= viewSet.lines.size() || fromIndex >= viewSet.lines.size())
-			return;
-
-		// Swap the lines
-		LineInfo oldValue = viewSet.lines.get(fromIndex);
-		viewSet.lines.set(fromIndex, viewSet.lines.get(toIndex));
-		viewSet.lines.set(toIndex, oldValue);
-
-		// But also check and deal with the comparison line being moved
-		if (viewSet.comparisonLineIndex == fromIndex)
-			viewSet.comparisonLineIndex = toIndex;
-		else if (viewSet.comparisonLineIndex == toIndex)
-			viewSet.comparisonLineIndex = fromIndex;
-	}
-
 	public void moveMarker(int fromIndex, int toIndex)
 	{
 		// Check we're not out of bounds
@@ -479,6 +459,8 @@ public class GTView extends XMLRoot
 		// Then trim down any left over elements
 		viewSet.lines.trimToSize();
 		viewSet.hideLines.trimToSize();
+
+		viewSet.tableHandler().viewChanged();
 	}
 
 	/** Hides a single marker. */
@@ -495,6 +477,7 @@ public class GTView extends XMLRoot
 			return;
 
 		viewSet.hideLines.add(viewSet.lines.remove(index));
+		viewSet.tableHandler().viewChanged();
 	}
 
 	/** Restores all hidden markers to the view. */
@@ -518,11 +501,10 @@ public class GTView extends XMLRoot
 	/** Restores all hidden lines to the view. */
 	public void restoreHiddenLines()
 	{
-		while (viewSet.hideLines.size() > 0)
-		{
-			LineInfo li = viewSet.hideLines.remove(0);
-			viewSet.lines.add(li);
-		}
+		viewSet.lines.addAll(viewSet.hideLines);
+		viewSet.hideLines.clear();
+
+		viewSet.tableHandler().viewChanged();
 	}
 
 	public boolean isDummyLine(int lineInfoIndex)
@@ -581,22 +563,5 @@ public class GTView extends XMLRoot
 				return true;
 
 		return false;
-	}
-
-	/** Returns only currently selected markers. */
-	public ArrayList<MarkerInfo> selectedMarkersAsList()
-	{
-		return markers.stream()
-				.filter(mi -> mi.selected)
-				.filter(mi -> !mi.dummyMarker())
-				.collect(Collectors.toCollection(ArrayList::new));
-	}
-
-	public ArrayList<QTLInfo> visibleQTLsAsList()
-	{
-		return qtls.stream()
-			.filter(qtl -> qtl.getQTL().isAllowed())
-			.filter(qtl -> qtl.getQTL().isVisible())
-			.collect(Collectors.toCollection(ArrayList::new));
 	}
 }

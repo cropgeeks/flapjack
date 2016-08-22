@@ -3,15 +3,14 @@
 
 package jhi.flapjack.gui.mabc;
 
+import java.util.*;
+
 import jhi.flapjack.data.*;
 import jhi.flapjack.data.results.*;
 import jhi.flapjack.gui.table.*;
 
 public class MabcTableModel extends LineDataTableModel
 {
-	// This results table is *linked* with the given view
-	private GTViewSet viewSet;
-
 	private int chrCount, qtlCount;
 
 	// Indices to track what goes where
@@ -21,16 +20,16 @@ public class MabcTableModel extends LineDataTableModel
 
 	public MabcTableModel(GTViewSet viewSet)
 	{
-		this.viewSet = viewSet;
 		this.dataSet = viewSet.getDataSet();
 
+		setLines(new ArrayList<>(viewSet.getLines()));
 		initModel();
 	}
 
 	void initModel()
 	{
 		// Use information from the first result to determine the UI
-		LineInfo line = viewSet.getLines().get(0);
+		LineInfo line = lines.get(0);
 		MABCLineStats s = line.results().getMABCLineStats();
 		chrCount = s.getChrScores().size();
 		qtlCount = s.getQTLScores().size();
@@ -81,19 +80,22 @@ public class MabcTableModel extends LineDataTableModel
 	@Override
 	public int getRowCount()
 	{
-		return viewSet.getLines().size();
+		return lines.size();
 	}
 
 	@Override
 	public Object getValueAt(int row, int col)
 	{
-		LineInfo line = viewSet.getLines().get(row);
+		LineInfo line = lines.get(row);
 		MABCLineStats stats = line.results().getMABCLineStats();
 
-		// Line name
+		// Line name and Selected can work without results
 		if (col == 0)
 			return line;
+		else if (col == selectedIndex)
+			return line.getSelected();
 
+		// For everything else, don't show entries if stats object null
 		if (stats == null)
 			return null;
 
@@ -128,9 +130,6 @@ public class MabcTableModel extends LineDataTableModel
 		// Sum of QTL status (where status == 1)
 		else if (col == qtlStatusIndex)
 			return stats.getQtlStatusCount();
-
-		else if (col == selectedIndex)
-			return line.getSelected();
 
 		else if (col == rankIndex)
 			return line.results().getRank();

@@ -61,6 +61,10 @@ public class PedVerF1sPanel extends JPanel implements ActionListener, ITableView
 			((LineDataTable)table).autoResize(controls.autoResize.isSelected());
 	}
 
+	public void tableSorted()
+	{
+	}
+
 	public void tableFiltered()
 	{
 		controls.filterLabel.setText(

@@ -27,6 +27,8 @@ public class MabcPanelNB extends javax.swing.JPanel
 		bRank.setIcon(Icons.getIcon("RANK"));
 
 		autoResize.addActionListener(panel);
+
+		bResetFilter.addActionListener(panel);
 	}
 
 	/**
@@ -51,6 +53,7 @@ public class MabcPanelNB extends javax.swing.JPanel
         autoResize = new javax.swing.JCheckBox();
         filterLabel = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        bResetFilter = new javax.swing.JButton();
 
         table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][]
@@ -85,6 +88,8 @@ public class MabcPanelNB extends javax.swing.JPanel
 
         jLabel2.setText("|");
 
+        bResetFilter.setText("Reset filter");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -97,7 +102,7 @@ public class MabcPanelNB extends javax.swing.JPanel
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(filterLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 107, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
                 .addComponent(bSelect)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(bRank)
@@ -105,6 +110,8 @@ public class MabcPanelNB extends javax.swing.JPanel
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(bFilter)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(bResetFilter)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(bSort)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -125,7 +132,8 @@ public class MabcPanelNB extends javax.swing.JPanel
                     .addComponent(bExport, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(autoResize)
                     .addComponent(filterLabel)
-                    .addComponent(jLabel2))
+                    .addComponent(jLabel2)
+                    .addComponent(bResetFilter))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -136,6 +144,7 @@ public class MabcPanelNB extends javax.swing.JPanel
     scri.commons.gui.matisse.MenuButton bExport;
     javax.swing.JButton bFilter;
     javax.swing.JButton bRank;
+    javax.swing.JButton bResetFilter;
     javax.swing.JButton bSelect;
     javax.swing.JButton bSort;
     javax.swing.JLabel filterLabel;

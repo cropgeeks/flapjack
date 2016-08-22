@@ -6,6 +6,7 @@ package jhi.flapjack.data;
 import java.util.*;
 
 import jhi.flapjack.data.results.*;
+import jhi.flapjack.gui.table.*;
 
 import scri.commons.*;
 
@@ -59,6 +60,7 @@ public class GTViewSet extends XMLRoot
 	private int[] graphs = { 0, -1, -1 };
 
 	private UndoManager undoManager = new UndoManager();
+	private LinkedTableHandler tableHandler = new LinkedTableHandler(this);
 
 	public GTViewSet()
 	{
@@ -108,6 +110,11 @@ public class GTViewSet extends XMLRoot
 			else if (info.index == -2)
 				info.line = dataSet.getSplitter();
 		}
+
+		// 18/08/2016 - Added lineInfo.filtered for lines hidden or filtered in
+		// a linked-table view. For existing projects with hidden lines, set
+		// this flag to true on those lines
+		updateFilteredStates();
 	}
 
 
@@ -239,6 +246,9 @@ public class GTViewSet extends XMLRoot
 
 	// Other methods
 
+	public LinkedTableHandler tableHandler()
+		{ return tableHandler; }
+
 	public void addView(GTView view)
 	{
 		views.add(view);
@@ -295,6 +305,8 @@ public class GTViewSet extends XMLRoot
 			for (LineInfo li: array)
 				hideLines.add(li);
 		}
+
+		tableHandler.viewChanged();
 	}
 
 	public UndoManager getUndoManager()
@@ -416,6 +428,8 @@ public class GTViewSet extends XMLRoot
 		}
 
 		lines.add(index, new LineInfo(dummy, -1));
+
+		tableHandler.viewChanged();
 	}
 
 	public void removeAllDummyLines()
@@ -424,6 +438,8 @@ public class GTViewSet extends XMLRoot
 		for (int i = lines.size()-1; i >= 0; i--)
 			if (lines.get(i).line == dataSet.getDummyLine())
 				lines.remove(i);
+
+		tableHandler.viewChanged();
 	}
 
 	public void removeAllDuplicates()
@@ -432,6 +448,8 @@ public class GTViewSet extends XMLRoot
 		for (int i = lines.size()-1; i >= 0; i--)
 			if (lines.get(i).getDuplicate())
 				lines.remove(i);
+
+		tableHandler.viewChanged();
 	}
 
 	public void duplicateLine(int index)
@@ -440,6 +458,8 @@ public class GTViewSet extends XMLRoot
 		LineInfo duplicate = original.makeDuplicate();
 
 		lines.add(index+1, duplicate);
+
+		tableHandler.viewChanged();
 	}
 
 	public void insertSplitterLine(int index)
@@ -455,5 +475,35 @@ public class GTViewSet extends XMLRoot
 		}
 
 		lines.add(index, new LineInfo(splitter, -2));
+
+		tableHandler.viewChanged();
+	}
+
+	public void moveLine(int fromIndex, int toIndex)
+	{
+		// Check we're not out of bounds
+		if (toIndex < 0 || fromIndex < 0)
+			return;
+		if (toIndex >= lines.size() || fromIndex >= lines.size())
+			return;
+
+		// Swap the lines
+		LineInfo oldValue = lines.get(fromIndex);
+		lines.set(fromIndex, lines.get(toIndex));
+		lines.set(toIndex, oldValue);
+
+		// But also check and deal with the comparison line being moved
+		if (comparisonLineIndex == fromIndex)
+			comparisonLineIndex = toIndex;
+		else if (comparisonLineIndex == toIndex)
+			comparisonLineIndex = fromIndex;
+
+		tableHandler.viewChanged();
+	}
+
+	public void updateFilteredStates()
+	{
+		lines.stream().forEach(li -> li.setFiltered(false));
+		hideLines.stream().forEach(li -> li.setFiltered(true));
 	}
 }

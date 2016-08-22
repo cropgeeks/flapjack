@@ -281,14 +281,14 @@ class CanvasMouseListener extends MouseInputAdapter
 					if (newLine < selectedLine)
 						for (int i = selectedLine; i > newLine; i--)
 						{
-							canvas.view.moveLine(i, i-1);
+							canvas.viewSet.moveLine(i, i-1);
 							gPanel.listPanel.moveLine(i, i-1);
 						}
 					// Moving down...
 					else if (newLine > selectedLine)
 						for (int i = selectedLine; i < newLine; i++)
 						{
-							canvas.view.moveLine(i, i+1);
+							canvas.viewSet.moveLine(i, i+1);
 							gPanel.listPanel.moveLine(i, i+1);
 						}
 
