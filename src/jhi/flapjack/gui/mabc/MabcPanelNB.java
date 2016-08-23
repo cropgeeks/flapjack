@@ -1,6 +1,5 @@
 package jhi.flapjack.gui.mabc;
 
-import java.awt.Color;
 import jhi.flapjack.gui.table.*;
 
 import scri.commons.gui.*;
@@ -11,7 +10,7 @@ public class MabcPanelNB extends javax.swing.JPanel
 	{
 		initComponents();
 
-		bFilter.addActionListener(panel);
+		bFilter.setPopup(((LineDataTable)table).getFilterMenu());
 		bFilter.setIcon(Icons.getIcon("FILTER"));
 
 		bSort.addActionListener(panel);
@@ -27,8 +26,6 @@ public class MabcPanelNB extends javax.swing.JPanel
 		bRank.setIcon(Icons.getIcon("RANK"));
 
 		autoResize.addActionListener(panel);
-
-		bResetFilter.addActionListener(panel);
 	}
 
 	/**
@@ -45,7 +42,6 @@ public class MabcPanelNB extends javax.swing.JPanel
         jScrollPane1 = new javax.swing.JScrollPane();
         table = new LineDataTable();
         bSort = new javax.swing.JButton();
-        bFilter = new javax.swing.JButton();
         bSelect = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         bRank = new javax.swing.JButton();
@@ -53,7 +49,7 @@ public class MabcPanelNB extends javax.swing.JPanel
         autoResize = new javax.swing.JCheckBox();
         filterLabel = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        bResetFilter = new javax.swing.JButton();
+        bFilter = new scri.commons.gui.matisse.MenuButton();
 
         table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][]
@@ -68,8 +64,6 @@ public class MabcPanelNB extends javax.swing.JPanel
         jScrollPane1.setViewportView(table);
 
         bSort.setText("Sort...");
-
-        bFilter.setText("Filter...");
 
         bSelect.setText("Auto Select...");
 
@@ -88,13 +82,13 @@ public class MabcPanelNB extends javax.swing.JPanel
 
         jLabel2.setText("|");
 
-        bResetFilter.setText("Reset filter");
+        bFilter.setText("Filter");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 715, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(autoResize)
@@ -102,16 +96,14 @@ public class MabcPanelNB extends javax.swing.JPanel
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(filterLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(bSelect)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(bRank)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(bFilter)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(bResetFilter)
+                .addComponent(bFilter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(bSort)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -125,7 +117,6 @@ public class MabcPanelNB extends javax.swing.JPanel
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(bSort)
-                    .addComponent(bFilter)
                     .addComponent(bSelect)
                     .addComponent(jLabel1)
                     .addComponent(bRank)
@@ -133,7 +124,7 @@ public class MabcPanelNB extends javax.swing.JPanel
                     .addComponent(autoResize)
                     .addComponent(filterLabel)
                     .addComponent(jLabel2)
-                    .addComponent(bResetFilter))
+                    .addComponent(bFilter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -142,9 +133,8 @@ public class MabcPanelNB extends javax.swing.JPanel
     // Variables declaration - do not modify//GEN-BEGIN:variables
     javax.swing.JCheckBox autoResize;
     scri.commons.gui.matisse.MenuButton bExport;
-    javax.swing.JButton bFilter;
+    private scri.commons.gui.matisse.MenuButton bFilter;
     javax.swing.JButton bRank;
-    javax.swing.JButton bResetFilter;
     javax.swing.JButton bSelect;
     javax.swing.JButton bSort;
     javax.swing.JLabel filterLabel;
