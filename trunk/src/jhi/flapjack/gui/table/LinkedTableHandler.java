@@ -79,8 +79,10 @@ public class LinkedTableHandler implements ITableViewListener
 		model.setLines(lines);
 
 		if (setModel)
+		{
 			table.setModel(model);
-			// TODO: make the table reapply its filter
+			table.reapplyFilter();
+		}
 		else
 			model.fireTableDataChanged();
 	}

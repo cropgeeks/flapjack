@@ -332,6 +332,11 @@ public class LineDataTable extends JTable
 		return filters;
 	}
 
+	void reapplyFilter()
+	{
+		filter(lastFilter);
+	}
+
 	public void filterDialog()
 	{
 		FilterDialog dialog = FilterDialog.getFilterDialog(model.getFilterableColumns(), lastFilter);
@@ -343,7 +348,12 @@ public class LineDataTable extends JTable
 		// Remember it for next time in case the user runs another filterDialog
 		lastFilter = dialog.getResults();
 
-		// Build up a list of filters to apply to the table
+		filter(data);
+	}
+
+	private void filter(FilterColumn[] data)
+	{
+		// Create the default filter that will remove manually hidden lines
 		ArrayList<RowFilter<LineDataTableModel,Object>> filters = createBaseFilters();
 
 		// Scan and build the needed filters
