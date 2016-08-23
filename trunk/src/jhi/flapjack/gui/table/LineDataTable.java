@@ -172,6 +172,22 @@ public class LineDataTable extends JTable
 		return menu;
 	}
 
+	public JPopupMenu getFilterMenu()
+	{
+		JPopupMenu menu = new JPopupMenu();
+
+		JMenuItem filter = new JMenuItem("Filter");
+		filter.addActionListener(e -> filterDialog());
+
+		JMenuItem reset = new JMenuItem("Reset filter");
+		reset.addActionListener(e -> resetFilters());
+
+		menu.add(filter);
+		menu.add(reset);
+
+		return menu;
+	}
+
 	public JPopupMenu getPopupMenu()
 	{
 		JPopupMenu menu = new JPopupMenu();

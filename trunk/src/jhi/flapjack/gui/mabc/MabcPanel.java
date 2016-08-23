@@ -70,10 +70,7 @@ public class MabcPanel extends JPanel implements ActionListener, ListSelectionLi
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
-		if (e.getSource() == controls.bFilter)
-			((LineDataTable)table).filterDialog();
-
-		else if (e.getSource() == controls.bSort)
+		if (e.getSource() == controls.bSort)
 			((LineDataTable)table).sortDialog();
 
 		else if (e.getSource() == controls.bSelect)
@@ -84,10 +81,6 @@ public class MabcPanel extends JPanel implements ActionListener, ListSelectionLi
 
 		else if (e.getSource() == controls.autoResize)
 			((LineDataTable)table).autoResize(controls.autoResize.isSelected());
-
-		else if (e.getSource() == controls.bResetFilter)
-			((LineDataTable)table).resetFilters();
-
 	}
 
 	@Override
