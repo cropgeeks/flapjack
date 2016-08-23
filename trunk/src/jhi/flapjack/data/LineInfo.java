@@ -11,6 +11,10 @@ import jhi.flapjack.data.results.*;
  */
 public class LineInfo extends XMLRoot
 {
+	public static byte VISIBLE = 0;
+	public static byte FILTERED = 1;
+	public static byte HIDDEN = 2;
+
 	// A reference to the line, and to its index within the original data
 	Line line;
 	int index;
@@ -20,7 +24,7 @@ public class LineInfo extends XMLRoot
 	// Is this line a duplicate of a 'real' line or not
 	boolean duplicate = false;
 	// Is this line filtered/hidden (when used in a linked-table view)
-	boolean filtered = false;
+	byte visibility = VISIBLE;
 
 	// A 'score' associated with this line (probably from a sort/rank)
 	float score;
@@ -44,7 +48,7 @@ public class LineInfo extends XMLRoot
 		this.index = lineInfo.index;
 		this.selected = lineInfo.selected;
 		this.duplicate = lineInfo.duplicate;
-		this.filtered = lineInfo.filtered;
+		this.visibility = lineInfo.visibility;
 		this.score = lineInfo.score;
 	}
 
@@ -81,11 +85,11 @@ public class LineInfo extends XMLRoot
 	public void setDuplicate(boolean duplicate)
 		{ this.duplicate = duplicate; }
 
-	public boolean getFiltered()
-		{ return filtered; }
+	public byte getVisibility()
+		{ return visibility; }
 
-	public void setFiltered(boolean filtered)
-		{ this.filtered = filtered; }
+	public void setVisibility(byte visible)
+		{ this.visibility = visible; }
 
 
 

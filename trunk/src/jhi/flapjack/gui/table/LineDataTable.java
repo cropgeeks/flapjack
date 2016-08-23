@@ -322,7 +322,7 @@ public class LineDataTable extends JTable
 			{
 				// TODO: Exception due to TraitsPanel still using Line rather
 				// than LineInfo in column 0
-				try { return ((LineInfo)entry.getValue(0)).getFiltered() == false; }
+				try { return ((LineInfo)entry.getValue(0)).getVisibility() != LineInfo.HIDDEN; }
 				catch (ClassCastException e)
 				{ return true; }
 			}

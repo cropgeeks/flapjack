@@ -114,7 +114,9 @@ public class GTViewSet extends XMLRoot
 		// 18/08/2016 - Added lineInfo.filtered for lines hidden or filtered in
 		// a linked-table view. For existing projects with hidden lines, set
 		// this flag to true on those lines
-		updateFilteredStates();
+		for (LineInfo lineInfo: hideLines)
+			if (lineInfo.getVisibility() == LineInfo.VISIBLE)
+				lineInfo.setVisibility(lineInfo.HIDDEN);
 	}
 
 
@@ -305,8 +307,6 @@ public class GTViewSet extends XMLRoot
 			for (LineInfo li: array)
 				hideLines.add(li);
 		}
-
-		tableHandler.viewChanged();
 	}
 
 	public UndoManager getUndoManager()
@@ -429,7 +429,7 @@ public class GTViewSet extends XMLRoot
 
 		lines.add(index, new LineInfo(dummy, -1));
 
-		tableHandler.viewChanged();
+		tableHandler.viewChanged(false);
 	}
 
 	public void removeAllDummyLines()
@@ -439,7 +439,7 @@ public class GTViewSet extends XMLRoot
 			if (lines.get(i).line == dataSet.getDummyLine())
 				lines.remove(i);
 
-		tableHandler.viewChanged();
+		tableHandler.viewChanged(false);
 	}
 
 	public void removeAllDuplicates()
@@ -449,7 +449,7 @@ public class GTViewSet extends XMLRoot
 			if (lines.get(i).getDuplicate())
 				lines.remove(i);
 
-		tableHandler.viewChanged();
+		tableHandler.viewChanged(false);
 	}
 
 	public void duplicateLine(int index)
@@ -459,7 +459,7 @@ public class GTViewSet extends XMLRoot
 
 		lines.add(index+1, duplicate);
 
-		tableHandler.viewChanged();
+		tableHandler.viewChanged(false);
 	}
 
 	public void insertSplitterLine(int index)
@@ -476,7 +476,7 @@ public class GTViewSet extends XMLRoot
 
 		lines.add(index, new LineInfo(splitter, -2));
 
-		tableHandler.viewChanged();
+		tableHandler.viewChanged(false);
 	}
 
 	public void moveLine(int fromIndex, int toIndex)
@@ -498,12 +498,18 @@ public class GTViewSet extends XMLRoot
 		else if (comparisonLineIndex == toIndex)
 			comparisonLineIndex = fromIndex;
 
-		tableHandler.viewChanged();
+		tableHandler.viewChanged(true);
 	}
 
-	public void updateFilteredStates()
+	/** Restores all hidden lines to the view. */
+	public void restoreHiddenLines()
 	{
-		lines.stream().forEach(li -> li.setFiltered(false));
-		hideLines.stream().forEach(li -> li.setFiltered(true));
+		lines.addAll(hideLines);
+		hideLines.clear();
+
+		for (LineInfo lineInfo: lines)
+			lineInfo.setVisibility(LineInfo.VISIBLE);
+
+		tableHandler().viewChanged(false);
 	}
 }

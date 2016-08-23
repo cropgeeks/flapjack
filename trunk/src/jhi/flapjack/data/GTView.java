@@ -444,7 +444,9 @@ public class GTView extends XMLRoot
 			// Should we hide this line?
 			if (viewSet.lines.get(i).selected == hideSelected)
 			{
-				viewSet.hideLines.add(viewSet.lines.get(i));
+				LineInfo lineInfo = viewSet.lines.get(i);
+				lineInfo.setVisibility(LineInfo.HIDDEN);
+				viewSet.hideLines.add(lineInfo);
 				viewSet.lines.set(i, null);
 			}
 		}
@@ -460,7 +462,7 @@ public class GTView extends XMLRoot
 		viewSet.lines.trimToSize();
 		viewSet.hideLines.trimToSize();
 
-		viewSet.tableHandler().viewChanged();
+		viewSet.tableHandler().viewChanged(false);
 	}
 
 	/** Hides a single marker. */
@@ -476,8 +478,11 @@ public class GTView extends XMLRoot
 		if (index < 0 || index >= viewSet.lines.size())
 			return;
 
-		viewSet.hideLines.add(viewSet.lines.remove(index));
-		viewSet.tableHandler().viewChanged();
+		LineInfo lineInfo = viewSet.lines.remove(index);
+		lineInfo.setVisibility(LineInfo.HIDDEN);
+		viewSet.hideLines.add(lineInfo);
+
+		viewSet.tableHandler().viewChanged(false);
 	}
 
 	/** Restores all hidden markers to the view. */
@@ -496,15 +501,6 @@ public class GTView extends XMLRoot
 
 			markers.add(insertAt, mi);
 		}
-	}
-
-	/** Restores all hidden lines to the view. */
-	public void restoreHiddenLines()
-	{
-		viewSet.lines.addAll(viewSet.hideLines);
-		viewSet.hideLines.clear();
-
-		viewSet.tableHandler().viewChanged();
 	}
 
 	public boolean isDummyLine(int lineInfoIndex)

@@ -23,7 +23,6 @@ public abstract class LineDataTableModel extends AbstractTableModel
 	public void setLines(ArrayList<LineInfo> lines)
 	{
 		this.lines = lines;
-//		fireTableDataChanged();
 	}
 
 	public ArrayList<LineInfo> getLines()
@@ -110,7 +109,11 @@ public abstract class LineDataTableModel extends AbstractTableModel
 
 	void clearAllFilters()
 	{
+		// When we clear the filters on the table, we only want to restore lines
+		// that were filtered out by the table - any that were hidden manually
+		// by the user need to stay hidden
 		for (LineInfo line: lines)
-			line.setFiltered(false);
+			if (line.getVisibility() == LineInfo.FILTERED)
+				line.setVisibility(LineInfo.VISIBLE);
 	}
 }
