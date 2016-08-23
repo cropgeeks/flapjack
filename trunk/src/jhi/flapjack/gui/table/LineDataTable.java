@@ -113,14 +113,6 @@ public class LineDataTable extends JTable
 				{
 					for (ITableViewListener listener: viewListeners)
 						listener.tableSorted();
-
-/*					ArrayList<LineInfo> orderedLines = new ArrayList<>();
-					for (int i = 0; i < getRowCount(); i++)
-						orderedLines.add((LineInfo)model.getValueAt(convertRowIndexToModel(i), 0));
-
-					if (viewSet != null)
-						viewSet.setLines(orderedLines);
-*/
 				}
 			});
 
@@ -142,28 +134,14 @@ public class LineDataTable extends JTable
 			setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 	}
 
-
-/*	@Override
-	public Object getValueAt(int row, int column)
-	{
-		// WATCH OUT FOR THIS FUNKY CODE. Because we need the main view to reflect the sorting of the table we end up
-		// applying the sort to the list which the TableModel wraps. This then breaks the sorting of the table as its
-		// array of view to model indexes points at the locations of elements in the pre-sorted list. To work our way
-		// around this (but still have the niceties of JTable sorting) we simply make the table look straight at the
-		// model instread by calling convertRowIndexToView with the row the table is looking for.
-		row = convertRowIndexToView(row);
-
-		return super.getValueAt(row, column);
-	}
-*/
 	public JPopupMenu getExportMenu()
 	{
 		JPopupMenu menu = new JPopupMenu();
 
-		JMenuItem exportAll = new JMenuItem("Export all lines");
+		JMenuItem exportAll = new JMenuItem("Export all lines...");
 		exportAll.addActionListener(e -> exportData(false));
 
-		JMenuItem exportSelected = new JMenuItem("Export selected lines");
+		JMenuItem exportSelected = new JMenuItem("Export selected lines...");
 		exportSelected.addActionListener(e -> exportData(true));
 
 		menu.add(exportAll);
@@ -176,10 +154,10 @@ public class LineDataTable extends JTable
 	{
 		JPopupMenu menu = new JPopupMenu();
 
-		JMenuItem filter = new JMenuItem("Filter");
+		JMenuItem filter = new JMenuItem("Filter...");
 		filter.addActionListener(e -> filterDialog());
 
-		JMenuItem reset = new JMenuItem("Reset filter");
+		JMenuItem reset = new JMenuItem("Reset filters");
 		reset.addActionListener(e -> resetFilters());
 
 		menu.add(filter);
@@ -192,6 +170,17 @@ public class LineDataTable extends JTable
 	{
 		JPopupMenu menu = new JPopupMenu();
 
+		// Top level menus
+		final JMenu menuFilter = new JMenu();
+		menuFilter.setText("Filter");
+		menuFilter.setIcon(Icons.getIcon("FILTER"));
+
+		final JMenu menuExport = new JMenu();
+		menuExport.setText(RB.getString("gui.mabc.MabcPanel.export"));
+		menuExport.setIcon(Icons.getIcon("EXPORTTRAITS"));
+
+		// And the actual menu items
+
 		final JMenuItem mCopy = new JMenuItem();
 		mCopy.setText(RB.getString("gui.mabc.MabcPanel.copy"));
 		mCopy.setIcon(Icons.getIcon("COPY"));
@@ -199,32 +188,34 @@ public class LineDataTable extends JTable
 
 		final JMenuItem mFilter = new JMenuItem();
 		mFilter.setText("Filter...");
-		mFilter.setIcon(Icons.getIcon("FILTER"));
 		mFilter.addActionListener(e -> filterDialog());
+
+		final JMenuItem mFilterReset = new JMenuItem();
+		mFilterReset.setText("Reset filters");
+		mFilterReset.addActionListener(e -> resetFilters());
 
 		final JMenuItem mSort = new JMenuItem();
 		mSort.setText("Sort...");
 		mSort.setIcon(Icons.getIcon("SORT"));
 		mSort.addActionListener(e -> sortDialog());
 
-		final JMenu menuExport = new JMenu();
-		menuExport.setText(RB.getString("gui.mabc.MabcPanel.export"));
-		menuExport.setIcon(Icons.getIcon("EXPORTTRAITS"));
-
 		final JMenuItem mExportAll = new JMenuItem();
-		mExportAll.setText("Export all lines");
+		mExportAll.setText("Export all lines...");
 		mExportAll.addActionListener(e -> exportData(false));
 
 		final JMenuItem mExportSelected = new JMenuItem();
-		mExportSelected.setText("Export selected lines");
+		mExportSelected.setText("Export selected lines...");
 		mExportSelected.addActionListener(e -> exportData(true));
+
 
 		menuExport.add(mExportAll);
 		menuExport.add(mExportSelected);
+		menuFilter.add(mFilter);
+		menuFilter.add(mFilterReset);
 
 		menu.add(mCopy);
 		menu.addSeparator();
-		menu.add(mFilter);
+		menu.add(menuFilter);
 		menu.add(mSort);
 		menu.add(menuExport);
 
