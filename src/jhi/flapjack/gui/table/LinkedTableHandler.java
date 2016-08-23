@@ -28,14 +28,18 @@ public class LinkedTableHandler implements ITableViewListener
 	}
 
 	// Mirror the table's list of lines back to the ViewSet
-	public void tableChanged()
+	private void tableChanged()
 	{
 		viewSet.getLines().clear();
 		viewSet.getHideLines().clear();
 
 		// Anything still visible in the table should be visible in the view
 		for (int i = 0; i < table.getRowCount(); i++)
+		{
+			((LineInfo)table.getValueAt(i, 0)).setVisibility(LineInfo.VISIBLE);
 			viewSet.getLines().add((LineInfo)table.getValueAt(i, 0));
+		}
+
 
 		// Anything filtered, should be hidden in the view. We do this by making
 		// a clone of the model's entire list, then filtering on the viewable
@@ -44,29 +48,25 @@ public class LinkedTableHandler implements ITableViewListener
 		hideLines.removeAll(viewSet.getLines());
 		viewSet.getHideLines().addAll(hideLines);
 
-		viewSet.updateFilteredStates();
+		// We need to make sure any newly filtered lines have the corect state
+		// set on them (that doesn't override a manually set hidden state)
+		for (LineInfo lineInfo: hideLines)
+			if (lineInfo.getVisibility() == LineInfo.VISIBLE)
+				lineInfo.setVisibility(LineInfo.FILTERED);
 	}
 
 	public void tableSorted()
 	{
-		System.out.println("SORTED");
-//		new Exception("test").printStackTrace();
-//		System.out.println();
 		tableChanged();
 	}
 
 	public void tableFiltered()
 	{
-		System.out.println("FILTERED");
 		tableChanged();
 	}
 
-	public void viewChanged()
+	public void viewChanged(boolean setModel)
 	{
-		System.out.println("VIEW CHANGED - table should have updated");
-
-		viewSet.updateFilteredStates();
-
 		if (table == null)
 			return;
 
@@ -77,6 +77,11 @@ public class LinkedTableHandler implements ITableViewListener
 		// Apply that to the table, resetting its list and breaking any sort it
 		// may have running
 		model.setLines(lines);
-		table.setModel(model);
+
+		if (setModel)
+			table.setModel(model);
+			// TODO: make the table reapply its filter
+		else
+			model.fireTableDataChanged();
 	}
 }

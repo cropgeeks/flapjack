@@ -113,7 +113,7 @@ public class HideLMDialog extends JDialog implements ActionListener
 		state.createUndoState();
 
 		// Do the restore
-		gPanel.getView().restoreHiddenLines();
+		gPanel.getViewSet().restoreHiddenLines();
 		gPanel.refreshView();
 
 		// Create a redo state
