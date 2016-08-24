@@ -13,6 +13,9 @@ class PedVerF1sTableModel extends LineDataTableModel
 {
 	private PedVerKnownParentsResults results;
 
+	private static final int selectedIndex = 12;
+	private static final int commentIndex = 13;
+
 	PedVerF1sTableModel(DataSet dataSet, GTViewSet viewSet)
 	{
 		this.dataSet = dataSet;
@@ -23,11 +26,11 @@ class PedVerF1sTableModel extends LineDataTableModel
 
 	void initModel()
 	{
-		columnNames = new String[] { "Line", "Selected", "Marker count", "% missing",
-			"Het count", "% het", "% deviation from expected", "Count P1 contained",
-			"% P1 contained", "Count P2 contained", "% P2 contained",
-			"Count allele match to expected", "% allele match to expected",
-			"Comments" };
+		columnNames = new String[] { "Line", "Marker count", "% Missing",
+			"Het count", "% Het", "% Deviation from Expected", "Count P1 Contained",
+			"% P1 Contained", "Count P2 Contained", "% P2 Contained",
+			"Count Allele Match to Expected", "% Allele Match to Expected",
+			"Selected", "Comments" };
 	}
 
 	@Override
@@ -42,28 +45,30 @@ class PedVerF1sTableModel extends LineDataTableModel
 		LineInfo line = lines.get(row);
 		PedVerKnownParentsLineStats stats = line.results().getPedVerStats();
 
+		// Line name and Selected can work without results
 		if (col == 0)
 			return line;
+		else if (col == selectedIndex)
+			return line.getSelected();
 
 		if (stats == null)
 			return null;
 
 		switch (col)
 		{
-			case 1: return line.getSelected();
-			case 2: return stats.getMarkerCount();
-			case 3: return stats.getPercentMissing();
-			case 4: return stats.getHeterozygousCount();
-			case 5: return stats.getPercentHeterozygous();
-			case 6: return stats.getPercentDeviationFromExpected();
-			case 7: return stats.getCountP1Contained();
-			case 8: return stats.getPercentP1Contained();
-			case 9: return stats.getCountP2Contained();
-			case 10: return stats.getPercentP2Contained();
-			case 11: return stats.getCountAlleleMatchExpected();
-			case 12: return stats.getPercentAlleleMatchExpected();
+			case 1: return stats.getMarkerCount();
+			case 2: return stats.getPercentMissing();
+			case 3: return stats.getHeterozygousCount();
+			case 4: return stats.getPercentHeterozygous();
+			case 5: return stats.getPercentDeviationFromExpected();
+			case 6: return stats.getCountP1Contained();
+			case 7: return stats.getPercentP1Contained();
+			case 8: return stats.getCountP2Contained();
+			case 9: return stats.getPercentP2Contained();
+			case 10: return stats.getCountAlleleMatchExpected();
+			case 11: return stats.getPercentAlleleMatchExpected();
 
-			case 13:
+			case commentIndex:
 				String comment = line.results().getComments();
 				return comment == null ? "" : comment;
 
@@ -76,9 +81,9 @@ class PedVerF1sTableModel extends LineDataTableModel
 	{
 		if (col == 0)
 			return LineInfo.class;
-		else if (col == 1)
+		else if (col == selectedIndex)
 			return Boolean.class;
-		else if (col == 13)
+		else if (col == commentIndex)
 			return String.class;
 		else
 			return Double.class;
@@ -87,7 +92,7 @@ class PedVerF1sTableModel extends LineDataTableModel
 	@Override
 	public boolean isCellEditable(int row, int col)
 	{
-		return (col == 1 || col == 13);
+		return (col == selectedIndex || col == commentIndex);
 	}
 
 	@Override
@@ -95,9 +100,9 @@ class PedVerF1sTableModel extends LineDataTableModel
 	{
 		LineInfo line = (LineInfo) getValueAt(row, 0);
 
-		if (col == 1)
+		if (col == selectedIndex)
 			line.setSelected((boolean)value);
-		else if (col == 13)
+		else if (col == commentIndex)
 			line.results().setComments((String)value);
 	}
 }
