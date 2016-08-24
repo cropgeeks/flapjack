@@ -53,7 +53,6 @@
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="bSort" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="bSelect" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="bRank" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="bExport" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -61,6 +60,7 @@
                   <Component id="filterLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="bFilter" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="bSelect" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -91,14 +91,6 @@
     <Component class="javax.swing.JButton" name="bSort">
       <Properties>
         <Property name="text" type="java.lang.String" value="Sort..."/>
-      </Properties>
-      <AuxValues>
-        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
-      </AuxValues>
-    </Component>
-    <Component class="javax.swing.JButton" name="bSelect">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Auto Select..."/>
       </Properties>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
@@ -153,6 +145,14 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Filter"/>
       </Properties>
+    </Component>
+    <Component class="scri.commons.gui.matisse.MenuButton" name="bSelect">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Select"/>
+      </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
+      </AuxValues>
     </Component>
   </SubComponents>
 </Form>

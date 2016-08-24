@@ -77,6 +77,21 @@ public abstract class LineDataTableModel extends AbstractTableModel
 		return cols.toArray(new FilterColumn[] {});
 	}
 
+	void setLineStates(Boolean state)
+	{
+		for (LineInfo line: lines)
+		{
+			// Set the line's state to either true or false
+			if (state != null)
+				line.setSelected(state);
+			// Or toggle it
+			else
+				line.setSelected(!line.getSelected());
+		}
+
+		fireTableRowsUpdated(0, lines.size()-1);
+	}
+
 	void selectLines(FilterColumn[] data)
 	{
 		// For every line...
