@@ -13,13 +13,14 @@ class PedVerLinesTableModel extends LineDataTableModel
 {
 	private GTViewSet viewSet;
 
+	private int selectedIndex;
 	private int commentsIndex;
 
 	PedVerLinesTableModel(DataSet dataSet, GTViewSet viewSet)
 	{
 		this.dataSet = dataSet;
 		this.viewSet = viewSet;
-		
+
 		setLines(new ArrayList<>(viewSet.getLines()));
 		initModel();
 	}
@@ -28,18 +29,19 @@ class PedVerLinesTableModel extends LineDataTableModel
 	{
 		PedVerLinesLineStats stats = lines.get(0).results().getPedVerLinesStats();
 		columnNames = new String[9 + stats.getChrMatchCount().size()];
+		selectedIndex = columnNames.length-2;
 		commentsIndex = columnNames.length-1;
 
 		columnNames[0] = "Line";
-		columnNames[1] = "Selected";
-		columnNames[2] = "Marker count";
-		columnNames[3] = "% missing";
-		columnNames[4] = "Het count";
-		columnNames[5] = "% het";
-		columnNames[6] = "Match count";
-		columnNames[7] = "% match";
+		columnNames[1] = "Marker count";
+		columnNames[2] = "% Missing";
+		columnNames[3] = "Het Count";
+		columnNames[4] = "% Het";
+		columnNames[5] = "Match Count";
+		columnNames[6] = "% Match";
 		for (int i=0; i < stats.getChrMatchCount().size(); i++)
-			columnNames[i+8] = "Match in " + viewSet.getView(i).getChromosomeMap().getName();
+			columnNames[i+7] = "Match in " + viewSet.getView(i).getChromosomeMap().getName();
+		columnNames[selectedIndex] = "Selected";
 		columnNames[commentsIndex] = "Comments";
 	}
 
@@ -55,29 +57,30 @@ class PedVerLinesTableModel extends LineDataTableModel
 		LineInfo line = lines.get(row);
 		PedVerLinesLineStats stats = line.results().getPedVerLinesStats();
 
+		// Line name and Selected can work without results
 		if (col == 0)
 			return line;
+		else if (col == selectedIndex)
+			return line.getSelected();
 
 		if (stats == null)
 			return null;
 
-		else if (col == 1)
-			return line.getSelected();
-		else if (col == 2)
+		if (col == 1)
 			return stats.getMarkerCount();
-		else if (col == 3)
+		else if (col == 2)
 			return stats.getMissingPerc();
-		else if (col == 4)
+		else if (col == 3)
 			return stats.getHetCount();
-		else if (col == 5)
+		else if (col == 4)
 			return stats.getHetPerc();
-		else if (col == 6)
+		else if (col == 5)
 			return stats.getMatchCount();
-		else if (col == 7)
+		else if (col == 6)
 			return stats.getMatchPerc();
-		else if (col >= 8 && col < commentsIndex)
+		else if (col >= 7 && col < commentsIndex)
 		{
-			return stats.getChrMatchCount().get(col-8);
+			return stats.getChrMatchCount().get(col-7);
 		}
 		else if (col == commentsIndex)
 		{
@@ -93,7 +96,7 @@ class PedVerLinesTableModel extends LineDataTableModel
 	{
 		if (col == 0)
 			return LineInfo.class;
-		else if (col == 1)
+		else if (col == selectedIndex)
 			return Boolean.class;
 		else if (col == commentsIndex)
 			return String.class;
@@ -104,7 +107,7 @@ class PedVerLinesTableModel extends LineDataTableModel
 	@Override
 	public boolean isCellEditable(int row, int col)
 	{
-		return (col == 1 || col == commentsIndex);
+		return (col == selectedIndex || col == commentsIndex);
 	}
 
 	@Override
@@ -112,7 +115,7 @@ class PedVerLinesTableModel extends LineDataTableModel
 	{
 		LineInfo line = (LineInfo) getValueAt(row, 0);
 
-		if (col == 1)
+		if (col == selectedIndex)
 			line.setSelected((boolean)value);
 		else if (col == commentsIndex)
 			line.results().setComments((String)value);
