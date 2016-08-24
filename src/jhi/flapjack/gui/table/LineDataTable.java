@@ -137,33 +137,98 @@ public class LineDataTable extends JTable
 	public JPopupMenu getExportMenu()
 	{
 		JPopupMenu menu = new JPopupMenu();
-
-		JMenuItem exportAll = new JMenuItem("Export all lines...");
-		exportAll.addActionListener(e -> exportData(false));
-
-		JMenuItem exportSelected = new JMenuItem("Export selected lines...");
-		exportSelected.addActionListener(e -> exportData(true));
-
-		menu.add(exportAll);
-		menu.add(exportSelected);
-
+		createExportMenu(menu);
 		return menu;
+	}
+
+	private void createExportMenu(JComponent menu)
+	{
+		JMenuItem mExportAll = new JMenuItem("Export all lines...");
+		mExportAll.addActionListener(e -> exportData(false));
+
+		JMenuItem mExportSelected = new JMenuItem("Export selected lines...");
+		mExportSelected.addActionListener(e -> exportData(true));
+
+		menu.add(mExportAll);
+		menu.add(mExportSelected);
 	}
 
 	public JPopupMenu getFilterMenu()
 	{
 		JPopupMenu menu = new JPopupMenu();
+		createFilterMenu(menu);
+		return menu;
+	}
 
-		JMenuItem filter = new JMenuItem("Filter...");
-		filter.addActionListener(e -> filterDialog());
+	private void createFilterMenu(JComponent menu)
+	{
+		JMenuItem mFilter = new JMenuItem("Filter...");
+		mFilter.setIcon(Icons.getIcon("FILTER"));
+		mFilter.addActionListener(e -> filterDialog());
 
 		JMenuItem reset = new JMenuItem("Reset filters");
 		reset.addActionListener(e -> resetFilters());
 
-		menu.add(filter);
+		menu.add(mFilter);
 		menu.add(reset);
+	}
 
+	public JPopupMenu getSelectMenu()
+	{
+		JPopupMenu menu = new JPopupMenu();
+		createSelectMenu(menu, false);
 		return menu;
+	}
+
+	private void createSelectMenu(JComponent menu, boolean allOptions)
+	{
+		final JMenuItem mSelect = new JMenuItem();
+		mSelect.setText("Auto select...");
+		mSelect.setIcon(Icons.getIcon("AUTOSELECT"));
+		mSelect.addActionListener(event -> selectDialog());
+
+		final JMenuItem mSelectHighlightedAll = new JMenuItem();
+		mSelectHighlightedAll.setText("Select highlighted");
+		mSelectHighlightedAll.addActionListener(event -> selectHighlighted(true));
+		mSelectHighlightedAll.setEnabled(getSelectionModel().getMinSelectionIndex() != -1);
+
+		final JMenuItem mSelectHighlightedNone = new JMenuItem();
+		mSelectHighlightedNone.setText("Deselect highlighted");
+		mSelectHighlightedNone.addActionListener(event -> selectHighlighted(false));
+		mSelectHighlightedNone.setEnabled(getSelectionModel().getMinSelectionIndex() != -1);
+
+		final JMenuItem mSelectHighlightedInvert = new JMenuItem();
+		mSelectHighlightedInvert.setText("Invert highlighted");
+		mSelectHighlightedInvert.addActionListener(event -> selectHighlighted(null));
+		mSelectHighlightedInvert.setEnabled(getSelectionModel().getMinSelectionIndex() != -1);
+
+		final JMenuItem mSelectAll = new JMenuItem();
+		mSelectAll.setText("Select all");
+		mSelectAll.addActionListener(event -> model.setLineStates(true));
+
+		final JMenuItem mSelectNone = new JMenuItem();
+		mSelectNone.setText("Select none");
+		mSelectNone.addActionListener(event -> model.setLineStates(false));
+
+		final JMenuItem mSelectInvert = new JMenuItem();
+		mSelectInvert.setIcon(Icons.getIcon("INVERT"));
+		mSelectInvert.setText("Invert selection");
+		mSelectInvert.addActionListener(event -> model.setLineStates(null));
+
+		menu.add(mSelect);
+		if (menu instanceof JMenu) ((JMenu)menu).addSeparator();
+		else ((JPopupMenu)menu).addSeparator();
+		menu.add(mSelectAll);
+		menu.add(mSelectNone);
+		menu.add(mSelectInvert);
+		if (allOptions)
+		{
+			if (menu instanceof JMenu) ((JMenu)menu).addSeparator();
+			else ((JPopupMenu)menu).addSeparator();
+			menu.add(mSelectHighlightedAll);
+			menu.add(mSelectHighlightedNone);
+			menu.add(mSelectHighlightedInvert);
+		}
 	}
 
 	public JPopupMenu getPopupMenu()
@@ -173,52 +238,31 @@ public class LineDataTable extends JTable
 		// Top level menus
 		final JMenu menuFilter = new JMenu();
 		menuFilter.setText("Filter");
-		menuFilter.setIcon(Icons.getIcon("FILTER"));
+		createFilterMenu(menuFilter);
 
 		final JMenu menuExport = new JMenu();
 		menuExport.setText(RB.getString("gui.mabc.MabcPanel.export"));
-		menuExport.setIcon(Icons.getIcon("EXPORTTRAITS"));
+//		menuExport.setIcon(Icons.getIcon("EXPORTTRAITS"));
+		createExportMenu(menuExport);
 
-		// And the actual menu items
-		final JMenuItem mSelect = new JMenuItem();
-		mSelect.setText("Select...");
-		mSelect.setIcon(Icons.getIcon("AUTOSELECT"));
-		mSelect.addActionListener(event -> selectDialog());
+		final JMenu menuSelect = new JMenu();
+		menuSelect.setText("Select");
+		createSelectMenu(menuSelect, true);
 
 
+		// And any other actual menu items
 		final JMenuItem mCopy = new JMenuItem();
 		mCopy.setText(RB.getString("gui.mabc.MabcPanel.copy"));
 		mCopy.setIcon(Icons.getIcon("COPY"));
 		mCopy.addActionListener(e -> copyTableToClipboard());
-
-		final JMenuItem mFilter = new JMenuItem();
-		mFilter.setText("Filter...");
-		mFilter.addActionListener(e -> filterDialog());
-
-		final JMenuItem mFilterReset = new JMenuItem();
-		mFilterReset.setText("Reset filters");
-		mFilterReset.addActionListener(e -> resetFilters());
 
 		final JMenuItem mSort = new JMenuItem();
 		mSort.setText("Sort...");
 		mSort.setIcon(Icons.getIcon("SORT"));
 		mSort.addActionListener(e -> sortDialog());
 
-		final JMenuItem mExportAll = new JMenuItem();
-		mExportAll.setText("Export all lines...");
-		mExportAll.addActionListener(e -> exportData(false));
 
-		final JMenuItem mExportSelected = new JMenuItem();
-		mExportSelected.setText("Export selected lines...");
-		mExportSelected.addActionListener(e -> exportData(true));
-
-
-		menuExport.add(mExportAll);
-		menuExport.add(mExportSelected);
-		menuFilter.add(mFilter);
-		menuFilter.add(mFilterReset);
-
-		menu.add(mSelect);
+		menu.add(menuSelect);
 		menu.add(mCopy);
 		menu.addSeparator();
 		menu.add(menuFilter);
@@ -389,6 +433,28 @@ public class LineDataTable extends JTable
 		lastSelect = dialog.getResults();
 
 		model.selectLines(data);
+	}
+
+	private void selectHighlighted(Boolean state)
+	{
+		ListSelectionModel lsModel = getSelectionModel();
+
+		// Loop over every (selected) row, convert it to a model row, and
+		// then set the new rank value on it
+		for (int i = 0; i < getRowCount(); i++)
+			if (lsModel.isSelectedIndex(i))
+			{
+				LineInfo line = model.getLines().get(convertRowIndexToModel(i));
+
+				// Set the line's state to either true or false
+				if (state != null)
+					line.setSelected(state);
+				// Or toggle it
+				else
+					line.setSelected(!line.getSelected());
+			}
+
+		model.fireTableRowsUpdated(0, model.getRowCount()-1);
 	}
 
 	// Deals with the fact that our fake double header for the JTable means

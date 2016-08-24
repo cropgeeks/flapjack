@@ -19,7 +19,7 @@ public class MabcPanelNB extends javax.swing.JPanel
 		bExport.setPopup(((LineDataTable)table).getExportMenu());
 		bExport.setIcon(Icons.getIcon("EXPORTTRAITS"));
 
-		bSelect.addActionListener(panel);
+		bSelect.setPopup(((LineDataTable)table).getSelectMenu());
 		bSelect.setIcon(Icons.getIcon("AUTOSELECT"));
 
 		bRank.addActionListener(panel);
@@ -42,7 +42,6 @@ public class MabcPanelNB extends javax.swing.JPanel
         jScrollPane1 = new javax.swing.JScrollPane();
         table = new LineDataTable();
         bSort = new javax.swing.JButton();
-        bSelect = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         bRank = new javax.swing.JButton();
         bExport = new scri.commons.gui.matisse.MenuButton();
@@ -50,6 +49,7 @@ public class MabcPanelNB extends javax.swing.JPanel
         filterLabel = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         bFilter = new scri.commons.gui.matisse.MenuButton();
+        bSelect = new scri.commons.gui.matisse.MenuButton();
 
         table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][]
@@ -64,8 +64,6 @@ public class MabcPanelNB extends javax.swing.JPanel
         jScrollPane1.setViewportView(table);
 
         bSort.setText("Sort...");
-
-        bSelect.setText("Auto Select...");
 
         jLabel1.setText("|");
 
@@ -84,6 +82,8 @@ public class MabcPanelNB extends javax.swing.JPanel
 
         bFilter.setText("Filter");
 
+        bSelect.setText("Select");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -97,7 +97,7 @@ public class MabcPanelNB extends javax.swing.JPanel
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(filterLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(bSelect)
+                .addComponent(bSelect, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(bRank)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -117,14 +117,14 @@ public class MabcPanelNB extends javax.swing.JPanel
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(bSort)
-                    .addComponent(bSelect)
                     .addComponent(jLabel1)
                     .addComponent(bRank)
                     .addComponent(bExport, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(autoResize)
                     .addComponent(filterLabel)
                     .addComponent(jLabel2)
-                    .addComponent(bFilter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(bFilter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bSelect, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -135,7 +135,7 @@ public class MabcPanelNB extends javax.swing.JPanel
     scri.commons.gui.matisse.MenuButton bExport;
     private scri.commons.gui.matisse.MenuButton bFilter;
     javax.swing.JButton bRank;
-    javax.swing.JButton bSelect;
+    scri.commons.gui.matisse.MenuButton bSelect;
     javax.swing.JButton bSort;
     javax.swing.JLabel filterLabel;
     private javax.swing.JLabel jLabel1;
