@@ -7,6 +7,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.text.*;
 import javax.swing.*;
+import javax.swing.event.*;
 
 import jhi.flapjack.data.*;
 import jhi.flapjack.data.results.*;
@@ -15,14 +16,14 @@ import jhi.flapjack.gui.table.*;
 
 import scri.commons.gui.*;
 
-public class PedVerLinesPanel extends JPanel implements ActionListener, ITableViewListener
+public class PedVerLinesPanel extends JPanel implements ActionListener, ITableViewListener, TableModelListener
 {
 	private JTable table;
 	private PedVerLinesTableModel model;
 
-	private PedVerLinesPanelNB controls;
+	private LinkedTableHandler tableHandler;
 
-	NumberFormat nf = NumberFormat.getPercentInstance();
+	private PedVerLinesPanelNB controls;
 
 	public PedVerLinesPanel(GTViewSet viewSet)
 	{
@@ -30,8 +31,6 @@ public class PedVerLinesPanel extends JPanel implements ActionListener, ITableVi
 
 		table = controls.table;
 		((LineDataTable)table).addViewListener(this);
-
-		nf.setMinimumFractionDigits(2);
 
 		// Extract the test line's info from the first line in the view (they
 		// all hold the same reference anyway)
@@ -46,11 +45,24 @@ public class PedVerLinesPanel extends JPanel implements ActionListener, ITableVi
 		add(controls);
 
 		updateModel(viewSet.getDataSet(), viewSet);
+
+		table.addMouseListener(new MouseAdapter() {
+			public void mousePressed(MouseEvent e) {
+				handlePopup(e);
+			}
+			public void mouseReleased(MouseEvent e) {
+				handlePopup(e);
+			}
+		});
+
+		tableHandler = viewSet.tableHandler();
+		tableHandler.linkTable((LineDataTable)table, model);
 	}
 
 	public void updateModel(DataSet dataSet, GTViewSet viewSet)
 	{
 		model = new PedVerLinesTableModel(dataSet, viewSet);
+		model.addTableModelListener(this);
 
 		table.setModel(model);
 		((LineDataTable)table).setViewSet(viewSet);
@@ -73,8 +85,24 @@ public class PedVerLinesPanel extends JPanel implements ActionListener, ITableVi
 			((LineDataTable)table).autoResize(controls.autoResize.isSelected());
 	}
 
+	private void handlePopup(MouseEvent e)
+	{
+		if (e.isPopupTrigger() == false)
+			return;
+
+		JPopupMenu menu = ((LineDataTable)table).getPopupMenu();
+
+		menu.add(new JPopupMenu.Separator(), 1);
+		menu.show(e.getComponent(), e.getX(), e.getY());
+	}
+
 	public void tableSorted()
 	{
+	}
+
+	public void tableChanged(TableModelEvent e)
+	{
+		tableFiltered();
 	}
 
 	public void tableFiltered()

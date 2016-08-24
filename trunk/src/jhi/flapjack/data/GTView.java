@@ -397,9 +397,6 @@ public class GTView extends XMLRoot
 	public int hiddenMarkerCount()
 		{ return hideMarkers.size(); }
 
-	public int hiddenLineCount()
-		{ return viewSet.hideLines.size(); }
-
 	/** Hides all selected or unselected markers, depending on the parameter. */
 	public void hideMarkers(boolean hideSelected)
 	{
