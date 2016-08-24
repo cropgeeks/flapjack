@@ -90,7 +90,7 @@ public class PedVerLinesPanel extends JPanel implements ActionListener, ITableVi
 		if (e.isPopupTrigger() == false)
 			return;
 
-		JPopupMenu menu = ((LineDataTable)table).getPopupMenu();
+		JPopupMenu menu = ((LineDataTable)table).getMenu().createPopupMenu();
 
 		menu.add(new JPopupMenu.Separator(), 1);
 		menu.show(e.getComponent(), e.getX(), e.getY());

@@ -98,7 +98,7 @@ public class MabcPanel extends JPanel implements ActionListener, ListSelectionLi
 		if (e.isPopupTrigger() == false)
 			return;
 
-		JPopupMenu menu = ((LineDataTable)table).getPopupMenu();
+		JPopupMenu menu = ((LineDataTable)table).getMenu().createPopupMenu();
 
 		final JMenuItem mRank = new JMenuItem();
 		mRank.setText("Rank...");

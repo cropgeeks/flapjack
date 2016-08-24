@@ -15,16 +15,16 @@ class PedVerLinesPanelNB extends JPanel
 	{
 		initComponents();
 
-		bFilter.setPopup(((LineDataTable)table).getFilterMenu());
+		bFilter.setPopup(((LineDataTable)table).getMenu().getFilterMenu());
 		bFilter.setIcon(Icons.getIcon("FILTER"));
 
 		bSort.addActionListener(panel);
 		bSort.setIcon(Icons.getIcon("SORT"));
 
-		bExport.setPopup(((LineDataTable)table).getExportMenu());
+		bExport.setPopup(((LineDataTable)table).getMenu().getExportMenu());
 		bExport.setIcon(Icons.getIcon("EXPORTTRAITS"));
 
-		bSelect.setPopup(((LineDataTable)table).getSelectMenu());
+		bSelect.setPopup(((LineDataTable)table).getMenu().getSelectMenu());
 		bSelect.setIcon(Icons.getIcon("AUTOSELECT"));
 
 		autoResize.addActionListener(panel);
