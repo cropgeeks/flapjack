@@ -512,4 +512,11 @@ public class GTViewSet extends XMLRoot
 
 		tableHandler().viewChanged(false);
 	}
+
+	public long hiddenLineCount()
+	{
+		return hideLines.stream()
+			.filter(li -> li.getVisibility() == LineInfo.HIDDEN)
+			.count();
+	}
 }

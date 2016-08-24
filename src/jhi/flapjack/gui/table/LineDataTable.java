@@ -180,6 +180,11 @@ public class LineDataTable extends JTable
 		menuExport.setIcon(Icons.getIcon("EXPORTTRAITS"));
 
 		// And the actual menu items
+		final JMenuItem mSelect = new JMenuItem();
+		mSelect.setText("Select...");
+		mSelect.setIcon(Icons.getIcon("AUTOSELECT"));
+		mSelect.addActionListener(event -> selectDialog());
+
 
 		final JMenuItem mCopy = new JMenuItem();
 		mCopy.setText(RB.getString("gui.mabc.MabcPanel.copy"));
@@ -213,6 +218,7 @@ public class LineDataTable extends JTable
 		menuFilter.add(mFilter);
 		menuFilter.add(mFilterReset);
 
+		menu.add(mSelect);
 		menu.add(mCopy);
 		menu.addSeparator();
 		menu.add(menuFilter);

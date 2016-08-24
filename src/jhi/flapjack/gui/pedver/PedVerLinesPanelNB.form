@@ -23,7 +23,7 @@
               <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="filterLabel" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="108" max="32767" attributes="0"/>
+              <EmptySpace pref="120" max="32767" attributes="0"/>
               <Component id="bSelect" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
               <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
@@ -53,8 +53,8 @@
                   </Group>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="bSort" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="bFilter" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="bExport" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="bFilter" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -86,14 +86,6 @@
     <Component class="javax.swing.JButton" name="bSort">
       <Properties>
         <Property name="text" type="java.lang.String" value="Sort..."/>
-      </Properties>
-      <AuxValues>
-        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
-      </AuxValues>
-    </Component>
-    <Component class="javax.swing.JButton" name="bFilter">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Filter..."/>
       </Properties>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
@@ -138,6 +130,14 @@
     <Component class="javax.swing.JLabel" name="filterLabel">
       <Properties>
         <Property name="text" type="java.lang.String" value="Lines visible:"/>
+      </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
+      </AuxValues>
+    </Component>
+    <Component class="scri.commons.gui.matisse.MenuButton" name="bFilter">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Filter"/>
       </Properties>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>

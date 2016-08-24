@@ -78,9 +78,9 @@ class HideLMPanelNB extends JPanel
 			rHideSelected.setSelected(Prefs.guiHideSelectedLines);
 			rHideUnselected.setSelected(!Prefs.guiHideSelectedLines);
 			countLabel.setText(RB.format("gui.dialog.NBHideLMPanel.countLabel",
-				view.hiddenLineCount()));
+				view.getViewSet().hiddenLineCount()));
 
-			if (view.hiddenLineCount() == 0)
+			if (view.getViewSet().hiddenLineCount() == 0)
 				bRestore.setEnabled(false);
 		}
 

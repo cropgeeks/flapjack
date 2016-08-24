@@ -11,16 +11,13 @@ import jhi.flapjack.gui.table.*;
 
 class PedVerF1sTableModel extends LineDataTableModel
 {
-	// This results table is *linked* with the given view
-	private GTViewSet viewSet;
-
 	private PedVerKnownParentsResults results;
 
 	PedVerF1sTableModel(DataSet dataSet, GTViewSet viewSet)
 	{
 		this.dataSet = dataSet;
-		this.viewSet = viewSet;
 
+		setLines(new ArrayList<>(viewSet.getLines()));
 		initModel();
 	}
 
@@ -36,13 +33,13 @@ class PedVerF1sTableModel extends LineDataTableModel
 	@Override
 	public int getRowCount()
 	{
-		return viewSet.getLines().size();
+		return lines.size();
 	}
 
 	@Override
 	public Object getValueAt(int row, int col)
 	{
-		LineInfo line = viewSet.getLines().get(row);
+		LineInfo line = lines.get(row);
 		PedVerKnownParentsLineStats stats = line.results().getPedVerStats();
 
 		if (col == 0)

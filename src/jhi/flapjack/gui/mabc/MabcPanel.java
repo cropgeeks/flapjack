@@ -100,18 +100,12 @@ public class MabcPanel extends JPanel implements ActionListener, ListSelectionLi
 
 		JPopupMenu menu = ((LineDataTable)table).getPopupMenu();
 
-		final JMenuItem mSelect = new JMenuItem();
-		mSelect.setText(RB.getString("gui.mabc.MabcPanel.select"));
-		mSelect.setIcon(Icons.getIcon("AUTOSELECT"));
-		mSelect.addActionListener(event -> ((LineDataTable)table).selectDialog());
-
 		final JMenuItem mRank = new JMenuItem();
 		mRank.setText("Rank...");
 		mRank.setIcon(Icons.getIcon("RANK"));
 		mRank.addActionListener(event -> rankSelectedLines());
 		mRank.setEnabled(table.getSelectionModel().getMinSelectionIndex() != -1);
 
-		menu.add(mSelect, 0);
 		menu.add(mRank, 1);
 		menu.add(new JPopupMenu.Separator(), 2);
 

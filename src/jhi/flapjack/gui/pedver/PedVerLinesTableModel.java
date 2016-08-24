@@ -3,13 +3,14 @@
 
 package jhi.flapjack.gui.pedver;
 
+import java.util.*;
+
 import jhi.flapjack.data.*;
 import jhi.flapjack.data.results.*;
 import jhi.flapjack.gui.table.*;
 
 class PedVerLinesTableModel extends LineDataTableModel
 {
-	// This results table is *linked* with the given view
 	private GTViewSet viewSet;
 
 	private int commentsIndex;
@@ -18,13 +19,14 @@ class PedVerLinesTableModel extends LineDataTableModel
 	{
 		this.dataSet = dataSet;
 		this.viewSet = viewSet;
-
+		
+		setLines(new ArrayList<>(viewSet.getLines()));
 		initModel();
 	}
 
 	void initModel()
 	{
-		PedVerLinesLineStats stats = viewSet.getLines().get(0).results().getPedVerLinesStats();
+		PedVerLinesLineStats stats = lines.get(0).results().getPedVerLinesStats();
 		columnNames = new String[9 + stats.getChrMatchCount().size()];
 		commentsIndex = columnNames.length-1;
 
@@ -44,13 +46,13 @@ class PedVerLinesTableModel extends LineDataTableModel
 	@Override
 	public int getRowCount()
 	{
-		return viewSet.getLines().size();
+		return lines.size();
 	}
 
 	@Override
 	public Object getValueAt(int row, int col)
 	{
-		LineInfo line = viewSet.getLines().get(row);
+		LineInfo line = lines.get(row);
 		PedVerLinesLineStats stats = line.results().getPedVerLinesStats();
 
 		if (col == 0)
