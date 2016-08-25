@@ -269,9 +269,10 @@ public class LineDataTable extends JTable
 		ArrayList<RowFilter<LineDataTableModel,Object>> filters = createBaseFilters();
 
 		// Scan and build the needed filters
-		for (FilterColumn entry: data)
-			if (!entry.disabled())
-				filters.add(entry.createRowFilter());
+		if (data != null)
+			for (FilterColumn entry: data)
+				if (!entry.disabled())
+					filters.add(entry.createRowFilter());
 
 		RowFilter<LineDataTableModel,Object> f = RowFilter.andFilter(filters);
 
