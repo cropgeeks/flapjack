@@ -13,10 +13,10 @@ import ch.systemsx.cisd.hdf5.*;
 
 public class GenotypeToHdf5Converter
 {
-	private static final String LINES = "Lines/";
+	private static final String LINES = "Lines";
 	private static final String MARKERS = "Markers";
 
-	private static final String HEADER_STRING = "Accession/Marker";
+	private static final String DATA = "DataMatrix";
 
 	private static final String STATE_TABLE = "StateTable";
 
@@ -72,7 +72,9 @@ public class GenotypeToHdf5Converter
 		if (checkFileExists(genotypeFile))
 		{
 			long s = System.currentTimeMillis();
-			try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(genotypeFile), "UTF-8")))
+			try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(genotypeFile), "UTF-8"));
+				 // The second reader is just to get the number of rows
+				 LineNumberReader lineNumberReader = new LineNumberReader(new InputStreamReader(new FileInputStream(genotypeFile), "UTF-8")))
 			{
 				IHDF5Writer writer = HDF5Factory.open(hdf5File);
 				LinkedHashMap<String, Byte> stateTable = new LinkedHashMap<>();
@@ -80,26 +82,43 @@ public class GenotypeToHdf5Converter
 
 				int counter = 0;
 
+				// Count the number of header rows and skip them
+				int offset = 0;
 				String line = reader.readLine();
 				while (line.length() == 0 || line.startsWith("#"))
 				{
+					offset++;
 					line = reader.readLine();
 				}
+
+				// Skip to the end
+				lineNumberReader.skip(Long.MAX_VALUE);
+
+				// Get the number of actual data rows
+				int nrOfRows = lineNumberReader.getLineNumber() - 1 - offset;
 
 				// We need to generate a mapping between the marker indices in the
 				// genotype file and those in the map file
 				String[] tokens = line.split("\t", -1);
 				String[] markers = Arrays.copyOfRange(tokens, 1, tokens.length);
-				writer.string().writeArray(MARKERS, markers, HDF5GenericStorageFeatures.GENERIC_DEFLATE);
 
-				while((line = reader.readLine()) != null)
+				// Create the matrix based on the number of rows and the number of markers
+				writer.int8().createMatrix(DATA, nrOfRows, markers.length);
+
+				// Remember the line names
+				List<String> lines = new ArrayList<>();
+
+				while ((line = reader.readLine()) != null)
 				{
 					if (counter % 1000 == 0)
 						System.out.println("Processed: " + counter);
 
 					String[] columns = line.split("\t", -1);
-					// The actual SNP calls are all but the first element of the
-					// split line
+
+					// Remember the line name
+					lines.add(columns[0]);
+
+					// The actual SNP calls are all but the first element of the split line
 					String[] snpCalls = Arrays.copyOfRange(columns, 1, columns.length);
 					Stream.of(snpCalls).forEach(token -> stateTable.putIfAbsent(token, (byte) stateTable.size()));
 
@@ -109,17 +128,27 @@ public class GenotypeToHdf5Converter
 					if (outBytes.length != markers.length)
 						continue;
 
-					String genoName = columns[0].replaceAll("/", "_");
-					writer.int8().writeArray(LINES + genoName, outBytes, HDF5IntStorageFeatures.INT_DEFLATE);
+					// Place the array in a dummy 2d array
+					byte[][] outMatrixBytes = new byte[1][outBytes.length];
+					outMatrixBytes[0] = outBytes;
+
+					// Write the row as a block to the matrix
+					writer.int8().writeMatrixBlock(DATA, outMatrixBytes, counter, 0);
 					counter++;
 				}
+
+				// Write the marker and line names as arrays
+				writer.string().writeArray(MARKERS, markers, HDF5GenericStorageFeatures.GENERIC_DEFLATE);
+				writer.string().writeArray(LINES, lines.toArray(new String[lines.size()]), HDF5GenericStorageFeatures.GENERIC_DEFLATE);
+
+				// Write the state table
 				writer.string().writeArray(STATE_TABLE, stateTable.keySet().toArray(new String[stateTable.keySet().size()]), HDF5GenericStorageFeatures.GENERIC_DEFLATE);
 			}
 			catch (IOException e)
 			{
 				e.printStackTrace();
 			}
-			System.out.println("Took: " + ((System.currentTimeMillis()-s)/1000));
+			System.out.println("Took: " + ((System.currentTimeMillis() - s) / 1000f));
 		}
 	}
 
@@ -128,7 +157,7 @@ public class GenotypeToHdf5Converter
 		byte[] outBytes = new byte[bytes.length];
 		int i = 0;
 		for (Byte b : bytes)
-			outBytes[i++] = b.byteValue();
+			outBytes[i++] = b;
 
 		return outBytes;
 	}
