@@ -18,15 +18,22 @@ import ch.systemsx.cisd.hdf5.*;
  */
 public class Hdf5ToGenotypeConverter
 {
+	private static final String LINES   = "Lines";
+	private static final String MARKERS = "Markers";
+
+	private static final String DATA = "DataMatrix";
+
+	private static final String STATE_TABLE = "StateTable";
+
 	private File hdf5File;
-	private String outputFilePath = null;
 	private List<String> lines = null;
 	private List<String> markers = null;
 	private boolean missingDataFilter = false;
 	private boolean heterozygousFilter = false;
 
-	private Map<String, String> linesReplaced;
+//	private Map<String, String> linesReplaced;
 
+	private HashMap<String, Integer> lineInds;
 	private HashMap<String, Integer> markerInds;
 
 	private IHDF5Reader reader;
@@ -96,30 +103,38 @@ public class Hdf5ToGenotypeConverter
 		reader = HDF5Factory.openForReading(hdf5File);
 
 		long s = System.currentTimeMillis();
-		hdf5Lines = reader.getGroupMembers("Lines");
 
-		if(lines == null)
+		System.out.println();
+		System.out.println("Hdf5 file opened for reading: " + (System.currentTimeMillis() - s) + " (ms)");
+
+		s = System.currentTimeMillis();
+		// Load lines from HDF5 and find the indices of our loaded lines
+		String[] hdf5LinesArray = reader.readStringArray(LINES);
+		hdf5Lines = Arrays.asList(hdf5LinesArray);
+
+		if (lines == null)
 			lines = hdf5Lines;
 
-		// Create a mapping of line names with slashes in to the replaced version so we can output the originals at the end
-		linesReplaced = lines.parallelStream().filter(line -> line.contains("/")).collect(Collectors.toMap(line -> line.replaceAll("/", "_"), Function.identity()));
-		// Replace slashes as HDF5 treats a slash as the start of a sub-folder
-		lines = lines.parallelStream().map(line -> line.replaceAll("/", "_")).filter(line -> hdf5Lines.contains(line)).collect(Collectors.toCollection(ArrayList::new));
+		lineInds = new HashMap<>();
+		for (int i = 0; i < hdf5LinesArray.length; i++)
+			lineInds.put(hdf5LinesArray[i], i);
 
 		System.out.println();
 		System.out.println("Read and filtered lines: " + (System.currentTimeMillis() - s) + " (ms)");
 
 		s = System.currentTimeMillis();
 		// Load markers from HDF5 and find the indices of our loaded markers
-		String[] hdf5MarkersArray = reader.readStringArray("Markers");
+		String[] hdf5MarkersArray = reader.readStringArray(MARKERS);
 		hdf5Markers = Arrays.asList(hdf5MarkersArray);
 
-		if(markers == null)
+		if (markers == null)
 			markers = hdf5Markers;
 
 		markerInds = new HashMap<>();
-		for (int i=0; i < hdf5MarkersArray.length; i++)
+		for (int i = 0; i < hdf5MarkersArray.length; i++)
 			markerInds.put(hdf5MarkersArray[i], i);
+
+		System.out.println();
 		System.out.println("Read and filtered markers: " + (System.currentTimeMillis() - s) + " (ms)");
 
 		reader.close();
@@ -135,7 +150,7 @@ public class Hdf5ToGenotypeConverter
 		reader = HDF5Factory.openForReading(hdf5File);
 
 		s = System.currentTimeMillis();
-		String[] stateTable = reader.readStringArray("StateTable");
+		String[] stateTable = reader.readStringArray(STATE_TABLE);
 		System.out.println("Read statetable: " + (System.currentTimeMillis() - s) + " (ms)");
 
 		// Write our output file line by line
@@ -152,12 +167,13 @@ public class Hdf5ToGenotypeConverter
 			writer.println(markers.parallelStream().collect(Collectors.joining("\t", "Accession/Marker\t", "")));
 
 			s = System.currentTimeMillis();
+
 			lines.stream().forEachOrdered(lineName ->
 			{
 				// Read in a line (all of its alleles from file)
-				byte[] genotypes = reader.int8().readArray("Lines/" + lineName);
-				if (linesReplaced.get(lineName) != null)
-					lineName = linesReplaced.get(lineName);
+				// Get from DATA, 1 row, markerInds.size() columns, start from row lineInds.get(lineName) and column 0.
+				// The resulting 2d array only contains one 1d array. Take that as the lines genotype data.
+				byte[] genotypes = reader.int8().readMatrixBlock(DATA, 1, markerInds.size(), lineInds.get(lineName), 0)[0];
 				String outputGenotypes = createGenotypeFlatFileString(lineName, genotypes, markerIndices, stateTable);
 				writer.println(outputGenotypes);
 			});
@@ -174,7 +190,7 @@ public class Hdf5ToGenotypeConverter
 	private String createGenotypeFlatFileString(String lineName, byte[] genotypes, List<Integer> markerIndices, String[] stateTable)
 	{
 		// Collect the alleles which match the line and markers we're looking for
-		return markerIndices.stream()
+		return markerIndices.parallelStream()
 			.map(index -> genotypes[index])
 			.map(allele -> stateTable[allele])
 			.collect(Collectors.joining("\t", lineName + "\t", ""));

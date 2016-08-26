@@ -23,7 +23,10 @@ public class Hdf5Utils
 	{
 		IHDF5Reader reader = HDF5Factory.openForReading(hdf5File);
 
-		return reader.getGroupMembers("Lines");
+		String[] hdf5MarkersArray = reader.readStringArray("Lines");
+
+		// Just return the markers as an ArrayList
+		return new ArrayList<String>(Arrays.asList(hdf5MarkersArray));
 	}
 
 	/**
@@ -52,14 +55,12 @@ public class Hdf5Utils
 	 */
 	public static List<String> retainLinesFrom(File hdf5File, List<String> lines)
 	{
-		IHDF5Reader reader = HDF5Factory.openForReading(hdf5File);
+		List<String> hdf5Lines = getLines(hdf5File);
 
-		List<String> hdf5Lines = reader.getGroupMembers("Lines");
+		// Remove all the lines that aren't in the file
+		lines.retainAll(hdf5Lines);
 
-		// Check if the file contains the line with the validated name
-		return lines.stream()
-					.filter(line -> hdf5Lines.contains(line.replaceAll("/", "_")))
-					.collect(Collectors.toCollection(ArrayList::new));
+		return lines;
 	}
 
 	/**
@@ -72,12 +73,10 @@ public class Hdf5Utils
 	 */
 	public static List<String> retainMarkersFrom(File hdf5File, List<String> markers)
 	{
-		IHDF5Reader reader = HDF5Factory.openForReading(hdf5File);
-
-		String[] hdf5MarkersArray = reader.readStringArray("Markers");
+		List<String> hdf5Markers = getMarkers(hdf5File);
 
 		// Remove all the markers that aren't in the file
-		markers.retainAll(Arrays.asList(hdf5MarkersArray));
+		markers.retainAll(hdf5Markers);
 
 		return markers;
 	}
