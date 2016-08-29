@@ -67,7 +67,7 @@ public class LineDataTableMenu
 	private void setLineStates(Boolean state)
 	{
 		LineDataTableModel model = table.getLineDataTableModel();
-		model.setLineStates(state);
+		model.setLineStates(state, true);
 	}
 
 	private void createSelectMenu(JComponent menu, boolean allOptions)
