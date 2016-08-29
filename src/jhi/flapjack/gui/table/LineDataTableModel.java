@@ -71,27 +71,34 @@ public abstract class LineDataTableModel extends AbstractTableModel
 		return cols.toArray(new FilterColumn[] {});
 	}
 
-	void setLineStates(Boolean state)
+	void setLineStates(Boolean state, boolean visibleOnly)
 	{
 		for (LineInfo line: lines)
 		{
-			// Set the line's state to either true or false
-			if (state != null)
-				line.setSelected(state);
-			// Or toggle it
-			else
-				line.setSelected(!line.getSelected());
+			if (visibleOnly && line.getVisibility() == LineInfo.VISIBLE)
+			{
+				// Set the line's state to either true or false
+				if (state != null)
+					line.setSelected(state);
+				// Or toggle it
+				else
+					line.setSelected(!line.getSelected());
+			}
 		}
 
 		fireTableRowsUpdated(0, lines.size()-1);
 	}
 
-	void selectLines(FilterColumn[] data)
+	void selectLines(FilterColumn[] data, boolean visibleOnly)
 	{
 		// For every line...
 		for (int i = 0; i < getRowCount(); i++)
 		{
 			LineInfo line = (LineInfo) getValueAt(i, 0);
+
+			// We only want to apply these states to visible lines
+			if (visibleOnly && line.getVisibility() != LineInfo.VISIBLE)
+				continue;
 
 			// For every filter
 			for (FilterColumn selectFilter: data)

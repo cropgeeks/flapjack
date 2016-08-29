@@ -304,7 +304,7 @@ public class LineDataTable extends JTable
 		// Remember it for next time in case the user runs it again
 		lastSelect = dialog.getResults();
 
-		model.selectLines(data);
+		model.selectLines(data, true);
 	}
 
 	void selectHighlighted(Boolean state)
