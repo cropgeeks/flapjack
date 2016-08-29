@@ -16,7 +16,7 @@ import scri.commons.gui.*;
 
 public class MabcPanel extends JPanel implements ActionListener, ListSelectionListener, ITableViewListener, TableModelListener
 {
-	private JTable table;
+	private LineDataTable table;
 	private MabcTableModel model;
 	private GTViewSet viewSet;
 
@@ -33,9 +33,9 @@ public class MabcPanel extends JPanel implements ActionListener, ListSelectionLi
 		controls = new MabcPanelNB(this);
 		this.viewSet = viewSet;
 
-		table = controls.table;
+		table = (LineDataTable) controls.table;
 		table.getSelectionModel().addListSelectionListener(this);
-		((LineDataTable)table).addViewListener(this);
+		table.addViewListener(this);
 
 		setLayout(new BorderLayout());
 		add(new TitlePanel(RB.getString("gui.mabc.MabcPanel.title")), BorderLayout.NORTH);
@@ -53,7 +53,7 @@ public class MabcPanel extends JPanel implements ActionListener, ListSelectionLi
 		});
 
 		tableHandler = viewSet.tableHandler();
-		tableHandler.linkTable((LineDataTable)table, model);
+		tableHandler.linkTable(table, model);
 	}
 
 	private void updateModel(GTViewSet viewset)
@@ -62,7 +62,7 @@ public class MabcPanel extends JPanel implements ActionListener, ListSelectionLi
 		model.addTableModelListener(this);
 
 		table.setModel(model);
-		((LineDataTable)table).setViewSet(viewSet);
+		table.setViewSet(viewSet);
 
 		tableFiltered();
 	}
@@ -71,16 +71,16 @@ public class MabcPanel extends JPanel implements ActionListener, ListSelectionLi
 	public void actionPerformed(ActionEvent e)
 	{
 		if (e.getSource() == controls.bSort)
-			((LineDataTable)table).sortDialog();
+			table.sortDialog();
 
 		else if (e.getSource() == controls.bSelect)
-			((LineDataTable)table).selectDialog();
+			table.selectDialog();
 
 		else if (e.getSource() == controls.bRank)
 			rankSelectedLines();
 
 		else if (e.getSource() == controls.autoResize)
-			((LineDataTable)table).autoResize(controls.autoResize.isSelected());
+			table.autoResize(controls.autoResize.isSelected());
 	}
 
 	@Override
@@ -151,7 +151,6 @@ public class MabcPanel extends JPanel implements ActionListener, ListSelectionLi
 
 	public void tableFiltered()
 	{
-		controls.filterLabel.setText(
-			"Visible lines: " + table.getRowCount() + "/" + model.getRowCount());
+		controls.filterLabel.setText(table.getLineStatusText());
 	}
 }

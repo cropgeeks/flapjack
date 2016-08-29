@@ -180,6 +180,8 @@ public class MabcTableModel extends LineDataTableModel
 
 		else if (col == commentIndex)
 			line.results().setComments((String)value);
+
+		fireTableRowsUpdated(row, row);
 	}
 
 	int selectQTL(int number)

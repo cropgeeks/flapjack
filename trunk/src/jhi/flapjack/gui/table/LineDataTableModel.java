@@ -28,12 +28,6 @@ public abstract class LineDataTableModel extends AbstractTableModel
 	public ArrayList<LineInfo> getLines()
 		{ return lines; }
 
-//	public ArrayList<LineInfo> getFilteredLines()
-//	{
-//		return lines.stream().filter(LineInfo::getFiltered)
-//			.collect(Collectors.toCollection(ArrayList::new));
-//	}
-
 	@Override
 	public String getColumnName(int col)
 	{
@@ -130,5 +124,14 @@ public abstract class LineDataTableModel extends AbstractTableModel
 		for (LineInfo line: lines)
 			if (line.getVisibility() == LineInfo.FILTERED)
 				line.setVisibility(LineInfo.VISIBLE);
+	}
+
+	// Returns a count of how many lines are both visible and selected
+	public long visAndSelCount()
+	{
+		return lines.stream()
+			.filter(li -> li.getVisibility() == LineInfo.VISIBLE)
+			.filter(li -> li.getSelected())
+			.count();
 	}
 }
