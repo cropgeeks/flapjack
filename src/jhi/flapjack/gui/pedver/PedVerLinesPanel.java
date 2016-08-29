@@ -18,7 +18,7 @@ import scri.commons.gui.*;
 
 public class PedVerLinesPanel extends JPanel implements ActionListener, ITableViewListener, TableModelListener
 {
-	private JTable table;
+	private LineDataTable table;
 	private PedVerLinesTableModel model;
 
 	private LinkedTableHandler tableHandler;
@@ -29,8 +29,8 @@ public class PedVerLinesPanel extends JPanel implements ActionListener, ITableVi
 	{
 		controls = new PedVerLinesPanelNB(this);
 
-		table = controls.table;
-		((LineDataTable)table).addViewListener(this);
+		table = (LineDataTable) controls.table;
+		table.addViewListener(this);
 
 		// Extract the test line's info from the first line in the view (they
 		// all hold the same reference anyway)
@@ -56,7 +56,7 @@ public class PedVerLinesPanel extends JPanel implements ActionListener, ITableVi
 		});
 
 		tableHandler = viewSet.tableHandler();
-		tableHandler.linkTable((LineDataTable)table, model);
+		tableHandler.linkTable(table, model);
 	}
 
 	public void updateModel(DataSet dataSet, GTViewSet viewSet)
@@ -65,7 +65,7 @@ public class PedVerLinesPanel extends JPanel implements ActionListener, ITableVi
 		model.addTableModelListener(this);
 
 		table.setModel(model);
-		((LineDataTable)table).setViewSet(viewSet);
+		table.setViewSet(viewSet);
 
 		tableFiltered();
 	}
@@ -73,16 +73,16 @@ public class PedVerLinesPanel extends JPanel implements ActionListener, ITableVi
 	public void actionPerformed(ActionEvent e)
 	{
 		if (e.getSource() == controls.bFilter)
-			((LineDataTable)table).filterDialog();
+			table.filterDialog();
 
 		else if (e.getSource() == controls.bSort)
-			((LineDataTable)table).sortDialog();
+			table.sortDialog();
 
 		else if (e.getSource() == controls.bSelect)
-			((LineDataTable)table).selectDialog();
+			table.selectDialog();
 
 		else if (e.getSource() == controls.autoResize)
-			((LineDataTable)table).autoResize(controls.autoResize.isSelected());
+			table.autoResize(controls.autoResize.isSelected());
 	}
 
 	private void handlePopup(MouseEvent e)
@@ -90,7 +90,7 @@ public class PedVerLinesPanel extends JPanel implements ActionListener, ITableVi
 		if (e.isPopupTrigger() == false)
 			return;
 
-		JPopupMenu menu = ((LineDataTable)table).getMenu().createPopupMenu();
+		JPopupMenu menu = table.getMenu().createPopupMenu();
 
 		menu.add(new JPopupMenu.Separator(), 1);
 		menu.show(e.getComponent(), e.getX(), e.getY());
@@ -107,7 +107,6 @@ public class PedVerLinesPanel extends JPanel implements ActionListener, ITableVi
 
 	public void tableFiltered()
 	{
-		controls.filterLabel.setText(
-			"Visible lines: " + table.getRowCount() + "/" + model.getRowCount());
+		controls.filterLabel.setText(table.getLineStatusText());
 	}
 }

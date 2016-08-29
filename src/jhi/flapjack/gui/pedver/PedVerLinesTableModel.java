@@ -119,5 +119,7 @@ class PedVerLinesTableModel extends LineDataTableModel
 			line.setSelected((boolean)value);
 		else if (col == commentsIndex)
 			line.results().setComments((String)value);
+
+		fireTableRowsUpdated(row, row);
 	}
 }

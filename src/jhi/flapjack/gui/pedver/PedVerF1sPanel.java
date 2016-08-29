@@ -14,7 +14,7 @@ import jhi.flapjack.gui.table.*;
 
 public class PedVerF1sPanel extends JPanel implements ActionListener, ITableViewListener, TableModelListener
 {
-	private JTable table;
+	private LineDataTable table;
 	private PedVerF1sTableModel model;
 
 	private LinkedTableHandler tableHandler;
@@ -25,8 +25,8 @@ public class PedVerF1sPanel extends JPanel implements ActionListener, ITableView
 	{
 		controls = new PedVerF1sPanelNB(this);
 
-		table = controls.table;
-		((LineDataTable)table).addViewListener(this);
+		table = (LineDataTable) controls.table;
+		table.addViewListener(this);
 
 		setLayout(new BorderLayout());
 		add(new TitlePanel("Pedigree Verification of F1s (Known Parents)"), BorderLayout.NORTH);
@@ -47,7 +47,7 @@ public class PedVerF1sPanel extends JPanel implements ActionListener, ITableView
 		});
 
 		tableHandler = viewSet.tableHandler();
-		tableHandler.linkTable((LineDataTable)table, model);
+		tableHandler.linkTable(table, model);
 	}
 
 	public void updateModel(DataSet dataSet, GTViewSet viewSet)
@@ -56,7 +56,7 @@ public class PedVerF1sPanel extends JPanel implements ActionListener, ITableView
 		model.addTableModelListener(this);
 
 		table.setModel(model);
-		((LineDataTable)table).setViewSet(viewSet);
+		table.setViewSet(viewSet);
 
 		tableFiltered();
 	}
@@ -64,16 +64,16 @@ public class PedVerF1sPanel extends JPanel implements ActionListener, ITableView
 	public void actionPerformed(ActionEvent e)
 	{
 		if (e.getSource() == controls.bFilter)
-			((LineDataTable)table).filterDialog();
+			table.filterDialog();
 
 		else if (e.getSource() == controls.bSort)
-			((LineDataTable)table).sortDialog();
+			table.sortDialog();
 
 		else if (e.getSource() == controls.bSelect)
-			((LineDataTable)table).selectDialog();
+			table.selectDialog();
 
 		else if (e.getSource() == controls.autoResize)
-			((LineDataTable)table).autoResize(controls.autoResize.isSelected());
+			table.autoResize(controls.autoResize.isSelected());
 	}
 
 	private void handlePopup(MouseEvent e)
@@ -81,7 +81,7 @@ public class PedVerF1sPanel extends JPanel implements ActionListener, ITableView
 		if (e.isPopupTrigger() == false)
 			return;
 
-		JPopupMenu menu = ((LineDataTable)table).getMenu().createPopupMenu();
+		JPopupMenu menu = table.getMenu().createPopupMenu();
 
 		menu.add(new JPopupMenu.Separator(), 1);
 		menu.show(e.getComponent(), e.getX(), e.getY());
@@ -98,7 +98,6 @@ public class PedVerF1sPanel extends JPanel implements ActionListener, ITableView
 
 	public void tableFiltered()
 	{
-		controls.filterLabel.setText(
-			"Visible lines: " + table.getRowCount() + "/" + model.getRowCount());
+		controls.filterLabel.setText(table.getLineStatusText());
 	}
 }

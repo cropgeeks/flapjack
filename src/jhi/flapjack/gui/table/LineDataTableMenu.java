@@ -62,10 +62,16 @@ public class LineDataTableMenu
 		return menu;
 	}
 
-	private void createSelectMenu(JComponent menu, boolean allOptions)
+	// This happens here rather than inline with the creation code because the
+	// model doesn't exist at the time the menu is built
+	private void setLineStates(Boolean state)
 	{
 		LineDataTableModel model = table.getLineDataTableModel();
+		model.setLineStates(state);
+	}
 
+	private void createSelectMenu(JComponent menu, boolean allOptions)
+	{
 		final JMenuItem mSelect = new JMenuItem();
 		mSelect.setText("Auto select...");
 		mSelect.setIcon(Icons.getIcon("AUTOSELECT"));
@@ -73,16 +79,16 @@ public class LineDataTableMenu
 
 		final JMenuItem mSelectAll = new JMenuItem();
 		mSelectAll.setText("Select all");
-		mSelectAll.addActionListener(event -> model.setLineStates(true));
+		mSelectAll.addActionListener(event -> setLineStates(true));
 
 		final JMenuItem mSelectNone = new JMenuItem();
 		mSelectNone.setText("Select none");
-		mSelectNone.addActionListener(event -> model.setLineStates(false));
+		mSelectNone.addActionListener(event -> setLineStates(false));
 
 		final JMenuItem mSelectInvert = new JMenuItem();
 		mSelectInvert.setIcon(Icons.getIcon("INVERT"));
 		mSelectInvert.setText("Invert selection");
-		mSelectInvert.addActionListener(event -> model.setLineStates(null));
+		mSelectInvert.addActionListener(event -> setLineStates(null));
 
 		boolean enabled = table.getSelectionModel().getMinSelectionIndex() != -1;
 

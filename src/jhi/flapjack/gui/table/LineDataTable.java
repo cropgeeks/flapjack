@@ -363,4 +363,10 @@ public class LineDataTable extends JTable
 			return this;
 		}
 	}
+
+	public String getLineStatusText()
+	{
+		return "Line count: " + model.getRowCount() + ", visible: "
+			+ getRowCount() + ", selected: " + model.visAndSelCount();
+	}
 }
