@@ -26,6 +26,9 @@ public class LineSimilarityExactColorScheme extends LineSimilarityColorScheme
 		{
 			int compState = view.getState(comparisonIndex, marker);
 
+			if (compState == 0)
+				return gsStates.get(state);
+
 			if (state == compState)
 				return mtchStatesY.get(state);
 

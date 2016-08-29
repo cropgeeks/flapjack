@@ -24,6 +24,9 @@ abstract class SimilarityColorScheme extends ColorScheme
 	// States that match on the second het allele
 	protected ArrayList<ColorState> het2States = new ArrayList<>();				// eg A/T matches T or C/T
 
+	// Greyscale states for when the comparison state is missing
+	protected ArrayList<ColorState> gsStates = new ArrayList<>();				// eg A could match MISSING, but we don't know
+
 	protected int[][] lookupTable;
 
 
@@ -39,16 +42,17 @@ abstract class SimilarityColorScheme extends ColorScheme
 		Color drk = Prefs.visColorSimStateMatchDark;
 		Color s1  = Prefs.visColorSimStateMatch;
 		Color s2  = Prefs.visColorSimStateNoMatch;
+		Color gsC = Prefs.visColorSimStateMissing;
 
 		for (int i = 0; i < stateTable.size(); i++)
 		{
 			AlleleState state = stateTable.getAlleleState(i);
 
-			ColorState comp, mtchY, mtchN, het1, het2;
+			ColorState comp, mtchY, mtchN, het1, het2, gs;
 
 			// Use white for the default unknown state
 			if (state.isUnknown())
-				comp = mtchY = mtchN = het1 = het2 = new SimpleColorState(state, Prefs.visColorBackground, w, h);
+				comp = mtchY = mtchN = het1 = het2 = gs = new SimpleColorState(state, Prefs.visColorBackground, w, h);
 
 			// Homozygous states
 			else if (state.isHomozygous())
@@ -59,6 +63,7 @@ abstract class SimilarityColorScheme extends ColorScheme
 				mtchN = new HomozygousColorState(state, s2, w, h);
 				het1  = null;
 				het2  = null;
+				gs    = new HomozygousColorState(state, gsC, w, h);
 			}
 
 			// Heterozygous states
@@ -70,6 +75,7 @@ abstract class SimilarityColorScheme extends ColorScheme
 				mtchN = new HeterozygeousColorState(state, sHz, s2, s2, w, h);
 				het1  = new HeterozygeousColorState(state, sHz, s1, s2, w, h);
 				het2  = new HeterozygeousColorState(state, sHz, s2, s1, w, h);
+				gs    = new HeterozygeousColorState(state, sHz, gsC, gsC, w, h);
 			}
 
 			compStates.add(comp);
@@ -77,6 +83,7 @@ abstract class SimilarityColorScheme extends ColorScheme
 			mtchStatesN.add(mtchN);
 			het1States.add(het1);
 			het2States.add(het2);
+			gsStates.add(gs);
 		}
 
 		createLookupTable();
@@ -87,6 +94,7 @@ abstract class SimilarityColorScheme extends ColorScheme
 		Prefs.visColorSimStateMatchDark = colors.get(0).color;
 		Prefs.visColorSimStateMatch = colors.get(1).color;
 		Prefs.visColorSimStateNoMatch = colors.get(2).color;
+		Prefs.visColorSimStateMissing = colors.get(3).color;
 	}
 
 	private void createLookupTable()
@@ -117,8 +125,14 @@ abstract class SimilarityColorScheme extends ColorScheme
 				AlleleState ai = stateTable.getAlleleState(i);
 				AlleleState aj = stateTable.getAlleleState(j);
 
+				// Comparing a blank against something else
+				if (i == 0 || j == 0)
+				{
+					lookupTable[i][j] = 5;
+				}
+
 				// i is homoz, j is hetez
-				if (ai.isHomozygous() && !aj.isHomozygous())
+				else if (ai.isHomozygous() && !aj.isHomozygous())
 				{
 					// match
 					if (ai.getState(0).equals(aj.getState(0)) || ai.getState(0).equals(aj.getState(1)))

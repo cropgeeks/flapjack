@@ -219,6 +219,7 @@ public class Prefs extends XMLPreferences
 	public static Color visColorSimStateMatch;
 	public static Color visColorSimStateMatchDark;
 	public static Color visColorSimStateNoMatch;
+	public static Color visColorSimStateMissing;
 
 	// Colors used by the allele frequency scheme
 	public static Color visColorLoFreqState;
@@ -290,6 +291,7 @@ public class Prefs extends XMLPreferences
 		visColorSimStateMatch = new Color(120, 255, 120);
 		visColorSimStateMatchDark = new Color(90, 255, 90);
 		visColorSimStateNoMatch = new Color(255, 120, 120);
+		visColorSimStateMissing = new Color(192, 192, 192);
 
 		visColorLoFreqState = new Color(102, 102, 255);
 		visColorHiFreqState = new Color(204, 255, 204);
