@@ -53,7 +53,7 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="gridPanel" pref="421" max="32767" attributes="0"/>
+                  <Component id="gridPanel" pref="498" max="32767" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -211,9 +211,9 @@
                       <Group type="102" attributes="0">
                           <Component id="comboLabel" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Component id="schemeCombo" pref="295" max="32767" attributes="0"/>
+                          <Component id="schemeCombo" pref="372" max="32767" attributes="0"/>
                       </Group>
-                      <Component id="sp1" alignment="0" pref="421" max="32767" attributes="0"/>
+                      <Component id="sp1" alignment="0" pref="498" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>

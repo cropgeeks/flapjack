@@ -42,6 +42,7 @@ public class LineSimilarityColorScheme extends SimilarityColorScheme
 				case 2: return mtchStatesN.get(state);
 				case 3: return het1States.get(state);
 				case 4: return het2States.get(state);
+				case 5: return gsStates.get(state);
 			}
 		}
 
@@ -85,6 +86,8 @@ public class LineSimilarityColorScheme extends SimilarityColorScheme
 			RB.getString("gui.visualization.colors.LineSimilarityColorScheme.state1")));
 		colors.add(new ColorSummary(Prefs.visColorSimStateNoMatch,
 			RB.getString("gui.visualization.colors.LineSimilarityColorScheme.state2")));
+		colors.add(new ColorSummary(Prefs.visColorSimStateMissing,
+			RB.getString("gui.visualization.colors.LineSimilarityColorScheme.state3")));
 
 		return colors;
 	}

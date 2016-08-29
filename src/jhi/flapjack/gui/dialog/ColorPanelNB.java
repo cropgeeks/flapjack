@@ -165,23 +165,24 @@ class ColorPanelNB extends JPanel implements ActionListener
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+    private void initComponents()
+    {
 
         colorPanel = new javax.swing.JPanel();
         gridPanel = new javax.swing.JPanel();
         javax.swing.JPanel panel1 = new javax.swing.JPanel();
         javax.swing.JScrollPane sp2 = new javax.swing.JScrollPane();
-        standardList = new javax.swing.JList<ColorScheme.ColorSummary>();
+        standardList = new javax.swing.JList<>();
         listLabel1 = new javax.swing.JLabel();
         javax.swing.JPanel panel2 = new javax.swing.JPanel();
         listLabel2 = new javax.swing.JLabel();
         javax.swing.JScrollPane sp3 = new javax.swing.JScrollPane();
-        schemeList = new javax.swing.JList<ColorScheme.ColorSummary>();
+        schemeList = new javax.swing.JList<>();
         infoPanel = new javax.swing.JPanel();
         javax.swing.JScrollPane sp1 = new javax.swing.JScrollPane();
         infoText = new javax.swing.JTextArea();
         comboLabel = new javax.swing.JLabel();
-        schemeCombo = new javax.swing.JComboBox<ColorScheme>();
+        schemeCombo = new javax.swing.JComboBox<>();
 
         colorPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Customize (double click a colour to change it):"));
 
@@ -219,7 +220,7 @@ class ColorPanelNB extends JPanel implements ActionListener
             colorPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(colorPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(gridPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 421, Short.MAX_VALUE)
+                .addComponent(gridPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 498, Short.MAX_VALUE)
                 .addContainerGap())
         );
         colorPanelLayout.setVerticalGroup(
@@ -254,8 +255,8 @@ class ColorPanelNB extends JPanel implements ActionListener
                     .addGroup(infoPanelLayout.createSequentialGroup()
                         .addComponent(comboLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(schemeCombo, 0, 295, Short.MAX_VALUE))
-                    .addComponent(sp1, javax.swing.GroupLayout.DEFAULT_SIZE, 421, Short.MAX_VALUE))
+                        .addComponent(schemeCombo, 0, 372, Short.MAX_VALUE))
+                    .addComponent(sp1, javax.swing.GroupLayout.DEFAULT_SIZE, 498, Short.MAX_VALUE))
                 .addContainerGap())
         );
         infoPanelLayout.setVerticalGroup(
