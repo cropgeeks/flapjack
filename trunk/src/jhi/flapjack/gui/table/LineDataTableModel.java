@@ -5,7 +5,6 @@ package jhi.flapjack.gui.table;
 
 import java.awt.*;
 import java.util.*;
-import java.util.stream.Collectors;
 import javax.swing.table.*;
 
 import jhi.flapjack.data.*;
@@ -77,13 +76,13 @@ public abstract class LineDataTableModel extends AbstractTableModel
 		{
 			if (visibleOnly && line.getVisibility() == LineInfo.VISIBLE)
 			{
-				// Set the line's state to either true or false
-				if (state != null)
-					line.setSelected(state);
-				// Or toggle it
-				else
-					line.setSelected(!line.getSelected());
-			}
+			// Set the line's state to either true or false
+			if (state != null)
+				line.setSelected(state);
+			// Or toggle it
+			else
+				line.setSelected(!line.getSelected());
+		}
 		}
 
 		fireTableRowsUpdated(0, lines.size()-1);
@@ -140,5 +139,15 @@ public abstract class LineDataTableModel extends AbstractTableModel
 			.filter(li -> li.getVisibility() == LineInfo.VISIBLE)
 			.filter(li -> li.getSelected())
 			.count();
+	}
+
+	public Object getValueForLine(LineInfo lineInfo, int col)
+	{
+		int index = lines.indexOf(lineInfo);
+
+		if (index == -1)
+			return null;
+
+		return getValueAt(index, col);
 	}
 }

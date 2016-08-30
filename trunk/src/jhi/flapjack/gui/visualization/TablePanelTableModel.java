@@ -1,73 +1,87 @@
 package jhi.flapjack.gui.visualization;
 
+import java.text.*;
+
 import jhi.flapjack.data.*;
-import jhi.flapjack.data.results.MABCLineStats;
 import jhi.flapjack.gui.table.*;
 
-import java.text.DecimalFormat;
-
-/**
- * Created by gs40939 on 18/05/2016.
- */
 public class TablePanelTableModel extends LineDataTableModel
 {
 	private final GTViewSet viewSet;
-	private final boolean showMabc;
 
 	private DecimalFormat df = new DecimalFormat("0.00");
 
-	private int rppIndex;
-	private int rppTotalIndex;
-	private int rppCoverageIndex;
-	private int qtlIndex;
+	// Variables for tracking where columns are in the table
+	private int padding = 0;
+	private int lineScoreIndex = 0;
+	private int linkedOffset = 0;
 
-	public TablePanelTableModel(GTViewSet viewSet, boolean showMabc)
+	private int[] linkedModelCols;
+
+	public TablePanelTableModel(GTViewSet viewSet)
 	{
 		this.viewSet = viewSet;
-		this.showMabc = showMabc;
 
+		// In the basic case (just showing line names) we only have one column
 		int noCols = 1;
+
+		// Setup the column names for the table
+		columnNames = new String[noCols];
+		columnNames[0] = "Line";
 
 		if (viewSet != null)
 		{
-			if (viewSet.getDisplayLineScores())
+			// Grab the linked model and the column indices we need from that model
+			linkedModelCols = viewSet.getLinkedModelCols();
+
+			// If we have line scores, or linked model columns we need to
+			// add more columns to our table model
+			if (viewSet.getDisplayLineScores() || linkedModelCols.length > 0)
+			{
+				padding = 1;
 				noCols++;
 
-
-			if (showMabc)
-			{
-				MABCLineStats lineStats = viewSet.getLines().get(0).results().getMABCLineStats();
-				if (lineStats != null)
+				// Setup the line score index
+				if (viewSet.getDisplayLineScores())
 				{
-					// Use information from the first result to determine the UI
-					int chrCount = lineStats.getChrScores().size();
-					int qtlCount = lineStats.getQTLScores().size();
+					lineScoreIndex = 2;
+					noCols++;
+				}
 
-					// Column indices
-					rppIndex = noCols;
-					rppTotalIndex = rppIndex + chrCount;
-					rppCoverageIndex = rppTotalIndex + 1;
-					qtlIndex = rppCoverageIndex + 1;
-
-					// TODO: UPDATE!
-					noCols = qtlIndex + (qtlCount * 2);
+				// Setup the linked table start index (and offset within the
+				// linked columns) based on the column indices in this class
+				if (linkedModelCols.length > 0)
+				{
+					linkedOffset = lineScoreIndex == 0 ? 2 : 3;
+					noCols += linkedModelCols.length;
 				}
 			}
-		}
 
-		columnNames = new String[noCols];
+			columnNames = new String[noCols];
+			columnNames[0] = "Line";
 
-		columnNames[0] = "Accession";
-		if (showMabc)
-		{
-			for (int i=1; i+rppIndex <= rppTotalIndex; i++)
+			if (viewSet.getDisplayLineScores() || linkedModelCols.length > 0)
+				columnNames[1] = "";
+
+			if (viewSet.getDisplayLineScores())
+				columnNames[lineScoreIndex] = "Sort score";
+
+			if (linkedModelCols.length > 0)
 			{
-				columnNames[rppIndex + (i-1)] = "RPP " + i;
+				for (int i = 0; i < linkedModelCols.length; i++)
+					columnNames[i + linkedOffset] = viewSet.tableHandler().getModel().getColumnName(linkedModelCols[i]);
 			}
-			columnNames[rppTotalIndex] = "RPP Total";
-			columnNames[rppCoverageIndex] = "RPP Coverage";
 		}
-//		columnNames[qtlIndex] = "QTL";
+	}
+
+	@Override
+	public String getColumnName(int column)
+	{
+		if (column > padding && column > lineScoreIndex)
+			return viewSet.tableHandler().getModel().getColumnName(linkedModelCols[column - linkedOffset]);
+
+		else
+			return super.getColumnName(column);
 	}
 
 	@Override
@@ -82,45 +96,39 @@ public class TablePanelTableModel extends LineDataTableModel
 		if (columnIndex == 0)
 			return viewSet.getLines().get(rowIndex);
 
-		else if (viewSet.getDisplayLineScores() && columnIndex == 1)
+		// Return an empty string for our padding column
+		else if (columnIndex == padding)
+			return "";
+
+		// Return the line score if we're displaying them
+		else if (viewSet.getDisplayLineScores() && columnIndex == lineScoreIndex)
 			return df.format(viewSet.getLines().get(rowIndex).getScore());
 
-		else if (showMabc)
+		// Display the columns from our linked table (if we are showing any)
+		else if (linkedModelCols.length > 0)
 		{
-			MABCLineStats stats = viewSet.getLines().get(rowIndex).results().getMABCLineStats();
-			if (stats != null)
-			{
-				if (columnIndex >= rppIndex && columnIndex < rppTotalIndex)
-					return df.format(stats.getChrScores().get(columnIndex - rppIndex).sumRP);
+			LineInfo lineInfo = viewSet.getLines().get(rowIndex);
 
-				else if (columnIndex == rppTotalIndex)
-					return df.format(stats.getRPPTotal());
-
-				else if (columnIndex == rppCoverageIndex)
-					return df.format(stats.getGenomeCoverage());
-
-				else if (columnIndex >= qtlIndex)
-				{
-					columnIndex = columnIndex - qtlIndex;
-					int qtl = columnIndex / 2;
-
-					MABCLineStats.QTLScore score = stats.getQTLScores().get(qtl);
-
-					if (columnIndex % 2 == 0)
-						return df.format(score.drag);
-					else
-						return score.status;
-				}
-			}
+			return viewSet.tableHandler().getModel().getValueForLine(lineInfo, linkedModelCols[columnIndex - linkedOffset]);
 		}
+
 		return -1;
 	}
 
 	@Override
-	public Class<?> getColumnClass(int columnIndex) {
+	public Class<?> getColumnClass(int columnIndex)
+	{
 		if (columnIndex == 0)
 			return LineInfo.class;
-		else
+		else if (columnIndex == padding)
+			return String.class;
+		else if (columnIndex == lineScoreIndex)
 			return Double.class;
+
+		// Otherwise return the column class of a column from the linked table
+		else
+		{
+			return viewSet.tableHandler().getModel().getColumnClass(linkedModelCols[columnIndex - linkedOffset]);
+		}
 	}
 }

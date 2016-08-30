@@ -6,14 +6,14 @@ package jhi.flapjack.gui.visualization;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.*;
+import java.text.*;
 import javax.swing.*;
 import javax.swing.table.*;
 
 import jhi.flapjack.data.*;
 import jhi.flapjack.gui.*;
+import jhi.flapjack.gui.table.*;
 
-import jhi.flapjack.gui.table.LineDataTable;
-import jhi.flapjack.gui.table.LineDataTableModel;
 import scri.commons.gui.*;
 
 class ListPanel extends JPanel implements MouseMotionListener, MouseListener
@@ -22,12 +22,11 @@ class ListPanel extends JPanel implements MouseMotionListener, MouseListener
 	private GTView view;
 
 	private LineDataTable lineTable;
-	// TODO: For now we can use a DefaultTableModel this is likely to change going forward to support some sort of
-	// 		 TraitTableModel base class concept?
 	private LineDataTableModel lineModel;
+
 	private static Font font;
 
-	private boolean showMabc = false;
+	private boolean showResults = false;
 
 	private int rowUnderMouse = -1;
 
@@ -47,7 +46,7 @@ class ListPanel extends JPanel implements MouseMotionListener, MouseListener
 	private void createControls()
 	{
 		// Setup our table with a default table model
-		lineModel = new TablePanelTableModel(viewSet, showMabc);
+		lineModel = new TablePanelTableModel(viewSet);
 
 		lineTable = new LineDataTable()
 		{
@@ -96,7 +95,7 @@ class ListPanel extends JPanel implements MouseMotionListener, MouseListener
 		if (view == null)
 			return;
 
-		lineModel = new TablePanelTableModel(viewSet, showMabc);
+		lineModel = new TablePanelTableModel(viewSet);
 
 		lineTable.setModel(lineModel);
 
@@ -180,7 +179,7 @@ class ListPanel extends JPanel implements MouseMotionListener, MouseListener
 
 		JPopupMenu menu = new JPopupMenu();
 
-		final JCheckBoxMenuItem mShowScores = new JCheckBoxMenuItem();
+		JCheckBoxMenuItem mShowScores = new JCheckBoxMenuItem();
 		RB.setText(mShowScores, "gui.visualization.ListPanel.showScores");
 		mShowScores.setSelected(viewSet.getDisplayLineScores());
 		mShowScores.addActionListener(event ->
@@ -189,17 +188,28 @@ class ListPanel extends JPanel implements MouseMotionListener, MouseListener
 			populateList();
 		});
 
-		final JCheckBoxMenuItem mShowMabcResults = new JCheckBoxMenuItem();
-		mShowMabcResults.setText("Show MABC results");
-		mShowMabcResults.setSelected(showMabc);
-		mShowMabcResults.addActionListener(event ->
+		JCheckBoxMenuItem mShowTableResults = new JCheckBoxMenuItem();
+		mShowTableResults.setText("Show table results");
+		mShowTableResults.setSelected(viewSet.getLinkedModelCols().length > 0);
+		mShowTableResults.setVisible(viewSet.tableHandler().getModel() != null);
+		mShowTableResults.addActionListener(event ->
 		{
-			showMabc = !showMabc;
-			populateList();
+			if (showResults)
+				showResults = false;
+
+			if (showResults == false)
+			{
+				LinkedColumnSelectionDialog columnDialog = new LinkedColumnSelectionDialog(viewSet);
+				if (columnDialog.isOK())
+				{
+					showResults = true;
+					populateList();
+				}
+			}
 		});
 
 		menu.add(mShowScores);
-		menu.add(mShowMabcResults);
+		menu.add(mShowTableResults);
 		menu.show(e.getComponent(), e.getX(), e.getY());
 	}
 
@@ -246,6 +256,8 @@ class ListPanel extends JPanel implements MouseMotionListener, MouseListener
 	// canvas. Defaults to setting the text to value's toString()
 	public class HighlightTableCellRenderer extends JLabel implements TableCellRenderer
 	{
+		protected DecimalFormat df = new DecimalFormat("0.00");
+
 		private Color selectedBG = new Color(240, 240, 240);
 		private Color selectedFG = new Color(255, 0, 0);
 
@@ -260,7 +272,15 @@ class ListPanel extends JPanel implements MouseMotionListener, MouseListener
 		{
 			setFont(font);
 
-			setText(value.toString());
+			// Align numerical values to the right
+			if (value instanceof Number)
+			{
+				setText(df.format(value));
+				setHorizontalAlignment(JLabel.RIGHT);
+			}
+			else if (value != null)
+				setText(value.toString());
+
 			setBorder(BorderFactory.createEmptyBorder(0, 2, 0, 2));
 
 			// Highlight the line "under" the mouse
@@ -275,7 +295,10 @@ class ListPanel extends JPanel implements MouseMotionListener, MouseListener
 				setForeground(table.getForeground());
 			}
 
-			setToolTipText(table.getColumnName(column) + ": " + value);
+			if (table.getColumnName(column).isEmpty() == false)
+				setToolTipText("<html><b>" + table.getColumnName(column) + "</b><br>" + value + "</html>");
+			else
+				setToolTipText(null);
 
 			return this;
 		}
@@ -284,7 +307,6 @@ class ListPanel extends JPanel implements MouseMotionListener, MouseListener
 	// Sets the text of a cell to the LineInfo's name
 	public class LineInfoCellRenderer extends HighlightTableCellRenderer
 	{
-
 		@Override
 		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
 													   int row, int column)
