@@ -54,6 +54,8 @@ public class GTViewSet extends XMLRoot
 	// If traits are being displayed, which ones?
 	private int[] traits = new int[0];// { -1, -1, -1 };
 
+	private int[] linkedModelCols = new int [0];
+
 	// Display line "scores" after performing a sort?
 	private boolean displayLineScores = false;
 
@@ -245,6 +247,11 @@ public class GTViewSet extends XMLRoot
 	public void setGraphs(int[] graphs)
 		{ this.graphs = graphs; }
 
+	public int[] getLinkedModelCols()
+		{ return linkedModelCols; }
+
+	public void setLinkedModelCols(int[] linkedModelCols)
+		{ this. linkedModelCols = linkedModelCols; }
 
 	// Other methods
 

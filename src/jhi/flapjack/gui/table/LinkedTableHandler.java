@@ -86,4 +86,14 @@ public class LinkedTableHandler implements ITableViewListener
 		else
 			model.fireTableDataChanged();
 	}
+
+	public LineDataTable getTable()
+	{
+		return table;
+	}
+
+	public LineDataTableModel getModel()
+	{
+		return model;
+	}
 }
