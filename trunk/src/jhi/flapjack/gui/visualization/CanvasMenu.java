@@ -206,8 +206,6 @@ public class CanvasMenu
 		mBookmark.setEnabled(Bookmark.allowBookmarking(view));
 
 		mInsertSplitter.setEnabled(view.getSplitterIndex() == -1);
-		if (view.getViewSet().tableHandler().getTable() != null)
-			mInsertSplitter.setEnabled(false);
 
 		if (view.getSplitterIndex() != -1)
 			mRemoveSplitter.setEnabled(true);
@@ -223,6 +221,12 @@ public class CanvasMenu
 			if (view.getLineInfo(view.mouseOverLine).getDuplicate())
 				mDuplicateLineRemove.setEnabled(true);
 
+		if (view.getViewSet().tableHandler().getTable() != null)
+		{
+			mInsertLine.setEnabled(false);
+			mDuplicateLine.setEnabled(false);
+			mInsertSplitter.setEnabled(false);
+		}
 
 		menu.show(e.getComponent(), e.getX(), e.getY());
 	}
