@@ -489,8 +489,7 @@ public class MenuEdit
 	void editDeleteSplitter()
 	{
 		GTViewSet viewSet = gPanel.getViewSet();
-		GTView view = gPanel.getView();
-
+		
 		int response = TaskDialog.show(RB.getString("gui.MenuEdit.removeSplitter"),
 			TaskDialog.INF, 0, new String[] { RB.getString("gui.text.ok"), RB.getString("gui.text.cancel") } );
 
@@ -500,10 +499,7 @@ public class MenuEdit
 		state.createUndoState();
 
 		if (response == 0)
-		{
-			viewSet.getLines().remove(view.getSplitterIndex());
-			viewSet.getDataSet().setSplitter(null);
-		}
+			viewSet.removeSortSplitter();
 
 		// Set the redo state
 		state.createRedoState();
