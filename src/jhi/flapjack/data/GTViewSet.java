@@ -356,6 +356,10 @@ public class GTViewSet extends XMLRoot
 		for (int i=0; i < views.size(); i++)
 			clone.views.add(views.get(i).createClone(clone, selectedLMOnly));
 
+		clone.removeAllDummyLines();
+		clone.removeAllDuplicates();
+		clone.removeSortSplitter();
+
 		return clone;
 	}
 
@@ -457,6 +461,16 @@ public class GTViewSet extends XMLRoot
 				lines.remove(i);
 
 		tableHandler.viewChanged(false);
+	}
+
+	public void removeSortSplitter()
+	{
+		for (int i = 0; i < lines.size(); i++)
+			if (lines.get(i).getLine() == dataSet.getSplitter())
+			{
+				lines.remove(i);
+				break;
+			}
 	}
 
 	public void duplicateLine(int index)
