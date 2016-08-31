@@ -36,8 +36,10 @@ public class LinkedTableHandler implements ITableViewListener
 		// Anything still visible in the table should be visible in the view
 		for (int i = 0; i < table.getRowCount(); i++)
 		{
-			((LineInfo)table.getValueAt(i, 0)).setVisibility(LineInfo.VISIBLE);
-			viewSet.getLines().add((LineInfo)table.getValueAt(i, 0));
+			int col0 = table.convertColumnIndexToView(0);
+
+			((LineInfo)table.getValueAt(i, col0)).setVisibility(LineInfo.VISIBLE);
+			viewSet.getLines().add((LineInfo)table.getValueAt(i, col0));
 		}
 
 
@@ -74,15 +76,16 @@ public class LinkedTableHandler implements ITableViewListener
 		ArrayList<LineInfo> lines = new ArrayList<>(viewSet.getLines());
 		lines.addAll(viewSet.getHideLines());
 
-		// Apply that to the table, resetting its list and breaking any sort it
-		// may have running
+		// Apply that to the table, resetting its list
 		model.setLines(lines);
 
+		// Break the sort, but maintain the filters
 		if (setModel)
 		{
 			table.setModel(model);
 			table.reapplyFilter();
 		}
+		// Don't break the sort or the filters
 		else
 			model.fireTableDataChanged();
 	}

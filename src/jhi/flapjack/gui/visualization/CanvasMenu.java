@@ -206,6 +206,8 @@ public class CanvasMenu
 		mBookmark.setEnabled(Bookmark.allowBookmarking(view));
 
 		mInsertSplitter.setEnabled(view.getSplitterIndex() == -1);
+		if (view.getViewSet().tableHandler().getTable() != null)
+			mInsertSplitter.setEnabled(false);
 
 		if (view.getSplitterIndex() != -1)
 			mRemoveSplitter.setEnabled(true);
