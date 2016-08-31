@@ -45,7 +45,9 @@ public class LineDataTableExporter extends SimpleJob
 		// Print table data
 		for (int row = 0; row < table.getRowCount(); row++)
 		{
-			LineInfo line = (LineInfo)table.getValueAt(row, 0);
+			//LineInfo line = (LineInfo)table.getValueAt(row, 0);
+			int col0 = table.convertColumnIndexToView(0);
+			LineInfo line = (LineInfo)table.getValueAt(row, col0);
 			if (onlySelected && !line.getSelected())
 				continue;
 

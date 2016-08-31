@@ -436,7 +436,7 @@ public class GTViewSet extends XMLRoot
 
 		lines.add(index, new LineInfo(dummy, -1));
 
-		tableHandler.viewChanged(false);
+		tableHandler.viewChanged(true);
 	}
 
 	public void removeAllDummyLines()
@@ -466,7 +466,7 @@ public class GTViewSet extends XMLRoot
 
 		lines.add(index+1, duplicate);
 
-		tableHandler.viewChanged(false);
+		tableHandler.viewChanged(true);
 	}
 
 	public void insertSplitterLine(int index)
@@ -483,7 +483,7 @@ public class GTViewSet extends XMLRoot
 
 		lines.add(index, new LineInfo(splitter, -2));
 
-		tableHandler.viewChanged(false);
+		tableHandler.viewChanged(true);
 	}
 
 	public void moveLine(int fromIndex, int toIndex)
