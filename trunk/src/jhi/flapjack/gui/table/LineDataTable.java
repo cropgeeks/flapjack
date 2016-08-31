@@ -36,6 +36,9 @@ public class LineDataTable extends JTable
 	private SortColumn[] lastSort;
 	private FilterColumn[] lastFilter, lastSelect;
 
+	// Is the table currently filtered?
+	private boolean isFiltered = false;
+
 	public LineDataTable()
 	{
 		viewListeners = new LinkedList<ITableViewListener>();
@@ -246,7 +249,8 @@ public class LineDataTable extends JTable
 
 	void reapplyFilter()
 	{
-		filter(lastFilter);
+		if (isFiltered)
+			filter(lastFilter);
 	}
 
 	public void filterDialog()
@@ -259,6 +263,7 @@ public class LineDataTable extends JTable
 		FilterColumn[] data = dialog.getResults();
 		// Remember it for next time in case the user runs another filterDialog
 		lastFilter = dialog.getResults();
+		isFiltered = true;
 
 		filter(data);
 	}
@@ -287,6 +292,7 @@ public class LineDataTable extends JTable
 	{
 		model.clearAllFilters();
 		sorter.setRowFilter(RowFilter.andFilter(createBaseFilters()));
+		isFiltered = false;
 
 		// Notify listeners of the filter event
 		for (ITableViewListener listener: viewListeners)

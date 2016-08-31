@@ -47,7 +47,7 @@ public class LineSimilarityColorScheme extends SimilarityColorScheme
 		}
 
 		// If it's not the same, or we can't do a comparison...
-		return mtchStatesN.get(state);
+		return gsStates.get(state);
 	}
 
 	public BufferedImage getSelectedImage(int line, int marker, boolean underQTL)

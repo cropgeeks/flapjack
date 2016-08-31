@@ -36,7 +36,7 @@ public class LineSimilarityExactColorScheme extends LineSimilarityColorScheme
 		}
 
 		// If it's not the same, or we can't do a comparison...
-		return mtchStatesN.get(state);
+		return gsStates.get(state);
 	}
 
 	public int getModel()
