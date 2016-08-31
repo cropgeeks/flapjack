@@ -42,6 +42,13 @@ abstract class SortLines extends SimpleJob
 		// Sort the lines based on some criteria
 		ArrayList<LineInfo> lineOrder = doSort(view);
 
+
+		// SortLinesByLineDataModel is a special case, because the table-linkage
+		// auto-applies sort order from table->view, so we don't need (nor want
+		// to) repeat that here
+		if (this instanceof SortLinesByLineDataModel)
+			return;
+
 		if (okToRun)
 		{
 			// Remove the lines up to the splitter from the arraylist, then add them
