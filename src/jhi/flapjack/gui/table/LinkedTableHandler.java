@@ -38,8 +38,8 @@ public class LinkedTableHandler implements ITableViewListener
 		{
 			int col0 = table.convertColumnIndexToView(0);
 
-			((LineInfo)table.getValueAt(i, col0)).setVisibility(LineInfo.VISIBLE);
-			viewSet.getLines().add((LineInfo)table.getValueAt(i, col0));
+			((LineInfo)table.getObjectAt(i, col0)).setVisibility(LineInfo.VISIBLE);
+			viewSet.getLines().add((LineInfo)table.getObjectAt(i, col0));
 		}
 
 

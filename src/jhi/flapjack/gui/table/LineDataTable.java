@@ -10,8 +10,10 @@ import java.io.File;
 import java.text.*;
 import java.util.*;
 import javax.swing.*;
+import javax.swing.border.*;
 import javax.swing.event.*;
 import javax.swing.filechooser.*;
+import javax.swing.plaf.*;
 import javax.swing.table.*;
 
 import jhi.flapjack.analysis.*;
@@ -43,9 +45,9 @@ public class LineDataTable extends JTable
 	{
 		viewListeners = new LinkedList<ITableViewListener>();
 
-		setDefaultRenderer(String.class, new ColoredCellRenderer());
-		setDefaultRenderer(Float.class, new ColoredCellRenderer());
-		setDefaultRenderer(Double.class, new ColoredCellRenderer());
+		setDefaultRenderer(CellData.class, new ColoredCellRenderer());
+//		setDefaultRenderer(Float.class, new ColoredCellRenderer());
+//		setDefaultRenderer(Double.class, new ColoredCellRenderer());
 
 		menu = new LineDataTableMenu(this);
 
@@ -116,6 +118,11 @@ public class LineDataTable extends JTable
 			// Let the user sort by column
 			sorter = new TableRowSorter<>(model);
 			setRowSorter(sorter);
+
+			// Provide our special comparator to handle sortToTop functionality
+			CellData.CellDataComparator c = new CellData.CellDataComparator(sorter);
+			for (int i = 0; i < model.getColumnCount(); i++)
+				sorter.setComparator(i, c);
 
 			// Catch sort events
 			sorter.addRowSorterListener((RowSorterEvent e) ->
@@ -339,15 +346,29 @@ public class LineDataTable extends JTable
 	// that String data can be found in numerical columns.
 	private class ColoredCellRenderer extends DefaultTableCellRenderer
 	{
+		private BooleanRenderer bRenderer = new BooleanRenderer();
+
 		protected final NumberFormat nf = NumberFormat.getInstance();
 
 		private Color bgCol1 = UIManager.getColor("Table.selectionBackground");
 		private Color bgCol2 = UIManager.getColor("Table.background");
 
 		@Override
-		public Component getTableCellRendererComponent(JTable table, Object value,
+		public Component getTableCellRendererComponent(JTable table, Object o,
 			boolean isSelected, boolean hasFocus, int row, int column)
 		{
+			// If we have a boolean we have to call a specific boolean renderer
+			if (o instanceof Boolean)
+				return bRenderer.getTableCellRendererComponent(
+					table, o, isSelected, hasFocus, row, column);
+			if (((CellData)o).getData() instanceof Boolean)
+				return bRenderer.getTableCellRendererComponent(
+					table, ((CellData)o).getData(), isSelected, hasFocus, row, column);
+
+			// Otherwise we get the object out of CellData and pass it to the
+			// super class getTableCellRendererComponent
+			Object value = ((CellData)o).getData();
+
 			super.getTableCellRendererComponent(table, value, isSelected,
 				hasFocus, row, column);
 
@@ -357,6 +378,8 @@ public class LineDataTable extends JTable
 				setText(nf.format((Number)value));
 				setHorizontalAlignment(JLabel.RIGHT);
 			}
+			else
+				setHorizontalAlignment(JLabel.LEFT);
 
 			int iRow = table.getRowSorter().convertRowIndexToModel(row);
 			Color bg = model.getDisplayColor(iRow, column);
@@ -370,9 +393,79 @@ public class LineDataTable extends JTable
 		}
 	}
 
+	static class BooleanRenderer extends JCheckBox implements TableCellRenderer, UIResource
+    {
+        private static final Border noFocusBorder = new EmptyBorder(1, 1, 1, 1);
+
+        public BooleanRenderer() {
+            super();
+            setHorizontalAlignment(JLabel.CENTER);
+            setBorderPainted(true);
+        }
+
+        public Component getTableCellRendererComponent(JTable table, Object value,
+                                                       boolean isSelected, boolean hasFocus, int row, int column) {
+            if (isSelected) {
+                setForeground(table.getSelectionForeground());
+                super.setBackground(table.getSelectionBackground());
+            }
+            else {
+                setForeground(table.getForeground());
+                setBackground(table.getBackground());
+            }
+            setSelected((value != null && ((Boolean)value).booleanValue()));
+
+            if (hasFocus) {
+                setBorder(UIManager.getBorder("Table.focusCellHighlightBorder"));
+            } else {
+                setBorder(noFocusBorder);
+            }
+
+            return this;
+        }
+    }
+
 	public String getLineStatusText()
 	{
 		return "Line count: " + model.getRowCount() + ", visible: "
 			+ getRowCount() + ", selected: " + model.visAndSelCount();
+	}
+
+	public Object getObjectAt(int row, int col)
+	{
+		return ((CellData) getValueAt(row, col)).getData();
+	}
+
+	public TableCellEditor getCellEditor(int row, int column)
+	{
+		int modelColumn = convertColumnIndexToModel(column);
+
+		// Because we use CellData for each value, JTable no longer provides
+		// automatic editors because the class for each cell doesn't match
+		// anything it understands. So for CellData.data==Boolean we use:
+		if (model.getObjectColumnClass(modelColumn) == Boolean.class)
+		{
+			JCheckBox checkBox = new JCheckBox();
+			checkBox.setHorizontalAlignment(JCheckBox.CENTER);
+
+			return new DefaultCellEditor(checkBox)
+			{
+				public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column)
+				{
+					// The 'value' used to set the check box's initial state is
+					// wrong, because the default editor couldn't map a CellData
+					// to a bool (so it just defaults to true). We need to look
+					// up the actual value using the model and use that instead
+					boolean b = (boolean) model.getObjectAt(row, modelColumn);
+					return super.getTableCellEditorComponent(table, b, isSelected, row, column);
+				}
+			};
+		}
+
+		else if (model.getObjectColumnClass(modelColumn) == String.class)
+			return new DefaultCellEditor(new JTextField());
+
+		else
+			return super.getCellEditor(row, column);
 	}
 }

@@ -25,6 +25,10 @@ public class LineResults
 	private int rank;
 	private String comments;
 
+	// If true, specifies that this line should stay at the top of any results
+	// tables, regardless of the sort order applied to that table
+	private boolean sortToTop;
+
 	public LineResults(LineInfo lineInfo)
 	{
 		this.lineInfo = lineInfo;
@@ -65,4 +69,10 @@ public class LineResults
 
 	public void setComments(String comments)
 		{ this.comments = comments; }
+
+	public boolean isSortToTop()
+		{ return sortToTop; }
+
+	public void setSortToTop(boolean sortToTop)
+		{ this.sortToTop = sortToTop; }
 }

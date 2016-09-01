@@ -346,6 +346,10 @@ public class MABCStats extends SimpleJob
 
 	private void prepareForVisualization()
 	{
+		// Mark the parents lines as sortToTop special cases
+		viewSet.getLines().get(rpIndex).results().setSortToTop(true);
+		viewSet.getLines().get(dpIndex).results().setSortToTop(true);
+
 		// Move the parent lines to the top of the display
 		viewSet.moveLine(rpIndex, 0);
 		viewSet.moveLine(dpIndex, 1);

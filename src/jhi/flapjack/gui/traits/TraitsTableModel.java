@@ -44,12 +44,20 @@ class TraitsTableModel extends LineDataTableModel
 		}
 	}
 
+	@Override
 	public int getRowCount()
 	{
 		return dataSet.countLines();
 	}
 
+	@Override
 	public Object getValueAt(int row, int col)
+	{
+		return new CellData(null, getObjectAt(row, col));
+	}
+
+	@Override
+	public Object getObjectAt(int row, int col)
 	{
 		// Column 0 contains the line data
 		if (col == 0)
@@ -72,7 +80,7 @@ class TraitsTableModel extends LineDataTableModel
 	}
 
 	@Override
-	public Class getColumnClass(int col)
+	public Class getObjectColumnClass(int col)
 	{
 		if (col == 0)
 			return Line.class;
@@ -86,7 +94,7 @@ class TraitsTableModel extends LineDataTableModel
 	@Override
 	public boolean isCellEditable(int row, int col)
 	{
-		return getColumnClass(col) == String.class;
+		return getObjectColumnClass(col) == String.class;
 	}
 
 	JComboBox getCategoryComboBox(int col)
