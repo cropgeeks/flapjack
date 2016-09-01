@@ -102,8 +102,10 @@ public class FilterColumn extends AbstractColumn
 
 	// Safety net catch for Integer values being passed into createRowFilter
 	// below, that can't be cast to a Double (despite int->double being ok)
-	Double convert(Object o)
+	Double convert(Object object)
 	{
+		Object o = ((CellData)object).getData();
+
 		if (o instanceof Double)
 			return (Double)o;
 		else if (o instanceof Integer)
@@ -120,8 +122,17 @@ public class FilterColumn extends AbstractColumn
 
 			switch (filter)
 			{
+				// Left for reference
+				// Each cell in the table holds a CellData rather than a
+				// number/boolean/etc so these default filters won't work
+//				return RowFilter.numberFilter(RowFilter.ComparisonType.BEFORE, value, colIndex);
+
 				case LESS_THAN:
-					return RowFilter.numberFilter(RowFilter.ComparisonType.BEFORE, value, colIndex);
+
+					return new RowFilter<LineDataTableModel, Object>() {
+						public boolean include(Entry<? extends LineDataTableModel, ? extends Object> entry)
+							{ return convert(entry.getValue(colIndex)) < value; }
+					};
 
 				case LESS_THAN_EQ:
 					return new RowFilter<LineDataTableModel, Object>() {
@@ -130,7 +141,10 @@ public class FilterColumn extends AbstractColumn
 					};
 
 				case EQUAL:
-					return RowFilter.numberFilter(RowFilter.ComparisonType.EQUAL, value, colIndex);
+					return new RowFilter<LineDataTableModel, Object>() {
+						public boolean include(Entry<? extends LineDataTableModel, ? extends Object> entry)
+							{ return convert(entry.getValue(colIndex)) == value; }
+					};
 
 				case GREATER_THAN_EQ:
 					return new RowFilter<LineDataTableModel, Object>() {
@@ -139,15 +153,23 @@ public class FilterColumn extends AbstractColumn
 					};
 
 				case GREATER_THAN:
-					return RowFilter.numberFilter(RowFilter.ComparisonType.AFTER, value, colIndex);
+					return new RowFilter<LineDataTableModel, Object>() {
+						public boolean include(Entry<? extends LineDataTableModel, ? extends Object> entry)
+							{ return convert(entry.getValue(colIndex)) > value; }
+					};
 
 				case NOT_EQUAL:
-					return RowFilter.numberFilter(RowFilter.ComparisonType.NOT_EQUAL, value, colIndex);
+					return new RowFilter<LineDataTableModel, Object>() {
+						public boolean include(Entry<? extends LineDataTableModel, ? extends Object> entry)
+							{ return convert(entry.getValue(colIndex)) >= value; }
+					};
 			}
 		}
 
 		else
 		{
+			// These can stay as default filters because CellData.toString()
+			// return "true" / "false" for Boolean columns
 			if (filter == FALSE)
 				return RowFilter.regexFilter(Boolean.toString(false), colIndex);
 			else

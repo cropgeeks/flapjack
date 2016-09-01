@@ -91,7 +91,7 @@ public class TablePanelTableModel extends LineDataTableModel
 	}
 
 	@Override
-	public Object getValueAt(int rowIndex, int columnIndex)
+	public Object getObjectAt(int rowIndex, int columnIndex)
 	{
 		if (columnIndex == 0)
 			return viewSet.getLines().get(rowIndex);
@@ -116,7 +116,13 @@ public class TablePanelTableModel extends LineDataTableModel
 	}
 
 	@Override
-	public Class<?> getColumnClass(int columnIndex)
+	public Object getValueAt(int row, int col)
+	{
+		return new CellData(null, getObjectAt(row, col));
+	}
+
+	@Override
+	public Class<?> getObjectColumnClass(int columnIndex)
 	{
 		if (columnIndex == 0)
 			return LineInfo.class;

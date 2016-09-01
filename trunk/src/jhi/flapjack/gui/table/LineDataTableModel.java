@@ -61,7 +61,7 @@ public abstract class LineDataTableModel extends AbstractTableModel
 
 		for (int i = 0; i < getColumnCount(); i++)
 		{
-			Class c = getColumnClass(i);
+			Class c = getObjectColumnClass(i);
 
 			if (c == Double.class || c == Integer.class || c == Boolean.class)
 				cols.add(new FilterColumn(i, c, columnNames[i], FilterColumn.NONE));
@@ -93,7 +93,7 @@ public abstract class LineDataTableModel extends AbstractTableModel
 		// For every line...
 		for (int i = 0; i < getRowCount(); i++)
 		{
-			LineInfo line = (LineInfo) getValueAt(i, 0);
+			LineInfo line = (LineInfo) getObjectAt(i, 0);
 
 			// We only want to apply these states to visible lines
 			if (visibleOnly && line.getVisibility() != LineInfo.VISIBLE)
@@ -105,7 +105,7 @@ public abstract class LineDataTableModel extends AbstractTableModel
 				if (selectFilter.disabled())
 					continue;
 
-				Object value = getValueAt(i, selectFilter.colIndex);
+				Object value = getObjectAt(i, selectFilter.colIndex);
 				// If the value matches, we can set its state to true
 				if (selectFilter.matches(value))
 					line.setSelected(true);
@@ -150,4 +150,20 @@ public abstract class LineDataTableModel extends AbstractTableModel
 
 		return getValueAt(index, col);
 	}
+
+	@Override
+	public Class getColumnClass(int col)
+	{
+		return CellData.class;
+	}
+
+	@Override
+	public Object getValueAt(int row, int col)
+	{
+		return new CellData(lines.get(row), getObjectAt(row, col));
+	}
+
+	public abstract Object getObjectAt(int row, int col);
+
+	public abstract Class getObjectColumnClass(int col);
 }

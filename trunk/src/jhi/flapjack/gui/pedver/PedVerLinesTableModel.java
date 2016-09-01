@@ -52,7 +52,7 @@ class PedVerLinesTableModel extends LineDataTableModel
 	}
 
 	@Override
-	public Object getValueAt(int row, int col)
+	public Object getObjectAt(int row, int col)
 	{
 		LineInfo line = lines.get(row);
 		PedVerLinesLineStats stats = line.results().getPedVerLinesStats();
@@ -92,7 +92,7 @@ class PedVerLinesTableModel extends LineDataTableModel
 	}
 
 	@Override
-	public Class getColumnClass(int col)
+	public Class getObjectColumnClass(int col)
 	{
 		if (col == 0)
 			return LineInfo.class;
@@ -113,7 +113,7 @@ class PedVerLinesTableModel extends LineDataTableModel
 	@Override
 	public void setValueAt(Object value, int row, int col)
 	{
-		LineInfo line = (LineInfo) getValueAt(row, 0);
+		LineInfo line = (LineInfo) getObjectAt(row, 0);
 
 		if (col == selectedIndex)
 			line.setSelected((boolean)value);
