@@ -41,6 +41,25 @@ class TraitsPanelNB extends JPanel
 		});
 	}
 
+	private LineDataTable createTable()
+	{
+		return new LineDataTable() {
+
+			@Override
+			public TableCellEditor getCellEditor(int row, int col)
+			{
+				int modelCol = convertColumnIndexToModel(col);
+				TraitsTableModel model = (TraitsTableModel) getModel();
+
+				// Use combo boxes for the categorical entries
+				if (model.getObjectColumnClass(modelCol) == String.class)
+					return new DefaultCellEditor(model.getCategoryComboBox(modelCol));
+				else
+					return super.getCellEditor(row, col);
+			}
+		};
+	}
+
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -55,7 +74,7 @@ class TraitsPanelNB extends JPanel
         statusLabel = new javax.swing.JLabel();
         bRemove = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        table = new LineDataTable();
+        table = createTable();
         bExport = new javax.swing.JButton();
         checkColor = new javax.swing.JCheckBox();
         bColors = new javax.swing.JButton();
