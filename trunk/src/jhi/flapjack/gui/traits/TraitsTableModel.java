@@ -71,10 +71,9 @@ class TraitsTableModel extends LineDataTableModel
 			return null;
 
 		else if (trait.traitIsNumerical())
-			return tv.getValue();
+			return (double) tv.getValue();
 		else
 			return trait.format(tv);
-
 	}
 
 	@Override
@@ -84,7 +83,7 @@ class TraitsTableModel extends LineDataTableModel
 			return Line.class;
 
 		if (traits.get(col-1).traitIsNumerical())
-			return Float.class;
+			return Double.class;
 		else
 			return String.class;
 	}
