@@ -6,10 +6,8 @@ package jhi.flapjack.gui.traits;
 import java.awt.*;
 import java.util.*;
 import javax.swing.*;
-import javax.swing.table.*;
 
 import jhi.flapjack.data.*;
-import jhi.flapjack.gui.*;
 import jhi.flapjack.gui.table.*;
 
 import scri.commons.gui.*;

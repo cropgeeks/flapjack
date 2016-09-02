@@ -232,11 +232,11 @@ public class LineDataTable extends JTable
 		filters.add(new RowFilter<LineDataTableModel, Object>() {
 			public boolean include(RowFilter.Entry<? extends LineDataTableModel, ? extends Object> entry)
 			{
-				// TODO: Exception due to TraitsPanel still using Line rather
-				// than LineInfo in column 0
-				try { return ((LineInfo)entry.getValue(0)).getVisibility() != LineInfo.HIDDEN; }
-				catch (ClassCastException e)
-				{ return true; }
+				Object obj = entry.getValue(0);
+				if (obj instanceof LineInfo)
+					return ((LineInfo)obj).getVisibility() != LineInfo.HIDDEN;
+
+				return true;
 			}
 		});
 

@@ -89,13 +89,22 @@ public class CellData
 			if (v1.data instanceof Double)
 				return ((Double)v1.data).compareTo((Double)v2.data);
 
-			if (v1.data instanceof Integer)
+			else if (v1.data instanceof Integer)
 				return ((Integer)v1.data).compareTo((Integer)v2.data);
 
-			if (v1.data instanceof Boolean)
+			else if (v1.data instanceof Boolean)
 				return ((Boolean)v1.data).compareTo((Boolean)v2.data);
 
-			return v1.data.toString().compareTo(v2.data.toString());
+			else if (v1.data != null && v2.data != null)
+				return v1.data.toString().compareTo(v2.data.toString());
+
+			// Deal with null cases (which will happen a lot with the traits)
+			else if (v1.data != null)
+				return 1;
+			else if (v2.data != null)
+				return -1;
+			else
+				return 0;
 		}
 	}
 
