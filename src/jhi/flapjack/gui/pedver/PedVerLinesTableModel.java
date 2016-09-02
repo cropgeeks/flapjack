@@ -15,6 +15,7 @@ class PedVerLinesTableModel extends LineDataTableModel
 
 	private int selectedIndex;
 	private int commentsIndex;
+	private int sortIndex;
 
 	PedVerLinesTableModel(DataSet dataSet, GTViewSet viewSet)
 	{
@@ -28,9 +29,10 @@ class PedVerLinesTableModel extends LineDataTableModel
 	void initModel()
 	{
 		PedVerLinesLineStats stats = lines.get(0).results().getPedVerLinesStats();
-		columnNames = new String[9 + stats.getChrMatchCount().size()];
-		selectedIndex = columnNames.length-2;
-		commentsIndex = columnNames.length-1;
+		columnNames = new String[10 + stats.getChrMatchCount().size()];
+		selectedIndex = columnNames.length-3;
+		commentsIndex = columnNames.length-2;
+		sortIndex = columnNames.length-1;
 
 		columnNames[0] = "Line";
 		columnNames[1] = "Marker count";
@@ -43,6 +45,7 @@ class PedVerLinesTableModel extends LineDataTableModel
 			columnNames[i+7] = "Match in " + viewSet.getView(i).getChromosomeMap().getName();
 		columnNames[selectedIndex] = "Selected";
 		columnNames[commentsIndex] = "Comments";
+		columnNames[sortIndex] = "Don't Sort";
 	}
 
 	@Override
@@ -57,11 +60,13 @@ class PedVerLinesTableModel extends LineDataTableModel
 		LineInfo line = lines.get(row);
 		PedVerLinesLineStats stats = line.results().getPedVerLinesStats();
 
-		// Line name and Selected can work without results
+		// Name, Selected and Sort can work without results
 		if (col == 0)
 			return line;
 		else if (col == selectedIndex)
 			return line.getSelected();
+		else if (col == sortIndex)
+			return line.results().isSortToTop();
 
 		if (stats == null)
 			return null;
@@ -96,7 +101,7 @@ class PedVerLinesTableModel extends LineDataTableModel
 	{
 		if (col == 0)
 			return LineInfo.class;
-		else if (col == selectedIndex)
+		else if (col == selectedIndex || col == sortIndex)
 			return Boolean.class;
 		else if (col == commentsIndex)
 			return String.class;
@@ -107,7 +112,7 @@ class PedVerLinesTableModel extends LineDataTableModel
 	@Override
 	public boolean isCellEditable(int row, int col)
 	{
-		return (col == selectedIndex || col == commentsIndex);
+		return (col == selectedIndex || col == commentsIndex || col == sortIndex);
 	}
 
 	@Override
@@ -119,6 +124,8 @@ class PedVerLinesTableModel extends LineDataTableModel
 			line.setSelected((boolean)value);
 		else if (col == commentsIndex)
 			line.results().setComments((String)value);
+		else if (col == sortIndex)
+			line.results().setSortToTop((boolean)value);
 
 		fireTableRowsUpdated(row, row);
 	}

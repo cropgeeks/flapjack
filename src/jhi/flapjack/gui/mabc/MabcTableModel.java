@@ -16,7 +16,7 @@ public class MabcTableModel extends LineDataTableModel
 	// Indices to track what goes where
 	private int rppIndex, rppTotalIndex, rppCoverageIndex;
 	private int qtlIndex, qtlStatusIndex;
-	private int selectedIndex, rankIndex, commentIndex;
+	private int selectedIndex, rankIndex, commentIndex, sortIndex;
 
 	public MabcTableModel(GTViewSet viewSet)
 	{
@@ -43,9 +43,10 @@ public class MabcTableModel extends LineDataTableModel
 		selectedIndex = qtlCount> 0 ? qtlStatusIndex + 1 : qtlIndex;
 		rankIndex = selectedIndex + 1;
 		commentIndex = rankIndex + 1;
+		sortIndex = commentIndex +1;
 
 		// TODO: UPDATE!
-		int colCount = commentIndex + 1;
+		int colCount = sortIndex + 1;
 		columnNames = new String[colCount];
 
 		// LineInfo column
@@ -75,6 +76,7 @@ public class MabcTableModel extends LineDataTableModel
 		columnNames[selectedIndex] = "Selected";
 		columnNames[rankIndex] = "Rank";
 		columnNames[commentIndex] = "Comments";
+		columnNames[sortIndex] = "Don't Sort";
 	}
 
 	@Override
@@ -89,11 +91,13 @@ public class MabcTableModel extends LineDataTableModel
 		LineInfo line = lines.get(row);
 		MABCLineStats stats = line.results().getMABCLineStats();
 
-		// Line name and Selected can work without results
+		// Name, Selected and Sort can work without results
 		if (col == 0)
 			return line;
 		else if (col == selectedIndex)
 			return line.getSelected();
+		else if (col == sortIndex)
+			return line.results().isSortToTop();
 
 		// For everything else, don't show entries if stats object null
 		if (stats == null)
@@ -150,7 +154,7 @@ public class MabcTableModel extends LineDataTableModel
 			return LineInfo.class;
 		else if (col == commentIndex)
 			return String.class;
-		else if (col == selectedIndex)
+		else if (col == selectedIndex || col == sortIndex)
 			return Boolean.class;
 		else if (col == rankIndex)
 			return Integer.class;
@@ -163,7 +167,8 @@ public class MabcTableModel extends LineDataTableModel
 	{
 		return (col == selectedIndex ||
 				col == rankIndex ||
-				col == commentIndex);
+				col == commentIndex ||
+				col == sortIndex);
 	}
 
 	@Override
@@ -180,6 +185,9 @@ public class MabcTableModel extends LineDataTableModel
 
 		else if (col == commentIndex)
 			line.results().setComments((String)value);
+
+		else if (col == sortIndex)
+			line.results().setSortToTop((boolean)value);
 
 		fireTableRowsUpdated(row, row);
 	}
