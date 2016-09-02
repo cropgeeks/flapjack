@@ -51,16 +51,6 @@ public class TraitsPanel extends JPanel implements ActionListener
 
 		table.setModel(model);
 
-		// Use combo boxes for the categorical entries
-		for (int i = 0; i < table.getColumnCount(); i++)
-		{
-			TableColumn column = table.getColumnModel().getColumn(i);
-
-			if (table.getColumnClass(i) == String.class)
-				column.setCellEditor(
-					new DefaultCellEditor(model.getCategoryComboBox(i)));
-		}
-
 		controls.statusLabel.setText(
 			RB.format("gui.traits.TraitsPanel.traitCount",
 			(table.getColumnCount()-1)));
