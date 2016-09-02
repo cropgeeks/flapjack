@@ -15,6 +15,7 @@ class PedVerF1sTableModel extends LineDataTableModel
 
 	private static final int selectedIndex = 12;
 	private static final int commentIndex = 13;
+	private static final int sortIndex = 14;
 
 	PedVerF1sTableModel(DataSet dataSet, GTViewSet viewSet)
 	{
@@ -30,7 +31,7 @@ class PedVerF1sTableModel extends LineDataTableModel
 			"Het count", "% Het", "% Deviation from Expected", "Count P1 Contained",
 			"% P1 Contained", "Count P2 Contained", "% P2 Contained",
 			"Count Allele Match to Expected", "% Allele Match to Expected",
-			"Selected", "Comments" };
+			"Selected", "Comments", "Don't Sort" };
 	}
 
 	@Override
@@ -45,11 +46,13 @@ class PedVerF1sTableModel extends LineDataTableModel
 		LineInfo line = lines.get(row);
 		PedVerKnownParentsLineStats stats = line.results().getPedVerStats();
 
-		// Line name and Selected can work without results
+		// Name, Selected and Sort can work without results
 		if (col == 0)
 			return line;
 		else if (col == selectedIndex)
 			return line.getSelected();
+		else if (col == sortIndex)
+			return line.results().isSortToTop();
 
 		if (stats == null)
 			return null;
@@ -81,7 +84,7 @@ class PedVerF1sTableModel extends LineDataTableModel
 	{
 		if (col == 0)
 			return LineInfo.class;
-		else if (col == selectedIndex)
+		else if (col == selectedIndex || col == sortIndex)
 			return Boolean.class;
 		else if (col == commentIndex)
 			return String.class;
@@ -92,7 +95,7 @@ class PedVerF1sTableModel extends LineDataTableModel
 	@Override
 	public boolean isCellEditable(int row, int col)
 	{
-		return (col == selectedIndex || col == commentIndex);
+		return (col == selectedIndex || col == commentIndex || col == sortIndex);
 	}
 
 	@Override
@@ -104,6 +107,8 @@ class PedVerF1sTableModel extends LineDataTableModel
 			line.setSelected((boolean)value);
 		else if (col == commentIndex)
 			line.results().setComments((String)value);
+		else if (col == sortIndex)
+			line.results().setSortToTop((boolean)value);
 
 		fireTableRowsUpdated(row, row);
 	}
