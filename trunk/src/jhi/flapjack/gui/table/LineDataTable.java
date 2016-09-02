@@ -10,10 +10,8 @@ import java.io.File;
 import java.text.*;
 import java.util.*;
 import javax.swing.*;
-import javax.swing.border.*;
 import javax.swing.event.*;
 import javax.swing.filechooser.*;
-import javax.swing.plaf.*;
 import javax.swing.table.*;
 
 import jhi.flapjack.analysis.*;
@@ -24,15 +22,12 @@ import scri.commons.gui.*;
 
 public class LineDataTable extends JTable
 {
+	private GTViewSet viewSet;
 	private LinkedList<ITableViewListener> viewListeners;
 
 	private LineDataTableModel model;
 	private TableRowSorter<LineDataTableModel> sorter;
 	private LineDataTableMenu menu;
-
-	private boolean colorCells = true;
-
-	private GTViewSet viewSet;
 
 	// A list of objects used the last time a sortDialog, filterDialog, or selectDialog was run
 	private SortColumn[] lastSort;
@@ -40,14 +35,14 @@ public class LineDataTable extends JTable
 
 	// Is the table currently filtered?
 	private boolean isFiltered = false;
+	// Is the table currently coloured?
+	private Boolean colorCells = true;
 
 	public LineDataTable()
 	{
 		viewListeners = new LinkedList<ITableViewListener>();
 
-		setDefaultRenderer(CellData.class, new ColoredCellRenderer());
-//		setDefaultRenderer(Float.class, new ColoredCellRenderer());
-//		setDefaultRenderer(Double.class, new ColoredCellRenderer());
+		setDefaultRenderer(CellData.class, new CellData.DefaultRenderer(colorCells));
 
 		menu = new LineDataTableMenu(this);
 
@@ -61,12 +56,7 @@ public class LineDataTable extends JTable
 		{ return model; }
 
 	public void addViewListener(ITableViewListener listener)
-	{
-		viewListeners.add(listener);
-	}
-
-	public boolean colorCells()
-		{ return colorCells; }
+		{ viewListeners.add(listener); }
 
 	public void setColorCells(boolean colorCells)
 		{ this.colorCells = colorCells; }
@@ -250,7 +240,6 @@ public class LineDataTable extends JTable
 			}
 		});
 
-
 		return filters;
 	}
 
@@ -341,89 +330,6 @@ public class LineDataTable extends JTable
 
 		model.fireTableRowsUpdated(0, model.getRowCount()-1);
 	}
-
-	// Deals with the fact that our fake double header for the JTable means
-	// that String data can be found in numerical columns.
-	private class ColoredCellRenderer extends DefaultTableCellRenderer
-	{
-		private BooleanRenderer bRenderer = new BooleanRenderer();
-
-		protected final NumberFormat nf = NumberFormat.getInstance();
-
-		private Color bgCol1 = UIManager.getColor("Table.selectionBackground");
-		private Color bgCol2 = UIManager.getColor("Table.background");
-
-		@Override
-		public Component getTableCellRendererComponent(JTable table, Object o,
-			boolean isSelected, boolean hasFocus, int row, int column)
-		{
-			// If we have a boolean we have to call a specific boolean renderer
-			if (o instanceof Boolean)
-				return bRenderer.getTableCellRendererComponent(
-					table, o, isSelected, hasFocus, row, column);
-			if (((CellData)o).getData() instanceof Boolean)
-				return bRenderer.getTableCellRendererComponent(
-					table, ((CellData)o).getData(), isSelected, hasFocus, row, column);
-
-			// Otherwise we get the object out of CellData and pass it to the
-			// super class getTableCellRendererComponent
-			Object value = ((CellData)o).getData();
-
-			super.getTableCellRendererComponent(table, value, isSelected,
-				hasFocus, row, column);
-
-			// Align numerical values to the right
-			if (value instanceof Number)
-			{
-				setText(nf.format((Number)value));
-				setHorizontalAlignment(JLabel.RIGHT);
-			}
-			else
-				setHorizontalAlignment(JLabel.LEFT);
-
-			int iRow = table.getRowSorter().convertRowIndexToModel(row);
-			Color bg = model.getDisplayColor(iRow, column);
-
-			if (colorCells && bg != null)
-				setBackground(isSelected ? bg.darker() : bg);
-			else
-				setBackground(isSelected ? bgCol1 : bgCol2);
-
-			return this;
-		}
-	}
-
-	static class BooleanRenderer extends JCheckBox implements TableCellRenderer, UIResource
-    {
-        private static final Border noFocusBorder = new EmptyBorder(1, 1, 1, 1);
-
-        public BooleanRenderer() {
-            super();
-            setHorizontalAlignment(JLabel.CENTER);
-            setBorderPainted(true);
-        }
-
-        public Component getTableCellRendererComponent(JTable table, Object value,
-                                                       boolean isSelected, boolean hasFocus, int row, int column) {
-            if (isSelected) {
-                setForeground(table.getSelectionForeground());
-                super.setBackground(table.getSelectionBackground());
-            }
-            else {
-                setForeground(table.getForeground());
-                setBackground(table.getBackground());
-            }
-            setSelected((value != null && ((Boolean)value).booleanValue()));
-
-            if (hasFocus) {
-                setBorder(UIManager.getBorder("Table.focusCellHighlightBorder"));
-            } else {
-                setBorder(noFocusBorder);
-            }
-
-            return this;
-        }
-    }
 
 	public String getLineStatusText()
 	{
