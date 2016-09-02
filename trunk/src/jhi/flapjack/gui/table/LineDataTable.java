@@ -344,36 +344,38 @@ public class LineDataTable extends JTable
 		return ((CellData) getValueAt(row, col)).getData();
 	}
 
-	public TableCellEditor getCellEditor(int row, int column)
+	public TableCellEditor getCellEditor(int row, int col)
 	{
-		int modelColumn = convertColumnIndexToModel(column);
+		int modelRow = convertRowIndexToModel(row);
+		int modelCol = convertColumnIndexToModel(col);
 
 		// Because we use CellData for each value, JTable no longer provides
 		// automatic editors because the class for each cell doesn't match
 		// anything it understands. So for CellData.data==Boolean we use:
-		if (model.getObjectColumnClass(modelColumn) == Boolean.class)
+		if (model.getObjectColumnClass(modelCol) == Boolean.class)
 		{
 			JCheckBox checkBox = new JCheckBox();
 			checkBox.setHorizontalAlignment(JCheckBox.CENTER);
 
 			return new DefaultCellEditor(checkBox)
 			{
+				@Override
 				public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column)
 				{
 					// The 'value' used to set the check box's initial state is
 					// wrong, because the default editor couldn't map a CellData
 					// to a bool (so it just defaults to true). We need to look
 					// up the actual value using the model and use that instead
-					boolean b = (boolean) model.getObjectAt(row, modelColumn);
+					boolean b = (boolean) model.getObjectAt(modelRow, modelCol);
 					return super.getTableCellEditorComponent(table, b, isSelected, row, column);
 				}
 			};
 		}
 
-		else if (model.getObjectColumnClass(modelColumn) == String.class)
+		else if (model.getObjectColumnClass(modelCol) == String.class)
 			return new DefaultCellEditor(new JTextField());
 
 		else
-			return super.getCellEditor(row, column);
+			return super.getCellEditor(row, col);
 	}
 }
