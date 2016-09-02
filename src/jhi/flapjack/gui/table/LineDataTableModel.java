@@ -20,24 +20,30 @@ public abstract class LineDataTableModel extends AbstractTableModel
 	protected ArrayList<LineInfo> lines;
 
 	public void setLines(ArrayList<LineInfo> lines)
-	{
-		this.lines = lines;
-	}
+		{ this.lines = lines; }
 
 	public ArrayList<LineInfo> getLines()
 		{ return lines; }
 
 	@Override
 	public String getColumnName(int col)
-	{
-	    return columnNames[col];
-	}
+		{ return columnNames[col]; }
 
 	@Override
 	public int getColumnCount()
-	{
-		return columnNames.length;
-	}
+		{ return columnNames.length; }
+
+	@Override
+	public Object getValueAt(int row, int col)
+		{ return new CellData(lines.get(row), getObjectAt(row, col)); }
+
+	@Override
+	public final Class getColumnClass(int col)
+		{ return CellData.class; }
+
+	public abstract Object getObjectAt(int row, int col);
+
+	public abstract Class getObjectColumnClass(int col);
 
 	public Color getDisplayColor(int row, int col)
 	{
@@ -150,20 +156,4 @@ public abstract class LineDataTableModel extends AbstractTableModel
 
 		return getValueAt(index, col);
 	}
-
-	@Override
-	public Class getColumnClass(int col)
-	{
-		return CellData.class;
-	}
-
-	@Override
-	public Object getValueAt(int row, int col)
-	{
-		return new CellData(lines.get(row), getObjectAt(row, col));
-	}
-
-	public abstract Object getObjectAt(int row, int col);
-
-	public abstract Class getObjectColumnClass(int col);
 }
