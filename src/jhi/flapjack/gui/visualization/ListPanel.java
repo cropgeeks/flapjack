@@ -48,23 +48,10 @@ class ListPanel extends JPanel implements MouseMotionListener, MouseListener
 		// Setup our table with a default table model
 		lineModel = new TablePanelTableModel(viewSet);
 
-		lineTable = new LineDataTable()
-		{
-			// Set the cell renderers so that we get the LineInfo version for the first column and the base class
-			// HighlightTableCellRenderer by default for all others
-			public TableCellRenderer getCellRenderer(int row, int column)
-			{
-				switch (column)
-				{
-					case 0:	return new LineInfoCellRenderer();
-
-					default: return new HighlightTableCellRenderer();
-				}
-			}
-		};
+		lineTable = new LineDataTable();
 		lineTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 		lineTable.setEnabled(false);
-		lineTable.setDefaultRenderer(LineInfo.class, new LineInfoCellRenderer());
+		lineTable.setDefaultRenderer(CellData.class, new HighlightTableCellRenderer());
 		lineTable.setShowGrid(false);
 
 		lineTable.addMouseListener(new MouseAdapter() {
@@ -144,8 +131,8 @@ class ListPanel extends JPanel implements MouseMotionListener, MouseListener
 		if (fromIndex >= lineModel.getRowCount() || toIndex >= lineModel.getRowCount())
 			return;
 
-		LineInfo li = (LineInfo) lineModel.getValueAt(fromIndex, 0);
-		lineModel.setValueAt( lineModel.getValueAt(toIndex, 0), fromIndex, 0);
+		LineInfo li = (LineInfo) lineModel.getObjectAt(fromIndex, 0);
+		lineModel.setValueAt(lineModel.getObjectAt(toIndex, 0), fromIndex, 0);
 		lineModel.setValueAt(li, toIndex, 0);
 	}
 
@@ -197,7 +184,7 @@ class ListPanel extends JPanel implements MouseMotionListener, MouseListener
 			if (showResults)
 				showResults = false;
 
-			if (showResults == false)
+			else
 			{
 				LinkedColumnSelectionDialog columnDialog = new LinkedColumnSelectionDialog(viewSet);
 				if (columnDialog.isOK())
@@ -272,14 +259,29 @@ class ListPanel extends JPanel implements MouseMotionListener, MouseListener
 		{
 			setFont(font);
 
-			// Align numerical values to the right
-			if (value instanceof Number)
+			// LineInfo and blank line (if included) aren't double wrapped in
+			// CellData so we can get them and set their text here
+			Object val = ((CellData)value).getData();
+
+			if (val instanceof LineInfo || val instanceof String)
+				setText(val.toString());
+
+			// Anything which comes in from the linked table is wrapped in two
+			// layers of CellData, so we have to do another cast on the result
+			// of getData to get to the actual object
+			else if (val instanceof CellData)
 			{
-				setText(df.format(value));
-				setHorizontalAlignment(JLabel.RIGHT);
+				Object v = ((CellData)val).getData();
+
+				if (v instanceof Number)
+				{
+					setText(df.format(v));
+					setHorizontalAlignment(JLabel.RIGHT);
+				}
+
+				else if (v != null)
+					setText(v.toString());
 			}
-			else if (value != null)
-				setText(value.toString());
 
 			setBorder(BorderFactory.createEmptyBorder(0, 2, 0, 2));
 
@@ -296,28 +298,9 @@ class ListPanel extends JPanel implements MouseMotionListener, MouseListener
 			}
 
 			if (table.getColumnName(column).isEmpty() == false)
-				setToolTipText("<html><b>" + table.getColumnName(column) + "</b><br>" + value + "</html>");
+				setToolTipText("<html><b>" + table.getColumnName(column) + "</b><br>" + getText() + "</html>");
 			else
 				setToolTipText(null);
-
-			return this;
-		}
-	}
-
-	// Sets the text of a cell to the LineInfo's name
-	public class LineInfoCellRenderer extends HighlightTableCellRenderer
-	{
-		@Override
-		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
-													   int row, int column)
-		{
-			super.getTableCellRendererComponent(table, value, isSelected,
-				hasFocus, row, column);
-
-			setBorder(BorderFactory.createEmptyBorder());
-
-			if (value instanceof LineInfo && value != null)
-				setText(((LineInfo)value).name());
 
 			return this;
 		}

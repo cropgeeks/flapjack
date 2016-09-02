@@ -61,10 +61,19 @@ public class LinkedColumnSelectionDialog extends JDialog implements ActionListen
 
 		Object[][] data = new Object[viewSet.tableHandler().getModel().getColumnCount()-1][2];
 
+		// Set up the dialog with the column names from the linked table
 		for (int i = 0; i < data.length; i++)
 		{
 			data[i][0] = viewSet.tableHandler().getModel().getColumnName(i+1);
-			data[i][1] = true;
+			data[i][1] = false;
+		}
+
+		// If we already have any linkedColumns set those to true to reflect
+		// their existing selection state
+		for (int i = 0; i < viewSet.getLinkedModelCols().length; i++)
+		{
+			int index = viewSet.getLinkedModelCols()[i];
+			data[index-1][1] = true;
 		}
 
 		table.setModel(new DefaultTableModel(data, columnNames)

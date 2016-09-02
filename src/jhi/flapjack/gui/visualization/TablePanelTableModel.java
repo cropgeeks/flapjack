@@ -31,6 +31,7 @@ public class TablePanelTableModel extends LineDataTableModel
 
 		if (viewSet != null)
 		{
+			lines = viewSet.getLines();
 			// Grab the linked model and the column indices we need from that model
 			linkedModelCols = viewSet.getLinkedModelCols();
 
@@ -87,14 +88,14 @@ public class TablePanelTableModel extends LineDataTableModel
 	@Override
 	public int getRowCount()
 	{
-		return viewSet == null ? 0 : viewSet.getLines().size();
+		return viewSet == null ? 0 : lines.size();
 	}
 
 	@Override
 	public Object getObjectAt(int rowIndex, int columnIndex)
 	{
 		if (columnIndex == 0)
-			return viewSet.getLines().get(rowIndex);
+			return lines.get(rowIndex);
 
 		// Return an empty string for our padding column
 		else if (columnIndex == padding)
@@ -102,23 +103,17 @@ public class TablePanelTableModel extends LineDataTableModel
 
 		// Return the line score if we're displaying them
 		else if (viewSet.getDisplayLineScores() && columnIndex == lineScoreIndex)
-			return df.format(viewSet.getLines().get(rowIndex).getScore());
+			return df.format(lines.get(rowIndex).getScore());
 
 		// Display the columns from our linked table (if we are showing any)
 		else if (linkedModelCols.length > 0)
 		{
-			LineInfo lineInfo = viewSet.getLines().get(rowIndex);
+			LineInfo lineInfo = lines.get(rowIndex);
 
 			return viewSet.tableHandler().getModel().getValueForLine(lineInfo, linkedModelCols[columnIndex - linkedOffset]);
 		}
 
 		return -1;
-	}
-
-	@Override
-	public Object getValueAt(int row, int col)
-	{
-		return new CellData(null, getObjectAt(row, col));
 	}
 
 	@Override
@@ -134,7 +129,7 @@ public class TablePanelTableModel extends LineDataTableModel
 		// Otherwise return the column class of a column from the linked table
 		else
 		{
-			return viewSet.tableHandler().getModel().getColumnClass(linkedModelCols[columnIndex - linkedOffset]);
+			return viewSet.tableHandler().getModel().getObjectColumnClass(linkedModelCols[columnIndex - linkedOffset]);
 		}
 	}
 }
