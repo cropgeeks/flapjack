@@ -28,6 +28,7 @@ public class LineDataTable extends JTable
 	private LineDataTableModel model;
 	private TableRowSorter<LineDataTableModel> sorter;
 	private LineDataTableMenu menu;
+	private CellData.DefaultRenderer renderer;
 
 	// A list of objects used the last time a sortDialog, filterDialog, or selectDialog was run
 	private SortColumn[] lastSort;
@@ -36,13 +37,14 @@ public class LineDataTable extends JTable
 	// Is the table currently filtered?
 	private boolean isFiltered = false;
 	// Is the table currently coloured?
-	private Boolean colorCells = true;
+	private boolean colorCells = true;
 
 	public LineDataTable()
 	{
 		viewListeners = new LinkedList<ITableViewListener>();
 
-		setDefaultRenderer(CellData.class, new CellData.DefaultRenderer(colorCells));
+		renderer = new CellData.DefaultRenderer();
+		setDefaultRenderer(CellData.class, renderer);
 
 		menu = new LineDataTableMenu(this);
 
@@ -59,7 +61,7 @@ public class LineDataTable extends JTable
 		{ viewListeners.add(listener); }
 
 	public void setColorCells(boolean colorCells)
-		{ this.colorCells = colorCells; }
+		{ renderer.setColorCells(this.colorCells = colorCells); }
 
 	// Ensures all column headers have tooltips
 	@Override

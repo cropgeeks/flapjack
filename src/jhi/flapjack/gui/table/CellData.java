@@ -117,14 +117,12 @@ public class CellData
 
 		protected final NumberFormat nf = NumberFormat.getInstance();
 
-		private Boolean colorCells;
+		private boolean colorCells = true;
 		private Color bgCol1 = UIManager.getColor("Table.selectionBackground");
 		private Color bgCol2 = UIManager.getColor("Table.background");
 
-		DefaultRenderer(Boolean colorCells)
-		{
-			this.colorCells = colorCells;
-		}
+		void setColorCells(boolean colorCells)
+			{ this.colorCells = colorCells;	}
 
 		@Override
 		public Component getTableCellRendererComponent(JTable table, Object o,
