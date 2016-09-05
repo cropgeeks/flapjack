@@ -45,6 +45,11 @@ public class PedVerF1Stats extends SimpleJob
 		LineInfo p2 = viewSet.getLines().get(parent2Index);
 		LineInfo f1 = viewSet.getLines().get(f1Index);
 
+		// Mark the parents lines as sortToTop special cases
+		p1.results().setSortToTop(true);
+		p2.results().setSortToTop(true);
+		f1.results().setSortToTop(true);
+
 		// Move the parent lines to the top of the display
 		viewSet.moveLine(viewSet.getLines().indexOf(p1), 0);
 		viewSet.moveLine(viewSet.getLines().indexOf(p2), 1);
