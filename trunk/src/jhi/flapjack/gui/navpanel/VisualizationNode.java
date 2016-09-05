@@ -103,7 +103,7 @@ public class VisualizationNode extends BaseNode
 				Actions.alysSimMatrix.setEnabled(true);
 			Actions.alysMABC.setEnabled(true);
 			Actions.alysPedVer.setEnabled(true);
-			Actions.alysPedVerLines.setEnabled(true);
+//			Actions.alysPedVerLines.setEnabled(true);
 
 			// TODO: make dynamic based on inclusion of QTL data or not
 			Actions.dataFilterQTLs.setEnabled(true);
