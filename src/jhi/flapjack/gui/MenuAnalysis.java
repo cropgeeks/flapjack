@@ -274,12 +274,13 @@ public class MenuAnalysis
 		boolean[] selectedChromosomes = dialog.getSelectedChromosomes();
 		int rpIndex = dialog.getRecurrentParent();
 		int dpIndex = dialog.getDonorParent();
+		boolean simpleStats = dialog.isSimpleStats();
 
 		GTViewSet finalViewSet = viewSet.createClone("", true);
 
 		// Run the stats calculations
 		MABCStats stats = new MABCStats(
-			finalViewSet, selectedChromosomes, Prefs.mabcMaxMrkrCoverage, rpIndex, dpIndex);
+			finalViewSet, selectedChromosomes, Prefs.mabcMaxMrkrCoverage, rpIndex, dpIndex, simpleStats);
 		ProgressDialog pDialog = new ProgressDialog(stats,
 			RB.getString("gui.MenuAnalysis.mabc.title"),
 			RB.getString("gui.MenuAnalysis.pcoa.label"), Flapjack.winMain);
