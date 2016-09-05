@@ -64,21 +64,17 @@ public class CellData
 				boolean v1SortToTop = v1.line.results().isSortToTop();
 				boolean v2SortToTop = v2.line.results().isSortToTop();
 
-				int value = 0;
 				// If v1 is a special row and v2 isn't
 				if (v1SortToTop && !v2SortToTop)
 					return asc ? -1 : 1;
 				// If v2 is a special row and v1 isn't
 				if (v2SortToTop && !v1SortToTop)
 					return asc ? 1 : -1;
-				// if both v1 and v2 are special rows, we still need to sort between
-				// them, but override the asc/dec so they maintain their order
-				// regardless of the sort order
+				// if both v1 and v2 are special rows, we still need to "sort"
+				// between them, but simply return 0 so they maintain their
+				// order regardless
 				if (v1SortToTop && v2SortToTop)
-				{
-					value = compareTo(v1, v2);
-					return asc ? value : -value;
-				}
+					return 0;
 			}
 
 			return compareTo(v1, v2);
