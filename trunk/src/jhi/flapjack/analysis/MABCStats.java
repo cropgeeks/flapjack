@@ -7,8 +7,8 @@ import java.util.*;
 
 import jhi.flapjack.data.*;
 import jhi.flapjack.data.results.*;
+import jhi.flapjack.gui.visualization.colors.*;
 
-import jhi.flapjack.gui.visualization.colors.ColorScheme;
 import scri.commons.gui.*;
 
 /**
@@ -33,13 +33,16 @@ public class MABCStats extends SimpleJob
 	int rpIndex = 0;
 	int dpIndex = 1;
 
-	public MABCStats(GTViewSet viewSet, boolean[] selectedChromosomes, double maxMarkerCoverage, int rpIndex, int dpIndex)
+	boolean simpleStats;
+
+	public MABCStats(GTViewSet viewSet, boolean[] selectedChromosomes, double maxMarkerCoverage, int rpIndex, int dpIndex, boolean simpleStats)
 	{
 		this.viewSet = viewSet;
 		this.selectedChromosomes = selectedChromosomes;
 		this.maxMarkerCoverage = maxMarkerCoverage;
 		this.rpIndex = rpIndex;
 		this.dpIndex = dpIndex;
+		this.simpleStats = simpleStats;
 	}
 
 	public void runJob(int index)
@@ -73,6 +76,8 @@ public class MABCStats extends SimpleJob
 		throws Exception
 	{
 		StateTable st = viewSet.getDataSet().getStateTable();
+
+		System.out.println("Simple stats: " + simpleStats);
 
 		// For each line that we need to calculate stats for...
 		for (int lineIndex = 0; lineIndex < as.lineCount(); lineIndex++)
@@ -138,6 +143,12 @@ public class MABCStats extends SimpleJob
 						double dist = chrLength - marker.position();
 
 						gapEnd = Math.min(dist, maxMarkerCoverage);
+					}
+
+					if (simpleStats)
+					{
+						gap = 1;
+						gapEnd = 0;
 					}
 
 
@@ -226,7 +237,11 @@ public class MABCStats extends SimpleJob
 			if (Double.isNaN(rppTotal))
 				rppTotal = 0;
 			stats.setRppTotal(rppTotal);
-			stats.setGenomeCoverage(stats.getGenomeCoverage()/genomeLength);
+
+			if (simpleStats)
+				stats.setGenomeCoverage(1);
+			else
+				stats.setGenomeCoverage(stats.getGenomeCoverage()/genomeLength);
 		}
 	}
 

@@ -71,6 +71,23 @@ public class MABCStatsDialog extends JDialog implements ActionListener
 		chromosomeSelectionPanel.setupComponents(viewSet, bOK, true);
 
 		setupComboBoxes(as);
+
+		ButtonGroup bGroup = new ButtonGroup();
+		bGroup.add(bWeighted);
+		bGroup.add(bUnweighted);
+
+		bWeighted.addActionListener(this);
+		bUnweighted.addActionListener(this);
+
+		// Set the selection state for the weighted / unweighted radio buttons
+		// based on the last choice the user made (assumes Weighted by default)
+		bWeighted.setSelected(!Prefs.guiUseSimpleMabcStats);
+		bUnweighted.setSelected(Prefs.guiUseSimpleMabcStats);
+
+		// Set the enabled state of the max marker coverage spinner and its
+		// label based on whether or not we are using the weighted calculation
+		jLabel3.setEnabled(!Prefs.guiUseSimpleMabcStats);
+		maxMrkrCoverage.setEnabled(!Prefs.guiUseSimpleMabcStats);
 	}
 
 	private void setupComboBoxes(AnalysisSet as)
@@ -128,6 +145,25 @@ public class MABCStatsDialog extends JDialog implements ActionListener
 
 		else if (e.getSource() == bCancel)
 			setVisible(false);
+
+		else if (e.getSource() == bWeighted)
+		{
+			jLabel3.setEnabled(true);
+			maxMrkrCoverage.setEnabled(true);
+			Prefs.guiUseSimpleMabcStats = bUnweighted.isSelected();
+		}
+
+		else if (e.getSource() == bUnweighted)
+		{
+			jLabel3.setEnabled(false);
+			maxMrkrCoverage.setEnabled(false);
+			Prefs.guiUseSimpleMabcStats = bUnweighted.isSelected();
+		}
+	}
+
+	public boolean isSimpleStats()
+	{
+		return Prefs.guiUseSimpleMabcStats;
 	}
 
     /** This method is called from within the constructor to
@@ -147,9 +183,11 @@ public class MABCStatsDialog extends JDialog implements ActionListener
         jLabel3 = new javax.swing.JLabel();
         maxMrkrCoverage = new javax.swing.JSpinner();
         lblParent1 = new javax.swing.JLabel();
-        recurrentCombo = new javax.swing.JComboBox<>();
+        recurrentCombo = new javax.swing.JComboBox<LineInfo>();
         lblParent2 = new javax.swing.JLabel();
-        donorCombo = new javax.swing.JComboBox<>();
+        donorCombo = new javax.swing.JComboBox<LineInfo>();
+        bWeighted = new javax.swing.JRadioButton();
+        bUnweighted = new javax.swing.JRadioButton();
         jPanel2 = new javax.swing.JPanel();
         chromosomeSelectionPanel = new jhi.flapjack.gui.dialog.analysis.ChromosomeSelectionPanel();
 
@@ -166,13 +204,17 @@ public class MABCStatsDialog extends JDialog implements ActionListener
 
         jLabel3.setText("Maximum coverage per marker (cM): ");
 
-        maxMrkrCoverage.setModel(new javax.swing.SpinnerNumberModel(10.0d, 0.0d, null, 0.25d));
+        maxMrkrCoverage.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(10.0d), Double.valueOf(0.0d), null, Double.valueOf(0.25d)));
 
         lblParent1.setText("Select recurrent parent line:");
         lblParent1.setToolTipText("");
 
         lblParent2.setText("Select donor parent line:");
         lblParent2.setToolTipText("");
+
+        bWeighted.setText("Weighted model");
+
+        bUnweighted.setText("Unweighted model");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -184,14 +226,17 @@ public class MABCStatsDialog extends JDialog implements ActionListener
                     .addComponent(recurrentCombo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(donorCombo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblParent1)
-                            .addComponent(lblParent2))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(maxMrkrCoverage)))
+                        .addComponent(maxMrkrCoverage, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(bWeighted)
+                            .addComponent(lblParent1)
+                            .addComponent(lblParent2)
+                            .addComponent(bUnweighted))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -206,9 +251,13 @@ public class MABCStatsDialog extends JDialog implements ActionListener
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(donorCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
+                .addComponent(bWeighted)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(maxMrkrCoverage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(bUnweighted)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -227,7 +276,7 @@ public class MABCStatsDialog extends JDialog implements ActionListener
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(chromosomeSelectionPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 230, Short.MAX_VALUE)
+                .addComponent(chromosomeSelectionPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 234, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -261,6 +310,8 @@ public class MABCStatsDialog extends JDialog implements ActionListener
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bCancel;
     private javax.swing.JButton bOK;
+    private javax.swing.JRadioButton bUnweighted;
+    private javax.swing.JRadioButton bWeighted;
     private jhi.flapjack.gui.dialog.analysis.ChromosomeSelectionPanel chromosomeSelectionPanel;
     private scri.commons.gui.matisse.DialogPanel dialogPanel1;
     private javax.swing.JComboBox<LineInfo> donorCombo;

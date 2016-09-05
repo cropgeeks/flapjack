@@ -12,9 +12,6 @@ import java.util.*;
 
 import scri.commons.gui.*;
 
-/**
- * Created by gs40939 on 28/06/2016.
- */
 public class GenerateMABCStats
 {
 	// The objects that will (hopefully) get created
@@ -27,6 +24,7 @@ public class GenerateMABCStats
 	private double maxMarkerCoverage = 10;
 	private boolean decimalEnglish = false;
 	private String filename;
+	private boolean simpleStats = false;
 
 	public static void main(String[] args)
 	{
@@ -36,6 +34,7 @@ public class GenerateMABCStats
 		double maxMarkerCoverage = 10;
 		String filename = null;
 		boolean decimalEnglish = false;
+		boolean simpleStats = false;
 
 		NumberFormat nf = NumberFormat.getInstance();
 
@@ -59,6 +58,8 @@ public class GenerateMABCStats
 				filename = args[i].substring(7);
 			if (args[i].startsWith("-decimalEnglish"))
 				decimalEnglish = true;
+			if (args[i].startsWith("-simpleStats"))
+				simpleStats = true;
 		}
 
 		if (mapFile == null || genotypesFile == null || qtlFile == null || filename == null)
@@ -75,13 +76,13 @@ public class GenerateMABCStats
 			return;
 		}
 
-		GenerateMABCStats mabcStats = new GenerateMABCStats(mapFile, genotypesFile, qtlFile, maxMarkerCoverage, filename, decimalEnglish);
+		GenerateMABCStats mabcStats = new GenerateMABCStats(mapFile, genotypesFile, qtlFile, maxMarkerCoverage, filename, decimalEnglish, simpleStats);
 		mabcStats.doStatGeneration();
 
 		System.exit(0);
 	}
 
-	public GenerateMABCStats(File mapFile, File genotypesFile, File qtlFile, double maxMarkerCoverage, String filename, boolean decimalEnglish)
+	public GenerateMABCStats(File mapFile, File genotypesFile, File qtlFile, double maxMarkerCoverage, String filename, boolean decimalEnglish, boolean simpleStats)
 	{
 		this.mapFile = mapFile;
 		this.genotypesFile = genotypesFile;
@@ -89,6 +90,7 @@ public class GenerateMABCStats
 		this.maxMarkerCoverage = maxMarkerCoverage;
 		this.filename = filename;
 		this.decimalEnglish = decimalEnglish;
+		this.simpleStats = simpleStats;
 	}
 
 	public void doStatGeneration()
@@ -125,7 +127,7 @@ public class GenerateMABCStats
 			chromosomes[i] = true;
 
 		// TODO: How do we get the rpIndex and dpIndex for passing to MABCStats?
-		MABCStats stats = new MABCStats(viewSet, chromosomes, maxMarkerCoverage, 0, 1);
+		MABCStats stats = new MABCStats(viewSet, chromosomes, maxMarkerCoverage, 0, 1, simpleStats);
 		stats.runJob(0);
 
 		MabcTableModel model = new MabcTableModel(viewSet);
