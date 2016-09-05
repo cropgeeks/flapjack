@@ -114,8 +114,11 @@ public class CellData
 		protected final NumberFormat nf = NumberFormat.getInstance();
 
 		private boolean colorCells = true;
-		private Color bgCol1 = UIManager.getColor("Table.selectionBackground");
-		private Color bgCol2 = UIManager.getColor("Table.background");
+
+		static Color bgCol1 = UIManager.getColor("Table.selectionBackground");
+		static Color bgCol2 = UIManager.getColor("Table.background");
+		static Color bgNoSort = new Color(206,221,235);
+		static Color bgNoSortSel = bgCol1.darker();
 
 		void setColorCells(boolean colorCells)
 			{ this.colorCells = colorCells;	}
@@ -154,13 +157,25 @@ public class CellData
 			if (colorCells && bg != null)
 				setBackground(isSelected ? bg.darker() : bg);
 			else
-				setBackground(isSelected ? bgCol1 : bgCol2);
+				setBackground(calcBackground(table, row, isSelected));
 
 			return this;
 		}
 	}
 
-	// Code taken straight from the source of JTable
+	private static Color calcBackground(JTable table, int row, boolean isSelected)
+	{
+		LineDataTableModel model = (LineDataTableModel) table.getModel();
+		int modelRow = table.convertRowIndexToModel(row);
+		Object obj = model.getObjectAt(modelRow, 0);
+
+		if (obj instanceof LineInfo && ((LineInfo)obj).results().isSortToTop())
+			return isSelected ? DefaultRenderer.bgNoSortSel : DefaultRenderer.bgNoSort;
+		else
+			return isSelected ? DefaultRenderer.bgCol1 : DefaultRenderer.bgCol2;
+	}
+
+	// Code taken straight from the source of JTable (with selection-bg tweak)
 	static class BooleanRenderer extends JCheckBox implements TableCellRenderer, UIResource
     {
         private static final Border noFocusBorder = new EmptyBorder(1, 1, 1, 1);
@@ -188,6 +203,8 @@ public class CellData
             } else {
                 setBorder(noFocusBorder);
             }
+
+			setBackground(calcBackground(table, row, isSelected));
 
             return this;
         }
