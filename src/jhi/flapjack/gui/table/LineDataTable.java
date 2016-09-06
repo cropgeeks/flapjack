@@ -51,6 +51,12 @@ public class LineDataTable extends JTable
 		UIScaler.setCellHeight(this);
 	}
 
+	boolean isFiltered()
+		{ return isFiltered; }
+
+	FilterColumn[] getlastFilter()
+		{ return lastFilter; }
+
 	public LineDataTableMenu getMenu()
 		{ return menu; }
 

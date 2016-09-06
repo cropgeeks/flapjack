@@ -40,32 +40,6 @@ public class FilterColumn extends AbstractColumn
 		this.filter = filter;
 	}
 
-	@Override
-	public String toString()
-	{
-		switch (filter)
-		{
-			case LESS_THAN:
-				return RB.getString("gui.table.FilterColumn.lessThan");
-			case LESS_THAN_EQ:
-				return RB.getString("gui.table.FilterColumn.lessThanEq");
-			case EQUAL:
-				return RB.getString("gui.table.FilterColumn.equal");
-			case GREATER_THAN_EQ:
-				return RB.getString("gui.table.FilterColumn.greaterThanEq");
-			case GREATER_THAN:
-				return RB.getString("gui.table.FilterColumn.greaterThan");
-			case NOT_EQUAL:
-				return RB.getString("gui.table.FilterColumn.notEqual");
-			case FALSE:
-				return RB.getString("gui.table.FilterColumn.false");
-			case TRUE:
-				return RB.getString("gui.table.FilterColumn.true");
-
-			default: return "";
-		}
-	}
-
 	static JComboBox<FilterColumn> getNumericalFilters()
 	{
 		JComboBox<FilterColumn> combo = new JComboBox<>();
@@ -208,5 +182,49 @@ public class FilterColumn extends AbstractColumn
 		}
 
 		return false;
+	}
+
+	@Override
+	public String toString()
+	{
+		switch (filter)
+		{
+			case LESS_THAN:
+				return RB.getString("gui.table.FilterColumn.lessThan");
+			case LESS_THAN_EQ:
+				return RB.getString("gui.table.FilterColumn.lessThanEq");
+			case EQUAL:
+				return RB.getString("gui.table.FilterColumn.equal");
+			case GREATER_THAN_EQ:
+				return RB.getString("gui.table.FilterColumn.greaterThanEq");
+			case GREATER_THAN:
+				return RB.getString("gui.table.FilterColumn.greaterThan");
+			case NOT_EQUAL:
+				return RB.getString("gui.table.FilterColumn.notEqual");
+			case FALSE:
+				return RB.getString("gui.table.FilterColumn.false");
+			case TRUE:
+				return RB.getString("gui.table.FilterColumn.true");
+
+			default: return "";
+		}
+	}
+
+	// Returns short form text for each filter type (eg < or > rather than less
+	// than or greater than)
+	String toShortString()
+	{
+		switch (filter)
+		{
+			case LESS_THAN: return "<";
+			case LESS_THAN_EQ: return "<=";
+			case EQUAL: return "=";
+			case GREATER_THAN_EQ: return ">=";
+			case GREATER_THAN: return ">";
+			case NOT_EQUAL: return "<>";
+			case FALSE: return "FALSE";
+			case TRUE: return "TRUE";
+			default: return "";
+		}
 	}
 }

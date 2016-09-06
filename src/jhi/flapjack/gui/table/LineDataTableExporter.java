@@ -2,6 +2,8 @@ package jhi.flapjack.gui.table;
 
 import java.io.*;
 import java.text.*;
+import java.util.*;
+import javax.swing.*;
 
 import jhi.flapjack.data.*;
 
@@ -30,7 +32,10 @@ public class LineDataTableExporter extends SimpleJob
 	@Override
 	public void runJob(int i) throws Exception
 	{
-		PrintWriter writer = new PrintWriter(file);
+		PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(file)));
+
+		// Print sorting/filtering headers
+		printInfoHeaders(out);
 
 		// Print table header
 		StringBuilder headerBuilder = new StringBuilder();
@@ -40,7 +45,7 @@ public class LineDataTableExporter extends SimpleJob
 			if (col < table.getColumnCount()-1)
 				headerBuilder.append("\t");
 		}
-		writer.println(headerBuilder.toString());
+		out.println(headerBuilder.toString());
 
 		// Print table data
 		for (int row = 0; row < table.getRowCount(); row++)
@@ -64,9 +69,39 @@ public class LineDataTableExporter extends SimpleJob
 					builder.append("\t");
 			}
 
-			writer.println(builder.toString());
+			out.println(builder.toString());
 		}
 
-		writer.close();
+		out.close();
+	}
+
+	private void printInfoHeaders(PrintWriter out)
+		throws Exception
+	{
+		// Output the FILTER settings
+		if (table.isFiltered() && table.getlastFilter() != null)
+		{
+			for (FilterColumn col: table.getlastFilter())
+				if (col.disabled() == false)
+					out.println("# FILTER\t"
+						+ col.name + "\t"
+						+ col.toShortString()
+						+ (col.value != null ? ("\t" + col.value) : ""));
+		}
+
+		// Output the SORT settings
+		List<? extends RowSorter.SortKey> sortKeys = table.getRowSorter().getSortKeys();
+		if (sortKeys.size() > 0)
+		{
+			for (int i = 0; i < sortKeys.size(); i++)
+			{
+				int col = sortKeys.get(i).getColumn();
+				SortOrder ord = sortKeys.get(i).getSortOrder();
+
+				out.println("# SORT " + i + "\t"
+					+ table.getModel().getColumnName(col) + "\t"
+					+ ord);
+			}
+		}
 	}
 }
