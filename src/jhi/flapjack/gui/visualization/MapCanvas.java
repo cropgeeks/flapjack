@@ -177,26 +177,55 @@ class MapCanvas extends JPanel
 		int y = scale(12);
 		int yH = scale(10);
 
-		// Draw the white rectangle representing the map
-		g.setColor(Color.white);
-		g.fillRect(0, y, w-1, yH);
+		setScaling(xS, xE);
+
+		// Draw the maps of the special chromosome with alternating background
+		// colors.
+		if (canvas.view.getChromosomeMap().isSpecialChromosome())
+		{
+			double start = 0;
+			double dS = 0;
+			for (int i=0; i < canvas.viewSet.getViews().size(); i++)
+			{
+				double mapLength = canvas.viewSet.getView(i).mapLength();
+
+				// Set background color (alternate on map index)
+				Color bg = i % 2 == 0 ? Color.WHITE : new Color(206,221,235);
+				g.setColor(bg);
+
+				double distance = mEPos - mSPos;
+				int dEnd = (int) ((start + mapLength - mSPos) * ((w-1) / distance));
+
+				g.fillRect((int)dS, y, dEnd, yH);
+
+				start += mapLength;
+				dS = dEnd > 0 ? dEnd : 0;
+			}
+		}
+		else
+		{
+			// Draw the white rectangle representing the map
+			g.setColor(Color.white);
+			g.fillRect(0, y, w - 1, yH);
+		}
+
 		g.setColor(Color.lightGray);
 
 		// Local/global maps always fit the screen
 		if (Prefs.visMapScaling != Constants.CLASSIC)
-			g.drawRect(0, y, w-1, yH);
-		// Classic maps fit the total width (and have "edges")
+			g.drawRect(0, y, w - 1, yH);
+			// Classic maps fit the total width (and have "edges")
 		else
-			g.drawRect(-canvas.pX1, y, canvas.canvasW-1, yH);
-
-		setScaling(xS, xE);
+			g.drawRect(-canvas.pX1, y, canvas.canvasW - 1, yH);
 
 		for (int i = xS; i <= xE; i++)
 			renderMarker(g, i, xS, false);
 
-
+		// TODO 05/09/16: This only draws the first and last notches of the
+		// super chromosome and all other notches at map boundaries are cheated
+		// in by rendering where there is a dummy marker, instead of doing
+		// anything clever.
 		// Start/End notches
-//		g.setColor(Color.black);
 		int y1 = y-scale(5);
 		int y2 = y+yH+scale(5);
 		if (Prefs.visMapScaling == Constants.GLOBAL)
@@ -227,10 +256,6 @@ class MapCanvas extends JPanel
 	{
 		Marker m = canvas.view.getMarker(i);
 		int markerIndex = canvas.view.getMarkerInfo(i).getIndex();
-		
-		// Don't draw dummy markers (markers that split maps)
-//		if (m.dummyMarker())
-//			return;
 
 		double distance = mEPos - mSPos;
 		int xMap = (int) ((m.getPosition()-mSPos) * ((w-1) / distance));
@@ -263,6 +288,8 @@ class MapCanvas extends JPanel
 
 			g.setColor(current);
 		}
+		// Draw map tick to denote boundary between maps on the super chromosome
+		// view
 		else
 		{
 			g.drawLine(xMap, scale(6), xMap, scale(22));
