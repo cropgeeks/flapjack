@@ -50,7 +50,7 @@ public class FilterDialog extends JDialog implements ActionListener
 		RB.setText(bFilter, "gui.table.FilterDialog.bFilter");
 		RB.setText(bReset, "gui.table.FilterDialog.bReset");
 
-		setBackground((Color)UIManager.get("fjDialogBG"));
+		getContentPane().setBackground((Color)UIManager.get("fjDialogBG"));
 		bFilter.addActionListener(this);
 		bReset.addActionListener(this);
 		bCancel.addActionListener(this);

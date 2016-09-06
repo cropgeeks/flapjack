@@ -63,14 +63,11 @@ public class PedVerF1sPanel extends JPanel implements ActionListener, ITableView
 
 	public void actionPerformed(ActionEvent e)
 	{
-		if (e.getSource() == controls.bFilter)
-			table.filterDialog();
-
-		else if (e.getSource() == controls.bSort)
+		if (e.getSource() == controls.bSort)
 			table.sortDialog();
 
-		else if (e.getSource() == controls.bSelect)
-			table.selectDialog();
+		else if (e.getSource() == controls.bExport)
+			table.exportData();
 
 		else if (e.getSource() == controls.autoResize)
 			table.autoResize(controls.autoResize.isSelected());

@@ -29,7 +29,7 @@ public class SortDialog extends JDialog implements ActionListener, ListSelection
 		RB.setText(bAdd, "gui.table.SortDialog.bAdd");
 		RB.setText(bDelete, "gui.table.SortDialog.bDelete");
 
-		setBackground((Color)UIManager.get("fjDialogBG"));
+		getContentPane().setBackground((Color)UIManager.get("fjDialogBG"));
 		bSort.addActionListener(this);
 		bCancel.addActionListener(this);
 		bAdd.addActionListener(this);

@@ -16,25 +16,6 @@ public class LineDataTableMenu
 		this.table = table;
 	}
 
-	public JPopupMenu getExportMenu()
-	{
-		JPopupMenu menu = new JPopupMenu();
-		createExportMenu(menu);
-		return menu;
-	}
-
-	private void createExportMenu(JComponent menu)
-	{
-		JMenuItem mExportAll = new JMenuItem("Export all lines...");
-		mExportAll.addActionListener(e -> table.exportData(false));
-
-		JMenuItem mExportSelected = new JMenuItem("Export selected lines...");
-		mExportSelected.addActionListener(e -> table.exportData(true));
-
-		menu.add(mExportAll);
-		menu.add(mExportSelected);
-	}
-
 	public JPopupMenu getFilterMenu()
 	{
 		JPopupMenu menu = new JPopupMenu();
@@ -132,11 +113,6 @@ public class LineDataTableMenu
 		menuFilter.setText("Filter");
 		createFilterMenu(menuFilter);
 
-		final JMenu menuExport = new JMenu();
-		menuExport.setText(RB.getString("gui.mabc.MabcPanel.export"));
-//		menuExport.setIcon(Icons.getIcon("EXPORTTRAITS"));
-		createExportMenu(menuExport);
-
 		final JMenu menuSelect = new JMenu();
 		menuSelect.setText("Select");
 		createSelectMenu(menuSelect, true);
@@ -153,13 +129,18 @@ public class LineDataTableMenu
 		mSort.setIcon(Icons.getIcon("SORT"));
 		mSort.addActionListener(e -> table.sortDialog());
 
+		final JMenuItem mExport = new JMenuItem();
+		mExport.setText(RB.getString("gui.mabc.MabcPanel.export"));
+		mExport.setIcon(Icons.getIcon("EXPORTTRAITS"));
+		mExport.addActionListener(e -> table.exportData());
+
 
 		menu.add(menuSelect);
 		menu.add(mCopy);
 		menu.addSeparator();
 		menu.add(menuFilter);
 		menu.add(mSort);
-		menu.add(menuExport);
+		menu.add(mExport);
 
 		return menu;
 	}

@@ -21,17 +21,13 @@ class PedVerF1sPanelNB extends JPanel
 		bSort.addActionListener(panel);
 		bSort.setIcon(Icons.getIcon("SORT"));
 
-		bExport.setPopup(((LineDataTable)table).getMenu().getExportMenu());
+		bExport.addActionListener(panel);
 		bExport.setIcon(Icons.getIcon("EXPORTTRAITS"));
 
 		bSelect.setPopup(((LineDataTable)table).getMenu().getSelectMenu());
 		bSelect.setIcon(Icons.getIcon("AUTOSELECT"));
 
 		autoResize.addActionListener(panel);
-
-//		lblF1MarkerCount.setText("Expected F1 marker count: " + results.getF1MarkerCount());
-//		lblF1HetCount.setText("Expected F1 heterozygous allele count: " + results.getF1HeterozygousCount());
-//		lblF1HetPercentage.setText("Expected F1 heterozygous allele percentage: " + results.getF1PercentHeterozygous());
 	}
 
 	/**
