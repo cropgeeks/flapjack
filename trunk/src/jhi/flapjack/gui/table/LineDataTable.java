@@ -151,26 +151,26 @@ public class LineDataTable extends JTable
 			setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 	}
 
-	public void exportData(boolean onlySelected)
+	public void exportData()
 	{
-		String name = "table-data.txt";
-		File saveAs = new File(Prefs.guiCurrentDir, name);
-		FileNameExtensionFilter filter = new FileNameExtensionFilter(
-			RB.getString("other.Filters.txt"), "txt");
+		ExportDialog dialog = new ExportDialog();
 
-		// Ask the user for a filename to save the current view as
-		String filename = FlapjackUtils.getSaveFilename("Save table data as", saveAs, filter);
-
-		// Quit if the user cancelled the file selection
-		if (filename == null)
+		if (dialog.isOK() == false)
 			return;
 
-		LineDataTableExporter exporter = new LineDataTableExporter(this, new File(filename), onlySelected);
-		ProgressDialog dialog = new ProgressDialog(exporter,
+		// Gather the options selected by the user
+		File filename = dialog.getFilename();
+		int exportType = Prefs.guiLDTableExportType;
+		boolean exportHeaders = Prefs.guiLDTableExportHeaders;
+
+		LineDataTableExporter exporter = new LineDataTableExporter(
+			this, filename, exportType, exportHeaders);
+
+		ProgressDialog pDialog = new ProgressDialog(exporter,
 			RB.format("gui.dialog.ExportDataDialog.exportTitle"),
 			RB.format("gui.dialog.ExportDataDialog.exportLabel"), Flapjack.winMain);
 
-		if (dialog.failed("gui.error"))
+		if (pDialog.failed("gui.error"))
 			return;
 
 		TaskDialog.info(

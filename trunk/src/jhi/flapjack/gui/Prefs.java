@@ -146,6 +146,12 @@ public class Prefs extends XMLPreferences
 	// Missing markers dialog
 	public static int guiMissingMarkerPcnt = 95;
 
+	// LineDataTable export data dialog
+	public static String guiLDTableExportHistory = "";
+	// 0=export all, 1=export only visible, 2=export only visible/selected
+	public static int guiLDTableExportType = 0;
+	public static boolean guiLDTableExportHeaders = true;
+
 	// What type of map scaling should be used (local=0, global=1)
 	public static int visMapScaling = Constants.GLOBAL;
 

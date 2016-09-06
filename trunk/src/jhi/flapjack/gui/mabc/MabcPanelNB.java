@@ -16,7 +16,7 @@ public class MabcPanelNB extends javax.swing.JPanel
 		bSort.addActionListener(panel);
 		bSort.setIcon(Icons.getIcon("SORT"));
 
-		bExport.setPopup(((LineDataTable)table).getMenu().getExportMenu());
+		bExport.addActionListener(panel);
 		bExport.setIcon(Icons.getIcon("EXPORTTRAITS"));
 
 		bSelect.setPopup(((LineDataTable)table).getMenu().getSelectMenu());

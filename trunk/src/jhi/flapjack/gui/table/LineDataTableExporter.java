@@ -14,19 +14,33 @@ import scri.commons.gui.*;
  */
 public class LineDataTableExporter extends SimpleJob
 {
-	private final LineDataTable table;
-	private final File file;
-	private final boolean onlySelected;
+	private LineDataTable table;
+	private File file;
+	private int exportType;
+	private boolean exportHeaders;
 
-	private final DecimalFormat df;
+	private DecimalFormat df;
 
-	public LineDataTableExporter(LineDataTable table, File file, boolean onlySelected)
+	public LineDataTableExporter(LineDataTable table, File file, int exportType, boolean exportHeaders)
 	{
 		this.table = table;
 		this.file = file;
-		this.onlySelected = onlySelected;
+		this.exportType = exportType;
+		this.exportHeaders = exportHeaders;
 
 		df = new DecimalFormat("#.#########");
+
+		// If the exportType is 0 (export everything), then we need to create
+		// a new JTable (using the same model) so any filters active on the real
+		// table won't apply to the exported data
+		if (exportType == 0)
+		{
+			LineDataTable clone = new LineDataTable();
+			clone.setModel(table.getModel());
+			clone.getRowSorter().setSortKeys(table.getRowSorter().getSortKeys());
+
+			this.table = clone;
+		}
 	}
 
 	@Override
@@ -35,7 +49,8 @@ public class LineDataTableExporter extends SimpleJob
 		PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(file)));
 
 		// Print sorting/filtering headers
-		printInfoHeaders(out);
+		if (exportHeaders)
+			printInfoHeaders(out);
 
 		// Print table header
 		StringBuilder headerBuilder = new StringBuilder();
@@ -52,7 +67,7 @@ public class LineDataTableExporter extends SimpleJob
 		{
 			int col0 = table.convertColumnIndexToView(0);
 			LineInfo line = (LineInfo)table.getObjectAt(row, col0);
-			if (onlySelected && !line.getSelected())
+			if (exportType == 2 && !line.getSelected())
 				continue;
 
 			StringBuilder builder = new StringBuilder();

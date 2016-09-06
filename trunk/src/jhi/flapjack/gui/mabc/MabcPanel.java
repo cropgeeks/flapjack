@@ -73,8 +73,8 @@ public class MabcPanel extends JPanel implements ActionListener, ListSelectionLi
 		if (e.getSource() == controls.bSort)
 			table.sortDialog();
 
-		else if (e.getSource() == controls.bSelect)
-			table.selectDialog();
+		else if (e.getSource() == controls.bExport)
+			table.exportData();
 
 		else if (e.getSource() == controls.bRank)
 			rankSelectedLines();
