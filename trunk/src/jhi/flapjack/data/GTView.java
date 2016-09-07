@@ -453,7 +453,8 @@ public class GTView extends XMLRoot
 			if (viewSet.lines.get(i) != null)
 				lines.add(viewSet.lines.get(i));
 
-		viewSet.lines = lines;
+		viewSet.lines.clear();
+		viewSet.lines.addAll(lines);
 
 		// Then trim down any left over elements
 		viewSet.lines.trimToSize();

@@ -240,9 +240,11 @@ public class LineDataTable extends JTable
 		filters.add(new RowFilter<LineDataTableModel, Object>() {
 			public boolean include(RowFilter.Entry<? extends LineDataTableModel, ? extends Object> entry)
 			{
-				Object obj = entry.getValue(0);
-				if (obj instanceof LineInfo)
-					return ((LineInfo)obj).getVisibility() != LineInfo.HIDDEN;
+				CellData cell = (CellData) entry.getValue(0);
+				LineInfo line = cell.getLineInfo();
+
+				if (line != null && line.getVisibility() == LineInfo.HIDDEN)
+					return false;
 
 				return true;
 			}

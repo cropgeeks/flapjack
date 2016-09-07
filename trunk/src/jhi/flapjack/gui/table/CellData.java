@@ -37,6 +37,9 @@ public class CellData
 		this.data = data;
 	}
 
+	LineInfo getLineInfo()
+		{ return line; }
+
 	public Object getData()
 		{ return data; }
 
