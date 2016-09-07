@@ -84,6 +84,8 @@ public class FilterColumn extends AbstractColumn
 			return (Double)o;
 		else if (o instanceof Integer)
 			return (double)(Integer)o;
+		else if (o instanceof Float)
+			return (double)(Float)o;
 
 		return null;
 	}
