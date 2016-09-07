@@ -36,7 +36,6 @@ public class DataSummaryDialog2 extends JDialog implements ActionListener
 
 		nbPanel = new DataSummaryPanelNB2(viewSet, as, results, alleleCount);
 
-		add(new TitlePanel2(), BorderLayout.NORTH);
 		add(nbPanel);
 		add(createButtons(), BorderLayout.SOUTH);
 

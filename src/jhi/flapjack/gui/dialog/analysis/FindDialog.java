@@ -39,7 +39,6 @@ public class FindDialog extends JDialog implements ListSelectionListener
 
 		this.gPanel = gPanel;
 
-		add(new TitlePanel2(), BorderLayout.NORTH);
 		add(nbPanel);
 		addListeners();
 

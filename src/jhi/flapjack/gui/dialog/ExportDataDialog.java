@@ -38,7 +38,6 @@ public class ExportDataDialog extends JDialog implements ActionListener
 
 		nbPanel = new ExportDataPanelNB(viewSet);
 
-		add(new TitlePanel2(), BorderLayout.NORTH);
 		add(nbPanel);
 		add(createButtons(), BorderLayout.SOUTH);
 

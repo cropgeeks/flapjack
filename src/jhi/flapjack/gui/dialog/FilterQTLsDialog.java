@@ -31,7 +31,6 @@ public class FilterQTLsDialog extends JDialog implements ActionListener
 
 		nbPanel = new FilterQTLsPanelNB(gPanel, dataSet);
 
-		add(new TitlePanel2(), BorderLayout.NORTH);
 		add(nbPanel);
 		add(createButtons(), BorderLayout.SOUTH);
 

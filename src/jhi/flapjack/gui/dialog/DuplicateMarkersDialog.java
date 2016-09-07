@@ -34,7 +34,6 @@ public class DuplicateMarkersDialog extends JDialog implements ActionListener
 		this.duplicates = duplicates;
 		nbPanel = new DuplicateMarkersPanelNB(duplicates);
 
-		add(new TitlePanel2(), BorderLayout.NORTH);
 		add(nbPanel);
 		add(createButtons(), BorderLayout.SOUTH);
 

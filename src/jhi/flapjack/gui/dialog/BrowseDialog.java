@@ -37,7 +37,6 @@ public class BrowseDialog extends JDialog implements ActionListener
 
 		nbPanel = new BrowsePanelNB(rbLabel, fileHistory);
 
-		add(new TitlePanel2(), BorderLayout.NORTH);
 		add(nbPanel);
 		add(createButtons(rbButton, help), BorderLayout.SOUTH);
 

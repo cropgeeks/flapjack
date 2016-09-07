@@ -37,7 +37,6 @@ public class HideLMDialog extends JDialog implements ActionListener
 
 		nbPanel = new HideLMPanelNB(this, gPanel.getView(), markers);
 
-		add(new TitlePanel2(), BorderLayout.NORTH);
 		add(nbPanel);
 		add(createButtons(), BorderLayout.SOUTH);
 

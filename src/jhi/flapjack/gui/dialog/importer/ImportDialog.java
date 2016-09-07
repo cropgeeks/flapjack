@@ -68,6 +68,7 @@ public class ImportDialog extends JDialog implements ActionListener, ChangeListe
 		tabs.setSelectedIndex(tabIndex);
 		add(tabs);
 
+		getContentPane().setBackground((Color)UIManager.get("fjDialogBG"));
 		getRootPane().setDefaultButton(bImport);
 		SwingUtils.addCloseHandler(this, bCancel);
 

@@ -29,7 +29,6 @@ public class RenameDialog extends JDialog implements ActionListener
 
 		nbPanel = new RenamePanelNB(currentValue);
 
-		add(new TitlePanel2(), BorderLayout.NORTH);
 		add(nbPanel);
 		add(createButtons(), BorderLayout.SOUTH);
 

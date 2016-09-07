@@ -33,7 +33,6 @@ public class NewViewDialog extends JDialog implements ActionListener
 		this.dataSet = dataSet;
 		nbPanel = new NewViewPanelNB(dataSet, currentViewSet);
 
-		add(new TitlePanel2(), BorderLayout.NORTH);
 		add(nbPanel);
 		add(createButtons(), BorderLayout.SOUTH);
 
