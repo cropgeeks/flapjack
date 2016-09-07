@@ -30,7 +30,6 @@ public class SortLinesByTraitDialog extends JDialog implements ActionListener
 
 		nbPanel = new SortLinesByTraitPanelNB(gPanel);
 
-		add(new TitlePanel2(), BorderLayout.NORTH);
 		add(nbPanel);
 		add(createButtons(), BorderLayout.SOUTH);
 

@@ -27,7 +27,6 @@ class ImportGenoAdvDialog extends JDialog implements ActionListener
 			true
 		);
 
-		add(new TitlePanel2(), BorderLayout.NORTH);
 		add(nbPanel);
 		add(createButtons(), BorderLayout.SOUTH);
 

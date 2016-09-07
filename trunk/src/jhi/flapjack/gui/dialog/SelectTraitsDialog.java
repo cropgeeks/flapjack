@@ -28,7 +28,6 @@ public class SelectTraitsDialog extends JDialog implements ActionListener
 
 		nbPanel = new SelectTraitsPanelNB(viewSet);
 
-		add(new TitlePanel2(), BorderLayout.NORTH);
 		add(nbPanel);
 		add(createButtons(), BorderLayout.SOUTH);
 

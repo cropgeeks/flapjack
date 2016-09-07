@@ -29,7 +29,6 @@ public class DatabaseSettingsDialog extends JDialog implements ActionListener
 
 		nbPanel = new DatabaseSettingsPanelNB(dataSet);
 
-		add(new TitlePanel2(), BorderLayout.NORTH);
 		add(nbPanel);
 		add(createButtons(), BorderLayout.SOUTH);
 

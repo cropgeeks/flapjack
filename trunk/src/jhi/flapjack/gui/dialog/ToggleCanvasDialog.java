@@ -29,7 +29,6 @@ public class ToggleCanvasDialog extends JDialog implements ActionListener
 
 		nbPanel = new ToggleCanvasPanelNB(gPanel);
 
-		add(new TitlePanel2(), BorderLayout.NORTH);
 		add(nbPanel);
 		add(createButtons(), BorderLayout.SOUTH);
 

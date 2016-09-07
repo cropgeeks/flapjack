@@ -29,7 +29,6 @@ public class QuickExportDialog extends JDialog implements ActionListener
 
 		nbPanel = new QuickExportPanelNB();
 
-		add(new TitlePanel2(), BorderLayout.NORTH);
 		add(nbPanel);
 		add(createButtons(), BorderLayout.SOUTH);
 

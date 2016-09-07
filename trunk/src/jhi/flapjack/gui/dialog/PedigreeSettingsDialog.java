@@ -30,7 +30,6 @@ public class PedigreeSettingsDialog extends JDialog implements ActionListener
 
 		nbPanel.browseComboBox.setHistory(fileHistory);
 
-		add(new TitlePanel2(), BorderLayout.NORTH);
 		add(nbPanel);
 		add(createButtons(), BorderLayout.SOUTH);
 

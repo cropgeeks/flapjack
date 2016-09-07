@@ -31,7 +31,6 @@ public class SelectLMDialog extends JDialog implements ActionListener
 
 		nbPanel = new SelectLMPanelNB(view, selectLines);
 
-		add(new TitlePanel2(), BorderLayout.NORTH);
 		add(nbPanel);
 		add(createButtons(), BorderLayout.SOUTH);
 

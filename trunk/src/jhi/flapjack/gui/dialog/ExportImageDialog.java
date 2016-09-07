@@ -36,7 +36,6 @@ public class ExportImageDialog extends JDialog implements ActionListener
 		this.gPanel = gPanel;
 		nbPanel = new ExportImagePanelNB(gPanel, new DblClickListener());
 
-		add(new TitlePanel2(), BorderLayout.NORTH);
 		add(nbPanel);
 		add(createButtons(), BorderLayout.SOUTH);
 

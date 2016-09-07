@@ -33,7 +33,6 @@ public class SortLinesDialog extends JDialog implements ActionListener
 		this.gPanel = gPanel;
 		nbPanel = new SortLinesPanelNB(this, gPanel.getViewSet());
 
-		add(new TitlePanel2(), BorderLayout.NORTH);
 		add(nbPanel);
 		add(createButtons(), BorderLayout.SOUTH);
 		checkSelectedLine();
