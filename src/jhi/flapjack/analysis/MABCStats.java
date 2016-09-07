@@ -77,8 +77,6 @@ public class MABCStats extends SimpleJob
 	{
 		StateTable st = viewSet.getDataSet().getStateTable();
 
-		System.out.println("Simple stats: " + simpleStats);
-
 		// For each line that we need to calculate stats for...
 		for (int lineIndex = 0; lineIndex < as.lineCount(); lineIndex++)
 		{
