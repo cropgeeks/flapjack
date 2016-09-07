@@ -107,37 +107,37 @@ public class FilterColumn extends AbstractColumn
 
 					return new RowFilter<LineDataTableModel, Object>() {
 						public boolean include(Entry<? extends LineDataTableModel, ? extends Object> entry)
-							{ return convert(entry.getValue(colIndex)) < value; }
+							{ return convert(entry.getValue(colIndex)) < value || noFilter(entry); }
 					};
 
 				case LESS_THAN_EQ:
 					return new RowFilter<LineDataTableModel, Object>() {
 						public boolean include(Entry<? extends LineDataTableModel, ? extends Object> entry)
-							{ return convert(entry.getValue(colIndex)) <= value; }
+							{ return convert(entry.getValue(colIndex)) <= value || noFilter(entry); }
 					};
 
 				case EQUAL:
 					return new RowFilter<LineDataTableModel, Object>() {
 						public boolean include(Entry<? extends LineDataTableModel, ? extends Object> entry)
-							{ return convert(entry.getValue(colIndex)) == value; }
+						{ return convert(entry.getValue(colIndex)) == value || noFilter(entry); }
 					};
 
 				case GREATER_THAN_EQ:
 					return new RowFilter<LineDataTableModel, Object>() {
 						public boolean include(Entry<? extends LineDataTableModel, ? extends Object> entry)
-							{ return convert(entry.getValue(colIndex)) >= value; }
+						{ return convert(entry.getValue(colIndex)) >= value || noFilter(entry); }
 					};
 
 				case GREATER_THAN:
 					return new RowFilter<LineDataTableModel, Object>() {
 						public boolean include(Entry<? extends LineDataTableModel, ? extends Object> entry)
-							{ return convert(entry.getValue(colIndex)) > value; }
+						{ return convert(entry.getValue(colIndex)) > value || noFilter(entry); }
 					};
 
 				case NOT_EQUAL:
 					return new RowFilter<LineDataTableModel, Object>() {
 						public boolean include(Entry<? extends LineDataTableModel, ? extends Object> entry)
-							{ return convert(entry.getValue(colIndex)) >= value; }
+						{ return convert(entry.getValue(colIndex)) != value || noFilter(entry); }
 					};
 			}
 		}
@@ -153,6 +153,11 @@ public class FilterColumn extends AbstractColumn
 		}
 
 		return null;
+	}
+
+	private boolean noFilter(RowFilter.Entry<? extends LineDataTableModel, ? extends Object> entry)
+	{
+		return ((CellData)entry.getValue(0)).getLineInfo().results().isSortToTop();
 	}
 
 	// This is used when we're using the FilterColumn objects to auto-select
