@@ -95,6 +95,9 @@ public class CellData
 			else if (v1.data instanceof Boolean && v2.data instanceof Boolean)
 				return ((Boolean)v1.data).compareTo((Boolean)v2.data);
 
+			else if (v1.data instanceof Float && v2.data instanceof Float)
+				return ((Float)v1.data).compareTo((Float)v2.data);
+
 			else if (v1.data != null && v2.data != null)
 				return v1.data.toString().compareTo(v2.data.toString());
 
