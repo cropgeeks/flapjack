@@ -531,6 +531,9 @@ public class WinMainMenuBar extends JMenuBar
 		if (keymask != 0)
 			item.setAccelerator(KeyStroke.getKeyStroke(keymask, modifiers));
 
+		if (SystemUtils.isMacOS())
+			item.setIcon(null);
+
 		return item;
 	}
 
@@ -542,6 +545,9 @@ public class WinMainMenuBar extends JMenuBar
 		if (keymask != 0)
 			item.setAccelerator(KeyStroke.getKeyStroke(keymask, modifiers));
 
+		if (SystemUtils.isMacOS())
+			item.setIcon(null);
+
 		return item;
 	}
 
@@ -552,6 +558,9 @@ public class WinMainMenuBar extends JMenuBar
 
 		if (keymask != 0)
 			item.setAccelerator(KeyStroke.getKeyStroke(keymask, modifiers));
+
+		if (SystemUtils.isMacOS())
+			item.setIcon(null);
 
 		return item;
 	}
