@@ -147,13 +147,13 @@ public abstract class LineDataTableModel extends AbstractTableModel
 			.count();
 	}
 
-	public Object getValueForLine(LineInfo lineInfo, int col)
+	public Object getObjectForLine(LineInfo lineInfo, int col)
 	{
 		int index = lines.indexOf(lineInfo);
 
 		if (index == -1)
 			return null;
 
-		return getValueAt(index, col);
+		return getObjectAt(index, col);
 	}
 }

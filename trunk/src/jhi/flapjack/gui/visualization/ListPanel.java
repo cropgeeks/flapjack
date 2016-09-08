@@ -230,12 +230,12 @@ class ListPanel extends JPanel implements MouseMotionListener, MouseListener
 
 	// Base class for any renderer which needs to highlight table cells based on the row under the mouse on the main
 	// canvas. Defaults to setting the text to value's toString()
-	public class HighlightTableCellRenderer extends JLabel implements TableCellRenderer
+	public class HighlightTableCellRenderer extends DefaultTableCellRenderer
 	{
-		protected DecimalFormat df = new DecimalFormat("0.00");
+		private final DecimalFormat df = new DecimalFormat("0.00");
 
-		private Color selectedBG = new Color(240, 240, 240);
-		private Color selectedFG = new Color(255, 0, 0);
+		private final Color selectedBG = new Color(240, 240, 240);
+		private final Color selectedFG = new Color(255, 0, 0);
 
 		public HighlightTableCellRenderer()
 		{
@@ -243,34 +243,22 @@ class ListPanel extends JPanel implements MouseMotionListener, MouseListener
 		}
 
 		@Override
-		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
+		public Component getTableCellRendererComponent(JTable table, Object obj, boolean isSelected, boolean hasFocus,
 													   int row, int column)
 		{
-			setFont(font);
-			setHorizontalAlignment(JLabel.LEFT);
+			Object o = ((CellData)obj).getData();
+			super.getTableCellRendererComponent(table, obj, isSelected,
+				hasFocus, row, column);
 
-			// LineInfo and blank line (if included) aren't double wrapped in
-			// CellData so we can get them and set their text here
-			Object val = ((CellData)value).getData();
-
-			if (val instanceof LineInfo || val instanceof String)
-				setText(val.toString());
-
-			// Anything which comes in from the linked table is wrapped in two
-			// layers of CellData, so we have to do another cast on the result
-			// of getData to get to the actual object
-			else if (val instanceof CellData)
+			if (o instanceof Number)
 			{
-				Object v = ((CellData)val).getData();
-
-				if (v instanceof Number)
-				{
-					setText(df.format(v));
-					setHorizontalAlignment(JLabel.RIGHT);
-				}
-
-				else if (v != null)
-					setText(v.toString());
+				setText(df.format(o));
+				setHorizontalAlignment(JLabel.RIGHT);
+			}
+			else
+			{
+				setText(o.toString());
+				setHorizontalAlignment(JLabel.LEFT);
 			}
 
 			setBorder(BorderFactory.createEmptyBorder(0, 2, 0, 2));
@@ -286,6 +274,9 @@ class ListPanel extends JPanel implements MouseMotionListener, MouseListener
 				setBackground(table.getBackground());
 				setForeground(table.getForeground());
 			}
+
+			// TODO: Investigate colouring options, using something like this?
+//			setBackground(lineModel.getDisplayColor(row, column));
 
 			if (table.getColumnName(column).isEmpty() == false)
 				setToolTipText("<html><b>" + table.getColumnName(column) + "</b><br>" + getText() + "</html>");

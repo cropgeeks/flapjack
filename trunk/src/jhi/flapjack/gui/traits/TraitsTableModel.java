@@ -64,16 +64,8 @@ class TraitsTableModel extends LineDataTableModel
 		// Other columns are traits in the vector of values held by a line
 		Line line = dataSet.getLineByIndex(row);
 
-		Trait trait = traits.get(col-1);
 		TraitValue tv = line.getTraitValues().get(col-1);
-
-		if (tv.isDefined() == false)
-			return null;
-
-		else if (trait.traitIsNumerical())
-			return (double) tv.getValue();
-		else
-			return trait.format(tv);
+		return tv.tableValue();
 	}
 
 	@Override

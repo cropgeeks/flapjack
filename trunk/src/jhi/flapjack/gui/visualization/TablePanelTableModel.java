@@ -1,8 +1,10 @@
 package jhi.flapjack.gui.visualization;
 
+import java.awt.*;
 import java.text.*;
 
 import jhi.flapjack.data.*;
+import jhi.flapjack.gui.*;
 import jhi.flapjack.gui.table.*;
 
 public class TablePanelTableModel extends LineDataTableModel
@@ -12,11 +14,16 @@ public class TablePanelTableModel extends LineDataTableModel
 	private DecimalFormat df = new DecimalFormat("0.00");
 
 	// Variables for tracking where columns are in the table
-	private int padding = 0;
-	private int lineScoreIndex = 0;
-	private int linkedOffset = 0;
+	private int padIndex = -1;
+	private int lineScoreIndex = -1;
+	private int traitsOffset = -1;
+	private int linkedOffset = -1;
 
+	private int[] traitsModelCols;
 	private int[] linkedModelCols;
+
+	private LineDataTableModel traitsModel;
+	private LineDataTableModel linkedModel;
 
 	public TablePanelTableModel(GTViewSet viewSet)
 	{
@@ -24,8 +31,6 @@ public class TablePanelTableModel extends LineDataTableModel
 
 		// In the basic case (just showing line names) we only have one column
 		int noCols = 1;
-
-		// Setup the column names for the table
 		columnNames = new String[noCols];
 		columnNames[0] = "Line";
 
@@ -34,26 +39,37 @@ public class TablePanelTableModel extends LineDataTableModel
 			lines = viewSet.getLines();
 			// Grab the linked model and the column indices we need from that model
 			linkedModelCols = viewSet.getLinkedModelCols();
+			traitsModelCols = viewSet.getTraits();
+
+			linkedModel = viewSet.tableHandler().getModel();
+			traitsModel = Flapjack.winMain.getNavPanel().getTraitsPanel(viewSet.getDataSet(), false).getTraitsTab().getModel();
 
 			// If we have line scores, or linked model columns we need to
 			// add more columns to our table model
-			if (viewSet.getDisplayLineScores() || linkedModelCols.length > 0)
+			if (viewSet.getDisplayLineScores() /*|| traitsModelCols.length > 0*/ || linkedModelCols.length > 0 )       // <------------------------- UNCOMMENT FOR TRAITS
 			{
-				padding = 1;
+				// Add an extra column for the padding column
+				padIndex = 1;
 				noCols++;
 
 				// Setup the line score index
 				if (viewSet.getDisplayLineScores())
 				{
-					lineScoreIndex = 2;
+					lineScoreIndex = noCols;
 					noCols++;
 				}
+
+//				if (traitsModelCols.length > 0)																			// <------------------------- UNCOMMENT FOR TRAITS
+//				{
+//					traitsOffset = noCols;
+//					noCols += traitsModelCols.length;
+//				}
 
 				// Setup the linked table start index (and offset within the
 				// linked columns) based on the column indices in this class
 				if (linkedModelCols.length > 0)
 				{
-					linkedOffset = lineScoreIndex == 0 ? 2 : 3;
+					linkedOffset = noCols;
 					noCols += linkedModelCols.length;
 				}
 			}
@@ -61,28 +77,26 @@ public class TablePanelTableModel extends LineDataTableModel
 			columnNames = new String[noCols];
 			columnNames[0] = "Line";
 
-			if (viewSet.getDisplayLineScores() || linkedModelCols.length > 0)
+			if (padIndex != -1)
 				columnNames[1] = "";
 
-			if (viewSet.getDisplayLineScores())
+			if (lineScoreIndex != -1)
 				columnNames[lineScoreIndex] = "Sort score";
 
-			if (linkedModelCols.length > 0)
-			{
+			if (traitsOffset != -1)
+				for (int i = 0; i < traitsModelCols.length; i++)
+					columnNames[i + traitsOffset] = viewSet.getDataSet().getTraits().get(i).getName();
+
+			if (linkedOffset != -1)
 				for (int i = 0; i < linkedModelCols.length; i++)
 					columnNames[i + linkedOffset] = viewSet.tableHandler().getModel().getColumnName(linkedModelCols[i]);
-			}
 		}
 	}
 
 	@Override
-	public String getColumnName(int column)
+	public String getColumnName(int col)
 	{
-		if (column > padding && column > lineScoreIndex)
-			return viewSet.tableHandler().getModel().getColumnName(linkedModelCols[column - linkedOffset]);
-
-		else
-			return super.getColumnName(column);
+		return columnNames[col];
 	}
 
 	@Override
@@ -92,44 +106,58 @@ public class TablePanelTableModel extends LineDataTableModel
 	}
 
 	@Override
-	public Object getObjectAt(int rowIndex, int columnIndex)
+	public Object getObjectAt(int row, int col)
 	{
-		if (columnIndex == 0)
-			return lines.get(rowIndex);
+		LineInfo line = lines.get(row);
 
-		// Return an empty string for our padding column
-		else if (columnIndex == padding)
-			return "";
+		if (col == 0)
+			return line;
 
-		// Return the line score if we're displaying them
-		else if (viewSet.getDisplayLineScores() && columnIndex == lineScoreIndex)
-			return df.format(lines.get(rowIndex).getScore());
+		else if (linkedOffset != -1 && col >= linkedOffset)
+			return linkedModel.getObjectForLine(
+				line, linkedModelCols[col - linkedOffset]);
 
-		// Display the columns from our linked table (if we are showing any)
-		else if (linkedModelCols.length > 0)
+		else if (traitsOffset != -1 && col >= traitsOffset)
 		{
-			LineInfo lineInfo = lines.get(rowIndex);
-
-			return viewSet.tableHandler().getModel().getValueForLine(lineInfo, linkedModelCols[columnIndex - linkedOffset]);
+			return line.getLine().getTraitValues().get(
+				traitsModelCols[col - traitsOffset]).tableValue();
 		}
 
-		return -1;
+		else if (col == lineScoreIndex)
+			return df.format(lines.get(row).getScore());
+
+		return "";
 	}
 
 	@Override
-	public Class<?> getObjectColumnClass(int columnIndex)
+	public Class<?> getObjectColumnClass(int col)
 	{
-		if (columnIndex == 0)
+		if (col == 0)
 			return LineInfo.class;
-		else if (columnIndex == padding)
-			return String.class;
-		else if (columnIndex == lineScoreIndex)
+
+		else if (linkedOffset != -1 && col >= linkedOffset)
+			return linkedModel.getObjectColumnClass(linkedModelCols[col - linkedOffset]);
+
+		else if (traitsOffset != -1 && col >= traitsOffset)
+			return traitsModel.getColumnClass(traitsModelCols[col - traitsOffset]);
+
+		else if (col == lineScoreIndex)
 			return Double.class;
 
-		// Otherwise return the column class of a column from the linked table
-		else
-		{
-			return viewSet.tableHandler().getModel().getObjectColumnClass(linkedModelCols[columnIndex - linkedOffset]);
-		}
+		return String.class;
+	}
+
+	public Color getDisplayColor(int row, int col)
+	{
+		if (col == 0)
+			return null;
+
+		else if (linkedOffset != -1 && col >= linkedOffset)
+			return linkedModel.getDisplayColor(row, linkedModelCols[col - linkedOffset]);
+
+		else if (traitsOffset != -1 && col >= traitsOffset)
+			return traitsModel.getDisplayColor(row, traitsModelCols[col - traitsOffset]);
+
+		return null;
 	}
 }
