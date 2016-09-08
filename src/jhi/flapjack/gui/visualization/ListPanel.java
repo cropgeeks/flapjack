@@ -26,8 +26,6 @@ class ListPanel extends JPanel implements MouseMotionListener, MouseListener
 
 	private static Font font;
 
-	private boolean showResults = false;
-
 	private int rowUnderMouse = -1;
 
 	ListPanel()
@@ -181,18 +179,9 @@ class ListPanel extends JPanel implements MouseMotionListener, MouseListener
 		mShowTableResults.setVisible(viewSet.tableHandler().getModel() != null);
 		mShowTableResults.addActionListener(event ->
 		{
-			if (showResults)
-				showResults = false;
-
-			else
-			{
-				LinkedColumnSelectionDialog columnDialog = new LinkedColumnSelectionDialog(viewSet);
-				if (columnDialog.isOK())
-				{
-					showResults = true;
-					populateList();
-				}
-			}
+			LinkedColumnSelectionDialog columnDialog = new LinkedColumnSelectionDialog(viewSet);
+			if (columnDialog.isOK())
+				populateList();
 		});
 
 		menu.add(mShowScores);
@@ -258,6 +247,7 @@ class ListPanel extends JPanel implements MouseMotionListener, MouseListener
 													   int row, int column)
 		{
 			setFont(font);
+			setHorizontalAlignment(JLabel.LEFT);
 
 			// LineInfo and blank line (if included) aren't double wrapped in
 			// CellData so we can get them and set their text here
