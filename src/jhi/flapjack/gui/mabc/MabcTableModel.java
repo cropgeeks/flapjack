@@ -76,7 +76,7 @@ public class MabcTableModel extends LineDataTableModel
 		columnNames[selectedIndex] = "Selected";
 		columnNames[rankIndex] = "Rank";
 		columnNames[commentIndex] = "Comments";
-		columnNames[sortIndex] = "Don't Sort";
+		columnNames[sortIndex] = "Don't Sort/Filter";
 	}
 
 	@Override

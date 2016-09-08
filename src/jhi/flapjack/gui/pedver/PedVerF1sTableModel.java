@@ -31,7 +31,7 @@ class PedVerF1sTableModel extends LineDataTableModel
 			"Het count", "% Het", "% Deviation from Expected", "Count P1 Contained",
 			"% P1 Contained", "Count P2 Contained", "% P2 Contained",
 			"Count Allele Match to Expected", "% Allele Match to Expected",
-			"Selected", "Comments", "Don't Sort" };
+			"Selected", "Comments", "Don't Sort/Filter" };
 	}
 
 	@Override

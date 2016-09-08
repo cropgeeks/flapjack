@@ -45,7 +45,7 @@ class PedVerLinesTableModel extends LineDataTableModel
 			columnNames[i+7] = "Match in " + viewSet.getView(i).getChromosomeMap().getName();
 		columnNames[selectedIndex] = "Selected";
 		columnNames[commentsIndex] = "Comments";
-		columnNames[sortIndex] = "Don't Sort";
+		columnNames[sortIndex] = "Don't Sort/Filter";
 	}
 
 	@Override
