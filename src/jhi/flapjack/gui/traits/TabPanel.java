@@ -35,14 +35,14 @@ public class TabPanel extends JPanel
 		add(tabs);
 	}
 
-	public TraitsPanel getTraitsPanel()
+	public TraitsPanel getTraitsTab()
 	{
 		tabs.setSelectedComponent(traitsPanel);
 
 		return traitsPanel;
 	}
 
-	public QTLPanel getQTLPanel()
+	public QTLPanel getQTLTab()
 	{
 		tabs.setSelectedComponent(qtlPanel);
 

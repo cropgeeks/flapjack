@@ -162,4 +162,15 @@ public class TraitValue extends XMLRoot
 	{
 		return trait.displayColor(value, normal);
 	}
+
+	public Object tableValue()
+	{
+		if (isDefined() == false)
+			return null;
+
+		else if (trait.traitIsNumerical())
+			return (double) getValue();
+		else
+			return trait.format(this);
+	}
 }

@@ -139,15 +139,15 @@ public class MenuFile
 
 	public void fileImportSelect()
 	{
-		DataSourceDialog dialog = new DataSourceDialog();
+//		DataSourceDialog dialog = new DataSourceDialog();
 
-		if (dialog.isOK() == false)
-			return;
+//		if (dialog.isOK() == false)
+//			return;
 
-		if (Prefs.guiImportType == 0)
+//		if (Prefs.guiImportType == 0)
 			fileImport(0);
-		else
-			fileBrapi();
+//		else
+//			fileBrapi();
 	}
 
 	private void fileBrapi()
@@ -244,8 +244,8 @@ public class MenuFile
 		DataSet dataSet = navPanel.getDataSetForSelection();
 
 		// Remove any existing traits first
-		TabPanel ttp = navPanel.getTraitsPanel(dataSet);
-		ttp.getTraitsPanel().removeAllTraits();
+		TabPanel ttp = navPanel.getTraitsPanel(dataSet, true);
+		ttp.getTraitsTab().removeAllTraits();
 
 		// Import the data using the standard progress bar dialog...
 		TraitImporter importer = new TraitImporter(file, dataSet);
@@ -261,7 +261,7 @@ public class MenuFile
 		for (GTViewSet viewSet : dataSet.getViewSets())
 			viewSet.assignTraits();
 
-		ttp.getTraitsPanel().updateModel();
+		ttp.getTraitsTab().updateModel();
 		Actions.projectModified();
 
 		TaskDialog.info(RB.format("gui.MenuFile.importTraits.success",
@@ -284,8 +284,8 @@ public class MenuFile
 		if (dialog.failed("gui.error"))
 			return;
 
-		TabPanel ttp = navPanel.getTraitsPanel(dataSet);
-		ttp.getQTLPanel().updateModel();
+		TabPanel ttp = navPanel.getTraitsPanel(dataSet, true);
+		ttp.getQTLTab().updateModel();
 		Actions.projectModified();
 
 		TaskDialog.info(RB.format("gui.MenuFile.importQTLs.success",

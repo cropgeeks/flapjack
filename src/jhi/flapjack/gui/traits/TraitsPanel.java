@@ -45,6 +45,9 @@ public class TraitsPanel extends JPanel implements ActionListener
 		updateModel();
 	}
 
+	public LineDataTableModel getModel()
+		{ return model; }
+
 	public void updateModel()
 	{
 		model = new TraitsTableModel(dataSet);
