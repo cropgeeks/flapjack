@@ -9,7 +9,6 @@ import java.awt.image.*;
 import javax.swing.*;
 
 import jhi.flapjack.data.*;
-import jhi.flapjack.gui.*;
 
 import scri.commons.gui.*;
 
@@ -20,7 +19,7 @@ class MiniMapCanvas extends JPanel
 
 	private BufferFactory bufferFactory;
 	private BufferedImage image;
-	private int h = UIScaler.scale(11);
+	private int h = 11;
 
 	private int w;
 
@@ -77,7 +76,7 @@ class MiniMapCanvas extends JPanel
 		if (forBuffer)
 		{
 			g.setColor(Color.lightGray);
-			int y = UIScaler.scale(5);
+			int y = 5;
 			g.drawLine(0, y, w-1, y);
 
 			// Draw all the markers
@@ -101,8 +100,8 @@ class MiniMapCanvas extends JPanel
 			Marker m = canvas.view.getMarker(i);
 
 			int pos = (int) (m.getPosition() * xScale);
-			int y1 = UIScaler.scale(2);
-			int y2 = UIScaler.scale(8);
+			int y1 = 2;
+			int y2 = 8;
 			g.drawLine(pos, y1, pos, y2);
 		}
 	}

@@ -95,7 +95,6 @@ class DataSummaryPanelNB2 extends JPanel implements AdjustmentListener
 		DefaultTableCellRenderer cr = new DefaultTableCellRenderer();
 		cr.setHorizontalAlignment(JLabel.RIGHT);
         sumTable.setDefaultRenderer(Object.class, cr);
-        UIScaler.setCellHeight(sumTable);
 	}
 
 	private void createViewTable(StateTable stateTable, AnalysisSet as, ArrayList<long[]> results)
@@ -139,7 +138,6 @@ class DataSummaryPanelNB2 extends JPanel implements AdjustmentListener
         DefaultTableCellRenderer cr = new DefaultTableCellRenderer();
 		cr.setHorizontalAlignment(JLabel.RIGHT);
         viewTable.setDefaultRenderer(Object.class, cr);
-        UIScaler.setCellHeight(viewTable);
 	}
 
 	public void adjustmentValueChanged(AdjustmentEvent e)

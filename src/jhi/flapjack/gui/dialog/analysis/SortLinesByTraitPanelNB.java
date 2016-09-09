@@ -46,7 +46,6 @@ class SortLinesByTraitPanelNB extends JPanel implements ActionListener, ListSele
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		table.getTableHeader().setReorderingAllowed(false);
 		table.getSelectionModel().addListSelectionListener(this);
-		UIScaler.setCellHeight(table);
 
 		TableColumn c0 = table.getColumnModel().getColumn(0);
 		c0.setCellEditor(new DefaultCellEditor(model.getTraitComboBox()));

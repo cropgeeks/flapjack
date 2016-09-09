@@ -70,8 +70,6 @@ public class ChromosomeSelectionPanel extends JPanel implements ActionListener
 		chromosomesTable.setModel(model);
 		chromosomesTable.getColumnModel().getColumn(0).setPreferredWidth(20);
 
-		UIScaler.setCellHeight(chromosomesTable);
-
 		checkButtonState();
 	}
 

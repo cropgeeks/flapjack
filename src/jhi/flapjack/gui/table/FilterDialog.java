@@ -106,7 +106,6 @@ public class FilterDialog extends JDialog implements ActionListener
 		table.setModel(model);
 		table.getTableHeader().setReorderingAllowed(false);
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		UIScaler.setCellHeight(table);
 
 		// Deals with the table not storing edits when focus is lost (mainly due
 		// to the user pressing OK, which is when we *want* edits saved!!

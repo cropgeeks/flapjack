@@ -94,7 +94,6 @@ class SortLinesPanelNB extends javax.swing.JPanel implements ActionListener
 
 		table.getColumnModel().getColumn(0).setPreferredWidth(30);
 		table.setDefaultRenderer(String.class, cr);
-		UIScaler.setCellHeight(table);
 
 		// Ensure the single selection is actually visible when first displayed
 		Rectangle r = table.getCellRect(viewSet.getViewIndex(), 0, true);

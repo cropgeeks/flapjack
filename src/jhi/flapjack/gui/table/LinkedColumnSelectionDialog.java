@@ -92,7 +92,6 @@ public class LinkedColumnSelectionDialog extends JDialog implements ActionListen
 
 		TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>((DefaultTableModel)table.getModel());
 		table.setRowSorter(sorter);
-		UIScaler.setCellHeight(table);
 	}
 
 	public void actionPerformed(ActionEvent e)

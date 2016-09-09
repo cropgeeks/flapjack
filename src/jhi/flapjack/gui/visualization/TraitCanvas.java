@@ -4,16 +4,12 @@
 package jhi.flapjack.gui.visualization;
 
 import java.awt.*;
-import java.awt.event.*;
-import java.util.*;
 import javax.swing.*;
-import javax.swing.event.*;
 
 import jhi.flapjack.data.*;
 import jhi.flapjack.gui.*;
 
 import java.awt.image.*;
-import scri.commons.gui.*;
 
 class TraitCanvas extends JPanel
 {
@@ -21,7 +17,7 @@ class TraitCanvas extends JPanel
 	private GenotypeCanvas canvas;
 	private Canvas2D traitCanvas;
 
-	private int boxW = UIScaler.scale(10);
+	private int boxW = 10;
 	private int w = 0;
 
 	TraitCanvas(GenotypePanel gPanel, GenotypeCanvas canvas)
