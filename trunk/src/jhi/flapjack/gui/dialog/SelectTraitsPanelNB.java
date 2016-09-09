@@ -87,7 +87,6 @@ class SelectTraitsPanelNB extends javax.swing.JPanel implements ActionListener
 
 		TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>((DefaultTableModel)table.getModel());
 		table.setRowSorter(sorter);
-		UIScaler.setCellHeight(table);
 	}
 
 	void isOK()

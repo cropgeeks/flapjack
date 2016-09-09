@@ -11,7 +11,6 @@ import java.text.*;
 import java.util.*;
 import javax.swing.*;
 import javax.swing.event.*;
-import javax.swing.filechooser.*;
 import javax.swing.table.*;
 
 import jhi.flapjack.analysis.*;
@@ -47,8 +46,6 @@ public class LineDataTable extends JTable
 		setDefaultRenderer(CellData.class, renderer);
 
 		menu = new LineDataTableMenu(this);
-
-		UIScaler.setCellHeight(this);
 	}
 
 	boolean isFiltered()
@@ -104,7 +101,7 @@ public class LineDataTable extends JTable
 			for (int i = 0; i < getColumnCount(); i++)
 			{
 				TableColumn column = getColumnModel().getColumn(i);
-				column.setPreferredWidth(UIScaler.scale(120));
+				column.setPreferredWidth(120);
 			}
 		}
 

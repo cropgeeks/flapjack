@@ -22,7 +22,7 @@ class RowCanvas extends JPanel
 	// How many markers are currently on screen
 	private int markerCount;
 
-	private int h = UIScaler.scale(15);
+	private int h = 15;
 
 	RowCanvas(GenotypePanel gPanel, GenotypeCanvas canvas)
 	{

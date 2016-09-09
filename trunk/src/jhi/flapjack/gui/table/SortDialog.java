@@ -54,7 +54,6 @@ public class SortDialog extends JDialog implements ActionListener, ListSelection
 		table.getTableHeader().setReorderingAllowed(false);
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		table.getSelectionModel().addListSelectionListener(this);
-		UIScaler.setCellHeight(table);
 
 		table.getColumnModel().getColumn(0).setCellEditor(
 			new DefaultCellEditor(model.getColumnNameComboBox()));

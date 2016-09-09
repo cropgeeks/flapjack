@@ -59,7 +59,6 @@ class FindPanelNB extends JPanel implements ActionListener
 		findComboBox.addActionListener(this);
 
 		table.getSelectionModel().addListSelectionListener(findDialog);
-		UIScaler.setCellHeight(table);
 
 		initLinkLabel();
 	}

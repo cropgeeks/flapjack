@@ -13,7 +13,6 @@ import jhi.flapjack.data.*;
 import jhi.flapjack.gui.*;
 
 import scri.commons.gui.*;
-import static scri.commons.gui.UIScaler.*;
 
 class MapCanvas extends JPanel
 {
@@ -22,7 +21,7 @@ class MapCanvas extends JPanel
 	private GenotypePanel gPanel;
 	private GenotypeCanvas canvas;
 
-	private int h = scale(55);
+	private int h = 55;
 
 	private BufferedImage buffer, aaBuffer;
 	boolean updateBuffer = true;
@@ -72,9 +71,9 @@ class MapCanvas extends JPanel
 			setPreferredSize(new Dimension(0, h));
 
 			if (SystemUtils.isMacOS())
-				font = new Font("Dialog", Font.PLAIN, scale(10));
+				font = new Font("Dialog", Font.PLAIN, 10);
 			else
-				font = new Font("Dialog", Font.PLAIN, scale(11));
+				font = new Font("Dialog", Font.PLAIN, 11);
 		}
 
 		public void paintComponent(Graphics graphics)
@@ -135,11 +134,11 @@ class MapCanvas extends JPanel
 				return;
 
 			g.setColor(Color.red);
-			g.drawLine(mousePos, scale(12), mousePos, scale(22));
+			g.drawLine(mousePos, 12, mousePos, 22);
 
 			String str = nf.format(chromosomePos);
 			int strWidth = g.getFontMetrics().stringWidth(str);
-			g.drawString(str, getPosition(mousePos, strWidth), scale(8));
+			g.drawString(str, getPosition(mousePos, strWidth), 8);
 		}
 	}
 
@@ -174,8 +173,8 @@ class MapCanvas extends JPanel
 		if (canvas.view.markerCount() == 0)
 			return;
 
-		int y = scale(12);
-		int yH = scale(10);
+		int y = 12;
+		int yH = 10;
 
 		setScaling(xS, xE);
 
@@ -226,8 +225,8 @@ class MapCanvas extends JPanel
 		// in by rendering where there is a dummy marker, instead of doing
 		// anything clever.
 		// Start/End notches
-		int y1 = y-scale(5);
-		int y2 = y+yH+scale(5);
+		int y1 = y-5;
+		int y2 = y+yH+5;
 		if (Prefs.visMapScaling == Constants.GLOBAL)
 		{
 			g.drawLine(0, y1, 0, y2);
@@ -271,20 +270,20 @@ class MapCanvas extends JPanel
 			if (g.getColor() != Color.red && canvas.qtlHash.contains(markerIndex))
 				g.setColor(new Color(128, 128, 128));
 
-			g.drawLine(xMap, scale(12), xMap, scale(22));
-			g.drawLine(xMap, scale(22), xBox, h-scale(9));
+			g.drawLine(xMap, 12, xMap, 22);
+			g.drawLine(xMap, 22, xBox, h-9);
 
 			if (canvas.qtlHash.contains(markerIndex))
 			{
 				int xBoxL = (int) ((i-xS) * canvas.boxW) - jiggle;
 
 				g.setColor(Color.yellow);
-				g.fillRect(xBoxL, h-scale(7), canvas.boxW-1, 5);
+				g.fillRect(xBoxL, h-7, canvas.boxW-1, 5);
 				g.setColor(Color.lightGray);
-				g.drawRect(xBoxL, h-scale(7), canvas.boxW-1, 5);
+				g.drawRect(xBoxL, h-7, canvas.boxW-1, 5);
 			}
 			else
-				g.drawLine(xBox, h-scale(9), xBox, h-scale(5));
+				g.drawLine(xBox, h-9, xBox, h-5);
 
 			g.setColor(current);
 		}
@@ -292,7 +291,7 @@ class MapCanvas extends JPanel
 		// view
 		else
 		{
-			g.drawLine(xMap, scale(6), xMap, scale(22));
+			g.drawLine(xMap, 6, xMap, 22);
 		}
 
 		if (text && m.dummyMarker() == false)
@@ -300,7 +299,7 @@ class MapCanvas extends JPanel
 			String str = m.getName() + "  (" + nf.format(m.getRealPosition()) + ")";
 			int strWidth = g.getFontMetrics().stringWidth(str);
 
-			g.drawString(str, getPosition(xMap, strWidth), scale(8));
+			g.drawString(str, getPosition(xMap, strWidth), 8);
 		}
 	}
 
@@ -343,7 +342,7 @@ class MapCanvas extends JPanel
 		str += nf.format(qtl.getMin()) + "-" +nf.format(qtl.getMax()) + ")";
 		int strWidth = g.getFontMetrics().stringWidth(str);
 
-		g.drawString(str, getPosition(xMap, strWidth), scale(8));
+		g.drawString(str, getPosition(xMap, strWidth), 8);
 
 		// Now see which markers are "under" this feature, and highlight them
 		int mkrCount = canvas.view.markerCount();

@@ -47,7 +47,6 @@ public class SimMatrixPanelNB extends JPanel implements ActionListener
 		model = new SimMatrixTableModel(matrix);
 		matrixTable.setModel(model);
 		matrixTable.getTableHeader().setReorderingAllowed(false);
-		UIScaler.setCellHeight(matrixTable);
 
 		headerBG = UIManager.getColor("TableHeader:\"TableHeader.renderer\"[MouseOver].backgroundPainter");
 
@@ -59,7 +58,6 @@ public class SimMatrixPanelNB extends JPanel implements ActionListener
 		// scroll pane to be this table. This allows us to have a row header
 		// for the table which doesn't scroll offscreen.
 		rowHeaderTable = createRowHeaderTable(matrix.getLineInfos().size(), 1);
-		UIScaler.setCellHeight(rowHeaderTable);
 		setupRowHeaderTable(matrix);
 		tableScrollPane.setRowHeaderView(rowHeaderTable);
 		tableScrollPane.setCorner(JScrollPane.UPPER_LEFT_CORNER, rowHeaderTable.getTableHeader());

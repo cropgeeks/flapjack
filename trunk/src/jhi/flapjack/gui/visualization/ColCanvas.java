@@ -21,8 +21,8 @@ class ColCanvas extends JPanel
 	// How many lines are currently on screen
 	private int lineCount;
 
-	private int colW = UIScaler.scale(15);
-	private int w = UIScaler.scale(45);
+	private int colW = 15;
+	private int w = 45;
 
 	ColCanvas(GenotypeCanvas canvas)
 	{

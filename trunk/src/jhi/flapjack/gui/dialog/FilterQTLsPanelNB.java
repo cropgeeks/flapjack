@@ -109,7 +109,6 @@ class FilterQTLsPanelNB extends JPanel implements ActionListener
 
 		traitsTable.setModel(getModel(data, columnNames));
 		traitsTable.getColumnModel().getColumn(1).setMaxWidth(35);
-		UIScaler.setCellHeight(traitsTable);
 	}
 
 	// Fill the experiments table with data
@@ -130,7 +129,6 @@ class FilterQTLsPanelNB extends JPanel implements ActionListener
 
 		experimentsTable.setModel(getModel(data, columnNames));
 		experimentsTable.getColumnModel().getColumn(1).setMaxWidth(35);
-		UIScaler.setCellHeight(experimentsTable);
 	}
 
 	// Builds a table model for the two methods above
