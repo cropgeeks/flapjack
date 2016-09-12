@@ -123,7 +123,7 @@ public class GenotypePanel extends JPanel implements ActionListener
 		miniMapCanvas = new MiniMapCanvas(this, canvas);
 		traitCanvas = new TraitCanvas(this, canvas);
 		qtlCanvas = new QTLCanvas(this, canvas, mapCanvas);
-		listPanel = new ListPanel();
+		listPanel = new ListPanel(this);
 		statusPanel = new StatusPanelNB(this);
 
 		for (int i = 0; i < graphCanvas.length; i++)

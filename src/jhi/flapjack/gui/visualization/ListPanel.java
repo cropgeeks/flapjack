@@ -28,8 +28,12 @@ class ListPanel extends JPanel implements MouseMotionListener, MouseListener
 
 	private int rowUnderMouse = -1;
 
-	ListPanel()
+	private GenotypePanel genotypePanel;
+
+	ListPanel(GenotypePanel genotypePanel)
 	{
+		this.genotypePanel = genotypePanel;
+
 		createControls();
 
 		setLayout(new BorderLayout());
@@ -198,7 +202,20 @@ class ListPanel extends JPanel implements MouseMotionListener, MouseListener
 	public void mouseMoved(MouseEvent e)
 	{
 		rowUnderMouse = lineTable.rowAtPoint(e.getPoint());
+		int colUnderMouse = lineTable.columnAtPoint(e.getPoint());
+
 		lineTable.repaint();
+
+		// Gathers values to pass to the StatusPanel
+		String lineName = ((LineInfo)lineTable.getObjectAt(rowUnderMouse, 0)).name();
+		if (colUnderMouse == 0 || colUnderMouse == 1)
+			genotypePanel.statusPanel.setResultsValues(lineName, null, null);
+		else
+		{
+			String columnName = lineTable.getColumnName(colUnderMouse) + ":";
+			String value = lineTable.getObjectAt(rowUnderMouse, colUnderMouse).toString();
+			genotypePanel.statusPanel.setResultsValues(lineName, columnName, value);
+		}
 	}
 
 	@Override
@@ -226,6 +243,9 @@ class ListPanel extends JPanel implements MouseMotionListener, MouseListener
 	{
 		rowUnderMouse = -1;
 		lineTable.repaint();
+
+		genotypePanel.statusPanel.setResultsValues(null, null, null);
+		genotypePanel.statusPanel.setForMainUse();
 	}
 
 	// Base class for any renderer which needs to highlight table cells based on the row under the mouse on the main
