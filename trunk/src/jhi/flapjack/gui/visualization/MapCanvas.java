@@ -7,6 +7,7 @@ import java.awt.*;
 import static java.awt.RenderingHints.*;
 import java.awt.image.*;
 import java.text.*;
+import java.util.stream.*;
 import javax.swing.*;
 
 import jhi.flapjack.data.*;
@@ -107,10 +108,10 @@ class MapCanvas extends JPanel
 
 			highlightMarker(g);
 			highlightQTL(g);
-			drawChromosomePosition(g, xOffset);
+			drawChromosomePosition(g);
 		}
 
-		private void drawChromosomePosition(Graphics2D g, int xOffset)
+		private void drawChromosomePosition(Graphics2D g)
 		{
 			Integer mousePos = mapCanvasML.mousePos;
 			if (mousePos == null || canvas.view.markerCount() == 0)
@@ -128,18 +129,58 @@ class MapCanvas extends JPanel
 			// ratio of this length
 			double chromosomePos = mSPos + (posAsRatio * chromosomeLength);
 
-
 			// Don't draw if the mouse is beyond the (visible) canvas extents
 			if (chromosomePos < mSPos || chromosomePos > mEPos)
 				return;
 
+			// If we're on a super chromosome we need to fudge the chromosomePos
+			// back into the real coordinates for each individual chromosome
+			double realChromosomePos = getChromosomePosOnSuperChromosome(chromosomePos);
+
 			g.setColor(Color.red);
 			g.drawLine(mousePos, 12, mousePos, 22);
 
-			String str = nf.format(chromosomePos);
+			String str = "";
+			if (canvas.view.getChromosomeMap().isSpecialChromosome())
+				str = nf.format(realChromosomePos) + " (" + getChromosomeNameOnSuperChromosome(chromosomePos) + ")";
+			else
+				nf.format(chromosomePos);
+
 			int strWidth = g.getFontMetrics().stringWidth(str);
 			g.drawString(str, getPosition(mousePos, strWidth), 8);
 		}
+	}
+
+	private int getChromosomeForPosition(double chromosomePos)
+	{
+		int acc = 0;
+		for (int chr = 0; chr < canvas.viewSet.getViews().size(); chr++)
+		{
+			double mapLength = canvas.viewSet.getView(chr).mapLength();
+			if (chromosomePos > acc + mapLength)
+				acc += mapLength;
+			else
+				return chr;
+		}
+
+		return 0;
+	}
+
+	private double getChromosomePosOnSuperChromosome(double chromosomePos)
+	{
+		int chromosome = getChromosomeForPosition(chromosomePos);
+		double offset = IntStream.range(0, chromosome)
+			.mapToDouble(i -> canvas.viewSet.getView(i).mapLength())
+			.sum();
+
+		return chromosomePos - offset;
+	}
+
+	private String getChromosomeNameOnSuperChromosome(double chromosomePos)
+	{
+		int chromosome = getChromosomeForPosition(chromosomePos);
+
+		return canvas.viewSet.getView(chromosome).getChromosomeMap().getName();
 	}
 
 	private void paintBuffer()
