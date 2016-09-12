@@ -294,6 +294,28 @@ public class StatusPanelNB extends JPanel implements ActionListener, ChangeListe
 		}
 	}
 
+	// Rather than call a setForResultsUse method, just setup the labels
+	// in this set values method as they change on mouseover within the
+	// component.
+	void setResultsValues(String line, String result, String value)
+	{
+		RB.setText(label1, "gui.visualization.StatusPanel.line");
+		label2.setText(result);
+		label3.setText(" ");
+
+		lineLabel.setText(line);
+		markerLabel.setText(value);
+		alleleLabel.setText(" ");
+
+		// We need to set the text to an empty string so the component lays out
+		// correctly
+		if (result == null || result.isEmpty())
+			label2.setText(" ");
+
+		if (value == null || value.isEmpty())
+			markerLabel.setText(" ");
+	}
+
 	private boolean dataSetBinned(GTView view)
 	{
 		return view != null &&
