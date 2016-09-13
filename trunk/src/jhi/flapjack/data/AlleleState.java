@@ -98,6 +98,16 @@ public class AlleleState extends XMLRoot
 		return true;
 	}
 
+	// Returns true if this state is homozgeous and is being compared against
+	// another homozegous state that has the same value
+	public boolean isSameHomzAs(AlleleState other)
+	{
+		if (!isHomozygous() || !other.isHomozygous)
+			return false;
+
+		return (states[0].equals(other.states[0]));
+	}
+
 	// Returns a count of the number of times this allele appears in this data
 	// (eg, will return 2 for A/A/T on a search of A)
 	private int countState(String allele)
@@ -132,4 +142,19 @@ public class AlleleState extends XMLRoot
 	// ***DO NOT USE*** for compatability with old versions only
 	public String xmlGetRawData()
 		{ return toString(); }
+
+	// Returns true if this is a "het"-like state (eg A/A) that should really
+	// have been encoded as normal homozygote (eg A)
+	public boolean isHomzEncodedAsHet()
+	{
+		if (isHomozygous)
+			return false;
+
+		String str = states[0];
+		for (int i = 1; i < states.length; i++)
+			if (states[i].equals(str) == false)
+				return false;
+
+		return true;
+	}
 }
