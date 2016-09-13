@@ -20,16 +20,18 @@ public class PostImportOperations
 		this.dataSet = dataSet;
 	}
 
-	public void collapseHeterozygotes()
+	// Collapse A/A instances into A
+	public void collapseHomzEncodedAsHet()
 	{
-		long s = System.currentTimeMillis();
+		OptimizeStateTable c = new OptimizeStateTable(dataSet);
+		c.collapseHomzEncodedAsHet();
+	}
 
-		// Remove duplicate allele states
-		CollapseHeterozygotes c = new CollapseHeterozygotes(dataSet);
-		c.collapse();
-
-		long e = System.currentTimeMillis();
-		System.out.println("Genotypes collapsed in " + (e-s) + "ms");
+	// Collapse A/T instances into T/A (remove duplicate allele states)
+	public void optimizeStateTable()
+	{
+		OptimizeStateTable c = new OptimizeStateTable(dataSet);
+		c.optimize(false);
 	}
 
 	public void setName(File importFile)

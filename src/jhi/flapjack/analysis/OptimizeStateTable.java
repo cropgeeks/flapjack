@@ -5,19 +5,37 @@ package jhi.flapjack.analysis;
 
 import jhi.flapjack.data.*;
 
-public class CollapseHeterozygotes
+public class OptimizeStateTable
 {
 	private DataSet dataSet;
 	private StateTable stateTable;
 
-	public CollapseHeterozygotes(DataSet dataSet)
+	public OptimizeStateTable(DataSet dataSet)
 	{
 		this.dataSet = dataSet;
 
 		stateTable = dataSet.getStateTable();
 	}
 
-	public void collapse()
+	public void collapseHomzEncodedAsHet()
+	{
+		// Search the state table, looking for instances of homozygotes that
+		// have been encoded in the heterozygote style (eg A/A when we want A)
+		for (int i = 1; i < stateTable.size(); i++)
+		{
+			AlleleState s = stateTable.getAlleleState(i);
+
+			if (s.isHomzEncodedAsHet())
+			{
+				s = new AlleleState(s.getState(0), false, "");
+				stateTable.getStates().set(i, s);
+			}
+		}
+
+		optimize(true);
+	}
+
+	public void optimize(boolean compareHomzOnly)
 	{
 		// Start at index 1, because we never attempt to match the unknown state
 		// Compare every allele state with every other allele state...
@@ -28,11 +46,17 @@ public class CollapseHeterozygotes
 				AlleleState s1 = stateTable.getAlleleState(i);
 				AlleleState s2 = stateTable.getAlleleState(j);
 
-				if (s1.matches(s2) == false)
+				// Comparing A/T against T/A or A against A/T
+				if (!compareHomzOnly && s1.matches(s2) == false)
+					continue;
+				// Comparing A against A (which might happen due to one of them
+				// originally appearing in the imported data as A/A
+				else if (compareHomzOnly && s1.isSameHomzAs(s2) == false)
 					continue;
 
+
 				// Update the array, rewriting all the duplicates
-				System.out.println("Matched on " + s1 + " and " + s2);
+				System.out.println("Collapsing " + s1 + " and " + s2);
 				collapse(i, j);
 
 				// But also rewrite every value greater than the duplicate

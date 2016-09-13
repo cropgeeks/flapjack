@@ -143,7 +143,8 @@ public class CreateProject
 		genoImporter.importGenotypeData();
 
 		PostImportOperations pio = new PostImportOperations(dataSet);
-		pio.collapseHeterozygotes();
+		pio.collapseHomzEncodedAsHet();
+		pio.optimizeStateTable();
 		pio.createDefaultView();
 
 		// A custom name...

@@ -100,9 +100,11 @@ public class DataImporter extends SimpleJob
 			File imported = genoFile != null ? genoFile : hdf5File;
 			pio.setName(imported);
 
+			// Collapse (eg) A/A into A
+			pio.collapseHomzEncodedAsHet();
 			// Collapse heterozyous states
 			if (Prefs.ioHeteroCollapse)
-				pio.collapseHeterozygotes();
+				pio.optimizeStateTable();
 
 			pio.createDefaultView();
 		}
