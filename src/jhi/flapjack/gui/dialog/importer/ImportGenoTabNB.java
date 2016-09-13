@@ -40,6 +40,10 @@ class ImportGenoTabNB extends javax.swing.JPanel implements ActionListener
 		genoComboBox.setPrototypeDisplayValue("");
 		hdf5ComboBox.setPrototypeDisplayValue("");
 
+		// If the user didn't pick a map last time, blank the map combo's text
+		if (Prefs.guiMapListUseBlank)
+			((ComboBoxEditor)mapComboBox.getEditor()).setItem("");
+
 
 		// Apply localized text
 		RB.setText(tabLabel, "gui.dialog.NBDataImportPanel.tabLabel");
@@ -156,9 +160,15 @@ class ImportGenoTabNB extends javax.swing.JPanel implements ActionListener
 	File getMapFile()
 	{
 		if (!mapComboBox.getText().isEmpty())
+		{
+			Prefs.guiMapListUseBlank = false;
 			return new File(mapComboBox.getText());
+		}
 		else
+		{
+			Prefs.guiMapListUseBlank = true;
 			return null;
+		}
 	}
 
 	File getGenotypeFile()
