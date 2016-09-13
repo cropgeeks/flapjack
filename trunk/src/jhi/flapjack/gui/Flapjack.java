@@ -96,8 +96,6 @@ public class Flapjack
 			// Use the office look for Windows XP (but not for Vista/7/8)
 			if (SystemUtils.isWindowsXP())
 			{
-				UIManager.setLookAndFeel("org.fife.plaf.Office2003.Office2003LookAndFeel");
-
 				// Gives XP the same (nicer) grey background that Vista uses
 				UIManager.put("Panel.background", new Color(240, 240, 240));
 			}
