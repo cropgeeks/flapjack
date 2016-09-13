@@ -64,8 +64,8 @@ public class CellData
 
 			if (v1.line != null && v2.line != null)
 			{
-				boolean v1SortToTop = v1.line.results().isSortToTop();
-				boolean v2SortToTop = v2.line.results().isSortToTop();
+				boolean v1SortToTop = v1.line.getResults().isSortToTop();
+				boolean v2SortToTop = v2.line.getResults().isSortToTop();
 
 				// If v1 is a special row and v2 isn't
 				if (v1SortToTop && !v2SortToTop)
@@ -175,7 +175,7 @@ public class CellData
 		int modelRow = table.convertRowIndexToModel(row);
 		Object obj = model.getObjectAt(modelRow, 0);
 
-		if (obj instanceof LineInfo && ((LineInfo)obj).results().isSortToTop())
+		if (obj instanceof LineInfo && ((LineInfo)obj).getResults().isSortToTop())
 			return isSelected ? DefaultRenderer.bgNoSortSel : DefaultRenderer.bgNoSort;
 		else
 			return isSelected ? DefaultRenderer.bgCol1 : DefaultRenderer.bgCol2;

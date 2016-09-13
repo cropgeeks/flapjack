@@ -9,7 +9,7 @@ import jhi.flapjack.gui.visualization.colors.*;
 
 import scri.commons.gui.*;
 
-public class PedVerF1Stats extends SimpleJob
+public class PedVerF1sAnalysis extends SimpleJob
 {
 	private GTViewSet viewSet;
 	private AnalysisSet as;
@@ -23,7 +23,7 @@ public class PedVerF1Stats extends SimpleJob
 	private int totalMarkerCount = 0;
 	private float f1PercentCount = 0;
 
-	public PedVerF1Stats(GTViewSet viewSet, boolean[] selectedChromosomes, int parent1Index, int parent2Index, int f1Index)
+	public PedVerF1sAnalysis(GTViewSet viewSet, boolean[] selectedChromosomes, int parent1Index, int parent2Index, int f1Index)
 	{
 		this.viewSet = viewSet;
 		this.stateTable = viewSet.getDataSet().getStateTable();
@@ -46,9 +46,9 @@ public class PedVerF1Stats extends SimpleJob
 		LineInfo f1 = viewSet.getLines().get(f1Index);
 
 		// Mark the parents lines as sortToTop special cases
-		p1.results().setSortToTop(true);
-		p2.results().setSortToTop(true);
-		f1.results().setSortToTop(true);
+		p1.getResults().setSortToTop(true);
+		p2.getResults().setSortToTop(true);
+		f1.getResults().setSortToTop(true);
 
 		// Move the parent lines to the top of the display
 		viewSet.moveLine(viewSet.getLines().indexOf(p1), 0);
@@ -82,11 +82,11 @@ public class PedVerF1Stats extends SimpleJob
 			calculateStatsForLine(l);
 	}
 
-	private PedVerKnownParentsLineStats calculateStatsForLine(int lineIndex)
+	private PedVerF1sResult calculateStatsForLine(int lineIndex)
 	{
 		LineInfo lineInfo = as.getLine(lineIndex);
-		PedVerKnownParentsLineStats lineStat = new PedVerKnownParentsLineStats(lineInfo);
-		lineInfo.results().setPedVerStats(lineStat);
+		PedVerF1sResult lineStat = new PedVerF1sResult(lineInfo);
+		lineInfo.getResults().setPedVerF1sResult(lineStat);
 
 		int foundMarkers = usableMarkerCount(lineIndex);
 		int hetMarkers = hetMarkerCount(lineIndex);

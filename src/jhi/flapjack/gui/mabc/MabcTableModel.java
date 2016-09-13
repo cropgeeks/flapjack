@@ -30,7 +30,7 @@ public class MabcTableModel extends LineDataTableModel
 	{
 		// Use information from the first result to determine the UI
 		LineInfo line = lines.get(0);
-		MABCLineStats s = line.results().getMABCLineStats();
+		MABCResult s = line.getResults().getMABCResult();
 		chrCount = s.getChrScores().size();
 		qtlCount = s.getQTLScores().size();
 
@@ -55,7 +55,7 @@ public class MabcTableModel extends LineDataTableModel
 		// For each chromosome's RPP result:
 		for (int i = 0; i < s.getChrScores().size(); i++)
 		{
-			MABCLineStats.ChrScore cs = s.getChrScores().get(i);
+			MABCResult.ChrScore cs = s.getChrScores().get(i);
 			columnNames[rppIndex+i] = cs.view.getChromosomeMap().getName();
 		}
 
@@ -64,7 +64,7 @@ public class MabcTableModel extends LineDataTableModel
 
 		// QTL section of the table
 		int qtl = 0;
-		for (MABCLineStats.QTLScore score: s.getQTLScores())
+		for (MABCResult.QTLScore score: s.getQTLScores())
 		{
 			columnNames[qtlIndex+(qtl*2)] = score.qtl.getQTL().getName() + " LD";
 			columnNames[qtlIndex+(qtl*2)+1] = score.qtl.getQTL().getName() + " Status";
@@ -89,7 +89,7 @@ public class MabcTableModel extends LineDataTableModel
 	public Object getObjectAt(int row, int col)
 	{
 		LineInfo line = lines.get(row);
-		MABCLineStats stats = line.results().getMABCLineStats();
+		MABCResult stats = line.getResults().getMABCResult();
 
 		// Name, Selected and Sort can work without results
 		if (col == 0)
@@ -97,7 +97,7 @@ public class MabcTableModel extends LineDataTableModel
 		else if (col == selectedIndex)
 			return line.getSelected();
 		else if (col == sortIndex)
-			return line.results().isSortToTop();
+			return line.getResults().isSortToTop();
 
 		// For everything else, don't show entries if stats object null
 		if (stats == null)
@@ -123,7 +123,7 @@ public class MabcTableModel extends LineDataTableModel
 			col = col-qtlIndex;
 			int qtl = col / 2;
 
-			MABCLineStats.QTLScore score = stats.getQTLScores().get(qtl);
+			MABCResult.QTLScore score = stats.getQTLScores().get(qtl);
 
 			if (col % 2 == 0)
 				return score.drag;
@@ -136,11 +136,11 @@ public class MabcTableModel extends LineDataTableModel
 			return stats.getQtlStatusCount();
 
 		else if (col == rankIndex)
-			return line.results().getRank();
+			return line.getResults().getRank();
 
 		else if (col == commentIndex)
 		{
-			String comment = line.results().getComments();
+			String comment = line.getResults().getComments();
 			return comment == null ? "" : comment;
 		}
 
@@ -175,19 +175,19 @@ public class MabcTableModel extends LineDataTableModel
 	public void setValueAt(Object value, int row, int col)
 	{
 		LineInfo line = (LineInfo) getObjectAt(row, 0);
-		MABCLineStats stats = line.results().getMABCLineStats();
+		MABCResult stats = line.getResults().getMABCResult();
 
 		if (col == selectedIndex)
 			line.setSelected((boolean)value);
 
 		else if (col == rankIndex)
-			line.results().setRank((int)value);
+			line.getResults().setRank((int)value);
 
 		else if (col == commentIndex)
-			line.results().setComments((String)value);
+			line.getResults().setComments((String)value);
 
 		else if (col == sortIndex)
-			line.results().setSortToTop((boolean)value);
+			line.getResults().setSortToTop((boolean)value);
 
 		fireTableRowsUpdated(row, row);
 	}

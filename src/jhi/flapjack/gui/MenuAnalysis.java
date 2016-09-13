@@ -279,7 +279,7 @@ public class MenuAnalysis
 		GTViewSet finalViewSet = viewSet.createClone("", true);
 
 		// Run the stats calculations
-		MABCStats stats = new MABCStats(
+		MABCAnalysis stats = new MABCAnalysis(
 			finalViewSet, selectedChromosomes, Prefs.mabcMaxMrkrCoverage, rpIndex, dpIndex, simpleStats);
 		ProgressDialog pDialog = new ProgressDialog(stats,
 			RB.getString("gui.MenuAnalysis.mabc.title"),
@@ -291,9 +291,6 @@ public class MenuAnalysis
 		finalViewSet.setName(RB.format("gui.MenuAnalysis.mabc.view", id));
 		// mabc thingy. RB.format("gui.MenuAnalysis.mabc.panel", id);
 		// set?
-
-		// TODO: temporary workaround to get all chromosomes view back into MABC view
-//		FlapjackUtils.addAllChromosomesViewToClonedViewSet(viewSet, finalViewSet);
 
 		// Create new NavPanel components to hold the results
 		dataSet.getViewSets().add(finalViewSet);
@@ -333,7 +330,7 @@ public class MenuAnalysis
 			f1Index = f1Sim.getF1Index();
 		}
 
-		PedVerF1Stats stats = new PedVerF1Stats(newViewSet, selectedChromosomes, p1Index, p2Index, f1Index);
+		PedVerF1sAnalysis stats = new PedVerF1sAnalysis(newViewSet, selectedChromosomes, p1Index, p2Index, f1Index);
 		ProgressDialog pDialog = new ProgressDialog(stats,
 			"Running PedVer Stats",
 			"Running PedVer stats - please be patient...",
@@ -384,7 +381,7 @@ public class MenuAnalysis
 			.withSelectedLines()
 			.withSelectedMarkers();
 
-		PedVerLinesStats stats = new PedVerLinesStats(linesSet, newViewSet, newViewSet.getDataSet().getStateTable(), refIndex, testIndex);
+		PedVerLinesAnalysis stats = new PedVerLinesAnalysis(linesSet, newViewSet, newViewSet.getDataSet().getStateTable(), refIndex, testIndex);
 		ProgressDialog pDialog = new ProgressDialog(stats,
 			"Running PedVer Stats",
 			"Running PedVer stats - please be patient...",

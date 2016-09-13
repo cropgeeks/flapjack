@@ -91,7 +91,11 @@ public class LineInfo extends XMLRoot
 	public void setVisibility(byte visible)
 		{ this.visibility = visible; }
 
+	public LineResults getResults()
+		{ return results; }
 
+	public void setResults(LineResults results)
+		{ this.results = results; }
 
 	// Other methods
 
@@ -120,7 +124,4 @@ public class LineInfo extends XMLRoot
 	{
 		return line.getState(chromosome, marker);
 	}
-
-	public LineResults results()
-		{ return results; }
 }

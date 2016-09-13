@@ -14,10 +14,10 @@ public class LineResults
 	private LineInfo lineInfo;
 
 	// MABC analysis result
-	private MABCLineStats mabcLineStats;
+	private MABCResult mabcResult;
 
-	private PedVerKnownParentsLineStats pedVerStats;
-	private PedVerLinesLineStats pedVerLinesStats;
+	private PedVerF1sResult pedVerF1sResult;
+	private PedVerLinesResult pedVerLinesResult;
 
 	// (Hopefully) common variables shared by multiple results types; a line can
 	// have a rank (to assist in selection (that itself is held in the LineInfo)
@@ -40,23 +40,23 @@ public class LineResults
 	public void setLineInfo(LineInfo lineInfo)
 		{ this.lineInfo = lineInfo;	}
 
-	public MABCLineStats getMABCLineStats()
-		{ return mabcLineStats; }
+	public MABCResult getMABCResult()
+		{ return mabcResult; }
 
-	public void setMABCLineStats(MABCLineStats mabcLineStats)
-		{ this.mabcLineStats = mabcLineStats; }
+	public void setMABCResult(MABCResult mabcResult)
+		{ this.mabcResult = mabcResult; }
 
-	public PedVerKnownParentsLineStats getPedVerStats()
-		{ return pedVerStats; }
+	public PedVerF1sResult getPedVerF1sResult()
+		{ return pedVerF1sResult; }
 
-	public void setPedVerStats(PedVerKnownParentsLineStats pedVerStats)
-		{ this.pedVerStats = pedVerStats; }
+	public void setPedVerF1sResult(PedVerF1sResult pedVerF1sResult)
+		{ this.pedVerF1sResult = pedVerF1sResult; }
 
-	public PedVerLinesLineStats getPedVerLinesStats()
-		{ return pedVerLinesStats; }
+	public PedVerLinesResult getPedVerLinesResult()
+		{ return pedVerLinesResult; }
 
-	public void setPedVerLinesStats(PedVerLinesLineStats pedVerLinesStats)
-		{ this.pedVerLinesStats = pedVerLinesStats; }
+	public void setPedVerLinesResult(PedVerLinesResult pedVerLinesResult)
+		{ this.pedVerLinesResult = pedVerLinesResult; }
 
 	public int getRank()
 		{ return rank; }

@@ -5,7 +5,7 @@ import jhi.flapjack.data.*;
 /**
  * Created by gs40939 on 04/05/2016.
  */
-public class PedVerKnownParentsLineStats
+public class PedVerF1sResult
 {
 	// What line are these stats associated with
 	private LineInfo line;
@@ -22,7 +22,7 @@ public class PedVerKnownParentsLineStats
 	private int countAlleleMatchExpected;
 	private float percentAlleleMatchExpected;
 
-	public PedVerKnownParentsLineStats(LineInfo line)
+	public PedVerF1sResult(LineInfo line)
 	{
 
 	}

@@ -20,7 +20,7 @@ import scri.commons.gui.*;
  * scores based on whether the allele is A or H, using the gap/coverage before
  * and after each allele's marker.
  */
-public class MABCStats extends SimpleJob
+public class MABCAnalysis extends SimpleJob
 {
 	private GTViewSet viewSet;
 	private boolean[] selectedChromosomes;
@@ -35,7 +35,7 @@ public class MABCStats extends SimpleJob
 
 	boolean simpleStats;
 
-	public MABCStats(GTViewSet viewSet, boolean[] selectedChromosomes, double maxMarkerCoverage, int rpIndex, int dpIndex, boolean simpleStats)
+	public MABCAnalysis(GTViewSet viewSet, boolean[] selectedChromosomes, double maxMarkerCoverage, int rpIndex, int dpIndex, boolean simpleStats)
 	{
 		this.viewSet = viewSet;
 		this.selectedChromosomes = selectedChromosomes;
@@ -81,13 +81,13 @@ public class MABCStats extends SimpleJob
 		for (int lineIndex = 0; lineIndex < as.lineCount(); lineIndex++)
 		{
 			LineInfo line = as.getLine(lineIndex);
-			MABCLineStats stats = new MABCLineStats(line);
-			line.results().setMABCLineStats(stats);
+			MABCResult stats = new MABCResult(line);
+			line.getResults().setMABCResult(stats);
 
 			// ...loop over each chromosome and work out RPP for it
 			for (int viewIndex = 0; viewIndex < as.viewCount(); viewIndex++)
 			{
-				MABCLineStats.ChrScore chrScore = new MABCLineStats.ChrScore();
+				MABCResult.ChrScore chrScore = new MABCResult.ChrScore();
 				chrScore.view = as.getGTView(viewIndex);
 				stats.getChrScores().add(chrScore);
 
@@ -220,7 +220,7 @@ public class MABCStats extends SimpleJob
 			double rppTotal = 0;
 			for (int viewIndex = 0; viewIndex < as.viewCount(); viewIndex++)
 			{
-				MABCLineStats.ChrScore chrScore = stats.getChrScores().get(viewIndex);
+				MABCResult.ChrScore chrScore = stats.getChrScores().get(viewIndex);
 
 				// Calculate RPP Total for this line
 				rppTotal += chrScore.sumRP;
@@ -256,7 +256,7 @@ public class MABCStats extends SimpleJob
 		{
 			// Get its MABC stats collector thing
 			LineInfo line = as.getLine(lineIndex);
-			MABCLineStats stats = line.results().getMABCLineStats();
+			MABCResult stats = line.getResults().getMABCResult();
 
 			// For each QTL (across each of the chromosomes)
 			for (int viewIndex = 0; viewIndex < as.viewCount(); viewIndex++)
@@ -269,7 +269,7 @@ public class MABCStats extends SimpleJob
 					if (p == null)
 						continue;
 
-					MABCLineStats.QTLScore score = new MABCLineStats.QTLScore(qtl);
+					MABCResult.QTLScore score = new MABCResult.QTLScore(qtl);
 					stats.getQTLScores().add(score);
 
 					// Calculate drag to left
@@ -362,8 +362,8 @@ public class MABCStats extends SimpleJob
 	private void prepareForVisualization()
 	{
 		// Mark the parents lines as sortToTop special cases
-		viewSet.getLines().get(rpIndex).results().setSortToTop(true);
-		viewSet.getLines().get(dpIndex).results().setSortToTop(true);
+		viewSet.getLines().get(rpIndex).getResults().setSortToTop(true);
+		viewSet.getLines().get(dpIndex).getResults().setSortToTop(true);
 
 		// Move the parent lines to the top of the display
 		viewSet.moveLine(rpIndex, 0);

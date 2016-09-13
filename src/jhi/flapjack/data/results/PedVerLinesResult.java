@@ -5,7 +5,7 @@ import java.util.*;
 /**
  * Created by gs40939 on 30/05/2016.
  */
-public class PedVerLinesLineStats
+public class PedVerLinesResult
 {
 	private int markerCount;
 	private float missingPerc;
@@ -17,7 +17,7 @@ public class PedVerLinesLineStats
 	private ArrayList<Integer> chrMatchCount = new ArrayList<>();
 
 	// Holds a reference to the test line's results (obtainable via any line)
-	private PedVerLinesResults testResults;
+	private PedVerLinesTestResult testResults;
 
 	public int getMarkerCount()
 		{ return markerCount; }
@@ -61,9 +61,9 @@ public class PedVerLinesLineStats
 	public void setChrMatchCount(ArrayList<Integer> chrMatchCount)
 		{ this.chrMatchCount = chrMatchCount; }
 
-	public PedVerLinesResults getPedVerLinesResults()
+	public PedVerLinesTestResult getPedVerLinesResults()
 		{ return testResults; }
 
-	public void setPedVerLinesResults(PedVerLinesResults testResults)
+	public void setPedVerLinesResults(PedVerLinesTestResult testResults)
 		{ this.testResults = testResults; }
 }

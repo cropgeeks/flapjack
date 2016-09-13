@@ -3,14 +3,14 @@ package jhi.flapjack.data.results;
 /**
  * Created by gs40939 on 01/06/2016.
  */
-public class PedVerLinesResults
+public class PedVerLinesTestResult
 {
 	private int testMarkerCount;
 	private float testMarkerPresentPercentage;
 	private int testHetCount;
 	private float testHetPercentage;
 
-	public PedVerLinesResults()
+	public PedVerLinesTestResult()
 	{
 
 	}

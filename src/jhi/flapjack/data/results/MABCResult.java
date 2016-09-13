@@ -7,7 +7,7 @@ import java.util.*;
 
 import jhi.flapjack.data.*;
 
-public class MABCLineStats
+public class MABCResult
 {
 	// What line are these stats associated with
 	private LineInfo line;
@@ -23,7 +23,7 @@ public class MABCLineStats
 	private int qtlStatusCount;
 
 
-	public MABCLineStats(LineInfo line)
+	public MABCResult(LineInfo line)
 	{
 		this.line = line;
 	}
