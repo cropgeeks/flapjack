@@ -11,8 +11,6 @@ import jhi.flapjack.gui.table.*;
 
 class PedVerF1sTableModel extends LineDataTableModel
 {
-	private PedVerKnownParentsResults results;
-
 	private static final int selectedIndex = 12;
 	private static final int commentIndex = 13;
 	private static final int sortIndex = 14;
@@ -44,7 +42,7 @@ class PedVerF1sTableModel extends LineDataTableModel
 	public Object getObjectAt(int row, int col)
 	{
 		LineInfo line = lines.get(row);
-		PedVerKnownParentsLineStats stats = line.results().getPedVerStats();
+		PedVerF1sResult stats = line.getResults().getPedVerF1sResult();
 
 		// Name, Selected and Sort can work without results
 		if (col == 0)
@@ -52,7 +50,7 @@ class PedVerF1sTableModel extends LineDataTableModel
 		else if (col == selectedIndex)
 			return line.getSelected();
 		else if (col == sortIndex)
-			return line.results().isSortToTop();
+			return line.getResults().isSortToTop();
 
 		if (stats == null)
 			return null;
@@ -72,7 +70,7 @@ class PedVerF1sTableModel extends LineDataTableModel
 			case 11: return stats.getPercentAlleleMatchExpected();
 
 			case commentIndex:
-				String comment = line.results().getComments();
+				String comment = line.getResults().getComments();
 				return comment == null ? "" : comment;
 
 			default: return null;
@@ -106,9 +104,9 @@ class PedVerF1sTableModel extends LineDataTableModel
 		if (col == selectedIndex)
 			line.setSelected((boolean)value);
 		else if (col == commentIndex)
-			line.results().setComments((String)value);
+			line.getResults().setComments((String)value);
 		else if (col == sortIndex)
-			line.results().setSortToTop((boolean)value);
+			line.getResults().setSortToTop((boolean)value);
 
 		fireTableRowsUpdated(row, row);
 	}

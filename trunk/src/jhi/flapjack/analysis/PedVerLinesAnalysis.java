@@ -10,7 +10,7 @@ import jhi.flapjack.data.results.*;
 
 import scri.commons.gui.*;
 
-public class PedVerLinesStats extends SimpleJob
+public class PedVerLinesAnalysis extends SimpleJob
 {
 	private AnalysisSet as;
 	private GTViewSet viewSet;
@@ -19,7 +19,7 @@ public class PedVerLinesStats extends SimpleJob
 	private int refIndex;
 	private int testIndex;
 
-	public PedVerLinesStats(AnalysisSet as, GTViewSet viewSet, StateTable stateTable, int refIndex, int testIndex)
+	public PedVerLinesAnalysis(AnalysisSet as, GTViewSet viewSet, StateTable stateTable, int refIndex, int testIndex)
 	{
 		this.as = as;
 		this.viewSet = viewSet;
@@ -32,15 +32,15 @@ public class PedVerLinesStats extends SimpleJob
 		throws Exception
 	{
 		PedVerStats stats = new PedVerStats(as, stateTable);
-		PedVerLinesResults testResults = new PedVerLinesResults();
+		PedVerLinesTestResult testResults = new PedVerLinesTestResult();
 
 		for (int lineIndex=0; lineIndex < as.lineCount(); lineIndex++)
 		{
 			LineInfo lineInfo = as.getLine(lineIndex);
 			
-			PedVerLinesLineStats lineStat = new PedVerLinesLineStats();
+			PedVerLinesResult lineStat = new PedVerLinesResult();
 			lineStat.setPedVerLinesResults(testResults);
-			lineInfo.results().setPedVerLinesStats(lineStat);
+			lineInfo.getResults().setPedVerLinesResult(lineStat);
 
 			int totalMarkers = stats.countAllelesForLine();
 			int foundMarkers = stats.nonMissingAllelesForLine(lineIndex);

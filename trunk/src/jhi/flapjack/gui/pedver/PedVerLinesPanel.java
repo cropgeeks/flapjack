@@ -35,7 +35,7 @@ public class PedVerLinesPanel extends JPanel implements ActionListener, ITableVi
 		// Extract the test line's info from the first line in the view (they
 		// all hold the same reference anyway)
 		LineInfo line = viewSet.getLines().get(0);
-		PedVerLinesResults results = line.results().getPedVerLinesStats().getPedVerLinesResults();
+		PedVerLinesTestResult results = line.getResults().getPedVerLinesResult().getPedVerLinesResults();
 
 		setLayout(new BorderLayout());
 		add(new TitlePanel(RB.getString("gui.pedver.PedVerLinesPanel.title")), BorderLayout.NORTH);

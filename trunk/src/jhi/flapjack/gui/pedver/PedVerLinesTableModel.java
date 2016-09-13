@@ -28,7 +28,7 @@ class PedVerLinesTableModel extends LineDataTableModel
 
 	void initModel()
 	{
-		PedVerLinesLineStats stats = lines.get(0).results().getPedVerLinesStats();
+		PedVerLinesResult stats = lines.get(0).getResults().getPedVerLinesResult();
 		columnNames = new String[10 + stats.getChrMatchCount().size()];
 		selectedIndex = columnNames.length-3;
 		commentsIndex = columnNames.length-2;
@@ -58,7 +58,7 @@ class PedVerLinesTableModel extends LineDataTableModel
 	public Object getObjectAt(int row, int col)
 	{
 		LineInfo line = lines.get(row);
-		PedVerLinesLineStats stats = line.results().getPedVerLinesStats();
+		PedVerLinesResult stats = line.getResults().getPedVerLinesResult();
 
 		// Name, Selected and Sort can work without results
 		if (col == 0)
@@ -66,7 +66,7 @@ class PedVerLinesTableModel extends LineDataTableModel
 		else if (col == selectedIndex)
 			return line.getSelected();
 		else if (col == sortIndex)
-			return line.results().isSortToTop();
+			return line.getResults().isSortToTop();
 
 		if (stats == null)
 			return null;
@@ -89,7 +89,7 @@ class PedVerLinesTableModel extends LineDataTableModel
 		}
 		else if (col == commentsIndex)
 		{
-			String comment = line.results().getComments();
+			String comment = line.getResults().getComments();
 			return comment == null ? "" : comment;
 		}
 
@@ -123,9 +123,9 @@ class PedVerLinesTableModel extends LineDataTableModel
 		if (col == selectedIndex)
 			line.setSelected((boolean)value);
 		else if (col == commentsIndex)
-			line.results().setComments((String)value);
+			line.getResults().setComments((String)value);
 		else if (col == sortIndex)
-			line.results().setSortToTop((boolean)value);
+			line.getResults().setSortToTop((boolean)value);
 
 		fireTableRowsUpdated(row, row);
 	}
