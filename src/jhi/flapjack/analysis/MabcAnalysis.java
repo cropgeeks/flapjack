@@ -20,7 +20,7 @@ import scri.commons.gui.*;
  * scores based on whether the allele is A or H, using the gap/coverage before
  * and after each allele's marker.
  */
-public class MABCAnalysis extends SimpleJob
+public class MabcAnalysis extends SimpleJob
 {
 	private GTViewSet viewSet;
 	private boolean[] selectedChromosomes;
@@ -35,7 +35,7 @@ public class MABCAnalysis extends SimpleJob
 
 	boolean simpleStats;
 
-	public MABCAnalysis(GTViewSet viewSet, boolean[] selectedChromosomes, double maxMarkerCoverage, int rpIndex, int dpIndex, boolean simpleStats)
+	public MabcAnalysis(GTViewSet viewSet, boolean[] selectedChromosomes, double maxMarkerCoverage, int rpIndex, int dpIndex, boolean simpleStats)
 	{
 		this.viewSet = viewSet;
 		this.selectedChromosomes = selectedChromosomes;
@@ -81,13 +81,13 @@ public class MABCAnalysis extends SimpleJob
 		for (int lineIndex = 0; lineIndex < as.lineCount(); lineIndex++)
 		{
 			LineInfo line = as.getLine(lineIndex);
-			MABCResult stats = new MABCResult(line);
-			line.getResults().setMABCResult(stats);
+			MabcResult stats = new MabcResult(line);
+			line.getResults().setMabcResult(stats);
 
 			// ...loop over each chromosome and work out RPP for it
 			for (int viewIndex = 0; viewIndex < as.viewCount(); viewIndex++)
 			{
-				MABCResult.ChrScore chrScore = new MABCResult.ChrScore();
+				MabcChrScore chrScore = new MabcChrScore();
 				chrScore.view = as.getGTView(viewIndex);
 				stats.getChrScores().add(chrScore);
 
@@ -220,7 +220,7 @@ public class MABCAnalysis extends SimpleJob
 			double rppTotal = 0;
 			for (int viewIndex = 0; viewIndex < as.viewCount(); viewIndex++)
 			{
-				MABCResult.ChrScore chrScore = stats.getChrScores().get(viewIndex);
+				MabcChrScore chrScore = stats.getChrScores().get(viewIndex);
 
 				// Calculate RPP Total for this line
 				rppTotal += chrScore.sumRP;
@@ -256,7 +256,7 @@ public class MABCAnalysis extends SimpleJob
 		{
 			// Get its MABC stats collector thing
 			LineInfo line = as.getLine(lineIndex);
-			MABCResult stats = line.getResults().getMABCResult();
+			MabcResult stats = line.getResults().getMabcResult();
 
 			// For each QTL (across each of the chromosomes)
 			for (int viewIndex = 0; viewIndex < as.viewCount(); viewIndex++)
@@ -269,8 +269,8 @@ public class MABCAnalysis extends SimpleJob
 					if (p == null)
 						continue;
 
-					MABCResult.QTLScore score = new MABCResult.QTLScore(qtl);
-					stats.getQTLScores().add(score);
+					MabcQtlScore score = new MabcQtlScore(qtl);
+					stats.getQtlScores().add(score);
 
 					// Calculate drag to left
 					// Increase drag by the distance between this marker and its

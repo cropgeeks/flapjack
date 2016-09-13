@@ -279,7 +279,7 @@ public class MenuAnalysis
 		GTViewSet finalViewSet = viewSet.createClone("", true);
 
 		// Run the stats calculations
-		MABCAnalysis stats = new MABCAnalysis(
+		MabcAnalysis stats = new MabcAnalysis(
 			finalViewSet, selectedChromosomes, Prefs.mabcMaxMrkrCoverage, rpIndex, dpIndex, simpleStats);
 		ProgressDialog pDialog = new ProgressDialog(stats,
 			RB.getString("gui.MenuAnalysis.mabc.title"),
@@ -295,7 +295,9 @@ public class MenuAnalysis
 		// Create new NavPanel components to hold the results
 		dataSet.getViewSets().add(finalViewSet);
 		navPanel.addVisualizationNode(dataSet, finalViewSet);
-		navPanel.addMabcNode(finalViewSet);
+//		navPanel.addMabcNode(finalViewSet);
+
+		Actions.projectModified();
 	}
 
 	public void gobiiPedVer()
@@ -345,6 +347,8 @@ public class MenuAnalysis
 		dataSet.getViewSets().add(newViewSet);
 		navPanel.addVisualizationNode(dataSet, newViewSet);
 		navPanel.addPedVerNode(newViewSet);
+
+		Actions.projectModified();
 	}
 
 	public void gobiiPedVerLines()
@@ -398,5 +402,7 @@ public class MenuAnalysis
 		dataSet.getViewSets().add(newViewSet);
 		navPanel.addVisualizationNode(dataSet, newViewSet);
 		navPanel.addPedVerLinesNode(newViewSet);
+
+		Actions.projectModified();
 	}
 }

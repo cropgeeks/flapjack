@@ -7,32 +7,44 @@ import java.util.*;
 
 import jhi.flapjack.data.*;
 
-public class MABCResult
+public class MabcResult extends XMLRoot
 {
 	// What line are these stats associated with
 	private LineInfo line;
 
 	// One per chromosome...
-	private ArrayList<ChrScore> chrScores = new ArrayList<>();
+	private ArrayList<MabcChrScore> chrScores = new ArrayList<>();
 	private double rppTotal;
 	private double genomeCoverage;
 
 	// One per QTL
-	private ArrayList<QTLScore> qtlScores = new ArrayList<>();
+	private ArrayList<MabcQtlScore> qtlScores = new ArrayList<>();
 	// Count of qtl (status=1) (sum of status count)
 	private int qtlStatusCount;
 
+	public MabcResult()
+	{
+	}
 
-	public MABCResult(LineInfo line)
+	public MabcResult(LineInfo line)
 	{
 		this.line = line;
 	}
 
-	public ArrayList<ChrScore> getChrScores()
+
+	// Methods required for XML serialization
+
+	public ArrayList<MabcChrScore> getChrScores()
 		{ return chrScores; }
 
-	public ArrayList<QTLScore> getQTLScores()
+	public void setChrScores(ArrayList<MabcChrScore> chrScores)
+		{ this.chrScores = chrScores; }
+
+	public ArrayList<MabcQtlScore> getQtlScores()
 		{ return qtlScores; }
+
+	public void setQtlScores(ArrayList<MabcQtlScore> qtlScores)
+		{ this.qtlScores = qtlScores; }
 
 	public int getQtlStatusCount()
 		{ return qtlStatusCount; }
@@ -49,6 +61,9 @@ public class MABCResult
 	public LineInfo getLineInfo()
 		{ return line; }
 
+	public void setLineInfo(LineInfo line)
+		{ this.line = line; }
+
 	public double getRPPTotal()
 		{ return rppTotal; }
 
@@ -56,24 +71,10 @@ public class MABCResult
 		{ this.rppTotal = rppTotal; }
 
 
+	// Other methods
+
 	public void updateAndAddGenomeCoverage(double value)
 	{
 		genomeCoverage += value;
-	}
-
-	public static class ChrScore
-	{
-		public GTView view;
-		public double coverage, sumRP, sumDO;
-	}
-
-	public static class QTLScore
-	{
-		public QTLInfo qtl;
-		public double drag;
-		public int status = 1;
-
-		public QTLScore(QTLInfo qtl)
-			{ this.qtl = qtl; }
 	}
 }

@@ -7,6 +7,7 @@ import java.util.*;
 
 import jhi.flapjack.data.*;
 import jhi.flapjack.data.results.*;
+import jhi.flapjack.gui.*;
 import jhi.flapjack.gui.table.*;
 
 class PedVerF1sTableModel extends LineDataTableModel
@@ -109,5 +110,7 @@ class PedVerF1sTableModel extends LineDataTableModel
 			line.getResults().setSortToTop((boolean)value);
 
 		fireTableRowsUpdated(row, row);
+
+		Actions.projectModified();
 	}
 }

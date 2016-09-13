@@ -7,6 +7,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.dnd.*;
 import java.beans.*;
+import java.util.*;
 import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.tree.*;
@@ -195,6 +196,8 @@ public class NavPanel extends JPanel
 		// Dendrogram objects
 		for (Dendrogram dendrogram: viewSet.getDendrograms())
 			addDendogramNode(viewSet, dendrogram);
+
+		addMabcNode(node, viewSet);
 	}
 
 	public void addBookmarkNode(GTViewSet viewSet, Bookmark bookmark)
@@ -206,12 +209,27 @@ public class NavPanel extends JPanel
 		insert(node, vNode, vNode.getChildCount());
 	}
 
-	public void addMabcNode(GTViewSet viewSet)
+	public void addMabcNode(VisualizationNode vNode, GTViewSet viewSet)
 	{
-		VisualizationNode vNode = findVisualizationNode(viewSet);
+		if (containsMabcResults(viewSet))
+		{
+			MabcNode node = new MabcNode(viewSet.getDataSet(), viewSet);
+			insert(node, vNode, vNode.getChildCount());
+		}
+	}
 
-		MabcNode node = new MabcNode(viewSet.getDataSet(), viewSet);
-		insert(node, vNode, vNode.getChildCount());
+	// Searches a view's list of lines (or its hidden list) to see if the lines
+	// are holding MabcResult objects
+	private boolean containsMabcResults(GTViewSet viewSet)
+	{
+		ArrayList<LineInfo> lines = viewSet.getLines();
+		if (viewSet.getLines().isEmpty())
+			lines = viewSet.getHideLines();
+
+		if (!lines.isEmpty())
+			return lines.get(0).getResults().getMabcResult() != null;
+
+		return false;
 	}
 
 	public void addPedVerNode(GTViewSet viewSet)

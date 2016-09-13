@@ -9,12 +9,12 @@ import jhi.flapjack.data.*;
  * Holds information on one or more analyses that have been run against a given
  * line (LineInfo).
  */
-public class LineResults
+public class LineResults extends XMLRoot
 {
 	private LineInfo lineInfo;
 
 	// MABC analysis result
-	private MABCResult mabcResult;
+	private MabcResult mabcResult;
 
 	private PedVerF1sResult pedVerF1sResult;
 	private PedVerLinesResult pedVerLinesResult;
@@ -29,10 +29,16 @@ public class LineResults
 	// tables, regardless of the sort order applied to that table
 	private boolean sortToTop;
 
+	public LineResults()
+	{
+	}
+
 	public LineResults(LineInfo lineInfo)
 	{
 		this.lineInfo = lineInfo;
 	}
+
+	// Methods required for XML serialization
 
 	public LineInfo getLineInfo()
 		{ return lineInfo; }
@@ -40,10 +46,10 @@ public class LineResults
 	public void setLineInfo(LineInfo lineInfo)
 		{ this.lineInfo = lineInfo;	}
 
-	public MABCResult getMABCResult()
+	public MabcResult getMabcResult()
 		{ return mabcResult; }
 
-	public void setMABCResult(MABCResult mabcResult)
+	public void setMabcResult(MabcResult mabcResult)
 		{ this.mabcResult = mabcResult; }
 
 	public PedVerF1sResult getPedVerF1sResult()
@@ -75,4 +81,6 @@ public class LineResults
 
 	public void setSortToTop(boolean sortToTop)
 		{ this.sortToTop = sortToTop; }
+
+	// Other methods
 }

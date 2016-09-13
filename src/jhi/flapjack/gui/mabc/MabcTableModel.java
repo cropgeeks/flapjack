@@ -7,6 +7,7 @@ import java.util.*;
 
 import jhi.flapjack.data.*;
 import jhi.flapjack.data.results.*;
+import jhi.flapjack.gui.*;
 import jhi.flapjack.gui.table.*;
 
 public class MabcTableModel extends LineDataTableModel
@@ -30,9 +31,9 @@ public class MabcTableModel extends LineDataTableModel
 	{
 		// Use information from the first result to determine the UI
 		LineInfo line = lines.get(0);
-		MABCResult s = line.getResults().getMABCResult();
+		MabcResult s = line.getResults().getMabcResult();
 		chrCount = s.getChrScores().size();
-		qtlCount = s.getQTLScores().size();
+		qtlCount = s.getQtlScores().size();
 
 		// Column indices
 		rppIndex = 1;
@@ -55,7 +56,7 @@ public class MabcTableModel extends LineDataTableModel
 		// For each chromosome's RPP result:
 		for (int i = 0; i < s.getChrScores().size(); i++)
 		{
-			MABCResult.ChrScore cs = s.getChrScores().get(i);
+			MabcChrScore cs = s.getChrScores().get(i);
 			columnNames[rppIndex+i] = cs.view.getChromosomeMap().getName();
 		}
 
@@ -64,7 +65,7 @@ public class MabcTableModel extends LineDataTableModel
 
 		// QTL section of the table
 		int qtl = 0;
-		for (MABCResult.QTLScore score: s.getQTLScores())
+		for (MabcQtlScore score: s.getQtlScores())
 		{
 			columnNames[qtlIndex+(qtl*2)] = score.qtl.getQTL().getName() + " LD";
 			columnNames[qtlIndex+(qtl*2)+1] = score.qtl.getQTL().getName() + " Status";
@@ -89,7 +90,7 @@ public class MabcTableModel extends LineDataTableModel
 	public Object getObjectAt(int row, int col)
 	{
 		LineInfo line = lines.get(row);
-		MABCResult stats = line.getResults().getMABCResult();
+		MabcResult stats = line.getResults().getMabcResult();
 
 		// Name, Selected and Sort can work without results
 		if (col == 0)
@@ -123,7 +124,7 @@ public class MabcTableModel extends LineDataTableModel
 			col = col-qtlIndex;
 			int qtl = col / 2;
 
-			MABCResult.QTLScore score = stats.getQTLScores().get(qtl);
+			MabcQtlScore score = stats.getQtlScores().get(qtl);
 
 			if (col % 2 == 0)
 				return score.drag;
@@ -175,7 +176,7 @@ public class MabcTableModel extends LineDataTableModel
 	public void setValueAt(Object value, int row, int col)
 	{
 		LineInfo line = (LineInfo) getObjectAt(row, 0);
-		MABCResult stats = line.getResults().getMABCResult();
+		MabcResult stats = line.getResults().getMabcResult();
 
 		if (col == selectedIndex)
 			line.setSelected((boolean)value);
@@ -190,6 +191,8 @@ public class MabcTableModel extends LineDataTableModel
 			line.getResults().setSortToTop((boolean)value);
 
 		fireTableRowsUpdated(row, row);
+
+		Actions.projectModified();
 	}
 
 	int selectQTL(int number)
