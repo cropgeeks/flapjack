@@ -234,4 +234,34 @@
 		</field>
 	</class>
 
+	<!-- LineResults -->
+	<class name="jhi.flapjack.data.results.LineResults" extends="jhi.flapjack.data.XMLRoot" auto-complete="true">
+		<field name="lineInfo" type="jhi.flapjack.data.LineInfo">
+			<bind-xml reference="true" node="attribute"/>
+		</field>
+	</class>
+
+	<!-- MabcResult -->
+	<class name="jhi.flapjack.data.results.MabcResult" extends="jhi.flapjack.data.XMLRoot" auto-complete="true">
+		<field name="lineInfo" type="jhi.flapjack.data.LineInfo">
+			<bind-xml reference="true" node="attribute"/>
+		</field>
+		<field name="chrScores" type="jhi.flapjack.data.results.MabcChrScore" collection="arraylist"/>
+		<field name="qtlScores" type="jhi.flapjack.data.results.MabcQtlScore" collection="arraylist"/>
+	</class>
+
+	<!-- MabcChrScore -->
+	<class name="jhi.flapjack.data.results.MabcChrScore" extends="jhi.flapjack.data.XMLRoot" auto-complete="true">
+		<field name="view" type="jhi.flapjack.data.GTView">
+			<bind-xml reference="true" node="attribute"/>
+		</field>
+	</class>
+
+	<!-- MabcQtlScore -->
+	<class name="jhi.flapjack.data.results.MabcQtlScore" extends="jhi.flapjack.data.XMLRoot" auto-complete="true">
+		<field name="qtl" type="jhi.flapjack.data.QTLInfo">
+			<bind-xml reference="true" node="attribute"/>
+		</field>
+	</class>
+
 </mapping>
