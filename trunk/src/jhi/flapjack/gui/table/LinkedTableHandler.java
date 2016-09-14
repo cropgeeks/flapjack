@@ -6,17 +6,43 @@ package jhi.flapjack.gui.table;
 import java.util.*;
 
 import jhi.flapjack.data.*;
+import jhi.flapjack.gui.Actions;
 
-public class LinkedTableHandler implements ITableViewListener
+import javax.swing.*;
+import javax.swing.table.TableRowSorter;
+
+public class LinkedTableHandler extends XMLRoot implements ITableViewListener
 {
 	private GTViewSet viewSet;
 
 	private LineDataTable table;
 	private LineDataTableModel model;
 
+	private ArrayList<SortColumn> sortKeys;
+
+	public LinkedTableHandler()
+	{
+	}
+
 	public LinkedTableHandler(GTViewSet viewSet)
 	{
 		this.viewSet = viewSet;
+	}
+
+	public GTViewSet getViewSet()
+		{ return viewSet; }
+
+	public void setViewSet(GTViewSet viewSet)
+		{ this.viewSet = viewSet; }
+
+	public ArrayList<SortColumn> getSortKeys()
+	{
+		return sortKeys;
+	}
+
+	public void setSortKeys(ArrayList<SortColumn> sortKeys)
+	{
+		this.sortKeys = sortKeys;
 	}
 
 	public void linkTable(LineDataTable table, LineDataTableModel model)
@@ -25,6 +51,8 @@ public class LinkedTableHandler implements ITableViewListener
 		this.model = model;
 
 		table.addViewListener(this);
+
+		doPostLoadOperations();
 	}
 
 	// Mirror the table's list of lines back to the ViewSet
@@ -60,6 +88,18 @@ public class LinkedTableHandler implements ITableViewListener
 	public void tableSorted()
 	{
 		tableChanged();
+
+		Actions.projectModified();
+
+		// Convert table sort keys to castor safe SortColumns (but only if we
+		// have any active sort keys
+		if (table.getRowSorter().getSortKeys().isEmpty())
+			sortKeys = null;
+		else
+			sortKeys = new ArrayList<SortColumn>();
+
+		for (RowSorter.SortKey key : table.getRowSorter().getSortKeys())
+			sortKeys.add(new SortColumn(key.getColumn(), key.getSortOrder()));
 	}
 
 	public void tableFiltered()
@@ -67,7 +107,7 @@ public class LinkedTableHandler implements ITableViewListener
 		tableChanged();
 	}
 
-	public ArrayList<LineInfo> getLinesForTable()
+	public ArrayList<LineInfo> linesForTable()
 	{
 		// Get the current list from the viewset
 		ArrayList<LineInfo> lines = new ArrayList<>(viewSet.getLines());
@@ -82,7 +122,7 @@ public class LinkedTableHandler implements ITableViewListener
 			return;
 
 		// Get (all of) the lines from the view and apply to the model
-		model.setLines(getLinesForTable());
+		model.setLines(linesForTable());
 
 		// Break the sort, but maintain the filters
 		if (setModel)
@@ -95,13 +135,28 @@ public class LinkedTableHandler implements ITableViewListener
 			model.fireTableDataChanged();
 	}
 
-	public LineDataTable getTable()
+	public LineDataTable table()
 	{
 		return table;
 	}
 
-	public LineDataTableModel getModel()
+	public LineDataTableModel model()
 	{
 		return model;
+	}
+
+	private void doPostLoadOperations()
+	{
+		if (sortKeys != null)
+		{
+			List<RowSorter.SortKey> keys = new ArrayList<>();
+
+			// Multi-column sort (handled by JTable) using "sort keys"
+			for (SortColumn entry: sortKeys)
+				keys.add(new RowSorter.SortKey(entry.colIndex, entry.sortOrder));
+
+			table.getRowSorter().setSortKeys(keys);
+			((TableRowSorter<LineDataTableModel>)table.getRowSorter()).sort();
+		}
 	}
 }

@@ -41,7 +41,7 @@ public class TablePanelTableModel extends LineDataTableModel
 			linkedModelCols = viewSet.getLinkedModelCols();
 			traitsModelCols = viewSet.getTraits();
 
-			linkedModel = viewSet.tableHandler().getModel();
+			linkedModel = viewSet.tableHandler().model();
 			traitsModel = Flapjack.winMain.getNavPanel().getTraitsPanel(viewSet.getDataSet(), false).getTraitsTab().getModel();
 
 			// If we have line scores, or linked model columns we need to
@@ -89,7 +89,7 @@ public class TablePanelTableModel extends LineDataTableModel
 
 			if (linkedOffset != -1)
 				for (int i = 0; i < linkedModelCols.length; i++)
-					columnNames[i + linkedOffset] = viewSet.tableHandler().getModel().getColumnName(linkedModelCols[i]);
+					columnNames[i + linkedOffset] = viewSet.tableHandler().model().getColumnName(linkedModelCols[i]);
 		}
 	}
 

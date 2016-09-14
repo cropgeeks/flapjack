@@ -232,6 +232,11 @@ public class GTViewSet extends XMLRoot
 	public void setDendrograms(ArrayList<Dendrogram> dendrograms)
 		{ this.dendrograms = dendrograms; }
 
+	public LinkedTableHandler getTableHandler()
+		{ return tableHandler; }
+
+	public void setTableHandler(LinkedTableHandler tableHandler)
+		{ this.tableHandler = tableHandler; }
 
 	// Transient (non marshalled) methods
 

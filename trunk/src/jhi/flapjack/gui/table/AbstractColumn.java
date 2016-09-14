@@ -3,16 +3,42 @@
 
 package jhi.flapjack.gui.table;
 
-abstract class AbstractColumn
+import jhi.flapjack.data.*;
+
+public abstract class AbstractColumn extends XMLRoot
 {
 	// The index of this column in the model
 	public int colIndex;
 	// Its name
 	public String name;
 
+	public AbstractColumn()
+	{
+	}
+
 	protected AbstractColumn(int colIndex, String name)
 	{
 		this.colIndex = colIndex;
+		this.name = name;
+	}
+
+	public int getColIndex()
+	{
+		return colIndex;
+	}
+
+	public void setColIndex(int colIndex)
+	{
+		this.colIndex = colIndex;
+	}
+
+	public String getName()
+	{
+		return name;
+	}
+
+	public void setName(String name)
+	{
 		this.name = name;
 	}
 

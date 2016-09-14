@@ -264,4 +264,21 @@
 		</field>
 	</class>
 
+	<!-- LinkedTableHandler -->
+	<class name="jhi.flapjack.gui.table.LinkedTableHandler" extends="jhi.flapjack.data.XMLRoot" auto-complete="true">
+		<field name="viewSet" type="jhi.flapjack.data.GTViewSet">
+			<bind-xml reference="true" node="attribute"/>
+		</field>
+	</class>
+
+	<!-- SortColumn -->
+	<class name="jhi.flapjack.gui.table.SortColumn" extends="jhi.flapjack.data.XMLRoot" auto-complete="true">
+		<field name="sortOrder" type="javax.swing.SortOrder"/>
+		<field name="colIndex" type="java.lang.Integer"/>
+	</class>
+
+	<!-- AbstractColumn -->
+	<class name="jhi.flapjack.gui.table.AbstractColumn" extends="jhi.flapjack.data.XMLRoot" auto-complete="true">
+	</class>
+
 </mapping>
