@@ -23,7 +23,7 @@ class PedVerLinesTableModel extends LineDataTableModel
 		this.dataSet = dataSet;
 		this.viewSet = viewSet;
 
-		setLines(new ArrayList<>(viewSet.getLines()));
+		setLines(viewSet.tableHandler().getLinesForTable());
 		initModel();
 	}
 

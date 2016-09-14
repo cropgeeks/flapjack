@@ -20,7 +20,7 @@ class PedVerF1sTableModel extends LineDataTableModel
 	{
 		this.dataSet = dataSet;
 
-		setLines(new ArrayList<>(viewSet.getLines()));
+		setLines(viewSet.tableHandler().getLinesForTable());
 		initModel();
 	}
 
