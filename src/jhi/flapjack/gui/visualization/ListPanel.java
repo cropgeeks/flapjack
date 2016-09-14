@@ -206,15 +206,18 @@ class ListPanel extends JPanel implements MouseMotionListener, MouseListener
 
 		lineTable.repaint();
 
-		// Gathers values to pass to the StatusPanel
-		String lineName = ((LineInfo)lineTable.getObjectAt(rowUnderMouse, 0)).name();
-		if (colUnderMouse == 0 || colUnderMouse == 1)
-			genotypePanel.statusPanel.setResultsValues(lineName, null, null);
-		else
+		if (rowUnderMouse > 0)
 		{
-			String columnName = lineTable.getColumnName(colUnderMouse) + ":";
-			String value = lineTable.getObjectAt(rowUnderMouse, colUnderMouse).toString();
-			genotypePanel.statusPanel.setResultsValues(lineName, columnName, value);
+			// Gathers values to pass to the StatusPanel
+			String lineName = ((LineInfo) lineTable.getObjectAt(rowUnderMouse, 0)).name();
+			if (colUnderMouse == 0 || colUnderMouse == 1)
+				genotypePanel.statusPanel.setResultsValues(lineName, null, null);
+			else
+			{
+				String columnName = lineTable.getColumnName(colUnderMouse) + ":";
+				String value = lineTable.getObjectAt(rowUnderMouse, colUnderMouse).toString();
+				genotypePanel.statusPanel.setResultsValues(lineName, columnName, value);
+			}
 		}
 	}
 
