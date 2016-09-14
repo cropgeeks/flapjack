@@ -15,9 +15,29 @@ public class SortColumn extends AbstractColumn
 	// Whether to sort this column's data ascending or decending
 	public SortOrder sortOrder = SortOrder.DESCENDING;
 
+	public SortColumn()
+	{
+	}
+
 	SortColumn(int colIndex, String name)
 	{
 		super(colIndex, name);
+	}
+
+	SortColumn(int colIndex, SortOrder sortOrder)
+	{
+		this.colIndex = colIndex;
+		this.sortOrder = sortOrder;
+	}
+
+	public SortOrder getSortOrder()
+	{
+		return sortOrder;
+	}
+
+	public void setSortOrder(SortOrder sortOrder)
+	{
+		this.sortOrder = sortOrder;
 	}
 
 	@Override

@@ -3,8 +3,6 @@
 
 package jhi.flapjack.gui.pedver;
 
-import java.util.*;
-
 import jhi.flapjack.data.*;
 import jhi.flapjack.data.results.*;
 import jhi.flapjack.gui.*;
@@ -23,7 +21,7 @@ class PedVerLinesTableModel extends LineDataTableModel
 		this.dataSet = dataSet;
 		this.viewSet = viewSet;
 
-		setLines(viewSet.tableHandler().getLinesForTable());
+		setLines(viewSet.tableHandler().linesForTable());
 		initModel();
 	}
 

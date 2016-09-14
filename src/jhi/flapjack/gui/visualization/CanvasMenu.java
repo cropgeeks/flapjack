@@ -221,7 +221,7 @@ public class CanvasMenu
 			if (view.getLineInfo(view.mouseOverLine).getDuplicate())
 				mDuplicateLineRemove.setEnabled(true);
 
-		if (view.getViewSet().tableHandler().getTable() != null)
+		if (view.getViewSet().tableHandler().table() != null)
 		{
 			mInsertLine.setEnabled(false);
 			mDuplicateLine.setEnabled(false);

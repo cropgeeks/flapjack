@@ -180,7 +180,7 @@ class ListPanel extends JPanel implements MouseMotionListener, MouseListener
 		JCheckBoxMenuItem mShowTableResults = new JCheckBoxMenuItem();
 		mShowTableResults.setText("Show table results");
 		mShowTableResults.setSelected(viewSet.getLinkedModelCols().length > 0);
-		mShowTableResults.setVisible(viewSet.tableHandler().getModel() != null);
+		mShowTableResults.setVisible(viewSet.tableHandler().model() != null);
 		mShowTableResults.addActionListener(event ->
 		{
 			LinkedColumnSelectionDialog columnDialog = new LinkedColumnSelectionDialog(viewSet);
