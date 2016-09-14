@@ -69,7 +69,7 @@ public abstract class LineDataTableModel extends AbstractTableModel
 		{
 			Class c = getObjectColumnClass(i);
 
-			if (c == Double.class || c == Integer.class || c == Boolean.class)
+			if (c == Double.class || c == Float.class || c == Integer.class || c == Boolean.class)
 				cols.add(new FilterColumn(i, c, columnNames[i], FilterColumn.NONE));
 		}
 

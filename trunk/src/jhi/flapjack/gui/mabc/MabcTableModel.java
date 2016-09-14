@@ -23,7 +23,7 @@ public class MabcTableModel extends LineDataTableModel
 	{
 		this.dataSet = viewSet.getDataSet();
 
-		setLines(new ArrayList<>(viewSet.getLines()));
+		setLines(viewSet.tableHandler().getLinesForTable());
 		initModel();
 	}
 

@@ -67,17 +67,22 @@ public class LinkedTableHandler implements ITableViewListener
 		tableChanged();
 	}
 
+	public ArrayList<LineInfo> getLinesForTable()
+	{
+		// Get the current list from the viewset
+		ArrayList<LineInfo> lines = new ArrayList<>(viewSet.getLines());
+		lines.addAll(viewSet.getHideLines());
+
+		return lines;
+	}
+
 	public void viewChanged(boolean setModel)
 	{
 		if (table == null)
 			return;
 
-		// Get the current list from the viewset
-		ArrayList<LineInfo> lines = new ArrayList<>(viewSet.getLines());
-		lines.addAll(viewSet.getHideLines());
-
-		// Apply that to the table, resetting its list
-		model.setLines(lines);
+		// Get (all of) the lines from the view and apply to the model
+		model.setLines(getLinesForTable());
 
 		// Break the sort, but maintain the filters
 		if (setModel)
