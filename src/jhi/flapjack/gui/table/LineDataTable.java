@@ -66,6 +66,9 @@ public class LineDataTable extends JTable
 	public void setColorCells(boolean colorCells)
 		{ renderer.setColorCells(this.colorCells = colorCells); }
 
+	TableRowSorter<LineDataTableModel> sorter()
+		{ return sorter; }
+
 	// Ensures all column headers have tooltips
 	@Override
 	public JTableHeader createDefaultTableHeader()

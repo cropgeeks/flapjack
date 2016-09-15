@@ -9,7 +9,6 @@ import jhi.flapjack.data.*;
 import jhi.flapjack.gui.Actions;
 
 import javax.swing.*;
-import javax.swing.table.TableRowSorter;
 
 public class LinkedTableHandler extends XMLRoot implements ITableViewListener
 {
@@ -159,8 +158,8 @@ public class LinkedTableHandler extends XMLRoot implements ITableViewListener
 			for (SortColumn entry: sortKeys)
 				keys.add(new RowSorter.SortKey(entry.colIndex, entry.sortOrder));
 
-			table.getRowSorter().setSortKeys(keys);
-			((TableRowSorter<LineDataTableModel>)table.getRowSorter()).sort();
+			table.sorter().setSortKeys(keys);
+			table.sorter().sort();
 		}
 
 		table.autoResize(autoResize, true);
