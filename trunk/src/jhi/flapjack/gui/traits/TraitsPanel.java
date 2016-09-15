@@ -36,7 +36,7 @@ public class TraitsPanel extends JPanel implements ActionListener
 		controls.bColors.addActionListener(this);
 
 		table = (LineDataTable) controls.table;
-		table.autoResize(false);
+		table.autoResize(false, true);
 
 		setLayout(new BorderLayout(0, 0));
 		setBorder(BorderFactory.createEmptyBorder(1, 1, 0, 0));

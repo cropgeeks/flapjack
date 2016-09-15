@@ -20,6 +20,8 @@ public class LinkedTableHandler extends XMLRoot implements ITableViewListener
 
 	private ArrayList<SortColumn> sortKeys;
 
+	private boolean autoResize = true;
+
 	public LinkedTableHandler()
 	{
 	}
@@ -36,14 +38,16 @@ public class LinkedTableHandler extends XMLRoot implements ITableViewListener
 		{ this.viewSet = viewSet; }
 
 	public ArrayList<SortColumn> getSortKeys()
-	{
-		return sortKeys;
-	}
+		{ return sortKeys; }
 
 	public void setSortKeys(ArrayList<SortColumn> sortKeys)
-	{
-		this.sortKeys = sortKeys;
-	}
+		{ this.sortKeys = sortKeys; }
+
+	public boolean isAutoResize()
+		{ return autoResize; }
+
+	public void setAutoResize(boolean autoResize)
+		{ this.autoResize = autoResize; }
 
 	public void linkTable(LineDataTable table, LineDataTableModel model)
 	{
@@ -158,5 +162,7 @@ public class LinkedTableHandler extends XMLRoot implements ITableViewListener
 			table.getRowSorter().setSortKeys(keys);
 			((TableRowSorter<LineDataTableModel>)table.getRowSorter()).sort();
 		}
+
+		table.autoResize(autoResize, true);
 	}
 }

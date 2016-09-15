@@ -140,12 +140,18 @@ public class LineDataTable extends JTable
 		this.viewSet = viewSet;
 	}
 
-	public void autoResize(boolean autoResize)
+	public void autoResize(boolean autoResize, boolean isLoading)
 	{
 		if (autoResize)
 			setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 		else
 			setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+
+		if (viewSet != null)
+			viewSet.tableHandler().setAutoResize(autoResize);
+
+		if (isLoading == false)
+			Actions.projectModified();
 	}
 
 	public void exportData()

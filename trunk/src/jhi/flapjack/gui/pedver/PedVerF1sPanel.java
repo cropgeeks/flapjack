@@ -48,6 +48,8 @@ public class PedVerF1sPanel extends JPanel implements ActionListener, ITableView
 
 		tableHandler = viewSet.tableHandler();
 		tableHandler.linkTable(table, model);
+
+		controls.autoResize.setSelected(tableHandler.isAutoResize());
 	}
 
 	public void updateModel(DataSet dataSet, GTViewSet viewSet)
@@ -70,7 +72,7 @@ public class PedVerF1sPanel extends JPanel implements ActionListener, ITableView
 			table.exportData();
 
 		else if (e.getSource() == controls.autoResize)
-			table.autoResize(controls.autoResize.isSelected());
+			table.autoResize(controls.autoResize.isSelected(), false);
 	}
 
 	private void handlePopup(MouseEvent e)
