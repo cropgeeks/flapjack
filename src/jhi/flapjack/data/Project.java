@@ -31,6 +31,7 @@ public class Project extends XMLRoot
 			dataSet.validate();
 		System.out.println("ok");
 	}
+	
 
 	// Methods required for XML serialization
 
@@ -41,24 +42,17 @@ public class Project extends XMLRoot
 		{ this.dataSets = dataSets; }
 
 	public String getTreeState()
-	{
-		return treeState;
-	}
+		{ return treeState; }
 
 	public void setTreeState(String treeState)
-	{
-		this.treeState = treeState;
-	}
+		{ this.treeState = treeState; }
 
 	public int[] getTreeSelectedRows()
-	{
-		return treeSelectedRows;
-	}
+		{ return treeSelectedRows; }
 
 	public void setTreeSelectedRows(int[] treeSelectedRows)
-	{
-		this.treeSelectedRows = treeSelectedRows;
-	}
+		{ this.treeSelectedRows = treeSelectedRows; }
+
 
 	// Other methods
 

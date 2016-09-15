@@ -18,7 +18,8 @@ public class LinkedTableHandler extends XMLRoot implements ITableViewListener
 	private LineDataTableModel model;
 
 	private ArrayList<SortColumn> sortKeys;
-	private FilterColumn[] lastFilter;
+	private SortColumn[] lastSort;
+	private FilterColumn[] lastFilter, lastSelect;
 	private boolean isFiltered;
 
 	private boolean autoResize = true;
@@ -64,6 +65,18 @@ public class LinkedTableHandler extends XMLRoot implements ITableViewListener
 
 	public void setFiltered(boolean filtered)
 		{ isFiltered = filtered; }
+
+	public SortColumn[] getLastSort()
+		{ return lastSort; }
+
+	public void setLastSort(SortColumn[] lastSort)
+		{ this.lastSort = lastSort; }
+
+	public FilterColumn[] getLastSelect()
+		{ return lastSelect; }
+
+	public void setLastSelect(FilterColumn[] lastSelect)
+		{ this.lastSelect = lastSelect; }
 
 
 	// Other methods
@@ -121,15 +134,21 @@ public class LinkedTableHandler extends XMLRoot implements ITableViewListener
 		else
 			sortKeys = new ArrayList<SortColumn>();
 
+		// Track the sort settings for project saving
 		for (RowSorter.SortKey key : table.getRowSorter().getSortKeys())
 			sortKeys.add(new SortColumn(key.getColumn(), key.getSortOrder()));
+
+		// Track the table's last sort/select settings for project saving
+		lastSort = table.getLastSort();
+		lastSelect = table.getLastSelect();
 	}
 
 	public void tableFiltered()
 	{
 		tableChanged();
 
-		lastFilter = table.getlastFilter();
+		// Track the table's filter settings for project saving
+		lastFilter = table.getLastFilter();
 		isFiltered = table.isFiltered();
 	}
 
@@ -173,6 +192,13 @@ public class LinkedTableHandler extends XMLRoot implements ITableViewListener
 
 	private void doPostLoadOperations()
 	{
+		table.autoResize(autoResize, true);
+
+		table.setLastFilter(lastFilter);
+		table.setFiltered(isFiltered);
+		table.setLastSort(lastSort);
+		table.setLastSelect(lastSelect);
+
 		if (sortKeys != null)
 		{
 			List<RowSorter.SortKey> keys = new ArrayList<>();
@@ -185,10 +211,6 @@ public class LinkedTableHandler extends XMLRoot implements ITableViewListener
 			table.sorter().sort();
 		}
 
-		table.autoResize(autoResize, true);
-
-		table.setLastFilter(lastFilter);
-		table.setFiltered(isFiltered);
 		table.reapplyFilter();
 	}
 }
