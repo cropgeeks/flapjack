@@ -84,9 +84,9 @@ public class FilterDialog extends JDialog implements ActionListener
 				if (modelColumn == 1)
 				{
 					if (model.needsBooleanFilter(row))
-						return new DefaultCellEditor(FilterColumn.getBooleanFilters());
+						return new DefaultCellEditor(FilterColumn.booleanFilters());
 					else
-						return new DefaultCellEditor(FilterColumn.getNumericalFilters());
+						return new DefaultCellEditor(FilterColumn.numericalFilters());
 				}
 				else
 				{

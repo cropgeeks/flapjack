@@ -51,8 +51,14 @@ public class LineDataTable extends JTable
 	boolean isFiltered()
 		{ return isFiltered; }
 
+	void setFiltered(boolean isFiltered)
+		{ this.isFiltered = isFiltered; }
+
 	FilterColumn[] getlastFilter()
 		{ return lastFilter; }
+
+	void setLastFilter(FilterColumn[] lastFilter)
+		{ this.lastFilter = lastFilter; }
 
 	public LineDataTableMenu getMenu()
 		{ return menu; }

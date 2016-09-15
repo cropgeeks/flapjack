@@ -78,7 +78,7 @@ class FilterDialogTableModel extends AbstractTableModel
 			return rows.get(row);
 
 		else
-			return rows.get(row).value;
+			return rows.get(row).getValue();
 	}
 
 	@Override
@@ -108,19 +108,19 @@ class FilterDialogTableModel extends AbstractTableModel
 
 		if (col == 1)
 		{
-			entry.filter = ((FilterColumn)value).filter;
+			entry.setFilter(((FilterColumn)value).getFilter());
 		}
 		else if (col == 2)
 		{
 			// Allow the user to clear the cell
 			if (((String)value).isEmpty())
-				entry.value = null;
+				entry.setValue(null);
 			else
 			{
 				// But don't allow them to type something that isn't a number
 				try {
 					Double.parseDouble((String)value);
-					entry.value = (String) value;
+					entry.setValue((String)value);
 				} catch (Exception e) {}
 			}
 		}
@@ -133,15 +133,15 @@ class FilterDialogTableModel extends AbstractTableModel
 	// rather than the numerical (less than, greater than, etc) filter
 	boolean needsBooleanFilter(int row)
 	{
-		return rows.get(row).colClass == Boolean.class;
+		return rows.get(row).isBoolFilter();
 	}
 
 	void clear()
 	{
 		for (FilterColumn entry: rows)
 		{
-			entry.filter = FilterColumn.NONE;
-			entry.value = null;
+			entry.setFilter(FilterColumn.NONE);
+			entry.setValue(null);
 		}
 
 		fireTableDataChanged();

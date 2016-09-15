@@ -22,25 +22,23 @@ public abstract class AbstractColumn extends XMLRoot
 		this.name = name;
 	}
 
+
+	// Methods required for XML serialization
+
 	public int getColIndex()
-	{
-		return colIndex;
-	}
+		{ return colIndex; }
 
 	public void setColIndex(int colIndex)
-	{
-		this.colIndex = colIndex;
-	}
+		{ this.colIndex = colIndex; }
 
 	public String getName()
-	{
-		return name;
-	}
+		{ return name; }
 
 	public void setName(String name)
-	{
-		this.name = name;
-	}
+		{ this.name = name; }
+
+
+	// Other methods
 
 	@Override
 	public boolean equals(Object o)

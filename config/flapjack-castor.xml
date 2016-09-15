@@ -269,16 +269,28 @@
 		<field name="viewSet" type="jhi.flapjack.data.GTViewSet">
 			<bind-xml reference="true" node="attribute"/>
 		</field>
-	</class>
-
-	<!-- SortColumn -->
-	<class name="jhi.flapjack.gui.table.SortColumn" extends="jhi.flapjack.data.XMLRoot" auto-complete="true">
-		<field name="sortOrder" type="javax.swing.SortOrder"/>
-		<field name="colIndex" type="java.lang.Integer"/>
+		<field name="lastFilter" type="jhi.flapjack.gui.table.FilterColumn" collection="array"/>
 	</class>
 
 	<!-- AbstractColumn -->
 	<class name="jhi.flapjack.gui.table.AbstractColumn" extends="jhi.flapjack.data.XMLRoot" auto-complete="true">
+		<field name="name" type="string">
+			<bind-xml node="attribute"/>
+		</field>
 	</class>
+
+	<!-- SortColumn -->
+	<class name="jhi.flapjack.gui.table.SortColumn" extends="jhi.flapjack.gui.table.AbstractColumn" auto-complete="true">
+		<field name="sortOrder" type="javax.swing.SortOrder"/>
+		<!--<field name="colIndex" type="java.lang.Integer"/>-->
+	</class>
+
+	<!-- FilterColumn -->
+    <class name="jhi.flapjack.gui.table.FilterColumn" extends="jhi.flapjack.gui.table.AbstractColumn" auto-complete="true">
+		<field name="value" type="string">
+			<bind-xml node="attribute"/>
+		</field>
+		<!--<field name="colIndex" type="java.lang.Integer"/>-->
+    </class>
 
 </mapping>
