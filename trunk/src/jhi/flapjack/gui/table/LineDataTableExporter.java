@@ -101,7 +101,7 @@ public class LineDataTableExporter extends SimpleJob
 					out.println("# FILTER\t"
 						+ col.name + "\t"
 						+ col.toShortString()
-						+ (col.value != null ? ("\t" + col.value) : ""));
+						+ (col.getValue() != null ? ("\t" + col.getValue()) : ""));
 		}
 
 		// Output the SORT settings

@@ -25,22 +25,50 @@ public class FilterColumn extends AbstractColumn
 	private static final int FALSE = 7;
 	private static final int TRUE = 8;
 
-	public int filter = NONE;
+	private int filter = NONE;
 
 	// What class of column (in the main table) is this representing?
-	public Class colClass;
+	private boolean isBoolFilter;
 
 	// Cutoff value for numerical filters
-	public String value;
+	private String value;
+
+	public FilterColumn()
+	{
+	}
 
 	FilterColumn(int colIndex, Class colClass, String name, int filter)
 	{
 		super(colIndex, name);
-		this.colClass = colClass;
 		this.filter = filter;
+
+		isBoolFilter = colClass == Boolean.class;
 	}
 
-	static JComboBox<FilterColumn> getNumericalFilters()
+	// Methods required for XML serialization
+
+	public int getFilter()
+		{ return filter; }
+
+	public void setFilter(int filter)
+		{ this.filter = filter; }
+
+	public boolean isBoolFilter()
+		{ return isBoolFilter; }
+
+	public void setBoolFilter(boolean boolFilter)
+		{ isBoolFilter = boolFilter; }
+
+	public String getValue()
+		{ return value; }
+
+	public void setValue(String value)
+		{ this.value = value; }
+
+
+	// Other methods
+
+	static JComboBox<FilterColumn> numericalFilters()
 	{
 		JComboBox<FilterColumn> combo = new JComboBox<>();
 
@@ -55,7 +83,7 @@ public class FilterColumn extends AbstractColumn
 		return combo;
 	}
 
-	static JComboBox<FilterColumn> getBooleanFilters()
+	static JComboBox<FilterColumn> booleanFilters()
 	{
 		JComboBox<FilterColumn> combo = new JComboBox<>();
 
@@ -92,7 +120,7 @@ public class FilterColumn extends AbstractColumn
 
 	RowFilter<LineDataTableModel, Object> createRowFilter()
 	{
-		if (colClass != Boolean.class)
+		if (isBoolFilter == false)
 		{
 			double value = Double.parseDouble(this.value);
 
@@ -165,7 +193,7 @@ public class FilterColumn extends AbstractColumn
 	// match the value of this 'filter'
 	public boolean matches(Object oEntry)
 	{
-		if (colClass != Boolean.class)
+		if (isBoolFilter == false)
 		{
 			double entry = Double.parseDouble(oEntry.toString());
 			double value = Double.parseDouble(this.value);

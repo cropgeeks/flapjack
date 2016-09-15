@@ -30,15 +30,17 @@ public class SortColumn extends AbstractColumn
 		this.sortOrder = sortOrder;
 	}
 
+
+	// Methods required for XML serialization
+
 	public SortOrder getSortOrder()
-	{
-		return sortOrder;
-	}
+		{ return sortOrder; }
 
 	public void setSortOrder(SortOrder sortOrder)
-	{
-		this.sortOrder = sortOrder;
-	}
+		{ this.sortOrder = sortOrder; }
+
+
+	// Other methods
 
 	@Override
 	public String toString()

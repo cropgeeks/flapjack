@@ -18,6 +18,8 @@ public class LinkedTableHandler extends XMLRoot implements ITableViewListener
 	private LineDataTableModel model;
 
 	private ArrayList<SortColumn> sortKeys;
+	private FilterColumn[] lastFilter;
+	private boolean isFiltered;
 
 	private boolean autoResize = true;
 
@@ -29,6 +31,9 @@ public class LinkedTableHandler extends XMLRoot implements ITableViewListener
 	{
 		this.viewSet = viewSet;
 	}
+
+
+	// Methods required for XML serialization
 
 	public GTViewSet getViewSet()
 		{ return viewSet; }
@@ -47,6 +52,21 @@ public class LinkedTableHandler extends XMLRoot implements ITableViewListener
 
 	public void setAutoResize(boolean autoResize)
 		{ this.autoResize = autoResize; }
+
+	public FilterColumn[] getLastFilter()
+		{ return lastFilter; }
+
+	public void setLastFilter(FilterColumn[] lastFilter)
+		{ this.lastFilter = lastFilter; }
+
+	public boolean isFiltered()
+		{ return isFiltered; }
+
+	public void setFiltered(boolean filtered)
+		{ isFiltered = filtered; }
+
+
+	// Other methods
 
 	public void linkTable(LineDataTable table, LineDataTableModel model)
 	{
@@ -108,6 +128,9 @@ public class LinkedTableHandler extends XMLRoot implements ITableViewListener
 	public void tableFiltered()
 	{
 		tableChanged();
+
+		lastFilter = table.getlastFilter();
+		isFiltered = table.isFiltered();
 	}
 
 	public ArrayList<LineInfo> linesForTable()
@@ -163,5 +186,9 @@ public class LinkedTableHandler extends XMLRoot implements ITableViewListener
 		}
 
 		table.autoResize(autoResize, true);
+
+		table.setLastFilter(lastFilter);
+		table.setFiltered(isFiltered);
+		table.reapplyFilter();
 	}
 }
