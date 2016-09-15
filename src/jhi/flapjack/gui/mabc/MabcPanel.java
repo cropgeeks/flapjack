@@ -54,6 +54,8 @@ public class MabcPanel extends JPanel implements ActionListener, ListSelectionLi
 
 		tableHandler = viewSet.tableHandler();
 		tableHandler.linkTable(table, model);
+
+		controls.autoResize.setSelected(tableHandler.isAutoResize());
 	}
 
 	private void updateModel(GTViewSet viewset)
@@ -80,7 +82,7 @@ public class MabcPanel extends JPanel implements ActionListener, ListSelectionLi
 			rankSelectedLines();
 
 		else if (e.getSource() == controls.autoResize)
-			table.autoResize(controls.autoResize.isSelected());
+			table.autoResize(controls.autoResize.isSelected(), false);
 	}
 
 	@Override

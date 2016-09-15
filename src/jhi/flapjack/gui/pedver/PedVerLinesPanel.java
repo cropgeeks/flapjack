@@ -57,6 +57,8 @@ public class PedVerLinesPanel extends JPanel implements ActionListener, ITableVi
 
 		tableHandler = viewSet.tableHandler();
 		tableHandler.linkTable(table, model);
+
+		controls.autoResize.setSelected(tableHandler.isAutoResize());
 	}
 
 	public void updateModel(DataSet dataSet, GTViewSet viewSet)
@@ -79,7 +81,7 @@ public class PedVerLinesPanel extends JPanel implements ActionListener, ITableVi
 			table.exportData();
 
 		else if (e.getSource() == controls.autoResize)
-			table.autoResize(controls.autoResize.isSelected());
+			table.autoResize(controls.autoResize.isSelected(), false);
 	}
 
 	private void handlePopup(MouseEvent e)
