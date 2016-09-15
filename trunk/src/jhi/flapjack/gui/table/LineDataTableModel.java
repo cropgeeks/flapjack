@@ -8,6 +8,7 @@ import java.util.*;
 import javax.swing.table.*;
 
 import jhi.flapjack.data.*;
+import jhi.flapjack.gui.*;
 
 public abstract class LineDataTableModel extends AbstractTableModel
 {
@@ -82,16 +83,17 @@ public abstract class LineDataTableModel extends AbstractTableModel
 		{
 			if (visibleOnly && line.getVisibility() == LineInfo.VISIBLE)
 			{
-			// Set the line's state to either true or false
-			if (state != null)
-				line.setSelected(state);
-			// Or toggle it
-			else
-				line.setSelected(!line.getSelected());
-		}
+				// Set the line's state to either true or false
+				if (state != null)
+					line.setSelected(state);
+				// Or toggle it
+				else
+					line.setSelected(!line.getSelected());
+			}
 		}
 
 		fireTableRowsUpdated(0, lines.size()-1);
+		Actions.projectModified();
 	}
 
 	void selectLines(FilterColumn[] data, boolean visibleOnly)

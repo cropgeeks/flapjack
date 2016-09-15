@@ -13,6 +13,7 @@
 	<!-- Project -->
 	<class name="jhi.flapjack.data.Project" extends="jhi.flapjack.data.XMLRoot" auto-complete="true">
 		<field name="dataSets" type="jhi.flapjack.data.DataSet" collection="arraylist"/>
+		<field name="treeSelectedRows" type="integer" collection="array"/>
 	</class>
 
 	<!-- DataSet -->
@@ -270,6 +271,8 @@
 			<bind-xml reference="true" node="attribute"/>
 		</field>
 		<field name="lastFilter" type="jhi.flapjack.gui.table.FilterColumn" collection="array"/>
+		<field name="lastSelect" type="jhi.flapjack.gui.table.FilterColumn" collection="array"/>
+		<field name="lastSort" type="jhi.flapjack.gui.table.SortColumn" collection="array"/>
 	</class>
 
 	<!-- AbstractColumn -->
@@ -282,7 +285,6 @@
 	<!-- SortColumn -->
 	<class name="jhi.flapjack.gui.table.SortColumn" extends="jhi.flapjack.gui.table.AbstractColumn" auto-complete="true">
 		<field name="sortOrder" type="javax.swing.SortOrder"/>
-		<!--<field name="colIndex" type="java.lang.Integer"/>-->
 	</class>
 
 	<!-- FilterColumn -->
@@ -290,7 +292,6 @@
 		<field name="value" type="string">
 			<bind-xml node="attribute"/>
 		</field>
-		<!--<field name="colIndex" type="java.lang.Integer"/>-->
     </class>
 
 </mapping>

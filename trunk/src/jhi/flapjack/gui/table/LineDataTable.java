@@ -54,11 +54,23 @@ public class LineDataTable extends JTable
 	void setFiltered(boolean isFiltered)
 		{ this.isFiltered = isFiltered; }
 
-	FilterColumn[] getlastFilter()
+	FilterColumn[] getLastFilter()
 		{ return lastFilter; }
 
 	void setLastFilter(FilterColumn[] lastFilter)
 		{ this.lastFilter = lastFilter; }
+
+	FilterColumn[] getLastSelect()
+		{ return lastSelect; }
+
+	void setLastSelect(FilterColumn[] lastSelect)
+		{ this.lastSelect = lastSelect; }
+
+	SortColumn[] getLastSort()
+		{ return lastSort; }
+
+	void setLastSort(SortColumn[] lastSort)
+		{ this.lastSort = lastSort; }
 
 	public LineDataTableMenu getMenu()
 		{ return menu; }
@@ -351,6 +363,7 @@ public class LineDataTable extends JTable
 			}
 
 		model.fireTableRowsUpdated(0, model.getRowCount()-1);
+		Actions.projectModified();
 	}
 
 	public String getLineStatusText()
