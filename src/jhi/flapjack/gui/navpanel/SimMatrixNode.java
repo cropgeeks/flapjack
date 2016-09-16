@@ -9,15 +9,16 @@ import jhi.flapjack.data.*;
 import jhi.flapjack.data.results.*;
 import jhi.flapjack.gui.*;
 import jhi.flapjack.gui.simmatrix.*;
+import jhi.flapjack.gui.visualization.*;
 
-public class SimMatrixNode extends BaseNode
+public class SimMatrixNode extends VisualizationChildNode
 {
 	private SimMatrixPanel panel;
 	private SimMatrix matrix;
 
-	public SimMatrixNode(DataSet dataSet, GTViewSet viewSet, SimMatrix matrix)
+	public SimMatrixNode(GenotypePanel gPanel, GTViewSet viewSet, SimMatrix matrix)
 	{
-		super(dataSet);
+		super(gPanel, viewSet);
 
 		this.matrix = matrix;
 
@@ -37,6 +38,8 @@ public class SimMatrixNode extends BaseNode
 
 	public JPanel getPanel()
 	{
+		mapViewSet();
+
 		return panel;
 	}
 

@@ -211,7 +211,7 @@ public class NavPanel extends JPanel
 	{
 		if (containsMabcResults(viewSet))
 		{
-			MabcNode node = new MabcNode(viewSet.getDataSet(), viewSet);
+			MabcNode node = new MabcNode(gPanel, viewSet);
 			insert(node, vNode, vNode.getChildCount());
 		}
 	}
@@ -234,7 +234,7 @@ public class NavPanel extends JPanel
 	{
 		VisualizationNode vNode = findVisualizationNode(viewSet);
 
-		PedVerF1sNode node = new PedVerF1sNode(viewSet.getDataSet(), viewSet);
+		PedVerF1sNode node = new PedVerF1sNode(gPanel, viewSet);
 		insert(node, vNode, vNode.getChildCount());
 	}
 
@@ -242,7 +242,7 @@ public class NavPanel extends JPanel
 	{
 		VisualizationNode vNode = findVisualizationNode(viewSet);
 
-		PedVerLinesNode node = new PedVerLinesNode(viewSet.getDataSet(), viewSet);
+		PedVerLinesNode node = new PedVerLinesNode(gPanel, viewSet);
 		insert(node, vNode, vNode.getChildCount());
 	}
 
@@ -251,7 +251,7 @@ public class NavPanel extends JPanel
 		VisualizationNode vNode = findVisualizationNode(viewSet);
 
 		// The SimMatrix itself
-		SimMatrixNode node = new SimMatrixNode(viewSet.getDataSet(), viewSet, matrix);
+		SimMatrixNode node = new SimMatrixNode(gPanel, viewSet, matrix);
 		insert(node, vNode, vNode.getChildCount());
 	}
 
@@ -260,7 +260,7 @@ public class NavPanel extends JPanel
 		VisualizationNode vNode = findVisualizationNode(viewSet);
 
 		// The Dendrogram itself
-		DendrogramNode node = new DendrogramNode(viewSet.getDataSet(), dendrogram);
+		DendrogramNode node = new DendrogramNode(gPanel, dendrogram);
 		insert(node, vNode, vNode.getChildCount());
 	}
 

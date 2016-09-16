@@ -9,7 +9,7 @@ import jhi.flapjack.data.*;
 import jhi.flapjack.gui.*;
 import jhi.flapjack.gui.visualization.*;
 
-public class BookmarkNode extends BaseNode
+public class BookmarkNode extends VisualizationChildNode
 {
 	private GenotypePanel gPanel;
 	private VisualizationNode parent;
@@ -20,7 +20,7 @@ public class BookmarkNode extends BaseNode
 
 	public BookmarkNode(GenotypePanel gPanel, VisualizationNode parent, Bookmark bookmark)
 	{
-		super(parent.getDataSet());
+		super(gPanel, parent.getViewSet());
 
 		this.gPanel = gPanel;
 		this.parent = parent;
@@ -57,6 +57,8 @@ public class BookmarkNode extends BaseNode
 
 	public JPanel getPanel()
 	{
+		mapViewSet();
+
 		// Ensure the correct chromosome is selected for this bookmark
 		int index = viewSet.indexof(viewSet.getView(bookmark.getChromosome()));
 		viewSet.setViewIndex(index);

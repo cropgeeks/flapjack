@@ -8,16 +8,15 @@ import javax.swing.*;
 import jhi.flapjack.data.*;
 import jhi.flapjack.gui.*;
 import jhi.flapjack.gui.pedver.*;
+import jhi.flapjack.gui.visualization.*;
 
-import scri.commons.gui.RB;
-
-public class PedVerLinesNode extends BaseNode
+public class PedVerLinesNode extends VisualizationChildNode
 {
 	private PedVerLinesPanel panel;
 
-	public PedVerLinesNode(DataSet dataSet, GTViewSet viewSet)
+	public PedVerLinesNode(GenotypePanel gPanel, GTViewSet viewSet)
 	{
-		super(dataSet);
+		super(gPanel, viewSet);
 
 		panel = new PedVerLinesPanel(viewSet);
 	}
@@ -39,6 +38,8 @@ public class PedVerLinesNode extends BaseNode
 
 	public JPanel getPanel()
 	{
+		mapViewSet();
+
 		return panel;
 	}
 }
