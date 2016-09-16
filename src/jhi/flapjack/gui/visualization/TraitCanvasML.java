@@ -195,7 +195,7 @@ class TraitCanvasML extends MouseInputAdapter implements ActionListener
 
 		SortLinesByTrait sort = new SortLinesByTrait(
 			gPanel.getViewSet(), menuTraitIndex, ascending);
-		Flapjack.winMain.mAnalysis.runSort(sort);
+		Flapjack.winMain.mAnalysis.runSort(sort, gPanel.getViewSet());
 	}
 
 	private Trait getSelectedTrait()
