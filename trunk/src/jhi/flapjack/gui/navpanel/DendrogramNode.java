@@ -3,21 +3,20 @@
 
 package jhi.flapjack.gui.navpanel;
 
-import java.awt.image.*;
 import javax.swing.*;
 
-import jhi.flapjack.data.*;
 import jhi.flapjack.data.results.*;
 import jhi.flapjack.gui.dendrogram.*;
+import jhi.flapjack.gui.visualization.*;
 
-public class DendrogramNode extends BaseNode
+public class DendrogramNode extends VisualizationChildNode
 {
 	private DendrogramPanel panel;
 	private String title;
 
-	public DendrogramNode(DataSet dataSet, Dendrogram dendrogram)
+	public DendrogramNode(GenotypePanel gPanel, Dendrogram dendrogram)
 	{
-		super(dataSet);
+		super(gPanel, dendrogram.getViewSet());
 
 		panel = new DendrogramPanel(dendrogram);
 		title = dendrogram.getTitle();
@@ -35,6 +34,8 @@ public class DendrogramNode extends BaseNode
 
 	public JPanel getPanel()
 	{
+		mapViewSet();
+
 		return panel;
 	}
 }

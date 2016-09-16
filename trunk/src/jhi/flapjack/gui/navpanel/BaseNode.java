@@ -7,6 +7,7 @@ import javax.swing.JComponent;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import jhi.flapjack.data.*;
+import jhi.flapjack.gui.visualization.GenotypePanel;
 
 /**
  * Abstract base class for all nodes displayed in the navigation tree. Ensures
@@ -28,4 +29,27 @@ public abstract class BaseNode extends DefaultMutableTreeNode
 
 	public DataSet getDataSet()
 		{ return dataSet; }
+}
+
+// Base class for all nodes that hang directly below a VisualizationNode (i.e.
+// the main graphical view). This class' sole purpose is to ensure that the
+// GenotypePanel (that renders the view) has had the GTViewSet associated
+// with this child node correctly set.
+abstract class VisualizationChildNode extends BaseNode
+{
+	protected GenotypePanel gPanel;
+	protected GTViewSet viewSet;
+
+	VisualizationChildNode(GenotypePanel gPanel, GTViewSet viewSet)
+	{
+		super(viewSet.getDataSet());
+
+		this.gPanel = gPanel;
+		this.viewSet = viewSet;
+	}
+
+	protected void mapViewSet()
+	{
+		gPanel.setViewSet(viewSet);
+	}
 }

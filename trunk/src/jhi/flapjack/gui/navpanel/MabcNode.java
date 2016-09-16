@@ -3,24 +3,22 @@
 
 package jhi.flapjack.gui.navpanel;
 
-import java.awt.*;
-import java.util.*;
 import javax.swing.*;
 
 import jhi.flapjack.data.*;
-import jhi.flapjack.data.results.*;
 import jhi.flapjack.gui.*;
 import jhi.flapjack.gui.mabc.*;
+import jhi.flapjack.gui.visualization.*;
 
 import scri.commons.gui.*;
 
-public class MabcNode extends BaseNode
+public class MabcNode extends VisualizationChildNode
 {
 	private MabcPanel panel;
 
-	public MabcNode(DataSet dataSet, GTViewSet viewSet)
+	public MabcNode(GenotypePanel gPanel, GTViewSet viewSet)
 	{
-		super(dataSet);
+		super(gPanel, viewSet);
 
 		panel = new MabcPanel(viewSet);
 	}
@@ -42,6 +40,8 @@ public class MabcNode extends BaseNode
 
 	public JPanel getPanel()
 	{
+		mapViewSet();
+
 		return panel;
 	}
 }
