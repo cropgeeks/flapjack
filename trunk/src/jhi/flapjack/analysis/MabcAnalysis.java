@@ -108,10 +108,11 @@ public class MabcAnalysis extends SimpleJob
 					if (state == 0)
 						continue;
 
-					// What state does the recurrant parent have at this marker?
-					int pState = as.getState(viewIndex, rpIndex, mrkIndex);
-					// If it's missing, or het, skip this position
-					if (pState == 0 || st.isHet(pState))
+					// What states do the parents have at this marker?
+					int rp = as.getState(viewIndex, rpIndex, mrkIndex);
+					int dp = as.getState(viewIndex, dpIndex, mrkIndex);
+					// If they're missing, monomorphic, or het, skip this position
+					if (rp == 0 || dp == 0 || rp == dp || st.isHet(rp) || st.isHet(dp))
 						continue;
 
 
@@ -160,7 +161,7 @@ public class MabcAnalysis extends SimpleJob
 							chrScore.sumRP += gap/2.0;
 							chrScore.sumDO += gap/2.0;
 						}
-						else if (state == pState)
+						else if (state == rp)
 							chrScore.sumRP += gap;
 						else
 							chrScore.sumDO += gap;
@@ -173,7 +174,7 @@ public class MabcAnalysis extends SimpleJob
 							chrScore.sumRP += gap/4.0;
 							chrScore.sumDO += gap/4.0;
 						}
-						else if (state == pState)
+						else if (state == rp)
 							chrScore.sumRP += gap/2.0;
 						else
 							chrScore.sumDO += gap/2.0;
@@ -200,7 +201,7 @@ public class MabcAnalysis extends SimpleJob
 							chrScore.sumRP += gapEnd/2.0;
 							chrScore.sumDO += gapEnd/2.0;
 						}
-						else if (state == pState)
+						else if (state == rp)
 							chrScore.sumRP += gapEnd;
 						else
 							chrScore.sumDO += gapEnd;
@@ -225,15 +226,13 @@ public class MabcAnalysis extends SimpleJob
 				// Calculate RPP Total for this line
 				rppTotal += chrScore.sumRP;
 				// Update the stored RP values to be ??? percentages?
-				if (simpleStats == false)
-					chrScore.sumRP *= (1.0/chrScore.coverage);
+				chrScore.sumRP *= (1.0/chrScore.coverage);
 				if (Double.isNaN(chrScore.sumRP))
 					chrScore.sumRP = 0;
 			}
 
 			// Update rppTotal to be a percentage of genome coverage (?)
-			if (simpleStats == false)
-				rppTotal *= (1.0/stats.getGenomeCoverage());
+			rppTotal *= (1.0/stats.getGenomeCoverage());
 			if (Double.isNaN(rppTotal))
 				rppTotal = 0;
 			stats.setRppTotal(rppTotal);
@@ -263,19 +262,19 @@ public class MabcAnalysis extends SimpleJob
 			{
 				ArrayList<MarkerInfo> markers = as.getMarkers(viewIndex);
 
-				for (QTLInfo qtl: as.qtls(viewIndex))
+				for (QTLInfo qtlInfo: as.qtls(viewIndex))
 				{
-					QTLParams p = qtlHash.get(qtl);
-					if (p == null)
+					QTLParams qtl = qtlHash.get(qtlInfo);
+					if (qtl == null)
 						continue;
 
-					MabcQtlScore score = new MabcQtlScore(qtl);
+					MabcQtlScore score = new MabcQtlScore(qtlInfo);
 					stats.getQtlScores().add(score);
 
 					// Calculate drag to left
 					// Increase drag by the distance between this marker and its
 					// left-neighbour (or chrStart), until neighbour is from DP (eg "A")
-					for (int m = p.LM; m >= 0; m--)
+					for (int m = qtl.LM; m >= 0; m--)
 					{
 						if (m > 0 && as.getState(viewIndex, lineIndex, m-1) == as.getState(viewIndex, rpIndex, m-1))
 							break;
@@ -286,7 +285,7 @@ public class MabcAnalysis extends SimpleJob
 					}
 
 					// Calculate drag to the right
-					for (int m = p.RM; m < markers.size(); m++)
+					for (int m = qtl.RM; m < markers.size(); m++)
 					{
 						if (m <= markers.size()-2 && as.getState(viewIndex, lineIndex, m+1) == as.getState(viewIndex, rpIndex, m+1))
 							break;
@@ -297,12 +296,21 @@ public class MabcAnalysis extends SimpleJob
 					}
 
 					// Finally, confirm status
-					for (int m = p.LM; m <= p.RM; m++)
+					for (int m = qtl.LM; m <= qtl.RM; m++)
 					{
 						int allele = as.getState(viewIndex, lineIndex, m);
 						int rp = as.getState(viewIndex, rpIndex, m);
+						int dp = as.getState(viewIndex, dpIndex, m);
 
-						if (allele == 0 || p.isDP && allele == rp || !p.isDP && allele != rp)
+						// if DP and RP are monomorphic, skip checking this QTL
+						if (dp == rp)
+							continue;
+
+						// Set to 0 if:
+						//   allele is missing, or
+						//   qtl is from DP and allele is RP, or
+						//   qtl is not from DP and allele is not from RP
+						if (allele == 0 || qtl.isDP && allele == rp || !qtl.isDP && allele != rp)
 							score.status = 0;
 					}
 
