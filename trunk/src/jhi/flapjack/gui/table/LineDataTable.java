@@ -249,7 +249,7 @@ public class LineDataTable extends JTable
 		lastSort = dialog.getResults();
 
 		SortLinesByLineDataModel s = new SortLinesByLineDataModel(viewSet, sorter, data);
-		Flapjack.winMain.mAnalysis.runSort(s);
+		Flapjack.winMain.mAnalysis.runSort(s, viewSet);
 
 		model.fireTableDataChanged();
 	}

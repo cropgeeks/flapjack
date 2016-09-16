@@ -43,7 +43,7 @@ public class MenuAnalysis
 			Line line = dialog.getSelectedLine();
 
 			SortLinesBySimilarity sort = new SortLinesBySimilarity(viewSet, line, chromosomes);
-			runSort(sort);
+			runSort(sort, viewSet);
 		}
 	}
 
@@ -60,7 +60,7 @@ public class MenuAnalysis
 			boolean assign = Prefs.guiAssignTraits;
 
 			SortLinesByTrait sort = new SortLinesByTrait(viewSet, traits, asc, assign);
-			runSort(sort);
+			runSort(sort, viewSet);
 		}
 	}
 
@@ -83,7 +83,7 @@ public class MenuAnalysis
 			GTViewSet viewSet = gPanel.getViewSet();
 			SortLinesExternally sort = new SortLinesExternally(viewSet, file);
 
-			runSort(sort);
+			runSort(sort, viewSet);
 		}
 	}
 
@@ -92,12 +92,12 @@ public class MenuAnalysis
 		GTViewSet viewSet = gPanel.getViewSet();
 		SortLinesAlphabetically sort = new SortLinesAlphabetically(viewSet);
 
-		runSort(sort);
+		runSort(sort, viewSet);
 	}
 
-	public void runSort(ITrackableJob sort)
+	public void runSort(ITrackableJob sort, GTViewSet viewSet)
 	{
-		MovedLinesState state = setupSort();
+		MovedLinesState state = setupSort(viewSet);
 
 		ProgressDialog dialog = new ProgressDialog(sort,
 			RB.getString("gui.MenuData.sorting.title"),
@@ -115,12 +115,14 @@ public class MenuAnalysis
 	 * Prepares the lines to be sorted. This includes removing any dummy lines
 	 * and also setting an undo state.
 	 */
-	private MovedLinesState setupSort()
+	private MovedLinesState setupSort(GTViewSet viewSet)
 	{
-		MovedLinesState state = new MovedLinesState(gPanel.getViewSet(),
+		MovedLinesState state = new MovedLinesState(viewSet,
 			RB.getString("gui.visualization.MovedLinesState.sortedLines"));
 
-		gPanel.getViewSet().setDisplayLineScores(false);
+		viewSet.setDisplayLineScores(false);
+
+		Flapjack.winMain.getNavPanel().getGenotypePanel();
 
 		state.createUndoState();
 
