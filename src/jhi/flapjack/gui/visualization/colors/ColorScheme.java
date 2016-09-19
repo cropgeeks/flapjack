@@ -82,6 +82,8 @@ public abstract class ColorScheme
 			RB.getString("gui.visualization.colors.ColorScheme.heatmapHigh")));
 		colors.add(new ColorSummary(Prefs.visColorHeatmapLow,
 			RB.getString("gui.visualization.colors.ColorScheme.heatmapLow")));
+		colors.add(new ColorSummary(Prefs.visColorHetsAsH,
+			RB.getString("gui.visualization.colors.ColorScheme.visColorHetsAsH")));
 
 		return colors;
 	}
@@ -94,6 +96,7 @@ public abstract class ColorScheme
 		Prefs.visColorText = colors.get(3).color;
 		Prefs.visColorHeatmapHigh = colors.get(4).color;
 		Prefs.visColorHeatmapLow = colors.get(5).color;
+		Prefs.visColorHetsAsH = colors.get(6).color;
 	}
 
 	public static class ColorSummary

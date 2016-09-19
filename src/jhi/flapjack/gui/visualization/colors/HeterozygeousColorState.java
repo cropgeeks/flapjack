@@ -21,8 +21,18 @@ public class HeterozygeousColorState extends ColorState
 	{
 		super(state, primary, w, h);
 
-		image = createBuffer(state1, state2, false);
-		imageUnderQTL = createBuffer(state1, state2, true);
+		// Normal rendering (split colours diagonally)
+		if (Prefs.visShowHetsAsH == false)
+		{
+			image = createBuffer(state1, state2, false);
+			imageUnderQTL = createBuffer(state1, state2, true);
+		}
+		// Or always render as "H" (defaults to yellow)
+		else
+		{
+			image = createHomzBuffer(false);
+			imageUnderQTL = createHomzBuffer(true);
+		}
 
 		createUnselectedImage(w, h);
 	}
@@ -115,5 +125,62 @@ public class HeterozygeousColorState extends ColorState
 			else
 				g.drawString(str, w4*3-strW2, h4*3+strH2-1);
 		}
+	}
+
+	// Renders this het state so it looks like a hom but with H and a static
+	// colour at all times, regardless of the selected colour scheme.
+	private BufferedImage createHomzBuffer(boolean isUnderQTL)
+	{
+		BufferedImage image = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
+		Graphics2D g = image.createGraphics();
+
+		Color c = Prefs.visColorHetsAsH;
+		Color c1 = c.brighter();
+		Color c2 = c.darker();
+
+		if (Prefs.visDisableGradients)
+			g.setColor(c);
+		else
+			g.setPaint(new GradientPaint(0, 0, c1, w, h, c2));
+
+		Rectangle2D.Float r = new Rectangle2D.Float(0, 0, w, h);
+		g.fill(r);
+
+		if (isUnderQTL)
+		{
+//			g.setPaint(new Color(20, 20, 20, 75));
+//			g.fillRect(0, 0, w, h);
+		}
+
+		if (Prefs.visShowGenotypes && h >= 7 && Prefs.visLinkSliders)
+		{
+			String str = "H";
+
+			Font font = g.getFont().deriveFont(Font.PLAIN, h-3);
+			g.setFont(font);
+			FontMetrics fm = g.getFontMetrics();
+
+			Rectangle2D bounds = fm.getStringBounds(str, g);
+
+			g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+	//		if (isUnderQTL)
+	//			g.setColor(Color.red);
+	//		else
+				g.setColor(Prefs.visColorText);
+			g.drawString(str,
+				(int)((float)w/2-bounds.getWidth()/2),
+				h - fm.getMaxDescent());
+		}
+
+
+		if (Prefs.visHighlightHoZ || Prefs.visHighlightGaps || alpha < 200)
+//		if (Prefs.visHighlightHtZ || (Prefs.visHighlightGaps && c != Prefs.visColorBackground) || alpha < 200)
+		{
+			g.setPaint(new Color(20, 20, 20, alpha));
+			g.fillRect(0, 0, w, h);
+		}
+
+		g.dispose();
+		return image;
 	}
 }

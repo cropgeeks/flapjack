@@ -70,6 +70,9 @@ class ColorPanelNB extends JPanel implements ActionListener
 		for (int i = 0; i < comboModel.getSize(); i++)
 			if (((ColorScheme)comboModel.getElementAt(i)).getModel() == model)
 				schemeCombo.setSelectedIndex(i);
+
+		checkHetAsH.setSelected(Prefs.visShowHetsAsH);
+		checkHetAsH.addActionListener(e -> { toggleHets(); });
 	}
 
 	void initializeLists()
@@ -85,6 +88,12 @@ class ColorPanelNB extends JPanel implements ActionListener
 		for (ColorScheme.ColorSummary summary: ColorScheme.getStandardColorSummaries())
 			standardModel.addElement(summary);
 		standardList.setModel(standardModel);
+	}
+
+	private void toggleHets()
+	{
+		Prefs.visShowHetsAsH = checkHetAsH.isSelected();
+		gPanel.setViewSet(gPanel.getViewSet());
 	}
 
 	// Change the entries in the 'scheme specific' list control based on the
@@ -178,6 +187,7 @@ class ColorPanelNB extends JPanel implements ActionListener
         listLabel2 = new javax.swing.JLabel();
         javax.swing.JScrollPane sp3 = new javax.swing.JScrollPane();
         schemeList = new javax.swing.JList<>();
+        checkHetAsH = new javax.swing.JCheckBox();
         infoPanel = new javax.swing.JPanel();
         javax.swing.JScrollPane sp1 = new javax.swing.JScrollPane();
         infoText = new javax.swing.JTextArea();
@@ -214,20 +224,28 @@ class ColorPanelNB extends JPanel implements ActionListener
 
         gridPanel.add(panel2);
 
+        checkHetAsH.setText("Always render heterozygotes as single-colour 'H' blocks, regardless of the scheme selected");
+
         javax.swing.GroupLayout colorPanelLayout = new javax.swing.GroupLayout(colorPanel);
         colorPanel.setLayout(colorPanelLayout);
         colorPanelLayout.setHorizontalGroup(
             colorPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(colorPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(gridPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 498, Short.MAX_VALUE)
+                .addGroup(colorPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(gridPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 498, Short.MAX_VALUE)
+                    .addGroup(colorPanelLayout.createSequentialGroup()
+                        .addComponent(checkHetAsH)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         colorPanelLayout.setVerticalGroup(
             colorPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(colorPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(gridPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 119, Short.MAX_VALUE)
+                .addComponent(gridPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(checkHetAsH)
                 .addContainerGap())
         );
 
@@ -294,6 +312,7 @@ class ColorPanelNB extends JPanel implements ActionListener
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JCheckBox checkHetAsH;
     private javax.swing.JPanel colorPanel;
     private javax.swing.JLabel comboLabel;
     private javax.swing.JPanel gridPanel;
