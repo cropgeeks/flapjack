@@ -176,6 +176,8 @@ public class Prefs extends XMLPreferences
 	public static boolean visLinkSliders = true;
 	// Which is an option only visible when advanced zoom controls are used
 	public static boolean visAdvancedZoom = false;
+	// Always show heterozygotes as "H" with a mono colour
+	public static boolean visShowHetsAsH = false;
 
 	// Should the visualization canvas overlay the raw data?
 	public static boolean visShowGenotypes = false;
@@ -200,6 +202,7 @@ public class Prefs extends XMLPreferences
 	public static Color visColorText;
 	public static Color visColorHeatmapHigh;
 	public static Color visColorHeatmapLow;
+	public static Color visColorHetsAsH;
 
 	// Colors used by the nucleotide color scheme
 	public static Color visColorNucleotideA;
@@ -276,6 +279,7 @@ public class Prefs extends XMLPreferences
 		visColorText = new Color(0, 0, 0);
 		visColorHeatmapLow = new Color(120, 255, 120);
 		visColorHeatmapHigh = new Color(255, 120, 120);
+		visColorHetsAsH = new Color(255, 255, 0);
 
 		visColorNucleotideA = new Color(120, 255, 120);
 		visColorNucleotideC = new Color(255, 160, 120);
