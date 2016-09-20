@@ -196,6 +196,8 @@ public class NavPanel extends JPanel
 			addDendogramNode(viewSet, dendrogram);
 
 		addMabcNode(node, viewSet);
+		addPedVerF1sNode(node, viewSet);
+		addPedVerLinesNode(node, viewSet);
 	}
 
 	public void addBookmarkNode(GTViewSet viewSet, Bookmark bookmark)
@@ -230,20 +232,50 @@ public class NavPanel extends JPanel
 		return false;
 	}
 
-	public void addPedVerNode(GTViewSet viewSet)
+	public void addPedVerF1sNode(VisualizationNode vNode, GTViewSet viewSet)
 	{
-		VisualizationNode vNode = findVisualizationNode(viewSet);
-
-		PedVerF1sNode node = new PedVerF1sNode(gPanel, viewSet);
-		insert(node, vNode, vNode.getChildCount());
+		if (containsPedVerF1sResults(viewSet))
+		{
+			PedVerF1sNode node = new PedVerF1sNode(gPanel, viewSet);
+			insert(node, vNode, vNode.getChildCount());
+		}
 	}
 
-	public void addPedVerLinesNode(GTViewSet viewSet)
+	// Searches a view's list of lines (or its hidden list) to see if the lines
+	// are holding MabcResult objects
+	private boolean containsPedVerF1sResults(GTViewSet viewSet)
 	{
-		VisualizationNode vNode = findVisualizationNode(viewSet);
+		ArrayList<LineInfo> lines = viewSet.getLines();
+		if (viewSet.getLines().isEmpty())
+			lines = viewSet.getHideLines();
 
-		PedVerLinesNode node = new PedVerLinesNode(gPanel, viewSet);
-		insert(node, vNode, vNode.getChildCount());
+		if (!lines.isEmpty())
+			return lines.get(0).getResults().getPedVerF1sResult() != null;
+
+		return false;
+	}
+
+	public void addPedVerLinesNode(VisualizationNode vNode, GTViewSet viewSet)
+	{
+		if (containsPedVerLinesResults(viewSet))
+		{
+			PedVerLinesNode node = new PedVerLinesNode(gPanel, viewSet);
+			insert(node, vNode, vNode.getChildCount());
+		}
+	}
+
+	// Searches a view's list of lines (or its hidden list) to see if the lines
+	// are holding MabcResult objects
+	private boolean containsPedVerLinesResults(GTViewSet viewSet)
+	{
+		ArrayList<LineInfo> lines = viewSet.getLines();
+		if (viewSet.getLines().isEmpty())
+			lines = viewSet.getHideLines();
+
+		if (!lines.isEmpty())
+			return lines.get(0).getResults().getPedVerLinesResult() != null;
+
+		return false;
 	}
 
 	public void addSimMatrixNode(GTViewSet viewSet, SimMatrix matrix)

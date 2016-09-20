@@ -12,7 +12,6 @@ import jhi.flapjack.gui.dialog.*;
 import jhi.flapjack.gui.dialog.analysis.*;
 import jhi.flapjack.gui.simmatrix.*;
 import jhi.flapjack.gui.visualization.*;
-import jhi.flapjack.gui.visualization.colors.*;
 import jhi.flapjack.gui.visualization.undo.*;
 
 import scri.commons.gui.*;
@@ -342,13 +341,9 @@ public class MenuAnalysis
 
 		newViewSet.setName("PedVerF1s View");
 
-		// TODO: temporary workaround to get all chromosomes view back into MABC view
-//		FlapjackUtils.addAllChromosomesViewToClonedViewSet(viewSet, newViewSet);
-
 		// Create new NavPanel components to hold the results
 		dataSet.getViewSets().add(newViewSet);
 		navPanel.addVisualizationNode(dataSet, newViewSet);
-		navPanel.addPedVerNode(newViewSet);
 
 		Actions.projectModified();
 	}
@@ -363,47 +358,26 @@ public class MenuAnalysis
 		// list of lines that match the order in the dendrogram)
 		GTViewSet newViewSet = viewSet.createClone("", true);
 
-		AnalysisSet as = new AnalysisSet(newViewSet)
-			.withViews(null)
-			.withSelectedLines()
-			.withSelectedMarkers();
-
-		PedVerLinesStatsDialog dialog = new PedVerLinesStatsDialog(as);
+		PedVerLinesStatsDialog dialog = new PedVerLinesStatsDialog(viewSet);
 		if (dialog.isOK() == false)
 			return;
 
-		LineInfo ref = dialog.getReferenceLine();
-		LineInfo test = dialog.getTestLine();
+		// Retrieve information required for analysis from dialog
+		boolean[] selectedChromosomes = dialog.getSelectedChromosomes();
+		int refIndex = dialog.getReferenceLine();
+		int testIndex = dialog.getTestLine();
 
-		int refIndex = newViewSet.getLines().indexOf(ref);
-		int testIndex = newViewSet.getLines().indexOf(test);
-
-		// Move the parent lines to the top of the display
-		newViewSet.moveLine(refIndex, 0);
-		newViewSet.moveLine(testIndex, 1);
-
-		AnalysisSet linesSet = new AnalysisSet(newViewSet)
-			.withViews(null)
-			.withSelectedLines()
-			.withSelectedMarkers();
-
-		PedVerLinesAnalysis stats = new PedVerLinesAnalysis(linesSet, newViewSet, newViewSet.getDataSet().getStateTable(), refIndex, testIndex);
+		PedVerLinesAnalysis stats = new PedVerLinesAnalysis(newViewSet, selectedChromosomes, refIndex, testIndex);
 		ProgressDialog pDialog = new ProgressDialog(stats,
 			"Running PedVer Stats",
 			"Running PedVer stats - please be patient...",
 			Flapjack.winMain);
 
 		newViewSet.setName("PedVerLines View");
-		// Set the colour scheme to the similarity to line exact match scheme and set the comparison line equal to the
-		// F1
-		newViewSet.setColorScheme(ColorScheme.LINE_SIMILARITY);
-		newViewSet.setComparisonLineIndex(newViewSet.getLines().indexOf(test));
-		newViewSet.setComparisonLine(test.getLine());
 
 		// Create new NavPanel components to hold the results
 		dataSet.getViewSets().add(newViewSet);
 		navPanel.addVisualizationNode(dataSet, newViewSet);
-		navPanel.addPedVerLinesNode(newViewSet);
 
 		Actions.projectModified();
 	}
