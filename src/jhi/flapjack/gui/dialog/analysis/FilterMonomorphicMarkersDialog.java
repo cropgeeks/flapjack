@@ -12,13 +12,13 @@ import jhi.flapjack.gui.*;
 
 import scri.commons.gui.*;
 
-public class FilterMonomorphicDialog extends JDialog implements ActionListener
+public class FilterMonomorphicMarkersDialog extends JDialog implements ActionListener
 {
 	private GTViewSet viewSet;
 
 	private boolean isOK;
 
-	public FilterMonomorphicDialog(GTViewSet viewSet)
+	public FilterMonomorphicMarkersDialog(GTViewSet viewSet)
 	{
 		super(
 			Flapjack.winMain,

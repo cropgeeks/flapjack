@@ -553,7 +553,7 @@ public class MenuEdit
 	void editFilterMissingMarkersByLine()
 	{
 		GTViewSet viewSet = gPanel.getViewSet();
-		FilterMissingByLineDialog mDialog = new FilterMissingByLineDialog(gPanel, viewSet);
+		FilterMissingMarkersByLineDialog mDialog = new FilterMissingMarkersByLineDialog(gPanel, viewSet);
 
 		if (mDialog.isOK())
 		{
@@ -563,7 +563,7 @@ public class MenuEdit
 			state.createUndoState();
 
 
-			FilterMarkersMissingFromLine fmm = new FilterMarkersMissingFromLine(
+			FilterMissingMarkersByLine fmm = new FilterMissingMarkersByLine(
 				gPanel.getViewSet(), mDialog.getSelectedChromosomes(),
 				mDialog.getSelectedLine());
 
@@ -597,7 +597,7 @@ public class MenuEdit
 	void editFilterMonomorphicMarkers()
 	{
 		GTViewSet viewSet = gPanel.getViewSet();
-		FilterMonomorphicDialog mDialog = new FilterMonomorphicDialog(viewSet);
+		FilterMonomorphicMarkersDialog mDialog = new FilterMonomorphicMarkersDialog(viewSet);
 
 		if (mDialog.isOK())
 		{

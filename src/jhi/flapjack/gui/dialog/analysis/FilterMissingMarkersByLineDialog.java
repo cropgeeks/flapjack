@@ -14,14 +14,14 @@ import jhi.flapjack.gui.visualization.*;
 
 import scri.commons.gui.*;
 
-public class FilterMissingByLineDialog extends JDialog implements ActionListener
+public class FilterMissingMarkersByLineDialog extends JDialog implements ActionListener
 {
 	private GTViewSet viewSet;
 
 	private GenotypePanel gPanel;
 	private boolean isOK;
 
-	public FilterMissingByLineDialog(GenotypePanel gPanel, GTViewSet viewSet)
+	public FilterMissingMarkersByLineDialog(GenotypePanel gPanel, GTViewSet viewSet)
 	{
 		super(
 			Flapjack.winMain,
