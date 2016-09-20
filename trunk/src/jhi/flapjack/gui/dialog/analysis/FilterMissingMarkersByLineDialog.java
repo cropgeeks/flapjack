@@ -42,8 +42,7 @@ public class FilterMissingMarkersByLineDialog extends JDialog implements ActionL
 		getRootPane().setDefaultButton(bOK);
 		SwingUtils.addCloseHandler(this, bOK);
 
-		// If fewer than 2 lines are selected, disable the OK button.
-		if (viewSet.getView(0).countSelectedLines() < 2)
+		if (viewSet.getView(0).countSelectedLines() == 0)
 			bOK.setEnabled(false);
 
 		pack();
