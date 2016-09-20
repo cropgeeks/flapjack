@@ -183,9 +183,9 @@ public class MABCStatsDialog extends JDialog implements ActionListener
         jLabel3 = new javax.swing.JLabel();
         maxMrkrCoverage = new javax.swing.JSpinner();
         lblParent1 = new javax.swing.JLabel();
-        recurrentCombo = new javax.swing.JComboBox<LineInfo>();
+        recurrentCombo = new javax.swing.JComboBox<>();
         lblParent2 = new javax.swing.JLabel();
-        donorCombo = new javax.swing.JComboBox<LineInfo>();
+        donorCombo = new javax.swing.JComboBox<>();
         bWeighted = new javax.swing.JRadioButton();
         bUnweighted = new javax.swing.JRadioButton();
         jPanel2 = new javax.swing.JPanel();
@@ -204,7 +204,7 @@ public class MABCStatsDialog extends JDialog implements ActionListener
 
         jLabel3.setText("Maximum coverage per marker (cM): ");
 
-        maxMrkrCoverage.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(10.0d), Double.valueOf(0.0d), null, Double.valueOf(0.25d)));
+        maxMrkrCoverage.setModel(new javax.swing.SpinnerNumberModel(10.0d, 0.0d, null, 0.25d));
 
         lblParent1.setText("Select recurrent parent line:");
         lblParent1.setToolTipText("");
@@ -226,7 +226,7 @@ public class MABCStatsDialog extends JDialog implements ActionListener
                     .addComponent(recurrentCombo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(donorCombo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGap(0, 13, Short.MAX_VALUE)
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(maxMrkrCoverage, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -270,13 +270,14 @@ public class MABCStatsDialog extends JDialog implements ActionListener
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(chromosomeSelectionPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 345, Short.MAX_VALUE)
+                .addComponent(chromosomeSelectionPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(chromosomeSelectionPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 234, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(chromosomeSelectionPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 223, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
