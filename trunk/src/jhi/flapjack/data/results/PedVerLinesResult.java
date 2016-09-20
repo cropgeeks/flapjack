@@ -1,23 +1,19 @@
 package jhi.flapjack.data.results;
 
+import jhi.flapjack.data.*;
+
 import java.util.*;
 
-/**
- * Created by gs40939 on 30/05/2016.
- */
-public class PedVerLinesResult
+public class PedVerLinesResult extends XMLRoot
 {
 	private int markerCount;
-	private float missingPerc;
+	private double missingPerc;
 	private int hetCount;
-	private float hetPerc;
+	private double hetPerc;
 	private int matchCount;
-	private float matchPerc;
+	private double matchPerc;
 
 	private ArrayList<Integer> chrMatchCount = new ArrayList<>();
-
-	// Holds a reference to the test line's results (obtainable via any line)
-	private PedVerLinesTestResult testResults;
 
 	public int getMarkerCount()
 		{ return markerCount; }
@@ -25,10 +21,10 @@ public class PedVerLinesResult
 	public void setMarkerCount(int markerCount)
 		{ this.markerCount = markerCount; }
 
-	public float getMissingPerc()
+	public double getMissingPerc()
 		{ return missingPerc; }
 
-	public void setMissingPerc(float missingPerc)
+	public void setMissingPerc(double missingPerc)
 		{ this.missingPerc = missingPerc; }
 
 	public int getHetCount()
@@ -37,10 +33,10 @@ public class PedVerLinesResult
 	public void setHetCount(int hetCount)
 		{ this.hetCount = hetCount; }
 
-	public float getHetPerc()
+	public double getHetPerc()
 		{ return hetPerc; }
 
-	public void setHetPerc(float hetPerc)
+	public void setHetPerc(double hetPerc)
 		{ this.hetPerc = hetPerc; }
 
 	public int getMatchCount()
@@ -49,10 +45,10 @@ public class PedVerLinesResult
 	public void setMatchCount(int matchCount)
 		{ this.matchCount = matchCount; }
 
-	public float getMatchPerc()
+	public double getMatchPerc()
 		{ return matchPerc; }
 
-	public void setMatchPerc(float matchPerc)
+	public void setMatchPerc(double matchPerc)
 		{ this.matchPerc = matchPerc; }
 
 	public ArrayList<Integer> getChrMatchCount()
@@ -60,10 +56,4 @@ public class PedVerLinesResult
 
 	public void setChrMatchCount(ArrayList<Integer> chrMatchCount)
 		{ this.chrMatchCount = chrMatchCount; }
-
-	public PedVerLinesTestResult getPedVerLinesResults()
-		{ return testResults; }
-
-	public void setPedVerLinesResults(PedVerLinesTestResult testResults)
-		{ this.testResults = testResults; }
 }

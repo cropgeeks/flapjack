@@ -63,18 +63,13 @@ public class PedVerF1sAnalysis extends SimpleJob
 
 		// Set the colour scheme to the similarity to line exact match scheme and set the comparison line equal to the
 		// F1
-		viewSet.setColorScheme(ColorScheme.LINE_SIMILARITY_EXACT_MATCH);
+		viewSet.setColorScheme(ColorScheme.LINE_SIMILARITY);
 		viewSet.setComparisonLineIndex(viewSet.getLines().indexOf(f1));
 		viewSet.setComparisonLine(f1.getLine());
 	}
 
 	public void runJob(int index)
 		throws Exception
-	{
-		calculateStats(as);
-	}
-
-	private void calculateStats(AnalysisSet as)
 	{
 		calculateExpectedF1Stats();
 
@@ -85,7 +80,7 @@ public class PedVerF1sAnalysis extends SimpleJob
 	private PedVerF1sResult calculateStatsForLine(int lineIndex)
 	{
 		LineInfo lineInfo = as.getLine(lineIndex);
-		PedVerF1sResult lineStat = new PedVerF1sResult(lineInfo);
+		PedVerF1sResult lineStat = new PedVerF1sResult();
 		lineInfo.getResults().setPedVerF1sResult(lineStat);
 
 		int foundMarkers = usableMarkerCount(lineIndex);
@@ -95,27 +90,26 @@ public class PedVerF1sAnalysis extends SimpleJob
 		int matchesExpF1 = matchesExpF1(lineIndex);
 		int missingCount = countMissingAlleles(lineIndex);
 
-		lineStat.setLine(lineInfo);
 		lineStat.setMarkerCount(foundMarkers);
-		lineStat.setPercentMissing((missingCount / (float) totalMarkerCount) * 100);
-		lineStat.setPercentDeviationFromExpected((1 - (foundMarkers / (float) totalMarkerCount)) * 100);
+		lineStat.setPercentMissing((missingCount / (double) totalMarkerCount) * 100);
+		lineStat.setPercentDeviationFromExpected((1 - (foundMarkers / (double) totalMarkerCount)) * 100);
 		lineStat.setHeterozygousCount(hetMarkers);
-		lineStat.setPercentHeterozygous((hetMarkers / (float)foundMarkers) * 100);
-		lineStat.setPercentDeviationFromExpected(f1PercentCount - ((hetMarkers / (float)foundMarkers) * 100));
+		lineStat.setPercentHeterozygous((hetMarkers / (double)foundMarkers) * 100);
+		lineStat.setPercentDeviationFromExpected(f1PercentCount - ((hetMarkers / (double)foundMarkers) * 100));
 		lineStat.setCountP1Contained(p1Contained);
-		lineStat.setPercentP1Contained((p1Contained / (float)foundMarkers) * 100);
+		lineStat.setPercentP1Contained((p1Contained / (double)foundMarkers) * 100);
 		lineStat.setCountP2Contained(p2Contained);
-		lineStat.setPercentP2Contained((p2Contained / (float)foundMarkers) * 100);
+		lineStat.setPercentP2Contained((p2Contained / (double)foundMarkers) * 100);
 		lineStat.setCountAlleleMatchExpected(matchesExpF1);
-		lineStat.setPercentAlleleMatchExpected((matchesExpF1 / (float)foundMarkers) * 100);
+		lineStat.setPercentAlleleMatchExpected((matchesExpF1 / (double)foundMarkers) * 100);
 
 		return lineStat;
 	}
 
 	// Loops over all the alleles in the expected F1 as identified by f1Index
-	 // and counts the total number of usable markers and the total number of
-	 // heterozygous alleles. Finally it calculates the percentage of alleles in
-	 //the (expected) F1 line that are heterozygous.
+	// and counts the total number of usable markers and the total number of
+	// heterozygous alleles. Finally it calculates the percentage of alleles in
+	//the (expected) F1 line that are heterozygous.
 	private void calculateExpectedF1Stats()
 	{
 		for (int c = 0; c < as.viewCount(); c++)

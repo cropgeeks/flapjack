@@ -5,39 +5,22 @@ package jhi.flapjack.data.results;
 
 import jhi.flapjack.data.*;
 
-/**
- * Created by gs40939 on 04/05/2016.
- */
-public class PedVerF1sResult
+public class PedVerF1sResult extends XMLRoot
 {
-	// What line are these stats associated with
-	private LineInfo line;
-
 	private int markerCount;
-	private float percentMissing;
+	private double percentMissing;
 	private int heterozygousCount;
-	private float percentHeterozygous;
-	private float percentDeviationFromExpected;
+	private double percentHeterozygous;
+	private double percentDeviationFromExpected;
 	private int countP1Contained;
-	private float percentP1Contained;
+	private double percentP1Contained;
 	private int countP2Contained;
-	private float percentP2Contained;
+	private double percentP2Contained;
 	private int countAlleleMatchExpected;
-	private float percentAlleleMatchExpected;
+	private double percentAlleleMatchExpected;
 
-	public PedVerF1sResult(LineInfo line)
+	public PedVerF1sResult()
 	{
-
-	}
-
-	public LineInfo getLine()
-	{
-		return line;
-	}
-
-	public void setLine(LineInfo line)
-	{
-		this.line = line;
 	}
 
 	public int getMarkerCount()
@@ -50,12 +33,12 @@ public class PedVerF1sResult
 		this.markerCount = markerCount;
 	}
 
-	public float getPercentMissing()
+	public double getPercentMissing()
 	{
 		return percentMissing;
 	}
 
-	public void setPercentMissing(float percentMissing)
+	public void setPercentMissing(double percentMissing)
 	{
 		this.percentMissing = percentMissing;
 	}
@@ -70,22 +53,22 @@ public class PedVerF1sResult
 		this.heterozygousCount = heterozygousCount;
 	}
 
-	public float getPercentHeterozygous()
+	public double getPercentHeterozygous()
 	{
 		return percentHeterozygous;
 	}
 
-	public void setPercentHeterozygous(float percentHeterozygous)
+	public void setPercentHeterozygous(double percentHeterozygous)
 	{
 		this.percentHeterozygous = percentHeterozygous;
 	}
 
-	public float getPercentDeviationFromExpected()
+	public double getPercentDeviationFromExpected()
 	{
 		return percentDeviationFromExpected;
 	}
 
-	public void setPercentDeviationFromExpected(float percentDeviationFromExpected)
+	public void setPercentDeviationFromExpected(double percentDeviationFromExpected)
 	{
 		this.percentDeviationFromExpected = percentDeviationFromExpected;
 	}
@@ -100,12 +83,12 @@ public class PedVerF1sResult
 		this.countP1Contained = countP1Contained;
 	}
 
-	public float getPercentP1Contained()
+	public double getPercentP1Contained()
 	{
 		return percentP1Contained;
 	}
 
-	public void setPercentP1Contained(float percentP1Contained)
+	public void setPercentP1Contained(double percentP1Contained)
 	{
 		this.percentP1Contained = percentP1Contained;
 	}
@@ -120,12 +103,12 @@ public class PedVerF1sResult
 		this.countP2Contained = countP2Contained;
 	}
 
-	public float getPercentP2Contained()
+	public double getPercentP2Contained()
 	{
 		return percentP2Contained;
 	}
 
-	public void setPercentP2Contained(float percentP2Contained)
+	public void setPercentP2Contained(double percentP2Contained)
 	{
 		this.percentP2Contained = percentP2Contained;
 	}
@@ -140,32 +123,13 @@ public class PedVerF1sResult
 		this.countAlleleMatchExpected = countAlleleMatchExpected;
 	}
 
-	public float getPercentAlleleMatchExpected()
+	public double getPercentAlleleMatchExpected()
 	{
 		return percentAlleleMatchExpected;
 	}
 
-	public void setPercentAlleleMatchExpected(float percentAlleleMatchExpected)
+	public void setPercentAlleleMatchExpected(double percentAlleleMatchExpected)
 	{
 		this.percentAlleleMatchExpected = percentAlleleMatchExpected;
-	}
-
-	@Override
-	public String toString()
-	{
-		return "PedVerKnownParentsLineStats{" +
-			"line=" + line +
-			", markerCount=" + markerCount +
-			", percentMissing=" + percentMissing +
-			", heterozygousCount=" + heterozygousCount +
-			", percentHeterozygous=" + percentHeterozygous +
-			", percentDeviationFromExpected=" + percentDeviationFromExpected +
-			", countP1Contained=" + countP1Contained +
-			", percentP1Contained=" + percentP1Contained +
-			", countP2Contained=" + countP2Contained +
-			", percentP2Contained=" + percentP2Contained +
-			", countAlleleMatchExpected=" + countAlleleMatchExpected +
-			", percentAlleleMatchExpected=" + percentAlleleMatchExpected +
-			'}';
 	}
 }

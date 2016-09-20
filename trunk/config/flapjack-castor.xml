@@ -294,4 +294,12 @@
 		</field>
     </class>
 
+	<!-- PedVerF1sResult -->
+	<class name="jhi.flapjack.data.results.PedVerF1sResult" extends="jhi.flapjack.data.XMLRoot" auto-complete="true">
+	</class>
+
+	<!-- PedVerLinesResult -->
+	<class name="jhi.flapjack.data.results.PedVerLinesResult" extends="jhi.flapjack.data.XMLRoot" auto-complete="true">
+	</class>
+
 </mapping>

@@ -29,7 +29,7 @@ public class PedVerLinesStatsDialog extends JDialog implements ActionListener
 	/**
 	 * Creates new form PedVerStatsDialogNew
 	 */
-	public PedVerLinesStatsDialog(AnalysisSet as)
+	public PedVerLinesStatsDialog(GTViewSet viewSet)
 	{
 		super(
 			Flapjack.winMain,
@@ -42,6 +42,12 @@ public class PedVerLinesStatsDialog extends JDialog implements ActionListener
         initComponents();
 		initComponents2();
 
+		AnalysisSet as = new AnalysisSet(viewSet)
+			.withViews(null)
+			.withSelectedLines()
+			.withSelectedMarkers();
+
+		chromosomeSelectionPanel.setupComponents(viewSet, bOK, true);
 		setupComboBoxes(as);
 
 		parentsPanel.setBackground(Color.WHITE);
@@ -104,14 +110,21 @@ public class PedVerLinesStatsDialog extends JDialog implements ActionListener
 			setVisible(false);
 	}
 
-	public LineInfo getReferenceLine()
+	public int getReferenceLine()
 	{
-		return (LineInfo)referenceCombo.getSelectedItem();
+		return referenceCombo.getSelectedIndex();
 	}
 
-	public LineInfo getTestLine()
+	public int getTestLine()
 	{
-		return (LineInfo)testCombo.getSelectedItem();
+		return testCombo.getSelectedIndex();
+	}
+
+	// Generates a boolean array with a true/false selected state for each of
+	// the possible chromosomes that could be used in the sort
+	public boolean[] getSelectedChromosomes()
+	{
+		return chromosomeSelectionPanel.getSelectedChromosomes();
 	}
 
 	/**
@@ -126,12 +139,14 @@ public class PedVerLinesStatsDialog extends JDialog implements ActionListener
 
         parentsPanel = new javax.swing.JPanel();
         lblParent1 = new javax.swing.JLabel();
-        referenceCombo = new javax.swing.JComboBox<>();
+        referenceCombo = new javax.swing.JComboBox<LineInfo>();
         lblParent2 = new javax.swing.JLabel();
-        testCombo = new javax.swing.JComboBox<>();
+        testCombo = new javax.swing.JComboBox<LineInfo>();
         dialogPanel1 = new scri.commons.gui.matisse.DialogPanel();
         bOK = new javax.swing.JButton();
         bCancel = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
+        chromosomeSelectionPanel = new jhi.flapjack.gui.dialog.analysis.ChromosomeSelectionPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -179,6 +194,25 @@ public class PedVerLinesStatsDialog extends JDialog implements ActionListener
         bCancel.setText("Cancel");
         dialogPanel1.add(bCancel);
 
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Data selection settings:"));
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(chromosomeSelectionPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(chromosomeSelectionPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 332, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -186,15 +220,19 @@ public class PedVerLinesStatsDialog extends JDialog implements ActionListener
             .addComponent(dialogPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(parentsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(parentsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
                 .addComponent(parentsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(dialogPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -205,7 +243,9 @@ public class PedVerLinesStatsDialog extends JDialog implements ActionListener
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bCancel;
     private javax.swing.JButton bOK;
+    private jhi.flapjack.gui.dialog.analysis.ChromosomeSelectionPanel chromosomeSelectionPanel;
     private scri.commons.gui.matisse.DialogPanel dialogPanel1;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblParent1;
     private javax.swing.JLabel lblParent2;
     private javax.swing.JPanel parentsPanel;
