@@ -73,6 +73,11 @@ public class ChromosomeSelectionPanel extends JPanel implements ActionListener
 		checkButtonState();
 	}
 
+	public void hideLineSummary()
+	{
+		lblSelectedLines.setVisible(false);
+	}
+
 	private void checkButtonState()
 	{
 		boolean enabled = false;

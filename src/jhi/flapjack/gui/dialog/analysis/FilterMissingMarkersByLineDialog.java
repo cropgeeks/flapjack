@@ -60,7 +60,8 @@ public class FilterMissingMarkersByLineDialog extends JDialog implements ActionL
 		RB.setText(bCancel, "gui.text.cancel");
 		bCancel.addActionListener(this);
 
-		chromosomeSelectionPanel.setupComponents(viewSet, bOK, true);
+		chromosomeSelectionPanel.setupComponents(viewSet, bOK, false);
+		chromosomeSelectionPanel.hideLineSummary();
 
 
 		// Set up the combo box
@@ -79,8 +80,6 @@ public class FilterMissingMarkersByLineDialog extends JDialog implements ActionL
 
 		if (view.mouseOverLine >= 0 && view.mouseOverLine < view.lineCount())
 			selectedLine.setSelectedIndex(view.mouseOverLine);
-
-//		selectedLine.addActionListener(e -> { checkSelectedLine(); });
 	}
 
 	// Generates a boolean array with a true/false selected state for each of
@@ -97,17 +96,6 @@ public class FilterMissingMarkersByLineDialog extends JDialog implements ActionL
 
 	public boolean isOK()
 		{ return isOK; }
-
-	// Checks to ensure that a dummy line hasn't been selected (if it has, it's
-	// not safe to run the analysis as it'll get removed before it happens and
-	// then there won't be a comparison line (or it'll be wrong!))
-	private void checkSelectedLine()
-	{
-		int index = selectedLine.getSelectedIndex();
-		GTView view = gPanel.getView();
-
-		bOK.setEnabled(!view.isDummyLine(index) && !view.isSplitter(index));
-	}
 
 	@Override
 	public void actionPerformed(ActionEvent e)
