@@ -7,13 +7,13 @@ import jhi.flapjack.data.*;
 
 import scri.commons.gui.*;
 
-public class FilterMarkersMissingFromLine extends SimpleJob
+public class FilterMissingMarkersByLine extends SimpleJob
 {
 	private GTViewSet viewSet;
 	private boolean[] selectedChromosomes;
 	private LineInfo line;
 
-	public FilterMarkersMissingFromLine(GTViewSet viewSet, boolean[] selectedChromosomes, LineInfo line)
+	public FilterMissingMarkersByLine(GTViewSet viewSet, boolean[] selectedChromosomes, LineInfo line)
 	{
 		this.viewSet = viewSet;
 		this.selectedChromosomes = selectedChromosomes;
