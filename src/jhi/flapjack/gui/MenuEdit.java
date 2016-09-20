@@ -10,7 +10,7 @@ import javax.swing.*;
 import jhi.flapjack.analysis.*;
 import jhi.flapjack.data.*;
 import jhi.flapjack.gui.dialog.*;
-import jhi.flapjack.gui.dialog.analysis.FilterMonomorphicDialog;
+import jhi.flapjack.gui.dialog.analysis.*;
 import jhi.flapjack.gui.visualization.*;
 import jhi.flapjack.gui.visualization.undo.*;
 
@@ -489,7 +489,7 @@ public class MenuEdit
 	void editDeleteSplitter()
 	{
 		GTViewSet viewSet = gPanel.getViewSet();
-		
+
 		int response = TaskDialog.show(RB.getString("gui.MenuEdit.removeSplitter"),
 			TaskDialog.INF, 0, new String[] { RB.getString("gui.text.ok"), RB.getString("gui.text.cancel") } );
 
@@ -524,6 +524,48 @@ public class MenuEdit
 			FilterMissingMarkers fmm = new FilterMissingMarkers(
 				gPanel.getViewSet(), mmDialog.getSelectedChromosomes(),
 				Prefs.guiMissingMarkerPcnt);
+
+			ProgressDialog dialog = new ProgressDialog(fmm,
+				RB.getString("gui.MenuEdit.fmm.title"),
+				RB.getString("gui.MenuEdit.fmm.label"),
+				Flapjack.winMain);
+
+			// If the operation failed or was cancelled...
+			if (dialog.getResult() != ProgressDialog.JOB_COMPLETED)
+			{
+				// As we'll now be left with some markers removed and some not,
+				// put the view back into its previous state
+				editUndoRedo(true);
+				gPanel.refreshView();
+
+				return;
+			}
+
+
+			gPanel.refreshView();
+
+			// Set the redo state...
+			state.createRedoState();
+			gPanel.addUndoState(state);
+		}
+	}
+
+	void editFilterMissingMarkersByLine()
+	{
+		GTViewSet viewSet = gPanel.getViewSet();
+		FilterMissingByLineDialog mDialog = new FilterMissingByLineDialog(gPanel, viewSet);
+
+		if (mDialog.isOK())
+		{
+			// Set the undo state...
+			HidMarkersState state = new HidMarkersState(gPanel.getView(),
+				RB.getString("gui.visualization.HidMarkersState.hidMarkers"));
+			state.createUndoState();
+
+
+			FilterMarkersMissingFromLine fmm = new FilterMarkersMissingFromLine(
+				gPanel.getViewSet(), mDialog.getSelectedChromosomes(),
+				mDialog.getSelectedLine());
 
 			ProgressDialog dialog = new ProgressDialog(fmm,
 				RB.getString("gui.MenuEdit.fmm.title"),

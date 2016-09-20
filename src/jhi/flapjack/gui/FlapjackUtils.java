@@ -168,4 +168,9 @@ public class FlapjackUtils
 		}
 		catch (Throwable e) { return new File(""); }
 	}
+
+	public static Color getDialogBG()
+	{
+		return (Color) UIManager.get("fjDialogBG");
+	}
 }

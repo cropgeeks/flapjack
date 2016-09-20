@@ -9,7 +9,6 @@ import javax.swing.*;
 import javax.swing.table.*;
 
 import jhi.flapjack.data.*;
-import jhi.flapjack.gui.*;
 
 import scri.commons.gui.*;
 
@@ -24,15 +23,12 @@ class SortLinesPanelNB extends javax.swing.JPanel implements ActionListener
 		setBackground((Color)UIManager.get("fjDialogBG"));
 		linePanel.setBackground((Color)UIManager.get("fjDialogBG"));
 		tablePanel.setBackground((Color)UIManager.get("fjDialogBG"));
-
-		if (true)
-			RB.setText(lineLabel, "gui.dialog.analysis.NBSortLinesPanel.lineLabel.similarity");
-
 		linePanel.setBorder(BorderFactory.createTitledBorder(RB.getString("gui.dialog.analysis.NBSortLinesPanel.linePanel.title")));
 		tablePanel.setBorder(BorderFactory.createTitledBorder(RB.getString("gui.dialog.analysis.NBSortLinesPanel.tablePanel.title")));
 		RB.setText(tableLabel, "gui.dialog.analysis.NBSortLinesPanel.tableLabel");
 		RB.setText(selectAllLabel, "gui.dialog.analysis.NBSortLinesPanel.selectAllLabel");
 		RB.setText(selectNoneLabel, "gui.dialog.analysis.NBSortLinesPanel.selectNoneLabel");
+		RB.setText(lineLabel, "gui.dialog.analysis.NBSortLinesPanel.lineLabel.similarity");
 
 		view = viewSet.getView(viewSet.getViewIndex());
 
