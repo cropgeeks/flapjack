@@ -3,6 +3,7 @@
 
 package jhi.flapjack.gui.visualization;
 
+import com.sun.imageio.spi.*;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -62,6 +63,10 @@ public class CanvasMenu
 	private JMenuItem mSortLinesByExternal;
 	private JMenuItem mSortLinesAlphabetically;
 	private JMenuItem mFind;
+	private JMenu mFilter;
+	private JMenuItem mFilterMissingMarkers;
+	private JMenuItem mFilterMissingMarkersByLine;
+	private JMenuItem mFilterMonomorphicMarkers;
 
 
 	CanvasMenu(GenotypeCanvas canvas, WinMain winMain)
@@ -169,6 +174,16 @@ public class CanvasMenu
 		mSortLines.add(mSortLinesBySimilarity);
 		mSortLines.add(mSortLinesByTrait);
 		mSortLines.add(mSortLinesByExternal);
+
+		mFilterMissingMarkers = WinMainMenuBar.getItem(Actions.editFilterMissingMarkers, "gui.Actions.editFilterMissingMarkers", 0, 0);
+		mFilterMissingMarkersByLine = WinMainMenuBar.getItem(Actions.editFilterMissingMarkersByLine, "gui.Actions.editFilterMissingMarkersByLine", 0, 0);
+		mFilterMonomorphicMarkers = WinMainMenuBar.getItem(Actions.editFilterMonomorphicMarkers, "gui.Actions.editFilterMonomorphicMarkers", 0, 0);
+
+		mFilter = new JMenu(RB.getString("gui.WinMainMenuBar.mEditFilterMarkers"));
+		RB.setMnemonic(mFilter, "gui.WinMainMenuBar.mEditFilterMarkers");
+		mFilter.add(mFilterMissingMarkers);
+		mFilter.add(mFilterMissingMarkersByLine);
+		mFilter.add(mFilterMonomorphicMarkers);
 	}
 
 	void handlePopup(MouseEvent e)
@@ -189,7 +204,10 @@ public class CanvasMenu
 		menu = new JPopupMenu();
 
 		menu.add(mBookmark);
+		menu.addSeparator();
+		menu.add(mSortLines);
 		menu.add(mSplitLines);
+		menu.add(mFilter);
 		menu.addSeparator();
 		menu.add(mColor);
 		menu.add(mShowGenotypes);
@@ -198,7 +216,6 @@ public class CanvasMenu
 		menu.addSeparator();
 		menu.add(mSelectTraits);
 		menu.addSeparator();
-		menu.add(mSortLines);
 		menu.add(mFind);
 		menu.add(mDataDB);
 
