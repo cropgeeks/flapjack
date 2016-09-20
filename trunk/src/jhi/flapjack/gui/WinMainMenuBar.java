@@ -43,6 +43,7 @@ public class WinMainMenuBar extends JMenuBar
 	private JMenuItem mEditHideMarkers;
 	private JMenu mEditFilterMarkers;
 	private JMenuItem mEditFilterMissingMarkers;
+	private JMenuItem mEditFilterMissingMarkersByLine;
 	private JMenuItem mEditFilterMonomorphicMarkers;
 	private JMenu mEditSelectLines;
 	private JMenuItem mEditSelectLinesAll;
@@ -216,6 +217,7 @@ public class WinMainMenuBar extends JMenuBar
 		mEditSelectMarkersImport = getItem(Actions.editSelectMarkersImport, "gui.Actions.editSelectMarkersImport", 0, 0);
 		mEditHideMarkers = getItem(Actions.editHideMarkers, "gui.Actions.editHideMarkers", 0, 0);
 		mEditFilterMissingMarkers = getItem(Actions.editFilterMissingMarkers, "gui.Actions.editFilterMissingMarkers", 0, 0);
+		mEditFilterMissingMarkersByLine = getItem(Actions.editFilterMissingMarkersByLine, "gui.Actions.editFilterMissingMarkersByLine", 0, 0);
 		mEditFilterMonomorphicMarkers = getItem(Actions.editFilterMonomorphicMarkers, "gui.Actions.editFilterMonomorphicMarkers", 0, 0);
 		mEditSelectLinesAll = getItem(Actions.editSelectLinesAll, "gui.Actions.editSelectLinesAll", 0, 0);
 		mEditSelectLinesNone = getItem(Actions.editSelectLinesNone, "gui.Actions.editSelectLinesNone", 0, 0);
@@ -241,6 +243,8 @@ public class WinMainMenuBar extends JMenuBar
 		mEditSelectLines.add(mEditSelectLinesImport);
 
 		mEditFilterMarkers.add(mEditFilterMissingMarkers);
+		mEditFilterMarkers.add(mEditFilterMissingMarkersByLine);
+		mEditFilterMarkers.addSeparator();
 		mEditFilterMarkers.add(mEditFilterMonomorphicMarkers);
 
 		mEdit.add(mEditUndo);

@@ -11,13 +11,13 @@ public class FilterMarkersMissingFromLine extends SimpleJob
 {
 	private GTViewSet viewSet;
 	private boolean[] selectedChromosomes;
-	private int lineIndex;
+	private LineInfo line;
 
-	public FilterMarkersMissingFromLine(GTViewSet viewSet, boolean[] selectedChromosomes, int lineIndex)
+	public FilterMarkersMissingFromLine(GTViewSet viewSet, boolean[] selectedChromosomes, LineInfo line)
 	{
 		this.viewSet = viewSet;
 		this.selectedChromosomes = selectedChromosomes;
-		this.lineIndex = lineIndex;
+		this.line = line;
 	}
 
 	public void runJob(int index)
@@ -30,6 +30,8 @@ public class FilterMarkersMissingFromLine extends SimpleJob
 
 		for (int i = 0; i < as.viewCount(); i++)
 			maximum += as.markerCount(index);
+
+		int lineIndex = as.getLines().indexOf(line);
 
 		for (int view = 0; view < as.viewCount(); view++)
 		{
