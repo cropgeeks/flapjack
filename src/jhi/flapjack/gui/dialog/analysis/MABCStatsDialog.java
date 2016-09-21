@@ -16,6 +16,7 @@ import scri.commons.gui.*;
 public class MABCStatsDialog extends JDialog implements ActionListener
 {
 	private GTViewSet viewSet;
+	private ChromosomeSelectionDialog csd;
 
 	private AnalysisSet as;
 
@@ -68,7 +69,8 @@ public class MABCStatsDialog extends JDialog implements ActionListener
 		RB.setText(bCancel, "gui.text.cancel");
 		bCancel.addActionListener(this);
 
-		chromosomeSelectionPanel.setupComponents(viewSet, bOK, true);
+		csd = new ChromosomeSelectionDialog(viewSet, true);
+		csdLabel.addActionListener(e -> { csd.setVisible(true); } );
 
 		setupComboBoxes(as);
 
@@ -116,7 +118,7 @@ public class MABCStatsDialog extends JDialog implements ActionListener
 	// the possible chromosomes that could be used in the sort
 	public boolean[] getSelectedChromosomes()
 	{
-		return chromosomeSelectionPanel.getSelectedChromosomes();
+		return csd.getSelectedChromosomes();
 	}
 
 	public int getRecurrentParent()
@@ -189,7 +191,7 @@ public class MABCStatsDialog extends JDialog implements ActionListener
         bWeighted = new javax.swing.JRadioButton();
         bUnweighted = new javax.swing.JRadioButton();
         jPanel2 = new javax.swing.JPanel();
-        chromosomeSelectionPanel = new jhi.flapjack.gui.dialog.analysis.ChromosomeSelectionPanel();
+        csdLabel = new scri.commons.gui.matisse.HyperLinkLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -264,21 +266,23 @@ public class MABCStatsDialog extends JDialog implements ActionListener
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Data selection settings:"));
 
+        csdLabel.setText("Select chromosomes to analyse");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(chromosomeSelectionPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(csdLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+            .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(chromosomeSelectionPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 223, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(csdLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -313,7 +317,7 @@ public class MABCStatsDialog extends JDialog implements ActionListener
     private javax.swing.JButton bOK;
     private javax.swing.JRadioButton bUnweighted;
     private javax.swing.JRadioButton bWeighted;
-    private jhi.flapjack.gui.dialog.analysis.ChromosomeSelectionPanel chromosomeSelectionPanel;
+    private scri.commons.gui.matisse.HyperLinkLabel csdLabel;
     private scri.commons.gui.matisse.DialogPanel dialogPanel1;
     private javax.swing.JComboBox<LineInfo> donorCombo;
     private javax.swing.JLabel jLabel3;
