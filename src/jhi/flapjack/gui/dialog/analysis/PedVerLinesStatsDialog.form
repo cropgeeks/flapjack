@@ -27,7 +27,7 @@
           <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="parentsPanel" alignment="0" max="32767" attributes="0"/>
+                  <Component id="parentsPanel" max="32767" attributes="0"/>
                   <Component id="jPanel1" alignment="1" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -39,9 +39,9 @@
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Component id="parentsPanel" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="32767" attributes="0"/>
-              <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Component id="jPanel1" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
               <Component id="dialogPanel1" min="-2" max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -137,7 +137,7 @@
       <SubComponents>
         <Component class="javax.swing.JButton" name="bOK">
           <Properties>
-            <Property name="text" type="java.lang.String" value="OK"/>
+            <Property name="text" type="java.lang.String" value="Run"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="bCancel">
@@ -161,8 +161,8 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="chromosomeSelectionPanel" max="32767" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="csdLabel" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -170,14 +170,17 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="chromosomeSelectionPanel" pref="332" max="32767" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="csdLabel" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="jhi.flapjack.gui.dialog.analysis.ChromosomeSelectionPanel" name="chromosomeSelectionPanel">
+        <Component class="scri.commons.gui.matisse.HyperLinkLabel" name="csdLabel">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Select chromosomes to analyse"/>
+          </Properties>
         </Component>
       </SubComponents>
     </Container>
