@@ -3,7 +3,6 @@
 
 package jhi.flapjack.gui.dialog.analysis;
 
-import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
@@ -44,7 +43,7 @@ public class MABCStatsDialog extends JDialog implements ActionListener
 
 		initComponents();
 		initComponents2();
-		getContentPane().setBackground(Color.WHITE);
+		FlapjackUtils.setDialogBG(getContentPane(), settingsPanel, dataPanel);
 
 		getRootPane().setDefaultButton(bOK);
 		SwingUtils.addCloseHandler(this, bOK);
@@ -63,7 +62,7 @@ public class MABCStatsDialog extends JDialog implements ActionListener
 	{
 		maxMrkrCoverage.setValue(Prefs.mabcMaxMrkrCoverage);
 
-		RB.setText(bOK, "gui.text.ok");
+//		RB.setText(bOK, "gui.text.ok");
 		bOK.addActionListener(this);
 
 		RB.setText(bCancel, "gui.text.cancel");
@@ -195,13 +194,12 @@ public class MABCStatsDialog extends JDialog implements ActionListener
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        bOK.setText("OK");
+        bOK.setText("Run");
         dialogPanel1.add(bOK);
 
         bCancel.setText("Cancel");
         dialogPanel1.add(bCancel);
 
-        settingsPanel.setBackground(new java.awt.Color(255, 255, 255));
         settingsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("General settings:"));
 
         jLabel3.setText("Maximum coverage per marker (cM): ");
@@ -263,7 +261,6 @@ public class MABCStatsDialog extends JDialog implements ActionListener
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        dataPanel.setBackground(new java.awt.Color(255, 255, 255));
         dataPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Data selection settings:"));
 
         csdLabel.setText("Select chromosomes to analyse");

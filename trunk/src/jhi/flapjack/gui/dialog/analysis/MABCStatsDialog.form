@@ -57,7 +57,7 @@
       <SubComponents>
         <Component class="javax.swing.JButton" name="bOK">
           <Properties>
-            <Property name="text" type="java.lang.String" value="OK"/>
+            <Property name="text" type="java.lang.String" value="Run"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="bCancel">
@@ -69,9 +69,6 @@
     </Container>
     <Container class="javax.swing.JPanel" name="settingsPanel">
       <Properties>
-        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="ff" green="ff" red="ff" type="rgb"/>
-        </Property>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
             <TitledBorder title="General settings:"/>
@@ -191,9 +188,6 @@
     </Container>
     <Container class="javax.swing.JPanel" name="dataPanel">
       <Properties>
-        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="ff" green="ff" red="ff" type="rgb"/>
-        </Property>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
             <TitledBorder title="Data selection settings:"/>

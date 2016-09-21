@@ -22,6 +22,8 @@ import scri.commons.gui.SwingUtils;
  */
 public class PedVerF1StatsDialog extends JDialog implements ActionListener
 {
+	private ChromosomeSelectionDialog csd;
+
 	private boolean isOK;
 
 	private ButtonGroup f1Group;
@@ -51,7 +53,9 @@ public class PedVerF1StatsDialog extends JDialog implements ActionListener
 			.withSelectedLines()
 			.withSelectedMarkers();
 
-		chromosomeSelectionPanel.setupComponents(viewSet, bOK, true);
+		csd = new ChromosomeSelectionDialog(viewSet, true);
+		csdLabel.addActionListener(e -> { csd.setVisible(true); } );
+
 		setupF1ButtonGroup();
 		setupComboBoxes(as);
 
@@ -100,7 +104,7 @@ public class PedVerF1StatsDialog extends JDialog implements ActionListener
 
 	private void initComponents2()
 	{
-		RB.setText(bOK, "gui.text.ok");
+//		RB.setText(bOK, "gui.text.ok");
 		bOK.addActionListener(this);
 
 		RB.setText(bCancel, "gui.text.cancel");
@@ -154,7 +158,7 @@ public class PedVerF1StatsDialog extends JDialog implements ActionListener
 	// the possible chromosomes that could be used in the sort
 	public boolean[] getSelectedChromosomes()
 	{
-		return chromosomeSelectionPanel.getSelectedChromosomes();
+		return csd.getSelectedChromosomes();
 	}
 
 	/**
@@ -179,7 +183,7 @@ public class PedVerF1StatsDialog extends JDialog implements ActionListener
         bOK = new javax.swing.JButton();
         bCancel = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
-        chromosomeSelectionPanel = new jhi.flapjack.gui.dialog.analysis.ChromosomeSelectionPanel();
+        csdLabel = new scri.commons.gui.matisse.HyperLinkLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -234,7 +238,7 @@ public class PedVerF1StatsDialog extends JDialog implements ActionListener
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        bOK.setText("OK");
+        bOK.setText("Run");
         dialogPanel1.add(bOK);
 
         bCancel.setText("Cancel");
@@ -242,21 +246,23 @@ public class PedVerF1StatsDialog extends JDialog implements ActionListener
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Data selection settings:"));
 
+        csdLabel.setText("Select chromosomes to analyse");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(chromosomeSelectionPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(csdLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(chromosomeSelectionPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(csdLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -278,7 +284,7 @@ public class PedVerF1StatsDialog extends JDialog implements ActionListener
                 .addComponent(parentsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(dialogPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -289,7 +295,7 @@ public class PedVerF1StatsDialog extends JDialog implements ActionListener
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bCancel;
     private javax.swing.JButton bOK;
-    private jhi.flapjack.gui.dialog.analysis.ChromosomeSelectionPanel chromosomeSelectionPanel;
+    private scri.commons.gui.matisse.HyperLinkLabel csdLabel;
     private scri.commons.gui.matisse.DialogPanel dialogPanel1;
     private javax.swing.JComboBox<LineInfo> f1Combo;
     private javax.swing.JPanel jPanel1;
