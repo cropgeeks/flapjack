@@ -183,6 +183,7 @@ public class CanvasMenu
 		RB.setMnemonic(mFilter, "gui.WinMainMenuBar.mEditFilterMarkers");
 		mFilter.add(mFilterMissingMarkers);
 		mFilter.add(mFilterMissingMarkersByLine);
+		mFilter.addSeparator();
 		mFilter.add(mFilterMonomorphicMarkers);
 	}
 
