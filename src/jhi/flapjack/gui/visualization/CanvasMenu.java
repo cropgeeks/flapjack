@@ -134,7 +134,7 @@ public class CanvasMenu
 
 		mColor.add(mColorNucleotide);
 		mColor.add(mColorNucleotide01);
-		mColor.add(mColorABHData);
+//		mColor.add(mColorABHData);
 		mColor.add(mColorSimple2Color);
 		mColor.add(mColorLineSim);
 		mColor.add(mColorLineSimExact);

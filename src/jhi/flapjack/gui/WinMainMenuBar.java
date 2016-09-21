@@ -354,7 +354,7 @@ public class WinMainMenuBar extends JMenuBar
 
 		mVizColor.add(mVizColorNucleotide);
 		mVizColor.add(mVizColorNucleotide01);
-		mVizColor.add(mVizColorABHData);
+//		mVizColor.add(mVizColorABHData);
 		mVizColor.add(mVizColorSimple2Color);
 		mVizColor.add(mVizColorLineSim);
 		mVizColor.add(mVizColorLineSimExact);
