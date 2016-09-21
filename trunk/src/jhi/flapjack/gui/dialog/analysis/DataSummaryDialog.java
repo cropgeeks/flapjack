@@ -15,13 +15,13 @@ import jhi.flapjack.gui.*;
 import scri.commons.gui.*;
 import scri.commons.gui.matisse.*;
 
-public class DataSummaryDialog2 extends JDialog implements ActionListener
+public class DataSummaryDialog extends JDialog implements ActionListener
 {
 	private JButton bClose;
 
-	private DataSummaryPanelNB2 nbPanel;
+	private DataSummaryPanelNB nbPanel;
 
-	public DataSummaryDialog2(GTViewSet viewSet, boolean[] selectedChromosoems, ArrayList<long[]> results, long alleleCount)
+	public DataSummaryDialog(GTViewSet viewSet, ArrayList<long[]> results, long alleleCount)
 	{
 		super(
 			Flapjack.winMain,
@@ -30,11 +30,11 @@ public class DataSummaryDialog2 extends JDialog implements ActionListener
 		);
 
 		AnalysisSet as = new AnalysisSet(viewSet)
-			.withViews(selectedChromosoems)
+			.withViews(null)
 			.withAllLines()
 			.withAllMarkers();
 
-		nbPanel = new DataSummaryPanelNB2(viewSet, as, results, alleleCount);
+		nbPanel = new DataSummaryPanelNB(viewSet, as, results, alleleCount);
 
 		add(nbPanel);
 		add(createButtons(), BorderLayout.SOUTH);

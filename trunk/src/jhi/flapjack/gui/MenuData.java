@@ -51,14 +51,7 @@ public class MenuData
 	{
 		GTViewSet viewSet = gPanel.getViewSet();
 
-		// Prompt the user for input variables
-		DataSummaryDialog1 dialog = new DataSummaryDialog1(viewSet);
-		if (dialog.isOK() == false)
-			return;
-
-		boolean[] selectedChromosomes = dialog.getSelectedChromosomes();
-
-		DataSummary statistics = new DataSummary(viewSet, selectedChromosomes);
+		DataSummary statistics = new DataSummary(viewSet);
 
 		ProgressDialog pd = new ProgressDialog(statistics,
 			 RB.format("gui.MenuData.statistics.title"),
@@ -66,7 +59,7 @@ public class MenuData
 			 Flapjack.winMain);
 
 		if (pd.getResult() == ProgressDialog.JOB_COMPLETED)
-			new DataSummaryDialog2(viewSet, selectedChromosomes, statistics.getResults(),
+			new DataSummaryDialog(viewSet, statistics.getResults(),
 				statistics.getAlleleCount());
 	}
 

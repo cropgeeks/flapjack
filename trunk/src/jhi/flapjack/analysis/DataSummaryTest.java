@@ -44,7 +44,7 @@ public class DataSummaryTest extends TestCase
 
 		boolean[] selectedChromosomes = new boolean[] { true };
 
-		DataSummary statistics = new DataSummary(viewSet, selectedChromosomes);
+		DataSummary statistics = new DataSummary(viewSet);
 		statistics.runJob(0);
 
 		ArrayList<long[]> results = statistics.getResults();
