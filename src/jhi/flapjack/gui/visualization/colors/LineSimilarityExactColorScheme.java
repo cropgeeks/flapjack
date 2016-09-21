@@ -1,12 +1,14 @@
 package jhi.flapjack.gui.visualization.colors;
 
-import jhi.flapjack.data.GTView;
+import jhi.flapjack.data.*;
 
-/**
- * Created by gs40939 on 09/05/2016.
- */
+import scri.commons.gui.RB;
+
 public class LineSimilarityExactColorScheme extends LineSimilarityColorScheme
 {
+	/** Empty constructor that is ONLY used for color customization purposes. */
+	public LineSimilarityExactColorScheme() {}
+
 	public LineSimilarityExactColorScheme(GTView view, int w, int h)
 	{
 		super(view, w, h);
@@ -40,5 +42,13 @@ public class LineSimilarityExactColorScheme extends LineSimilarityColorScheme
 	}
 
 	public int getModel()
-	{ return LINE_SIMILARITY_EXACT_MATCH; }
+		{ return LINE_SIMILARITY_EXACT_MATCH; }
+
+	public String toString()
+		{ return RB.getString("gui.Actions.vizColorLineSimExact"); }
+
+	public String getDescription()
+	{
+		return RB.getString("gui.visualization.colors.LineSimilarityExactMatchColorScheme");
+	}
 }
