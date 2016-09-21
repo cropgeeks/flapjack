@@ -9,6 +9,7 @@ import javax.swing.event.*;
 
 import jhi.flapjack.data.*;
 import jhi.flapjack.gui.*;
+import jhi.flapjack.gui.dialog.analysis.*;
 
 import scri.commons.gui.*;
 
@@ -16,17 +17,19 @@ class MissingMarkersPanelNB extends JPanel implements ChangeListener
 {
 	private int value = Prefs.guiMissingMarkerPcnt;
 
+	ChromosomeSelectionDialog csd;
+
 	MissingMarkersPanelNB(GTViewSet viewSet, JButton bOK)
 	{
 		initComponents();
 
-		setBackground((Color)UIManager.get("fjDialogBG"));
-		panel1.setBackground((Color)UIManager.get("fjDialogBG"));
+		FlapjackUtils.setDialogBG(this, panel1, dataPanel);
 
 		slider.addChangeListener(this);
 		slider.setValue(value);
 
-		chrSelPanel.setupComponents(viewSet, bOK, false);
+		csd = new ChromosomeSelectionDialog(viewSet, false);
+		csdLabel.addActionListener(e -> { csd.setVisible(true); } );
 	}
 
 	private void formatLabel()
@@ -35,6 +38,7 @@ class MissingMarkersPanelNB extends JPanel implements ChangeListener
 			"gui.dialog.MissingMarkersPanelNB.percentLabel", value));
 	}
 
+	@Override
 	public void stateChanged(ChangeEvent e)
 	{
 		value = slider.getValue();
@@ -59,8 +63,8 @@ class MissingMarkersPanelNB extends JPanel implements ChangeListener
         panel1 = new javax.swing.JPanel();
         percentLabel = new javax.swing.JLabel();
         slider = new javax.swing.JSlider();
-        panel2 = new javax.swing.JPanel();
-        chrSelPanel = new jhi.flapjack.gui.dialog.analysis.ChromosomeSelectionPanel();
+        dataPanel = new javax.swing.JPanel();
+        csdLabel = new scri.commons.gui.matisse.HyperLinkLabel();
 
         panel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Filtering settings:"));
 
@@ -81,7 +85,7 @@ class MissingMarkersPanelNB extends JPanel implements ChangeListener
             .addGroup(panel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(percentLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(percentLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 378, Short.MAX_VALUE)
                     .addComponent(slider, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -95,24 +99,25 @@ class MissingMarkersPanelNB extends JPanel implements ChangeListener
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        panel2.setBackground(new java.awt.Color(255, 255, 255));
-        panel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Data selection settings:"));
+        dataPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Data selection settings:"));
 
-        javax.swing.GroupLayout panel2Layout = new javax.swing.GroupLayout(panel2);
-        panel2.setLayout(panel2Layout);
-        panel2Layout.setHorizontalGroup(
-            panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panel2Layout.createSequentialGroup()
+        csdLabel.setText("Select chromosomes to filter across");
+
+        javax.swing.GroupLayout dataPanelLayout = new javax.swing.GroupLayout(dataPanel);
+        dataPanel.setLayout(dataPanelLayout);
+        dataPanelLayout.setHorizontalGroup(
+            dataPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(dataPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(chrSelPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(csdLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        panel2Layout.setVerticalGroup(
-            panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panel2Layout.createSequentialGroup()
+        dataPanelLayout.setVerticalGroup(
+            dataPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(dataPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(chrSelPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(csdLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -123,7 +128,7 @@ class MissingMarkersPanelNB extends JPanel implements ChangeListener
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(panel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(panel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(dataPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -132,14 +137,14 @@ class MissingMarkersPanelNB extends JPanel implements ChangeListener
                 .addContainerGap()
                 .addComponent(panel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(panel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(dataPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    jhi.flapjack.gui.dialog.analysis.ChromosomeSelectionPanel chrSelPanel;
+    private scri.commons.gui.matisse.HyperLinkLabel csdLabel;
+    private javax.swing.JPanel dataPanel;
     private javax.swing.JPanel panel1;
-    private javax.swing.JPanel panel2;
     private javax.swing.JLabel percentLabel;
     private javax.swing.JSlider slider;
     // End of variables declaration//GEN-END:variables
