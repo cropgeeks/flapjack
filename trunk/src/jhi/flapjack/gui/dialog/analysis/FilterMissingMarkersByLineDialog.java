@@ -17,6 +17,7 @@ import scri.commons.gui.*;
 public class FilterMissingMarkersByLineDialog extends JDialog implements ActionListener
 {
 	private GTViewSet viewSet;
+	private ChromosomeSelectionDialog csd;
 
 	private GenotypePanel gPanel;
 	private boolean isOK;
@@ -38,11 +39,11 @@ public class FilterMissingMarkersByLineDialog extends JDialog implements ActionL
 
 		FlapjackUtils.setDialogBG(getContentPane(), linePanel, dataPanel);
 
-		getRootPane().setDefaultButton(bOK);
-		SwingUtils.addCloseHandler(this, bOK);
+		getRootPane().setDefaultButton(bFilter);
+		SwingUtils.addCloseHandler(this, bFilter);
 
 		if (viewSet.getView(0).countSelectedLines() == 0)
-			bOK.setEnabled(false);
+			bFilter.setEnabled(false);
 
 		pack();
 		setLocationRelativeTo(Flapjack.winMain);
@@ -52,14 +53,15 @@ public class FilterMissingMarkersByLineDialog extends JDialog implements ActionL
 
 	private void initComponents2()
 	{
-		RB.setText(bOK, "gui.text.ok");
-		bOK.addActionListener(this);
+//		RB.setText(bOK, "gui.text.ok");
+		bFilter.addActionListener(this);
 
 		RB.setText(bCancel, "gui.text.cancel");
 		bCancel.addActionListener(this);
 
-		chromosomeSelectionPanel.setupComponents(viewSet, bOK, false);
-		chromosomeSelectionPanel.hideLineSummary();
+		csd = new ChromosomeSelectionDialog(viewSet, false);
+		csd.hideLineSummary();
+		csdLabel.addActionListener(e -> { csd.setVisible(true); } );
 
 
 		// Set up the combo box
@@ -84,7 +86,7 @@ public class FilterMissingMarkersByLineDialog extends JDialog implements ActionL
 	// the possible chromosomes that could be used in the sort
 	public boolean[] getSelectedChromosomes()
 	{
-		return chromosomeSelectionPanel.getSelectedChromosomes();
+		return csd.getSelectedChromosomes();
 	}
 
 	public LineInfo getSelectedLine()
@@ -98,7 +100,7 @@ public class FilterMissingMarkersByLineDialog extends JDialog implements ActionL
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
-		if (e.getSource() == bOK)
+		if (e.getSource() == bFilter)
 		{
 			isOK = true;
 			setVisible(false);
@@ -119,18 +121,18 @@ public class FilterMissingMarkersByLineDialog extends JDialog implements ActionL
     {
 
         dialogPanel1 = new scri.commons.gui.matisse.DialogPanel();
-        bOK = new javax.swing.JButton();
+        bFilter = new javax.swing.JButton();
         bCancel = new javax.swing.JButton();
         linePanel = new javax.swing.JPanel();
         selectedLine = new javax.swing.JComboBox<>();
         lineLabel = new javax.swing.JLabel();
         dataPanel = new javax.swing.JPanel();
-        chromosomeSelectionPanel = new jhi.flapjack.gui.dialog.analysis.ChromosomeSelectionPanel();
+        csdLabel = new scri.commons.gui.matisse.HyperLinkLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        bOK.setText("OK");
-        dialogPanel1.add(bOK);
+        bFilter.setText("Filter");
+        dialogPanel1.add(bFilter);
 
         bCancel.setText("Cancel");
         dialogPanel1.add(bCancel);
@@ -148,7 +150,7 @@ public class FilterMissingMarkersByLineDialog extends JDialog implements ActionL
                 .addGroup(linePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(linePanelLayout.createSequentialGroup()
                         .addComponent(lineLabel)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addGap(0, 66, Short.MAX_VALUE))
                     .addComponent(selectedLine, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -164,21 +166,23 @@ public class FilterMissingMarkersByLineDialog extends JDialog implements ActionL
 
         dataPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Data selection settings:"));
 
+        csdLabel.setText("Select chromosomes to filter across");
+
         javax.swing.GroupLayout dataPanelLayout = new javax.swing.GroupLayout(dataPanel);
         dataPanel.setLayout(dataPanelLayout);
         dataPanelLayout.setHorizontalGroup(
             dataPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(dataPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(chromosomeSelectionPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(csdLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         dataPanelLayout.setVerticalGroup(
             dataPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(dataPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(chromosomeSelectionPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 179, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(csdLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -210,8 +214,8 @@ public class FilterMissingMarkersByLineDialog extends JDialog implements ActionL
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bCancel;
-    private javax.swing.JButton bOK;
-    private jhi.flapjack.gui.dialog.analysis.ChromosomeSelectionPanel chromosomeSelectionPanel;
+    private javax.swing.JButton bFilter;
+    private scri.commons.gui.matisse.HyperLinkLabel csdLabel;
     private javax.swing.JPanel dataPanel;
     private scri.commons.gui.matisse.DialogPanel dialogPanel1;
     private javax.swing.JLabel lineLabel;

@@ -3,7 +3,6 @@
 
 package jhi.flapjack.gui.dialog.analysis;
 
-import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
@@ -15,6 +14,7 @@ import scri.commons.gui.*;
 public class FilterMonomorphicMarkersDialog extends JDialog implements ActionListener
 {
 	private GTViewSet viewSet;
+	private ChromosomeSelectionDialog csd;
 
 	private boolean isOK;
 
@@ -31,10 +31,10 @@ public class FilterMonomorphicMarkersDialog extends JDialog implements ActionLis
 
 		initComponents();
 		initComponents2();
-		getContentPane().setBackground(Color.WHITE);
+		FlapjackUtils.setDialogBG(getContentPane());
 
-		getRootPane().setDefaultButton(bOK);
-		SwingUtils.addCloseHandler(this, bOK);
+		getRootPane().setDefaultButton(bFilter);
+		SwingUtils.addCloseHandler(this, bFilter);
 
 		pack();
 		setLocationRelativeTo(Flapjack.winMain);
@@ -44,20 +44,21 @@ public class FilterMonomorphicMarkersDialog extends JDialog implements ActionLis
 
 	private void initComponents2()
 	{
-		RB.setText(bOK, "gui.text.ok");
-		bOK.addActionListener(this);
+//		RB.setText(bFilter, "gui.text.ok");
+		bFilter.addActionListener(this);
 
 		RB.setText(bCancel, "gui.text.cancel");
 		bCancel.addActionListener(this);
 
-		chromosomeSelectionPanel.setupComponents(viewSet, bOK, false);
+		csd = new ChromosomeSelectionDialog(viewSet, false);
+		csdLabel.addActionListener(e -> { csd.setVisible(true); } );
 	}
 
 	// Generates a boolean array with a true/false selected state for each of
 	// the possible chromosomes that could be used in the sort
 	public boolean[] getSelectedChromosomes()
 	{
-		return chromosomeSelectionPanel.getSelectedChromosomes();
+		return csd.getSelectedChromosomes();
 	}
 
 	public boolean isOK()
@@ -66,7 +67,7 @@ public class FilterMonomorphicMarkersDialog extends JDialog implements ActionLis
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
-		if (e.getSource() == bOK)
+		if (e.getSource() == bFilter)
 		{
 			isOK = true;
 			setVisible(false);
@@ -87,55 +88,43 @@ public class FilterMonomorphicMarkersDialog extends JDialog implements ActionLis
     {
 
         dialogPanel1 = new scri.commons.gui.matisse.DialogPanel();
-        bOK = new javax.swing.JButton();
+        bFilter = new javax.swing.JButton();
         bCancel = new javax.swing.JButton();
-        jPanel2 = new javax.swing.JPanel();
-        chromosomeSelectionPanel = new jhi.flapjack.gui.dialog.analysis.ChromosomeSelectionPanel();
+        jLabel1 = new javax.swing.JLabel();
+        csdLabel = new scri.commons.gui.matisse.HyperLinkLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        bOK.setText("OK");
-        dialogPanel1.add(bOK);
+        bFilter.setText("Filter");
+        dialogPanel1.add(bFilter);
 
         bCancel.setText("Cancel");
         dialogPanel1.add(bCancel);
 
-        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Data selection settings:"));
+        jLabel1.setText("This filter will remove all markers that are monomorphic across all of the currently selected lines.");
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(chromosomeSelectionPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(chromosomeSelectionPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 219, Short.MAX_VALUE)
-                .addContainerGap())
-        );
+        csdLabel.setText("Select chromosomes to filter across");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(dialogPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 377, Short.MAX_VALUE)
+            .addComponent(dialogPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addComponent(csdLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel1)
+                .addGap(18, 18, 18)
+                .addComponent(csdLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(dialogPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -145,10 +134,10 @@ public class FilterMonomorphicMarkersDialog extends JDialog implements ActionLis
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bCancel;
-    private javax.swing.JButton bOK;
-    private jhi.flapjack.gui.dialog.analysis.ChromosomeSelectionPanel chromosomeSelectionPanel;
+    private javax.swing.JButton bFilter;
+    private scri.commons.gui.matisse.HyperLinkLabel csdLabel;
     private scri.commons.gui.matisse.DialogPanel dialogPanel1;
-    private javax.swing.JPanel jPanel2;
+    private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 
 }

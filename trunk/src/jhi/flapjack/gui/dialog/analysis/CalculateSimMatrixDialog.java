@@ -16,6 +16,7 @@ import scri.commons.gui.*;
 public class CalculateSimMatrixDialog extends JDialog implements ActionListener, TableModelListener
 {
 	private GTViewSet viewSet;
+	private ChromosomeSelectionDialog csd;
 
 	private boolean isOK;
 
@@ -34,12 +35,12 @@ public class CalculateSimMatrixDialog extends JDialog implements ActionListener,
 		initComponents2();
 		getContentPane().setBackground(Color.WHITE);
 
-		getRootPane().setDefaultButton(bOK);
-		SwingUtils.addCloseHandler(this, bOK);
+		getRootPane().setDefaultButton(bCreate);
+		SwingUtils.addCloseHandler(this, bCreate);
 
 		// If fewer than 2 lines are selected, disable the OK button.
 		if (viewSet.getView(0).countSelectedLines() < 2)
-			bOK.setEnabled(false);
+			bCreate.setEnabled(false);
 
 		pack();
 		setLocationRelativeTo(Flapjack.winMain);
@@ -49,20 +50,21 @@ public class CalculateSimMatrixDialog extends JDialog implements ActionListener,
 
 	private void initComponents2()
 	{
-		RB.setText(bOK, "gui.text.ok");
-		bOK.addActionListener(this);
+//		RB.setText(bCreate, "gui.text.ok");
+		bCreate.addActionListener(this);
 
 		RB.setText(bCancel, "gui.text.cancel");
 		bCancel.addActionListener(this);
 
-		chromosomeSelectionPanel.setupComponents(viewSet, bOK, true);
+		csd = new ChromosomeSelectionDialog(viewSet, true);
+		csdLabel.addActionListener(e -> { csd.setVisible(true); } );
 	}
 
 	// Generates a boolean array with a true/false selected state for each of
 	// the possible chromosomes that could be used in the sort
 	public boolean[] getSelectedChromosomes()
 	{
-		return chromosomeSelectionPanel.getSelectedChromosomes();
+		return csd.getSelectedChromosomes();
 	}
 
 	public boolean isOK()
@@ -71,7 +73,7 @@ public class CalculateSimMatrixDialog extends JDialog implements ActionListener,
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
-		if (e.getSource() == bOK)
+		if (e.getSource() == bCreate)
 		{
 			isOK = true;
 			setVisible(false);
@@ -104,17 +106,22 @@ public class CalculateSimMatrixDialog extends JDialog implements ActionListener,
     {
 
         dialogPanel1 = new scri.commons.gui.matisse.DialogPanel();
-        bOK = new javax.swing.JButton();
+        bCreate = new javax.swing.JButton();
         bCancel = new javax.swing.JButton();
-        chromosomeSelectionPanel = new jhi.flapjack.gui.dialog.analysis.ChromosomeSelectionPanel();
+        jLabel1 = new javax.swing.JLabel();
+        csdLabel = new scri.commons.gui.matisse.HyperLinkLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        bOK.setText("OK");
-        dialogPanel1.add(bOK);
+        bCreate.setText("Create");
+        dialogPanel1.add(bCreate);
 
         bCancel.setText("Cancel");
         dialogPanel1.add(bCancel);
+
+        jLabel1.setText("This will create a similarity matrix from all of the currently selected lines in the view.");
+
+        csdLabel.setText("Select chromosomes to analyse");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -123,15 +130,19 @@ public class CalculateSimMatrixDialog extends JDialog implements ActionListener,
             .addComponent(dialogPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(chromosomeSelectionPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addComponent(csdLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(chromosomeSelectionPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 239, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel1)
+                .addGap(18, 18, 18)
+                .addComponent(csdLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(dialogPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -141,9 +152,10 @@ public class CalculateSimMatrixDialog extends JDialog implements ActionListener,
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bCancel;
-    private javax.swing.JButton bOK;
-    private jhi.flapjack.gui.dialog.analysis.ChromosomeSelectionPanel chromosomeSelectionPanel;
+    private javax.swing.JButton bCreate;
+    private scri.commons.gui.matisse.HyperLinkLabel csdLabel;
     private scri.commons.gui.matisse.DialogPanel dialogPanel1;
+    private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 
 }
