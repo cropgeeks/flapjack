@@ -169,8 +169,11 @@ public class FlapjackUtils
 		catch (Throwable e) { return new File(""); }
 	}
 
-	public static Color getDialogBG()
+	public static void setDialogBG(Container ... array)
 	{
-		return (Color) UIManager.get("fjDialogBG");
+		Color color = (Color) UIManager.get("fjDialogBG");
+
+		for (Container container: array)
+			container.setBackground(color);
 	}
 }

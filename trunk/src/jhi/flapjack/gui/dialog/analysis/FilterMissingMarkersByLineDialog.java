@@ -35,9 +35,8 @@ public class FilterMissingMarkersByLineDialog extends JDialog implements ActionL
 
 		initComponents();
 		initComponents2();
-		getContentPane().setBackground(FlapjackUtils.getDialogBG());
-		linePanel.setBackground(FlapjackUtils.getDialogBG());
-		dataPanel.setBackground(FlapjackUtils.getDialogBG());
+
+		FlapjackUtils.setDialogBG(getContentPane(), linePanel, dataPanel);
 
 		getRootPane().setDefaultButton(bOK);
 		SwingUtils.addCloseHandler(this, bOK);

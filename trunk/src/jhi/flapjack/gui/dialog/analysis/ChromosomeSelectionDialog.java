@@ -32,7 +32,7 @@ public class ChromosomeSelectionDialog extends JDialog implements ActionListener
 		initComponents();
 		initSelectionPanel(viewSet);
 
-		getContentPane().setBackground(FlapjackUtils.getDialogBG());
+		FlapjackUtils.setDialogBG(getContentPane());
 
 		getRootPane().setDefaultButton(bClose);
 		SwingUtils.addCloseHandler(this, bClose);

@@ -15,7 +15,7 @@ import scri.commons.gui.matisse.*;
 
 public class MissingMarkersDialog extends JDialog implements ActionListener
 {
-	private JButton bOK, bCancel, bHelp;
+	private JButton bFilter, bCancel, bHelp;
 	private boolean isOK = false;
 
 	private MissingMarkersPanelNB nbPanel;
@@ -29,10 +29,10 @@ public class MissingMarkersDialog extends JDialog implements ActionListener
 		);
 
 		add(createButtons(), BorderLayout.SOUTH);
-		nbPanel = new MissingMarkersPanelNB(viewSet, bOK);
+		nbPanel = new MissingMarkersPanelNB(viewSet, bFilter);
 		add(nbPanel);
 
-		getRootPane().setDefaultButton(bOK);
+		getRootPane().setDefaultButton(bFilter);
 		SwingUtils.addCloseHandler(this, bCancel);
 
 		pack();
@@ -43,8 +43,8 @@ public class MissingMarkersDialog extends JDialog implements ActionListener
 
 	private JPanel createButtons()
 	{
-		bOK = new JButton(RB.getString("gui.text.ok"));
-		bOK.addActionListener(this);
+		bFilter = new JButton("Filter");
+		bFilter.addActionListener(this);
 		bCancel = new JButton(RB.getString("gui.text.cancel"));
 		bCancel.addActionListener(this);
 		bHelp = new JButton(RB.getString("gui.text.help"));
@@ -52,7 +52,7 @@ public class MissingMarkersDialog extends JDialog implements ActionListener
 //		FlapjackUtils.setHelp(bHelp, "gui.dialog.DataImportDialog");
 
 		JPanel p1 = new DialogPanel();
-		p1.add(bOK);
+		p1.add(bFilter);
 		p1.add(bCancel);
 //		p1.add(bHelp);
 
@@ -61,7 +61,7 @@ public class MissingMarkersDialog extends JDialog implements ActionListener
 
 	public void actionPerformed(ActionEvent e)
 	{
-		if (e.getSource() == bOK)
+		if (e.getSource() == bFilter)
 		{
 			nbPanel.applySettings();
 			isOK = true;
@@ -75,6 +75,6 @@ public class MissingMarkersDialog extends JDialog implements ActionListener
 
 	public boolean[] getSelectedChromosomes()
 	{
-		return nbPanel.chrSelPanel.getSelectedChromosomes();
+		return nbPanel.csd.getSelectedChromosomes();
 	}
 }
