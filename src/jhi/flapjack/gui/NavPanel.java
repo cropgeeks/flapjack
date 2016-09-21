@@ -329,23 +329,6 @@ public class NavPanel extends JPanel
 		return null;
 	}
 
-	public PedVerF1sNode getPedVerNode(GTViewSet viewSet)
-	{
-		VisualizationNode node = findVisualizationNode(viewSet);
-
-		if (node != null)
-		{
-			for (int i = 0; i < node.getChildCount(); i++)
-			{
-				DefaultMutableTreeNode child = (DefaultMutableTreeNode) node.getChildAt(i);
-
-				if (child instanceof PedVerF1sNode)
-					return (PedVerF1sNode) child;
-			}
-		}
-		return null;
-	}
-
 	// Returns the data set associated with the currently selected node
 	DataSet getDataSetForSelection()
 	{
@@ -480,6 +463,8 @@ public class NavPanel extends JPanel
 					sb.append(i).append(",");
 
 			Flapjack.winMain.getProject().setTreeState(sb.toString());
+			// The tree selection state can also change on tree expansion
+			Flapjack.winMain.getProject().setTreeSelectedRows(tree.getSelectionRows());
 		}
 	}
 
