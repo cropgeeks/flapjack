@@ -13,7 +13,6 @@ import scri.commons.gui.*;
 public class DataSummary extends SimpleJob
 {
 	private GTViewSet viewSet;
-	private boolean[] selectedChromosomes;
 
 	private ArrayList<long[]> results;
 	private long alleleCount;
@@ -21,10 +20,9 @@ public class DataSummary extends SimpleJob
 	// To deal with cases when the number of alleles breaks the 32bit INT limit
 	private double prg;
 
-	public DataSummary(GTViewSet viewSet, boolean[] selectedChromosomes)
+	public DataSummary(GTViewSet viewSet)
 	{
 		this.viewSet = viewSet;
-		this.selectedChromosomes = selectedChromosomes;
 	}
 
 	public long getAlleleCount()
@@ -37,7 +35,7 @@ public class DataSummary extends SimpleJob
 		throws Exception
 	{
 		AnalysisSet as = new AnalysisSet(viewSet)
-			.withViews(selectedChromosomes)
+			.withViews(null)
 			.withAllLines()
 			.withAllMarkers();
 

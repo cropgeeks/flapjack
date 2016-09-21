@@ -17,12 +17,12 @@ import jhi.flapjack.gui.*;
 
 import scri.commons.gui.*;
 
-class DataSummaryPanelNB2 extends JPanel implements AdjustmentListener
+class DataSummaryPanelNB extends JPanel implements AdjustmentListener
 {
 	private NumberFormat nf = NumberFormat.getInstance();
 	private DecimalFormat d = new DecimalFormat("0.0");
 
-	public DataSummaryPanelNB2(GTViewSet viewSet, AnalysisSet as, ArrayList<long[]> results, long alleleCount)
+	public DataSummaryPanelNB(GTViewSet viewSet, AnalysisSet as, ArrayList<long[]> results, long alleleCount)
 	{
 		initComponents();
 
@@ -161,7 +161,8 @@ class DataSummaryPanelNB2 extends JPanel implements AdjustmentListener
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+    private void initComponents()
+    {
 
         viewLabel = new javax.swing.JLabel();
         tablePanel = new javax.swing.JPanel();
@@ -179,13 +180,15 @@ class DataSummaryPanelNB2 extends JPanel implements AdjustmentListener
         sp2.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 
         viewTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
+            new Object [][]
+            {
                 {},
                 {},
                 {},
                 {}
             },
-            new String [] {
+            new String []
+            {
 
             }
         ));
@@ -198,13 +201,15 @@ class DataSummaryPanelNB2 extends JPanel implements AdjustmentListener
         sp1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 
         sumTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
+            new Object [][]
+            {
                 {},
                 {},
                 {},
                 {}
             },
-            new String [] {
+            new String []
+            {
 
             }
         ));
