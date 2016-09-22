@@ -91,6 +91,8 @@ public class PedVerF1StatsDialog extends JDialog implements ActionListener
 		f1Combo.setModel(f1Model);
 		if (as.lineCount() >= 3)
 			f1Combo.setSelectedIndex(2);
+
+		f1Combo.setEnabled(rdbSelectF1.isSelected());
 	}
 
 	private DefaultComboBoxModel<LineInfo> createComboModelFrom(AnalysisSet as)
@@ -109,6 +111,13 @@ public class PedVerF1StatsDialog extends JDialog implements ActionListener
 
 		RB.setText(bCancel, "gui.text.cancel");
 		bCancel.addActionListener(this);
+
+		RB.setText(bHelp, "gui.text.help");
+		FlapjackUtils.setHelp(bHelp, "_-_Pedigree_Verification_F1s_(Known_Parents)");
+
+
+		rdbSelectF1.addActionListener(e -> f1Combo.setEnabled(rdbSelectF1.isSelected()) );
+		rdbSimulateF1.addActionListener(e -> f1Combo.setEnabled(rdbSelectF1.isSelected()) );
 	}
 
 	private void setupF1ButtonGroup()
@@ -179,9 +188,11 @@ public class PedVerF1StatsDialog extends JDialog implements ActionListener
         rdbSimulateF1 = new javax.swing.JRadioButton();
         rdbSelectF1 = new javax.swing.JRadioButton();
         f1Combo = new javax.swing.JComboBox<>();
+        jLabel1 = new javax.swing.JLabel();
         dialogPanel1 = new scri.commons.gui.matisse.DialogPanel();
         bOK = new javax.swing.JButton();
         bCancel = new javax.swing.JButton();
+        bHelp = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         csdLabel = new scri.commons.gui.matisse.HyperLinkLabel();
 
@@ -189,16 +200,18 @@ public class PedVerF1StatsDialog extends JDialog implements ActionListener
 
         parentsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Select parents:"));
 
-        lblParent1.setText("Select parent 1:");
+        lblParent1.setText("Select parent line 1:");
         lblParent1.setToolTipText("");
 
-        lblParent2.setText("Select parent 2:");
+        lblParent2.setText("Select parent line 2:");
         lblParent2.setToolTipText("");
 
-        rdbSimulateF1.setText("Simulate F1 from parents (above)");
+        rdbSimulateF1.setText("Simulate an F1 from the parents (above)");
 
-        rdbSelectF1.setText("Select F1 from existing lines:");
+        rdbSelectF1.setText("Select an F1 from the existing lines:");
         rdbSelectF1.setActionCommand("");
+
+        jLabel1.setText("<html>Pedigree Verification of F1s (Known Parents) will calculate statistics for each line comparing<br>it to the parents and either a supplied or simulated F1.");
 
         javax.swing.GroupLayout parentsPanelLayout = new javax.swing.GroupLayout(parentsPanel);
         parentsPanel.setLayout(parentsPanelLayout);
@@ -207,28 +220,38 @@ public class PedVerF1StatsDialog extends JDialog implements ActionListener
             .addGroup(parentsPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(parentsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(f1Combo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(parent1Combo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(parent2Combo, 0, 348, Short.MAX_VALUE)
+                    .addComponent(jLabel1)
+                    .addGroup(parentsPanelLayout.createSequentialGroup()
+                        .addComponent(lblParent1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(parent1Combo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(parentsPanelLayout.createSequentialGroup()
+                        .addComponent(lblParent2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(parent2Combo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(parentsPanelLayout.createSequentialGroup()
                         .addGroup(parentsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(rdbSelectF1)
-                            .addComponent(rdbSimulateF1)
-                            .addComponent(lblParent1)
-                            .addComponent(lblParent2))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                            .addComponent(rdbSimulateF1))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(parentsPanelLayout.createSequentialGroup()
+                        .addGap(21, 21, 21)
+                        .addComponent(f1Combo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         parentsPanelLayout.setVerticalGroup(
             parentsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(parentsPanelLayout.createSequentialGroup()
-                .addComponent(lblParent1)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, parentsPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(parentsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblParent1)
+                    .addComponent(parent1Combo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(parent1Combo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblParent2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(parent2Combo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(parentsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblParent2)
+                    .addComponent(parent2Combo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(rdbSimulateF1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -243,6 +266,9 @@ public class PedVerF1StatsDialog extends JDialog implements ActionListener
 
         bCancel.setText("Cancel");
         dialogPanel1.add(bCancel);
+
+        bHelp.setText("Help");
+        dialogPanel1.add(bHelp);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Data selection settings:"));
 
@@ -269,12 +295,12 @@ public class PedVerF1StatsDialog extends JDialog implements ActionListener
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(dialogPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
+            .addComponent(dialogPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(parentsPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(parentsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -294,10 +320,12 @@ public class PedVerF1StatsDialog extends JDialog implements ActionListener
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bCancel;
+    private javax.swing.JButton bHelp;
     private javax.swing.JButton bOK;
     private scri.commons.gui.matisse.HyperLinkLabel csdLabel;
     private scri.commons.gui.matisse.DialogPanel dialogPanel1;
     private javax.swing.JComboBox<LineInfo> f1Combo;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblParent1;
     private javax.swing.JLabel lblParent2;

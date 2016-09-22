@@ -23,12 +23,12 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="dialogPanel1" alignment="0" pref="400" max="32767" attributes="0"/>
+          <Component id="dialogPanel1" alignment="0" max="32767" attributes="0"/>
           <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="parentsPanel" alignment="1" max="32767" attributes="0"/>
-                  <Component id="jPanel1" alignment="0" max="32767" attributes="0"/>
+                  <Component id="parentsPanel" max="32767" attributes="0"/>
+                  <Component id="jPanel1" alignment="1" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -60,20 +60,30 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="0" attributes="0">
+              <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="f1Combo" alignment="0" max="32767" attributes="0"/>
-                      <Component id="parent1Combo" alignment="0" max="32767" attributes="0"/>
-                      <Component id="parent2Combo" alignment="0" pref="348" max="32767" attributes="0"/>
-                      <Group type="102" attributes="0">
+                      <Component id="jLabel1" alignment="0" max="32767" attributes="0"/>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="lblParent1" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Component id="parent1Combo" max="32767" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="lblParent2" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Component id="parent2Combo" max="32767" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="0" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="rdbSelectF1" alignment="0" min="-2" max="-2" attributes="0"/>
                               <Component id="rdbSimulateF1" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="lblParent1" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="lblParent2" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace min="21" pref="21" max="-2" attributes="0"/>
+                          <Component id="f1Combo" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
@@ -82,14 +92,19 @@
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="0" attributes="0">
-                  <Component id="lblParent1" min="-2" max="-2" attributes="0"/>
+              <Group type="102" alignment="1" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="parent1Combo" min="-2" max="-2" attributes="0"/>
+                  <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="lblParent1" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="parent1Combo" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="lblParent2" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="parent2Combo" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="lblParent2" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="parent2Combo" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="rdbSimulateF1" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
@@ -104,7 +119,7 @@
       <SubComponents>
         <Component class="javax.swing.JLabel" name="lblParent1">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Select parent 1:"/>
+            <Property name="text" type="java.lang.String" value="Select parent line 1:"/>
             <Property name="toolTipText" type="java.lang.String" value=""/>
           </Properties>
         </Component>
@@ -120,7 +135,7 @@
         </Component>
         <Component class="javax.swing.JLabel" name="lblParent2">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Select parent 2:"/>
+            <Property name="text" type="java.lang.String" value="Select parent line 2:"/>
             <Property name="toolTipText" type="java.lang.String" value=""/>
           </Properties>
         </Component>
@@ -136,12 +151,12 @@
         </Component>
         <Component class="javax.swing.JRadioButton" name="rdbSimulateF1">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Simulate F1 from parents (above)"/>
+            <Property name="text" type="java.lang.String" value="Simulate an F1 from the parents (above)"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JRadioButton" name="rdbSelectF1">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Select F1 from existing lines:"/>
+            <Property name="text" type="java.lang.String" value="Select an F1 from the existing lines:"/>
             <Property name="actionCommand" type="java.lang.String" value=""/>
           </Properties>
         </Component>
@@ -154,6 +169,11 @@
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;LineInfo&gt;"/>
           </AuxValues>
+        </Component>
+        <Component class="javax.swing.JLabel" name="jLabel1">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="&lt;html&gt;Pedigree Verification of F1s (Known Parents) will calculate statistics for each line comparing&lt;br&gt;it to the parents and either a supplied or simulated F1."/>
+          </Properties>
         </Component>
       </SubComponents>
     </Container>
@@ -172,6 +192,11 @@
         <Component class="javax.swing.JButton" name="bCancel">
           <Properties>
             <Property name="text" type="java.lang.String" value="Cancel"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JButton" name="bHelp">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Help"/>
           </Properties>
         </Component>
       </SubComponents>

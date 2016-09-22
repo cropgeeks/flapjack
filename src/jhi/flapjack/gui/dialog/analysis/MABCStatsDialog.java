@@ -68,6 +68,9 @@ public class MABCStatsDialog extends JDialog implements ActionListener
 		RB.setText(bCancel, "gui.text.cancel");
 		bCancel.addActionListener(this);
 
+		RB.setText(bHelp, "gui.text.help");
+		FlapjackUtils.setHelp(bHelp, "_-_MABC_Statistics");
+
 		csd = new ChromosomeSelectionDialog(viewSet, true);
 		csdLabel.addActionListener(e -> { csd.setVisible(true); } );
 
@@ -180,6 +183,7 @@ public class MABCStatsDialog extends JDialog implements ActionListener
         dialogPanel1 = new scri.commons.gui.matisse.DialogPanel();
         bOK = new javax.swing.JButton();
         bCancel = new javax.swing.JButton();
+        bHelp = new javax.swing.JButton();
         settingsPanel = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         maxMrkrCoverage = new javax.swing.JSpinner();
@@ -189,6 +193,7 @@ public class MABCStatsDialog extends JDialog implements ActionListener
         donorCombo = new javax.swing.JComboBox<>();
         bWeighted = new javax.swing.JRadioButton();
         bUnweighted = new javax.swing.JRadioButton();
+        jLabel1 = new javax.swing.JLabel();
         dataPanel = new javax.swing.JPanel();
         csdLabel = new scri.commons.gui.matisse.HyperLinkLabel();
 
@@ -199,6 +204,9 @@ public class MABCStatsDialog extends JDialog implements ActionListener
 
         bCancel.setText("Cancel");
         dialogPanel1.add(bCancel);
+
+        bHelp.setText("Help");
+        dialogPanel1.add(bHelp);
 
         settingsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("General settings:"));
 
@@ -216,6 +224,8 @@ public class MABCStatsDialog extends JDialog implements ActionListener
 
         bUnweighted.setText("Unweighted model");
 
+        jLabel1.setText("<html>Marker Assisted Back Crossing statistics will calculate Recurrent Parent Percentages<br>for each line across each chromosome, and will also display linkage drag and QTL<br>status information if appropriate.");
+
         javax.swing.GroupLayout settingsPanelLayout = new javax.swing.GroupLayout(settingsPanel);
         settingsPanel.setLayout(settingsPanelLayout);
         settingsPanelLayout.setHorizontalGroup(
@@ -223,33 +233,40 @@ public class MABCStatsDialog extends JDialog implements ActionListener
             .addGroup(settingsPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(recurrentCombo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(donorCombo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel1)
                     .addGroup(settingsPanelLayout.createSequentialGroup()
-                        .addGap(0, 13, Short.MAX_VALUE)
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(maxMrkrCoverage, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(lblParent1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(recurrentCombo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, settingsPanelLayout.createSequentialGroup()
+                        .addComponent(lblParent2)
+                        .addGap(27, 27, 27)
+                        .addComponent(donorCombo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(settingsPanelLayout.createSequentialGroup()
                         .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(bWeighted)
-                            .addComponent(lblParent1)
-                            .addComponent(lblParent2)
-                            .addComponent(bUnweighted))
+                            .addComponent(bUnweighted)
+                            .addGroup(settingsPanelLayout.createSequentialGroup()
+                                .addGap(21, 21, 21)
+                                .addComponent(jLabel3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(maxMrkrCoverage, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         settingsPanelLayout.setVerticalGroup(
             settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(settingsPanelLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, settingsPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lblParent1)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblParent1)
+                    .addComponent(recurrentCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(recurrentCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblParent2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(donorCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblParent2)
+                    .addComponent(donorCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(bWeighted)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -287,11 +304,11 @@ public class MABCStatsDialog extends JDialog implements ActionListener
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(dialogPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(settingsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(dataPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(settingsPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(dataPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -302,7 +319,7 @@ public class MABCStatsDialog extends JDialog implements ActionListener
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(dataPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(dialogPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(dialogPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
@@ -311,6 +328,7 @@ public class MABCStatsDialog extends JDialog implements ActionListener
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bCancel;
+    private javax.swing.JButton bHelp;
     private javax.swing.JButton bOK;
     private javax.swing.JRadioButton bUnweighted;
     private javax.swing.JRadioButton bWeighted;
@@ -318,6 +336,7 @@ public class MABCStatsDialog extends JDialog implements ActionListener
     private javax.swing.JPanel dataPanel;
     private scri.commons.gui.matisse.DialogPanel dialogPanel1;
     private javax.swing.JComboBox<LineInfo> donorCombo;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel lblParent1;
     private javax.swing.JLabel lblParent2;
