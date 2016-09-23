@@ -8,15 +8,15 @@ import jhi.flapjack.data.results.*;
 import jhi.flapjack.gui.*;
 import jhi.flapjack.gui.table.*;
 
-class PedVerF1sTableModel extends LineDataTableModel
+public class PedVerF1sTableModel extends LineDataTableModel
 {
 	private static final int selectedIndex = 12;
 	private static final int commentIndex = 13;
 	private static final int sortIndex = 14;
 
-	PedVerF1sTableModel(DataSet dataSet, GTViewSet viewSet)
+	public PedVerF1sTableModel(GTViewSet viewSet)
 	{
-		this.dataSet = dataSet;
+		this.dataSet = viewSet.getDataSet();
 
 		setLines(viewSet.tableHandler().linesForTable());
 		initModel();

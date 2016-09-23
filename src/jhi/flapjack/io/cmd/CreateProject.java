@@ -69,8 +69,8 @@ public class CreateProject
 				+ "   -genotypes=<genotypes_file>    (required input file)\n"
 				+ "   -traits=<traits_file>          (optional input file)\n"
 				+ "   -qtls=<qtl_file>               (optional input file)\n"
-				+ "   -project=<project_file>        (required output file)\n"
-				+ "   -decimalEnglish                (optional parameter)\n");
+				+ "   -decimalEnglish                (optional parameter)\n"
+				+ "   -project=<project_file>        (required output file)\n");
 
 			return;
 		}
