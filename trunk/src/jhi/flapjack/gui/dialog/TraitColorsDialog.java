@@ -40,13 +40,7 @@ public class TraitColorsDialog extends JDialog
 		initComponents();
 		initComponents2();
 
-		getRootPane().setDefaultButton(bClose);
-		SwingUtils.addCloseHandler(this, bClose);
-
-		pack();
-		setLocationRelativeTo(Flapjack.winMain);
-		setResizable(false);
-		setVisible(true);
+		FlapjackUtils.initDialog(this, bClose, bClose, true, getContentPane());
 	}
 
 	private void initComponents2()
@@ -120,7 +114,7 @@ public class TraitColorsDialog extends JDialog
 		// Refresh screen
 		Flapjack.winMain.repaint();
 		Actions.projectModified();
-		
+
 		listHighLowAll.repaint();
 		listHighLow.repaint();
 		selectTrait();

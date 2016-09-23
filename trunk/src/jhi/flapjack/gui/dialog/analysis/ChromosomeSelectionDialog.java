@@ -30,19 +30,12 @@ public class ChromosomeSelectionDialog extends JDialog implements ActionListener
 		this.hideAllChrs = hideAllChrs;
 
 		initComponents();
-		initSelectionPanel(viewSet);
+		initComponents2(viewSet);
 
-		FlapjackUtils.setDialogBG(getContentPane());
-
-		getRootPane().setDefaultButton(bClose);
-		SwingUtils.addCloseHandler(this, bClose);
-
-		pack();
-		setLocationRelativeTo(Flapjack.winMain);
-		setResizable(false);
+		FlapjackUtils.initDialog(this, bClose, bClose, false, getContentPane());
 	}
 
-	private void initSelectionPanel(GTViewSet viewSet)
+	private void initComponents2(GTViewSet viewSet)
 	{
 		bClose.addActionListener(this);
 		selectAllLabel.addActionListener(this);

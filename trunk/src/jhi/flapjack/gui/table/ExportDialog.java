@@ -28,18 +28,11 @@ public class ExportDialog extends JDialog implements ActionListener
 
 		initOptions();
 
-		getContentPane().setBackground((Color)UIManager.get("fjDialogBG"));
 		bBrowse.addActionListener(this);
 		bExport.addActionListener(this);
 		bCancel.addActionListener(this);
 
-		getRootPane().setDefaultButton(bExport);
-		SwingUtils.addCloseHandler(this, bCancel);
-
-		pack();
-		setLocationRelativeTo(Flapjack.winMain);
-		setResizable(false);
-		setVisible(true);
+		FlapjackUtils.initDialog(this, bExport, bCancel, true, getContentPane());
 	}
 
 	private void initOptions()

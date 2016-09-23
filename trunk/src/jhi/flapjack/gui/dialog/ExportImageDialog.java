@@ -18,7 +18,7 @@ import scri.commons.gui.matisse.*;
 
 public class ExportImageDialog extends JDialog implements ActionListener
 {
-	private JButton bExport, bClose, bHelp;
+	private JButton bExport, bCabcel, bHelp;
 
 	private File file = null;
 
@@ -39,28 +39,22 @@ public class ExportImageDialog extends JDialog implements ActionListener
 		add(nbPanel);
 		add(createButtons(), BorderLayout.SOUTH);
 
-		getRootPane().setDefaultButton(bExport);
-		SwingUtils.addCloseHandler(this, bClose);
-
-		pack();
-		setLocationRelativeTo(Flapjack.winMain);
-		setResizable(false);
-		setVisible(true);
+		FlapjackUtils.initDialog(this, bExport, bCabcel, true, getContentPane());
 	}
 
 	private JPanel createButtons()
 	{
 		bExport = new JButton(RB.getString("gui.dialog.ExportImageDialog.bExport"));
 		bExport.addActionListener(this);
-		bClose = new JButton(RB.getString("gui.text.close"));
-		bClose.addActionListener(this);
+		bCabcel = new JButton(RB.getString("gui.text.cancel"));
+		bCabcel.addActionListener(this);
 		bHelp = new JButton(RB.getString("gui.text.help"));
 		RB.setText(bHelp, "gui.text.help");
 		FlapjackUtils.setHelp(bHelp, "_-_Export_Image");
 
 		JPanel p1 = new DialogPanel();
 		p1.add(bExport);
-		p1.add(bClose);
+		p1.add(bCabcel);
 		p1.add(bHelp);
 
 		return p1;
@@ -71,7 +65,7 @@ public class ExportImageDialog extends JDialog implements ActionListener
 		if (e.getSource() == bExport && nbPanel.isOK() && promptForFilename())
 			export();
 
-		else if (e.getSource() == bClose)
+		else if (e.getSource() == bCabcel)
 			setVisible(false);
 	}
 

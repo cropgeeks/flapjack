@@ -36,15 +36,8 @@ public class AlleleFrequencyDialog extends JDialog implements ActionListener, Ch
 
 		initComponents();
 		initComponents2();
-		getContentPane().setBackground(Color.WHITE);
 
-		getRootPane().setDefaultButton(bOK);
-		SwingUtils.addCloseHandler(this, bOK);
-
-		pack();
-		setLocationRelativeTo(Flapjack.winMain);
-		setResizable(false);
-		setVisible(isOK);
+		FlapjackUtils.initDialog(this, bOK, bOK, true, getContentPane());
 	}
 
 	private void initComponents2()

@@ -37,13 +37,7 @@ public class ColorDialog extends JDialog implements ActionListener
 		add(nbPanel = new ColorPanelNB(gPanel));
 		add(createButtons(), BorderLayout.SOUTH);
 
-		getRootPane().setDefaultButton(bClose);
-		SwingUtils.addCloseHandler(this, bClose);
-
-		pack();
-		setLocationRelativeTo(Flapjack.winMain);
-		setResizable(false);
-		setVisible(true);
+		FlapjackUtils.initDialog(this, bClose, bClose, true, getContentPane());
 	}
 
 	private JPanel createButtons()

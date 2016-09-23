@@ -31,18 +31,12 @@ public class SelectGraphDialog extends JDialog implements ActionListener
 		add(panel = new SelectGraphPanelNB(gPanel));
 		add(createButtons(), BorderLayout.SOUTH);
 
-		getRootPane().setDefaultButton(bClose);
-		SwingUtils.addCloseHandler(this, bClose);
-
 		panel.graph1.addActionListener(this);
 		panel.graph2.addActionListener(this);
 		panel.graph3.addActionListener(this);
 		panel.graphTypeCombo.addActionListener(this);
 
-		pack();
-		setLocationRelativeTo(Flapjack.winMain);
-		setResizable(false);
-		setVisible(true);
+		FlapjackUtils.initDialog(this, bClose, bClose, true, getContentPane());
 	}
 
 	private JPanel createButtons()

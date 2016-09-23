@@ -37,15 +37,7 @@ public class DuplicateMarkersDialog extends JDialog implements ActionListener
 		add(nbPanel);
 		add(createButtons(), BorderLayout.SOUTH);
 
-		getRootPane().setDefaultButton(bClose);
-		SwingUtils.addCloseHandler(this, bClose);
-
-		pack();
-		setLocationRelativeTo(Flapjack.winMain);
-		setResizable(false);
-
-		bClose.requestFocusInWindow();
-		setVisible(true);
+		FlapjackUtils.initDialog(this, bClose, bClose, true, getContentPane());
 	}
 
 	private JPanel createButtons()
@@ -62,8 +54,8 @@ public class DuplicateMarkersDialog extends JDialog implements ActionListener
 		FlapjackUtils.setHelp(bHelp, "_-_Duplicate_Markers");
 
 		JPanel p1 = new DialogPanel();
-		p1.add(bClipboard);
 		p1.add(bClose);
+		p1.add(bClipboard);
 		p1.add(bHelp);
 
 		return p1;

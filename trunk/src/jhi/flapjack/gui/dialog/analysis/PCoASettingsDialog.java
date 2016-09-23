@@ -40,13 +40,7 @@ public class PCoASettingsDialog extends JDialog implements ActionListener
 
 		curlywhirlyLinkLabel.addActionListener(this);
 
-		getRootPane().setDefaultButton(bOK);
-		SwingUtils.addCloseHandler(this, bOK);
-
-		pack();
-		setLocationRelativeTo(Flapjack.winMain);
-		setResizable(false);
-		setVisible(true);
+		FlapjackUtils.initDialog(this, bOK, bCancel, true, getContentPane());
 	}
 
 	private void initComponents2()

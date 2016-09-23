@@ -54,17 +54,8 @@ public class PedVerLinesStatsDialog extends JDialog implements ActionListener
 
 		setupComboBoxes(as);
 
-		parentsPanel.setBackground(Color.WHITE);
-
-		getContentPane().setBackground(Color.WHITE);
-
-		getRootPane().setDefaultButton(bOK);
-		SwingUtils.addCloseHandler(this, bOK);
-
-		pack();
-		setLocationRelativeTo(Flapjack.winMain);
-		setResizable(false);
-		setVisible(true);
+		FlapjackUtils.initDialog(this, bOK, bCancel, true,
+			getContentPane(), parentsPanel);
 	}
 
 	private void setupComboBoxes(AnalysisSet as)
