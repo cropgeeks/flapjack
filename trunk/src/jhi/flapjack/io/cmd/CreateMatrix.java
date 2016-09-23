@@ -54,8 +54,8 @@ public class CreateMatrix
 				+ " where valid options are:\n"
 				+ "   -map=<map_file>                (optional input file)\n"
 				+ "   -genotypes=<genotypes_file>    (required input file)\n"
-				+ "   -matrix=<matrix_file>          (required output file)\n"
-				+ "   -decimalEnglish                (optional parameter)\n");
+				+ "   -decimalEnglish                (optional parameter)\n"
+				+ "   -matrix=<matrix_file>          (required output file)\n");
 
 			return;
 		}

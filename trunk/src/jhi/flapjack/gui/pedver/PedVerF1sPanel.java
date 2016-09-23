@@ -35,7 +35,7 @@ public class PedVerF1sPanel extends JPanel implements ActionListener, ITableView
 //		setBorder(BorderFactory.createEmptyBorder(1, 1, 0, 0));
 		add(controls);
 
-		updateModel(viewSet.getDataSet(), viewSet);
+		updateModel(viewSet);
 
 		table.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
@@ -52,9 +52,9 @@ public class PedVerF1sPanel extends JPanel implements ActionListener, ITableView
 		controls.autoResize.setSelected(tableHandler.isAutoResize());
 	}
 
-	public void updateModel(DataSet dataSet, GTViewSet viewSet)
+	public void updateModel(GTViewSet viewSet)
 	{
-		model = new PedVerF1sTableModel(dataSet, viewSet);
+		model = new PedVerF1sTableModel(viewSet);
 		model.addTableModelListener(this);
 
 		table.setModel(model);

@@ -12,8 +12,11 @@ import java.util.*;
 
 import scri.commons.gui.*;
 
-public class GenerateMABCStats
+public class GenerateMabcStats
 {
+	public static final String WEIGHTED = "weighted";
+	public static final String UNWEIGHTED = "unweighted";
+
 	// The objects that will (hopefully) get created
 	private DataSet dataSet = new DataSet();
 
@@ -24,7 +27,9 @@ public class GenerateMABCStats
 	private double maxMarkerCoverage = 10;
 	private boolean decimalEnglish = false;
 	private String filename;
-	private boolean simpleStats = false;
+	private boolean unweighted = false;
+	private int parent1;
+	private int parent2;
 
 	public static void main(String[] args)
 	{
@@ -34,7 +39,9 @@ public class GenerateMABCStats
 		double maxMarkerCoverage = 10;
 		String filename = null;
 		boolean decimalEnglish = false;
-		boolean simpleStats = false;
+		String modelType = "";
+		Integer parent1 = null;
+		Integer parent2 = null;
 
 		NumberFormat nf = NumberFormat.getInstance();
 
@@ -46,6 +53,12 @@ public class GenerateMABCStats
 				genotypesFile = new File(args[i].substring(11));
 			if (args[i].startsWith("-qtls="))
 				qtlFile = new File(args[i].substring(6));
+			if (args[i].startsWith("-parent1="))
+				parent1 = parseParent(args[i].substring(9));
+			if (args[i].startsWith("-parent2="))
+				parent2 = parseParent(args[i].substring(9));
+			if (args[i].startsWith("-model="))
+				modelType = args[i].substring(7);
 			if (args[i].startsWith("-coverage="))
 			{
 				try
@@ -54,43 +67,63 @@ public class GenerateMABCStats
 				}
 				catch (ParseException e) { e.printStackTrace(); }
 			}
-			if (args[i].startsWith("-stats="))
-				filename = args[i].substring(7);
 			if (args[i].startsWith("-decimalEnglish"))
 				decimalEnglish = true;
-			if (args[i].startsWith("-simpleStats"))
-				simpleStats = true;
+			if (args[i].startsWith("-output="))
+				filename = args[i].substring(8);
 		}
 
-		if (mapFile == null || genotypesFile == null || qtlFile == null || filename == null)
+		if (mapFile == null || genotypesFile == null || qtlFile == null ||
+			filename == null || parent1 == null || parent2 == null ||
+			(modelType.equals(WEIGHTED) == false && modelType.equals(UNWEIGHTED) == false))
 		{
 			System.out.println("Usage: mabcstats <options>\n"
 				+ " where valid options are:\n"
 				+ "   -map=<map_file>                (required input file)\n"
 				+ "   -genotypes=<genotypes_file>    (required input file)\n"
 				+ "   -qtls=<qtl_file>               (required input file)\n"
+				+ "   -parent1=<index_of_line>       (required parameter, first line is index 1)\n"
+				+ "   -parent2=<index_of_line>       (required parameter, first line is index 1)\n"
+				+ "   -model=weighted|unweighted     (required parameter)\n"
 				+ "   -coverage=<coverage_value>     (optional floating point parameter)\n"
-				+ "   -stats=<matrix_file>           (required output file)\n"
-				+ "   -decimalEnglish                (optional parameter)\n");
+				+ "   -decimalEnglish                (optional parameter)\n"
+				+ "   -output=<output_file>          (required output file)");
 
 			return;
 		}
 
-		GenerateMABCStats mabcStats = new GenerateMABCStats(mapFile, genotypesFile, qtlFile, maxMarkerCoverage, filename, decimalEnglish, simpleStats);
+		GenerateMabcStats mabcStats = new GenerateMabcStats(mapFile, genotypesFile, qtlFile, parent1, parent2, maxMarkerCoverage, filename, decimalEnglish, modelType);
 		mabcStats.doStatGeneration();
 
 		System.exit(0);
 	}
 
-	public GenerateMABCStats(File mapFile, File genotypesFile, File qtlFile, double maxMarkerCoverage, String filename, boolean decimalEnglish, boolean simpleStats)
+	private static Integer parseParent(String parent)
+	{
+		Integer parentIndex = null;
+
+		try
+		{
+			parentIndex = Integer.parseInt(parent) - 1;
+		}
+		catch (NumberFormatException e) {}
+
+		return parentIndex;
+	}
+
+	public GenerateMabcStats(File mapFile, File genotypesFile, File qtlFile, int parent1, int parent2, double maxMarkerCoverage, String filename, boolean decimalEnglish, String modelType)
 	{
 		this.mapFile = mapFile;
 		this.genotypesFile = genotypesFile;
 		this.qtlFile = qtlFile;
+		this.parent1 = parent1;
+		this.parent2 = parent2;
 		this.maxMarkerCoverage = maxMarkerCoverage;
 		this.filename = filename;
 		this.decimalEnglish = decimalEnglish;
-		this.simpleStats = simpleStats;
+
+		if (modelType.equals(UNWEIGHTED))
+			unweighted = true;
 	}
 
 	public void doStatGeneration()
@@ -126,8 +159,7 @@ public class GenerateMABCStats
 		for (int i = 0; i < chromosomes.length; i++)
 			chromosomes[i] = true;
 
-		// TODO: How do we get the rpIndex and dpIndex for passing to MABCStats?
-		MabcAnalysis stats = new MabcAnalysis(viewSet, chromosomes, maxMarkerCoverage, 0, 1, simpleStats);
+		MabcAnalysis stats = new MabcAnalysis(viewSet, chromosomes, maxMarkerCoverage, parent1, parent2, unweighted);
 		stats.runJob(0);
 
 		MabcTableModel model = new MabcTableModel(viewSet);

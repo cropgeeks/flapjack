@@ -21,7 +21,7 @@ public class PedVerF1sAnalysis extends SimpleJob
 
 	private int f1HetCount = 0;
 	private int totalMarkerCount = 0;
-	private float f1PercentCount = 0;
+	private double f1PercentCount = 0;
 
 	public PedVerF1sAnalysis(GTViewSet viewSet, boolean[] selectedChromosomes, int parent1Index, int parent2Index, int f1Index)
 	{
@@ -56,13 +56,13 @@ public class PedVerF1sAnalysis extends SimpleJob
 		// Move the f1 to just below the parents
 		viewSet.moveLine(viewSet.getLines().indexOf(f1), 2);
 
-		// Reset out indexes as we've moved the lines in the dataset
+		// Reset our indexes as we've moved the lines in the dataset
 		parent1Index = 0;
 		parent2Index = 1;
 		f1Index = 2;
 
-		// Set the colour scheme to the similarity to line exact match scheme and set the comparison line equal to the
-		// F1
+		// Set the colour scheme to the similarity to line exact match scheme
+		// and set the comparison line equal to the F1
 		viewSet.setColorScheme(ColorScheme.LINE_SIMILARITY);
 		viewSet.setComparisonLineIndex(viewSet.getLines().indexOf(f1));
 		viewSet.setComparisonLine(f1.getLine());
@@ -126,7 +126,7 @@ public class PedVerF1sAnalysis extends SimpleJob
 				}
 			}
 		}
-		f1PercentCount = (f1HetCount / (float)totalMarkerCount) * 100;
+		f1PercentCount = (f1HetCount / (double)totalMarkerCount) * 100;
 	}
 
 	// Checks to see if this allele is usable. It first checks that the allele
