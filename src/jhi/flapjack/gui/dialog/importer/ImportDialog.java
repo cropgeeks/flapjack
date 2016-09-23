@@ -68,14 +68,7 @@ public class ImportDialog extends JDialog implements ActionListener, ChangeListe
 		tabs.setSelectedIndex(tabIndex);
 		add(tabs);
 
-		getContentPane().setBackground((Color)UIManager.get("fjDialogBG"));
-		getRootPane().setDefaultButton(bImport);
-		SwingUtils.addCloseHandler(this, bCancel);
-
-		pack();
-		setLocationRelativeTo(Flapjack.winMain);
-		setResizable(false);
-		setVisible(true);
+		FlapjackUtils.initDialog(this, bImport, bCancel, true, getContentPane());
 	}
 
 	private JPanel createButtons()

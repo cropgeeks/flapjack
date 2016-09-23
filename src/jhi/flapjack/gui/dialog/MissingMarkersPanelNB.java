@@ -23,7 +23,7 @@ class MissingMarkersPanelNB extends JPanel implements ChangeListener
 	{
 		initComponents();
 
-		FlapjackUtils.setDialogBG(this, panel1, dataPanel);
+		FlapjackUtils.initPanel(this, panel1, dataPanel);
 
 		slider.addChangeListener(this);
 		slider.setValue(value);

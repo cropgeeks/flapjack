@@ -43,19 +43,9 @@ public class MABCStatsDialog extends JDialog implements ActionListener
 
 		initComponents();
 		initComponents2();
-		FlapjackUtils.setDialogBG(getContentPane(), settingsPanel, dataPanel);
 
-		getRootPane().setDefaultButton(bOK);
-		SwingUtils.addCloseHandler(this, bOK);
-
-		// If fewer than 2 lines are selected, disable the OK button.
-		if (viewSet.getView(0).countSelectedLines() < 2)
-			bOK.setEnabled(false);
-
-		pack();
-		setLocationRelativeTo(Flapjack.winMain);
-		setResizable(false);
-		setVisible(true);
+		FlapjackUtils.initDialog(this, bOK, bCancel, true,
+			getContentPane(), settingsPanel, dataPanel);
 	}
 
 	private void initComponents2()
@@ -92,6 +82,10 @@ public class MABCStatsDialog extends JDialog implements ActionListener
 		// label based on whether or not we are using the weighted calculation
 		jLabel3.setEnabled(!Prefs.guiUseSimpleMabcStats);
 		maxMrkrCoverage.setEnabled(!Prefs.guiUseSimpleMabcStats);
+
+		// If fewer than 2 lines are selected, disable the OK button.
+		if (viewSet.getView(0).countSelectedLines() < 2)
+			bOK.setEnabled(false);
 	}
 
 	private void setupComboBoxes(AnalysisSet as)

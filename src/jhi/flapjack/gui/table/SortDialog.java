@@ -29,7 +29,6 @@ public class SortDialog extends JDialog implements ActionListener, ListSelection
 		RB.setText(bAdd, "gui.table.SortDialog.bAdd");
 		RB.setText(bDelete, "gui.table.SortDialog.bDelete");
 
-		getContentPane().setBackground((Color)UIManager.get("fjDialogBG"));
 		bSort.addActionListener(this);
 		bCancel.addActionListener(this);
 		bAdd.addActionListener(this);
@@ -37,13 +36,7 @@ public class SortDialog extends JDialog implements ActionListener, ListSelection
 
 		checkButtonStates();
 
-		getRootPane().setDefaultButton(bSort);
-		SwingUtils.addCloseHandler(this, bCancel);
-
-		pack();
-		setLocationRelativeTo(Flapjack.winMain);
-		setResizable(false);
-		setVisible(true);
+		FlapjackUtils.initDialog(this, bSort, bCancel, true, getContentPane());
 	}
 
 	private void initTable(SortColumn[] allCols, SortColumn[] lastUsedCols)

@@ -32,13 +32,7 @@ public class MissingMarkersDialog extends JDialog implements ActionListener
 		nbPanel = new MissingMarkersPanelNB(viewSet, bFilter);
 		add(nbPanel);
 
-		getRootPane().setDefaultButton(bFilter);
-		SwingUtils.addCloseHandler(this, bCancel);
-
-		pack();
-		setLocationRelativeTo(Flapjack.winMain);
-		setResizable(false);
-		setVisible(true);
+		FlapjackUtils.initDialog(this, bFilter, bCancel, true, getContentPane());
 	}
 
 	private JPanel createButtons()

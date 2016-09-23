@@ -18,7 +18,7 @@ import scri.commons.gui.matisse.*;
 
 public class ExportDataDialog extends JDialog implements ActionListener
 {
-	private JButton bExport, bClose, bHelp;
+	private JButton bExport, bCancel, bHelp;
 	private ExportDataPanelNB nbPanel;
 
 	private GTViewSet viewSet;
@@ -41,28 +41,22 @@ public class ExportDataDialog extends JDialog implements ActionListener
 		add(nbPanel);
 		add(createButtons(), BorderLayout.SOUTH);
 
-		getRootPane().setDefaultButton(bExport);
-		SwingUtils.addCloseHandler(this, bClose);
-
-		pack();
-		setLocationRelativeTo(Flapjack.winMain);
-		setResizable(false);
-		setVisible(true);
+		FlapjackUtils.initDialog(this, bExport, bCancel, true, getContentPane());
 	}
 
 	private JPanel createButtons()
 	{
 		bExport = new JButton(RB.getString("gui.dialog.ExportDataDialog.bExport"));
 		bExport.addActionListener(this);
-		bClose = new JButton(RB.getString("gui.text.close"));
-		bClose.addActionListener(this);
+		bCancel = new JButton(RB.getString("gui.text.cancel"));
+		bCancel.addActionListener(this);
 		bHelp = new JButton(RB.getString("gui.text.help"));
 		RB.setText(bHelp, "gui.text.help");
 		FlapjackUtils.setHelp(bHelp, "_-_Export_Data");
 
 		JPanel p1 = new DialogPanel();
 		p1.add(bExport);
-		p1.add(bClose);
+		p1.add(bCancel);
 		p1.add(bHelp);
 
 		return p1;
@@ -70,7 +64,7 @@ public class ExportDataDialog extends JDialog implements ActionListener
 
 	public void actionPerformed(ActionEvent e)
 	{
-		if (e.getSource() == bClose)
+		if (e.getSource() == bCancel)
 			setVisible(false);
 
 		else if (e.getSource() == bExport)

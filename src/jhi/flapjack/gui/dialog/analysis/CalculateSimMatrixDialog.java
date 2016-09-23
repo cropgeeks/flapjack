@@ -33,19 +33,12 @@ public class CalculateSimMatrixDialog extends JDialog implements ActionListener,
 
 		initComponents();
 		initComponents2();
-		getContentPane().setBackground(Color.WHITE);
-
-		getRootPane().setDefaultButton(bCreate);
-		SwingUtils.addCloseHandler(this, bCreate);
 
 		// If fewer than 2 lines are selected, disable the OK button.
 		if (viewSet.getView(0).countSelectedLines() < 2)
 			bCreate.setEnabled(false);
 
-		pack();
-		setLocationRelativeTo(Flapjack.winMain);
-		setResizable(false);
-		setVisible(true);
+		FlapjackUtils.initDialog(this, bCreate, bCancel, true, getContentPane());
 	}
 
 	private void initComponents2()

@@ -40,13 +40,7 @@ public class BrowseDialog extends JDialog implements ActionListener
 		add(nbPanel);
 		add(createButtons(rbButton, help), BorderLayout.SOUTH);
 
-		getRootPane().setDefaultButton(bImport);
-		SwingUtils.addCloseHandler(this, bCancel);
-
-		pack();
-		setLocationRelativeTo(Flapjack.winMain);
-		setResizable(false);
-		setVisible(true);
+		FlapjackUtils.initDialog(this, bImport, bCancel, true, getContentPane());
 	}
 
 	private JPanel createButtons(String rbButton, String help)

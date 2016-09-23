@@ -32,13 +32,7 @@ public class ToggleCanvasDialog extends JDialog implements ActionListener
 		add(nbPanel);
 		add(createButtons(), BorderLayout.SOUTH);
 
-		getRootPane().setDefaultButton(bClose);
-		SwingUtils.addCloseHandler(this, bClose);
-
-		pack();
-		setLocationRelativeTo(Flapjack.winMain);
-		setResizable(false);
-		setVisible(true);
+		FlapjackUtils.initDialog(this, bClose, bClose, true, getContentPane());
 	}
 
 	private JPanel createButtons()

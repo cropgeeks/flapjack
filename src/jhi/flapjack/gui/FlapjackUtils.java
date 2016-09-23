@@ -169,11 +169,30 @@ public class FlapjackUtils
 		catch (Throwable e) { return new File(""); }
 	}
 
-	public static void setDialogBG(Container ... array)
+	public static void initPanel(Container ... array)
 	{
+		// Sets the background colours to (white)
 		Color color = (Color) UIManager.get("fjDialogBG");
 
 		for (Container container: array)
 			container.setBackground(color);
+	}
+
+	public static void initDialog(JDialog dialog, JButton bDefault, JButton bClose, boolean visible, Container ... array)
+	{
+		// Sets the background colours to (white)
+		Color color = (Color) UIManager.get("fjDialogBG");
+
+		for (Container container: array)
+			container.setBackground(color);
+
+		// Default setup used for all our Flapjack dialogs
+		dialog.getRootPane().setDefaultButton(bDefault);
+		SwingUtils.addCloseHandler(dialog, bClose);
+
+		dialog.pack();
+		dialog.setLocationRelativeTo(Flapjack.winMain);
+		dialog.setResizable(false);
+		dialog.setVisible(visible);
 	}
 }

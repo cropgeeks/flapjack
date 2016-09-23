@@ -37,13 +37,7 @@ public class SortLinesDialog extends JDialog implements ActionListener
 		add(createButtons(), BorderLayout.SOUTH);
 		checkSelectedLine();
 
-		getRootPane().setDefaultButton(bOK);
-		SwingUtils.addCloseHandler(this, bCancel);
-
-		pack();
-		setLocationRelativeTo(Flapjack.winMain);
-		setResizable(false);
-		setVisible(true);
+		FlapjackUtils.initDialog(this, bOK, bCancel, true, getContentPane());
 	}
 
 	private JPanel createButtons()

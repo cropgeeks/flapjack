@@ -37,18 +37,8 @@ public class FilterMissingMarkersByLineDialog extends JDialog implements ActionL
 		initComponents();
 		initComponents2();
 
-		FlapjackUtils.setDialogBG(getContentPane(), linePanel, dataPanel);
-
-		getRootPane().setDefaultButton(bFilter);
-		SwingUtils.addCloseHandler(this, bFilter);
-
-		if (viewSet.getView(0).countSelectedLines() == 0)
-			bFilter.setEnabled(false);
-
-		pack();
-		setLocationRelativeTo(Flapjack.winMain);
-		setResizable(false);
-		setVisible(true);
+		FlapjackUtils.initDialog(this, bFilter, bCancel, true,
+			getContentPane(), linePanel, dataPanel);
 	}
 
 	private void initComponents2()
@@ -80,6 +70,9 @@ public class FilterMissingMarkersByLineDialog extends JDialog implements ActionL
 
 		if (view.mouseOverLine >= 0 && view.mouseOverLine < view.lineCount())
 			selectedLine.setSelectedIndex(view.mouseOverLine);
+
+		if (viewSet.getView(0).countSelectedLines() == 0)
+			bFilter.setEnabled(false);
 	}
 
 	// Generates a boolean array with a true/false selected state for each of

@@ -39,6 +39,8 @@ public class DatabaseSettingsDialog extends JDialog implements ActionListener
 		setLocationRelativeTo(Flapjack.winMain);
 		setResizable(false);
 		setVisible(true);
+
+		FlapjackUtils.initDialog(this, bOK, bCancel, true, getContentPane());
 	}
 
 	private JPanel createButtons()

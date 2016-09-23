@@ -29,13 +29,7 @@ public class DendrogramSettingsDialog extends JDialog implements ActionListener
 		initComponents2();
 		getContentPane().setBackground(Color.WHITE);
 
-		getRootPane().setDefaultButton(bOK);
-		SwingUtils.addCloseHandler(this, bOK);
-
-		pack();
-		setLocationRelativeTo(Flapjack.winMain);
-		setResizable(false);
-		setVisible(true);
+		FlapjackUtils.initDialog(this, bOK, bCancel, true, getContentPane());
 	}
 
 	private void initComponents2()
@@ -46,7 +40,7 @@ public class DendrogramSettingsDialog extends JDialog implements ActionListener
 		RB.setText(bCancel, "gui.text.cancel");
 		bCancel.addActionListener(this);
 	}
-	
+
 	public boolean isOK()
 		{ return isOK; }
 

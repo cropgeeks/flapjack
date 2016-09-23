@@ -31,15 +31,8 @@ public class FilterMonomorphicMarkersDialog extends JDialog implements ActionLis
 
 		initComponents();
 		initComponents2();
-		FlapjackUtils.setDialogBG(getContentPane());
 
-		getRootPane().setDefaultButton(bFilter);
-		SwingUtils.addCloseHandler(this, bFilter);
-
-		pack();
-		setLocationRelativeTo(Flapjack.winMain);
-		setResizable(false);
-		setVisible(true);
+		FlapjackUtils.initDialog(this, bFilter, bCancel, true, getContentPane());
 	}
 
 	private void initComponents2()

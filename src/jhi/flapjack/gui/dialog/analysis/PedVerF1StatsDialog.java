@@ -59,20 +59,10 @@ public class PedVerF1StatsDialog extends JDialog implements ActionListener
 		setupF1ButtonGroup();
 		setupComboBoxes(as);
 
-		parentsPanel.setBackground(Color.WHITE);
-
 		rdbSimulateF1.setSelected(true);
 
-		getContentPane().setBackground(Color.WHITE);
-		jPanel1.setBackground(Color.WHITE);
-
-		getRootPane().setDefaultButton(bOK);
-		SwingUtils.addCloseHandler(this, bOK);
-
-		pack();
-		setLocationRelativeTo(Flapjack.winMain);
-		setResizable(false);
-		setVisible(true);
+		FlapjackUtils.initDialog(this, bOK, bCancel, true,
+			getContentPane(), jPanel1, parentsPanel);
 	}
 
 	private void setupComboBoxes(AnalysisSet as)
