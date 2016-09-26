@@ -75,9 +75,13 @@ public class PedVerLinesAnalysis extends SimpleJob
 		refLine.getResults().setSortToTop(true);
 		testLine.getResults().setSortToTop(true);
 
-		// Move the reference and test lines to the top of the display
-		viewSet.moveLine(viewSet.getLines().indexOf(refLine), 0);
-		viewSet.moveLine(viewSet.getLines().indexOf(testLine), 1);
+		// Remove them from the list
+		viewSet.getLines().remove(refLine);
+		viewSet.getLines().remove(testLine);
+
+		// Then put them back in at the top
+		viewSet.getLines().add(0, refLine);
+		viewSet.getLines().add(1, testLine);
 
 		// Reset our indexes as we've moved the lines in the dataset
 		refIndex = 0;
@@ -86,7 +90,7 @@ public class PedVerLinesAnalysis extends SimpleJob
 		// Set the colour scheme to the similarity to line exact match scheme and set the comparison line equal to the
 		// F1
 		viewSet.setColorScheme(ColorScheme.LINE_SIMILARITY_EXACT_MATCH);
-		viewSet.setComparisonLineIndex(viewSet.getLines().indexOf(testLine));
+		viewSet.setComparisonLineIndex(testIndex);
 		viewSet.setComparisonLine(testLine.getLine());
 	}
 
