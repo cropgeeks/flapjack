@@ -20,6 +20,14 @@ public class PedVerLinesAnalysis extends SimpleJob
 	private int refIndex;
 	private int testIndex;
 
+	private String name;
+
+	public PedVerLinesAnalysis(GTViewSet viewSet, boolean[] selectedChromosomes, int refIndex, int testIndex, String name)
+	{
+		this(viewSet, selectedChromosomes, refIndex, testIndex);
+		this.name = name;
+	}
+
 	public PedVerLinesAnalysis(GTViewSet viewSet, boolean[] selectedChromosomes, int refIndex, int testIndex)
 	{
 		this.viewSet = viewSet;
@@ -46,6 +54,7 @@ public class PedVerLinesAnalysis extends SimpleJob
 
 			PedVerLinesResult lineStat = new PedVerLinesResult();
 			lineInfo.getResults().setPedVerLinesResult(lineStat);
+			lineInfo.getResults().setName(name);
 
 			int foundMarkers = usableMarkerCount(lineIndex);
 			double missingPerc = (1 - (foundMarkers / (double) totalMarkerCount)) * 100;

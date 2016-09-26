@@ -23,6 +23,14 @@ public class PedVerF1sAnalysis extends SimpleJob
 	private int totalMarkerCount = 0;
 	private double f1PercentCount = 0;
 
+	private String name;
+
+	public PedVerF1sAnalysis(GTViewSet viewSet, boolean[] selectedChromosomes, int parent1Index, int parent2Index, int f1Index, String name)
+	{
+		this(viewSet, selectedChromosomes,  parent1Index, parent2Index, f1Index);
+		this.name = name;
+	}
+
 	public PedVerF1sAnalysis(GTViewSet viewSet, boolean[] selectedChromosomes, int parent1Index, int parent2Index, int f1Index)
 	{
 		this.viewSet = viewSet;
@@ -34,9 +42,9 @@ public class PedVerF1sAnalysis extends SimpleJob
 		moveParentsToTop();
 
 		as = new AnalysisSet(viewSet)
-		.withViews(selectedChromosomes)
-		.withSelectedLines()
-		.withSelectedMarkers();
+			.withViews(selectedChromosomes)
+			.withSelectedLines()
+			.withSelectedMarkers();
 	}
 
 	private void moveParentsToTop()
@@ -87,6 +95,7 @@ public class PedVerF1sAnalysis extends SimpleJob
 		LineInfo lineInfo = as.getLine(lineIndex);
 		PedVerF1sResult lineStat = new PedVerF1sResult();
 		lineInfo.getResults().setPedVerF1sResult(lineStat);
+		lineInfo.getResults().setName(name);
 
 		int foundMarkers = usableMarkerCount(lineIndex);
 		int hetMarkers = hetMarkerCount(lineIndex);

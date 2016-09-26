@@ -29,11 +29,18 @@ public class MabcAnalysis extends SimpleJob
 
 	private double maxMarkerCoverage;
 
-	// hard coded index of the RP line (index of the line minus duplicate, etc)
-	int rpIndex = 0;
-	int dpIndex = 1;
+	private int rpIndex = 0;
+	private int dpIndex = 1;
 
-	boolean simpleStats;
+	private boolean simpleStats;
+
+	private String name;
+
+	public MabcAnalysis(GTViewSet viewSet, boolean[] selectedChromosomes, double maxMarkerCoverage, int rpIndex, int dpIndex, boolean simpleStats, String name)
+	{
+		this(viewSet, selectedChromosomes, maxMarkerCoverage, rpIndex, dpIndex, simpleStats);
+		this.name = name;
+	}
 
 	public MabcAnalysis(GTViewSet viewSet, boolean[] selectedChromosomes, double maxMarkerCoverage, int rpIndex, int dpIndex, boolean simpleStats)
 	{
@@ -83,6 +90,7 @@ public class MabcAnalysis extends SimpleJob
 			LineInfo line = as.getLine(lineIndex);
 			MabcResult stats = new MabcResult(line);
 			line.getResults().setMabcResult(stats);
+			line.getResults().setName(name);
 
 			// ...loop over each chromosome and work out RPP for it
 			for (int viewIndex = 0; viewIndex < as.viewCount(); viewIndex++)

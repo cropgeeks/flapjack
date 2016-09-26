@@ -281,7 +281,7 @@ public class MenuAnalysis
 
 		// Run the stats calculations
 		MabcAnalysis stats = new MabcAnalysis(
-			finalViewSet, selectedChromosomes, Prefs.mabcMaxMrkrCoverage, rpIndex, dpIndex, simpleStats);
+			finalViewSet, selectedChromosomes, Prefs.mabcMaxMrkrCoverage, rpIndex, dpIndex, simpleStats, RB.getString("gui.navpanel.MabcNode.node"));
 		ProgressDialog pDialog = new ProgressDialog(stats,
 			RB.getString("gui.MenuAnalysis.mabc.title"),
 			RB.getString("gui.MenuAnalysis.pcoa.label"), Flapjack.winMain);
@@ -296,7 +296,6 @@ public class MenuAnalysis
 		// Create new NavPanel components to hold the results
 		dataSet.getViewSets().add(finalViewSet);
 		navPanel.addVisualizationNode(dataSet, finalViewSet);
-//		navPanel.addMabcNode(finalViewSet);
 
 		Actions.projectModified();
 	}
@@ -333,7 +332,7 @@ public class MenuAnalysis
 			f1Index = f1Sim.getF1Index();
 		}
 
-		PedVerF1sAnalysis stats = new PedVerF1sAnalysis(newViewSet, selectedChromosomes, p1Index, p2Index, f1Index);
+		PedVerF1sAnalysis stats = new PedVerF1sAnalysis(newViewSet, selectedChromosomes, p1Index, p2Index, f1Index, "PedVerF1s Results");
 		ProgressDialog pDialog = new ProgressDialog(stats,
 			"Running PedVer Stats",
 			"Running PedVer stats - please be patient...",
@@ -367,7 +366,7 @@ public class MenuAnalysis
 		int refIndex = dialog.getReferenceLine();
 		int testIndex = dialog.getTestLine();
 
-		PedVerLinesAnalysis stats = new PedVerLinesAnalysis(newViewSet, selectedChromosomes, refIndex, testIndex);
+		PedVerLinesAnalysis stats = new PedVerLinesAnalysis(newViewSet, selectedChromosomes, refIndex, testIndex, "PedVerLines Results");
 		ProgressDialog pDialog = new ProgressDialog(stats,
 			"Running PedVer Stats",
 			"Running PedVer stats - please be patient...",
