@@ -36,9 +36,6 @@ class ImportGenoTabNB extends javax.swing.JPanel implements ActionListener
 		mapComboBox.setHistory(Prefs.guiMapList);
 		genoComboBox.setHistory(Prefs.guiGenoList);
 		hdf5ComboBox.setHistory(Prefs.guiHDF5List);
-		mapComboBox.setPrototypeDisplayValue("");
-		genoComboBox.setPrototypeDisplayValue("");
-		hdf5ComboBox.setPrototypeDisplayValue("");
 
 		// If the user didn't pick a map last time, blank the map combo's text
 		if (Prefs.guiMapListUseBlank)
