@@ -374,8 +374,12 @@ public class MabcAnalysis extends SimpleJob
 		viewSet.getLines().get(dpIndex).getResults().setSortToTop(true);
 
 		// Move the parent lines to the top of the display
-		viewSet.moveLine(rpIndex, 0);
-		viewSet.moveLine(dpIndex, 1);
+		LineInfo rp = viewSet.getLines().get(rpIndex);
+		LineInfo dp = viewSet.getLines().get(dpIndex);
+		viewSet.getLines().remove(rp);
+		viewSet.getLines().remove(dp);
+		viewSet.getLines().add(0, rp);
+		viewSet.getLines().add(1, dp);
 
 		// Set the colour scheme to LINE_SIMILARITY and set the comparison line to the recurrent parent
 		viewSet.setColorScheme(ColorScheme.LINE_SIMILARITY);

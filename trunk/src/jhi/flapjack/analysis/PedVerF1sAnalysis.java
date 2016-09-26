@@ -50,11 +50,16 @@ public class PedVerF1sAnalysis extends SimpleJob
 		p2.getResults().setSortToTop(true);
 		f1.getResults().setSortToTop(true);
 
-		// Move the parent lines to the top of the display
-		viewSet.moveLine(viewSet.getLines().indexOf(p1), 0);
-		viewSet.moveLine(viewSet.getLines().indexOf(p2), 1);
+		// Remove them from the list
+		viewSet.getLines().remove(p1);
+		viewSet.getLines().remove(p2);
+		viewSet.getLines().remove(f1);
+
+		// Then put them back in at the top
+		viewSet.getLines().add(0, p1);
+		viewSet.getLines().add(1, p2);
 		// Move the f1 to just below the parents
-		viewSet.moveLine(viewSet.getLines().indexOf(f1), 2);
+		viewSet.getLines().add(2, f1);
 
 		// Reset our indexes as we've moved the lines in the dataset
 		parent1Index = 0;
@@ -64,7 +69,7 @@ public class PedVerF1sAnalysis extends SimpleJob
 		// Set the colour scheme to the similarity to line exact match scheme
 		// and set the comparison line equal to the F1
 		viewSet.setColorScheme(ColorScheme.LINE_SIMILARITY);
-		viewSet.setComparisonLineIndex(viewSet.getLines().indexOf(f1));
+		viewSet.setComparisonLineIndex(f1Index);
 		viewSet.setComparisonLine(f1.getLine());
 	}
 
