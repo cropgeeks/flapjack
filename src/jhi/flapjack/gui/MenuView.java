@@ -5,11 +5,12 @@ package jhi.flapjack.gui;
 
 import javax.swing.*;
 
-import scri.commons.gui.*;
-
 import jhi.flapjack.data.*;
 import jhi.flapjack.gui.dialog.*;
+import jhi.flapjack.gui.navpanel.*;
 import jhi.flapjack.gui.visualization.*;
+
+import scri.commons.gui.*;
 
 public class MenuView
 {
@@ -42,16 +43,59 @@ public class MenuView
 
 	void viewRenameView()
 	{
-		GTViewSet viewSet = navPanel.getViewSetForSelection();
+		BaseNode node = navPanel.getNodeForSelection();
 
-		RenameDialog dialog = new RenameDialog(viewSet.getName());
-
-		if (dialog.isOK())
+		if (node instanceof VisualizationNode)
 		{
-			viewSet.setName(dialog.getNewName());
-			navPanel.updateNodeFor(viewSet);
+			GTViewSet viewSet = ((VisualizationNode) node).getViewSet();
 
-			Actions.projectModified();
+			RenameDialog dialog = new RenameDialog(viewSet.getName());
+
+			if (dialog.isOK())
+			{
+				viewSet.setName(dialog.getNewName());
+				navPanel.updateNodeFor(viewSet);
+
+				Actions.projectModified();
+			}
+		}
+		else if (node instanceof VisualizationChildNode)
+		{
+			VisualizationChildNode vNode = (VisualizationChildNode) node;
+			RenameDialog dialog = new RenameDialog(vNode.getName());
+
+			if (dialog.isOK())
+			{
+				// Grab the new name for our node from the dialog
+				String newName = dialog.getNewName();
+
+				// Set that on the node itself
+				vNode.setName(newName);
+
+				// Then set the name on the actual object so that it comes back
+				// from a project save correctly
+				if (vNode instanceof MabcNode || vNode instanceof PedVerF1sNode
+					|| vNode instanceof PedVerLinesNode)
+				{
+					GTViewSet viewSet = vNode.getViewSet();
+					// In the case of any of our analyses we'll have to set the
+					// name on each line's LineResults entry
+					viewSet.getLines().forEach(line -> line.getResults().setName(newName));
+				}
+				else if (vNode instanceof SimMatrixNode)
+				{
+					SimMatrixNode sNode = (SimMatrixNode)vNode;
+					sNode.getMatrix().setTitle(newName);
+				}
+				else if (vNode instanceof  DendrogramNode)
+				{
+					DendrogramNode dNode = (DendrogramNode)vNode;
+					dNode.getDendrogram().setTitle(newName);
+				}
+				navPanel.updateNode(vNode);
+
+				Actions.projectModified();
+			}
 		}
 	}
 

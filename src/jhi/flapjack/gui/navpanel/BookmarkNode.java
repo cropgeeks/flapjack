@@ -16,22 +16,18 @@ public class BookmarkNode extends VisualizationChildNode
 
 	private Bookmark bookmark;
 	private GTViewSet viewSet;
-	private String name;
 
 	public BookmarkNode(GenotypePanel gPanel, VisualizationNode parent, Bookmark bookmark)
 	{
-		super(gPanel, parent.getViewSet());
+		super(gPanel, parent.getViewSet(), bookmark.getChromosome().getName()
+			+ ": " + bookmark.getLine().getName()
+			+ " / " + bookmark.getMarker().getName());
 
 		this.gPanel = gPanel;
 		this.parent = parent;
 		this.bookmark = bookmark;
 
 		viewSet = parent.getViewSet();
-
-		// Work out a sensible name for the bookmark
-		name = bookmark.getChromosome().getName()
-			+ ": " + bookmark.getLine().getName()
-			+ " / " + bookmark.getMarker().getName();
 	}
 
 	public Bookmark getBookmark()
@@ -39,11 +35,6 @@ public class BookmarkNode extends VisualizationChildNode
 
 	public GTViewSet getViewSet()
 		{ return parent.getViewSet(); }
-
-	public String toString()
-	{
-		return name;
-	}
 
 	public void setActions()
 	{

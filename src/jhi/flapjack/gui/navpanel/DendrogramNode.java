@@ -12,24 +12,16 @@ import jhi.flapjack.gui.visualization.*;
 public class DendrogramNode extends VisualizationChildNode
 {
 	private DendrogramPanel panel;
-	private String title;
+
+	private Dendrogram dendrogram;
 
 	public DendrogramNode(GenotypePanel gPanel, Dendrogram dendrogram)
 	{
-		super(gPanel, dendrogram.getViewSet());
+		super(gPanel, dendrogram.getViewSet(), dendrogram.getTitle());
+
+		this.dendrogram = dendrogram;
 
 		panel = new DendrogramPanel(dendrogram);
-		title = dendrogram.getTitle();
-	}
-
-	public String toString()
-	{
-		return title;
-	}
-
-	public void setActions()
-	{
-
 	}
 
 	public JPanel getPanel()
@@ -38,4 +30,10 @@ public class DendrogramNode extends VisualizationChildNode
 
 		return panel;
 	}
+
+	public Dendrogram getDendrogram()
+		{ return dendrogram; }
+
+	public void setDendrogram(Dendrogram dendrogram)
+		{ this.dendrogram = dendrogram; }
 }

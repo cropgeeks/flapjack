@@ -29,6 +29,8 @@ public class LineResults extends XMLRoot
 	// tables, regardless of the sort order applied to that table
 	private boolean sortToTop;
 
+	private String name;
+
 	public LineResults()
 	{
 	}
@@ -81,6 +83,12 @@ public class LineResults extends XMLRoot
 
 	public void setSortToTop(boolean sortToTop)
 		{ this.sortToTop = sortToTop; }
+
+	public String getName()
+		{ return name; }
+
+	public void setName(String name)
+		{ this.name = name; }
 
 	// Other methods
 }

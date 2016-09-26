@@ -18,20 +18,17 @@ public class SimMatrixNode extends VisualizationChildNode
 
 	public SimMatrixNode(GenotypePanel gPanel, GTViewSet viewSet, SimMatrix matrix)
 	{
-		super(gPanel, viewSet);
+		super(gPanel, viewSet, matrix.getTitle());
 
 		this.matrix = matrix;
 
 		panel = new SimMatrixPanel(viewSet, matrix);
 	}
 
-	public String toString()
-	{
-		return matrix.getTitle();
-	}
-
 	public void setActions()
 	{
+		super.setActions();
+
 		Actions.alysDendrogram.setEnabled(true);
 		Actions.alysPCoA.setEnabled(true);
 	}

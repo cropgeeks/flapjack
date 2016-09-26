@@ -73,10 +73,11 @@ public class NavPanelMenu extends MouseInputAdapter
 			menu.add(viewDeleteView);
 		}
 
+		else if (node instanceof VisualizationChildNode && !(node instanceof BookmarkNode))
+			menu.add(viewRenameView);
+
 		else if (node instanceof BookmarkNode)
-		{
 			menu.add(viewDeleteBookmark);
-		}
 
 		else
 			return;

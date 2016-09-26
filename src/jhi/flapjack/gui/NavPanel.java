@@ -347,6 +347,11 @@ public class NavPanel extends JPanel
 			return null;
 	}
 
+	BaseNode getNodeForSelection()
+	{
+		return (BaseNode) tree.getLastSelectedPathComponent();
+	}
+
 	void updateNodeFor(DataSet dataSet)
 	{
 		DataSetNode node = findDataSetNode(dataSet);
@@ -356,6 +361,11 @@ public class NavPanel extends JPanel
 	void updateNodeFor(GTViewSet viewSet)
 	{
 		VisualizationNode node = findVisualizationNode(viewSet);
+		treeModel.nodeChanged(node);
+	}
+
+	void updateNode(BaseNode node)
+	{
 		treeModel.nodeChanged(node);
 	}
 

@@ -18,18 +18,14 @@ public class MabcNode extends VisualizationChildNode
 
 	public MabcNode(GenotypePanel gPanel, GTViewSet viewSet)
 	{
-		super(gPanel, viewSet);
+		super(gPanel, viewSet, viewSet.getLines().get(0).getResults().getName());
 
 		panel = new MabcPanel(viewSet);
 	}
 
-	public String toString()
-	{
-		return RB.getString("gui.navpanel.MabcNode.node");
-	}
-
 	public void setActions()
 	{
+		super.setActions();
 		Actions.viewNewView.setEnabled(true);
 
 		// TODO: make dynamic based on inclusion of QTL data or not

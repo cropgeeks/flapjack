@@ -16,18 +16,15 @@ public class PedVerLinesNode extends VisualizationChildNode
 
 	public PedVerLinesNode(GenotypePanel gPanel, GTViewSet viewSet)
 	{
-		super(gPanel, viewSet);
+		super(gPanel, viewSet, viewSet.getLines().get(0).getResults().getName());
 
 		panel = new PedVerLinesPanel(viewSet);
 	}
 
-	public String toString()
-	{
-		return "PedVerLines Results";
-	}
-
 	public void setActions()
 	{
+		super.setActions();
+
 		Actions.viewNewView.setEnabled(true);
 
 		// TODO: make dynamic based on inclusion of QTL data or not
