@@ -91,12 +91,12 @@ class ImportFeaturesTabNB extends JPanel implements ActionListener
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+    private void initComponents()
+    {
 
         panel = new javax.swing.JPanel();
         label = new javax.swing.JLabel();
         bBrowse = new javax.swing.JButton();
-        jPanel1 = new javax.swing.JPanel();
         browseComboBox = new scri.commons.gui.matisse.HistoryComboBox();
         tabLabel = new javax.swing.JLabel();
 
@@ -107,9 +107,6 @@ class ImportFeaturesTabNB extends JPanel implements ActionListener
 
         bBrowse.setText("Browse...");
 
-        jPanel1.setLayout(new java.awt.BorderLayout());
-        jPanel1.add(browseComboBox, java.awt.BorderLayout.CENTER);
-
         javax.swing.GroupLayout panelLayout = new javax.swing.GroupLayout(panel);
         panel.setLayout(panelLayout);
         panelLayout.setHorizontalGroup(
@@ -118,7 +115,7 @@ class ImportFeaturesTabNB extends JPanel implements ActionListener
                 .addContainerGap()
                 .addComponent(label)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 221, Short.MAX_VALUE)
+                .addComponent(browseComboBox, javax.swing.GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(bBrowse)
                 .addContainerGap())
@@ -129,8 +126,8 @@ class ImportFeaturesTabNB extends JPanel implements ActionListener
                 .addContainerGap()
                 .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(label)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(bBrowse))
+                    .addComponent(bBrowse)
+                    .addComponent(browseComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -162,7 +159,6 @@ class ImportFeaturesTabNB extends JPanel implements ActionListener
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bBrowse;
     scri.commons.gui.matisse.HistoryComboBox browseComboBox;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel label;
     private javax.swing.JPanel panel;
     private javax.swing.JLabel tabLabel;
