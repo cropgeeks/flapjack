@@ -82,19 +82,35 @@ public class ChromosomeMap extends XMLRoot implements Iterable<Marker>, Comparab
 
 	// Other methods
 
+	@Override
 	public String toString()
 	{
 		return name;
 	}
 
-
-
+	@Override
 	public Iterator<Marker> iterator()
 		{ return markers.iterator(); }
 
+	@Override
 	public int compareTo(ChromosomeMap other)
 	{
+		// Try and sort numerical "names" in numerical order
+		if (nameIsNumber() && other.nameIsNumber())
+			return Double.compare(Double.parseDouble(name), Double.parseDouble(other.name));
+		else if (nameIsNumber() && !other.nameIsNumber())
+			return -1;
+		else if (!nameIsNumber() && other.nameIsNumber())
+			return 1;
+
+		// Then stick string names at the end of any numbered list
 		return name.compareTo(other.name);
+	}
+
+	private boolean nameIsNumber()
+	{
+		try { Double.parseDouble(name); return true; }
+		catch (Exception e) { return false; }
 	}
 
 	public Marker getMarkerByIndex(int index)
