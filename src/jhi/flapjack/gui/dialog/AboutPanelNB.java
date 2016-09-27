@@ -40,8 +40,6 @@ class AboutPanelNB extends javax.swing.JPanel implements ActionListener
 
 		jhiIcon.setText("");
 		jhiIcon.setIcon(Icons.getIcon("ABOUT"));
-		cimmytIcon.setText("");
-		cimmytIcon.setIcon(Icons.getIcon("ABOUT-MASAGRO"));
 	}
 
 	private void initWebStuff()
@@ -53,19 +51,11 @@ class AboutPanelNB extends javax.swing.JPanel implements ActionListener
 				FlapjackUtils.visitURL("http://www.hutton.ac.uk");
 			}
 		});
-
-		cimmytIcon.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		cimmytIcon.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent event)
-			{
-				FlapjackUtils.visitURL("http://masagro.cimmyt.org");
-			}
-		});
 	}
 
 	public void actionPerformed(ActionEvent e)
 	{
-		final String flapHTML = "http://ics.hutton.ac.uk/flapjack";
+		final String flapHTML = "https://ics.hutton.ac.uk/flapjack";
 
 		if(e.getSource() == webLabel)
 		{
@@ -80,7 +70,8 @@ class AboutPanelNB extends javax.swing.JPanel implements ActionListener
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+    private void initComponents()
+    {
 
         p2 = new javax.swing.JPanel();
         idLabel = new javax.swing.JLabel();
@@ -93,7 +84,6 @@ class AboutPanelNB extends javax.swing.JPanel implements ActionListener
         webLabel = new scri.commons.gui.matisse.HyperLinkLabel();
         iconPanel = new javax.swing.JPanel();
         jhiIcon = new javax.swing.JLabel();
-        cimmytIcon = new javax.swing.JLabel();
 
         idLabel.setForeground(java.awt.Color.gray);
         idLabel.setText("Flapjack ID:");
@@ -114,15 +104,12 @@ class AboutPanelNB extends javax.swing.JPanel implements ActionListener
         memLabel.setForeground(java.awt.Color.gray);
         memLabel.setText("Memory available to JVM:");
 
-        webLabel.setText("http://ics.hutton.ac.uk/flapjack");
+        webLabel.setText("https://ics.hutton.ac.uk/flapjack");
 
         iconPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 15, 5));
 
         jhiIcon.setText("JHI");
         iconPanel.add(jhiIcon);
-
-        cimmytIcon.setText("CIMMYT");
-        iconPanel.add(cimmytIcon);
 
         javax.swing.GroupLayout p2Layout = new javax.swing.GroupLayout(p2);
         p2.setLayout(p2Layout);
@@ -189,7 +176,6 @@ class AboutPanelNB extends javax.swing.JPanel implements ActionListener
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel cimmytIcon;
     private javax.swing.JLabel copyrightLabel;
     private javax.swing.JPanel iconPanel;
     private javax.swing.JLabel idLabel;

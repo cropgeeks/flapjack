@@ -140,7 +140,7 @@
         </Component>
         <Component class="scri.commons.gui.matisse.HyperLinkLabel" name="webLabel">
           <Properties>
-            <Property name="text" type="java.lang.String" value="http://ics.hutton.ac.uk/flapjack"/>
+            <Property name="text" type="java.lang.String" value="https://ics.hutton.ac.uk/flapjack"/>
           </Properties>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
@@ -155,11 +155,6 @@
             <Component class="javax.swing.JLabel" name="jhiIcon">
               <Properties>
                 <Property name="text" type="java.lang.String" value="JHI"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JLabel" name="cimmytIcon">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="CIMMYT"/>
               </Properties>
             </Component>
           </SubComponents>
