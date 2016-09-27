@@ -58,7 +58,6 @@ public class IntroPanel extends JPanel
 	   JPanel logoPanel = new JPanel(new BorderLayout());
 	   logoPanel.setOpaque(false);
 	   logoPanel.add(getHuttonLabel(), BorderLayout.WEST);
-	   logoPanel.add(getCIMMYTLabel(), BorderLayout.EAST);
 	   huttonPanel.add(logoPanel, BorderLayout.EAST);
 
 
@@ -84,21 +83,6 @@ public class IntroPanel extends JPanel
 	   huttonLabel.addActionListener(new ActionListener() {
 		   public void actionPerformed(ActionEvent e) {
 			   FlapjackUtils.visitURL("http://www.hutton.ac.uk");
-		   }
-	   });
-
-	   return huttonLabel;
-	}
-
-	private static JLabel getCIMMYTLabel()
-	{
-	   HyperLinkLabel huttonLabel = new HyperLinkLabel();
-	   huttonLabel.setIcon(Icons.getIcon("MASAGRO"));
-	   huttonLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 10));
-
-	   huttonLabel.addActionListener(new ActionListener() {
-		   public void actionPerformed(ActionEvent e) {
-			   FlapjackUtils.visitURL("http://masagro.cimmyt.org");
 		   }
 	   });
 

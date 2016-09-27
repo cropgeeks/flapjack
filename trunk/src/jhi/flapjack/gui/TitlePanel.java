@@ -12,7 +12,7 @@ public class TitlePanel extends JPanel
 	private String title;
 
 	private static Color labelForeground = (Color) UIManager.get("Label.foreground");
-	private static Color panelBackground = (Color) UIManager.get("MenuBar.background");
+	private static Color panelBackground = (Color) UIManager.get("Panel.background");
 
 	public TitlePanel(String title)
 	{
