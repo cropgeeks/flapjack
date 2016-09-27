@@ -235,14 +235,10 @@ public class MabcAnalysis extends SimpleJob
 				rppTotal += chrScore.sumRP;
 				// Update the stored RP values to be ??? percentages?
 				chrScore.sumRP *= (1.0/chrScore.coverage);
-				if (Double.isNaN(chrScore.sumRP))
-					chrScore.sumRP = 0;
 			}
 
 			// Update rppTotal to be a percentage of genome coverage (?)
 			rppTotal *= (1.0/stats.getGenomeCoverage());
-			if (Double.isNaN(rppTotal))
-				rppTotal = 0;
 			stats.setRppTotal(rppTotal);
 
 			if (simpleStats)

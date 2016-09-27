@@ -106,7 +106,6 @@ public class PedVerF1sAnalysis extends SimpleJob
 
 		lineStat.setMarkerCount(foundMarkers);
 		lineStat.setPercentMissing((missingCount / (double) totalMarkerCount) * 100);
-		lineStat.setPercentDeviationFromExpected((1 - (foundMarkers / (double) totalMarkerCount)) * 100);
 		lineStat.setHeterozygousCount(hetMarkers);
 		lineStat.setPercentHeterozygous((hetMarkers / (double)foundMarkers) * 100);
 		lineStat.setPercentDeviationFromExpected(f1PercentCount - ((hetMarkers / (double)foundMarkers) * 100));
