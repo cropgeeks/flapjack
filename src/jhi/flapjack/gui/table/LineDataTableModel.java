@@ -158,4 +158,8 @@ public abstract class LineDataTableModel extends AbstractTableModel
 
 		return getObjectAt(index, col);
 	}
+
+	// Returns true if the column at this index should be skipped in any export
+	public boolean skipExport(int col)
+		{ return false; }
 }

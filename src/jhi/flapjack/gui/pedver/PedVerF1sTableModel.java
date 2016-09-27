@@ -32,6 +32,13 @@ public class PedVerF1sTableModel extends LineDataTableModel
 	}
 
 	@Override
+	public boolean skipExport(int col)
+	{
+		// We don't want to export the don't sort column
+		return col == sortIndex;
+	}
+
+	@Override
 	public int getRowCount()
 	{
 		return lines.size();

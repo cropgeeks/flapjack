@@ -56,9 +56,12 @@ public class LineDataTableExporter extends SimpleJob
 		StringBuilder headerBuilder = new StringBuilder();
 		for (int col = 0; col < table.getColumnCount(); col++)
 		{
-			headerBuilder.append(table.getColumnName(col));
-			if (col < table.getColumnCount()-1)
+			if (table.skipExport(col))
+				continue;
+
+			if (headerBuilder.length() > 0)
 				headerBuilder.append("\t");
+			headerBuilder.append(table.getColumnName(col));
 		}
 		out.println(headerBuilder.toString());
 
@@ -73,15 +76,18 @@ public class LineDataTableExporter extends SimpleJob
 			StringBuilder builder = new StringBuilder();
 			for (int col=0; col < table.getColumnCount(); col++)
 			{
+				if (table.skipExport(col))
+					continue;
+
+				if (builder.length() > 0)
+					builder.append("\t");
+
 				Object obj = table.getObjectAt(row, col);
 
 				if (obj instanceof Float || obj instanceof Double)
 					builder.append(df.format(obj));
 				else
 					builder.append(obj);
-
-				if (col < table.getColumnCount()-1)
-					builder.append("\t");
 			}
 
 			out.println(builder.toString());

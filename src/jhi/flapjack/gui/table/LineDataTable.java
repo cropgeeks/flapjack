@@ -209,10 +209,10 @@ public class LineDataTable extends JTable
 		DecimalFormat df = new DecimalFormat("#.#########");;
 
 		// Column headers
-		for (int c = 0; c < model.getColumnCount(); c++)
+		for (int c = 0; c < getColumnCount(); c++)
 		{
-			text.append(model.getColumnName(c));
-			text.append(c < model.getColumnCount()-1 ? "\t" : newline);
+			text.append(model.getColumnName(convertColumnIndexToModel(c)));
+			text.append(c < getColumnCount()-1 ? "\t" : newline);
 		}
 
 		// Each row
@@ -220,15 +220,16 @@ public class LineDataTable extends JTable
 		{
 			int row = convertRowIndexToModel(r);
 
-			for (int c = 0; c < model.getColumnCount(); c++)
+			for (int c = 0; c < getColumnCount(); c++)
 			{
-				Object obj = model.getValueAt(row, c);
+				int mCol = convertColumnIndexToModel(c);
+				Object obj = model.getValueAt(row, mCol);
 				if (obj instanceof Float || obj instanceof Double)
 					text.append(df.format(obj));
 				else
 					text.append(obj);
 
-				text.append(c < model.getColumnCount()-1 ? "\t" : newline);
+				text.append(c < getColumnCount()-1 ? "\t" : newline);
 			}
 		}
 
@@ -410,5 +411,11 @@ public class LineDataTable extends JTable
 
 		else
 			return super.getCellEditor(row, col);
+	}
+
+	public boolean skipExport(int col)
+	{
+		int modelCol = convertColumnIndexToModel(col);
+		return model.skipExport(modelCol);
 	}
 }
