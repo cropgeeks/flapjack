@@ -85,7 +85,7 @@ public class LineDataTableExporter extends SimpleJob
 				Object obj = table.getObjectAt(row, col);
 
 				if (obj instanceof Float || obj instanceof Double)
-					builder.append(df.format(obj));
+					builder.append(getNumberString(obj));
 				else
 					builder.append(obj);
 			}
@@ -124,5 +124,18 @@ public class LineDataTableExporter extends SimpleJob
 					+ ord);
 			}
 		}
+	}
+
+	private String getNumberString(Object value)
+	{
+		if (value instanceof Double)
+			if (Double.isNaN((Double) value) || Double.isInfinite((Double) value))
+				return value.toString();
+
+		if (value instanceof Float)
+			if (Float.isNaN((Float) value) || Float.isInfinite((Float) value))
+				return value.toString();
+
+		return df.format(value);
 	}
 }
