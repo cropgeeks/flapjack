@@ -150,7 +150,7 @@ public class CellData
 			// Align numerical values to the right
 			if (value instanceof Number)
 			{
-				setText(nf.format((Number)value));
+				setText(getNumberString((Number)value));
 				setHorizontalAlignment(JLabel.RIGHT);
 			}
 			else
@@ -166,6 +166,19 @@ public class CellData
 				setBackground(calcBackground(table, row, isSelected));
 
 			return this;
+		}
+
+		private String getNumberString(Number value)
+		{
+			if (value instanceof Double)
+				if (Double.isNaN((Double) value) || Double.isInfinite((Double) value))
+					return value.toString();
+
+			if (value instanceof Float)
+				if (Float.isNaN((Float) value) || Float.isInfinite((Float) value))
+					return value.toString();
+
+			return nf.format(value);
 		}
 	}
 
