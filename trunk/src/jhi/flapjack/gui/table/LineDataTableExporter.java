@@ -37,6 +37,7 @@ public class LineDataTableExporter extends SimpleJob
 		{
 			LineDataTable clone = new LineDataTable();
 			clone.setModel(table.getModel());
+			clone.setColumnModel(table.getColumnModel());
 			clone.getRowSorter().setSortKeys(table.getRowSorter().getSortKeys());
 
 			this.table = clone;
