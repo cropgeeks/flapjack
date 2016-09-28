@@ -769,6 +769,7 @@ public class Actions
 		vizOverlayGenotypes.putValue(SELECTED_KEY, Prefs.visShowGenotypes);
 		vizDisableGradients.putValue(SELECTED_KEY, Prefs.visDisableGradients);
 		vizHighlightHtZ.putValue(SELECTED_KEY, Prefs.visHighlightHtZ);
+		vizHighlightHoZ.putValue(SELECTED_KEY, Prefs.visHighlightHoZ);
 		vizHighlightGaps.putValue(SELECTED_KEY, Prefs.visHighlightGaps);
 	}
 

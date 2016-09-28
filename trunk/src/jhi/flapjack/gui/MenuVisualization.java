@@ -4,6 +4,7 @@
 package jhi.flapjack.gui;
 
 import javax.swing.*;
+import static javax.swing.Action.*;
 import javax.swing.event.*;
 
 import jhi.flapjack.gui.dialog.*;
@@ -82,30 +83,35 @@ public class MenuVisualization
 	void vizOverlayGenotypes()
 	{
 		Prefs.visShowGenotypes = !Prefs.visShowGenotypes;
+		Actions.vizOverlayGenotypes.putValue(SELECTED_KEY, Prefs.visShowGenotypes);
 		gPanel.refreshView();
 	}
 
 	void vizDisableGradients()
 	{
 		Prefs.visDisableGradients = !Prefs.visDisableGradients;
+		Actions.vizDisableGradients.putValue(SELECTED_KEY, Prefs.visDisableGradients);
 		gPanel.refreshView();
 	}
 
 	void vizHighlightHtZ()
 	{
 		Prefs.visHighlightHtZ = !Prefs.visHighlightHtZ;
+		Actions.vizHighlightHtZ.putValue(SELECTED_KEY, Prefs.visHighlightHtZ);
 		gPanel.refreshView();
 	}
 
 	void vizHighlightHoZ()
 	{
 		Prefs.visHighlightHoZ = !Prefs.visHighlightHoZ;
+		Actions.vizHighlightHoZ.putValue(SELECTED_KEY, Prefs.visHighlightHoZ);
 		gPanel.refreshView();
 	}
 
 	void vizHighlightGaps()
 	{
 		Prefs.visHighlightGaps = !Prefs.visHighlightGaps;
+		Actions.vizHighlightGaps.putValue(SELECTED_KEY, Prefs.visHighlightGaps);
 		gPanel.refreshView();
 	}
 
@@ -116,6 +122,14 @@ public class MenuVisualization
 	void vizScaling(int method)
 	{
 		Prefs.visMapScaling = method;
+
+		Actions.vizScalingLocal.putValue(SELECTED_KEY,
+			Prefs.visMapScaling == Constants.LOCAL);
+		Actions.vizScalingGlobal.putValue(SELECTED_KEY,
+			Prefs.visMapScaling == Constants.GLOBAL);
+		Actions.vizScalingClassic.putValue(SELECTED_KEY,
+			Prefs.visMapScaling == Constants.CLASSIC);
+
 		gPanel.refreshView();
 	}
 
