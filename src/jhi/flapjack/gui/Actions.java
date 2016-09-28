@@ -33,6 +33,7 @@ public class Actions
 	public static AbstractAction editSelectMarkersNone;
 	public static AbstractAction editSelectMarkersInvert;
 	public static AbstractAction editSelectMarkersImport;
+	public static AbstractAction editSelectMarkersMonomorphic;
 	public static AbstractAction editHideMarkers;
 	public static AbstractAction editFilterMissingMarkers;
 	public static AbstractAction editFilterMissingMarkersByLine;
@@ -253,6 +254,12 @@ public class Actions
 		editSelectMarkersInvert = new AbstractAction(RB.format("gui.Actions.editSelectMarkersInvert", ""), getIcon("INVERT")) {
 			public void actionPerformed(ActionEvent e) {
 				winMain.mEdit.editSelectMarkers(Constants.SELECT_INVERT);
+			}
+		};
+
+		editSelectMarkersMonomorphic = new AbstractAction(RB.format("gui.Actions.editSelectMarkersMonomorphic", "")) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.mEdit.editSelectMarkers(Constants.SELECT_MONOMORPHIC);
 			}
 		};
 
@@ -776,6 +783,8 @@ public class Actions
 		editSelectMarkersAll.setEnabled(false);
 		editSelectMarkersNone.setEnabled(false);
 		editSelectMarkersInvert.setEnabled(false);
+		editSelectMarkersImport.setEnabled(false);
+		editSelectMarkersMonomorphic.setEnabled(false);
 		editHideMarkers.setEnabled(false);
 		editFilterMissingMarkers.setEnabled(false);
 		editFilterMissingMarkersByLine.setEnabled(false);
@@ -783,6 +792,7 @@ public class Actions
 		editSelectLinesAll.setEnabled(false);
 		editSelectLinesNone.setEnabled(false);
 		editSelectLinesInvert.setEnabled(false);
+		editSelectLinesImport.setEnabled(false);
 		editHideLines.setEnabled(false);
 		editInsertLine.setEnabled(false);
 		editDeleteLine.setEnabled(false);

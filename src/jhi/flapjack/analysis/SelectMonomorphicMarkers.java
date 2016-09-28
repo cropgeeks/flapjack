@@ -9,12 +9,12 @@ import jhi.flapjack.data.*;
 
 import scri.commons.gui.*;
 
-public class FilterMonomorphicMarkers extends SimpleJob
+public class SelectMonomorphicMarkers extends SimpleJob
 {
 	private GTViewSet viewSet;
 	private boolean[] selectedChromosomes;
 
-	public FilterMonomorphicMarkers(GTViewSet viewSet, boolean[] selectedChromosomes)
+	public SelectMonomorphicMarkers(GTViewSet viewSet, boolean[] selectedChromosomes)
 	{
 		this.viewSet = viewSet;
 		this.selectedChromosomes = selectedChromosomes;
@@ -49,16 +49,16 @@ public class FilterMonomorphicMarkers extends SimpleJob
 
 					// If we've found more than one state this marker isn't monomorphic
 					if (foundStates.size() > 1)
+					{
+						as.getMarker(view, marker).setSelected(false);
 						break;
+					}
 				}
 
 				// Remove markers with either all missing data, or any that have
 				// just a single state across all their alleles
 				if (foundStates.isEmpty() || foundStates.size() == 1)
-				{
-					MarkerInfo mi = as.getMarker(view, marker);
-					as.getGTView(view).hideMarker(mi);
-				}
+					as.getMarker(view, marker).setSelected(true);
 
 				progress++;
 			}

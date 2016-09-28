@@ -39,6 +39,7 @@ public class WinMainMenuBar extends JMenuBar
 	private JMenuItem mEditSelectMarkersAll;
 	private JMenuItem mEditSelectMarkersNone;
 	private JMenuItem mEditSelectMarkersInvert;
+	private JMenuItem mEditSelectMarkersMonomorphic;
 	private JMenuItem mEditSelectMarkersImport;
 	private JMenuItem mEditHideMarkers;
 	private JMenu mEditFilterMarkers;
@@ -214,6 +215,7 @@ public class WinMainMenuBar extends JMenuBar
 		mEditSelectMarkersAll = getItem(Actions.editSelectMarkersAll, "gui.Actions.editSelectMarkersAll", 0, 0);
 		mEditSelectMarkersNone = getItem(Actions.editSelectMarkersNone, "gui.Actions.editSelectMarkersNone", 0, 0);
 		mEditSelectMarkersInvert = getItem(Actions.editSelectMarkersInvert, "gui.Actions.editSelectMarkersInvert", 0, 0);
+		mEditSelectMarkersMonomorphic = getItem(Actions.editSelectMarkersMonomorphic, "gui.Actions.editSelectMarkersMonomorphic", 0, 0);
 		mEditSelectMarkersImport = getItem(Actions.editSelectMarkersImport, "gui.Actions.editSelectMarkersImport", 0, 0);
 		mEditHideMarkers = getItem(Actions.editHideMarkers, "gui.Actions.editHideMarkers", 0, 0);
 		mEditFilterMissingMarkers = getItem(Actions.editFilterMissingMarkers, "gui.Actions.editFilterMissingMarkers", 0, 0);
@@ -234,6 +236,8 @@ public class WinMainMenuBar extends JMenuBar
 		mEditSelectMarkers.add(mEditSelectMarkersAll);
 		mEditSelectMarkers.add(mEditSelectMarkersNone);
 		mEditSelectMarkers.add(mEditSelectMarkersInvert);
+		mEditSelectMarkers.addSeparator();
+		mEditSelectMarkers.add(mEditSelectMarkersMonomorphic);
 		mEditSelectMarkers.addSeparator();
 		mEditSelectMarkers.add(mEditSelectMarkersImport);
 		mEditSelectLines.add(mEditSelectLinesAll);

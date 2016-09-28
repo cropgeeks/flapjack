@@ -43,6 +43,8 @@ public class VisualizationNode extends BaseNode
 			Actions.editSelectMarkersAll.setEnabled(true);
 			Actions.editSelectMarkersNone.setEnabled(true);
 			Actions.editSelectMarkersInvert.setEnabled(true);
+			Actions.editSelectMarkersImport.setEnabled(true);
+			Actions.editSelectMarkersMonomorphic.setEnabled(true);
 			Actions.editHideMarkers.setEnabled(true);
 			Actions.editFilterMissingMarkers.setEnabled(true);
 			Actions.editFilterMissingMarkersByLine.setEnabled(true);
@@ -50,6 +52,7 @@ public class VisualizationNode extends BaseNode
 			Actions.editSelectLinesAll.setEnabled(true);
 			Actions.editSelectLinesNone.setEnabled(true);
 			Actions.editSelectLinesInvert.setEnabled(true);
+			Actions.editSelectLinesImport.setEnabled(true);
 			Actions.editHideLines.setEnabled(true);
 			Actions.editInsertLine.setEnabled(true);
 			Actions.editDeleteLine.setEnabled(true);
