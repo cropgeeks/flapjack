@@ -675,25 +675,32 @@ public class MenuEdit
 			return;
 		}
 
+		int response = 0;
 		if (Prefs.warnEditCustomMap)
 		{
 			JCheckBox checkbox = new JCheckBox();
 			RB.setText(checkbox, "gui.MenuEdit.warnEditCustomMap");
 
-			TaskDialog.info(
+			response = TaskDialog.show(
 				RB.getString("gui.MenuEdit.editCustomMap"),
-				RB.getString("gui.text.close"),
-				checkbox);
+				TaskDialog.INF,
+				0,
+				checkbox,
+				new String[] { RB.getString("gui.text.ok"), RB.getString("gui.text.cancel")}
+			);
 
 			Prefs.warnEditCustomMap = !checkbox.isSelected();
 		}
 
-		ViewSetAnalyses.createCustomMap(view);
+		if (response == 0)
+		{
+			ViewSetAnalyses.createCustomMap(view);
 
-		// Force the display to show the Chromosomes panel
-		gPanel.refreshView();
-		Flapjack.winMain.mView.viewGenotypesOrChromosomes(true);
+			// Force the display to show the Chromosomes panel
+			gPanel.refreshView();
+			Flapjack.winMain.mView.viewGenotypesOrChromosomes(true);
 
-		Actions.projectModified();
+			Actions.projectModified();
+		}
 	}
 }
