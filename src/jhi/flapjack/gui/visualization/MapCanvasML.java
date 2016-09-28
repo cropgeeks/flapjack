@@ -40,11 +40,6 @@ class MapCanvasML extends MouseInputAdapter
 		mVizScalingClassic = WinMainMenuBar.getCheckedItem(
 			Actions.vizScalingClassic, "gui.Actions.vizScalingClassic", 0, 0);
 		RB.setText(mVizScalingClassic, "gui.Actions.vizScalingClassic.full");
-
-		ButtonGroup grp = new ButtonGroup();
-		grp.add(mVizScalingLocal);
-		grp.add(mVizScalingGlobal);
-		grp.add(mVizScalingClassic);
 	}
 
 	public void mouseReleased(MouseEvent e)

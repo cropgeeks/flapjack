@@ -228,11 +228,6 @@ public class WinMainMenuBar extends JMenuBar
 		mEditHideLines = getItem(Actions.editHideLines, "gui.Actions.editHideLines", 0, 0);
 		mEditCustomMap = getItem(Actions.editCustomMap, "gui.Actions.editCustomMap", 0, 0);
 
-		ButtonGroup grp = new ButtonGroup();
-		grp.add(mEditModeNavigation);
-		grp.add(mEditModeMarker);
-		grp.add(mEditModeLine);
-
 		mEditSelectMarkers.add(mEditSelectMarkersAll);
 		mEditSelectMarkers.add(mEditSelectMarkersNone);
 		mEditSelectMarkers.add(mEditSelectMarkersInvert);
@@ -300,11 +295,6 @@ public class WinMainMenuBar extends JMenuBar
 		mView.add(mViewToggleCanvas);
 		mView.add(mViewOverview);
 
-		ButtonGroup grp = new ButtonGroup();
-		grp.add(mViewGenotypes);
-		grp.add(mViewChromosomes);
-
-
 		add(mView);
 	}
 
@@ -349,12 +339,6 @@ public class WinMainMenuBar extends JMenuBar
 		mVizHighlightHtZ = getCheckedItem(Actions.vizHighlightHtZ, "gui.Actions.vizHighlightHtZ", 0, 0);
 		mVizHighlightHoZ = getCheckedItem(Actions.vizHighlightHoZ, "gui.Actions.vizHighlightHoZ", 0, 0);
 		mVizHighlightGaps = getCheckedItem(Actions.vizHighlightGaps, "gui.Actions.vizHighlightGaps", 0, 0);
-
-
-		ButtonGroup grp = new ButtonGroup();
-		grp.add(mVizScalingLocal);
-		grp.add(mVizScalingGlobal);
-		grp.add(mVizScalingClassic);
 
 		mVizColor.add(mVizColorNucleotide);
 		mVizColor.add(mVizColorNucleotide01);

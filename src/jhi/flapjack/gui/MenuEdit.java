@@ -6,6 +6,7 @@ package jhi.flapjack.gui;
 import java.io.*;
 import java.util.*;
 import javax.swing.*;
+import static javax.swing.Action.*;
 
 import jhi.flapjack.analysis.*;
 import jhi.flapjack.data.*;
@@ -39,6 +40,13 @@ public class MenuEdit
 		boolean wasInMarkerMode = (Prefs.guiMouseMode == Constants.MARKERMODE);
 		boolean wasInLineMode = (Prefs.guiMouseMode == Constants.LINEMODE);
 		Prefs.guiMouseMode = newMode;
+
+		Actions.editModeNavigation.putValue(SELECTED_KEY,
+			Prefs.guiMouseMode == Constants.NAVIGATION);
+		Actions.editModeMarker.putValue(SELECTED_KEY,
+			Prefs.guiMouseMode == Constants.MARKERMODE);
+		Actions.editModeLine.putValue(SELECTED_KEY,
+			Prefs.guiMouseMode == Constants.LINEMODE);
 
 		gPanel.resetBufferedState(true);
 
