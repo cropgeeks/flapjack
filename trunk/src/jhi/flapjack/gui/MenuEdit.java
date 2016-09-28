@@ -114,12 +114,42 @@ public class MenuEdit
 			if (loadMarkerSelectionFromFile(view) == false)
 				return;
 		}
+		// Monomorphic
+		else if (selectionType == Constants.SELECT_MONOMORPHIC)
+		{
+			state.setMenuString(RB.getString("gui.visualization.SelectedMarkersState.selectedMonomorphic"));
+			if (selectMonomorphicMarkers() == false)
+				return;
+		}
 
 		// And the redo state after the operation
 		state.createRedoState();
 		gPanel.addUndoState(state);
 
 		editMode(Constants.MARKERMODE);
+	}
+
+	private boolean selectMonomorphicMarkers()
+	{
+		GTViewSet viewSet = gPanel.getViewSet();
+		SelectMonomorphicMarkersDialog sDialog = new SelectMonomorphicMarkersDialog(viewSet);
+
+		if (sDialog.isOK() == false)
+			return false;
+
+		SelectMonomorphicMarkers fmm = new SelectMonomorphicMarkers(
+			viewSet, sDialog.getSelectedChromosomes());
+
+		ProgressDialog dialog = new ProgressDialog(fmm,
+			RB.getString("gui.MenuEdit.smono.title"),
+			RB.getString("gui.MenuEdit.smono.label"),
+			Flapjack.winMain);
+
+		// If the operation failed or was cancelled...
+		if (dialog.getResult() != ProgressDialog.JOB_COMPLETED)
+			return false;
+
+		return true;
 	}
 
 	private boolean loadMarkerSelectionFromFile(GTView view)
@@ -606,10 +636,8 @@ public class MenuEdit
 				RB.getString("gui.visualization.HidMarkersState.hidMarkers"));
 			state.createUndoState();
 
-
 			FilterMonomorphicMarkers fmm = new FilterMonomorphicMarkers(
-				gPanel.getViewSet(), mDialog.getSelectedChromosomes(),
-				Prefs.guiMissingMarkerPcnt);
+				viewSet, mDialog.getSelectedChromosomes());
 
 			ProgressDialog dialog = new ProgressDialog(fmm,
 				RB.getString("gui.MenuEdit.fmono.title"),
@@ -626,7 +654,6 @@ public class MenuEdit
 
 				return;
 			}
-
 
 			gPanel.refreshView();
 
