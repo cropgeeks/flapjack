@@ -306,7 +306,7 @@ public class MabcAnalysis extends SimpleJob
 						int rp = as.getState(viewIndex, rpIndex, m);
 						int dp = as.getState(viewIndex, dpIndex, m);
 
-						// if DP and RP are monomorphic, skip checking this QTL
+						// if DP and RP are monomorphic, skip this marker
 						if (dp == rp)
 							continue;
 
@@ -315,7 +315,10 @@ public class MabcAnalysis extends SimpleJob
 						//   qtl is from DP and allele is RP, or
 						//   qtl is not from DP and allele is not from RP
 						if (allele == 0 || qtl.isDP && allele == rp || !qtl.isDP && allele != rp)
+						{
 							score.status = 0;
+							break;
+						}
 					}
 
 					// Update the sum of qtl status count (where status == 1)

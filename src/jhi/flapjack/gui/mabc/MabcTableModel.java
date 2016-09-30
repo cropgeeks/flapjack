@@ -47,6 +47,7 @@ public class MabcTableModel extends LineDataTableModel
 		// TODO: UPDATE!
 		int colCount = sortIndex + 1;
 		columnNames = new String[colCount];
+		ttNames = new String[colCount];
 
 		// LineInfo column
 		columnNames[0] = "Line";
@@ -55,7 +56,8 @@ public class MabcTableModel extends LineDataTableModel
 		for (int i = 0; i < s.getChrScores().size(); i++)
 		{
 			MabcChrScore cs = s.getChrScores().get(i);
-			columnNames[rppIndex+i] = cs.view.getChromosomeMap().getName();
+			columnNames[rppIndex+i] = "RPP (" + cs.view.getChromosomeMap().getName() + ")";
+			ttNames[rppIndex+i] = "Recurrent Parent Percentage (" + cs.view.getChromosomeMap().getName() + ")";
 		}
 
 		columnNames[rppTotalIndex] = "RPP Total";
@@ -65,8 +67,9 @@ public class MabcTableModel extends LineDataTableModel
 		int qtl = 0;
 		for (MabcQtlScore score: s.getQtlScores())
 		{
-			columnNames[qtlIndex+(qtl*2)] = score.qtl.getQTL().getName() + " LD";
-			columnNames[qtlIndex+(qtl*2)+1] = score.qtl.getQTL().getName() + " Status";
+			columnNames[qtlIndex+(qtl*2)] = "LD (" + score.qtl.getQTL().getName() + ")";
+			ttNames[qtlIndex+(qtl*2)] = "Linkage Drag (" + score.qtl.getQTL().getName() + ")";
+			columnNames[qtlIndex+(qtl*2)+1] = "Status (" + score.qtl.getQTL().getName() + ")";
 			qtl++;
 		}
 
@@ -76,6 +79,10 @@ public class MabcTableModel extends LineDataTableModel
 		columnNames[rankIndex] = "Rank";
 		columnNames[commentIndex] = "Comments";
 		columnNames[sortIndex] = "Don't Sort/Filter";
+
+		for (int i = 0; i < columnNames.length; i++)
+			if (ttNames[i] == null)
+				ttNames[i] = columnNames[i];
 	}
 
 	@Override

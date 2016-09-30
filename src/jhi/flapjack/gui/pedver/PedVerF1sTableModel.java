@@ -24,10 +24,16 @@ public class PedVerF1sTableModel extends LineDataTableModel
 
 	void initModel()
 	{
-		columnNames = new String[] { "Line", "Marker count", "% Missing",
-			"Het count", "% Het", "% Deviation from Expected", "Count P1 Contained",
+		columnNames = new String[] { "Line", "Marker Count", "% Missing",
+			"Het Count", "% Het", "% Deviation from Expected", "Count P1 Contained",
 			"% P1 Contained", "Count P2 Contained", "% P2 Contained",
 			"Count Allele Match to Expected", "% Allele Match to Expected",
+			"Selected", "Comments", "Don't Sort/Filter" };
+
+		ttNames = new String[] { "Line", "Marker Count", "Percentage Missing",
+			"Heterozygous Count", "Percentage Heterozygous", "Percentage Deviation from Expected", "Count of Parent 1 Contained",
+			"Percentage of Parent 1 Contained", "Count of Parent 2 Contained", "Percentage of P2 Contained",
+			"Count of Allele Match to Expected", "Percentage of Allele Match to Expected",
 			"Selected", "Comments", "Don't Sort/Filter" };
 	}
 
