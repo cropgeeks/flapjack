@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JDialogFormInfo">
+  <Properties>
+    <Property name="defaultCloseOperation" type="int" value="2"/>
+  </Properties>
+  <SyntheticProperties>
+    <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
+    <SyntheticProperty name="generateCenter" type="boolean" value="false"/>
+  </SyntheticProperties>
+  <AuxValues>
+    <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_generateFQN" type="java.lang.Boolean" value="true"/>
+    <AuxValue name="FormSettings_generateMnemonicsCode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_i18nAutoMode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_layoutCodeTarget" type="java.lang.Integer" value="1"/>
+    <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
+  </AuxValues>
+
+  <Layout>
+    <DimensionLayout dim="0">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Component id="dialogPanel1" alignment="0" max="32767" attributes="0"/>
+          <Group type="102" alignment="1" attributes="0">
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="panel" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+          </Group>
+      </Group>
+    </DimensionLayout>
+    <DimensionLayout dim="1">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Group type="102" alignment="1" attributes="0">
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="panel" max="32767" attributes="0"/>
+              <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
+              <Component id="dialogPanel1" min="-2" pref="44" max="-2" attributes="0"/>
+          </Group>
+      </Group>
+    </DimensionLayout>
+  </Layout>
+  <SubComponents>
+    <Container class="scri.commons.gui.matisse.DialogPanel" name="dialogPanel1">
+
+      <Layout class="org.netbeans.modules.form.compat2.layouts.DesignFlowLayout">
+        <Property name="alignment" type="int" value="2"/>
+        <Property name="verticalGap" type="int" value="0"/>
+      </Layout>
+      <SubComponents>
+        <Component class="javax.swing.JButton" name="bExport">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Export..."/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JButton" name="bCancel">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Cancel"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JButton" name="bHelp">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Help"/>
+          </Properties>
+        </Component>
+      </SubComponents>
+    </Container>
+    <Container class="javax.swing.JPanel" name="panel">
+      <Properties>
+        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+          <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
+            <TitledBorder title="Select a method of exporting:"/>
+          </Border>
+        </Property>
+      </Properties>
+
+      <Layout>
+        <DimensionLayout dim="0">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" alignment="0" attributes="0">
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="rOverview" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="rView" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="rWindow" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="memLabel1" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="memLabel2" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace min="21" pref="21" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="rViewLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="rWindowLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Component id="widthLabel" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="widthSpin" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                  <Component id="heightLabel" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="heightSpin" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                  <Component id="slider" min="-2" pref="119" max="-2" attributes="1"/>
+                              </Group>
+                              <Component id="equalCheck" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="rOverviewLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
+                  </Group>
+                  <EmptySpace max="32767" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+        <DimensionLayout dim="1">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" alignment="0" attributes="0">
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="rWindow" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="rWindowLabel" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <Component id="rView" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="rViewLabel" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <Component id="rOverview" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="rOverviewLabel" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="2" attributes="0">
+                      <Component id="widthLabel" alignment="2" min="-2" max="-2" attributes="0"/>
+                      <Component id="widthSpin" alignment="2" min="-2" max="-2" attributes="0"/>
+                      <Component id="heightSpin" alignment="2" min="-2" max="-2" attributes="0"/>
+                      <Component id="heightLabel" alignment="2" min="-2" max="-2" attributes="0"/>
+                      <Component id="slider" alignment="2" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="equalCheck" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="memLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="memLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="32767" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+      </Layout>
+      <SubComponents>
+        <Component class="javax.swing.JRadioButton" name="rWindow">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Export only what can currently be seen"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="rWindowLabel">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="(creates a high-quality image showing exactly what you currently see)"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JRadioButton" name="rView">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Export all of the current view"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="rViewLabel">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="(creates a high-quality image showing everything Flapjack is currently rendering)"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JRadioButton" name="rOverview">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Export a scaled-to-fit image of all of the data:"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="rOverviewLabel">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="(creates an overview image using the dimensions specified below)"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="widthLabel">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Width (pixels):"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JSpinner" name="widthSpin">
+        </Component>
+        <Component class="javax.swing.JLabel" name="heightLabel">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Height (pixels):"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JSpinner" name="heightSpin">
+        </Component>
+        <Component class="javax.swing.JSlider" name="slider">
+        </Component>
+        <Component class="javax.swing.JCheckBox" name="equalCheck">
+          <Properties>
+            <Property name="mnemonic" type="int" value="112"/>
+            <Property name="text" type="java.lang.String" value="set dimension equal to no. of markers by no. of lines"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="memLabel1">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Estimated memory required for exporting:"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="memLabel2">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="&lt;memory&gt;"/>
+          </Properties>
+        </Component>
+      </SubComponents>
+    </Container>
+  </SubComponents>
+</Form>

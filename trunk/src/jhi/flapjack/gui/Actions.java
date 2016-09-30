@@ -37,6 +37,7 @@ public class Actions
 	public static AbstractAction editHideMarkers;
 	public static AbstractAction editFilterMissingMarkers;
 	public static AbstractAction editFilterMissingMarkersByLine;
+	public static AbstractAction editFilterHeterozygousMarkersByLine;
 	public static AbstractAction editFilterMonomorphicMarkers;
 	public static AbstractAction editSelectLinesAll;
 	public static AbstractAction editSelectLinesNone;
@@ -284,6 +285,12 @@ public class Actions
 		editFilterMissingMarkersByLine = new AbstractAction(RB.getString("gui.Actions.editFilterMissingMarkersByLine")) {
 			public void actionPerformed(ActionEvent e) {
 				winMain.mEdit.editFilterMissingMarkersByLine();
+			}
+		};
+
+		editFilterHeterozygousMarkersByLine = new AbstractAction(RB.getString("gui.Actions.editFilterHeterozygousMarkersByLine")) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.mEdit.editFilterHeterozygousMarkersByLine();
 			}
 		};
 
@@ -789,6 +796,7 @@ public class Actions
 		editHideMarkers.setEnabled(false);
 		editFilterMissingMarkers.setEnabled(false);
 		editFilterMissingMarkersByLine.setEnabled(false);
+		editFilterHeterozygousMarkersByLine.setEnabled(false);
 		editFilterMonomorphicMarkers.setEnabled(false);
 		editSelectLinesAll.setEnabled(false);
 		editSelectLinesNone.setEnabled(false);
