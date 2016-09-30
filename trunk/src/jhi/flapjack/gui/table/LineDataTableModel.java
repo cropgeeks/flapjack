@@ -13,7 +13,7 @@ import jhi.flapjack.gui.*;
 public abstract class LineDataTableModel extends AbstractTableModel
 {
 	protected DataSet dataSet;
-	protected String[] columnNames;
+	protected String[] columnNames, ttNames;
 
 	// A list of lines being shown. This list (although containing the same
 	// LineInfo objects as a GTViewSet's list) is *not* the same list from the
@@ -29,6 +29,13 @@ public abstract class LineDataTableModel extends AbstractTableModel
 	@Override
 	public String getColumnName(int col)
 		{ return columnNames[col]; }
+
+	public String getToolTip(int col)
+	{
+		// Return the tooltip text (if it was defined) and if not, just use the
+		// standard column name instead
+		return ttNames[col] != null ? ttNames[col] : columnNames[col];
+	}
 
 	@Override
 	public int getColumnCount()
