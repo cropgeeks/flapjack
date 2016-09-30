@@ -48,6 +48,7 @@ public class VisualizationNode extends BaseNode
 			Actions.editHideMarkers.setEnabled(true);
 			Actions.editFilterMissingMarkers.setEnabled(true);
 			Actions.editFilterMissingMarkersByLine.setEnabled(true);
+			Actions.editFilterHeterozygousMarkersByLine.setEnabled(true);
 			Actions.editFilterMonomorphicMarkers.setEnabled(true);
 			Actions.editSelectLinesAll.setEnabled(true);
 			Actions.editSelectLinesNone.setEnabled(true);

@@ -591,7 +591,10 @@ public class MenuEdit
 	void editFilterMissingMarkersByLine()
 	{
 		GTViewSet viewSet = gPanel.getViewSet();
-		FilterMissingMarkersByLineDialog mDialog = new FilterMissingMarkersByLineDialog(gPanel, viewSet);
+		FilterMarkersByLineDialog mDialog = new FilterMarkersByLineDialog(gPanel,
+			viewSet,
+			RB.getString("gui.dialog.analysis.FilterMissingMarkersByLineDialog.title"),
+			RB.getString("gui.dialog.analysis.FilterMissingMarkerByLineDialog.label"));
 
 		if (mDialog.isOK())
 		{
@@ -608,6 +611,51 @@ public class MenuEdit
 			ProgressDialog dialog = new ProgressDialog(fmm,
 				RB.getString("gui.MenuEdit.fmm.title"),
 				RB.getString("gui.MenuEdit.fmm.label"),
+				Flapjack.winMain);
+
+			// If the operation failed or was cancelled...
+			if (dialog.getResult() != ProgressDialog.JOB_COMPLETED)
+			{
+				// As we'll now be left with some markers removed and some not,
+				// put the view back into its previous state
+				editUndoRedo(true);
+				gPanel.refreshView();
+
+				return;
+			}
+
+
+			gPanel.refreshView();
+
+			// Set the redo state...
+			state.createRedoState();
+			gPanel.addUndoState(state);
+		}
+	}
+
+	void editFilterHeterozygousMarkersByLine()
+	{
+		GTViewSet viewSet = gPanel.getViewSet();
+		FilterMarkersByLineDialog mDialog = new FilterMarkersByLineDialog(gPanel,
+			viewSet,
+			RB.getString("gui.dialog.analysis.FilterMissingMarkersByLineDialog.title"),
+			RB.getString("gui.dialog.analysis.FilterMissingMarkerByLineDialog.label"));
+
+		if (mDialog.isOK())
+		{
+			// Set the undo state...
+			HidMarkersState state = new HidMarkersState(gPanel.getView(),
+				RB.getString("gui.visualization.HidMarkersState.hidMarkers"));
+			state.createUndoState();
+
+
+			FilterHeterozygousMarkersByLine fmm = new FilterHeterozygousMarkersByLine(
+				gPanel.getViewSet(), mDialog.getSelectedChromosomes(),
+				mDialog.getSelectedLine());
+
+			ProgressDialog dialog = new ProgressDialog(fmm,
+				RB.getString("gui.MenuEdit.fhm.title"),
+				RB.getString("gui.MenuEdit.fhm.label"),
 				Flapjack.winMain);
 
 			// If the operation failed or was cancelled...

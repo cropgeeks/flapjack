@@ -14,7 +14,7 @@ import jhi.flapjack.gui.visualization.*;
 
 import scri.commons.gui.*;
 
-public class FilterMissingMarkersByLineDialog extends JDialog implements ActionListener
+public class FilterMarkersByLineDialog extends JDialog implements ActionListener
 {
 	private GTViewSet viewSet;
 	private ChromosomeSelectionDialog csd;
@@ -22,16 +22,19 @@ public class FilterMissingMarkersByLineDialog extends JDialog implements ActionL
 	private GenotypePanel gPanel;
 	private boolean isOK;
 
-	public FilterMissingMarkersByLineDialog(GenotypePanel gPanel, GTViewSet viewSet)
+	private String label;
+
+	public FilterMarkersByLineDialog(GenotypePanel gPanel, GTViewSet viewSet, String title, String label)
 	{
 		super(
 			Flapjack.winMain,
-			RB.getString("gui.dialog.analysis.FilterMissingByLineDialog.title"),
+			title,
 			true
 		);
 
 		this.gPanel = gPanel;
 		this.viewSet = viewSet;
+		this.label = label;
 		isOK = false;
 
 		initComponents();
@@ -48,6 +51,8 @@ public class FilterMissingMarkersByLineDialog extends JDialog implements ActionL
 
 		RB.setText(bCancel, "gui.text.cancel");
 		bCancel.addActionListener(this);
+
+		lineLabel.setText(label);
 
 		csd = new ChromosomeSelectionDialog(viewSet, false);
 		csd.hideLineSummary();
@@ -117,7 +122,7 @@ public class FilterMissingMarkersByLineDialog extends JDialog implements ActionL
         bFilter = new javax.swing.JButton();
         bCancel = new javax.swing.JButton();
         linePanel = new javax.swing.JPanel();
-        selectedLine = new javax.swing.JComboBox<>();
+        selectedLine = new javax.swing.JComboBox<LineInfo>();
         lineLabel = new javax.swing.JLabel();
         dataPanel = new javax.swing.JPanel();
         csdLabel = new scri.commons.gui.matisse.HyperLinkLabel();
