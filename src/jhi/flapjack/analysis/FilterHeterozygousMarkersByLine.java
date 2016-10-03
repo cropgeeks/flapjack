@@ -32,7 +32,7 @@ public class FilterHeterozygousMarkersByLine extends SimpleJob
 			.withSelectedMarkers();
 
 		for (int i = 0; i < as.viewCount(); i++)
-			maximum += as.markerCount(index);
+			maximum += as.markerCount(i);
 
 		int lineIndex = as.getLines().indexOf(line);
 
