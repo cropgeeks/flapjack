@@ -58,12 +58,20 @@ public class UndoManager
 	 * Peeks at the stack for the next undo state, runs it, and returns it,
 	 * leaving the element on the stack.
 	 */
-	public IUndoState processUndo()
+	public IUndoState processUndo(IUndoState state)
 	{
-		IUndoState state = stack.get(stackPointer);
-		state.applyUndoState();
-
-		stackPointer--;
+		// If the state is null, then pop one from its stack and use that;
+		// otherwise, the assumption is we've passed in a non-null state that
+		// can be used to "undo" an operation that was cancelled part-way (and
+		// never made it to the manager's stack of normal user operations).
+		if (state == null)
+		{
+			state = stack.get(stackPointer);
+			state.applyUndoState();
+			stackPointer--;
+		}
+		else
+			state.applyUndoState();
 
 		return state;
 	}

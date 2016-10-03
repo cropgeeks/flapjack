@@ -291,12 +291,14 @@ public class GenotypePanel extends JPanel implements ActionListener
 		WinMainToolBar.editRedo.setToolTipText(redoStr);
 	}
 
-	public void processUndoRedo(boolean undo)
+	// If the state is null, then the manager will pop one from its stack and
+	// use that; otherwise, the assumption is we've passed in a non-null state
+	// that can be used to "undo" an operation that was cancelled part-way (and
+	// never made it to the manager's stack of normal user operations).
+	public void processUndoRedo(boolean undo, IUndoState state)
 	{
-		IUndoState state = null;
-
 		if (undo)
-			state = viewSet.getUndoManager().processUndo();
+			state = viewSet.getUndoManager().processUndo(state);
 		else
 			state = viewSet.getUndoManager().processRedo();
 

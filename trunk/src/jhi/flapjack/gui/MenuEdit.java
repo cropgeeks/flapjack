@@ -28,7 +28,7 @@ public class MenuEdit
 
 	void editUndoRedo(boolean undo)
 	{
-		gPanel.processUndoRedo(undo);
+		gPanel.processUndoRedo(undo, null);
 
 		// Sometimes we change a view in such a way that any linked-tables need
 		// to be repainted too. Ideally this would be a table-event?
@@ -573,12 +573,9 @@ public class MenuEdit
 			{
 				// As we'll now be left with some markers removed and some not,
 				// put the view back into its previous state
-				editUndoRedo(true);
-				gPanel.refreshView();
-
+				gPanel.processUndoRedo(true, state);
 				return;
 			}
-
 
 			gPanel.refreshView();
 
@@ -618,12 +615,9 @@ public class MenuEdit
 			{
 				// As we'll now be left with some markers removed and some not,
 				// put the view back into its previous state
-				editUndoRedo(true);
-				gPanel.refreshView();
-
+				gPanel.processUndoRedo(true, state);
 				return;
 			}
-
 
 			gPanel.refreshView();
 
@@ -663,12 +657,9 @@ public class MenuEdit
 			{
 				// As we'll now be left with some markers removed and some not,
 				// put the view back into its previous state
-				editUndoRedo(true);
-				gPanel.refreshView();
-
+				gPanel.processUndoRedo(true, state);
 				return;
 			}
-
 
 			gPanel.refreshView();
 
@@ -705,9 +696,7 @@ public class MenuEdit
 			{
 				// As we'll now be left with some markers removed and some not,
 				// put the view back into its previous state
-				editUndoRedo(true);
-				gPanel.refreshView();
-
+				gPanel.processUndoRedo(true, state);
 				return;
 			}
 
