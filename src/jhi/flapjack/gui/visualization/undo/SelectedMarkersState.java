@@ -3,27 +3,31 @@
 
 package jhi.flapjack.gui.visualization.undo;
 
+import java.util.*;
+
 import jhi.flapjack.data.*;
 
 public class SelectedMarkersState implements IUndoState
 {
+	private GTViewSet viewSet;
 	private GTView view;
 	private String menuStr;
 
 	// The selected state of the markers before they were changed
-	private boolean[] undoMarkers;
+	private ArrayList<boolean[]> undoMarkers;
 
 	// And the state after the selection was finished
-	private boolean[] redoMarkers;
+	private ArrayList<boolean[]> redoMarkers;
 
 	public SelectedMarkersState(GTView view)
 	{
 		this.view = view;
+		this.viewSet = view.getViewSet();
 	}
 
 	public SelectedMarkersState(GTView view, String menuStr)
 	{
-		this.view = view;
+		this(view);
 		this.menuStr = menuStr;
 	}
 
@@ -38,27 +42,53 @@ public class SelectedMarkersState implements IUndoState
 
 	public void createUndoState()
 	{
-		undoMarkers = new boolean[view.markerCount()];
-		for (int i = 0; i < undoMarkers.length; i++)
-			undoMarkers[i] = view.isMarkerSelected(i);
+		undoMarkers = new ArrayList<boolean[]>(viewSet.chromosomeCount());
+
+		for (GTView view: viewSet.getViews())
+		{
+			boolean[] states = new boolean[view.markerCount()];
+			for (int i = 0; i < states.length; i++)
+				states[i] = view.isMarkerSelected(i);
+
+			undoMarkers.add(states);
+		}
 	}
 
 	public void applyUndoState()
 	{
-		for (int i = 0; i < undoMarkers.length; i++)
-			view.setMarkerState(i, undoMarkers[i]);
+		for (int v = 0; v < viewSet.chromosomeCount(); v++)
+		{
+			GTView view = viewSet.getViews().get(v);
+
+			boolean[] states = undoMarkers.get(v);
+			for (int i = 0; i < states.length; i++)
+				view.setMarkerState(i, states[i]);
+		}
 	}
 
 	public void createRedoState()
 	{
-		redoMarkers = new boolean[view.markerCount()];
-		for (int i = 0; i < redoMarkers.length; i++)
-			redoMarkers[i] = view.isMarkerSelected(i);
+		redoMarkers = new ArrayList<boolean[]>(viewSet.chromosomeCount());
+
+		for (GTView view: viewSet.getViews())
+		{
+			boolean[] states = new boolean[view.markerCount()];
+			for (int i = 0; i < states.length; i++)
+				states[i] = view.isMarkerSelected(i);
+
+			redoMarkers.add(states);
+		}
 	}
 
 	public void applyRedoState()
 	{
-		for (int i = 0; i < redoMarkers.length; i++)
-			view.setMarkerState(i, redoMarkers[i]);
+		for (int v = 0; v < viewSet.chromosomeCount(); v++)
+		{
+			GTView view = viewSet.getViews().get(v);
+
+			boolean[] states = redoMarkers.get(v);
+			for (int i = 0; i < states.length; i++)
+				view.setMarkerState(i, states[i]);
+		}
 	}
 }
