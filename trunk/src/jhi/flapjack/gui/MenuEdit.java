@@ -184,7 +184,7 @@ public class MenuEdit
 
 			if (dialog.getResult() == ProgressDialog.JOB_COMPLETED)
 			{
-				// Take our list of strings and convert it to a set of line infos
+				// Take our list of strings and convert it to a set of marker infos
 				HashSet<MarkerInfo> selectedMarkers = new HashSet<>();
 				for (MarkerInfo info : view.getMarkers())
 					for (String name : selectMarkers.selectionStrings())
