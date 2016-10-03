@@ -638,8 +638,8 @@ public class MenuEdit
 		GTViewSet viewSet = gPanel.getViewSet();
 		FilterMarkersByLineDialog mDialog = new FilterMarkersByLineDialog(gPanel,
 			viewSet,
-			RB.getString("gui.dialog.analysis.FilterMissingMarkersByLineDialog.title"),
-			RB.getString("gui.dialog.analysis.FilterMissingMarkerByLineDialog.label"));
+			RB.getString("gui.dialog.analysis.FilterHeterozygousMarkersByLineDialog.title"),
+			RB.getString("gui.dialog.analysis.FilterHeterozygousMarkersByLineDialog.label"));
 
 		if (mDialog.isOK())
 		{
