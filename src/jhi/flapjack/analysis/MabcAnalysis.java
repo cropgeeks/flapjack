@@ -250,6 +250,8 @@ public class MabcAnalysis extends SimpleJob
 
 	private void calculateLinkageDrag(AnalysisSet as)
 	{
+		StateTable st = viewSet.getDataSet().getStateTable();
+
 		for (int viewIndex = 0; viewIndex < as.viewCount(); viewIndex++)
 			indexQTLs(as, viewIndex);
 
@@ -299,31 +301,67 @@ public class MabcAnalysis extends SimpleJob
 							score.drag += markers.get(m+1).position()-markers.get(m).position();
 					}
 
+
 					// Finally, confirm status
+					boolean isHomozygous = true;
+					boolean isQTLPresent = true;
 					for (int m = qtl.LM; m <= qtl.RM; m++)
 					{
 						int allele = as.getState(viewIndex, lineIndex, m);
 						int rp = as.getState(viewIndex, rpIndex, m);
 						int dp = as.getState(viewIndex, dpIndex, m);
 
-						// if DP and RP are monomorphic, skip this marker
-						if (dp == rp)
+						// If QTL is from DP and DP is missing or het, skip this marker
+						if (qtl.isDP && dp == 0 || st.isHet(dp))
+							continue;
+						// Or if QTL is from RP and RP is missing or het, skip this marker
+						else if (qtl.isRP && rp == 0 || st.isHet(rp))
 							continue;
 
-						// Set to 0 if:
+						// If DP and RP are monomorphic, skip this marker
+						if (dp == rp)
+						{
+							// If the allele doesn't match, then the QTL isn't present
+							if (allele != dp && allele != rp)
+							{
+								isQTLPresent = false;
+								break;
+							}
+							continue;
+						}
+
+						// If the line is hom, but doesn't match the QTL source then the QTL isn't present
+						if (allele != 0 && st.isHom(allele) && ((qtl.isDP && allele == rp) || (qtl.isRP && allele == dp)))
+						{
+							isQTLPresent = false;
+							break;
+						}
+
+						// If the allele is het, then isHomozygous is false
+						if (st.isHet(allele))
+							isHomozygous = false;
+
+						// The QTL is also not present if:
 						//   allele is missing, or
 						//   qtl is from DP and allele is RP, or
-						//   qtl is not from DP and allele is not from RP
-						if (allele == 0 || qtl.isDP && allele == rp || !qtl.isDP && allele != rp)
+						//   qtl is from RP and allele is DP
+						else if (allele == 0 || qtl.isDP && allele == rp || qtl.isRP && allele == dp)
 						{
-							score.status = 0;
+							isQTLPresent = false;
 							break;
 						}
 					}
 
-					// Update the sum of qtl status count (where status == 1)
-					if (score.status == 1)
-						stats.setQtlStatusCount(stats.getQtlStatusCount()+1);
+					// If the line is fully hom for this QTL, score = 2
+					if (isHomozygous && isQTLPresent)
+						score.status = 2;
+					// If the line has any hets for this QTL, score = 1
+					else if (!isHomozygous && isQTLPresent)
+						score.status = 1;
+					else
+						score.status = 0;
+
+					stats.setQtlStatusCount(stats.getQtlStatusCount()+score.status);
 				}
 			}
 		}
@@ -344,10 +382,10 @@ public class MabcAnalysis extends SimpleJob
 			// Work out the QTL's source value
 			String source = qtl.getQTL().valueOf("Source");
 			// If it's not there, we can't use it
-			if (source == null)
+			if (source == null || !source.equalsIgnoreCase("DP") || !source.equalsIgnoreCase("DP"))
 				continue;
-			if (source.equalsIgnoreCase("DP"))
-				params.isDP = true;
+			// But if it is, is the QTL from DP or RP
+			params.isRP = !(params.isDP = source.equalsIgnoreCase("DP"));
 
 
 			double min = qtl.getQTL().getMin();
@@ -399,5 +437,6 @@ public class MabcAnalysis extends SimpleJob
 		int LM = -1;	// index of left marker under the QTL (flanking?)
 		int RM = -1;	// index of right marker under the QTL
 		boolean isDP;	// "Source" tag set to "DP" or not
+		boolean isRP;	// "Source" tag set to "RP" or not
 	}
 }
