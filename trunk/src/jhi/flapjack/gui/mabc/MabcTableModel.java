@@ -191,7 +191,7 @@ public class MabcTableModel extends LineDataTableModel
 		MabcResult stats = line.getResults().getMabcResult();
 
 		if (col == selectedIndex)
-			line.setSelected((boolean)value);
+			selectLine(line, (boolean)value);
 
 		else if (col == rankIndex)
 			line.getResults().setRank((int)value);

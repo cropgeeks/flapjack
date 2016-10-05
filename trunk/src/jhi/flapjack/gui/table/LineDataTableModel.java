@@ -9,6 +9,8 @@ import javax.swing.table.*;
 
 import jhi.flapjack.data.*;
 import jhi.flapjack.gui.*;
+import jhi.flapjack.gui.visualization.*;
+import jhi.flapjack.gui.visualization.undo.*;
 
 public abstract class LineDataTableModel extends AbstractTableModel
 {
@@ -169,4 +171,18 @@ public abstract class LineDataTableModel extends AbstractTableModel
 	// Returns true if the column at this index should be skipped in any export
 	public boolean skipExport(int col)
 		{ return false; }
+
+	public static void selectLine(LineInfo line, boolean value)
+	{
+		// Track the undo state before doing anything
+		GenotypePanel gPanel = Flapjack.winMain.getGenotypePanel();
+		SelectedLinesState undo = new SelectedLinesState(gPanel.getView(), "selected lines");
+		undo.createUndoState();
+
+		line.setSelected((boolean)value);
+
+		// Track the redo state, then add
+		undo.createRedoState();
+		gPanel.addUndoState(undo);
+	}
 }

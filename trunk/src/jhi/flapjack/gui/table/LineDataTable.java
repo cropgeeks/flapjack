@@ -16,6 +16,7 @@ import javax.swing.table.*;
 import jhi.flapjack.analysis.*;
 import jhi.flapjack.data.*;
 import jhi.flapjack.gui.*;
+import jhi.flapjack.gui.visualization.*;
 import jhi.flapjack.gui.visualization.undo.*;
 
 import scri.commons.gui.*;
@@ -352,16 +353,30 @@ public class LineDataTable extends JTable
 		if (dialog.isOK() == false)
 			return;
 
+		// Track the undo state before doing anything
+		GenotypePanel gPanel = Flapjack.winMain.getGenotypePanel();
+		SelectedLinesState undo = new SelectedLinesState(gPanel.getView(), "selected lines");
+		undo.createUndoState();
+
 		// Get the list of columns to use for selection
 		FilterColumn[] data = dialog.getResults();
 		// Remember it for next time in case the user runs it again
 		lastSelect = dialog.getResults();
 
 		model.selectLines(data, true);
+
+		// Track the redo state, then add
+		undo.createRedoState();
+		gPanel.addUndoState(undo);
 	}
 
 	void selectHighlighted(Boolean state)
 	{
+		// Track the undo state before doing anything
+		GenotypePanel gPanel = Flapjack.winMain.getGenotypePanel();
+		SelectedLinesState undo = new SelectedLinesState(gPanel.getView(), "selected lines");
+		undo.createUndoState();
+
 		ListSelectionModel lsModel = getSelectionModel();
 
 		// Loop over every (selected) row, convert it to a model row, and
@@ -381,6 +396,10 @@ public class LineDataTable extends JTable
 
 		model.fireTableRowsUpdated(0, model.getRowCount()-1);
 		Actions.projectModified();
+
+		// Track the redo state, then add
+		undo.createRedoState();
+		gPanel.addUndoState(undo);
 	}
 
 	public String getLineStatusText()
