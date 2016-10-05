@@ -124,7 +124,7 @@ public class MabcTableModel extends LineDataTableModel
 
 		// RPP Total
 		else if (col == rppTotalIndex)
-			return stats.getRPPTotal();
+			return stats.getRppTotal();
 
 		// RPP Coverage
 		else if (col == rppCoverageIndex)

@@ -64,7 +64,7 @@ public class MabcResult extends XMLRoot
 	public void setLineInfo(LineInfo line)
 		{ this.line = line; }
 
-	public double getRPPTotal()
+	public double getRppTotal()
 		{ return rppTotal; }
 
 	public void setRppTotal(double rppTotal)

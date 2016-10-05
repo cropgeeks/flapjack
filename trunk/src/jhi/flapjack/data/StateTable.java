@@ -98,7 +98,12 @@ public class StateTable extends XMLRoot
 
 	public boolean isHet(int stateIndex)
 	{
-		return (states.get(stateIndex).isHomozygous() == false);
+		return states.get(stateIndex).isHomozygous() == false;
+	}
+
+	public boolean isHom(int stateIndex)
+	{
+		return states.get(stateIndex).isHomozygous();
 	}
 
 	public void resetTable()

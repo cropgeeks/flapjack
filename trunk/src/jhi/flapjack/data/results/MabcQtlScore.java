@@ -9,7 +9,7 @@ public class MabcQtlScore extends XMLRoot
 {
 	public QTLInfo qtl;
 	public double drag;
-	public int status = 1;
+	public int status;
 
 	public MabcQtlScore()
 	{
@@ -50,5 +50,5 @@ public class MabcQtlScore extends XMLRoot
 		this.status = status;
 	}
 
-	
+
 }

@@ -152,8 +152,8 @@ public class PedVerF1sAnalysis extends SimpleJob
 			&& as.getState(chr, parent1Index, marker) != 0
 			&& as.getState(chr, parent2Index, marker) != 0
 			&& as.getState(chr, f1Index, marker) != 0
-			&& !stateTable.isHet(as.getState(chr, parent1Index, marker))
-			&& !stateTable.isHet(as.getState(chr, parent2Index, marker));
+			&& stateTable.isHom(as.getState(chr, parent1Index, marker))
+			&& stateTable.isHom(as.getState(chr, parent2Index, marker));
 	}
 
 	private int usableMarkerCount(int lineIndex)
