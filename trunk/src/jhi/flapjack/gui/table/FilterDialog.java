@@ -130,7 +130,15 @@ public class FilterDialog extends JDialog implements ActionListener
 
 	public FilterColumn[] getResults()
 	{
-		return model.getResults();
+		FilterColumn[] results = model.getResults();
+
+		// We copy the results into a new array (with the internal elements
+		// being cloned too) because each trackable instance needs to be unique
+		FilterColumn[] clone = new FilterColumn[results.length];
+		for (int i = 0; i < clone.length; i++)
+			clone[i] = results[i].cloneMe();
+
+		return clone;
 	}
 
 	public boolean isOK()

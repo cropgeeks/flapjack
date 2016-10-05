@@ -16,6 +16,7 @@ import javax.swing.table.*;
 import jhi.flapjack.analysis.*;
 import jhi.flapjack.data.*;
 import jhi.flapjack.gui.*;
+import jhi.flapjack.gui.visualization.undo.*;
 
 import scri.commons.gui.*;
 
@@ -31,10 +32,8 @@ public class LineDataTable extends JTable
 
 	// A list of objects used the last time a sortDialog, filterDialog, or selectDialog was run
 	private SortColumn[] lastSort;
-	private FilterColumn[] lastFilter, lastSelect;
+	private FilterColumn[] dialogFilter, tableFilter, lastSelect;
 
-	// Is the table currently filtered?
-	private boolean isFiltered = false;
 	// Is the table currently coloured?
 	private boolean colorCells = true;
 
@@ -56,17 +55,17 @@ public class LineDataTable extends JTable
 		});
 	}
 
-	boolean isFiltered()
-		{ return isFiltered; }
+	FilterColumn[] getDialogFilter()
+		{ return dialogFilter; }
 
-	void setFiltered(boolean isFiltered)
-		{ this.isFiltered = isFiltered; }
+	void setDialogFilter(FilterColumn[] dialogFilter)
+		{ this.dialogFilter = dialogFilter; }
 
-	FilterColumn[] getLastFilter()
-		{ return lastFilter; }
+	public FilterColumn[] getTableFilter()
+		{ return tableFilter; }
 
-	void setLastFilter(FilterColumn[] lastFilter)
-		{ this.lastFilter = lastFilter; }
+	public void setTableFilter(FilterColumn[] tableFilter)
+		{ this.tableFilter = tableFilter; }
 
 	FilterColumn[] getLastSelect()
 		{ return lastSelect; }
@@ -287,35 +286,36 @@ public class LineDataTable extends JTable
 		return filters;
 	}
 
-	void reapplyFilter()
-	{
-		if (isFiltered)
-			filter(lastFilter);
-	}
-
 	public void filterDialog()
 	{
-		FilterDialog dialog = FilterDialog.getFilterDialog(model.getFilterableColumns(), lastFilter);
+		FilterDialog dialog = FilterDialog.getFilterDialog(model.getFilterableColumns(), dialogFilter);
 		if (dialog.isOK() == false)
 			return;
 
-		// Get the list of columns to use for the filtering
-		FilterColumn[] data = dialog.getResults();
-		// Remember it for next time in case the user runs another filterDialog
-		lastFilter = dialog.getResults();
-		isFiltered = true;
+		// Create an undo
+		HidLinesState state = new HidLinesState(viewSet, "table filtered");
+		state.createUndoState();
 
-		filter(data);
+		// Get the list of columns to use for the filtering, remembering it
+		// for next time in case the user runs another filterDialog
+		dialogFilter = dialog.getResults();
+		tableFilter = dialog.getResults();
+
+		filter();
+
+		// Create a redo, and then add the state to the undo/redo stack
+		state.createRedoState();
+		Flapjack.winMain.getGenotypePanel().addUndoState(state);
 	}
 
-	private void filter(FilterColumn[] data)
+	void filter()
 	{
 		// Create the default filter that will remove manually hidden lines
 		ArrayList<RowFilter<LineDataTableModel,Object>> filters = createBaseFilters();
 
 		// Scan and build the needed filters
-		if (data != null)
-			for (FilterColumn entry: data)
+		if (tableFilter != null)
+			for (FilterColumn entry: tableFilter)
 				if (!entry.disabled())
 					filters.add(entry.createRowFilter());
 
@@ -328,15 +328,22 @@ public class LineDataTable extends JTable
 			listener.tableFiltered();
 	}
 
-	public void resetFilters()
+	void resetFilters()
 	{
-		model.clearAllFilters();
-		sorter.setRowFilter(RowFilter.andFilter(createBaseFilters()));
-		isFiltered = false;
+		// Create an undo
+		HidLinesState state = new HidLinesState(viewSet, "reset table filters");
+		state.createUndoState();
 
-		// Notify listeners of the filter event
-		for (ITableViewListener listener: viewListeners)
-			listener.tableFiltered();
+		// Update the line states (ie LineInfo.FILTERED reset to VISIBLE)
+		model.clearAllFilters();
+		// Clear the list of filters
+		tableFilter = null;
+		// And "filter" to force the update the table
+		filter();
+
+		// Create a redo, and then add the state to the undo/redo stack
+		state.createRedoState();
+		Flapjack.winMain.getGenotypePanel().addUndoState(state);
 	}
 
 	public void selectDialog()

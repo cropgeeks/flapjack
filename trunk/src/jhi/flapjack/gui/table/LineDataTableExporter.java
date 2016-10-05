@@ -101,9 +101,9 @@ public class LineDataTableExporter extends SimpleJob
 		throws Exception
 	{
 		// Output the FILTER settings
-		if (table.isFiltered() && table.getLastFilter() != null)
+		if (table.getTableFilter() != null)
 		{
-			for (FilterColumn col: table.getLastFilter())
+			for (FilterColumn col: table.getTableFilter())
 				if (col.disabled() == false)
 					out.println("# FILTER\t"
 						+ col.name + "\t"
