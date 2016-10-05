@@ -270,7 +270,8 @@
 		<field name="viewSet" type="jhi.flapjack.data.GTViewSet">
 			<bind-xml reference="true" node="attribute"/>
 		</field>
-		<field name="lastFilter" type="jhi.flapjack.gui.table.FilterColumn" collection="array"/>
+		<field name="dialogFilter" type="jhi.flapjack.gui.table.FilterColumn" collection="array"/>
+		<field name="tableFilter" type="jhi.flapjack.gui.table.FilterColumn" collection="array"/>
 		<field name="lastSelect" type="jhi.flapjack.gui.table.FilterColumn" collection="array"/>
 		<field name="lastSort" type="jhi.flapjack.gui.table.SortColumn" collection="array"/>
 	</class>

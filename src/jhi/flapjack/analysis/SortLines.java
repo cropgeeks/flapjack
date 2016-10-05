@@ -57,8 +57,7 @@ abstract class SortLines extends SimpleJob
 			lineOrder.addAll(0, splitLines);
 
 			// Pass the sorted order back to the view
-			view.getViewSet().setLinesFromArray(lineOrder.toArray(new LineInfo[view.lineCount()]), true);
-			view.getViewSet().tableHandler().copyViewToTable(true);
+			view.getViewSet().setLinesFromCopies(lineOrder, null, null);
 		}
 	}
 

@@ -3,7 +3,10 @@
 
 package jhi.flapjack.gui.visualization.undo;
 
+import java.util.*;
+
 import jhi.flapjack.data.*;
+import jhi.flapjack.gui.table.*;
 
 public class InsertedLineState implements IUndoState
 {
@@ -11,10 +14,13 @@ public class InsertedLineState implements IUndoState
 	private String menuStr;
 
 	// The lines before the operation
-	private LineInfo[] undoLines;
+	private ArrayList<LineInfo> undoLines;
 
 	// The lines after the operation
-	private LineInfo[] redoLines;
+	private ArrayList<LineInfo> redoLines;
+
+	// Tracks any linked table's sort state
+	private ArrayList<SortColumn> undoColumns, redoColumns;
 
 	public InsertedLineState(GTViewSet viewSet, String menuStr)
 	{
@@ -33,21 +39,25 @@ public class InsertedLineState implements IUndoState
 
 	public void createUndoState()
 	{
-		undoLines = viewSet.getLinesAsArray(true);
+		undoLines = viewSet.copyLines(LineInfo.VISIBLE);
+		undoColumns = viewSet.tableHandler().getSortKeys();
 	}
 
 	public void applyUndoState()
 	{
-		viewSet.setLinesFromArray(undoLines, true);
+		viewSet.setLinesFromCopies(undoLines, null, null);
+		viewSet.tableHandler().undoRedoApplySort(undoColumns);
 	}
 
 	public void createRedoState()
 	{
-		redoLines = viewSet.getLinesAsArray(true);
+		redoLines = viewSet.copyLines(LineInfo.VISIBLE);
+		redoColumns = viewSet.tableHandler().getSortKeys();
 	}
 
 	public void applyRedoState()
 	{
-		viewSet.setLinesFromArray(redoLines, true);
+		viewSet.setLinesFromCopies(redoLines, null, null);
+		viewSet.tableHandler().undoRedoApplySort(redoColumns);
 	}
 }

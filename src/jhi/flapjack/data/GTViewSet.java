@@ -4,6 +4,7 @@
 package jhi.flapjack.data;
 
 import java.util.*;
+import java.util.stream.*;
 
 import jhi.flapjack.data.results.*;
 import jhi.flapjack.gui.table.*;
@@ -293,32 +294,38 @@ public class GTViewSet extends XMLRoot
 		return null;
 	}
 
-	/**
-	 * Converts and returns the vector of line data into a primitive array of
-	 * ints.
-	 */
-	public LineInfo[] getLinesAsArray(boolean getVisible)
+	public ArrayList<LineInfo> copyLines(int visibility)
 	{
-		if (getVisible)
-			return lines.toArray(new LineInfo[] {});
-		else
-			return hideLines.toArray(new LineInfo[] {});
+		if (visibility == LineInfo.HIDDEN)
+			return hideLines.stream()
+				.filter(li -> li.visibility == LineInfo.HIDDEN)
+				.collect(Collectors.toCollection(ArrayList::new));
+		else if (visibility == LineInfo.FILTERED)
+			return hideLines.stream()
+				.filter(li -> li.visibility == LineInfo.FILTERED)
+				.collect(Collectors.toCollection(ArrayList::new));
+
+		return lines.stream()
+			.collect(Collectors.toCollection(ArrayList::new));
 	}
 
-	public void setLinesFromArray(LineInfo[] array, boolean setVisible)
+	public void setLinesFromCopies(ArrayList<LineInfo> lines, ArrayList<LineInfo> hidden, ArrayList<LineInfo> filtered)
 	{
-		if (setVisible)
-		{
-			lines.clear();
-			for (LineInfo li: array)
-				lines.add(li);
-		}
-		else
+		this.lines.clear();
+		this.lines.addAll(lines);
+		lines.forEach(li -> li.visibility = LineInfo.VISIBLE);
+
+		if (hidden != null && filtered != null)
 		{
 			hideLines.clear();
-			for (LineInfo li: array)
-				hideLines.add(li);
+			hideLines.addAll(hidden);
+			hideLines.addAll(filtered);
+
+			hidden.forEach(li -> li.visibility = LineInfo.HIDDEN);
+			filtered.forEach(li -> li.visibility = LineInfo.FILTERED);
 		}
+
+		tableHandler.copyViewToTable(true);
 	}
 
 	public UndoManager getUndoManager()

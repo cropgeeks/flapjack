@@ -24,8 +24,7 @@ public class LinkedTableHandler extends XMLRoot implements ITableViewListener
 	// table's state can be restored after a load
 	private ArrayList<SortColumn> sortKeys;
 	private SortColumn[] lastSort;
-	private FilterColumn[] lastFilter, lastSelect;
-	private boolean isFiltered;
+	private FilterColumn[] dialogFilter, tableFilter, lastSelect;
 	private boolean autoResize = true;
 
 	// Track the state of the table/lines before a sort (for undo functioanlity)
@@ -63,17 +62,17 @@ public class LinkedTableHandler extends XMLRoot implements ITableViewListener
 	public void setAutoResize(boolean autoResize)
 		{ this.autoResize = autoResize; }
 
-	public FilterColumn[] getLastFilter()
-		{ return lastFilter; }
+	public FilterColumn[] getDialogFilter()
+		{ return dialogFilter; }
 
-	public void setLastFilter(FilterColumn[] lastFilter)
-		{ this.lastFilter = lastFilter; }
+	public void setDialogFilter(FilterColumn[] dialogFilter)
+		{ this.dialogFilter = dialogFilter; }
 
-	public boolean isFiltered()
-		{ return isFiltered; }
+	public FilterColumn[] getTableFilter()
+		{ return tableFilter; }
 
-	public void setFiltered(boolean filtered)
-		{ isFiltered = filtered; }
+	public void setTableFilter(FilterColumn[] tableFilter)
+		{ this.tableFilter = tableFilter; }
 
 	public SortColumn[] getLastSort()
 		{ return lastSort; }
@@ -191,8 +190,8 @@ public class LinkedTableHandler extends XMLRoot implements ITableViewListener
 		lastSelect = table.getLastSelect();
 
 		// Track the table's filter settings for project saving
-		lastFilter = table.getLastFilter();
-		isFiltered = table.isFiltered();
+		dialogFilter = table.getDialogFilter();
+		tableFilter = table.getTableFilter();
 	}
 
 	public ArrayList<LineInfo> linesForTable()
@@ -222,7 +221,7 @@ public class LinkedTableHandler extends XMLRoot implements ITableViewListener
 		if (setModel)
 		{
 			table.setModel(model);
-			table.reapplyFilter();
+			table.filter();
 		}
 		// Don't break the sort or the filters
 		else
@@ -245,8 +244,8 @@ public class LinkedTableHandler extends XMLRoot implements ITableViewListener
 	{
 		table.autoResize(autoResize, true);
 
-		table.setLastFilter(lastFilter);
-		table.setFiltered(isFiltered);
+		table.setDialogFilter(dialogFilter);
+		table.setTableFilter(tableFilter);
 		table.setLastSort(lastSort);
 		table.setLastSelect(lastSelect);
 
@@ -262,7 +261,7 @@ public class LinkedTableHandler extends XMLRoot implements ITableViewListener
 			table.sorter().sort();
 		}
 
-		table.reapplyFilter();
+		table.filter();
 	}
 
 	public void tablePreSorted()
@@ -292,6 +291,16 @@ public class LinkedTableHandler extends XMLRoot implements ITableViewListener
 
 		table.sorter().setSortKeys(keys);
 		table.sorter().sort();
+
+		isChanging = false;
+	}
+
+	public void undoRedoApplyFilter(FilterColumn[] filters)
+	{
+		isChanging = true;
+
+		table.setTableFilter(filters);
+		table.filter();
 
 		isChanging = false;
 	}

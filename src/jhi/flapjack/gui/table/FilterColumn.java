@@ -262,4 +262,16 @@ public class FilterColumn extends AbstractColumn
 			default: return "";
 		}
 	}
+
+	public FilterColumn cloneMe()
+	{
+		FilterColumn clone = new FilterColumn();
+		clone.colIndex = colIndex;
+		clone.name = name;
+		clone.filter = filter;
+		clone.isBoolFilter = isBoolFilter;
+		clone.value = value;
+
+		return clone;
+	}
 }

@@ -14,13 +14,13 @@ public class MovedLinesState implements IUndoState
 	private String menuStr;
 
 	// The state (that is, "order") of the lines before they were moved about
-	private LineInfo[] undoLines;
+	private ArrayList<LineInfo> undoLines;
 	// The comparisonLine (and index) before the move
 	private Line undoComparisonLine;
 	private int undoComparisonLineIndex;
 
 	// And the state after the movement was finished
-	private LineInfo[] redoLines;
+	private ArrayList<LineInfo> redoLines;
 	// The comparisonLine (and index) after the move
 	private Line redoComparisonLine;
 	private int redoComparisonLineIndex;
@@ -45,7 +45,7 @@ public class MovedLinesState implements IUndoState
 
 	public void createUndoState()
 	{
-		undoLines = viewSet.getLinesAsArray(true);
+		undoLines = viewSet.copyLines(LineInfo.VISIBLE);
 		undoComparisonLine = viewSet.getComparisonLine();
 		undoComparisonLineIndex = viewSet.getComparisonLineIndex();
 
@@ -54,17 +54,16 @@ public class MovedLinesState implements IUndoState
 
 	public void applyUndoState()
 	{
-		viewSet.setLinesFromArray(undoLines, true);
+		viewSet.setLinesFromCopies(undoLines, null, null);
 		viewSet.setComparisonLine(undoComparisonLine);
 		viewSet.setComparisonLineIndex(undoComparisonLineIndex);
 
-		viewSet.tableHandler().copyViewToTable(true);
 		viewSet.tableHandler().undoRedoApplySort(undoColumns);
 	}
 
 	public void createRedoState()
 	{
-		redoLines = viewSet.getLinesAsArray(true);
+		redoLines = viewSet.copyLines(LineInfo.VISIBLE);
 		redoComparisonLine = viewSet.getComparisonLine();
 		redoComparisonLineIndex = viewSet.getComparisonLineIndex();
 
@@ -73,11 +72,10 @@ public class MovedLinesState implements IUndoState
 
 	public void applyRedoState()
 	{
-		viewSet.setLinesFromArray(redoLines, true);
+		viewSet.setLinesFromCopies(redoLines, null, null);
 		viewSet.setComparisonLine(redoComparisonLine);
 		viewSet.setComparisonLineIndex(redoComparisonLineIndex);
 
-		viewSet.tableHandler().copyViewToTable(true);
 		viewSet.tableHandler().undoRedoApplySort(redoColumns);
 	}
 }
