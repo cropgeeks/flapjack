@@ -127,7 +127,7 @@ class PedVerLinesTableModel extends LineDataTableModel
 		LineInfo line = (LineInfo) getObjectAt(row, 0);
 
 		if (col == selectedIndex)
-			line.setSelected((boolean)value);
+			selectLine(line, (boolean)value);
 		else if (col == commentsIndex)
 			line.getResults().setComments((String)value);
 		else if (col == sortIndex)

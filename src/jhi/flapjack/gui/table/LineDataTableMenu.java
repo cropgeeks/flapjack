@@ -5,6 +5,10 @@ package jhi.flapjack.gui.table;
 
 import javax.swing.*;
 
+import jhi.flapjack.gui.*;
+import jhi.flapjack.gui.visualization.*;
+import jhi.flapjack.gui.visualization.undo.*;
+
 import scri.commons.gui.*;
 
 public class LineDataTableMenu
@@ -47,8 +51,17 @@ public class LineDataTableMenu
 	// model doesn't exist at the time the menu is built
 	private void setLineStates(Boolean state)
 	{
+		// Track the undo state before doing anything
+		GenotypePanel gPanel = Flapjack.winMain.getGenotypePanel();
+		SelectedLinesState undo = new SelectedLinesState(gPanel.getView(), "selected lines");
+		undo.createUndoState();
+
 		LineDataTableModel model = table.getLineDataTableModel();
 		model.setLineStates(state, true);
+
+		// Track the redo state, then add
+		undo.createRedoState();
+		gPanel.addUndoState(undo);
 	}
 
 	private void createSelectMenu(JComponent menu, boolean allOptions)
