@@ -142,9 +142,9 @@ public class MabcPanel extends JPanel implements ActionListener, ListSelectionLi
 		}
 	}
 
-	public void tableSorted()
-	{
-	}
+	public void tablePreSorted() {}
+
+	public void tableSorted() {}
 
 	public void tableChanged(TableModelEvent e)
 	{

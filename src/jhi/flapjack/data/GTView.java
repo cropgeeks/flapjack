@@ -460,7 +460,7 @@ public class GTView extends XMLRoot
 		viewSet.lines.trimToSize();
 		viewSet.hideLines.trimToSize();
 
-		viewSet.tableHandler().viewChanged(false);
+		viewSet.tableHandler().copyViewToTable(false);
 	}
 
 	/** Hides a single marker. */
@@ -480,7 +480,7 @@ public class GTView extends XMLRoot
 		lineInfo.setVisibility(LineInfo.HIDDEN);
 		viewSet.hideLines.add(lineInfo);
 
-		viewSet.tableHandler().viewChanged(false);
+		viewSet.tableHandler().copyViewToTable(false);
 	}
 
 	/** Restores all hidden markers to the view. */

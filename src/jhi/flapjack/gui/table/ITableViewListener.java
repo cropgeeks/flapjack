@@ -5,6 +5,8 @@ package jhi.flapjack.gui.table;
 
 public interface ITableViewListener
 {
+	public void tablePreSorted();
+
 	public void tableSorted();
 
 	public void tableFiltered();

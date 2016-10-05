@@ -46,6 +46,14 @@ public class LineDataTable extends JTable
 		setDefaultRenderer(CellData.class, renderer);
 
 		menu = new LineDataTableMenu(this);
+
+		// Catch mouse pressed events on the table header to help track the undo
+		// state before a sort happens
+		tableHeader.addMouseListener(new MouseAdapter() {
+			public void mousePressed(MouseEvent e) {
+				viewListeners.forEach(ITableViewListener::tablePreSorted);
+			}
+		});
 	}
 
 	boolean isFiltered()
