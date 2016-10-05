@@ -9,6 +9,9 @@ import jhi.flapjack.data.*;
 import jhi.flapjack.gui.Actions;
 
 import javax.swing.*;
+import jhi.flapjack.gui.*;
+import jhi.flapjack.gui.visualization.*;
+import jhi.flapjack.gui.visualization.undo.*;
 
 public class LinkedTableHandler extends XMLRoot implements ITableViewListener
 {
@@ -17,12 +20,18 @@ public class LinkedTableHandler extends XMLRoot implements ITableViewListener
 	private LineDataTable table;
 	private LineDataTableModel model;
 
+	// Track various elements that will be saved as part of a project so the
+	// table's state can be restored after a load
 	private ArrayList<SortColumn> sortKeys;
 	private SortColumn[] lastSort;
 	private FilterColumn[] lastFilter, lastSelect;
 	private boolean isFiltered;
-
 	private boolean autoResize = true;
+
+	// Track the state of the table/lines before a sort (for undo functioanlity)
+	private MovedLinesState undoSort;
+
+	private boolean isChanging = false;
 
 	public LinkedTableHandler()
 	{
@@ -92,8 +101,9 @@ public class LinkedTableHandler extends XMLRoot implements ITableViewListener
 	}
 
 	// Mirror the table's list of lines back to the ViewSet
-	private void tableChanged()
+	public void copyTableToView()
 	{
+		System.out.println("tableChanged");
 		viewSet.getLines().clear();
 		viewSet.getHideLines().clear();
 
@@ -123,10 +133,48 @@ public class LinkedTableHandler extends XMLRoot implements ITableViewListener
 
 	public void tableSorted()
 	{
-		tableChanged();
+		updateTrackers();
+
+		if (isChanging)
+			return;
+
+		System.out.println("tableSorted");
+		isChanging = true;
+
+		copyTableToView();
+
 
 		Actions.projectModified();
 
+		// Update the undo/redo state with the new order
+		if (undoSort != null)
+		{
+			System.out.println("CREATE UNDO");
+			undoSort.createRedoState();
+			GenotypePanel gPanel = Flapjack.winMain.getGenotypePanel();
+			gPanel.addUndoState(undoSort);
+		}
+
+		isChanging = false;
+	}
+
+	public void tableFiltered()
+	{
+		updateTrackers();
+
+		if (isChanging)
+			return;
+
+		isChanging = true;
+
+		System.out.println("tableFiltered");
+		copyTableToView();
+
+		isChanging = false;
+	}
+
+	private void updateTrackers()
+	{
 		// Convert table sort keys to castor safe SortColumns (but only if we
 		// have any active sort keys
 		if (table.getRowSorter().getSortKeys().isEmpty())
@@ -141,11 +189,6 @@ public class LinkedTableHandler extends XMLRoot implements ITableViewListener
 		// Track the table's last sort/select settings for project saving
 		lastSort = table.getLastSort();
 		lastSelect = table.getLastSelect();
-	}
-
-	public void tableFiltered()
-	{
-		tableChanged();
 
 		// Track the table's filter settings for project saving
 		lastFilter = table.getLastFilter();
@@ -161,10 +204,16 @@ public class LinkedTableHandler extends XMLRoot implements ITableViewListener
 		return lines;
 	}
 
-	public void viewChanged(boolean setModel)
+	public void copyViewToTable(boolean setModel)
 	{
 		if (table == null)
 			return;
+
+		if (isChanging)
+			return;
+		isChanging = true;
+
+		System.out.println("viewChanged");
 
 		// Get (all of) the lines from the view and apply to the model
 		model.setLines(linesForTable());
@@ -178,6 +227,8 @@ public class LinkedTableHandler extends XMLRoot implements ITableViewListener
 		// Don't break the sort or the filters
 		else
 			model.fireTableDataChanged();
+
+		isChanging = false;
 	}
 
 	public LineDataTable table()
@@ -212,5 +263,36 @@ public class LinkedTableHandler extends XMLRoot implements ITableViewListener
 		}
 
 		table.reapplyFilter();
+	}
+
+	public void tablePreSorted()
+	{
+		undoSort = new MovedLinesState(viewSet, "table sorted");
+		undoSort.createUndoState();
+	}
+
+	public void undoRedoApplySort(ArrayList<SortColumn> sortKeys)
+	{
+		if (table == null)
+			return;
+
+		isChanging = true;
+
+		// Clear any tracked (temp) undo state, because when we apply this sort
+		// tableSorted() will be called, and we don't want to make another
+		// undo/redo object, because we're already running one!!!
+		undoSort = null;
+
+		List<RowSorter.SortKey> keys = new ArrayList<>();
+
+		// Multi-column sort (handled by JTable) using "sort keys"
+		if (sortKeys != null)
+			for (SortColumn entry: sortKeys)
+				keys.add(new RowSorter.SortKey(entry.colIndex, entry.sortOrder));
+
+		table.sorter().setSortKeys(keys);
+		table.sorter().sort();
+
+		isChanging = false;
 	}
 }

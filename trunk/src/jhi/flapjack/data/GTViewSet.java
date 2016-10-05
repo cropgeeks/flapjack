@@ -445,7 +445,7 @@ public class GTViewSet extends XMLRoot
 
 		lines.add(index, new LineInfo(dummy, -1));
 
-		tableHandler.viewChanged(true);
+		tableHandler.copyViewToTable(true);
 	}
 
 	public void removeAllDummyLines()
@@ -455,7 +455,7 @@ public class GTViewSet extends XMLRoot
 			if (lines.get(i).line == dataSet.getDummyLine())
 				lines.remove(i);
 
-		tableHandler.viewChanged(false);
+		tableHandler.copyViewToTable(false);
 	}
 
 	public void removeAllDuplicates()
@@ -465,7 +465,7 @@ public class GTViewSet extends XMLRoot
 			if (lines.get(i).getDuplicate())
 				lines.remove(i);
 
-		tableHandler.viewChanged(false);
+		tableHandler.copyViewToTable(false);
 	}
 
 	public void removeSortSplitter()
@@ -485,7 +485,7 @@ public class GTViewSet extends XMLRoot
 
 		lines.add(index+1, duplicate);
 
-		tableHandler.viewChanged(true);
+		tableHandler.copyViewToTable(true);
 	}
 
 	public void insertSplitterLine(int index)
@@ -502,7 +502,7 @@ public class GTViewSet extends XMLRoot
 
 		lines.add(index, new LineInfo(splitter, -2));
 
-		tableHandler.viewChanged(true);
+		tableHandler.copyViewToTable(true);
 	}
 
 	public void moveLine(int fromIndex, int toIndex)
@@ -524,19 +524,29 @@ public class GTViewSet extends XMLRoot
 		else if (comparisonLineIndex == toIndex)
 			comparisonLineIndex = fromIndex;
 
-		tableHandler.viewChanged(true);
+		tableHandler.copyViewToTable(true);
 	}
 
 	/** Restores all hidden lines to the view. */
 	public void restoreHiddenLines()
 	{
-		lines.addAll(hideLines);
-		hideLines.clear();
+		// Restore manually hidden lines to the visible list and remove them
+		// from the hidden list. Update the LineInfo's visibility state as part
+		// of this
+		for (LineInfo lineInfo: hideLines)
+			if (lineInfo.getVisibility() == LineInfo.HIDDEN)
+				lines.add(lineInfo);
+		hideLines.removeIf(li -> li.visibility == LineInfo.HIDDEN);
 
 		for (LineInfo lineInfo: lines)
 			lineInfo.setVisibility(LineInfo.VISIBLE);
 
-		tableHandler().viewChanged(false);
+		tableHandler().copyViewToTable(false);
+		// The restored line(s) could be in the wrong place, or not filtered out
+		// unless we force the table (which will have sorted/filtered them) to
+		// reapply *its* view. This is a special case (so far) we don't usually
+		// do this
+		tableHandler().copyTableToView();
 	}
 
 	public long hiddenLineCount()

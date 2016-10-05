@@ -86,9 +86,9 @@ public class PedVerF1sPanel extends JPanel implements ActionListener, ITableView
 		menu.show(e.getComponent(), e.getX(), e.getY());
 	}
 
-	public void tableSorted()
-	{
-	}
+	public void tablePreSorted() {}
+
+	public void tableSorted() {}
 
 	public void tableChanged(TableModelEvent e)
 	{

@@ -149,6 +149,11 @@ public class WinMain extends JFrame
 			filterQTLDialog.setVisible(false);
 	}
 
+	public GenotypePanel getGenotypePanel()
+	{
+		return navPanel.getGenotypePanel();
+	}
+
 	public NavPanel getNavPanel()
 	{
 		return navPanel;

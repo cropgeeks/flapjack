@@ -3,7 +3,10 @@
 
 package jhi.flapjack.gui.visualization.undo;
 
+import java.util.*;
+
 import jhi.flapjack.data.*;
+import jhi.flapjack.gui.table.*;
 
 public class MovedLinesState implements IUndoState
 {
@@ -21,6 +24,9 @@ public class MovedLinesState implements IUndoState
 	// The comparisonLine (and index) after the move
 	private Line redoComparisonLine;
 	private int redoComparisonLineIndex;
+
+	// Tracks any linked table's sort state
+	private ArrayList<SortColumn> undoColumns, redoColumns;
 
 
 	public MovedLinesState(GTViewSet viewSet, String menuStr)
@@ -42,6 +48,8 @@ public class MovedLinesState implements IUndoState
 		undoLines = viewSet.getLinesAsArray(true);
 		undoComparisonLine = viewSet.getComparisonLine();
 		undoComparisonLineIndex = viewSet.getComparisonLineIndex();
+
+		undoColumns = viewSet.tableHandler().getSortKeys();
 	}
 
 	public void applyUndoState()
@@ -49,6 +57,9 @@ public class MovedLinesState implements IUndoState
 		viewSet.setLinesFromArray(undoLines, true);
 		viewSet.setComparisonLine(undoComparisonLine);
 		viewSet.setComparisonLineIndex(undoComparisonLineIndex);
+
+		viewSet.tableHandler().copyViewToTable(true);
+		viewSet.tableHandler().undoRedoApplySort(undoColumns);
 	}
 
 	public void createRedoState()
@@ -56,6 +67,8 @@ public class MovedLinesState implements IUndoState
 		redoLines = viewSet.getLinesAsArray(true);
 		redoComparisonLine = viewSet.getComparisonLine();
 		redoComparisonLineIndex = viewSet.getComparisonLineIndex();
+
+		redoColumns = viewSet.tableHandler().getSortKeys();
 	}
 
 	public void applyRedoState()
@@ -63,5 +76,8 @@ public class MovedLinesState implements IUndoState
 		viewSet.setLinesFromArray(redoLines, true);
 		viewSet.setComparisonLine(redoComparisonLine);
 		viewSet.setComparisonLineIndex(redoComparisonLineIndex);
+
+		viewSet.tableHandler().copyViewToTable(true);
+		viewSet.tableHandler().undoRedoApplySort(redoColumns);
 	}
 }
