@@ -184,5 +184,7 @@ public abstract class LineDataTableModel extends AbstractTableModel
 		// Track the redo state, then add
 		undo.createRedoState();
 		gPanel.addUndoState(undo);
+
+		Flapjack.winMain.mEdit.editMode(Constants.LINEMODE);
 	}
 }

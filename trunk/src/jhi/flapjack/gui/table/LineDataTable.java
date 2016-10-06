@@ -368,6 +368,8 @@ public class LineDataTable extends JTable
 		// Track the redo state, then add
 		undo.createRedoState();
 		gPanel.addUndoState(undo);
+
+		Flapjack.winMain.mEdit.editMode(Constants.LINEMODE);
 	}
 
 	void selectHighlighted(Boolean state)
@@ -400,6 +402,8 @@ public class LineDataTable extends JTable
 		// Track the redo state, then add
 		undo.createRedoState();
 		gPanel.addUndoState(undo);
+
+		Flapjack.winMain.mEdit.editMode(Constants.LINEMODE);
 	}
 
 	public String getLineStatusText()
