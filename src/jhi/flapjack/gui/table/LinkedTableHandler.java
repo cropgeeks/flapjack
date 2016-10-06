@@ -297,6 +297,9 @@ public class LinkedTableHandler extends XMLRoot implements ITableViewListener
 
 	public void undoRedoApplyFilter(FilterColumn[] filters)
 	{
+		if (table == null)
+			return;
+		
 		isChanging = true;
 
 		table.setTableFilter(filters);
