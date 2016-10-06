@@ -77,23 +77,11 @@ public class ChromosomeSelectionDialog extends JDialog implements ActionListener
 		model = new ChromosomeSelectionTableModel(maps, markerSelectionValues);
 		chromosomesTable.setModel(model);
 		chromosomesTable.getColumnModel().getColumn(0).setPreferredWidth(20);
-
-		checkButtonState();
 	}
 
 	public void hideLineSummary()
 	{
 		lblSelectedLines.setVisible(false);
-	}
-
-	private void checkButtonState()
-	{
-		boolean enabled = false;
-		for (int i = 0; i < model.getRowCount(); i++)
-			if (((Boolean)model.getValueAt(i, 0)))
-				enabled = true;
-
-		bClose.setEnabled(enabled);
 	}
 
 	@Override
@@ -211,7 +199,6 @@ public class ChromosomeSelectionDialog extends JDialog implements ActionListener
 				selected[rowIndex] = (boolean) value;
 
 			fireTableCellUpdated(rowIndex, columnIndex);
-			checkButtonState();
 		}
 
 		@Override
@@ -223,9 +210,6 @@ public class ChromosomeSelectionDialog extends JDialog implements ActionListener
 		@Override
 		public boolean isCellEditable(int row, int col)
 		{
-			if (markerSelectionValues.get(row).startsWith("0"))
-				return false;
-
 			return col == 0;
 		}
 	}
