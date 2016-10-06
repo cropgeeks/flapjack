@@ -3,7 +3,6 @@
 
 package jhi.flapjack.gui.visualization;
 
-import com.sun.imageio.spi.*;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -250,6 +249,23 @@ public class CanvasMenu
 			mInsertSplitter.setEnabled(false);
 		}
 
+		toggleOnLineVisibility(view.lineCount() != 0);
+
 		menu.show(e.getComponent(), e.getX(), e.getY());
+	}
+
+	private void toggleOnLineVisibility(boolean hasLines)
+	{
+		mInsertLine.setEnabled(hasLines);
+		mDuplicateLine.setEnabled(hasLines);
+		mInsertSplitter.setEnabled(hasLines);
+		mSortLinesBySimilarity.setEnabled(hasLines);
+		mSortLinesByTrait.setEnabled(hasLines);
+		mSortLinesByExternal.setEnabled(hasLines);
+		mSortLinesAlphabetically.setEnabled(hasLines);
+		mFilterMissingMarkers.setEnabled(hasLines);
+		mFilterMissingMarkersByLine.setEnabled(hasLines);
+		mFilterHeterozygousMarkersByLine.setEnabled(hasLines);
+		mFilterMonomorphicMarkers.setEnabled(hasLines);
 	}
 }
