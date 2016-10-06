@@ -13,6 +13,7 @@ public class FilterHeterozygousMarkersByLine extends SimpleJob
 	private StateTable stateTable;
 	private boolean[] selectedChromosomes;
 	private LineInfo line;
+	private int count;
 
 	public FilterHeterozygousMarkersByLine(GTViewSet viewSet, boolean[] selectedChromosomes, LineInfo line)
 	{
@@ -22,6 +23,9 @@ public class FilterHeterozygousMarkersByLine extends SimpleJob
 
 		stateTable = viewSet.getDataSet().getStateTable();
 	}
+
+	public int getCount()
+		{ return count; }
 
 	public void runJob(int index)
 		throws Exception
@@ -38,6 +42,8 @@ public class FilterHeterozygousMarkersByLine extends SimpleJob
 
 		for (int view = 0; view < as.viewCount(); view++)
 		{
+			boolean isSpecialChromosome = as.getGTView(view).getChromosomeMap().isSpecialChromosome();
+
 			// For each marker...
 			for (int marker = as.markerCount(view)-1; marker >= 0 && okToRun; marker--)
 			{
@@ -45,6 +51,9 @@ public class FilterHeterozygousMarkersByLine extends SimpleJob
 				{
 					MarkerInfo mi = as.getMarker(view, marker);
 					as.getGTView(view).hideMarker(mi);
+
+					if (isSpecialChromosome == false)
+						count++;
 				}
 
 				progress++;

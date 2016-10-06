@@ -13,12 +13,16 @@ public class FilterMonomorphicMarkers extends SimpleJob
 {
 	private GTViewSet viewSet;
 	private boolean[] selectedChromosomes;
+	private int count;
 
 	public FilterMonomorphicMarkers(GTViewSet viewSet, boolean[] selectedChromosomes)
 	{
 		this.viewSet = viewSet;
 		this.selectedChromosomes = selectedChromosomes;
 	}
+
+	public int getCount()
+		{ return count; }
 
 	public void runJob(int index)
 		throws Exception
@@ -34,6 +38,8 @@ public class FilterMonomorphicMarkers extends SimpleJob
 
 		for (int view = 0; view < as.viewCount(); view++)
 		{
+			boolean isSpecialChromosome = as.getGTView(view).getChromosomeMap().isSpecialChromosome();
+
 			// For each marker...
 			for (int marker = as.markerCount(view)-1; marker >= 0 && okToRun; marker--)
 			{
@@ -58,6 +64,9 @@ public class FilterMonomorphicMarkers extends SimpleJob
 				{
 					MarkerInfo mi = as.getMarker(view, marker);
 					as.getGTView(view).hideMarker(mi);
+
+					if (isSpecialChromosome == false)
+						count++;
 				}
 
 				progress++;

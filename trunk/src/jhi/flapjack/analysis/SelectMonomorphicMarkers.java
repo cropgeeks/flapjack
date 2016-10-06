@@ -13,12 +13,16 @@ public class SelectMonomorphicMarkers extends SimpleJob
 {
 	private GTViewSet viewSet;
 	private boolean[] selectedChromosomes;
+	private int count;
 
 	public SelectMonomorphicMarkers(GTViewSet viewSet, boolean[] selectedChromosomes)
 	{
 		this.viewSet = viewSet;
 		this.selectedChromosomes = selectedChromosomes;
 	}
+
+	public int getCount()
+		{ return count; }
 
 	public void runJob(int index)
 		throws Exception
@@ -34,6 +38,8 @@ public class SelectMonomorphicMarkers extends SimpleJob
 
 		for (int view = 0; view < as.viewCount(); view++)
 		{
+			boolean isSpecialChromosome = as.getGTView(view).getChromosomeMap().isSpecialChromosome();
+
 			// For each marker...
 			for (int marker = as.markerCount(view)-1; marker >= 0 && okToRun; marker--)
 			{
@@ -55,11 +61,14 @@ public class SelectMonomorphicMarkers extends SimpleJob
 					}
 				}
 
-				// Remove markers with either all missing data, or any that have
-				// just a single state across all their alleles
+				// Select the marker if it's monomorphic
 				if (foundStates.isEmpty() || foundStates.size() == 1)
+				{
 					as.getMarker(view, marker).setSelected(true);
 
+					if (isSpecialChromosome == false)
+						count++;
+				}
 				progress++;
 			}
 		}

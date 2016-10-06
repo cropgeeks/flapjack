@@ -145,10 +145,10 @@ public class MenuEdit
 		if (sDialog.isOK() == false)
 			return false;
 
-		SelectMonomorphicMarkers fmm = new SelectMonomorphicMarkers(
+		SelectMonomorphicMarkers smm = new SelectMonomorphicMarkers(
 			viewSet, sDialog.getSelectedChromosomes());
 
-		ProgressDialog dialog = new ProgressDialog(fmm,
+		ProgressDialog dialog = new ProgressDialog(smm,
 			RB.getString("gui.MenuEdit.smono.title"),
 			RB.getString("gui.MenuEdit.smono.label"),
 			Flapjack.winMain);
@@ -156,6 +156,9 @@ public class MenuEdit
 		// If the operation failed or was cancelled...
 		if (dialog.getResult() != ProgressDialog.JOB_COMPLETED)
 			return false;
+
+		TaskDialog.info(RB.format("gui.MenuEdit.smono.summary",
+			smm.getCount()), RB.getString("gui.text.close"));
 
 		return true;
 	}
@@ -196,7 +199,9 @@ public class MenuEdit
 					view.setMarkerState(i, selectedMarkers.contains(view.getMarkerInfo(i)));
 
 				// Display summary of selected markers
-				TaskDialog.info(RB.format("gui.MenuEdit.markerSelectionSummary", selectedMarkers.size(), selectMarkers.selectionStrings().size()), RB.getString("gui.text.ok"));
+				TaskDialog.info(RB.format("gui.MenuEdit.markerSelectionSummary",
+					selectedMarkers.size(), selectMarkers.selectionStrings().size()),
+					RB.getString("gui.text.close"));
 
 				return true;
 			}
@@ -582,6 +587,10 @@ public class MenuEdit
 			// Set the redo state...
 			state.createRedoState();
 			gPanel.addUndoState(state);
+
+			TaskDialog.info(RB.format("gui.MenuEdit.fmm.summary",
+				Prefs.guiMissingMarkerPcnt, fmm.getCount()),
+				RB.getString("gui.text.close"));
 		}
 	}
 
@@ -624,6 +633,9 @@ public class MenuEdit
 			// Set the redo state...
 			state.createRedoState();
 			gPanel.addUndoState(state);
+
+			TaskDialog.info(RB.format("gui.MenuEdit.fmmByLine.summary",
+				fmm.getCount()), RB.getString("gui.text.close"));
 		}
 	}
 
@@ -666,6 +678,9 @@ public class MenuEdit
 			// Set the redo state...
 			state.createRedoState();
 			gPanel.addUndoState(state);
+
+			TaskDialog.info(RB.format("gui.MenuEdit.fhm.summary",
+				fmm.getCount()), RB.getString("gui.text.close"));
 		}
 	}
 
@@ -705,6 +720,9 @@ public class MenuEdit
 			// Set the redo state...
 			state.createRedoState();
 			gPanel.addUndoState(state);
+
+			TaskDialog.info(RB.format("gui.MenuEdit.fmono.summary",
+				fmm.getCount()), RB.getString("gui.text.close"));
 		}
 	}
 
