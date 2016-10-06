@@ -12,6 +12,7 @@ public class FilterMissingMarkersByLine extends SimpleJob
 	private GTViewSet viewSet;
 	private boolean[] selectedChromosomes;
 	private LineInfo line;
+	private int count;
 
 	public FilterMissingMarkersByLine(GTViewSet viewSet, boolean[] selectedChromosomes, LineInfo line)
 	{
@@ -19,6 +20,9 @@ public class FilterMissingMarkersByLine extends SimpleJob
 		this.selectedChromosomes = selectedChromosomes;
 		this.line = line;
 	}
+
+	public int getCount()
+		{ return count; }
 
 	public void runJob(int index)
 		throws Exception
@@ -35,6 +39,8 @@ public class FilterMissingMarkersByLine extends SimpleJob
 
 		for (int view = 0; view < as.viewCount(); view++)
 		{
+			boolean isSpecialChromosome = as.getGTView(view).getChromosomeMap().isSpecialChromosome();
+
 			// For each marker...
 			for (int marker = as.markerCount(view)-1; marker >= 0 && okToRun; marker--)
 			{
@@ -42,6 +48,9 @@ public class FilterMissingMarkersByLine extends SimpleJob
 				{
 					MarkerInfo mi = as.getMarker(view, marker);
 					as.getGTView(view).hideMarker(mi);
+
+					if (isSpecialChromosome == false)
+						count++;
 				}
 
 				progress++;
