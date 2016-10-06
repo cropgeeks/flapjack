@@ -102,6 +102,9 @@ public class LinkedTableHandler extends XMLRoot implements ITableViewListener
 	// Mirror the table's list of lines back to the ViewSet
 	public void copyTableToView()
 	{
+		if (table == null)
+			return;
+
 		System.out.println("tableChanged");
 		viewSet.getLines().clear();
 		viewSet.getHideLines().clear();
@@ -299,7 +302,7 @@ public class LinkedTableHandler extends XMLRoot implements ITableViewListener
 	{
 		if (table == null)
 			return;
-		
+
 		isChanging = true;
 
 		table.setTableFilter(filters);
