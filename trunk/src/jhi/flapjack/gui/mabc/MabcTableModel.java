@@ -74,7 +74,7 @@ public class MabcTableModel extends LineDataTableModel
 		}
 
 		if (qtlStatusIndex != -1)
-			columnNames[qtlStatusIndex] = "QTL Status Count";
+			columnNames[qtlStatusIndex] = "QTL Allele Count";
 		columnNames[selectedIndex] = "Selected";
 		columnNames[rankIndex] = "Rank";
 		columnNames[commentIndex] = "Comments";
