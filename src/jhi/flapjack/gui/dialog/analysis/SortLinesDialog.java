@@ -62,7 +62,7 @@ public class SortLinesDialog extends JDialog implements ActionListener
 		int index = nbPanel.selectedLine.getSelectedIndex();
 		GTView view = gPanel.getView();
 
-		bOK.setEnabled(!view.isDummyLine(index) && !view.isSplitter(index));
+		bOK.setEnabled(view.lineCount() > 0 && !view.isDummyLine(index) && !view.isSplitter(index));
 	}
 
 	public void actionPerformed(ActionEvent e)

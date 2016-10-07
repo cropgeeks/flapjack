@@ -32,6 +32,9 @@ public class MissingMarkersDialog extends JDialog implements ActionListener
 		nbPanel = new MissingMarkersPanelNB(viewSet, bFilter);
 		add(nbPanel);
 
+		if (viewSet.getView(0).countSelectedLines() == 0)
+			bFilter.setEnabled(false);
+
 		FlapjackUtils.initDialog(this, bFilter, bCancel, true, getContentPane());
 	}
 

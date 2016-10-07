@@ -45,6 +45,9 @@ public class FilterMonomorphicMarkersDialog extends JDialog implements ActionLis
 
 		csd = new ChromosomeSelectionDialog(viewSet, false);
 		csdLabel.addActionListener(e -> { csd.setVisible(true); } );
+
+		if (viewSet.getView(0).countSelectedLines() == 0)
+			bFilter.setEnabled(false);
 	}
 
 	// Generates a boolean array with a true/false selected state for each of
