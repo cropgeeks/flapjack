@@ -87,7 +87,11 @@ public class GTViewSet extends XMLRoot
 		}
 
 		for (int i = 0; i < dataSet.countChromosomeMaps(); i++)
-			views.add(new GTView(this, dataSet.getMapByIndex(i), true));
+		{
+			GTView view = new GTView(this, dataSet.getMapByIndex(i), true);
+			view.linkMarkerInfos();
+			views.add(view);
+		}
 
 		// For a genuine new view on a new data import, this will have no effect
 		// but for new (additional) views, traits may exist that can be used
@@ -366,7 +370,11 @@ public class GTViewSet extends XMLRoot
 		// Copy over the chromosomes views
 		clone.views.clear();
 		for (int i=0; i < views.size(); i++)
-			clone.views.add(views.get(i).createClone(clone, selectedLMOnly));
+		{
+			GTView viewClone = views.get(i).createClone(clone, selectedLMOnly);
+			viewClone.linkMarkerInfos();
+			clone.views.add(viewClone);
+		}
 
 		clone.removeAllDummyLines();
 		clone.removeAllDuplicates();

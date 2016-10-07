@@ -391,7 +391,7 @@ class QTLCanvas extends JPanel implements PropertyChangeListener
 							undefined = false;
 						}
 
-						mi.setSelected(state);
+						mi.selectMarkerAndLinkedMarker(state);
 					}
 				}
 			}

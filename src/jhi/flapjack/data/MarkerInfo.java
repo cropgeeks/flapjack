@@ -13,6 +13,11 @@ public class MarkerInfo extends XMLRoot implements Comparable<MarkerInfo>
 	Marker marker;
 	int index;
 
+	// A reference to either a MarkerInfo on the all chromosomes view, or from
+	// a MarkerInfo on the all chromosomes view back to its equivalent in a
+	// real view
+	MarkerInfo linkedMarkerInfo;
+
 	boolean selected = true;
 
 	public MarkerInfo()
@@ -25,6 +30,7 @@ public class MarkerInfo extends XMLRoot implements Comparable<MarkerInfo>
 		this.marker = markerInfo.marker;
 		this.index = markerInfo.index;
 		this.selected = markerInfo.selected;
+		this.linkedMarkerInfo = markerInfo.linkedMarkerInfo;
 	}
 
 	MarkerInfo(Marker marker, int index)
@@ -57,6 +63,11 @@ public class MarkerInfo extends XMLRoot implements Comparable<MarkerInfo>
 	public boolean dummyMarker()
 		{ return marker.dummyMarker(); }
 
+	public MarkerInfo getLinkedMarkerInfo()
+		{ return linkedMarkerInfo; }
+
+	public void setLinkedMarkerInfo(MarkerInfo linkedMarkerInfo)
+		{ this.linkedMarkerInfo = linkedMarkerInfo; }
 
 	// Other methods
 
@@ -71,5 +82,12 @@ public class MarkerInfo extends XMLRoot implements Comparable<MarkerInfo>
 	public int compareTo(MarkerInfo markerInfo)
 	{
 		return marker.compareTo(markerInfo.marker);
+	}
+
+	public void selectMarkerAndLinkedMarker(boolean selected)
+	{
+		this.selected = selected;
+		if (linkedMarkerInfo != null)
+			linkedMarkerInfo.setSelected(selected);
 	}
 }

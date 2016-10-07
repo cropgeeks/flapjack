@@ -349,8 +349,7 @@ public class GTView extends XMLRoot
 
 
 		MarkerInfo mi = markers.get(index);
-
-		mi.selected = !mi.selected;
+		mi.selectMarkerAndLinkedMarker(!mi.getSelected());
 		return mi.selected;
 	}
 
@@ -368,7 +367,7 @@ public class GTView extends XMLRoot
 	public void setMarkerState(int index, boolean selectionState)
 	{
 		if (markers.get(index).dummyMarker() == false)
-			markers.get(index).selected = selectionState;
+			markers.get(index).selectMarkerAndLinkedMarker(selectionState);
 	}
 
 	public void setLineState(int index, boolean selectionState)
@@ -557,5 +556,34 @@ public class GTView extends XMLRoot
 				return true;
 
 		return false;
+	}
+
+	void linkMarkerInfos()
+	{
+		if (!map.isSpecialChromosome())
+			return;
+
+		int specialMarkerIndex = 0;
+		// Loop over the real views so that we can get links to the
+		// MarkerInfos in the original views
+		for (GTView realView : viewSet.getViews())
+		{
+			ChromosomeMap realMap = realView.map;
+			if (!realMap.isSpecialChromosome())
+			{
+				// Loop over the markers in the real view, increment our
+				// count of markers on the super chromosome as well
+				for (int i=0; i < realView.markerCount(); i++, specialMarkerIndex++)
+				{
+					// Set up our link betweeen the MarkerInfo objects
+					MarkerInfo specialMarkerInfo = getMarkerInfo(specialMarkerIndex);
+					MarkerInfo realMarkerInfo = realView.getMarkerInfo(i);
+					realMarkerInfo.setLinkedMarkerInfo(specialMarkerInfo);
+					specialMarkerInfo.setLinkedMarkerInfo(realMarkerInfo);
+				}
+				// Skip dummy markers (we don't need to link these)
+				specialMarkerIndex += DataSet.DUMMY_COUNT;
+			}
+		}
 	}
 }
