@@ -232,9 +232,9 @@ public class MenuEdit
 			// Set the redo state...
 			state.createRedoState();
 			gPanel.addUndoState(state);
-		}
 
-		editMode(Constants.MARKERMODE);
+			editMode(Constants.MARKERMODE);
+		}
 	}
 
 	void editSelectLines(int selectionType)
@@ -353,9 +353,9 @@ public class MenuEdit
 			// Set the redo state...
 			state.createRedoState();
 			gPanel.addUndoState(state);
-		}
 
-		editMode(Constants.LINEMODE);
+			editMode(Constants.LINEMODE);
+		}
 	}
 
 	void editInsertLine()
@@ -378,9 +378,9 @@ public class MenuEdit
 			gPanel.addUndoState(state);
 
 			gPanel.refreshView();
-		}
 
-		editMode(Constants.LINEMODE);
+			editMode(Constants.LINEMODE);
+		}
 	}
 
 	// Displays a dialog box asking the user if they want to delete the dummy
@@ -456,9 +456,9 @@ public class MenuEdit
 			gPanel.addUndoState(state);
 
 			gPanel.refreshView();
-		}
 
-		editMode(Constants.LINEMODE);
+			editMode(Constants.LINEMODE);
+		}
 	}
 
 	void editDuplicateLineRemove()
@@ -536,9 +536,9 @@ public class MenuEdit
 			gPanel.addUndoState(state);
 
 			gPanel.refreshView();
-		}
 
-		editMode(Constants.LINEMODE);
+			editMode(Constants.LINEMODE);
+		}
 	}
 
 	// Displays a dialog box asking the user if they want to delete the dummy
@@ -607,9 +607,9 @@ public class MenuEdit
 			TaskDialog.info(RB.format("gui.MenuEdit.fmm.summary",
 				Prefs.guiMissingMarkerPcnt, fmm.getCount()),
 				RB.getString("gui.text.close"));
-		}
 
-		editMode(Constants.MARKERMODE);
+			editMode(Constants.MARKERMODE);
+		}
 	}
 
 	void editFilterMissingMarkersByLine()
@@ -654,9 +654,9 @@ public class MenuEdit
 
 			TaskDialog.info(RB.format("gui.MenuEdit.fmmByLine.summary",
 				fmm.getCount()), RB.getString("gui.text.close"));
-		}
 
-		editMode(Constants.MARKERMODE);
+			editMode(Constants.MARKERMODE);
+		}
 	}
 
 	void editFilterHeterozygousMarkersByLine()
@@ -701,9 +701,9 @@ public class MenuEdit
 
 			TaskDialog.info(RB.format("gui.MenuEdit.fhm.summary",
 				fmm.getCount()), RB.getString("gui.text.close"));
-		}
 
-		editMode(Constants.MARKERMODE);
+			editMode(Constants.MARKERMODE);
+		}
 	}
 
 	// This code is almost identical to editFilterMissingMarkers - perhaps some
@@ -745,9 +745,9 @@ public class MenuEdit
 
 			TaskDialog.info(RB.format("gui.MenuEdit.fmono.summary",
 				fmm.getCount()), RB.getString("gui.text.close"));
-		}
 
-		editMode(Constants.MARKERMODE);
+			editMode(Constants.MARKERMODE);
+		}
 	}
 
 	void editCustomMap()
