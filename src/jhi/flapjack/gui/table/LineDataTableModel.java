@@ -36,7 +36,7 @@ public abstract class LineDataTableModel extends AbstractTableModel
 	{
 		// Return the tooltip text (if it was defined) and if not, just use the
 		// standard column name instead
-		return ttNames[col] != null ? ttNames[col] : columnNames[col];
+		return ttNames != null && ttNames[col] != null ? ttNames[col] : columnNames[col];
 	}
 
 	@Override
