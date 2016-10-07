@@ -56,7 +56,7 @@ public class SelectMonomorphicMarkers extends SimpleJob
 					// If we've found more than one state this marker isn't monomorphic
 					if (foundStates.size() > 1)
 					{
-						as.getMarker(view, marker).setSelected(false);
+						as.getMarker(view, marker).selectMarkerAndLinkedMarker(false);
 						break;
 					}
 				}
@@ -64,7 +64,7 @@ public class SelectMonomorphicMarkers extends SimpleJob
 				// Select the marker if it's monomorphic
 				if (foundStates.isEmpty() || foundStates.size() == 1)
 				{
-					as.getMarker(view, marker).setSelected(true);
+					as.getMarker(view, marker).selectMarkerAndLinkedMarker(true);
 
 					if (isSpecialChromosome == false)
 						count++;

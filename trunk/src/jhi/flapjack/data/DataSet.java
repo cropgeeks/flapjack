@@ -37,6 +37,8 @@ public class DataSet extends XMLRoot
 
 	private BinnedData bins = new BinnedData();
 
+	public static final int DUMMY_COUNT = 5;
+
 	public DataSet()
 	{
 	}
@@ -233,7 +235,6 @@ public class DataSet extends XMLRoot
 
 	public void createSuperChromosome(String chromosomeName)
 	{
-		final int DUMMYCOUNT = 5;
 		boolean useByteStorage = true;
 
 		// Query the current data to determine useByteStorage value
@@ -266,7 +267,7 @@ public class DataSet extends XMLRoot
 
 			// Add some dummy markers
 			if (i < chromosomes.size()-1)
-				for (int d = 0; d < DUMMYCOUNT; d++)
+				for (int d = 0; d < DUMMY_COUNT; d++)
 					allMap.addMarker(new Marker(true, mapOffset));
 		}
 
@@ -289,7 +290,7 @@ public class DataSet extends XMLRoot
 
 				// Add dummy loci information
 				if (i < chromosomes.size()-1)
-					for (int d = 0; d < DUMMYCOUNT; d++, loci++)
+					for (int d = 0; d < DUMMY_COUNT; d++, loci++)
 						line.setLoci(allMapIndex, loci, 0);
 			}
 		}
