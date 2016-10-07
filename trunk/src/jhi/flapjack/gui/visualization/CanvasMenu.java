@@ -242,30 +242,13 @@ public class CanvasMenu
 			if (view.getLineInfo(view.mouseOverLine).getDuplicate())
 				mDuplicateLineRemove.setEnabled(true);
 
-		if (view.getViewSet().tableHandler().table() != null)
+		if (view.getViewSet().tableHandler().table() != null || view.lineCount() == 0)
 		{
 			mInsertLine.setEnabled(false);
 			mDuplicateLine.setEnabled(false);
 			mInsertSplitter.setEnabled(false);
 		}
 
-		toggleOnLineVisibility(view.lineCount() != 0);
-
 		menu.show(e.getComponent(), e.getX(), e.getY());
-	}
-
-	private void toggleOnLineVisibility(boolean hasLines)
-	{
-		mInsertLine.setEnabled(hasLines);
-		mDuplicateLine.setEnabled(hasLines);
-		mInsertSplitter.setEnabled(hasLines);
-		mSortLinesBySimilarity.setEnabled(hasLines);
-		mSortLinesByTrait.setEnabled(hasLines);
-		mSortLinesByExternal.setEnabled(hasLines);
-		mSortLinesAlphabetically.setEnabled(hasLines);
-		mFilterMissingMarkers.setEnabled(hasLines);
-		mFilterMissingMarkersByLine.setEnabled(hasLines);
-		mFilterHeterozygousMarkersByLine.setEnabled(hasLines);
-		mFilterMonomorphicMarkers.setEnabled(hasLines);
 	}
 }
