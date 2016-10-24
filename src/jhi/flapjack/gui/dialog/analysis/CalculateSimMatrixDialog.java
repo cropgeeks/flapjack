@@ -49,6 +49,9 @@ public class CalculateSimMatrixDialog extends JDialog implements ActionListener,
 		RB.setText(bCancel, "gui.text.cancel");
 		bCancel.addActionListener(this);
 
+		RB.setText(bHelp, "gui.text.help");
+		FlapjackUtils.setHelp(bHelp, "_-_Similarity_Matrix_Creation");
+
 		csd = new ChromosomeSelectionDialog(viewSet, true);
 		csdLabel.addActionListener(e -> { csd.setVisible(true); } );
 	}
@@ -101,6 +104,7 @@ public class CalculateSimMatrixDialog extends JDialog implements ActionListener,
         dialogPanel1 = new scri.commons.gui.matisse.DialogPanel();
         bCreate = new javax.swing.JButton();
         bCancel = new javax.swing.JButton();
+        bHelp = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         csdLabel = new scri.commons.gui.matisse.HyperLinkLabel();
 
@@ -111,6 +115,9 @@ public class CalculateSimMatrixDialog extends JDialog implements ActionListener,
 
         bCancel.setText("Cancel");
         dialogPanel1.add(bCancel);
+
+        bHelp.setText("Help");
+        dialogPanel1.add(bHelp);
 
         jLabel1.setText("This will create a similarity matrix from all of the currently selected lines in the view.");
 
@@ -146,6 +153,7 @@ public class CalculateSimMatrixDialog extends JDialog implements ActionListener,
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bCancel;
     private javax.swing.JButton bCreate;
+    private javax.swing.JButton bHelp;
     private scri.commons.gui.matisse.HyperLinkLabel csdLabel;
     private scri.commons.gui.matisse.DialogPanel dialogPanel1;
     private javax.swing.JLabel jLabel1;
