@@ -43,6 +43,9 @@ public class FilterMonomorphicMarkersDialog extends JDialog implements ActionLis
 		RB.setText(bCancel, "gui.text.cancel");
 		bCancel.addActionListener(this);
 
+		RB.setText(bHelp, "gui.text.help");
+		FlapjackUtils.setHelp(bHelp, "_-_Filtering_Markers");
+
 		csd = new ChromosomeSelectionDialog(viewSet, false);
 		csdLabel.addActionListener(e -> { csd.setVisible(true); } );
 
@@ -86,6 +89,7 @@ public class FilterMonomorphicMarkersDialog extends JDialog implements ActionLis
         dialogPanel1 = new scri.commons.gui.matisse.DialogPanel();
         bFilter = new javax.swing.JButton();
         bCancel = new javax.swing.JButton();
+        bHelp = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         csdLabel = new scri.commons.gui.matisse.HyperLinkLabel();
 
@@ -96,6 +100,9 @@ public class FilterMonomorphicMarkersDialog extends JDialog implements ActionLis
 
         bCancel.setText("Cancel");
         dialogPanel1.add(bCancel);
+
+        bHelp.setText("Help");
+        dialogPanel1.add(bHelp);
 
         jLabel1.setText("This filter will remove all markers that are monomorphic across all of the currently selected lines.");
 
@@ -131,6 +138,7 @@ public class FilterMonomorphicMarkersDialog extends JDialog implements ActionLis
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bCancel;
     private javax.swing.JButton bFilter;
+    private javax.swing.JButton bHelp;
     private scri.commons.gui.matisse.HyperLinkLabel csdLabel;
     private scri.commons.gui.matisse.DialogPanel dialogPanel1;
     private javax.swing.JLabel jLabel1;

@@ -65,6 +65,11 @@
             <Property name="text" type="java.lang.String" value="Cancel"/>
           </Properties>
         </Component>
+        <Component class="javax.swing.JButton" name="bHelp">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Help"/>
+          </Properties>
+        </Component>
       </SubComponents>
     </Container>
     <Container class="javax.swing.JPanel" name="linePanel">

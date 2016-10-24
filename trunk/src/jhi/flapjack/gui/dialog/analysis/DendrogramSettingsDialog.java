@@ -39,6 +39,9 @@ public class DendrogramSettingsDialog extends JDialog implements ActionListener
 
 		RB.setText(bCancel, "gui.text.cancel");
 		bCancel.addActionListener(this);
+
+		RB.setText(bHelp, "gui.text.help");
+		FlapjackUtils.setHelp(bHelp, "_-_Dendrogram_Creation");
 	}
 
 	public boolean isOK()
@@ -60,11 +63,13 @@ public class DendrogramSettingsDialog extends JDialog implements ActionListener
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+    private void initComponents()
+    {
 
         dialogPanel1 = new scri.commons.gui.matisse.DialogPanel();
         bOK = new javax.swing.JButton();
         bCancel = new javax.swing.JButton();
+        bHelp = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -77,6 +82,9 @@ public class DendrogramSettingsDialog extends JDialog implements ActionListener
 
         bCancel.setText("Cancel");
         dialogPanel1.add(bCancel);
+
+        bHelp.setText("Help");
+        dialogPanel1.add(bHelp);
 
         jLabel1.setText("Warning.");
 
@@ -121,6 +129,7 @@ public class DendrogramSettingsDialog extends JDialog implements ActionListener
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bCancel;
+    private javax.swing.JButton bHelp;
     private javax.swing.JButton bOK;
     private scri.commons.gui.matisse.DialogPanel dialogPanel1;
     private javax.swing.JLabel jLabel1;

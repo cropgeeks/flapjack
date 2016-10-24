@@ -3,7 +3,6 @@
 
 package jhi.flapjack.gui.dialog.analysis;
 
-import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import jhi.flapjack.analysis.*;
@@ -14,6 +13,9 @@ import jhi.flapjack.gui.visualization.*;
 
 import scri.commons.gui.*;
 
+/*
+ This class is used for filtering both MISSING markers and HET markers
+*/
 public class FilterMarkersByLineDialog extends JDialog implements ActionListener
 {
 	private GTViewSet viewSet;
@@ -51,6 +53,9 @@ public class FilterMarkersByLineDialog extends JDialog implements ActionListener
 
 		RB.setText(bCancel, "gui.text.cancel");
 		bCancel.addActionListener(this);
+
+		RB.setText(bHelp, "gui.text.help");
+		FlapjackUtils.setHelp(bHelp, "_-_Filtering_Markers");
 
 		lineLabel.setText(label);
 
@@ -121,8 +126,9 @@ public class FilterMarkersByLineDialog extends JDialog implements ActionListener
         dialogPanel1 = new scri.commons.gui.matisse.DialogPanel();
         bFilter = new javax.swing.JButton();
         bCancel = new javax.swing.JButton();
+        bHelp = new javax.swing.JButton();
         linePanel = new javax.swing.JPanel();
-        selectedLine = new javax.swing.JComboBox<LineInfo>();
+        selectedLine = new javax.swing.JComboBox<>();
         lineLabel = new javax.swing.JLabel();
         dataPanel = new javax.swing.JPanel();
         csdLabel = new scri.commons.gui.matisse.HyperLinkLabel();
@@ -134,6 +140,9 @@ public class FilterMarkersByLineDialog extends JDialog implements ActionListener
 
         bCancel.setText("Cancel");
         dialogPanel1.add(bCancel);
+
+        bHelp.setText("Help");
+        dialogPanel1.add(bHelp);
 
         linePanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Reference line:"));
 
@@ -213,6 +222,7 @@ public class FilterMarkersByLineDialog extends JDialog implements ActionListener
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bCancel;
     private javax.swing.JButton bFilter;
+    private javax.swing.JButton bHelp;
     private scri.commons.gui.matisse.HyperLinkLabel csdLabel;
     private javax.swing.JPanel dataPanel;
     private scri.commons.gui.matisse.DialogPanel dialogPanel1;
