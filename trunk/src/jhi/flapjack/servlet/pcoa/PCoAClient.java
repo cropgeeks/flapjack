@@ -65,7 +65,7 @@ public class PCoAClient
 		{
 			System.out.println("Waiting for result...");
 
-			try { Thread.sleep(500); }
+			try { Thread.sleep(15000); }
 			catch (InterruptedException e) {}
 
 			// We've been waiting a while...the user may have cancelled
