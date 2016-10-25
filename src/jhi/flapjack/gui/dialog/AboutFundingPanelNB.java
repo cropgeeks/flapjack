@@ -23,7 +23,7 @@ class AboutFundingPanelNB extends JPanel
 	private void initComponents2()
 	{
 		setLabel(gobii, Icons.getIcon("FUNDING-GOBII"),
-			"http://cbsugobii05.tc.cornell.edu/wordpress/");
+			"http://www.gobiiproject.org/");
 		setLabel(bmgf, Icons.getIcon("FUNDING-BMGF"),
 			"http://www.gatesfoundation.org/");
 		setLabel(cimmyt, Icons.getIcon("FUNDING-CIMMYT"),
