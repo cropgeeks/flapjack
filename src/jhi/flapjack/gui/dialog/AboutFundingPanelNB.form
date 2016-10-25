@@ -72,11 +72,6 @@
                 <Property name="text" type="java.lang.String" value="icrisat"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JLabel" name="scotent">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="scotent"/>
-              </Properties>
-            </Component>
             <Component class="javax.swing.JLabel" name="scotgov">
               <Properties>
                 <Property name="text" type="java.lang.String" value="scotgov"/>

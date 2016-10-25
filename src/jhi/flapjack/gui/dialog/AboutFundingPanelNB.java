@@ -34,8 +34,6 @@ class AboutFundingPanelNB extends JPanel
 			"https://www.croptrust.org/");
 		setLabel(icrisat, Icons.getIcon("FUNDING-ICRISAT"),
 			"http://www.icrisat.org/");
-		setLabel(scotent, Icons.getIcon("FUNDING-SCOTENT"),
-			"https://www.scottish-enterprise.com/");
 		setLabel(scotgov, Icons.getIcon("FUNDING-SCOTGOV"),
 			"http://www.gov.scot/");
 	}
@@ -69,7 +67,6 @@ class AboutFundingPanelNB extends JPanel
         panel2 = new javax.swing.JPanel();
         croptrust = new javax.swing.JLabel();
         icrisat = new javax.swing.JLabel();
-        scotent = new javax.swing.JLabel();
         scotgov = new javax.swing.JLabel();
         panel1 = new javax.swing.JPanel();
         gobii = new javax.swing.JLabel();
@@ -88,9 +85,6 @@ class AboutFundingPanelNB extends JPanel
 
         icrisat.setText("icrisat");
         panel2.add(icrisat);
-
-        scotent.setText("scotent");
-        panel2.add(scotent);
 
         scotgov.setText("scotgov");
         panel2.add(scotgov);
@@ -155,7 +149,6 @@ class AboutFundingPanelNB extends JPanel
     private javax.swing.JPanel panel1;
     private javax.swing.JPanel panel2;
     private javax.swing.JPanel panel3;
-    private javax.swing.JLabel scotent;
     private javax.swing.JLabel scotgov;
     // End of variables declaration//GEN-END:variables
 }
