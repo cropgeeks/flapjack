@@ -3,7 +3,6 @@
 
 package jhi.flapjack.gui.table;
 
-import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.event.*;
@@ -33,6 +32,9 @@ public class SortDialog extends JDialog implements ActionListener, ListSelection
 		bCancel.addActionListener(this);
 		bAdd.addActionListener(this);
 		bDelete.addActionListener(this);
+
+		RB.setText(bHelp, "gui.text.help");
+		FlapjackUtils.setHelp(bHelp, "_-_Analysis_Results_Tables");
 
 		checkButtonStates();
 
@@ -118,6 +120,7 @@ public class SortDialog extends JDialog implements ActionListener, ListSelection
         dialogPanel1 = new scri.commons.gui.matisse.DialogPanel();
         bSort = new javax.swing.JButton();
         bCancel = new javax.swing.JButton();
+        bHelp = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         table = new javax.swing.JTable();
         bAdd = new javax.swing.JButton();
@@ -130,6 +133,9 @@ public class SortDialog extends JDialog implements ActionListener, ListSelection
 
         bCancel.setText("Cancel");
         dialogPanel1.add(bCancel);
+
+        bHelp.setText("Help");
+        dialogPanel1.add(bHelp);
 
         table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][]
@@ -185,6 +191,7 @@ public class SortDialog extends JDialog implements ActionListener, ListSelection
     private javax.swing.JButton bAdd;
     private javax.swing.JButton bCancel;
     private javax.swing.JButton bDelete;
+    private javax.swing.JButton bHelp;
     private javax.swing.JButton bSort;
     private scri.commons.gui.matisse.DialogPanel dialogPanel1;
     private javax.swing.JScrollPane jScrollPane1;

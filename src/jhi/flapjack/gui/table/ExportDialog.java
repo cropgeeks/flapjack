@@ -3,7 +3,6 @@
 
 package jhi.flapjack.gui.table;
 
-import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 import javax.swing.*;
@@ -25,6 +24,8 @@ public class ExportDialog extends JDialog implements ActionListener
 
 		RB.setText(bCancel, "gui.text.cancel");
 		RB.setText(bExport, "gui.table.ExportDialog.bExport");
+		RB.setText(bHelp, "gui.text.help");
+		FlapjackUtils.setHelp(bHelp, "_-_Analysis_Results_Tables");
 
 		initOptions();
 
@@ -135,6 +136,7 @@ public class ExportDialog extends JDialog implements ActionListener
         dialogPanel1 = new scri.commons.gui.matisse.DialogPanel();
         bExport = new javax.swing.JButton();
         bCancel = new javax.swing.JButton();
+        bHelp = new javax.swing.JButton();
         fileLabel = new javax.swing.JLabel();
         filename = new scri.commons.gui.matisse.HistoryComboBox();
         bBrowse = new javax.swing.JButton();
@@ -151,6 +153,9 @@ public class ExportDialog extends JDialog implements ActionListener
 
         bCancel.setText("Cancel");
         dialogPanel1.add(bCancel);
+
+        bHelp.setText("Help");
+        dialogPanel1.add(bHelp);
 
         fileLabel.setText("File name:");
 
@@ -229,6 +234,7 @@ public class ExportDialog extends JDialog implements ActionListener
     private javax.swing.JButton bCancel;
     private javax.swing.JButton bExport;
     private javax.swing.ButtonGroup bGroup;
+    private javax.swing.JButton bHelp;
     private javax.swing.JRadioButton bVisLines;
     private javax.swing.JRadioButton bVisSelLines;
     private javax.swing.JCheckBox checkHeaders;

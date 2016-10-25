@@ -36,6 +36,7 @@ public class FilterDialog extends JDialog implements ActionListener
 		dialog.model.setColumnName(1, RB.getString("gui.table.FilterDialog.col2AS"));
 		dialog.setVisible(true);
 
+
 		return dialog;
 	}
 
@@ -49,6 +50,9 @@ public class FilterDialog extends JDialog implements ActionListener
 		RB.setText(bCancel, "gui.text.cancel");
 		RB.setText(bFilter, "gui.table.FilterDialog.bFilter");
 		RB.setText(bReset, "gui.table.FilterDialog.bReset");
+
+		RB.setText(bHelp, "gui.text.help");
+		FlapjackUtils.setHelp(bHelp, "_-_Analysis_Results_Tables");
 
 		getContentPane().setBackground((Color)UIManager.get("fjDialogBG"));
 		bFilter.addActionListener(this);
@@ -158,6 +162,7 @@ public class FilterDialog extends JDialog implements ActionListener
         bFilter = new javax.swing.JButton();
         bReset = new javax.swing.JButton();
         bCancel = new javax.swing.JButton();
+        bHelp = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         table = createTable();
         infoLabel = new javax.swing.JLabel();
@@ -172,6 +177,9 @@ public class FilterDialog extends JDialog implements ActionListener
 
         bCancel.setText("Cancel");
         dialogPanel1.add(bCancel);
+
+        bHelp.setText("Help");
+        dialogPanel1.add(bHelp);
 
         table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][]
@@ -220,6 +228,7 @@ public class FilterDialog extends JDialog implements ActionListener
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bCancel;
     private javax.swing.JButton bFilter;
+    private javax.swing.JButton bHelp;
     private javax.swing.JButton bReset;
     private scri.commons.gui.matisse.DialogPanel dialogPanel1;
     private javax.swing.JLabel infoLabel;
