@@ -105,7 +105,6 @@ public class LinkedTableHandler extends XMLRoot implements ITableViewListener
 		if (table == null)
 			return;
 
-		System.out.println("tableChanged");
 		viewSet.getLines().clear();
 		viewSet.getHideLines().clear();
 
@@ -140,7 +139,6 @@ public class LinkedTableHandler extends XMLRoot implements ITableViewListener
 		if (isChanging)
 			return;
 
-		System.out.println("tableSorted");
 		isChanging = true;
 
 		copyTableToView();
@@ -151,7 +149,6 @@ public class LinkedTableHandler extends XMLRoot implements ITableViewListener
 		// Update the undo/redo state with the new order
 		if (undoSort != null)
 		{
-			System.out.println("CREATE UNDO");
 			undoSort.createRedoState();
 			GenotypePanel gPanel = Flapjack.winMain.getGenotypePanel();
 			gPanel.addUndoState(undoSort);
@@ -169,7 +166,6 @@ public class LinkedTableHandler extends XMLRoot implements ITableViewListener
 
 		isChanging = true;
 
-		System.out.println("tableFiltered");
 		copyTableToView();
 
 		isChanging = false;
@@ -214,8 +210,6 @@ public class LinkedTableHandler extends XMLRoot implements ITableViewListener
 		if (isChanging)
 			return;
 		isChanging = true;
-
-		System.out.println("viewChanged");
 
 		// Get (all of) the lines from the view and apply to the model
 		model.setLines(linesForTable());
