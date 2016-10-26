@@ -66,6 +66,7 @@ class PedVerF1sPanelNB extends JPanel
         bSort.setText("Sort...");
 
         bExport.setText("Export");
+        bExport.setActionCommand("Export...");
 
         jLabel1.setText("|");
 
