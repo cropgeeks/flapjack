@@ -70,7 +70,7 @@ public class MabcPanelNB extends javax.swing.JPanel
         bRank.setText("Rank...");
         bRank.setEnabled(false);
 
-        bExport.setText("Export");
+        bExport.setText("Export...");
 
         autoResize.setSelected(true);
         autoResize.setText("Auto-fit columns");
