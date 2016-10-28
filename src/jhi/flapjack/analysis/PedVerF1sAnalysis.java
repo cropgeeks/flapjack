@@ -76,7 +76,7 @@ public class PedVerF1sAnalysis extends SimpleJob
 
 		// Set the colour scheme to the similarity to line exact match scheme
 		// and set the comparison line equal to the F1
-		viewSet.setColorScheme(ColorScheme.LINE_SIMILARITY);
+		viewSet.setColorScheme(ColorScheme.LINE_SIMILARITY_EXACT_MATCH);
 		viewSet.setComparisonLineIndex(f1Index);
 		viewSet.setComparisonLine(f1.getLine());
 	}
