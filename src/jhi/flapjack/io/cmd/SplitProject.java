@@ -103,7 +103,7 @@ public class SplitProject extends SimpleJob
 				+ "                    will be extracted.\n"
 				+ "  datasetout        Overrides the given datasetin name with a new name to use\n"
 				+ "                    when outputting that dataset's files.\n"
-				+ "  -DECIMALENGLISH   Specifies that all numbers will be processed using the\n"
+				+ "  decimalEnglish    Specifies that all numbers will be processed using the\n"
 				+ "                    English decimal mark separator (dot rather than a comma).\n\n"
 				+ "Note that dataset names in Flapjack are case sensitive.\n"
 				+ "You can process multiple datasets at once, eg:\n"
