@@ -38,8 +38,6 @@ public class CreateMatrix
 
 		for (int i = 0; i < args.length; i++)
 		{
-			if (args[i].startsWith("-map="))
-				mapFile = new File(args[i].substring(5));
 			if (args[i].startsWith("-genotypes="))
 				genotypesFile = new File(args[i].substring(11));
 			if (args[i].startsWith("-matrix="))
@@ -52,7 +50,6 @@ public class CreateMatrix
 		{
 			System.out.println("Usage: creatematrix <options>\n"
 				+ " where valid options are:\n"
-				+ "   -map=<map_file>                (optional input file)\n"
 				+ "   -genotypes=<genotypes_file>    (required input file)\n"
 				+ "   -decimalEnglish                (optional parameter)\n"
 				+ "   -matrix=<matrix_file>          (required output file)\n");
