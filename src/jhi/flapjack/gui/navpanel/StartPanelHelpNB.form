@@ -19,6 +19,11 @@
           <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
+                      <Component id="rateLabel" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="ratingsPanel" min="-2" max="-2" attributes="0"/>
+                  </Group>
                   <Component id="homeLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                   <Component id="link1" alignment="0" min="-2" max="-2" attributes="0"/>
                   <Component id="link2" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -29,11 +34,12 @@
                   <Component id="link7" alignment="0" min="-2" max="-2" attributes="0"/>
                   <Component id="link8" alignment="0" min="-2" max="-2" attributes="0"/>
                   <Group type="102" alignment="0" attributes="0">
-                      <Component id="rateLabel" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="ratingsPanel" min="-2" max="-2" attributes="0"/>
+                      <Component id="link9" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="spacerLabel" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <Component id="spacerLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="link10" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="jLabel1" alignment="0" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="32767" attributes="0"/>
           </Group>
@@ -44,7 +50,9 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Component id="homeLabel" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
               <Component id="link1" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="link2" min="-2" max="-2" attributes="0"/>
@@ -61,11 +69,16 @@
               <EmptySpace max="-2" attributes="0"/>
               <Component id="link8" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="spacerLabel" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="spacerLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="link9" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="2" attributes="0">
-                  <Component id="rateLabel" alignment="2" min="-2" max="-2" attributes="0"/>
-                  <Component id="ratingsPanel" alignment="2" min="-2" max="-2" attributes="0"/>
+              <Component id="link10" min="-2" max="-2" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="rateLabel" alignment="1" min="-2" max="-2" attributes="0"/>
+                  <Component id="ratingsPanel" alignment="1" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="32767" attributes="0"/>
           </Group>
@@ -179,6 +192,33 @@
     <Component class="javax.swing.JLabel" name="spacerLabel">
       <Properties>
         <Property name="text" type="java.lang.String" value=" "/>
+      </Properties>
+    </Component>
+    <Component class="scri.commons.gui.matisse.HyperLinkLabel" name="link9">
+      <Properties>
+        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="9c" green="6a" red="44" type="rgb"/>
+        </Property>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="Icons.getIcon(&quot;BUTTON&quot;)" type="code"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="link9"/>
+      </Properties>
+    </Component>
+    <Component class="scri.commons.gui.matisse.HyperLinkLabel" name="link10">
+      <Properties>
+        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="9c" green="6a" red="44" type="rgb"/>
+        </Property>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="Icons.getIcon(&quot;BUTTON&quot;)" type="code"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="link10"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel1">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Suggested topics:"/>
       </Properties>
     </Component>
   </SubComponents>

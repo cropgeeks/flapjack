@@ -20,7 +20,7 @@
       <variable name="changeLog" value="Show Change Log" description="" category="" />
     </variables>
     <mergedProjects />
-    <codeSigning macEnabled="true" macPkcs12File="../keys/OS201306044993.pfx" windowsEnabled="true" windowsKeySource="pkcs12" windowsPvkFile="" windowsSpcFile="" windowsPkcs12File="../keys/OS201306044993.pfx" />
+    <codeSigning macEnabled="false" macPkcs12File="../keys/OS201306044993.pfx" windowsEnabled="false" windowsKeySource="pkcs12" windowsPvkFile="" windowsSpcFile="" windowsPkcs12File="../keys/OS201306044993.pfx" />
   </application>
   <files keepModificationTimes="false" missingFilesStrategy="warn" globalExcludeSuffixes="" defaultOverwriteMode="4" defaultUninstallMode="0" launcherOverwriteMode="3" defaultFileMode="644" defaultDirMode="755">
     <filesets />
@@ -39,7 +39,7 @@
   </files>
   <launchers>
     <launcher name="flapjack" id="18" customizedId="" external="false" excludeFromMenu="false" unixMode="755" unixAutoStart="true" menuName="Flapjack" icnsFile="../res/icons/flapjack.icns" customMacBundleIdentifier="false" macBundleIdentifier="" swtApp="false" fileset="" macBundleBinary="JavaApplicationStub" addMacEntitlements="false" macEntitlementsFile="" useCustomMacosExecutableName="false" customMacosExecutableName="" useJavaMinVersionOverride="false" javaMinVersionOverride="" useJavaMaxVersionOverride="false" javaMaxVersionOverride="">
-      <executable name="flapjack" type="1" iconSet="true" iconFile="" executableDir="." redirectStderr="true" stderrFile="${installer:sys.userHome}/.scri-bioinf/flapjack.log" stderrMode="overwrite" redirectStdout="true" stdoutFile="${installer:sys.userHome}/.scri-bioinf/flapjack.log" stdoutMode="overwrite" failOnStderrOutput="true" executableMode="1" changeWorkingDirectory="true" workingDirectory="." singleInstance="false" serviceStartType="2" serviceDependencies="" serviceDescription="" jreLocation="" executionLevel="asInvoker" checkConsoleParameter="false" globalSingleInstance="false" singleInstanceActivate="true" dpiAware="true">
+      <executable name="flapjack" type="1" iconSet="true" iconFile="" executableDir="." redirectStderr="true" stderrFile="${installer:sys.userHome}/.scri-bioinf/flapjack.log" stderrMode="overwrite" redirectStdout="true" stdoutFile="${installer:sys.userHome}/.scri-bioinf/flapjack.log" stdoutMode="overwrite" failOnStderrOutput="true" executableMode="1" changeWorkingDirectory="true" workingDirectory="." singleInstance="false" serviceStartType="2" serviceDependencies="" serviceDescription="" jreLocation="" executionLevel="asInvoker" checkConsoleParameter="false" globalSingleInstance="false" singleInstanceActivate="true" dpiAware="false">
         <versionInfo include="true" fileVersion="" fileDescription="Flapjack" legalCopyright="The James Hutton Institute" internalName="Flapjack" productName="Flapjack" />
       </executable>
       <splashScreen show="false" width="0" height="0" bitmapFile="" windowsNative="false" textOverlay="false">
@@ -1537,7 +1537,7 @@ if (wizardContext != null) {
     </applications>
   </installerGui>
   <mediaSets>
-    <windows name="Windows x86" id="19" customizedId="" mediaFileName="${compiler:sys.shortName}_windows_x86_${compiler:sys.version}" installDir="Flapjack" overridePrincipalLanguage="false" jreBitType="32" runPostProcessor="false" postProcessor="" failOnPostProcessorError="false" useLegacyMediaFileIds="false" legacyMediaFileIds="" downloadURL="" includeAllDownloadableComponents="false" includedJRE="windows-x86-1.8.0_74" manualJREEntry="false" bundleType="1" jreURL="" jreShared="false" directDownload="false" installOnlyIfNecessary="false" customInstallBaseDir="" contentFilesType="1" verifyIntegrity="true">
+    <windows name="Windows x86" id="19" customizedId="" mediaFileName="${compiler:sys.shortName}_windows_x86_${compiler:sys.version}" installDir="Flapjack" overridePrincipalLanguage="false" jreBitType="32" runPostProcessor="false" postProcessor="" failOnPostProcessorError="false" useLegacyMediaFileIds="false" legacyMediaFileIds="" downloadURL="" includeAllDownloadableComponents="false" includedJRE="windows-x86-1.8.0_102" manualJREEntry="false" bundleType="1" jreURL="" jreShared="false" directDownload="false" installOnlyIfNecessary="false" customInstallBaseDir="" contentFilesType="1" verifyIntegrity="true">
       <excludedComponents />
       <includedDownloadableComponents />
       <excludedLaunchers />
@@ -1554,7 +1554,7 @@ if (wizardContext != null) {
         <customAttributes />
       </autoUpdate>
     </windows>
-    <windows name="Windows x64" id="1234" customizedId="" mediaFileName="${compiler:sys.shortName}_windows_x64_${compiler:sys.version}" installDir="Flapjack" overridePrincipalLanguage="false" jreBitType="64" runPostProcessor="false" postProcessor="" failOnPostProcessorError="false" useLegacyMediaFileIds="false" legacyMediaFileIds="" downloadURL="" includeAllDownloadableComponents="false" includedJRE="windows-amd64-1.8.0_74" manualJREEntry="false" bundleType="1" jreURL="" jreShared="false" directDownload="false" installOnlyIfNecessary="false" customInstallBaseDir="" contentFilesType="1" verifyIntegrity="true">
+    <windows name="Windows x64" id="1234" customizedId="" mediaFileName="${compiler:sys.shortName}_windows_x64_${compiler:sys.version}" installDir="Flapjack" overridePrincipalLanguage="false" jreBitType="64" runPostProcessor="false" postProcessor="" failOnPostProcessorError="false" useLegacyMediaFileIds="false" legacyMediaFileIds="" downloadURL="" includeAllDownloadableComponents="false" includedJRE="windows-amd64-1.8.0_102" manualJREEntry="false" bundleType="1" jreURL="" jreShared="false" directDownload="false" installOnlyIfNecessary="false" customInstallBaseDir="" contentFilesType="1" verifyIntegrity="true">
       <excludedComponents />
       <includedDownloadableComponents />
       <excludedLaunchers />
@@ -1571,7 +1571,7 @@ if (wizardContext != null) {
         <customAttributes />
       </autoUpdate>
     </windows>
-    <macos name="Mac OS X Single Bundle" id="126" customizedId="" mediaFileName="" installDir="Flapjack" overridePrincipalLanguage="false" jreBitType="all" runPostProcessor="false" postProcessor="" failOnPostProcessorError="false" useLegacyMediaFileIds="false" legacyMediaFileIds="" downloadURL="" includeAllDownloadableComponents="false" includedJRE="macosx-amd64-1.8.0_74_unpacked" manualJREEntry="false" bundleType="1" jreURL="" jreShared="false" directDownload="false" installOnlyIfNecessary="false" appleJre="false" requiredVmIdPrefix="" customInstallBaseDir="" contentFilesType="1" installerName="${i18n:InstallerName(${compiler:sys.fullName})}" volumeName="${compiler:sys.shortName}" compressDmg="false" launcherId="18">
+    <macos name="Mac OS X Single Bundle" id="126" customizedId="" mediaFileName="" installDir="Flapjack" overridePrincipalLanguage="false" jreBitType="all" runPostProcessor="false" postProcessor="" failOnPostProcessorError="false" useLegacyMediaFileIds="false" legacyMediaFileIds="" downloadURL="" includeAllDownloadableComponents="false" includedJRE="macosx-amd64-1.8.0_102" manualJREEntry="false" bundleType="1" jreURL="" jreShared="false" directDownload="false" installOnlyIfNecessary="false" appleJre="false" requiredVmIdPrefix="" customInstallBaseDir="" contentFilesType="1" installerName="${i18n:InstallerName(${compiler:sys.fullName})}" volumeName="${compiler:sys.shortName}" compressDmg="false" launcherId="18">
       <excludedComponents />
       <includedDownloadableComponents />
       <excludedBeans>
@@ -1586,7 +1586,7 @@ if (wizardContext != null) {
       </autoUpdate>
       <topLevelFiles />
     </macos>
-    <unixInstaller name="Linux x86" id="181" customizedId="" mediaFileName="${compiler:sys.shortName}_linux_x86_${compiler:sys.version}" installDir="Flapjack" overridePrincipalLanguage="false" jreBitType="all" runPostProcessor="false" postProcessor="" failOnPostProcessorError="false" useLegacyMediaFileIds="false" legacyMediaFileIds="" downloadURL="" includeAllDownloadableComponents="false" includedJRE="linux-x86-1.8.0_74" manualJREEntry="false" bundleType="1" jreURL="" jreShared="false" directDownload="false" installOnlyIfNecessary="false" customInstallBaseDir="" contentFilesType="1">
+    <unixInstaller name="Linux x86" id="181" customizedId="" mediaFileName="${compiler:sys.shortName}_linux_x86_${compiler:sys.version}" installDir="Flapjack" overridePrincipalLanguage="false" jreBitType="all" runPostProcessor="false" postProcessor="" failOnPostProcessorError="false" useLegacyMediaFileIds="false" legacyMediaFileIds="" downloadURL="" includeAllDownloadableComponents="false" includedJRE="linux-x86-1.8.0_102" manualJREEntry="false" bundleType="1" jreURL="" jreShared="false" directDownload="false" installOnlyIfNecessary="false" customInstallBaseDir="" contentFilesType="1">
       <excludedComponents />
       <includedDownloadableComponents />
       <excludedLaunchers />
@@ -1606,7 +1606,7 @@ if (wizardContext != null) {
         <content />
       </installerScript>
     </unixInstaller>
-    <unixInstaller name="Linux x64" id="1246" customizedId="" mediaFileName="${compiler:sys.shortName}_linux_x64_${compiler:sys.version}" installDir="Flapjack" overridePrincipalLanguage="false" jreBitType="all" runPostProcessor="false" postProcessor="" failOnPostProcessorError="false" useLegacyMediaFileIds="false" legacyMediaFileIds="" downloadURL="" includeAllDownloadableComponents="false" includedJRE="linux-amd64-1.8.0_74" manualJREEntry="false" bundleType="1" jreURL="" jreShared="false" directDownload="false" installOnlyIfNecessary="false" customInstallBaseDir="" contentFilesType="1">
+    <unixInstaller name="Linux x64" id="1246" customizedId="" mediaFileName="${compiler:sys.shortName}_linux_x64_${compiler:sys.version}" installDir="Flapjack" overridePrincipalLanguage="false" jreBitType="all" runPostProcessor="false" postProcessor="" failOnPostProcessorError="false" useLegacyMediaFileIds="false" legacyMediaFileIds="" downloadURL="" includeAllDownloadableComponents="false" includedJRE="linux-amd64-1.8.0_102" manualJREEntry="false" bundleType="1" jreURL="" jreShared="false" directDownload="false" installOnlyIfNecessary="false" customInstallBaseDir="" contentFilesType="1">
       <excludedComponents />
       <includedDownloadableComponents />
       <excludedLaunchers />
