@@ -12,7 +12,7 @@ import scri.commons.gui.matisse.HyperLinkLabel;
 
 public class StartPanelHelpNB extends javax.swing.JPanel implements ActionListener
 {
-	private HyperLinkLabel[] labels = new HyperLinkLabel[8];
+	private HyperLinkLabel[] labels = new HyperLinkLabel[10];
 
 	private static String home =
 		"http://ics.hutton.ac.uk/wiki/index.php/Flapjack_Help";
@@ -32,6 +32,7 @@ public class StartPanelHelpNB extends javax.swing.JPanel implements ActionListen
 		labels[2] = link3; labels[3] = link4;
 		labels[4] = link5; labels[5] = link6;
 		labels[6] = link7; labels[7] = link8;
+		labels[8] = link9; labels[9] = link10;
 
 		for (int i = 0; i < labels.length; i++)
 		{
@@ -85,6 +86,9 @@ public class StartPanelHelpNB extends javax.swing.JPanel implements ActionListen
         rateLabel = new javax.swing.JLabel();
         ratingsPanel = new scri.commons.gui.matisse.RatingsPanel();
         spacerLabel = new javax.swing.JLabel();
+        link9 = new scri.commons.gui.matisse.HyperLinkLabel();
+        link10 = new scri.commons.gui.matisse.HyperLinkLabel();
+        jLabel1 = new javax.swing.JLabel();
 
         homeLabel.setForeground(new java.awt.Color(68, 106, 156));
         homeLabel.setText("Visit the online Flapjack user manual");
@@ -125,6 +129,16 @@ public class StartPanelHelpNB extends javax.swing.JPanel implements ActionListen
 
         spacerLabel.setText(" ");
 
+        link9.setForeground(new java.awt.Color(68, 106, 156));
+        link9.setIcon(Icons.getIcon("BUTTON"));
+        link9.setText("link9");
+
+        link10.setForeground(new java.awt.Color(68, 106, 156));
+        link10.setIcon(Icons.getIcon("BUTTON"));
+        link10.setText("link10");
+
+        jLabel1.setText("Suggested topics:");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -132,6 +146,10 @@ public class StartPanelHelpNB extends javax.swing.JPanel implements ActionListen
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(rateLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(ratingsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(homeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(link1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(link2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -142,10 +160,11 @@ public class StartPanelHelpNB extends javax.swing.JPanel implements ActionListen
                     .addComponent(link7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(link8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(rateLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(ratingsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(spacerLabel))
+                        .addComponent(link9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(spacerLabel))
+                    .addComponent(link10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -154,6 +173,8 @@ public class StartPanelHelpNB extends javax.swing.JPanel implements ActionListen
                 .addContainerGap()
                 .addComponent(homeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(link1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(link2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -170,11 +191,15 @@ public class StartPanelHelpNB extends javax.swing.JPanel implements ActionListen
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(link8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(spacerLabel)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(spacerLabel)
+                    .addComponent(link9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(rateLabel)
-                    .addComponent(ratingsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(link10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(rateLabel, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(ratingsPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -182,7 +207,9 @@ public class StartPanelHelpNB extends javax.swing.JPanel implements ActionListen
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private scri.commons.gui.matisse.HyperLinkLabel homeLabel;
+    private javax.swing.JLabel jLabel1;
     private scri.commons.gui.matisse.HyperLinkLabel link1;
+    private scri.commons.gui.matisse.HyperLinkLabel link10;
     private scri.commons.gui.matisse.HyperLinkLabel link2;
     private scri.commons.gui.matisse.HyperLinkLabel link3;
     private scri.commons.gui.matisse.HyperLinkLabel link4;
@@ -190,6 +217,7 @@ public class StartPanelHelpNB extends javax.swing.JPanel implements ActionListen
     private scri.commons.gui.matisse.HyperLinkLabel link6;
     private scri.commons.gui.matisse.HyperLinkLabel link7;
     private scri.commons.gui.matisse.HyperLinkLabel link8;
+    private scri.commons.gui.matisse.HyperLinkLabel link9;
     private javax.swing.JLabel rateLabel;
     private scri.commons.gui.matisse.RatingsPanel ratingsPanel;
     private javax.swing.JLabel spacerLabel;
