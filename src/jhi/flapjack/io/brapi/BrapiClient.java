@@ -5,313 +5,195 @@ package jhi.flapjack.io.brapi;
 
 import java.io.*;
 import java.net.*;
-import java.security.*;
-import java.security.cert.*;
 import java.util.*;
-import java.util.logging.*;
-import javax.net.ssl.*;
+import java.util.stream.*;
 import javax.xml.bind.*;
-
-import com.fasterxml.jackson.core.type.*;
-import com.fasterxml.jackson.databind.*;
-
-import org.restlet.*;
-import org.restlet.data.*;
-import org.restlet.engine.application.*;
-import org.restlet.engine.ssl.*;
-import org.restlet.resource.*;
-import org.restlet.util.*;
 
 import jhi.brapi.resource.*;
 
+import retrofit2.*;
+import retrofit2.converter.jackson.*;
+
 public class BrapiClient
 {
-	private static ClientResource cr;
-	private static String baseURL;
+	private BrapiService service;
 
-	public static void setXmlResource(XmlResource resource)
+	// The resource selected by the user for use
+	private XmlResource resource;
+
+	private String username;
+	private String password;
+
+	private String mapID;
+	private String studyID;
+	private String methodID;
+
+	public void initService()
 		throws Exception
 	{
-		baseURL = resource.getUrl();
-//		baseURL = "http://localhost:2000/brapi/cactuar/v1";
-//		baseURL = "http://localhost:2000/brapi/gobii/v1";
+		String baseURL = resource.getUrl();
+		baseURL = baseURL.endsWith("/") ? baseURL : baseURL + "/";
 
-		cr = new ClientResource(baseURL);
+		Retrofit retrofit = new Retrofit.Builder()
+			.baseUrl(baseURL)
+			.addConverterFactory(JacksonConverterFactory.create())
+			.build();
 
-		// Set up the connection for both HTTP and HTTPS
-		Protocol[] protocols = { Protocol.HTTP, Protocol.HTTPS };
-		Client client = new Client(Arrays.asList(protocols));
-
-//		cr.setChallengeResponse(ChallengeScheme.HTTP_BASIC, "user", "pass");
-
-
-		// The decoder handles de-compression
-		Decoder decoder = new Decoder(client.getContext(), false, true);
-		decoder.setNext(client);
-		cr.setNext(decoder);
-
-		// So long as the server knows we can accept a compressed response
-		cr.accept(MediaType.ALL);
-		cr.accept(Encoding.GZIP);
-		cr.accept(Encoding.DEFLATE);
-
-		cr.getLogger().setLevel(Level.INFO);
-
-		// Set up the connection to use any required SSL certificates
-		initCertificates(client, resource);
-
-		Context c = client.getContext();
-		if (c == null)
-		{
-			c = new Context();
-			client.setContext(c);
-		}
-		c.getParameters().add("socketTimeout", "10000");
-//		c.getParameters().add("tracing", "true");
+		service = retrofit.create(BrapiService.class);
 	}
 
-	// Returns true if another 'page' of data should be requested
-	private static boolean pageCheck(jhi.brapi.resource.Metadata metadata, String url)
-	{
-		Pagination p = metadata.getPagination();
-		System.out.println(p);
-
-		if (p.getTotalPages() == 0)
-			return false;
-
-		if (p.getCurrentPage() == p.getTotalPages()-1)
-			return false;
-
-		// If it's ok to request another page, update the URL (for the next call)
-		// so that it does so
-		cr.setReference(url);
-		cr.addQueryParameter("pageSize", "" + p.getPageSize());
-		cr.addQueryParameter("page", "" + (p.getCurrentPage()+1));
-
-		return true;
-	}
-
-	private static String enc(String str)
+	private String enc(String str)
 	{
 		try { return URLEncoder.encode(str, "UTF-8"); }
 		catch (UnsupportedEncodingException e) { return str; }
 	}
 
-	public static void doAuthentication(String username, String password)
+	public void doAuthentication()
 		throws Exception
 	{
 		if (username == null && password == null)
 			return;
 
-		String url = baseURL + "/token/";
-		cr.setReference(url);
+		BrapiSessionToken token = service.getAuthToken("password", enc(username), enc(password), "flapjack")
+			.execute()
+			.body();
 
-		String params = "grant_type=password&username=" + enc(username)
-			+ "&password=" + enc(password) + "&client_id=flapjack";
-		Form form = new Form(params);
-
-		BrapiSessionToken token = cr.post(form.getWebRepresentation(), BrapiSessionToken.class);
-
-		// Add the token information to all further calls
-		ChallengeResponse challenge = new ChallengeResponse(ChallengeScheme.HTTP_OAUTH_BEARER);
-		challenge.setRawValue(token.getSessionToken());
-		cr.setChallengeResponse(challenge);
+//		String params = "grant_type=password&username=" + enc(username)
+//			+ "&password=" + enc(password) + "&client_id=flapjack";
+//		Form form = new Form(params);
+//
+//		BrapiSessionToken token = cr.post(form.getWebRepresentation(), BrapiSessionToken.class);
+//
+//		// Add the token information to all further calls
+//		ChallengeResponse challenge = new ChallengeResponse(ChallengeScheme.HTTP_OAUTH_BEARER);
+//		challenge.setRawValue(token.getSessionToken());
+//		cr.setChallengeResponse(challenge);
 	}
 
 	// Returns a list of available maps
-	public static List<BrapiGenomeMap> getMaps()
-		throws ResourceException
+	public List<BrapiGenomeMap> getMaps()
+		throws Exception
 	{
-		String url = baseURL + "/maps/";
-		cr.setReference(url);
-
 		List<BrapiGenomeMap> list = new ArrayList<>();
-		boolean requestPage = true;
+		Pager pager = new Pager();
 
-		while (requestPage)
+		while (pager.isPaging())
 		{
-			LinkedHashMap hashMap = cr.get(LinkedHashMap.class);
-			BasicResource<DataResult<BrapiGenomeMap>> br = new ObjectMapper().convertValue(hashMap,
-				new TypeReference<BasicResource<DataResult<BrapiGenomeMap>>>() {});
+			BasicResource<DataResult<BrapiGenomeMap>> br = service.getMaps(pager.getPageSize(), pager.getPage())
+				.execute()
+				.body();
 
 			list.addAll(br.getResult().getData());
-			requestPage = pageCheck(br.getMetadata(), url);
+
+			pager.paginate(br.getMetadata());
 		}
 
 		return list;
 	}
 
 	// Returns the details (markers, chromosomes, positions) for a given map
-	public static List<BrapiMarkerPosition> getMapMarkerData(String mapID)
-		throws ResourceException
+	public List<BrapiMarkerPosition> getMapMarkerData()
+		throws Exception
 	{
-		// TODO: /map/{id} = map basics
-		String url = baseURL + "/maps/" + enc(mapID) + "/positions";
-		cr.setReference(url);
-
 		List<BrapiMarkerPosition> list = new ArrayList<>();
-		boolean requestPage = true;
+		Pager pager = new Pager();
 
-		while (requestPage)
+		while (pager.isPaging())
 		{
-			LinkedHashMap hashMap = cr.get(LinkedHashMap.class);
-			BasicResource<DataResult<BrapiMarkerPosition>> br = new ObjectMapper().convertValue(hashMap,
-				new TypeReference<BasicResource<DataResult<BrapiMarkerPosition>>>() {});
+			BasicResource<DataResult<BrapiMarkerPosition>> br = service.getMapMarkerData(enc(mapID), pager.getPageSize(), pager.getPage())
+				.execute()
+				.body();
 
 			list.addAll(br.getResult().getData());
-			requestPage = pageCheck(br.getMetadata(), url);
+
+			pager.paginate(br.getMetadata());
 		}
 
 		return list;
 	}
 
 	// Returns a list of available studies
-	public static List<BrapiStudies> getStudies()
-		throws ResourceException
+	public List<BrapiStudies> getStudies()
+		throws Exception
 	{
-		String url = baseURL + "/studies-search/";
-		cr.setReference(url);
-		cr.addQueryParameter("studyType", "genotype");
-
 		List<BrapiStudies> list = new ArrayList<>();
-		boolean requestPage = true;
+		Pager pager = new Pager();
 
-		while (requestPage)
+		while (pager.isPaging())
 		{
-			LinkedHashMap hashMap = cr.get(LinkedHashMap.class);
-			BasicResource<DataResult<BrapiStudies>> br = new ObjectMapper().convertValue(hashMap,
-				new TypeReference<BasicResource<DataResult<BrapiStudies>>>() {});
+			BasicResource<DataResult<BrapiStudies>> br = service.getStudies("genotype", pager.getPageSize(), pager.getPage())
+				.execute()
+				.body();
 
 			list.addAll(br.getResult().getData());
-			requestPage = pageCheck(br.getMetadata(), url);
+
+			pager.paginate(br.getMetadata());
 		}
 
 		return list;
 	}
 
-	public static List<BrapiMarkerProfile> getMarkerProfiles(String methodID, String studyDbId)
-		throws ResourceException
+	public List<BrapiMarkerProfile> getMarkerProfiles()
+		throws Exception
 	{
-		String url = baseURL + "/markerprofiles/";// +
-	//		methodID == null ? "/" : "&method=" + methodID);
-		cr.addQueryParameter("studyDbId", studyDbId);
-		cr.setReference(url);
-
 		List<BrapiMarkerProfile> list = new ArrayList<>();
-		boolean requestPage = true;
+		Pager pager = new Pager();
 
-		while (requestPage)
+		while (pager.isPaging())
 		{
-			LinkedHashMap hashMap = cr.get(LinkedHashMap.class);
-			BasicResource<DataResult<BrapiMarkerProfile>> br = new ObjectMapper().convertValue(hashMap, new TypeReference<BasicResource<DataResult<BrapiMarkerProfile>>>() {});
+			BasicResource<DataResult<BrapiMarkerProfile>> br = service.getMarkerProfiles(studyID, pager.getPageSize(), pager.getPage())
+				.execute()
+				.body();
+
 			list.addAll(br.getResult().getData());
 
-			requestPage = pageCheck(br.getMetadata(), url);
+			pager.paginate(br.getMetadata());
 		}
 
 		return list;
 	}
 
-	public static List<BrapiAlleleMatrix> getAlleleMatrix(List<BrapiMarkerProfile> markerprofiles)
-		throws ResourceException
+
+	public List<BrapiAlleleMatrix> getAlleleMatrix(List<BrapiMarkerProfile> markerprofiles)
+		throws Exception
 	{
-		String url = baseURL + "/allelematrix-search";
-		cr.setReference(url);
-
 		List<BrapiAlleleMatrix> list = new ArrayList<>();
-		boolean requestPage = true;
+		Pager pager = new Pager();
 
-		// Annoying to have to resend all this for every paged (re)POST
-		StringBuilder sb = new StringBuilder();
-		for (BrapiMarkerProfile mp: markerprofiles)
+		List<String> ids = markerprofiles.stream().map(BrapiMarkerProfile::getMarkerProfileDbId).collect(Collectors.toList());
+
+		while (pager.isPaging())
 		{
-			if (sb.length() > 0)
-				sb.append("&");
-			sb.append("markerprofileDbId=");
-			sb.append(enc(mp.getMarkerProfileDbId()));
-		}
-
-		Form form = new Form(sb.toString());
-
-		while (requestPage)
-		{
-			LinkedHashMap hashMap = cr.post(form.getWebRepresentation(), LinkedHashMap.class);
-			BasicResource<BrapiAlleleMatrix> br = new ObjectMapper().convertValue(hashMap,
-				new TypeReference<BasicResource<BrapiAlleleMatrix>>() {});
+			BasicResource<BrapiAlleleMatrix> br = service.getAlleleMatrix(ids, pager.getPageSize(), pager.getPage())
+				.execute()
+				.body();
 
 			ArrayList<BrapiAlleleMatrix> temp = new ArrayList<>();
 			temp.add(br.getResult());
 			list.addAll(temp);
-			requestPage = pageCheck(br.getMetadata(), url);
+
+			pager.paginate(br.getMetadata());
 		}
 
 		return list;
 	}
 
-	public static URI getAlleleMatrixTSV(List<BrapiMarkerProfile> markerprofiles)
+	public URI getAlleleMatrixTSV(List<BrapiMarkerProfile> markerprofiles)
 		throws Exception
 	{
-		String url = baseURL + "/allelematrix-search";
-		cr.setReference(url);
+		List<String> ids = markerprofiles.stream().map(BrapiMarkerProfile::getMarkerProfileDbId).collect(Collectors.toList());
 
-		List<BrapiAlleleMatrix> list = new ArrayList<>();
-		boolean requestPage = true;
-
-		StringBuilder sb = new StringBuilder();
-		for (BrapiMarkerProfile mp: markerprofiles)
-		{
-			if (sb.length() > 0)
-				sb.append("&");
-			sb.append("markerprofileDbId=");
-			sb.append(enc(mp.getMarkerProfileDbId()));
-		}
-		if (sb.length() > 0)
-			sb.append("&");
-		sb.append("format=tsv");
-
-		Form form = new Form(sb.toString());
-
-		// Force no pagination
-		LinkedHashMap hashMap = cr.post(form.getWebRepresentation(), LinkedHashMap.class);
-		BasicResource<BrapiAlleleMatrix> br = new ObjectMapper().convertValue(hashMap,
-			new TypeReference<BasicResource<BrapiAlleleMatrix>>() {});
+		BasicResource<BrapiAlleleMatrix> br = service.getAlleleMatrix(ids, "tsv", null, null)
+			.execute()
+			.body();
 
 		jhi.brapi.resource.Metadata md = br.getMetadata();
 		List<Datafile> files = md.getDatafiles();
 
-		System.out.println("FILES: " + files);
-
 		return new URI(files.get(0).getUrl());
 	}
 
-
-	// This is commented out because it was probably mid-seattle code that probably
-	// isn't used / needed anymore.
-
-	// Returns allele information for a given germplasm (for a markerprofile)
-	// TODO: The first call could return multiple MarkerProfile objects. Gordon
-	// still needs to decide how this will work
-//	public static BrapiMarkerProfile getMarkerProfile(int germplasmID)
-//	{
-////		System.out.println(baseURL + "/germplasm/" + germplasmID + "/markerprofiles/");
-//		cr.setReference(baseURL + "/germplasm/" + germplasmID + "/markerprofiles/");
-//		GermplasmMarkerProfileList list = cr.get(GermplasmMarkerProfileList.class);
-//
-//		if (list.getMarkerProfiles().size() > 0)
-//		{
-//			// TODO: Which one do we use?
-//			String firstID = list.getMarkerProfiles().get(0);
-//
-////			System.out.println(baseURL + "/markerprofiles/" + firstID);
-//			cr.setReference(baseURL + "/markerprofiles/" + firstID);
-//
-//			return cr.get(BrapiMarkerProfile.class);
-//		}
-//
-//		return null;
-//	}
-
-	public static XmlBrapiProvider getBrapiProviders()
+	public XmlBrapiProvider getBrapiProviders()
 		throws Exception
 	{
 		URL url = new URL("https://ics.hutton.ac.uk/resources/brapi/brapi-resources.xml");
@@ -323,43 +205,121 @@ public class BrapiClient
 		return p;
 	}
 
-	private static void initCertificates(Client client, XmlResource resource)
-		throws Exception
+	public String getUsername()
+	{ return username; }
+
+	public void setUsername(String username)
+	{ this.username = username; }
+
+	public String getPassword()
+	{ return password; }
+
+	public void setPassword(String password)
+	{ this.password = password; }
+
+	public String getMethodID()
+	{ return methodID; }
+
+	public void setMethodID(String methodID)
+	{ this.methodID = methodID;	}
+
+	public XmlResource getResource()
+	{ return resource; }
+
+	public void setResource(XmlResource resource)
+	{ this.resource = resource; }
+
+	public String getMapID()
+	{ return mapID; }
+
+	public void setMapID(String mapIndex)
+	{ this.mapID = mapIndex; }
+
+	public String getStudyID()
+	{ return studyID; }
+
+	public void setStudyID(String studyID)
+	{ this.studyID = studyID; }
+
+//	private static void initCertificates(Client client, XmlResource resource)
+//		throws Exception
+//	{
+//		if (resource.getCertificate() == null)
+//			return;
+//
+//		// Download the "trusted" certificate needed for this resource
+//		URLConnection yc = new URL(resource.getCertificate()).openConnection();
+//
+//		CertificateFactory cf = CertificateFactory.getInstance("X.509");
+//		InputStream in = new BufferedInputStream(yc.getInputStream());
+//		java.security.cert.Certificate cer;
+//		try {
+//			cer = cf.generateCertificate(in);
+//		} finally { in.close();	}
+//
+//		// Create a KeyStore to hold the certificate
+//		KeyStore keyStore = KeyStore.getInstance(KeyStore.getDefaultType());
+//		keyStore.load(null, null);
+//		keyStore.setCertificateEntry("cer", cer);
+//
+//		// Create a TrustManager that trusts the certificate in the KeyStore
+//		String tmfAlgorithm = TrustManagerFactory.getDefaultAlgorithm();
+//		TrustManagerFactory tmf = TrustManagerFactory.getInstance(tmfAlgorithm);
+//		tmf.init(keyStore);
+//
+//		// Create an SSLContext that uses the TrustManager
+//		SSLContext sslContext = SSLContext.getInstance("TLS");
+//		sslContext.init(null, tmf.getTrustManagers(), null);
+//
+//		// Then *finally*, apply the TrustManager info to Restlet
+//		client.setContext(new Context());
+//		Context context = client.getContext();
+//
+//		context.getAttributes().put("sslContextFactory", new SslContextFactory() {
+//		    public void init(Series<Parameter> parameters) { }
+//		   	public SSLContext createSslContext() throws Exception { return sslContext; }
+//		});
+//	}
+
+	class Pager
 	{
-		if (resource.getCertificate() == null)
-			return;
+		private boolean isPaging = true;
+		private String pageSize = "1000";
+		private String page = "0";
 
-		// Download the "trusted" certificate needed for this resource
-		URLConnection yc = new URL(resource.getCertificate()).openConnection();
+		// Returns true if another 'page' of data should be requested
+		private void paginate(jhi.brapi.resource.Metadata metadata)
+		{
+			Pagination p = metadata.getPagination();
 
-		CertificateFactory cf = CertificateFactory.getInstance("X.509");
-		InputStream in = new BufferedInputStream(yc.getInputStream());
-		java.security.cert.Certificate cer;
-		try {
-			cer = cf.generateCertificate(in);
-		} finally { in.close();	}
+			if (p.getTotalPages() == 0)
+				isPaging = false;
 
-		// Create a KeyStore to hold the certificate
-		KeyStore keyStore = KeyStore.getInstance(KeyStore.getDefaultType());
-		keyStore.load(null, null);
-		keyStore.setCertificateEntry("cer", cer);
+			if (p.getCurrentPage() == p.getTotalPages()-1)
+				isPaging = false;
 
-		// Create a TrustManager that trusts the certificate in the KeyStore
-		String tmfAlgorithm = TrustManagerFactory.getDefaultAlgorithm();
-		TrustManagerFactory tmf = TrustManagerFactory.getInstance(tmfAlgorithm);
-		tmf.init(keyStore);
+			// If it's ok to request another page, update the URL (for the next call)
+			// so that it does so
+			pageSize = "" + p.getPageSize();
+			page = "" + (p.getCurrentPage()+1);
+		}
 
-		// Create an SSLContext that uses the TrustManager
-		SSLContext sslContext = SSLContext.getInstance("TLS");
-		sslContext.init(null, tmf.getTrustManagers(), null);
+		public boolean isPaging()
+		{ return isPaging; }
 
-		// Then *finally*, apply the TrustManager info to Restlet
-		client.setContext(new Context());
-		Context context = client.getContext();
+		public void setPaging(boolean paging)
+		{ isPaging = paging; }
 
-		context.getAttributes().put("sslContextFactory", new SslContextFactory() {
-		    public void init(Series<Parameter> parameters) { }
-		   	public SSLContext createSslContext() throws Exception { return sslContext; }
-		});
+		public String getPageSize()
+		{ return pageSize; }
+
+		public void setPageSize(String pageSize)
+		{ this.pageSize = pageSize; }
+
+		public String getPage()
+		{ return page; }
+
+		public void setPage(String page)
+		{ this.page = page; }
 	}
 }

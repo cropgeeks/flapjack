@@ -7,20 +7,23 @@ import java.io.*;
 import java.util.*;
 import java.util.zip.*;
 
-import jhi.flapjack.data.*;
 import jhi.flapjack.data.results.*;
 import jhi.flapjack.gui.*;
-import jhi.flapjack.servlet.*;
+import jhi.flapjack.io.*;
 
-import static org.restlet.data.Status.*;
-import org.restlet.data.*;
-import org.restlet.resource.*;
-import org.restlet.representation.*;
+import okhttp3.*;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.jackson.*;
 
 public class DendrogramClient
 {
-	private final String URL = "https://ics.hutton.ac.uk/flapjack-services-20160817/dendrogram/";
-	private Reference taskURI;
+	private final String baseURL = "https://ics.hutton.ac.uk/flapjack-services-test/";
+//	private final String URL = "https://ics.hutton.ac.uk/flapjack-services-20160817/dendrogram/";
+	private String taskId;
+
+	private Retrofit retrofit;
+	private DendrogramService service;
 
 	private final SimMatrix matrix;
 	private final int lineCount;
@@ -33,6 +36,13 @@ public class DendrogramClient
 	{
 		this.matrix = matrix;
 		this.lineCount = lineCount;
+
+		retrofit = new Retrofit.Builder()
+			.baseUrl(baseURL)
+			.addConverterFactory(JacksonConverterFactory.create())
+			.build();
+
+		service = retrofit.create(DendrogramService.class);
 	}
 
 	/**
@@ -44,14 +54,33 @@ public class DendrogramClient
 	public Dendrogram generateDendrogram()
 		throws Exception
 	{
-		taskURI = postSimMatrix();
+		// Send similarity matrix to the dendrogram API endpoint
+		taskId = postSimMatrix();
 
 		if (okToRun)
 		{
-			byte[] dendrogramBytes = getDendrogramAsByteArray(taskURI);
+			// Try to get the generated dendrogram back from the web service
+			Response<ResponseBody> response = service.getDendrogram(taskId).execute();
 
-			if (dendrogramBytes != null)
+			// Poll until we get a successful response which has content
+			while (okToRun && (!response.isSuccessful() || (response.isSuccessful() && response.body() == null)))
+			{
+				System.out.println("Waiting for result...");
+
+				try { Thread.sleep(15000); }
+				catch (InterruptedException e) {}
+
+				if (okToRun)
+					response = service.getDendrogram(taskId).execute();
+			}
+
+			// Once we have a response with content, create our dendrogram
+			// objects from the returned byte array
+			if (okToRun && response.isSuccessful() && response.body() != null)
+			{
+				byte[] dendrogramBytes = response.body().bytes();
 				return createDendrogramFromZip(dendrogramBytes);
+			}
 		}
 
 		return null;
@@ -64,68 +93,27 @@ public class DendrogramClient
 	 *
 	 * @return	a URI to poll a server task in the form of a Reference
 	 */
-	private Reference postSimMatrix()
-	{
-		ClientResource dendrogramResource = new ClientResource(URL);
-
-		// If we allow Restlet to follow redirects it makes processing our asynchronous job more difficult in the client
-		dendrogramResource.setFollowingRedirects(false);
-		dendrogramResource.addQueryParameter("lineCount", "" + lineCount);
-		dendrogramResource.addQueryParameter("flapjackUID", Prefs.flapjackID);
-
-		// Create a representation of the SimMatrix that allows its content to be streamed to the server
-		SimMatrixWriterRepresentation writerRep = new SimMatrixWriterRepresentation(MediaType.TEXT_PLAIN, matrix);
-		dendrogramResource.post(writerRep);
-
-		return dendrogramResource.getLocationRef();
-	}
-
-	/**
-	 * Polls the task resource for the creation of this Dendrogram until the resource has been created and either
-	 * goes on to get the Dendrogram from the URI returned by the polling process, or throws an exception (indicating
-	 * something went wrong with the creation of the Dendrogram).
-	 *
-	 * @param 	dendrogramTaskUri the URI for which to poll the current status of dendrogram creation
-	 * @return	a byte[] representing a zipFile
-	 * @throws	IOException
-	 */
-	private byte[] getDendrogramAsByteArray(Reference uri)
+	private String postSimMatrix()
 		throws Exception
 	{
-		ClientResource cr = new ClientResource(uri);
-		cr.accept(MediaType.APPLICATION_ZIP);
-		Representation r = cr.get();
+		File temp = new File(FlapjackUtils.getCacheDir(), Prefs.flapjackID + ".matrix");
+		SimMatrixExporter exporter = new SimMatrixExporter(matrix, new PrintWriter(new FileWriter(temp)));
+		exporter.runJob(0);
 
-		while (okToRun && cr.getStatus().equals(SUCCESS_NO_CONTENT))
-		{
-			System.out.println("Waiting for result...");
+		// Create RequestBody instance from file
+		RequestBody requestFile = RequestBody.create(okhttp3.MediaType.parse("multipart/format-data"), temp);
 
-			try { Thread.sleep(15000); }
-			catch (InterruptedException e) {}
+		// MultiparBody.Part is used to send also the actual file name
+		MultipartBody.Part body = MultipartBody.Part.createFormData("matrix", temp.getName(), requestFile);
 
-			// We've been waiting a while...the user may have cancelled
-			if (okToRun)
-			{
-				cr.setReference(uri);
-				r = cr.get();
-			}
-		}
+		Response<ResponseBody> response = service.postSimMatrix(body, "" + lineCount, Prefs.flapjackID)
+			.execute();
 
-		if (okToRun && cr.getStatus().equals(SUCCESS_OK))
-		{
-			System.out.println("Grabbing result...");
-
-			ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-			r.write(outputStream);
-
-			return outputStream.toByteArray();
-		}
-
-		return null;
+		return response.body().string();
 	}
 
 	/**
-	 * Takes a byte array representing a zip File and creates a {@link jhi.flapjack.data.Dendrogram Dendrogram} from
+	 * Takes a byte array representing a zip File and creates a Dendrogram from
 	 * its contents. The zip File should contain entries called order.txt, dendrogram.png and dendrogram.pdf.
 	 *
 	 * @param 	zipBytes a byte[] representing the contents of a zip File
@@ -208,6 +196,6 @@ public class DendrogramClient
 	public void cancelJob()
 	{
 		okToRun = false;
-		RestUtils.cancelJob(taskURI);
+		service.cancelJob(taskId);
 	}
 }

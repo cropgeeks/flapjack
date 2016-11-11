@@ -15,15 +15,15 @@ import jhi.brapi.resource.*;
 
 class BrapiStudiesPanelNB extends javax.swing.JPanel
 {
-	private BrapiRequest request;
+	private BrapiClient client;
 	private List<BrapiStudies> studies;
 	private BrapiImportDialog dialog;
 
 	private DefaultComboBoxModel<String> studiesModel;
 
-	public BrapiStudiesPanelNB(BrapiRequest request, BrapiImportDialog dialog)
+	public BrapiStudiesPanelNB(BrapiClient client, BrapiImportDialog dialog)
 	{
-		this.request = request;
+		this.client = client;
 		this.dialog = dialog;
 
 		initComponents();
@@ -39,7 +39,7 @@ class BrapiStudiesPanelNB extends javax.swing.JPanel
 		{
 			BrapiStudies study = studies.get(index);
 
-			request.setStudyID(study.getStudyDbId());
+			client.setStudyID(study.getStudyDbId());
 
 //			String str = "Species: " + map.getSpecies() + "\n" +
 //				"Type: " + map.getType() + "\n" +
@@ -83,13 +83,11 @@ class BrapiStudiesPanelNB extends javax.swing.JPanel
 		public void runJob(int jobID)
 			throws Exception
 		{
-			BrapiClient.setXmlResource(
-				request.getResource());
+			client.initService();
 
-			BrapiClient.doAuthentication(
-				request.getUsername(), request.getPassword());
+			client.doAuthentication();
 
-			studies = BrapiClient.getStudies();
+			studies = client.getStudies();
 		}
 	}
 
