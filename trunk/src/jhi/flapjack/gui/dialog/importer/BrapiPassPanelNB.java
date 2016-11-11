@@ -15,15 +15,15 @@ import scri.commons.gui.*;
 
 class BrapiPassPanelNB extends JPanel implements ActionListener
 {
-	private BrapiRequest request;
+	private BrapiClient client;
 	private BrapiImportDialog dialog;
 
 	private DefaultComboBoxModel<XmlCategory> catModel = new DefaultComboBoxModel<XmlCategory>();
 	private DefaultComboBoxModel<XmlResource> resModel = new DefaultComboBoxModel<XmlResource>();
 
-	public BrapiPassPanelNB(BrapiRequest request, BrapiImportDialog dialog)
+	public BrapiPassPanelNB(BrapiClient client, BrapiImportDialog dialog)
 	{
-		this.request = request;
+		this.client = client;
 		this.dialog = dialog;
 
 		initComponents();
@@ -48,23 +48,23 @@ class BrapiPassPanelNB extends JPanel implements ActionListener
 	{
 		if (useAuthentication.isSelected())
 		{
-			request.setUsername(username.getText());
-			request.setPassword(new String(password.getPassword()));
+			client.setUsername(username.getText());
+			client.setPassword(new String(password.getPassword()));
 		}
 		else
 		{
-			request.setUsername(null);
-			request.setPassword(null);
+			client.setUsername(null);
+			client.setPassword(null);
 		}
 	}
 
 	void updateLabels()
 	{
-		Image img = request.getResource().getImage().getImage();
+		Image img = client.getResource().getImage().getImage();
 		img = img.getScaledInstance(48, 48, Image.SCALE_SMOOTH);
 		connectionLabel.setIcon(new ImageIcon(img));
 
-		connectionLabel.setText("Connecting to " + request.getResource().getName());
+		connectionLabel.setText("Connecting to " + client.getResource().getName());
 	}
 
 	/**

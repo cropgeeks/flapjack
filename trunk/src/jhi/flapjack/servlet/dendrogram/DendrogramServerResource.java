@@ -8,11 +8,15 @@ import java.util.*;
 
 import jhi.flapjack.servlet.*;
 
+import org.apache.commons.fileupload.*;
+import org.apache.commons.fileupload.disk.*;
+import org.ggf.drmaa.*;
 import org.restlet.data.*;
+import org.restlet.ext.fileupload.*;
 import org.restlet.representation.*;
 import org.restlet.resource.*;
 
-import org.ggf.drmaa.*;
+import scri.commons.io.*;
 
 public class DendrogramServerResource extends ServerResource
 {
@@ -43,43 +47,62 @@ public class DendrogramServerResource extends ServerResource
 	}
 
 	@Post
-	public void store(Representation representation)
+	public Representation store(Representation entity)
+		throws Exception
 	{
 		String taskId = flapjackUID + System.currentTimeMillis();
 		File wrkDir = FlapjackServlet.getWorkingDir(taskId);
-		File matrix = new File(wrkDir, "matrix.txt");
+//		File matrix = new File(wrkDir, "matrix.txt");
 
-		// Write out our similarity matrix to disk
-		RestUtils.writeSimMatrix(matrix, representation);
-
-		try
+		if (entity != null && MediaType.MULTIPART_FORM_DATA.equals(entity.getMediaType(), true))
 		{
-			Session session = FlapjackServlet.getDRMAASession();
+			DiskFileItemFactory factory = new DiskFileItemFactory();
+			RestletFileUpload upload = new RestletFileUpload(factory);
+			FileItemIterator fileIterator = upload.getItemIterator(entity);
 
-			JobTemplate jt = session.createJobTemplate();
+			while (fileIterator.hasNext())
+			{
+				FileItemStream fi = fileIterator.next();
+				if (fi.getFieldName().equals("matrix"))
+				{
+					FileUtils.writeFile(new File(wrkDir, "matrix.txt"), fi.openStream());
 
-			jt.setRemoteCommand("java");
-			List<String> args = new ArrayList<>();
-			args.add("-cp");
-			args.add(FlapjackServlet.fjPath);
-			args.add("jhi.flapjack.servlet.dendrogram.DendrogramTask");
-			args.add(FlapjackServlet.rPath);
-			args.add(wrkDir.toString());
-			args.add("" + lineCount);
-			jt.setArgs(args);
+					try
+					{
+						Session session = FlapjackServlet.getDRMAASession();
 
-			jt.setWorkingDirectory(wrkDir.toString());
+						JobTemplate jt = session.createJobTemplate();
 
-			taskId += "-" + session.runJob(jt);
+						jt.setRemoteCommand("java");
+						List<String> args = new ArrayList<>();
+						args.add("-cp");
+						args.add(FlapjackServlet.fjPath);
+						args.add("jhi.flapjack.servlet.dendrogram.DendrogramTask");
+						args.add(FlapjackServlet.rPath);
+						args.add(wrkDir.toString());
+						args.add("" + lineCount);
+						jt.setArgs(args);
+
+						jt.setWorkingDirectory(wrkDir.toString());
+
+						taskId += "-" + session.runJob(jt);
+					}
+					catch (Exception e)
+					{
+						e.printStackTrace();
+						throw new ResourceException(500);
+					}
+				}
+			}
+
 		}
-		catch (Exception e)
+		else
 		{
-			e.printStackTrace();
-			throw new ResourceException(500);
+			throw new ResourceException(
+				org.restlet.data.Status.CLIENT_ERROR_UNSUPPORTED_MEDIA_TYPE);
 		}
 
-		// Returns /dendrogram/{id} for the client to use for progress/results
-		redirectSeeOther(taskId);
+		return new StringRepresentation(taskId);
 	}
 
 	@Get("html")

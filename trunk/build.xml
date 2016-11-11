@@ -5,6 +5,7 @@
 	<property name="src" location="src"/>
 	<property name="res" location="res"/>
 	<property name="lib" location="lib"/>
+	<property name="tmp" location="tmp"/>
 	<property name="cfg" location="config"/>
 	<property name="cls" location="classes"/>
 	<property name="jar" value="${lib}/flapjack.jar"/>
@@ -21,6 +22,7 @@
         <classpath>
         	<fileset dir="${lib}">
         		<exclude name="**/lib-devel/**"/>
+				<exclude name="**/lib-servlet/**"/>
         	</fileset>
         </classpath>
     </manifestclasspath>
@@ -88,11 +90,11 @@
 	</target>
 
     <target name="jnlp" depends="getversion, jar">
-		<property name="tmp" location="temp"/>
 		<mkdir dir="${tmp}"/>
 		<copy todir="${tmp}">
 			<fileset dir="${lib}">
         		<exclude name="**/lib-devel/**"/>
+				<exclude name="**/lib-servlet/**"/>
         	</fileset>
 		</copy>
 		<apply executable="jarsigner">
@@ -113,13 +115,17 @@
 	</target>
 
 	<target name="war" depends="jar">
+		<copy todir="${tmp}" flatten="true">
+			<fileset dir="${lib}">
+				<exclude name="**/lib-devel/**"/>
+			</fileset>
+		</copy>
 		<war destfile="${war}" update="false">
 			<webinf dir="www/servlets/WEB-INF"/>
 			<metainf dir="www/servlets/META-INF"/>
-			<lib dir="${lib}">
-				<exclude name="**/lib-devel/**"/>
-			</lib>
+			<lib dir="${tmp}"/>
 		</war>
+		<delete dir="${tmp}"/>
 
 		<taskdef name="undeploy" classpathref="project.classpath"
 			classname="org.apache.catalina.ant.UndeployTask"/>
