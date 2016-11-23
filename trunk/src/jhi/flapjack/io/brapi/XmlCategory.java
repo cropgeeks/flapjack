@@ -3,10 +3,12 @@
 
 package jhi.flapjack.io.brapi;
 
-import java.net.*;
+import java.io.*;
 import java.util.*;
 import javax.swing.*;
 import javax.xml.bind.annotation.*;
+
+import jhi.flapjack.gui.*;
 
 public class XmlCategory
 {
@@ -42,7 +44,9 @@ public class XmlCategory
 	@XmlElement
 	public void setLogo(String logo)
 	{
-		try { image = new ImageIcon(new URL(logo));	}
+		File dir = new File(FlapjackUtils.getCacheDir(), "brapi");
+
+		try { image = new ImageIcon(new File(dir, logo).toString()); }
 		catch (Exception e) {}
 	}
 
