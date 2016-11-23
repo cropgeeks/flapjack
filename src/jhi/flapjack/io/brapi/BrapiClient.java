@@ -7,7 +7,10 @@ import java.io.*;
 import java.net.*;
 import java.util.*;
 import java.util.stream.*;
+import java.util.zip.*;
 import javax.xml.bind.*;
+
+import jhi.flapjack.gui.*;
 
 import jhi.brapi.resource.*;
 
@@ -194,16 +197,42 @@ public class BrapiClient
 	}
 
 	public XmlBrapiProvider getBrapiProviders()
-		throws Exception
+		throws Exception, IOException
 	{
-		URL url = new URL("https://ics.hutton.ac.uk/resources/brapi/brapi-resources.xml");
+		URL url = new URL("https://ics.hutton.ac.uk/resources/brapi/brapi.zip");
 
+		File dir = new File(FlapjackUtils.getCacheDir(), "brapi");
+		dir.mkdirs();
+
+		// Download the zip file and extract its contents into a temp folder
+		ZipInputStream zis = new ZipInputStream(new BufferedInputStream(url.openStream()));
+		ZipEntry ze = zis.getNextEntry();
+
+    	while (ze != null)
+		{
+			BufferedOutputStream out = new BufferedOutputStream(
+				new FileOutputStream(new File(dir, ze.getName())));
+			BufferedInputStream in = new BufferedInputStream(zis);
+
+			byte[] b = new byte[4096];
+			for (int n; (n = in.read(b)) != -1;)
+				out.write(b, 0, n);
+
+			out.close();
+			ze = zis.getNextEntry();
+		}
+		zis.closeEntry();
+		zis.close();
+
+
+		// Now read the contents of the XML file
 		JAXBContext jaxbContext = JAXBContext.newInstance(XmlBrapiProvider.class);
 		Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-		XmlBrapiProvider p = (XmlBrapiProvider) jaxbUnmarshaller.unmarshal(url);
+		File xml = new File(dir, "brapi.xml");
 
-		return p;
+		return (XmlBrapiProvider) jaxbUnmarshaller.unmarshal(xml);
 	}
+
 
 	public String getUsername()
 	{ return username; }
