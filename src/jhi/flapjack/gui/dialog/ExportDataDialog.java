@@ -84,7 +84,7 @@ public class ExportDataDialog extends JDialog implements ActionListener
 		{
 			GTView view = viewSet.getView(i);
 
-			data[i][0] = new Boolean(true);
+			data[i][0] = true;
 			data[i][1] = view.getChromosomeMap().getName();
 			data[i][2] = view.countSelectedMarkers() + " / "
 				+ view.countGenuineMarkers();
@@ -92,7 +92,7 @@ public class ExportDataDialog extends JDialog implements ActionListener
 				+ view.lineCount();
 
 			if (view.getChromosomeMap().isSpecialChromosome())
-				data[i][0] = new Boolean(false);
+				data[i][0] = false;
 		}
 
 		table.setModel(new DefaultTableModel(data, columnNames)
