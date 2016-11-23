@@ -38,7 +38,8 @@
 	<target name="compile">
 		<javac srcdir="${src}" destdir="${cls}" source="8" target="8" debug="true" includeantruntime="false">
 			<classpath refid="project.classpath"/>
-			<!--<compilerarg line="-XaddExports:java.xml/com.sun.org.apache.xml.internal.serialize=ALL-UNNAMED" />-->
+			<!-- To use the bit below (for JDK9), replace MINUSMINUS with those two characters that aren't allowed in XML comments -->
+			<!-- <compilerarg line="MINUSMINUSadd-modules java.xml.bind -Xlint:deprecation" />-->
 		</javac>
 	</target>
 

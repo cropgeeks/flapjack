@@ -104,7 +104,7 @@ class FilterQTLsPanelNB extends JPanel implements ActionListener
 		for (int i = 0; itor.hasNext(); i++)
 		{
 			data[i][0] = itor.next();
-			data[i][1] = new Boolean(traits.get(data[i][0]));
+			data[i][1] = traits.get(data[i][0]);
 		}
 
 		traitsTable.setModel(getModel(data, columnNames));
@@ -124,7 +124,7 @@ class FilterQTLsPanelNB extends JPanel implements ActionListener
 		for (int i = 0; itor.hasNext(); i++)
 		{
 			data[i][0] = itor.next();
-			data[i][1] = new Boolean(experiments.get(data[i][0]));
+			data[i][1] = experiments.get(data[i][0]);
 		}
 
 		experimentsTable.setModel(getModel(data, columnNames));
