@@ -24,12 +24,10 @@ public class BrapiClient
 	// The resource selected by the user for use
 	private XmlResource resource;
 
-	private String username;
-	private String password;
+	private String username, password;
+	private String mapID, studyID, methodID;
 
-	private String mapID;
-	private String studyID;
-	private String methodID;
+	private CallsUtils callsUtils;
 
 	public void initService()
 		throws Exception
@@ -49,6 +47,29 @@ public class BrapiClient
 	{
 		try { return URLEncoder.encode(str, "UTF-8"); }
 		catch (UnsupportedEncodingException e) { return str; }
+	}
+
+	public void getCalls()
+		throws Exception
+	{
+		List<BrapiCall> calls = new ArrayList<>();
+		Pager pager = new Pager();
+
+		while (pager.isPaging())
+		{
+			BasicResource<DataResult<BrapiCall>> br = service.getCalls(pager.getPageSize(), pager.getPage())
+				.execute()
+				.body();
+
+			calls.addAll(br.getResult().getData());
+
+			pager.paginate(br.getMetadata());
+		}
+
+		callsUtils = new CallsUtils(calls);
+
+		if (callsUtils.validate() == false)
+			throw new Exception("/calls not valid");
 	}
 
 	public void doAuthentication()
