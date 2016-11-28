@@ -9,6 +9,9 @@ import retrofit2.http.*;
 
 public interface BrapiService
 {
+	@GET("calls")
+	Call<BasicResource<DataResult<BrapiCall>>> getCalls(@Query("pageSize") String pageSize, @Query("page") String page);
+
 	@FormUrlEncoded
 	@POST("token")
 	Call<BrapiSessionToken> getAuthToken(@Field("grant_type") String grantType, @Field("username") String username, @Field("password") String password, @Field("client_id") String clientId);
