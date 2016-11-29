@@ -14,7 +14,7 @@ import jhi.brapi.resource.*;
 
 public class BrapiMapImporter implements IMapImporter
 {
-	private BrapiClient client;
+	BrapiRequest request;
 	private DataSet dataSet;
 
 	// Each marker's name is stored (only while loading) in a hashmap, along
@@ -26,9 +26,9 @@ public class BrapiMapImporter implements IMapImporter
 
 	private boolean isOK = true;
 
-	public BrapiMapImporter(BrapiClient client, DataSet dataSet)
+	public BrapiMapImporter(BrapiRequest request, DataSet dataSet)
 	{
-		this.client = client;
+		this.request = request;
 		this.dataSet = dataSet;
 	}
 
@@ -46,7 +46,7 @@ public class BrapiMapImporter implements IMapImporter
 	{
 		NumberFormat nf = NumberFormat.getInstance();
 
-		List<BrapiMarkerPosition> list = client.getMapMarkerData();
+		List<BrapiMarkerPosition> list = BrapiClient.getMapMarkerData(request.getMapID());
 
 		HashMap<String,String> namesToIDs = new HashMap<>();
 

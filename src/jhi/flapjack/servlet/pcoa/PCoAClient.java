@@ -6,95 +6,84 @@ package jhi.flapjack.servlet.pcoa;
 import java.io.*;
 import java.text.*;
 
+import jhi.flapjack.data.*;
 import jhi.flapjack.data.results.*;
 import jhi.flapjack.gui.*;
-import jhi.flapjack.io.*;
+import jhi.flapjack.servlet.*;
 
-import okhttp3.*;
-import retrofit2.*;
-import retrofit2.Response;
-import retrofit2.converter.jackson.*;
+import static org.restlet.data.Status.*;
+import org.restlet.data.*;
+import org.restlet.representation.*;
+import org.restlet.resource.*;
 
 public class PCoAClient
 {
-	private final String baseURL = "https://ics.hutton.ac.uk/flapjack-services-test/";
-	//	private final String URL = "https://ics.hutton.ac.uk/flapjack-services-20160817/pcoa/";
-	private String taskId;
-
-	private Retrofit retrofit;
-	private PCoAService service;
-
-	private final SimMatrix matrix;
-	private final String noDimensions;
+	private final String URL = "https://ics.hutton.ac.uk/flapjack-services-20160817/pcoa/";
+	private Reference taskURI;
 
 	private boolean okToRun = true;
 
-	public PCoAClient(SimMatrix matrix, String noDimensions)
-	{
-		this.matrix = matrix;
-		this.noDimensions = noDimensions;
-
-		retrofit = new Retrofit.Builder()
-			.baseUrl(baseURL)
-			.addConverterFactory(JacksonConverterFactory.create())
-			.build();
-
-		service = retrofit.create(PCoAService.class);
-	}
-
-	public PCoAResult generatePco()
+	public PCoAResult generatePco(SimMatrix matrix, String noDimensions)
 		throws Exception
 	{
-		// Send similarity matrix to the pcoa API endpoint
-		taskId = postSimMatrix();
+		taskURI = postPcoa(matrix, noDimensions);
 
 		if (okToRun)
 		{
-			// Try to get the generated pcoa back from the web service
-			Response<ResponseBody> response = service.getPcoa(taskId).execute();
+			String pcoaText = getPcoa(taskURI);
 
-			// Poll until we get a successful response which has content
-			while (okToRun && (!response.isSuccessful() || (response.isSuccessful() && response.body() == null)))
-			{
-				System.out.println("Waiting for result...");
-
-				try { Thread.sleep(15000); }
-				catch (InterruptedException e) {}
-
-				if (okToRun)
-					response = service.getPcoa(taskId).execute();
-			}
-
-			// Once we have a response with content, create our pcoa
-			// object from the returned string
-			if (okToRun && response.isSuccessful() && response.body() != null)
-			{
-				String pcoaText = response.body().string();
-				if (!pcoaText.isEmpty())
-					return createPcoaFromResponse(pcoaText, matrix);
-			}
+			if (pcoaText != null && pcoaText.isEmpty() == false)
+				return createPcoaFromResponse(pcoaText, matrix);
 		}
 
 		return null;
 	}
 
-	private String postSimMatrix()
+	private Reference postPcoa(SimMatrix matrix, String noDimensions)
+	{
+		ClientResource pcoaResource = new ClientResource(URL);
+		pcoaResource.setFollowingRedirects(false);
+		pcoaResource.addQueryParameter("flapjackUID", Prefs.flapjackID);
+		pcoaResource.addQueryParameter("noDimensions", noDimensions);
+
+		System.out.println("Posting to: " + URL);
+
+		SimMatrixWriterRepresentation writerRep = new SimMatrixWriterRepresentation(MediaType.TEXT_PLAIN, matrix);
+		pcoaResource.post(writerRep);
+
+		return pcoaResource.getLocationRef();
+	}
+
+	private String getPcoa(Reference uri)
 		throws Exception
 	{
-		File temp = new File(FlapjackUtils.getCacheDir(), Prefs.flapjackID + ".matrix");
-		SimMatrixExporter exporter = new SimMatrixExporter(matrix, new PrintWriter(new FileWriter(temp)));
-		exporter.runJob(0);
+		ClientResource cr = new ClientResource(uri);
+		cr.accept(MediaType.TEXT_PLAIN);
+		Representation r = cr.get();
 
-		// Create RequestBody instance from file
-		RequestBody requestFile = RequestBody.create(okhttp3.MediaType.parse("multipart/format-data"), temp);
+		while (okToRun && cr.getStatus().equals(SUCCESS_NO_CONTENT))
+		{
+			System.out.println("Waiting for result...");
 
-		// MultiparBody.Part is used to send also the actual file name
-		MultipartBody.Part body = MultipartBody.Part.createFormData("matrix", temp.getName(), requestFile);
+			try { Thread.sleep(15000); }
+			catch (InterruptedException e) {}
 
-		Response<ResponseBody> response = service.postSimMatrix(body, noDimensions, Prefs.flapjackID)
-			.execute();
+			// We've been waiting a while...the user may have cancelled
+			if (okToRun)
+			{
+			cr.setReference(uri);
+			r = cr.get();
+		}
+		}
 
-		return response.body().string();
+		if (okToRun && cr.getStatus().equals(SUCCESS_OK))
+		{
+			System.out.println("Grabbing result...");
+
+			return r.getText();
+		}
+
+		return null;
 	}
 
 	private PCoAResult createPcoaFromResponse(String responseText, SimMatrix matrix)
@@ -133,6 +122,6 @@ public class PCoAClient
 	public void cancelJob()
 	{
 		okToRun = false;
-		service.cancelJob(taskId);
+		RestUtils.cancelJob(taskURI);
 	}
 }

@@ -35,7 +35,7 @@ public class DataImporter extends SimpleJob
 	private IGenotypeImporter genoImporter;
 
 	private File hdf5File;
-	private BrapiClient client;
+	private BrapiRequest request;
 
 	private long totalBytes;
 
@@ -57,12 +57,12 @@ public class DataImporter extends SimpleJob
 	}
 
 	// BRAPI loading
-	public DataImporter(BrapiClient client, boolean usePrefs)
+	public DataImporter(BrapiRequest request, boolean usePrefs)
 	{
-		this.client = client;
 		this.usePrefs = usePrefs;
+		this.request = request;
 
-		mapImporter = new BrapiMapImporter(client, dataSet);
+		mapImporter = new BrapiMapImporter(request, dataSet);
 	}
 
 	// HDF5 loading
@@ -140,7 +140,7 @@ public class DataImporter extends SimpleJob
 
 			case IMPORT_BRAPI:
 			{
-				genoImporter = new BrapiGenotypeImporter(client, dataSet,
+				genoImporter = new BrapiGenotypeImporter(request, dataSet,
 					mapImporter.getMarkersHashMap(), Prefs.ioMissingData,
 						Prefs.ioUseHetSep, Prefs.ioHeteroSeparator);
 

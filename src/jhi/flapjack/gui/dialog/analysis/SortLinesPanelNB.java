@@ -64,9 +64,9 @@ class SortLinesPanelNB extends javax.swing.JPanel implements ActionListener
 			GTView view = viewSet.getView(i);
 
 			if (viewSet.getViewIndex() == i)
-				data[i][0] = true;
+				data[i][0] = new Boolean(true);
 			else
-				data[i][0] = false;
+				data[i][0] = new Boolean(false);
 
 			data[i][1] = view.getChromosomeMap().getName();
 			data[i][2] = view.countSelectedMarkers() + " / "

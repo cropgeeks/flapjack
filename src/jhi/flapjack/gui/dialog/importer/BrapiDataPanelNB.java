@@ -15,15 +15,15 @@ import scri.commons.gui.*;
 class BrapiDataPanelNB extends javax.swing.JPanel
 {
 	private XmlBrapiProvider data;
-	private BrapiClient client;
+	private BrapiRequest request;
 	private BrapiImportDialog dialog;
 
 	private DefaultComboBoxModel<XmlCategory> catModel = new DefaultComboBoxModel<XmlCategory>();
 	private DefaultComboBoxModel<XmlResource> resModel = new DefaultComboBoxModel<XmlResource>();
 
-	public BrapiDataPanelNB(BrapiClient client, BrapiImportDialog dialog)
+	public BrapiDataPanelNB(BrapiRequest request, BrapiImportDialog dialog)
 	{
-		this.client = client;
+		this.request = request;
 		this.dialog = dialog;
 
 		initComponents();
@@ -55,7 +55,7 @@ class BrapiDataPanelNB extends javax.swing.JPanel
 		public void runJob(int jobID)
 			throws Exception
 		{
-			data = client.getBrapiProviders();
+			data = BrapiClient.getBrapiProviders();
 		}
 	}
 
@@ -97,7 +97,7 @@ class BrapiDataPanelNB extends javax.swing.JPanel
 			// Finally, see if we can grab an image for use in the logo panel
 			setIcon(res.getImage(), resLogo);
 
-			client.setResource(res);
+			request.setResource(res);
 			dialog.enableNext(true);
 		}
 		else

@@ -27,7 +27,7 @@ public class BrapiImportDialog extends JDialog implements ActionListener
 	private JPanel panel = new JPanel();
 	private int screen = 0;
 
-	private BrapiClient client = new BrapiClient();
+	private BrapiRequest request = new BrapiRequest();
 
 	public BrapiImportDialog()
 	{
@@ -37,10 +37,10 @@ public class BrapiImportDialog extends JDialog implements ActionListener
 			true
 		);
 
-		dataPanel = new BrapiDataPanelNB(client, this);
-		passPanel = new BrapiPassPanelNB(client, this);
-		mapsPanel = new BrapiMapsPanelNB(client, this);
-		studiesPanel = new BrapiStudiesPanelNB(client, this);
+		dataPanel = new BrapiDataPanelNB(request, this);
+		passPanel = new BrapiPassPanelNB(request, this);
+		mapsPanel = new BrapiMapsPanelNB(request, this);
+		studiesPanel = new BrapiStudiesPanelNB(request, this);
 
 		panel.setLayout(cards);
 		panel.add(dataPanel, "data");
@@ -176,6 +176,6 @@ public class BrapiImportDialog extends JDialog implements ActionListener
 	public boolean isOK()
 		{ return isOK; }
 
-	public BrapiClient getBrapiClient()
-		{ return client; }
+	public BrapiRequest getBrapiRequest()
+		{ return request; }
 }

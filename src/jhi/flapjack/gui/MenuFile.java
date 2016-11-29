@@ -139,15 +139,15 @@ public class MenuFile
 
 	public void fileImportSelect()
 	{
-		DataSourceDialog dialog = new DataSourceDialog();
+//		DataSourceDialog dialog = new DataSourceDialog();
 
-		if (dialog.isOK() == false)
-			return;
+//		if (dialog.isOK() == false)
+//			return;
 
-		if (Prefs.guiImportType == 0)
+//		if (Prefs.guiImportType == 0)
 			fileImport(0);
-		else
-			fileBrapi();
+//		else
+//			fileBrapi();
 	}
 
 	private void fileBrapi()
@@ -156,8 +156,8 @@ public class MenuFile
 
 		if (dialog.isOK())
 		{
-			BrapiClient client = dialog.getBrapiClient();
-			importGenotypeData(null, null, null, client, true);
+			BrapiRequest request = dialog.getBrapiRequest();
+			importGenotypeData(null, null, null, request, true);
 		}
 	}
 
@@ -201,7 +201,7 @@ public class MenuFile
 
 	// Given a map file and a genotype (dat) file, imports that data, showing a
 	// progress bar while doing so
-	private void importGenotypeData(File mapFile, File datFile, File hdf5File, BrapiClient client, boolean usePrefs)
+	private void importGenotypeData(File mapFile, File datFile, File hdf5File, BrapiRequest request, boolean usePrefs)
 	{
 		gPanel.resetBufferedState(false);
 
@@ -213,7 +213,7 @@ public class MenuFile
 				break;
 
 			case DataImporter.IMPORT_BRAPI:
-				importer = new DataImporter(client, usePrefs);
+				importer = new DataImporter(request, usePrefs);
 				break;
 
 			case DataImporter.IMPORT_HDF5:

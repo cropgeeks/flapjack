@@ -48,8 +48,8 @@ public class PCoAGenerator extends SimpleJob
 		throws Exception
 	{
 		// Run the servlet (upload, run, download)
-		client = new PCoAClient(matrix, noDimensions);
-		PCoAResult result = client.generatePco();
+		client = new PCoAClient();
+		PCoAResult result = client.generatePco(matrix, noDimensions);
 
 		if (okToRun)
 		{

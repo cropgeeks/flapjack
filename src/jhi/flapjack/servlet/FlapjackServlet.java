@@ -10,10 +10,10 @@ import jhi.flapjack.servlet.dendrogram.*;
 import jhi.flapjack.servlet.pcoa.*;
 
 import org.restlet.*;
-import org.restlet.resource.*;
 import org.restlet.routing.*;
 
 import org.ggf.drmaa.*;
+import org.restlet.resource.ResourceException;
 
 public class FlapjackServlet extends Application implements ServletContextListener
 {
@@ -73,10 +73,8 @@ public class FlapjackServlet extends Application implements ServletContextListen
 	{
 		Router router = new Router(getContext());
 
-		router.attach("/pcoa",				PCoAServerResource.class);
 		router.attach("/pcoa/",				PCoAServerResource.class);
 		router.attach("/pcoa/{id}", 		PCoAServerResource.class);
-		router.attach("/dendrogram",		DendrogramServerResource.class);
 		router.attach("/dendrogram/",		DendrogramServerResource.class);
 		router.attach("/dendrogram/{id}",	DendrogramServerResource.class);
 

@@ -4,12 +4,16 @@
 package jhi.flapjack.io.brapi;
 
 import java.io.*;
-import java.net.*;
+import java.net.URI;
 import java.util.*;
 
 import jhi.brapi.resource.*;
 import jhi.flapjack.data.*;
 import jhi.flapjack.io.*;
+
+import scri.commons.gui.*;
+
+import jhi.brapi.resource.*;
 
 public class BrapiGenotypeImporter implements IGenotypeImporter
 {
@@ -34,12 +38,12 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 
 	private boolean isOK = true;
 
-	private BrapiClient client;
+	private BrapiRequest request;
 
-	public BrapiGenotypeImporter(BrapiClient client, DataSet dataSet, HashMap<String, MarkerIndex> markers,
+	public BrapiGenotypeImporter(BrapiRequest request, DataSet dataSet, HashMap<String, MarkerIndex> markers,
 		String ioMissingData, boolean ioUseHetSep, String ioHeteroSeparator)
 	{
-		this.client = client;
+		this.request = request;
 		this.dataSet = dataSet;
 		this.markers = markers;
 		this.ioMissingData = ioMissingData;
@@ -95,7 +99,8 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 	{
 		// Call /markerprofiles for list of all profile IDs so those parameters
 		// can be fed into the /allelematrix call
-		List<BrapiMarkerProfile> profiles = client.getMarkerProfiles();
+		String methodID = request.getMethodID();
+		List<BrapiMarkerProfile> profiles = BrapiClient.getMarkerProfiles(methodID, request.getStudyID());
 
 		HashMap<String, Line> linesByProfileID = new HashMap<>();
 
@@ -120,7 +125,7 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 	private boolean readTSVAlleleMatrix(HashMap<String, Line> linesByProfileID, List<BrapiMarkerProfile> profiles)
 		throws Exception
 	{
-		URI uri = client.getAlleleMatrixTSV(profiles);
+		URI uri = BrapiClient.getAlleleMatrixTSV(profiles);
 
 		BufferedReader in = new BufferedReader(new InputStreamReader(uri.toURL().openStream()));
 
@@ -182,10 +187,10 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 	}
 
 	private boolean readJSONAlleleMatrix(HashMap<String, Line> linesByProfileID, List<BrapiMarkerProfile> profiles)
-		throws Exception
+		throws IOException
 	{
 		// Now retrieve the allele data using the /brapi/allelematrix call
-		List<BrapiAlleleMatrix> matrixList = client.getAlleleMatrix(profiles);
+		List<BrapiAlleleMatrix> matrixList = BrapiClient.getAlleleMatrix(profiles);
 
 		for (int m = 0; m < matrixList.size(); m++)
 		{

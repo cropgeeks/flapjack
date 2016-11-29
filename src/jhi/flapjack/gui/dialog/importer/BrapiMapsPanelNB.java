@@ -15,16 +15,16 @@ import jhi.brapi.resource.*;
 
 class BrapiMapsPanelNB extends javax.swing.JPanel
 {
-	private BrapiClient client;
+	private BrapiRequest request;
 	private List<BrapiGenomeMap> maps;
 
 	private BrapiImportDialog dialog;
 
 	private DefaultComboBoxModel<String> mapModel;
 
-	public BrapiMapsPanelNB(BrapiClient client, BrapiImportDialog dialog)
+	public BrapiMapsPanelNB(BrapiRequest request, BrapiImportDialog dialog)
 	{
-		this.client = client;
+		this.request = request;
 		this.dialog = dialog;
 
 		initComponents();
@@ -46,7 +46,7 @@ class BrapiMapsPanelNB extends javax.swing.JPanel
 		{
 			BrapiGenomeMap map = maps.get(index);
 
-			client.setMapID("" + map.getMapDbId());
+			request.setMapID("" + map.getMapDbId());
 
 			String str = "Species: " + map.getSpecies() + "\n" +
 				"Type: " + map.getType() + "\n" +
@@ -90,7 +90,7 @@ class BrapiMapsPanelNB extends javax.swing.JPanel
 		public void runJob(int jobID)
 			throws Exception
 		{
-			maps = client.getMaps();
+			maps = BrapiClient.getMaps();
 		}
 	}
 
