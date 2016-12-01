@@ -4,6 +4,7 @@
 package jhi.flapjack.servlet;
 
 import java.io.*;
+import java.util.logging.*;
 import javax.servlet.*;
 
 import jhi.flapjack.servlet.dendrogram.*;
@@ -17,6 +18,8 @@ import org.ggf.drmaa.*;
 
 public class FlapjackServlet extends Application implements ServletContextListener
 {
+	public static Logger LOG;
+
 	// DRMAA session object for submitting jobs to a queue management engine
 	private static Session session = null;
 
@@ -31,6 +34,8 @@ public class FlapjackServlet extends Application implements ServletContextListen
 		setDescription("Flapjack Web Services");
 		setOwner("The James Hutton Institute");
 		setAuthor("Information & Computational Sciences, JHI");
+
+		LOG = Logger.getLogger(FlapjackServlet.class.getName());
 	}
 
 	@Override
@@ -104,16 +109,16 @@ public class FlapjackServlet extends Application implements ServletContextListen
 			switch (status)
 			{
 				case Session.DONE:
-					System.out.println("####### Job " + drmaaID + " is DONE");
+					LOG.info("## Job " + drmaaID + " is DONE");
 					return true;
 
 				case Session.UNDETERMINED:
 				case Session.FAILED:
-					System.out.println("####### Job " + drmaaID + " UNDERTERMINED OR FAILED");
+					LOG.severe("## Job " + drmaaID + " UNDERTERMINED OR FAILED");
 					throw new ResourceException(500);
 
 				default:
-					System.out.println("####### Job " + drmaaID + " is " + status);
+					LOG.info("## Job " + drmaaID + " is " + status);
 					return false;
 			}
 		}
