@@ -10,7 +10,7 @@ import jhi.flapjack.data.*;
 import jhi.flapjack.gui.*;
 import jhi.flapjack.io.*;
 
-import jhi.brapi.resource.*;
+import jhi.brapi.api.genomemaps.*;
 
 public class BrapiMapImporter implements IMapImporter
 {
@@ -61,11 +61,9 @@ public class BrapiMapImporter implements IMapImporter
 			String chromosome = bm.getLinkageGroup();
 
 			Marker marker = new Marker(bm.getMarkerName(), position);
-	//		System.out.println(marker);
-
 
 			// Check to see if this marker already exists (in any map)?
-			MarkerIndex index = markers.get(marker.getName());
+			MarkerIndex index = markers.get(bm.getMarkerDbId());
 			if (index != null)
 			{
 				if (Prefs.warnDuplicateMarkers)

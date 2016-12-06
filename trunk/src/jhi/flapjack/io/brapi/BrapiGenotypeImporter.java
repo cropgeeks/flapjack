@@ -7,9 +7,10 @@ import java.io.*;
 import java.net.*;
 import java.util.*;
 
-import jhi.brapi.resource.*;
 import jhi.flapjack.data.*;
 import jhi.flapjack.io.*;
+
+import jhi.brapi.api.markerprofiles.*;
 
 public class BrapiGenotypeImporter implements IGenotypeImporter
 {
@@ -109,8 +110,8 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 			linesByProfileID.put(mp.getMarkerProfileDbId(), line);
 		}
 
-//			return readTSVAlleleMatrix(linesByProfileID, profiles);
-			return readJSONAlleleMatrix(linesByProfileID, profiles);
+			return readTSVAlleleMatrix(linesByProfileID, profiles);
+//			return readJSONAlleleMatrix(linesByProfileID, profiles);
 	}
 
 	@Override
@@ -121,7 +122,6 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 		throws Exception
 	{
 		URI uri = client.getAlleleMatrixTSV(profiles);
-
 		BufferedReader in = new BufferedReader(new InputStreamReader(uri.toURL().openStream()));
 
 		// The first line is a list of marker profile IDs
@@ -140,28 +140,20 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 
 			MarkerIndex index = markers.get(markerID);
 
-
 			for (int j = 1; j < tokens.length; j++)
 			{
 				// Retrieve the line matching this
 				String mpID = markerprofileIds.get(j);
 				Line line = linesByProfileID.get(mpID);
 
-				if (line == null)
-				{
-					System.out.println("NULL:" + mpID);
+				if (line == null || index == null)
 					break;
-				}
 
 				String allele = tokens[j];
 
 				// Determine its various states
-				Integer stateCode = states.get(allele);
-				if (stateCode == null)
-				{
-					stateCode = stateTable.getStateCode(allele, true, ioMissingData, ioUseHetSep, ioHeteroSeparator);
-					states.put(allele, stateCode);
-				}
+				Integer stateCode = states.computeIfAbsent(allele,
+					a -> stateTable.getStateCode(a, true, ioMissingData, ioUseHetSep, ioHeteroSeparator));
 
 				// Then apply them to the marker data
 				line.setLoci(index.mapIndex, index.mkrIndex, stateCode);
@@ -193,32 +185,29 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 
 			for (int call = 0; call < matrix.getData().size(); call++)
 			{
-				String markerDbId = matrix.getData().get(call).get(0);
-				String markerprofileDbId = matrix.getData().get(call).get(1);
-				String allele = matrix.getData().get(call).get(2);
+				String markerDbId = matrix.markerId(call);
+				String markerprofileDbId = matrix.markerProfileId(call);
+				String allele = matrix.allele(call);
 
 				Line line = linesByProfileID.get(markerprofileDbId);
 				MarkerIndex index = markers.get(markerDbId);
-
-				// Determine its various states
-				Integer stateCode = states.get(allele);
-				if (stateCode == null)
+				if (line != null && index != null)
 				{
-					stateCode = stateTable.getStateCode(allele, true, ioMissingData, ioUseHetSep, ioHeteroSeparator);
-					states.put(allele, stateCode);
+					Integer stateCode = states.computeIfAbsent(allele,
+						a -> stateTable.getStateCode(a, true, ioMissingData, ioUseHetSep, ioHeteroSeparator));
+
+					// Then apply them to the marker data
+					line.setLoci(index.mapIndex, index.mkrIndex, stateCode);
+
+					alleleCount++;
+
+					if (useByteStorage && stateTable.size() > 127)
+						return false;
 				}
-
-				// Then apply them to the marker data
-				line.setLoci(index.mapIndex, index.mkrIndex, stateCode);
-
-				alleleCount++;
-
-				if (useByteStorage && stateTable.size() > 127)
-					return false;
 			}
 
 			if (isOK == false)
-					break;
+				break;
 		}
 
 		return true;

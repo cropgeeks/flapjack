@@ -11,7 +11,7 @@ import jhi.flapjack.io.brapi.*;
 
 import scri.commons.gui.*;
 
-import jhi.brapi.resource.*;
+import jhi.brapi.api.genomemaps.*;
 
 class BrapiMapsPanelNB extends javax.swing.JPanel
 {

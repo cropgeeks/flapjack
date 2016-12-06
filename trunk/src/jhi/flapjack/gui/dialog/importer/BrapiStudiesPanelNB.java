@@ -9,9 +9,9 @@ import javax.swing.*;
 import jhi.flapjack.gui.*;
 import jhi.flapjack.io.brapi.*;
 
-import scri.commons.gui.*;
+import jhi.brapi.api.studies.*;
 
-import jhi.brapi.resource.*;
+import scri.commons.gui.*;
 
 class BrapiStudiesPanelNB extends javax.swing.JPanel
 {

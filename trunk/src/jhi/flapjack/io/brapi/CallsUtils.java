@@ -5,7 +5,7 @@ package jhi.flapjack.io.brapi;
 
 import java.util.*;
 
-import jhi.brapi.resource.*;
+import jhi.brapi.api.calls.*;
 
 class CallsUtils
 {
@@ -28,7 +28,7 @@ class CallsUtils
 			return false;
 		if (hasCall("maps", JSON, GET) == false)
 			return false;
-		if (hasCall("maps/mapId/positions", JSON, GET) == false)
+		if (hasCall("maps/id/positions", JSON, GET) == false)
 			return false;
 		if (hasCall("markerprofiles", JSON, GET) == false)
 			return false;
@@ -54,7 +54,7 @@ class CallsUtils
 
 	boolean hasMapsMapDbId()
 	{
-		return hasCall("maps/mapDbId", JSON, GET);
+		return hasCall("maps/id", JSON, GET);
 	}
 
 	boolean hasAlleleMatrixSearchTSV()
