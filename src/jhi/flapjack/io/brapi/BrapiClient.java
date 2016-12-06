@@ -12,7 +12,12 @@ import javax.xml.bind.*;
 
 import jhi.flapjack.gui.*;
 
-import jhi.brapi.resource.*;
+import jhi.brapi.api.*;
+import jhi.brapi.api.authentication.*;
+import jhi.brapi.api.calls.*;
+import jhi.brapi.api.genomemaps.*;
+import jhi.brapi.api.markerprofiles.*;
+import jhi.brapi.api.studies.*;
 
 import retrofit2.*;
 import retrofit2.converter.jackson.*;
@@ -57,19 +62,19 @@ public class BrapiClient
 
 		while (pager.isPaging())
 		{
-			BasicResource<DataResult<BrapiCall>> br = service.getCalls(pager.getPageSize(), pager.getPage())
+			BrapiListResource<BrapiCall> br = service.getCalls(pager.getPageSize(), pager.getPage())
 				.execute()
 				.body();
 
-			calls.addAll(br.getResult().getData());
+			calls.addAll(br.data());
 
 			pager.paginate(br.getMetadata());
 		}
 
 		callsUtils = new CallsUtils(calls);
 
-		if (callsUtils.validate() == false)
-			throw new Exception("/calls not valid");
+//		if (callsUtils.validate() == false)
+//			throw new Exception("/calls not valid");
 	}
 
 	public void doAuthentication()
@@ -103,11 +108,11 @@ public class BrapiClient
 
 		while (pager.isPaging())
 		{
-			BasicResource<DataResult<BrapiGenomeMap>> br = service.getMaps(pager.getPageSize(), pager.getPage())
+			BrapiListResource<BrapiGenomeMap> br = service.getMaps(pager.getPageSize(), pager.getPage())
 				.execute()
 				.body();
 
-			list.addAll(br.getResult().getData());
+			list.addAll(br.data());
 
 			pager.paginate(br.getMetadata());
 		}
@@ -124,11 +129,11 @@ public class BrapiClient
 
 		while (pager.isPaging())
 		{
-			BasicResource<DataResult<BrapiMarkerPosition>> br = service.getMapMarkerData(enc(mapID), pager.getPageSize(), pager.getPage())
+			BrapiListResource<BrapiMarkerPosition> br = service.getMapMarkerData(enc(mapID), pager.getPageSize(), pager.getPage())
 				.execute()
 				.body();
 
-			list.addAll(br.getResult().getData());
+			list.addAll(br.data());
 
 			pager.paginate(br.getMetadata());
 		}
@@ -145,11 +150,11 @@ public class BrapiClient
 
 		while (pager.isPaging())
 		{
-			BasicResource<DataResult<BrapiStudies>> br = service.getStudies("genotype", pager.getPageSize(), pager.getPage())
+			BrapiListResource<BrapiStudies> br = service.getStudies("genotype", pager.getPageSize(), pager.getPage())
 				.execute()
 				.body();
 
-			list.addAll(br.getResult().getData());
+			list.addAll(br.data());
 
 			pager.paginate(br.getMetadata());
 		}
@@ -165,11 +170,11 @@ public class BrapiClient
 
 		while (pager.isPaging())
 		{
-			BasicResource<DataResult<BrapiMarkerProfile>> br = service.getMarkerProfiles(studyID, pager.getPageSize(), pager.getPage())
+			BrapiListResource<BrapiMarkerProfile> br = service.getMarkerProfiles(studyID, pager.getPageSize(), pager.getPage())
 				.execute()
 				.body();
 
-			list.addAll(br.getResult().getData());
+			list.addAll(br.data());
 
 			pager.paginate(br.getMetadata());
 		}
@@ -188,7 +193,7 @@ public class BrapiClient
 
 		while (pager.isPaging())
 		{
-			BasicResource<BrapiAlleleMatrix> br = service.getAlleleMatrix(ids, pager.getPageSize(), pager.getPage())
+			BrapiBaseResource<BrapiAlleleMatrix> br = service.getAlleleMatrix(ids, null, pager.getPageSize(), pager.getPage())
 				.execute()
 				.body();
 
@@ -207,11 +212,11 @@ public class BrapiClient
 	{
 		List<String> ids = markerprofiles.stream().map(BrapiMarkerProfile::getMarkerProfileDbId).collect(Collectors.toList());
 
-		BasicResource<BrapiAlleleMatrix> br = service.getAlleleMatrix(ids, "tsv", null, null)
+		BrapiBaseResource<BrapiAlleleMatrix> br = service.getAlleleMatrix(ids, "tsv", null, null)
 			.execute()
 			.body();
 
-		jhi.brapi.resource.Metadata md = br.getMetadata();
+		Metadata md = br.getMetadata();
 		List<Datafile> files = md.getDatafiles();
 
 		return new URI(files.get(0).getUrl());
@@ -334,11 +339,11 @@ public class BrapiClient
 	class Pager
 	{
 		private boolean isPaging = true;
-		private String pageSize = "1000";
+		private String pageSize = "100000";
 		private String page = "0";
 
 		// Returns true if another 'page' of data should be requested
-		private void paginate(jhi.brapi.resource.Metadata metadata)
+		private void paginate(Metadata metadata)
 		{
 			Pagination p = metadata.getPagination();
 
