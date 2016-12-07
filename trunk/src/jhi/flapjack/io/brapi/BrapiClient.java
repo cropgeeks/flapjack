@@ -6,6 +6,7 @@ package jhi.flapjack.io.brapi;
 import java.io.*;
 import java.net.*;
 import java.util.*;
+import java.util.concurrent.*;
 import java.util.stream.*;
 import java.util.zip.*;
 import javax.xml.bind.*;
@@ -18,6 +19,8 @@ import jhi.brapi.api.calls.*;
 import jhi.brapi.api.genomemaps.*;
 import jhi.brapi.api.markerprofiles.*;
 import jhi.brapi.api.studies.*;
+
+import okhttp3.*;
 
 import retrofit2.*;
 import retrofit2.converter.jackson.*;
@@ -40,9 +43,16 @@ public class BrapiClient
 		String baseURL = resource.getUrl();
 		baseURL = baseURL.endsWith("/") ? baseURL : baseURL + "/";
 
+		// Tweak to make the timeout on Retrofit connections last longer
+		final OkHttpClient okHttpClient = new OkHttpClient.Builder()
+			.readTimeout(60, TimeUnit.SECONDS)
+			.connectTimeout(60, TimeUnit.SECONDS)
+			.build();
+
 		Retrofit retrofit = new Retrofit.Builder()
 			.baseUrl(baseURL)
 			.addConverterFactory(JacksonConverterFactory.create())
+			.client(okHttpClient)
 			.build();
 
 		service = retrofit.create(BrapiService.class);
@@ -73,15 +83,27 @@ public class BrapiClient
 
 		callsUtils = new CallsUtils(calls);
 
-//		if (callsUtils.validate() == false)
-//			throw new Exception("/calls not valid");
+		if (callsUtils.validate() == false)
+			throw new Exception("/calls not valid");
 	}
 
-	public void doAuthentication()
+	public boolean hasToken()
+		{ return callsUtils.hasToken(); }
+
+	public boolean hasAlleleMatrixSearchTSV()
+		{ return callsUtils.hasAlleleMatrixSearchTSV(); }
+
+	public boolean hasMapsMapDbId()
+		{ return callsUtils.hasMapsMapDbId(); }
+
+	public boolean doAuthentication()
 		throws Exception
 	{
+		if (true)
+			return false;
+
 		if (username == null && password == null)
-			return;
+			return false;
 
 		BrapiSessionToken token = service.getAuthToken("password", enc(username), enc(password), "flapjack")
 			.execute()
@@ -97,6 +119,7 @@ public class BrapiClient
 //		ChallengeResponse challenge = new ChallengeResponse(ChallengeScheme.HTTP_OAUTH_BEARER);
 //		challenge.setRawValue(token.getSessionToken());
 //		cr.setChallengeResponse(challenge);
+		return false;
 	}
 
 	// Returns a list of available maps
@@ -139,6 +162,16 @@ public class BrapiClient
 		}
 
 		return list;
+	}
+
+	public BrapiMapMetaData getMapMetaData()
+		throws Exception
+	{
+		BrapiBaseResource<BrapiMapMetaData> br = service.getMapMetaData(enc(mapID))
+			.execute()
+			.body();
+
+		return br.getResult();
 	}
 
 	// Returns a list of available studies

@@ -27,6 +27,9 @@ public interface BrapiService
 	@GET("maps")
 	Call<BrapiListResource<BrapiGenomeMap>> getMaps(@Query("pageSize") String pageSize, @Query("page") String page);
 
+	@GET("maps/{id}")
+	Call<BrapiBaseResource<BrapiMapMetaData>> getMapMetaData(@Path("id") String id);
+
 	@GET("maps/{id}/positions")
 	Call<BrapiListResource<BrapiMarkerPosition>> getMapMarkerData(@Path("id") String id, @Query("pageSize") String pageSize, @Query("page") String page);
 

@@ -110,8 +110,10 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 			linesByProfileID.put(mp.getMarkerProfileDbId(), line);
 		}
 
+		if (client.hasAlleleMatrixSearchTSV())
 			return readTSVAlleleMatrix(linesByProfileID, profiles);
-//			return readJSONAlleleMatrix(linesByProfileID, profiles);
+		else
+			return readJSONAlleleMatrix(linesByProfileID, profiles);
 	}
 
 	@Override

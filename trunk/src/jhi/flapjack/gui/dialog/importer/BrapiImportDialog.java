@@ -18,10 +18,12 @@ public class BrapiImportDialog extends JDialog implements ActionListener
 	private JButton bNext, bBack, bCancel, bHelp;
 	private boolean isOK = false;
 
-	private BrapiDataPanelNB dataPanel;
-	private BrapiPassPanelNB passPanel;
-	private BrapiMapsPanelNB mapsPanel;
-	private BrapiStudiesPanelNB studiesPanel;
+	IBrapiWizard dataPanel;
+	IBrapiWizard passPanel;
+	IBrapiWizard mapsPanel;
+	IBrapiWizard studiesPanel;
+
+	private IBrapiWizard currentPanel;
 
 	private CardLayout cards = new CardLayout();
 	private JPanel panel = new JPanel();
@@ -43,10 +45,10 @@ public class BrapiImportDialog extends JDialog implements ActionListener
 		studiesPanel = new BrapiStudiesPanelNB(client, this);
 
 		panel.setLayout(cards);
-		panel.add(dataPanel, "data");
-		panel.add(passPanel, "pass");
-		panel.add(mapsPanel, "maps");
-		panel.add(studiesPanel, "studies");
+		panel.add(dataPanel.getPanel(), dataPanel.getCardName());
+		panel.add(passPanel.getPanel(), passPanel.getCardName());
+		panel.add(mapsPanel.getPanel(), mapsPanel.getCardName());
+		panel.add(studiesPanel.getPanel(), studiesPanel.getCardName());
 //		cards.first(panel);
 
 		add(panel);
@@ -58,7 +60,7 @@ public class BrapiImportDialog extends JDialog implements ActionListener
 		addWindowListener(new WindowAdapter() {
 			public void windowOpened(WindowEvent e)
 			{
-				setScreen(0);
+				setScreen(dataPanel);
 			}
 		});
 
@@ -100,77 +102,107 @@ public class BrapiImportDialog extends JDialog implements ActionListener
 	public void actionPerformed(ActionEvent e)
 	{
 		if (e.getSource() == bNext)
-			setScreen(screen+1);
+			currentPanel.onNext();
 
 		else if (e.getSource() == bBack)
-			setScreen(screen-1);
+			currentPanel.onBack();
 
 		else if (e.getSource() == bCancel)
 			setVisible(false);
 	}
 
-	private void setScreen(int newScreen)
+	void setScreen(IBrapiWizard screen)
 	{
-		// Displaying the DataSource screen
-		if (newScreen == 0)
-		{
-			enableBack(false);
-			enableNext(false);
+		cards.show(panel, screen.getCardName());
+		screen.onShow();
 
-			// Grab the data sources
-			dataPanel.refreshData();
+		currentPanel = screen;
+	}
 
-			cards.show(panel, "data");
-			screen = 0;
-		}
+//	private void setScreen(int newScreen)
+//	{
+//		// Displaying the DataSource screen
+//		if (newScreen == 0)
+//		{
+//			enableBack(false);
+//			enableNext(false);
+//
+//			// Grab the data sources
+//			dataPanel.refreshData();
+//
+//			cards.show(panel, "data");
+//			screen = 0;
+//		}
+//
+//		// Display the Authentication screen?
+//		else if (newScreen == 1)
+//		{
+//			enableBack(true);
+//
+//			// If BrAPI-> /calls doesn't validate, we can't proceed
+//			if (passPanel.validateCalls() == false)
+//			{
+//				enableBack(false);
+//				enableNext(true);
+//
+//				cards.show(panel, "data");
+//				screen = 0;
+//			}
+//			else if (client.hasToken() == false)
+//			{
+//				//// ????????????
+//			}
+//			else
+//			{
+//				// Update the label showing the data source information
+//				passPanel.updateLabels();
+//
+//				cards.show(panel, "pass");
+//				screen = 1;
+//			}
+//		}
+//
+//		// Displaying the SelectStudies screen
+//		else if (newScreen == 2)
+//		{
+//			enableBack(true);
+//
+//			// Save details entered on the previous screen (if any)
+//			passPanel.saveOptions();
+//
+//			// Download the list of studies and their metadata
+//			if (studiesPanel.refreshStudies())
+//			{
+//				cards.show(panel, "studies");
+//				screen = 2;
+//			}
+//		}
+//
+//		// Displaying the SelectMaps screen
+//		else if (newScreen == 3)
+//		{
+//			enableBack(true);
+//
+//			// Download the list of maps and their metadata
+//			if (mapsPanel.refreshMaps())
+//			{
+//				cards.show(panel, "maps");
+//				screen = 3;
+//			}
+//		}
+//
+//		// There is no screen '4' - close and continue
+//		else if (newScreen == 4)
+//		{
+//			isOK = true;
+//			setVisible(false);
+//		}
+//	}
 
-		// Displaying the Authentication screen
-		else if (newScreen == 1)
-		{
-			enableBack(true);
-
-			// Update the label showing the data source information
-			passPanel.updateLabels();
-
-			cards.show(panel, "pass");
-			screen = 1;
-		}
-
-		// Displaying the SelectStudies screen
-		else if (newScreen == 2)
-		{
-			enableBack(true);
-
-			// Save details entered on the previous screen (if any)
-			passPanel.saveOptions();
-
-			// Download the list of studies and their metadata
-			if (studiesPanel.refreshStudies())
-			{
-				cards.show(panel, "studies");
-				screen = 2;
-			}
-		}
-
-		// Displaying the SelectMaps screen
-		else if (newScreen == 3)
-		{
-			enableBack(true);
-
-			// Download the list of maps and their metadata
-			if (mapsPanel.refreshMaps())
-			{
-				cards.show(panel, "maps");
-				screen = 3;
-			}
-		}
-
-		// There is no screen '4' - close and continue
-		else if (newScreen == 4)
-		{
-			isOK = true;
-			setVisible(false);
-		}
+	void wizardCompleted()
+	{
+		isOK = true;
+		setVisible(false);
 	}
 
 	public boolean isOK()

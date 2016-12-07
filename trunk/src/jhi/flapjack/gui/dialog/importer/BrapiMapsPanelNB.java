@@ -3,7 +3,7 @@
 
 package jhi.flapjack.gui.dialog.importer;
 
-import java.util.List;
+import java.util.*;
 import javax.swing.*;
 
 import jhi.flapjack.gui.*;
@@ -13,7 +13,7 @@ import scri.commons.gui.*;
 
 import jhi.brapi.api.genomemaps.*;
 
-class BrapiMapsPanelNB extends javax.swing.JPanel
+class BrapiMapsPanelNB extends JPanel implements IBrapiWizard
 {
 	private BrapiClient client;
 	private List<BrapiGenomeMap> maps;
@@ -35,7 +35,7 @@ class BrapiMapsPanelNB extends javax.swing.JPanel
 			displayMap();
 		});
 
-		mapsCombo.addActionListener(e -> displayMap() );
+		mapsCombo.addActionListener(e -> displayMap());
 	}
 
 	private void displayMap()
@@ -63,7 +63,7 @@ class BrapiMapsPanelNB extends javax.swing.JPanel
 		dialog.enableNext(index >= 0 || checkSkipMap.isSelected());
 	}
 
-	boolean refreshMaps()
+	void refreshMaps()
 	{
 		ProgressDialog pd = new ProgressDialog(new DataDownloader(),
 			 RB.getString("gui.dialog.importer.BrapiMapsPanelNB.title"),
@@ -71,7 +71,7 @@ class BrapiMapsPanelNB extends javax.swing.JPanel
 			 Flapjack.winMain);
 
 		if (pd.failed("gui.error"))
-			return false;
+			return;
 
 		// Populate the maps combo box
 		mapModel = new DefaultComboBoxModel<String>();
@@ -81,8 +81,6 @@ class BrapiMapsPanelNB extends javax.swing.JPanel
 
 		mapsCombo.setModel(mapModel);
 		displayMap();
-
-		return true;
 	}
 
 	private class DataDownloader extends SimpleJob
@@ -93,6 +91,35 @@ class BrapiMapsPanelNB extends javax.swing.JPanel
 			maps = client.getMaps();
 		}
 	}
+
+	@Override
+	public void onShow()
+	{
+		dialog.enableBack(true);
+
+		if (mapModel == null || mapModel.getSize() == 0)
+			refreshMaps();
+	}
+
+	@Override
+	public void onNext()
+	{
+		dialog.wizardCompleted();
+	}
+
+	@Override
+	public void onBack()
+	{
+		dialog.setScreen(dialog.studiesPanel);
+	}
+
+	@Override
+	public JPanel getPanel()
+		{ return this; }
+
+	@Override
+	public String getCardName()
+		{ return "maps"; }
 
 	/**
 	 * This method is called from within the constructor to initialize the form.
