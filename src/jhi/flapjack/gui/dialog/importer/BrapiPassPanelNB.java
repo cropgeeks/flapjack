@@ -13,13 +13,15 @@ import jhi.flapjack.io.brapi.*;
 
 import scri.commons.gui.*;
 
-class BrapiPassPanelNB extends JPanel implements ActionListener
+class BrapiPassPanelNB extends JPanel implements ActionListener, IBrapiWizard
 {
 	private BrapiClient client;
 	private BrapiImportDialog dialog;
 
-	private DefaultComboBoxModel<XmlCategory> catModel = new DefaultComboBoxModel<XmlCategory>();
-	private DefaultComboBoxModel<XmlResource> resModel = new DefaultComboBoxModel<XmlResource>();
+	private DefaultComboBoxModel<XmlCategory> catModel = new DefaultComboBoxModel<>();
+	private DefaultComboBoxModel<XmlResource> resModel = new DefaultComboBoxModel<>();
+
+	private boolean isAuthenticated = false;
 
 	public BrapiPassPanelNB(BrapiClient client, BrapiImportDialog dialog)
 	{
@@ -65,6 +67,64 @@ class BrapiPassPanelNB extends JPanel implements ActionListener
 		connectionLabel.setIcon(new ImageIcon(img));
 
 		connectionLabel.setText("Connecting to " + client.getResource().getName());
+	}
+
+	@Override
+	public void onShow()
+	{
+		dialog.enableBack(true);
+		dialog.enableNext(true);
+	}
+
+	@Override
+	public void onNext()
+	{
+		if (useAuthentication.isSelected() && doAuthentication() || !useAuthentication.isSelected())
+			dialog.setScreen(dialog.studiesPanel);
+	}
+
+	@Override
+	public void onBack()
+	{
+		dialog.setScreen(dialog.dataPanel);
+	}
+
+	@Override
+	public JPanel getPanel()
+		{ return this; }
+
+	@Override
+	public String getCardName()
+		{ return "pass"; }
+
+	private boolean doAuthentication()
+	{
+		ProgressDialog pd = new ProgressDialog(new DataDownloader(),
+			RB.getString("gui.dialog.importer.BrapiPassPanelNB.title"),
+			RB.getString("gui.dialog.importer.BrapiPassPanelNB.message"),
+			Flapjack.winMain);
+
+		if (pd.failed("gui.error"))
+			return false;
+
+		if (isAuthenticated == false)
+		{
+			TaskDialog.error(
+				RB.getString("gui.dialog.importer.BrapiPassPanelNB.error"),
+				RB.getString("gui.text.close"));
+			return false;
+		}
+
+		return true;
+	}
+
+	private class DataDownloader extends SimpleJob
+	{
+		public void runJob(int jobID)
+			throws Exception
+		{
+			isAuthenticated = client.doAuthentication();
+		}
 	}
 
 	/**
@@ -183,5 +243,5 @@ class BrapiPassPanelNB extends JPanel implements ActionListener
     private javax.swing.JCheckBox useAuthentication;
     private javax.swing.JLabel userLabel;
     private javax.swing.JTextField username;
-    // End of variables declaration//GEN-END:variables
+	// End of variables declaration//GEN-END:variables
 }

@@ -88,6 +88,18 @@ public class BrapiMapImporter implements IMapImporter
 			}
 		}
 
+		// If we can retrieve information on a map's chromosome lengths (via the
+		// BRAPI maps/id call, do so and set the length for each chromosome
+		if (isOK && client.hasMapsMapDbId())
+		{
+			BrapiMapMetaData md = client.getMapMetaData();
+			for (BrapiLinkageGroup group : md.getLinkageGroups())
+			{
+				ChromosomeMap.Wrapper wrapper = dataSet.getMapByName(group.getLinkageGroupId(), false);
+				wrapper.map.setLength(group.getMaxPosition());
+			}
+		}
+
 		if (isOK)
 			dataSet.orderMarkersWithinMaps();
 

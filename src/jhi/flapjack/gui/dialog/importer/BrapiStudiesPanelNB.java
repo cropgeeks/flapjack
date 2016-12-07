@@ -3,7 +3,7 @@
 
 package jhi.flapjack.gui.dialog.importer;
 
-import java.util.List;
+import java.util.*;
 import javax.swing.*;
 
 import jhi.flapjack.gui.*;
@@ -13,7 +13,7 @@ import jhi.brapi.api.studies.*;
 
 import scri.commons.gui.*;
 
-class BrapiStudiesPanelNB extends javax.swing.JPanel
+class BrapiStudiesPanelNB extends JPanel implements IBrapiWizard
 {
 	private BrapiClient client;
 	private List<BrapiStudies> studies;
@@ -56,7 +56,7 @@ class BrapiStudiesPanelNB extends javax.swing.JPanel
 		dialog.enableNext(index >= 0);
 	}
 
-	boolean refreshStudies()
+	private void refreshStudies()
 	{
 		ProgressDialog pd = new ProgressDialog(new DataDownloader(),
 			 RB.getString("gui.dialog.importer.BrapiStudiesPanelNB.title"),
@@ -64,7 +64,7 @@ class BrapiStudiesPanelNB extends javax.swing.JPanel
 			 Flapjack.winMain);
 
 		if (pd.failed("gui.error"))
-			return false;
+			return;
 
 		// Populate the maps combo box
 		studiesModel = new DefaultComboBoxModel<String>();
@@ -75,7 +75,8 @@ class BrapiStudiesPanelNB extends javax.swing.JPanel
 		studiesCombo.setModel(studiesModel);
 		displayStudies();
 
-		return true;
+		// TODO: Can we progress if no studies get loaded
+		dialog.enableNext(studiesModel.getSize() > 0);
 	}
 
 	private class DataDownloader extends SimpleJob
@@ -83,13 +84,42 @@ class BrapiStudiesPanelNB extends javax.swing.JPanel
 		public void runJob(int jobID)
 			throws Exception
 		{
-			client.initService();
-
-			client.doAuthentication();
-
 			studies = client.getStudies();
 		}
 	}
+
+	@Override
+	public void onShow()
+	{
+		dialog.enableBack(true);
+		dialog.enableNext(false);
+
+		if (studiesModel == null || studiesModel.getSize() == 0)
+			refreshStudies();
+	}
+
+	@Override
+	public void onNext()
+	{
+		dialog.setScreen(dialog.mapsPanel);
+	}
+
+	@Override
+	public void onBack()
+	{
+		if (client.hasToken())
+			dialog.setScreen(dialog.passPanel);
+		else
+			dialog.setScreen(dialog.dataPanel);
+	}
+
+	@Override
+	public JPanel getPanel()
+		{ return this; }
+
+	@Override
+	public String getCardName()
+		{ return "studies"; }
 
 	/**
 	 * This method is called from within the constructor to initialize the form.

@@ -4,7 +4,6 @@
 package jhi.flapjack.gui.dialog.importer;
 
 import java.awt.*;
-import java.net.*;
 import javax.swing.*;
 
 import jhi.flapjack.gui.*;
@@ -12,14 +11,14 @@ import jhi.flapjack.io.brapi.*;
 
 import scri.commons.gui.*;
 
-class BrapiDataPanelNB extends javax.swing.JPanel
+class BrapiDataPanelNB extends JPanel implements IBrapiWizard
 {
 	private XmlBrapiProvider data;
 	private BrapiClient client;
 	private BrapiImportDialog dialog;
 
-	private DefaultComboBoxModel<XmlCategory> catModel = new DefaultComboBoxModel<XmlCategory>();
-	private DefaultComboBoxModel<XmlResource> resModel = new DefaultComboBoxModel<XmlResource>();
+	private DefaultComboBoxModel<XmlCategory> catModel = new DefaultComboBoxModel<>();
+	private DefaultComboBoxModel<XmlResource> resModel = new DefaultComboBoxModel<>();
 
 	public BrapiDataPanelNB(BrapiClient client, BrapiImportDialog dialog)
 	{
@@ -29,11 +28,45 @@ class BrapiDataPanelNB extends javax.swing.JPanel
 		initComponents();
 
 		catCombo.setModel(catModel);
-		catCombo.addItemListener(e -> { displayCategory(); });
+		catCombo.addItemListener(e -> displayCategory());
 
 		resCombo.setModel(resModel);
-		resCombo.addItemListener(e -> { displayResource(); });
+		resCombo.addItemListener(e -> displayResource());
 	}
+
+	public void onShow()
+	{
+		dialog.enableBack(false);
+
+		// On first run refreshData will set enableNext appropriately
+		if (catModel.getSize() == 0)
+			refreshData();
+		// Otherwise we have come back, so must be able to go forward
+		else
+			dialog.enableNext(true);
+	}
+
+	public void onNext()
+	{
+		if (validateCalls())
+		{
+			if (client.hasToken())
+				dialog.setScreen(dialog.passPanel);
+
+			else
+				dialog.setScreen(dialog.studiesPanel);
+		}
+	}
+
+	public void onBack()
+	{
+	}
+
+	public JPanel getPanel()
+		{ return this; }
+
+	public String getCardName()
+		{ return "data"; }
 
 	void refreshData()
 	{
@@ -127,6 +160,29 @@ class BrapiDataPanelNB extends javax.swing.JPanel
 				(int)(w*scale), (int)(h*scale), Image.SCALE_SMOOTH);
 
 			label.setIcon(new ImageIcon(i));
+		}
+	}
+
+	boolean validateCalls()
+	{
+		ProgressDialog pd = new ProgressDialog(new CallsDownloader(),
+			RB.getString("gui.dialog.importer.BrapiDataPanelNB.title2"),
+			RB.getString("gui.dialog.importer.BrapiDataPanelNB.message2"),
+			Flapjack.winMain);
+
+		if (pd.failed("gui.error"))
+			return false;
+
+		return true;
+	}
+
+	private class CallsDownloader extends SimpleJob
+	{
+		public void runJob(int jobID)
+			throws Exception
+		{
+			client.initService();
+			client.getCalls();
 		}
 	}
 

@@ -32,7 +32,7 @@ class CallsUtils
 			return false;
 		if (hasCall("markerprofiles", JSON, GET) == false)
 			return false;
-		if (hasCall("allelematrix-search", JSON, POST) == false && hasCall("allelematrix-search", TSV, POST))
+		if (hasCall("allelematrix-search", JSON, POST) == false && hasCall("allelematrix-search", TSV, POST) == false)
 			return false;
 
 		return true;
