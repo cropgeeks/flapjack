@@ -125,7 +125,7 @@ public class Hdf5ToGenotypeConverter
 		s = System.currentTimeMillis();
 		// Load markers from HDF5 and find the indices of our loaded markers
 		String[] hdf5MarkersArray = reader.readStringArray(MARKERS);
-		hdf5Markers = Arrays.asList(hdf5MarkersArray);
+		hdf5Markers = new ArrayList<String>(Arrays.asList(hdf5MarkersArray));
 
 		if (markers == null)
 			markers = hdf5Markers;
