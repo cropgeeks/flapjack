@@ -15,31 +15,31 @@ import retrofit2.http.*;
 public interface BrapiService
 {
 	@GET("calls")
-	Call<BrapiListResource<BrapiCall>> getCalls(@Query("pageSize") String pageSize, @Query("page") String page);
+	Call<BrapiListResource<BrapiCall>> getCalls(@Query("pageSize") int pageSize, @Query("page") int page);
 
 	@FormUrlEncoded
 	@POST("token")
 	Call<BrapiSessionToken> getAuthToken(@Field("grant_type") String grantType, @Field("username") String username, @Field("password") String password, @Field("client_id") String clientId);
 
 	@GET("studies-search")
-	Call<BrapiListResource<BrapiStudies>> getStudies(@Query("studyType") String studyType, @Query("pageSize") String pageSize, @Query("page") String page);
+	Call<BrapiListResource<BrapiStudies>> getStudies(@Query("studyType") String studyType, @Query("pageSize") int pageSize, @Query("page") int page);
 
 	@POST("studies-search")
 	Call<BrapiListResource<BrapiStudies>> getStudiesPost(@Body BrapiStudiesPost studiesPost);
 
 	@GET("maps")
-	Call<BrapiListResource<BrapiGenomeMap>> getMaps(@Query("pageSize") String pageSize, @Query("page") String page);
+	Call<BrapiListResource<BrapiGenomeMap>> getMaps(@Query("pageSize") int pageSize, @Query("page") int page);
 
 	@GET("maps/{id}")
 	Call<BrapiBaseResource<BrapiMapMetaData>> getMapMetaData(@Path("id") String id);
 
 	@GET("maps/{id}/positions")
-	Call<BrapiListResource<BrapiMarkerPosition>> getMapMarkerData(@Path("id") String id, @Query("pageSize") String pageSize, @Query("page") String page);
+	Call<BrapiListResource<BrapiMarkerPosition>> getMapMarkerData(@Path("id") String id, @Query("pageSize") int pageSize, @Query("page") int page);
 
 	@GET("markerprofiles")
-	Call<BrapiListResource<BrapiMarkerProfile>> getMarkerProfiles(@Query("studyDbId") String studyDbId, @Query("pageSize") String pageSize, @Query("page") String page);
+	Call<BrapiListResource<BrapiMarkerProfile>> getMarkerProfiles(@Query("studyDbId") String studyDbId, @Query("pageSize") int pageSize, @Query("page") int page);
 
 	@FormUrlEncoded
 	@POST("allelematrix-search")
-	Call<BrapiBaseResource<BrapiAlleleMatrix>> getAlleleMatrix(@Field("markerprofileDbId")List<String> markerProfileDbIds, @Field("format") String format, @Query("pageSize") String pageSize, @Query("page") String page);
+	Call<BrapiBaseResource<BrapiAlleleMatrix>> getAlleleMatrix(@Field("markerprofileDbId")List<String> markerProfileDbIds, @Field("format") String format, @Query("pageSize") int pageSize, @Query("page") int page);
 }
