@@ -93,6 +93,9 @@ public class BrapiClient
 	public boolean hasAlleleMatrixSearchTSV()
 		{ return callsUtils.hasAlleleMatrixSearchTSV(); }
 
+	public boolean hasAlleleMatrixSearchFlapjack()
+		{ return callsUtils.hasAlleleMatrixSearchFlapjack(); }
+
 	public boolean hasMapsMapDbId()
 		{ return callsUtils.hasMapsMapDbId(); }
 
@@ -195,6 +198,29 @@ public class BrapiClient
 		return list;
 	}
 
+	public List<BrapiStudies> getStudiesByPost()
+		throws Exception
+	{
+		List<BrapiStudies> list = new ArrayList<>();
+		Pager pager = new Pager();
+
+		BrapiStudiesPost post = new BrapiStudiesPost();
+		post.setStudyType("genotype");
+
+		while (pager.isPaging())
+		{
+			BrapiListResource<BrapiStudies> br = service.getStudiesPost(post)
+				.execute()
+				.body();
+
+			list.addAll(br.data());
+
+			pager.paginate(br.getMetadata());
+		}
+
+		return list;
+	}
+
 	public List<BrapiMarkerProfile> getMarkerProfiles()
 		throws Exception
 	{
@@ -240,12 +266,12 @@ public class BrapiClient
 		return list;
 	}
 
-	public URI getAlleleMatrixTSV(List<BrapiMarkerProfile> markerprofiles)
+	private URI getAlleleMatrixFile(List<BrapiMarkerProfile> markerProfiles, String format)
 		throws Exception
 	{
-		List<String> ids = markerprofiles.stream().map(BrapiMarkerProfile::getMarkerProfileDbId).collect(Collectors.toList());
+		List<String> ids = markerProfiles.stream().map(BrapiMarkerProfile::getMarkerProfileDbId).collect(Collectors.toList());
 
-		BrapiBaseResource<BrapiAlleleMatrix> br = service.getAlleleMatrix(ids, "tsv", null, null)
+		BrapiBaseResource<BrapiAlleleMatrix> br = service.getAlleleMatrix(ids, format, null, null)
 			.execute()
 			.body();
 
@@ -253,6 +279,18 @@ public class BrapiClient
 		List<Datafile> files = md.getDatafiles();
 
 		return new URI(files.get(0).getUrl());
+	}
+
+	public URI getAlleleMatrixTSV(List<BrapiMarkerProfile> markerprofiles)
+		throws Exception
+	{
+		return getAlleleMatrixFile(markerprofiles, "tsv");
+	}
+
+	public URI getAlleleMatrixFlapjack(List<BrapiMarkerProfile> markerProfiles)
+		throws Exception
+	{
+		return getAlleleMatrixFile(markerProfiles, "flapjack");
 	}
 
 	public XmlBrapiProvider getBrapiProviders()

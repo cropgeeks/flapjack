@@ -13,6 +13,7 @@ class CallsUtils
 	private static final String POST = "POST";
 	private static final String JSON = "json";
 	private static final String TSV = "tsv";
+	private static final String FLAPJACK = "flapjack";
 
 	private List<BrapiCall> calls;
 
@@ -32,7 +33,9 @@ class CallsUtils
 			return false;
 		if (hasCall("markerprofiles", JSON, GET) == false)
 			return false;
-		if (hasCall("allelematrix-search", JSON, POST) == false && hasCall("allelematrix-search", TSV, POST) == false)
+		if (hasCall("allelematrix-search", JSON, POST) == false
+			&& hasAlleleMatrixSearchTSV() == false
+			&&  hasAlleleMatrixSearchFlapjack() == false)
 			return false;
 
 		return true;
@@ -60,5 +63,10 @@ class CallsUtils
 	boolean hasAlleleMatrixSearchTSV()
 	{
 		return hasCall("allelematrix-search", TSV, POST);
+	}
+
+	boolean hasAlleleMatrixSearchFlapjack()
+	{
+		return hasCall("allelematrix-search", FLAPJACK, POST);
 	}
 }
