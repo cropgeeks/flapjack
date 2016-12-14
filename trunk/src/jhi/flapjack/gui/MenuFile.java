@@ -4,6 +4,8 @@
 package jhi.flapjack.gui;
 
 import java.io.*;
+import java.util.*;
+import java.util.zip.*;
 
 import jhi.flapjack.analysis.*;
 import jhi.flapjack.data.*;
@@ -373,6 +375,11 @@ public class MenuFile
 	{
 		System.out.println("Handle drag/drop");
 
+		// Is this a .fjzip file? If so, extract its contents and use them
+		if (filenames[0].toLowerCase().endsWith(".fjzip"))
+			filenames = handleFJZipFile(filenames);
+
+
 		FlapjackFile[] files = new FlapjackFile[filenames.length];
 		for (int i = 0; i < filenames.length; i++)
 		{
@@ -431,6 +438,44 @@ public class MenuFile
 			else if (fjFile.getType() == FlapjackFile.WIGGLE)
 				importGraphData(fjFile.getFile());
 		}
+	}
+
+	// Looks at the list of files and if the FIRST one has a .fjzip extension,
+	// extracts its contents to temp and then returns a new array of the
+	// extracted files' paths for further file open/import processing
+	private String[] handleFJZipFile(String[] filenames)
+	{
+		try
+		{
+			File dir = FlapjackUtils.getCacheDir();
+			ZipInputStream zis = new ZipInputStream(new BufferedInputStream(
+				new FileInputStream(filenames[0])));
+			ZipEntry ze = zis.getNextEntry();
+
+			ArrayList<String> files = new ArrayList<>();
+
+			while (ze != null)
+			{
+				files.add(new File(dir, ze.getName()).toString());
+				BufferedOutputStream out = new BufferedOutputStream(
+					new FileOutputStream(new File(dir, ze.getName())));
+				BufferedInputStream in = new BufferedInputStream(zis);
+
+				byte[] b = new byte[4096];
+				for (int n; (n = in.read(b)) != -1;)
+					out.write(b, 0, n);
+
+				out.close();
+				ze = zis.getNextEntry();
+			}
+			zis.closeEntry();
+			zis.close();
+
+			return files.toArray(new String[] {});
+		}
+		catch (Exception e) {}
+
+		return filenames;
 	}
 
 	void fileExport()

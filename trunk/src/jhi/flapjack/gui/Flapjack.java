@@ -23,7 +23,7 @@ public class Flapjack
 	private static File prefsFile = getPrefsFile();
 	private static Prefs prefs = new Prefs();
 
-	private static FlapjackFile initialProject;
+	private static String[] initialProject;
 
 	public static WinMain winMain;
 
@@ -57,8 +57,8 @@ public class Flapjack
 		FlapjackUtils.initialiseSqlite();
 
 		// Start the GUI (either with or without an initial project)
-		if (args.length == 1 && args[0] != null)
-			initialProject = new FlapjackFile(args[0]);
+		if (args.length >= 1)
+			initialProject = args;
 
 		install4j();
 
@@ -140,7 +140,7 @@ public class Flapjack
 
 				// Do we want to open an initial project?
 				if (initialProject != null)
-					winMain.mFile.fileOpen(initialProject);
+					winMain.mFile.handleDragDrop(initialProject);
 			}
 
 			public void windowIconified(WindowEvent e) {
@@ -266,7 +266,7 @@ public class Flapjack
 
 		// Otherwise, mark it for opening once Flapjack is ready
 		else
-			initialProject = new FlapjackFile(path);
+			initialProject = new String[] { path };
 	}
 
 	/** "Quit Flapjack" on the OS X system menu. */
