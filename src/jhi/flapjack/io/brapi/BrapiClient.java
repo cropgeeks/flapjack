@@ -270,8 +270,9 @@ public class BrapiClient
 		throws Exception
 	{
 		List<String> ids = markerProfiles.stream().map(BrapiMarkerProfile::getMarkerProfileDbId).collect(Collectors.toList());
+		Pager pager = new Pager();
 
-		BrapiBaseResource<BrapiAlleleMatrix> br = service.getAlleleMatrix(ids, format, null, null)
+		BrapiBaseResource<BrapiAlleleMatrix> br = service.getAlleleMatrix(ids, format, pager.getPageSize(), pager.getPage())
 			.execute()
 			.body();
 
@@ -410,8 +411,8 @@ public class BrapiClient
 	class Pager
 	{
 		private boolean isPaging = true;
-		private String pageSize = "100000";
-		private String page = "0";
+		private int pageSize = 100000;
+		private int page = 0;
 
 		// Returns true if another 'page' of data should be requested
 		private void paginate(Metadata metadata)
@@ -426,8 +427,8 @@ public class BrapiClient
 
 			// If it's ok to request another page, update the URL (for the next call)
 			// so that it does so
-			pageSize = "" + p.getPageSize();
-			page = "" + (p.getCurrentPage()+1);
+			pageSize = p.getPageSize();
+			page = (p.getCurrentPage()+1);
 		}
 
 		public boolean isPaging()
@@ -436,16 +437,16 @@ public class BrapiClient
 		public void setPaging(boolean paging)
 		{ isPaging = paging; }
 
-		public String getPageSize()
+		public int getPageSize()
 		{ return pageSize; }
 
-		public void setPageSize(String pageSize)
+		public void setPageSize(int pageSize)
 		{ this.pageSize = pageSize; }
 
-		public String getPage()
+		public int getPage()
 		{ return page; }
 
-		public void setPage(String page)
+		public void setPage(int page)
 		{ this.page = page; }
 	}
 }
