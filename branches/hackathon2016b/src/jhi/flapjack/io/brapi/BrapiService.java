@@ -24,6 +24,9 @@ public interface BrapiService
 	@GET("studies-search")
 	Call<BrapiListResource<BrapiStudies>> getStudies(@Query("studyType") String studyType, @Query("pageSize") String pageSize, @Query("page") String page);
 
+	@POST("studies-search")
+	Call<BrapiListResource<BrapiStudies>> getStudiesPost(@Body BrapiStudiesPost studiesPost);
+
 	@GET("maps")
 	Call<BrapiListResource<BrapiGenomeMap>> getMaps(@Query("pageSize") String pageSize, @Query("page") String page);
 
