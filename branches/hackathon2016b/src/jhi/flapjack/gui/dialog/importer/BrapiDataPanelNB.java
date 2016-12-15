@@ -101,6 +101,7 @@ class BrapiDataPanelNB extends JPanel implements IBrapiWizard
 			// Display the description text
 			XmlCategory cat = catModel.getElementAt(index);
 			catText.setText(cat.getDescription());
+			catText.setCaretPosition(0);
 
 			// Then fill the resources model with its possible options
 			resModel.removeAllElements();
@@ -126,6 +127,7 @@ class BrapiDataPanelNB extends JPanel implements IBrapiWizard
 			// Display the description text
 			XmlResource res = resModel.getElementAt(index);
 			resText.setText(res.getDescription());
+			resText.setCaretPosition(0);
 
 			// Finally, see if we can grab an image for use in the logo panel
 			setIcon(res.getImage(), resLogo);
