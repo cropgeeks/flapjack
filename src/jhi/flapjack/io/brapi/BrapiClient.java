@@ -256,9 +256,7 @@ public class BrapiClient
 				.execute()
 				.body();
 
-			ArrayList<BrapiAlleleMatrix> temp = new ArrayList<>();
-			temp.add(br.getResult());
-			list.addAll(temp);
+			list.add(br.getResult());
 
 			pager.paginate(br.getMetadata());
 		}
