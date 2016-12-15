@@ -277,9 +277,9 @@ public class BrapiClient
 			.body();
 
 		Metadata md = br.getMetadata();
-		List<Datafile> files = md.getDatafiles();
+		List<String> files = md.getDatafiles();
 
-		return new URI(files.get(0).getUrl());
+		return new URI(files.get(0));
 	}
 
 	public URI getAlleleMatrixTSV(List<BrapiMarkerProfile> markerprofiles)
