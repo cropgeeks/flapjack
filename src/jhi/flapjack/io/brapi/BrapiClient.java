@@ -72,7 +72,7 @@ public class BrapiClient
 
 		while (pager.isPaging())
 		{
-			BrapiListResource<BrapiCall> br = service.getCalls(pager.getPageSize(), pager.getPage())
+			BrapiListResource<BrapiCall> br = service.getCalls(null, pager.getPageSize(), pager.getPage())
 				.execute()
 				.body();
 
@@ -108,7 +108,9 @@ public class BrapiClient
 		if (username == null && password == null)
 			return false;
 
-		BrapiSessionToken token = service.getAuthToken("password", enc(username), enc(password), "flapjack")
+		BrapiTokenPost tokenPost = new BrapiTokenPost(enc(username), enc(password), "password", "flapjack");
+
+		BrapiSessionToken token = service.getAuthToken(tokenPost)
 			.execute()
 			.body();
 
@@ -134,7 +136,7 @@ public class BrapiClient
 
 		while (pager.isPaging())
 		{
-			BrapiListResource<BrapiGenomeMap> br = service.getMaps(pager.getPageSize(), pager.getPage())
+			BrapiListResource<BrapiGenomeMap> br = service.getMaps(null, null, pager.getPageSize(), pager.getPage())
 				.execute()
 				.body();
 
@@ -155,7 +157,7 @@ public class BrapiClient
 
 		while (pager.isPaging())
 		{
-			BrapiListResource<BrapiMarkerPosition> br = service.getMapMarkerData(enc(mapID), pager.getPageSize(), pager.getPage())
+			BrapiListResource<BrapiMarkerPosition> br = service.getMapMarkerData(enc(mapID), null, pager.getPageSize(), pager.getPage())
 				.execute()
 				.body();
 
@@ -229,7 +231,7 @@ public class BrapiClient
 
 		while (pager.isPaging())
 		{
-			BrapiListResource<BrapiMarkerProfile> br = service.getMarkerProfiles(studyID, pager.getPageSize(), pager.getPage())
+			BrapiListResource<BrapiMarkerProfile> br = service.getMarkerProfiles(null, studyID, null, null, pager.getPageSize(), pager.getPage())
 				.execute()
 				.body();
 
@@ -252,7 +254,7 @@ public class BrapiClient
 
 		while (pager.isPaging())
 		{
-			BrapiBaseResource<BrapiAlleleMatrix> br = service.getAlleleMatrix(ids, null, pager.getPageSize(), pager.getPage())
+			BrapiBaseResource<BrapiAlleleMatrix> br = service.getAlleleMatrix(ids, null, null, null, null, null, null, pager.getPageSize(), pager.getPage())
 				.execute()
 				.body();
 
@@ -268,9 +270,8 @@ public class BrapiClient
 		throws Exception
 	{
 		List<String> ids = markerProfiles.stream().map(BrapiMarkerProfile::getMarkerProfileDbId).collect(Collectors.toList());
-		Pager pager = new Pager();
 
-		BrapiBaseResource<BrapiAlleleMatrix> br = service.getAlleleMatrix(ids, format, pager.getPageSize(), pager.getPage())
+		BrapiBaseResource<BrapiAlleleMatrix> br = service.getAlleleMatrix(ids, null, format, null, null, null, null, null, null)
 			.execute()
 			.body();
 
