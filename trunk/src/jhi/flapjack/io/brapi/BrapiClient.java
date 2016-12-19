@@ -72,7 +72,7 @@ public class BrapiClient
 
 		while (pager.isPaging())
 		{
-			BrapiListResource<BrapiCall> br = service.getCalls(pager.getPageSize(), pager.getPage())
+			BrapiListResource<BrapiCall> br = service.getCalls(null, pager.getPageSize(), pager.getPage())
 				.execute()
 				.body();
 
@@ -93,6 +93,9 @@ public class BrapiClient
 	public boolean hasAlleleMatrixSearchTSV()
 		{ return callsUtils.hasAlleleMatrixSearchTSV(); }
 
+	public boolean hasAlleleMatrixSearchFlapjack()
+		{ return callsUtils.hasAlleleMatrixSearchFlapjack(); }
+
 	public boolean hasMapsMapDbId()
 		{ return callsUtils.hasMapsMapDbId(); }
 
@@ -105,7 +108,9 @@ public class BrapiClient
 		if (username == null && password == null)
 			return false;
 
-		BrapiSessionToken token = service.getAuthToken("password", enc(username), enc(password), "flapjack")
+		BrapiTokenPost tokenPost = new BrapiTokenPost(enc(username), enc(password), "password", "flapjack");
+
+		BrapiSessionToken token = service.getAuthToken(tokenPost)
 			.execute()
 			.body();
 
@@ -131,7 +136,7 @@ public class BrapiClient
 
 		while (pager.isPaging())
 		{
-			BrapiListResource<BrapiGenomeMap> br = service.getMaps(pager.getPageSize(), pager.getPage())
+			BrapiListResource<BrapiGenomeMap> br = service.getMaps(null, null, pager.getPageSize(), pager.getPage())
 				.execute()
 				.body();
 
@@ -152,7 +157,7 @@ public class BrapiClient
 
 		while (pager.isPaging())
 		{
-			BrapiListResource<BrapiMarkerPosition> br = service.getMapMarkerData(enc(mapID), pager.getPageSize(), pager.getPage())
+			BrapiListResource<BrapiMarkerPosition> br = service.getMapMarkerData(enc(mapID), null, pager.getPageSize(), pager.getPage())
 				.execute()
 				.body();
 
@@ -195,6 +200,29 @@ public class BrapiClient
 		return list;
 	}
 
+	public List<BrapiStudies> getStudiesByPost()
+		throws Exception
+	{
+		List<BrapiStudies> list = new ArrayList<>();
+		Pager pager = new Pager();
+
+		BrapiStudiesPost post = new BrapiStudiesPost();
+		post.setStudyType("genotype");
+
+		while (pager.isPaging())
+		{
+			BrapiListResource<BrapiStudies> br = service.getStudiesPost(post)
+				.execute()
+				.body();
+
+			list.addAll(br.data());
+
+			pager.paginate(br.getMetadata());
+		}
+
+		return list;
+	}
+
 	public List<BrapiMarkerProfile> getMarkerProfiles()
 		throws Exception
 	{
@@ -203,7 +231,7 @@ public class BrapiClient
 
 		while (pager.isPaging())
 		{
-			BrapiListResource<BrapiMarkerProfile> br = service.getMarkerProfiles(studyID, pager.getPageSize(), pager.getPage())
+			BrapiListResource<BrapiMarkerProfile> br = service.getMarkerProfiles(null, studyID, null, null, pager.getPageSize(), pager.getPage())
 				.execute()
 				.body();
 
@@ -226,13 +254,11 @@ public class BrapiClient
 
 		while (pager.isPaging())
 		{
-			BrapiBaseResource<BrapiAlleleMatrix> br = service.getAlleleMatrix(ids, null, pager.getPageSize(), pager.getPage())
+			BrapiBaseResource<BrapiAlleleMatrix> br = service.getAlleleMatrix(ids, null, null, null, null, null, null, pager.getPageSize(), pager.getPage())
 				.execute()
 				.body();
 
-			ArrayList<BrapiAlleleMatrix> temp = new ArrayList<>();
-			temp.add(br.getResult());
-			list.addAll(temp);
+			list.add(br.getResult());
 
 			pager.paginate(br.getMetadata());
 		}
@@ -240,19 +266,31 @@ public class BrapiClient
 		return list;
 	}
 
-	public URI getAlleleMatrixTSV(List<BrapiMarkerProfile> markerprofiles)
+	private URI getAlleleMatrixFile(List<BrapiMarkerProfile> markerProfiles, String format)
 		throws Exception
 	{
-		List<String> ids = markerprofiles.stream().map(BrapiMarkerProfile::getMarkerProfileDbId).collect(Collectors.toList());
+		List<String> ids = markerProfiles.stream().map(BrapiMarkerProfile::getMarkerProfileDbId).collect(Collectors.toList());
 
-		BrapiBaseResource<BrapiAlleleMatrix> br = service.getAlleleMatrix(ids, "tsv", null, null)
+		BrapiBaseResource<BrapiAlleleMatrix> br = service.getAlleleMatrix(ids, null, format, null, null, null, null, null, null)
 			.execute()
 			.body();
 
 		Metadata md = br.getMetadata();
-		List<Datafile> files = md.getDatafiles();
+		List<String> files = md.getDatafiles();
 
-		return new URI(files.get(0).getUrl());
+		return new URI(files.get(0));
+	}
+
+	public URI getAlleleMatrixTSV(List<BrapiMarkerProfile> markerprofiles)
+		throws Exception
+	{
+		return getAlleleMatrixFile(markerprofiles, "tsv");
+	}
+
+	public URI getAlleleMatrixFlapjack(List<BrapiMarkerProfile> markerProfiles)
+		throws Exception
+	{
+		return getAlleleMatrixFile(markerProfiles, "flapjack");
 	}
 
 	public XmlBrapiProvider getBrapiProviders()
@@ -372,8 +410,8 @@ public class BrapiClient
 	class Pager
 	{
 		private boolean isPaging = true;
-		private String pageSize = "100000";
-		private String page = "0";
+		private int pageSize = 100000;
+		private int page = 0;
 
 		// Returns true if another 'page' of data should be requested
 		private void paginate(Metadata metadata)
@@ -388,8 +426,8 @@ public class BrapiClient
 
 			// If it's ok to request another page, update the URL (for the next call)
 			// so that it does so
-			pageSize = "" + p.getPageSize();
-			page = "" + (p.getCurrentPage()+1);
+			pageSize = p.getPageSize();
+			page = (p.getCurrentPage()+1);
 		}
 
 		public boolean isPaging()
@@ -398,16 +436,16 @@ public class BrapiClient
 		public void setPaging(boolean paging)
 		{ isPaging = paging; }
 
-		public String getPageSize()
+		public int getPageSize()
 		{ return pageSize; }
 
-		public void setPageSize(String pageSize)
+		public void setPageSize(int pageSize)
 		{ this.pageSize = pageSize; }
 
-		public String getPage()
+		public int getPage()
 		{ return page; }
 
-		public void setPage(String page)
+		public void setPage(int page)
 		{ this.page = page; }
 	}
 }
