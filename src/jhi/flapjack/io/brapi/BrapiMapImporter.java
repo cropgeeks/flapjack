@@ -20,6 +20,7 @@ public class BrapiMapImporter implements IMapImporter
 	// Each marker's name is stored (only while loading) in a hashmap, along
 	// with the index of the chromosome it is associated with
 	private HashMap<String, MarkerIndex> markers = new HashMap<>();
+	private HashMap<String, MarkerIndex> markersByName = new HashMap<>();
 	private long markerCount = 0;
 
 	private LinkedList<String> duplicates = new LinkedList<>();
@@ -35,6 +36,9 @@ public class BrapiMapImporter implements IMapImporter
 	@Override
 	public HashMap<String, MarkerIndex> getMarkersHashMap()
 		{ return markers; }
+
+	public HashMap<String, MarkerIndex> getMarkersByName()
+		{ return markersByName; }
 
 	@Override
 	public void cancelImport()
@@ -82,7 +86,9 @@ public class BrapiMapImporter implements IMapImporter
 				// This is different from normal load code that uses names; here we#re using IDs as that's
 				// what BRAPI returns, but we've used the hash above to map between names and IDs
 				// *************
-				markers.put(bm.getMarkerDbId(), new MarkerIndex(w.index, 0));
+				MarkerIndex mi = new MarkerIndex(w.index, 0);
+				markers.put(bm.getMarkerDbId(), mi);
+				markersByName.put(bm.getMarkerName(), mi);
 
 				markerCount++;
 			}
