@@ -19,6 +19,7 @@ import jhi.brapi.api.calls.*;
 import jhi.brapi.api.genomemaps.*;
 import jhi.brapi.api.markerprofiles.*;
 import jhi.brapi.api.studies.*;
+import jhi.brapi.client.*;
 
 import okhttp3.*;
 
@@ -27,7 +28,7 @@ import retrofit2.converter.jackson.*;
 
 public class BrapiClient
 {
-	private BrapiService service;
+	private RetrofitService service;
 
 	// The resource selected by the user for use
 	private XmlResource resource;
@@ -55,7 +56,7 @@ public class BrapiClient
 			.client(okHttpClient)
 			.build();
 
-		service = retrofit.create(BrapiService.class);
+		service = retrofit.create(RetrofitService.class);
 	}
 
 	private String enc(String str)
@@ -406,46 +407,4 @@ public class BrapiClient
 //		   	public SSLContext createSslContext() throws Exception { return sslContext; }
 //		});
 //	}
-
-	class Pager
-	{
-		private boolean isPaging = true;
-		private int pageSize = 100000;
-		private int page = 0;
-
-		// Returns true if another 'page' of data should be requested
-		private void paginate(Metadata metadata)
-		{
-			Pagination p = metadata.getPagination();
-
-			if (p.getTotalPages() == 0)
-				isPaging = false;
-
-			if (p.getCurrentPage() == p.getTotalPages()-1)
-				isPaging = false;
-
-			// If it's ok to request another page, update the URL (for the next call)
-			// so that it does so
-			pageSize = p.getPageSize();
-			page = (p.getCurrentPage()+1);
-		}
-
-		public boolean isPaging()
-		{ return isPaging; }
-
-		public void setPaging(boolean paging)
-		{ isPaging = paging; }
-
-		public int getPageSize()
-		{ return pageSize; }
-
-		public void setPageSize(int pageSize)
-		{ this.pageSize = pageSize; }
-
-		public int getPage()
-		{ return page; }
-
-		public void setPage(int page)
-		{ this.page = page; }
-	}
 }
