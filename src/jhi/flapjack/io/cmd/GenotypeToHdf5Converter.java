@@ -108,11 +108,12 @@ public class GenotypeToHdf5Converter
 
 				// Here we determine the size of the chunks within the matrix.
 				// HDF5 has a hard limit of 4GB per chunk, so we need to set the chunk sizes appropriately.
+				// IMPORTANT: If we ever move away from using bytes for the states, then this needs to be adjusted.
 				long fourGig = 4L * 1024L * 1024L * 1024L;
-				// The number of rows is at least one, at most all of them and then depends on the number of times we can fit all the markers into 4GB
-				int accessionChunk = (int) Math.min(nrOfRows, Math.max(1, Math.floor(fourGig / (markers.length * 8f))));
+				// The number of rows is at least one and then depends on the number of times we can fit all the markers into 4GB
+				int accessionChunk = (int) Math.min(nrOfRows, Math.max(1, Math.floor(fourGig / (markers.length * 1d))));
 				// The number of columns is at most the number of markers and if the row is more than 4GB, then it's  the maximal number of columns that fit in 4GB
-				int markerChunk = (int) Math.min(markers.length, Math.floor(fourGig / 8f));
+				int markerChunk = (int) Math.min(markers.length, fourGig);
 
 				// Create the matrix based on the number of rows and the number of markers
 				writer.int8().createMatrix(DATA, nrOfRows, markers.length, accessionChunk, markerChunk);
