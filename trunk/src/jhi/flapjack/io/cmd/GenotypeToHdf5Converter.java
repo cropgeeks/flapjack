@@ -76,6 +76,10 @@ public class GenotypeToHdf5Converter
 				 // The second reader is just to get the number of rows
 				 LineNumberReader lineNumberReader = new LineNumberReader(new InputStreamReader(new FileInputStream(genotypeFile), "UTF-8")))
 			{
+				// Delete old files with this name, because otherwise the new data will get appended to the old data
+				if(hdf5File.exists() && hdf5File.isFile())
+					hdf5File.delete();
+
 				IHDF5Writer writer = HDF5Factory.open(hdf5File);
 				LinkedHashMap<String, Byte> stateTable = new LinkedHashMap<>();
 				stateTable.put("", (byte) 0);
@@ -102,8 +106,16 @@ public class GenotypeToHdf5Converter
 				String[] tokens = line.split("\t", -1);
 				String[] markers = Arrays.copyOfRange(tokens, 1, tokens.length);
 
+				// Here we determine the size of the chunks within the matrix.
+				// HDF5 has a hard limit of 4GB per chunk, so we need to set the chunk sizes appropriately.
+				long fourGig = 4L * 1024L * 1024L * 1024L;
+				// The number of rows is at least one, at most all of them and then depends on the number of times we can fit all the markers into 4GB
+				int accessionChunk = (int) Math.min(nrOfRows, Math.max(1, Math.floor(fourGig / (markers.length * 8f))));
+				// The number of columns is at most the number of markers and if the row is more than 4GB, then it's  the maximal number of columns that fit in 4GB
+				int markerChunk = (int) Math.min(markers.length, Math.floor(fourGig / 8f));
+
 				// Create the matrix based on the number of rows and the number of markers
-				writer.int8().createMatrix(DATA, nrOfRows, markers.length);
+				writer.int8().createMatrix(DATA, nrOfRows, markers.length, accessionChunk, markerChunk);
 
 				// Remember the line names
 				List<String> lines = new ArrayList<>();
