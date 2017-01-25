@@ -7,10 +7,10 @@ import java.io.*;
 import java.util.*;
 
 import jhi.flapjack.servlet.*;
+import static jhi.flapjack.servlet.FlapjackServlet.LOG;
 
 import org.apache.commons.fileupload.*;
 import org.apache.commons.fileupload.disk.*;
-import org.ggf.drmaa.*;
 import org.restlet.data.*;
 import org.restlet.ext.fileupload.*;
 import org.restlet.representation.*;
@@ -67,25 +67,22 @@ public class PCoAServerResource extends ServerResource
 				{
 					FileUtils.writeFile(new File(wrkDir, "matrix.txt"), fi.openStream());
 
+					List<String> args = new ArrayList<>();
+					args.add("-cp");
+					args.add(FlapjackServlet.fjPath);
+					args.add("jhi.flapjack.servlet.pcoa.PCoATask");
+					args.add(FlapjackServlet.rPath);
+					args.add(wrkDir.toString());
+					args.add(noDimensions);
+
 					try
 					{
-						Session session = FlapjackServlet.getDRMAASession();
+						FlapjackServlet.getScheduler().initialize();
+						String jobId = FlapjackServlet.getScheduler().submit(args, wrkDir.toString());
 
-						JobTemplate jt = session.createJobTemplate();
+						taskId += "-" + jobId;
 
-						jt.setRemoteCommand("java");
-						List<String> args = new ArrayList<>();
-						args.add("-cp");
-						args.add(FlapjackServlet.fjPath);
-						args.add("jhi.flapjack.servlet.pcoa.PCoATask");
-						args.add(FlapjackServlet.rPath);
-						args.add(wrkDir.toString());
-						args.add(noDimensions);
-						jt.setArgs(args);
-
-						jt.setWorkingDirectory(wrkDir.toString());
-
-						taskId += "-" + session.runJob(jt);
+						LOG.info("TASKID: " + taskId);
 					}
 					catch (Exception e)
 					{
@@ -113,28 +110,42 @@ public class PCoAServerResource extends ServerResource
 	@Get("txt")
 	public Representation getFitAsTextFile()
 	{
-		// TODO: How can we really be sure the job finished correctly?
-		if (FlapjackServlet.isJobFinished(id))
+		try
 		{
-			// Work out where the working folder was (from the ID param)
-			String taskId = id.substring(0, id.indexOf("-"));
-			File wrkDir = FlapjackServlet.getWorkingDir(taskId);
+			// TODO: How can we really be sure the job finished correctly?
+			if (FlapjackServlet.getScheduler().isJobFinished(id))
+			{
+				// Work out where the working folder was (from the ID param)
+				String taskId = id.substring(0, id.indexOf("-"));
+				File wrkDir = FlapjackServlet.getWorkingDir(taskId);
 
-			File fit = new File(wrkDir, "fit.txt");
-			return new FileRepresentation(fit, MediaType.TEXT_PLAIN);
+				File fit = new File(wrkDir, "fit.txt");
+				return new FileRepresentation(fit, MediaType.TEXT_PLAIN);
+			}
+
+			else
+			{
+				// HTTP 204 NO CONTENT
+				setStatus(org.restlet.data.Status.SUCCESS_NO_CONTENT);
+				return null;
+			}
 		}
-
-		else
+		catch (Exception e)
 		{
-			// HTTP 204 NO CONTENT
-			setStatus(org.restlet.data.Status.SUCCESS_NO_CONTENT);
-			return null;
+			throw new ResourceException(500, e);
 		}
 	}
 
 	@Delete
 	public void cancelJob()
 	{
-		FlapjackServlet.cancelJob(id);
+		try
+		{
+			FlapjackServlet.getScheduler().cancelJob(id);
+		}
+		catch (Exception e)
+		{
+			throw new ResourceException(500, e);
+		}
 	}
 }

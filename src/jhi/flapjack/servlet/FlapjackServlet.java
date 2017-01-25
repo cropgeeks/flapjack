@@ -6,22 +6,19 @@ package jhi.flapjack.servlet;
 import java.io.*;
 import java.util.logging.*;
 import javax.servlet.*;
+import jhi.flapjack.servlet.api.*;
 
 import jhi.flapjack.servlet.dendrogram.*;
 import jhi.flapjack.servlet.pcoa.*;
 
 import org.restlet.*;
-import org.restlet.resource.*;
 import org.restlet.routing.*;
-
-import org.ggf.drmaa.*;
 
 public class FlapjackServlet extends Application implements ServletContextListener
 {
 	public static Logger LOG;
 
-	// DRMAA session object for submitting jobs to a queue management engine
-	private static Session session = null;
+	private static IScheduler scheduler = new DRMAAScheduler();
 
 	// Servlet context-parameters (overriden by values in META-INF/context.xml)
 	public static String rPath = "/usr/bin/R";
@@ -64,10 +61,9 @@ public class FlapjackServlet extends Application implements ServletContextListen
 	{
 		try
 		{
-			if (session != null)
-				session.exit();
+			scheduler.destroy();
 		}
-		catch (DrmaaException e)
+		catch (Exception e)
 		{
 			e.printStackTrace();
 		}
@@ -97,77 +93,6 @@ public class FlapjackServlet extends Application implements ServletContextListen
 		return wrkdir;
 	}
 
-	public static boolean isJobFinished(String id)
-	{
-		// Strip off the DRMAA job id
-		String drmaaID = id.substring(id.lastIndexOf("-")+1);
-
-		try
-		{
-			int status = session.getJobProgramStatus(drmaaID);
-
-			switch (status)
-			{
-				case Session.DONE:
-					LOG.info("## Job " + drmaaID + " is DONE");
-					return true;
-
-				case Session.UNDETERMINED:
-				case Session.FAILED:
-					LOG.severe("## Job " + drmaaID + " UNDERTERMINED OR FAILED");
-					throw new ResourceException(500);
-
-				default:
-					LOG.info("## Job " + drmaaID + " is " + status);
-					return false;
-			}
-		}
-		catch (DrmaaException e)
-		{
-			e.printStackTrace();
-			throw new ResourceException(500);
-		}
-	}
-
-	public static void cancelJob(String id)
-	{
-		try
-		{
-			// Strip off the DRMAA job id
-			String drmaaID = id.substring(id.lastIndexOf("-")+1);
-
-			session.control(drmaaID, Session.TERMINATE);
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-			throw new ResourceException(500);
-		}
-	}
-
-	public static Session getDRMAASession()
-	{
-		// DRMAA NOTES:
-		// Added drmaa.jar to ${catalina.base}/shared/lib/
-		// Added the following to tomcat's bin/setenv.sh file:
-		//   export LD_LIBRARY_PATH=/opt/sge/lib/lx-amd64
-		// Added the following to ${catalina.base}/conf/catalina.properties
-		//   shared.loader="${catalina.base}/shared/lib/*.jar"
-
-		try
-		{
-			if (session == null)
-			{
-				SessionFactory factory = SessionFactory.getFactory();
-				session = factory.getSession();
-				session.init(null);
-			}
-		}
-		catch (DrmaaException e)
-		{
-			e.printStackTrace();
-		}
-
-		return session;
-	}
+	public static IScheduler getScheduler()
+		{ return scheduler; }
 }

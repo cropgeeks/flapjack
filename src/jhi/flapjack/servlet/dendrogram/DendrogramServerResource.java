@@ -7,10 +7,11 @@ import java.io.*;
 import java.util.*;
 
 import jhi.flapjack.servlet.*;
+import static jhi.flapjack.servlet.FlapjackServlet.LOG;
 
 import org.apache.commons.fileupload.*;
 import org.apache.commons.fileupload.disk.*;
-import org.ggf.drmaa.*;
+
 import org.restlet.data.*;
 import org.restlet.ext.fileupload.*;
 import org.restlet.representation.*;
@@ -50,6 +51,8 @@ public class DendrogramServerResource extends ServerResource
 	public Representation store(Representation entity)
 		throws Exception
 	{
+		LOG.info("####################");
+
 		String taskId = flapjackUID + System.currentTimeMillis();
 		File wrkDir = FlapjackServlet.getWorkingDir(taskId);
 //		File matrix = new File(wrkDir, "matrix.txt");
@@ -67,25 +70,22 @@ public class DendrogramServerResource extends ServerResource
 				{
 					FileUtils.writeFile(new File(wrkDir, "matrix.txt"), fi.openStream());
 
+					List<String> args = new ArrayList<>();
+					args.add("-cp");
+					args.add(FlapjackServlet.fjPath);
+					args.add("jhi.flapjack.servlet.dendrogram.DendrogramTask");
+					args.add(FlapjackServlet.rPath);
+					args.add(wrkDir.toString());
+					args.add("" + lineCount);
+
 					try
 					{
-						Session session = FlapjackServlet.getDRMAASession();
+						FlapjackServlet.getScheduler().initialize();
+						String jobId = FlapjackServlet.getScheduler().submit(args, wrkDir.toString());
 
-						JobTemplate jt = session.createJobTemplate();
+						taskId += "-" + jobId;
 
-						jt.setRemoteCommand("java");
-						List<String> args = new ArrayList<>();
-						args.add("-cp");
-						args.add(FlapjackServlet.fjPath);
-						args.add("jhi.flapjack.servlet.dendrogram.DendrogramTask");
-						args.add(FlapjackServlet.rPath);
-						args.add(wrkDir.toString());
-						args.add("" + lineCount);
-						jt.setArgs(args);
-
-						jt.setWorkingDirectory(wrkDir.toString());
-
-						taskId += "-" + session.runJob(jt);
+						LOG.info("TASKID: " + taskId);
 					}
 					catch (Exception e)
 					{
@@ -94,7 +94,6 @@ public class DendrogramServerResource extends ServerResource
 					}
 				}
 			}
-
 		}
 		else
 		{
@@ -114,28 +113,42 @@ public class DendrogramServerResource extends ServerResource
 	@Get("zip")
 	public Representation getDendrogramAsZipFile()
 	{
-		// TODO: How can we really be sure the job finished correctly?
-		if (FlapjackServlet.isJobFinished(id))
+		try
 		{
-			// Work out where the working folder was (from the ID param)
-			String taskId = id.substring(0, id.indexOf("-"));
-			File wrkDir = FlapjackServlet.getWorkingDir(taskId);
+			// TODO: How can we really be sure the job finished correctly?
+			if (FlapjackServlet.getScheduler().isJobFinished(id))
+			{
+				// Work out where the working folder was (from the ID param)
+				String taskId = id.substring(0, id.indexOf("-"));
+				File wrkDir = FlapjackServlet.getWorkingDir(taskId);
 
-			File zipFile = new File(wrkDir, "results.zip");
-			return new FileRepresentation(zipFile, MediaType.APPLICATION_ZIP);
+				File zipFile = new File(wrkDir, "results.zip");
+				return new FileRepresentation(zipFile, MediaType.APPLICATION_ZIP);
+			}
+
+			else
+			{
+				// HTTP 204 NO CONTENT
+				setStatus(org.restlet.data.Status.SUCCESS_NO_CONTENT);
+				return null;
+			}
 		}
-
-		else
+		catch (Exception e)
 		{
-			// HTTP 204 NO CONTENT
-			setStatus(org.restlet.data.Status.SUCCESS_NO_CONTENT);
-			return null;
+			throw new ResourceException(500, e);
 		}
 	}
 
 	@Delete
 	public void cancelJob()
 	{
-		FlapjackServlet.cancelJob(id);
+		try
+		{
+			FlapjackServlet.getScheduler().cancelJob(id);
+		}
+		catch (Exception e)
+		{
+			throw new ResourceException(500, e);
+		}
 	}
 }
