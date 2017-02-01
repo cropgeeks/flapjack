@@ -32,6 +32,7 @@ public class DendrogramClient
 	private ArrayList<Integer> lineOrder = new ArrayList<>();
 
 	private boolean okToRun = true;
+	private Thread runnerThread;
 
 	public DendrogramClient(SimMatrix matrix, int lineCount)
 	{
@@ -55,6 +56,8 @@ public class DendrogramClient
 	public Dendrogram generateDendrogram()
 		throws Exception
 	{
+		runnerThread = Thread.currentThread();
+
 		// Send similarity matrix to the dendrogram API endpoint
 		taskId = postSimMatrix();
 
@@ -196,7 +199,13 @@ public class DendrogramClient
 
 	public void cancelJob()
 	{
-		okToRun = false;
-		service.cancelJob(taskId);
+		if (runnerThread != null)
+			runnerThread.interrupt();
+
+		try
+		{
+			okToRun = false;
+			service.cancelJob(taskId).execute();
+		} catch (Exception e) {}
 	}
 }

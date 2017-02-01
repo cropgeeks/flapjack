@@ -18,7 +18,8 @@ public class FlapjackServlet extends Application implements ServletContextListen
 {
 	public static Logger LOG;
 
-	private static IScheduler scheduler = new DRMAAScheduler();
+//	private static IScheduler scheduler = new DRMAAScheduler();
+	private static IScheduler scheduler = new SLURMScheduler();
 
 	// Servlet context-parameters (overriden by values in META-INF/context.xml)
 	public static String rPath = "/usr/bin/R";
