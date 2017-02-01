@@ -29,6 +29,7 @@ public class PCoAClient
 	private final String noDimensions;
 
 	private boolean okToRun = true;
+	private Thread runnerThread;
 
 	public PCoAClient(SimMatrix matrix, String noDimensions)
 	{
@@ -46,6 +47,8 @@ public class PCoAClient
 	public PCoAResult generatePco()
 		throws Exception
 	{
+		runnerThread = Thread.currentThread();
+
 		// Send similarity matrix to the pcoa API endpoint
 		taskId = postSimMatrix();
 
@@ -133,7 +136,14 @@ public class PCoAClient
 
 	public void cancelJob()
 	{
-		okToRun = false;
-		service.cancelJob(taskId);
+		if (runnerThread != null)
+			runnerThread.interrupt();
+
+		try
+		{
+			okToRun = false;
+			service.cancelJob(taskId).execute();
+
+		} catch (Exception e) {}
 	}
 }

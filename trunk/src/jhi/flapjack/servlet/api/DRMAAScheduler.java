@@ -49,12 +49,12 @@ public class DRMAAScheduler implements IScheduler
 			session.exit();
 	}
 
-	public String submit(List<String> args, String wrkDir)
+	public String submit(String command, List<String> args, String wrkDir)
 		throws DrmaaException
 	{
 		JobTemplate jt = session.createJobTemplate();
 
-		jt.setRemoteCommand("java");
+		jt.setRemoteCommand(command);
 		jt.setArgs(args);
 		jt.setWorkingDirectory(wrkDir.toString());
 
@@ -64,24 +64,21 @@ public class DRMAAScheduler implements IScheduler
 	public boolean isJobFinished(String id)
 		throws Exception
 	{
-		// Strip off the DRMAA job id
-		String drmaaID = id.substring(id.lastIndexOf("-")+1);
-
-		int status = session.getJobProgramStatus(drmaaID);
+		int status = session.getJobProgramStatus(id);
 
 		switch (status)
 		{
 			case Session.DONE:
-				LOG.info("## DRMAA Job " + drmaaID + " is DONE");
+				LOG.info("## DRMAA Job " + id + " is DONE");
 				return true;
 
 			case Session.UNDETERMINED:
 			case Session.FAILED:
-				LOG.severe("## DRMAA Job " + drmaaID + " UNDETERMINED OR FAILED");
-				throw new Exception("Job " + drmaaID + " undetermined or failed");
+				LOG.severe("## DRMAA Job " + id + " UNDETERMINED OR FAILED");
+				throw new Exception("Job " + id + " undetermined or failed");
 
 			default:
-				LOG.info("## DRMAA Job " + drmaaID + " is " + status);
+				LOG.info("## DRMAA Job " + id + " is " + status);
 				return false;
 		}
 	}
@@ -89,10 +86,7 @@ public class DRMAAScheduler implements IScheduler
 	public void cancelJob(String id)
 		throws DrmaaException
 	{
-		// Strip off the DRMAA job id
-		String drmaaID = id.substring(id.lastIndexOf("-")+1);
-
-		session.control(drmaaID, Session.TERMINATE);
+		session.control(id, Session.TERMINATE);
 
 		LOG.info("Cancelled job with ID " + id);
 	}

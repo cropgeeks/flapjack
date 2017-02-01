@@ -5,6 +5,7 @@ package jhi.flapjack.servlet.dendrogram;
 
 import java.io.*;
 import java.util.*;
+import java.util.logging.*;
 
 import jhi.flapjack.servlet.*;
 import static jhi.flapjack.servlet.FlapjackServlet.LOG;
@@ -81,7 +82,7 @@ public class DendrogramServerResource extends ServerResource
 					try
 					{
 						FlapjackServlet.getScheduler().initialize();
-						String jobId = FlapjackServlet.getScheduler().submit(args, wrkDir.toString());
+						String jobId = FlapjackServlet.getScheduler().submit("java", args, wrkDir.toString());
 
 						taskId += "-" + jobId;
 
@@ -89,8 +90,7 @@ public class DendrogramServerResource extends ServerResource
 					}
 					catch (Exception e)
 					{
-						e.printStackTrace();
-						throw new ResourceException(500);
+						throw new ResourceException(500, e);
 					}
 				}
 			}
@@ -115,8 +115,11 @@ public class DendrogramServerResource extends ServerResource
 	{
 		try
 		{
+			// Strip off the scheduler job id
+			String sID = id.substring(id.lastIndexOf("-")+1);
+
 			// TODO: How can we really be sure the job finished correctly?
-			if (FlapjackServlet.getScheduler().isJobFinished(id))
+			if (FlapjackServlet.getScheduler().isJobFinished(sID))
 			{
 				// Work out where the working folder was (from the ID param)
 				String taskId = id.substring(0, id.indexOf("-"));
@@ -144,7 +147,9 @@ public class DendrogramServerResource extends ServerResource
 	{
 		try
 		{
-			FlapjackServlet.getScheduler().cancelJob(id);
+			// Strip off the scheduler job id
+			String sID = id.substring(id.lastIndexOf("-")+1);
+			FlapjackServlet.getScheduler().cancelJob(sID);
 		}
 		catch (Exception e)
 		{
