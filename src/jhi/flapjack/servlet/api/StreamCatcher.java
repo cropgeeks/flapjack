@@ -10,7 +10,6 @@ import java.util.logging.*;
 public abstract class StreamCatcher extends Thread
 {
 	private BufferedReader reader = null;
-	private boolean isRunning = true;
 
 	public StreamCatcher(InputStream in)
 	{
@@ -38,12 +37,7 @@ public abstract class StreamCatcher extends Thread
 
 		try { reader.close(); }
 		catch (IOException e) {}
-
-		isRunning = false;
 	}
-
-	boolean isRunning()
-	{ return isRunning; }
 
 	protected abstract void processLine(String line)
 		throws Exception;
