@@ -114,6 +114,8 @@ public class Hdf5ToGenotypeConverter
 
 		if (lines == null)
 			lines = hdf5Lines;
+		else
+			lines = lines.stream().filter(line -> hdf5Lines.contains(line)).collect(Collectors.toList());
 
 		lineInds = new HashMap<>();
 		for (int i = 0; i < hdf5LinesArray.length; i++)
@@ -129,6 +131,8 @@ public class Hdf5ToGenotypeConverter
 
 		if (markers == null)
 			markers = hdf5Markers;
+		else
+			markers = markers.stream().filter(marker -> hdf5Markers.contains(marker)).collect(Collectors.toList());
 
 		markerInds = new HashMap<>();
 		for (int i = 0; i < hdf5MarkersArray.length; i++)
