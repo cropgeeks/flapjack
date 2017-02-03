@@ -29,6 +29,7 @@ import retrofit2.converter.jackson.*;
 public class BrapiClient
 {
 	private RetrofitService service;
+	private String baseURL;
 
 	// The resource selected by the user for use
 	private XmlResource resource;
@@ -38,25 +39,64 @@ public class BrapiClient
 
 	private CallsUtils callsUtils;
 
+	private String authToken;
+
 	public void initService()
 		throws Exception
 	{
-		String baseURL = resource.getUrl();
+		baseURL = resource.getUrl();
 		baseURL = baseURL.endsWith("/") ? baseURL : baseURL + "/";
 
+		service = createService(baseURL, null);
+	}
+
+	private RetrofitService createService(String baseURL, String authToken)
+	{
+		Interceptor inter = buildInterceptor(authToken);
+
 		// Tweak to make the timeout on Retrofit connections last longer
-		final OkHttpClient okHttpClient = new OkHttpClient.Builder()
+		OkHttpClient httpClient = new OkHttpClient.Builder()
 			.readTimeout(60, TimeUnit.SECONDS)
 			.connectTimeout(60, TimeUnit.SECONDS)
+			.addNetworkInterceptor(inter)
 			.build();
 
+		return buildService(baseURL, httpClient);
+	}
+
+	private Interceptor buildInterceptor(String authToken)
+	{
+		String bearer = "Bearer %s";
+
+		Interceptor inter = chain ->
+		{
+			Request original = chain.request();
+
+			// If we already have an authorization token in the header, or we
+			// don't have a valid token to add, return the original request
+			if (original.header("Authorization") != null || authToken == null || authToken.isEmpty())
+				return chain.proceed(original);
+
+			// Otherwise add the header and return the tweaked request
+			Request next = original.newBuilder()
+				.header("Authorization", String.format(bearer, authToken))
+				.build();
+
+			return chain.proceed(next);
+		};
+
+		return inter;
+	}
+
+	private RetrofitService buildService(String baseURL, OkHttpClient client)
+	{
 		Retrofit retrofit = new Retrofit.Builder()
 			.baseUrl(baseURL)
 			.addConverterFactory(JacksonConverterFactory.create())
-			.client(okHttpClient)
+			.client(client)
 			.build();
 
-		service = retrofit.create(RetrofitService.class);
+		return retrofit.create(RetrofitService.class);
 	}
 
 	private String enc(String str)
@@ -103,9 +143,6 @@ public class BrapiClient
 	public boolean doAuthentication()
 		throws Exception
 	{
-		if (true)
-			return false;
-
 		if (username == null && password == null)
 			return false;
 
@@ -115,17 +152,14 @@ public class BrapiClient
 			.execute()
 			.body();
 
-//		String params = "grant_type=password&username=" + enc(username)
-//			+ "&password=" + enc(password) + "&client_id=flapjack";
-//		Form form = new Form(params);
-//
-//		BrapiSessionToken token = cr.post(form.getWebRepresentation(), BrapiSessionToken.class);
-//
-//		// Add the token information to all further calls
-//		ChallengeResponse challenge = new ChallengeResponse(ChallengeScheme.HTTP_OAUTH_BEARER);
-//		challenge.setRawValue(token.getSessionToken());
-//		cr.setChallengeResponse(challenge);
-		return false;
+		if (token == null)
+			return false;
+
+		authToken = token.getSessionToken();
+
+		service = createService(baseURL, token.getSessionToken());
+
+		return true;
 	}
 
 	// Returns a list of available maps
@@ -295,7 +329,7 @@ public class BrapiClient
 	}
 
 	public XmlBrapiProvider getBrapiProviders()
-		throws Exception, IOException
+		throws Exception
 	{
 		URL url = new URL("https://ics.hutton.ac.uk/resources/brapi/brapi.zip");
 
@@ -407,4 +441,15 @@ public class BrapiClient
 //		   	public SSLContext createSslContext() throws Exception { return sslContext; }
 //		});
 //	}
+
+	// For cases where we need to use a standard http connection or similar,
+	// this method can be used to grab the authorization token and add it to
+	// the URLConnection
+	URLConnection addAuthTokenToConnection(URLConnection connection)
+	{
+		if (authToken != null && !authToken.isEmpty())
+			connection.setRequestProperty("Authorization", "Bearer " + authToken);
+
+		return connection;
+	}
 }

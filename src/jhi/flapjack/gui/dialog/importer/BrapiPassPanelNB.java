@@ -123,6 +123,9 @@ class BrapiPassPanelNB extends JPanel implements ActionListener, IBrapiWizard
 		public void runJob(int jobID)
 			throws Exception
 		{
+			client.setUsername(username.getText());
+			client.setPassword(new String(password.getPassword()));
+
 			isAuthenticated = client.doAuthentication();
 		}
 	}

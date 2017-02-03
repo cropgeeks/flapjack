@@ -56,7 +56,6 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 		this.ioUseHetSep = true;
 		this.ioHeteroSeparator = "/";
 
-
 		stateTable = dataSet.getStateTable();
 	}
 
@@ -133,7 +132,9 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 		throws Exception
 	{
 		URI uri = client.getAlleleMatrixTSV(profiles);
-		BufferedReader in = new BufferedReader(new InputStreamReader(uri.toURL().openStream()));
+		// We need to add the authorization token to the headers of requests from this client
+		URLConnection urlConnection = client.addAuthTokenToConnection(uri.toURL().openConnection());
+		BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
 
 		// The first line is a list of marker profile IDs
 		String str = in.readLine();
