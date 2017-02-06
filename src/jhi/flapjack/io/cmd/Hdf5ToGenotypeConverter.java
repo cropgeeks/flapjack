@@ -26,8 +26,8 @@ public class Hdf5ToGenotypeConverter
 	private static final String STATE_TABLE = "StateTable";
 
 	private File hdf5File;
-	private List<String> lines = null;
-	private List<String> markers = null;
+	private LinkedHashSet<String> lines = null;
+	private LinkedHashSet<String> markers = null;
 	private boolean missingDataFilter = false;
 	private boolean heterozygousFilter = false;
 
@@ -38,15 +38,15 @@ public class Hdf5ToGenotypeConverter
 
 	private IHDF5Reader reader;
 
-	private List<String> hdf5Lines;
-	private List<String> hdf5Markers;
+	private LinkedHashSet<String> hdf5Lines;
+	private LinkedHashSet<String> hdf5Markers;
 
 	public Hdf5ToGenotypeConverter(File hdf5File, List<String> lines, List<String> markers, boolean missingDataFilter, boolean heterozygousFilter)
 	{
 		// Setup input and output files
 		this.hdf5File = hdf5File;
-		this.lines = lines;
-		this.markers = markers;
+		this.lines = new LinkedHashSet<String>(lines);
+		this.markers = new LinkedHashSet<String>(markers);
 
 		// TODO: work out how we can implement these filters in a time efficient way
 		this.missingDataFilter = missingDataFilter;
@@ -110,12 +110,12 @@ public class Hdf5ToGenotypeConverter
 		s = System.currentTimeMillis();
 		// Load lines from HDF5 and find the indices of our loaded lines
 		String[] hdf5LinesArray = reader.readStringArray(LINES);
-		hdf5Lines = Arrays.asList(hdf5LinesArray);
+		hdf5Lines = new LinkedHashSet<String>(Arrays.asList(hdf5LinesArray));
 
 		if (lines == null)
 			lines = hdf5Lines;
 		else
-			lines = lines.stream().filter(line -> hdf5Lines.contains(line)).collect(Collectors.toList());
+			lines = lines.stream().filter(line -> hdf5Lines.contains(line)).collect(Collectors.toCollection(LinkedHashSet::new));
 
 		lineInds = new HashMap<>();
 		for (int i = 0; i < hdf5LinesArray.length; i++)
@@ -127,12 +127,12 @@ public class Hdf5ToGenotypeConverter
 		s = System.currentTimeMillis();
 		// Load markers from HDF5 and find the indices of our loaded markers
 		String[] hdf5MarkersArray = reader.readStringArray(MARKERS);
-		hdf5Markers = new ArrayList<String>(Arrays.asList(hdf5MarkersArray));
+		hdf5Markers = new LinkedHashSet<String>(Arrays.asList(hdf5MarkersArray));
 
 		if (markers == null)
 			markers = hdf5Markers;
 		else
-			markers = markers.stream().filter(marker -> hdf5Markers.contains(marker)).collect(Collectors.toList());
+			markers = markers.stream().filter(marker -> hdf5Markers.contains(marker)).collect(Collectors.toCollection(LinkedHashSet::new));
 
 		markerInds = new HashMap<>();
 		for (int i = 0; i < hdf5MarkersArray.length; i++)
@@ -200,11 +200,11 @@ public class Hdf5ToGenotypeConverter
 			.collect(Collectors.joining("\t", lineName + "\t", ""));
 	}
 
-	public List<String> getKeptMarkers()
+	public LinkedHashSet<String> getKeptMarkers()
 	{
 		// Filter the markers from the hdf5 file so that we have a list of only those markers that were in both the hdf5
 		// file and the list of desired markers / input list
-		List<String> keptMarkers = hdf5Markers;
+		LinkedHashSet<String> keptMarkers = hdf5Markers;
 		keptMarkers.retainAll(markers);
 
 		return keptMarkers;
