@@ -63,7 +63,7 @@ class BrapiMapsPanelNB extends JPanel implements IBrapiWizard
 		dialog.enableNext(index >= 0 || checkSkipMap.isSelected());
 	}
 
-	void refreshMaps()
+	private void refreshMaps()
 	{
 		ProgressDialog pd = new ProgressDialog(new DataDownloader(),
 			 RB.getString("gui.dialog.importer.BrapiMapsPanelNB.title"),
@@ -110,7 +110,8 @@ class BrapiMapsPanelNB extends JPanel implements IBrapiWizard
 	@Override
 	public void onBack()
 	{
-		dialog.setScreen(dialog.studiesPanel);
+		dialog.setScreen(dialog.getStudiesPanel());
+		dialog.getBBack().requestFocusInWindow();
 	}
 
 	@Override

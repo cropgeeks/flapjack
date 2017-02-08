@@ -365,6 +365,18 @@ public class BrapiClient
 		return (XmlBrapiProvider) jaxbUnmarshaller.unmarshal(xml);
 	}
 
+	public boolean requiresAuthentication()
+		throws Exception
+	{
+		Pager pager = new Pager();
+
+		// Check if the studies call requires authentication
+		int responseCode = service.getStudies("genotype", pager.getPageSize(), pager.getPage()).execute().code();
+
+		// 401 and 403 represent the two possible unauthorized / unauthenticated response codes
+		return responseCode == 401 || responseCode == 403;
+	}
+
 
 	public String getUsername()
 	{ return username; }

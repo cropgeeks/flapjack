@@ -40,14 +40,6 @@ class BrapiStudiesPanelNB extends JPanel implements IBrapiWizard
 			BrapiStudies study = studies.get(index);
 
 			client.setStudyID(study.getStudyDbId());
-
-//			String str = "Species: " + map.getSpecies() + "\n" +
-//				"Type: " + map.getType() + "\n" +
-//				"Unit: " + map.getUnit() + "\n" +
-//				"Date: " + map.getPublishedDate() + "\n" +
-//				"Markers: " + map.getMarkerCount() + "\n" +
-//				"Chromosomes: " + map.getLinkageGroupCount();
-
 			text.setText(study.getName() + " - " + study.getStudyDbId());
 		}
 		else
@@ -92,7 +84,7 @@ class BrapiStudiesPanelNB extends JPanel implements IBrapiWizard
 	public void onShow()
 	{
 		dialog.enableBack(true);
-		dialog.enableNext(false);
+		dialog.enableNext(studiesModel != null && studiesModel.getSize() > 0);
 
 		if (studiesModel == null || studiesModel.getSize() == 0)
 			refreshStudies();
@@ -101,16 +93,19 @@ class BrapiStudiesPanelNB extends JPanel implements IBrapiWizard
 	@Override
 	public void onNext()
 	{
-		dialog.setScreen(dialog.mapsPanel);
+		dialog.setScreen(dialog.getMapsPanel());
+		dialog.getBNext().requestFocusInWindow();
 	}
 
 	@Override
 	public void onBack()
 	{
 		if (client.hasToken())
-			dialog.setScreen(dialog.passPanel);
+			dialog.setScreen(dialog.getPassPanel());
 		else
-			dialog.setScreen(dialog.dataPanel);
+			dialog.setScreen(dialog.getDataPanel());
+
+		dialog.getBBack().requestFocusInWindow();
 	}
 
 	@Override

@@ -5,7 +5,6 @@ package jhi.flapjack.gui.dialog.importer;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.net.*;
 import javax.swing.*;
 
 import jhi.flapjack.gui.*;
@@ -17,9 +16,6 @@ class BrapiPassPanelNB extends JPanel implements ActionListener, IBrapiWizard
 {
 	private BrapiClient client;
 	private BrapiImportDialog dialog;
-
-	private DefaultComboBoxModel<XmlCategory> catModel = new DefaultComboBoxModel<>();
-	private DefaultComboBoxModel<XmlResource> resModel = new DefaultComboBoxModel<>();
 
 	private boolean isAuthenticated = false;
 
@@ -79,14 +75,39 @@ class BrapiPassPanelNB extends JPanel implements ActionListener, IBrapiWizard
 	@Override
 	public void onNext()
 	{
-		if (useAuthentication.isSelected() && doAuthentication() || !useAuthentication.isSelected())
-			dialog.setScreen(dialog.studiesPanel);
+		if (!useAuthentication.isSelected())
+		{
+			try
+			{
+				if (client.requiresAuthentication())
+				{
+					TaskDialog.error(
+						RB.getString("gui.dialog.importer.BrapiPassPanelNB.requiresAuth"),
+						RB.getString("gui.text.ok"));
+				}
+
+			}
+			catch (Exception e)
+			{
+				TaskDialog.error(
+					RB.getString("gui.dialog.importer.BrapiPassPanelNB.communicationError"),
+					RB.getString("gui.text.ok"));
+				e.printStackTrace();
+			}
+		}
+		else if (authenticate())
+		{
+			dialog.setScreen(dialog.getStudiesPanel());
+		}
+
+		dialog.getBNext().requestFocusInWindow();
 	}
 
 	@Override
 	public void onBack()
 	{
-		dialog.setScreen(dialog.dataPanel);
+		dialog.setScreen(dialog.getDataPanel());
+		dialog.getBBack().requestFocusInWindow();
 	}
 
 	@Override
@@ -97,7 +118,7 @@ class BrapiPassPanelNB extends JPanel implements ActionListener, IBrapiWizard
 	public String getCardName()
 		{ return "pass"; }
 
-	private boolean doAuthentication()
+	private boolean authenticate()
 	{
 		ProgressDialog pd = new ProgressDialog(new DataDownloader(),
 			RB.getString("gui.dialog.importer.BrapiPassPanelNB.title"),
@@ -107,7 +128,7 @@ class BrapiPassPanelNB extends JPanel implements ActionListener, IBrapiWizard
 		if (pd.failed("gui.error"))
 			return false;
 
-		if (isAuthenticated == false)
+		if (!isAuthenticated)
 		{
 			TaskDialog.error(
 				RB.getString("gui.dialog.importer.BrapiPassPanelNB.error"),
