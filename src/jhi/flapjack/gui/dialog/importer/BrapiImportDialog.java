@@ -5,6 +5,7 @@ package jhi.flapjack.gui.dialog.importer;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.beans.*;
 import javax.swing.*;
 
 import jhi.flapjack.gui.*;
@@ -18,16 +19,15 @@ public class BrapiImportDialog extends JDialog implements ActionListener
 	private JButton bNext, bBack, bCancel, bHelp;
 	private boolean isOK = false;
 
-	IBrapiWizard dataPanel;
-	IBrapiWizard passPanel;
-	IBrapiWizard mapsPanel;
-	IBrapiWizard studiesPanel;
+	private IBrapiWizard dataPanel;
+	private IBrapiWizard passPanel;
+	private IBrapiWizard mapsPanel;
+	private IBrapiWizard studiesPanel;
 
 	private IBrapiWizard currentPanel;
 
 	private CardLayout cards = new CardLayout();
 	private JPanel panel = new JPanel();
-	private int screen = 0;
 
 	private BrapiClient client = new BrapiClient();
 
@@ -49,7 +49,6 @@ public class BrapiImportDialog extends JDialog implements ActionListener
 		panel.add(passPanel.getPanel(), passPanel.getCardName());
 		panel.add(mapsPanel.getPanel(), mapsPanel.getCardName());
 		panel.add(studiesPanel.getPanel(), studiesPanel.getCardName());
-//		cards.first(panel);
 
 		add(panel);
 		add(createButtons(), BorderLayout.SOUTH);
@@ -119,86 +118,6 @@ public class BrapiImportDialog extends JDialog implements ActionListener
 		currentPanel = screen;
 	}
 
-//	private void setScreen(int newScreen)
-//	{
-//		// Displaying the DataSource screen
-//		if (newScreen == 0)
-//		{
-//			enableBack(false);
-//			enableNext(false);
-//
-//			// Grab the data sources
-//			dataPanel.refreshData();
-//
-//			cards.show(panel, "data");
-//			screen = 0;
-//		}
-//
-//		// Display the Authentication screen?
-//		else if (newScreen == 1)
-//		{
-//			enableBack(true);
-//
-//			// If BrAPI-> /calls doesn't validate, we can't proceed
-//			if (passPanel.validateCalls() == false)
-//			{
-//				enableBack(false);
-//				enableNext(true);
-//
-//				cards.show(panel, "data");
-//				screen = 0;
-//			}
-//			else if (client.hasToken() == false)
-//			{
-//				//// ????????????
-//			}
-//			else
-//			{
-//				// Update the label showing the data source information
-//				passPanel.updateLabels();
-//
-//				cards.show(panel, "pass");
-//				screen = 1;
-//			}
-//		}
-//
-//		// Displaying the SelectStudies screen
-//		else if (newScreen == 2)
-//		{
-//			enableBack(true);
-//
-//			// Save details entered on the previous screen (if any)
-//			passPanel.saveOptions();
-//
-//			// Download the list of studies and their metadata
-//			if (studiesPanel.refreshStudies())
-//			{
-//				cards.show(panel, "studies");
-//				screen = 2;
-//			}
-//		}
-//
-//		// Displaying the SelectMaps screen
-//		else if (newScreen == 3)
-//		{
-//			enableBack(true);
-//
-//			// Download the list of maps and their metadata
-//			if (mapsPanel.refreshMaps())
-//			{
-//				cards.show(panel, "maps");
-//				screen = 3;
-//			}
-//		}
-//
-//		// There is no screen '4' - close and continue
-//		else if (newScreen == 4)
-//		{
-//			isOK = true;
-//			setVisible(false);
-//		}
-//	}
-
 	void wizardCompleted()
 	{
 		isOK = true;
@@ -210,4 +129,22 @@ public class BrapiImportDialog extends JDialog implements ActionListener
 
 	public BrapiClient getBrapiClient()
 		{ return client; }
+
+	IBrapiWizard getDataPanel()
+		{ return dataPanel; }
+
+	IBrapiWizard getPassPanel()
+		{ return passPanel; }
+
+	IBrapiWizard getMapsPanel()
+		{ return mapsPanel; }
+
+	IBrapiWizard getStudiesPanel()
+		{ return studiesPanel; }
+
+	public JButton getBNext()
+		{ return bNext; }
+
+	public JButton getBBack()
+		{ return bBack; }
 }

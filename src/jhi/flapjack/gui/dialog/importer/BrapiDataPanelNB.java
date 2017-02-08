@@ -51,11 +51,13 @@ class BrapiDataPanelNB extends JPanel implements IBrapiWizard
 		if (validateCalls())
 		{
 			if (client.hasToken())
-				dialog.setScreen(dialog.passPanel);
+				dialog.setScreen(dialog.getPassPanel());
 
 			else
-				dialog.setScreen(dialog.studiesPanel);
+				dialog.setScreen(dialog.getStudiesPanel());
 		}
+
+		dialog.getBNext().requestFocusInWindow();
 	}
 
 	public void onBack()
