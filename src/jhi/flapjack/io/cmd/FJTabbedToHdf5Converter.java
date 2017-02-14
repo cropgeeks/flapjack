@@ -11,7 +11,7 @@ import java.util.stream.*;
 
 import ch.systemsx.cisd.hdf5.*;
 
-public class GenotypeToHdf5Converter
+public class FJTabbedToHdf5Converter
 {
 	private static final String LINES = "Lines";
 	private static final String MARKERS = "Markers";
@@ -44,11 +44,11 @@ public class GenotypeToHdf5Converter
 			return;
 		}
 
-		GenotypeToHdf5Converter converter = new GenotypeToHdf5Converter(genotypeFile, hdf5File);
+		FJTabbedToHdf5Converter converter = new FJTabbedToHdf5Converter(genotypeFile, hdf5File);
 		converter.convertToHdf5();
 	}
 
-	public GenotypeToHdf5Converter(File genotypeFile, File hdf5File)
+	public FJTabbedToHdf5Converter(File genotypeFile, File hdf5File)
 	{
 		this.genotypeFile = genotypeFile;
 		this.hdf5File = hdf5File;
@@ -177,7 +177,7 @@ public class GenotypeToHdf5Converter
 
 	private static void printHelp()
 	{
-		System.out.println("Usage: geno2hdf5 <options>\n"
+		System.out.println("Usage: fj2hdf5 <options>\n"
 			+ " where valid options are:\n"
 			+ "   -genotypes=<genotypes_file>    (required input file)\n"
 			+ "   -hdf5=<hdf5_file>              (required output file)\n");
