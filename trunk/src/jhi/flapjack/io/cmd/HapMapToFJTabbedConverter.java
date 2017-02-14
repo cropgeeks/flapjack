@@ -9,7 +9,7 @@ import java.util.stream.*;
  * constructor accepts a {@link java.io.File} representing the HapMap file to be converted, as well as a
  * {@link java.io.File} each, representing the Flapjack map file and the Flapjack genotype file to be produced.
  */
-public class HapMapToFlapjackConverter
+public class HapMapToFJTabbedConverter
 {
 	private static final String HAPMAP_HEADER_ID = "rs";
 
@@ -57,7 +57,7 @@ public class HapMapToFlapjackConverter
 			else if (separator.equals("t"))
 				separator = TAB_SEPARATOR;
 
-			HapMapToFlapjackConverter toFlapjack = new HapMapToFlapjackConverter(hapMapFile, mapFile, genotypeFile, separator);
+			HapMapToFJTabbedConverter toFlapjack = new HapMapToFJTabbedConverter(hapMapFile, mapFile, genotypeFile, separator);
 			toFlapjack.convert();
 		}
 	}
@@ -71,7 +71,7 @@ public class HapMapToFlapjackConverter
 	 * @param map        the Flapjack map file to be producecd by the converter
 	 * @param genoytpyes the Flapjack genotype file to be produced by the converter
 	 */
-	public HapMapToFlapjackConverter(File hapMap, File map, File genoytpyes, String separator)
+	public HapMapToFJTabbedConverter(File hapMap, File map, File genoytpyes, String separator)
 	{
 		this.hapMap = hapMap;
 		this.map = map;
@@ -94,7 +94,7 @@ public class HapMapToFlapjackConverter
 
 	/**
 	 * Reads a HapMap (version 3?) file line by line, splits each line on whitespace separators and either passes the
-	 * header line to be processed by {@link HapMapToFlapjackConverter#processHapMapFile} and all other lines to be processed by
+	 * header line to be processed by {@link HapMapToFJTabbedConverter#processHapMapFile} and all other lines to be processed by
 	 * within this method.
 	 */
 	private boolean processHapMapFile()

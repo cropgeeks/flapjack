@@ -8,15 +8,11 @@ package jhi.flapjack.io.cmd;
 import java.io.*;
 import java.nio.file.*;
 import java.util.*;
-import java.util.function.Function;
 import java.util.stream.*;
 
 import ch.systemsx.cisd.hdf5.*;
 
-/**
- * Created by gs40939 on 17/08/2015.
- */
-public class Hdf5ToGenotypeConverter
+public class Hdf5ToFJTabbedConverter
 {
 	private static final String LINES   = "Lines";
 	private static final String MARKERS = "Markers";
@@ -41,7 +37,7 @@ public class Hdf5ToGenotypeConverter
 	private LinkedHashSet<String> hdf5Lines;
 	private LinkedHashSet<String> hdf5Markers;
 
-	public Hdf5ToGenotypeConverter(File hdf5File, List<String> lines, List<String> markers, boolean missingDataFilter, boolean heterozygousFilter)
+	public Hdf5ToFJTabbedConverter(File hdf5File, List<String> lines, List<String> markers, boolean missingDataFilter, boolean heterozygousFilter)
 	{
 		// Setup input and output files
 		this.hdf5File = hdf5File;
@@ -74,9 +70,9 @@ public class Hdf5ToGenotypeConverter
 					lines = Files.readAllLines(new File(args[i].substring(7)).toPath());
 				if (args[i].startsWith("-markers="))
 					markers = Files.readAllLines(new File(args[i].substring(9)).toPath());
-				if (args[i].startsWith("-missing_filter="))
+				if (args[i].startsWith("-missingFilter="))
 					missingDataFilter = Boolean.valueOf(args[i].substring(15));
-				if (args[i].startsWith("-heterozygous_filter="))
+				if (args[i].startsWith("-heterozygousFilter="))
 					heterozygousFilter = Boolean.valueOf(args[i].substring(21));
 			}
 
@@ -86,7 +82,7 @@ public class Hdf5ToGenotypeConverter
 				return;
 			}
 
-			Hdf5ToGenotypeConverter extractor = new Hdf5ToGenotypeConverter(hdf5File, lines, markers, missingDataFilter, heterozygousFilter);
+			Hdf5ToFJTabbedConverter extractor = new Hdf5ToFJTabbedConverter(hdf5File, lines, markers, missingDataFilter, heterozygousFilter);
 			extractor.readInput();
 			extractor.extractData(outputFilePath, "");
 		}
@@ -212,7 +208,7 @@ public class Hdf5ToGenotypeConverter
 
 	private static void printHelp()
 	{
-		System.out.println("Usage: hdf52geno <options>\n"
+		System.out.println("Usage: hdf52fj <options>\n"
 			+ " where valid options are:\n"
 			+ "   -hdf5=<hdf5_file>                               (required input file)\n"
 			+ "   -lines=<file_list_of_lines_one_per_line>        (required input file)\n"

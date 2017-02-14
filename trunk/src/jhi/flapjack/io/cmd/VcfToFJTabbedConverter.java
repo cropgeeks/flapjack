@@ -3,10 +3,7 @@ package jhi.flapjack.io.cmd;
 import java.io.*;
 import java.util.*;
 
-/**
- * Created by gs40939 on 17/05/2016.
- */
-public class VcfToGenotypeConverter
+public class VcfToFJTabbedConverter
 {
 	private final File vcfFile;
 	private final File mapFile;
@@ -41,12 +38,12 @@ public class VcfToGenotypeConverter
 
 		else
 		{
-			VcfToGenotypeConverter toGenotype = new VcfToGenotypeConverter(vcfFile, mapFile, genotypeFile);
+			VcfToFJTabbedConverter toGenotype = new VcfToFJTabbedConverter(vcfFile, mapFile, genotypeFile);
 			toGenotype.convert();
 		}
 	}
 
-	public VcfToGenotypeConverter(File vcfFile, File mapFile, File genotypeFile)
+	public VcfToFJTabbedConverter(File vcfFile, File mapFile, File genotypeFile)
 	{
 		this.vcfFile = vcfFile;
 		this.mapFile = mapFile;
