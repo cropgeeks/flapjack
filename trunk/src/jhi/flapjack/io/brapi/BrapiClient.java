@@ -5,10 +5,14 @@ package jhi.flapjack.io.brapi;
 
 import java.io.*;
 import java.net.*;
+import java.security.*;
+import java.security.cert.*;
+import java.security.cert.Certificate;
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.stream.*;
 import java.util.zip.*;
+import javax.net.ssl.*;
 import javax.xml.bind.*;
 
 import jhi.flapjack.gui.*;
@@ -60,6 +64,14 @@ public class BrapiClient
 			.connectTimeout(60, TimeUnit.SECONDS)
 			.addNetworkInterceptor(inter)
 			.build();
+
+		// If the resource has an associated certificate, ensure it is in the
+		// trust manager and keystore
+		try
+		{
+			httpClient = initCertificate(httpClient, resource.getCertificate());
+		}
+		catch (Exception e) { e.printStackTrace(); }
 
 		return buildService(baseURL, httpClient);
 	}
@@ -414,45 +426,40 @@ public class BrapiClient
 	public void setStudyID(String studyID)
 	{ this.studyID = studyID; }
 
-//	private static void initCertificates(Client client, XmlResource resource)
-//		throws Exception
-//	{
-//		if (resource.getCertificate() == null)
-//			return;
-//
-//		// Download the "trusted" certificate needed for this resource
-//		URLConnection yc = new URL(resource.getCertificate()).openConnection();
-//
-//		CertificateFactory cf = CertificateFactory.getInstance("X.509");
-//		InputStream in = new BufferedInputStream(yc.getInputStream());
-//		java.security.cert.Certificate cer;
-//		try {
-//			cer = cf.generateCertificate(in);
-//		} finally { in.close();	}
-//
-//		// Create a KeyStore to hold the certificate
-//		KeyStore keyStore = KeyStore.getInstance(KeyStore.getDefaultType());
-//		keyStore.load(null, null);
-//		keyStore.setCertificateEntry("cer", cer);
-//
-//		// Create a TrustManager that trusts the certificate in the KeyStore
-//		String tmfAlgorithm = TrustManagerFactory.getDefaultAlgorithm();
-//		TrustManagerFactory tmf = TrustManagerFactory.getInstance(tmfAlgorithm);
-//		tmf.init(keyStore);
-//
-//		// Create an SSLContext that uses the TrustManager
-//		SSLContext sslContext = SSLContext.getInstance("TLS");
-//		sslContext.init(null, tmf.getTrustManagers(), null);
-//
-//		// Then *finally*, apply the TrustManager info to Restlet
-//		client.setContext(new Context());
-//		Context context = client.getContext();
-//
-//		context.getAttributes().put("sslContextFactory", new SslContextFactory() {
-//		    public void init(Series<Parameter> parameters) { }
-//		   	public SSLContext createSslContext() throws Exception { return sslContext; }
-//		});
-//	}
+	private OkHttpClient initCertificate(OkHttpClient client, String certificate)
+		throws Exception
+	{
+		if (certificate == null || certificate.isEmpty())
+			return client;
+
+		// Deal with self signed certificates
+		CertificateFactory cf = CertificateFactory.getInstance("X.509");
+		InputStream caInput = new URL(resource.getCertificate()).openStream();
+		Certificate ca;
+		ca = cf.generateCertificate(caInput);
+
+		String keyStoreType = KeyStore.getDefaultType();
+		KeyStore keyStore = KeyStore.getInstance(keyStoreType);
+		keyStore.load(null, null);
+		keyStore.setCertificateEntry("ca", ca);
+
+		String tmfAlgorithm = TrustManagerFactory.getDefaultAlgorithm();
+		TrustManagerFactory tmf = TrustManagerFactory.getInstance(tmfAlgorithm);
+		tmf.init(keyStore);
+
+		SSLContext sslContext = SSLContext.getInstance("SSL");
+		sslContext.init(null, tmf.getTrustManagers(), null);
+
+		// Tweak to make the timeout on Retrofit connections last longer
+		client = client.newBuilder()
+			.sslSocketFactory(sslContext.getSocketFactory(), (X509TrustManager)tmf.getTrustManagers()[0])
+			.hostnameVerifier((s, sslSession) -> true)
+			.build();
+
+		caInput.close();
+
+		return client;
+	}
 
 	// For cases where we need to use a standard http connection or similar,
 	// this method can be used to grab the authorization token and add it to
