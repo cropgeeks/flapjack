@@ -57,7 +57,7 @@ public class CreateMatrix
 				+ "   -decimalEnglish                (optional input parameter)\n"
 				+ "   -matrix=<matrix_file>          (required output file)\n");
 
-			return;
+			System.exit(1);
 		}
 
 		CreateMatrix cMatrix = new CreateMatrix(mapFile, genotypesFile, filename, decimalEnglish);

@@ -110,7 +110,7 @@ public class SplitProject extends SimpleJob
 				+ "  -DATASETIN dsin1 -DATASETOUT dsout1 -DATASETIN dsin2 -DATASETOUT dsout2\n");
 
 
-			return;
+			System.exit(1);
 		}
 
 		SplitProject splitProject = new SplitProject(prjFilePath, outputDir, datasets, decimalEnglish);

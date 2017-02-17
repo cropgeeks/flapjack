@@ -82,14 +82,14 @@ public class GenerateMabcStats
 				+ "   -map=<map_file>                (required input file)\n"
 				+ "   -genotypes=<genotypes_file>    (required input file)\n"
 				+ "   -qtls=<qtl_file>               (required input file)\n"
-				+ "   -parent1=<index_of_line>       (required parameter, first line is index 1)\n"
-				+ "   -parent2=<index_of_line>       (required parameter, first line is index 1)\n"
+				+ "   -parent1=<index_of_line>       (required parameter, index of recurrent parent, first line is index 1)\n"
+				+ "   -parent2=<index_of_line>       (required parameter, index of donor parent, first line is index 1)\n"
 				+ "   -model=weighted|unweighted     (required parameter)\n"
 				+ "   -coverage=<coverage_value>     (optional floating point parameter)\n"
 				+ "   -decimalEnglish                (optional parameter)\n"
 				+ "   -output=<output_file>          (required output file)");
 
-			return;
+			System.exit(1);
 		}
 
 		GenerateMabcStats mabcStats = new GenerateMabcStats(mapFile, genotypesFile, qtlFile, parent1, parent2, maxMarkerCoverage, filename, decimalEnglish, modelType);
@@ -106,7 +106,11 @@ public class GenerateMabcStats
 		{
 			parentIndex = Integer.parseInt(parent) - 1;
 		}
-		catch (NumberFormatException e) {}
+		catch (NumberFormatException e)
+		{
+			e.printStackTrace();
+			System.exit(1);
+		}
 
 		return parentIndex;
 	}
@@ -145,7 +149,7 @@ public class GenerateMabcStats
 		}
 		catch (Exception e)
 		{
-			System.out.println(e);
+			e.printStackTrace();
 			System.exit(1);
 		}
 	}

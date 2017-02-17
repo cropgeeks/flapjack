@@ -1,0 +1,37 @@
+<tool id="flapjack_fj2hdf5" name="Flapjack to HDF5" version="0.0.1">
+  <description>convert a Flapjack-formatted genotype file into HDF5</description>
+  <command>java -Xmx$memory -cp $__tool_directory__/lib/flapjack.jar jhi.flapjack.io.cmd.FJTabbedToHdf5Converter -genotypes=$input_genotypes -hdf5=$output_hdf5</command>
+  <inputs>
+    <param format="csv,tabular,txt" name="input_genotypes" type="data" label="Source file"
+		help="Flapjack-formatted (tab-delimited text) input file of genotype data"/>
+	<param name="memory" type="select" label="Memory"
+		help="How much memory to use; larger files may require more memory">
+	  <option selected="true" value="64m">64MB</option>
+	  <option value="128m">128MB</option>
+	  <option value="256m">256MB</option>
+	</param>
+  </inputs>
+  <outputs>
+    <data format="h5" name="output_hdf5" />
+  </outputs>
+
+  <help><![CDATA[
+.. class:: infomark
+
+**What it does**
+
+Flapjack is a multi-platform application providing interactive visualizations of high-throughput genotype data,
+allowing for rapid navigation and comparisons between lines, markers and chromosomes.
+
+This tool converts a Flapjack-formatted file of genotype data into a corresponding HDF5 file.
+See Flapjack's documentation_ for more details on the various Flapjack data formats.
+
+.. _documentation: https://ics.hutton.ac.uk/wiki/index.php/Flapjack_Help_%2D_Projects_and_Data_Formats 
+
+
+
+  ]]></help>
+  <citations>
+    <citation type="doi">10.1093/bioinformatics/btq580</citation>
+  </citations>
+</tool>

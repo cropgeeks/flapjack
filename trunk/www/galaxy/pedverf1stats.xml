@@ -1,0 +1,82 @@
+<tool id="flapjack_pedverstats" name="Flapjack PedVerStats" version="0.0.1">
+
+<!--System.out.println("Usage: pedverf1sstats <options>\n"
+				+ " where valid options are:\n"
+				+ "   -map=<map_file>                (required input file)\n"
+				+ "   -genotypes=<genotypes_file>    (required input file)\n"
+				+ "   -parent1=<index_of_line>       (required parameter, first line is index 1)\n"
+				+ "   -parent2=<index_of_line>       (required parameter, first line is index 1)\n"
+				+ "   -expectedf1=<index_of_line>    (optional parameter, first line is index 1)\n"
+				+ "   -decimalEnglish                (optional parameter)\n"
+				+ "   -output=<output_file>          (required output file)\n");-->
+
+  <description>Run pedigree verification of F1s (known parents) analysis</description>
+  <command><![CDATA[
+  java -Xmx$memory -cp $__tool_directory__/lib/flapjack.jar jhi.flapjack.io.cmd.GeneratePedVerF1sStats 
+  -map=$map -genotypes=$genotypes -parent1=$parent1 -parent2=$parent2 
+  #if $simulate_f1.simulate_f1_selector == "file":
+	-expectedf1=$simulate_f1.expectedF1
+  #end if
+  $decimalEnglish -output=$output
+  ]]>
+  </command>
+  <inputs>
+    <param format="csv,tabular,txt" name="map" type="data" label="Flapjack map file"
+		help="Flapjack-formatted (tab-delimited text) input file of map data"/>
+	<param format="csv,tabular,txt" name="genotypes" type="data" label="Flapjack genotype file"
+		help="Flapjack-formatted (tab-delimited text) input file of genotype data"/>
+	<param name="parent1" type="integer" value="1" label="Index of parent 1"
+		help="The index of the first parent in the genotype file"/>
+	<param name="parent2" type="integer" value="2" label="Index of parent 2"
+		help="The index of the second parent in the genotype file"/>
+		
+	<conditional name="simulate_f1">
+		<param name="simulate_f1_selector" type="select" label="Simulate expected F1 (or use F1 from file)">
+			<option value="simulate" selected="True">Simulate</option>
+			<option value="file">Select from file</option>
+		</param>
+		<when value="file">
+			<param argument="-expectedF1" type="integer" value="3" label="Index of expected F1"
+			help="The index of the donor parent in the genotype file"/>
+		</when>
+	</conditional>
+
+	<param argument="decimalEnglish" type="boolean" truevalue="-decimalEnglish" falsevalue="" checked="True"
+            label="Read input data using decimal English"
+            help="Build the index using a perfect hash rather than a dense hash.  This will require less memory
+			(especially during quantification), but will take longer to construct "/>
+	<param name="memory" type="select" label="Memory"
+		help="How much memory to use; larger files may require more memory">
+	  <option selected="true" value="64m">64MB</option>
+	  <option value="128m">128MB</option>
+	  <option value="256m">256MB</option>
+	</param>
+  </inputs>
+  <outputs>
+    <data format="tabular" name="output" />
+  </outputs>
+  
+  <stdio>
+    <exit_code range="1:" />
+  </stdio>
+
+  <help><![CDATA[
+.. class:: infomark
+
+**What it does**
+
+Flapjack is a multi-platform application providing interactive visualizations of high-throughput genotype data,
+allowing for rapid navigation and comparisons between lines, markers and chromosomes.
+
+This tool converts a Flapjack-formatted file of genotype data into a corresponding HDF5 file.
+See Flapjack's documentation_ for more details on the various Flapjack data formats.
+
+.. _documentation: https://ics.hutton.ac.uk/wiki/index.php/Flapjack_Help_%2D_Projects_and_Data_Formats 
+
+
+
+  ]]></help>
+  <citations>
+    <citation type="doi">10.1093/bioinformatics/btq580</citation>
+  </citations>
+</tool>
