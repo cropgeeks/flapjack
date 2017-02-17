@@ -34,7 +34,10 @@ public class VcfToFJTabbedConverter
 		}
 
 		if (genotypeFile == null || mapFile == null || vcfFile == null)
+		{
 			printHelp();
+			System.exit(1);
+		}
 
 		else
 		{

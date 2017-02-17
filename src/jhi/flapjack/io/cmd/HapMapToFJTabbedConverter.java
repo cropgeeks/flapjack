@@ -48,7 +48,10 @@ public class HapMapToFJTabbedConverter
 		}
 
 		if (genotypeFile == null || mapFile == null || hapMapFile == null || separator == null || separator != null && (!separator.equals("s") && !separator.equals("t")))
+		{
 			printHelp();
+			System.exit(1);
+		}
 
 		else
 		{

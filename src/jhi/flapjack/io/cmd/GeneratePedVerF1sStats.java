@@ -66,7 +66,7 @@ public class GeneratePedVerF1sStats
 				+ "   -decimalEnglish                (optional parameter)\n"
 				+ "   -output=<output_file>          (required output file)\n");
 
-			return;
+			System.exit(1);
 		}
 
 		GeneratePedVerF1sStats mabcStats = new GeneratePedVerF1sStats(mapFile, genotypesFile, filename, decimalEnglish, parent1, parent2, expectedf1);

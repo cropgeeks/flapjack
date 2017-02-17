@@ -79,7 +79,7 @@ public class Hdf5ToFJTabbedConverter
 			if (hdf5File == null || outputFilePath == null || lines == null || markers == null)
 			{
 				printHelp();
-				return;
+				System.exit(1);
 			}
 
 			Hdf5ToFJTabbedConverter extractor = new Hdf5ToFJTabbedConverter(hdf5File, lines, markers, missingDataFilter, heterozygousFilter);

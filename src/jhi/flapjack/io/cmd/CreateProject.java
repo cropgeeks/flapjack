@@ -72,7 +72,7 @@ public class CreateProject
 				+ "   -decimalEnglish                (optional input parameter)\n"
 				+ "   -project=<project_file>        (required output file)\n");
 
-			return;
+			System.exit(1);
 		}
 
 		CreateProject cProj = new CreateProject(mapFile, genotypesFile, traitsFile, qtlsFile, prjFile, decimalEnglish);
