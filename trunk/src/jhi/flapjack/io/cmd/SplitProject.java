@@ -10,8 +10,8 @@ import java.util.*;
 
 import jhi.flapjack.data.*;
 import jhi.flapjack.gui.*;
-
 import jhi.flapjack.io.*;
+
 import scri.commons.gui.*;
 
 /**
@@ -33,6 +33,14 @@ public class SplitProject extends SimpleJob
 
 	private static List<String> output = new ArrayList<>();
 
+	// Or the main method (obviously) called by the command line
+	public static void main(String[] args)
+	{
+		SplitProject splitProject = new SplitProject(args);
+		splitProject.doSplit();
+
+		System.exit(0);
+	}
 
 	// Constructor is called by the GUI for a File->Quick Export menu option
 	public SplitProject(Project project, String outputDir)
@@ -51,18 +59,12 @@ public class SplitProject extends SimpleJob
 		this.decimalEnglish = decimalEnglish;
 	}
 
-	// Or the main method (obviously) called by the command line
-	public static void main(String[] args)
+	private SplitProject(String[] args)
 	{
-		String prjFilePath = null;
-		String outputDir = null;
-		boolean decimalEnglish = false;
-		HashMap<String, String> datasets = new HashMap<>();
-
 		for (int i = 0; i < args.length; i++)
 		{
 			if (args[i].toUpperCase().startsWith("-PROJECT="))
-				prjFilePath = args[i].substring(9);
+				prjFile = new FlapjackFile(args[i].substring(9));
 			if (args[i].toUpperCase().startsWith("-DIR="))
 				outputDir = args[i].substring(5);
 			if (args[i].toUpperCase().startsWith("-DECIMALENGLISH"))
@@ -88,33 +90,8 @@ public class SplitProject extends SimpleJob
 			}
 		}
 
-
-		if (prjFilePath == null || outputDir == null)
-		{
-			System.out.println("Flapjack " + Install4j.VERSION + "\n\n"
-				+ "Splits a Flapjack project into multiple raw data text files.\n\n"
-				+ "SPLITPROJECT -PROJECT=project -DIR=dir\n"
-				+ "             [-DATASETIN=datasetin [-DATASETOUT=datasetout]]\n"
-				+ "             [-DECIMALENGLISH]\n\n"
-				+ "  project           The location of the project to process.\n"
-				+ "  dir               The location to write the output files to.\n"
-				+ "  datasetin         Specifies the name of a dataset within the project file\n"
-				+ "                    to process. If no names are specified, then all datasets\n"
-				+ "                    will be extracted.\n"
-				+ "  datasetout        Overrides the given datasetin name with a new name to use\n"
-				+ "                    when outputting that dataset's files.\n"
-				+ "  decimalEnglish    Specifies that all numbers will be processed using the\n"
-				+ "                    English decimal mark separator (dot rather than a comma).\n\n"
-				+ "Note that dataset names in Flapjack are case sensitive.\n"
-				+ "You can process multiple datasets at once, eg:\n"
-				+ "  -DATASETIN dsin1 -DATASETOUT dsout1 -DATASETIN dsin2 -DATASETOUT dsout2\n");
-
-
-			System.exit(1);
-		}
-
-		SplitProject splitProject = new SplitProject(prjFilePath, outputDir, datasets, decimalEnglish);
-		splitProject.doSplit();
+		if (prjFile == null || outputDir == null)
+			printHelp();
 	}
 
 	public List<String> doSplit()
@@ -135,6 +112,7 @@ public class SplitProject extends SimpleJob
 		catch (Exception e)
 		{
 			logMessage(e.getMessage());
+			System.exit(1);
 		}
 
 		return output;
@@ -276,5 +254,29 @@ public class SplitProject extends SimpleJob
 	{
 		System.out.println(message);
 		output.add(message);
+	}
+
+	private static void printHelp()
+	{
+		System.out.println("Flapjack " + Install4j.VERSION + "\n\n"
+			+ "Splits a Flapjack project into multiple raw data text files.\n\n"
+			+ "SPLITPROJECT -PROJECT=project -DIR=dir\n"
+			+ "             [-DATASETIN=datasetin [-DATASETOUT=datasetout]]\n"
+			+ "             [-DECIMALENGLISH]\n\n"
+			+ "  project           The location of the project to process.\n"
+			+ "  dir               The location to write the output files to.\n"
+			+ "  datasetin         Specifies the name of a dataset within the project file\n"
+			+ "                    to process. If no names are specified, then all datasets\n"
+			+ "                    will be extracted.\n"
+			+ "  datasetout        Overrides the given datasetin name with a new name to use\n"
+			+ "                    when outputting that dataset's files.\n"
+			+ "  decimalEnglish    Specifies that all numbers will be processed using the\n"
+			+ "                    English decimal mark separator (dot rather than a comma).\n\n"
+			+ "Note that dataset names in Flapjack are case sensitive.\n"
+			+ "You can process multiple datasets at once, eg:\n"
+			+ "  -DATASETIN dsin1 -DATASETOUT dsout1 -DATASETIN dsin2 -DATASETOUT dsout2\n");
+
+
+		System.exit(1);
 	}
 }

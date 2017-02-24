@@ -15,9 +15,9 @@ import org.exolab.castor.xml.*;
 
 import jhi.flapjack.data.*;
 import jhi.flapjack.gui.*;
-import jhi.flapjack.io.*;
 
 import scri.commons.gui.*;
+import scri.commons.io.*;
 
 public class ProjectSerializer
 {
@@ -336,13 +336,43 @@ public class ProjectSerializer
 	private static InputStream getStream(FlapjackFile file)
 		throws IOException
 	{
-		if (isDB)
+		if (isDB )
+		{
+			// Tweaks to the code to enable flapjack to load a db-based project
+			// when running under webstart
+			if (file.isURL())
+			{
+				// Working directory for temp files, etc
+				File wrkDir = FileUtils.getTempUserDirectory("jhi-flapjack");
+				wrkDir = new File(wrkDir, "db-project");
+				wrkDir.mkdirs();
+
+				File output = new File(wrkDir, "temp.flapjack");
+
+				try (BufferedInputStream in = new BufferedInputStream(file.getURL().openStream());
+					 FileOutputStream out = new FileOutputStream(output))
+				{
+					final byte data[] = new byte[1024];
+					int count;
+					while ((count = in.read(data, 0, 1024)) != -1)
+						out.write(data, 0, count);
+
+					file = new FlapjackFile(output.getAbsolutePath());
+				}
+				catch (IOException e) { e.printStackTrace(); }
+			}
+
 			try
 			{
 				ProjectSerializerDB.initConnection(file, false);
 				return ProjectSerializerDB.getProjectInputStream();
 			}
-			catch (SQLException e) { throw new IOException(e); }
+			catch (SQLException e)
+			{
+				throw new IOException(e);
+			}
+		}
+
 		else
 			return file.getInputStream();
 	}

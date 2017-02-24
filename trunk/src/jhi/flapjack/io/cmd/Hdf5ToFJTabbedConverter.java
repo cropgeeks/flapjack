@@ -37,61 +37,61 @@ public class Hdf5ToFJTabbedConverter
 	private LinkedHashSet<String> hdf5Lines;
 	private LinkedHashSet<String> hdf5Markers;
 
-	public Hdf5ToFJTabbedConverter(File hdf5File, List<String> lines, List<String> markers, boolean missingDataFilter, boolean heterozygousFilter)
-	{
-		// Setup input and output files
-		this.hdf5File = hdf5File;
-		this.lines = new LinkedHashSet<String>(lines);
-		this.markers = new LinkedHashSet<String>(markers);
-
-		// TODO: work out how we can implement these filters in a time efficient way
-		this.missingDataFilter = missingDataFilter;
-		this.heterozygousFilter = heterozygousFilter;
-	}
+	private String outputFilePath;
 
 	public static void main(String[] args)
 	{
-		File hdf5File = null;
-		String outputFilePath = null;
-		List<String> lines = null;
-		List<String> markers = null;
-		boolean missingDataFilter = false;
-		boolean heterozygousFilter = false;
+		Hdf5ToFJTabbedConverter extractor = new Hdf5ToFJTabbedConverter(args);
+		extractor.readInput();
+		extractor.extractData("");
 
+		System.exit(0);
+	}
+
+	private Hdf5ToFJTabbedConverter(String[] args)
+	{
 		try
 		{
-			for (int i = 0; i < args.length; i++)
+			for (String arg : args)
 			{
-				if (args[i].startsWith("-hdf5="))
-					hdf5File = new File(args[i].substring(6));
-				if (args[i].startsWith("-genotypes="))
-					outputFilePath = args[i].substring(11);
-				if (args[i].startsWith("-lines="))
-					lines = Files.readAllLines(new File(args[i].substring(7)).toPath());
-				if (args[i].startsWith("-markers="))
-					markers = Files.readAllLines(new File(args[i].substring(9)).toPath());
-				if (args[i].startsWith("-missingFilter="))
-					missingDataFilter = Boolean.valueOf(args[i].substring(15));
-				if (args[i].startsWith("-heterozygousFilter="))
-					heterozygousFilter = Boolean.valueOf(args[i].substring(21));
+				if (arg.startsWith("-hdf5="))
+					hdf5File = new File(arg.substring(6));
+				if (arg.startsWith("-genotypes="))
+					outputFilePath = arg.substring(11);
+				if (arg.startsWith("-lines="))
+					lines = new LinkedHashSet<>(Files.readAllLines(new File(arg.substring(7)).toPath()));
+				if (arg.startsWith("-markers="))
+					markers = new LinkedHashSet<>(Files.readAllLines(new File(arg.substring(9)).toPath()));
+				if (arg.startsWith("-missingFilter="))
+					missingDataFilter = Boolean.valueOf(arg.substring(15));
+				if (arg.startsWith("-heterozygousFilter="))
+					heterozygousFilter = Boolean.valueOf(arg.substring(21));
 			}
 
 			if (hdf5File == null || outputFilePath == null || lines == null || markers == null)
 			{
 				printHelp();
-				System.exit(1);
 			}
-
-			Hdf5ToFJTabbedConverter extractor = new Hdf5ToFJTabbedConverter(hdf5File, lines, markers, missingDataFilter, heterozygousFilter);
-			extractor.readInput();
-			extractor.extractData(outputFilePath, "");
 		}
 		catch (IOException e)
 		{
-			printHelp();
-
 			e.printStackTrace();
+
+			printHelp();
 		}
+	}
+
+	public Hdf5ToFJTabbedConverter(File hdf5File, List<String> lines, List<String> markers, String outputFilePath, boolean missingDataFilter, boolean heterozygousFilter)
+	{
+		// Setup input and output files
+		this.hdf5File = hdf5File;
+		this.lines = new LinkedHashSet<String>(lines);
+		this.markers = new LinkedHashSet<String>(markers);
+		this.outputFilePath = outputFilePath;
+
+		// TODO: work out how we can implement these filters in a time efficient way
+		this.missingDataFilter = missingDataFilter;
+		this.heterozygousFilter = heterozygousFilter;
 	}
 
 	public void readInput()
@@ -140,7 +140,7 @@ public class Hdf5ToFJTabbedConverter
 		reader.close();
 	}
 
-	public void extractData(String outputFile, String headerLines)
+	public void extractData(String headerLines)
 	{
 		System.out.println();
 		long s = System.currentTimeMillis();
@@ -154,7 +154,7 @@ public class Hdf5ToFJTabbedConverter
 		System.out.println("Read statetable: " + (System.currentTimeMillis() - s) + " (ms)");
 
 		// Write our output file line by line
-		try (PrintWriter writer = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outputFile), "UTF8"))))
+		try (PrintWriter writer = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outputFilePath), "UTF8"))))
 		{
 			// Write header for drag and drop
 			writer.println("# fjFile = GENOTYPE");
@@ -179,7 +179,11 @@ public class Hdf5ToFJTabbedConverter
 			});
 			System.out.println("Output lines to genotype file: " + (System.currentTimeMillis() - s) + " (ms)");
 		}
-		catch (IOException e) { e.printStackTrace(); }
+		catch (IOException e)
+		{
+			e.printStackTrace();
+			System.exit(1);
+		}
 
 		reader.close();
 
@@ -216,5 +220,7 @@ public class Hdf5ToFJTabbedConverter
 			+ "   -missing_filter=<true/false>                    (required input string)\n"
 			+ "   -heterozygous_filter=<true/false>               (required input string)\n"
 			+ "   -genotypes=<genotypes_file>                     (required output file)\n");
+
+		System.exit(1);
 	}
 }

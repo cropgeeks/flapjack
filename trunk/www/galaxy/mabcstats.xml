@@ -1,25 +1,32 @@
 <tool id="flapjack_mabcstats" name="Flapjack MABCStats" version="0.0.1">
 
-<!--System.out.println("Usage: mabcstats <options>\n"
-				+ " where valid options are:\n"
-				+ "   -map=<map_file>                (required input file)\n"
-				+ "   -genotypes=<genotypes_file>    (required input file)\n"
-				+ "   -qtls=<qtl_file>               (required input file)\n"
-				+ "   -parent1=<index_of_line>       (required parameter, first line is index 1)\n"
-				+ "   -parent2=<index_of_line>       (required parameter, first line is index 1)\n"
-				+ "   -model=weighted|unweighted     (required parameter)\n"
-				+ "   -coverage=<coverage_value>     (optional floating point parameter)\n"
-				+ "   -decimalEnglish                (optional parameter)\n"
-				+ "   -output=<output_file>          (required output file)");-->
-
   <description>Run marker assisted backcrossing analysis on a dataset</description>
-  <command>java -Xmx$memory -cp $__tool_directory__/lib/flapjack.jar jhi.flapjack.io.cmd.GenerateMabcStats -map=$map -genotypes=$genotypes -qtls=$qtls -parent1=$parent1 -parent2=$parent2 -model=$model -coverage=$coverage $decimalEnglish -output=$output</command>
+
+  <command><![CDATA[
+  java
+  #if $advanced_options.show_advanced
+    -Xmx$advanced_options.memory
+  #end if
+  -cp $__tool_directory__/lib/flapjack.jar jhi.flapjack.io.cmd.GenerateMabcStats
+  -map=$map
+  -genotypes=$genotypes
+  -qtls=$qtls
+  -parent1=$parent1
+  -parent2=$parent2
+  -model=$model
+  -coverage=$coverage
+  #if $advanced_options.show_advanced
+    $advanced_options.decimalEnglish
+  #end if
+  -output=$output
+  ]]></command>
+
   <inputs>
-    <param format="csv,tabular,txt" name="map" type="data" label="Flapjack map file"
+    <param format="fjmap" name="map" type="data" label="Flapjack map file"
 		help="Flapjack-formatted (tab-delimited text) input file of map data"/>
-	<param format="csv,tabular,txt" name="genotypes" type="data" label="Flapjack genotype file"
+	<param format="fjgenotype" name="genotypes" type="data" label="Flapjack genotype file"
 		help="Flapjack-formatted (tab-delimited text) input file of genotype data"/>
-	<param format="csv,tabular,txt" name="qtls" type="data" label="Flapjack QTL file"
+	<param format="fjqtl" name="qtls" type="data" label="Flapjack QTL file"
 		help="Flapjack-formatted (tab-delimited text) input file of QTL data"/>
 	<param name="parent1" type="integer" value="1" label="Index of recurrent parent"
 		help="The index of the recurrent parent in the genotype file"/>
@@ -30,27 +37,16 @@
 	  <option selected="true" value="weighted">Weighted</option>
 	  <option value="unweighted">Unweighted</option>
 	</param>
-	<param name="coverage" type="integer" value="10" label="Maximum coverage of a marker"
+	<param name="coverage" type="float" value="10" label="Maximum coverage of a marker"
 		help="The maximum length of genome a marker can represent"/>
-	<!--<param name="decimalEnglish" type="boolean" truevalue="-decimalEnglish" falsevalue="" checked="True"
-            label="Use English-style decimal marks"
-            help="Process input data using '.' as the decimal separator (as opposed to ',')"/>
-	<param name="memory" type="select" label="Memory"
-		help="How much memory to use; larger files may require more memory">
-	  <option selected="true" value="64m">64MB</option>
-	  <option value="128m">128MB</option>
-	  <option value="256m">256MB</option>
-	</param>-->
-	
-	
 	<conditional name="advanced_options">
-		<param name="show_advanced" type="boolean" label="Show advanced options"
+		<param name="show_advanced" type="boolean" label="Enable advanced options"
 			truevalue="show" falsevalue="">
 		</param>
 		<when value="show">
 			<param name="decimalEnglish" type="boolean" truevalue="-decimalEnglish" falsevalue="" checked="True"
-            label="Use English-style decimal marks"
-            help="Process input data using '.' as the decimal separator (as opposed to ',')"/>
+            label="Force English-style decimal marks"
+            help="Always process input data using '.' as the decimal separator, irrespective of this Galaxy's locale settings"/>
 			<param name="memory" type="select" label="Memory"
 				help="How much memory to use; larger files may require more memory">
 			  <option selected="true" value="64m">64MB</option>
@@ -58,10 +54,9 @@
 			  <option value="256m">256MB</option>
 			</param>
 		</when>
-	</conditional>
-	
-	
+	</conditional>	
   </inputs>
+  
   <outputs>
     <data format="tabular" name="output" />
   </outputs>
@@ -82,8 +77,6 @@ This tool converts a Flapjack-formatted file of genotype data into a correspondi
 See Flapjack's documentation_ for more details on the various Flapjack data formats.
 
 .. _documentation: https://ics.hutton.ac.uk/wiki/index.php/Flapjack_Help_%2D_Projects_and_Data_Formats 
-
-
 
   ]]></help>
   <citations>

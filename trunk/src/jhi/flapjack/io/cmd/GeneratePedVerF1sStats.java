@@ -27,52 +27,37 @@ public class GeneratePedVerF1sStats
 
 	public static void main(String[] args)
 	{
-		File mapFile = null;
-		File genotypesFile = null;
-		String filename = null;
-		boolean decimalEnglish = false;
-		Integer parent1 = null;
-		Integer parent2 = null;
-		Integer expectedf1 = null;
+		GeneratePedVerF1sStats mabcStats = new GeneratePedVerF1sStats(args);
+		mabcStats.doStatGeneration();
 
-		for (int i = 0; i < args.length; i++)
+		System.exit(0);
+	}
+
+	private GeneratePedVerF1sStats(String[] args)
+	{
+		for (String arg : args)
 		{
-			if (args[i].startsWith("-map="))
-				mapFile = new File(args[i].substring(5));
-			if (args[i].startsWith("-genotypes="))
-				genotypesFile = new File(args[i].substring(11));
-			if (args[i].startsWith("-parent1="))
-				parent1 = parseParent(args[i].substring(9));
-			if (args[i].startsWith("-parent2="))
-				parent2 = parseParent(args[i].substring(9));
-			if (args[i].startsWith("-expectedf1="))
-				expectedf1 = parseParent(args[i].substring(12));
-			if (args[i].startsWith("-decimalEnglish"))
+			if (arg.startsWith("-map="))
+				mapFile = new File(arg.substring(5));
+			if (arg.startsWith("-genotypes="))
+				genotypesFile = new File(arg.substring(11));
+			if (arg.startsWith("-parent1="))
+				parent1 = parseParent(arg.substring(9));
+			if (arg.startsWith("-parent2="))
+				parent2 = parseParent(arg.substring(9));
+			if (arg.startsWith("-expectedf1="))
+				expectedf1 = parseParent(arg.substring(12));
+			if (arg.startsWith("-decimalEnglish"))
 				decimalEnglish = true;
-			if (args[i].startsWith("-output="))
-				filename = args[i].substring(8);
+			if (arg.startsWith("-output="))
+				filename = arg.substring(8);
 		}
 
 		if (mapFile == null || genotypesFile == null || filename == null ||
 			parent1 == null || parent2 == null)
 		{
-			System.out.println("Usage: pedverf1sstats <options>\n"
-				+ " where valid options are:\n"
-				+ "   -map=<map_file>                (required input file)\n"
-				+ "   -genotypes=<genotypes_file>    (required input file)\n"
-				+ "   -parent1=<index_of_line>       (required parameter, first line is index 1)\n"
-				+ "   -parent2=<index_of_line>       (required parameter, first line is index 1)\n"
-				+ "   -expectedf1=<index_of_line>    (optional parameter, first line is index 1)\n"
-				+ "   -decimalEnglish                (optional parameter)\n"
-				+ "   -output=<output_file>          (required output file)\n");
-
-			System.exit(1);
+			printHelp();
 		}
-
-		GeneratePedVerF1sStats mabcStats = new GeneratePedVerF1sStats(mapFile, genotypesFile, filename, decimalEnglish, parent1, parent2, expectedf1);
-		mabcStats.doStatGeneration();
-
-		System.exit(0);
 	}
 
 	private static Integer parseParent(String parent)
@@ -83,20 +68,13 @@ public class GeneratePedVerF1sStats
 		{
 			parentIndex = Integer.parseInt(parent) - 1;
 		}
-		catch (NumberFormatException e) {}
+		catch (NumberFormatException e)
+		{
+			e.printStackTrace();
+			System.exit(1);
+		}
 
 		return parentIndex;
-	}
-
-	public GeneratePedVerF1sStats(File mapFile, File genotypesFile, String filename, boolean decimalEnglish, Integer parent1, Integer parent2, Integer expectedf1)
-	{
-		this.mapFile = mapFile;
-		this.genotypesFile = genotypesFile;
-		this.filename = filename;
-		this.decimalEnglish = decimalEnglish;
-		this.parent1 = parent1;
-		this.parent2 = parent2;
-		this.expectedf1 = expectedf1;
 	}
 
 	public void doStatGeneration()
@@ -118,7 +96,7 @@ public class GeneratePedVerF1sStats
 		}
 		catch (Exception e)
 		{
-			System.out.println(e);
+			e.printStackTrace();
 			System.exit(1);
 		}
 	}
@@ -153,5 +131,20 @@ public class GeneratePedVerF1sStats
 		LineDataTableExporter exporter = new LineDataTableExporter(
 			table, new File(filename), 0, false);
 		exporter.runJob(0);
+	}
+
+	private static void printHelp()
+	{
+		System.out.println("Usage: pedverf1sstats <options>\n"
+			+ " where valid options are:\n"
+			+ "   -map=<map_file>                (required input file)\n"
+			+ "   -genotypes=<genotypes_file>    (required input file)\n"
+			+ "   -parent1=<index_of_line>       (required parameter, first line is index 1)\n"
+			+ "   -parent2=<index_of_line>       (required parameter, first line is index 1)\n"
+			+ "   -expectedf1=<index_of_line>    (optional parameter, first line is index 1)\n"
+			+ "   -decimalEnglish                (optional parameter)\n"
+			+ "   -output=<output_file>          (required output file)\n");
+
+		System.exit(1);
 	}
 }

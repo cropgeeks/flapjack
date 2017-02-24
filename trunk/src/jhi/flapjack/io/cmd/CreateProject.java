@@ -10,7 +10,6 @@ import jhi.flapjack.gui.*;
 import java.io.*;
 import java.util.*;
 
-
 import jhi.flapjack.io.*;
 import scri.commons.gui.*;
 
@@ -31,52 +30,38 @@ public class CreateProject
 	private File traitsFile;
 	private File qtlsFile;
 	private FlapjackFile prjFile;
-	private String name;
 	private boolean decimalEnglish = false;
 
 	private List<String> output = new ArrayList<>();
 
 	public static void main(String[] args)
 	{
-		File mapFile = null;
-		File genotypesFile = null;
-		File traitsFile = null;
-		File qtlsFile = null;
-		FlapjackFile prjFile = null;
-		boolean decimalEnglish = false;
+		CreateProject cProj = new CreateProject(args);
+		cProj.doProjectCreation();
 
-		for (int i = 0; i < args.length; i++)
+		System.exit(0);
+	}
+
+	private CreateProject(String[] args)
+	{
+		for (String arg : args)
 		{
-			if (args[i].startsWith("-map="))
-				mapFile = new File(args[i].substring(5));
-			if (args[i].startsWith("-genotypes="))
-				genotypesFile = new File(args[i].substring(11));
-			if (args[i].startsWith("-traits="))
-				traitsFile = new File(args[i].substring(8));
-			if (args[i].startsWith("-qtls="))
-				qtlsFile = new File(args[i].substring(6));
-			if (args[i].startsWith("-project="))
-				prjFile = new FlapjackFile(args[i].substring(9));
-			if (args[i].startsWith("-decimalEnglish"))
+			if (arg.startsWith("-map="))
+				mapFile = new File(arg.substring(5));
+			if (arg.startsWith("-genotypes="))
+				genotypesFile = new File(arg.substring(11));
+			if (arg.startsWith("-traits="))
+				traitsFile = new File(arg.substring(8));
+			if (arg.startsWith("-qtls="))
+				qtlsFile = new File(arg.substring(6));
+			if (arg.startsWith("-project="))
+				prjFile = new FlapjackFile(arg.substring(9));
+			if (arg.startsWith("-decimalEnglish"))
 				decimalEnglish = true;
 		}
 
 		if (genotypesFile == null || prjFile == null)
-		{
-			System.out.println("Usage: createproject <options>\n"
-				+ " where valid options are:\n"
-				+ "   -map=<map_file>                (optional input file)\n"
-				+ "   -genotypes=<genotypes_file>    (required input file)\n"
-				+ "   -traits=<traits_file>          (optional input file)\n"
-				+ "   -qtls=<qtl_file>               (optional input file)\n"
-				+ "   -decimalEnglish                (optional input parameter)\n"
-				+ "   -project=<project_file>        (required output file)\n");
-
-			System.exit(1);
-		}
-
-		CreateProject cProj = new CreateProject(mapFile, genotypesFile, traitsFile, qtlsFile, prjFile, decimalEnglish);
-		cProj.doProjectCreation();
+			printHelp();
 	}
 
 	/**
@@ -123,6 +108,7 @@ public class CreateProject
 		catch (Exception e)
 		{
 			logMessage(e.getMessage());
+			System.exit(1);
 		}
 
 		return output;
@@ -146,13 +132,7 @@ public class CreateProject
 		pio.collapseHomzEncodedAsHet();
 		pio.optimizeStateTable();
 		pio.createDefaultView();
-
-		// A custom name...
-		if (name != null)
-			pio.setName(name);
-		// Or just the name of the project file being created
-		else
-			pio.setName(prjFile.getFile());
+		pio.setName(prjFile.getFile());
 
 		project.addDataSet(dataSet);
 	}
@@ -189,7 +169,7 @@ public class CreateProject
 	private void openProject()
 		throws Exception
 	{
-		if (prjFile.exists())
+		if (prjFile.exists() && prjFile.getFile().length() > 0)
 			project = ProjectSerializer.open(prjFile);
 	}
 
@@ -210,5 +190,19 @@ public class CreateProject
 	DataSet dataSet()
 	{
 		return dataSet;
+	}
+
+	private void printHelp()
+	{
+		System.out.println("Usage: createproject <options>\n"
+			+ " where valid options are:\n"
+			+ "   -map=<map_file>                (optional input file)\n"
+			+ "   -genotypes=<genotypes_file>    (required input file)\n"
+			+ "   -traits=<traits_file>          (optional input file)\n"
+			+ "   -qtls=<qtl_file>               (optional input file)\n"
+			+ "   -decimalEnglish                (optional input parameter)\n"
+			+ "   -project=<project_file>        (required output file)\n");
+
+		System.exit(1);
 	}
 }

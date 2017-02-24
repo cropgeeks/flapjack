@@ -5,9 +5,9 @@ import java.util.*;
 
 public class VcfToFJTabbedConverter
 {
-	private final File vcfFile;
-	private final File mapFile;
-	private final File genotypeFile;
+	private File vcfFile;
+	private File mapFile;
+	private File genotypeFile;
 
 	private static final int FIRST_ACCESSION_COL = 9;
 	private static final int BUFFER_SIZE = 5000;
@@ -19,30 +19,27 @@ public class VcfToFJTabbedConverter
 
 	public static void main(String[] args)
 	{
-		File genotypeFile = null;
-		File mapFile = null;
-		File vcfFile = null;
+		VcfToFJTabbedConverter toGenotype = new VcfToFJTabbedConverter(args);
+		toGenotype.convert();
 
-		for (int i = 0; i < args.length; i++)
+		System.exit(0);
+	}
+
+	private VcfToFJTabbedConverter(String[] args)
+	{
+		for (String arg : args)
 		{
-			if (args[i].startsWith("-genotypes="))
-				genotypeFile = new File(args[i].substring(11));
-			if (args[i].startsWith("-map="))
-				mapFile = new File(args[i].substring(5));
-			if (args[i].startsWith("-vcf="))
-				vcfFile = new File(args[i].substring(5));
+			if (arg.startsWith("-genotypes="))
+				genotypeFile = new File(arg.substring(11));
+			if (arg.startsWith("-map="))
+				mapFile = new File(arg.substring(5));
+			if (arg.startsWith("-vcf="))
+				vcfFile = new File(arg.substring(5));
 		}
 
 		if (genotypeFile == null || mapFile == null || vcfFile == null)
 		{
 			printHelp();
-			System.exit(1);
-		}
-
-		else
-		{
-			VcfToFJTabbedConverter toGenotype = new VcfToFJTabbedConverter(vcfFile, mapFile, genotypeFile);
-			toGenotype.convert();
 		}
 	}
 
@@ -108,7 +105,11 @@ public class VcfToFJTabbedConverter
 			// Output the genotype file of the Flapjack format
 			writeData();
 		}
-		catch (Exception e) { e.printStackTrace(); }
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			System.exit(1);
+		}
 	}
 
 	private String[] getAccessions(String line)
@@ -186,7 +187,11 @@ public class VcfToFJTabbedConverter
 				for (String[] aBuffer : buffer)
 					out.write(aBuffer[i] + "\t");
 			}
-			catch (IOException e) { e.printStackTrace(); }
+			catch (IOException e)
+			{
+				e.printStackTrace();
+				System.exit(1);
+			}
 		}
 		buffer.clear();
 	}
@@ -214,10 +219,18 @@ public class VcfToFJTabbedConverter
 					writer.println(line.substring(0, line.length()-1));
 					file.delete();
 				}
-				catch (IOException e) { e.printStackTrace(); }
+				catch (IOException e)
+				{
+					e.printStackTrace();
+					System.exit(1);
+				}
 			});
 		}
-		catch (IOException e) { e.printStackTrace(); }
+		catch (IOException e)
+		{
+			e.printStackTrace();
+			System.exit(1);
+		}
 	}
 
 	private static void printHelp()
@@ -227,5 +240,7 @@ public class VcfToFJTabbedConverter
 			+ "   -vcf=<vcf_file>                (required input file)\n"
 			+ "   -map=<map_file>                (required output file)\n"
 			+ "   -genotypes=<genotype_file>     (required output file)\n");
+
+		System.exit(1);
 	}
 }

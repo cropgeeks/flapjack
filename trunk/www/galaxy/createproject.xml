@@ -1,0 +1,66 @@
+<tool id="flapjack_createproject" name="Flapjack CreateProject" version="0.0.1">
+
+<!--System.out.println("Usage: createproject <options>\n"
+				+ " where valid options are:\n"
+				+ "   -map=<map_file>                (optional input file)\n"
+				+ "   -genotypes=<genotypes_file>    (required input file)\n"
+				+ "   -traits=<traits_file>          (optional input file)\n"
+				+ "   -qtls=<qtl_file>               (optional input file)\n"
+				+ "   -decimalEnglish                (optional input parameter)\n"
+				+ "   -project=<project_file>        (required output file)\n");-->
+
+  <description>Run pedigree verification of F1s (known parents) analysis</description>
+  <command><![CDATA[
+  java -Xmx$memory -cp $__tool_directory__/lib/flapjack.jar jhi.flapjack.io.cmd.CreateProject 
+  -map=$map -genotypes=$genotypes
+##  -galaxyHTML=$html 
+  -project=$output
+  ]]>
+  </command>
+  <inputs>
+    <param format="fjmap" name="map" type="data" label="Flapjack map file"
+		help="Flapjack-formatted (tab-delimited text) input file of map data"/>
+	<param format="fjgenotype" name="genotypes" type="data" label="Flapjack genotype file"
+		help="Flapjack-formatted (tab-delimited text) input file of genotype data"/>
+
+	<param argument="decimalEnglish" type="boolean" truevalue="-decimalEnglish" falsevalue="" checked="True"
+            label="Read input data using decimal English"
+            help="Build the index using a perfect hash rather than a dense hash.  This will require less memory
+			(especially during quantification), but will take longer to construct "/>
+	<param name="memory" type="select" label="Memory"
+		help="How much memory to use; larger files may require more memory">
+	  <option selected="true" value="64m">64MB</option>
+	  <option value="128m">128MB</option>
+	  <option value="256m">256MB</option>
+	</param>
+  </inputs>
+  <outputs>
+  <!-- label="${tool.name} on ${on_string}: project.flapjack" -->
+    <data name="output" format="flapjack" />
+	<!--<data name="html" format="html" />-->
+  </outputs>
+  
+  <stdio>
+    <exit_code range="1:" />
+  </stdio>
+
+  <help><![CDATA[
+.. class:: infomark
+
+**What it does**
+
+Flapjack is a multi-platform application providing interactive visualizations of high-throughput genotype data,
+allowing for rapid navigation and comparisons between lines, markers and chromosomes.
+
+This tool creates a Flapjack project file from the supplied tab-delimitted flapjack input files.
+See Flapjack's documentation_ for more details on the various Flapjack data formats.
+
+.. _documentation: https://ics.hutton.ac.uk/wiki/index.php/Flapjack_Help_%2D_Projects_and_Data_Formats 
+
+
+
+  ]]></help>
+  <citations>
+    <citation type="doi">10.1093/bioinformatics/btq580</citation>
+  </citations>
+</tool>

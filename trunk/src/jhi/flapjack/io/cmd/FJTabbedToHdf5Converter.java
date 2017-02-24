@@ -25,26 +25,26 @@ public class FJTabbedToHdf5Converter
 
 	public static void main(String args[])
 	{
-		File genotypeFile = null;
-		File hdf5File = null;
-
 		System.out.println("Assuming default missing data string and heterozygous separator.");
 
-		for (int i = 0; i < args.length; i++)
+		FJTabbedToHdf5Converter converter = new FJTabbedToHdf5Converter(args);
+		converter.convertToHdf5();
+
+		System.exit(0);
+	}
+
+	private FJTabbedToHdf5Converter(String[] args)
+	{
+		for (String arg : args)
 		{
-			if (args[i].startsWith("-genotypes="))
-				genotypeFile = new File(args[i].substring(11));
-			if (args[i].startsWith("-hdf5="))
-				hdf5File = new File(args[i].substring(6));
+			if (arg.startsWith("-genotypes="))
+				genotypeFile = new File(arg.substring(11));
+			if (arg.startsWith("-hdf5="))
+				hdf5File = new File(arg.substring(6));
 		}
 
 		if (genotypeFile == null || hdf5File == null)
-		{
 			printHelp();
-		}
-
-		FJTabbedToHdf5Converter converter = new FJTabbedToHdf5Converter(genotypeFile, hdf5File);
-		converter.convertToHdf5();
 	}
 
 	public FJTabbedToHdf5Converter(File genotypeFile, File hdf5File)
@@ -155,6 +155,7 @@ public class FJTabbedToHdf5Converter
 		catch (IOException e)
 		{
 			e.printStackTrace();
+			System.exit(1);
 		}
 		System.out.println("Took: " + ((System.currentTimeMillis() - s) / 1000f));
 	}
