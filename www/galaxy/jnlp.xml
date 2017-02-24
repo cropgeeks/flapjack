@@ -1,0 +1,9 @@
+<display id="flapjack" version="1.0.1" name="Display in Flapjack:">
+	<link id="View" name="View">
+        <url>http://bioinf.hutton.ac.uk/flapjack/webstart2/flapjack.jnlp?argument=${project_file.url}</url>
+        <param type="data" name="project_file" url="project.flapjack" />
+	</link>
+	<link id="Help" name="(Help)">
+		<url>http://www.bbc.co.uk/</url>
+	</link>
+</display>

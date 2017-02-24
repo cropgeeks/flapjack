@@ -30,39 +30,35 @@ public class HapMapToFJTabbedConverter
 
 	public static void main(String[] args)
 	{
-		File genotypeFile = null;
-		File mapFile = null;
-		File hapMapFile = null;
-		String separator = null;
+		HapMapToFJTabbedConverter toFlapjack = new HapMapToFJTabbedConverter(args);
+		toFlapjack.convert();
 
-		for (int i = 0; i < args.length; i++)
+		System.exit(0);
+	}
+
+	private HapMapToFJTabbedConverter(String[] args)
+	{
+		for (String arg : args)
 		{
-			if (args[i].startsWith("-genotypes="))
-				genotypeFile = new File(args[i].substring(11));
-			if (args[i].startsWith("-separator="))
-				separator = args[i].substring(11);
-			if (args[i].startsWith("-map="))
-				mapFile = new File(args[i].substring(5));
-			if (args[i].startsWith("-hapmap="))
-				hapMapFile = new File(args[i].substring(8));
+			if (arg.startsWith("-genotypes="))
+				genotypes = new File(arg.substring(11));
+			if (arg.startsWith("-separator="))
+				separator = arg.substring(11);
+			if (arg.startsWith("-map="))
+				map = new File(arg.substring(5));
+			if (arg.startsWith("-hapmap="))
+				hapMap = new File(arg.substring(8));
 		}
 
-		if (genotypeFile == null || mapFile == null || hapMapFile == null || separator == null || separator != null && (!separator.equals("s") && !separator.equals("t")))
+		if (genotypes == null || map == null || hapMap == null || separator == null || separator != null && (!separator.equals("s") && !separator.equals("t")))
 		{
 			printHelp();
-			System.exit(1);
 		}
 
-		else
-		{
-			if (separator.equals("s"))
-				separator = SPACE_SEPARATOR;
-			else if (separator.equals("t"))
-				separator = TAB_SEPARATOR;
-
-			HapMapToFJTabbedConverter toFlapjack = new HapMapToFJTabbedConverter(hapMapFile, mapFile, genotypeFile, separator);
-			toFlapjack.convert();
-		}
+		if (separator.equals("s"))
+			separator = SPACE_SEPARATOR;
+		else if (separator.equals("t"))
+			separator = TAB_SEPARATOR;
 	}
 
 	/**
@@ -87,12 +83,9 @@ public class HapMapToFJTabbedConverter
 	 */
 	public void convert()
 	{
-		boolean processedSuccessfully = processHapMapFile();
-		if (processedSuccessfully)
-		{
-			outputMapFile();
-			outputGenotypeFile();
-		}
+		processHapMapFile();
+		outputMapFile();
+		outputGenotypeFile();
 	}
 
 	/**
@@ -100,7 +93,7 @@ public class HapMapToFJTabbedConverter
 	 * header line to be processed by {@link HapMapToFJTabbedConverter#processHapMapFile} and all other lines to be processed by
 	 * within this method.
 	 */
-	private boolean processHapMapFile()
+	private void processHapMapFile()
 	{
 		System.out.println("Reading HapMap file");
 		markers = new ArrayList<Marker>();
@@ -136,14 +129,12 @@ public class HapMapToFJTabbedConverter
 		catch (IOException e)
 		{
 			e.printStackTrace();
-			return false;
+			System.exit(1);
 		}
-
-		return true;
 	}
 
 	/**
-	 * Converts an array of line names into an array of {@link HapMapToFlapjackConverter.Line} objects.
+	 * Converts an array of line names into an array of {@link HapMapToFJTabbedConverter.Line} objects.
 	 *
 	 * @param lineNames a String array of names for the lines found in the file
 	 */
@@ -254,6 +245,7 @@ public class HapMapToFJTabbedConverter
 		catch (IOException e)
 		{
 			e.printStackTrace();
+			System.exit(1);
 		}
 	}
 
@@ -281,6 +273,7 @@ public class HapMapToFJTabbedConverter
 		catch (IOException e)
 		{
 			e.printStackTrace();
+			System.exit(1);
 		}
 	}
 
@@ -348,5 +341,7 @@ public class HapMapToFJTabbedConverter
 			+ "   -hapmap=<hapmap_file>          (required input file)\n"
 			+ "   -map=<map_file>                (required output file)\n"
 			+ "   -genotypes=<genotype_file>     (required output file)\n");
+
+		System.exit(1);
 	}
 }

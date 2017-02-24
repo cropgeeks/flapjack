@@ -1,22 +1,19 @@
 package jhi.flapjack.io.cmd;
 
+import java.io.*;
+import java.text.*;
+import java.util.*;
+
 import jhi.flapjack.analysis.*;
 import jhi.flapjack.data.*;
 import jhi.flapjack.gui.mabc.*;
 import jhi.flapjack.gui.table.*;
 import jhi.flapjack.io.*;
 
-import java.io.*;
-import java.text.*;
-import java.util.*;
-
 import scri.commons.gui.*;
 
 public class GenerateMabcStats
 {
-	public static final String WEIGHTED = "weighted";
-	public static final String UNWEIGHTED = "unweighted";
-
 	// The objects that will (hopefully) get created
 	private DataSet dataSet = new DataSet();
 
@@ -28,74 +25,63 @@ public class GenerateMabcStats
 	private boolean decimalEnglish = false;
 	private String filename;
 	private boolean unweighted = false;
-	private int parent1;
-	private int parent2;
+	private Integer parent1;
+	private Integer parent2;
 
 	public static void main(String[] args)
 	{
-		File mapFile = null;
-		File genotypesFile = null;
-		File qtlFile = null;
-		double maxMarkerCoverage = 10;
-		String filename = null;
-		boolean decimalEnglish = false;
-		String modelType = "";
-		Integer parent1 = null;
-		Integer parent2 = null;
-
-		NumberFormat nf = NumberFormat.getInstance();
-
-		for (int i = 0; i < args.length; i++)
-		{
-			if (args[i].startsWith("-map="))
-				mapFile = new File(args[i].substring(5));
-			if (args[i].startsWith("-genotypes="))
-				genotypesFile = new File(args[i].substring(11));
-			if (args[i].startsWith("-qtls="))
-				qtlFile = new File(args[i].substring(6));
-			if (args[i].startsWith("-parent1="))
-				parent1 = parseParent(args[i].substring(9));
-			if (args[i].startsWith("-parent2="))
-				parent2 = parseParent(args[i].substring(9));
-			if (args[i].startsWith("-model="))
-				modelType = args[i].substring(7);
-			if (args[i].startsWith("-coverage="))
-			{
-				try
-				{
-					maxMarkerCoverage = nf.parse(args[i].substring(10)).doubleValue();
-				}
-				catch (ParseException e) { e.printStackTrace(); }
-			}
-			if (args[i].startsWith("-decimalEnglish"))
-				decimalEnglish = true;
-			if (args[i].startsWith("-output="))
-				filename = args[i].substring(8);
-		}
-
-		if (mapFile == null || genotypesFile == null || qtlFile == null ||
-			filename == null || parent1 == null || parent2 == null ||
-			(modelType.equals(WEIGHTED) == false && modelType.equals(UNWEIGHTED) == false))
-		{
-			System.out.println("Usage: mabcstats <options>\n"
-				+ " where valid options are:\n"
-				+ "   -map=<map_file>                (required input file)\n"
-				+ "   -genotypes=<genotypes_file>    (required input file)\n"
-				+ "   -qtls=<qtl_file>               (required input file)\n"
-				+ "   -parent1=<index_of_line>       (required parameter, index of recurrent parent, first line is index 1)\n"
-				+ "   -parent2=<index_of_line>       (required parameter, index of donor parent, first line is index 1)\n"
-				+ "   -model=weighted|unweighted     (required parameter)\n"
-				+ "   -coverage=<coverage_value>     (optional floating point parameter)\n"
-				+ "   -decimalEnglish                (optional parameter)\n"
-				+ "   -output=<output_file>          (required output file)");
-
-			System.exit(1);
-		}
-
-		GenerateMabcStats mabcStats = new GenerateMabcStats(mapFile, genotypesFile, qtlFile, parent1, parent2, maxMarkerCoverage, filename, decimalEnglish, modelType);
+		GenerateMabcStats mabcStats = new GenerateMabcStats(args);
 		mabcStats.doStatGeneration();
 
 		System.exit(0);
+	}
+
+	private GenerateMabcStats(String[] args)
+	{
+		NumberFormat nf = NumberFormat.getInstance();
+		String modelType;
+
+		for (String arg : args)
+		{
+			if (arg.startsWith("-map="))
+				mapFile = new File(arg.substring(5));
+			if (arg.startsWith("-genotypes="))
+				genotypesFile = new File(arg.substring(11));
+			if (arg.startsWith("-qtls="))
+				qtlFile = new File(arg.substring(6));
+			if (arg.startsWith("-parent1="))
+				parent1 = parseParent(arg.substring(9));
+			if (arg.startsWith("-parent2="))
+				parent2 = parseParent(arg.substring(9));
+			if (arg.startsWith("-decimalEnglish"))
+				decimalEnglish = true;
+			if (arg.startsWith("-output="))
+				filename = arg.substring(8);
+			if (arg.startsWith("-model="))
+			{
+				modelType = arg.substring(7);
+				if (modelType.equals("unweighted"))
+					unweighted = true;
+			}
+			if (arg.startsWith("-coverage="))
+			{
+				try
+				{
+					maxMarkerCoverage = nf.parse(arg.substring(10)).doubleValue();
+				}
+				catch (ParseException e)
+				{
+					e.printStackTrace();
+					System.exit(1);
+				}
+			}
+		}
+
+		if (mapFile == null || genotypesFile == null || qtlFile == null ||
+			filename == null || parent1 == null || parent2 == null)
+		{
+			printHelp();
+		}
 	}
 
 	private static Integer parseParent(String parent)
@@ -113,21 +99,6 @@ public class GenerateMabcStats
 		}
 
 		return parentIndex;
-	}
-
-	public GenerateMabcStats(File mapFile, File genotypesFile, File qtlFile, int parent1, int parent2, double maxMarkerCoverage, String filename, boolean decimalEnglish, String modelType)
-	{
-		this.mapFile = mapFile;
-		this.genotypesFile = genotypesFile;
-		this.qtlFile = qtlFile;
-		this.parent1 = parent1;
-		this.parent2 = parent2;
-		this.maxMarkerCoverage = maxMarkerCoverage;
-		this.filename = filename;
-		this.decimalEnglish = decimalEnglish;
-
-		if (modelType.equals(UNWEIGHTED))
-			unweighted = true;
 	}
 
 	public void doStatGeneration()
@@ -175,5 +146,22 @@ public class GenerateMabcStats
 		LineDataTableExporter exporter = new LineDataTableExporter(
 			table, new File(filename), 0, false);
 		exporter.runJob(0);
+	}
+
+	private static void printHelp()
+	{
+		System.out.println("Usage: mabcstats <options>\n"
+			+ " where valid options are:\n"
+			+ "   -map=<map_file>                (required input file)\n"
+			+ "   -genotypes=<genotypes_file>    (required input file)\n"
+			+ "   -qtls=<qtl_file>               (required input file)\n"
+			+ "   -parent1=<index_of_line>       (required parameter, index of recurrent parent, first line is index 1)\n"
+			+ "   -parent2=<index_of_line>       (required parameter, index of donor parent, first line is index 1)\n"
+			+ "   -model=weighted|unweighted     (optional parameter, defaults to weighted)\n"
+			+ "   -coverage=<coverage_value>     (optional floating point parameter, defaults to 10)\n"
+			+ "   -decimalEnglish                (optional parameter)\n"
+			+ "   -output=<output_file>          (required output file)");
+
+		System.exit(1);
 	}
 }

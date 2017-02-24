@@ -10,9 +10,8 @@ import java.util.*;
 
 import jhi.flapjack.analysis.*;
 import jhi.flapjack.data.*;
+import jhi.flapjack.io.*;
 
-import jhi.flapjack.io.FlapjackFile;
-import jhi.flapjack.io.SimMatrixExporter;
 import scri.commons.gui.*;
 
 /**
@@ -31,39 +30,28 @@ public class CreateMatrix
 
 	public static void main(String[] args)
 	{
-		File mapFile = null;
-		File genotypesFile = null;
-		String filename = null;
-		boolean decimalEnglish = false;
+		CreateMatrix cMatrix = new CreateMatrix(args);
+		cMatrix.doMatrixCreation();
 
-		for (int i = 0; i < args.length; i++)
+		System.exit(0);
+	}
+
+	private CreateMatrix(String args[])
+	{
+		for (String arg : args)
 		{
-			if (args[i].startsWith("-map="))
-				mapFile = new File(args[i].substring(5));
-			if (args[i].startsWith("-genotypes="))
-				genotypesFile = new File(args[i].substring(11));
-			if (args[i].startsWith("-matrix="))
-				filename = args[i].substring(8);
-			if (args[i].startsWith("-decimalEnglish"))
+			if (arg.startsWith("-map="))
+				mapFile = new File(arg.substring(5));
+			if (arg.startsWith("-genotypes="))
+				genotypesFile = new File(arg.substring(11));
+			if (arg.startsWith("-matrix="))
+				filename = arg.substring(8);
+			if (arg.startsWith("-decimalEnglish"))
 				decimalEnglish = true;
 		}
 
 		if (genotypesFile == null || filename == null)
-		{
-			System.out.println("Usage: creatematrix <options>\n"
-				+ " where valid options are:\n"
-				+ "   -map=<map_file>                (optional input file)\n"
-				+ "   -genotypes=<genotypes_file>    (required input file)\n"
-				+ "   -decimalEnglish                (optional input parameter)\n"
-				+ "   -matrix=<matrix_file>          (required output file)\n");
-
-			System.exit(1);
-		}
-
-		CreateMatrix cMatrix = new CreateMatrix(mapFile, genotypesFile, filename, decimalEnglish);
-		cMatrix.doMatrixCreation();
-
-		System.exit(0);
+			printHelp();
 	}
 
 	public CreateMatrix(File mapFile, File genotypesFile, String filename, boolean decimalEnglish)
@@ -97,7 +85,7 @@ public class CreateMatrix
 		}
 		catch (Exception e)
 		{
-			System.out.println(e);
+			e.printStackTrace();
 			System.exit(1);
 		}
 	}
@@ -118,5 +106,17 @@ public class CreateMatrix
 		calculator.runJob(0);
 		SimMatrixExporter exporter = new SimMatrixExporter(calculator.getMatrix(), filename);
 		exporter.runJob(0);
+	}
+
+	private static void printHelp()
+	{
+		System.out.println("Usage: creatematrix <options>\n"
+			+ " where valid options are:\n"
+			+ "   -map=<map_file>                (optional input file)\n"
+			+ "   -genotypes=<genotypes_file>    (required input file)\n"
+			+ "   -decimalEnglish                (optional input parameter)\n"
+			+ "   -matrix=<matrix_file>          (required output file)\n");
+
+		System.exit(1);
 	}
 }
