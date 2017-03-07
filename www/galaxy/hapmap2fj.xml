@@ -1,0 +1,58 @@
+<tool id="flapjack_hapmap2fj" name="HapMap to Flapjack" version="0.0.1">
+
+<!--System.out.println("Usage: hapmap2flapjack <options>\n"
+			+ " where valid options are:\n"
+			+ "   -separator=<s or t>            (required separator used in input file)\n"
+			+ "   -hapmap=<hapmap_file>          (required input file)\n"
+			+ "   -map=<map_file>                (required output file)\n"
+			+ "   -genotypes=<genotype_file>     (required output file)\n");-->
+
+  <description>convert an HapMap formatted file into a Flapjack-formatted genotype file</description>
+  <command>java -Xmx$memory -cp $__tool_directory__/lib/flapjack.jar jhi.flapjack.io.cmd.HapMapToFJTabbedConverter 
+	  -hapmap=$hapmap
+	  -separator=$separator 
+	  -map=$map
+	  -genotypes=$genotypes
+  </command>
+  <inputs>
+    <param format="txt" name="hapmap" type="data" label="Source file"
+		help="HapMap Formatted File"/>
+	<param name="separator" type="boolean" label="File is tab-separated"
+		truevalue="t" falsevalue="s">
+	</param>
+	<param name="memory" type="select" label="Memory"
+		help="How much memory to use; larger files may require more memory">
+	  <option selected="true" value="64m">64MB</option>
+	  <option value="128m">128MB</option>
+	  <option value="256m">256MB</option>
+	</param>
+  </inputs>
+  <outputs>
+	<data format="fjmap" name="map" />
+    <data format="fjgenotype" name="genotypes" />
+  </outputs>
+  
+  <stdio>
+    <exit_code range="1:" />
+  </stdio>
+
+  <help><![CDATA[
+.. class:: infomark
+
+**What it does**
+
+Flapjack is a multi-platform application providing interactive visualizations of high-throughput genotype data,
+allowing for rapid navigation and comparisons between lines, markers and chromosomes.
+
+This tool converts a Flapjack-formatted file of genotype data into a corresponding HDF5 file.
+See Flapjack's documentation_ for more details on the various Flapjack data formats.
+
+.. _documentation: https://ics.hutton.ac.uk/wiki/index.php/Flapjack_Help_%2D_Projects_and_Data_Formats 
+
+
+
+  ]]></help>
+  <citations>
+    <citation type="doi">10.1093/bioinformatics/btq580</citation>
+  </citations>
+</tool>

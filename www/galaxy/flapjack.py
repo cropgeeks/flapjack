@@ -1,9 +1,31 @@
 from galaxy.datatypes.data import Text
+from galaxy.datatypes.tabular import Tabular
+from galaxy.datatypes.binary import Binary
 
-class FlapjackFormat(Text):
+class FlapjackFormat(Binary):
     file_ext = "flapjack"
+	
+#	def sniff(self, filename):
+        # The first 16 bytes of any SQLite3 database file is 'SQLite format 3\0', and the file is binary. For details
+        # about the format, see http://www.sqlite.org/fileformat.html
+#        try:
+#            header = open(filename, 'rb').read(16)
+#            if header == b'SQLite format 3\0':
+#                fj_table_names = ["objects", "project"]
+#                conn = sqlite.connect(filename)
+#                c = conn.cursor()
+#                tables_query = "SELECT name FROM sqlite_master WHERE type='table' ORDER BY name"
+#                result = c.execute(tables_query).fetchall()
+#                result = [_[0] for _ in result]
+#                for table_name in fj_table_names:
+#                    if table_name not in result:
+#                        return False
+#                return True
+#            return False
+#        except:
+#            return False
 
-class FlapjackMapFormat(Text):
+class FlapjackMapFormat(Tabular):
     file_ext = "fjmap"
 
     def sniff( self, filename ):
@@ -14,7 +36,7 @@ class FlapjackMapFormat(Text):
             return False
         return True
 
-class FlapjackGenotypeFormat(Text):
+class FlapjackGenotypeFormat(Tabular):
     file_ext = "fjgenotype"
 
     def sniff( self, filename ):
@@ -25,7 +47,7 @@ class FlapjackGenotypeFormat(Text):
             return False
         return True
 
-class FlapjackPhenotypeFormat(Text):
+class FlapjackPhenotypeFormat(Tabular):
     file_ext = "fjphenotye"
 
     def sniff( self, filename ):
@@ -36,7 +58,7 @@ class FlapjackPhenotypeFormat(Text):
             return False
         return True
 
-class FlapjackQtlFormat(Text):
+class FlapjackQtlFormat(Tabular):
     file_ext = "fjqtl"
 
     def sniff( self, filename ):
@@ -47,7 +69,7 @@ class FlapjackQtlFormat(Text):
             return False
         return True
 
-class FlapjackGraphFormat(Text):
+class FlapjackGraphFormat(Tabular):
     file_ext = "fjgraph"
 
     def sniff( self, filename ):

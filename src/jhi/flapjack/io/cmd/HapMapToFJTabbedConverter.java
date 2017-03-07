@@ -28,6 +28,8 @@ public class HapMapToFJTabbedConverter
 	private static final String TAB_SEPARATOR = "\t";
 	private static final String SPACE_SEPARATOR = "\\s+";
 
+	private Map<String, String> alleleHash = new HashMap<>();
+
 	public static void main(String[] args)
 	{
 		HapMapToFJTabbedConverter toFlapjack = new HapMapToFJTabbedConverter(args);
@@ -50,7 +52,7 @@ public class HapMapToFJTabbedConverter
 				hapMap = new File(arg.substring(8));
 		}
 
-		if (genotypes == null || map == null || hapMap == null || separator == null || separator != null && (!separator.equals("s") && !separator.equals("t")))
+		if (genotypes == null || map == null || hapMap == null || separator == null || (separator != null && (!separator.equals("s") && !separator.equals("t"))))
 		{
 			printHelp();
 		}
@@ -59,6 +61,8 @@ public class HapMapToFJTabbedConverter
 			separator = SPACE_SEPARATOR;
 		else if (separator.equals("t"))
 			separator = TAB_SEPARATOR;
+
+		initAlleleMap();
 	}
 
 	/**
@@ -76,6 +80,23 @@ public class HapMapToFJTabbedConverter
 		this.map = map;
 		this.genotypes = genoytpyes;
 		this.separator = separator;
+
+		initAlleleMap();
+	}
+
+	private void initAlleleMap()
+	{
+		alleleHash.put("A", "A");
+		alleleHash.put("C", "C");
+		alleleHash.put("G", "G");
+		alleleHash.put("T", "T");
+		alleleHash.put("N", "N");
+		alleleHash.put("Y", "C/T");
+		alleleHash.put("R", "A/G");
+		alleleHash.put("W", "A/T");
+		alleleHash.put("S", "G/C");
+		alleleHash.put("K", "T/G");
+		alleleHash.put("M", "C/A");
 	}
 
 	/**
@@ -173,56 +194,20 @@ public class HapMapToFJTabbedConverter
 
 	private String convertAndCollapseSnpCall(String call)
 	{
-		String converted;
-
 		if (call.length() == 1)
 		{
-			switch (call)
-			{
-				case "A":
-					converted = "A";
-					break;
-				case "G":
-					converted = "G";
-					break;
-				case "C":
-					converted = "C";
-					break;
-				case "T":
-					converted = "T";
-					break;
-				case "Y":
-					converted = "C/T";
-					break;
-				case "R":
-					converted = "A/G";
-					break;
-				case "W":
-					converted = "A/T";
-					break;
-				case "S":
-					converted = "G/C";
-					break;
-				case "K":
-					converted = "T/G";
-					break;
-				case "M":
-					converted = "C/A";
-					break;
-				default:
-					converted = "N";
-					break;
-			}
-
-			return converted;
+			return alleleHash.getOrDefault(call, "-");
 		}
-
-		if (call.charAt(0) == call.charAt(1))
-			converted = call.substring(0, 1).equals("N") ? "-" : call.substring(0, 1);
 		else
-			converted = call.substring(0, 1) + "/" + call.substring(1, 2);
+		{
+			String first = alleleHash.getOrDefault(call.substring(0, 1), "-");
+			String second = alleleHash.getOrDefault(call.substring(1, 2), "-");
 
-		return converted;
+			if (first.equals(second))
+				return first.equals("N") ? "-" : first;
+			else
+				return first + "/" + second;
+		}
 	}
 
 	/**
