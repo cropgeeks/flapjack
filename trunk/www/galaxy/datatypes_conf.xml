@@ -4,7 +4,7 @@
         <datatype_file name="flapjack.py"/>
     </datatype_files>
     <registration>
-       <datatype extension="flapjack" type="galaxy.datatypes.flapjack:FlapjackFormat" mimetype="application/octet-stream" display_in_upload="true">
+       <datatype extension="flapjack" type="galaxy.datatypes.flapjack:FlapjackFormat" display_in_upload="true">
 	     <display file="jnlp.xml"/>
 	   </datatype>
 	   <datatype extension="fjmap" type="galaxy.datatypes.flapjack:FlapjackMapFormat" mimetype="text/plain" display_in_upload="true"/>
