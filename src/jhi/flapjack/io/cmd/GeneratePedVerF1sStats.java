@@ -85,11 +85,11 @@ public class GeneratePedVerF1sStats
 		if (decimalEnglish)
 			Locale.setDefault(Locale.UK);
 
-		CreateProject createProject = new CreateProject(mapFile, genotypesFile, null, null, new FlapjackFile("temp"), false);
+		CreateProject createProject = new CreateProject(mapFile, genotypesFile, null, null, null, false);
 
 		try
 		{
-			createProject.createProject();
+			createProject.doProjectCreation();
 			dataSet = createProject.dataSet();
 
 			generateStats();

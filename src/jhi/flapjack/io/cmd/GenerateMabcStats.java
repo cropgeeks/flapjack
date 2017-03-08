@@ -109,11 +109,11 @@ public class GenerateMabcStats
 		if (decimalEnglish)
 			Locale.setDefault(Locale.UK);
 
-		CreateProject createProject = new CreateProject(mapFile, genotypesFile, null, qtlFile, new FlapjackFile("temp"), false);
+		CreateProject createProject = new CreateProject(mapFile, genotypesFile, null, qtlFile, null, false);
 
 		try
 		{
-			createProject.createProject();
+			createProject.doProjectCreation();
 			dataSet = createProject.dataSet();
 
 			generateMabcStats();

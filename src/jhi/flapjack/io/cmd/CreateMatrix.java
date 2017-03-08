@@ -70,7 +70,7 @@ public class CreateMatrix
 		if (decimalEnglish)
 			Locale.setDefault(Locale.UK);
 
-		CreateProject createProject = new CreateProject(mapFile, genotypesFile, null, null, new FlapjackFile("temp"), false);
+		CreateProject createProject = new CreateProject(mapFile, genotypesFile, null, null, null, false);
 
 //		CreateProject.mapFile = mapFile;
 //		CreateProject.genotypesFile = genotypesFile;
@@ -78,7 +78,7 @@ public class CreateMatrix
 
 		try
 		{
-			createProject.createProject();
+			createProject.doProjectCreation();
 			dataSet = createProject.dataSet();
 
 			CreateSimMatrix();

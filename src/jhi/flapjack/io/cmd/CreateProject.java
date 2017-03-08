@@ -100,21 +100,21 @@ public class CreateProject
 			importTraits();
 			importQTLs();
 
-			if (saveProject())
+			if (prjFile != null && saveProject())
 				logMessage("\nProject Created");
 
 			ProjectSerializerDB.close();
 		}
 		catch (Exception e)
 		{
-			logMessage(e.getMessage());
+			logMessage(e.toString());
 			System.exit(1);
 		}
 
 		return output;
 	}
 
-	void createProject()
+	private void createProject()
 		throws Exception
 	{
 		// Read the map
@@ -132,7 +132,8 @@ public class CreateProject
 		pio.collapseHomzEncodedAsHet();
 		pio.optimizeStateTable();
 		pio.createDefaultView();
-		pio.setName(prjFile.getFile());
+		if (prjFile != null)
+			pio.setName(prjFile.getFile());
 
 		project.addDataSet(dataSet);
 	}
@@ -169,7 +170,7 @@ public class CreateProject
 	private void openProject()
 		throws Exception
 	{
-		if (prjFile.exists() && prjFile.getFile().length() > 0)
+		if (prjFile != null && prjFile.exists() && prjFile.getFile().length() > 0)
 			project = ProjectSerializer.open(prjFile);
 	}
 
