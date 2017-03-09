@@ -18,7 +18,10 @@
   #if $advanced_options.show_advanced
     $advanced_options.decimalEnglish
   #end if
+  #if $create_project
   -output=$output
+	-project=$project
+  #end if	
   ]]></command>
 
   <inputs>
@@ -54,11 +57,19 @@
 			  <option value="256m">256MB</option>
 			</param>
 		</when>
-	</conditional>	
+	</conditional>
+	
+	<param name="create_project" type="boolean" label="Also create Flapjack project file"
+		truevalue="true" falsevalue="false" help="Creates an additional Flapjack project file containing the MABC results.">
+	</param>
   </inputs>
   
   <outputs>
     <data format="tabular" name="output" />
+	<data format="flapjack" name="project">
+		<filter>create_project</filter>
+	</data> 
+	
   </outputs>
   
   <stdio>
