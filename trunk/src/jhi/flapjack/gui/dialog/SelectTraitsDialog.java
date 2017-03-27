@@ -42,7 +42,7 @@ public class SelectTraitsDialog extends JDialog implements ActionListener
 		bCancel.addActionListener(this);
 		bHelp = new JButton(RB.getString("gui.text.help"));
 		RB.setText(bHelp, "gui.text.help");
-		FlapjackUtils.setHelp(bHelp, "_-_Select_Traits");
+		FlapjackUtils.setHelp(bHelp, "select_traits.html");
 
 		JPanel p1 = new DialogPanel();
 		p1.add(bOK);

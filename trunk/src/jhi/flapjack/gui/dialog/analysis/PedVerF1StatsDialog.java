@@ -103,7 +103,7 @@ public class PedVerF1StatsDialog extends JDialog implements ActionListener
 		bCancel.addActionListener(this);
 
 		RB.setText(bHelp, "gui.text.help");
-		FlapjackUtils.setHelp(bHelp, "_-_Pedigree_Verification_(F1s_Known_Parents)");
+		FlapjackUtils.setHelp(bHelp, "pedver_f1s_known_parents.html");
 
 
 		rdbSelectF1.addActionListener(e -> f1Combo.setEnabled(rdbSelectF1.isSelected()) );

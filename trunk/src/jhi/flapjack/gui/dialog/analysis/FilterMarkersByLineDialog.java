@@ -55,7 +55,7 @@ public class FilterMarkersByLineDialog extends JDialog implements ActionListener
 		bCancel.addActionListener(this);
 
 		RB.setText(bHelp, "gui.text.help");
-		FlapjackUtils.setHelp(bHelp, "_-_Filtering_Markers");
+		FlapjackUtils.setHelp(bHelp, "filtering_markers.html#filter-missing-markers-by-line");
 
 		lineLabel.setText(label);
 

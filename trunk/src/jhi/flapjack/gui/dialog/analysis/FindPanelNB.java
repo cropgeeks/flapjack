@@ -29,7 +29,7 @@ class FindPanelNB extends JPanel implements ActionListener
 		link.setIcon(Icons.getIcon("WEB"));
 
 		RB.setText(bHelp, "gui.text.help");
-		FlapjackUtils.setHelp(bHelp, "_-_Find_By_Name");
+		FlapjackUtils.setHelp(bHelp, "find_by_name.html");
 
 		RB.setText(findLabel, "gui.dialog.NBFindPanel.findLabel");
 		RB.setText(searchLabel, "gui.dialog.NBFindPanel.searchLabel");

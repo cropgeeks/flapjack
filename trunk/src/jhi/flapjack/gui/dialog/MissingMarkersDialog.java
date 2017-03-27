@@ -45,7 +45,7 @@ public class MissingMarkersDialog extends JDialog implements ActionListener, Cha
 		RB.setText(bCancel, "gui.text.cancel");
 		bCancel.addActionListener(this);
 		RB.setText(bHelp, "gui.text.help");
-		FlapjackUtils.setHelp(bHelp, "_-_Filtering_Markers");
+		FlapjackUtils.setHelp(bHelp, "filtering_markers.html");
 
 		slider.addChangeListener(this);
 		slider.setValue(value);

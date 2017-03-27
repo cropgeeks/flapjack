@@ -52,7 +52,7 @@ public class FilterDialog extends JDialog implements ActionListener
 		RB.setText(bReset, "gui.table.FilterDialog.bReset");
 
 		RB.setText(bHelp, "gui.text.help");
-		FlapjackUtils.setHelp(bHelp, "_-_Analysis_Results_Tables");
+		FlapjackUtils.setHelp(bHelp, "analysis_results_tables.html#filtering-lines");
 
 		getContentPane().setBackground((Color)UIManager.get("fjDialogBG"));
 		bFilter.addActionListener(this);

@@ -47,7 +47,7 @@ public class NewViewDialog extends JDialog implements ActionListener
 		bCancel.addActionListener(this);
 		bHelp = new JButton(RB.getString("gui.text.help"));
 		RB.setText(bHelp, "gui.text.help");
-		FlapjackUtils.setHelp(bHelp, "_-_Create_New_View");
+		FlapjackUtils.setHelp(bHelp, "create_new_view.html");
 
 		JPanel p1 = new DialogPanel();
 		p1.add(bOK);

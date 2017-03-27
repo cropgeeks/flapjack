@@ -41,7 +41,7 @@ public class DendrogramSettingsDialog extends JDialog implements ActionListener
 		bCancel.addActionListener(this);
 
 		RB.setText(bHelp, "gui.text.help");
-		FlapjackUtils.setHelp(bHelp, "_-_Dendrogram_Creation");
+		FlapjackUtils.setHelp(bHelp, "dendrogram_creation.html");
 	}
 
 	public boolean isOK()

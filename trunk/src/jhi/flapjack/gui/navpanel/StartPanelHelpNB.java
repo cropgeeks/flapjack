@@ -13,9 +13,10 @@ import scri.commons.gui.matisse.HyperLinkLabel;
 public class StartPanelHelpNB extends javax.swing.JPanel implements ActionListener
 {
 	private HyperLinkLabel[] labels = new HyperLinkLabel[10];
+	private String[] urls = new String[10];
 
 	private static String home =
-		"http://ics.hutton.ac.uk/wiki/index.php/Flapjack_Help";
+		"http://flapjack.hutton.ac.uk/en/latest/";
 
     public StartPanelHelpNB()
 	{
@@ -27,6 +28,17 @@ public class StartPanelHelpNB extends javax.swing.JPanel implements ActionListen
 
 		homeLabel.setIcon(Icons.getIcon("BOOK"));
 		homeLabel.addActionListener(this);
+
+		urls[0] = "http://flapjack.hutton.ac.uk/en/latest/quickstart.html";
+		urls[1] = "http://flapjack.hutton.ac.uk/en/latest/import_data.html";
+		urls[2] = "http://flapjack.hutton.ac.uk/en/latest/export_image.html";
+		urls[3] = "http://flapjack.hutton.ac.uk/en/latest/create_new_view.html";
+		urls[4] = "http://flapjack.hutton.ac.uk/en/latest/modes_&_views.html";
+		urls[5] = "http://flapjack.hutton.ac.uk/en/latest/mabc.html";
+		urls[6] = "http://flapjack.hutton.ac.uk/en/latest/pedver_f1s_known_parents.html";
+		urls[7] = "http://flapjack.hutton.ac.uk/en/latest/preferences.html";
+		urls[8] = "https://ics.hutton.ac.uk/flapjack/download-flapjack/flapjack-release-notes/";
+		urls[9] = "http://flapjack.hutton.ac.uk/en/latest/tips_&_shortcuts.html";
 
 		labels[0] = link1; labels[1] = link2;
 		labels[2] = link3; labels[3] = link4;
@@ -57,10 +69,7 @@ public class StartPanelHelpNB extends javax.swing.JPanel implements ActionListen
 		{
 			for (int i = 0; i < labels.length; i++)
 				if (e.getSource() == labels[i])
-				{
-					FlapjackUtils.visitURL(RB.getString(
-							"gui.navpanel.NBStartHelpPanel.url" + (i+1)));
-				}
+					FlapjackUtils.visitURL(urls[i]);
 		}
 	}
 

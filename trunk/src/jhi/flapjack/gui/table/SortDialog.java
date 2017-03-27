@@ -34,7 +34,7 @@ public class SortDialog extends JDialog implements ActionListener, ListSelection
 		bDelete.addActionListener(this);
 
 		RB.setText(bHelp, "gui.text.help");
-		FlapjackUtils.setHelp(bHelp, "_-_Analysis_Results_Tables");
+		FlapjackUtils.setHelp(bHelp, "analysis_results_tables.html#sorting-lines");
 
 		checkButtonStates();
 
