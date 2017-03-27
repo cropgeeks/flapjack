@@ -25,7 +25,7 @@ public class ExportDialog extends JDialog implements ActionListener
 		RB.setText(bCancel, "gui.text.cancel");
 		RB.setText(bExport, "gui.table.ExportDialog.bExport");
 		RB.setText(bHelp, "gui.text.help");
-		FlapjackUtils.setHelp(bHelp, "_-_Analysis_Results_Tables");
+		FlapjackUtils.setHelp(bHelp, "analysis_results_tables.html#exporting-to-a-file");
 
 		initOptions();
 

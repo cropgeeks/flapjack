@@ -46,7 +46,7 @@ public class AlleleFrequencyDialog extends JDialog implements ActionListener, Ch
 		bOK.addActionListener(this);
 
 		RB.setText(bHelp, "gui.text.help");
-		FlapjackUtils.setHelp(bHelp, "_-_Allele_Frequency_Threshold");
+		FlapjackUtils.setHelp(bHelp, "allele_frequency_threshold.html");
 
 		RB.setText(thresholdLabel, "gui.dialog.NBAlleleFrequencyPanel.thresholdLabel");
 		RB.setText(hintLabel, "gui.dialog.NBAlleleFrequencyPanel.hintLabel");

@@ -59,7 +59,7 @@ public class MABCStatsDialog extends JDialog implements ActionListener
 		bCancel.addActionListener(this);
 
 		RB.setText(bHelp, "gui.text.help");
-		FlapjackUtils.setHelp(bHelp, "_-_Marker_Assisted_Back_Crossing");
+		FlapjackUtils.setHelp(bHelp, "mabc.html");
 
 		csd = new ChromosomeSelectionDialog(viewSet, true);
 		csdLabel.addActionListener(e -> { csd.setVisible(true); } );

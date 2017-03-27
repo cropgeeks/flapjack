@@ -44,7 +44,7 @@ public class FilterMonomorphicMarkersDialog extends JDialog implements ActionLis
 		bCancel.addActionListener(this);
 
 		RB.setText(bHelp, "gui.text.help");
-		FlapjackUtils.setHelp(bHelp, "_-_Filtering_Markers");
+		FlapjackUtils.setHelp(bHelp, "filtering_markers.html#filter-monomorphic-markers");
 
 		csd = new ChromosomeSelectionDialog(viewSet, false);
 		csdLabel.addActionListener(e -> { csd.setVisible(true); } );

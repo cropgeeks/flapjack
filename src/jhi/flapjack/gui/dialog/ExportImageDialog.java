@@ -53,7 +53,7 @@ public class ExportImageDialog extends JDialog implements ActionListener, Change
 		RB.setText(bCancel, "gui.text.cancel");
 		bCancel.addActionListener(this);
 		RB.setText(bHelp, "gui.text.help");
-		FlapjackUtils.setHelp(bHelp, "_-_Export_Image");
+		FlapjackUtils.setHelp(bHelp, "export_image.html");
 
 		//i18n
 		panel.setBorder(BorderFactory.createTitledBorder(RB.getString("gui.dialog.NBExportImagePanel.title")));

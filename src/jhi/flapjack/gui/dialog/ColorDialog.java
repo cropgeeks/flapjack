@@ -54,7 +54,7 @@ public class ColorDialog extends JDialog implements ActionListener
 		RB.setMnemonic(bApply, "gui.dialog.ColorDialog.bApply");
 		bApply.addActionListener(this);
 		RB.setText(bHelp, "gui.text.help");
-		FlapjackUtils.setHelp(bHelp, "_-_Customize_Colours");
+		FlapjackUtils.setHelp(bHelp, "customize_colours.html");
 
 		// i18n text
 		RB.setText(comboLabel, "gui.dialog.NBColorPanel.comboLabel");

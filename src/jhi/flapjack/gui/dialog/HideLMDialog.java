@@ -45,9 +45,9 @@ private boolean isOK = false;
 		bCancel.addActionListener(this);
 		RB.setText(bHelp, "gui.text.help");
 		if (i18n.equals("lines"))
-			FlapjackUtils.setHelp(bHelp, "_-_Show/Hide_Lines");
+			FlapjackUtils.setHelp(bHelp, "show_hide_lines.html");
 		else
-			FlapjackUtils.setHelp(bHelp, "_-_Show/Hide_Markers");
+			FlapjackUtils.setHelp(bHelp, "show_hide_markers.html");
 
 		int total, selected, unselected;
 

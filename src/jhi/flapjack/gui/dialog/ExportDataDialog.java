@@ -47,7 +47,7 @@ public class ExportDataDialog extends JDialog implements ActionListener
 		RB.setText(bCancel, "gui.text.cancel");
 		bCancel.addActionListener(this);
 		RB.setText(bHelp, "gui.text.help");
-		FlapjackUtils.setHelp(bHelp, "_-_Export_Data");
+		FlapjackUtils.setHelp(bHelp, "export_data.html");
 
 		// Components of the rest of the dialog
 		mapPanel.setBorder(BorderFactory.createTitledBorder(RB.getString("gui.dialog.NBExportDataPanel.panel.title")));

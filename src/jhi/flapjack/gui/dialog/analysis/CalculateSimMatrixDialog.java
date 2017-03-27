@@ -50,7 +50,7 @@ public class CalculateSimMatrixDialog extends JDialog implements ActionListener,
 		bCancel.addActionListener(this);
 
 		RB.setText(bHelp, "gui.text.help");
-		FlapjackUtils.setHelp(bHelp, "_-_Similarity_Matrix_Creation");
+		FlapjackUtils.setHelp(bHelp, "simmatrix_creation.html");
 
 		csd = new ChromosomeSelectionDialog(viewSet, true);
 		csdLabel.addActionListener(e -> { csd.setVisible(true); } );

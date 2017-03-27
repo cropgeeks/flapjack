@@ -81,7 +81,7 @@ public class BrapiImportDialog extends JDialog implements ActionListener
 		bCancel.addActionListener(this);
 		bHelp = new JButton(RB.getString("gui.text.help"));
 		RB.setText(bHelp, "gui.text.help");
-		FlapjackUtils.setHelp(bHelp, "_-_Import_Data");
+		FlapjackUtils.setHelp(bHelp, "import_data.html");
 
 		JPanel p1 = new DialogPanel();
 		p1.add(bBack);
