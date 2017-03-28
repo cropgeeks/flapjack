@@ -66,33 +66,6 @@ public class AboutDialog extends JDialog implements ActionListener
 		{
 			setBackground(Color.white);
 			add(new JLabel(Icons.getIcon("AVATARS")));
-
-			addMouseMotionListener(new MouseMotionAdapter()
-			{
-				public void mouseMoved(MouseEvent e)
-				{
-					int x = e.getX();
-
-					String tooltip = "<html>";
-
-					if (x < 100)
-						tooltip += "Iain Milne";
-					else if (x < 193)
-						tooltip += "Gordon Stephen";
-					else if (x < 287)
-						tooltip += "Paul Shaw";
-					else if (x < 380)
-						tooltip += "Sebastian Raubach";
-					else if (x < 470)
-						tooltip += "Micha Bayer";
-					else if (x < 570)
-						tooltip += "Linda Cardle";
-					else
-						tooltip += "David Marshall";
-
-					setToolTipText(tooltip);
-				}
-			});
 		}
 	}
 }
