@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<install4j version="6.1.4" transformSequenceNumber="5">
-  <directoryPresets config="../keys/OS201306044993.pfx" />
+<install4j version="6.1.5" transformSequenceNumber="5">
+  <directoryPresets config="./flapjack.vmoptions" />
   <application name="Flapjack" distributionSourceDir="" applicationId="9131-7045-2417-5931" mediaDir="." mediaFilePattern="${compiler:sys.shortName}_${compiler:sys.platform}_${compiler:sys.version}" compression="6" lzmaCompression="false" pack200Compression="false" excludeSignedFromPacking="true" commonExternalFiles="false" createMd5Sums="true" shrinkRuntime="false" shortName="flapjack" publisher="The James Hutton Institute" publisherWeb="http://www.hutton.ac.uk" version="x.xx.xx.xx" allPathsRelative="true" backupOnSave="false" autoSave="false" convertDotsToUnderscores="true" macSignature="????" macVolumeId="c00051f261301646" javaMinVersion="1.8" javaMaxVersion="" allowBetaVM="false" jdkMode="runtimeJre" jdkName="">
     <languages skipLanguageSelection="true" languageSelectionInPrincipalLanguage="false">
       <principalLanguage id="en" customLocalizationFile="" />
@@ -27,6 +27,7 @@
     <roots />
     <mountPoints>
       <mountPoint id="17" root="" location="lib" mode="755" />
+      <mountPoint id="1879" root="" location="" mode="755" />
     </mountPoints>
     <entries>
       <dirEntry mountPoint="17" file="../lib" overwriteMode="4" shared="false" fileMode="644" uninstallMode="0" overrideFileMode="false" overrideOverwriteMode="false" overrideUninstallMode="false" entryMode="direct" subDirectory="" excludeSuffixes="*.svn" dirMode="755" overrideDirMode="false">
@@ -35,6 +36,7 @@
           <entry location="lib-servlet" fileType="regular" />
         </exclude>
       </dirEntry>
+      <fileEntry mountPoint="1879" file="./flapjack.vmoptions" overwriteMode="4" shared="false" fileMode="644" uninstallMode="0" overrideFileMode="false" overrideOverwriteMode="false" overrideUninstallMode="false" />
     </entries>
     <components />
   </files>
@@ -1566,6 +1568,7 @@ if (wizardContext != null) {
       <overriddenPrincipalLanguage id="en" customLocalizationFile="" />
       <exclude>
         <entry location="lib/osxadapter.jar" fileType="regular" />
+        <entry location="flapjack.vmoptions" fileType="regular" />
       </exclude>
       <variables />
       <autoUpdate useMinUpdatableVersion="false" minUpdatableVersion="" useMaxUpdatableVersion="false" maxUpdatableVersion="">
@@ -1583,6 +1586,7 @@ if (wizardContext != null) {
       <overriddenPrincipalLanguage id="en" customLocalizationFile="" />
       <exclude>
         <entry location="lib/osxadapter.jar" fileType="regular" />
+        <entry location="flapjack.vmoptions" fileType="regular" />
       </exclude>
       <variables />
       <autoUpdate useMinUpdatableVersion="false" minUpdatableVersion="" useMaxUpdatableVersion="false" maxUpdatableVersion="">
@@ -1597,7 +1601,9 @@ if (wizardContext != null) {
         <bean refId="974" />
       </excludedBeans>
       <overriddenPrincipalLanguage id="en" customLocalizationFile="" />
-      <exclude />
+      <exclude>
+        <entry location="flapjack.vmoptions" fileType="regular" />
+      </exclude>
       <variables />
       <autoUpdate useMinUpdatableVersion="false" minUpdatableVersion="" useMaxUpdatableVersion="false" maxUpdatableVersion="">
         <commentFiles />
@@ -1615,6 +1621,7 @@ if (wizardContext != null) {
       <overriddenPrincipalLanguage id="en" customLocalizationFile="" />
       <exclude>
         <entry location="lib/osxadapter.jar" fileType="regular" />
+        <entry location="flapjack.vmoptions" fileType="regular" />
       </exclude>
       <variables />
       <autoUpdate useMinUpdatableVersion="false" minUpdatableVersion="" useMaxUpdatableVersion="false" maxUpdatableVersion="">
@@ -1635,6 +1642,7 @@ if (wizardContext != null) {
       <overriddenPrincipalLanguage id="en" customLocalizationFile="" />
       <exclude>
         <entry location="lib/osxadapter.jar" fileType="regular" />
+        <entry location="flapjack.vmoptions" fileType="regular" />
       </exclude>
       <variables />
       <autoUpdate useMinUpdatableVersion="false" minUpdatableVersion="" useMaxUpdatableVersion="false" maxUpdatableVersion="">
@@ -1645,6 +1653,60 @@ if (wizardContext != null) {
         <content />
       </installerScript>
     </unixInstaller>
+    <linuxRPM name="Linux x64 RPM" id="1878" customizedId="" mediaFileName="${compiler:sys.shortName}_linux_x64_${compiler:sys.version}" installDir="/opt/${compiler:sys.shortName}" overridePrincipalLanguage="false" jreBitType="all" runPostProcessor="false" postProcessor="" failOnPostProcessorError="false" useLegacyMediaFileIds="false" legacyMediaFileIds="" downloadURL="" includeAllDownloadableComponents="true" includedJRE="linux-amd64-1.8.0_112" manualJREEntry="false" overwriteNeverAsConfigFiles="false" os="linux" arch="x86_64">
+      <excludedComponents />
+      <includedDownloadableComponents />
+      <excludedLaunchers />
+      <excludedBeans />
+      <overriddenPrincipalLanguage id="en" customLocalizationFile="" />
+      <exclude>
+        <entry location="lib/osxadapter.jar" fileType="regular" />
+      </exclude>
+      <variables />
+      <autoUpdate useMinUpdatableVersion="false" minUpdatableVersion="" useMaxUpdatableVersion="false" maxUpdatableVersion="">
+        <commentFiles />
+        <customAttributes />
+      </autoUpdate>
+      <preInstallScript mode="1" file="">
+        <content />
+      </preInstallScript>
+      <postInstallScript mode="1" file="">
+        <content />
+      </postInstallScript>
+      <preUninstallScript mode="1" file="">
+        <content />
+      </preUninstallScript>
+      <postUninstallScript mode="1" file="">
+        <content />
+      </postUninstallScript>
+    </linuxRPM>
+    <linuxDeb name="Linux x64 Deb" id="1893" customizedId="" mediaFileName="${compiler:sys.shortName}_linux_x64_${compiler:sys.version}" installDir="/opt/${compiler:sys.shortName}" overridePrincipalLanguage="false" jreBitType="all" runPostProcessor="false" postProcessor="" failOnPostProcessorError="false" useLegacyMediaFileIds="false" legacyMediaFileIds="" downloadURL="" includeAllDownloadableComponents="true" includedJRE="linux-amd64-1.8.0_112" manualJREEntry="false" overwriteNeverAsConfigFiles="false" bzip="false" description="Flapjack - Graphical Genotype Visualization" dependencies="" maintainerEmail="flapjack@hutton.ac.uk" architectureSet="true" architecture="amd64">
+      <excludedComponents />
+      <includedDownloadableComponents />
+      <excludedLaunchers />
+      <excludedBeans />
+      <overriddenPrincipalLanguage id="en" customLocalizationFile="" />
+      <exclude>
+        <entry location="lib/osxadapter.jar" fileType="regular" />
+      </exclude>
+      <variables />
+      <autoUpdate useMinUpdatableVersion="false" minUpdatableVersion="" useMaxUpdatableVersion="false" maxUpdatableVersion="">
+        <commentFiles />
+        <customAttributes />
+      </autoUpdate>
+      <preInstallScript mode="1" file="">
+        <content />
+      </preInstallScript>
+      <postInstallScript mode="1" file="">
+        <content />
+      </postInstallScript>
+      <preUninstallScript mode="1" file="">
+        <content />
+      </preUninstallScript>
+      <postUninstallScript mode="1" file="">
+        <content />
+      </postUninstallScript>
+    </linuxDeb>
   </mediaSets>
   <buildIds buildAll="true">
     <mediaSet refId="19" />
