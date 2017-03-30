@@ -2,13 +2,13 @@ package jhi.flapjack.io.cmd;
 
 import java.io.*;
 import java.text.*;
-import java.util.*;
 
 import jhi.flapjack.analysis.*;
 import jhi.flapjack.data.*;
 import jhi.flapjack.gui.mabc.*;
 import jhi.flapjack.gui.table.*;
-import jhi.flapjack.io.*;
+
+import org.apache.commons.cli.*;
 
 import scri.commons.gui.*;
 
@@ -17,12 +17,10 @@ public class GenerateMabcStats
 	// The objects that will (hopefully) get created
 	private DataSet dataSet = new DataSet();
 
-	// And the files required to read and write to
-	private File mapFile;
-	private File genotypesFile;
-	private File qtlFile;
+	private CreateProjectSettings projectSettings;
+	private DataImportSettings importSettings;
+
 	private double maxMarkerCoverage = 10;
-	private boolean decimalEnglish = false;
 	private String filename;
 	private boolean unweighted = false;
 	private Integer parent1;
@@ -30,58 +28,63 @@ public class GenerateMabcStats
 
 	public static void main(String[] args)
 	{
-		GenerateMabcStats mabcStats = new GenerateMabcStats(args);
-		mabcStats.doStatGeneration();
-
-		System.exit(0);
-	}
-
-	private GenerateMabcStats(String[] args)
-	{
 		NumberFormat nf = NumberFormat.getInstance();
 		String modelType;
 
-		for (String arg : args)
-		{
-			if (arg.startsWith("-map="))
-				mapFile = new File(arg.substring(5));
-			if (arg.startsWith("-genotypes="))
-				genotypesFile = new File(arg.substring(11));
-			if (arg.startsWith("-qtls="))
-				qtlFile = new File(arg.substring(6));
-			if (arg.startsWith("-parent1="))
-				parent1 = parseParent(arg.substring(9));
-			if (arg.startsWith("-parent2="))
-				parent2 = parseParent(arg.substring(9));
-			if (arg.startsWith("-decimalEnglish"))
-				decimalEnglish = true;
-			if (arg.startsWith("-output="))
-				filename = arg.substring(8);
-			if (arg.startsWith("-model="))
-			{
-				modelType = arg.substring(7);
-				if (modelType.equals("unweighted"))
-					unweighted = true;
-			}
-			if (arg.startsWith("-coverage="))
-			{
-				try
-				{
-					maxMarkerCoverage = nf.parse(arg.substring(10)).doubleValue();
-				}
-				catch (ParseException e)
-				{
-					e.printStackTrace();
-					System.exit(1);
-				}
-			}
-		}
+		CmdOptions options = new CmdOptions()
+			.withCommonOptions()
+			.withGenotypeFile(true)
+			.withMapFile(true)
+			.withQtlFile(true)
+			.withOutputPath(true)
+			.addRequiredOption("r", "recurrent-parent", true, "INTEGER", "Index of parent in file")
+			.addRequiredOption("d", "donor-parent", true, "INTEGER", "Index of parent in file")
+			.addOption(null, "model", true, "ARG", "weighted|unweighted")
+			.addOption("c", "max-marker-coverage", true, "FLOATING POINT NUMBER", "Maximum coverage a marker can " +
+				"have in the weighted model");
 
-		if (mapFile == null || genotypesFile == null || qtlFile == null ||
-			filename == null || parent1 == null || parent2 == null)
+		try
 		{
-			printHelp();
+			CommandLine line = new DefaultParser().parse(options, args);
+
+			CreateProjectSettings projectSettings = options.getCreateProjectSettings(line);
+			DataImportSettings importSettings = options.getDataImportSettings(line);
+			// Uncommon required vars
+			String filename = options.getOutputPath(line);
+			Integer parent1 = parseParent(line.getOptionValue("recurrent-parent"));
+			Integer parent2 = parseParent(line.getOptionValue("donor-parent"));
+			// Optional vars
+			modelType = line.getOptionValue("model");
+			boolean unweighted = modelType != null && modelType.equals("unweighted");
+
+			double maxMarkerCoverage = 10;
+			if (line.hasOption("max-marker-coverage"))
+				maxMarkerCoverage = nf.parse(line.getOptionValue("max-marker-coverage")).doubleValue();
+
+			GenerateMabcStats mabcStats = new GenerateMabcStats(projectSettings, importSettings, parent1, parent2,
+				unweighted, maxMarkerCoverage, filename);
+			mabcStats.doStatGeneration();
+
+			System.exit(0);
 		}
+		catch (Exception e)
+		{
+			options.printHelp("GenerateMabcStats");
+
+			System.exit(1);
+		}
+	}
+
+	private GenerateMabcStats(CreateProjectSettings projectSettings, DataImportSettings importSettings, Integer parent1,
+		Integer parent2, boolean unweighted, double maxMarkerCoverage, String filename)
+	{
+		this.projectSettings = projectSettings;
+		this.importSettings = importSettings;
+		this.parent1 = parent1;
+		this.parent2 = parent2;
+		this.unweighted = unweighted;
+		this.maxMarkerCoverage = maxMarkerCoverage;
+		this.filename = filename;
 	}
 
 	private static Integer parseParent(String parent)
@@ -106,10 +109,7 @@ public class GenerateMabcStats
 		RB.initialize("auto", "res.text.flapjack");
 		TaskDialog.setIsHeadless();
 
-		if (decimalEnglish)
-			Locale.setDefault(Locale.UK);
-
-		CreateProject createProject = new CreateProject(mapFile, genotypesFile, null, qtlFile, null, false);
+		CreateProject createProject = new CreateProject(projectSettings, importSettings);
 
 		try
 		{
@@ -146,22 +146,5 @@ public class GenerateMabcStats
 		LineDataTableExporter exporter = new LineDataTableExporter(
 			table, new File(filename), 0, false);
 		exporter.runJob(0);
-	}
-
-	private static void printHelp()
-	{
-		System.out.println("Usage: mabcstats <options>\n"
-			+ " where valid options are:\n"
-			+ "   -map=<map_file>                (required input file)\n"
-			+ "   -genotypes=<genotypes_file>    (required input file)\n"
-			+ "   -qtls=<qtl_file>               (required input file)\n"
-			+ "   -parent1=<index_of_line>       (required parameter, index of recurrent parent, first line is index 1)\n"
-			+ "   -parent2=<index_of_line>       (required parameter, index of donor parent, first line is index 1)\n"
-			+ "   -model=weighted|unweighted     (optional parameter, defaults to weighted)\n"
-			+ "   -coverage=<coverage_value>     (optional floating point parameter, defaults to 10)\n"
-			+ "   -decimalEnglish                (optional parameter)\n"
-			+ "   -output=<output_file>          (required output file)");
-
-		System.exit(1);
 	}
 }

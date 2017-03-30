@@ -11,6 +11,8 @@ import java.util.stream.*;
 
 import ch.systemsx.cisd.hdf5.*;
 
+import org.apache.commons.cli.*;
+
 public class FJTabbedToHdf5Converter
 {
 	private static final String LINES = "Lines";
@@ -35,16 +37,26 @@ public class FJTabbedToHdf5Converter
 
 	private FJTabbedToHdf5Converter(String[] args)
 	{
-		for (String arg : args)
-		{
-			if (arg.startsWith("-genotypes="))
-				genotypeFile = new File(arg.substring(11));
-			if (arg.startsWith("-hdf5="))
-				hdf5File = new File(arg.substring(6));
-		}
+		CmdOptions options = new CmdOptions()
+			.withCommonOptions()
+			.withGenotypeFile(true)
+			.addRequiredOption("h", "hdf5", true, "FILE", "Required output file");
 
-		if (genotypeFile == null || hdf5File == null)
-			printHelp();
+		try
+		{
+			CommandLine line = new DefaultParser().parse(options, args);
+
+			if (line.hasOption("genotypes"))
+				genotypeFile = new File(line.getOptionValue("genotypes"));
+			if (line.hasOption("hdf5"))
+				hdf5File = new File(line.getOptionValue("hdf5"));
+		}
+		catch (Exception e)
+		{
+			options.printHelp("FJTabbedToHdf5Converter");
+
+			System.exit(1);
+		}
 	}
 
 	public FJTabbedToHdf5Converter(File genotypeFile, File hdf5File)

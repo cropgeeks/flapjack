@@ -5,12 +5,15 @@
 
 package jhi.flapjack.io.cmd;
 
-import jhi.flapjack.data.*;
-import jhi.flapjack.gui.*;
 import java.io.*;
 import java.util.*;
 
+import jhi.flapjack.data.*;
+import jhi.flapjack.gui.*;
 import jhi.flapjack.io.*;
+
+import org.apache.commons.cli.*;
+
 import scri.commons.gui.*;
 
 /**
@@ -30,58 +33,50 @@ public class CreateProject
 	private File traitsFile;
 	private File qtlsFile;
 	private FlapjackFile prjFile;
-	private boolean decimalEnglish = false;
 
 	private List<String> output = new ArrayList<>();
 
+	private DataImportSettings importSettings = new DataImportSettings();
+
 	public static void main(String[] args)
 	{
-		CreateProject cProj = new CreateProject(args);
-		cProj.doProjectCreation();
+		CmdOptions options = new CmdOptions()
+			.withCommonOptions()
+			.withGenotypeFile(true)
+			.withProjectFile(true)
+			.withMapFile(false)
+			.withTraitFile(false)
+			.withQtlFile(false);
 
-		System.exit(0);
-	}
-
-	private CreateProject(String[] args)
-	{
-		for (String arg : args)
+		try
 		{
-			if (arg.startsWith("-map="))
-				mapFile = new File(arg.substring(5));
-			if (arg.startsWith("-genotypes="))
-				genotypesFile = new File(arg.substring(11));
-			if (arg.startsWith("-traits="))
-				traitsFile = new File(arg.substring(8));
-			if (arg.startsWith("-qtls="))
-				qtlsFile = new File(arg.substring(6));
-			if (arg.startsWith("-project="))
-				prjFile = new FlapjackFile(arg.substring(9));
-			if (arg.startsWith("-decimalEnglish"))
-				decimalEnglish = true;
-		}
+			CommandLine line = new DefaultParser().parse(options, args);
 
-		if (genotypesFile == null || prjFile == null)
-			printHelp();
+			CreateProjectSettings projectSettings = options.getCreateProjectSettings(line);
+			DataImportSettings importSettings = options.getDataImportSettings(line);
+
+			CreateProject cProj = new CreateProject(projectSettings, importSettings);
+			cProj.doProjectCreation();
+
+			System.exit(0);
+		}
+		catch (Exception e)
+		{
+			options.printHelp("CreateProject");
+
+			System.exit(1);
+		}
 	}
 
-	/**
-	 * Constructor for setting up project creation. Call this, then doProjectCreation() to create a project.
-	 *
-	 * @param mapFile			The map File object for this project (requried)
-	 * @param genotypesFile 	The genotypes File object for this project (required)
-	 * @param traitsFile		The traits File object for this project (optional - can be null)
-	 * @param qtlsFile			The qtls File object for this project (optional - can be null)
-	 * @param decimalEnglish	Whether or not we use English decimal points (required - boolean).
-	 */
-	public CreateProject(File mapFile, File genotypesFile, File traitsFile, File qtlsFile, FlapjackFile prjFile, boolean decimalEnglish)
+	CreateProject(CreateProjectSettings options, DataImportSettings importSettings)
 	{
-		this.mapFile = mapFile;
-		this.genotypesFile = genotypesFile;
-		this.traitsFile = traitsFile;
-		this.qtlsFile = qtlsFile;
-		this.decimalEnglish = decimalEnglish;
+		this.mapFile = options.getMap();
+		this.genotypesFile = options.getGenotypes();
+		this.traitsFile = options.getTraits();
+		this.qtlsFile = options.getQtls();
+		this.prjFile = options.getProject();
 
-		this.prjFile = prjFile;
+		this.importSettings = importSettings;
 	}
 
 	public List<String> doProjectCreation()
@@ -90,7 +85,7 @@ public class CreateProject
 		TaskDialog.setIsHeadless();
 		FlapjackUtils.initialiseSqlite();
 
-		if (decimalEnglish)
+		if (importSettings.isDecimalEnglish())
 			Locale.setDefault(Locale.UK);
 
 		try
@@ -124,9 +119,12 @@ public class CreateProject
 
 		// Read the data file
 		GenotypeDataImporter genoImporter = new GenotypeDataImporter(
-			genotypesFile, dataSet, mapImporter.getMarkersHashMap(), "-", true, "/", false);
+			genotypesFile, dataSet, mapImporter.getMarkersHashMap(), importSettings.getMissingData(), importSettings.isUseHetSep(), importSettings.getHetSep(), false);
 
 		genoImporter.importGenotypeData();
+
+		if (importSettings.isMakeAllChrom())
+			dataSet.createSuperChromosome(RB.getString("io.DataImporter.allChromosomes"));
 
 		PostImportOperations pio = new PostImportOperations(dataSet);
 		pio.collapseHomzEncodedAsHet();
@@ -191,19 +189,5 @@ public class CreateProject
 	DataSet dataSet()
 	{
 		return dataSet;
-	}
-
-	private void printHelp()
-	{
-		System.out.println("Usage: createproject <options>\n"
-			+ " where valid options are:\n"
-			+ "   -map=<map_file>                (optional input file)\n"
-			+ "   -genotypes=<genotypes_file>    (required input file)\n"
-			+ "   -traits=<traits_file>          (optional input file)\n"
-			+ "   -qtls=<qtl_file>               (optional input file)\n"
-			+ "   -decimalEnglish                (optional input parameter)\n"
-			+ "   -project=<project_file>        (required output file)\n");
-
-		System.exit(1);
 	}
 }

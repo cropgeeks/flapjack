@@ -3,6 +3,8 @@ package jhi.flapjack.io.cmd;
 import java.io.*;
 import java.util.*;
 
+import org.apache.commons.cli.*;
+
 public class VcfToFJTabbedConverter
 {
 	private File vcfFile;
@@ -19,27 +21,30 @@ public class VcfToFJTabbedConverter
 
 	public static void main(String[] args)
 	{
-		VcfToFJTabbedConverter toGenotype = new VcfToFJTabbedConverter(args);
-		toGenotype.convert();
+		CmdOptions options = new CmdOptions()
+			.withCommonOptions()
+			.withGenotypeFile(true)
+			.withMapFile(true)
+			.withOutputPath(true);
 
-		System.exit(0);
-	}
-
-	private VcfToFJTabbedConverter(String[] args)
-	{
-		for (String arg : args)
+		try
 		{
-			if (arg.startsWith("-genotypes="))
-				genotypeFile = new File(arg.substring(11));
-			if (arg.startsWith("-map="))
-				mapFile = new File(arg.substring(5));
-			if (arg.startsWith("-vcf="))
-				vcfFile = new File(arg.substring(5));
+			CommandLine line = new DefaultParser().parse(options, args);
+
+			File mapFile = options.getMapFile(line);
+			File genotypeFile = options.getGenotypeFile(line);
+			File vcfFile = new File(options.getOutputPath(line));
+
+			VcfToFJTabbedConverter toGenotype = new VcfToFJTabbedConverter(vcfFile, mapFile, genotypeFile);
+			toGenotype.convert();
+
+			System.exit(0);
 		}
-
-		if (genotypeFile == null || mapFile == null || vcfFile == null)
+		catch (Exception e)
 		{
-			printHelp();
+			options.printHelp("VcfToFJTabbedConverter");
+
+			System.exit(1);
 		}
 	}
 
@@ -231,16 +236,5 @@ public class VcfToFJTabbedConverter
 			e.printStackTrace();
 			System.exit(1);
 		}
-	}
-
-	private static void printHelp()
-	{
-		System.out.println("Usage: vcf2Genotype <options>\n"
-			+ " where valid options are:\n"
-			+ "   -vcf=<vcf_file>                (required input file)\n"
-			+ "   -map=<map_file>                (required output file)\n"
-			+ "   -genotypes=<genotype_file>     (required output file)\n");
-
-		System.exit(1);
 	}
 }

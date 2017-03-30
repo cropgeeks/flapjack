@@ -4,6 +4,8 @@ import java.io.*;
 import java.util.*;
 import java.util.stream.*;
 
+import org.apache.commons.cli.*;
+
 /**
  * Used to convert a HapMap (version 3) formatted file to the Flapjack flat file map and genotype formats. The single
  * constructor accepts a {@link java.io.File} representing the HapMap file to be converted, as well as a
@@ -32,37 +34,48 @@ public class HapMapToFJTabbedConverter
 
 	public static void main(String[] args)
 	{
-		HapMapToFJTabbedConverter toFlapjack = new HapMapToFJTabbedConverter(args);
-		toFlapjack.convert();
+		CmdOptions options = new CmdOptions()
+			.withCommonOptions()
+			.withGenotypeFile(true)
+			.withMapFile(true)
+			.addRequiredOption("h", "hapmap", true, "FILE", "Required input file")
+			.addRequiredOption("s", "separator", true, "ARG", "Required argument s|t");
 
-		System.exit(0);
-	}
-
-	private HapMapToFJTabbedConverter(String[] args)
-	{
-		for (String arg : args)
+		try
 		{
-			if (arg.startsWith("-genotypes="))
-				genotypes = new File(arg.substring(11));
-			if (arg.startsWith("-separator="))
-				separator = arg.substring(11);
-			if (arg.startsWith("-map="))
-				map = new File(arg.substring(5));
-			if (arg.startsWith("-hapmap="))
-				hapMap = new File(arg.substring(8));
-		}
+			CommandLine line = new DefaultParser().parse(options, args);
 
-		if (genotypes == null || map == null || hapMap == null || separator == null || (separator != null && (!separator.equals("s") && !separator.equals("t"))))
+			File map = options.getMapFile(line);
+			File genotypes = options.getGenotypeFile(line);
+
+			// Required vars
+			File hapMap = new File(line.getOptionValue("hapmap"));
+			String separator = line.getOptionValue("separator");
+			switch (separator)
+			{
+				case "s":
+					separator = SPACE_SEPARATOR;
+					break;
+				case "t":
+					separator = TAB_SEPARATOR;
+					break;
+				default:
+					options.printHelp("HapMapToFJTabbedConverter");
+
+					System.exit(1);
+			}
+
+			HapMapToFJTabbedConverter toFlapjack = new HapMapToFJTabbedConverter(hapMap, map, genotypes, separator);
+			toFlapjack.convert();
+
+			System.exit(0);
+		}
+		catch (Exception e)
 		{
-			printHelp();
+			options.printHelp("HapMapToFJTabbedConverter");
+
+			System.exit(1);
 		}
-
-		if (separator.equals("s"))
-			separator = SPACE_SEPARATOR;
-		else if (separator.equals("t"))
-			separator = TAB_SEPARATOR;
-
-		initAlleleMap();
 	}
 
 	/**
@@ -316,17 +329,5 @@ public class HapMapToFJTabbedConverter
 		{
 			return snpCalls;
 		}
-	}
-
-	private static void printHelp()
-	{
-		System.out.println("Usage: hapmap2flapjack <options>\n"
-			+ " where valid options are:\n"
-			+ "   -separator=<s or t>            (required separator used in input file)\n"
-			+ "   -hapmap=<hapmap_file>          (required input file)\n"
-			+ "   -map=<map_file>                (required output file)\n"
-			+ "   -genotypes=<genotype_file>     (required output file)\n");
-
-		System.exit(1);
 	}
 }
