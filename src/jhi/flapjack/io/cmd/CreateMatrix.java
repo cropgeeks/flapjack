@@ -5,12 +5,13 @@
 
 package jhi.flapjack.io.cmd;
 
-import java.io.*;
 import java.util.*;
 
 import jhi.flapjack.analysis.*;
 import jhi.flapjack.data.*;
 import jhi.flapjack.io.*;
+
+import org.apache.commons.cli.*;
 
 import scri.commons.gui.*;
 
@@ -23,43 +24,44 @@ public class CreateMatrix
 	private DataSet dataSet = new DataSet();
 
 	// And the files required to read and write to
-	private File mapFile;
-	private File genotypesFile;
-	private boolean decimalEnglish = false;
+	private CreateProjectSettings projectSettings;
+	private DataImportSettings importSettings;
 	private String filename;
 
 	public static void main(String[] args)
 	{
-		CreateMatrix cMatrix = new CreateMatrix(args);
-		cMatrix.doMatrixCreation();
+		CmdOptions options = new CmdOptions()
+			.withCommonOptions()
+			.withGenotypeFile(true)
+			.withMapFile(false)
+			.withOutputPath(true);
 
-		System.exit(0);
-	}
-
-	private CreateMatrix(String args[])
-	{
-		for (String arg : args)
+		try
 		{
-			if (arg.startsWith("-map="))
-				mapFile = new File(arg.substring(5));
-			if (arg.startsWith("-genotypes="))
-				genotypesFile = new File(arg.substring(11));
-			if (arg.startsWith("-matrix="))
-				filename = arg.substring(8);
-			if (arg.startsWith("-decimalEnglish"))
-				decimalEnglish = true;
-		}
+			CommandLine line = new DefaultParser().parse(options, args);
 
-		if (genotypesFile == null || filename == null)
-			printHelp();
+			CreateProjectSettings projectSettings = options.getCreateProjectSettings(line);
+			DataImportSettings importSettings = options.getDataImportSettings(line);
+			String filename = options.getOutputPath(line);
+
+			CreateMatrix cMatrix = new CreateMatrix(projectSettings, importSettings, filename);
+			cMatrix.doMatrixCreation();
+
+			System.exit(0);
+		}
+		catch (Exception e)
+		{
+			options.printHelp("CreateMatrix");
+
+			System.exit(1);
+		}
 	}
 
-	public CreateMatrix(File mapFile, File genotypesFile, String filename, boolean decimalEnglish)
+	public CreateMatrix(CreateProjectSettings projectSettings, DataImportSettings importSettings, String filename)
 	{
-		this.mapFile = mapFile;
-		this.genotypesFile = genotypesFile;
+		this.projectSettings = projectSettings;
+		this.importSettings = importSettings;
 		this.filename = filename;
-		this.decimalEnglish = decimalEnglish;
 	}
 
 	public void doMatrixCreation()
@@ -67,14 +69,10 @@ public class CreateMatrix
 		RB.initialize("auto", "res.text.flapjack");
 		TaskDialog.setIsHeadless();
 
-		if (decimalEnglish)
+		if (importSettings.isDecimalEnglish())
 			Locale.setDefault(Locale.UK);
 
-		CreateProject createProject = new CreateProject(mapFile, genotypesFile, null, null, null, false);
-
-//		CreateProject.mapFile = mapFile;
-//		CreateProject.genotypesFile = genotypesFile;
-//		CreateProject.prjFile = new FlapjackFile("temp");
+		CreateProject createProject = new CreateProject(projectSettings, importSettings);
 
 		try
 		{
@@ -106,17 +104,5 @@ public class CreateMatrix
 		calculator.runJob(0);
 		SimMatrixExporter exporter = new SimMatrixExporter(calculator.getMatrix(), filename);
 		exporter.runJob(0);
-	}
-
-	private static void printHelp()
-	{
-		System.out.println("Usage: creatematrix <options>\n"
-			+ " where valid options are:\n"
-			+ "   -map=<map_file>                (optional input file)\n"
-			+ "   -genotypes=<genotypes_file>    (required input file)\n"
-			+ "   -decimalEnglish                (optional input parameter)\n"
-			+ "   -matrix=<matrix_file>          (required output file)\n");
-
-		System.exit(1);
 	}
 }

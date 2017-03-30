@@ -38,14 +38,18 @@ public class GobiiMabcConverter
 		// Read/create the qtls
 		converter.createQTL(new File(args[2]));
 
-		// Make a Flapjack project
-		CreateProject cp = new CreateProject(
+		CreateProjectSettings projectSettings = new CreateProjectSettings(
 			new File(wrkDir, "map"),
 			new File(wrkDir, "geno"),
 			null,
 			new File(wrkDir, "qtl"),
-			new FlapjackFile(args[3]),
-			true);
+			new FlapjackFile(args[3]));
+
+		DataImportSettings importSettings = new DataImportSettings();
+		importSettings.setDecimalEnglish(true);
+
+		// Make a Flapjack project
+		CreateProject cp = new CreateProject(projectSettings, importSettings);
 
 		cp.doProjectCreation();
 	}

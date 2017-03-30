@@ -7,7 +7,8 @@ import jhi.flapjack.analysis.*;
 import jhi.flapjack.data.*;
 import jhi.flapjack.gui.pedver.*;
 import jhi.flapjack.gui.table.*;
-import jhi.flapjack.io.*;
+
+import org.apache.commons.cli.*;
 
 import scri.commons.gui.*;
 
@@ -17,47 +18,65 @@ public class GeneratePedVerF1sStats
 	private DataSet dataSet = new DataSet();
 
 	// And the files required to read and write to
-	private File mapFile;
-	private File genotypesFile;
-	private boolean decimalEnglish = false;
+	private CreateProjectSettings projectSettings;
+	private DataImportSettings importSettings;
 	private String filename;
 	private Integer parent1;
 	private Integer parent2;
-	private Integer expectedf1;
+	private Integer expectedF1;
 
 	public static void main(String[] args)
 	{
-		GeneratePedVerF1sStats mabcStats = new GeneratePedVerF1sStats(args);
-		mabcStats.doStatGeneration();
+		CmdOptions options = new CmdOptions()
+			.withCommonOptions()
+			.withGenotypeFile(true)
+			.withMapFile(true)
+			.withQtlFile(true)
+			.withOutputPath(true)
+			.addRequiredOption("f", "parent1", true, "INTEGER", "Required integer")
+			.addRequiredOption("s", "parent2", true, "INTEGER", "Required integer")
+			.addOption("e", "expected-f1", true, "INTEGER", "Optional integer");
 
-		System.exit(0);
+		try
+		{
+			CommandLine line = new DefaultParser().parse(options, args);
+
+			CreateProjectSettings projectSettings = options.getCreateProjectSettings(line);
+			DataImportSettings importSettings = options.getDataImportSettings(line);
+
+			// Required options
+			String filename = options.getOutputPath(line);
+			Integer parent1 = parseParent(line.getOptionValue("recurrent-parent"));
+			Integer parent2 = parseParent(line.getOptionValue("donor-parent"));
+
+			Integer expectedF1 = null;
+			// Optional
+			if (line.hasOption("expected-f1"))
+				expectedF1 = parseParent(line.getOptionValue("expected-f1"));
+
+			GeneratePedVerF1sStats mabcStats = new GeneratePedVerF1sStats(projectSettings, importSettings, parent1,
+				parent2, expectedF1, filename);
+			mabcStats.doStatGeneration();
+
+			System.exit(0);
+		}
+		catch (Exception e)
+		{
+			options.printHelp("GeneratePedVerF1sStats");
+
+			System.exit(1);
+		}
 	}
 
-	private GeneratePedVerF1sStats(String[] args)
+	public GeneratePedVerF1sStats(CreateProjectSettings projectSettings, DataImportSettings importSettings, Integer parent1,
+   		Integer parent2, Integer expectedF1, String filename)
 	{
-		for (String arg : args)
-		{
-			if (arg.startsWith("-map="))
-				mapFile = new File(arg.substring(5));
-			if (arg.startsWith("-genotypes="))
-				genotypesFile = new File(arg.substring(11));
-			if (arg.startsWith("-parent1="))
-				parent1 = parseParent(arg.substring(9));
-			if (arg.startsWith("-parent2="))
-				parent2 = parseParent(arg.substring(9));
-			if (arg.startsWith("-expectedf1="))
-				expectedf1 = parseParent(arg.substring(12));
-			if (arg.startsWith("-decimalEnglish"))
-				decimalEnglish = true;
-			if (arg.startsWith("-output="))
-				filename = arg.substring(8);
-		}
-
-		if (mapFile == null || genotypesFile == null || filename == null ||
-			parent1 == null || parent2 == null)
-		{
-			printHelp();
-		}
+		this.projectSettings = projectSettings;
+		this.importSettings = importSettings;
+		this.parent1 = parent1;
+		this.parent2 = parent2;
+		this.expectedF1 = expectedF1;
+		this.filename = filename;
 	}
 
 	private static Integer parseParent(String parent)
@@ -82,10 +101,10 @@ public class GeneratePedVerF1sStats
 		RB.initialize("auto", "res.text.flapjack");
 		TaskDialog.setIsHeadless();
 
-		if (decimalEnglish)
+		if (importSettings.isDecimalEnglish())
 			Locale.setDefault(Locale.UK);
 
-		CreateProject createProject = new CreateProject(mapFile, genotypesFile, null, null, null, false);
+		CreateProject createProject = new CreateProject(projectSettings, importSettings);
 
 		try
 		{
@@ -104,7 +123,7 @@ public class GeneratePedVerF1sStats
 	private void generateStats()
 		throws Exception
 	{
-		Integer f1Index = expectedf1;
+		Integer f1Index = expectedF1;
 
 		GTViewSet viewSet = dataSet.getViewSets().get(0);
 
@@ -112,8 +131,7 @@ public class GeneratePedVerF1sStats
 		for (int i = 0; i < chromosomes.length; i++)
 			chromosomes[i] = true;
 
-		if (f1Index == null)
-		{
+		if (f1Index == null) {
 			SimulateF1 simF1 = new SimulateF1(viewSet, parent1, parent2);
 			simF1.runJob(0);
 			f1Index = simF1.getF1Index();
@@ -129,22 +147,7 @@ public class GeneratePedVerF1sStats
 		table.setViewSet(viewSet);
 
 		LineDataTableExporter exporter = new LineDataTableExporter(
-			table, new File(filename), 0, false);
+				table, new File(filename), 0, false);
 		exporter.runJob(0);
-	}
-
-	private static void printHelp()
-	{
-		System.out.println("Usage: pedverf1sstats <options>\n"
-			+ " where valid options are:\n"
-			+ "   -map=<map_file>                (required input file)\n"
-			+ "   -genotypes=<genotypes_file>    (required input file)\n"
-			+ "   -parent1=<index_of_line>       (required parameter, first line is index 1)\n"
-			+ "   -parent2=<index_of_line>       (required parameter, first line is index 1)\n"
-			+ "   -expectedf1=<index_of_line>    (optional parameter, first line is index 1)\n"
-			+ "   -decimalEnglish                (optional parameter)\n"
-			+ "   -output=<output_file>          (required output file)\n");
-
-		System.exit(1);
 	}
 }

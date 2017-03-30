@@ -12,6 +12,9 @@ import java.util.stream.*;
 
 import ch.systemsx.cisd.hdf5.*;
 
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.DefaultParser;
+
 public class Hdf5ToFJTabbedConverter
 {
 	private static final String LINES   = "Lines";
@@ -41,47 +44,36 @@ public class Hdf5ToFJTabbedConverter
 
 	public static void main(String[] args)
 	{
-		Hdf5ToFJTabbedConverter extractor = new Hdf5ToFJTabbedConverter(args);
-		extractor.readInput();
-		extractor.extractData("");
+		CmdOptions options = new CmdOptions()
+			.withOutputPath(true)
+			.addRequiredOption("h", "hdf5", true, "FILE", "Input file")
+			.addRequiredOption("l", "lines", true, "File", "Input file")
+			.addRequiredOption("m", "markers", true, "FILE", "Input file");
 
-		System.exit(0);
-	}
-
-	private Hdf5ToFJTabbedConverter(String[] args)
-	{
 		try
 		{
-			for (String arg : args)
-			{
-				if (arg.startsWith("-hdf5="))
-					hdf5File = new File(arg.substring(6));
-				if (arg.startsWith("-genotypes="))
-					outputFilePath = arg.substring(11);
-				if (arg.startsWith("-lines="))
-					lines = new LinkedHashSet<>(Files.readAllLines(new File(arg.substring(7)).toPath()));
-				if (arg.startsWith("-markers="))
-					markers = new LinkedHashSet<>(Files.readAllLines(new File(arg.substring(9)).toPath()));
-				if (arg.startsWith("-missingFilter="))
-					missingDataFilter = Boolean.valueOf(arg.substring(15));
-				if (arg.startsWith("-heterozygousFilter="))
-					heterozygousFilter = Boolean.valueOf(arg.substring(21));
-			}
+			CommandLine line = new DefaultParser().parse(options, args);
 
-			if (hdf5File == null || outputFilePath == null || lines == null || markers == null)
-			{
-				printHelp();
-			}
+			File hdf5 = new File(line.getOptionValue("hdf5"));
+			LinkedHashSet<String> lines = new LinkedHashSet<String>(Files.readAllLines(new File(line.getOptionValue("lines")).toPath()));
+			LinkedHashSet<String> markers = new LinkedHashSet<>(Files.readAllLines(new File(line.getOptionValue("markers")).toPath()));
+			String output = options.getOutputPath(line);
+
+			Hdf5ToFJTabbedConverter extractor = new Hdf5ToFJTabbedConverter(hdf5, lines, markers, output, false, false);
+			extractor.readInput();
+			extractor.extractData("");
+
+			System.exit(0);
 		}
-		catch (IOException e)
+		catch (Exception e)
 		{
-			e.printStackTrace();
+			options.printHelp("Hdf5ToFJTabbedConverter");
 
-			printHelp();
+			System.exit(1);
 		}
 	}
 
-	public Hdf5ToFJTabbedConverter(File hdf5File, List<String> lines, List<String> markers, String outputFilePath, boolean missingDataFilter, boolean heterozygousFilter)
+	public Hdf5ToFJTabbedConverter(File hdf5File, LinkedHashSet<String> lines, LinkedHashSet<String> markers, String outputFilePath, boolean missingDataFilter, boolean heterozygousFilter)
 	{
 		// Setup input and output files
 		this.hdf5File = hdf5File;
@@ -208,19 +200,5 @@ public class Hdf5ToFJTabbedConverter
 		keptMarkers.retainAll(markers);
 
 		return keptMarkers;
-	}
-
-	private static void printHelp()
-	{
-		System.out.println("Usage: hdf52fj <options>\n"
-			+ " where valid options are:\n"
-			+ "   -hdf5=<hdf5_file>                               (required input file)\n"
-			+ "   -lines=<file_list_of_lines_one_per_line>        (required input file)\n"
-			+ "   -markers=<file_list_of_markers_one_per_line>    (required input file)\n"
-			+ "   -missing_filter=<true/false>                    (required input string)\n"
-			+ "   -heterozygous_filter=<true/false>               (required input string)\n"
-			+ "   -genotypes=<genotypes_file>                     (required output file)\n");
-
-		System.exit(1);
 	}
 }
