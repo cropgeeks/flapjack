@@ -32,11 +32,12 @@ public class GenerateMabcStats
 		String modelType;
 
 		CmdOptions options = new CmdOptions()
-			.withCommonOptions()
+			.withAdvancedOptions()
 			.withGenotypeFile(true)
 			.withMapFile(true)
 			.withQtlFile(true)
 			.withOutputPath(true)
+			.withProjectFile(false)
 			.addRequiredOption("r", "recurrent-parent", true, "INTEGER", "Index of parent in file")
 			.addRequiredOption("d", "donor-parent", true, "INTEGER", "Index of parent in file")
 			.addOption(null, "model", true, "ARG", "weighted|unweighted")
@@ -104,12 +105,14 @@ public class GenerateMabcStats
 		return parentIndex;
 	}
 
+	CreateProject createProject;
+
 	public void doStatGeneration()
 	{
 		RB.initialize("auto", "res.text.flapjack");
 		TaskDialog.setIsHeadless();
 
-		CreateProject createProject = new CreateProject(projectSettings, importSettings);
+		createProject = new CreateProject(projectSettings, importSettings);
 
 		try
 		{
@@ -134,17 +137,34 @@ public class GenerateMabcStats
 		for (int i = 0; i < chromosomes.length; i++)
 			chromosomes[i] = true;
 
-		MabcAnalysis stats = new MabcAnalysis(viewSet, chromosomes, maxMarkerCoverage, parent1, parent2, unweighted);
+		GTViewSet finalViewSet = viewSet.createClone("", true);
+
+		MabcAnalysis stats = new MabcAnalysis(finalViewSet, chromosomes, maxMarkerCoverage, parent1, parent2, unweighted, RB.getString("gui.navpanel.MabcNode.node"));
 		stats.runJob(0);
 
-		MabcTableModel model = new MabcTableModel(viewSet);
+/////////////
+		MabcTableModel model = new MabcTableModel(finalViewSet);
 		LineDataTable table = new LineDataTable();
 
 		table.setModel(model);
-		table.setViewSet(viewSet);
+		table.setViewSet(finalViewSet);
 
 		LineDataTableExporter exporter = new LineDataTableExporter(
 			table, new File(filename), 0, false);
 		exporter.runJob(0);
+//////////////
+
+
+		// Create titles for the new view and its results table
+		int id = dataSet.getMabcCount() + 1;
+		dataSet.setMabcCount(id);
+		finalViewSet.setName(RB.format("gui.MenuAnalysis.mabc.view", id));
+		// mabc thingy. RB.format("gui.MenuAnalysis.mabc.panel", id);
+		// set?
+
+		// Create new NavPanel components to hold the results
+		dataSet.getViewSets().add(finalViewSet);
+
+		createProject.saveProject();
 	}
 }

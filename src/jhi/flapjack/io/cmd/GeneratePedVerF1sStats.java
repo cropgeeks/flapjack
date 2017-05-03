@@ -28,7 +28,7 @@ public class GeneratePedVerF1sStats
 	public static void main(String[] args)
 	{
 		CmdOptions options = new CmdOptions()
-			.withCommonOptions()
+			.withAdvancedOptions()
 			.withGenotypeFile(true)
 			.withMapFile(true)
 			.withQtlFile(true)
@@ -69,7 +69,7 @@ public class GeneratePedVerF1sStats
 	}
 
 	public GeneratePedVerF1sStats(CreateProjectSettings projectSettings, DataImportSettings importSettings, Integer parent1,
-   		Integer parent2, Integer expectedF1, String filename)
+		Integer parent2, Integer expectedF1, String filename)
 	{
 		this.projectSettings = projectSettings;
 		this.importSettings = importSettings;

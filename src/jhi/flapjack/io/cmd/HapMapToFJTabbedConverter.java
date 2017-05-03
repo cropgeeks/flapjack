@@ -35,7 +35,7 @@ public class HapMapToFJTabbedConverter
 	public static void main(String[] args)
 	{
 		CmdOptions options = new CmdOptions()
-			.withCommonOptions()
+			.withAdvancedOptions()
 			.withGenotypeFile(true)
 			.withMapFile(true)
 			.addRequiredOption("h", "hapmap", true, "FILE", "Required input file")

@@ -38,7 +38,7 @@ public class FJTabbedToHdf5Converter
 	private FJTabbedToHdf5Converter(String[] args)
 	{
 		CmdOptions options = new CmdOptions()
-			.withCommonOptions()
+			.withAdvancedOptions()
 			.withGenotypeFile(true)
 			.addRequiredOption("h", "hdf5", true, "FILE", "Required output file");
 

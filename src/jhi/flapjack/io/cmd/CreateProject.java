@@ -41,7 +41,7 @@ public class CreateProject
 	public static void main(String[] args)
 	{
 		CmdOptions options = new CmdOptions()
-			.withCommonOptions()
+			.withAdvancedOptions()
 			.withGenotypeFile(true)
 			.withProjectFile(true)
 			.withMapFile(false)
@@ -95,8 +95,7 @@ public class CreateProject
 			importTraits();
 			importQTLs();
 
-			if (prjFile != null && saveProject())
-				logMessage("\nProject Created");
+			saveProject();
 
 			ProjectSerializerDB.close();
 		}
@@ -119,7 +118,9 @@ public class CreateProject
 
 		// Read the data file
 		GenotypeDataImporter genoImporter = new GenotypeDataImporter(
-			genotypesFile, dataSet, mapImporter.getMarkersHashMap(), importSettings.getMissingData(), importSettings.isUseHetSep(), importSettings.getHetSep(), false);
+			genotypesFile, dataSet, mapImporter.getMarkersHashMap(),
+			importSettings.getMissingData(), importSettings.isUseHetSep(),
+			importSettings.getHetSep(), importSettings.isTransposed());
 
 		genoImporter.importGenotypeData();
 
@@ -128,7 +129,8 @@ public class CreateProject
 
 		PostImportOperations pio = new PostImportOperations(dataSet);
 		pio.collapseHomzEncodedAsHet();
-		pio.optimizeStateTable();
+		if (importSettings.isCollapseHeteozygotes())
+			pio.optimizeStateTable();
 		pio.createDefaultView();
 		if (prjFile != null)
 			pio.setName(prjFile.getFile());
@@ -172,12 +174,16 @@ public class CreateProject
 			project = ProjectSerializer.open(prjFile);
 	}
 
-	private boolean saveProject()
+	void saveProject()
 		throws Exception
 	{
-		project.fjFile = prjFile;
+		if (prjFile != null)
+		{
+			project.fjFile = prjFile;
 
-		return ProjectSerializer.save(project);
+			if (ProjectSerializer.save(project))
+				logMessage("Project created");
+		}
 	}
 
 	private void logMessage(String message)

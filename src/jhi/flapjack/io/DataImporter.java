@@ -133,7 +133,7 @@ public class DataImporter extends SimpleJob
 				else
 					genoImporter = new GenotypeDataImporter(genoFile, dataSet,
 						mapImporter.getMarkersHashMap(), "-", true, "/",
-						Prefs.ioTransposed);
+						false);
 
 				break;
 			}
