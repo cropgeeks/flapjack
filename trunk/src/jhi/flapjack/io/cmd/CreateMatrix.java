@@ -31,7 +31,7 @@ public class CreateMatrix
 	public static void main(String[] args)
 	{
 		CmdOptions options = new CmdOptions()
-			.withCommonOptions()
+			.withAdvancedOptions()
 			.withGenotypeFile(true)
 			.withMapFile(false)
 			.withOutputPath(true);
