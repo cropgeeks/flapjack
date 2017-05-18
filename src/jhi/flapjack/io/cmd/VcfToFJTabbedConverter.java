@@ -25,7 +25,7 @@ public class VcfToFJTabbedConverter
 			.withAdvancedOptions()
 			.withGenotypeFile(true)
 			.withMapFile(true)
-			.withOutputPath(true);
+			.addRequiredOption("v", "vcf", true, "FILE", "Required input file (in vcf format)");
 
 		try
 		{
@@ -33,7 +33,9 @@ public class VcfToFJTabbedConverter
 
 			File mapFile = options.getMapFile(line);
 			File genotypeFile = options.getGenotypeFile(line);
-			File vcfFile = new File(options.getOutputPath(line));
+			File vcfFile = null;
+			if (line.hasOption("v"))
+				vcfFile = new File(line.getOptionValue("v"));
 
 			VcfToFJTabbedConverter toGenotype = new VcfToFJTabbedConverter(vcfFile, mapFile, genotypeFile);
 			toGenotype.convert();
