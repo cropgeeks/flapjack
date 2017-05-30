@@ -1,47 +1,98 @@
 // Copyright 2009-2016 Information & Computational Sciences, JHI. All rights
 // reserved. Use is subject to the accompanying licence terms.
 
-package jhi.flapjack.gui.visualization;
+package jhi.flapjack.gui.simmatrix;
 
 import java.awt.*;
+import java.awt.event.*;
+import java.math.*;
 import javax.swing.*;
 
 import jhi.flapjack.data.*;
+import jhi.flapjack.data.results.*;
 
 import scri.commons.gui.*;
 
 import org.jfree.chart.*;
 import org.jfree.chart.axis.*;
 import org.jfree.chart.plot.*;
+import org.jfree.chart.renderer.category.*;
+import org.jfree.data.statistics.*;
 import org.jfree.data.xy.*;
 
-class ChromosomeCanvasGraph extends JPanel
+public class SimMatrixGraphPanel extends JPanel
 {
-	private ChromosomeCanvas chromCanvas;
-
+	private SimMatrix matrix;
 	private JFreeChart chart;
+	private SimMatrixGraphPanelNB controls;
 
-	ChromosomeCanvasGraph(ChromosomeCanvas chromCanvas)
+	SimMatrixGraphPanel(SimMatrix matrix)
 	{
-		this.chromCanvas = chromCanvas;
+		this.matrix = matrix;
 
-		setBackground(Color.WHITE);
+		controls = new SimMatrixGraphPanelNB(this);
+
+//		setBackground(Color.RED);
 		setLayout(new BorderLayout());
+		add(controls, BorderLayout.SOUTH);
 
-		ChartPanel panel = new ChartPanel(chart = createChart());
-		panel.setMaximumDrawWidth(2000);
-		panel.setMaximumDrawHeight(500);
-		add(panel);
-
-		display(-1);
+		addComponentListener(new ComponentAdapter() {
+			public void componentShown(ComponentEvent e) {
+				initData();
+			}
+		});
 	}
 
-	public Dimension getPreferredSize()
-		{ return new Dimension(0, 150); }
-
-	void display(int chromosomeIndex)
+	void initData()
 	{
-		// If no chromosome is being displayed:
+		SimpleHistogramDataset dataset = new SimpleHistogramDataset("Series 1");
+
+		long s = System.currentTimeMillis();
+
+		int numBins = controls.getNumBins();
+		BigDecimal binSize = BigDecimal.valueOf(1d/numBins);
+		System.out.println("binSize: " + binSize);
+
+		for (int i = 0; i < numBins; i++)
+		{
+			BigDecimal b1 = binSize.multiply(BigDecimal.valueOf(i));
+			BigDecimal b2 = b1.add(binSize);
+//			System.out.println(i + ": " + b1 + " to " + b2);
+
+			// We want this to be false except on the last loop iteration
+			boolean includeUpperBound = (i == numBins-1);
+			dataset.addBin(new SimpleHistogramBin(b1.doubleValue(), b2.doubleValue(), true, includeUpperBound));
+		}
+
+
+		int size = matrix.size();
+		System.out.println("size is " + size);
+
+		double[] data;
+
+		for (int i = 0; i < size; i++)
+			for (int j = 0; j < size; j++)
+			{
+				if (j <= i)
+					dataset.addObservation(matrix.valueAt(i, j));
+				else
+					dataset.addObservation(matrix.valueAt(j, i));
+			}
+//        dataset.addObservations(new double[] {20, 15, 42, 65, 54, 54, 80, 15,
+  //              10, 45, 30, 28, 29, 14, 11, 46});
+
+
+		long e = System.currentTimeMillis();
+		System.out.println("Chart (data) creation time: " + (e-s) + " ms");
+
+		ChartPanel panel = new ChartPanel(chart = createChart(dataset));
+//		panel.setMaximumDrawWidth(2000);
+//		panel.setMaximumDrawHeight(500);
+		add(panel);
+
+
+
+/*		// If no chromosome is being displayed:
 		if (chromosomeIndex == -1)
 		{
 			setChartData(null);
@@ -75,8 +126,8 @@ class ChromosomeCanvasGraph extends JPanel
 				RB.format("flapjack.gui.visualization.ChromosomePanel.graphTitle2",
 				chromCanvas.views.get(chromosomeIndex).getChromosomeMap().getName())));
 		}
-
-		repaint();
+*/
+//		repaint();
 	}
 
 	private void setChartData(double[][] data)
@@ -90,22 +141,25 @@ class ChromosomeCanvasGraph extends JPanel
 		XYSeriesCollection coll = new XYSeriesCollection(series);
 		chart.getXYPlot().setDataset(coll);
 
-		displayAxis(data != null);
-	}
-
-	private void displayAxis(boolean visible)
-	{
 		XYPlot plot = (XYPlot) chart.getPlot();
 		ValueAxis range = plot.getRangeAxis();
-		range.setVisible(visible);
+		range.setVisible(true);
 		range = plot.getDomainAxis();
-		range.setVisible(visible);
+//		range.setVisible(visible);
+
+
 	}
 
-	private JFreeChart createChart() {
-		JFreeChart chart = ChartFactory.createXYAreaChart(null, null, // xaxis title
-		null, // yaxis title
-		null, PlotOrientation.VERTICAL, true, true, false);
+	private JFreeChart createChart(IntervalXYDataset dataset) {
+//		JFreeChart chart = ChartFactory.createXYAreaChart(null, null, // xaxis title
+//		null, // yaxis title
+//		null, PlotOrientation.VERTICAL, true, true, false);
+
+		ChartFactory.setChartTheme(StandardChartTheme.createLegacyTheme());
+
+		JFreeChart chart = ChartFactory.createHistogram(
+                null, null, null, dataset,
+                PlotOrientation.VERTICAL, true, true, false);
 
 		//setChartData(this.data);
 
@@ -123,7 +177,6 @@ class ChromosomeCanvasGraph extends JPanel
 		plot.setRangeGridlinePaint(Color.GRAY);
 
 //		(plot.getRenderer()).setPaint(Prefs.gui_graph_color);
-
 
 
 		// plot.setDomainGridlinesVisible(false);
@@ -150,4 +203,7 @@ class ChromosomeCanvasGraph extends JPanel
 
 		return chart;
 	}
+
+//	public Dimension getPreferredSize()
+//		{ return new Dimension(0, 150); }
 }

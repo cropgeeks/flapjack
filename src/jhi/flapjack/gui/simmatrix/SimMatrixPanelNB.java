@@ -43,6 +43,11 @@ public class SimMatrixPanelNB extends JPanel implements ActionListener
 		initComponents();
 
 
+		// Graph setup
+//		graphPanel.add();
+		tabs.setComponentAt(1, new SimMatrixGraphPanel(matrix));
+		tabs.setEnabledAt(1, false);
+
 		// Table setup
 		model = new SimMatrixTableModel(matrix);
 		matrixTable.setModel(model);
@@ -65,6 +70,7 @@ public class SimMatrixPanelNB extends JPanel implements ActionListener
 		tabs.setComponentAt(0, tabsPanel.add(sp));
 		tabs.setTitleAt(0, RB.getString("gui.simmatrix.SimMatrixPanelNB.tab1"));
 		tabs.setTitleAt(1, RB.getString("gui.simmatrix.SimMatrixPanelNB.tab2"));
+		tabs.setTitleAt(2, RB.getString("gui.simmatrix.SimMatrixPanelNB.tab3"));
 
 		bDendrogram.setAction(Actions.alysDendrogram);
 		bDendrogram.setText(RB.getString("gui.simmatrix.SimMatrixPanelNB.bDendrogram"));
@@ -212,10 +218,12 @@ public class SimMatrixPanelNB extends JPanel implements ActionListener
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+    private void initComponents()
+    {
 
         tabs = new javax.swing.JTabbedPane();
         tabsPanel = new javax.swing.JPanel();
+        tmpPanel = new javax.swing.JPanel();
         tableScrollPane = new javax.swing.JScrollPane();
         matrixTable = createTable();
         bDendrogram = new javax.swing.JButton();
@@ -235,11 +243,26 @@ public class SimMatrixPanelNB extends JPanel implements ActionListener
 
         tabs.addTab("tab1", tabsPanel);
 
+        javax.swing.GroupLayout tmpPanelLayout = new javax.swing.GroupLayout(tmpPanel);
+        tmpPanel.setLayout(tmpPanelLayout);
+        tmpPanelLayout.setHorizontalGroup(
+            tmpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 395, Short.MAX_VALUE)
+        );
+        tmpPanelLayout.setVerticalGroup(
+            tmpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 144, Short.MAX_VALUE)
+        );
+
+        tabs.addTab("tab2", tmpPanel);
+
         matrixTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
+            new Object [][]
+            {
 
             },
-            new String [] {
+            new String []
+            {
 
             }
         ));
@@ -248,7 +271,7 @@ public class SimMatrixPanelNB extends JPanel implements ActionListener
         matrixTable.setRowSelectionAllowed(false);
         tableScrollPane.setViewportView(matrixTable);
 
-        tabs.addTab("tab2", tableScrollPane);
+        tabs.addTab("tab3", tableScrollPane);
 
         bDendrogram.setText("Create dendrogram");
 
@@ -292,6 +315,7 @@ public class SimMatrixPanelNB extends JPanel implements ActionListener
     private javax.swing.JScrollPane tableScrollPane;
     private javax.swing.JTabbedPane tabs;
     private javax.swing.JPanel tabsPanel;
+    private javax.swing.JPanel tmpPanel;
     // End of variables declaration//GEN-END:variables
 
 }
