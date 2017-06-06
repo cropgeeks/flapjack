@@ -28,6 +28,7 @@ import jhi.brapi.client.*;
 import okhttp3.*;
 
 import retrofit2.*;
+import retrofit2.Call;
 import retrofit2.converter.jackson.*;
 
 public class BrapiClient
@@ -322,10 +323,36 @@ public class BrapiClient
 			.execute()
 			.body();
 
-		Metadata md = br.getMetadata();
-		List<String> files = md.getDatafiles();
+		Optional<Status> async = AsyncChecker.hasAsyncId(br.getMetadata().getStatus());
 
-		return new URI(files.get(0));
+		// If this is an asynchronous call we have to poll the status sub-resource of /allelematrix-search to get the data file
+		// otherwise we should just be able to grab it from the datafiles section of metadata
+		return async.isPresent() ? pollAlleleMatrixStatus(async.get().getMessage()) : new URI(br.getMetadata().getDatafiles().get(0));
+	}
+
+	private URI pollAlleleMatrixStatus(String id)
+		throws Exception
+	{
+		Call<BrapiListResource<Object>> statusCall = service.getAlleleMatrixStatus(id);
+
+		// Make an initial call to check the status on the resource
+		BrapiListResource<Object> statusPoll = statusCall.execute().body();
+		Optional<Status> status = AsyncChecker.checkAsyncStatus(statusPoll.getMetadata().getStatus());
+
+		// Keep checking until the async call returns anything other than "INPROCESS"
+		while (status.isPresent() && AsyncChecker.callInProcess(status.get()))
+		{
+			// Clone the previous retrofit call so we can call it again
+			statusPoll = statusCall.clone().execute().body();
+			status = AsyncChecker.checkAsyncStatus(statusPoll.getMetadata().getStatus());
+		}
+
+		// Check if the call finished successfully, if so grab the datafile
+		if (status.isPresent() && AsyncChecker.callFinished(status.get()))
+			return new URI(statusPoll.getMetadata().getDatafiles().get(0));
+
+		// TODO: By now we know the call failed...do we throw an exception of deal with it some other way?
+		throw new Exception();
 	}
 
 	public URI getAlleleMatrixTSV(List<BrapiMarkerProfile> markerprofiles)
