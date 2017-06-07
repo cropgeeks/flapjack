@@ -50,27 +50,24 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="checkMarkers" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="checkUseHetSep" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Component id="checkHetero" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Component id="checkTransposed" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Group type="102" attributes="0">
                           <EmptySpace min="21" pref="21" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="markersLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Group type="102" alignment="0" attributes="0">
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="heteroLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      <Component id="missingLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="missingText" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      <Component id="heteroText" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                              </Group>
-                          </Group>
+                          <Component id="markersLabel" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <Component id="checkAllowDupLines" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="heteroLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="missingLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="missingText" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="heteroText" alignment="0" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
@@ -85,9 +82,7 @@
                   <Component id="markersLabel" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="checkHetero" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="checkUseHetSep" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="heteroLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="heteroText" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -130,11 +125,6 @@
         <Component class="javax.swing.JTextField" name="missingText">
           <Properties>
             <Property name="columns" type="int" value="4"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JCheckBox" name="checkUseHetSep">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Expect heterozygotes to be separated by a string (A/T rather than AT)"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JCheckBox" name="checkMarkers">

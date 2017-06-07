@@ -29,7 +29,7 @@ public class DataSummaryTest extends TestCase
 		ChromosomeMapImporter mapImporter
 			= new ChromosomeMapImporter(mapFile, dataSet);
 		GenotypeDataImporter genoImporter = new GenotypeDataImporter(genoFile,
-			dataSet, mapImporter.getMarkersHashMap(), "", true, "/", false);
+			dataSet, mapImporter.getMarkersHashMap(), "", "/", false);
 
 		mapImporter.importMap();
 		genoImporter.importGenotypeData();

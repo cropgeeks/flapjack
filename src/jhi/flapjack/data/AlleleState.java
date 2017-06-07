@@ -15,12 +15,12 @@ public class AlleleState extends XMLRoot
 	{
 	}
 
-	public AlleleState(String rawData, boolean useHetSep, String hetSepStr)
+	public AlleleState(String rawData, String hetSepStr)
 	{
 		rawData = new String(rawData.toUpperCase());
 
 		// If we want to separate on a known string, eg A/B as A & B
-		if (useHetSep)
+		if (!hetSepStr.isEmpty())
 			states = rawData.split(hetSepStr);
 		// Or if we want to separate on every character, eg AB as A & B
 		else

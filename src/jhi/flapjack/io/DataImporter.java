@@ -129,11 +129,10 @@ public class DataImporter extends SimpleJob
 				if (usePrefs)
 					genoImporter = new GenotypeDataImporter(genoFile, dataSet,
 						mapImporter.getMarkersHashMap(), Prefs.ioMissingData,
-						Prefs.ioUseHetSep, Prefs.ioHeteroSeparator, Prefs.ioTransposed);
+						Prefs.ioHeteroSeparator, Prefs.ioTransposed);
 				else
 					genoImporter = new GenotypeDataImporter(genoFile, dataSet,
-						mapImporter.getMarkersHashMap(), "-", true, "/",
-						false);
+						mapImporter.getMarkersHashMap(), "-", "/", false);
 
 				break;
 			}
@@ -143,7 +142,7 @@ public class DataImporter extends SimpleJob
 				BrapiMapImporter bMapImporter = (BrapiMapImporter) mapImporter;
 				genoImporter = new BrapiGenotypeImporter(client, dataSet,
 					bMapImporter.getMarkersHashMap(), bMapImporter.getMarkersByName(),
-					Prefs.ioMissingData, Prefs.ioUseHetSep, Prefs.ioHeteroSeparator);
+					Prefs.ioMissingData, Prefs.ioHeteroSeparator);
 
 				break;
 			}

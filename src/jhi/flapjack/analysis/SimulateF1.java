@@ -123,7 +123,7 @@ public class SimulateF1 extends SimpleJob
 		// matches method
 		String p1Allele = stateTable.getAlleleState(p1StateCode).homzAllele();
 		String p2Allele = stateTable.getAlleleState(p2StateCode).homzAllele();
-		AlleleState f1State = new AlleleState(p1Allele + "/" + p2Allele, true, "/");
+		AlleleState f1State = new AlleleState(p1Allele + "/" + p2Allele, "/");
 
 		// Loop over the table looking for the stateCode of a matching allele
 		for (int i=0; i < stateTable.getStates().size(); i++)
@@ -138,7 +138,7 @@ public class SimulateF1 extends SimpleJob
 		// If we didn't find a suitable statecode we need to create one and add
 		// it to the statetable
 		if (codeForHet == -1)
-			codeForHet = stateTable.getStateCode(p1Allele + "/" + p2Allele, true, " ", true, "/");
+			codeForHet = stateTable.getStateCode(p1Allele + "/" + p2Allele, true, " ", "/");
 
 		return codeForHet;
 	}

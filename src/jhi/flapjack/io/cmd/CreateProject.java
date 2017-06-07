@@ -119,8 +119,8 @@ public class CreateProject
 		// Read the data file
 		GenotypeDataImporter genoImporter = new GenotypeDataImporter(
 			genotypesFile, dataSet, mapImporter.getMarkersHashMap(),
-			importSettings.getMissingData(), importSettings.isUseHetSep(),
-			importSettings.getHetSep(), importSettings.isTransposed());
+			importSettings.getMissingData(), importSettings.getHetSep(),
+			importSettings.isTransposed());
 
 		genoImporter.importGenotypeData();
 

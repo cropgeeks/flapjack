@@ -93,6 +93,8 @@ public class Flapjack
 			UIManager.put("CheckBox.background", Color.white);
 			UIManager.put("RadioButton.background", Color.white);
 
+			UIManager.put("CheckBox.border", BorderFactory.createEmptyBorder(0,0,0,0));
+
 			// Use the office look for Windows XP (but not for Vista/7/8)
 			if (SystemUtils.isWindowsXP())
 			{

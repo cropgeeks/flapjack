@@ -5,7 +5,6 @@ class DataImportSettings
 	private String missingData = "-";
 	private String hetSep = "/";
 	private boolean collapseHeteozygotes = true;
-	private boolean useHetSep = true;
 	private boolean makeAllChrom = false;
 	private boolean decimalEnglish = false;
 	private boolean transposed = false;
@@ -33,12 +32,6 @@ class DataImportSettings
 
 	void setHetSep(String hetSep)
 		{ this.hetSep = hetSep; }
-
-	boolean isUseHetSep()
-		{ return useHetSep; }
-
-	void setUseHetSep(boolean useHetSep)
-		{ this.useHetSep = useHetSep; }
 
 	boolean isMakeAllChrom()
 		{ return makeAllChrom; }

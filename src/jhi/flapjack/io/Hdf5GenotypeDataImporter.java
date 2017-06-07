@@ -69,7 +69,7 @@ public class Hdf5GenotypeDataImporter implements IGenotypeImporter
 		// Load state table from the HDF5 file
 		String[] states = reader.readStringArray(STATE_TABLE);
 		for (String state : states)
-			stateTable.getStateCode(state, true, Prefs.ioMissingData, Prefs.ioHeteroCollapse, Prefs.ioHeteroSeparator);
+			stateTable.getStateCode(state, true, Prefs.ioMissingData, Prefs.ioHeteroSeparator);
 
 		// Determine if we can use byte storage rather than int storage for the
 		// state table within Flapjack

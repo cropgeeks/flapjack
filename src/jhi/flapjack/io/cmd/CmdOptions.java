@@ -28,9 +28,8 @@ class CmdOptions extends Options
 	{
 		addOption("A", "all-chromosomes", false, "Duplicate all markers onto a single All Chromosomes chromosome for side-by-side viewing");
 		addOption("C", "collapse-heteozygotes", false, "Don't distinguish between heterozygous alleles (eg treat A/T the same as T/A)");
-		addOption("N", "no-heterozygote-separator", false, "Heterozygotes are not separated by a string");
-		addOption("S", "heterozygous-separator", true, "The string used to separate heterozygous alleles");
-		addOption("M", "missing-data", true, "The string used to represent missing data (use \"\" for empty string)");
+		addOption("S", "heterozygous-separator", true, "The string used to separate heterozygous alleles (default is \"/\" or use \"\" for no separator)");
+		addOption("M", "missing-data", true, "The string used to represent missing data (default is \"-\" or use \"\" for empty string)");
 		addOption("T", "transposed", false, "Genotype data is transposed compared to Flapjack's default");
 		addOption("D", "decimal-english", false, "Optional input parameter");
 
@@ -46,7 +45,6 @@ class CmdOptions extends Options
 		if (line.hasOption("heterozygous-separator"))
 			settings.setHetSep(line.getOptionValue("heterozygous-separator"));
 
-		settings.setUseHetSep(!line.hasOption("no-heterozygote-separator"));
 		settings.setMakeAllChrom(line.hasOption("all-chromosomes"));
 
 		return settings;
