@@ -4,14 +4,13 @@
 package jhi.flapjack.gui.dialog.importer;
 
 import java.awt.*;
-import java.awt.event.*;
 import javax.swing.*;
 
 import jhi.flapjack.gui.*;
 
 import scri.commons.gui.*;
 
-class ImportGenoAdvPanelNB extends JPanel implements ActionListener
+class ImportGenoAdvPanelNB extends JPanel
 {
 	public ImportGenoAdvPanelNB()
 	{
@@ -20,12 +19,9 @@ class ImportGenoAdvPanelNB extends JPanel implements ActionListener
 		setBackground((Color)UIManager.get("fjDialogBG"));
 		panel.setBackground((Color)UIManager.get("fjDialogBG"));
 
-		checkUseHetSep.addActionListener(this);
-
 		missingText.setText(Prefs.ioMissingData);
 		heteroText.setText(Prefs.ioHeteroSeparator);
 		checkHetero.setSelected(Prefs.ioHeteroCollapse);
-		checkUseHetSep.setSelected(Prefs.ioUseHetSep);
 		checkMarkers.setSelected(Prefs.ioMakeAllChromosome);
 		checkTransposed.setSelected(Prefs.ioTransposed);
 		checkAllowDupLines.setSelected(Prefs.ioAllowDupLines);
@@ -34,14 +30,11 @@ class ImportGenoAdvPanelNB extends JPanel implements ActionListener
 		panel.setBorder(BorderFactory.createTitledBorder(RB.getString("gui.dialog.NBAdvancedDataImportPanel.panel")));
 		RB.setText(checkMarkers, "gui.dialog.NBAdvancedDataImportPanel.checkMarkers");
 		RB.setText(markersLabel, "gui.dialog.NBAdvancedDataImportPanel.markersLabel");
-		RB.setText(checkUseHetSep, "gui.dialog.NBAdvancedDataImportPanel.checkUseHetSep");
 		RB.setText(missingLabel, "gui.dialog.NBAdvancedDataImportPanel.missingLabel");
 		RB.setText(heteroLabel, "gui.dialog.NBAdvancedDataImportPanel.heteroLabel");
 		RB.setText(checkHetero, "gui.dialog.NBAdvancedDataImportPanel.checkHetero");
 		RB.setText(checkTransposed, "gui.dialog.NBAdvancedDataImportPanel.checkTransposed");
 		RB.setText(checkAllowDupLines, "gui.dialog.NBAdvancedDataImportPanel.checkDupLines");
-
-		setLabelStates();
 	}
 
 	void applySettings()
@@ -49,23 +42,11 @@ class ImportGenoAdvPanelNB extends JPanel implements ActionListener
 		Prefs.ioMissingData = missingText.getText();
 		Prefs.ioHeteroSeparator = heteroText.getText();
 		Prefs.ioHeteroCollapse = checkHetero.isSelected();
-		Prefs.ioUseHetSep = checkUseHetSep.isSelected();
 		Prefs.ioMakeAllChromosome = checkMarkers.isSelected();
 		Prefs.ioTransposed = checkTransposed.isSelected();
 		Prefs.ioAllowDupLines = checkAllowDupLines.isSelected();
 	}
 
-	public void actionPerformed(ActionEvent e)
-	{
-		if (e.getSource() == checkUseHetSep)
-			setLabelStates();
-	}
-
-	private void setLabelStates()
-	{
-		heteroLabel.setEnabled(checkUseHetSep.isSelected());
-		heteroText.setEnabled(checkUseHetSep.isSelected());
-	}
 
     /** This method is called from within the constructor to
      * initialize the form.
@@ -74,7 +55,8 @@ class ImportGenoAdvPanelNB extends JPanel implements ActionListener
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+    private void initComponents()
+    {
 
         panel = new javax.swing.JPanel();
         heteroLabel = new javax.swing.JLabel();
@@ -82,7 +64,6 @@ class ImportGenoAdvPanelNB extends JPanel implements ActionListener
         checkHetero = new javax.swing.JCheckBox();
         missingLabel = new javax.swing.JLabel();
         missingText = new javax.swing.JTextField();
-        checkUseHetSep = new javax.swing.JCheckBox();
         checkMarkers = new javax.swing.JCheckBox();
         markersLabel = new javax.swing.JLabel();
         checkTransposed = new javax.swing.JCheckBox();
@@ -100,8 +81,6 @@ class ImportGenoAdvPanelNB extends JPanel implements ActionListener
 
         missingText.setColumns(4);
 
-        checkUseHetSep.setText("Expect heterozygotes to be separated by a string (A/T rather than AT)");
-
         checkMarkers.setText("Duplicate all markers onto a single \"All Chromosomes\" chromosome for side-by-side viewing");
 
         markersLabel.setText("(not recommended if you have a large number of markers)");
@@ -118,22 +97,20 @@ class ImportGenoAdvPanelNB extends JPanel implements ActionListener
                 .addContainerGap()
                 .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(checkMarkers)
-                    .addComponent(checkUseHetSep)
                     .addComponent(checkHetero)
                     .addComponent(checkTransposed)
                     .addGroup(panelLayout.createSequentialGroup()
                         .addGap(21, 21, 21)
+                        .addComponent(markersLabel))
+                    .addComponent(checkAllowDupLines)
+                    .addGroup(panelLayout.createSequentialGroup()
                         .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(markersLabel)
-                            .addGroup(panelLayout.createSequentialGroup()
-                                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(heteroLabel)
-                                    .addComponent(missingLabel))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(missingText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(heteroText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                    .addComponent(checkAllowDupLines))
+                            .addComponent(heteroLabel)
+                            .addComponent(missingLabel))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(missingText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(heteroText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panelLayout.setVerticalGroup(
@@ -145,9 +122,7 @@ class ImportGenoAdvPanelNB extends JPanel implements ActionListener
                 .addComponent(markersLabel)
                 .addGap(18, 18, 18)
                 .addComponent(checkHetero)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(checkUseHetSep)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
                 .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(heteroLabel)
                     .addComponent(heteroText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -186,7 +161,6 @@ class ImportGenoAdvPanelNB extends JPanel implements ActionListener
     private javax.swing.JCheckBox checkHetero;
     private javax.swing.JCheckBox checkMarkers;
     private javax.swing.JCheckBox checkTransposed;
-    private javax.swing.JCheckBox checkUseHetSep;
     private javax.swing.JLabel heteroLabel;
     private javax.swing.JTextField heteroText;
     private javax.swing.JLabel markersLabel;

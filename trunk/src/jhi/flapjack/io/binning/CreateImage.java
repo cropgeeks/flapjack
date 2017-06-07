@@ -89,7 +89,7 @@ public class CreateImage
 		// Fake up a state table that can be used to feed the colour scheme
 		StateTable stateTable = new StateTable(0);
 		for (int i = 0; i < bins.size(); i++)
-			stateTable.getStateCode("" + i, true, "", true, "/");
+			stateTable.getStateCode("" + i, true, "", "/");
 
 		Prefs.setColorDefaults();
 		BinnedColorScheme colors = new BinnedColorScheme(stateTable, 5, 5);

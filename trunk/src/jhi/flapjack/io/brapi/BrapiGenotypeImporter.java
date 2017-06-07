@@ -29,7 +29,6 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 	private HashMap<String, Integer> states = new HashMap<>();
 
 	private String ioMissingData;
-	private boolean ioUseHetSep;
 	private String ioHeteroSeparator;
 
 	private long alleleCount;
@@ -41,19 +40,16 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 	private BrapiClient client;
 
 	public BrapiGenotypeImporter(BrapiClient client, DataSet dataSet, HashMap<String, MarkerIndex> markers,
-		 HashMap<String, MarkerIndex> markersByName, String ioMissingData,
-		 boolean ioUseHetSep, String ioHeteroSeparator)
+		 HashMap<String, MarkerIndex> markersByName, String ioMissingData, String ioHeteroSeparator)
 	{
 		this.client = client;
 		this.dataSet = dataSet;
 		this.markers = markers;
 		this.markersByName = markersByName;
 		this.ioMissingData = ioMissingData;
-		this.ioUseHetSep = ioUseHetSep;
 		this.ioHeteroSeparator = ioHeteroSeparator;
 
 		this.ioMissingData = "N";
-		this.ioUseHetSep = true;
 		this.ioHeteroSeparator = "/";
 
 		stateTable = dataSet.getStateTable();
@@ -165,7 +161,7 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 
 				// Determine its various states
 				Integer stateCode = states.computeIfAbsent(allele,
-					a -> stateTable.getStateCode(a, true, ioMissingData, ioUseHetSep, ioHeteroSeparator));
+					a -> stateTable.getStateCode(a, true, ioMissingData, ioHeteroSeparator));
 
 				// Then apply them to the marker data
 				line.setLoci(index.mapIndex, index.mkrIndex, stateCode);
@@ -256,7 +252,7 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 					{
 						// Determine its various states
 						Integer stateCode = states.computeIfAbsent(values[i],
-							a -> stateTable.getStateCode(a, true, ioMissingData, ioUseHetSep, ioHeteroSeparator));
+							a -> stateTable.getStateCode(a, true, ioMissingData, ioHeteroSeparator));
 
 						// Then apply them to the marker data
 						line.setLoci(mapIndex[i], mkrIndex[i], stateCode);
@@ -294,7 +290,7 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 				if (line != null && index != null)
 				{
 					Integer stateCode = states.computeIfAbsent(allele,
-						a -> stateTable.getStateCode(a, true, ioMissingData, ioUseHetSep, ioHeteroSeparator));
+						a -> stateTable.getStateCode(a, true, ioMissingData, ioHeteroSeparator));
 
 					// Then apply them to the marker data
 					line.setLoci(index.mapIndex, index.mkrIndex, stateCode);

@@ -18,7 +18,7 @@ public class StateTable extends XMLRoot
 
 	public StateTable(int notused)
 	{
-		AlleleState unknown = new AlleleState("", true, "/");
+		AlleleState unknown = new AlleleState("", "/");
 
 		states.add(unknown);
 		rawToAlleleHash.put("", unknown);
@@ -52,14 +52,14 @@ public class StateTable extends XMLRoot
 		return states.get(code);
 	}
 
-	public int getStateCode(String rawData, boolean create, String missingString, boolean useHetSep, String hetSepStr)
+	public int getStateCode(String rawData, boolean create, String missingString, String hetSepStr)
 	{
 		// If there's no state information, return our default "unknown" code
 		if (rawData.equals(missingString))
 			return 0;
 
 		// Attempt to collapse strings like AA back down to just A
-		if (!useHetSep && rawData.length() > 0)
+		if (hetSepStr.isEmpty() && rawData.length() > 0)
 			if (rawData.matches(rawData.charAt(0) + "{"+rawData.length()+"}+")) // regex: X{n}+
 				rawData = "" + rawData.charAt(0);
 
@@ -72,7 +72,7 @@ public class StateTable extends XMLRoot
 			return -1;
 
 		// If it wasn't found and needs to be created, then create/add it
-		AlleleState newState = new AlleleState(rawData, useHetSep, hetSepStr);
+		AlleleState newState = new AlleleState(rawData, hetSepStr);
 		states.add(newState);
 		rawToAlleleHash.put(rawData, newState);
 

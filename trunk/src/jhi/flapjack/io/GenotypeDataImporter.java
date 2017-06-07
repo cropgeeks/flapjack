@@ -32,7 +32,6 @@ public class GenotypeDataImporter implements IGenotypeImporter
 	private HashMap<String, Integer> states = new HashMap<>();
 
 	private String ioMissingData;
-	private boolean ioUseHetSep;
 	private String ioHeteroSeparator;
 
 	private long lineCount = 0;
@@ -49,13 +48,12 @@ public class GenotypeDataImporter implements IGenotypeImporter
 	private boolean mapWasProvided;
 
 	public GenotypeDataImporter(File file, DataSet dataSet, HashMap<String, MarkerIndex> markers,
-		String ioMissingData, boolean ioUseHetSep, String ioHeteroSeparator, boolean isTransposed)
+		String ioMissingData, String ioHeteroSeparator, boolean isTransposed)
 	{
 		this.file = file;
 		this.dataSet = dataSet;
 		this.markers = markers;
 		this.ioMissingData = ioMissingData;
-		this.ioUseHetSep = ioUseHetSep;
 		this.ioHeteroSeparator = ioHeteroSeparator;
 		this.isTransposed = isTransposed;
 
@@ -223,7 +221,7 @@ public class GenotypeDataImporter implements IGenotypeImporter
 					if (stateCode == null)
 					{
 						stateCode = stateTable.getStateCode(values[i], true,
-							ioMissingData, ioUseHetSep, ioHeteroSeparator);
+							ioMissingData, ioHeteroSeparator);
 						states.put(values[i], stateCode);
 					}
 
@@ -373,7 +371,7 @@ public class GenotypeDataImporter implements IGenotypeImporter
 					if (stateCode == null)
 					{
 						stateCode = stateTable.getStateCode(values[i], true,
-							ioMissingData, ioUseHetSep, ioHeteroSeparator);
+							ioMissingData, ioHeteroSeparator);
 						states.put(values[i], stateCode);
 					}
 

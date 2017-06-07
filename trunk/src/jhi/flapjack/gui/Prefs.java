@@ -112,7 +112,6 @@ public class Prefs extends XMLPreferences
 	public static String ioMissingData = "-";
 	public static String ioHeteroSeparator = "/";
 	public static boolean ioHeteroCollapse = true;
-	public static boolean ioUseHetSep = true;
 	public static boolean ioMakeAllChromosome = false;
 	public static boolean ioTransposed = false;
 	public static boolean ioAllowDupLines = false;
