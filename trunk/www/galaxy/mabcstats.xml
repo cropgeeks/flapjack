@@ -19,6 +19,7 @@
     $adv_opts.allChromosomes
 	$adv_opts.collapseHets
 	-M "$adv_opts.missingData"
+	-S "$adv_opts.hetSep"
 	$adv_opts.transposed	
 	$adv_opts.decimalEnglish	
   #end if
@@ -76,6 +77,10 @@
 			<param name="missingData" type="text" value="-"
 				label="Missing data string"
 				help="Alleles with missing data are encoded using this string. Clear the box to use an empty string for missing data instead."/>
+				
+			<param name="hetSep" type="text" value="/"
+				label="Heterozygous allele separator string"
+				help="Specifies the string used to separator heterozygous alleles (eg 'A/T'). Clear the box to specify no string is used (eg 'AT')"/>
 			
 			<param name="transposed" type="boolean" truevalue="-T" falsevalue="" checked="False"
 				label="Genotype data has been transposed"
