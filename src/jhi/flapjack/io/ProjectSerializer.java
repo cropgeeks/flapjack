@@ -342,12 +342,15 @@ public class ProjectSerializer
 			// when running under webstart
 			if (file.isURL())
 			{
+				System.out.println("DOWNLOADING " + file);
+
 				// Working directory for temp files, etc
 				File wrkDir = FileUtils.getTempUserDirectory("jhi-flapjack");
 				wrkDir = new File(wrkDir, "db-project");
 				wrkDir.mkdirs();
 
-				File output = new File(wrkDir, "temp.flapjack");
+				String id = "" + System.currentTimeMillis();
+				File output = new File(wrkDir, id + ".flapjack");
 
 				try (BufferedInputStream in = new BufferedInputStream(file.getURL().openStream());
 					 FileOutputStream out = new FileOutputStream(output))
@@ -357,7 +360,8 @@ public class ProjectSerializer
 					while ((count = in.read(data, 0, 1024)) != -1)
 						out.write(data, 0, count);
 
-					file = new FlapjackFile(output.getAbsolutePath());
+//					file = new FlapjackFile(output.getAbsolutePath());
+					file.init(output.getAbsolutePath());
 				}
 				catch (IOException e) { e.printStackTrace(); }
 			}

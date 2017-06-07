@@ -33,6 +33,17 @@ public class FlapjackFile
 
 	public FlapjackFile(String filename)
 	{
+		init(filename);
+	}
+
+	// Remotely hosted (ie URL) files will be downloaded and stored locally, at
+	// which point we need to (re)init the file object to point to the new copy
+	public void init(String filename)
+	{
+		// Clear these references
+		url = null;
+		file = null;
+
 		this.filename = filename;
 
 		try
