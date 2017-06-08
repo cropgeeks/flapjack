@@ -343,6 +343,9 @@ public class BrapiClient
 		// Keep checking until the async call returns anything other than "INPROCESS"
 		while (AsyncChecker.callInProcess(status))
 		{
+			// Wait for a second before polling again
+			try { Thread.sleep(1000); }
+			catch (InterruptedException e) {}
 			// Clone the previous retrofit call so we can call it again
 			statusPoll = statusCall.clone().execute().body();
 			status = AsyncChecker.checkAsyncStatus(statusPoll.getMetadata().getStatus());
