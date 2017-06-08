@@ -27,6 +27,7 @@ import jhi.brapi.client.*;
 
 import okhttp3.*;
 
+import okhttp3.Response;
 import retrofit2.*;
 import retrofit2.Call;
 import retrofit2.converter.jackson.*;
@@ -44,7 +45,7 @@ public class BrapiClient
 
 	private CallsUtils callsUtils;
 
-	private String authToken;
+	private OkHttpClient httpClient;
 
 	public void initService()
 		throws Exception
@@ -60,7 +61,7 @@ public class BrapiClient
 		Interceptor inter = buildInterceptor(authToken);
 
 		// Tweak to make the timeout on Retrofit connections last longer
-		OkHttpClient httpClient = new OkHttpClient.Builder()
+		httpClient = new OkHttpClient.Builder()
 			.readTimeout(60, TimeUnit.SECONDS)
 			.connectTimeout(60, TimeUnit.SECONDS)
 			.addNetworkInterceptor(inter)
@@ -168,7 +169,7 @@ public class BrapiClient
 		if (token == null)
 			return false;
 
-		authToken = token.getSessionToken();
+		String authToken = token.getSessionToken();
 
 		service = createService(baseURL, token.getSessionToken());
 
@@ -351,6 +352,8 @@ public class BrapiClient
 		if (status.isPresent() && AsyncChecker.callFinished(status.get()))
 			return new URI(statusPoll.getMetadata().getDatafiles().get(0));
 
+		// TODO: We can also check if the call failed which would allow us to
+		// get an informative error message potentially
 		// TODO: By now we know the call failed...do we throw an exception of deal with it some other way?
 		throw new Exception();
 	}
@@ -416,43 +419,6 @@ public class BrapiClient
 		return responseCode == 401 || responseCode == 403;
 	}
 
-
-	public String getUsername()
-	{ return username; }
-
-	public void setUsername(String username)
-	{ this.username = username; }
-
-	public String getPassword()
-	{ return password; }
-
-	public void setPassword(String password)
-	{ this.password = password; }
-
-	public String getMethodID()
-	{ return methodID; }
-
-	public void setMethodID(String methodID)
-	{ this.methodID = methodID;	}
-
-	public XmlResource getResource()
-	{ return resource; }
-
-	public void setResource(XmlResource resource)
-	{ this.resource = resource; }
-
-	public String getMapID()
-	{ return mapID; }
-
-	public void setMapID(String mapIndex)
-	{ this.mapID = mapIndex; }
-
-	public String getStudyID()
-	{ return studyID; }
-
-	public void setStudyID(String studyID)
-	{ this.studyID = studyID; }
-
 	private OkHttpClient initCertificate(OkHttpClient client, String certificate)
 		throws Exception
 	{
@@ -477,7 +443,6 @@ public class BrapiClient
 		SSLContext sslContext = SSLContext.getInstance("SSL");
 		sslContext.init(null, tmf.getTrustManagers(), null);
 
-		// Tweak to make the timeout on Retrofit connections last longer
 		client = client.newBuilder()
 			.sslSocketFactory(sslContext.getSocketFactory(), (X509TrustManager)tmf.getTrustManagers()[0])
 			.hostnameVerifier((s, sslSession) -> true)
@@ -488,14 +453,56 @@ public class BrapiClient
 		return client;
 	}
 
-	// For cases where we need to use a standard http connection or similar,
-	// this method can be used to grab the authorization token and add it to
-	// the URLConnection
-	URLConnection addAuthTokenToConnection(URLConnection connection)
+	// Use the okhttp client we configured our retrofit service with. This means
+	// the client is configured with any authentication tokens and any custom
+	// certificates that may be required to interact with the current BrAPI
+	// resource
+	InputStream getInputStream(URI uri)
+		throws Exception
 	{
-		if (authToken != null && !authToken.isEmpty())
-			connection.setRequestProperty("Authorization", "Bearer " + authToken);
+		Request request = new Request.Builder()
+			.url(uri.toURL())
+			.build();
 
-		return connection;
+		Response response = httpClient.newCall(request).execute();
+
+		return response.body().byteStream();
 	}
+
+
+	public String getUsername()
+		{ return username; }
+
+	public void setUsername(String username)
+		{	 this.username = username; }
+
+	public String getPassword()
+		{ return password; }
+
+	public void setPassword(String password)
+		{ this.password = password; }
+
+	public String getMethodID()
+		{ return methodID; }
+
+	public void setMethodID(String methodID)
+		{ this.methodID = methodID;	}
+
+	public XmlResource getResource()
+		{ return resource; }
+
+	public void setResource(XmlResource resource)
+		{ this.resource = resource; }
+
+	public String getMapID()
+		{ return mapID; }
+
+	public void setMapID(String mapIndex)
+		{ this.mapID = mapIndex; }
+
+	public String getStudyID()
+		{ return studyID; }
+
+	public void setStudyID(String studyID)
+		{ this.studyID = studyID; }
 }

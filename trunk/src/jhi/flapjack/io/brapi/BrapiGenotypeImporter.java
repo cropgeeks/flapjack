@@ -8,11 +8,9 @@ import java.net.*;
 import java.util.*;
 
 import jhi.flapjack.data.*;
-import jhi.flapjack.gui.*;
 import jhi.flapjack.io.*;
 
 import jhi.brapi.api.markerprofiles.*;
-import scri.commons.gui.*;
 
 public class BrapiGenotypeImporter implements IGenotypeImporter
 {
@@ -129,8 +127,7 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 	{
 		URI uri = client.getAlleleMatrixTSV(profiles);
 		// We need to add the authorization token to the headers of requests from this client
-		URLConnection urlConnection = client.addAuthTokenToConnection(uri.toURL().openConnection());
-		BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+		BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream(uri)));
 
 		// The first line is a list of marker profile IDs
 		String str = in.readLine();
@@ -139,7 +136,6 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 		// were asked for
 		String[] tmpstr = str.split("\t");
 		List<String> markerprofileIds = Arrays.asList(tmpstr);
-//		markerprofileIds = markerprofileIds.subList(1, markerprofileIds.size()-1);
 
 		while ((str = in.readLine()) != null && !str.isEmpty())
 		{
@@ -184,25 +180,20 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 	private boolean readFlapjackAlleleMatrix(HashMap<String, Line> linesByName, List<BrapiMarkerProfile> profiles)
 		throws Exception
 	{
-		System.out.println("Reading Flapjack Genotype File");
-		linesByName.keySet().forEach(key -> System.out.println(key + " : " + linesByName.get(key)));
 		URI uri = client.getAlleleMatrixFlapjack(profiles);
-		BufferedReader in = new BufferedReader(new InputStreamReader(uri.toURL().openStream()));
+		BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream(uri)));
 
 		// The first line is a list of marker profile IDs
 		String str;
 
 		while ((str = in.readLine()) != null && !str.isEmpty())
 		{
-			System.out.println(str);
 			if (str.startsWith("#"))
 				continue;
 
 			// Split the first line up into an array of marker names (we ignore the
 			// first element as it's a redundant column header: i=1 in loop below)
 			String[] markerNames = str.split("\t");
-
-//			System.out.println(Arrays.toString(markerNames));
 
 			// Now work out the map indices of these markers and the indices within
 			// the map itself. This speeds up loading by pre-caching this data so we
