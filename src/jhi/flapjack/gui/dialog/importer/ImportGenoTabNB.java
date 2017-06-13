@@ -64,9 +64,9 @@ class ImportGenoTabNB extends javax.swing.JPanel implements ActionListener
 		useHDF5.setSelected(Prefs.guiImportType == 2);
 		setStates();
 
-		mapComboBox.addActionListener(this);
-		genoComboBox.addActionListener(this);
-		hdf5ComboBox.addActionListener(this);
+//		mapComboBox.addActionListener(this);
+//		genoComboBox.addActionListener(this);
+//		hdf5ComboBox.addActionListener(this);
 
 		useText.addActionListener(this);
 		useHDF5.addActionListener(this);

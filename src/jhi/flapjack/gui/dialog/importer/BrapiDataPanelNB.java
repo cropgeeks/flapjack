@@ -20,6 +20,9 @@ class BrapiDataPanelNB extends JPanel implements IBrapiWizard
 	private DefaultComboBoxModel<XmlCategory> catModel = new DefaultComboBoxModel<>();
 	private DefaultComboBoxModel<XmlResource> resModel = new DefaultComboBoxModel<>();
 
+	// Currently selected resource
+	XmlResource res;
+
 	public BrapiDataPanelNB(BrapiClient client, BrapiImportDialog dialog)
 	{
 		this.client = client;
@@ -27,11 +30,17 @@ class BrapiDataPanelNB extends JPanel implements IBrapiWizard
 
 		initComponents();
 
+		checkCustom.setSelected(Prefs.guiBrAPIUseCustom);
+		customText.setHistory(Prefs.guiBrAPICustomHistory);
+		toggleCustom();
+
 		catCombo.setModel(catModel);
 		catCombo.addItemListener(e -> displayCategory());
 
 		resCombo.setModel(resModel);
 		resCombo.addItemListener(e -> displayResource());
+
+		checkCustom.addActionListener(e -> toggleCustom());
 	}
 
 	public void onShow()
@@ -48,6 +57,19 @@ class BrapiDataPanelNB extends JPanel implements IBrapiWizard
 
 	public void onNext()
 	{
+		Prefs.guiBrAPIUseCustom = checkCustom.isSelected();
+		Prefs.guiBrAPICustomHistory = customText.getHistory();
+		System.out.println("SET HISTORY: " + Prefs.guiBrAPICustomHistory);
+
+		if (checkCustom.isSelected())
+		{
+			XmlResource customRes = new XmlResource();
+			customRes.setUrl(customText.getText());
+			client.setResource(customRes);
+		}
+		else
+			client.setResource(res);
+
 		if (validateCalls())
 		{
 			if (client.hasToken())
@@ -127,7 +149,7 @@ class BrapiDataPanelNB extends JPanel implements IBrapiWizard
 		if (index >= 0)
 		{
 			// Display the description text
-			XmlResource res = resModel.getElementAt(index);
+			res = resModel.getElementAt(index);
 			resText.setText(res.getDescription());
 			resText.setCaretPosition(0);
 
@@ -190,6 +212,19 @@ class BrapiDataPanelNB extends JPanel implements IBrapiWizard
 		}
 	}
 
+	public void toggleCustom()
+	{
+		boolean enabled = checkCustom.isSelected();
+
+		customText.setEnabled(enabled);
+		catCombo.setEnabled(!enabled);
+		catLogo.setEnabled(!enabled);
+		catText.setEnabled(!enabled);
+		resCombo.setEnabled(!enabled);
+		resLogo.setEnabled(!enabled);
+		resText.setEnabled(!enabled);
+	}
+
 	/**
 	 * This method is called from within the constructor to initialize the form.
 	 * WARNING: Do NOT modify this code. The content of this method is always
@@ -202,7 +237,6 @@ class BrapiDataPanelNB extends JPanel implements IBrapiWizard
 
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        hyperLinkLabel1 = new scri.commons.gui.matisse.HyperLinkLabel();
         catCombo = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
         catText = new javax.swing.JTextArea();
@@ -214,6 +248,8 @@ class BrapiDataPanelNB extends JPanel implements IBrapiWizard
         catLogo = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         resLogo = new javax.swing.JLabel();
+        checkCustom = new javax.swing.JCheckBox();
+        customText = new scri.commons.gui.matisse.HistoryComboBox();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -222,8 +258,6 @@ class BrapiDataPanelNB extends JPanel implements IBrapiWizard
 
         jLabel2.setLabelFor(catCombo);
         jLabel2.setText("Category:");
-
-        hyperLinkLabel1.setText("Edit data source providers");
 
         jScrollPane1.setHorizontalScrollBar(null);
 
@@ -292,6 +326,10 @@ class BrapiDataPanelNB extends JPanel implements IBrapiWizard
                 .addContainerGap())
         );
 
+        checkCustom.setText("Provide a custom BrAPI connection URI:");
+
+        customText.setEnabled(false);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -299,32 +337,32 @@ class BrapiDataPanelNB extends JPanel implements IBrapiWizard
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 307, Short.MAX_VALUE)
-                        .addComponent(hyperLinkLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(resCombo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(catCombo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 346, Short.MAX_VALUE))
+                    .addComponent(resCombo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane2)))
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 342, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(checkCustom)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(customText, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(hyperLinkLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(catCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -339,6 +377,10 @@ class BrapiDataPanelNB extends JPanel implements IBrapiWizard
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane2)
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(checkCustom)
+                    .addComponent(customText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -365,7 +407,8 @@ class BrapiDataPanelNB extends JPanel implements IBrapiWizard
     private javax.swing.JComboBox<XmlCategory> catCombo;
     private javax.swing.JLabel catLogo;
     private javax.swing.JTextArea catText;
-    private scri.commons.gui.matisse.HyperLinkLabel hyperLinkLabel1;
+    private javax.swing.JCheckBox checkCustom;
+    private scri.commons.gui.matisse.HistoryComboBox customText;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
