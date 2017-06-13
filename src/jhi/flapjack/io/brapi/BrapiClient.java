@@ -18,6 +18,7 @@ import javax.xml.bind.*;
 import jhi.flapjack.gui.*;
 
 import jhi.brapi.api.*;
+import jhi.brapi.api.allelematrices.*;
 import jhi.brapi.api.authentication.*;
 import jhi.brapi.api.calls.*;
 import jhi.brapi.api.genomemaps.*;
@@ -41,7 +42,7 @@ public class BrapiClient
 	private XmlResource resource;
 
 	private String username, password;
-	private String mapID, studyID, methodID;
+	private String mapID, studyID, methodID, matrixID;
 
 	private CallsUtils callsUtils;
 
@@ -153,6 +154,9 @@ public class BrapiClient
 
 	public boolean hasMapsMapDbId()
 		{ return callsUtils.hasMapsMapDbId(); }
+
+	public boolean hasAlleleMatrices()
+		{ return callsUtils.hasAlleleMatrices(); }
 
 	public boolean doAuthentication()
 		throws Exception
@@ -292,6 +296,26 @@ public class BrapiClient
 		return list;
 	}
 
+	// Returns a list of available matrices
+	public List<BrapiAlleleMatrixDataset> getMatrices()
+		throws Exception
+	{
+		List<BrapiAlleleMatrixDataset> list = new ArrayList<>();
+		Pager pager = new Pager();
+
+		while (pager.isPaging())
+		{
+			BrapiListResource<BrapiAlleleMatrixDataset> br = service.getMatrices(pager.getPageSize(), pager.getPage())
+				.execute()
+				.body();
+
+			list.addAll(br.data());
+
+			pager.paginate(br.getMetadata());
+		}
+
+		return list;
+	}
 
 	public List<BrapiAlleleMatrix> getAlleleMatrix(List<BrapiMarkerProfile> markerprofiles)
 		throws Exception
@@ -315,12 +339,29 @@ public class BrapiClient
 		return list;
 	}
 
-	private URI getAlleleMatrixFile(List<BrapiMarkerProfile> markerProfiles, String format)
+	public URI getAlleleMatrixFileByProfiles(List<BrapiMarkerProfile> markerProfiles, String format)
 		throws Exception
 	{
 		List<String> ids = markerProfiles.stream().map(BrapiMarkerProfile::getMarkerProfileDbId).collect(Collectors.toList());
 
 		BrapiBaseResource<BrapiAlleleMatrix> br = service.getAlleleMatrix(ids, null, format, null, null, null, null, null, null)
+			.execute()
+			.body();
+
+		Status async = AsyncChecker.hasAsyncId(br.getMetadata().getStatus());
+
+		// If this is an asynchronous call we have to poll the status sub-resource of /allelematrix-search to get the data file
+		// otherwise we should just be able to grab it from the datafiles section of metadata
+		return async != null ? pollAlleleMatrixStatus(async.getMessage()) : new URI(br.getMetadata().getDatafiles().get(0));
+	}
+
+	// Calls /allelematrix-search?format=flapjack
+	public URI getAlleleMatrixFileById()
+		throws Exception
+	{
+		System.out.println("XXXXXXXXXXXXXXXXX");
+
+		BrapiBaseResource<BrapiAlleleMatrix> br = service.getAlleleMatrix(matrixID, "flapjack", null, null, null, null, null, null)
 			.execute()
 			.body();
 
@@ -359,18 +400,6 @@ public class BrapiClient
 		// get an informative error message potentially
 		// TODO: By now we know the call failed...do we throw an exception of deal with it some other way?
 		throw new Exception();
-	}
-
-	public URI getAlleleMatrixTSV(List<BrapiMarkerProfile> markerprofiles)
-		throws Exception
-	{
-		return getAlleleMatrixFile(markerprofiles, "tsv");
-	}
-
-	public URI getAlleleMatrixFlapjack(List<BrapiMarkerProfile> markerProfiles)
-		throws Exception
-	{
-		return getAlleleMatrixFile(markerProfiles, "flapjack");
 	}
 
 	public XmlBrapiProvider getBrapiProviders()
@@ -508,4 +537,10 @@ public class BrapiClient
 
 	public void setStudyID(String studyID)
 		{ this.studyID = studyID; }
+
+	public String getMatrixID()
+		{ return matrixID; }
+
+	public void setMatrixID(String matrixID)
+		{ this.matrixID = matrixID; }
 }

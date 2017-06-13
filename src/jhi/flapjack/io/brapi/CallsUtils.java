@@ -31,14 +31,16 @@ class CallsUtils
 			return false;
 		if (hasCall("maps/id/positions", JSON, GET) == false)
 			return false;
-		if (hasCall("markerprofiles", JSON, GET) == false)
-			return false;
-		if (hasCall("allelematrix-search", JSON, POST) == false
-			&& hasAlleleMatrixSearchTSV() == false
-			&&  hasAlleleMatrixSearchFlapjack() == false)
+
+		// "v2" flow for genotype data extract (this is our preferred route)
+		if (hasAlleleMatrices() && hasAlleleMatrixSearchFlapjack() == false)
 			return false;
 
-		return true;
+		// or "v1"
+		else if (hasCall("markerprofiles", JSON, GET))
+			return (hasCall("allelematrix-search", JSON, POST) || hasAlleleMatrixSearchTSV() || hasAlleleMatrixSearchFlapjack());
+
+		return false;
 	}
 
 	boolean hasCall(String signature, String datatype, String method)
@@ -58,6 +60,11 @@ class CallsUtils
 	boolean hasMapsMapDbId()
 	{
 		return hasCall("maps/id", JSON, GET);
+	}
+
+	boolean hasAlleleMatrices()
+	{
+		return hasCall("allelematrices", JSON, GET);
 	}
 
 	boolean hasAlleleMatrixSearchTSV()
