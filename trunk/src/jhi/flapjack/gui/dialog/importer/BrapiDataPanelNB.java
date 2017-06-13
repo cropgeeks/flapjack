@@ -59,7 +59,6 @@ class BrapiDataPanelNB extends JPanel implements IBrapiWizard
 	{
 		Prefs.guiBrAPIUseCustom = checkCustom.isSelected();
 		Prefs.guiBrAPICustomHistory = customText.getHistory();
-		System.out.println("SET HISTORY: " + Prefs.guiBrAPICustomHistory);
 
 		if (checkCustom.isSelected())
 		{

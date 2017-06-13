@@ -92,6 +92,12 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 	private boolean readData()
 		throws Exception
 	{
+		// Simpler (v2) use case where we just need to ask for the allelematrix
+		// which will return a Flapjack formatted genotypes file
+		if (client.hasAlleleMatrices())
+			return readFlapjackAlleleMatrix(true, null, null);
+
+
 		// Call /markerprofiles for list of all profile IDs so those parameters
 		// can be fed into the /allelematrix call
 		List<BrapiMarkerProfile> profiles = client.getMarkerProfiles();
@@ -113,7 +119,7 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 		if (client.hasAlleleMatrixSearchTSV())
 			return readTSVAlleleMatrix(linesByProfileID, profiles);
 		else if (client.hasAlleleMatrixSearchFlapjack())
-			return readFlapjackAlleleMatrix(linesByName, profiles);
+			return readFlapjackAlleleMatrix(false, linesByName, profiles);
 		else
 			return readJSONAlleleMatrix(linesByProfileID, profiles);
 	}
@@ -125,7 +131,7 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 	private boolean readTSVAlleleMatrix(HashMap<String, Line> linesByProfileID, List<BrapiMarkerProfile> profiles)
 		throws Exception
 	{
-		URI uri = client.getAlleleMatrixTSV(profiles);
+		URI uri = client.getAlleleMatrixFileByProfiles(profiles, "tsv");
 		// We need to add the authorization token to the headers of requests from this client
 		BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream(uri)));
 
@@ -177,11 +183,22 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 		return true;
 	}
 
-	private boolean readFlapjackAlleleMatrix(HashMap<String, Line> linesByName, List<BrapiMarkerProfile> profiles)
+	private boolean readFlapjackAlleleMatrix(boolean createLines, HashMap<String, Line> linesByName, List<BrapiMarkerProfile> profiles)
 		throws Exception
 	{
-		URI uri = client.getAlleleMatrixFlapjack(profiles);
-		BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream(uri)));
+		BufferedReader in = null;
+
+		if (createLines)
+		{
+			System.out.println("XXXXXXXXXXXXXXXXX");
+			URI uri = client.getAlleleMatrixFileById();
+			in = new BufferedReader(new InputStreamReader(client.getInputStream(uri)));
+		}
+		else
+		{
+			URI uri = client.getAlleleMatrixFileByProfiles(profiles, "flapjack");
+			in = new BufferedReader(new InputStreamReader(client.getInputStream(uri)));
+		}
 
 		// The first line is a list of marker profile IDs
 		String str;
@@ -217,8 +234,6 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 					mapIndex[i] = mkrIndex[i] = -1;
 			}
 
-			System.out.println("Read header");
-
 			while ((str = in.readLine()) != null && isOK)
 			{
 				if (str.length() == 0)
@@ -229,9 +244,16 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 				if (values.length == 0)
 					continue;
 
-				// Check for duplicate line names
 				String name = values[0].trim();
-				Line line = linesByName.get(name);
+				Line line = null;
+
+				if (createLines)
+				{
+					line = dataSet.createLine(name, useByteStorage);
+					System.out.println("Created line " + line.getName());
+				}
+				else
+					linesByName.get(name);
 
 				if (line == null)
 					continue;
