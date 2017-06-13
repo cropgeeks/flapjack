@@ -85,6 +85,10 @@ class BrapiPassPanelNB extends JPanel implements ActionListener, IBrapiWizard
 						RB.getString("gui.dialog.importer.BrapiPassPanelNB.requiresAuth"),
 						RB.getString("gui.text.ok"));
 				}
+				else
+				{
+					dialog.setScreen(dialog.getStudiesPanel());
+				}
 
 			}
 			catch (Exception e)
