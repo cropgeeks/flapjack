@@ -82,7 +82,7 @@ class CallsUtils
 
 	boolean hasAlleleMatrices()
 	{
-		return hasCall("allelematrices", JSON, GET);
+		return false;//hasCall("allelematrices", JSON, GET);
 	}
 
 	boolean hasAlleleMatrixSearchTSV()
