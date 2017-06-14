@@ -97,13 +97,6 @@ class BrapiMatricesPanelNB extends JPanel implements IBrapiWizard
 	}
 
 	@Override
-	public void onBack()
-	{
-		dialog.setScreen(dialog.getMapsPanel());
-		dialog.getBBack().requestFocusInWindow();
-	}
-
-	@Override
 	public JPanel getPanel()
 		{ return this; }
 

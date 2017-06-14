@@ -26,6 +26,9 @@ class BrapiPassPanelNB extends JPanel implements ActionListener, IBrapiWizard
 
 		initComponents();
 
+		useStudies.setSelected(Prefs.guiBrAPIUseStudies);
+		useMaps.setSelected(Prefs.guiBrAPIUseMaps);
+
 		useAuthentication.addActionListener(this);
 	}
 
@@ -42,17 +45,26 @@ class BrapiPassPanelNB extends JPanel implements ActionListener, IBrapiWizard
 		}
 	}
 
-	void saveOptions()
+	boolean validateCalls()
 	{
-		if (useAuthentication.isSelected())
+		ProgressDialog pd = new ProgressDialog(new CallsDownloader(),
+			RB.getString("gui.dialog.importer.BrapiDataPanelNB.title2"),
+			RB.getString("gui.dialog.importer.BrapiDataPanelNB.message2"),
+			Flapjack.winMain);
+
+		if (pd.failed("gui.error"))
+			return false;
+
+		return true;
+	}
+
+	private class CallsDownloader extends SimpleJob
+	{
+		public void runJob(int jobID)
+			throws Exception
 		{
-			client.setUsername(username.getText());
-			client.setPassword(new String(password.getPassword()));
-		}
-		else
-		{
-			client.setUsername(null);
-			client.setPassword(null);
+			client.initService();
+			client.getCalls();
 		}
 	}
 
@@ -68,6 +80,8 @@ class BrapiPassPanelNB extends JPanel implements ActionListener, IBrapiWizard
 	@Override
 	public void onShow()
 	{
+		updateLabels();
+
 		dialog.enableBack(true);
 		dialog.enableNext(true);
 	}
@@ -75,43 +89,22 @@ class BrapiPassPanelNB extends JPanel implements ActionListener, IBrapiWizard
 	@Override
 	public void onNext()
 	{
-		if (!useAuthentication.isSelected())
-		{
-			try
-			{
-				if (client.requiresAuthentication())
-				{
-					TaskDialog.error(
-						RB.getString("gui.dialog.importer.BrapiPassPanelNB.requiresAuth"),
-						RB.getString("gui.text.ok"));
-				}
-				else
-				{
-					dialog.setScreen(dialog.getStudiesPanel());
-				}
+		Prefs.guiBrAPIUseStudies = useStudies.isSelected();
+		Prefs.guiBrAPIUseMaps = useMaps.isSelected();
 
-			}
-			catch (Exception e)
-			{
-				TaskDialog.error(
-					RB.getString("gui.dialog.importer.BrapiPassPanelNB.communicationError"),
-					RB.getString("gui.text.ok"));
-				e.printStackTrace();
-			}
-		}
-		else if (authenticate())
-		{
+		if (validateCalls() == false)
+			return;
+
+		if (Prefs.guiBrAPIUseStudies)
 			dialog.setScreen(dialog.getStudiesPanel());
-		}
+		else if (Prefs.guiBrAPIUseMaps)
+			dialog.setScreen(dialog.getMapsPanel());
+		else if (client.hasAlleleMatrices())
+			dialog.setScreen(dialog.getMatricesPanel());
+		else
+			dialog.wizardCompleted();
 
 		dialog.getBNext().requestFocusInWindow();
-	}
-
-	@Override
-	public void onBack()
-	{
-		dialog.setScreen(dialog.getDataPanel());
-		dialog.getBBack().requestFocusInWindow();
 	}
 
 	@Override
@@ -173,6 +166,9 @@ class BrapiPassPanelNB extends JPanel implements ActionListener, IBrapiWizard
         password = new javax.swing.JPasswordField();
         useAuthentication = new javax.swing.JCheckBox();
         jCheckBox1 = new javax.swing.JCheckBox();
+        jPanel2 = new javax.swing.JPanel();
+        useStudies = new javax.swing.JCheckBox();
+        useMaps = new javax.swing.JCheckBox();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -243,21 +239,53 @@ class BrapiPassPanelNB extends JPanel implements ActionListener, IBrapiWizard
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Additional connection options:"));
+
+        useStudies.setText("Filter available data by study (BrAPI /studies-search call)");
+
+        useMaps.setText("Retrieve available maps (and marker poistions) data (BrAPI /maps call)");
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(useStudies)
+                    .addComponent(useMaps))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addComponent(useStudies)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(useMaps)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -266,10 +294,13 @@ class BrapiPassPanelNB extends JPanel implements ActionListener, IBrapiWizard
     private javax.swing.JLabel connectionLabel;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel passLabel;
     private javax.swing.JPasswordField password;
     private javax.swing.JCheckBox useAuthentication;
+    private javax.swing.JCheckBox useMaps;
+    private javax.swing.JCheckBox useStudies;
     private javax.swing.JLabel userLabel;
     private javax.swing.JTextField username;
-	// End of variables declaration//GEN-END:variables
+    // End of variables declaration//GEN-END:variables
 }

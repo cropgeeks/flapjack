@@ -140,7 +140,8 @@ public class BrapiClient
 		callsUtils = new CallsUtils(calls);
 
 		if (callsUtils.validate() == false)
-			throw new Exception("/calls not valid");
+			throw new Exception("The selected BrAPI service does not appear to support the required functionality "
+				+ "for use by Flapjack (" + callsUtils.exceptionMsg + ").");
 	}
 
 	public boolean hasToken()

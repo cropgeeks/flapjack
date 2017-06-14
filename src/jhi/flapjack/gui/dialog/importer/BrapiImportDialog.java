@@ -5,7 +5,7 @@ package jhi.flapjack.gui.dialog.importer;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.beans.*;
+import java.util.*;
 import javax.swing.*;
 
 import jhi.flapjack.gui.*;
@@ -26,6 +26,7 @@ public class BrapiImportDialog extends JDialog implements ActionListener
 	private IBrapiWizard matricesPanel;
 
 	private IBrapiWizard currentPanel;
+	private Stack<IBrapiWizard> stack = new Stack<>();
 
 	private CardLayout cards = new CardLayout();
 	private JPanel panel = new JPanel();
@@ -107,7 +108,12 @@ public class BrapiImportDialog extends JDialog implements ActionListener
 			currentPanel.onNext();
 
 		else if (e.getSource() == bBack)
-			currentPanel.onBack();
+		{
+//			currentPanel.onBack();
+			stack.pop();
+			setScreen(stack.pop());
+			bBack.requestFocusInWindow();
+		}
 
 		else if (e.getSource() == bCancel)
 			setVisible(false);
@@ -116,6 +122,7 @@ public class BrapiImportDialog extends JDialog implements ActionListener
 	void setScreen(IBrapiWizard screen)
 	{
 		cards.show(panel, screen.getCardName());
+		stack.push(screen);
 		screen.onShow();
 
 		currentPanel = screen;
@@ -150,7 +157,4 @@ public class BrapiImportDialog extends JDialog implements ActionListener
 
 	public JButton getBNext()
 		{ return bNext; }
-
-	public JButton getBBack()
-		{ return bBack; }
 }

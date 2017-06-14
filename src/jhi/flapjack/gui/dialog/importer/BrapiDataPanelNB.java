@@ -69,20 +69,8 @@ class BrapiDataPanelNB extends JPanel implements IBrapiWizard
 		else
 			client.setResource(res);
 
-		if (validateCalls())
-		{
-			if (client.hasToken())
-				dialog.setScreen(dialog.getPassPanel());
-
-			else
-				dialog.setScreen(dialog.getStudiesPanel());
-		}
-
+		dialog.setScreen(dialog.getPassPanel());
 		dialog.getBNext().requestFocusInWindow();
-	}
-
-	public void onBack()
-	{
 	}
 
 	public JPanel getPanel()
@@ -185,29 +173,6 @@ class BrapiDataPanelNB extends JPanel implements IBrapiWizard
 				(int)(w*scale), (int)(h*scale), Image.SCALE_SMOOTH);
 
 			label.setIcon(new ImageIcon(i));
-		}
-	}
-
-	boolean validateCalls()
-	{
-		ProgressDialog pd = new ProgressDialog(new CallsDownloader(),
-			RB.getString("gui.dialog.importer.BrapiDataPanelNB.title2"),
-			RB.getString("gui.dialog.importer.BrapiDataPanelNB.message2"),
-			Flapjack.winMain);
-
-		if (pd.failed("gui.error"))
-			return false;
-
-		return true;
-	}
-
-	private class CallsDownloader extends SimpleJob
-	{
-		public void runJob(int jobID)
-			throws Exception
-		{
-			client.initService();
-			client.getCalls();
 		}
 	}
 

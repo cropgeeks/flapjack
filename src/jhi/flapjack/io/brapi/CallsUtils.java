@@ -6,6 +6,7 @@ package jhi.flapjack.io.brapi;
 import java.util.*;
 
 import jhi.brapi.api.calls.*;
+import jhi.flapjack.gui.*;
 
 class CallsUtils
 {
@@ -14,6 +15,8 @@ class CallsUtils
 	private static final String JSON = "json";
 	private static final String TSV = "tsv";
 	private static final String FLAPJACK = "flapjack";
+
+	String exceptionMsg = "";
 
 	private List<BrapiCall> calls;
 
@@ -25,18 +28,33 @@ class CallsUtils
 	boolean validate()
 	{
 		// First validate the calls that MUST be present
-		if (hasCall("studies-search", JSON, GET) == false)
+		if (Prefs.guiBrAPIUseStudies && hasCall("studies-search", JSON, GET) == false)
+		{
+			exceptionMsg = "/studies-search not implemented";
 			return false;
-		if (hasCall("maps", JSON, GET) == false)
+		}
+
+		if (Prefs.guiBrAPIUseMaps && hasCall("maps", JSON, GET) == false)
+		{
+			exceptionMsg = "/maps not implmented";
 			return false;
+		}
+
 		if (hasCall("maps/id/positions", JSON, GET) == false)
+		{
+			exceptionMsg = "maps/id/positions not implmented";
 			return false;
+		}
 
 		// "v2" flow for genotype data extract (this is our preferred route)
 		if (hasAlleleMatrices() && hasAlleleMatrixSearchFlapjack() == false)
+		{
+			exceptionMsg = "no Flapjack format support in /allelematrix-search";
 			return false;
+		}
 
 		// or "v1"
+		// TODO: Put a proper error messages in the false cases here
 		else if (hasCall("markerprofiles", JSON, GET))
 			return (hasCall("allelematrix-search", JSON, POST) || hasAlleleMatrixSearchTSV() || hasAlleleMatrixSearchFlapjack());
 
