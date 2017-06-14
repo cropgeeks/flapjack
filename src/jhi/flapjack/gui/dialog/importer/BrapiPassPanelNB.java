@@ -70,11 +70,17 @@ class BrapiPassPanelNB extends JPanel implements ActionListener, IBrapiWizard
 
 	void updateLabels()
 	{
-		Image img = client.getResource().getImage().getImage();
-		img = img.getScaledInstance(48, 48, Image.SCALE_SMOOTH);
-		connectionLabel.setIcon(new ImageIcon(img));
+		try
+		{
+			Image img = client.getResource().getImage().getImage();
+			img = img.getScaledInstance(48, 48, Image.SCALE_SMOOTH);
+			connectionLabel.setIcon(new ImageIcon(img));
+		} catch (Exception e) {}
 
-		connectionLabel.setText("Connecting to " + client.getResource().getName());
+		if (client.getResource().getName() != null)
+			connectionLabel.setText("Connecting to " + client.getResource().getName());
+		else
+			connectionLabel.setText("Connecting to " + client.getResource().getUrl());
 	}
 
 	@Override
