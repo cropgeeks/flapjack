@@ -45,7 +45,7 @@ public class GenotypeDataImporter implements IGenotypeImporter
 
 	private NumberFormat nf = NumberFormat.getInstance();
 
-	private boolean mapWasProvided;
+	private boolean mapWasProvided, fakeMapCreated;
 
 	public GenotypeDataImporter(File file, DataSet dataSet, HashMap<String, MarkerIndex> markers,
 		String ioMissingData, String ioHeteroSeparator, boolean isTransposed)
@@ -109,7 +109,7 @@ public class GenotypeDataImporter implements IGenotypeImporter
 	private MarkerIndex queryMarker(String name)
 	{
 		// If a map was provided, then just use the hashtable
-		if (mapWasProvided)
+		if (mapWasProvided || fakeMapCreated)
 			return markers.get(name);
 
 		// Otherwise, we're into the special case for no map
@@ -300,9 +300,12 @@ public class GenotypeDataImporter implements IGenotypeImporter
 	// Quite a lot of duplication of work done in readData() is there a way to
 	// clean this up?
 	private boolean readTransposedData()
-			throws IOException, DataFormatException
+		throws IOException, DataFormatException
 	{
 		long s = System.currentTimeMillis();
+
+		if (mapWasProvided == false)
+			createFakeMapForTransposedData();
 
 		lines = new HashMap<String, Line>();
 
@@ -390,5 +393,41 @@ public class GenotypeDataImporter implements IGenotypeImporter
 
 		markers.clear();
 		return true;
+	}
+
+	private void createFakeMapForTransposedData()
+		throws IOException
+	{
+		BufferedReader in = new BufferedReader(
+			new InputStreamReader(new FileInputStream(file), "UTF-8"));
+
+		String str = null;
+
+		// Skip the headers (this will also read the first proper line that
+		// should be the line names
+		while ((str = in.readLine()) != null)
+		{
+			if (str.isEmpty() || str.startsWith("#"))
+				continue;
+			else
+				break;
+		}
+
+		// The rest of the file should be: MARKER_NAME\tVALUE\tVALUE etc
+		while ((str = in.readLine()) != null)
+		{
+			if (str.isEmpty())
+				continue;
+
+			String[] values = str.trim().split("\t");
+			if (values.length == 0)
+				continue;
+
+			queryMarker(values[0].trim());
+		}
+
+		fakeMapCreated = true;
+
+		in.close();
 	}
 }
