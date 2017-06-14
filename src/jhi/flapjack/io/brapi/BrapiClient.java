@@ -306,7 +306,7 @@ public class BrapiClient
 
 		while (pager.isPaging())
 		{
-			BrapiListResource<BrapiAlleleMatrixDataset> br = service.getMatrices(pager.getPageSize(), pager.getPage())
+			BrapiListResource<BrapiAlleleMatrixDataset> br = service.getMatrices(studyID, pager.getPageSize(), pager.getPage())
 				.execute()
 				.body();
 
