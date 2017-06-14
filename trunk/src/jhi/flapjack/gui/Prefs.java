@@ -155,6 +155,8 @@ public class Prefs extends XMLPreferences
 	// BrAPI Importer Options
 	public static boolean guiBrAPIUseCustom = false;
 	public static String guiBrAPICustomHistory = "";
+	public static boolean guiBrAPIUseStudies = true;
+	public static boolean guiBrAPIUseMaps = true;
 
 	// What type of map scaling should be used (local=0, global=1)
 	public static int visMapScaling = Constants.GLOBAL;

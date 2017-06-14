@@ -11,8 +11,6 @@ public interface IBrapiWizard
 
 	void onNext();
 
-	void onBack();
-
 	JPanel getPanel();
 
 	String getCardName();
