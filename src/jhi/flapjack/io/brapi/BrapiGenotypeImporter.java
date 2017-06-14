@@ -36,6 +36,7 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 	private boolean isOK = true;
 
 	private BrapiClient client;
+	private boolean mapWasProvided;
 
 	public BrapiGenotypeImporter(BrapiClient client, DataSet dataSet, HashMap<String, MarkerIndex> markers,
 		 HashMap<String, MarkerIndex> markersByName, String ioMissingData, String ioHeteroSeparator)
@@ -51,6 +52,8 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 		this.ioHeteroSeparator = "/";
 
 		stateTable = dataSet.getStateTable();
+
+		mapWasProvided = markersByName.size() > 0;
 	}
 
 	@Override
@@ -220,7 +223,7 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 
 			for (int i = 1; i < markerNames.length && isOK; i++)
 			{
-				MarkerIndex index = markersByName.get(markerNames[i].trim());
+				MarkerIndex index = queryMarker(markerNames[i].trim());
 
 				// Check that the marker does exists on map
 				if (index != null)
@@ -320,5 +323,34 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 		}
 
 		return true;
+	}
+
+	private MarkerIndex queryMarker(String name)
+	{
+		// If a map was provided, then just use the hashtable
+		if (mapWasProvided)
+			return markersByName.get(name);
+
+		// Otherwise, we're into the special case for no map
+
+		// Make sure it's not a duplicate marker
+		if (markersByName.get(name) != null)
+			return null;
+
+		// Its position will just be based no how many we've added so far
+		int position = markersByName.size();
+		Marker marker = new Marker(name, position);
+
+		// There's only one map, so just grab it and add the marker to it
+		ChromosomeMap map = dataSet.getChromosomeMaps().get(0);
+		map.addMarker(marker);
+		// Updating its length as we go
+		map.setLength(position);
+
+		// We can set the ChrIndex to 0 as we know there's only one
+		MarkerIndex mi = new MarkerIndex(0, markersByName.size());
+		markersByName.put(marker.getName(), mi);
+
+		return mi;
 	}
 }

@@ -48,6 +48,15 @@ public class BrapiMapImporter implements IMapImporter
 	public void importMap()
 		throws Exception
 	{
+		if (Prefs.guiBrAPIUseMaps == false)
+		{
+			// Create a "fake" map to hold any markers that are found in the
+			// genotype file instead
+			dataSet.getMapByName("1", true);
+
+			return;
+		}
+
 		NumberFormat nf = NumberFormat.getInstance();
 
 		List<BrapiMarkerPosition> list = client.getMapMarkerData();
