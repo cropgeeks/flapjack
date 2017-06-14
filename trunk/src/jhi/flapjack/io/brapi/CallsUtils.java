@@ -40,9 +40,9 @@ class CallsUtils
 			return false;
 		}
 
-		if (hasCall("maps/id/positions", JSON, GET) == false)
+		if (hasCall("maps/{id}/positions", JSON, GET) == false)
 		{
-			exceptionMsg = "maps/id/positions not implmented";
+			exceptionMsg = "maps/{id}/positions not implmented";
 			return false;
 		}
 
@@ -77,7 +77,7 @@ class CallsUtils
 
 	boolean hasMapsMapDbId()
 	{
-		return hasCall("maps/id", JSON, GET);
+		return hasCall("maps/{id}", JSON, GET);
 	}
 
 	boolean hasAlleleMatrices()
