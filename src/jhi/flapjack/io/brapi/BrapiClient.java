@@ -165,7 +165,7 @@ public class BrapiClient
 		if (username == null && password == null)
 			return false;
 
-		BrapiTokenPost tokenPost = new BrapiTokenPost(enc(username), enc(password), "password", "flapjack");
+		BrapiTokenLoginPost tokenPost = new BrapiTokenLoginPost(enc(username), enc(password), "password", "flapjack");
 
 		BrapiSessionToken token = service.getAuthToken(tokenPost)
 			.execute()
@@ -174,9 +174,7 @@ public class BrapiClient
 		if (token == null)
 			return false;
 
-		String authToken = token.getSessionToken();
-
-		service = createService(baseURL, token.getSessionToken());
+		service = createService(baseURL, token.getAccess_token());
 
 		return true;
 	}
