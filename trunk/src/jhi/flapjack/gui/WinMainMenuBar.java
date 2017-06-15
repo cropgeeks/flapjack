@@ -208,11 +208,11 @@ public class WinMainMenuBar extends JMenuBar
 		mEditUndo = getItem(Actions.editUndo, "gui.Actions.editUndo", KeyEvent.VK_Z, menuShortcut);
 		mEditRedo = getItem(Actions.editRedo, "gui.Actions.editRedo", KeyEvent.VK_Y, menuShortcut);
 		mEditModeNavigation = getRadioItem(Actions.editModeNavigation, "gui.Actions.editModeNavigation",
-			KeyEvent.VK_1, InputEvent.ALT_MASK);
+			KeyEvent.VK_1, InputEvent.ALT_DOWN_MASK);
 		mEditModeMarker = getRadioItem(Actions.editModeMarker, "gui.Actions.editModeMarker",
-			KeyEvent.VK_2, InputEvent.ALT_MASK);
+			KeyEvent.VK_2, InputEvent.ALT_DOWN_MASK);
 		mEditModeLine = getRadioItem(Actions.editModeLine, "gui.Actions.editModeLine",
-			KeyEvent.VK_3, InputEvent.ALT_MASK);
+			KeyEvent.VK_3, InputEvent.ALT_DOWN_MASK);
 		mEditSelectMarkersAll = getItem(Actions.editSelectMarkersAll, "gui.Actions.editSelectMarkersAll", 0, 0);
 		mEditSelectMarkersNone = getItem(Actions.editSelectMarkersNone, "gui.Actions.editSelectMarkersNone", 0, 0);
 		mEditSelectMarkersInvert = getItem(Actions.editSelectMarkersInvert, "gui.Actions.editSelectMarkersInvert", 0, 0);
@@ -282,9 +282,9 @@ public class WinMainMenuBar extends JMenuBar
 		mViewPageLeft = getItem(Actions.viewPageLeft, "gui.Actions.viewPageLeft", 0, 0);
 		mViewPageRight = getItem(Actions.viewPageRight, "gui.Actions.viewPageRight", 0, 0);
 		mViewGenotypes = getRadioItem(Actions.viewGenotypes, "gui.Actions.viewGenotypes",
-			KeyEvent.VK_5, InputEvent.ALT_MASK);
+			KeyEvent.VK_5, InputEvent.ALT_DOWN_MASK);
 		mViewChromosomes = getRadioItem(Actions.viewChromosomes, "gui.Actions.viewChromosomes",
-			KeyEvent.VK_6, InputEvent.ALT_MASK);
+			KeyEvent.VK_6, InputEvent.ALT_DOWN_MASK);
 
 		mView.add(mViewNewView);
 		mView.add(mViewRenameView);
