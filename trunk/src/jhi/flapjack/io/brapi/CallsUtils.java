@@ -4,6 +4,7 @@
 package jhi.flapjack.io.brapi;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import jhi.brapi.api.calls.*;
 import jhi.flapjack.gui.*;
@@ -30,17 +31,17 @@ class CallsUtils
 		// First validate the calls that MUST be present
 		if (Prefs.guiBrAPIUseStudies && hasCall("studies-search", JSON, GET) == false)
 		{
-			exceptionMsg = "/studies-search not implemented";
+			exceptionMsg = "studies-search not implemented";
 			return false;
 		}
 
 		if (Prefs.guiBrAPIUseMaps && hasCall("maps", JSON, GET) == false)
 		{
-			exceptionMsg = "/maps not implmented";
+			exceptionMsg = "maps not implmented";
 			return false;
 		}
 
-		if (hasCall("maps/{id}/positions", JSON, GET) == false)
+		if (Prefs.guiBrAPIUseMaps && hasCall("maps/{id}/positions", JSON, GET) == false)
 		{
 			exceptionMsg = "maps/{id}/positions not implmented";
 			return false;
@@ -49,7 +50,7 @@ class CallsUtils
 		// "v2" flow for genotype data extract (this is our preferred route)
 		if (hasAlleleMatrices() && hasAlleleMatrixSearchFlapjack() == false)
 		{
-			exceptionMsg = "no Flapjack format support in /allelematrix-search";
+			exceptionMsg = "no Flapjack format support in allelematrix-search";
 			return false;
 		}
 
@@ -64,7 +65,7 @@ class CallsUtils
 	boolean hasCall(String signature, String datatype, String method)
 	{
 		for (BrapiCall call : calls)
-			if (call.getCall().equals(signature) && call.getDatatypes().contains(datatype) && call.getMethods().contains(method))
+			if (call.getCall().equals(signature) && call.hasDataType(datatype) && call.hasMethod(method))
 				return true;
 
 		return false;

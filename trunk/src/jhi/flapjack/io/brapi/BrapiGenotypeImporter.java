@@ -146,12 +146,17 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 		String[] tmpstr = str.split("\t");
 		List<String> markerprofileIds = Arrays.asList(tmpstr);
 
+		System.out.println("Markers: " + markers.size());
+		System.out.println("MarkerByName:" + markersByName.size());
+
 		while ((str = in.readLine()) != null && !str.isEmpty())
 		{
 			String[] tokens = str.split("\t");
-			String markerID = tokens[0];
+			String markerID = tokens[0].trim();
 
-			MarkerIndex index = markers.get(markerID);
+			System.out.println(markerID);
+
+			MarkerIndex index = queryMarker(markerID);//markers.get(markerID);
 
 			for (int j = 1; j < tokens.length; j++)
 			{
@@ -223,6 +228,7 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 
 			for (int i = 1; i < markerNames.length && isOK; i++)
 			{
+				System.out.println("markersByName: " + markersByName.size());
 				MarkerIndex index = queryMarker(markerNames[i].trim());
 
 				// Check that the marker does exists on map
