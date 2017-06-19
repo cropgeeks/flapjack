@@ -166,6 +166,10 @@ public class FlapjackFile
 
 			if (str != null)
 			{
+				// Strip out any whitespace so we can easily match against
+				// different permutations of our header comment lines
+				str = str.replaceAll("\\s+", "");
+
 				if (isMap(str))
 					type = MAP;
 				else if (isGenotype(str))
@@ -191,34 +195,34 @@ public class FlapjackFile
 
 	private boolean isMap(String str)
 	{
-		return str.toLowerCase().startsWith("# fjfile = map");
+		return str.toLowerCase().startsWith("#fjfile=map");
 	}
 
 	private boolean isGenotype(String str)
 	{
 		return
-			str.toLowerCase().startsWith("# fjfile = genotype") ||
-			str.toLowerCase().startsWith("# fjfile = allele_frequency");
+			str.toLowerCase().startsWith("#fjfile=genotype") ||
+			str.toLowerCase().startsWith("#fjfile=allele_frequency");
 	}
 
 	private boolean isPhenotype(String str)
 	{
-		return str.toLowerCase().startsWith("# fjfile = phenotype");
+		return str.toLowerCase().startsWith("#fjfile=phenotype");
 	}
 
 	private boolean isQTL(String str)
 	{
-		return str.toLowerCase().startsWith("# fjfile = qtl");
+		return str.toLowerCase().startsWith("#fjfile=qtl");
 	}
 
 	private boolean isGraph(String str)
 	{
-		return str.toLowerCase().startsWith("# fjfile = graph");
+		return str.toLowerCase().startsWith("#fjfile=graph");
 	}
 
 	private boolean isWiggle(String str)
 	{
-		return (str.toLowerCase().startsWith("track type=wiggle_0") || str.startsWith("#"));
+		return (str.toLowerCase().startsWith("tracktype=wiggle_0") || str.startsWith("#"));
 	}
 
 	private boolean isHDF5(String str)

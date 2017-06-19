@@ -89,6 +89,8 @@ public class Actions
 	public static AbstractAction vizHighlightHoZ;
 	public static AbstractAction vizHighlightGaps;
 
+	public static AbstractAction vizHighlightParents;
+
 	public static AbstractAction alysSortLinesBySimilarity;
 	public static AbstractAction alysSortLinesByTrait;
 	public static AbstractAction alysSortLinesByExternal;
@@ -580,6 +582,14 @@ public class Actions
 		vizHighlightGaps = new AbstractAction(RB.getString("gui.Actions.vizHighlightGaps")) {
 			public void actionPerformed(ActionEvent e) {
 				winMain.mViz.vizHighlightGaps();
+			}
+		};
+
+
+		vizHighlightParents = new AbstractAction(RB.getString("gui.Actions.vizHighlightParents")) {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				winMain.mViz.vizHighlightParents();
 			}
 		};
 
