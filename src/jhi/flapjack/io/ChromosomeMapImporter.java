@@ -70,7 +70,7 @@ public class ChromosomeMapImporter implements IMapImporter
 			if (str.isEmpty() || str.startsWith("#"))
 				continue;
 
-			String[] tokens = str.trim().split("\t");
+			String[] tokens = str.split("\t");
 
 			// Each line needs to be either be 2 or 3 columns
 			if (tokens.length < 2 || tokens.length > 3)

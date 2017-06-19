@@ -248,7 +248,7 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 				if (str.length() == 0)
 					continue;
 
-				String[] values = str.trim().split("\t");
+				String[] values = str.split("\t");
 
 				if (values.length == 0)
 					continue;
