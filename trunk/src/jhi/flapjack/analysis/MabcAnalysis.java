@@ -384,6 +384,9 @@ public class MabcAnalysis extends SimpleJob
 			// If it's not there, we can't use it
 			if (source == null || !source.equalsIgnoreCase("DP") || !source.equalsIgnoreCase("DP"))
 				continue;
+			// If it's not visible on the display we shouldn't use it
+			if (qtl.getQTL().isVisible() == false)
+				continue;
 			// But if it is, is the QTL from DP or RP
 			params.isRP = !(params.isDP = source.equalsIgnoreCase("DP"));
 
