@@ -20,6 +20,8 @@ class CmdOptions extends Options
 	private static final String QTLS_LONG = "qtls";
 	private static final String OUTPUT = "o";
 	private static final String OUTPUT_LONG = "output";
+	private static final String DATASET_NAME = "n";
+	private static final String DATASET_NAME_LONG = "name";
 
 	private static final String FILE_ARG = "FILE";
 	private static final String FILE_PATH_ARG = "FILEPATH";
@@ -57,8 +59,9 @@ class CmdOptions extends Options
 		File traits = getTraitFile(line);
 		File qtls = getQtlFile(line);
 		FlapjackFile project = getProjectFlapjackFile(line);
+		String datasetName = getDatasetName(line);
 
-		return new CreateProjectSettings(genotypes, map, traits, qtls, project);
+		return new CreateProjectSettings(genotypes, map, traits, qtls, project, datasetName);
 	}
 
 	CmdOptions withGenotypeFile(boolean required)
@@ -84,6 +87,11 @@ class CmdOptions extends Options
 	CmdOptions withProjectFile(boolean required)
 	{
 		return addOption(PROJECT, PROJECT_LONG, true, FILE_ARG, "Project file", required);
+	}
+
+	CmdOptions withDataSetName(boolean required)
+	{
+		return addOption(DATASET_NAME, DATASET_NAME_LONG, true, "NAME", "Dataset name", required);
 	}
 
 	CmdOptions withOutputPath(boolean required)
@@ -160,6 +168,11 @@ class CmdOptions extends Options
 			qtls = new File(line.getOptionValue(QTLS));
 
 		return qtls;
+	}
+
+	String getDatasetName(CommandLine line)
+	{
+		return line.getOptionValue(DATASET_NAME);
 	}
 
 	String getOutputPath(CommandLine line)

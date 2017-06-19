@@ -43,7 +43,8 @@ public class GobiiMabcConverter
 			new File(wrkDir, "geno"),
 			null,
 			new File(wrkDir, "qtl"),
-			new FlapjackFile(args[3]));
+			new FlapjackFile(args[3]),
+			null);
 
 		DataImportSettings importSettings = new DataImportSettings();
 		importSettings.setDecimalEnglish(true);

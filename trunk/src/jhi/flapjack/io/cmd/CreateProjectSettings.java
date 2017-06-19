@@ -11,14 +11,16 @@ class CreateProjectSettings
 	private File traits;
 	private File qtls;
 	private FlapjackFile project;
+	private String datasetName;
 
-	CreateProjectSettings(File genotypes, File map, File traits, File qtls, FlapjackFile project)
+	CreateProjectSettings(File genotypes, File map, File traits, File qtls, FlapjackFile project, String datasetName)
 	{
 		this.genotypes = genotypes;
 		this.map = map;
 		this.traits = traits;
 		this.qtls = qtls;
 		this.project = project;
+		this.datasetName = datasetName;
 	}
 
 	File getGenotypes()
@@ -50,4 +52,10 @@ class CreateProjectSettings
 
 	void setProject(FlapjackFile project)
 		{ this.project = project; }
+
+	String getDatasetName()
+		{ return datasetName; }
+
+	void setDatasetName(String datasetName)
+		{ this.datasetName = datasetName; }
 }
