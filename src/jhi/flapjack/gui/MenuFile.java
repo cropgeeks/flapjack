@@ -247,7 +247,7 @@ public class MenuFile
 
 		// Remove any existing traits first
 		TabPanel ttp = navPanel.getTraitsPanel(dataSet, true);
-		ttp.getTraitsTab().removeAllTraits();
+		ttp.getTraitsTab(false).removeAllTraits();
 
 		// Import the data using the standard progress bar dialog...
 		TraitImporter importer = new TraitImporter(file, dataSet);
@@ -263,7 +263,7 @@ public class MenuFile
 		for (GTViewSet viewSet : dataSet.getViewSets())
 			viewSet.assignTraits();
 
-		ttp.getTraitsTab().updateModel();
+		ttp.getTraitsTab(true).updateModel();
 		Actions.projectModified();
 
 		TaskDialog.info(RB.format("gui.MenuFile.importTraits.success",

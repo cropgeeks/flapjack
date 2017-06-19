@@ -35,9 +35,10 @@ public class TabPanel extends JPanel
 		add(tabs);
 	}
 
-	public TraitsPanel getTraitsTab()
+	public TraitsPanel getTraitsTab(boolean setSelected)
 	{
-		tabs.setSelectedComponent(traitsPanel);
+		if (setSelected)
+			tabs.setSelectedComponent(traitsPanel);
 
 		return traitsPanel;
 	}
