@@ -3,10 +3,13 @@
 
 package jhi.flapjack.gui;
 
+import java.util.*;
+import java.util.stream.Collectors;
 import javax.swing.*;
 import static javax.swing.Action.*;
 import javax.swing.event.*;
 
+import jhi.flapjack.data.*;
 import jhi.flapjack.gui.dialog.*;
 import jhi.flapjack.gui.visualization.*;
 import jhi.flapjack.gui.visualization.colors.*;
@@ -14,6 +17,9 @@ import jhi.flapjack.gui.visualization.colors.*;
 public class MenuVisualization
 {
 	private GenotypePanel gPanel;
+
+	// Highlighters for when lines/markers are selected
+	private LMHighlighter lmHighlighter;
 
 	void setComponents(NavPanel navPanel)
 	{
@@ -131,6 +137,36 @@ public class MenuVisualization
 			Prefs.visMapScaling == Constants.CLASSIC);
 
 		gPanel.refreshView();
+	}
+
+
+	// TODO: This is temporary proof of concept code that we probably want to remove
+	// before making a release
+	void vizHighlightParents()
+	{
+		GTView view = gPanel.getView();
+		PedigreeManager manager = view.getViewSet().getDataSet().getPedigreeManager();
+
+		int lineIndex = view.mouseOverLine;
+
+		if (lineIndex != -1)
+		{
+			Line line = view.getLine(lineIndex);
+
+			ArrayList<Line> parents = manager.getChildrenToParents().get(line);
+
+			if (parents == null || parents.isEmpty())
+			{
+				lmHighlighter = new LMHighlighter(gPanel, new ArrayList<>(), lmHighlighter);
+			}
+			else
+			{
+				ArrayList<Integer> indices = parents.stream().map(l -> view.getViewSet().indexOf(l)).collect(Collectors.toCollection(ArrayList::new));
+				indices.add(lineIndex);
+
+				lmHighlighter = new LMHighlighter(gPanel, indices, lmHighlighter);
+			}
+		}
 	}
 
 	// This method gets passed the JMenu "Color" menus for both the main manu

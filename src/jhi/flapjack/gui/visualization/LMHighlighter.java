@@ -4,6 +4,7 @@
 package jhi.flapjack.gui.visualization;
 
 import java.awt.*;
+import java.util.*;
 
 /**
  * Line/Marker (LM) highligher class.
@@ -15,6 +16,7 @@ public class LMHighlighter extends Thread implements IOverlayRenderer
 	private int alphaEffect = 0;
 	private int index = 0;
 	private int method = 0;
+	private ArrayList<Integer> indices = new ArrayList<>();
 
 	/**
 	 * Constructs and runs a new highlighter. A previous instance can be passed
@@ -25,6 +27,22 @@ public class LMHighlighter extends Thread implements IOverlayRenderer
 	{
 		this.index = index;
 		this.method = method;
+
+		canvas = gPanel.canvas;
+
+		if (previous != null)
+		{
+			previous.interrupt();
+			canvas.overlays.remove(previous);
+		}
+
+		start();
+	}
+
+	public LMHighlighter(GenotypePanel gPanel, ArrayList<Integer> indices, LMHighlighter previous)
+	{
+		this.indices = indices;
+		this.method = 2;
 
 		canvas = gPanel.canvas;
 
@@ -68,8 +86,10 @@ public class LMHighlighter extends Thread implements IOverlayRenderer
 	{
 		if (method == 0)
 			renderForLines(g);
-		else
+		else if (method == 1)
 			renderForMarkers(g);
+		else
+			renderForMultipleLines(g);
 	}
 
 	private void renderForLines(Graphics2D g)
@@ -81,6 +101,22 @@ public class LMHighlighter extends Thread implements IOverlayRenderer
 
 		g.fillRect(0, 0, canvas.canvasW, y1);
 		g.fillRect(0, y2, canvas.canvasW, canvas.canvasH-y2);
+	}
+
+	private void renderForMultipleLines(Graphics2D g)
+	{
+		g.setPaint(new Color(20, 20, 20, alphaEffect));
+
+		int prevY = 0;
+		for (int i = 0; i < indices.size(); i++)
+		{
+			int y1 = indices.get(i) * canvas.boxH;
+
+			g.fillRect(0, prevY, canvas.canvasW, y1-prevY);
+
+			prevY =  y1 + canvas.boxH;
+		}
+		g.fillRect(0, prevY, canvas.canvasW, canvas.canvasH-prevY);
 	}
 
 	private void renderForMarkers(Graphics2D g)

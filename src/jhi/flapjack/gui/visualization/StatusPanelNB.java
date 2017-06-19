@@ -6,6 +6,7 @@ package jhi.flapjack.gui.visualization;
 import java.awt.*;
 import java.awt.event.*;
 import java.text.*;
+import java.util.stream.*;
 import javax.swing.*;
 import javax.swing.event.*;
 
@@ -197,7 +198,15 @@ public class StatusPanelNB extends JPanel implements ActionListener, ChangeListe
 		else
 		{
 			String position = (lineIndex+1) + "/" + view.lineCount();
-			lineLabel.setText((view.getLineInfo(lineIndex).name() + " (" + position + ")").trim());
+			LineInfo lineInfo = view.getLineInfo(lineIndex);
+			Line line = lineInfo.getLine();
+			String text = (lineInfo.name() + " (" + position + ")").trim();
+			PedigreeManager pedMan = view.getViewSet().getDataSet().getPedigreeManager();
+			if (pedMan.getChildrenToParents().containsKey(line))
+			{
+				text += " has parents: " + view.getViewSet().getDataSet().getPedigreeManager().getChildrenToParents().get(line).stream().map(Line::getName).collect(Collectors.joining(", "));
+			}
+			lineLabel.setText(text);
 		}
 
 		// Current marker under the mouse

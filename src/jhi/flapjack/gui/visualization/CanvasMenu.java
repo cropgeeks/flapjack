@@ -5,6 +5,7 @@ package jhi.flapjack.gui.visualization;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.*;
 import javax.swing.*;
 
 import jhi.flapjack.data.*;
@@ -68,6 +69,8 @@ public class CanvasMenu
 	private JMenuItem mFilterHeterozygousMarkersByLine;
 	private JMenuItem mFilterMonomorphicMarkers;
 
+	private JMenuItem mHighlightParents;
+
 
 	CanvasMenu(GenotypeCanvas canvas, WinMain winMain)
 	{
@@ -116,6 +119,8 @@ public class CanvasMenu
 		mDBLineName = WinMainMenuBar.getItem(Actions.dataDBLineName, "gui.Actions.dataDBLineName", 0, 0);
 		mDBMarkerName = WinMainMenuBar.getItem(Actions.dataDBMarkerName, "gui.Actions.dataDBMarkerName", 0, 0);
 		mDBSettings = WinMainMenuBar.getItem(Actions.dataDBSettings, "gui.Actions.dataDBSettings", 0, 0);
+
+		mHighlightParents = WinMainMenuBar.getItem(Actions.vizHighlightParents, "gui.Actions.vizHighlightParents", 0, 0);
 
 		mSplitLines = new JMenu(RB.getString("gui.CanvasMenu.mSplitLines"));
 		mSplitLines.add(mInsertLine);
@@ -222,16 +227,24 @@ public class CanvasMenu
 		menu.addSeparator();
 		menu.add(mFind);
 		menu.add(mDataDB);
+		menu.add(mHighlightParents);
+
+		//TODO: Temporary parent code
+		boolean highlightParents = false;
+		if (view.mouseOverLine != -1 && view.mouseOverLine < view.getViewSet().getLines().size())
+		{
+			Line line = view.getLine(view.mouseOverLine);
+			ArrayList<Line> parents = view.getViewSet().getDataSet().getPedigreeManager().getChildrenToParents().get(line);
+			highlightParents = parents != null && !parents.isEmpty();
+		}
+
+		mHighlightParents.setEnabled(highlightParents);
 
 		// Set enabled/disable states
 		mBookmark.setEnabled(Bookmark.allowBookmarking(view));
 
 		mInsertSplitter.setEnabled(view.getSplitterIndex() == -1);
-
-		if (view.getSplitterIndex() != -1)
-			mRemoveSplitter.setEnabled(true);
-		else
-			mRemoveSplitter.setEnabled(false);
+		mRemoveSplitter.setEnabled(view.getSplitterIndex() != -1);
 
 		// Can you delete a dummy line from this click?
 		mDeleteLine.setEnabled(view.hasDummyLines());

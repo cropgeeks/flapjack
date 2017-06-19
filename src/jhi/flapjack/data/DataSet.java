@@ -39,6 +39,9 @@ public class DataSet extends XMLRoot
 
 	public static final int DUMMY_COUNT = 5;
 
+	// Pedigree information
+	private PedigreeManager pedigreeManager = new PedigreeManager();
+
 	public DataSet()
 	{
 	}
@@ -152,6 +155,11 @@ public class DataSet extends XMLRoot
 	public void setBinnedData(BinnedData binnedData)
 		{ this.bins = binnedData; }
 
+	public PedigreeManager getPedigreeManager()
+		{ return pedigreeManager; }
+
+	public void setPedigreeManager(PedigreeManager pedigreeManager)
+		{ this.pedigreeManager = pedigreeManager; }
 
 	// Other methods
 

@@ -25,6 +25,7 @@
 
 		<field name="dummyLine" type="jhi.flapjack.data.Line" transient="true"/>
 		<field name="splitter" type="jhi.flapjack.data.Line" transient="true"/>
+		<field name="pedigreeManager" type="jhi.flapjack.data.PedigreeManager"/>
 	</class>
 
 	<!-- ChromosomeMap -->
@@ -301,6 +302,35 @@
 
 	<!-- PedVerLinesResult -->
 	<class name="jhi.flapjack.data.results.PedVerLinesResult" extends="jhi.flapjack.data.XMLRoot" auto-complete="true">
+	</class>
+
+	<!-- PedigreeManager -->
+	<class name="jhi.flapjack.data.PedigreeManager" extends="jhi.flapjack.data.XMLRoot" auto-complete="true">
+		<field name="parentsToChildren" collection="map">
+			<bind-xml name="parentsToChildren">
+				<class name="org.exolab.castor.mapping.MapItem">
+					<field name="key" type="jhi.flapjack.data.Line">
+						<bind-xml reference="true" node="attribute"/>
+					</field>
+					<field name="value" collection="arraylist" type="jhi.flapjack.data.Line">
+						<bind-xml reference="true" node="attribute"/>
+					</field>
+				</class>
+			</bind-xml>
+		</field>
+		<field name="childrenToParents" collection="map">
+			<bind-xml name="childrenToParents">
+				<class name="org.exolab.castor.mapping.MapItem">
+					<field name="key" type="jhi.flapjack.data.Line">
+						<bind-xml reference="true" node="attribute"/>
+					</field>
+					<field name="value" collection="arraylist" type="jhi.flapjack.data.Line">
+						<bind-xml reference="true" node="attribute"/>
+					</field>
+				</class>
+			</bind-xml>
+		</field>
+		<field name="parentSets" collection="set" type="java.util.ArrayList"/>
 	</class>
 
 </mapping>
