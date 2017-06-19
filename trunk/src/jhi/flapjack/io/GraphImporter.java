@@ -72,7 +72,7 @@ public class GraphImporter extends SimpleJob
 				continue;
 
 			// Three columns: MARKER -- TRAIT -- VALUE
-			String[] tokens = str.trim().split("\t", -1);
+			String[] tokens = str.split("\t", -1);
 			String marker = tokens[0];
 			String graphName = tokens[1];
 			float value = nf.parse(tokens[2]).floatValue();

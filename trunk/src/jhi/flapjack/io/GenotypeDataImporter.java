@@ -211,7 +211,7 @@ public class GenotypeDataImporter implements IGenotypeImporter
 				s = System.currentTimeMillis();
 			}
 
-			String[] values = str.trim().split("\t");
+			String[] values = str.split("\t");
 
 			if (values.length == 0)
 				continue;
@@ -413,7 +413,7 @@ public class GenotypeDataImporter implements IGenotypeImporter
 				s = System.currentTimeMillis();
 			}
 
-			String[] values = str.trim().split("\t");
+			String[] values = str.split("\t");
 
 			if (values.length == 0)
 				continue;
@@ -475,7 +475,7 @@ public class GenotypeDataImporter implements IGenotypeImporter
 			if (str.isEmpty())
 				continue;
 
-			String[] values = str.trim().split("\t");
+			String[] values = str.split("\t");
 			if (values.length == 0)
 				continue;
 

@@ -67,12 +67,15 @@ public class QTLImporter extends SimpleJob
 			str = in.readLine();
 
 		// Read and process the header (column title) line
-		String[] tokens = str.trim().split("\t", -1);
+		String[] tokens = str.split("\t", -1);
 
 		// Work out how many additional "data score" headers there are
 		String[] scoreHeaders = new String[tokens.length-HEADERCOUNT];
 		for (int i = HEADERCOUNT; i < tokens.length; i++)
 			scoreHeaders[i-HEADERCOUNT] = new String(tokens[i]);
+
+		int expColumnCount = HEADERCOUNT + scoreHeaders.length;
+		System.out.println("expColumnCount=" + expColumnCount);
 
 
 		// Now process the main batch of lines
@@ -81,10 +84,10 @@ public class QTLImporter extends SimpleJob
 			if (str.length() == 0 || str.startsWith("#"))
 				continue;
 
-			tokens = str.trim().split("\t", -1);
+			tokens = str.split("\t", -1);
 
 			// Fail if the data per line doesn't match the expected number
-			if (tokens.length != HEADERCOUNT + scoreHeaders.length)
+			if (tokens.length != expColumnCount)
 				throw new DataFormatException(RB.format("io.DataFormatException.traitColumnError", line));
 
 			// Its name and chromosome
