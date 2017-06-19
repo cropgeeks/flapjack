@@ -5,7 +5,6 @@
 
 package jhi.flapjack.io.cmd;
 
-import java.io.*;
 import java.util.*;
 
 import jhi.flapjack.data.*;
@@ -27,12 +26,8 @@ public class CreateProject
 	private Project project = new Project();
 	private DataSet dataSet = new DataSet();
 
-	// And the files required to read and write to
-	private File mapFile;
-	private File genotypesFile;
-	private File traitsFile;
-	private File qtlsFile;
-	private FlapjackFile prjFile;
+	// And the settings used to do this (file paths, etc)
+	private CreateProjectSettings options;
 
 	private List<String> output = new ArrayList<>();
 
@@ -46,7 +41,8 @@ public class CreateProject
 			.withProjectFile(true)
 			.withMapFile(false)
 			.withTraitFile(false)
-			.withQtlFile(false);
+			.withQtlFile(false)
+			.withDataSetName(false);
 
 		try
 		{
@@ -70,12 +66,7 @@ public class CreateProject
 
 	CreateProject(CreateProjectSettings options, DataImportSettings importSettings)
 	{
-		this.mapFile = options.getMap();
-		this.genotypesFile = options.getGenotypes();
-		this.traitsFile = options.getTraits();
-		this.qtlsFile = options.getQtls();
-		this.prjFile = options.getProject();
-
+		this.options = options;
 		this.importSettings = importSettings;
 	}
 
@@ -113,12 +104,12 @@ public class CreateProject
 	{
 		// Read the map
 		ChromosomeMapImporter mapImporter =
-			new ChromosomeMapImporter(mapFile, dataSet);
+			new ChromosomeMapImporter(options.getMap(), dataSet);
 		mapImporter.importMap();
 
 		// Read the data file
 		GenotypeDataImporter genoImporter = new GenotypeDataImporter(
-			genotypesFile, dataSet, mapImporter.getMarkersHashMap(),
+			options.getGenotypes(), dataSet, mapImporter.getMarkersHashMap(),
 			importSettings.getMissingData(), importSettings.getHetSep(),
 			importSettings.isTransposed());
 
@@ -132,8 +123,11 @@ public class CreateProject
 		if (importSettings.isCollapseHeteozygotes())
 			pio.optimizeStateTable();
 		pio.createDefaultView();
-		if (prjFile != null)
-			pio.setName(prjFile.getFile());
+
+		if (options.getDatasetName() != null)
+			pio.setName(options.getDatasetName());
+		else if (options.getProject() != null)
+			pio.setName(options.getProject().getFile());
 
 		project.addDataSet(dataSet);
 	}
@@ -142,11 +136,11 @@ public class CreateProject
 		throws Exception
 	{
 		// The traits file may be optional
-		if (traitsFile == null)
+		if (options.getTraits() == null)
 			return;
 
-		logMessage("Importing traits from " + traitsFile);
-		TraitImporter importer = new TraitImporter(traitsFile, dataSet);
+		logMessage("Importing traits from " + options.getTraits());
+		TraitImporter importer = new TraitImporter(options.getTraits(), dataSet);
 		importer.runJob(0);
 
 		// There'll only be one view for this created project...
@@ -156,11 +150,11 @@ public class CreateProject
 	private void importQTLs()
 			throws Exception
 	{
-		if(qtlsFile == null)
+		if (options.getQtls() == null)
 			return;
 
-		logMessage("Importing QTLs from " + qtlsFile);
-		QTLImporter importer = new QTLImporter(qtlsFile, dataSet);
+		logMessage("Importing QTLs from " + options.getQtls());
+		QTLImporter importer = new QTLImporter(options.getQtls(), dataSet);
 		importer.runJob(0);
 
 //		QTLTrackOptimiser optimiser = new QTLTrackOptimiser(dataSet);
@@ -170,6 +164,8 @@ public class CreateProject
 	private void openProject()
 		throws Exception
 	{
+		FlapjackFile prjFile = options.getProject();
+
 		if (prjFile != null && prjFile.exists() && prjFile.getFile().length() > 0)
 			project = ProjectSerializer.open(prjFile);
 	}
@@ -177,9 +173,9 @@ public class CreateProject
 	void saveProject()
 		throws Exception
 	{
-		if (prjFile != null)
+		if (options.getProject() != null)
 		{
-			project.fjFile = prjFile;
+			project.fjFile = options.getProject();
 
 			if (ProjectSerializer.save(project))
 				logMessage("Project created");
