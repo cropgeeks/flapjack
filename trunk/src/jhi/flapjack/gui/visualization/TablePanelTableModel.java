@@ -42,7 +42,7 @@ public class TablePanelTableModel extends LineDataTableModel
 			traitsModelCols = viewSet.getTraits();
 
 			linkedModel = viewSet.tableHandler().model();
-			traitsModel = Flapjack.winMain.getNavPanel().getTraitsPanel(viewSet.getDataSet(), false).getTraitsTab().getModel();
+			traitsModel = Flapjack.winMain.getNavPanel().getTraitsPanel(viewSet.getDataSet(), false).getTraitsTab(false).getModel();
 
 			// If we have line scores, or linked model columns we need to
 			// add more columns to our table model
