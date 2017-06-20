@@ -215,8 +215,12 @@ class ListPanel extends JPanel implements MouseMotionListener, MouseListener
 			else
 			{
 				String columnName = lineTable.getColumnName(colUnderMouse) + ":";
-				String value = lineTable.getObjectAt(rowUnderMouse, colUnderMouse).toString();
-				genotypePanel.statusPanel.setResultsValues(lineName, columnName, value);
+
+				Object data = lineTable.getObjectAt(rowUnderMouse, colUnderMouse);
+				if (data != null)
+					genotypePanel.statusPanel.setResultsValues(lineName, columnName, data.toString());
+				else
+					genotypePanel.statusPanel.setResultsValues(lineName, columnName, "");
 			}
 		}
 	}
@@ -258,6 +262,7 @@ class ListPanel extends JPanel implements MouseMotionListener, MouseListener
 		private final DecimalFormat df = new DecimalFormat("0.00");
 
 		private final Color selectedBG = new Color(240, 240, 240);
+		private final Color selectedBG2 = new Color(245, 245, 255);
 		private final Color selectedFG = new Color(255, 0, 0);
 
 		public HighlightTableCellRenderer()
@@ -278,13 +283,24 @@ class ListPanel extends JPanel implements MouseMotionListener, MouseListener
 				setText(df.format(o));
 				setHorizontalAlignment(JLabel.RIGHT);
 			}
-			else
+			else if (o != null)
 			{
 				setText(o.toString());
 				setHorizontalAlignment(JLabel.LEFT);
 			}
 
 			setBorder(BorderFactory.createEmptyBorder(0, 2, 0, 2));
+
+			// Alternating grey/white column colours (from col 2 onwards)
+			if (column > 0 && column % 2 == 0)
+			{
+				setBackground(selectedBG2);
+			}
+			else
+			{
+				setBackground(table.getBackground());
+				setForeground(table.getForeground());
+			}
 
 			// Highlight the line "under" the mouse
 			if (row == view.mouseOverLine || row == rowUnderMouse)
@@ -294,8 +310,8 @@ class ListPanel extends JPanel implements MouseMotionListener, MouseListener
 			}
 			else
 			{
-				setBackground(table.getBackground());
-				setForeground(table.getForeground());
+//				setBackground(table.getBackground());
+//				setForeground(table.getForeground());
 			}
 
 			// TODO: Investigate colouring options, using something like this?
