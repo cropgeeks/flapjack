@@ -46,7 +46,7 @@ public class CellData
 	@Override
 	public String toString()
 	{
-		return data.toString();
+		return data == null ? "" : data.toString();
 	}
 
 	static class CellDataComparator implements Comparator<CellData>

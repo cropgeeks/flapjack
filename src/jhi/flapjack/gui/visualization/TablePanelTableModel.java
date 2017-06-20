@@ -46,7 +46,7 @@ public class TablePanelTableModel extends LineDataTableModel
 
 			// If we have line scores, or linked model columns we need to
 			// add more columns to our table model
-			if (viewSet.getDisplayLineScores() /*|| traitsModelCols.length > 0*/ || linkedModelCols.length > 0 )       // <------------------------- UNCOMMENT FOR TRAITS
+			if (viewSet.getDisplayLineScores() || traitsModelCols.length > 0 || linkedModelCols.length > 0 )       // <------------------------- UNCOMMENT FOR TRAITS
 			{
 				// Add an extra column for the padding column
 				padIndex = 1;
@@ -59,11 +59,11 @@ public class TablePanelTableModel extends LineDataTableModel
 					noCols++;
 				}
 
-//				if (traitsModelCols.length > 0)																			// <------------------------- UNCOMMENT FOR TRAITS
-//				{
-//					traitsOffset = noCols;
-//					noCols += traitsModelCols.length;
-//				}
+				if (traitsModelCols.length > 0)																			// <------------------------- UNCOMMENT FOR TRAITS
+				{
+					traitsOffset = noCols;
+					noCols += traitsModelCols.length;
+				}
 
 				// Setup the linked table start index (and offset within the
 				// linked columns) based on the column indices in this class
