@@ -144,6 +144,7 @@ public class MenuVisualization
 	// before making a release
 	void vizHighlightParents()
 	{
+		/*
 		GTView view = gPanel.getView();
 		PedigreeManager manager = view.getViewSet().getDataSet().getPedigreeManager();
 
@@ -167,6 +168,7 @@ public class MenuVisualization
 				lmHighlighter = new LMHighlighter(gPanel, indices, lmHighlighter);
 			}
 		}
+*/
 	}
 
 	// This method gets passed the JMenu "Color" menus for both the main manu

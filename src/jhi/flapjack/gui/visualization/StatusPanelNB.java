@@ -6,11 +6,12 @@ package jhi.flapjack.gui.visualization;
 import java.awt.*;
 import java.awt.event.*;
 import java.text.*;
-import java.util.stream.*;
+import java.util.*;
 import javax.swing.*;
 import javax.swing.event.*;
 
 import jhi.flapjack.data.*;
+import jhi.flapjack.data.pedigree.*;
 import jhi.flapjack.gui.*;
 import jhi.flapjack.gui.visualization.colors.*;
 
@@ -201,11 +202,17 @@ public class StatusPanelNB extends JPanel implements ActionListener, ChangeListe
 			LineInfo lineInfo = view.getLineInfo(lineIndex);
 			Line line = lineInfo.getLine();
 			String text = (lineInfo.name() + " (" + position + ")").trim();
-			PedigreeManager pedMan = view.getViewSet().getDataSet().getPedigreeManager();
-			if (pedMan.getChildrenToParents().containsKey(line))
-			{
-				text += " has parents: " + view.getViewSet().getDataSet().getPedigreeManager().getChildrenToParents().get(line).stream().map(Line::getName).collect(Collectors.joining(", "));
-			}
+//			PedigreeManager pedMan = view.getViewSet().getDataSet().getPedigreeManager();
+//			if (pedMan.getChildrenToParents().containsKey(line))
+//			{
+//				text += " has parents: " + view.getViewSet().getDataSet().getPedigreeManager().getChildrenToParents().get(line).stream().map(Line::getName).collect(Collectors.joining(", "));
+//			}
+
+			PedManager pm = view.getViewSet().getDataSet().getPedManager();
+			ArrayList<PedLineInfo> parents = pm.getParentsForLine(lineInfo);
+//			for (PedLineInfo pInfo: parents)
+//				text += pInfo.getParent().getName() + ", ";
+
 			lineLabel.setText(text);
 		}
 
