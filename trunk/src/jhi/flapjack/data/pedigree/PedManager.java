@@ -13,6 +13,14 @@ public class PedManager extends XMLRoot
 	{
 	}
 
+	public ArrayList<PedLineInfo> getPedigrees()
+		{ return pedigrees; }
+
+	public void setPedigrees(ArrayList<PedLineInfo> pedigrees)
+		{ this.pedigrees = pedigrees; }
+
+	
+
 	public void create(ArrayList<String> triplets, HashMap<String, ArrayList<Line>> linesByName)
 		throws DataFormatException
 	{
