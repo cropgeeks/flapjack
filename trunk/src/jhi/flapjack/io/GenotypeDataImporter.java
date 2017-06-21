@@ -25,7 +25,7 @@ public class GenotypeDataImporter implements IGenotypeImporter
 	private HashMap<String, MarkerIndex> markers;
 
 	// Also track line names, for duplicate detection
-	private HashMap<String, ArrayList<Line>> linesWithDupes;
+	private HashMap<String, ArrayList<Line>> linesByName;
 
 	// Stores known states as we find them so we don't have to keep working them
 	// out for each allele
@@ -47,9 +47,7 @@ public class GenotypeDataImporter implements IGenotypeImporter
 
 	private boolean mapWasProvided, fakeMapCreated;
 
-	private HashMap<String, ArrayList<String>> linesToParents = new HashMap<>();
-	private String recurrentParent = null;
-	private String donorParent = null;
+	private ArrayList<String> pedigrees = new ArrayList<>();
 
 	public GenotypeDataImporter(File file, DataSet dataSet, HashMap<String, MarkerIndex> markers,
 		String ioMissingData, String ioHeteroSeparator, boolean isTransposed)
@@ -69,7 +67,7 @@ public class GenotypeDataImporter implements IGenotypeImporter
 	public void cleanUp()
 	{
 		markers.clear();
-		linesWithDupes.clear();
+		linesByName.clear();
 	}
 
 	@Override
@@ -113,9 +111,15 @@ public class GenotypeDataImporter implements IGenotypeImporter
 
 		// If we parsed out any pedigree information we need to populate the
 		// pedigree manager to build relationships between lines
-		boolean correctHeader = dataSet.getPedigreeManager().init(linesToParents, linesWithDupes, recurrentParent, donorParent);
-		if (!correctHeader)
-			throw new DataFormatException(RB.getString("io.DataFormatException.incorrectPedigree"));
+
+		if (pedigrees.size() > 0)
+		{
+//			System.out.println("PEDIGREES:");
+//			for (String p: pedigrees)
+//				System.out.println("  " + p);
+
+			dataSet.getPedManager().create(pedigrees, linesByName);
+		}
 
 		return completed;
 	}
@@ -154,7 +158,7 @@ public class GenotypeDataImporter implements IGenotypeImporter
 	{
 		long s = System.currentTimeMillis();
 
-		linesWithDupes = new HashMap<String, ArrayList<Line>>();
+		linesByName = new HashMap<String, ArrayList<Line>>();
 
 		is = new ProgressInputStream(new FileInputStream(file));
 
@@ -218,18 +222,18 @@ public class GenotypeDataImporter implements IGenotypeImporter
 
 			// Check for duplicate line names
 			String name = values[0].trim();
-			if (linesWithDupes.get(name) != null)
+			if (linesByName.get(name) != null)
 			{
 				if (Prefs.ioAllowDupLines == false)
 					throw new DataFormatException(RB.format("io.DataFormatException.duplicateLineError", name, lineCount + 1));
 			}
 			else
 			{
-				linesWithDupes.put(name, new ArrayList<Line>());
+				linesByName.put(name, new ArrayList<Line>());
 			}
 
 			Line line = dataSet.createLine(name, useByteStorage);
-			linesWithDupes.get(name).add(line);
+			linesByName.get(name).add(line);
 
 			for (int i = 1; i < values.length; i++)
 			{
@@ -316,33 +320,18 @@ public class GenotypeDataImporter implements IGenotypeImporter
 		{
 			String[] tokens = str.split("\t");
 
-			if (tokens.length >= 3)
+			if (tokens.length >= 4)
 			{
-				String pedigreeType = tokens[1].trim();
-				String lineName = tokens[2].trim();
-
-				if (pedigreeType.toLowerCase().equals(PedigreeManager.PEDVERLINES) && tokens.length >= 4)
+				// More than one parent per line may be found, but add each one
+				// as its own triplet set
+				for (int i = 3; i < tokens.length; i++)
 				{
-					// Anything after the line name should be considered the name of a parent
-					ArrayList<String> parents = new ArrayList<>();
-					for (int i=3; i < tokens.length; i++)
-						parents.add(tokens[i].trim());
+					StringJoiner ped = new StringJoiner("\t");
+					ped.add(tokens[1])    // progeny
+						.add(tokens[i])   // parent
+						.add(tokens[2]);  // type
 
-					//TODO: What sort of checks do we want here? Check if the line name has already been added?
-					// Do you fail at that point? Just add any extra parents?
-					linesToParents.put(lineName, parents);
-				}
-
-				// TODO: Handle cases where files have multiple recurrent, or
-				// donor parents defined. Probably warn the user in some way?
-				else if (pedigreeType.toLowerCase().equals(PedigreeManager.RECURRENTPARENT))
-				{
-					recurrentParent = lineName;
-				}
-
-				else if (pedigreeType.toLowerCase().equals(PedigreeManager.DONORPARENT))
-				{
-					donorParent = lineName;
+					pedigrees.add(ped.toString());
 				}
 			}
 		}
@@ -361,7 +350,7 @@ public class GenotypeDataImporter implements IGenotypeImporter
 
 		if (mapWasProvided == false)
 			createFakeMapForTransposedData();
-		linesWithDupes = new HashMap<String, ArrayList<Line>>();
+		linesByName = new HashMap<String, ArrayList<Line>>();
 
 		is = new ProgressInputStream(new FileInputStream(file));
 
@@ -386,19 +375,19 @@ public class GenotypeDataImporter implements IGenotypeImporter
 		{
 			lineNames[i] = lineNames[i].trim();
 
-			if (linesWithDupes.get(lineNames[i]) != null)
+			if (linesByName.get(lineNames[i]) != null)
 			{
 				if (Prefs.ioAllowDupLines == false)
 					throw new DataFormatException(RB.format("io.DataFormatException.duplicateLineError", lineNames[i], lineCount+1));
 			}
 			else
 			{
-				linesWithDupes.put(lineNames[i], new ArrayList<Line>());
+				linesByName.put(lineNames[i], new ArrayList<Line>());
 			}
 
 			// Create the line and add it to our lines hashmap
 			Line line = dataSet.createLine(lineNames[i], useByteStorage);
-			linesWithDupes.get(lineNames[i]).add(line);
+			linesByName.get(lineNames[i]).add(line);
 		}
 
 		// This is now a loop over the markers

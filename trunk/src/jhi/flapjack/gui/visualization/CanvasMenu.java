@@ -227,18 +227,18 @@ public class CanvasMenu
 		menu.addSeparator();
 		menu.add(mFind);
 		menu.add(mDataDB);
-		menu.add(mHighlightParents);
+//		menu.add(mHighlightParents);
 
 		//TODO: Temporary parent code
-		boolean highlightParents = false;
-		if (view.mouseOverLine != -1 && view.mouseOverLine < view.getViewSet().getLines().size())
-		{
-			Line line = view.getLine(view.mouseOverLine);
-			ArrayList<Line> parents = view.getViewSet().getDataSet().getPedigreeManager().getChildrenToParents().get(line);
-			highlightParents = parents != null && !parents.isEmpty();
-		}
+//		boolean highlightParents = false;
+//		if (view.mouseOverLine != -1 && view.mouseOverLine < view.getViewSet().getLines().size())
+//		{
+//			Line line = view.getLine(view.mouseOverLine);
+//			ArrayList<Line> parents = view.getViewSet().getDataSet().getPedigreeManager().getChildrenToParents().get(line);
+//			highlightParents = parents != null && !parents.isEmpty();
+//		}
 
-		mHighlightParents.setEnabled(highlightParents);
+//		mHighlightParents.setEnabled(highlightParents);
 
 		// Set enabled/disable states
 		mBookmark.setEnabled(Bookmark.allowBookmarking(view));

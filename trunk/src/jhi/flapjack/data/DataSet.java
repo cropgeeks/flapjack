@@ -5,6 +5,8 @@ package jhi.flapjack.data;
 
 import java.util.*;
 
+import jhi.flapjack.data.pedigree.*;
+
 public class DataSet extends XMLRoot
 {
 	private String name;
@@ -40,7 +42,7 @@ public class DataSet extends XMLRoot
 	public static final int DUMMY_COUNT = 5;
 
 	// Pedigree information
-	private PedigreeManager pedigreeManager = new PedigreeManager();
+	private PedManager pm = new PedManager();
 
 	public DataSet()
 	{
@@ -155,11 +157,11 @@ public class DataSet extends XMLRoot
 	public void setBinnedData(BinnedData binnedData)
 		{ this.bins = binnedData; }
 
-	public PedigreeManager getPedigreeManager()
-		{ return pedigreeManager; }
+	public PedManager getPedManager()
+		{ return pm; }
 
-	public void setPedigreeManager(PedigreeManager pedigreeManager)
-		{ this.pedigreeManager = pedigreeManager; }
+	public void setPedManager(PedManager pm)
+		{ this.pm = pm; }
 
 	// Other methods
 

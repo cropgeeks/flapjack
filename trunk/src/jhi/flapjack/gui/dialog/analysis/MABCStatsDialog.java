@@ -8,6 +8,7 @@ import javax.swing.*;
 
 import jhi.flapjack.analysis.*;
 import jhi.flapjack.data.*;
+import jhi.flapjack.data.pedigree.*;
 import jhi.flapjack.gui.*;
 
 import scri.commons.gui.*;
@@ -90,24 +91,39 @@ public class MABCStatsDialog extends JDialog implements ActionListener
 
 	private void setupComboBoxes(AnalysisSet as)
 	{
-		rpModel = createComboModelFrom(as);
+		createRPComboModelFrom(as);
 		recurrentCombo.setModel(rpModel);
-		if (as.lineCount() >= 1)
+		if (rpModel.getSize() >= 1)
 			recurrentCombo.setSelectedIndex(0);
 
-		dpModel = createComboModelFrom(as);
+		createDPComboModelFrom(as);
 		donorCombo.setModel(dpModel);
-		if (as.lineCount() >= 2)
-			donorCombo.setSelectedIndex(1);
+		if (dpModel.getSize() >= 1)
+			donorCombo.setSelectedIndex(0);
 	}
 
-	private DefaultComboBoxModel<LineInfo> createComboModelFrom(AnalysisSet as)
+	private void createRPComboModelFrom(AnalysisSet as)
 	{
-		DefaultComboBoxModel<LineInfo> model = new DefaultComboBoxModel<>();
-		for (int i = 0; i < as.lineCount(); i++)
-			model.addElement(as.getLine(i));
+		PedManager pm = viewSet.getDataSet().getPedManager();
+		boolean addAnyway = pm.hasNoInfo();
 
-		return model;
+		rpModel = new DefaultComboBoxModel<>();
+		for (int i = 0; i < as.lineCount(); i++)
+			if (addAnyway || pm.isRP(as.getLine(i)))
+				rpModel.addElement(as.getLine(i));
+	}
+
+	private void createDPComboModelFrom(AnalysisSet as)
+	{
+		PedManager pm = viewSet.getDataSet().getPedManager();
+		boolean addAnyway = pm.hasNoInfo();
+
+		dpModel = new DefaultComboBoxModel<>();
+		for (int i = 0; i < as.lineCount(); i++)
+			if (addAnyway || pm.isDP(as.getLine(i)))
+				dpModel.addElement(as.getLine(i));
+
+		// What if no RP lines?
 	}
 
 	// Generates a boolean array with a true/false selected state for each of
