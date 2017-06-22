@@ -141,12 +141,17 @@ public class MenuFile
 
 	public void fileImportSelect()
 	{
-		DataSourceDialog dialog = new DataSourceDialog();
+		boolean enableBrAPI = false;
 
-		if (dialog.isOK() == false)
-			return;
+		if (enableBrAPI)
+		{
+			DataSourceDialog dialog = new DataSourceDialog();
 
-		if (Prefs.guiImportType == 0)
+			if (dialog.isOK() == false)
+				return;
+		}
+
+		if (Prefs.guiImportType == 0 || !enableBrAPI)
 			fileImport(0);
 		else
 			fileBrapi();
