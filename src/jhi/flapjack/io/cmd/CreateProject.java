@@ -111,7 +111,7 @@ public class CreateProject
 		GenotypeDataImporter genoImporter = new GenotypeDataImporter(
 			options.getGenotypes(), dataSet, mapImporter.getMarkersHashMap(),
 			importSettings.getMissingData(), importSettings.getHetSep(),
-			importSettings.isTransposed());
+			importSettings.isTransposed(), importSettings.isAllowDuplicates());
 
 		genoImporter.importGenotypeData();
 

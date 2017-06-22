@@ -8,6 +8,7 @@ class DataImportSettings
 	private boolean makeAllChrom = false;
 	private boolean decimalEnglish = false;
 	private boolean transposed = false;
+	private boolean allowDuplicates = false;
 
 	boolean isTransposed()
 		{ return transposed; }
@@ -44,4 +45,10 @@ class DataImportSettings
 
 	void setDecimalEnglish(boolean decimalEnglish)
 		{ this.decimalEnglish = decimalEnglish; }
+
+	public boolean isAllowDuplicates()
+		{ return allowDuplicates; }
+
+	public void setAllowDuplicates(boolean allowDuplicates)
+		{ this.allowDuplicates = allowDuplicates; }
 }
