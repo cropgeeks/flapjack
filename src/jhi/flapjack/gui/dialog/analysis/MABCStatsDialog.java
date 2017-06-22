@@ -105,25 +105,31 @@ public class MABCStatsDialog extends JDialog implements ActionListener
 	private void createRPComboModelFrom(AnalysisSet as)
 	{
 		PedManager pm = viewSet.getDataSet().getPedManager();
-		boolean addAnyway = pm.hasNoInfo();
 
 		rpModel = new DefaultComboBoxModel<>();
 		for (int i = 0; i < as.lineCount(); i++)
-			if (addAnyway || pm.isRP(as.getLine(i)))
+			if (pm.isRP(as.getLine(i)))
+				rpModel.addElement(as.getLine(i));
+
+		// If no RP lines are found, add all of them anyway
+		if (rpModel.getSize() == 0)
+			for (int i = 0; i < as.lineCount(); i++)
 				rpModel.addElement(as.getLine(i));
 	}
 
 	private void createDPComboModelFrom(AnalysisSet as)
 	{
 		PedManager pm = viewSet.getDataSet().getPedManager();
-		boolean addAnyway = pm.hasNoInfo();
 
 		dpModel = new DefaultComboBoxModel<>();
 		for (int i = 0; i < as.lineCount(); i++)
-			if (addAnyway || pm.isDP(as.getLine(i)))
+			if (pm.isDP(as.getLine(i)))
 				dpModel.addElement(as.getLine(i));
 
-		// What if no RP lines?
+		// If no DP lines are found, add all of them anyway
+		if (dpModel.getSize() == 0)
+			for (int i = 0; i < as.lineCount(); i++)
+				dpModel.addElement(as.getLine(i));
 	}
 
 	// Generates a boolean array with a true/false selected state for each of
