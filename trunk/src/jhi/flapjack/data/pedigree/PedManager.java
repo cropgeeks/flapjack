@@ -31,7 +31,8 @@ public class PedManager extends XMLRoot
 		{
 			String[] tokens = str.split("\t");
 
-			Line parent = linesByName.get(tokens[1]).get(0);
+
+			ArrayList<Line> parents = linesByName.get(tokens[1]);
 
 			int type = PedLineInfo.TYPE_NA;
 			switch (tokens[2])
@@ -47,17 +48,19 @@ public class PedManager extends XMLRoot
 					for (Line progeny: entry.getValue())
 					{
 						// Don't add a line as a parent of itself!!
-						if (progeny != parent)
-							pedigrees.add(new PedLineInfo(progeny, parent, type));
+						for (Line parent: parents)
+							if (progeny.getName().equals(parent.getName()) == false)
+								pedigrees.add(new PedLineInfo(progeny, parent, type));
 					}
 			}
 			else
 			{
-				// linesByName could have multiple Line instances per name (if
-				// duplicates were allowed), but there's no way to map pedigree
-				// info in that situation, so we just use the first instance
-				Line progeny = linesByName.get(tokens[0]).get(0);
-				pedigrees.add(new PedLineInfo(progeny, parent, type));
+				// Add every instance of this parent to every instance of this
+				// child (by instance we mean duplicate lines)
+				ArrayList<Line> progenies = linesByName.get(tokens[0]);
+				for (Line progeny: progenies)
+					for (Line parent: parents)
+						pedigrees.add(new PedLineInfo(progeny, parent, type));
 			}
 		}
 	}
