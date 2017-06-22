@@ -93,13 +93,34 @@ public class MABCStatsDialog extends JDialog implements ActionListener
 	{
 		createRPComboModelFrom(as);
 		recurrentCombo.setModel(rpModel);
-		if (rpModel.getSize() >= 1)
-			recurrentCombo.setSelectedIndex(0);
 
 		createDPComboModelFrom(as);
 		donorCombo.setModel(dpModel);
-		if (dpModel.getSize() >= 1)
-			donorCombo.setSelectedIndex(0);
+
+
+		// Warn if we *have* ped info, and have ended up with multiple RP or DP lines
+		PedManager pm = viewSet.getDataSet().getPedManager();
+		if (pm.getPedigrees().size() > 0 && (rpModel.getSize() > 1 || dpModel.getSize() > 1))
+		{
+			addWindowListener(new WindowAdapter() {
+				public void windowOpened(WindowEvent e)
+				{
+					TaskDialog.warning(
+						RB.getString("gui.dialog.analysis.MABCStatsDialog.rpdpWarning"),
+						RB.getString("gui.text.close"));
+				}
+			});
+		}
+
+		// Preselect lines 0 and 1 for cases with no pedigree information
+		if (pm.getPedigrees().size() == 0)
+		{
+			if (rpModel.getSize() >= 1)
+				recurrentCombo.setSelectedIndex(0);
+
+			if (dpModel.getSize() >= 2)
+				donorCombo.setSelectedIndex(1);
+		}
 	}
 
 	private void createRPComboModelFrom(AnalysisSet as)
