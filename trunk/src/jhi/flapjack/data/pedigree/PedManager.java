@@ -31,8 +31,13 @@ public class PedManager extends XMLRoot
 		{
 			String[] tokens = str.split("\t");
 
-
 			ArrayList<Line> parents = linesByName.get(tokens[1]);
+
+			if (parents == null)
+			{
+				System.err.println("WARNING: Pedigree header references germplasm '" + tokens[1] + "' that does not exist");
+				continue;
+			}
 
 			int type = PedLineInfo.TYPE_NA;
 			switch (tokens[2])
@@ -58,6 +63,13 @@ public class PedManager extends XMLRoot
 				// Add every instance of this parent to every instance of this
 				// child (by instance we mean duplicate lines)
 				ArrayList<Line> progenies = linesByName.get(tokens[0]);
+
+				if (progenies == null)
+				{
+					System.err.println("WARNING: Pedigree header references germplasm '" + tokens[0] + "' that does not exist");
+					continue;
+				}
+
 				for (Line progeny: progenies)
 					for (Line parent: parents)
 						pedigrees.add(new PedLineInfo(progeny, parent, type));
