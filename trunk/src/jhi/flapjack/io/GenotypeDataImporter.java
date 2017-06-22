@@ -42,6 +42,7 @@ public class GenotypeDataImporter implements IGenotypeImporter
 	private boolean isOK = true;
 
 	private boolean isTransposed;
+	private boolean allowDuplicates;
 
 	private NumberFormat nf = NumberFormat.getInstance();
 
@@ -50,7 +51,7 @@ public class GenotypeDataImporter implements IGenotypeImporter
 	private ArrayList<String> pedigrees = new ArrayList<>();
 
 	public GenotypeDataImporter(File file, DataSet dataSet, HashMap<String, MarkerIndex> markers,
-		String ioMissingData, String ioHeteroSeparator, boolean isTransposed)
+		String ioMissingData, String ioHeteroSeparator, boolean isTransposed, boolean allowDuplicates)
 	{
 		this.file = file;
 		this.dataSet = dataSet;
@@ -58,6 +59,7 @@ public class GenotypeDataImporter implements IGenotypeImporter
 		this.ioMissingData = ioMissingData;
 		this.ioHeteroSeparator = ioHeteroSeparator;
 		this.isTransposed = isTransposed;
+		this.allowDuplicates = allowDuplicates;
 
 		stateTable = dataSet.getStateTable();
 		mapWasProvided = markers.size() > 0;
@@ -224,7 +226,7 @@ public class GenotypeDataImporter implements IGenotypeImporter
 			String name = values[0].trim();
 			if (linesByName.get(name) != null)
 			{
-				if (Prefs.ioAllowDupLines == false)
+				if (allowDuplicates == false)
 					throw new DataFormatException(RB.format("io.DataFormatException.duplicateLineError", name, lineCount + 1));
 			}
 			else
@@ -377,7 +379,7 @@ public class GenotypeDataImporter implements IGenotypeImporter
 
 			if (linesByName.get(lineNames[i]) != null)
 			{
-				if (Prefs.ioAllowDupLines == false)
+				if (allowDuplicates == false)
 					throw new DataFormatException(RB.format("io.DataFormatException.duplicateLineError", lineNames[i], lineCount+1));
 			}
 			else

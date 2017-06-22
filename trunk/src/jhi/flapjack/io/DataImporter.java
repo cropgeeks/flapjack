@@ -129,10 +129,10 @@ public class DataImporter extends SimpleJob
 				if (usePrefs)
 					genoImporter = new GenotypeDataImporter(genoFile, dataSet,
 						mapImporter.getMarkersHashMap(), Prefs.ioMissingData,
-						Prefs.ioHeteroSeparator, Prefs.ioTransposed);
+						Prefs.ioHeteroSeparator, Prefs.ioTransposed, Prefs.ioAllowDupLines);
 				else
 					genoImporter = new GenotypeDataImporter(genoFile, dataSet,
-						mapImporter.getMarkersHashMap(), "-", "/", false);
+						mapImporter.getMarkersHashMap(), "-", "/", false, false);
 
 				break;
 			}

@@ -33,7 +33,8 @@ class CmdOptions extends Options
 		addOption("S", "heterozygous-separator", true, "The string used to separate heterozygous alleles (default is \"/\" or use \"\" for no separator)");
 		addOption("M", "missing-data", true, "The string used to represent missing data (default is \"-\" or use \"\" for empty string)");
 		addOption("T", "transposed", false, "Genotype data is transposed compared to Flapjack's default");
-		addOption("D", "decimal-english", false, "Optional input parameter");
+		addOption("E", "decimal-english", false, "Optional input parameter");
+		addOption("D", "allow-duplicates", false, "Allow duplicate line names");
 
 		return this;
 	}
@@ -47,6 +48,7 @@ class CmdOptions extends Options
 		if (line.hasOption("heterozygous-separator"))
 			settings.setHetSep(line.getOptionValue("heterozygous-separator"));
 
+		settings.setAllowDuplicates(line.hasOption("allow-duplicates"));
 		settings.setMakeAllChrom(line.hasOption("all-chromosomes"));
 
 		return settings;
