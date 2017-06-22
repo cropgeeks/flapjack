@@ -19,7 +19,7 @@ public class PedManager extends XMLRoot
 	public void setPedigrees(ArrayList<PedLineInfo> pedigrees)
 		{ this.pedigrees = pedigrees; }
 
-	
+
 
 	public void create(ArrayList<String> triplets, HashMap<String, ArrayList<Line>> linesByName)
 		throws DataFormatException
@@ -31,13 +31,6 @@ public class PedManager extends XMLRoot
 		{
 			String[] tokens = str.split("\t");
 
-			// STAR CASE
-
-
-			// linesByName could have multiple Line instances per name (if
-			// duplicates were allowed), but there's no way to map pedigree info
-			// in that situation, so we just use the first instance
-			Line progeny = linesByName.get(tokens[0]).get(0);
 			Line parent = linesByName.get(tokens[1]).get(0);
 
 			int type = PedLineInfo.TYPE_NA;
@@ -47,7 +40,25 @@ public class PedManager extends XMLRoot
 				case "DP" : type = PedLineInfo.TYPE_DP; break;
 			}
 
-			pedigrees.add(new PedLineInfo(progeny, parent, type));
+			// STAR special case; the parental information applies to all lines
+			if (tokens[0].equals("*"))
+			{
+				for (Map.Entry<String, ArrayList<Line>> entry : linesByName.entrySet())
+					for (Line progeny: entry.getValue())
+					{
+						// Don't add a line as a parent of itself!!
+						if (progeny != parent)
+							pedigrees.add(new PedLineInfo(progeny, parent, type));
+					}
+			}
+			else
+			{
+				// linesByName could have multiple Line instances per name (if
+				// duplicates were allowed), but there's no way to map pedigree
+				// info in that situation, so we just use the first instance
+				Line progeny = linesByName.get(tokens[0]).get(0);
+				pedigrees.add(new PedLineInfo(progeny, parent, type));
+			}
 		}
 	}
 
@@ -91,11 +102,5 @@ public class PedManager extends XMLRoot
 		}
 
 		return false;
-	}
-
-	// Returns true if we're not holding any pedigree information
-	public boolean hasNoInfo()
-	{
-		return pedigrees.size() == 0;
 	}
 }
