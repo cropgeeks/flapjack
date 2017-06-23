@@ -162,12 +162,14 @@ public class MABCStatsDialog extends JDialog implements ActionListener
 
 	public int getRecurrentParent()
 	{
-		return recurrentCombo.getSelectedIndex();
+		LineInfo rpInfo = (LineInfo)recurrentCombo.getSelectedItem();
+		return as.getLines().indexOf(rpInfo);
 	}
 
 	public int getDonorParent()
 	{
-		return donorCombo.getSelectedIndex();
+		LineInfo dpInfo = (LineInfo)donorCombo.getSelectedItem();
+		return as.getLines().indexOf(dpInfo);
 	}
 
 	public boolean isOK()
