@@ -54,6 +54,8 @@ public class GTViewSet extends XMLRoot
 
 	// If traits are being displayed, which ones?
 	private int[] traits = new int[0];// { -1, -1, -1 };
+	// Textual traits are tracked separately
+	private int[] txtTraits = new int[0];
 
 	private int[] linkedModelCols = new int [0];
 
@@ -213,6 +215,12 @@ public class GTViewSet extends XMLRoot
 	public void setSelectedTraits(String traitsStr)
 		{ this.traits = MatrixXML.stringToIntArray(traitsStr); }
 
+	public String getSelectedTxtTraits()
+		{ return MatrixXML.arrayToString(txtTraits); }
+
+	public void setSelectedTxtTraits(String txtTraitsStr)
+		{ this.txtTraits = MatrixXML.stringToIntArray(txtTraitsStr); }
+
 	public boolean getDisplayLineScores()
 		{ return displayLineScores; }
 
@@ -250,6 +258,12 @@ public class GTViewSet extends XMLRoot
 
 	public void setTraits(int[] traits)
 		{ this.traits = traits; }
+
+	public int[] getTxtTraits()
+		{ return txtTraits; }
+
+	public void setTxtTraits(int[] txtTraits)
+		{ this.txtTraits = txtTraits; }
 
 	public int[] getGraphs()
 		{ return graphs; }
@@ -352,6 +366,9 @@ public class GTViewSet extends XMLRoot
 		clone.traits = new int[traits.length];
 		for (int i = 0; i < traits.length; i++)
 			clone.traits[i] = traits[i];
+		clone.txtTraits = new int[txtTraits.length];
+		for (int i = 0; i < txtTraits.length; i++)
+			clone.txtTraits[i] = txtTraits[i];
 
 		// Copy over the line data
 		clone.lines.clear();

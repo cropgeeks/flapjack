@@ -118,6 +118,7 @@ public class VisualizationNode extends BaseNode
 			Actions.dataRenameDataSet.setEnabled(true);
 			Actions.dataDeleteDataSet.setEnabled(true);
 			Actions.dataSelectTraits.setEnabled(true);
+			Actions.dataSelectTextTraits.setEnabled(true);
 			Actions.dataSelectGraph.setEnabled(true);
 		}
 		else

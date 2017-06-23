@@ -97,6 +97,7 @@
 		</field>
 		<!-- transient stops this field from being marshalled -->
 		<field name="traits" type="integer" collection="array" transient="true"/>
+		<field name="txtTraits" type="integer" collection="array" transient="true"/>
 		<field name="graphs" type="integer" collection="array" transient="true"/>
 	</class>
 

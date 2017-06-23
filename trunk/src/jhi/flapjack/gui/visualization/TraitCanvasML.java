@@ -171,7 +171,7 @@ class TraitCanvasML extends MouseInputAdapter implements ActionListener
 	public void actionPerformed(ActionEvent e)
 	{
 		if (e.getSource() == selectTraits)
-			Flapjack.winMain.mData.dataSelectTraits();
+			Flapjack.winMain.mData.dataSelectTraitsHeatmap();
 
 		else if (e.getSource() == sortAsc)
 			runSort(true);

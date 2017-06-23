@@ -15,10 +15,13 @@ import scri.commons.gui.matisse.*;
 
 public class SelectTraitsDialog extends JDialog implements ActionListener
 {
+	public final static int HEATMAP_TRAITS = 0;
+	public final static int TEXT_TRAITS = 1;
+
 	private JButton bOK, bCancel, bHelp;
 	private SelectTraitsPanelNB nbPanel;
 
-	public SelectTraitsDialog(GTViewSet viewSet)
+	public SelectTraitsDialog(GTViewSet viewSet, int mode)
 	{
 		super(
 			Flapjack.winMain,
@@ -26,7 +29,7 @@ public class SelectTraitsDialog extends JDialog implements ActionListener
 			true
 		);
 
-		nbPanel = new SelectTraitsPanelNB(viewSet);
+		nbPanel = new SelectTraitsPanelNB(viewSet, mode);
 
 		add(nbPanel);
 		add(createButtons(), BorderLayout.SOUTH);

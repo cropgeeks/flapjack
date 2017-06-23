@@ -38,6 +38,8 @@ public class CanvasMenu
 	private JCheckBoxMenuItem mHighlightGaps;
 	private JCheckBoxMenuItem mDisableGradients;
 	private JMenuItem mSelectTraits;
+	private JMenu mDataTraits;
+	private JMenuItem mSelectTextTraits;
 	private JMenu mColor;
 	private JMenuItem mColorCustomize;
 	private JRadioButtonMenuItem mColorRandom;
@@ -101,6 +103,7 @@ public class CanvasMenu
 		mHighlightHoZ = WinMainMenuBar.getCheckedItem(Actions.vizHighlightHoZ, "gui.Actions.vizHighlightHoZ", 0, 0);
 		mHighlightGaps = WinMainMenuBar.getCheckedItem(Actions.vizHighlightGaps, "gui.Actions.vizHighlightGaps", 0, 0);
 		mSelectTraits = WinMainMenuBar.getItem(Actions.dataSelectTraits, "gui.Actions.dataSelectTraits", 0, 0);
+		mSelectTextTraits = WinMainMenuBar.getItem(Actions.dataSelectTextTraits, "gui.Actions.dataSelectTextTraits", 0, 0);
 		mColorCustomize = WinMainMenuBar.getItem(Actions.vizColorCustomize, "gui.Actions.vizColorCustomize", 0, 0);
 		mColorRandom = WinMainMenuBar.getRadioItem(Actions.vizColorRandom, "gui.Actions.vizColorRandom", 0, 0);
 		mColorRandomWSP = WinMainMenuBar.getRadioItem(Actions.vizColorRandomWSP, "gui.Actions.vizColorRandomWSP", 0, 0);
@@ -136,6 +139,11 @@ public class CanvasMenu
 		mColor.setIcon(Actions.getIcon("COLORS"));
 		RB.setMnemonic(mColor, "gui.WinMainMenuBar.mVizColor");
 		winMain.mViz.handleColorMenu(mColor);
+
+		mDataTraits = new JMenu(RB.getString("gui.WinMainMenuBar.mDataTraits"));
+		RB.setMnemonic(mDataTraits, "gui.WinMainMenuBar.mDataTraits");
+		mDataTraits.add(mSelectTraits);
+		mDataTraits.add(mSelectTextTraits);
 
 		mColor.add(mColorNucleotide);
 		mColor.add(mColorNucleotide01);
@@ -223,7 +231,7 @@ public class CanvasMenu
 		menu.add(mDisableGradients);
 		menu.add(mHighlight);
 		menu.addSeparator();
-		menu.add(mSelectTraits);
+		menu.add(mDataTraits);
 		menu.addSeparator();
 		menu.add(mFind);
 		menu.add(mDataDB);

@@ -39,7 +39,7 @@ public class TablePanelTableModel extends LineDataTableModel
 			lines = viewSet.getLines();
 			// Grab the linked model and the column indices we need from that model
 			linkedModelCols = viewSet.getLinkedModelCols();
-			traitsModelCols = viewSet.getTraits();
+			traitsModelCols = viewSet.getTxtTraits();
 
 			linkedModel = viewSet.tableHandler().model();
 			traitsModel = Flapjack.winMain.getNavPanel().getTraitsPanel(viewSet.getDataSet(), false).getTraitsTab(false).getModel();

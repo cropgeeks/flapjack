@@ -17,16 +17,21 @@ import scri.commons.gui.*;
 class SelectTraitsPanelNB extends javax.swing.JPanel implements ActionListener
 {
 	private GTViewSet viewSet;
+	private int mode;
 
-	public SelectTraitsPanelNB(GTViewSet viewSet)
+	public SelectTraitsPanelNB(GTViewSet viewSet, int mode)
 	{
 		initComponents();
 
 		setBackground((Color)UIManager.get("fjDialogBG"));
 
 		this.viewSet = viewSet;
+		this.mode = mode;
 
-		RB.setText(label, "gui.dialog.NBSelectTraitsPanel.label");
+		if (mode == SelectTraitsDialog.HEATMAP_TRAITS)
+			RB.setText(label, "gui.dialog.NBSelectTraitsPanel.label1");
+		else
+			RB.setText(label, "gui.dialog.NBSelectTraitsPanel.label2");
 		RB.setText(selectAllLabel, "gui.dialog.NBSelectTraitsPanel.selectAllLabel");
 		RB.setText(selectNoneLabel, "gui.dialog.NBSelectTraitsPanel.selectNoneLabel");
 
@@ -53,7 +58,12 @@ class SelectTraitsPanelNB extends javax.swing.JPanel implements ActionListener
 
 		ArrayList<Trait> traits = viewSet.getDataSet().getTraits();
 
-		int[] selected = viewSet.getTraits();
+		int[] selected = null;
+		if (mode == SelectTraitsDialog.HEATMAP_TRAITS)
+			selected = viewSet.getTraits();
+		else
+			selected = viewSet.getTxtTraits();
+
 		Object[][] data = new Object[traits.size()][3];
 
 		for (int i = 0; i < data.length; i++)
@@ -107,7 +117,10 @@ class SelectTraitsPanelNB extends javax.swing.JPanel implements ActionListener
 				traits[j++] = i;
 
 		// Assign the selected traits back to the view
-		viewSet.setTraits(traits);
+		if (mode == SelectTraitsDialog.HEATMAP_TRAITS)
+			viewSet.setTraits(traits);
+		else
+			viewSet.setTxtTraits(traits);
 	}
 
 	public void actionPerformed(ActionEvent e)

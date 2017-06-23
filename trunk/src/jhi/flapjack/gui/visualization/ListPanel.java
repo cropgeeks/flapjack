@@ -168,6 +168,23 @@ class ListPanel extends JPanel implements MouseMotionListener, MouseListener
 
 		JPopupMenu menu = new JPopupMenu();
 
+		JMenuItem mSelectTextTraits = new JMenuItem();
+		RB.setText(mSelectTextTraits, "gui.visualization.ListPanel.selectTraits");
+		mSelectTextTraits.addActionListener(event ->
+		{
+			Flapjack.winMain.mData.dataSelectTextTraits();
+		});
+
+		JMenuItem mShowTableResults = new JMenuItem();
+		RB.setText(mShowTableResults, "gui.visualization.ListPanel.tableResults");
+		mShowTableResults.setEnabled(viewSet.tableHandler().model() != null);
+		mShowTableResults.addActionListener(event ->
+		{
+			LinkedColumnSelectionDialog columnDialog = new LinkedColumnSelectionDialog(viewSet);
+			if (columnDialog.isOK())
+				populateList();
+		});
+
 		JCheckBoxMenuItem mShowScores = new JCheckBoxMenuItem();
 		RB.setText(mShowScores, "gui.visualization.ListPanel.showScores");
 		mShowScores.setSelected(viewSet.getDisplayLineScores());
@@ -177,19 +194,10 @@ class ListPanel extends JPanel implements MouseMotionListener, MouseListener
 			populateList();
 		});
 
-		JCheckBoxMenuItem mShowTableResults = new JCheckBoxMenuItem();
-		mShowTableResults.setText("Show table results");
-		mShowTableResults.setSelected(viewSet.getLinkedModelCols().length > 0);
-		mShowTableResults.setVisible(viewSet.tableHandler().model() != null);
-		mShowTableResults.addActionListener(event ->
-		{
-			LinkedColumnSelectionDialog columnDialog = new LinkedColumnSelectionDialog(viewSet);
-			if (columnDialog.isOK())
-				populateList();
-		});
-
-		menu.add(mShowScores);
+		menu.add(mSelectTextTraits);
 		menu.add(mShowTableResults);
+		menu.addSeparator();
+		menu.add(mShowScores);
 		menu.show(e.getComponent(), e.getX(), e.getY());
 	}
 
