@@ -69,6 +69,9 @@ public class Prefs extends XMLPreferences
 	// Display localised text in...
 	public static String localeText = "auto";
 
+	// Truncate traits in the ListPanel?
+	public static boolean guiTruncateTraits = true;
+
 	// The width, height, location and maximized status of the main window
 	public static int guiWinMainW = 1000;
 	public static int guiWinMainH = 700;

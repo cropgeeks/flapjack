@@ -35,6 +35,9 @@ class SelectTraitsPanelNB extends javax.swing.JPanel implements ActionListener
 		RB.setText(selectAllLabel, "gui.dialog.NBSelectTraitsPanel.selectAllLabel");
 		RB.setText(selectNoneLabel, "gui.dialog.NBSelectTraitsPanel.selectNoneLabel");
 
+		checkTruncate.setVisible(mode == SelectTraitsDialog.TEXT_TRAITS);
+		checkTruncate.setSelected(Prefs.guiTruncateTraits);
+
 		createLinkLabels();
 		createTable(viewSet);
 	}
@@ -116,6 +119,8 @@ class SelectTraitsPanelNB extends javax.swing.JPanel implements ActionListener
 			if (array[i])
 				traits[j++] = i;
 
+		Prefs.guiTruncateTraits = checkTruncate.isSelected();
+
 		// Assign the selected traits back to the view
 		if (mode == SelectTraitsDialog.HEATMAP_TRAITS)
 			viewSet.setTraits(traits);
@@ -145,7 +150,8 @@ class SelectTraitsPanelNB extends javax.swing.JPanel implements ActionListener
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+    private void initComponents()
+    {
 
         label = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -153,15 +159,18 @@ class SelectTraitsPanelNB extends javax.swing.JPanel implements ActionListener
         label2 = new javax.swing.JLabel();
         selectAllLabel = new scri.commons.gui.matisse.HyperLinkLabel();
         selectNoneLabel = new scri.commons.gui.matisse.HyperLinkLabel();
+        checkTruncate = new javax.swing.JCheckBox();
 
         label.setLabelFor(table);
         label.setText("The traits heatmap will display any of the following selected traits:");
 
         table.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
+            new Object [][]
+            {
 
             },
-            new String [] {
+            new String []
+            {
 
             }
         ));
@@ -175,6 +184,8 @@ class SelectTraitsPanelNB extends javax.swing.JPanel implements ActionListener
 
         selectNoneLabel.setText("Select none");
 
+        checkTruncate.setText("Truncate long values, allowing more traits to be displayed on screen at once");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -183,13 +194,17 @@ class SelectTraitsPanelNB extends javax.swing.JPanel implements ActionListener
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 454, Short.MAX_VALUE)
-                    .addComponent(label)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(selectAllLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(label2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(selectNoneLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(checkTruncate)
+                            .addComponent(label)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(selectAllLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(label2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(selectNoneLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -204,12 +219,15 @@ class SelectTraitsPanelNB extends javax.swing.JPanel implements ActionListener
                     .addComponent(label2)
                     .addComponent(selectAllLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(selectNoneLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(checkTruncate)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JCheckBox checkTruncate;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel label;
     private javax.swing.JLabel label2;

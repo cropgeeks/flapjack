@@ -102,8 +102,11 @@ public class TraitsPanel extends JPanel implements ActionListener
 
 		// Remove any trait display (column) indices from the views
 		for (GTViewSet viewSet: dataSet.getViewSets())
+		{
 			viewSet.setTraits(new int[0]);
-
+			viewSet.setTxtTraits(new int[0]);
+		}
+		
 		updateModel();
 		Actions.projectModified();
 	}

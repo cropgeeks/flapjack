@@ -286,14 +286,24 @@ class ListPanel extends JPanel implements MouseMotionListener, MouseListener
 			super.getTableCellRendererComponent(table, obj, isSelected,
 				hasFocus, row, column);
 
+			String ttText = "";
+
 			if (o instanceof Number)
 			{
 				setText(df.format(o));
 				setHorizontalAlignment(JLabel.RIGHT);
+
+				ttText = getText();
 			}
 			else if (o != null)
 			{
-				setText(o.toString());
+				if (Prefs.guiTruncateTraits && (column > 0 && o.toString().length() > 10))
+					setText(o.toString().substring(0, 7) + "...");
+				else
+					setText(o.toString());
+
+				ttText = o.toString();
+
 				setHorizontalAlignment(JLabel.LEFT);
 			}
 
@@ -326,7 +336,7 @@ class ListPanel extends JPanel implements MouseMotionListener, MouseListener
 //			setBackground(lineModel.getDisplayColor(row, column));
 
 			if (table.getColumnName(column).isEmpty() == false)
-				setToolTipText("<html><b>" + table.getColumnName(column) + "</b><br>" + getText() + "</html>");
+				setToolTipText("<html><b>" + table.getColumnName(column) + "</b><br>" + ttText + "</html>");
 			else
 				setToolTipText(null);
 
