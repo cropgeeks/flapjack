@@ -267,7 +267,7 @@ class ListPanel extends JPanel implements MouseMotionListener, MouseListener
 	// canvas. Defaults to setting the text to value's toString()
 	public class HighlightTableCellRenderer extends DefaultTableCellRenderer
 	{
-		private final DecimalFormat df = new DecimalFormat("0.00");
+		private final DecimalFormat df = new DecimalFormat("0.##");
 
 		private final Color selectedBG = new Color(240, 240, 240);
 		private final Color selectedBG2 = new Color(245, 245, 255);
