@@ -453,11 +453,15 @@ public class GTViewSet extends XMLRoot
 		int size = count < 3 ? count: 3;
 
 		traits = new int[size];
+		txtTraits = new int[size];
 
 		// For each column - if it's not been assigned yet (and there is a
 		// trait available for that column)...
 		for (int i = 0; i < traits.length; i++)
+		{
 			traits[i] = i;
+			txtTraits[i] = i;
+		}
 	}
 
 	/**
