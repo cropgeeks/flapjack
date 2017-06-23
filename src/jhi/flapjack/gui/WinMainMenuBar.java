@@ -94,7 +94,9 @@ public class WinMainMenuBar extends JMenuBar
 	private JCheckBoxMenuItem mVizHighlightHtZ;
 	private JCheckBoxMenuItem mVizHighlightHoZ;
 	private JCheckBoxMenuItem mVizHighlightGaps;
+	private JMenu mDataTraits;
 	private JMenuItem mDataSelectTraits;
+	private JMenuItem mDataSelectTextTraits;
 
 	private JMenu mAnalysis;
 	private JMenu mAlysSortLines;
@@ -438,6 +440,9 @@ public class WinMainMenuBar extends JMenuBar
 		mDataDB.setIcon(Actions.getIcon("DATABASE"));
 		RB.setMnemonic(mDataDB, "gui.WinMainMenuBar.mDataDB");
 
+		mDataTraits = new JMenu(RB.getString("gui.WinMainMenuBar.mDataTraits"));
+		RB.setMnemonic(mDataTraits, "gui.WinMainMenuBar.mDataTraits");
+
 		malysFilterQTLs = getItem(Actions.dataFilterQTLs, "gui.Actions.dataFilterQTLs", 0, 0);
 		mDataSelectGraph = getItem(Actions.dataSelectGraph, "gui.Actions.dataSelectGraph", 0, 0);
 		mDataFind = getItem(Actions.dataFind, "gui.Actions.dataFind", KeyEvent.VK_F, menuShortcut);
@@ -449,14 +454,18 @@ public class WinMainMenuBar extends JMenuBar
 		mDataRenameDataSet = getItem(Actions.dataRenameDataSet, "gui.Actions.dataRenameDataSet", 0, 0);
 		mDataDeleteDataSet = getItem(Actions.dataDeleteDataSet, "gui.Actions.dataDeleteDataSet", 0, 0);
 		mDataSelectTraits = getItem(Actions.dataSelectTraits, "gui.Actions.dataSelectTraits", 0, 0);
+		mDataSelectTextTraits = getItem(Actions.dataSelectTextTraits, "gui.Actions.dataSelectTextTraits", 0, 0);
 
 		mDataDB.add(mDataDBLineName);
 		mDataDB.add(mDataDBMarkerName);
 		mDataDB.addSeparator();
 		mDataDB.add(mDataDBSettings);
 
+		mDataTraits.add(mDataSelectTraits);
+		mDataTraits.add(mDataSelectTextTraits);
+
 		mData.add(malysFilterQTLs);
-		mData.add(mDataSelectTraits);
+		mData.add(mDataTraits);
 		mData.add(mDataSelectGraph);
 		mData.addSeparator();
 		mData.add(mDataFind);

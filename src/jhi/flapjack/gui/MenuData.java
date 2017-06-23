@@ -158,9 +158,18 @@ public class MenuData
 		}
 	}
 
-	public void dataSelectTraits()
+	public void dataSelectTraitsHeatmap()
 	{
-		SelectTraitsDialog dialog = new SelectTraitsDialog(gPanel.getViewSet());
+		SelectTraitsDialog dialog = new SelectTraitsDialog(gPanel.getViewSet(),
+			SelectTraitsDialog.HEATMAP_TRAITS);
+
+		gPanel.setViewSet(gPanel.getViewSet());
+	}
+
+	public void dataSelectTextTraits()
+	{
+		SelectTraitsDialog dialog = new SelectTraitsDialog(gPanel.getViewSet(),
+			SelectTraitsDialog.TEXT_TRAITS);
 
 		gPanel.setViewSet(gPanel.getViewSet());
 	}

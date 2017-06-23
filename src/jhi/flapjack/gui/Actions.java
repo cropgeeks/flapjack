@@ -112,6 +112,7 @@ public class Actions
 	public static AbstractAction dataRenameDataSet;
 	public static AbstractAction dataDeleteDataSet;
 	public static AbstractAction dataSelectTraits;
+	public static AbstractAction dataSelectTextTraits;
 
 	public static AbstractAction wndMinimize;
 	public static AbstractAction wndZoom;
@@ -711,7 +712,13 @@ public class Actions
 
 		dataSelectTraits = new AbstractAction(RB.getString("gui.Actions.dataSelectTraits")) {
 			public void actionPerformed(ActionEvent e) {
-				winMain.mData.dataSelectTraits();
+				winMain.mData.dataSelectTraitsHeatmap();
+			}
+		};
+
+		dataSelectTextTraits = new AbstractAction(RB.getString("gui.Actions.dataSelectTextTraits")) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.mData.dataSelectTextTraits();
 			}
 		};
 
@@ -880,6 +887,7 @@ public class Actions
 		dataRenameDataSet.setEnabled(false);
 		dataDeleteDataSet.setEnabled(false);
 		dataSelectTraits.setEnabled(false);
+		dataSelectTextTraits.setEnabled(false);
 
 		// Special case for the Edit->Undo/Redo options who have their text
 		// dynamically set - this resets the text to its default
