@@ -77,8 +77,8 @@ public class Hdf5ToFJTabbedConverter
 	{
 		// Setup input and output files
 		this.hdf5File = hdf5File;
-		this.lines = new LinkedHashSet<String>(lines);
-		this.markers = new LinkedHashSet<String>(markers);
+		this.lines = lines;
+		this.markers = markers;
 		this.outputFilePath = outputFilePath;
 
 		// TODO: work out how we can implement these filters in a time efficient way
