@@ -105,6 +105,12 @@ public class MABCStatsDialog extends JDialog implements ActionListener
 			addWindowListener(new WindowAdapter() {
 				public void windowOpened(WindowEvent e)
 				{
+					ParentSelector selector = new ParentSelector();
+					ProgressDialog dialog = new ProgressDialog(selector,
+						RB.getString("gui.dialog.analysis.MABCStatsDialog.parentSelectorProgress.title"),
+						RB.getString("gui.dialog.analysis.MABCStatsDialog.parentSelectorProgress.label"),
+						Flapjack.winMain);
+
 					TaskDialog.warning(
 						RB.getString("gui.dialog.analysis.MABCStatsDialog.rpdpWarning"),
 						RB.getString("gui.text.close"));
@@ -207,6 +213,47 @@ public class MABCStatsDialog extends JDialog implements ActionListener
 	public boolean isSimpleStats()
 	{
 		return Prefs.guiUseSimpleMabcStats;
+	}
+
+	class ParentSelector extends SimpleJob
+	{
+		@Override
+		public void runJob(int jobIndex)
+			throws Exception
+		{
+			selectParents(rpModel);
+			selectParents(dpModel);
+		}
+
+		void selectParents(DefaultComboBoxModel<LineInfo> model)
+		{
+			int maxMarkerCount = 0;
+			LineInfo found = null;
+
+			for (int i=0; i < model.getSize(); i++)
+			{
+				LineInfo lineInfo = model.getElementAt(i);
+
+				int lineIndex = as.getLines().indexOf(lineInfo);
+				int viewCount = as.viewCount();
+
+				int markerCount = 0;
+
+				for (int viewIndex = 0; viewIndex < viewCount; viewIndex++)
+					for (int markerIndex = 0; markerIndex < as.markerCount(viewIndex); markerIndex++)
+						if (as.getState(viewIndex, lineIndex, markerIndex) > 0)
+							markerCount++;
+
+				if (markerCount > maxMarkerCount)
+				{
+					maxMarkerCount = markerCount;
+					found = lineInfo;
+				}
+			}
+
+			if(found != null)
+				model.setSelectedItem(found);
+		}
 	}
 
     /** This method is called from within the constructor to
