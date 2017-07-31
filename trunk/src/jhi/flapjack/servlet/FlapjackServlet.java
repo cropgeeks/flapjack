@@ -4,6 +4,7 @@
 package jhi.flapjack.servlet;
 
 import java.io.*;
+import java.util.*;
 import java.util.logging.*;
 import javax.servlet.*;
 import jhi.flapjack.servlet.api.*;
@@ -12,14 +13,15 @@ import jhi.flapjack.servlet.dendrogram.*;
 import jhi.flapjack.servlet.pcoa.*;
 
 import org.restlet.*;
+import org.restlet.engine.application.*;
 import org.restlet.routing.*;
 
 public class FlapjackServlet extends Application implements ServletContextListener
 {
 	public static Logger LOG;
 
-//	private static IScheduler scheduler = new DRMAAScheduler();
-	private static IScheduler scheduler = new SLURMScheduler();
+	private static IScheduler scheduler = new DRMAAScheduler();
+//	private static IScheduler scheduler = new SLURMScheduler();
 //	private static IScheduler scheduler = new ProcessScheduler();
 
 	// Servlet context-parameters (overriden by values in META-INF/context.xml)
@@ -75,6 +77,12 @@ public class FlapjackServlet extends Application implements ServletContextListen
 	public Restlet createInboundRoot()
 	{
 		Router router = new Router(getContext());
+
+		// Set the Cors filter
+		CorsFilter corsFilter = new CorsFilter(getContext(), router);
+		corsFilter.setAllowedOrigins(new HashSet<>(Collections.singletonList("*")));
+		corsFilter.setAllowedCredentials(true);
+		corsFilter.setSkippingResourceForCorsOptions(false);
 
 		router.attach("/pcoa",				PCoAServerResource.class);
 		router.attach("/pcoa/",				PCoAServerResource.class);
