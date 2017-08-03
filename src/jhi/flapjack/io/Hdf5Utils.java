@@ -8,8 +8,6 @@ import ch.systemsx.cisd.hdf5.*;
 
 /**
  * Hdf5Utils contains utility methods to interact with an HDF5 file.
- *
- * @author Sebastian Raubach
  */
 public class Hdf5Utils
 {
@@ -26,7 +24,11 @@ public class Hdf5Utils
 		String[] hdf5MarkersArray = reader.readStringArray("Lines");
 
 		// Just return the markers as an ArrayList
-		return new ArrayList<String>(Arrays.asList(hdf5MarkersArray));
+		List<String> lines = new ArrayList<String>(Arrays.asList(hdf5MarkersArray));
+
+		reader.close();
+
+		return lines;
 	}
 
 	/**
@@ -41,8 +43,12 @@ public class Hdf5Utils
 
 		String[] hdf5MarkersArray = reader.readStringArray("Markers");
 
+		List<String> markers = new ArrayList<String>(Arrays.asList(hdf5MarkersArray));
+
+		reader.close();
+
 		// Just return the markers as an ArrayList
-		return new ArrayList<String>(Arrays.asList(hdf5MarkersArray));
+		return markers;
 	}
 
 	/**
