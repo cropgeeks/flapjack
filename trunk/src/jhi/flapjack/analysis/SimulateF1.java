@@ -90,6 +90,10 @@ public class SimulateF1 extends SimpleJob
 				}
 			}
 		}
+		
+		// Give this line a dummy set of trait objects
+		for (Trait trait: viewSet.getDataSet().getTraits())
+			f1.getTraitValues().add(new TraitValue(trait));
 
 		// Create a LineInfo for the f1 and add it to the viewSet
 		viewSet.getLines().add(new LineInfo(f1, viewSet.getDataSet().countLines()));
