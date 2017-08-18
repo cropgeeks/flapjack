@@ -242,13 +242,14 @@ public class GenotypeDataImporter implements IGenotypeImporter
 				// Assuming a map was found that contains this marker...
 				if (mapIndex[i] != -1)
 				{
+					String rawAlleles = values[i].trim();
 					// Determine its various states
-					Integer stateCode = states.get(values[i]);
+					Integer stateCode = states.get(rawAlleles);
 					if (stateCode == null)
 					{
-						stateCode = stateTable.getStateCode(values[i], true,
+						stateCode = stateTable.getStateCode(rawAlleles, true,
 							ioMissingData, ioHeteroSeparator);
-						states.put(values[i], stateCode);
+						states.put(rawAlleles, stateCode);
 					}
 
 					// Then apply them to the marker data
@@ -416,13 +417,14 @@ public class GenotypeDataImporter implements IGenotypeImporter
 				// Assuming a map was found that contains this marker...
 				if (index != null && index.mapIndex != -1)
 				{
+					String rawAlleles = values[i].trim();
 					// Determine its various states
-					Integer stateCode = states.get(values[i]);
+					Integer stateCode = states.get(rawAlleles);
 					if (stateCode == null)
 					{
-						stateCode = stateTable.getStateCode(values[i], true,
+						stateCode = stateTable.getStateCode(rawAlleles, true,
 							ioMissingData, ioHeteroSeparator);
-						states.put(values[i], stateCode);
+						states.put(rawAlleles, stateCode);
 					}
 
 					// Then apply them to the marker data
