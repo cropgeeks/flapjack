@@ -48,7 +48,7 @@ class FlapjackGenotypeFormat(Tabular):
         return True
 
 class FlapjackPhenotypeFormat(Tabular):
-    file_ext = "fjphenotye"
+    file_ext = "fjphenotype"
 
     def sniff( self, filename ):
         h = open(filename)

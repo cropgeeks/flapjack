@@ -1,66 +1,112 @@
 <tool id="flapjack_pedverstats" name="Flapjack PedVerStats" version="0.0.1">
+	<description>Run pedigree verification of F1s (known parents) analysis</description>
+	<command><![CDATA[
+		java
+		#if $adv_opts.show_advanced
+			-Xmx$adv_opts.memory
+		#end if
+		-cp $__tool_directory__/lib/flapjack.jar jhi.flapjack.io.cmd.GeneratePedVerF1sStats
+		-m $map
+		-g $genotypes
+		-f $parent1
+		-s $parent2
+		-o $output
+		#if $simulate_f1.simulate_f1_selector == False
+			-e $simulate_f1.expectedF1
+		#end if
+		#if $adv_opts.show_advanced
+			$adv_opts.allChromosomes
+			$adv_opts.collapseHets
+			-M "$adv_opts.missingData"
+			-S "$adv_opts.hetSep"
+			$adv_opts.transposed
+			$adv_opts.decimalEnglish
+		#end if
+		#if $create_project
+			-p $project
+		#end if
+	]]></command>
+	<inputs>
+		<param format="fjmap" name="map" type="data" label="Flapjack map file"
+			help="Flapjack-formatted (tab-delimited text) input file of map data"/>
 
-<!--System.out.println("Usage: pedverf1sstats <options>\n"
-				+ " where valid options are:\n"
-				+ "   -map=<map_file>                (required input file)\n"
-				+ "   -genotypes=<genotypes_file>    (required input file)\n"
-				+ "   -parent1=<index_of_line>       (required parameter, first line is index 1)\n"
-				+ "   -parent2=<index_of_line>       (required parameter, first line is index 1)\n"
-				+ "   -expectedf1=<index_of_line>    (optional parameter, first line is index 1)\n"
-				+ "   -decimalEnglish                (optional parameter)\n"
-				+ "   -output=<output_file>          (required output file)\n");-->
+		<param format="fjgenotype" name="genotypes" type="data" label="Flapjack genotype file"
+			help="Flapjack-formatted (tab-delimited text) input file of genotype data"/>
 
-  <description>Run pedigree verification of F1s (known parents) analysis</description>
-  <command><![CDATA[
-  java -Xmx$memory -cp $__tool_directory__/lib/flapjack.jar jhi.flapjack.io.cmd.GeneratePedVerF1sStats 
-  -map=$map -genotypes=$genotypes -parent1=$parent1 -parent2=$parent2 
-  #if $simulate_f1.simulate_f1_selector == "file":
-	-expectedf1=$simulate_f1.expectedF1
-  #end if
-  $decimalEnglish -output=$output
-  ]]>
-  </command>
-  <inputs>
-    <param format="fjmap" name="map" type="data" label="Flapjack map file"
-		help="Flapjack-formatted (tab-delimited text) input file of map data"/>
-	<param format="fjgenotype" name="genotypes" type="data" label="Flapjack genotype file"
-		help="Flapjack-formatted (tab-delimited text) input file of genotype data"/>
-	<param name="parent1" type="integer" value="1" label="Index of parent 1"
-		help="The index of the first parent in the genotype file"/>
-	<param name="parent2" type="integer" value="2" label="Index of parent 2"
-		help="The index of the second parent in the genotype file"/>
-		
-	<conditional name="simulate_f1">
-		<param name="simulate_f1_selector" type="select" label="Simulate expected F1 (or use F1 from file)">
-			<option value="simulate" selected="True">Simulate</option>
-			<option value="file">Select from file</option>
+		<param name="parent1" type="integer" value="1" label="Index of parent 1"
+			help="The index of the first parent in the genotype file"/>
+
+		<param name="parent2" type="integer" value="2" label="Index of parent 2"
+			help="The index of the second parent in the genotype file"/>
+
+		<conditional name="simulate_f1">
+			<param name="simulate_f1_selector" type="boolean" label="Simulate expected F1 (or use F1 from file)"
+				truevalue="" falsevalue="show" checked="true">
+			</param>
+			<when value="show">
+				<param argument="-expectedF1" type="integer" value="3" label="Index of expected F1"
+					help="The index of the donor parent in the genotype file"/>
+			</when>
+		</conditional>
+
+		<!-- WARNING: Below is the advanced options section shared by all of our tools. If you alter it here you must update the other tools as well.-->
+		<conditional name="adv_opts">
+			<param name="show_advanced" type="boolean"
+				 label="Enable advanced options"
+				 truevalue="show" falsevalue="">
+			</param>
+			<when value="show">
+				<param name="allChromosomes" type="boolean" truevalue="-A" falsevalue="" checked="False"
+					label="Duplicate all markers onto a single 'All Chromosomes' chromosome"
+					help="Imports the data so that an additional 'All Chromosomes' chromosome is created, containing every marker in the dataset held together."/>
+
+				<param name="collapseHets" type="boolean" truevalue="-C" falsevalue="" checked="True"
+					label="Don't distinguish between heterozygous alleles"
+					help="Ignores phase between heterozygous alleles, treating, for example, A/T the same as T/A."/>
+
+				<param name="missingData" type="text" value="-"
+					label="Missing data string"
+					help="Alleles with missing data are encoded using this string. Clear the box to use an empty string for missing data instead."/>
+
+				<param name="hetSep" type="text" value="/"
+					label="Heterozygous allele separator string"
+					help="Specifies the string used to separator heterozygous alleles (eg 'A/T'). Clear the box to specify no string is used (eg 'AT')"/>
+
+				<param name="transposed" type="boolean" truevalue="-T" falsevalue="" checked="False"
+					label="Genotype data has been transposed"
+					help="Flapjack's default format has markers as columns. Select this to specify markers as rows instead."/>
+
+				<param name="decimalEnglish" type="boolean" truevalue="-D" falsevalue="" checked="False"
+					label="Force English-style decimal marks"
+					help="Always process input data using '.' as the decimal separator, irrespective of this Galaxy server's locale settings."/>
+
+				<param name="memory" type="select"
+					label="Memory"
+					help="How much memory to use (larger files may require more memory).">
+					<option selected="true" value="64m">64MB</option>
+					<option value="128m">128MB</option>
+					<option value="256m">256MB</option>
+				</param>
+			</when>
+		</conditional>
+		<!-- WARNING: Above is the advanced options section shared by all of our tools. If you alter it here you must update the other tools as well.-->
+		<param name="create_project" type="boolean" label="Also create Flapjack project file"
+			truevalue="true" falsevalue="false" help="Creates an additional Flapjack project file containing the pedigree verification of F1s (known parents) results.">
 		</param>
-		<when value="file">
-			<param argument="-expectedF1" type="integer" value="3" label="Index of expected F1"
-			help="The index of the donor parent in the genotype file"/>
-		</when>
-	</conditional>
+	</inputs>
 
-	<param argument="decimalEnglish" type="boolean" truevalue="-decimalEnglish" falsevalue="" checked="True"
-            label="Read input data using decimal English"
-            help="Build the index using a perfect hash rather than a dense hash.  This will require less memory
-			(especially during quantification), but will take longer to construct "/>
-	<param name="memory" type="select" label="Memory"
-		help="How much memory to use; larger files may require more memory">
-	  <option selected="true" value="64m">64MB</option>
-	  <option value="128m">128MB</option>
-	  <option value="256m">256MB</option>
-	</param>
-  </inputs>
-  <outputs>
-    <data format="tabular" name="output" />
-  </outputs>
+	<outputs>
+		<data format="tabular" name="output" />
+		<data format="flapjack" name="project">
+			<filter>create_project</filter>
+		</data>
+	</outputs>
   
-  <stdio>
-    <exit_code range="1:" />
-  </stdio>
+	<stdio>
+		<exit_code range="1:" />
+	</stdio>
 
-  <help><![CDATA[
+	<help><![CDATA[
 .. class:: infomark
 
 **What it does**
@@ -68,15 +114,12 @@
 Flapjack is a multi-platform application providing interactive visualizations of high-throughput genotype data,
 allowing for rapid navigation and comparisons between lines, markers and chromosomes.
 
-This tool converts a Flapjack-formatted file of genotype data into a corresponding HDF5 file.
-See Flapjack's documentation_ for more details on the various Flapjack data formats.
+Flapjack documentation_
 
-.. _documentation: https://ics.hutton.ac.uk/wiki/index.php/Flapjack_Help_%2D_Projects_and_Data_Formats 
+.. _documentation: http://flapjack.hutton.ac.uk/en/latest/command_line_support.html#pedverf1stats-exe-jhi-flapjack-io-generatepedverf1sstats
+	]]></help>
 
-
-
-  ]]></help>
-  <citations>
-    <citation type="doi">10.1093/bioinformatics/btq580</citation>
-  </citations>
+	<citations>
+		<citation type="doi">10.1093/bioinformatics/btq580</citation>
+	</citations>
 </tool>

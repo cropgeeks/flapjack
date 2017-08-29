@@ -1,0 +1,107 @@
+<tool id="flapjack_creatematrix" name="Flapjack Create Similarity Matrix" version="0.0.1">
+    <description>Create a similarity matrix from the given Genotype file</description>
+    <command><![CDATA[
+        java
+        #if $adv_opts.show_advanced
+            -Xmx$adv_opts.memory
+        #end if
+        -cp $__tool_directory__/lib/flapjack.jar jhi.flapjack.io.cmd.CreateMatrix
+        -g $genotypes
+        -o $output
+        #if $map
+            -m $map
+        #end if
+        #if $adv_opts.show_advanced
+            $adv_opts.allChromosomes
+            $adv_opts.collapseHets
+            -M "$adv_opts.missingData"
+            -S "$adv_opts.hetSep"
+            $adv_opts.transposed
+            $adv_opts.decimalEnglish
+        #end if
+        #if $create_project
+            -p $project
+        #end if
+    ]]></command>
+    <inputs>
+        <param format="fjmap" name="map" type="data" label="Flapjack map file"
+            help="Flapjack-formatted (tab-delimited text) input file of map data"
+            optional="true"/>
+        <param format="fjgenotype" name="genotypes" type="data" label="Flapjack genotype file"
+            help="Flapjack-formatted (tab-delimited text) input file of genotype data"/>
+
+        <!-- WARNING: Below is the advanced options section shared by all of our tools. If you alter it here you must update the other tools as well.-->
+        <conditional name="adv_opts">
+            <param name="show_advanced" type="boolean"
+                label="Enable advanced options"
+                truevalue="show" falsevalue="">
+            </param>
+            <when value="show">
+                <param name="allChromosomes" type="boolean" truevalue="-A" falsevalue="" checked="False"
+                    label="Duplicate all markers onto a single 'All Chromosomes' chromosome"
+                    help="Imports the data so that an additional 'All Chromosomes' chromosome is created, containing every marker in the dataset held together."/>
+
+                <param name="collapseHets" type="boolean" truevalue="-C" falsevalue="" checked="True"
+                    label="Don't distinguish between heterozygous alleles"
+                    help="Ignores phase between heterozygous alleles, treating, for example, A/T the same as T/A."/>
+
+                <param name="missingData" type="text" value="-"
+                    label="Missing data string"
+                    help="Alleles with missing data are encoded using this string. Clear the box to use an empty string for missing data instead."/>
+
+                <param name="hetSep" type="text" value="/"
+                    label="Heterozygous allele separator string"
+                    help="Specifies the string used to separator heterozygous alleles (eg 'A/T'). Clear the box to specify no string is used (eg 'AT')"/>
+
+                <param name="transposed" type="boolean" truevalue="-T" falsevalue="" checked="False"
+                    label="Genotype data has been transposed"
+                    help="Flapjack's default format has markers as columns. Select this to specify markers as rows instead."/>
+
+                <param name="decimalEnglish" type="boolean" truevalue="-D" falsevalue="" checked="False"
+                    label="Force English-style decimal marks"
+                    help="Always process input data using '.' as the decimal separator, irrespective of this Galaxy server's locale settings."/>
+
+                <param name="memory" type="select"
+                    label="Memory"
+                    help="How much memory to use (larger files may require more memory).">
+                    <option selected="true" value="64m">64MB</option>
+                    <option value="128m">128MB</option>
+                    <option value="256m">256MB</option>
+                </param>
+            </when>
+        </conditional>
+        <!-- WARNING: Above is the advanced options section shared by all of our tools. If you alter it here you must update the other tools as well.-->
+
+        <param name="create_project" type="boolean" label="Also create Flapjack project file"
+            truevalue="true" falsevalue="false" help="Creates an additional Flapjack project file containing the generated similarity matrix.">
+        </param>
+    </inputs>
+
+    <outputs>
+        <data format="tabular" name="output" />
+        <data format="flapjack" name="project">
+            <filter>create_project</filter>
+        </data>
+    </outputs>
+
+    <stdio>
+        <exit_code range="1:" />
+    </stdio>
+
+    <help><![CDATA[
+.. class:: infomark
+
+**What it does**
+
+Flapjack is a multi-platform application providing interactive visualizations of high-throughput genotype data,
+allowing for rapid navigation and comparisons between lines, markers and chromosomes.
+
+Flapjack documentation_
+
+.. _documentation: http://flapjack.hutton.ac.uk/en/latest/command_line_support.html#creatematrix-exe-jhi-flapjack-io-creatematrix
+    ]]></help>
+
+    <citations>
+        <citation type="doi">10.1093/bioinformatics/btq580</citation>
+    </citations>
+</tool>

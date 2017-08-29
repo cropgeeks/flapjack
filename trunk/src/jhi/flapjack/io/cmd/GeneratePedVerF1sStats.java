@@ -31,8 +31,9 @@ public class GeneratePedVerF1sStats
 			.withAdvancedOptions()
 			.withGenotypeFile(true)
 			.withMapFile(true)
-			.withQtlFile(true)
+			.withQtlFile(false)
 			.withOutputPath(true)
+			.withProjectFile(false)
 			.addRequiredOption("f", "parent1", true, "INTEGER", "Required integer")
 			.addRequiredOption("s", "parent2", true, "INTEGER", "Required integer")
 			.addOption("e", "expected-f1", true, "INTEGER", "Optional integer");
@@ -46,17 +47,17 @@ public class GeneratePedVerF1sStats
 
 			// Required options
 			String filename = options.getOutputPath(line);
-			Integer parent1 = parseParent(line.getOptionValue("recurrent-parent"));
-			Integer parent2 = parseParent(line.getOptionValue("donor-parent"));
+			Integer parent1 = parseParent(line.getOptionValue("parent1"));
+			Integer parent2 = parseParent(line.getOptionValue("parent2"));
 
 			Integer expectedF1 = null;
 			// Optional
 			if (line.hasOption("expected-f1"))
 				expectedF1 = parseParent(line.getOptionValue("expected-f1"));
 
-			GeneratePedVerF1sStats mabcStats = new GeneratePedVerF1sStats(projectSettings, importSettings, parent1,
+			GeneratePedVerF1sStats pedVerF1sStats = new GeneratePedVerF1sStats(projectSettings, importSettings, parent1,
 				parent2, expectedF1, filename);
-			mabcStats.doStatGeneration();
+			pedVerF1sStats.doStatGeneration();
 
 			System.exit(0);
 		}
@@ -131,7 +132,8 @@ public class GeneratePedVerF1sStats
 		for (int i = 0; i < chromosomes.length; i++)
 			chromosomes[i] = true;
 
-		if (f1Index == null) {
+		if (f1Index == null)
+		{
 			SimulateF1 simF1 = new SimulateF1(viewSet, parent1, parent2);
 			simF1.runJob(0);
 			f1Index = simF1.getF1Index();

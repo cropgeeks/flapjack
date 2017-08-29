@@ -47,16 +47,23 @@ public class Hdf5ToFJTabbedConverter
 		CmdOptions options = new CmdOptions()
 			.withOutputPath(true)
 			.addRequiredOption("h", "hdf5", true, "FILE", "Input file")
-			.addRequiredOption("l", "lines", true, "File", "Input file")
-			.addRequiredOption("m", "markers", true, "FILE", "Input file");
+			.addOption("l", "lines", true, "File", "Input file")
+			.addOption("m", "markers", true, "FILE", "Input file");
 
 		try
 		{
 			CommandLine line = new DefaultParser().parse(options, args);
 
 			File hdf5 = new File(line.getOptionValue("hdf5"));
-			LinkedHashSet<String> lines = new LinkedHashSet<String>(Files.readAllLines(new File(line.getOptionValue("lines")).toPath()));
-			LinkedHashSet<String> markers = new LinkedHashSet<>(Files.readAllLines(new File(line.getOptionValue("markers")).toPath()));
+
+			LinkedHashSet<String> lines = null;
+			if (line.hasOption("lines"))
+				lines = new LinkedHashSet<String>(Files.readAllLines(new File(line.getOptionValue("lines")).toPath()));
+
+			LinkedHashSet<String> markers = null;
+			if (line.hasOption("markers"))
+				markers = new LinkedHashSet<>(Files.readAllLines(new File(line.getOptionValue("markers")).toPath()));
+
 			String output = options.getOutputPath(line);
 
 			Hdf5ToFJTabbedConverter extractor = new Hdf5ToFJTabbedConverter(hdf5, lines, markers, output, false, false);

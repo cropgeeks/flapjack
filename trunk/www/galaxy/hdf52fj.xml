@@ -1,39 +1,56 @@
 <tool id="flapjack_hdf52fj" name="HDF5 to Flapjack" version="0.0.1">
+	<description>Convert an HDF5 formatted genotype file into a Flapjack-formatted genotype file</description>
+	<command><![CDATA[
+		java
+		#if $adv_opts.show_advanced
+			-Xmx$adv_opts.memory
+		#end if
+		-cp $__tool_directory__/lib/flapjack.jar jhi.flapjack.io.cmd.Hdf5ToFJTabbedConverter
+		-h $hdf5
+		-o $genotypes
+		#if $lines
+			-l $lines
+		#end if
+		#if $markers
+			-m $markers
+		#end if
+	]]></command>
+	<inputs>
+		<param format="h5" name="hdf5" type="data" label="A Flapjack HDF5 genotype file"
+			help="Flapjack's flavour of HDF5 for storing genotype data."/>
+		<param format="txt" name="lines" type="data" label="Line file"
+			help="A list of lines desired in the output. One line name per line on each line of the file."
+			optional="true"/>
+		<param format="txt" name="markers" type="data" label="Marker file"
+			help="A list of markers desired in the output. One line name per marker on each line of the file."
+			optional="true"/>
 
-  <description>convert an HDF5 formatted genotype file into a Flapjack-formatted genotype file</description>
-  <command>java -Xmx$memory -cp $__tool_directory__/lib/flapjack.jar jhi.flapjack.io.cmd.Hdf5ToFJTabbedConverter 
-	  -hdf5=$hdf5 
-	  -lines=$lines
-	  -markers=$markers
-	  -missing_filter=$missing_filter
-	  -heterozygous_filter=$heterozygous_filter
-	  -genotypes=$genotypes
-  </command>
-  <inputs>
-    <param format="h5" name="hdf5" type="data" label="Source file"
-		help="Flapjack's flavour of HDF5 for storing genotype data."/>
-	<param format="txt" name="lines" type="data" label="Source file"
-		help="A list of lines desired in the output. One line name per line on each line of the file."/>
-	<param format="txt" name="markers" type="data" label="Source file"
-		help="A list of markers desired in the output. One line name per marker on each line of the file."/>
-	<param name="missing_filter" type="boolean" label="Filter out missing markers"
-		truevalue="true" falsevalue="false">
-	</param>
-	<param name="heterozygous_filter" type="boolean" label="Filter out heterozygous markers"
-		truevalue="true" falsevalue="false">
-	</param>
-	<param name="memory" type="select" label="Memory"
-		help="How much memory to use; larger files may require more memory">
-	  <option selected="true" value="64m">64MB</option>
-	  <option value="128m">128MB</option>
-	  <option value="256m">256MB</option>
-	</param>
-  </inputs>
-  <outputs>
-    <data format="fjgenotype" name="genotypes" />
-  </outputs>
+		<conditional name="adv_opts">
+			<param name="show_advanced" type="boolean"
+				   label="Enable advanced options"
+				   truevalue="show" falsevalue="">
+			</param>
+			<when value="show">
+				<param name="memory" type="select"
+					   label="Memory"
+					   help="How much memory to use (larger files may require more memory).">
+					<option selected="true" value="64m">64MB</option>
+					<option value="128m">128MB</option>
+					<option value="256m">256MB</option>
+				</param>
+			</when>
+		</conditional>
+	</inputs>
 
-  <help><![CDATA[
+	<outputs>
+		<data format="fjgenotype" name="genotypes" />
+	</outputs>
+
+	<stdio>
+		<exit_code range="1:" />
+	</stdio>
+
+	<help><![CDATA[
 .. class:: infomark
 
 **What it does**
@@ -44,12 +61,10 @@ allowing for rapid navigation and comparisons between lines, markers and chromos
 This tool converts a Flapjack-formatted file of genotype data into a corresponding HDF5 file.
 See Flapjack's documentation_ for more details on the various Flapjack data formats.
 
-.. _documentation: https://ics.hutton.ac.uk/wiki/index.php/Flapjack_Help_%2D_Projects_and_Data_Formats 
+.. _documentation: http://flapjack.hutton.ac.uk/en/latest/projects_&_data_formats.html
+	]]></help>
 
-
-
-  ]]></help>
-  <citations>
-    <citation type="doi">10.1093/bioinformatics/btq580</citation>
-  </citations>
+	<citations>
+		<citation type="doi">10.1093/bioinformatics/btq580</citation>
+	</citations>
 </tool>
