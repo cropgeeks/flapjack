@@ -34,7 +34,8 @@ public class CreateMatrix
 			.withAdvancedOptions()
 			.withGenotypeFile(true)
 			.withMapFile(false)
-			.withOutputPath(true);
+			.withOutputPath(true)
+			.withProjectFile(false);
 
 		try
 		{
