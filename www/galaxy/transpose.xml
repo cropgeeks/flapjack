@@ -1,0 +1,27 @@
+<tool id="flapjack_transpose" name="Transpose" version="0.0.1">
+	<description>Transpose a file's contents</description>
+	<command><![CDATA[
+		java 
+		-cp $__tool_directory__/lib/flapjack.jar jhi.flapjack.io.cmd.Transpose 
+		$input 
+		$output
+		]]></command>
+	<inputs>
+		<param format="tabular" name="input" type="data" label="Source file"/>
+	</inputs>
+	<outputs>
+		<data format="tabular" name="output" />
+	</outputs>
+
+	<stdio>
+		<exit_code range="1:" />
+	</stdio>
+
+	<help><![CDATA[
+.. class:: infomark
+
+**What it does**
+This tool transposes data files.
+	]]></help>
+
+</tool>
