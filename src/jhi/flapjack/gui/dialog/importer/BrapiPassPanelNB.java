@@ -101,6 +101,17 @@ class BrapiPassPanelNB extends JPanel implements ActionListener, IBrapiWizard
 		if (validateCalls() == false)
 			return;
 
+		if (client.hasToken() && !useAuthentication.isSelected())
+		{
+			TaskDialog.error(
+				RB.getString("gui.dialog.importer.BrapiPassPanelNB.requiresAuth"),
+				RB.getString("gui.text.close"));
+			return;
+		}
+
+		if (useAuthentication.isSelected() && !authenticate())
+			return;
+
 		if (Prefs.guiBrAPIUseStudies)
 			dialog.setScreen(dialog.getStudiesPanel());
 		else if (Prefs.guiBrAPIUseMaps)

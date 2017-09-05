@@ -141,7 +141,7 @@ public class MenuFile
 
 	public void fileImportSelect()
 	{
-		boolean enableBrAPI = false;
+		boolean enableBrAPI = true;
 
 		if (enableBrAPI)
 		{
