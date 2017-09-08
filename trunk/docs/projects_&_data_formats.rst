@@ -23,7 +23,7 @@ The map file is used to provide details on the chromosomes (name and length; see
  Marker2      1H     45.4
  Marker3      2H     23.8
 
-The genotype file contains a list of variety lines, with allele data per marker for that line. It also requires a header line specifying the marker information for each column.
+The genotype file contains a list of variety lines, with allele data per marker for that line. It also requires a header line specifying the marker information for each column. 
 
 ::
 
@@ -32,6 +32,9 @@ The genotype file contains a list of variety lines, with allele data per marker 
  Line1        A         G         G
  Line2        A         -         G/T
  Line3        T         A         C
+
+.. note::
+  You can include additional headers which let Flapjack know the URLs for trying to access additional information about lines and markers held in external :doc:`databases <database_link_settings>`.
 
 .. note::
   In a future release, additional pedigree information can be provided as headers within the genotype file. See :doc:`pedigrees` for details.
