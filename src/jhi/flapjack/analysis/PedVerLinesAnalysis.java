@@ -7,7 +7,6 @@ import java.util.*;
 
 import jhi.flapjack.data.*;
 import jhi.flapjack.data.results.*;
-import jhi.flapjack.gui.visualization.colors.*;
 
 import scri.commons.gui.*;
 
@@ -15,27 +14,23 @@ public class PedVerLinesAnalysis extends SimpleJob
 {
 	private GTViewSet viewSet;
 	private AnalysisSet as;
-	private StateTable stateTable;
 
-	private int refIndex;
-	private int testIndex;
+	private ArrayList<Integer> parentIndices;
 
 	private String name;
 
-	public PedVerLinesAnalysis(GTViewSet viewSet, boolean[] selectedChromosomes, int refIndex, int testIndex, String name)
+	public PedVerLinesAnalysis(GTViewSet viewSet, boolean[] selectedChromosomes, ArrayList<Integer> parentIndices, String name)
 	{
-		this(viewSet, selectedChromosomes, refIndex, testIndex);
+		this(viewSet, selectedChromosomes, parentIndices);
 		this.name = name;
 	}
 
-	public PedVerLinesAnalysis(GTViewSet viewSet, boolean[] selectedChromosomes, int refIndex, int testIndex)
+	public PedVerLinesAnalysis(GTViewSet viewSet, boolean[] selectedChromosomes, ArrayList<Integer> parentIndices)
 	{
 		this.viewSet = viewSet;
-		this.stateTable = viewSet.getDataSet().getStateTable();
-		this.refIndex = refIndex;
-		this.testIndex = testIndex;
+		this.parentIndices = parentIndices;
 
-		moveRefAndTestToTop();
+		moveParentsToTop();
 
 		as = new AnalysisSet(viewSet)
 			.withViews(selectedChromosomes)
@@ -46,8 +41,6 @@ public class PedVerLinesAnalysis extends SimpleJob
 	public void runJob(int index)
 		throws Exception
 	{
-		int totalMarkerCount = calculateTotalMarkerCount();
-
 		for (int lineIndex=0; lineIndex < as.lineCount(); lineIndex++)
 		{
 			LineInfo lineInfo = as.getLine(lineIndex);
@@ -56,138 +49,143 @@ public class PedVerLinesAnalysis extends SimpleJob
 			lineInfo.getResults().setPedVerLinesResult(lineStat);
 			lineInfo.getResults().setName(name);
 
-			int foundMarkers = usableMarkerCount(lineIndex);
-			double missingPerc = (1 - (foundMarkers / (double) totalMarkerCount)) * 100;
-			int hetMarkers = hetMarkerCount(lineIndex);
-			double hetPerc = (hetMarkers / (double)foundMarkers) * 100;
-			int totalMatches = matchesTestLine(lineIndex);
-			ArrayList<Integer> chrMatch = new ArrayList<>();
-			for (int c = 0; c < as.viewCount(); c++)
-				chrMatch.add(matchesAlleleCountForView(c, lineIndex));
+			int totalCount = 0;
+			for (int view = 0; view < as.viewCount(); view++)
+				totalCount += as.markerCount(view);
+			
+			int missingMarkerCount = as.missingMarkerCount(lineIndex);
+			int markerCount = totalCount - missingMarkerCount;
+			int hetCount = as.hetCount(lineIndex);
 
-			lineStat.setMarkerCount(foundMarkers);
-			lineStat.setMissingPerc(missingPerc);
-			lineStat.setHetCount(hetMarkers);
-			lineStat.setHetPerc(hetPerc);
-			lineStat.setMatchCount(totalMatches);
-			lineStat.setMatchPerc((totalMatches / (float)foundMarkers) * 100);
-			lineStat.setChrMatchCount(chrMatch);
+			ArrayList<PedVerLinesParentScore> parentScores = getParentScoresForLine(lineIndex);
+
+			int dataTotalMatch = dataTotalMatch(lineIndex);
+			int totalMatch = totalMatch(lineIndex);
+
+			lineStat.setDataCount(totalCount);
+			lineStat.setMissingCount(missingMarkerCount);
+			lineStat.setMarkerCount(markerCount);
+			lineStat.setPercentMissing((missingMarkerCount / (double) totalCount) * 100);
+			lineStat.setHetCount(hetCount);
+			lineStat.setPercentHet((hetCount / (double) markerCount) * 100);
+			lineStat.setParentScores(parentScores);
+			lineStat.setDataTotalMatch(dataTotalMatch);
+			lineStat.setTotalMatch(totalMatch);
+			lineStat.setPercentTotalMatch((totalMatch / (double) dataTotalMatch) * 100);
 		}
 	}
 
-	private void moveRefAndTestToTop()
+	private void moveParentsToTop()
 	{
-		LineInfo refLine = viewSet.getLines().get(refIndex);
-		LineInfo testLine = viewSet.getLines().get(testIndex);
+		ArrayList<LineInfo> parentLines = new ArrayList<>();
+		for (Integer parentIndex : parentIndices)
+			parentLines.add(viewSet.getLines().get(parentIndex));
 
-		// Mark the parents lines as sortToTop special cases
-		refLine.getResults().setSortToTop(true);
-		testLine.getResults().setSortToTop(true);
+		// Mark the parent lines as sortToTop special cases
+		parentLines.forEach(line -> line.getResults().setSortToTop(true));
 
-		// Remove them from the list
-		viewSet.getLines().remove(refLine);
-		viewSet.getLines().remove(testLine);
+		// Remove the parents from the viewset
+		viewSet.getLines().removeAll(parentLines);
 
-		// Then put them back in at the top
-		viewSet.getLines().add(0, refLine);
-		viewSet.getLines().add(1, testLine);
-
-		// Reset our indexes as we've moved the lines in the dataset
-		refIndex = 0;
-		testIndex = 1;
+		// Then put the parents back in at the top and update our parentIndices
+		// as we've moved the parent lines in the dataset
+		for (int i=0; i < parentLines.size(); i++)
+		{
+			viewSet.getLines().add(i, parentLines.get(i));
+			parentIndices.set(i, i);
+		}
 
 		// Set the colour scheme to the similarity to line exact match scheme and set the comparison line equal to the
 		// F1
-		viewSet.setColorScheme(ColorScheme.LINE_SIMILARITY_EXACT_MATCH);
-		viewSet.setComparisonLineIndex(testIndex);
-		viewSet.setComparisonLine(testLine.getLine());
+//		viewSet.setColorScheme(ColorScheme.LINE_SIMILARITY_EXACT_MATCH);
+//		viewSet.setComparisonLineIndex(testIndex);
+//		viewSet.setComparisonLine(testLine.getLine());
 	}
 
-	private boolean isUsableMarker(int chr, int lineIndex, int marker)
+	private ArrayList<PedVerLinesParentScore> getParentScoresForLine(int lineIndex)
 	{
-		return as.getState(chr, testIndex, marker) != 0 &&
-			as.getState(chr, lineIndex, marker) != 0;
-	}
+		ArrayList<PedVerLinesParentScore> parentScores = new ArrayList<>();
+		for (Integer parent : parentIndices)
+			parentScores.add(new PedVerLinesParentScore());
 
-	// Loops over all the alleles in the expected F1 as identified by f1Index
-	// and counts the total number of usable markers and the total number of
-	// heterozygous alleles. Finally it calculates the percentage of alleles in
-	//the (expected) F1 line that are heterozygous.
-	private int calculateTotalMarkerCount()
-	{
-		int totalMarkerCount = 0;
-
-		for (int c = 0; c < as.viewCount(); c++)
-			for (int m = 0; m < as.markerCount(c); m++)
-				if (isUsableMarker(c, testIndex, m))
-					totalMarkerCount++;
-
-		return totalMarkerCount;
-	}
-
-	private int usableMarkerCount(int lineIndex)
-	{
-		int foundMarkers = 0;
-
-		for (int c = 0; c < as.viewCount(); c++)
-			for (int m = 0; m < as.markerCount(c); m++)
-				if (isUsableMarker(c, lineIndex, m))
-					foundMarkers++;
-
-		return foundMarkers;
-	}
-
-	private int hetMarkerCount(int lineIndex)
-	{
-		int hetMarkers = 0;
-
-		for (int c = 0; c < as.viewCount(); c++)
-			for (int m = 0; m < as.markerCount(c); m++)
-				if (isUsableMarker(c, lineIndex, m) && stateTable.isHet(as.getState(c, lineIndex, m)))
-					hetMarkers++;
-
-		return hetMarkers;
-	}
-
-	private int matchesTestLine(int lineIndex)
-	{
-		int matchesExpF1 = 0;
-
-		for (int c = 0; c < as.viewCount(); c++)
+		for (int i=0; i < parentScores.size(); i++)
 		{
-			for (int m = 0; m < as.markerCount(c); m++)
-			{
-				if (isUsableMarker(c, lineIndex, m))
-				{
-					// Compare state code of the current line with the equivalent in test line
-					AlleleState testState = stateTable.getAlleleState(as.getState(c, testIndex, m));
-					AlleleState currState = stateTable.getAlleleState(as.getState(c, lineIndex, m));
+			PedVerLinesParentScore parentScore = parentScores.get(i);
+			int dataCount = 0;
+			int matchCount = 0;
 
-					if (currState.matchesAnyAllele(testState))
-						matchesExpF1++;
+			for (int c = 0; c < as.viewCount(); c++)
+			{
+				for (int m = 0; m < as.markerCount(c); m++)
+				{
+					int lineState = as.getState(c, lineIndex, m);
+					int parentState = as.getState(c, parentIndices.get(i), m);
+
+					if (lineState != 0 && parentState != 0)
+						dataCount++;
+
+					if (lineState == parentState && lineState != 0)
+						matchCount++;
 				}
 			}
+
+			parentScore.setDataParentMatch(dataCount);
+			parentScore.setMatchParentCount(matchCount);
+			parentScore.setMatchParentPercent((matchCount / (double) dataCount) * 100);
 		}
-		return matchesExpF1;
+
+		return parentScores;
 	}
 
-	public int matchesAlleleCountForView(int view, int lineIndex)
+	private int dataTotalMatch(int lineIndex)
 	{
-		int matchesCount = 0;
-
-		for (int m = 0; m < as.markerCount(view); m++)
+		int dataTotalMatch = 0;
+		for (int c = 0; c < as.viewCount(); c++)
 		{
-			if (isUsableMarker(view, lineIndex, m))
+			for (int m = 0; m < as.markerCount(c); m++)
 			{
-				// Compare state code of the current line with the equivalent in test line
-				AlleleState testState = stateTable.getAlleleState(as.getState(view, testIndex, m));
-				AlleleState currState = stateTable.getAlleleState(as.getState(view, lineIndex, m));
-
-				if (currState.matchesAnyAllele(testState))
-					matchesCount++;
+				int lineState = as.getState(c, lineIndex, m);
+				if (lineState != 0 && !anyParentMissing(c, m))
+					dataTotalMatch++;
 			}
 		}
+		return dataTotalMatch;
+	}
 
-		return matchesCount;
+	private int totalMatch(int lineIndex)
+	{
+		int totalMatch = 0;
+		for (int c = 0; c < as.viewCount(); c++)
+		{
+			for (int m = 0; m < as.markerCount(c); m++)
+			{
+				int lineState = as.getState(c, lineIndex, m);
+				if (!anyParentMissing(c, m) && anyParentMatches(c, m , lineState))
+					totalMatch++;
+			}
+		}
+		return totalMatch;
+	}
+
+	private boolean anyParentMissing(int view, int marker)
+	{
+		boolean missing = false;
+
+		for (int i=0; i < parentIndices.size(); i++)
+			if (as.getState(view, i, marker) == 0)
+				missing = true;
+
+		return missing;
+	}
+
+	private boolean anyParentMatches(int view, int marker, int lineState)
+	{
+		boolean matches = false;
+
+		for (Integer parentIndex : parentIndices)
+			if (lineState == as.getState(view, parentIndex, marker))
+				matches = true;
+
+		return matches;
 	}
 }

@@ -153,6 +153,31 @@ public class AnalysisSet
 	public ArrayList<MarkerInfo> getMarkers(int view)
 		{ return views.get(view).markers; }
 
+	public int hetCount(int lineIndex)
+	{
+		StateTable stateTable = dataSet.getStateTable();
+
+		int hetCount = 0;
+
+		for (int c = 0; c < viewCount(); c++)
+			for (int m = 0; m < markerCount(c); m++)
+				if (stateTable.isHet(getState(c, lineIndex, m)))
+					hetCount++;
+
+		return hetCount;
+	}
+
+	public int missingMarkerCount(int lineIndex)
+	{
+		int missingCount = 0;
+
+		for (int c = 0; c < viewCount(); c++)
+			for (int m = 0; m < markerCount(c); m++)
+				if (getState(c, lineIndex, m) == 0)
+					missingCount++;
+
+		return missingCount;
+	}
 
 	/** Returns a count of all the alleles (markerCount x lineCount). */
 	public long countAlleles()

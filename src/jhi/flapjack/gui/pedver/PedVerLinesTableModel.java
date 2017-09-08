@@ -15,6 +15,10 @@ class PedVerLinesTableModel extends LineDataTableModel
 	private int selectedIndex;
 	private int commentsIndex;
 	private int sortIndex;
+	private int parentsIndex;
+	private int dataTotalMatchIndex;
+	private int totalMatchCountIndex;
+	private int totalMatchPercentIndex;
 
 	PedVerLinesTableModel(DataSet dataSet, GTViewSet viewSet)
 	{
@@ -28,20 +32,34 @@ class PedVerLinesTableModel extends LineDataTableModel
 	void initModel()
 	{
 		PedVerLinesResult stats = lines.get(0).getResults().getPedVerLinesResult();
-		columnNames = new String[10 + stats.getChrMatchCount().size()];
-		selectedIndex = columnNames.length-3;
-		commentsIndex = columnNames.length-2;
-		sortIndex = columnNames.length-1;
+		columnNames = new String[13 + (stats.getParentScores().size() * 3)];
+
+		parentsIndex = 7;
+
+		dataTotalMatchIndex = columnNames.length - 6;
+		totalMatchCountIndex = columnNames.length - 5;
+		totalMatchPercentIndex = columnNames.length - 4;
+		selectedIndex = columnNames.length - 3;
+		commentsIndex = columnNames.length - 2;
+		sortIndex = columnNames.length - 1;
 
 		columnNames[0] = "Line";
-		columnNames[1] = "Marker count";
-		columnNames[2] = "% Missing";
-		columnNames[3] = "Het Count";
-		columnNames[4] = "% Het";
-		columnNames[5] = "Match Count";
-		columnNames[6] = "% Match";
-		for (int i=0; i < stats.getChrMatchCount().size(); i++)
-			columnNames[i+7] = "Match in " + viewSet.getView(i).getChromosomeMap().getName();
+		columnNames[1] = "Data Count";
+		columnNames[2] = "Missing Count";
+		columnNames[3] = "Marker count";
+		columnNames[4] = "% Missing";
+		columnNames[5] = "Het Count";
+		columnNames[6] = "% Het";
+
+		for (int i=0; i < stats.getParentScores().size(); i++)
+		{
+			columnNames[parentsIndex + (i * 3)] = "Data Parent " + (i+1) + " Match";
+			columnNames[parentsIndex + (i * 3) + 1] = "Match Parent " + (i+1) + " Count";
+			columnNames[parentsIndex + (i * 3) + 2] = "Match Parent " + (i+1) + " Percent";
+		}
+		columnNames[dataTotalMatchIndex] = "Data Total Match";
+		columnNames[totalMatchCountIndex] = "Total Match";
+		columnNames[totalMatchPercentIndex] = "Percent Total Match";
 		columnNames[selectedIndex] = "Selected";
 		columnNames[commentsIndex] = "Comments";
 		columnNames[sortIndex] = "Don't Sort/Filter";
@@ -78,21 +96,38 @@ class PedVerLinesTableModel extends LineDataTableModel
 			return null;
 
 		if (col == 1)
-			return stats.getMarkerCount();
+			return stats.getDataCount();
 		else if (col == 2)
-			return stats.getMissingPerc();
+			return stats.getMissingCount();
 		else if (col == 3)
-			return stats.getHetCount();
+			return stats.getMarkerCount();
 		else if (col == 4)
-			return stats.getHetPerc();
+			return stats.getPercentMissing();
 		else if (col == 5)
-			return stats.getMatchCount();
+			return stats.getHetCount();
 		else if (col == 6)
-			return stats.getMatchPerc();
-		else if (col >= 7 && col < commentsIndex)
+			return stats.getPercentHet();
+			// QTL values
+		else if (col >= parentsIndex && col < dataTotalMatchIndex)
 		{
-			return stats.getChrMatchCount().get(col-7);
+			col = col-parentsIndex;
+			int parent = col / 3;
+
+			PedVerLinesParentScore score = stats.getParentScores().get(parent);
+
+			if (col % 3 == 0)
+				return score.getDataParentMatch();
+			else if (col % 3 == 1)
+				return score.getMatchParentCount();
+			else
+				return score.getMatchParentPercent();
 		}
+		else if (col == dataTotalMatchIndex)
+			return stats.getDataTotalMatch();
+		else if (col == totalMatchCountIndex)
+			return stats.getTotalMatch();
+		else if (col == totalMatchPercentIndex)
+			return stats.getPercentTotalMatch();
 		else if (col == commentsIndex)
 		{
 			String comment = line.getResults().getComments();

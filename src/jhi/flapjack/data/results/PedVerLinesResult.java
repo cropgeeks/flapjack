@@ -6,54 +6,76 @@ import java.util.*;
 
 public class PedVerLinesResult extends XMLRoot
 {
+	private int dataCount;
 	private int markerCount;
-	private double missingPerc;
+	private int missingCount;
+	private double percentMissing;
 	private int hetCount;
-	private double hetPerc;
-	private int matchCount;
-	private double matchPerc;
+	private double percentHet;
+	private int dataTotalMatch;
+	private int totalMatch;
+	private double percentTotalMatch;
 
-	private ArrayList<Integer> chrMatchCount = new ArrayList<>();
+	// One for each parent
+	private ArrayList<PedVerLinesParentScore> parentScores = new ArrayList<>();
+
+	public int getDataCount()
+		{ return dataCount; }
+
+	public void setDataCount(int dataCount)
+		{  this.dataCount = dataCount; }
 
 	public int getMarkerCount()
-		{ return markerCount; }
+		{  return markerCount; }
 
 	public void setMarkerCount(int markerCount)
-		{ this.markerCount = markerCount; }
+		{  this.markerCount = markerCount; }
 
-	public double getMissingPerc()
-		{ return missingPerc; }
+	public int getMissingCount()
+		{  return missingCount; }
 
-	public void setMissingPerc(double missingPerc)
-		{ this.missingPerc = missingPerc; }
+	public void setMissingCount(int missingCount)
+		{ this.missingCount = missingCount; }
+
+	public double getPercentMissing()
+		{ return percentMissing; }
+
+	public void setPercentMissing(double percentMissing)
+		{  this.percentMissing = percentMissing; }
 
 	public int getHetCount()
-		{ return hetCount; }
+		{  return hetCount; }
 
 	public void setHetCount(int hetCount)
-		{ this.hetCount = hetCount; }
+		{  this.hetCount = hetCount; }
 
-	public double getHetPerc()
-		{ return hetPerc; }
+	public double getPercentHet()
+		{  return percentHet; }
 
-	public void setHetPerc(double hetPerc)
-		{ this.hetPerc = hetPerc; }
+	public void setPercentHet(double percentHet)
+		{  this.percentHet = percentHet; }
 
-	public int getMatchCount()
-		{ return matchCount; }
+	public ArrayList<PedVerLinesParentScore> getParentScores()
+		{  return parentScores; }
 
-	public void setMatchCount(int matchCount)
-		{ this.matchCount = matchCount; }
+	public void setParentScores(ArrayList<PedVerLinesParentScore> parentScores)
+		{ this.parentScores = parentScores; }
 
-	public double getMatchPerc()
-		{ return matchPerc; }
+	public int getDataTotalMatch()
+		{ return dataTotalMatch; }
 
-	public void setMatchPerc(double matchPerc)
-		{ this.matchPerc = matchPerc; }
+	public void setDataTotalMatch(int dataTotalMatch)
+		{ this.dataTotalMatch = dataTotalMatch; }
 
-	public ArrayList<Integer> getChrMatchCount()
-		{ return chrMatchCount; }
+	public int getTotalMatch()
+		{ return totalMatch; }
 
-	public void setChrMatchCount(ArrayList<Integer> chrMatchCount)
-		{ this.chrMatchCount = chrMatchCount; }
+	public void setTotalMatch(int totalMatch)
+		{ this.totalMatch = totalMatch; }
+
+	public double getPercentTotalMatch()
+		{ return percentTotalMatch; }
+
+	public void setPercentTotalMatch(double percentTotalMatch)
+		{ this.percentTotalMatch = percentTotalMatch; }
 }
