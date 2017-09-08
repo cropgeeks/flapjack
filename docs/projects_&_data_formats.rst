@@ -10,6 +10,9 @@ Data sets, maps, and genotypes
 
 A data set usually contains information from an imported ``map file`` and ``genotype file``.
 
+.. note::
+  Both the map file and the genotype file must be in plain-text, tab-delimited format.
+
 The map file is used to provide details on the chromosomes (name and length; see warning below) and the markers (name, chromosome, and position). Order does not matter as Flapjack will group and sort them by chromosome and distance once they are loaded. A short example is shown below.
 
 ::
@@ -31,7 +34,7 @@ The genotype file contains a list of variety lines, with allele data per marker 
  Line3        T         A         C
 
 .. note::
-  Both the map file and the genotype file must be in plain-text, tab-delimited format.
+  In a future release, additional pedigree information can be provided as headers within the genotype file. See :doc:`pedigrees` for details.
 
 Flapjack views
 --------------
