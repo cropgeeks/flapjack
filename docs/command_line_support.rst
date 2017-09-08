@@ -11,6 +11,21 @@ The utilities are run in a different way depending on the platform used. For all
 
 A description of the input file formats accepted by Flapjack is given :doc:`projects_&_data_formats`.
 
+Advanced Options
+-------------------------------------------------------
+
+These options can be used (where they make sense) with the command line programs specified below where the programs accept Flapjack files as input.
+
+::
+
+ -A, --all-chromosomes		duplicate all markers onto a single All Chromosomes chromosome for side-by-side viewing
+ -C, --collapse-heteozygotes	don't distinguish between heterozygous alleles (eg treat A/T the same as T/A)
+ -S, --heterozygous-separator	the string used to separate heterozygous alleles (default is / or use "" for no separator
+ -M, --missing-data		the string used to represent missing data (default is - or use "" for empty string
+ -T, --transposed		genotype data is transposed compared to Flapjack's default
+ -E, --decimal-english		override locale default and use '.' as the decimal separator
+ -D, --allow-duplicates		allow duplicate line names in input files
+
 createproject.exe (jhi.flapjack.io.CreateProject)
 -------------------------------------------------
 
@@ -20,40 +35,18 @@ The following options are available:
 
 ::
 
- -map=<map_file>              the location of the file containing map data (optional).
- -genotypes=<genotypes_file>  the location of the file containing genotype data (required).
- -traits=<traits_file>        the location of the file containing trait data (optional).
- -qtls=<qtls_file>            the location of the file containing QTL data (optional).
- -project=<project_file>      the name of the project file that will be created (required).
- -decimalEnglish              whether to always parse numbers assuming they contain the English decimal separator, dot rather than comma (optional).
+ -g, --genotypes <genotypes_file>	the location of the file containing genotype data (required)
+ -p, --project <project_file>      	the name of the project file that will be created (required)
+ -m, --map <map_file>              	the location of the file containing map data (optional)
+ -t, --traits <traits_file>        	the location of the file containing trait data (optional)
+ -q, --qtls <qtls_file>            	the location of the file containing QTL data (optional)
+ -n, --name <string>			a name for the dataset to be created in the Flapjack project (optional)
 
 For example:
 
 ::
 
- createproject.exe -map=input.map -genotypes=input.dat -project=output.flapjack
-
-
-splitproject.exe (jhi.flapjack.io.SplitProject)
------------------------------------------------
-
-This program can be used to take an existing .flapjack project file and filter out the raw data again as a collection of tab-delimited plain text files.
-
-The following options are available:
-
-::
-
- -project=<project_file>      the location of the project to process (required).
- -dir=<directory>             the location to write the output files to (required).
- -datasetin=<dataset_name>    the name of a dataset within the project file to process. If no names are specified, then all datasets will be extracted (optional).
- -datasetout=<dataset_name>   overrides the given datasetin name with a new name to use when outputting that dataset's files (optional).
- -decimalEnglish              whether to always parse numbers assuming they contain the English decimal separator, dot rather than comma (optional).
-
-For example:
-
-::
-
- splitproject.exe -project=input.flapjack -dir=outputdir
+ createproject.exe -m input.map -g input.dat -p output.flapjack
 
 
 creatematrix.exe (jhi.flapjack.io.CreateMatrix)
@@ -65,16 +58,16 @@ The following options are available:
 
 ::
 
- -map=<map_file>              the location of the file containing map data (optional).
- -genotypes=<genotypes_file>  the location of the file containing genotype data (required).
- -matrix=<matrix_file>        the name of the matrix file that will be created (required).
- -decimalEnglish              whether to always parse numbers assuming they contain the English decimal separator, dot rather than comma (optional).
+ -g, --genotypes <genotypes_file>	the location of the file containing genotype data (required)
+ -o, --output <output_file>		the name of the matrix file that will be created (required)
+ -m, --map <map_file>			the location of the file containing map data (optional)
+ -p, --project <project_file>		the name of the project file that will be created (optional)
 
 For example:
 
 ::
 
- creatematrix.exe -genotypes=input.dat -matrix=output.txt
+ creatematrix.exe -g input.dat -o output.txt
 
  
 mabcstats.exe (jhi.flapjack.io.GenerateMabcStats)
@@ -86,21 +79,21 @@ The following options are available:
 
 ::
 
- -map=<map_file>              the location of the file containing map data (required).
- -genotypes=<genotypes_file>  the location of the file containing genotype data (required).
- -qtls=<qtls_file>            the location of the file containing QTL data (required).
- -parent1=<index_of_line>     the index (1-based) of the first parent in the file (required).
- -parent2=<index_of_line>     the index (1-based) of the second parent in the file (required).
- -model=weighted|unweighted   the model to run (required).
- -coverage=<coverage_value>   the maximum coverage per marker in cM (optional)
- -decimalEnglish              whether to always parse numbers assuming they contain the English decimal separator, dot rather than comma (optional).
- -output=<file_name>          the name of the output file that will be created (required).
+ -m, --map <map_file>				the location of the file containing map data (required).
+ -g, --genotypes <genotypes_file>		the location of the file containing genotype data (required).
+ -q, --qtls <qtls_file>				the location of the file containing QTL data (required).
+ -r, --recurrent-parent <index_of_line>		the index (1-based) of the recurrent parent in the file (required).
+ -d, --donor-parent <index_of_line>		the index (1-based) of the donor parent in the file (required).
+ --model weighted|unweighted			the model to run (required).
+ -o, --output <file_name>			the name of the output file that will be created (required).
+ -c, --max-marker-coverage <coverage_value>	the maximum coverage per marker in cM (optional)
+ -p, --project <project_file>			the name of the project file that will be created (optional)
  
 For example:
 
 ::
 
- mabcstats.exe -map=input.map -genotypes=input.dat -qtls=input.qtl -parent1=1 -parent2=2 -model=weighted -output=mabc.txt
+ mabcstats.exe -m input.map -g input.dat -q input.qtl -r 1 -d 2 --model weighted -o mabc.txt
 
  
 pedverf1stats.exe (jhi.flapjack.io.GeneratePedVerF1sStats)
@@ -112,16 +105,40 @@ The following options are available:
 
 ::
 
- -map=<map_file>              the location of the file containing map data (required).
- -genotypes=<genotypes_file>  the location of the file containing genotype data (required).
- -parent1=<index_of_line>     the index (1-based) of the first parent in the file (required).
- -parent2=<index_of_line>     the index (1-based) of the second parent in the file (required).
- -expectedf1=<index_of_line>  the index (1-based) of a line to use as the expected F1 (optional).
- -decimalEnglish              whether to always parse numbers assuming they contain the English decimal separator, dot rather than comma (optional).
- -output=<file_name>          the name of the output file that will be created (required).
+ -m, --map <map_file>			the location of the file containing map data (required)
+ -g, --genotypes <genotypes_file>	the location of the file containing genotype data (required)
+ -f, --parent1 <index_of_line>		the index (1-based) of the first parent in the file (required)
+ -s, --parent2 <index_of_line>		the index (1-based) of the second parent in the file (required)
+ -o, --output=<file_name>		the name of the output file that will be created (required)
+ -e, --expectedf1 <index_of_line>	the index (1-based) of a line to use as the expected F1 (optional)
+ -p, --project <project_file>		the name of the project file that will be created (optional)
  
 For example:
 
 ::
 
- pedverf1stats.exe -map=input.map -genotypes=input.dat -parent1=1 -parent2=2 -output=pedver.txt
+ pedverf1stats.exe -m input.map -g input.dat -f 1 -s 2 -o pedver.txt
+
+
+splitproject.exe (jhi.flapjack.io.SplitProject)
+-----------------------------------------------
+
+This program can be used to take an existing .flapjack project file and filter out the raw data again as a collection of tab-delimited plain text files.
+
+.. note:: This program uses an older style of command line argument parsing and will be updated in a future release.
+
+The following options are available:
+
+::
+
+ -project=<project_file>      the location of the project to process (required)
+ -dir=<directory>             the location to write the output files to (required)
+ -datasetin=<dataset_name>    the name of a dataset within the project file to process. If no names are specified, then all datasets will be extracted (optional)
+ -datasetout=<dataset_name>   overrides the given datasetin name with a new name to use when outputting that dataset's files (optional)
+ -decimalEnglish              whether to always parse numbers assuming they contain the English decimal separator, dot rather than comma (optional)
+
+For example:
+
+::
+
+ splitproject.exe -project=input.flapjack -dir=outputdir

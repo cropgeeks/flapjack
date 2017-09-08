@@ -20,7 +20,7 @@ Parent type can currently be one of:
     DP       (donor parent)
     N/A      (not applicable)
 
-The ``<progeny>`` field can either be a specific progeny name, or the special case of *, meaning that this entry applies to all lines in the dataset (a line will never be assigned itself as a parent though). Multiple instances of the same progeny or parent (by name) will be mapped to all instances of that line name.
+The ``<progeny>`` field can either be a specific progeny name, or the special case of \*, meaning that this entry applies to all lines in the dataset (a line will never be assigned itself as a parent though). Multiple instances of the same progeny or parent (by name) will be mapped to all instances of that line name.
 
 For example:
 
