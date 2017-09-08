@@ -5,7 +5,6 @@
  */
 package jhi.flapjack.gui.dialog.analysis;
 
-import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
@@ -15,10 +14,6 @@ import jhi.flapjack.gui.*;
 
 import scri.commons.gui.*;
 
-/**
- *
- * @author gs40939
- */
 public class PedVerLinesStatsDialog extends JDialog implements ActionListener
 {
 	private ChromosomeSelectionDialog csd;
@@ -50,12 +45,12 @@ public class PedVerLinesStatsDialog extends JDialog implements ActionListener
 			.withSelectedMarkers();
 
 		csd = new ChromosomeSelectionDialog(viewSet, true);
-		csdLabel.addActionListener(e -> { csd.setVisible(true); } );
+		csdLabel.addActionListener(e -> csd.setVisible(true));
 
 		setupComboBoxes(as);
 
 		FlapjackUtils.initDialog(this, bOK, bCancel, true,
-			getContentPane(), parentsPanel);
+			getContentPane(), jPanel1, parentsPanel);
 	}
 
 	private void setupComboBoxes(AnalysisSet as)

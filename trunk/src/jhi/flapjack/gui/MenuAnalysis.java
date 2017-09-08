@@ -4,6 +4,8 @@
 package jhi.flapjack.gui;
 
 import java.io.*;
+import java.util.*;
+import java.util.stream.*;
 
 import jhi.flapjack.analysis.*;
 import jhi.flapjack.data.*;
@@ -363,10 +365,13 @@ public class MenuAnalysis
 
 		// Retrieve information required for analysis from dialog
 		boolean[] selectedChromosomes = dialog.getSelectedChromosomes();
-		int refIndex = dialog.getReferenceLine();
-		int testIndex = dialog.getTestLine();
 
-		PedVerLinesAnalysis stats = new PedVerLinesAnalysis(newViewSet, selectedChromosomes, refIndex, testIndex, "PedVerLines Results");
+		// TODO: I've currently hacked out the dialog parental selection
+//		int refIndex = dialog.getReferenceLine();
+//		int testIndex = dialog.getTestLine();
+		ArrayList<Integer> parentIndices = IntStream.rangeClosed(0, 3).boxed().collect(Collectors.toCollection(ArrayList::new));
+
+		PedVerLinesAnalysis stats = new PedVerLinesAnalysis(newViewSet, selectedChromosomes, parentIndices, "PedVerLines Results");
 		ProgressDialog pDialog = new ProgressDialog(stats,
 			"Running PedVer Stats",
 			"Running PedVer stats - please be patient...",
