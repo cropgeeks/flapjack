@@ -9,7 +9,7 @@ Importing data
 --------------
 
 - Import a data set by selecting ``File > Import data`` from the menu bar, then choosing the option to provide a map and genotype data from files located on disk.
-- Import valid map and genotype data files, using the :doc:`import_data` (the link contains details on the formatting of these files).
+- Import valid map and genotype data files, using the :doc:`import_data` dialog (the link contains details on the formatting of these files).
 
 Flapjack will now import your data and display it on the main canvas. This “default” view is also listed in the navigation panel down the left-hand side, which is used to show you the data sets you have opened and the various views upon them that may exist.
 

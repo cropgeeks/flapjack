@@ -15,6 +15,7 @@ For more information on Flapjack, or to download the application, please visit t
    :caption: Dealing with data
    
    projects_&_data_formats
+   pedigrees
    import_data
    duplicate_markers
    export_data
