@@ -88,12 +88,19 @@ public class GTViewSet extends XMLRoot
 			lines.add(new LineInfo(line, i));
 		}
 
+		int allChromosomesIndex = -1;
 		for (int i = 0; i < dataSet.countChromosomeMaps(); i++)
 		{
 			GTView view = new GTView(this, dataSet.getMapByIndex(i), true);
 			view.linkMarkerInfos();
 			views.add(view);
+
+			if (view.getChromosomeMap().isSpecialChromosome())
+				allChromosomesIndex = i;
 		}
+
+		if (allChromosomesIndex != -1)
+			viewIndex = allChromosomesIndex;
 
 		// For a genuine new view on a new data import, this will have no effect
 		// but for new (additional) views, traits may exist that can be used
