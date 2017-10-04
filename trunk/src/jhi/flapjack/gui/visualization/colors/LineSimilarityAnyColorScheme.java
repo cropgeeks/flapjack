@@ -6,17 +6,23 @@ import scri.commons.gui.RB;
 
 public class LineSimilarityAnyColorScheme extends LineSimilarityColorScheme
 {
+	private StateTable stateTable;
+
 	/** Empty constructor that is ONLY used for color customization purposes. */
 	public LineSimilarityAnyColorScheme() {}
 
 	public LineSimilarityAnyColorScheme(GTView view, int w, int h)
 	{
 		super(view, w, h);
+
+		this.stateTable = view.getViewSet().getDataSet().getStateTable();
 	}
 
 	protected ColorState getState(int line, int marker)
 	{
 		int state = view.getState(line, marker);
+		AlleleState alleleState = stateTable.getAlleleState(state);
+
 		int comparisonIndex = view.getViewSet().getComparisonLineIndex();
 
 		// If it's the index line, return the darker version
@@ -27,11 +33,12 @@ public class LineSimilarityAnyColorScheme extends LineSimilarityColorScheme
 		if (comparisonIndex != -1)
 		{
 			int compState = view.getState(comparisonIndex, marker);
+			AlleleState compAlleleState = stateTable.getAlleleState(compState);
 
 			if (compState == 0)
 				return gsStates.get(state);
 
-			if (state == compState)
+			if (alleleState.matchesAnyAllele(compAlleleState))
 				return mtchStatesY.get(state);
 
 			return  mtchStatesN.get(state);
