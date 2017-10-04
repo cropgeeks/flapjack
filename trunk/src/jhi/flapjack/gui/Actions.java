@@ -80,6 +80,8 @@ public class Actions
 	public static AbstractAction vizColorRandom;
 	public static AbstractAction vizColorRandomWSP;
 	public static AbstractAction vizColorMagic;
+	public static AbstractAction vizColorParentDual;
+	public static AbstractAction vizColorLineSimAny;
 	public static AbstractAction vizScalingLocal;
 	public static AbstractAction vizScalingGlobal;
 	public static AbstractAction vizScalingClassic;
@@ -538,6 +540,18 @@ public class Actions
 			}
 		};
 
+		vizColorParentDual = new AbstractAction(RB.getString("gui.Actions.vizColorParentDual")) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.mViz.vizColor(ColorScheme.PARENT_DUAL);
+			}
+		};
+
+		vizColorLineSimAny = new AbstractAction(RB.getString("gui.Actions.vizColorLineSimAny")) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.mViz.vizColor(ColorScheme.LINE_SIMILARITY_ANY_MATCH);
+			}
+		};
+
 		vizScalingLocal = new AbstractAction(RB.getString("gui.Actions.vizScalingLocal")) {
 			public void actionPerformed(ActionEvent e) {
 				winMain.mViz.vizScaling(Constants.LOCAL);
@@ -856,6 +870,8 @@ public class Actions
 		vizColorAlleleFreq.setEnabled(false);
 		vizColorBinned.setEnabled(false);
 		vizColorMagic.setEnabled(false);
+		vizColorParentDual.setEnabled(false);
+		vizColorLineSimAny.setEnabled(false);
 		vizScalingLocal.setEnabled(false);
 		vizScalingGlobal.setEnabled(false);
 		vizScalingClassic.setEnabled(false);

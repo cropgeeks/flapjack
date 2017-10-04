@@ -46,7 +46,9 @@ public class MenuVisualization
 	public void vizColor(int colorScheme)
 	{
 		// Set the initial index positions for similarity colouring (if needbe)
-		if (colorScheme == ColorScheme.LINE_SIMILARITY || colorScheme == ColorScheme.LINE_SIMILARITY_EXACT_MATCH)
+		if (colorScheme == ColorScheme.LINE_SIMILARITY ||
+			colorScheme == ColorScheme.LINE_SIMILARITY_EXACT_MATCH ||
+			colorScheme == ColorScheme.LINE_SIMILARITY_ANY_MATCH)
 		{
 			SelectLMDialog dialog = new SelectLMDialog(gPanel.getView(), true);
 			if (dialog.isOK() == false)
@@ -196,6 +198,8 @@ public class MenuVisualization
 				Actions.vizColorRandom.putValue(Action.SELECTED_KEY, cScheme == ColorScheme.RANDOM);
 				Actions.vizColorRandomWSP.putValue(Action.SELECTED_KEY, cScheme == ColorScheme.RANDOM_WSP);
 				Actions.vizColorMagic.putValue(Action.SELECTED_KEY, cScheme == ColorScheme.MAGIC);
+				Actions.vizColorParentDual.putValue(Action.SELECTED_KEY, cScheme == ColorScheme.PARENT_DUAL);
+				Actions.vizColorLineSimAny.putValue(Action.SELECTED_KEY, cScheme == ColorScheme.LINE_SIMILARITY_ANY_MATCH);
 			}
 
 			public void menuDeselected(MenuEvent e) {}
