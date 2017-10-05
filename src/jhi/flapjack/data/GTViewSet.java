@@ -48,9 +48,11 @@ public class GTViewSet extends XMLRoot
 	private int randomColorSeed = (int)(Math.random()*50000);
 
 	// For comparisons between lines, we need to know the line itself:
-	Line comparisonLine;
+	Line comparisonLine, comparisonLine2;
 	// And its current index
 	int comparisonLineIndex;
+	// If doing "parent" comparisons, we have a 2nd index
+	int comparisonLineIndex2;
 
 	// If traits are being displayed, which ones?
 	private int[] traits = new int[0];// { -1, -1, -1 };
@@ -204,11 +206,23 @@ public class GTViewSet extends XMLRoot
 	public void setComparisonLine(Line comparisonLine)
 		{ this.comparisonLine = comparisonLine; }
 
+	public Line getComparisonLine2()
+		{ return comparisonLine2; }
+
+	public void setComparisonLine2(Line comparisonLine2)
+		{ this.comparisonLine2 = comparisonLine2; }
+
 	public int getComparisonLineIndex()
 		{ return comparisonLineIndex; }
 
 	public void setComparisonLineIndex(int comparisonLineIndex)
 		{ this.comparisonLineIndex = comparisonLineIndex; }
+
+	public int getComparisonLineIndex2()
+		{ return comparisonLineIndex2; }
+
+	public void setComparisonLineIndex2(int comparisonLineIndex1)
+		{ this.comparisonLineIndex2 = comparisonLineIndex1; }
 
 	public float getAlleleFrequencyThreshold()
 		{ return alleleFrequencyThreshold; }
@@ -389,7 +403,9 @@ public class GTViewSet extends XMLRoot
 				clone.hideLines.add(new LineInfo(lineInfo));
 
 		clone.comparisonLine = comparisonLine;
+		clone.comparisonLine2 = comparisonLine2;
 		clone.comparisonLineIndex = comparisonLineIndex;
+		clone.comparisonLineIndex2 = comparisonLineIndex2;
 
 		// Copy over the chromosomes views
 		clone.views.clear();
@@ -561,11 +577,16 @@ public class GTViewSet extends XMLRoot
 		lines.set(fromIndex, lines.get(toIndex));
 		lines.set(toIndex, oldValue);
 
-		// But also check and deal with the comparison line being moved
+		// But also check and deal with the comparison lines being moved
 		if (comparisonLineIndex == fromIndex)
 			comparisonLineIndex = toIndex;
 		else if (comparisonLineIndex == toIndex)
 			comparisonLineIndex = fromIndex;
+
+		if (comparisonLineIndex2 == fromIndex)
+			comparisonLineIndex2 = toIndex;
+		else if (comparisonLineIndex2 == toIndex)
+			comparisonLineIndex2 = fromIndex;
 
 		tableHandler.copyViewToTable(true);
 	}

@@ -212,19 +212,13 @@ public class GTView extends XMLRoot
 
 		// Internal methods for reordering lines can maintain the tracking ok
 
-		if (mouseOverLine != -1)
-			viewSet.comparisonLineIndex = mouseOverLine;
-		else
-			viewSet.comparisonLineIndex = 0;
+		if (viewSet.comparisonLineIndex != -1)
+			viewSet.comparisonLine = getLine(viewSet.comparisonLineIndex);
+		if (viewSet.comparisonLineIndex2 != -1)
+			viewSet.comparisonLine2 = getLine(viewSet.comparisonLineIndex2);
 
-		viewSet.comparisonLine = getLine(viewSet.comparisonLineIndex);
-
-		if (mouseOverMarker != -1)
-			comparisonMarkerIndex = mouseOverMarker;
-		else
-			comparisonMarkerIndex = 0;
-
-		comparisonMarker = getMarker(comparisonMarkerIndex);
+		if (comparisonMarkerIndex != -1)
+			comparisonMarker = getMarker(comparisonMarkerIndex);
 	}
 
 	/**
@@ -237,22 +231,37 @@ public class GTView extends XMLRoot
 		viewSet.comparisonLineIndex = -1;
 
 		for (int i = 0; i < viewSet.lines.size(); i++)
+		{
 			if (viewSet.lines.get(i).line == viewSet.comparisonLine)
 			{
 				viewSet.comparisonLineIndex = i;
 				break;
 			}
+		}
 
+		// Same again for the 2nd comparison line
+		viewSet.comparisonLineIndex2 = -1;
+
+		for (int i = 0; i < viewSet.lines.size(); i++)
+		{
+			if (viewSet.lines.get(i).line == viewSet.comparisonLine2)
+			{
+				viewSet.comparisonLineIndex2 = i;
+				break;
+			}
+		}
 
 		// Try to find the new index for the comparison marker
 		comparisonMarkerIndex = -1;
 
 		for (int i = 0; i < markers.size(); i++)
+		{
 			if (markers.get(i).marker == comparisonMarker)
 			{
 				comparisonMarkerIndex = i;
 				break;
 			}
+		}
 	}
 
 	/**

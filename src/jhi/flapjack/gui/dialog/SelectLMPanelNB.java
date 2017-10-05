@@ -7,7 +7,6 @@ import java.awt.*;
 import javax.swing.*;
 
 import jhi.flapjack.data.*;
-import jhi.flapjack.gui.*;
 
 import scri.commons.gui.*;
 
