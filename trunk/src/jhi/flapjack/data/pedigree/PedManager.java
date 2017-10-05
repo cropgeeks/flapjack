@@ -1,13 +1,16 @@
 package jhi.flapjack.data.pedigree;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import jhi.flapjack.data.*;
 import jhi.flapjack.io.*;
 
 public class PedManager extends XMLRoot
 {
-	ArrayList<PedLineInfo> pedigrees = new ArrayList<>();
+	private ArrayList<PedLineInfo> pedigrees = new ArrayList<>();
+
+	private ArrayList<Line> parents;
 
 	public PedManager()
 	{
@@ -18,7 +21,6 @@ public class PedManager extends XMLRoot
 
 	public void setPedigrees(ArrayList<PedLineInfo> pedigrees)
 		{ this.pedigrees = pedigrees; }
-
 
 
 	public void create(ArrayList<String> triplets, HashMap<String, ArrayList<Line>> linesByName)
@@ -117,5 +119,13 @@ public class PedManager extends XMLRoot
 		}
 
 		return false;
+	}
+
+	public boolean isParent(LineInfo lineInfo)
+	{
+		if (parents == null)
+			parents = pedigrees.stream().map(PedLineInfo::getParent).distinct().collect(Collectors.toCollection(ArrayList::new));
+
+		return parents.contains(lineInfo.getLine());
 	}
 }
