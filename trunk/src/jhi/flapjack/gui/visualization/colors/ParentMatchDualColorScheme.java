@@ -95,8 +95,8 @@ public class ParentMatchDualColorScheme extends ColorScheme
 
 	protected ColorState getState(int line, int marker)
 	{
-		int p1 = 0; // todo look up parent indices - they may have been hidden!!!
-		int p2 = 1;
+		int p1 = view.getViewSet().getComparisonLineIndex();
+		int p2 = view.getViewSet().getComparisonLineIndex2();
 
 		int state = view.getState(line, marker);
 

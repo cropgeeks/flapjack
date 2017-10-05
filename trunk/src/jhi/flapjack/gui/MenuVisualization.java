@@ -54,7 +54,7 @@ public class MenuVisualization
 			if (dialog.isOK() == false)
 				return;
 
-			gPanel.getView().mouseOverLine = dialog.getSelectedIndex();
+			gPanel.getViewSet().setComparisonLineIndex(dialog.getSelectedIndex());
 			gPanel.getView().initializeComparisons();
 		}
 
@@ -64,7 +64,18 @@ public class MenuVisualization
 			if (dialog.isOK() == false)
 				return;
 
-			gPanel.getView().mouseOverMarker = dialog.getSelectedIndex();
+			gPanel.getView().setComparisonMarkerIndex(dialog.getSelectedIndex());
+			gPanel.getView().initializeComparisons();
+		}
+
+		else if (colorScheme == ColorScheme.PARENT_DUAL)
+		{
+			SelectParentsDialog dialog = new SelectParentsDialog(gPanel.getView());
+			if (dialog.isOK() == false)
+				return;
+
+			gPanel.getViewSet().setComparisonLineIndex(dialog.getParent1());
+			gPanel.getViewSet().setComparisonLineIndex2(dialog.getParent2());
 			gPanel.getView().initializeComparisons();
 		}
 
