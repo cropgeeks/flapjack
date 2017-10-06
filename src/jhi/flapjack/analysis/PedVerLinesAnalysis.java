@@ -8,39 +8,49 @@ import java.util.*;
 import jhi.flapjack.data.*;
 import jhi.flapjack.data.results.*;
 
+import jhi.flapjack.gui.visualization.colors.ColorScheme;
 import scri.commons.gui.*;
 
 public class PedVerLinesAnalysis extends SimpleJob
 {
 	private GTViewSet viewSet;
-	private AnalysisSet as;
-
+	private boolean[] selectedChromosomes;
+	private int p1Index;
+	private int p2Index;
 	private ArrayList<Integer> parentIndices;
+
+	private AnalysisSet as;
 
 	private String name;
 
-	public PedVerLinesAnalysis(GTViewSet viewSet, boolean[] selectedChromosomes, ArrayList<Integer> parentIndices, String name)
+	public PedVerLinesAnalysis(GTViewSet viewSet, boolean[] selectedChromosomes, int p1Index, int p2Index, String name)
 	{
-		this(viewSet, selectedChromosomes, parentIndices);
+		this(viewSet, selectedChromosomes, p1Index, p2Index);
 		this.name = name;
 	}
 
-	public PedVerLinesAnalysis(GTViewSet viewSet, boolean[] selectedChromosomes, ArrayList<Integer> parentIndices)
+	public PedVerLinesAnalysis(GTViewSet viewSet, boolean[] selectedChromosomes, int p1Index, int p2Index)
 	{
-		this.viewSet = viewSet;
-		this.parentIndices = parentIndices;
+		this.viewSet = viewSet.createClone("", true);
+		this.p1Index = p1Index;
+		this.p2Index = p2Index;
+		this.selectedChromosomes = selectedChromosomes;
+
+		this.parentIndices = new ArrayList<>();
+		this.parentIndices.add(p1Index);
+		this.parentIndices.add(p2Index);
 
 		moveParentsToTop();
-
-		as = new AnalysisSet(viewSet)
-			.withViews(selectedChromosomes)
-			.withSelectedLines()
-			.withSelectedMarkers();
 	}
 
 	public void runJob(int index)
 		throws Exception
 	{
+		as = new AnalysisSet(this.viewSet)
+			.withViews(selectedChromosomes)
+			.withSelectedLines()
+			.withSelectedMarkers();
+
 		for (int lineIndex=0; lineIndex < as.lineCount(); lineIndex++)
 		{
 			LineInfo lineInfo = as.getLine(lineIndex);
@@ -73,6 +83,8 @@ public class PedVerLinesAnalysis extends SimpleJob
 			lineStat.setTotalMatch(totalMatch);
 			lineStat.setPercentTotalMatch((totalMatch / (double) dataTotalMatch) * 100);
 		}
+
+		prepareForVisualization();
 	}
 
 	private void moveParentsToTop()
@@ -94,12 +106,6 @@ public class PedVerLinesAnalysis extends SimpleJob
 			viewSet.getLines().add(i, parentLines.get(i));
 			parentIndices.set(i, i);
 		}
-
-		// Set the colour scheme to the similarity to line exact match scheme and set the comparison line equal to the
-		// F1
-//		viewSet.setColorScheme(ColorScheme.LINE_SIMILARITY_EXACT_MATCH);
-//		viewSet.setComparisonLineIndex(testIndex);
-//		viewSet.setComparisonLine(testLine.getLine());
 	}
 
 	private ArrayList<PedVerLinesParentScore> getParentScoresForLine(int lineIndex)
@@ -188,4 +194,34 @@ public class PedVerLinesAnalysis extends SimpleJob
 
 		return matches;
 	}
+
+	private void prepareForVisualization()
+	{
+		changeColourScheme();
+		addViewSetToDataSet();
+	}
+
+	private void changeColourScheme()
+	{
+		// Set the colour scheme to the sparent dual match scheme and update the
+		// comparison lines and indices
+		viewSet.setColorScheme(ColorScheme.PARENT_DUAL);
+		viewSet.setComparisonLineIndex(parentIndices.get(0));
+		viewSet.setComparisonLine(viewSet.getLines().get(0).getLine());
+		viewSet.setComparisonLineIndex2(parentIndices.get(1));
+		viewSet.setComparisonLine2(viewSet.getLines().get(1).getLine());
+	}
+
+	private void addViewSetToDataSet()
+	{
+		DataSet dataSet = viewSet.getDataSet();
+
+		viewSet.setName("PedVerLines View");
+
+		// Add the results viewset to the dataset
+		dataSet.getViewSets().add(viewSet);
+	}
+
+	public GTViewSet getViewSet()
+		{ return viewSet; }
 }
