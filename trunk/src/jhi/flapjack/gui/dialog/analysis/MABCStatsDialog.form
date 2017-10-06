@@ -84,23 +84,10 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="0" attributes="0">
+              <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="jLabel1" max="32767" attributes="0"/>
-                      <Group type="102" attributes="0">
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="bWeighted" min="-2" max="-2" attributes="0"/>
-                              <Component id="bUnweighted" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Group type="102" alignment="0" attributes="0">
-                                  <EmptySpace min="21" pref="21" max="-2" attributes="0"/>
-                                  <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="maxMrkrCoverage" min="-2" pref="91" max="-2" attributes="0"/>
-                              </Group>
-                          </Group>
-                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                      </Group>
                       <Group type="102" alignment="0" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="lblParent1" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -111,6 +98,20 @@
                               <Component id="donorCombo" max="32767" attributes="0"/>
                               <Component id="recurrentCombo" max="32767" attributes="0"/>
                           </Group>
+                      </Group>
+                      <Group type="102" attributes="0">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="bWeighted" min="-2" max="-2" attributes="0"/>
+                              <Component id="bUnweighted" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <EmptySpace min="21" pref="21" max="-2" attributes="0"/>
+                                  <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="maxMrkrCoverage" min="-2" pref="91" max="-2" attributes="0"/>
+                              </Group>
+                              <Component id="chkExcludeParents" alignment="0" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
@@ -132,6 +133,8 @@
                       <Component id="lblParent2" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="donorCombo" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <Component id="chkExcludeParents" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="bWeighted" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
@@ -204,6 +207,11 @@
         <Component class="javax.swing.JLabel" name="jLabel1">
           <Properties>
             <Property name="text" type="java.lang.String" value="&lt;html&gt;Marker Assisted Back Crossing statistics will calculate Recurrent Parent Percentages&lt;br&gt;for each line across each chromosome, and will also display linkage drag and QTL&lt;br&gt;status information if appropriate."/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JCheckBox" name="chkExcludeParents">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Exclude other parental lines from analysis and view"/>
           </Properties>
         </Component>
       </SubComponents>

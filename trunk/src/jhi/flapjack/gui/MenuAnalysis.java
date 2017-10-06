@@ -279,25 +279,17 @@ public class MenuAnalysis
 		int dpIndex = dialog.getDonorParent();
 		boolean simpleStats = dialog.isSimpleStats();
 
-		GTViewSet finalViewSet = viewSet.createClone("", true);
-
 		// Run the stats calculations
 		MabcAnalysis stats = new MabcAnalysis(
-			finalViewSet, selectedChromosomes, Prefs.mabcMaxMrkrCoverage, rpIndex, dpIndex, simpleStats, RB.getString("gui.navpanel.MabcNode.node"));
+			viewSet, selectedChromosomes, Prefs.mabcMaxMrkrCoverage, rpIndex,
+			dpIndex, Prefs.guiMabcExcludeParents, simpleStats, RB.getString("gui.navpanel.MabcNode.node"));
+
 		ProgressDialog pDialog = new ProgressDialog(stats,
 			RB.getString("gui.MenuAnalysis.mabc.title"),
-			RB.getString("gui.MenuAnalysis.pcoa.label"), Flapjack.winMain);
-
-		// Create titles for the new view and its results table
-		int id = dataSet.getMabcCount() + 1;
-		dataSet.setMabcCount(id);
-		finalViewSet.setName(RB.format("gui.MenuAnalysis.mabc.view", id));
-		// mabc thingy. RB.format("gui.MenuAnalysis.mabc.panel", id);
-		// set?
+			RB.getString("gui.MenuAnalysis.mabc.label"), Flapjack.winMain);
 
 		// Create new NavPanel components to hold the results
-		dataSet.getViewSets().add(finalViewSet);
-		navPanel.addVisualizationNode(dataSet, finalViewSet);
+		navPanel.addVisualizationNode(dataSet, stats.getViewSet());
 
 		Actions.projectModified();
 	}

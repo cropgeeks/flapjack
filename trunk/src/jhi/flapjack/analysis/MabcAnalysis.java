@@ -6,6 +6,7 @@ package jhi.flapjack.analysis;
 import java.util.*;
 
 import jhi.flapjack.data.*;
+import jhi.flapjack.data.pedigree.*;
 import jhi.flapjack.data.results.*;
 import jhi.flapjack.gui.visualization.colors.*;
 
@@ -31,25 +32,61 @@ public class MabcAnalysis extends SimpleJob
 
 	private int rpIndex = 0;
 	private int dpIndex = 1;
+	private boolean excludeAdditionalParents;
 
 	private boolean simpleStats;
 
 	private String name;
 
-	public MabcAnalysis(GTViewSet viewSet, boolean[] selectedChromosomes, double maxMarkerCoverage, int rpIndex, int dpIndex, boolean simpleStats, String name)
+	public MabcAnalysis(GTViewSet viewSet, boolean[] selectedChromosomes, double maxMarkerCoverage, int rpIndex, int dpIndex, boolean excludeAdditionalParents, boolean simpleStats, String name)
 	{
-		this(viewSet, selectedChromosomes, maxMarkerCoverage, rpIndex, dpIndex, simpleStats);
+		this(viewSet, selectedChromosomes, maxMarkerCoverage, rpIndex, dpIndex, excludeAdditionalParents, simpleStats);
 		this.name = name;
 	}
 
-	public MabcAnalysis(GTViewSet viewSet, boolean[] selectedChromosomes, double maxMarkerCoverage, int rpIndex, int dpIndex, boolean simpleStats)
+	public MabcAnalysis(GTViewSet viewSet, boolean[] selectedChromosomes, double maxMarkerCoverage, int rpIndex, int dpIndex,  boolean excludeAdditionalParents, boolean simpleStats)
 	{
-		this.viewSet = viewSet;
+		this.viewSet = viewSet.createClone("", true);;
 		this.selectedChromosomes = selectedChromosomes;
 		this.maxMarkerCoverage = maxMarkerCoverage;
 		this.rpIndex = rpIndex;
 		this.dpIndex = dpIndex;
+		this.excludeAdditionalParents = excludeAdditionalParents;
 		this.simpleStats = simpleStats;
+
+		setupAnalysis();
+	}
+
+	private void setupAnalysis()
+	{
+		// If the user has specified that only the parents used for the analysis
+		// should be included in the results and the view
+		if (excludeAdditionalParents)
+		{
+			PedManager pedMan = viewSet.getDataSet().getPedManager();
+
+			// Iterate backward over the viewSet so we can remove any parents
+			// that we need to
+			for (int i = viewSet.getLines().size() - 1; i >= 0; i--)
+			{
+				// Don't remove the selected rp and dp
+				if (i == rpIndex || i == dpIndex)
+					continue;
+
+				if (pedMan.isParent(viewSet.getLines().get(i)))
+				{
+					viewSet.getLines().remove(i);
+
+					// If the removed parent is before rp, or dp in the viewSet
+					// we need to adjust the rpIndex and dpIndex
+					if (i < rpIndex)
+						rpIndex--;
+
+					if (i < dpIndex)
+						dpIndex--;
+				}
+			}
+		}
 	}
 
 	public void runJob(int index)
@@ -417,6 +454,13 @@ public class MabcAnalysis extends SimpleJob
 
 	private void prepareForVisualization()
 	{
+		prepareParentsForVisualization();
+		changeColourScheme();
+		addViewSetToDataSet();
+	}
+
+	private void prepareParentsForVisualization()
+	{
 		// Mark the parents lines as sortToTop special cases
 		viewSet.getLines().get(rpIndex).getResults().setSortToTop(true);
 		viewSet.getLines().get(dpIndex).getResults().setSortToTop(true);
@@ -428,12 +472,31 @@ public class MabcAnalysis extends SimpleJob
 		viewSet.getLines().remove(dp);
 		viewSet.getLines().add(0, rp);
 		viewSet.getLines().add(1, dp);
+	}
 
+	private void changeColourScheme()
+	{
 		// Set the colour scheme to LINE_SIMILARITY and set the comparison line to the recurrent parent
 		viewSet.setColorScheme(ColorScheme.LINE_SIMILARITY);
 		viewSet.setComparisonLineIndex(0);
 		viewSet.setComparisonLine(viewSet.getLines().get(0).getLine());
 	}
+
+	private void addViewSetToDataSet()
+	{
+		DataSet dataSet = viewSet.getDataSet();
+
+		// Create titles for the new view and its results table
+		int id = dataSet.getMabcCount() + 1;
+		dataSet.setMabcCount(id);
+		viewSet.setName(RB.format("gui.MenuAnalysis.mabc.view", id));
+
+		// Add the results viewset to the dataset
+		dataSet.getViewSets().add(viewSet);
+	}
+
+	public GTViewSet getViewSet()
+		{ return viewSet; }
 
 	private static class QTLParams
 	{

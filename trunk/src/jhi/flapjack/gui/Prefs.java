@@ -143,6 +143,7 @@ public class Prefs extends XMLPreferences
 	public static boolean guiHideSelectedLines = false;
 
 	public static boolean guiUseSimpleMabcStats = false;
+	public static boolean guiMabcExcludeParents = false;
 
 	public static int guiMouseMode = Constants.NAVIGATION;
 
