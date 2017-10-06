@@ -106,6 +106,11 @@ class CmdOptions extends Options
 		return addOption(opt, longOpt, hasArg, argName, description, true);
 	}
 
+	CmdOptions addOption(String opt, String longOpt, String description)
+	{
+		return addOption(opt, longOpt, false, null, description, false);
+	}
+
 	CmdOptions addOption(String opt, String longOpt, boolean hasArg, String argName, String description)
 	{
 		return addOption(opt, longOpt, hasArg, argName, description, false);

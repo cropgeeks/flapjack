@@ -22,6 +22,7 @@ public class GenerateMabcStats
 
 	private double maxMarkerCoverage = 10;
 	private String filename;
+	private boolean excludeAdditionalParents = false;
 	private boolean unweighted = false;
 	private Integer parent1;
 	private Integer parent2;
@@ -38,11 +39,13 @@ public class GenerateMabcStats
 			.withQtlFile(true)
 			.withOutputPath(true)
 			.withProjectFile(false)
+			.withTraitFile(false)
 			.addRequiredOption("r", "recurrent-parent", true, "INTEGER", "Index of parent in file")
 			.addRequiredOption("d", "donor-parent", true, "INTEGER", "Index of parent in file")
 			.addOption(null, "model", true, "ARG", "weighted|unweighted")
 			.addOption("c", "max-marker-coverage", true, "FLOATING POINT NUMBER", "Maximum coverage a marker can " +
-				"have in the weighted model");
+				"have in the weighted model")
+			.addOption("e", "exclude-additional-parents","Exclude parents which are not the selected recurrent, or donor, parent from the analysis");
 
 		try
 		{
@@ -62,7 +65,10 @@ public class GenerateMabcStats
 			if (line.hasOption("max-marker-coverage"))
 				maxMarkerCoverage = nf.parse(line.getOptionValue("max-marker-coverage")).doubleValue();
 
-			GenerateMabcStats mabcStats = new GenerateMabcStats(projectSettings, importSettings, parent1, parent2,
+			boolean excludeAdditionalParents = line.hasOption("exclude-additional-parents");
+
+			GenerateMabcStats mabcStats = new GenerateMabcStats(projectSettings,
+				importSettings, parent1, parent2, excludeAdditionalParents,
 				unweighted, maxMarkerCoverage, filename);
 			mabcStats.doStatGeneration();
 
@@ -77,12 +83,13 @@ public class GenerateMabcStats
 	}
 
 	private GenerateMabcStats(CreateProjectSettings projectSettings, DataImportSettings importSettings, Integer parent1,
-		Integer parent2, boolean unweighted, double maxMarkerCoverage, String filename)
+		Integer parent2, boolean excludeAdditionalParents, boolean unweighted, double maxMarkerCoverage, String filename)
 	{
 		this.projectSettings = projectSettings;
 		this.importSettings = importSettings;
 		this.parent1 = parent1;
 		this.parent2 = parent2;
+		this.excludeAdditionalParents = excludeAdditionalParents;
 		this.unweighted = unweighted;
 		this.maxMarkerCoverage = maxMarkerCoverage;
 		this.filename = filename;
@@ -137,12 +144,14 @@ public class GenerateMabcStats
 		for (int i = 0; i < chromosomes.length; i++)
 			chromosomes[i] = true;
 
-		GTViewSet finalViewSet = viewSet.createClone("", true);
-
-		MabcAnalysis stats = new MabcAnalysis(finalViewSet, chromosomes, maxMarkerCoverage, parent1, parent2, unweighted, RB.getString("gui.navpanel.MabcNode.node"));
+		MabcAnalysis stats = new MabcAnalysis(viewSet, chromosomes, maxMarkerCoverage, parent1, parent2, excludeAdditionalParents, unweighted, RB.getString("gui.navpanel.MabcNode.node"));
 		stats.runJob(0);
 
 /////////////
+		// TODO: Can we tidy up the code below by getting at the table in the
+		// viewset generated as part of the analysis
+		GTViewSet finalViewSet = stats.getViewSet();
+
 		MabcTableModel model = new MabcTableModel(finalViewSet);
 		LineDataTable table = new LineDataTable();
 
@@ -153,17 +162,6 @@ public class GenerateMabcStats
 			table, new File(filename), 0, false);
 		exporter.runJob(0);
 //////////////
-
-
-		// Create titles for the new view and its results table
-		int id = dataSet.getMabcCount() + 1;
-		dataSet.setMabcCount(id);
-		finalViewSet.setName(RB.format("gui.MenuAnalysis.mabc.view", id));
-		// mabc thingy. RB.format("gui.MenuAnalysis.mabc.panel", id);
-		// set?
-
-		// Create new NavPanel components to hold the results
-		dataSet.getViewSets().add(finalViewSet);
 
 		createProject.saveProject();
 	}

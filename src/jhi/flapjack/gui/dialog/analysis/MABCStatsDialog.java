@@ -4,6 +4,7 @@
 package jhi.flapjack.gui.dialog.analysis;
 
 import java.awt.event.*;
+import java.util.*;
 import javax.swing.*;
 
 import jhi.flapjack.analysis.*;
@@ -62,8 +63,12 @@ public class MABCStatsDialog extends JDialog implements ActionListener
 		RB.setText(bHelp, "gui.text.help");
 		FlapjackUtils.setHelp(bHelp, "mabc.html");
 
+		RB.setText(chkExcludeParents, "gui.dialog.analysis.MABCStatsDialog.chkExlcudeParents");
+		chkExcludeParents.addActionListener(this);
+		chkExcludeParents.setSelected(Prefs.guiMabcExcludeParents);
+
 		csd = new ChromosomeSelectionDialog(viewSet, true);
-		csdLabel.addActionListener(e -> { csd.setVisible(true); } );
+		csdLabel.addActionListener(e -> csd.setVisible(true));
 
 		setupComboBoxes(as);
 
@@ -208,6 +213,9 @@ public class MABCStatsDialog extends JDialog implements ActionListener
 			maxMrkrCoverage.setEnabled(false);
 			Prefs.guiUseSimpleMabcStats = bUnweighted.isSelected();
 		}
+
+		else if (e.getSource() == chkExcludeParents)
+			Prefs.guiMabcExcludeParents = chkExcludeParents.isSelected();
 	}
 
 	public boolean isSimpleStats()
@@ -263,8 +271,7 @@ public class MABCStatsDialog extends JDialog implements ActionListener
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents()
-    {
+    private void initComponents() {
 
         dialogPanel1 = new scri.commons.gui.matisse.DialogPanel();
         bOK = new javax.swing.JButton();
@@ -280,6 +287,7 @@ public class MABCStatsDialog extends JDialog implements ActionListener
         bWeighted = new javax.swing.JRadioButton();
         bUnweighted = new javax.swing.JRadioButton();
         jLabel1 = new javax.swing.JLabel();
+        chkExcludeParents = new javax.swing.JCheckBox();
         dataPanel = new javax.swing.JPanel();
         csdLabel = new scri.commons.gui.matisse.HyperLinkLabel();
 
@@ -312,6 +320,8 @@ public class MABCStatsDialog extends JDialog implements ActionListener
 
         jLabel1.setText("<html>Marker Assisted Back Crossing statistics will calculate Recurrent Parent Percentages<br>for each line across each chromosome, and will also display linkage drag and QTL<br>status information if appropriate.");
 
+        chkExcludeParents.setText("Exclude other parental lines from analysis and view");
+
         javax.swing.GroupLayout settingsPanelLayout = new javax.swing.GroupLayout(settingsPanel);
         settingsPanel.setLayout(settingsPanelLayout);
         settingsPanelLayout.setHorizontalGroup(
@@ -322,22 +332,23 @@ public class MABCStatsDialog extends JDialog implements ActionListener
                     .addComponent(jLabel1)
                     .addGroup(settingsPanelLayout.createSequentialGroup()
                         .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblParent1)
+                            .addComponent(lblParent2))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(donorCombo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(recurrentCombo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(settingsPanelLayout.createSequentialGroup()
+                        .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(bWeighted)
                             .addComponent(bUnweighted)
                             .addGroup(settingsPanelLayout.createSequentialGroup()
                                 .addGap(21, 21, 21)
                                 .addComponent(jLabel3)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(maxMrkrCoverage, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(settingsPanelLayout.createSequentialGroup()
-                        .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblParent1)
-                            .addComponent(lblParent2))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(donorCombo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(recurrentCombo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                .addComponent(maxMrkrCoverage, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(chkExcludeParents))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         settingsPanelLayout.setVerticalGroup(
@@ -353,6 +364,8 @@ public class MABCStatsDialog extends JDialog implements ActionListener
                 .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblParent2)
                     .addComponent(donorCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(chkExcludeParents)
                 .addGap(18, 18, 18)
                 .addComponent(bWeighted)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -418,6 +431,7 @@ public class MABCStatsDialog extends JDialog implements ActionListener
     private javax.swing.JButton bOK;
     private javax.swing.JRadioButton bUnweighted;
     private javax.swing.JRadioButton bWeighted;
+    private javax.swing.JCheckBox chkExcludeParents;
     private scri.commons.gui.matisse.HyperLinkLabel csdLabel;
     private javax.swing.JPanel dataPanel;
     private scri.commons.gui.matisse.DialogPanel dialogPanel1;
