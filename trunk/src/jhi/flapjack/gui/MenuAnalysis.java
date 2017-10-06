@@ -347,10 +347,6 @@ public class MenuAnalysis
 		DataSet dataSet = navPanel.getDataSetForSelection();
 		GTViewSet viewSet = gPanel.getViewSet();
 
-		// Clone the view (as the clone will ultimately contain a reordered
-		// list of lines that match the order in the dendrogram)
-		GTViewSet newViewSet = viewSet.createClone("", true);
-
 		PedVerLinesStatsDialog dialog = new PedVerLinesStatsDialog(viewSet);
 		if (dialog.isOK() == false)
 			return;
@@ -359,21 +355,16 @@ public class MenuAnalysis
 		boolean[] selectedChromosomes = dialog.getSelectedChromosomes();
 
 		// TODO: I've currently hacked out the dialog parental selection
-//		int refIndex = dialog.getReferenceLine();
-//		int testIndex = dialog.getTestLine();
-		ArrayList<Integer> parentIndices = IntStream.rangeClosed(0, 3).boxed().collect(Collectors.toCollection(ArrayList::new));
+		int refIndex = dialog.getReferenceLine();
+		int testIndex = dialog.getTestLine();
 
-		PedVerLinesAnalysis stats = new PedVerLinesAnalysis(newViewSet, selectedChromosomes, parentIndices, "PedVerLines Results");
+		PedVerLinesAnalysis stats = new PedVerLinesAnalysis(viewSet, selectedChromosomes, refIndex, testIndex, "PedVerLines Results");
 		ProgressDialog pDialog = new ProgressDialog(stats,
 			"Running PedVer Stats",
 			"Running PedVer stats - please be patient...",
 			Flapjack.winMain);
 
-		newViewSet.setName("PedVerLines View");
-
-		// Create new NavPanel components to hold the results
-		dataSet.getViewSets().add(newViewSet);
-		navPanel.addVisualizationNode(dataSet, newViewSet);
+		navPanel.addVisualizationNode(dataSet, stats.getViewSet());
 
 		Actions.projectModified();
 	}

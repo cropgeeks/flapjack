@@ -70,7 +70,7 @@
                               <Component id="lblParent1" alignment="0" min="-2" max="-2" attributes="0"/>
                               <Component id="lblParent2" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace min="0" pref="246" max="32767" attributes="0"/>
+                          <EmptySpace min="0" pref="274" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
@@ -96,7 +96,7 @@
       <SubComponents>
         <Component class="javax.swing.JLabel" name="lblParent1">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Select reference line:"/>
+            <Property name="text" type="java.lang.String" value="Select parent1:"/>
             <Property name="toolTipText" type="java.lang.String" value=""/>
           </Properties>
         </Component>
@@ -115,6 +115,9 @@
             <Property name="text" type="java.lang.String" value="Select test line:"/>
             <Property name="toolTipText" type="java.lang.String" value=""/>
           </Properties>
+          <AccessibilityProperties>
+            <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="Select parent2:"/>
+          </AccessibilityProperties>
         </Component>
         <Component class="javax.swing.JComboBox" name="testCombo">
           <Properties>

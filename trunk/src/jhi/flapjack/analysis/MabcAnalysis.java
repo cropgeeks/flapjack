@@ -46,7 +46,7 @@ public class MabcAnalysis extends SimpleJob
 
 	public MabcAnalysis(GTViewSet viewSet, boolean[] selectedChromosomes, double maxMarkerCoverage, int rpIndex, int dpIndex,  boolean excludeAdditionalParents, boolean simpleStats)
 	{
-		this.viewSet = viewSet.createClone("", true);;
+		this.viewSet = viewSet.createClone("", true);
 		this.selectedChromosomes = selectedChromosomes;
 		this.maxMarkerCoverage = maxMarkerCoverage;
 		this.rpIndex = rpIndex;

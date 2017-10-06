@@ -124,8 +124,7 @@ public class PedVerLinesStatsDialog extends JDialog implements ActionListener
 	 */
 	@SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents()
-    {
+    private void initComponents() {
 
         parentsPanel = new javax.swing.JPanel();
         lblParent1 = new javax.swing.JLabel();
@@ -142,7 +141,7 @@ public class PedVerLinesStatsDialog extends JDialog implements ActionListener
 
         parentsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Select lines:"));
 
-        lblParent1.setText("Select reference line:");
+        lblParent1.setText("Select parent1:");
         lblParent1.setToolTipText("");
 
         lblParent2.setText("Select test line:");
@@ -161,7 +160,7 @@ public class PedVerLinesStatsDialog extends JDialog implements ActionListener
                         .addGroup(parentsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblParent1)
                             .addComponent(lblParent2))
-                        .addGap(0, 246, Short.MAX_VALUE)))
+                        .addGap(0, 274, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         parentsPanelLayout.setVerticalGroup(
@@ -177,6 +176,8 @@ public class PedVerLinesStatsDialog extends JDialog implements ActionListener
                 .addComponent(testCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        lblParent2.getAccessibleContext().setAccessibleName("Select parent2:");
 
         bOK.setText("Run");
         dialogPanel1.add(bOK);
