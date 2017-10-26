@@ -16,7 +16,7 @@ import jhi.flapjack.gui.table.*;
 
 import scri.commons.gui.*;
 
-public class PedVerLinesPanel extends JPanel implements ActionListener, ITableViewListener, TableModelListener
+public class PedVerLinesPanel extends JPanel implements ActionListener, ListSelectionListener, ITableViewListener, TableModelListener
 {
 	private LineDataTable table;
 	private PedVerLinesTableModel model;
@@ -25,22 +25,20 @@ public class PedVerLinesPanel extends JPanel implements ActionListener, ITableVi
 
 	private PedVerLinesPanelNB controls;
 
+	// Variables used to 'remember' what the user picked last time they
+	// auto-selected or ranked lines
+	private int rank = 1;
+
 	public PedVerLinesPanel(GTViewSet viewSet)
 	{
 		controls = new PedVerLinesPanelNB(this);
 
 		table = (LineDataTable) controls.table;
+		table.getSelectionModel().addListSelectionListener(this);
 		table.addViewListener(this);
-
-		// Extract the test line's info from the first line in the view (they
-		// all hold the same reference anyway)
-		LineInfo line = viewSet.getLines().get(0);
 
 		setLayout(new BorderLayout());
 		add(new TitlePanel(RB.getString("gui.pedver.PedVerLinesPanel.title")), BorderLayout.NORTH);
-
-//		setLayout(new BorderLayout(0, 0));
-//		setBorder(BorderFactory.createEmptyBorder(1, 1, 0, 0));
 		add(controls);
 
 		updateModel(viewSet.getDataSet(), viewSet);
@@ -79,8 +77,21 @@ public class PedVerLinesPanel extends JPanel implements ActionListener, ITableVi
 		else if (e.getSource() == controls.bExport)
 			table.exportData();
 
+		else if (e.getSource() == controls.bRank)
+			table.rankSelectedLines(rank, model.getRankIndex());
+
 		else if (e.getSource() == controls.autoResize)
 			table.autoResize(controls.autoResize.isSelected(), false);
+	}
+
+	@Override
+	public void valueChanged(ListSelectionEvent e)
+	{
+		if (e.getValueIsAdjusting())
+			return;
+
+		controls.bRank.setEnabled(
+			table.getSelectionModel().getMinSelectionIndex() != -1);
 	}
 
 	private void handlePopup(MouseEvent e)
@@ -90,7 +101,15 @@ public class PedVerLinesPanel extends JPanel implements ActionListener, ITableVi
 
 		JPopupMenu menu = table.getMenu().createPopupMenu();
 
-		menu.add(new JPopupMenu.Separator(), 1);
+		final JMenuItem mRank = new JMenuItem();
+		mRank.setText("Rank...");
+		mRank.setIcon(Icons.getIcon("RANK"));
+		mRank.addActionListener(event -> rank = table.rankSelectedLines(rank, model.getRankIndex()));
+		mRank.setEnabled(table.getSelectionModel().getMinSelectionIndex() != -1);
+
+		menu.add(mRank, 1);
+		menu.add(new JPopupMenu.Separator(), 2);
+
 		menu.show(e.getComponent(), e.getX(), e.getY());
 	}
 

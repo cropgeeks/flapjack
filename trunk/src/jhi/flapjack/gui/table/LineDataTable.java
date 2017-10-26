@@ -406,6 +406,38 @@ public class LineDataTable extends JTable
 		Flapjack.winMain.mEdit.editMode(Constants.LINEMODE);
 	}
 
+	public int rankSelectedLines(int rank, int rankColumn)
+	{
+		SpinnerNumberModel sModel = new SpinnerNumberModel(
+			rank, Integer.MIN_VALUE, Integer.MAX_VALUE, 1);
+		JSpinner spinner = new JSpinner(sModel);
+		((JSpinner.DefaultEditor)spinner.getEditor()).getTextField().setColumns(4);
+
+		JPanel panel = new JPanel(new FlowLayout());
+		panel.add(new JLabel(RB.getString("gui.mabc.MabcPanel.rankLabel")));
+		panel.add(spinner);
+
+		int option = JOptionPane.showOptionDialog(Flapjack.winMain, panel,
+			RB.getString("gui.mabc.MabcPanel.rankTitle"),
+			JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+
+		if (option == JOptionPane.OK_OPTION)
+		{
+			rank = (int)spinner.getValue();
+			ListSelectionModel lsModel = getSelectionModel();
+
+			// Loop over every (selected) row, convert it to a model row, and
+			// then set the new rank value on it
+			for (int i = 0; i < getRowCount(); i++)
+				if (lsModel.isSelectedIndex(i))
+					setValueAt(rank, i, rankColumn);
+
+			model.fireTableRowsUpdated(0, model.getRowCount()-1);
+		}
+
+		return rank;
+	}
+
 	public String getLineStatusText()
 	{
 		return "Line count: " + model.getRowCount() + ", visible: "

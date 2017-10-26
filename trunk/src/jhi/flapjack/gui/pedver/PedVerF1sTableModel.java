@@ -11,8 +11,9 @@ import jhi.flapjack.gui.table.*;
 public class PedVerF1sTableModel extends LineDataTableModel
 {
 	private static final int selectedIndex = 12;
-	private static final int commentIndex = 13;
-	private static final int sortIndex = 14;
+	private static final int rankIndex = 13;
+	private static final int commentIndex = 14;
+	private static final int sortIndex = 15;
 
 	public PedVerF1sTableModel(GTViewSet viewSet)
 	{
@@ -28,13 +29,13 @@ public class PedVerF1sTableModel extends LineDataTableModel
 			"Het Count", "% Het", "% Deviation from Expected", "Count P1 Contained",
 			"% P1 Contained", "Count P2 Contained", "% P2 Contained",
 			"Count Allele Match to Expected", "% Allele Match to Expected",
-			"Selected", "Comments", "Don't Sort/Filter" };
+			"Selected", "Rank", "Comments", "Don't Sort/Filter" };
 
 		ttNames = new String[] { "Line", "Marker Count", "Percentage Missing",
 			"Heterozygous Count", "Percentage Heterozygous", "Percentage Deviation from Expected", "Count of Parent 1 Contained",
 			"Percentage of Parent 1 Contained", "Count of Parent 2 Contained", "Percentage of P2 Contained",
 			"Count of Allele Match to Expected", "Percentage of Allele Match to Expected",
-			"Selected", "Comments", "Don't Sort/Filter" };
+			"Selected", "Rank", "Comments", "Don't Sort/Filter" };
 	}
 
 	@Override
@@ -63,6 +64,8 @@ public class PedVerF1sTableModel extends LineDataTableModel
 			return line.getSelected();
 		else if (col == sortIndex)
 			return line.getResults().isSortToTop();
+		else if (col == rankIndex)
+			return line.getResults().getRank();
 
 		if (stats == null)
 			return null;
@@ -115,13 +118,23 @@ public class PedVerF1sTableModel extends LineDataTableModel
 
 		if (col == selectedIndex)
 			selectLine(line, (boolean)value);
+
+		else if (col == rankIndex)
+			line.getResults().setRank((int)value);
+
 		else if (col == commentIndex)
 			line.getResults().setComments((String)value);
+
 		else if (col == sortIndex)
 			line.getResults().setSortToTop((boolean)value);
 
 		fireTableRowsUpdated(row, row);
 
 		Actions.projectModified();
+	}
+
+	int getRankIndex()
+	{
+		return rankIndex;
 	}
 }

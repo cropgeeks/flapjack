@@ -226,9 +226,8 @@ public class MabcTableModel extends LineDataTableModel
 		return selectedCount;
 	}
 
-	void setRank(int row, int rank)
+	int getRankIndex()
 	{
-		setValueAt(rank, row, rankIndex);
-		fireTableRowsUpdated(row, row);
+		return rankIndex;
 	}
 }

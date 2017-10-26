@@ -13,6 +13,7 @@ class PedVerLinesTableModel extends LineDataTableModel
 	private GTViewSet viewSet;
 
 	private int selectedIndex;
+	private int rankIndex;
 	private int commentsIndex;
 	private int sortIndex;
 	private int parentsIndex;
@@ -32,14 +33,15 @@ class PedVerLinesTableModel extends LineDataTableModel
 	void initModel()
 	{
 		PedVerLinesResult stats = lines.get(0).getResults().getPedVerLinesResult();
-		columnNames = new String[13 + (stats.getParentScores().size() * 3)];
+		columnNames = new String[14 + (stats.getParentScores().size() * 3)];
 
 		parentsIndex = 7;
 
-		dataTotalMatchIndex = columnNames.length - 6;
-		totalMatchCountIndex = columnNames.length - 5;
-		totalMatchPercentIndex = columnNames.length - 4;
-		selectedIndex = columnNames.length - 3;
+		dataTotalMatchIndex = columnNames.length - 7;
+		totalMatchCountIndex = columnNames.length - 6;
+		totalMatchPercentIndex = columnNames.length - 5;
+		selectedIndex = columnNames.length - 4;
+		rankIndex = columnNames.length - 3;
 		commentsIndex = columnNames.length - 2;
 		sortIndex = columnNames.length - 1;
 
@@ -61,6 +63,7 @@ class PedVerLinesTableModel extends LineDataTableModel
 		columnNames[totalMatchCountIndex] = "Total Match";
 		columnNames[totalMatchPercentIndex] = "Percent Total Match";
 		columnNames[selectedIndex] = "Selected";
+		columnNames[rankIndex] = "Rank";
 		columnNames[commentsIndex] = "Comments";
 		columnNames[sortIndex] = "Don't Sort/Filter";
 	}
@@ -89,6 +92,8 @@ class PedVerLinesTableModel extends LineDataTableModel
 			return line;
 		else if (col == selectedIndex)
 			return line.getSelected();
+		else if (col == rankIndex)
+			return line.getResults().getRank();
 		else if (col == sortIndex)
 			return line.getResults().isSortToTop();
 
@@ -163,6 +168,8 @@ class PedVerLinesTableModel extends LineDataTableModel
 
 		if (col == selectedIndex)
 			selectLine(line, (boolean)value);
+		else if (col == rankIndex)
+			line.getResults().setRank((int)value);
 		else if (col == commentsIndex)
 			line.getResults().setComments((String)value);
 		else if (col == sortIndex)
@@ -171,5 +178,10 @@ class PedVerLinesTableModel extends LineDataTableModel
 		fireTableRowsUpdated(row, row);
 
 		Actions.projectModified();
+	}
+
+	int getRankIndex()
+	{
+		return rankIndex;
 	}
 }
