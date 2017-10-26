@@ -79,7 +79,7 @@ public class MabcPanel extends JPanel implements ActionListener, ListSelectionLi
 			table.exportData();
 
 		else if (e.getSource() == controls.bRank)
-			rankSelectedLines();
+			rank = table.rankSelectedLines(rank, model.getRankIndex());
 
 		else if (e.getSource() == controls.autoResize)
 			table.autoResize(controls.autoResize.isSelected(), false);
@@ -100,46 +100,18 @@ public class MabcPanel extends JPanel implements ActionListener, ListSelectionLi
 		if (e.isPopupTrigger() == false)
 			return;
 
-		JPopupMenu menu = ((LineDataTable)table).getMenu().createPopupMenu();
+		JPopupMenu menu = table.getMenu().createPopupMenu();
 
 		final JMenuItem mRank = new JMenuItem();
 		mRank.setText("Rank...");
 		mRank.setIcon(Icons.getIcon("RANK"));
-		mRank.addActionListener(event -> rankSelectedLines());
+		mRank.addActionListener(event -> rank = table.rankSelectedLines(rank, model.getRankIndex()));
 		mRank.setEnabled(table.getSelectionModel().getMinSelectionIndex() != -1);
 
 		menu.add(mRank, 1);
 		menu.add(new JPopupMenu.Separator(), 2);
 
 		menu.show(e.getComponent(), e.getX(), e.getY());
-	}
-
-	private void rankSelectedLines()
-	{
-		SpinnerNumberModel sModel = new SpinnerNumberModel(
-			rank, Integer.MIN_VALUE, Integer.MAX_VALUE, 1);
-		JSpinner spinner = new JSpinner(sModel);
-		((JSpinner.DefaultEditor)spinner.getEditor()).getTextField().setColumns(4);
-
-		JPanel panel = new JPanel(new FlowLayout());
-		panel.add(new JLabel(RB.getString("gui.mabc.MabcPanel.rankLabel")));
-		panel.add(spinner);
-
-		int option = JOptionPane.showOptionDialog(Flapjack.winMain, panel,
-			RB.getString("gui.mabc.MabcPanel.rankTitle"),
-			JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
-
-		if (option == JOptionPane.OK_OPTION)
-		{
-			rank = (int)spinner.getValue();
-			ListSelectionModel lsModel = table.getSelectionModel();
-
-			// Loop over every (selected) row, convert it to a model row, and
-			// then set the new rank value on it
-			for (int i = 0; i < table.getRowCount(); i++)
-				if (lsModel.isSelectedIndex(i))
-					model.setRank(table.convertRowIndexToModel(i), rank);
-		}
 	}
 
 	public void tablePreSorted() {}

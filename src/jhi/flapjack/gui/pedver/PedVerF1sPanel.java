@@ -11,8 +11,10 @@ import javax.swing.event.*;
 import jhi.flapjack.data.*;
 import jhi.flapjack.gui.*;
 import jhi.flapjack.gui.table.*;
+import scri.commons.gui.Icons;
+import scri.commons.gui.RB;
 
-public class PedVerF1sPanel extends JPanel implements ActionListener, ITableViewListener, TableModelListener
+public class PedVerF1sPanel extends JPanel implements ActionListener, ListSelectionListener, ITableViewListener, TableModelListener
 {
 	private LineDataTable table;
 	private PedVerF1sTableModel model;
@@ -21,18 +23,20 @@ public class PedVerF1sPanel extends JPanel implements ActionListener, ITableView
 
 	private PedVerF1sPanelNB controls;
 
+	// Variables used to 'remember' what the user picked last time they
+	// auto-selected or ranked lines
+	private int rank = 1;
+
 	public PedVerF1sPanel(GTViewSet viewSet)
 	{
 		controls = new PedVerF1sPanelNB(this);
 
 		table = (LineDataTable) controls.table;
+		table.getSelectionModel().addListSelectionListener(this);
 		table.addViewListener(this);
 
 		setLayout(new BorderLayout());
 		add(new TitlePanel("Pedigree Verification of F1s (Known Parents)"), BorderLayout.NORTH);
-
-//		setLayout(new BorderLayout(0, 0));
-//		setBorder(BorderFactory.createEmptyBorder(1, 1, 0, 0));
 		add(controls);
 
 		updateModel(viewSet);
@@ -71,8 +75,21 @@ public class PedVerF1sPanel extends JPanel implements ActionListener, ITableView
 		else if (e.getSource() == controls.bExport)
 			table.exportData();
 
+		else if (e.getSource() == controls.bRank)
+			rank = table.rankSelectedLines(rank, model.getRankIndex());
+
 		else if (e.getSource() == controls.autoResize)
 			table.autoResize(controls.autoResize.isSelected(), false);
+	}
+
+	@Override
+	public void valueChanged(ListSelectionEvent e)
+	{
+		if (e.getValueIsAdjusting())
+			return;
+
+		controls.bRank.setEnabled(
+			table.getSelectionModel().getMinSelectionIndex() != -1);
 	}
 
 	private void handlePopup(MouseEvent e)
@@ -82,7 +99,15 @@ public class PedVerF1sPanel extends JPanel implements ActionListener, ITableView
 
 		JPopupMenu menu = table.getMenu().createPopupMenu();
 
-		menu.add(new JPopupMenu.Separator(), 1);
+		final JMenuItem mRank = new JMenuItem();
+		mRank.setText("Rank...");
+		mRank.setIcon(Icons.getIcon("RANK"));
+		mRank.addActionListener(event -> rank = table.rankSelectedLines(rank, model.getRankIndex()));
+		mRank.setEnabled(table.getSelectionModel().getMinSelectionIndex() != -1);
+
+		menu.add(mRank, 1);
+		menu.add(new JPopupMenu.Separator(), 2);
+
 		menu.show(e.getComponent(), e.getX(), e.getY());
 	}
 
