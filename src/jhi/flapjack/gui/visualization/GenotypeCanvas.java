@@ -187,6 +187,10 @@ class GenotypeCanvas extends JPanel
 				cScheme = new ParentMatchDualColorScheme(view, boxW, boxH);
 				break;
 
+			case ColorScheme.PARENT_TOTAL:
+				cScheme = new ParentTotalMatchColorScheme(view, boxW, boxH);
+				break;
+
 			case ColorScheme.MARKER_SIMILARITY:
 				cScheme = new MarkerSimilarityColorScheme(view, boxW, boxH);
 				break;

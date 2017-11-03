@@ -85,6 +85,7 @@ public class WinMainMenuBar extends JMenuBar
 	private JRadioButtonMenuItem mVizColorBinned;
 	private JRadioButtonMenuItem mVizColorMagic;
 	private JRadioButtonMenuItem mVizColorParentDual;
+	private JRadioButtonMenuItem mVizColorParentTotal;
 	private JRadioButtonMenuItem mVizColorLineSimAny;
 	private JMenu mVizScaling;
 	private JCheckBoxMenuItem mVizScalingLocal;
@@ -339,6 +340,7 @@ public class WinMainMenuBar extends JMenuBar
 		mVizColorBinned = getRadioItem(Actions.vizColorBinned, "gui.Actions.vizColorBinned", 0, 0);
 		mVizColorMagic = getRadioItem(Actions.vizColorMagic, "gui.Actions.vizColorMagic", 0, 0);
 		mVizColorParentDual = getRadioItem(Actions.vizColorParentDual, "gui.Actions.vizColorParentDual", 0, 0);
+		mVizColorParentTotal = getRadioItem(Actions.vizColorParentTotal, "gui.Actions.vizColorParentTotal", 0, 0);
 		mVizColorLineSimAny = getRadioItem(Actions.vizColorLineSimAny, "gui.Actions.vizColorLineSimAny", 0, 0);
 		mVizScalingLocal = getCheckedItem(Actions.vizScalingLocal, "gui.Actions.vizScalingLocal", 0, 0);
 		mVizScalingGlobal = getCheckedItem(Actions.vizScalingGlobal, "gui.Actions.vizScalingGlobal", 0, 0);
@@ -359,6 +361,7 @@ public class WinMainMenuBar extends JMenuBar
 		mVizColor.add(mVizColorLineSimAny);
 		mVizColor.add(mVizColorMarkerSim);
 		mVizColor.add(mVizColorParentDual);
+		mVizColor.add(mVizColorParentTotal);
 		mVizColor.add(mVizColorAlleleFreq);
 		mVizColor.add(mVizColorMagic);
 		mVizColor.add(mVizColorBinned);

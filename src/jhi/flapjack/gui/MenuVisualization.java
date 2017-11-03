@@ -79,6 +79,17 @@ public class MenuVisualization
 			gPanel.getView().initializeComparisons();
 		}
 
+		else if (colorScheme == ColorScheme.PARENT_TOTAL)
+		{
+			SelectParentsDialog dialog = new SelectParentsDialog(gPanel.getView());
+			if (dialog.isOK() == false)
+				return;
+
+			gPanel.getViewSet().setComparisonLineIndex(dialog.getParent1());
+			gPanel.getViewSet().setComparisonLineIndex2(dialog.getParent2());
+			gPanel.getView().initializeComparisons();
+		}
+
 		// Display the threshold dialog for allele frequency colouring
 		else if (colorScheme == ColorScheme.ALLELE_FREQUENCY)
 		{
@@ -210,6 +221,7 @@ public class MenuVisualization
 				Actions.vizColorRandomWSP.putValue(Action.SELECTED_KEY, cScheme == ColorScheme.RANDOM_WSP);
 				Actions.vizColorMagic.putValue(Action.SELECTED_KEY, cScheme == ColorScheme.MAGIC);
 				Actions.vizColorParentDual.putValue(Action.SELECTED_KEY, cScheme == ColorScheme.PARENT_DUAL);
+				Actions.vizColorParentTotal.putValue(Action.SELECTED_KEY, cScheme == ColorScheme.PARENT_TOTAL);
 				Actions.vizColorLineSimAny.putValue(Action.SELECTED_KEY, cScheme == ColorScheme.LINE_SIMILARITY_ANY_MATCH);
 			}
 

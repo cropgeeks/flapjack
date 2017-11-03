@@ -3,6 +3,7 @@
 
 package jhi.flapjack.data;
 
+import java.util.*;
 import java.util.stream.*;
 
 public class AlleleState extends XMLRoot
@@ -137,6 +138,25 @@ public class AlleleState extends XMLRoot
 					return true;
 
 		return false;
+	}
+
+	private boolean hasAllele(String allele, AlleleState other)
+	{
+		return Arrays.stream(other.states).anyMatch(allele::equals);
+	}
+
+	/**
+	 * Checks that all of the alleles in this AlleleState can be found across
+	 * the parent AlleleStates. eg parents are C and T and progeny is C, T, or
+	 * C/T are a match, whereas A, G, C/A, T/A are examples of mismatches.
+	 */
+	public boolean allelesContainedInParents(AlleleState parent1, AlleleState parent2)
+	{
+		for (String a1: states)
+			if (!hasAllele(a1, parent1) && !hasAllele(a1, parent2))
+				return false;
+
+		return true;
 	}
 
 	// ***DO NOT USE*** for compatability with old versions only
