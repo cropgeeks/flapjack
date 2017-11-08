@@ -45,6 +45,7 @@ public class WinMainMenuBar extends JMenuBar
 	private JMenu mEditFilterMarkers;
 	private JMenuItem mEditFilterMissingMarkers;
 	private JMenuItem mEditFilterMissingMarkersByLine;
+	private JMenuItem mEditFilterHeterozygousMarkers;
 	private JMenuItem mEditFilterHeterozygousMarkersByLine;
 	private JMenuItem mEditFilterMonomorphicMarkers;
 	private JMenu mEditSelectLines;
@@ -226,6 +227,7 @@ public class WinMainMenuBar extends JMenuBar
 		mEditHideMarkers = getItem(Actions.editHideMarkers, "gui.Actions.editHideMarkers", 0, 0);
 		mEditFilterMissingMarkers = getItem(Actions.editFilterMissingMarkers, "gui.Actions.editFilterMissingMarkers", 0, 0);
 		mEditFilterMissingMarkersByLine = getItem(Actions.editFilterMissingMarkersByLine, "gui.Actions.editFilterMissingMarkersByLine", 0, 0);
+		mEditFilterHeterozygousMarkers = getItem(Actions.editFilterHeterozygousMarkers, "gui.Actions.editFilterHeterozygousMarkers", 0, 0);
 		mEditFilterHeterozygousMarkersByLine = getItem(Actions.editFilterHeterozygousMarkersByLine, "gui.Actions.editFilterHeterozygousMarkersByLine", 0, 0);
 		mEditFilterMonomorphicMarkers = getItem(Actions.editFilterMonomorphicMarkers, "gui.Actions.editFilterMonomorphicMarkers", 0, 0);
 		mEditSelectLinesAll = getItem(Actions.editSelectLinesAll, "gui.Actions.editSelectLinesAll", 0, 0);
@@ -251,6 +253,7 @@ public class WinMainMenuBar extends JMenuBar
 		mEditFilterMarkers.add(mEditFilterMissingMarkers);
 		mEditFilterMarkers.add(mEditFilterMissingMarkersByLine);
 		mEditFilterMarkers.addSeparator();
+		mEditFilterMarkers.add(mEditFilterHeterozygousMarkers);
 		mEditFilterMarkers.add(mEditFilterHeterozygousMarkersByLine);
 		mEditFilterMarkers.addSeparator();
 		mEditFilterMarkers.add(mEditFilterMonomorphicMarkers);
