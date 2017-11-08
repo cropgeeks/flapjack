@@ -659,6 +659,50 @@ public class MenuEdit
 		}
 	}
 
+	void editFilterHeterozygousMarkers()
+	{
+		GTViewSet viewSet = gPanel.getViewSet();
+		HeterozygousMarkersDialog mmDialog = new HeterozygousMarkersDialog(viewSet);
+
+		if (mmDialog.isOK())
+		{
+			// Set the undo state...
+			HidMarkersState state = new HidMarkersState(gPanel.getView(),
+				RB.getString("gui.visualization.HidMarkersState.hidMarkers"));
+			state.createUndoState();
+
+			FilterHeterozygousMarkers fhm = new FilterHeterozygousMarkers(
+				gPanel.getViewSet(), mmDialog.getSelectedChromosomes(),
+				Prefs.guiHeterozygousMarkerPcnt);
+
+			ProgressDialog dialog = new ProgressDialog(fhm,
+				RB.getString("gui.MenuEdit.fhm.title"),
+				RB.getString("gui.MenuEdit.fhm.label"),
+				Flapjack.winMain);
+
+			// If the operation failed or was cancelled...
+			if (dialog.getResult() != ProgressDialog.JOB_COMPLETED)
+			{
+				// As we'll now be left with some markers removed and some not,
+				// put the view back into its previous state
+				gPanel.processUndoRedo(true, state);
+				return;
+			}
+
+			gPanel.refreshView();
+
+			// Set the redo state...
+			state.createRedoState();
+			gPanel.addUndoState(state);
+
+			TaskDialog.info(RB.format("gui.MenuEdit.fhm.summary",
+				Prefs.guiHeterozygousMarkerPcnt, fhm.getCount()),
+				RB.getString("gui.text.close"));
+
+			editMode(Constants.MARKERMODE);
+		}
+	}
+
 	void editFilterHeterozygousMarkersByLine()
 	{
 		GTViewSet viewSet = gPanel.getViewSet();
@@ -680,8 +724,8 @@ public class MenuEdit
 				mDialog.getSelectedLine());
 
 			ProgressDialog dialog = new ProgressDialog(fmm,
-				RB.getString("gui.MenuEdit.fhm.title"),
-				RB.getString("gui.MenuEdit.fhm.label"),
+				RB.getString("gui.MenuEdit.fhmbl.title"),
+				RB.getString("gui.MenuEdit.fhmbl.label"),
 				Flapjack.winMain);
 
 			// If the operation failed or was cancelled...
@@ -699,7 +743,7 @@ public class MenuEdit
 			state.createRedoState();
 			gPanel.addUndoState(state);
 
-			TaskDialog.info(RB.format("gui.MenuEdit.fhm.summary",
+			TaskDialog.info(RB.format("gui.MenuEdit.fhmbl.summary",
 				fmm.getCount()), RB.getString("gui.text.close"));
 
 			editMode(Constants.MARKERMODE);

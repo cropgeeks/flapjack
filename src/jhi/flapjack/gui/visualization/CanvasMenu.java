@@ -71,6 +71,7 @@ public class CanvasMenu
 	private JMenu mFilter;
 	private JMenuItem mFilterMissingMarkers;
 	private JMenuItem mFilterMissingMarkersByLine;
+	private JMenuItem mFilterHeterozygousMarkers;
 	private JMenuItem mFilterHeterozygousMarkersByLine;
 	private JMenuItem mFilterMonomorphicMarkers;
 
@@ -199,6 +200,7 @@ public class CanvasMenu
 
 		mFilterMissingMarkers = WinMainMenuBar.getItem(Actions.editFilterMissingMarkers, "gui.Actions.editFilterMissingMarkers", 0, 0);
 		mFilterMissingMarkersByLine = WinMainMenuBar.getItem(Actions.editFilterMissingMarkersByLine, "gui.Actions.editFilterMissingMarkersByLine", 0, 0);
+		mFilterHeterozygousMarkers = WinMainMenuBar.getItem(Actions.editFilterHeterozygousMarkers, "gui.Actions.editFilterHeterozygousMarkers", 0, 0);
 		mFilterHeterozygousMarkersByLine = WinMainMenuBar.getItem(Actions.editFilterHeterozygousMarkersByLine, "gui.Actions.editFilterHeterozygousMarkersByLine", 0, 0);
 		mFilterMonomorphicMarkers = WinMainMenuBar.getItem(Actions.editFilterMonomorphicMarkers, "gui.Actions.editFilterMonomorphicMarkers", 0, 0);
 
@@ -207,6 +209,7 @@ public class CanvasMenu
 		mFilter.add(mFilterMissingMarkers);
 		mFilter.add(mFilterMissingMarkersByLine);
 		mFilter.addSeparator();
+		mFilter.add(mFilterHeterozygousMarkers);
 		mFilter.add(mFilterHeterozygousMarkersByLine);
 		mFilter.addSeparator();
 		mFilter.add(mFilterMonomorphicMarkers);

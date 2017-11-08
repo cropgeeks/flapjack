@@ -149,6 +149,8 @@ public class Prefs extends XMLPreferences
 
 	// Missing markers dialog
 	public static int guiMissingMarkerPcnt = 95;
+	// Heterozygous markers dialog
+	public static int guiHeterozygousMarkerPcnt = 95;
 
 	// LineDataTable export data dialog
 	public static String guiLDTableExportHistory = "";
