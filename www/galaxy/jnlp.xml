@@ -4,6 +4,6 @@
         <param type="data" name="project_file" url="project.flapjack" />
 	</link>
 	<link id="Help" name="(Help)">
-		<url>http://www.bbc.co.uk/</url>
+		<url>http://flapjack.hutton.ac.uk/</url>
 	</link>
 </display>

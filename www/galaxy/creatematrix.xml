@@ -1,5 +1,5 @@
 <tool id="flapjack_creatematrix" name="Flapjack Create Similarity Matrix" version="0.0.1">
-    <description>Create a similarity matrix from the given Genotype file</description>
+    <description>create a similarity matrix from a Flapjack formatted genotype file</description>
     <command><![CDATA[
         java
         #if $adv_opts.show_advanced
