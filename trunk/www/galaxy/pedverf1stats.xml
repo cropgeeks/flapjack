@@ -1,5 +1,5 @@
 <tool id="flapjack_pedverstats" name="Flapjack PedVerStats" version="0.0.1">
-	<description>Run pedigree verification of F1s (known parents) analysis</description>
+	<description>run pedigree verification of F1s (known parents) analysis on a dataset</description>
 	<command><![CDATA[
 		java
 		#if $adv_opts.show_advanced

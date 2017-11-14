@@ -1,5 +1,5 @@
 <tool id="flapjack_hapmap2fj" name="HapMap to Flapjack" version="0.0.1">
-    <description>Convert a HapMap-formatted file into a Flapjack-formatted genotype file</description>
+    <description>convert a HapMap formatted file into a Flapjack formatted genotype file</description>
     <command><![CDATA[
         java
         #if $adv_opts.show_advanced

@@ -1,5 +1,5 @@
 <tool id="flapjack_createproject" name="Flapjack CreateProject" version="0.0.1">
-    <description>Create a Flapjack project file from the given input files.</description>
+    <description>create a Flapjack project file from Flapjack formatted input files.</description>
     <command><![CDATA[
         java
         #if $adv_opts.show_advanced

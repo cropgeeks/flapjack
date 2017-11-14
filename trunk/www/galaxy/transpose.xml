@@ -1,5 +1,5 @@
 <tool id="flapjack_transpose" name="Transpose" version="0.0.1">
-	<description>Transpose a file's contents</description>
+	<description>transpose a file's contents</description>
 	<command><![CDATA[
 		java 
 		-cp $__tool_directory__/lib/flapjack.jar jhi.flapjack.io.cmd.Transpose 

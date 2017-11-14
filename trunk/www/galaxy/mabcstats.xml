@@ -1,5 +1,5 @@
 <tool id="flapjack_mabcstats" name="Flapjack MABCStats" version="0.0.1">
-	<description>Run marker assisted backcrossing (MABC) analysis on a dataset</description>
+	<description>run marker assisted backcrossing (MABC) analysis on a dataset</description>
 	<command><![CDATA[
 		java
 		#if $adv_opts.show_advanced

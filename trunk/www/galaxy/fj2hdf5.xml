@@ -1,5 +1,5 @@
 <tool id="flapjack_fj2hdf5" name="Flapjack to HDF5" version="0.0.1">
-    <description>Convert a Flapjack-formatted genotype file into HDF5</description>
+    <description>convert a Flapjack formatted genotype file into HDF5</description>
     <command><![CDATA[
         java
         #if $adv_opts.show_advanced
