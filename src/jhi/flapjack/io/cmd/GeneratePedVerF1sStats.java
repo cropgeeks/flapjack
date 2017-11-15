@@ -32,6 +32,7 @@ public class GeneratePedVerF1sStats
 			.withGenotypeFile(true)
 			.withMapFile(true)
 			.withQtlFile(false)
+			.withTraitFile(false)
 			.withOutputPath(true)
 			.withProjectFile(false)
 			.addRequiredOption("f", "parent1", true, "INTEGER", "Required integer")

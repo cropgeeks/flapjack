@@ -9,6 +9,9 @@
 		-m $map
 		-g $genotypes
 		-q $qtls
+		#if $traits
+			-t $traits
+		#end if
 		-r $parent1
 		-d $parent2
 		-model $model
@@ -39,6 +42,11 @@
 		<param format="fjqtl" name="qtls" type="data"
 			label="Flapjack QTL file"
 			help="Flapjack-formatted (tab-delimited text) input file of QTL data."/>
+
+		<param format="fjphenotype" name="traits" type="data"
+			   label="Flapjack Trait file"
+			   help="Flapjack-formatted (tab-delimited text) input file of trait data."
+			   optional="true"/>
 
 		<param name="parent1" type="integer" value="1"
 			label="Index of recurrent parent"
