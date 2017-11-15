@@ -17,77 +17,49 @@ public class PedVerF1sAnalysis extends SimpleJob
 
 	private int parent1Index;
 	private int parent2Index;
+	private boolean simulateF1;
 	private int f1Index;
+	private boolean[] selectedChromosomes;
+	private String name;
 
 	private int f1HetCount = 0;
 	private int totalMarkerCount = 0;
 	private double f1PercentCount = 0;
 
-	private String name;
-
-	public PedVerF1sAnalysis(GTViewSet viewSet, boolean[] selectedChromosomes, int parent1Index, int parent2Index, int f1Index, String name)
+	public PedVerF1sAnalysis(GTViewSet viewSet, boolean[] selectedChromosomes, int parent1Index, int parent2Index, boolean simulateF1, int f1Index, String name)
 	{
-		this(viewSet, selectedChromosomes,  parent1Index, parent2Index, f1Index);
-		this.name = name;
-	}
-
-	public PedVerF1sAnalysis(GTViewSet viewSet, boolean[] selectedChromosomes, int parent1Index, int parent2Index, int f1Index)
-	{
-		this.viewSet = viewSet;
+		this.viewSet =  viewSet.createClone("", true);
+		this.selectedChromosomes = selectedChromosomes;
 		this.stateTable = viewSet.getDataSet().getStateTable();
 		this.parent1Index = parent1Index;
 		this.parent2Index = parent2Index;
+		this.simulateF1 = simulateF1;
 		this.f1Index = f1Index;
-
-		moveParentsToTop();
-
-		as = new AnalysisSet(viewSet)
-			.withViews(selectedChromosomes)
-			.withSelectedLines()
-			.withSelectedMarkers();
-	}
-
-	private void moveParentsToTop()
-	{
-		LineInfo p1 = viewSet.getLines().get(parent1Index);
-		LineInfo p2 = viewSet.getLines().get(parent2Index);
-		LineInfo f1 = viewSet.getLines().get(f1Index);
-
-		// Mark the parents lines as sortToTop special cases
-		p1.getResults().setSortToTop(true);
-		p2.getResults().setSortToTop(true);
-		f1.getResults().setSortToTop(true);
-
-		// Remove them from the list
-		viewSet.getLines().remove(p1);
-		viewSet.getLines().remove(p2);
-		viewSet.getLines().remove(f1);
-
-		// Then put them back in at the top
-		viewSet.getLines().add(0, p1);
-		viewSet.getLines().add(1, p2);
-		// Move the f1 to just below the parents
-		viewSet.getLines().add(2, f1);
-
-		// Reset our indexes as we've moved the lines in the dataset
-		parent1Index = 0;
-		parent2Index = 1;
-		f1Index = 2;
-
-		// Set the colour scheme to the similarity to line exact match scheme
-		// and set the comparison line equal to the F1
-		viewSet.setColorScheme(ColorScheme.LINE_SIMILARITY_EXACT_MATCH);
-		viewSet.setComparisonLineIndex(f1Index);
-		viewSet.setComparisonLine(f1.getLine());
+		this.name = name;
 	}
 
 	public void runJob(int index)
 		throws Exception
 	{
+		if (simulateF1)
+		{
+			SimulateF1 f1Sim = new SimulateF1(viewSet, parent1Index, parent2Index);
+			// TODO: have the F1 simulation track as part of this SimpleJob
+			f1Sim.runJob(0);
+			f1Index = f1Sim.getF1Index();
+		}
+
+		as = new AnalysisSet(viewSet)
+			.withViews(selectedChromosomes)
+			.withSelectedLines()
+			.withSelectedMarkers();
+
 		calculateExpectedF1Stats();
 
 		for (int l=0; l < as.lineCount(); l++)
 			calculateStatsForLine(l);
+
+		prepareForVisualization();
 	}
 
 	private PedVerF1sResult calculateStatsForLine(int lineIndex)
@@ -248,4 +220,61 @@ public class PedVerF1sAnalysis extends SimpleJob
 		}
 		return matchesExpF1;
 	}
+
+	private void prepareForVisualization()
+	{
+		prepareParentsForVisualization();
+		changeColourScheme();
+		addViewSetToDataSet();
+	}
+
+	private void prepareParentsForVisualization()
+	{
+		LineInfo p1 = viewSet.getLines().get(parent1Index);
+		LineInfo p2 = viewSet.getLines().get(parent2Index);
+		LineInfo f1 = viewSet.getLines().get(f1Index);
+
+		// Mark the parents lines as sortToTop special cases
+		p1.getResults().setSortToTop(true);
+		p2.getResults().setSortToTop(true);
+		f1.getResults().setSortToTop(true);
+
+		// Remove them from the list
+		viewSet.getLines().remove(p1);
+		viewSet.getLines().remove(p2);
+		viewSet.getLines().remove(f1);
+
+		// Then put them back in at the top
+		viewSet.getLines().add(0, p1);
+		viewSet.getLines().add(1, p2);
+		// Move the f1 to just below the parents
+		viewSet.getLines().add(2, f1);
+
+		// Reset our indexes as we've moved the lines in the dataset
+		parent1Index = 0;
+		parent2Index = 1;
+		f1Index = 2;
+	}
+
+	private void changeColourScheme()
+	{
+		// Set the colour scheme to the similarity to line exact match scheme
+		// and set the comparison line equal to the F1
+		viewSet.setColorScheme(ColorScheme.LINE_SIMILARITY_EXACT_MATCH);
+		viewSet.setComparisonLineIndex(f1Index);
+		viewSet.setComparisonLine(viewSet.getLines().get(f1Index).getLine());
+	}
+
+	private void addViewSetToDataSet()
+	{
+		DataSet dataSet = viewSet.getDataSet();
+
+		viewSet.setName(name);
+
+		// Create new NavPanel components to hold the results
+		dataSet.getViewSets().add(viewSet);
+	}
+
+	public GTViewSet getViewSet()
+		{ return viewSet; }
 }

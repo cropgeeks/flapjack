@@ -282,7 +282,8 @@ public class MenuAnalysis
 		// Run the stats calculations
 		MabcAnalysis stats = new MabcAnalysis(
 			viewSet, selectedChromosomes, Prefs.mabcMaxMrkrCoverage, rpIndex,
-			dpIndex, Prefs.guiMabcExcludeParents, simpleStats, RB.getString("gui.navpanel.MabcNode.node"));
+			dpIndex, Prefs.guiMabcExcludeParents, simpleStats,
+			RB.getString("gui.navpanel.MabcNode.node"));
 
 		ProgressDialog pDialog = new ProgressDialog(stats,
 			RB.getString("gui.MenuAnalysis.mabc.title"),
@@ -296,13 +297,8 @@ public class MenuAnalysis
 
 	public void gobiiPedVer()
 	{
-		// TODO: Checks for data type? ABH, etc?
 		DataSet dataSet = navPanel.getDataSetForSelection();
 		GTViewSet viewSet = gPanel.getViewSet();
-
-		// Clone the view (as the clone will ultimately contain a reordered
-		// list of lines that match the order in the dendrogram)
-		GTViewSet newViewSet = viewSet.createClone("", true);
 
 		PedVerF1StatsDialog dialog = new PedVerF1StatsDialog(viewSet);
 		if (dialog.isOK() == false)
@@ -313,30 +309,21 @@ public class MenuAnalysis
 		int p1Index = dialog.getParent1();
 		int p2Index = dialog.getParent2();
 		int f1Index = dialog.getF1();
+		boolean simulateF1 = dialog.simulateF1();
 
-		if (dialog.simulateF1())
-		{
-			SimulateF1 f1Sim = new SimulateF1(newViewSet, p1Index, p2Index);
+		// Setup and run the stats
+		PedVerF1sAnalysis stats = new PedVerF1sAnalysis(viewSet,
+			selectedChromosomes, p1Index, p2Index, simulateF1, f1Index,
+			RB.getString("gui.navpanel.PedVerF1s.node"));
 
-			ProgressDialog pDialog = new ProgressDialog(f1Sim,
-				"Running F1 Simulation",
-				"Running F1 simulation - please be patient...",
-				Flapjack.winMain);
-
-			f1Index = f1Sim.getF1Index();
-		}
-
-		PedVerF1sAnalysis stats = new PedVerF1sAnalysis(newViewSet, selectedChromosomes, p1Index, p2Index, f1Index, "PedVerF1s Results");
-		ProgressDialog pDialog = new ProgressDialog(stats,
-			"Running PedVer Stats",
-			"Running PedVer stats - please be patient...",
+		new ProgressDialog(stats,
+			RB.getString("gui.MenuAnalysis.pedVerF1s.title"),
+			RB.getString("gui.MenuAnalysis.pedVerF1s.label"),
 			Flapjack.winMain);
 
-		newViewSet.setName("PedVerF1s View");
-
-		// Create new NavPanel components to hold the results
-		dataSet.getViewSets().add(newViewSet);
-		navPanel.addVisualizationNode(dataSet, newViewSet);
+		// Retrieve the newly created viewSet from the analysis class and
+		// add it to the navPanel so that it appears in the display
+		navPanel.addVisualizationNode(dataSet, stats.getViewSet());
 
 		Actions.projectModified();
 	}

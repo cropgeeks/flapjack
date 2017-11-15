@@ -112,21 +112,19 @@ public class GenerateMabcStats
 		return parentIndex;
 	}
 
-	CreateProject createProject;
-
 	public void doStatGeneration()
 	{
 		RB.initialize("auto", "res.text.flapjack");
 		TaskDialog.setIsHeadless();
 
-		createProject = new CreateProject(projectSettings, importSettings);
+		CreateProject createProject = new CreateProject(projectSettings, importSettings);
 
 		try
 		{
 			createProject.doProjectCreation();
 			dataSet = createProject.dataSet();
 
-			generateMabcStats();
+			generateMabcStats(createProject);
 		}
 		catch (Exception e)
 		{
@@ -135,7 +133,7 @@ public class GenerateMabcStats
 		}
 	}
 
-	private void generateMabcStats()
+	private void generateMabcStats(CreateProject createProject)
 		throws Exception
 	{
 		GTViewSet viewSet = dataSet.getViewSets().get(0);
@@ -144,10 +142,11 @@ public class GenerateMabcStats
 		for (int i = 0; i < chromosomes.length; i++)
 			chromosomes[i] = true;
 
-		MabcAnalysis stats = new MabcAnalysis(viewSet, chromosomes, maxMarkerCoverage, parent1, parent2, excludeAdditionalParents, unweighted, RB.getString("gui.navpanel.MabcNode.node"));
+		MabcAnalysis stats = new MabcAnalysis(viewSet, chromosomes,
+			maxMarkerCoverage, parent1, parent2, excludeAdditionalParents,
+			unweighted, RB.getString("gui.navpanel.MabcNode.node"));
 		stats.runJob(0);
 
-/////////////
 		// TODO: Can we tidy up the code below by getting at the table in the
 		// viewset generated as part of the analysis
 		GTViewSet finalViewSet = stats.getViewSet();
@@ -161,7 +160,6 @@ public class GenerateMabcStats
 		LineDataTableExporter exporter = new LineDataTableExporter(
 			table, new File(filename), 0, false);
 		exporter.runJob(0);
-//////////////
 
 		createProject.saveProject();
 	}
