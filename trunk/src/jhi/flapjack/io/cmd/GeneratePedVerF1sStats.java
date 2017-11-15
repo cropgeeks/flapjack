@@ -21,9 +21,9 @@ public class GeneratePedVerF1sStats
 	private CreateProjectSettings projectSettings;
 	private DataImportSettings importSettings;
 	private String filename;
-	private Integer parent1;
-	private Integer parent2;
-	private Integer expectedF1;
+	private int parent1;
+	private int parent2;
+	private int expectedF1;
 
 	public static void main(String[] args)
 	{
@@ -48,10 +48,10 @@ public class GeneratePedVerF1sStats
 
 			// Required options
 			String filename = options.getOutputPath(line);
-			Integer parent1 = parseParent(line.getOptionValue("parent1"));
-			Integer parent2 = parseParent(line.getOptionValue("parent2"));
+			int parent1 = parseParent(line.getOptionValue("parent1"));
+			int parent2 = parseParent(line.getOptionValue("parent2"));
 
-			Integer expectedF1 = null;
+			int expectedF1 = -1;
 			// Optional
 			if (line.hasOption("expected-f1"))
 				expectedF1 = parseParent(line.getOptionValue("expected-f1"));
@@ -70,8 +70,8 @@ public class GeneratePedVerF1sStats
 		}
 	}
 
-	public GeneratePedVerF1sStats(CreateProjectSettings projectSettings, DataImportSettings importSettings, Integer parent1,
-		Integer parent2, Integer expectedF1, String filename)
+	public GeneratePedVerF1sStats(CreateProjectSettings projectSettings, DataImportSettings importSettings, int parent1,
+		int parent2, int expectedF1, String filename)
 	{
 		this.projectSettings = projectSettings;
 		this.importSettings = importSettings;
@@ -81,9 +81,9 @@ public class GeneratePedVerF1sStats
 		this.filename = filename;
 	}
 
-	private static Integer parseParent(String parent)
+	private static int parseParent(String parent)
 	{
-		Integer parentIndex = null;
+		int parentIndex = -1;
 
 		try
 		{
@@ -113,7 +113,7 @@ public class GeneratePedVerF1sStats
 			createProject.doProjectCreation();
 			dataSet = createProject.dataSet();
 
-			generateStats();
+			generateStats(createProject);
 		}
 		catch (Exception e)
 		{
@@ -122,35 +122,35 @@ public class GeneratePedVerF1sStats
 		}
 	}
 
-	private void generateStats()
+	private void generateStats(CreateProject createProject)
 		throws Exception
 	{
-		Integer f1Index = expectedF1;
-
 		GTViewSet viewSet = dataSet.getViewSets().get(0);
 
 		boolean[] chromosomes = new boolean[viewSet.chromosomeCount()];
 		for (int i = 0; i < chromosomes.length; i++)
 			chromosomes[i] = true;
 
-		if (f1Index == null)
-		{
-			SimulateF1 simF1 = new SimulateF1(viewSet, parent1, parent2);
-			simF1.runJob(0);
-			f1Index = simF1.getF1Index();
-		}
+		boolean simulateF1 = expectedF1 == -1;
 
-		PedVerF1sAnalysis stats = new PedVerF1sAnalysis(viewSet, chromosomes, parent1, parent2, f1Index);
+		PedVerF1sAnalysis stats = new PedVerF1sAnalysis(viewSet, chromosomes,
+			parent1, parent2, simulateF1, expectedF1,
+			RB.getString("gui.navpanel.PedVerF1s.node"));
+
 		stats.runJob(0);
 
-		PedVerF1sTableModel model = new PedVerF1sTableModel(viewSet);
+		GTViewSet finalViewSet = stats.getViewSet();
+
+		PedVerF1sTableModel model = new PedVerF1sTableModel(finalViewSet);
 		LineDataTable table = new LineDataTable();
 
 		table.setModel(model);
-		table.setViewSet(viewSet);
+		table.setViewSet(finalViewSet);
 
 		LineDataTableExporter exporter = new LineDataTableExporter(
 				table, new File(filename), 0, false);
 		exporter.runJob(0);
+
+		createProject.saveProject();
 	}
 }
