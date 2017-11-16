@@ -265,6 +265,8 @@ public class Prefs extends XMLPreferences
 
 	public static Color visParentSimilarity1;
 	public static Color visParentSimilarity2;
+	public static Color visParentSimilarity1Match;
+	public static Color visParentSimilarity2Match;
 
 	public static boolean miscSubscribed = false;
 	public static String miscEmail = "";
@@ -336,8 +338,12 @@ public class Prefs extends XMLPreferences
 		visColorMagic7 = new Color(255, 119, 231);
 		visColorMagic8 = new Color(255, 120, 120);
 
-		visParentSimilarity1 = new Color(0,176,240).darker();
-		visParentSimilarity2 = new Color(255,255,0).darker();
+		//visParentSimilarity1 = new Color(0,176,240).darker();
+		//visParentSimilarity2 = new Color(255,255,0).darker();
+		visParentSimilarity1 = new Color(80, 80, 200);
+		visParentSimilarity2 = new Color(200, 160, 20);
+		visParentSimilarity1Match = new Color(110, 110, 230);
+		visParentSimilarity2Match = new Color(230, 190, 50);
 	}
 
 	// Updates the array of recently accessed documents so that 'document' is

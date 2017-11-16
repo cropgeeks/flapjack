@@ -211,11 +211,7 @@ public class GTView extends XMLRoot
 		// to find where it is now
 
 		// Internal methods for reordering lines can maintain the tracking ok
-
-		if (viewSet.comparisonLineIndex != -1)
-			viewSet.comparisonLine = getLine(viewSet.comparisonLineIndex);
-		if (viewSet.comparisonLineIndex2 != -1)
-			viewSet.comparisonLine2 = getLine(viewSet.comparisonLineIndex2);
+		viewSet.initializeComparisons();
 
 		if (comparisonMarkerIndex != -1)
 			comparisonMarker = getMarker(comparisonMarkerIndex);
@@ -227,29 +223,7 @@ public class GTView extends XMLRoot
 	 */
 	public void updateComparisons()
 	{
-		// Try to find the new index for the comparison line
-		viewSet.comparisonLineIndex = -1;
-
-		for (int i = 0; i < viewSet.lines.size(); i++)
-		{
-			if (viewSet.lines.get(i).line == viewSet.comparisonLine)
-			{
-				viewSet.comparisonLineIndex = i;
-				break;
-			}
-		}
-
-		// Same again for the 2nd comparison line
-		viewSet.comparisonLineIndex2 = -1;
-
-		for (int i = 0; i < viewSet.lines.size(); i++)
-		{
-			if (viewSet.lines.get(i).line == viewSet.comparisonLine2)
-			{
-				viewSet.comparisonLineIndex2 = i;
-				break;
-			}
-		}
+		viewSet.updateComparisons();
 
 		// Try to find the new index for the comparison marker
 		comparisonMarkerIndex = -1;

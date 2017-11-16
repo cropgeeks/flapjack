@@ -35,12 +35,12 @@ public class ParentMatchDualColorScheme extends ColorScheme
 
 		// Shorthand names for the colours (makes the code below more readable)
 		Color sHz = Prefs.visColorNucleotideHZ;
-		Color drk = new Color(0,176,240).darker();
-		Color drk2 = new Color(255,255,0).darker();
-		Color s1  = new Color(0,176,240);
-		Color s2  = new Color(255,255,0);
+		Color drk =  Prefs.visParentSimilarity1;
+		Color drk2 = Prefs.visParentSimilarity2;
+		Color s1  = Prefs.visParentSimilarity1Match;
+		Color s2  = Prefs.visParentSimilarity2Match;
 		Color gsC = Prefs.visColorSimStateMissing;
-		Color red = Prefs.visColorNucleotideG;
+		Color red = Prefs.visColorSimStateNoMatch;
 
 		for (int i = 0; i < stateTable.size(); i++)
 		{
@@ -100,42 +100,55 @@ public class ParentMatchDualColorScheme extends ColorScheme
 
 		int state = view.getState(line, marker);
 
+		AlleleState childState = stateTable.getAlleleState(state);
+
 		// Try to do the comparison
 		if (p1 != -1 && p2 != -1)
 		{
 			int p1State = view.getState(p1, marker);
 			int p2State = view.getState(p2, marker);
+			AlleleState p1AlleleState = stateTable.getAlleleState(p1State);
+			AlleleState p2AlleleState = stateTable.getAlleleState(p2State);
 
 			// Parental lines
-			// if the parent states match each other, return a greyscale state
-			// otherwise return the appropriate state for that parent
+			// if the parent states match each other, either are missing, or
+			// either are heterozygous return a greyscale state otherwise return
+			// the appropriate state for that parent
 			if (line == p1)
-				return p1State == p2State ? gsStates.get(state) : p1States.get(state);
+				return parentStatesAmbiguous(p1State, p2State) ? gsStates.get(state) : p1States.get(state);
 			else if (line == p2)
-				return p2State == p1State ? gsStates.get(state) : p2States.get(state);
+				return parentStatesAmbiguous(p1State, p2State) ? gsStates.get(state) : p2States.get(state);
 
-			// TODO: What do we do if a parent line has a het state?
+			// If the child state contains alleles which can't be found in the
+			// parents (and both parents are *not* missing) return a red state
+			if (childState.allelesContainedInParents(p1AlleleState, p2AlleleState) == false && p1State != 0 && p2State != 0)
+				return noMatchStates.get(state);
 
-			// Progeny lines
-			// Parent 1 match
-			if (state == p1State && state != p2State)
-				return p1MatchStates.get(state);
-
-			// Parent 2 match
-			else if (state == p2State && state != p1State)
-				return p2MatchStates.get(state);
-
-			// Parent 1 and 2 match
-			else if (state == p1State && state == p2State)
+			// If there is ambiguity because of the parental alleles, return a
+			// grey state
+			if (parentStatesAmbiguous(p1State, p2State))
 				return gsStates.get(state);
 
-			// Anything else
-			else if (state != 0)
-				return noMatchStates.get(state);
+			// Child state matches parent 1 state return a brighter version of
+			// the parent 1 colour
+			if (state == p1State)
+				return p1MatchStates.get(state);
+
+			// Child state matches parent 2 state return a brighter version of
+			// the parent 2 colour
+			else if (state == p2State)
+				return p2MatchStates.get(state);
 		}
 
-		// If it's not the same, or we can't do a comparison...
+		// If it's not met any of our conditions fall back on greyscale
 		return gsStates.get(state);
+	}
+
+	// If the parent states match each other, or if either parent state is
+	// missing, or heterozygous we have an ambiguous set of parent states
+	private boolean parentStatesAmbiguous(int p1, int p2)
+	{
+		return p1 == p2  || p1 == 0 || p2 == 0 || stateTable.isHet(p1) || stateTable.isHet(p2);
 	}
 
 	public BufferedImage getSelectedImage(int line, int marker, boolean underQTL)
@@ -168,15 +181,19 @@ public class ParentMatchDualColorScheme extends ColorScheme
 	{
 		ArrayList<ColorSummary> colors = new ArrayList<>();
 
-/*		colors.add(new ColorSummary(Prefs.visColorSimStateMatchDark,
-			RB.getString("gui.visualization.colors.LineSimilarityColorScheme.state1Dark")));
-		colors.add(new ColorSummary(Prefs.visColorSimStateMatch,
-			RB.getString("gui.visualization.colors.LineSimilarityColorScheme.state1")));
-		colors.add(new ColorSummary(Prefs.visColorSimStateNoMatch,
-			RB.getString("gui.visualization.colors.LineSimilarityColorScheme.state2")));
+		colors.add(new ColorSummary(Prefs.visParentSimilarity1,
+			RB.getString("gui.visualization.colors.ParentMatchDualColorScheme.parent1")));
+		colors.add(new ColorSummary(Prefs.visParentSimilarity2,
+			RB.getString("gui.visualization.colors.ParentMatchDualColorScheme.parent2")));
+		colors.add(new ColorSummary(Prefs.visParentSimilarity1Match,
+			RB.getString("gui.visualization.colors.ParentMatchDualColorScheme.state1")));
+		colors.add(new ColorSummary(Prefs.visParentSimilarity2Match,
+			RB.getString("gui.visualization.colors.ParentMatchDualColorScheme.state2")));
 		colors.add(new ColorSummary(Prefs.visColorSimStateMissing,
-			RB.getString("gui.visualization.colors.LineSimilarityColorScheme.state3")));
-*/
+			RB.getString("gui.visualization.colors.ParentMatchDualColorScheme.state3")));
+		colors.add(new ColorSummary(Prefs.visColorSimStateNoMatch,
+			RB.getString("gui.visualization.colors.ParentMatchDualColorScheme.state4")));
+
 		return colors;
 	}
 }

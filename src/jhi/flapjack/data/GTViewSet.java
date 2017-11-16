@@ -48,11 +48,13 @@ public class GTViewSet extends XMLRoot
 	private int randomColorSeed = (int)(Math.random()*50000);
 
 	// For comparisons between lines, we need to know the line itself:
-	Line comparisonLine, comparisonLine2;
+	private Line comparisonLine;
+	// If doing "parent" comparisons, we have a 2nd line
+	private Line comparisonLine2;
 	// And its current index
-	int comparisonLineIndex;
+	private int comparisonLineIndex;
 	// If doing "parent" comparisons, we have a 2nd index
-	int comparisonLineIndex2;
+	private int comparisonLineIndex2;
 
 	// If traits are being displayed, which ones?
 	private int[] traits = new int[0];// { -1, -1, -1 };
@@ -135,6 +137,41 @@ public class GTViewSet extends XMLRoot
 		for (LineInfo lineInfo: hideLines)
 			if (lineInfo.getVisibility() == LineInfo.VISIBLE)
 				lineInfo.setVisibility(lineInfo.HIDDEN);
+	}
+
+	void initializeComparisons()
+	{
+		if (comparisonLineIndex != -1)
+			comparisonLine = lines.get(comparisonLineIndex).line;
+		if (comparisonLineIndex2 != -1)
+			comparisonLine2 = lines.get(comparisonLineIndex2).line;
+	}
+
+	void updateComparisons()
+	{
+		// Try to find the new index for the comparison line
+		comparisonLineIndex = -1;
+
+		for (int i = 0; i < lines.size(); i++)
+		{
+			if (lines.get(i).line == comparisonLine)
+			{
+				comparisonLineIndex = i;
+				break;
+			}
+		}
+
+		// Same again for the 2nd comparison line
+		comparisonLineIndex2 = -1;
+
+		for (int i = 0; i < lines.size(); i++)
+		{
+			if (lines.get(i).line == comparisonLine2)
+			{
+				comparisonLineIndex2 = i;
+				break;
+			}
+		}
 	}
 
 
@@ -221,8 +258,8 @@ public class GTViewSet extends XMLRoot
 	public int getComparisonLineIndex2()
 		{ return comparisonLineIndex2; }
 
-	public void setComparisonLineIndex2(int comparisonLineIndex1)
-		{ this.comparisonLineIndex2 = comparisonLineIndex1; }
+	public void setComparisonLineIndex2(int comparisonLineIndex2)
+		{ this.comparisonLineIndex2 = comparisonLineIndex2; }
 
 	public float getAlleleFrequencyThreshold()
 		{ return alleleFrequencyThreshold; }
