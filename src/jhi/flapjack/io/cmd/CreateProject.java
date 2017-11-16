@@ -5,6 +5,7 @@
 
 package jhi.flapjack.io.cmd;
 
+import java.io.*;
 import java.util.*;
 
 import jhi.flapjack.data.*;
@@ -35,32 +36,35 @@ public class CreateProject
 
 	public static void main(String[] args)
 	{
-		CmdOptions options = new CmdOptions()
-			.withAdvancedOptions()
-			.withGenotypeFile(true)
-			.withProjectFile(true)
-			.withMapFile(false)
-			.withTraitFile(false)
-			.withQtlFile(false)
-			.withDataSetName(false);
-
-		try
+		if (useLegacyParser(args) == false)
 		{
-			CommandLine line = new DefaultParser().parse(options, args);
+			CmdOptions options = new CmdOptions()
+				.withAdvancedOptions()
+				.withGenotypeFile(true)
+				.withProjectFile(true)
+				.withMapFile(false)
+				.withTraitFile(false)
+				.withQtlFile(false)
+				.withDataSetName(false);
 
-			CreateProjectSettings projectSettings = options.getCreateProjectSettings(line);
-			DataImportSettings importSettings = options.getDataImportSettings(line);
+			try
+			{
+				CommandLine line = new DefaultParser().parse(options, args);
 
-			CreateProject cProj = new CreateProject(projectSettings, importSettings);
-			cProj.doProjectCreation();
+				CreateProjectSettings projectSettings = options.getCreateProjectSettings(line);
+				DataImportSettings importSettings = options.getDataImportSettings(line);
 
-			System.exit(0);
-		}
-		catch (Exception e)
-		{
-			options.printHelp("CreateProject");
+				CreateProject cProj = new CreateProject(projectSettings, importSettings);
+				cProj.doProjectCreation();
 
-			System.exit(1);
+				System.exit(0);
+			}
+			catch (Exception e)
+			{
+				options.printHelp("CreateProject");
+
+				System.exit(1);
+			}
 		}
 	}
 
@@ -191,5 +195,48 @@ public class CreateProject
 	DataSet dataSet()
 	{
 		return dataSet;
+	}
+
+	// This method replicates our old command line parsing code for
+	// CreateProject to maintain compatability with older software which made
+	// use of this command line tool
+	private static boolean useLegacyParser(String[] args)
+	{
+		File mapFile = null;
+		File genotypesFile = null;
+		File traitsFile = null;
+		File qtlsFile = null;
+		FlapjackFile prjFile = null;
+		boolean decimalEnglish = false;
+
+		for (String arg : args)
+		{
+			if (arg.startsWith("-map="))
+				mapFile = new File(arg.substring(5));
+			if (arg.startsWith("-genotypes="))
+				genotypesFile = new File(arg.substring(11));
+			if (arg.startsWith("-traits="))
+				traitsFile = new File(arg.substring(8));
+			if (arg.startsWith("-qtls="))
+				qtlsFile = new File(arg.substring(6));
+			if (arg.startsWith("-project="))
+				prjFile = new FlapjackFile(arg.substring(9));
+			if (arg.startsWith("-decimalEnglish"))
+				decimalEnglish = true;
+		}
+
+		if (genotypesFile != null && prjFile != null)
+		{
+			CreateProjectSettings projectSettings = new CreateProjectSettings(genotypesFile, mapFile, traitsFile, qtlsFile, prjFile, null);
+			DataImportSettings importSettings = new DataImportSettings();
+			importSettings.setDecimalEnglish(decimalEnglish);
+
+			CreateProject cProj = new CreateProject(projectSettings, importSettings);
+			cProj.doProjectCreation();
+
+			System.exit(0);
+		}
+
+		return false;
 	}
 }
