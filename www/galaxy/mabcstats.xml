@@ -17,6 +17,9 @@
 		-model $model
 		-c $coverage
 		-o $output
+		#if $exclude_parents
+			-e
+		#end if
 		#if $adv_opts.show_advanced
 			$adv_opts.allChromosomes
 			$adv_opts.collapseHets
@@ -65,6 +68,10 @@
 
 		<param name="coverage" type="float" value="10" label="Maximum coverage of a marker"
 			help="The maximum length of genome a marker can represent."/>
+
+		<param name="exclude_parents" type="boolean" label="Exclude parental lines which have not been selected."
+			   truevalue="true" falsevalue="false" help="Excludes parental lines which have not been selected as the recurrent, or donor parent from the analysis and results.">
+		</param>
 
 		<conditional name="adv_opts">
 			<param name="show_advanced" type="boolean"
