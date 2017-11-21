@@ -163,6 +163,7 @@ public class FJTabbedToHdf5Converter
 
 			// Write the state table
 			writer.string().writeArray(STATE_TABLE, stateTable.keySet().toArray(new String[stateTable.keySet().size()]), HDF5GenericStorageFeatures.GENERIC_DEFLATE);
+			writer.close();
 		}
 		catch (IOException e)
 		{
