@@ -126,10 +126,11 @@ public class ParentTotalMatchColorScheme extends ColorScheme
 
 	public void setColorSummaries(ArrayList<ColorSummary> colors)
 	{
-		Prefs.visColorSimStateMatchDark = colors.get(0).color;
-		Prefs.visColorSimStateMatch = colors.get(1).color;
-		Prefs.visColorSimStateNoMatch = colors.get(2).color;
-		Prefs.visColorSimStateMissing = colors.get(3).color;
+		Prefs.visParentSimilarity1 = colors.get(0).color;
+		Prefs.visParentSimilarity2 = colors.get(1).color;
+		Prefs.visColorSimStateMatch = colors.get(2).color;
+		Prefs.visColorSimStateNoMatch = colors.get(3).color;
+		Prefs.visColorSimStateMissing = colors.get(4).color;
 	}
 
 	protected ColorState getState(int line, int marker)
