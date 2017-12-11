@@ -1,8 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+// Copyright 2009-2017 Information & Computational Sciences, JHI. All rights
+// reserved. Use is subject to the accompanying licence terms.
+
 package jhi.flapjack.gui.dialog.analysis;
 
 import java.awt.event.*;

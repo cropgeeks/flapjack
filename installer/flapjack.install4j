@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<install4j version="7.0.2" transformSequenceNumber="7">
-  <directoryPresets config="./flapjack.vmoptions" />
+<install4j version="7.0.3" transformSequenceNumber="7">
+  <directoryPresets config="../keys/icsmacbookpro-application-id.p12" />
   <application name="Flapjack" distributionSourceDir="" applicationId="9131-7045-2417-5931" mediaDir="." mediaFilePattern="${compiler:sys.shortName}_${compiler:sys.platform}_${compiler:sys.version}" compression="6" lzmaCompression="false" pack200Compression="false" excludeSignedFromPacking="true" commonExternalFiles="false" createMd5Sums="true" shrinkRuntime="false" shortName="flapjack" publisher="The James Hutton Institute" publisherWeb="http://www.hutton.ac.uk" version="x.xx.xx.xx" allPathsRelative="true" backupOnSave="false" autoSave="false" convertDotsToUnderscores="true" macSignature="????" macVolumeId="c00051f261301646" javaMinVersion="1.8" javaMaxVersion="" allowBetaVM="false" jdkMode="runtimeJre" jdkName="">
     <languages skipLanguageSelection="true" languageSelectionInPrincipalLanguage="false">
       <principalLanguage id="en" customLocalizationFile="" />
@@ -20,7 +20,7 @@
       <variable name="changeLog" value="Show Change Log" description="" category="" />
     </variables>
     <mergedProjects />
-    <codeSigning macEnabled="false" macPkcs12File="../keys/OS201306044993.pfx" windowsEnabled="false" windowsKeySource="pkcs12" windowsPvkFile="" windowsSpcFile="" windowsPkcs12File="../keys/OS201306044993.pfx" />
+    <codeSigning macEnabled="true" macPkcs12File="../keys/icsmacbookpro-application-id.p12" windowsEnabled="false" windowsKeySource="pkcs12" windowsPvkFile="" windowsSpcFile="" windowsPkcs12File="../keys/OS201306044993.pfx" />
   </application>
   <files keepModificationTimes="false" missingFilesStrategy="warn" globalExcludeSuffixes="" defaultOverwriteMode="4" defaultUninstallMode="0" launcherOverwriteMode="3" defaultFileMode="644" defaultDirMode="755">
     <filesets />
