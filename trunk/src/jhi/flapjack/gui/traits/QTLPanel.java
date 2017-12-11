@@ -30,7 +30,7 @@ public class QTLPanel extends JPanel implements ActionListener
 	{
 		this.dataSet = dataSet;
 
-		controls = new QTLPanelNB();
+		controls = new QTLPanelNB(dataSet);
 		controls.bImport.addActionListener(this);
 		controls.bExport.addActionListener(this);
 		controls.bRemove.addActionListener(this);

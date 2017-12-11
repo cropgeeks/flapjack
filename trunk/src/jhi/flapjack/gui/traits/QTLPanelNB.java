@@ -8,16 +8,24 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.table.*;
 
+import jhi.flapjack.data.*;
+import jhi.flapjack.gui.*;
+
 import scri.commons.gui.*;
 
 class QTLPanelNB extends javax.swing.JPanel
 {
-	QTLPanelNB()
+	private DataSet dataSet;
+
+	QTLPanelNB(DataSet dataSet)
 	{
+		this.dataSet = dataSet;
+
 		initComponents();
 
 		errorLabel.setText("<html>" + RB.getString("gui.traits.QTLPanel.errorMsg"));
 		errorLabel.setForeground(Color.red);
+		errorLabel.setCursor(FlapjackUtils.HAND_CURSOR);
 
 		statusLabel.setText(RB.format("gui.traits.QTLPanel.traitCount", 0));
 
@@ -30,6 +38,52 @@ class QTLPanelNB extends javax.swing.JPanel
 		bExport.setIcon(Icons.getIcon("EXPORTTRAITS"));
 		bRemove.setIcon(Icons.getIcon("DELETE"));
 		bFilter.setIcon(Icons.getIcon("TRAITS"));
+
+		errorLabel.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e)
+			{
+				String[] options = new String[] {
+					RB.getString("gui.traits.QTLPanel.adjust"),
+					RB.getString("gui.text.cancel") };
+
+				String msg = RB.getString("gui.traits.QTLPanel.adjustMapMsg");
+				if (TaskDialog.show(msg, TaskDialog.WAR, 1, options) != 0)
+					return;
+
+				adjustMaps();
+			}
+		});
+	}
+
+	// Scans all the QTL and adjusts the map of any that don't fit
+	private void adjustMaps()
+	{
+		boolean skippedQTL = false;
+
+		for (ChromosomeMap cMap: dataSet.getChromosomeMaps())
+		{
+			for (QTL qtl: cMap.getQtls())
+			{
+				if (qtl.isAllowed() == false)
+				{
+					// Only adjust if the QTL is beyond the end of the map. We
+					// don't want to fix ones starting *before* 0
+					if (qtl.getMin() >= 0 && qtl.getMax() > cMap.getLength())
+					{
+						cMap.setLength(qtl.getMax());
+						qtl.setAllowed(true);
+						qtl.setVisible(true);
+					}
+					else
+						skippedQTL = true;
+				}
+			}
+		}
+
+		repaint();
+
+		if (skippedQTL == false)
+			errorLabel.setVisible(false);
 	}
 
 	private JTable createTable()
@@ -61,7 +115,8 @@ class QTLPanelNB extends javax.swing.JPanel
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+    private void initComponents()
+    {
 
         errorLabel = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -75,10 +130,12 @@ class QTLPanelNB extends javax.swing.JPanel
         errorLabel.setText("jLabel1");
 
         table.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
+            new Object [][]
+            {
 
             },
-            new String [] {
+            new String []
+            {
 
             }
         ));
@@ -98,21 +155,21 @@ class QTLPanelNB extends javax.swing.JPanel
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 548, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 800, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(errorLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(statusLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 176, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 428, Short.MAX_VALUE)
                         .addComponent(bImport)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(bExport)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(bFilter)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(bRemove))
-                    .addComponent(errorLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 501, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(bRemove)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
