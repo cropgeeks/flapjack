@@ -4,6 +4,7 @@
 package jhi.flapjack.analysis;
 
 import jhi.flapjack.data.*;
+import jhi.flapjack.data.pedigree.*;
 import jhi.flapjack.data.results.*;
 import jhi.flapjack.gui.visualization.colors.*;
 
@@ -21,12 +22,13 @@ public class PedVerF1sAnalysis extends SimpleJob
 	private int f1Index;
 	private boolean[] selectedChromosomes;
 	private String name;
+	private boolean excludeAdditionalParents;
 
 	private int f1HetCount = 0;
 	private int totalMarkerCount = 0;
 	private double f1PercentCount = 0;
 
-	public PedVerF1sAnalysis(GTViewSet viewSet, boolean[] selectedChromosomes, int parent1Index, int parent2Index, boolean simulateF1, int f1Index, String name)
+	public PedVerF1sAnalysis(GTViewSet viewSet, boolean[] selectedChromosomes, int parent1Index, int parent2Index, boolean simulateF1, int f1Index, boolean excludeAdditionalParents, String name)
 	{
 		this.viewSet =  viewSet.createClone("", true);
 		this.selectedChromosomes = selectedChromosomes;
@@ -35,11 +37,13 @@ public class PedVerF1sAnalysis extends SimpleJob
 		this.parent2Index = parent2Index;
 		this.simulateF1 = simulateF1;
 		this.f1Index = f1Index;
+		this.excludeAdditionalParents = excludeAdditionalParents;
 		this.name = name;
+
+		setupAnalysis();
 	}
 
-	public void runJob(int index)
-		throws Exception
+	private void setupAnalysis()
 	{
 		if (simulateF1)
 		{
@@ -49,6 +53,41 @@ public class PedVerF1sAnalysis extends SimpleJob
 			f1Index = f1Sim.getF1Index();
 		}
 
+		// If the user has specified that only the parents used for the analysis
+		// should be included in the results and the view
+		if (excludeAdditionalParents)
+		{
+			PedManager pedMan = viewSet.getDataSet().getPedManager();
+
+			// Iterate backward over the viewSet so we can remove any parents
+			// that we need to
+			for (int i = viewSet.getLines().size() - 1; i >= 0; i--)
+			{
+				// Don't remove the selected rp and dp
+				if (i == parent1Index || i == parent2Index || i == f1Index)
+					continue;
+
+				if (pedMan.isParent(viewSet.getLines().get(i)))
+				{
+					viewSet.getLines().remove(i);
+
+					// If the removed parent is before rp, or dp in the viewSet
+					// we need to adjust the rpIndex and dpIndex
+					if (i < parent1Index)
+						parent1Index--;
+
+					if (i < parent2Index)
+						parent2Index--;
+
+					if (i < f1Index)
+						f1Index--;
+				}
+			}
+		}
+	}
+
+	public void runJob(int index)
+	{
 		as = new AnalysisSet(viewSet)
 			.withViews(selectedChromosomes)
 			.withSelectedLines()

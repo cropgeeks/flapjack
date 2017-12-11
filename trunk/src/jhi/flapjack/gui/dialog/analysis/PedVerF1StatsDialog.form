@@ -75,15 +75,16 @@
                           <Component id="parent2Combo" max="32767" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace min="21" pref="21" max="-2" attributes="0"/>
+                          <Component id="f1Combo" max="32767" attributes="0"/>
+                      </Group>
+                      <Group type="102" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="chkExcludeParents" min="-2" max="-2" attributes="0"/>
                               <Component id="rdbSelectF1" alignment="0" min="-2" max="-2" attributes="0"/>
                               <Component id="rdbSimulateF1" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                      </Group>
-                      <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="21" pref="21" max="-2" attributes="0"/>
-                          <Component id="f1Combo" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
@@ -105,6 +106,8 @@
                       <Component id="lblParent2" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="parent2Combo" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <Component id="chkExcludeParents" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="rdbSimulateF1" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
@@ -156,8 +159,8 @@
         </Component>
         <Component class="javax.swing.JRadioButton" name="rdbSelectF1">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Select an F1 from the existing lines:"/>
             <Property name="actionCommand" type="java.lang.String" value=""/>
+            <Property name="text" type="java.lang.String" value="Select an F1 from the existing lines:"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JComboBox" name="f1Combo">
@@ -173,6 +176,11 @@
         <Component class="javax.swing.JLabel" name="jLabel1">
           <Properties>
             <Property name="text" type="java.lang.String" value="&lt;html&gt;Pedigree Verification of F1s (Known Parents) will calculate statistics for each line comparing&lt;br&gt;it to the parents and either a supplied or simulated F1."/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JCheckBox" name="chkExcludeParents">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Exclude other parental lines from analysis and view"/>
           </Properties>
         </Component>
       </SubComponents>

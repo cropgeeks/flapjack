@@ -24,7 +24,6 @@ public class SimulateF1 extends SimpleJob
 
 	@Override
 	public void runJob(int i)
-		throws Exception
 	{
 		// This analysis will run on selected lines/markers only
 		AnalysisSet as = new AnalysisSet(viewSet)

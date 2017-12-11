@@ -314,7 +314,7 @@ public class MenuAnalysis
 		// Setup and run the stats
 		PedVerF1sAnalysis stats = new PedVerF1sAnalysis(viewSet,
 			selectedChromosomes, p1Index, p2Index, simulateF1, f1Index,
-			RB.getString("gui.navpanel.PedVerF1s.node"));
+			Prefs.guiPedVerF1sExcludeParents, RB.getString("gui.navpanel.PedVerF1s.node"));
 
 		new ProgressDialog(stats,
 			RB.getString("gui.MenuAnalysis.pedVerF1s.title"),
