@@ -24,6 +24,7 @@ public class GeneratePedVerF1sStats
 	private int parent1;
 	private int parent2;
 	private int expectedF1;
+	private boolean excludeAdditionalParents;
 
 	public static void main(String[] args)
 	{
@@ -37,7 +38,8 @@ public class GeneratePedVerF1sStats
 			.withProjectFile(false)
 			.addRequiredOption("f", "parent1", true, "INTEGER", "Required integer")
 			.addRequiredOption("s", "parent2", true, "INTEGER", "Required integer")
-			.addOption("e", "expected-f1", true, "INTEGER", "Optional integer");
+			.addOption("e", "expected-f1", true, "INTEGER", "Optional integer")
+			.addOption("x", "exclude-additional-parents","Exclude parents which are not the selected recurrent, or donor, parent from the analysis");
 
 		try
 		{
@@ -56,8 +58,10 @@ public class GeneratePedVerF1sStats
 			if (line.hasOption("expected-f1"))
 				expectedF1 = parseParent(line.getOptionValue("expected-f1"));
 
-			GeneratePedVerF1sStats pedVerF1sStats = new GeneratePedVerF1sStats(projectSettings, importSettings, parent1,
-				parent2, expectedF1, filename);
+			boolean excludeAdditionalParents = line.hasOption("exclude-additional-parents");
+
+			GeneratePedVerF1sStats pedVerF1sStats = new GeneratePedVerF1sStats(projectSettings,
+				importSettings, parent1, parent2, expectedF1, excludeAdditionalParents, filename);
 			pedVerF1sStats.doStatGeneration();
 
 			System.exit(0);
@@ -71,13 +75,14 @@ public class GeneratePedVerF1sStats
 	}
 
 	public GeneratePedVerF1sStats(CreateProjectSettings projectSettings, DataImportSettings importSettings, int parent1,
-		int parent2, int expectedF1, String filename)
+		int parent2, int expectedF1, boolean excludeAdditionalParents, String filename)
 	{
 		this.projectSettings = projectSettings;
 		this.importSettings = importSettings;
 		this.parent1 = parent1;
 		this.parent2 = parent2;
 		this.expectedF1 = expectedF1;
+		this.excludeAdditionalParents = excludeAdditionalParents;
 		this.filename = filename;
 	}
 
@@ -134,7 +139,7 @@ public class GeneratePedVerF1sStats
 		boolean simulateF1 = expectedF1 == -1;
 
 		PedVerF1sAnalysis stats = new PedVerF1sAnalysis(viewSet, chromosomes,
-			parent1, parent2, simulateF1, expectedF1,
+			parent1, parent2, simulateF1, expectedF1, excludeAdditionalParents,
 			RB.getString("gui.navpanel.PedVerF1s.node"));
 
 		stats.runJob(0);

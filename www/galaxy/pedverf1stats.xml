@@ -20,6 +20,9 @@
 		#if $simulate_f1.simulate_f1_selector == False
 			-e $simulate_f1.expectedF1
 		#end if
+		#if $exclude_parents
+			-x
+		#end if
 		#if $adv_opts.show_advanced
 			$adv_opts.allChromosomes
 			$adv_opts.collapseHets
@@ -64,6 +67,10 @@
 					help="The index of the donor parent in the genotype file"/>
 			</when>
 		</conditional>
+
+		<param name="exclude_parents" type="boolean" label="Exclude parental lines which have not been selected."
+			   truevalue="true" falsevalue="false" help="Excludes parental lines which have not been selected as the recurrent, or donor parent from the analysis and results.">
+		</param>
 
 		<!-- WARNING: Below is the advanced options section shared by all of our tools. If you alter it here you must update the other tools as well.-->
 		<conditional name="adv_opts">

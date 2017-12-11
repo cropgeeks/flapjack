@@ -18,7 +18,7 @@
 		-c $coverage
 		-o $output
 		#if $exclude_parents
-			-e
+			-x
 		#end if
 		#if $adv_opts.show_advanced
 			$adv_opts.allChromosomes

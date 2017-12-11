@@ -45,7 +45,7 @@ public class GenerateMabcStats
 			.addOption(null, "model", true, "ARG", "weighted|unweighted")
 			.addOption("c", "max-marker-coverage", true, "FLOATING POINT NUMBER", "Maximum coverage a marker can " +
 				"have in the weighted model")
-			.addOption("e", "exclude-additional-parents","Exclude parents which are not the selected recurrent, or donor, parent from the analysis");
+			.addOption("x", "exclude-additional-parents","Exclude parents which are not the selected recurrent, or donor, parent from the analysis");
 
 		try
 		{
