@@ -1,4 +1,4 @@
-// Copyright 2009-2016 Information & Computational Sciences, JHI. All rights
+// Copyright 2009-2017 Information & Computational Sciences, JHI. All rights
 // reserved. Use is subject to the accompanying licence terms.
 
 package jhi.flapjack.gui;
@@ -141,7 +141,7 @@ public class MenuFile
 
 	public void fileImportSelect()
 	{
-		boolean enableBrAPI = true;
+		boolean enableBrAPI = false;
 
 		if (enableBrAPI)
 		{
