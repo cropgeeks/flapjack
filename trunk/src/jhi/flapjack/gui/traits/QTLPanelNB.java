@@ -73,6 +73,8 @@ class QTLPanelNB extends javax.swing.JPanel
 						cMap.setLength(qtl.getMax());
 						qtl.setAllowed(true);
 						qtl.setVisible(true);
+
+						Actions.projectModified();
 					}
 					else
 						skippedQTL = true;
