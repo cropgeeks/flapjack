@@ -159,6 +159,12 @@ public class BrapiClient
 	public boolean hasAlleleMatrices()
 		{ return callsUtils.hasAlleleMatrices(); }
 
+	public boolean hasStudiesSearchGET()
+		{ return callsUtils.hasStudiesSearchGET(); }
+
+	public boolean hasStudiesSearchPOST()
+		{ return callsUtils.hasStudiesSearchPOST(); }
+
 	public boolean doAuthentication()
 		throws Exception
 	{
@@ -257,6 +263,8 @@ public class BrapiClient
 	{
 		List<BrapiStudies> list = new ArrayList<>();
 		Pager pager = new Pager();
+
+		System.out.println("Doing studies search POST");
 
 		BrapiStudiesPost post = new BrapiStudiesPost();
 		post.setStudyType("genotype");

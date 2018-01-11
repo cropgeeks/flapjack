@@ -29,7 +29,7 @@ class CallsUtils
 	boolean validate()
 	{
 		// First validate the calls that MUST be present
-		if (Prefs.guiBrAPIUseStudies && hasCall("studies-search", JSON, GET) == false)
+		if (Prefs.guiBrAPIUseStudies && hasStudiesSearchGET() == false && hasStudiesSearchPOST() == false)
 		{
 			exceptionMsg = "studies-search not implemented";
 			return false;
@@ -95,4 +95,10 @@ class CallsUtils
 	{
 		return hasCall("allelematrix-search", FLAPJACK, POST);
 	}
+
+	boolean hasStudiesSearchGET()
+		{ return hasCall("studies-search", JSON, GET); }
+
+	boolean hasStudiesSearchPOST()
+		{ return hasCall("studies-search", JSON, POST); }
 }

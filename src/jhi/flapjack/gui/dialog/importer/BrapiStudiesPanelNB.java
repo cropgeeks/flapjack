@@ -76,7 +76,13 @@ class BrapiStudiesPanelNB extends JPanel implements IBrapiWizard
 		public void runJob(int jobID)
 			throws Exception
 		{
-			studies = client.getStudies();
+			if (client.hasStudiesSearchGET())
+				studies = client.getStudies();
+
+			// TODO: for now assume that if we don't have the get, we use the POST as the validation should catch
+			// the case where neither are supported
+			else
+				studies = client.getStudiesByPost();
 		}
 	}
 
