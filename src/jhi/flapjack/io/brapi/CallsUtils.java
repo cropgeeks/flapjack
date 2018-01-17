@@ -48,10 +48,15 @@ class CallsUtils
 		}
 
 		// "v2" flow for genotype data extract (this is our preferred route)
-		if (hasAlleleMatrices() && hasAlleleMatrixSearchFlapjack() == false)
+		if (hasAlleleMatrices())
 		{
-			exceptionMsg = "no Flapjack format support in allelematrix-search";
-			return false;
+			if (hasAlleleMatrixSearchFlapjack() == false)
+			{
+				exceptionMsg = "no Flapjack format support in allelematrix-search";
+				return false;
+			}
+
+			return true;
 		}
 
 		// or "v1"
