@@ -21,6 +21,8 @@ public class ExportDataDialog extends JDialog implements ActionListener
 	private GTViewSet viewSet;
 	private String baseName;
 
+	private ButtonGroup buttonGroup;
+
 	public ExportDataDialog(GTViewSet viewSet)
 	{
 		super(
@@ -58,6 +60,10 @@ public class ExportDataDialog extends JDialog implements ActionListener
 		RB.setText(tableLabel, "gui.dialog.NBExportDataPanel.tableLabel");
 		RB.setText(selectAllLabel, "gui.dialog.NBExportDataPanel.selectAllLabel");
 		RB.setText(selectNoneLabel, "gui.dialog.NBExportDataPanel.selectNoneLabel");
+
+		buttonGroup = new ButtonGroup();
+		buttonGroup.add(rAll);
+		buttonGroup.add(rSelected);
 
 		combo.addItem(RB.getString("gui.dialog.NBExportDataPanel.comboMap"));
 		combo.addItem(RB.getString("gui.dialog.NBExportDataPanel.comboDat"));
