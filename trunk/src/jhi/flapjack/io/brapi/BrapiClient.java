@@ -5,14 +5,9 @@ package jhi.flapjack.io.brapi;
 
 import java.io.*;
 import java.net.*;
-import java.security.*;
-import java.security.cert.*;
-import java.security.cert.Certificate;
 import java.util.*;
-import java.util.concurrent.*;
 import java.util.stream.*;
 import java.util.zip.*;
-import javax.net.ssl.*;
 import javax.xml.bind.*;
 
 import jhi.flapjack.gui.*;
@@ -26,15 +21,12 @@ import jhi.brapi.api.markerprofiles.*;
 import jhi.brapi.api.studies.*;
 import jhi.brapi.client.*;
 
-import okhttp3.*;
-
-import okhttp3.Response;
-import retrofit2.*;
 import retrofit2.Call;
-import retrofit2.converter.jackson.*;
+import retrofit2.Response;
 
 public class BrapiClient
 {
+	private RetrofitServiceGenerator generator;
 	private RetrofitService service;
 	private String baseURL;
 
@@ -46,72 +38,13 @@ public class BrapiClient
 
 	private CallsUtils callsUtils;
 
-	private OkHttpClient httpClient;
-
 	public void initService()
-		throws Exception
 	{
 		baseURL = resource.getUrl();
 		baseURL = baseURL.endsWith("/") ? baseURL : baseURL + "/";
 
-		service = createService(baseURL, null);
-	}
-
-	private RetrofitService createService(String baseURL, String authToken)
-	{
-		Interceptor inter = buildInterceptor(authToken);
-
-		// Tweak to make the timeout on Retrofit connections last longer
-		httpClient = new OkHttpClient.Builder()
-			.readTimeout(60, TimeUnit.SECONDS)
-			.connectTimeout(60, TimeUnit.SECONDS)
-			.addNetworkInterceptor(inter)
-			.build();
-
-		// If the resource has an associated certificate, ensure it is in the
-		// trust manager and keystore
-		try
-		{
-			httpClient = initCertificate(httpClient, resource.getCertificate());
-		}
-		catch (Exception e) { e.printStackTrace(); }
-
-		return buildService(baseURL, httpClient);
-	}
-
-	private Interceptor buildInterceptor(String authToken)
-	{
-		String bearer = "Bearer %s";
-
-		Interceptor inter = chain ->
-		{
-			Request original = chain.request();
-
-			// If we already have an authorization token in the header, or we
-			// don't have a valid token to add, return the original request
-			if (original.header("Authorization") != null || authToken == null || authToken.isEmpty())
-				return chain.proceed(original);
-
-			// Otherwise add the header and return the tweaked request
-			Request next = original.newBuilder()
-				.header("Authorization", String.format(bearer, authToken))
-				.build();
-
-			return chain.proceed(next);
-		};
-
-		return inter;
-	}
-
-	private RetrofitService buildService(String baseURL, OkHttpClient client)
-	{
-		Retrofit retrofit = new Retrofit.Builder()
-			.baseUrl(baseURL)
-			.addConverterFactory(JacksonConverterFactory.create())
-			.client(client)
-			.build();
-
-		return retrofit.create(RetrofitService.class);
+		generator = new RetrofitServiceGenerator(baseURL, resource.getCertificate());
+		service = generator.generate(null);
 	}
 
 	private String enc(String str)
@@ -128,13 +61,23 @@ public class BrapiClient
 
 		while (pager.isPaging())
 		{
-			BrapiListResource<BrapiCall> br = service.getCalls(null, pager.getPageSize(), pager.getPage())
-				.execute()
-				.body();
+			Response<BrapiListResource<BrapiCall>> response = service.getCalls(null, pager.getPageSize(), pager.getPage())
+				.execute();
 
-			calls.addAll(br.data());
+			BrapiListResource<BrapiCall> callResponse = response.body();
 
-			pager.paginate(br.getMetadata());
+			if (response.isSuccessful())
+			{
+				calls.addAll(callResponse.data());
+				pager.paginate(callResponse.getMetadata());
+			}
+			else
+			{
+				BrapiErrorResource errorResource = ErrorHandler.handle(generator, response);
+				List<Status> statuses = errorResource.getMetadata().getStatus();
+
+				throw new Exception(statuses.stream().map(Status::toString).collect(Collectors.joining(", ")));
+			}
 		}
 
 		callsUtils = new CallsUtils(calls);
@@ -180,7 +123,7 @@ public class BrapiClient
 		if (token == null)
 			return false;
 
-		service = createService(baseURL, token.getAccess_token());
+		service = generator.generate(token.getAccess_token());
 
 		return true;
 	}
@@ -458,40 +401,6 @@ public class BrapiClient
 		return responseCode == 401 || responseCode == 403;
 	}
 
-	private OkHttpClient initCertificate(OkHttpClient client, String certificate)
-		throws Exception
-	{
-		if (certificate == null || certificate.isEmpty())
-			return client;
-
-		// Deal with self signed certificates
-		CertificateFactory cf = CertificateFactory.getInstance("X.509");
-		InputStream caInput = new URL(resource.getCertificate()).openStream();
-		Certificate ca;
-		ca = cf.generateCertificate(caInput);
-
-		String keyStoreType = KeyStore.getDefaultType();
-		KeyStore keyStore = KeyStore.getInstance(keyStoreType);
-		keyStore.load(null, null);
-		keyStore.setCertificateEntry("ca", ca);
-
-		String tmfAlgorithm = TrustManagerFactory.getDefaultAlgorithm();
-		TrustManagerFactory tmf = TrustManagerFactory.getInstance(tmfAlgorithm);
-		tmf.init(keyStore);
-
-		SSLContext sslContext = SSLContext.getInstance("SSL");
-		sslContext.init(null, tmf.getTrustManagers(), null);
-
-		client = client.newBuilder()
-			.sslSocketFactory(sslContext.getSocketFactory(), (X509TrustManager)tmf.getTrustManagers()[0])
-			.hostnameVerifier((s, sslSession) -> true)
-			.build();
-
-		caInput.close();
-
-		return client;
-	}
-
 	// Use the okhttp client we configured our retrofit service with. This means
 	// the client is configured with any authentication tokens and any custom
 	// certificates that may be required to interact with the current BrAPI
@@ -499,13 +408,7 @@ public class BrapiClient
 	InputStream getInputStream(URI uri)
 		throws Exception
 	{
-		Request request = new Request.Builder()
-			.url(uri.toURL())
-			.build();
-
-		Response response = httpClient.newCall(request).execute();
-
-		return response.body().byteStream();
+		return generator.getInputStream(uri);
 	}
 
 
