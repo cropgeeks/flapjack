@@ -73,10 +73,9 @@ public class BrapiClient
 			}
 			else
 			{
-				BrapiErrorResource errorResource = ErrorHandler.handle(generator, response);
-				List<Status> statuses = errorResource.getMetadata().getStatus();
+				String errorMessage = ErrorHandler.getMessage(generator, response);
 
-				throw new Exception(statuses.stream().map(Status::toString).collect(Collectors.joining(", ")));
+				throw new Exception(errorMessage);
 			}
 		}
 
