@@ -64,10 +64,10 @@ public class BrapiClient
 			Response<BrapiListResource<BrapiCall>> response = service.getCalls(null, pager.getPageSize(), pager.getPage())
 				.execute();
 
-			BrapiListResource<BrapiCall> callResponse = response.body();
-
 			if (response.isSuccessful())
 			{
+				BrapiListResource<BrapiCall> callResponse = response.body();
+
 				calls.addAll(callResponse.data());
 				pager.paginate(callResponse.getMetadata());
 			}
@@ -115,177 +115,259 @@ public class BrapiClient
 
 		BrapiTokenLoginPost tokenPost = new BrapiTokenLoginPost(enc(username), enc(password), "password", "flapjack");
 
-		BrapiSessionToken token = service.getAuthToken(tokenPost)
-			.execute()
-			.body();
+		Response<BrapiSessionToken> response = service.getAuthToken(tokenPost).execute();
 
-		if (token == null)
-			return false;
+		if (response.isSuccessful())
+		{
+			BrapiSessionToken token = response.body();
 
-		service = generator.generate(token.getAccess_token());
+			if (token == null)
+				return false;
 
-		return true;
+			service = generator.generate(token.getAccess_token());
+			return true;
+		}
+		else
+		{
+			String errorMessage = ErrorHandler.getMessage(generator, response);
+
+			throw new Exception(errorMessage);
+		}
 	}
 
 	// Returns a list of available maps
 	public List<BrapiGenomeMap> getMaps()
 		throws Exception
 	{
-		List<BrapiGenomeMap> list = new ArrayList<>();
+		List<BrapiGenomeMap> mapList = new ArrayList<>();
 		Pager pager = new Pager();
 
 		while (pager.isPaging())
 		{
-			BrapiListResource<BrapiGenomeMap> br = service.getMaps(null, null, pager.getPageSize(), pager.getPage())
-				.execute()
-				.body();
+			Response<BrapiListResource<BrapiGenomeMap>> response = service.getMaps(null, null, pager.getPageSize(), pager.getPage())
+				.execute();
 
-			list.addAll(br.data());
+			if (response.isSuccessful())
+			{
+				BrapiListResource<BrapiGenomeMap> maps = response.body();
 
-			pager.paginate(br.getMetadata());
+				mapList.addAll(maps.data());
+				pager.paginate(maps.getMetadata());
+			}
+			else
+			{
+				String errorMessage = ErrorHandler.getMessage(generator, response);
+
+				throw new Exception(errorMessage);
+			}
 		}
 
-		return list;
+		return mapList;
 	}
 
 	// Returns the details (markers, chromosomes, positions) for a given map
 	public List<BrapiMarkerPosition> getMapMarkerData()
 		throws Exception
 	{
-		List<BrapiMarkerPosition> list = new ArrayList<>();
+		List<BrapiMarkerPosition> mapDetailList = new ArrayList<>();
 		Pager pager = new Pager();
 
 		while (pager.isPaging())
 		{
-			BrapiListResource<BrapiMarkerPosition> br = service.getMapMarkerData(enc(mapID), null, pager.getPageSize(), pager.getPage())
-				.execute()
-				.body();
+			Response<BrapiListResource<BrapiMarkerPosition>> response = service.getMapMarkerData(enc(mapID), null, pager.getPageSize(), pager.getPage())
+				.execute();
 
-			list.addAll(br.data());
+			if (response.isSuccessful())
+			{
+				BrapiListResource<BrapiMarkerPosition> mapDetails = response.body();
 
-			pager.paginate(br.getMetadata());
+				mapDetailList.addAll(mapDetails.data());
+				pager.paginate(mapDetails.getMetadata());
+			}
+			else
+			{
+				String errorMessage = ErrorHandler.getMessage(generator, response);
+
+				throw new Exception(errorMessage);
+			}
+
 		}
 
-		return list;
+		return mapDetailList;
 	}
 
 	public BrapiMapMetaData getMapMetaData()
 		throws Exception
 	{
-		BrapiBaseResource<BrapiMapMetaData> br = service.getMapMetaData(enc(mapID))
-			.execute()
-			.body();
+		Response<BrapiBaseResource<BrapiMapMetaData>> response = service.getMapMetaData(enc(mapID)).execute();
 
-		return br.getResult();
+		if (response.isSuccessful())
+		{
+			BrapiBaseResource<BrapiMapMetaData> mapMetaData = response.body();
+
+			return mapMetaData.getResult();
+		}
+		else
+		{
+			String errorMessage = ErrorHandler.getMessage(generator, response);
+
+			throw new Exception(errorMessage);
+		}
 	}
 
 	// Returns a list of available studies
 	public List<BrapiStudies> getStudies()
 		throws Exception
 	{
-		List<BrapiStudies> list = new ArrayList<>();
+		List<BrapiStudies> studiesList = new ArrayList<>();
 		Pager pager = new Pager();
 
 		while (pager.isPaging())
 		{
-			BrapiListResource<BrapiStudies> br = service.getStudies("genotype", pager.getPageSize(), pager.getPage())
-				.execute()
-				.body();
+			Response<BrapiListResource<BrapiStudies>> response = service.getStudies("genotype", pager.getPageSize(), pager.getPage())
+				.execute();
 
-			list.addAll(br.data());
+			if (response.isSuccessful())
+			{
+				BrapiListResource<BrapiStudies> studies = response.body();
 
-			pager.paginate(br.getMetadata());
+				studiesList.addAll(studies.data());
+				pager.paginate(studies.getMetadata());
+			}
+			else
+			{
+				String errorMessage = ErrorHandler.getMessage(generator, response);
+
+				throw new Exception(errorMessage);
+			}
 		}
 
-		return list;
+		return studiesList;
 	}
 
 	public List<BrapiStudies> getStudiesByPost()
 		throws Exception
 	{
-		List<BrapiStudies> list = new ArrayList<>();
+		List<BrapiStudies> studiesList = new ArrayList<>();
 		Pager pager = new Pager();
-
-		System.out.println("Doing studies search POST");
 
 		BrapiStudiesPost post = new BrapiStudiesPost();
 		post.setStudyType("genotype");
 
 		while (pager.isPaging())
 		{
-			BrapiListResource<BrapiStudies> br = service.getStudiesPost(post)
-				.execute()
-				.body();
+			Response<BrapiListResource<BrapiStudies>> response = service.getStudiesPost(post)
+				.execute();
 
-			list.addAll(br.data());
+			if (response.isSuccessful())
+			{
+				BrapiListResource<BrapiStudies> studies = response.body();
 
-			pager.paginate(br.getMetadata());
+				studiesList.addAll(studies.data());
+				pager.paginate(studies.getMetadata());
+			}
+			else
+			{
+				String errorMessage = ErrorHandler.getMessage(generator, response);
+
+				throw new Exception(errorMessage);
+			}
+
 		}
 
-		return list;
+		return studiesList;
 	}
 
 	public List<BrapiMarkerProfile> getMarkerProfiles()
 		throws Exception
 	{
-		List<BrapiMarkerProfile> list = new ArrayList<>();
+		List<BrapiMarkerProfile> markerProfileList = new ArrayList<>();
 		Pager pager = new Pager();
 
 		while (pager.isPaging())
 		{
-			BrapiListResource<BrapiMarkerProfile> br = service.getMarkerProfiles(null, studyID, null, null, pager.getPageSize(), pager.getPage())
-				.execute()
-				.body();
+			Response<BrapiListResource<BrapiMarkerProfile>> response = service.getMarkerProfiles(null, studyID, null, null, pager.getPageSize(), pager.getPage())
+				.execute();
 
-			list.addAll(br.data());
+			if (response.isSuccessful())
+			{
+				BrapiListResource<BrapiMarkerProfile> markerProfiles = response.body();
 
-			pager.paginate(br.getMetadata());
+				markerProfileList.addAll(markerProfiles.data());
+				pager.paginate(markerProfiles.getMetadata());
+			}
+			else
+			{
+				String errorMessage = ErrorHandler.getMessage(generator, response);
+
+				throw new Exception(errorMessage);
+			}
+
 		}
 
-		return list;
+		return markerProfileList;
 	}
 
 	// Returns a list of available matrices
 	public List<BrapiAlleleMatrixDataset> getMatrices()
 		throws Exception
 	{
-		List<BrapiAlleleMatrixDataset> list = new ArrayList<>();
+		List<BrapiAlleleMatrixDataset> alleleMatrixList = new ArrayList<>();
 		Pager pager = new Pager();
 
 		while (pager.isPaging())
 		{
-			BrapiListResource<BrapiAlleleMatrixDataset> br = service.getMatrices(studyID, pager.getPageSize(), pager.getPage())
-				.execute()
-				.body();
+			Response<BrapiListResource<BrapiAlleleMatrixDataset>> response = service.getMatrices(studyID, pager.getPageSize(), pager.getPage())
+				.execute();
 
-			list.addAll(br.data());
+			if (response.isSuccessful())
+			{
+				BrapiListResource<BrapiAlleleMatrixDataset> alleleMatrices = response.body();
 
-			pager.paginate(br.getMetadata());
+				alleleMatrixList.addAll(alleleMatrices.data());
+				pager.paginate(alleleMatrices.getMetadata());
+			}
+			else
+			{
+				String errorMessage = ErrorHandler.getMessage(generator, response);
+
+				throw new Exception(errorMessage);
+			}
 		}
 
-		return list;
+		return alleleMatrixList;
 	}
 
 	public List<BrapiAlleleMatrix> getAlleleMatrix(List<BrapiMarkerProfile> markerprofiles)
 		throws Exception
 	{
-		List<BrapiAlleleMatrix> list = new ArrayList<>();
+		List<BrapiAlleleMatrix> alleleMatrixList = new ArrayList<>();
 		Pager pager = new Pager();
 
 		List<String> ids = markerprofiles.stream().map(BrapiMarkerProfile::getMarkerProfileDbId).collect(Collectors.toList());
 
 		while (pager.isPaging())
 		{
-			BrapiBaseResource<BrapiAlleleMatrix> br = service.getAlleleMatrix(ids, null, null, null, null, null, null, pager.getPageSize(), pager.getPage())
-				.execute()
-				.body();
+			Response<BrapiBaseResource<BrapiAlleleMatrix>> response = service.getAlleleMatrix(ids, null, null, null, null, null, null, pager.getPageSize(), pager.getPage())
+				.execute();
 
-			list.add(br.getResult());
+			if (response.isSuccessful())
+			{
+				BrapiBaseResource<BrapiAlleleMatrix> alleleMatrix = response.body();
 
-			pager.paginate(br.getMetadata());
+				alleleMatrixList.add(alleleMatrix.getResult());
+				pager.paginate(alleleMatrix.getMetadata());
+			}
+			else
+			{
+				String errorMessage = ErrorHandler.getMessage(generator, response);
+
+				throw new Exception(errorMessage);
+			}
+
 		}
 
-		return list;
+		return alleleMatrixList;
 	}
 
 	public URI getAlleleMatrixFileByProfiles(List<BrapiMarkerProfile> markerProfiles, String format)
@@ -293,32 +375,53 @@ public class BrapiClient
 	{
 		List<String> ids = markerProfiles.stream().map(BrapiMarkerProfile::getMarkerProfileDbId).collect(Collectors.toList());
 
-		BrapiBaseResource<BrapiAlleleMatrix> br = service.getAlleleMatrix(ids, null, format, null, null, null, null, null, null)
-			.execute()
-			.body();
+		Response<BrapiBaseResource<BrapiAlleleMatrix>> response = service.getAlleleMatrix(ids, null, format, null, null, null, null, null, null)
+			.execute();
 
-		Status async = AsyncChecker.hasAsyncId(br.getMetadata().getStatus());
+		if (response.isSuccessful())
+		{
+			BrapiBaseResource<BrapiAlleleMatrix> alleleMatrix = response.body();
 
-		// If this is an asynchronous call we have to poll the status sub-resource of /allelematrix-search to get the data file
-		// otherwise we should just be able to grab it from the datafiles section of metadata
-		return async != null ? pollAlleleMatrixStatus(async.getMessage()) : new URI(br.getMetadata().getDatafiles().get(0));
+			Status async = AsyncChecker.hasAsyncId(alleleMatrix.getMetadata().getStatus());
+
+			// TODO: tidy up this code as it could easily fail at either the polling part, or the non async method of
+			// getting the file.
+
+			// If this is an asynchronous call we have to poll the status sub-resource of /allelematrix-search to get the data file
+			// otherwise we should just be able to grab it from the datafiles section of metadata
+			return async != null ? pollAlleleMatrixStatus(async.getMessage()) : new URI(alleleMatrix.getMetadata().getDatafiles().get(0));
+		}
+		else
+		{
+			String errorMessage = ErrorHandler.getMessage(generator, response);
+
+			throw new Exception(errorMessage);
+		}
 	}
 
 	// Calls /allelematrix-search?format=flapjack
 	public URI getAlleleMatrixFileById()
 		throws Exception
 	{
-		System.out.println("XXXXXXXXXXXXXXXXX");
+		Response<BrapiBaseResource<BrapiAlleleMatrix>> response = service.getAlleleMatrix(matrixID, "flapjack", null, null, null, null, null, null)
+			.execute();
 
-		BrapiBaseResource<BrapiAlleleMatrix> br = service.getAlleleMatrix(matrixID, "flapjack", null, null, null, null, null, null)
-			.execute()
-			.body();
+		if (response.isSuccessful())
+		{
+			BrapiBaseResource<BrapiAlleleMatrix> alleleMatrix = response.body();
 
-		Status async = AsyncChecker.hasAsyncId(br.getMetadata().getStatus());
+			Status async = AsyncChecker.hasAsyncId(alleleMatrix.getMetadata().getStatus());
 
-		// If this is an asynchronous call we have to poll the status sub-resource of /allelematrix-search to get the data file
-		// otherwise we should just be able to grab it from the datafiles section of metadata
-		return async != null ? pollAlleleMatrixStatus(async.getMessage()) : new URI(br.getMetadata().getDatafiles().get(0));
+			// If this is an asynchronous call we have to poll the status sub-resource of /allelematrix-search to get the data file
+			// otherwise we should just be able to grab it from the datafiles section of metadata
+			return async != null ? pollAlleleMatrixStatus(async.getMessage()) : new URI(alleleMatrix.getMetadata().getDatafiles().get(0));
+		}
+		else
+		{
+			String errorMessage = ErrorHandler.getMessage(generator, response);
+
+			throw new Exception(errorMessage);
+		}
 	}
 
 	private URI pollAlleleMatrixStatus(String id)
