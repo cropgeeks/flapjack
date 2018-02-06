@@ -165,6 +165,8 @@ public class Prefs extends XMLPreferences
 	public static boolean guiBrAPIUseStudies = true;
 	public static boolean guiBrAPIUseMaps = true;
 
+	public static int guiBrAPICategoryIndex = -1;
+
 	// What type of map scaling should be used (local=0, global=1)
 	public static int visMapScaling = Constants.GLOBAL;
 
