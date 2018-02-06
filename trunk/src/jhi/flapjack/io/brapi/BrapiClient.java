@@ -344,7 +344,7 @@ public class BrapiClient
 		List<BrapiAlleleMatrix> alleleMatrixList = new ArrayList<>();
 		Pager pager = new Pager();
 
-		List<String> ids = markerprofiles.stream().map(BrapiMarkerProfile::getMarkerProfileDbId).collect(Collectors.toList());
+		List<String> ids = markerprofiles.stream().map(BrapiMarkerProfile::getMarkerprofileDbId).collect(Collectors.toList());
 
 		while (pager.isPaging())
 		{
@@ -373,7 +373,7 @@ public class BrapiClient
 	public URI getAlleleMatrixFileByProfiles(List<BrapiMarkerProfile> markerProfiles, String format)
 		throws Exception
 	{
-		List<String> ids = markerProfiles.stream().map(BrapiMarkerProfile::getMarkerProfileDbId).collect(Collectors.toList());
+		List<String> ids = markerProfiles.stream().map(BrapiMarkerProfile::getMarkerprofileDbId).collect(Collectors.toList());
 
 		Response<BrapiBaseResource<BrapiAlleleMatrix>> response = service.getAlleleMatrix(ids, null, format, null, null, null, null, null, null)
 			.execute();
