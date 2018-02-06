@@ -59,6 +59,7 @@ class BrapiDataPanelNB extends JPanel implements IBrapiWizard
 	{
 		Prefs.guiBrAPIUseCustom = checkCustom.isSelected();
 		Prefs.guiBrAPICustomHistory = customText.getHistory();
+		Prefs.guiBrAPICategoryIndex = catCombo.getSelectedIndex();
 
 		if (checkCustom.isSelected())
 		{
@@ -92,6 +93,10 @@ class BrapiDataPanelNB extends JPanel implements IBrapiWizard
 		catModel.removeAllElements();
 		for (XmlCategory cat: data.getCategories())
 			catModel.addElement(cat);
+
+		int selIndex = Prefs.guiBrAPICategoryIndex;
+		if (selIndex >= 0 && selIndex < catCombo.getItemCount())
+			catCombo.setSelectedIndex(selIndex);
 	}
 
 	private class DataDownloader extends SimpleJob
