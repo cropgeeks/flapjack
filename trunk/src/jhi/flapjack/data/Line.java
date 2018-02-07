@@ -88,12 +88,12 @@ public class Line extends XMLRoot
 
 	/**
 	 * Collapses all genotype data (across all chromosomes) so that all
-	 * instances of the s2 state are replaced by the s1 state.
+	 * duplicate instances are rewritten
 	 */
-	public void collapseStates(int s1, int s2)
+	public void collapseStates(HashMap<Integer,Integer> remap)
 	{
 		for (GenotypeData data: genotypes)
-			data.collapseStates(s1, s2);
+			data.collapseStates(remap);
 	}
 
 	public GenotypeData getGenotypeDataByMap(ChromosomeMap map)

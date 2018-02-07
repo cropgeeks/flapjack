@@ -3,6 +3,8 @@
 
 package jhi.flapjack.data;
 
+import java.util.*;
+
 public class GenotypeData extends XMLRoot
 {
 	// A reference to the chromsome this data applies to
@@ -99,22 +101,17 @@ public class GenotypeData extends XMLRoot
 
 	// Collapses all instances of s2 to have the same value of s1 (basically
 	// overwrites all s2 values to be the same as s1)
-	void collapseStates(int s1, int s2)
+	void collapseStates(HashMap<Integer,Integer> remap)
 	{
 		if (loci != null)
 		{
-			byte b1 = (byte) s1;
-			byte b2 = (byte) s2;
-
 			for (int i = 0; i < loci.length; i++)
-				if (loci[i] == b2)
-					loci[i] = b1;
+				loci[i] = (byte) (int) remap.get((int)loci[i]);
 		}
 		else
 		{
 			for (int i = 0; i < lociInt.length; i++)
-				if (lociInt[i] == s2)
-					lociInt[i] = s1;
+				lociInt[i] = remap.get(lociInt[i]);
 		}
 	}
 
