@@ -28,7 +28,7 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Component id="panel" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="32767" attributes="0"/>
+              <EmptySpace pref="30" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -49,10 +49,6 @@
               <Group type="102" attributes="0">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="10" pref="10" max="10" attributes="0"/>
-                          <Component id="checkProxy" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="labelPassword" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -70,6 +66,13 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="proxyPort" min="-2" max="-2" attributes="1"/>
                       </Group>
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace min="10" pref="10" max="10" attributes="0"/>
+                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                              <Component id="checkSocks" min="-2" max="-2" attributes="0"/>
+                              <Component id="checkProxy" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -80,7 +83,9 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="checkProxy" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="checkSocks" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="labelAddress" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="proxyAddress" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -152,6 +157,11 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JPasswordField" name="proxyPassword">
+        </Component>
+        <Component class="javax.swing.JCheckBox" name="checkSocks">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Proxy is SOCKS rather than HTTP/S"/>
+          </Properties>
         </Component>
       </SubComponents>
     </Container>

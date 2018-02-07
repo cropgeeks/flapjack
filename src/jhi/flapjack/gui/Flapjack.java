@@ -170,8 +170,17 @@ public class Flapjack
 
 		if (Prefs.proxyUse)
 		{
-			p.setProperty("http.proxyHost", Prefs.proxyAddress);
-			p.setProperty("http.proxyPort", "" + Prefs.proxyPort);
+			if (Prefs.proxySocks == false)
+			{
+				p.setProperty("http.proxyHost", Prefs.proxyAddress);
+				p.setProperty("https.proxyHost", Prefs.proxyAddress);
+				p.setProperty("http.proxyPort", "" + Prefs.proxyPort);
+			}
+			else
+			{
+				p.setProperty("socksProxyHost", Prefs.proxyAddress);
+				p.setProperty("socksProxyPort", "" + Prefs.proxyPort);
+			}
 
 			Authenticator.setDefault(new Authenticator()
 			{

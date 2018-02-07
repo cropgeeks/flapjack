@@ -277,6 +277,7 @@ public class Prefs extends XMLPreferences
 
 	// Proxy settings
 	public static boolean proxyUse = false;
+	public static boolean proxySocks = false;
 	public static int proxyPort = 8080;
 	public static String proxyAddress = "";
 	public static String proxyUsername = "";
