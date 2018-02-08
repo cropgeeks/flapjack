@@ -37,6 +37,7 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 
 	private BrapiClient client;
 	private boolean mapWasProvided;
+	private boolean fakeMapCreated = false;
 
 	public BrapiGenotypeImporter(BrapiClient client, DataSet dataSet, HashMap<String, MarkerIndex> markers,
 		 HashMap<String, MarkerIndex> markersByName, String ioMissingData, String ioHeteroSeparator)
@@ -109,14 +110,17 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 
 		if (client.hasAlleleMatrixSearchTSV())
 		{
-			for (BrapiMarkerProfile mp: profiles)
+			if (mapWasProvided)
 			{
-				String name = mp.getUniqueDisplayName();
+				for (BrapiMarkerProfile mp : profiles)
+				{
+					String name = mp.getUniqueDisplayName();
 
-				// TODO: Call specifies unique name but should we check for duplicates just in case???
-				Line line = dataSet.createLine(name, useByteStorage);
+					// TODO: Call specifies unique name but should we check for duplicates just in case???
+					Line line = dataSet.createLine(name, useByteStorage);
 
-				linesByProfileID.put(mp.getMarkerprofileDbId(), line);
+					linesByProfileID.put(mp.getMarkerprofileDbId(), line);
+				}
 			}
 
 			return readTSVAlleleMatrix(linesByProfileID, profiles);
@@ -147,12 +151,39 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 		List<String> markerprofileIds = Arrays.asList(tmpstr);
 
 
+		if (mapWasProvided == false)
+		{
+			List<String> markerNames = new ArrayList<>();
+			while ((str = in.readLine()) != null)
+			{
+				String[] tokens = str.split("\t");
+				String markerID = tokens[0].trim();
+				markerNames.add(markerID);
+			}
+			markerNames.forEach(this::queryMarker);
+
+			for (BrapiMarkerProfile mp : profiles)
+			{
+				String name = mp.getUniqueDisplayName();
+
+				// TODO: Call specifies unique name but should we check for duplicates just in case???
+				Line line = dataSet.createLine(name, useByteStorage);
+
+				linesByProfileID.put(mp.getMarkerprofileDbId(), line);
+			}
+			fakeMapCreated = true;
+		}
+
+		in = new BufferedReader(new InputStreamReader(client.getInputStream(uri)));
+
+		// The first line is a list of marker profile IDs
+		str = in.readLine();
+
 		while ((str = in.readLine()) != null && !str.isEmpty())
 		{
+			System.out.println(str);
 			String[] tokens = str.split("\t");
 			String markerID = tokens[0].trim();
-
-			System.out.println(markerID);
 
 			MarkerIndex index = queryMarker(markerID);//markers.get(markerID);
 
@@ -319,7 +350,7 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 	private MarkerIndex queryMarker(String name)
 	{
 		// If a map was provided, then just use the hashtable
-		if (mapWasProvided)
+		if (mapWasProvided || fakeMapCreated)
 			return markersByName.get(name);
 
 		// Otherwise, we're into the special case for no map
