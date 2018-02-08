@@ -195,6 +195,8 @@ public class Flapjack
 		{
 			p.remove("http.proxyHost");
 			p.remove("http.proxyPort");
+			p.remove("socksProxyHost");
+			p.remove("socksProxyPort");
 		}
 	}
 
