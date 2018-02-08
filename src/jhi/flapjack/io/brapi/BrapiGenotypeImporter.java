@@ -98,7 +98,7 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 		// Simpler (v2) use case where we just need to ask for the allelematrix
 		// which will return a Flapjack formatted genotypes file
 		if (client.hasAlleleMatrices())
-			return readFlapjackAlleleMatrix(true, null, null);
+			return readFlapjackAlleleMatrix(true, null);
 
 
 		// Call /markerprofiles for list of all profile IDs so those parameters
@@ -106,23 +106,23 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 		List<BrapiMarkerProfile> profiles = client.getMarkerProfiles();
 
 		HashMap<String, Line> linesByProfileID = new HashMap<>();
-		HashMap<String, Line> linesByName = new HashMap<>();
-
-		for (BrapiMarkerProfile mp: profiles)
-		{
-			String name = mp.getUniqueDisplayName();
-
-			// TODO: Call specifies unique name but should we check for duplicates just in case???
-			Line line = dataSet.createLine(name, useByteStorage);
-
-			linesByProfileID.put(mp.getMarkerprofileDbId(), line);
-			linesByName.put(name, line);
-		}
 
 		if (client.hasAlleleMatrixSearchTSV())
+		{
+			for (BrapiMarkerProfile mp: profiles)
+			{
+				String name = mp.getUniqueDisplayName();
+
+				// TODO: Call specifies unique name but should we check for duplicates just in case???
+				Line line = dataSet.createLine(name, useByteStorage);
+
+				linesByProfileID.put(mp.getMarkerprofileDbId(), line);
+			}
+
 			return readTSVAlleleMatrix(linesByProfileID, profiles);
+		}
 		else if (client.hasAlleleMatrixSearchFlapjack())
-			return readFlapjackAlleleMatrix(false, linesByName, profiles);
+			return readFlapjackAlleleMatrix(false, profiles);
 		else
 			return readJSONAlleleMatrix(linesByProfileID, profiles);
 	}
@@ -146,8 +146,6 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 		String[] tmpstr = str.split("\t");
 		List<String> markerprofileIds = Arrays.asList(tmpstr);
 
-		System.out.println("Markers: " + markers.size());
-		System.out.println("MarkerByName:" + markersByName.size());
 
 		while ((str = in.readLine()) != null && !str.isEmpty())
 		{
@@ -191,14 +189,13 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 		return true;
 	}
 
-	private boolean readFlapjackAlleleMatrix(boolean createLines, HashMap<String, Line> linesByName, List<BrapiMarkerProfile> profiles)
+	private boolean readFlapjackAlleleMatrix(boolean createLines, List<BrapiMarkerProfile> profiles)
 		throws Exception
 	{
 		BufferedReader in = null;
 
 		if (createLines)
 		{
-			System.out.println("XXXXXXXXXXXXXXXXX");
 			URI uri = client.getAlleleMatrixFileById();
 			in = new BufferedReader(new InputStreamReader(client.getInputStream(uri)));
 		}
@@ -228,7 +225,6 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 
 			for (int i = 1; i < markerNames.length && isOK; i++)
 			{
-				System.out.println("markersByName: " + markersByName.size());
 				MarkerIndex index = queryMarker(markerNames[i].trim());
 
 				// Check that the marker does exists on map
@@ -254,18 +250,7 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 					continue;
 
 				String name = values[0].trim();
-				Line line = null;
-
-				if (createLines)
-				{
-					line = dataSet.createLine(name, useByteStorage);
-					System.out.println("Created line " + line.getName());
-				}
-				else
-					linesByName.get(name);
-
-				if (line == null)
-					continue;
+				Line line = dataSet.createLine(name, useByteStorage);
 
 				for (int i = 1; i < values.length; i++)
 				{

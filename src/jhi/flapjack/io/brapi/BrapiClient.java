@@ -375,28 +375,19 @@ public class BrapiClient
 	{
 		List<String> ids = markerProfiles.stream().map(BrapiMarkerProfile::getMarkerprofileDbId).collect(Collectors.toList());
 
-		Response<BrapiBaseResource<BrapiAlleleMatrix>> response = service.getAlleleMatrix(ids, null, format, null, null, null, null, null, null)
-			.execute();
+		BrapiAlleleMatrixSearchPost alleleMatrixSearchPost = new BrapiAlleleMatrixSearchPost();
+		alleleMatrixSearchPost.setMarkerprofileDbId(ids);
+		alleleMatrixSearchPost.setFormat(format);
 
-		if (response.isSuccessful())
+		Response<BrapiBaseResource<BrapiAlleleMatrix>> response = service.getAlleleMatrix(alleleMatrixSearchPost).execute();
+
+		if (response.isSuccessful() == false)
 		{
-			BrapiBaseResource<BrapiAlleleMatrix> alleleMatrix = response.body();
-
-			Status async = AsyncChecker.hasAsyncId(alleleMatrix.getMetadata().getStatus());
-
-			// TODO: tidy up this code as it could easily fail at either the polling part, or the non async method of
-			// getting the file.
-
-			// If this is an asynchronous call we have to poll the status sub-resource of /allelematrix-search to get the data file
-			// otherwise we should just be able to grab it from the datafiles section of metadata
-			return async != null ? pollAlleleMatrixStatus(async.getMessage()) : new URI(alleleMatrix.getMetadata().getDatafiles().get(0));
+			response = service.getAlleleMatrix(ids, null, format, null, null, null, null, null, null)
+				.execute();
 		}
-		else
-		{
-			String errorMessage = ErrorHandler.getMessage(generator, response);
 
-			throw new Exception(errorMessage);
-		}
+		return handleAlleleMatrixReponse(response);
 	}
 
 	// Calls /allelematrix-search?format=flapjack
@@ -406,15 +397,29 @@ public class BrapiClient
 		Response<BrapiBaseResource<BrapiAlleleMatrix>> response = service.getAlleleMatrix(matrixID, "flapjack", null, null, null, null, null, null)
 			.execute();
 
+		return handleAlleleMatrixReponse(response);
+	}
+
+	private URI handleAlleleMatrixReponse(Response<BrapiBaseResource<BrapiAlleleMatrix>> response)
+		throws Exception
+	{
 		if (response.isSuccessful())
 		{
 			BrapiBaseResource<BrapiAlleleMatrix> alleleMatrix = response.body();
 
 			Status async = AsyncChecker.hasAsyncId(alleleMatrix.getMetadata().getStatus());
 
-			// If this is an asynchronous call we have to poll the status sub-resource of /allelematrix-search to get the data file
-			// otherwise we should just be able to grab it from the datafiles section of metadata
-			return async != null ? pollAlleleMatrixStatus(async.getMessage()) : new URI(alleleMatrix.getMetadata().getDatafiles().get(0));
+			if (async != null)
+			{
+				return pollAlleleMatrixStatus(async.getMessage());
+			}
+			else
+			{
+				if (alleleMatrix.getMetadata().getDatafiles().size() >= 1)
+					return new URI(alleleMatrix.getMetadata().getDatafiles().get(0));
+
+				throw new Exception("Resource indicated it wasn't asynchronous and also doesn't contain a datafile in the metadata object.");
+			}
 		}
 		else
 		{
@@ -431,10 +436,10 @@ public class BrapiClient
 
 		// Make an initial call to check the status on the resource
 		BrapiListResource<Object> statusPoll = statusCall.execute().body();
-		Status status = AsyncChecker.checkAsyncStatus(statusPoll.getMetadata().getStatus());
+		AsyncChecker.AsyncStatus status = AsyncChecker.checkAsyncStatus(statusPoll.getMetadata().getStatus());
 
 		// Keep checking until the async call returns anything other than "INPROCESS"
-		while (AsyncChecker.callInProcess(status))
+		while (status == AsyncChecker.AsyncStatus.PENDING || status == AsyncChecker.AsyncStatus.INPROCESS)
 		{
 			// Wait for a second before polling again
 			try { Thread.sleep(1000); }
@@ -445,13 +450,17 @@ public class BrapiClient
 		}
 
 		// Check if the call finished successfully, if so grab the datafile
-		if (AsyncChecker.callFinished(status))
+		if (status == AsyncChecker.AsyncStatus.FINISHED)
 			return new URI(statusPoll.getMetadata().getDatafiles().get(0));
 
-		// TODO: We can also check if the call failed which would allow us to
-		// get an informative error message potentially
-		// TODO: By now we know the call failed...do we throw an exception of deal with it some other way?
-		throw new Exception();
+		else if (status == AsyncChecker.AsyncStatus.FAILED)
+			throw new Exception("The BrAPI resource returned the following asynchronous status: " + status.toString());
+
+		else if (status == AsyncChecker.AsyncStatus.UNKNOWN)
+			throw new Exception("Unknown asynchronous status returned by BrAPI resource.");
+
+		// IF we've reached this point, there's something really wrong.
+		throw new Exception("The BrAPI resource has not returned an asynchronous status that can be understood by Flapjack.");
 	}
 
 	public XmlBrapiProvider getBrapiProviders()
