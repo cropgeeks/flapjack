@@ -101,7 +101,7 @@ public class GenotypeData extends XMLRoot
 
 	// Collapses all instances of s2 to have the same value of s1 (basically
 	// overwrites all s2 values to be the same as s1)
-	void collapseStates(HashMap<Integer,Integer> remap)
+	void collapseStates(ArrayList<Integer> remap)
 	{
 		if (loci != null)
 		{

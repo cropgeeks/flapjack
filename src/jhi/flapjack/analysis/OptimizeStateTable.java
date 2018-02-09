@@ -39,19 +39,14 @@ public class OptimizeStateTable
 
 	public void optimize(boolean compareHomzOnly)
 	{
-		// This lookup table will hold original index (in the state table) value
-		// compared against new index (eg 1=1 if no change, or 4=2 if remapped)
-		HashMap<Integer,Integer> remap = new HashMap<>();
-		for (int i = 0; i < stateTable.size(); i++)
-			remap.put(i,i);
+		// This lookup table will hold remapped references to the AlleleState
+		// objests in the state table. As duplicates are found, these references
+		// will be updated to point to the first instance in each case.
+		ArrayList<AlleleState> remapRef = new ArrayList<>(stateTable.size());
+		for (AlleleState as: stateTable.getStates())
+			remapRef.add(as);
 
-		System.out.println("BEFORE");
-		for (int key: remap.keySet())
-		{
-			System.out.println("Remap: " + key + ": " + remap.get(key) + " - " + stateTable.getAlleleState(remap.get(key)));
-		}
-
-		ArrayList<Integer> toRemove = new ArrayList<>();
+		ArrayList<Integer> toDelete = new ArrayList<>();
 
 		// Start at index 1, because we never attempt to match the unknown state
 		// Compare every allele state with every other allele state...
@@ -70,32 +65,22 @@ public class OptimizeStateTable
 				else if (compareHomzOnly && s1.isSameHomzAs(s2) == false)
 					continue;
 
-				// Overwrite the original (higher,duplicate) value with the
-				// current index (which is the one we want to use instead)
-				remap.put(j, i);
-
-				// Decrement all higher values too
-				for (int k = j+1; k < stateTable.size(); k++)
-					remap.put(k, k-1);
-
-				// Track which element to remove (sticking it at the start of
-				// the list, so higher elements are removed first)
-				toRemove.add(0, j);
+				// Update the reference to point to the first instance of this
+				// state, then delete the duplicate from the state table
+				remapRef.set(j, s1);
+				toDelete.add(j);
 			}
 		}
 
-		// Remove the duplicates from the state table
-		for (int index: toRemove)
-			stateTable.deleteState(index);
+		Collections.sort(toDelete);
+		for (int i = toDelete.size()-1; i >= 0; i--)
+			stateTable.deleteState(toDelete.get(i));
 
-		System.out.println("AFTER");
-		for (int key: remap.keySet())
-		{
-			System.out.println("Remap: " + key + ": " + remap.get(key));
-		}
+		ArrayList<Integer> remap = new ArrayList<>();
+		for (AlleleState as: remapRef)
+			remap.add(stateTable.getStates().indexOf(as));
 
-		// And finally update the data arrays to these new values
-		if (toRemove.size() > 0)
+		if (toDelete.size() > 0)
 		{
 			for (int i = 0; i < dataSet.countLines(); i++)
 			{

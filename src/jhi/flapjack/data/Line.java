@@ -90,7 +90,7 @@ public class Line extends XMLRoot
 	 * Collapses all genotype data (across all chromosomes) so that all
 	 * duplicate instances are rewritten
 	 */
-	public void collapseStates(HashMap<Integer,Integer> remap)
+	public void collapseStates(ArrayList<Integer> remap)
 	{
 		for (GenotypeData data: genotypes)
 			data.collapseStates(remap);
