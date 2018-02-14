@@ -436,7 +436,7 @@ public class BrapiClient
 
 		// Make an initial call to check the status on the resource
 		BrapiListResource<Object> statusPoll = statusCall.execute().body();
-		AsyncChecker.AsyncStatus status = AsyncChecker.checkAsyncStatus(statusPoll.getMetadata().getStatus());
+		AsyncChecker.AsyncStatus status = AsyncChecker.checkStatus(statusPoll.getMetadata().getStatus());
 
 		// Keep checking until the async call returns anything other than "INPROCESS"
 		while (status == AsyncChecker.AsyncStatus.PENDING || status == AsyncChecker.AsyncStatus.INPROCESS)
@@ -446,7 +446,7 @@ public class BrapiClient
 			catch (InterruptedException e) {}
 			// Clone the previous retrofit call so we can call it again
 			statusPoll = statusCall.clone().execute().body();
-			status = AsyncChecker.checkAsyncStatus(statusPoll.getMetadata().getStatus());
+			status = AsyncChecker.checkStatus(statusPoll.getMetadata().getStatus());
 		}
 
 		// Check if the call finished successfully, if so grab the datafile
