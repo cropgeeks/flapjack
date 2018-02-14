@@ -139,26 +139,10 @@ public class MenuFile
 			 Flapjack.winMain);
 	}
 
-	public void fileImportSelect()
-	{
-		boolean enableBrAPI = true;
-
-		if (enableBrAPI)
-		{
-			DataSourceDialog dialog = new DataSourceDialog();
-
-			if (dialog.isOK() == false)
-				return;
-		}
-
-		if (Prefs.guiImportType == 0 || !enableBrAPI)
-			fileImport(0);
-		else
-			fileBrapi();
-	}
-
 	private void fileBrapi()
 	{
+		Prefs.guiImportType = DataImporter.IMPORT_BRAPI;
+
 		BrapiImportDialog dialog = new BrapiImportDialog();
 
 		if (dialog.isOK())
@@ -179,8 +163,11 @@ public class MenuFile
 
 		switch (dialog.getSelectedAction())
 		{
+			case 0: fileBrapi();
+				break;
+
 			// Import from file
-			case 0:
+			case 1:
 			{
 				File hdf5File = dialog.getHDF5File();
 				File mapFile = dialog.getMapFile();
@@ -190,18 +177,18 @@ public class MenuFile
 			break;
 
 			// Import trait data
-			case 1: importTraitData(dialog.getTraitsFile());
+			case 2: importTraitData(dialog.getTraitsFile());
 				break;
 
 			// Import QTL data
-			case 2: importQTLData(dialog.getFeaturesFile());
+			case 3: importQTLData(dialog.getFeaturesFile());
 				break;
 
-			case 3: importGraphData(dialog.getGraphsFile());
+			case 4: importGraphData(dialog.getGraphsFile());
 				break;
 
 			// Importing from a Flapjack-provided sample fileset
-			case 4: fileOpen(dialog.getSampleProject());
+			case 5: fileOpen(dialog.getSampleProject());
 				break;
 		}
 	}

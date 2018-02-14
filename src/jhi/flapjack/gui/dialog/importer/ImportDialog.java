@@ -23,6 +23,7 @@ public class ImportDialog extends JDialog implements ActionListener, ChangeListe
 	private JTabbedPane tabs;
 	private boolean secondaryOptions;
 
+	private ImportBrapiTabNB brapiTab;
 	private ImportGenoTabNB genoTab;
 	private ImportTraitsTabNB traitsTab;
 	private ImportFeaturesTabNB featuresTab;
@@ -39,10 +40,15 @@ public class ImportDialog extends JDialog implements ActionListener, ChangeListe
 
 		this.secondaryOptions = secondaryOptions;
 
-		add(createButtons(), BorderLayout.SOUTH);
+		add(createButtons(tabIndex), BorderLayout.SOUTH);
 
 		// Create and add the panels/tabs
 		tabs = new JTabbedPane();
+
+		brapiTab = new ImportBrapiTabNB();
+		tabs.addTab(RB.getString("gui.dialog.DataImportDialog.brapiTab"),
+			Icons.getIcon("BRAPI16"), brapiTab);
+
 
 		genoTab = new ImportGenoTabNB(this);
 		tabs.addTab(RB.getString("gui.dialog.DataImportDialog.dataTab"),
@@ -71,9 +77,12 @@ public class ImportDialog extends JDialog implements ActionListener, ChangeListe
 		FlapjackUtils.initDialog(this, bImport, bCancel, true, getContentPane());
 	}
 
-	private JPanel createButtons()
+	private JPanel createButtons(int tabIndex)
 	{
-		bImport = new JButton(RB.getString("gui.dialog.DataImportDialog.import"));
+		if (tabIndex == 0)
+			bImport = new JButton(RB.getString("gui.dialog.DataImportDialog.importBrapi"));
+		else
+			bImport = new JButton(RB.getString("gui.dialog.DataImportDialog.import"));
 		bImport.addActionListener(this);
 		bCancel = new JButton(RB.getString("gui.text.cancel"));
 		bCancel.addActionListener(this);
@@ -95,19 +104,19 @@ public class ImportDialog extends JDialog implements ActionListener, ChangeListe
 		{
 			switch (tabs.getSelectedIndex())
 			{
-				case 0: if (genoTab.isOK() == false)
+				case 1: if (genoTab.isOK() == false)
 							return;
 				break;
 
-				case 1: if (traitsTab.isOK() == false)
+				case 2: if (traitsTab.isOK() == false)
 							return;
 				break;
 
-				case 2: if (featuresTab.isOK() == false)
+				case 3: if (featuresTab.isOK() == false)
 							return;
 				break;
 
-				case 3: if (graphsTab.isOK() == false)
+				case 4: if (graphsTab.isOK() == false)
 							return;
 				break;
 			}
@@ -126,26 +135,31 @@ public class ImportDialog extends JDialog implements ActionListener, ChangeListe
 		switch (tabs.getSelectedIndex())
 		{
 			case 0 :
-				RB.setText(bImport, "gui.dialog.DataImportDialog.import");
+				RB.setText(bImport, "gui.dialog.DataImportDialog.importBrapi");
 				bImport.setEnabled(true);
 				break;
 
 			case 1 :
+				RB.setText(bImport, "gui.dialog.DataImportDialog.import");
+				bImport.setEnabled(true);
+				break;
+
+			case 2 :
 				RB.setText(bImport, "gui.dialog.DataImportDialog.importPhenotypes");
 				bImport.setEnabled(secondaryOptions);
 				break;
 
-			case 2 :
+			case 3 :
 				RB.setText(bImport, "gui.dialog.DataImportDialog.importFeatures");
 				bImport.setEnabled(secondaryOptions);
 				break;
 
-			case 3 :
+			case 4 :
 				RB.setText(bImport, "gui.dialog.DataImportDialog.importGraphs");
 				bImport.setEnabled(secondaryOptions);
 				break;
 
-			case 4 :
+			case 5 :
 				RB.setText(bImport, "gui.dialog.DataImportDialog.importSample");
 				bImport.setEnabled(sampleTab.isOK());
 				break;
