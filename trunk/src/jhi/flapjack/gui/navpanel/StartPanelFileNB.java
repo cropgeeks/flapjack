@@ -66,10 +66,10 @@ public class StartPanelFileNB extends javax.swing.JPanel implements ActionListen
 		WinMain wm = Flapjack.winMain;
 
 		if (e.getSource() == importLabel)
-			wm.mFile.fileImportSelect();
+			wm.mFile.fileImport(1);
 
 		else if (e.getSource() == sampleLabel)
-			wm.mFile.fileImport(4);
+			wm.mFile.fileImport(5);
 
 		else
 		{

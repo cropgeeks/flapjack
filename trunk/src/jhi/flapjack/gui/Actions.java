@@ -21,6 +21,7 @@ public class Actions
 	public static AbstractAction fileSaveAs;
 	public static AbstractAction fileOptimize;
 	public static AbstractAction fileImport;
+	public static AbstractAction fileImportBrapi;
 	public static AbstractAction fileExport;
 	public static AbstractAction fileExit;
 
@@ -200,7 +201,13 @@ public class Actions
 
 		fileImport = new AbstractAction(RB.getString("gui.Actions.fileImport"), getIcon("FILEIMPORT")) {
 			public void actionPerformed(ActionEvent e) {
-				winMain.mFile.fileImportSelect();
+				winMain.mFile.fileImport(1);
+			}
+		};
+
+		fileImportBrapi = new AbstractAction(RB.getString("gui.Actions.fileImportBrapi")) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.mFile.fileImport(0);
 			}
 		};
 
