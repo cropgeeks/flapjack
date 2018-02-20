@@ -227,22 +227,22 @@ public class StatusPanelNB extends JPanel implements ActionListener, ChangeListe
 			{
 				String str = m.getName() + " (" + nf.format(m.getRealPosition()) + ")";
 
-				int[] favAlleles = view.getViewSet().getDataSet().getFavAlleleManager().getFavAlleles().get(m.getName());
-				int[] unfavAlleles = view.getViewSet().getDataSet().getFavAlleleManager().getUnfavAlleles().get(m.getName());
+				ArrayList<Integer> favAlleles = view.getViewSet().getDataSet().getFavAlleleManager().getFavAlleles().get(m.getName());
+				ArrayList<Integer> unfavAlleles = view.getViewSet().getDataSet().getFavAlleleManager().getUnfavAlleles().get(m.getName());
 
 				StateTable st = view.getViewSet().getDataSet().getStateTable();
 
-				if (favAlleles != null && favAlleles.length > 0)
+				if (favAlleles != null && favAlleles.size() > 0)
 				{
-					str += " - Favourable Alleles: " + Arrays.stream(favAlleles)
-						.mapToObj(stateCode -> st.getAlleleState(stateCode).toString())
+					str += " - Favourable Alleles: " + favAlleles.stream()
+						.map(stateCode -> st.getAlleleState(stateCode).toString())
 						.collect(Collectors.joining(","));
 				}
 
-				if (unfavAlleles != null && unfavAlleles.length > 0)
+				if (unfavAlleles != null && unfavAlleles.size() > 0)
 				{
-					str += " - Unfavourable Alleles: " + Arrays.stream(unfavAlleles)
-						.mapToObj(stateCode -> st.getAlleleState(stateCode).toString())
+					str += " - Unfavourable Alleles: " + unfavAlleles.stream()
+						.map(stateCode -> st.getAlleleState(stateCode).toString())
 						.collect(Collectors.joining(","));
 				}
 

@@ -88,11 +88,15 @@ public class OptimizeStateTable
 				line.collapseStates(remap);
 			}
 
-			Map<String, int[]> favAlleles = dataSet.getFavAlleleManager().getFavAlleles();
+			Map<String, ArrayList<Integer>> favAlleles = dataSet.getFavAlleleManager().getFavAlleles();
+			for (ArrayList<Integer> allelesForMarker : favAlleles.values())
+				for (int i = 0; i < allelesForMarker.size(); i++)
+					allelesForMarker.set(i, remap.get(allelesForMarker.get(i)));
 
-			for (int[] allelesForMarker : favAlleles.values())
-				for (int i = 0; i < allelesForMarker.length; i++)
-					allelesForMarker[i] = remap.get(allelesForMarker[i]);
+			Map<String, ArrayList<Integer>> unfavAlleles = dataSet.getFavAlleleManager().getUnfavAlleles();
+			for (ArrayList<Integer> allelesForMarker : unfavAlleles.values())
+				for (int i = 0; i < allelesForMarker.size(); i++)
+					allelesForMarker.set(i, remap.get(allelesForMarker.get(i)));
 		}
 	}
 }

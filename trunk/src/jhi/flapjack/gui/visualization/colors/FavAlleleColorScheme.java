@@ -65,7 +65,7 @@ public class FavAlleleColorScheme extends SimilarityColorScheme
 		Marker mkr = view.getMarker(marker);
 
 		// Favourite allele match?
-		int[] favAlleles = fm.getFavAlleles().get(mkr.getName());
+		ArrayList<Integer> favAlleles = fm.getFavAlleles().get(mkr.getName());
 		if (favAlleles != null)
 		{
 			for (int favAllele : favAlleles)
@@ -76,7 +76,7 @@ public class FavAlleleColorScheme extends SimilarityColorScheme
 		}
 
 		// Non-favourite allele match?
-		int[] unfavAlleles = fm.getUnfavAlleles().get(mkr.getName());
+		ArrayList<Integer> unfavAlleles = fm.getUnfavAlleles().get(mkr.getName());
 		if (unfavAlleles != null)
 			for (int unfavAllele: unfavAlleles)
 				if (state == unfavAllele)
