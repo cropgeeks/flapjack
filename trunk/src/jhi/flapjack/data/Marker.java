@@ -3,6 +3,8 @@
 
 package jhi.flapjack.data;
 
+import java.util.*;
+
 public class Marker extends XMLRoot implements Comparable<Marker>
 {
 	private String name;
@@ -109,4 +111,26 @@ public class Marker extends XMLRoot implements Comparable<Marker>
 
 	public boolean dummyMarker()
 		{ return realPosition == -1000; }
+
+	@Override
+	public boolean equals(Object o)
+	{
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
+		Marker marker = (Marker) o;
+		return Double.compare(marker.position, position) == 0 &&
+			Double.compare(marker.realPosition, realPosition) == 0 &&
+			Objects.equals(name, marker.name) &&
+			Arrays.equals(frequencies, marker.frequencies);
+	}
+
+	@Override
+	public int hashCode()
+	{
+		int result = Objects.hash(name, position, realPosition);
+		result = 31 * result + Arrays.hashCode(frequencies);
+		return result;
+	}
 }

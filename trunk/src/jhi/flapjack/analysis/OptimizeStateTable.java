@@ -87,6 +87,12 @@ public class OptimizeStateTable
 				Line line = dataSet.getLineByIndex(i);
 				line.collapseStates(remap);
 			}
+
+			Map<String, int[]> favAlleles = dataSet.getFavAlleleManager().getFavAlleles();
+
+			for (int[] allelesForMarker : favAlleles.values())
+				for (int i = 0; i < allelesForMarker.length; i++)
+					allelesForMarker[i] = remap.get(allelesForMarker[i]);
 		}
 	}
 }

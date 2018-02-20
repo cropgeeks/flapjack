@@ -57,6 +57,7 @@ public class CanvasMenu
 	private JRadioButtonMenuItem mColorMagic;
 	private JRadioButtonMenuItem mColorParentDual;
 	private JRadioButtonMenuItem mColorParentTotal;
+	private JRadioButtonMenuItem mColorFavAllele;
 	private JMenuItem mToggleCanvas;
 	private JMenu mDataDB;
 	private JMenuItem mDBLineName;
@@ -118,6 +119,7 @@ public class CanvasMenu
 		mColorLineSim = WinMainMenuBar.getRadioItem(Actions.vizColorLineSim, "gui.Actions.vizColorLineSim", 0, 0);
 		mColorLineSimExact = WinMainMenuBar.getRadioItem(Actions.vizColorLineSimExact, "gui.Actions.vizColorLineSimExact", 0, 0);
 		mColorLineSimAny = WinMainMenuBar.getRadioItem(Actions.vizColorLineSimAny, "gui.Actions.vizColorLineSimAny", 0, 0);
+		mColorFavAllele = WinMainMenuBar.getRadioItem(Actions.vizColorFavAllele, "gui.Actions.vizColorFavAllele", 0, 0);
 		mColorParentDual = WinMainMenuBar.getRadioItem(Actions.vizColorParentDual, "gui.Actions.vizColorParentDual", 0, 0);
 		mColorParentTotal = WinMainMenuBar.getRadioItem(Actions.vizColorParentTotal, "gui.Actions.vizColorParentTotal", 0, 0);
 		mColorMarkerSim = WinMainMenuBar.getRadioItem(Actions.vizColorMarkerSim, "gui.Actions.vizColorMarkerSim", 0, 0);
@@ -162,6 +164,7 @@ public class CanvasMenu
 		mColor.add(mColorMarkerSim);
 		mColor.add(mColorParentDual);
 		mColor.add(mColorParentTotal);
+		mColor.add(mColorFavAllele);
 		mColor.add(mColorAlleleFreq);
 		mColor.add(mColorMagic);
 		mColor.add(mColorBinned);
