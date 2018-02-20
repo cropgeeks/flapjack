@@ -43,7 +43,7 @@ public class DataSet extends XMLRoot
 
 	// Pedigree information
 	private PedManager pm = new PedManager();
-
+	// Infomation on favourable alleles
 	private FavAlleleManager fm = new FavAlleleManager();
 
 	public DataSet()
@@ -171,6 +171,7 @@ public class DataSet extends XMLRoot
 	public void setFavAlleleManager(FavAlleleManager fm)
 		{ this.fm = fm; }
 
+	
 	// Other methods
 
 	public Line createLine(String name, boolean useByteStorage)

@@ -4,31 +4,31 @@ import java.util.*;
 
 public class FavAlleleManager extends XMLRoot
 {
-	private Map<String, int[]> favAlleles = new HashMap<>();
-	private Map<String, int[]> unfavAlleles = new HashMap<>();
+	private Map<String, ArrayList<Integer>> favAlleles = new HashMap<>();
+	private Map<String, ArrayList<Integer>> unfavAlleles = new HashMap<>();
 
 	public FavAlleleManager()
 	{
 	}
 
-	public Map<String, int[]> getFavAlleles()
+	public Map<String, ArrayList<Integer>> getFavAlleles()
 		{ return favAlleles; }
 
-	public void setFavAlleles(Map<String, int[]> favAlleles)
-		{ this.favAlleles = favAlleles; }
+	public void setFavAlleles(Map<String, ArrayList<Integer>> favAlleles)
+		{ this.favAlleles = favAlleles;	}
 
-	public Map<String, int[]> getUnfavAlleles()
+	public Map<String, ArrayList<Integer>> getUnfavAlleles()
 		{ return unfavAlleles; }
 
-	public void setUnfavAlleles(Map<String, int[]> unfavAlleles)
+	public void setUnfavAlleles(Map<String, ArrayList<Integer>> unfavAlleles)
 		{ this.unfavAlleles = unfavAlleles; }
 
-	public void addFavAllelesForMarker(String markerName, int[] favIndices)
+	public void addFavAllelesForMarker(String markerName, ArrayList<Integer> favIndices)
 	{
 		favAlleles.put(markerName, favIndices);
 	}
 
-	public void addUnfavAllelesForMarker(String markerName, int[] unfavIndices)
+	public void addUnfavAllelesForMarker(String markerName, ArrayList<Integer> unfavIndices)
 	{
 		unfavAlleles.put(markerName, unfavIndices);
 	}

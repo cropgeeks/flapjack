@@ -357,7 +357,7 @@ public class GenotypeDataImporter implements IGenotypeImporter
 			Marker marker = dataSet.getChromosomeMaps().get(mi.mapIndex).getMarkerByIndex(mi.mkrIndex);
 
 			int arraySize = tokens.length -2;
-			int[] alleleIndices = new int[arraySize];
+			ArrayList<Integer> alleleIndices = new ArrayList<>();
 
 			for (int i=2; i < tokens.length; i++)
 			{
@@ -371,7 +371,7 @@ public class GenotypeDataImporter implements IGenotypeImporter
 					states.put(rawAlleles, stateCode);
 				}
 
-				alleleIndices[i-2] = stateCode;
+				alleleIndices.add(stateCode);
 			}
 			dataSet.getFavAlleleManager().addFavAllelesForMarker(marker.getName(), alleleIndices);
 		}
@@ -388,7 +388,7 @@ public class GenotypeDataImporter implements IGenotypeImporter
 			Marker marker = dataSet.getChromosomeMaps().get(mi.mapIndex).getMarkerByIndex(mi.mkrIndex);
 
 			int arraySize = tokens.length -2;
-			int[] alleleIndices = new int[arraySize];
+			ArrayList<Integer> alleleIndices = new ArrayList<>();
 			for (int i=2; i < tokens.length; i++)
 			{
 				String rawAlleles = tokens[i].trim();
@@ -401,7 +401,7 @@ public class GenotypeDataImporter implements IGenotypeImporter
 					states.put(rawAlleles, stateCode);
 				}
 
-				alleleIndices[i-2] = stateCode;
+				alleleIndices.add(stateCode);
 			}
 			dataSet.getFavAlleleManager().addUnfavAllelesForMarker(marker.getName(), alleleIndices);
 		}
