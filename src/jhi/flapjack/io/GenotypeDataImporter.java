@@ -6,9 +6,9 @@ package jhi.flapjack.io;
 import java.io.*;
 import java.text.*;
 import java.util.*;
+import java.util.stream.*;
 
 import jhi.flapjack.data.*;
-import jhi.flapjack.gui.*;
 
 import scri.commons.io.*;
 import scri.commons.gui.*;
@@ -211,6 +211,12 @@ public class GenotypeDataImporter implements IGenotypeImporter
 			if (str.length() == 0)
 				continue;
 
+			if (str.startsWith("#"))
+			{
+				processHeader(str);
+				continue;
+			}
+
 			if ((++lineCount) % 100 == 0)
 			{
 				System.out.println("Reading line " + lineCount + " (" + (System.currentTimeMillis()-s) + "ms)");
@@ -337,6 +343,67 @@ public class GenotypeDataImporter implements IGenotypeImporter
 					pedigrees.add(ped.toString());
 				}
 			}
+		}
+
+		else if (str.toLowerCase().startsWith("# fjfavallele"))
+		{
+			String[] tokens = str.split("\t");
+
+			// TODO: This is not safe! Assumes that markers are in same order in comment headers as in the file
+			String markerName = tokens[1];
+			queryMarker(markerName);
+
+			MarkerIndex mi = markers.get(markerName);
+			Marker marker = dataSet.getChromosomeMaps().get(mi.mapIndex).getMarkerByIndex(mi.mkrIndex);
+
+			int arraySize = tokens.length -2;
+			int[] alleleIndices = new int[arraySize];
+
+			for (int i=2; i < tokens.length; i++)
+			{
+				String rawAlleles = tokens[i].trim();
+				// Determine its various states
+				Integer stateCode = states.get(rawAlleles);
+				if (stateCode == null)
+				{
+					stateCode = stateTable.getStateCode(rawAlleles, true,
+						ioMissingData, ioHeteroSeparator);
+					states.put(rawAlleles, stateCode);
+				}
+
+				alleleIndices[i-2] = stateCode;
+			}
+			dataSet.getFavAlleleManager().addFavAllelesForMarker(marker.getName(), alleleIndices);
+		}
+
+		else if (str.toLowerCase().startsWith("# fjunfavallele"))
+		{
+			String[] tokens = str.split("\t");
+
+			// TODO: This is not safe! Assumes that markers are in same order in comment headers as in the file
+			String markerName = tokens[1];
+			queryMarker(markerName);
+
+			MarkerIndex mi = markers.get(markerName);
+			Marker marker = dataSet.getChromosomeMaps().get(mi.mapIndex).getMarkerByIndex(mi.mkrIndex);
+
+			int arraySize = tokens.length -2;
+			int[] alleleIndices = new int[arraySize];
+			for (int i=2; i < tokens.length; i++)
+			{
+				String rawAlleles = tokens[i].trim();
+				// Determine its various states
+				Integer stateCode = states.get(rawAlleles);
+				if (stateCode == null)
+				{
+					stateCode = stateTable.getStateCode(rawAlleles, true,
+						ioMissingData, ioHeteroSeparator);
+					states.put(rawAlleles, stateCode);
+				}
+
+				alleleIndices[i-2] = stateCode;
+			}
+			dataSet.getFavAlleleManager().addUnfavAllelesForMarker(marker.getName(), alleleIndices);
 		}
 	}
 

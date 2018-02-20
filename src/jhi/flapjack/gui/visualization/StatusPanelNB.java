@@ -7,6 +7,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.text.*;
 import java.util.*;
+import java.util.stream.*;
 import javax.swing.*;
 import javax.swing.event.*;
 
@@ -223,7 +224,30 @@ public class StatusPanelNB extends JPanel implements ActionListener, ChangeListe
 		{
 			Marker m = view.getMarker(markerIndex);
 			if (m.dummyMarker() == false)
-				markerLabel.setText(m.getName() + " (" + nf.format(m.getRealPosition()) + ")");
+			{
+				String str = m.getName() + " (" + nf.format(m.getRealPosition()) + ")";
+
+				int[] favAlleles = view.getViewSet().getDataSet().getFavAlleleManager().getFavAlleles().get(m.getName());
+				int[] unfavAlleles = view.getViewSet().getDataSet().getFavAlleleManager().getUnfavAlleles().get(m.getName());
+
+				StateTable st = view.getViewSet().getDataSet().getStateTable();
+
+				if (favAlleles != null && favAlleles.length > 0)
+				{
+					str += " - Favourable Alleles: " + Arrays.stream(favAlleles)
+						.mapToObj(stateCode -> st.getAlleleState(stateCode).toString())
+						.collect(Collectors.joining(","));
+				}
+
+				if (unfavAlleles != null && unfavAlleles.length > 0)
+				{
+					str += " - Unfavourable Alleles: " + Arrays.stream(unfavAlleles)
+						.mapToObj(stateCode -> st.getAlleleState(stateCode).toString())
+						.collect(Collectors.joining(","));
+				}
+
+				markerLabel.setText(str);
+			}
 			else
 				markerLabel.setText(" ");
 		}

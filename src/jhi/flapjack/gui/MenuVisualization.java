@@ -223,6 +223,7 @@ public class MenuVisualization
 				Actions.vizColorParentDual.putValue(Action.SELECTED_KEY, cScheme == ColorScheme.PARENT_DUAL);
 				Actions.vizColorParentTotal.putValue(Action.SELECTED_KEY, cScheme == ColorScheme.PARENT_TOTAL);
 				Actions.vizColorLineSimAny.putValue(Action.SELECTED_KEY, cScheme == ColorScheme.LINE_SIMILARITY_ANY_MATCH);
+				Actions.vizColorFavAllele.putValue(Action.SELECTED_KEY, cScheme == ColorScheme.FAV_ALLELE);
 			}
 
 			public void menuDeselected(MenuEvent e) {}
