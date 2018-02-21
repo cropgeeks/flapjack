@@ -225,10 +225,19 @@ public class StatusPanelNB extends JPanel implements ActionListener, ChangeListe
 			Marker m = view.getMarker(markerIndex);
 			if (m.dummyMarker() == false)
 			{
-				String str = m.getName() + " (" + nf.format(m.getRealPosition()) + ")";
+				FavAlleleManager fm = view.getViewSet().getDataSet().getFavAlleleManager();
 
-				ArrayList<Integer> favAlleles = view.getViewSet().getDataSet().getFavAlleleManager().getFavAlleles().get(m.getName());
-				ArrayList<Integer> unfavAlleles = view.getViewSet().getDataSet().getFavAlleleManager().getUnfavAlleles().get(m.getName());
+				// Does this marker have an alternative name?
+				String altName = fm.getAltNames().get(m.getName());
+
+				// NAME / ALTNAME (POSITION)
+				String str = m.getName()
+					+ (altName != null ? " / " + altName : "")
+					+ " (" + nf.format(m.getRealPosition()) + ")";
+
+				// Parse and determine fav/unfav info (if any)
+				ArrayList<Integer> favAlleles = fm.getFavAlleles().get(m.getName());
+				ArrayList<Integer> unfavAlleles = fm.getUnfavAlleles().get(m.getName());
 
 				StateTable st = view.getViewSet().getDataSet().getStateTable();
 
