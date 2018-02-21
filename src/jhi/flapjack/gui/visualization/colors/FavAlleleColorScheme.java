@@ -82,7 +82,7 @@ public class FavAlleleColorScheme extends SimilarityColorScheme
 				if (state == unfavAllele)
 					return mtchStatesN.get(state);
 
-		if (stateTable.isHet(state))
+		if (favAlleles != null && unfavAlleles != null && stateTable.isHet(state))
 			return het1States.get(state);
 
 		// If it's not the same, or we can't do a comparison...
