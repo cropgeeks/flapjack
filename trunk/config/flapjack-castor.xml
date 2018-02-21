@@ -325,7 +325,7 @@
 	<!-- FavAlleleManager -->
 	<class name="jhi.flapjack.data.FavAlleleManager" extends="jhi.flapjack.data.XMLRoot" auto-complete="true">
 		<field name="favAlleles" collection="map">
-			<bind-xml name="favs"> <!-- en = entry -->
+			<bind-xml name="fav"> <!-- en = entry -->
 				<class name="org.exolab.castor.mapping.MapItem">
 					<field name="key" type="java.lang.String">
 						<bind-xml name="k" node="attribute"/>
@@ -337,12 +337,24 @@
 			</bind-xml>
 		</field>
 		<field name="unfavAlleles" collection="map">
-			<bind-xml name="unfavs"> <!-- en = entry -->
+			<bind-xml name="unfav"> <!-- en = entry -->
 				<class name="org.exolab.castor.mapping.MapItem">
 					<field name="key" type="java.lang.String">
 						<bind-xml name="k" node="attribute"/>
 					</field>
 					<field name="value" type="integer" collection="arraylist">
+						<bind-xml name="v" node="attribute"/>
+					</field>
+				</class>
+			</bind-xml>
+		</field>
+		<field name="altNames" collection="map">
+			<bind-xml name="alt"> <!-- en = entry -->
+				<class name="org.exolab.castor.mapping.MapItem">
+					<field name="key" type="java.lang.String">
+						<bind-xml name="k" node="attribute"/>
+					</field>
+					<field name="value" type="java.lang.String">
 						<bind-xml name="v" node="attribute"/>
 					</field>
 				</class>

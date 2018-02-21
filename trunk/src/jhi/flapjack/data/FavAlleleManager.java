@@ -7,9 +7,15 @@ public class FavAlleleManager extends XMLRoot
 	private Map<String, ArrayList<Integer>> favAlleles = new HashMap<>();
 	private Map<String, ArrayList<Integer>> unfavAlleles = new HashMap<>();
 
+	// Stores (possible) alternative names for each marker
+	private Map<String, String> altNames = new HashMap<>();
+
 	public FavAlleleManager()
 	{
 	}
+
+
+	// Methods required for XML serialization
 
 	public Map<String, ArrayList<Integer>> getFavAlleles()
 		{ return favAlleles; }
@@ -22,6 +28,15 @@ public class FavAlleleManager extends XMLRoot
 
 	public void setUnfavAlleles(Map<String, ArrayList<Integer>> unfavAlleles)
 		{ this.unfavAlleles = unfavAlleles; }
+
+	public Map<String, String> getAltNames()
+		{ return altNames; }
+
+	public void setAltNames(Map<String, String> alternateNames)
+		{ this.altNames = alternateNames; }
+
+
+	// Other methods
 
 	public void addFavAllelesForMarker(String markerName, ArrayList<Integer> favIndices)
 	{

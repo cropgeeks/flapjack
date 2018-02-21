@@ -345,6 +345,21 @@ public class GenotypeDataImporter implements IGenotypeImporter
 			}
 		}
 
+		else if (str.toLowerCase().startsWith("# fjaltmarkername"))
+		{
+			String[] tokens = str.split("\t");
+
+			String orgName = tokens[1];
+			String altName = tokens[2];
+
+			queryMarker(orgName);
+
+			MarkerIndex mi = markers.get(orgName);
+			Marker marker = dataSet.getChromosomeMaps().get(mi.mapIndex).getMarkerByIndex(mi.mkrIndex);
+
+			dataSet.getFavAlleleManager().getAltNames().put(orgName, altName);
+		}
+
 		else if (str.toLowerCase().startsWith("# fjfavallele"))
 		{
 			String[] tokens = str.split("\t");
