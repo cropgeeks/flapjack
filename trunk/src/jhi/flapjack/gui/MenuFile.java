@@ -408,6 +408,11 @@ public class MenuFile
 			Prefs.guiImportType = DataImporter.IMPORT_CLASSIC;
 			importGenotypeData(mapFile.getFile(), datFile.getFile(), null, null, true);
 		}
+		else if (datFile != null)
+		{
+			Prefs.guiImportType = DataImporter.IMPORT_CLASSIC;
+			importGenotypeData(null, datFile.getFile(), null, null, true);
+		}
 		else if (hdf5File != null)
 		{
 			Prefs.guiImportType = DataImporter.IMPORT_HDF5;
