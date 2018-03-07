@@ -66,7 +66,7 @@ public class CreateProject
 		}
 	}
 
-	CreateProject(CreateProjectSettings options, DataImportSettings importSettings)
+	public CreateProject(CreateProjectSettings options, DataImportSettings importSettings)
 	{
 		this.options = options;
 		this.importSettings = importSettings;
