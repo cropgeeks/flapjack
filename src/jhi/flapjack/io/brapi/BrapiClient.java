@@ -83,7 +83,7 @@ public class BrapiClient
 
 		if (callsUtils.validate() == false)
 			throw new Exception("The selected BrAPI service does not appear to support the required functionality "
-				+ "for use by Flapjack (" + callsUtils.exceptionMsg + ").");
+				+ "for use by Flapjack (" + callsUtils.getExceptionMsg() + ").");
 	}
 
 	public boolean hasToken()
@@ -199,20 +199,32 @@ public class BrapiClient
 	public BrapiMapMetaData getMapMetaData()
 		throws Exception
 	{
-		Response<BrapiBaseResource<BrapiMapMetaData>> response = service.getMapMetaData(enc(mapID)).execute();
+		List<BrapiLinkageGroup> linkageGroups = new ArrayList<>();
+		BrapiMapMetaData mapMetaData = new BrapiMapMetaData();
 
-		if (response.isSuccessful())
+		Pager pager = new Pager();
+
+		while (pager.isPaging())
 		{
-			BrapiBaseResource<BrapiMapMetaData> mapMetaData = response.body();
+			Response<BrapiBaseResource<BrapiMapMetaData>> response = service.getMapMetaData(enc(mapID)).execute();
 
-			return mapMetaData.getResult();
-		}
-		else
-		{
-			String errorMessage = ErrorHandler.getMessage(generator, response);
+			if (response.isSuccessful())
+			{
+				BrapiBaseResource<BrapiMapMetaData> responseBody = response.body();
+				mapMetaData = responseBody.getResult();
+				linkageGroups.addAll(mapMetaData.getData());
+				pager.paginate(responseBody.getMetadata());
+			}
+			else
+			{
+				String errorMessage = ErrorHandler.getMessage(generator, response);
 
-			throw new Exception(errorMessage);
+				throw new Exception(errorMessage);
+			}
 		}
+		mapMetaData.setData(linkageGroups);
+
+		return mapMetaData;
 	}
 
 	// Returns a list of available studies

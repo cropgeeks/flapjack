@@ -17,7 +17,7 @@ class CallsUtils
 	private static final String TSV = "tsv";
 	private static final String FLAPJACK = "flapjack";
 
-	String exceptionMsg = "";
+	private String exceptionMsg = "";
 
 	private List<BrapiCall> calls;
 
@@ -41,9 +41,9 @@ class CallsUtils
 			return false;
 		}
 
-		if (Prefs.guiBrAPIUseMaps && hasCall("maps/{id}/positions", JSON, GET) == false)
+		if (Prefs.guiBrAPIUseMaps && hasCall("maps/{id}/positions", JSON, GET) == false && hasCall("maps/{mapDbId}/positions", JSON, GET) == false)
 		{
-			exceptionMsg = "maps/{id}/positions not implmented";
+			exceptionMsg = "maps/{mapDbID}/positions not implmented";
 			return false;
 		}
 
@@ -106,4 +106,7 @@ class CallsUtils
 
 	boolean hasStudiesSearchPOST()
 		{ return hasCall("studies-search", JSON, POST); }
+
+	public String getExceptionMsg()
+		{ return exceptionMsg; }
 }
