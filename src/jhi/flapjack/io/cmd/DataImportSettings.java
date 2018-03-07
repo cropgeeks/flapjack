@@ -3,7 +3,7 @@
 
 package jhi.flapjack.io.cmd;
 
-class DataImportSettings
+public class DataImportSettings
 {
 	private String missingData = "-";
 	private String hetSep = "/";

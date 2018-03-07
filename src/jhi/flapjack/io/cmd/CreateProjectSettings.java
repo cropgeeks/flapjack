@@ -7,7 +7,7 @@ import java.io.*;
 
 import jhi.flapjack.io.*;
 
-class CreateProjectSettings
+public class CreateProjectSettings
 {
 	private File genotypes;
 	private File map;
@@ -16,7 +16,7 @@ class CreateProjectSettings
 	private FlapjackFile project;
 	private String datasetName;
 
-	CreateProjectSettings(File genotypes, File map, File traits, File qtls, FlapjackFile project, String datasetName)
+	public CreateProjectSettings(File genotypes, File map, File traits, File qtls, FlapjackFile project, String datasetName)
 	{
 		this.genotypes = genotypes;
 		this.map = map;
