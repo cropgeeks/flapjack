@@ -71,7 +71,7 @@ public class BrapiMapImporter implements IMapImporter
 			// location on chromosome
 
 			double position = nf.parse(bm.getLocation()).doubleValue();
-			String chromosome = bm.getLinkageGroup();
+			String chromosome = bm.getLinkageGroupName();
 
 			Marker marker = new Marker(bm.getMarkerName(), position);
 
@@ -108,7 +108,7 @@ public class BrapiMapImporter implements IMapImporter
 		if (isOK && client.hasMapsMapDbId())
 		{
 			BrapiMapMetaData md = client.getMapMetaData();
-			for (BrapiLinkageGroup group : md.getLinkageGroups())
+			for (BrapiLinkageGroup group : md.getData())
 			{
 				ChromosomeMap.Wrapper wrapper = dataSet.getMapByName(group.getLinkageGroupId(), false);
 				wrapper.map.setLength(group.getMaxPosition());
