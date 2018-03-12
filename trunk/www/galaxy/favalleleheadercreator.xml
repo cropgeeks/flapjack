@@ -1,0 +1,63 @@
+<tool id="intertek_flapjack_snp_sample_processor" name="Intertek / Flapjack - SNP Sample File Processor" version="0.0.1">
+	<description>convert an HDF5 formatted genotype file into a Flapjack formatted genotype file</description>
+	<command><![CDATA[
+		java
+		#if $adv_opts.show_advanced
+			-Xmx$adv_opts.memory
+		#end if
+		-cp $__tool_directory__/lib/flapjack.jar jhi.flapjack.io.cmd.IntertekFlapjackSnpSampleFileProcessor
+		-g $genotype
+		-i $intertek
+		-o $output
+	]]></command>
+	<inputs>
+		<param format="txt" name="intertek" type="data" label="Favourable allele file"
+			help="An Intertek file with favourable and unfavourable allele information for markers."/>
+		<param format="fjgenotype" name="genotype" type="data" label="Flapjack genotype file"
+			help="A Flapjack formatted genotype file with markers which match those in the intertek file so that we can
+				add the favourable and unfavourable allele information to this Flapjack genotype file."
+			optional="true"/>
+
+		<conditional name="adv_opts">
+			<param name="show_advanced" type="boolean"
+				   label="Enable advanced options"
+				   truevalue="show" falsevalue="">
+			</param>
+			<when value="show">
+				<param name="memory" type="select"
+					   label="Memory"
+					   help="How much memory to use (larger files may require more memory).">
+					<option selected="true" value="64m">64MB</option>
+					<option value="128m">128MB</option>
+					<option value="256m">256MB</option>
+				</param>
+			</when>
+		</conditional>
+	</inputs>
+
+	<outputs>
+		<data format="fjgenotype" name="output" />
+	</outputs>
+
+	<stdio>
+		<exit_code range="1:" />
+	</stdio>
+
+	<help><![CDATA[
+.. class:: infomark
+
+**What it does**
+
+Flapjack is a multi-platform application providing interactive visualizations of high-throughput genotype data,
+allowing for rapid navigation and comparisons between lines, markers and chromosomes.
+
+This tool converts a Flapjack-formatted file of genotype data into a corresponding HDF5 file.
+See Flapjack's documentation_ for more details on the various Flapjack data formats.
+
+.. _documentation: http://flapjack.hutton.ac.uk/en/latest/projects_&_data_formats.html
+	]]></help>
+
+	<citations>
+		<citation type="doi">10.1093/bioinformatics/btq580</citation>
+	</citations>
+</tool>

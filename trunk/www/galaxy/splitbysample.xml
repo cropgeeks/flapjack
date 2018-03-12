@@ -1,0 +1,85 @@
+<tool id="flapjack_split_by_sample" name="Flapjack Split By Sample" version="0.0.1">
+    <description>create a Flapjack project file from Flapjack formatted input files.</description>
+    <requirements>
+        <requirement type="package" version="0.14.1">pandas</requirement>
+    </requirements>
+    <command>
+        python $__tool_directory__/FlapjackProject.py
+        -j $__tool_directory__/lib/flapjack.jar
+        -J $__tool_directory__/lib/pedigreeheader.jar
+        -g '$genotypes'
+        -s '$traits'
+        -p '$output'
+        #if $map
+            -m '$map'
+        #end if
+        #if $qtls
+            -q '$qtls'
+        #end if
+        #if $adv_opts.show_advanced
+            -M "$adv_opts.missingData"
+            -S "$adv_opts.hetSep"
+        #end if
+    </command>
+    <inputs>
+        <param format="fjgenotype, tabular, text" name="genotypes" type="data" label="Flapjack genotype file"
+            help="Flapjack-formatted (tab-delimited text) input file of genotype data"/>
+
+        <param format="tabular, text" name="traits" type="data" label="Flapjack phenotype file"
+            help="Flapjack-formatted (tab-delimited text) input file of phenotype data"/>
+
+        <param format="fjmap, tabular, text" name="map" type="data" label="Flapjack map file"
+            help="Flapjack-formatted (tab-delimited text) input file of map data"
+            optional="true"/>
+
+        <param format="fjqtl, tabular, text" name="qtls" type="data" label="Flapjack QTL file"
+            help="Flapjack-formatted (tab-delimited text) input file of QTL data"
+            optional="true"/>
+
+        <!-- WARNING: Below is the advanced options section shared by all of our tools. If you alter it here you must update the other tools as well.-->
+        <conditional name="adv_opts">
+            <param name="show_advanced" type="boolean"
+               label="Enable advanced options"
+               truevalue="show" falsevalue="">
+            </param>
+            <when value="show">
+                <param name="missingData" type="text" value="-"
+                    label="Missing data string"
+                    help="Alleles with missing data are encoded using this string. Clear the box to use an empty string for missing data instead."/>
+
+                <param name="hetSep" type="text" value="/"
+                    label="Heterozygous allele separator string"
+                    help="Specifies the string used to separator heterozygous alleles (eg 'A/T'). Clear the box to specify no string is used (eg 'AT')"/>
+            </when>
+        </conditional>
+        <!-- WARNING: Above is the advanced options section shared by all of our tools. If you alter it here you must update the other tools as well.-->
+    </inputs>
+
+    <outputs>
+        <data name="output" format="flapjack" />
+    </outputs>
+  
+    <stdio>
+        <exit_code range="1:" />
+    </stdio>
+
+    <help><![CDATA[
+.. class:: infomark
+
+**What it does**
+
+Flapjack is a multi-platform application providing interactive visualizations of high-throughput genotype data,
+allowing for rapid navigation and comparisons between lines, markers and chromosomes.
+
+This tool creates a Flapjack project file from the supplied tab-delimitted flapjack input files.
+See Flapjack's documentation_ for more details on the various Flapjack data formats.
+More information on the CreateProject tool can be found here_
+
+.. _documentation: http://flapjack.hutton.ac.uk/en/latest/projects_&_data_formats.html
+.. _here: http://flapjack.hutton.ac.uk/en/latest/command_line_support.html#createproject-exe-jhi-flapjack-io-createproject
+    ]]></help>
+
+    <citations>
+        <citation type="doi">10.1093/bioinformatics/btq580</citation>
+    </citations>
+</tool>
