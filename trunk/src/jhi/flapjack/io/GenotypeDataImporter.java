@@ -6,7 +6,6 @@ package jhi.flapjack.io;
 import java.io.*;
 import java.text.*;
 import java.util.*;
-import java.util.stream.*;
 
 import jhi.flapjack.data.*;
 
@@ -352,11 +351,6 @@ public class GenotypeDataImporter implements IGenotypeImporter
 			String orgName = tokens[1];
 			String altName = tokens[2];
 
-			queryMarker(orgName);
-
-			MarkerIndex mi = markers.get(orgName);
-			Marker marker = dataSet.getChromosomeMaps().get(mi.mapIndex).getMarkerByIndex(mi.mkrIndex);
-
 			dataSet.getFavAlleleManager().getAltNames().put(orgName, altName);
 		}
 
@@ -366,14 +360,8 @@ public class GenotypeDataImporter implements IGenotypeImporter
 
 			// TODO: This is not safe! Assumes that markers are in same order in comment headers as in the file
 			String markerName = tokens[1];
-			queryMarker(markerName);
 
-			MarkerIndex mi = markers.get(markerName);
-			Marker marker = dataSet.getChromosomeMaps().get(mi.mapIndex).getMarkerByIndex(mi.mkrIndex);
-
-			int arraySize = tokens.length -2;
 			ArrayList<Integer> alleleIndices = new ArrayList<>();
-
 			for (int i=2; i < tokens.length; i++)
 			{
 				String rawAlleles = tokens[i].trim();
@@ -388,7 +376,7 @@ public class GenotypeDataImporter implements IGenotypeImporter
 
 				alleleIndices.add(stateCode);
 			}
-			dataSet.getFavAlleleManager().addFavAllelesForMarker(marker.getName(), alleleIndices);
+			dataSet.getFavAlleleManager().addFavAllelesForMarker(markerName, alleleIndices);
 		}
 
 		else if (str.toLowerCase().startsWith("# fjunfavallele"))
@@ -397,12 +385,7 @@ public class GenotypeDataImporter implements IGenotypeImporter
 
 			// TODO: This is not safe! Assumes that markers are in same order in comment headers as in the file
 			String markerName = tokens[1];
-			queryMarker(markerName);
 
-			MarkerIndex mi = markers.get(markerName);
-			Marker marker = dataSet.getChromosomeMaps().get(mi.mapIndex).getMarkerByIndex(mi.mkrIndex);
-
-			int arraySize = tokens.length -2;
 			ArrayList<Integer> alleleIndices = new ArrayList<>();
 			for (int i=2; i < tokens.length; i++)
 			{
@@ -418,7 +401,7 @@ public class GenotypeDataImporter implements IGenotypeImporter
 
 				alleleIndices.add(stateCode);
 			}
-			dataSet.getFavAlleleManager().addUnfavAllelesForMarker(marker.getName(), alleleIndices);
+			dataSet.getFavAlleleManager().addUnfavAllelesForMarker(markerName, alleleIndices);
 		}
 	}
 
