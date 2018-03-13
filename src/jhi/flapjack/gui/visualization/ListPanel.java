@@ -185,6 +185,25 @@ class ListPanel extends JPanel implements MouseMotionListener, MouseListener
 				populateList();
 		});
 
+		JCheckBoxMenuItem mTruncateNames = new JCheckBoxMenuItem();
+		RB.setText(mTruncateNames, "gui.visualization.ListPanel.truncateNames");
+		mTruncateNames.setSelected(Prefs.guiTruncateNames);
+		mTruncateNames.addActionListener(event ->
+		{
+			Prefs.guiTruncateNames = !Prefs.guiTruncateNames;
+			populateList();
+		});
+
+		JCheckBoxMenuItem mTruncateTraits = new JCheckBoxMenuItem();
+		RB.setText(mTruncateTraits, "gui.visualization.ListPanel.truncateTraits");
+		mTruncateTraits.setSelected(Prefs.guiTruncateTraits);
+		mTruncateTraits.setEnabled(viewSet.getTraits().length > 0 || viewSet.getTxtTraits().length > 0);
+		mTruncateTraits.addActionListener(event ->
+		{
+			Prefs.guiTruncateTraits = !Prefs.guiTruncateTraits;
+			populateList();
+		});
+
 		JCheckBoxMenuItem mShowScores = new JCheckBoxMenuItem();
 		RB.setText(mShowScores, "gui.visualization.ListPanel.showScores");
 		mShowScores.setSelected(viewSet.getDisplayLineScores());
@@ -197,6 +216,8 @@ class ListPanel extends JPanel implements MouseMotionListener, MouseListener
 		menu.add(mSelectTextTraits);
 		menu.add(mShowTableResults);
 		menu.addSeparator();
+		menu.add(mTruncateNames);
+		menu.add(mTruncateTraits);
 		menu.add(mShowScores);
 		menu.show(e.getComponent(), e.getX(), e.getY());
 	}
@@ -297,7 +318,9 @@ class ListPanel extends JPanel implements MouseMotionListener, MouseListener
 			}
 			else if (o != null)
 			{
-				if (Prefs.guiTruncateTraits && (column > 0 && o.toString().length() > 10))
+				if (Prefs.guiTruncateNames && column == 0 && o.toString().length() > 10)
+					setText(o.toString().substring(0, 7) + "...");
+				else if (Prefs.guiTruncateTraits && (column > 0 && o.toString().length() > 10))
 					setText(o.toString().substring(0, 7) + "...");
 				else
 					setText(o.toString());

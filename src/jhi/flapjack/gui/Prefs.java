@@ -69,6 +69,8 @@ public class Prefs extends XMLPreferences
 	// Display localised text in...
 	public static String localeText = "auto";
 
+	// Truncate names in the ListPanel?
+	public static boolean guiTruncateNames = false;
 	// Truncate traits in the ListPanel?
 	public static boolean guiTruncateTraits = true;
 
