@@ -16,6 +16,10 @@ public class MabcTableModel extends LineDataTableModel
 	private int rppIndex, rppTotalIndex, rppCoverageIndex;
 	private int qtlIndex, qtlStatusIndex;
 	private int selectedIndex, rankIndex, commentIndex, sortIndex;
+	private int markerCountIndex;
+	private int missingIndex;
+	private int hetCountIndex;
+	private int hetPercIndex;
 
 	public MabcTableModel(GTViewSet viewSet)
 	{
@@ -39,10 +43,15 @@ public class MabcTableModel extends LineDataTableModel
 		rppCoverageIndex = rppTotalIndex + 1;
 		qtlIndex = rppCoverageIndex + 1;
 		qtlStatusIndex = qtlCount > 0 ? qtlIndex + (qtlCount*2) : -1;
-		selectedIndex = qtlCount> 0 ? qtlStatusIndex + 1 : qtlIndex;
+		markerCountIndex = qtlCount> 0 ? qtlStatusIndex + 1 : qtlIndex;
+		missingIndex = markerCountIndex + 1;
+		hetCountIndex = missingIndex + 1;
+		hetPercIndex = hetCountIndex + 1;
+		selectedIndex = hetPercIndex + 1;
 		rankIndex = selectedIndex + 1;
 		commentIndex = rankIndex + 1;
 		sortIndex = commentIndex +1;
+
 
 		// TODO: UPDATE!
 		int colCount = sortIndex + 1;
@@ -79,6 +88,10 @@ public class MabcTableModel extends LineDataTableModel
 		columnNames[rankIndex] = "Rank";
 		columnNames[commentIndex] = "Comments";
 		columnNames[sortIndex] = "Don't Sort/Filter";
+		columnNames[markerCountIndex] =  "Marker Count";
+		columnNames[missingIndex] = "% Missing";
+		columnNames[hetCountIndex] = "Het Count";
+		columnNames[hetPercIndex] = "% Het";
 
 		for (int i = 0; i < columnNames.length; i++)
 			if (ttNames[i] == null)
@@ -157,6 +170,18 @@ public class MabcTableModel extends LineDataTableModel
 			return comment == null ? "" : comment;
 		}
 
+		else if (col == markerCountIndex)
+			return line.getResults().getMabcResult().getMarkerCount();
+
+		else if (col == missingIndex)
+			return line.getResults().getMabcResult().getPercentMissing();
+
+		else if (col == hetCountIndex)
+			return line.getResults().getMabcResult().getHeterozygousCount();
+
+		else if (col == hetPercIndex)
+			return line.getResults().getMabcResult().getPercentHeterozygous();
+
 		return null;
 	}
 
@@ -169,7 +194,7 @@ public class MabcTableModel extends LineDataTableModel
 			return String.class;
 		else if (col == selectedIndex || col == sortIndex)
 			return Boolean.class;
-		else if (col == rankIndex)
+		else if (col == rankIndex || col == markerCountIndex || col == hetCountIndex)
 			return Integer.class;
 		else
 			return Double.class;
