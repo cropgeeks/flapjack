@@ -22,6 +22,12 @@ public class MabcResult extends XMLRoot
 	// Count of qtl (status=1) (sum of status count)
 	private int qtlStatusCount;
 
+	// Additional stats
+	private int markerCount;
+	private double percentMissing;
+	private int heterozygousCount;
+	private double percentHeterozygous;
+
 	public MabcResult()
 	{
 	}
@@ -70,6 +76,29 @@ public class MabcResult extends XMLRoot
 	public void setRppTotal(double rppTotal)
 		{ this.rppTotal = rppTotal; }
 
+	public int getMarkerCount()
+		{ return markerCount; }
+
+	public void setMarkerCount(int markerCount)
+		{ this.markerCount = markerCount; }
+
+	public double getPercentMissing()
+		{ return percentMissing; }
+
+	public void setPercentMissing(double percentMissing)
+		{ this.percentMissing = percentMissing; }
+
+	public int getHeterozygousCount()
+		{ return heterozygousCount; }
+
+	public void setHeterozygousCount(int heterozygousCount)
+		{ this.heterozygousCount = heterozygousCount; }
+
+	public double getPercentHeterozygous()
+		{ return percentHeterozygous; }
+
+	public void setPercentHeterozygous(double percentHeterozygous)
+		{ this.percentHeterozygous = percentHeterozygous; }
 
 	// Other methods
 

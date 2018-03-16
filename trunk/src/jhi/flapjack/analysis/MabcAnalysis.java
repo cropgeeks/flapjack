@@ -38,6 +38,8 @@ public class MabcAnalysis extends SimpleJob
 
 	private String name;
 
+	private StateTable stateTable;
+
 	public MabcAnalysis(GTViewSet viewSet, boolean[] selectedChromosomes, double maxMarkerCoverage, int rpIndex, int dpIndex, boolean excludeAdditionalParents, boolean simpleStats, String name)
 	{
 		this(viewSet, selectedChromosomes, maxMarkerCoverage, rpIndex, dpIndex, excludeAdditionalParents, simpleStats);
@@ -53,6 +55,8 @@ public class MabcAnalysis extends SimpleJob
 		this.dpIndex = dpIndex;
 		this.excludeAdditionalParents = excludeAdditionalParents;
 		this.simpleStats = simpleStats;
+
+		this.stateTable = viewSet.getDataSet().getStateTable();
 
 		setupAnalysis();
 	}
@@ -100,6 +104,7 @@ public class MabcAnalysis extends SimpleJob
 
 		calculateRPP(as);
 		calculateLinkageDrag(as);
+		calculateOtherStats(as);
 		prepareForVisualization();
 	}
 
@@ -450,6 +455,80 @@ public class MabcAnalysis extends SimpleJob
 			if (params.LM != -1 && params.RM != -1)
 				qtlHash.put(qtl, params);
 		}
+	}
+
+	private void calculateOtherStats(AnalysisSet as)
+	{
+		for (int lineIndex=0; lineIndex < as.lineCount(); lineIndex++)
+		{
+			LineInfo lineInfo = as.getLine(lineIndex);
+			MabcResult result = lineInfo.getResults().getMabcResult();
+			int foundMarkers = usableMarkerCount(as, lineIndex);
+			int hetMarkers = hetMarkerCount(as, lineIndex);
+			int missingCount = countMissingAlleles(as, lineIndex);
+
+			result.setMarkerCount(foundMarkers);
+			result.setPercentMissing((missingCount / (double) foundMarkers) * 100);
+			result.setHeterozygousCount(hetMarkers);
+			result.setPercentHeterozygous((hetMarkers / (double) foundMarkers) * 100);
+		}
+	}
+
+	// Checks to see if this allele is usable. It first checks that the allele
+	// itself isn't unknown, then checks that the parental and f1 alleles at
+	// this location aren't known. Finally it checks that the parental alleles
+	// aren't hets at this location.
+	private boolean isUsableMarker(AnalysisSet as, int chr, int line, int marker)
+	{
+		return as.getState(chr, line, marker) != 0
+			&& as.getState(chr, rpIndex, marker) != 0
+			&& as.getState(chr, dpIndex, marker) != 0
+			&& stateTable.isHom(as.getState(chr, rpIndex, marker))
+			&& stateTable.isHom(as.getState(chr, dpIndex, marker));
+	}
+
+	private int usableMarkerCount(AnalysisSet as, int lineIndex)
+	{
+		int foundMarkers = 0;
+
+		for (int c = 0; c < as.viewCount(); c++)
+			for (int m = 0; m < as.markerCount(c); m++)
+				if (isUsableMarker(as, c, lineIndex, m))
+					foundMarkers++;
+
+		return foundMarkers;
+	}
+
+	private int countMissingAlleles(AnalysisSet as, int lineIndex)
+	{
+		int missingCount = 0;
+		for (int c = 0; c < as.viewCount(); c++)
+		{
+			for (int m = 0; m < as.markerCount(c); m++)
+			{
+				if (as.getState(c, lineIndex, m) == 0
+					&& as.getState(c, rpIndex, m) != 0
+					&& as.getState(c, dpIndex, m) != 0
+					&& !stateTable.isHet(as.getState(c, rpIndex, m))
+					&& !stateTable.isHet(as.getState(c, dpIndex, m)))
+				{
+					missingCount++;
+				}
+			}
+		}
+		return missingCount;
+	}
+
+	private int hetMarkerCount(AnalysisSet as, int lineIndex)
+	{
+		int hetMarkers = 0;
+
+		for (int c = 0; c < as.viewCount(); c++)
+			for (int m = 0; m < as.markerCount(c); m++)
+				if (isUsableMarker(as, c, lineIndex, m) && stateTable.isHet(as.getState(c, lineIndex, m)))
+					hetMarkers++;
+
+		return hetMarkers;
 	}
 
 	private void prepareForVisualization()
