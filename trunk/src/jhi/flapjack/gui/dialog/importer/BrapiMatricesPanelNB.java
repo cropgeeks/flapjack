@@ -3,6 +3,7 @@
 
 package jhi.flapjack.gui.dialog.importer;
 
+import java.text.*;
 import java.util.*;
 import javax.swing.*;
 
@@ -33,6 +34,7 @@ class BrapiMatricesPanelNB extends JPanel implements IBrapiWizard
 
 	private void displayMatrices()
 	{
+		NumberFormat nf = DecimalFormat.getNumberInstance();
 		int index = matricesCombo.getSelectedIndex();
 
 		if (index >= 0)
@@ -40,10 +42,39 @@ class BrapiMatricesPanelNB extends JPanel implements IBrapiWizard
 			BrapiAlleleMatrixDataset matrix = matrices.get(index);
 
 			client.setMatrixID(matrix.getMatrixDbId());
-			text.setText(matrix.getName() + " - " + matrix.getMatrixDbId());
+			int sampleCount = matrix.getSampleCount();
+			int markerCount = matrix.getMarkerCount();
+
+			String str = matrix.getName() + " - " + matrix.getMatrixDbId() + "\n"
+				+ RB.format("gui.dialog.importer.BrapiMatricesPanelNB.sampleCount", nf.format(sampleCount)) + "\n"
+				+ RB.format("gui.dialog.importer.BrapiMatricesPanelNB.markerCount",nf.format(markerCount));
+
+			text.setText(str);
+
+			// Calculate and display a file size label which converts the rough size in bytes to kB, MB or GB as
+			// appropriate
+			long sizeInBytes = sampleCount * markerCount;
+			String size;
+
+			if (sizeInBytes < 1024)
+				size = sizeInBytes + " B";
+
+			else if (sizeInBytes < Math.pow(1024, 2))
+				size = nf.format(Math.round(sizeInBytes/1024f)) + " kB";
+
+			else if (sizeInBytes < Math.pow(1024, 3))
+				size = nf.format(Math.round(sizeInBytes/1024f/1024f)) + " MB";
+
+			else
+				size = nf.format(sizeInBytes/1024f/1024f/1024f) + " GB";
+
+			lblSize.setText(RB.format("gui.dialog.importer.BrapiMatricesPanelNB.lblSize", size));
 		}
 		else
+		{
 			text.setText("");
+			lblSize.setText("");
+		}
 
 		dialog.enableNext(index >= 0);
 	}
@@ -111,8 +142,7 @@ class BrapiMatricesPanelNB extends JPanel implements IBrapiWizard
 	 */
 	@SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents()
-    {
+    private void initComponents() {
 
         jPanel2 = new javax.swing.JPanel();
         matricesLabel = new javax.swing.JLabel();
@@ -120,6 +150,7 @@ class BrapiMatricesPanelNB extends JPanel implements IBrapiWizard
         jScrollPane1 = new javax.swing.JScrollPane();
         text = new javax.swing.JTextArea();
         detailsLabel = new javax.swing.JLabel();
+        lblSize = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -136,6 +167,8 @@ class BrapiMatricesPanelNB extends JPanel implements IBrapiWizard
 
         detailsLabel.setText("Details:");
 
+        lblSize.setText("Flapjack estimates the file will be at least %1 in size");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -143,14 +176,16 @@ class BrapiMatricesPanelNB extends JPanel implements IBrapiWizard
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 447, Short.MAX_VALUE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(matricesLabel)
                         .addGap(11, 11, 11)
                         .addComponent(matricesCombo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(detailsLabel)
-                        .addGap(0, 405, Short.MAX_VALUE)))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(detailsLabel)
+                            .addComponent(lblSize))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -163,7 +198,9 @@ class BrapiMatricesPanelNB extends JPanel implements IBrapiWizard
                 .addGap(18, 18, 18)
                 .addComponent(detailsLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 153, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblSize)
                 .addContainerGap())
         );
 
@@ -190,6 +227,7 @@ class BrapiMatricesPanelNB extends JPanel implements IBrapiWizard
     private javax.swing.JLabel detailsLabel;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblSize;
     private javax.swing.JComboBox<String> matricesCombo;
     private javax.swing.JLabel matricesLabel;
     private javax.swing.JTextArea text;

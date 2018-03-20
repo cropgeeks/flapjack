@@ -3,6 +3,7 @@
 
 package jhi.flapjack.gui.dialog.importer;
 
+import java.text.*;
 import java.util.*;
 import javax.swing.*;
 
@@ -48,11 +49,13 @@ class BrapiMapsPanelNB extends JPanel implements IBrapiWizard
 
 			client.setMapID("" + map.getMapDbId());
 
+			NumberFormat nf = DecimalFormat.getNumberInstance();
+
 			String str = "Species: " + map.getSpecies() + "\n" +
 				"Type: " + map.getType() + "\n" +
 				"Unit: " + map.getUnit() + "\n" +
 				"Date: " + map.getPublishedDate() + "\n" +
-				"Markers: " + map.getMarkerCount() + "\n" +
+				"Markers: " + nf.format(map.getMarkerCount()) + "\n" +
 				"Chromosomes: " + map.getLinkageGroupCount();
 
 			text.setText(str);
