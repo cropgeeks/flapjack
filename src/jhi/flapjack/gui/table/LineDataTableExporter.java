@@ -42,6 +42,7 @@ public class LineDataTableExporter extends SimpleJob
 			clone.setModel(table.getModel());
 			clone.setColumnModel(table.getColumnModel());
 			clone.getRowSorter().setSortKeys(table.getRowSorter().getSortKeys());
+			clone.setLastSelect(table.getLastSelect());
 
 			this.table = clone;
 		}
@@ -101,7 +102,6 @@ public class LineDataTableExporter extends SimpleJob
 	}
 
 	private void printInfoHeaders(PrintWriter out)
-		throws Exception
 	{
 		// Output the FILTER settings
 		if (table.getTableFilter() != null)
@@ -127,6 +127,17 @@ public class LineDataTableExporter extends SimpleJob
 					+ table.getModel().getColumnName(col) + "\t"
 					+ ord);
 			}
+		}
+
+		// Output the SELECTION settings
+		if (table.getLastSelect() != null)
+		{
+			for (FilterColumn col : table.getLastSelect())
+				if (col.disabled() == false)
+					out.println("# SELECT\t"
+						+ col.name + "\t"
+						+ col.toShortString()
+						+ (col.getValue() != null ? ("\t" + col.getValue()) : ""));
 		}
 	}
 

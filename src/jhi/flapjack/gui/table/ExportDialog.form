@@ -58,7 +58,7 @@
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="checkHeaders" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="0" pref="125" max="32767" attributes="0"/>
+                      <EmptySpace min="0" pref="69" max="32767" attributes="0"/>
                   </Group>
               </Group>
           </Group>
@@ -133,22 +133,22 @@
     </Component>
     <Component class="javax.swing.JRadioButton" name="bAllLines">
       <Properties>
-        <Property name="text" type="java.lang.String" value="All lines"/>
+        <Property name="text" type="java.lang.String" value="All lines (incuding any which may have been filtered)"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JRadioButton" name="bVisLines">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Only visible (non-filtered) lines"/>
+        <Property name="text" type="java.lang.String" value="Only visible lines"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JRadioButton" name="bVisSelLines">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Only visible (non-filtered) lines that are selected"/>
+        <Property name="text" type="java.lang.String" value="Only visible and selected lines"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JCheckBox" name="checkHeaders">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Include header rows with details of any active filter or sort parameters"/>
+        <Property name="text" type="java.lang.String" value="Include header rows with details of any active filter, sort or selection parameters"/>
       </Properties>
     </Component>
   </SubComponents>

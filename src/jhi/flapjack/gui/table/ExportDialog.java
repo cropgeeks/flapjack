@@ -21,6 +21,7 @@ public class ExportDialog extends JDialog implements ActionListener
 		super(Flapjack.winMain, RB.getString("gui.table.ExportDialog.title"), true);
 
 		initComponents();
+		initComponents2();
 
 		RB.setText(bCancel, "gui.text.cancel");
 		RB.setText(bExport, "gui.table.ExportDialog.bExport");
@@ -34,6 +35,20 @@ public class ExportDialog extends JDialog implements ActionListener
 		bCancel.addActionListener(this);
 
 		FlapjackUtils.initDialog(this, bExport, bCancel, true, getContentPane());
+	}
+
+	private void initComponents2()
+	{
+		RB.setText(fileLabel, "gui.table.ExportDialog.fileLabel");
+		RB.setText(bBrowse, "gui.text.browse");
+
+		RB.setText(selectLabel, "gui.table.ExportDialog.selectLabel");
+		RB.setText(bAllLines, "gui.table.ExportDialog.bAllLines");
+		RB.setText(bVisLines, "gui.table.ExportDialog.bVisLines");
+		RB.setText(bVisSelLines, "gui.table.ExportDialog.bVisSelLines");
+
+		RB.setText(checkHeaders, "gui.table.ExportDialog.checkHeaders");
+
 	}
 
 	private void initOptions()
@@ -129,8 +144,7 @@ public class ExportDialog extends JDialog implements ActionListener
 	 */
 	@SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents()
-    {
+    private void initComponents() {
 
         bGroup = new javax.swing.ButtonGroup();
         dialogPanel1 = new scri.commons.gui.matisse.DialogPanel();
@@ -163,13 +177,13 @@ public class ExportDialog extends JDialog implements ActionListener
 
         selectLabel.setText("Select which lines to include in the output:");
 
-        bAllLines.setText("All lines");
+        bAllLines.setText("All lines (incuding any which may have been filtered)");
 
-        bVisLines.setText("Only visible (non-filtered) lines");
+        bVisLines.setText("Only visible lines");
 
-        bVisSelLines.setText("Only visible (non-filtered) lines that are selected");
+        bVisSelLines.setText("Only visible and selected lines");
 
-        checkHeaders.setText("Include header rows with details of any active filter or sort parameters");
+        checkHeaders.setText("Include header rows with details of any active filter, sort or selection parameters");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -200,7 +214,7 @@ public class ExportDialog extends JDialog implements ActionListener
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(checkHeaders)
-                        .addGap(0, 125, Short.MAX_VALUE))))
+                        .addGap(0, 69, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
