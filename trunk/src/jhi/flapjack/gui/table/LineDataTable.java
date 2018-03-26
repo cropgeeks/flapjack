@@ -206,9 +206,8 @@ public class LineDataTable extends JTable
 		if (pDialog.failed("gui.error"))
 			return;
 
-		TaskDialog.info(
-			RB.format("gui.dialog.ExportDataDialog.exportSuccess", filename),
-			RB.getString("gui.text.close"));
+		TaskDialog.showFileOpen(RB.format("gui.dialog.ExportDataDialog.exportSuccess", filename),
+			RB.getString("gui.text.open"), TaskDialog.INF, filename);
 	}
 
 	public void copyTableToClipboard()
