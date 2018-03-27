@@ -71,8 +71,10 @@ public class Prefs extends XMLPreferences
 
 	// Truncate names in the ListPanel?
 	public static boolean guiTruncateNames = false;
+	public static int guiTruncateNamesLength = 7;
 	// Truncate traits in the ListPanel?
 	public static boolean guiTruncateTraits = true;
+	public static int guiTruncateTraitsLength = 7;
 
 	// The width, height, location and maximized status of the main window
 	public static int guiWinMainW = 1000;
