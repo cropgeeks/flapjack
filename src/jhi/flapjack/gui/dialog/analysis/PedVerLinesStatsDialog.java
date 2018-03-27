@@ -75,11 +75,17 @@ public class PedVerLinesStatsDialog extends JDialog implements ActionListener
 
 	private void initComponents2()
 	{
-//		RB.setText(bOK, "gui.text.ok");
+		RB.setText(bOK, "gui.dialog.analysis.PedVerLinesStatsDialog.run");
 		bOK.addActionListener(this);
 
 		RB.setText(bCancel, "gui.text.cancel");
 		bCancel.addActionListener(this);
+
+		parentsPanel.setBorder(BorderFactory.createTitledBorder(RB.getString("gui.dialog.analysis.PedVerLinesStatsDialog.parentsPanel.title")));
+		RB.setText(lblParent1, "gui.dialog.analysis.PedVerLinesStatsDialog.parentsPanel.lblParent1");
+		RB.setText(lblParent2, "gui.dialog.analysis.PedVerLinesStatsDialog.parentsPanel.lblParent2");
+		jPanel1.setBorder(BorderFactory.createTitledBorder(RB.getString("gui.dialog.analysis.PedVerLinesStatsDialog.csd.title")));
+		RB.setText(csdLabel, "gui.dialog.analysis.PedVerLinesStatsDialog.csd.csdLabel");
 	}
 
 	public boolean isOK()
