@@ -57,6 +57,8 @@ public class WinMainMenuBar extends JMenuBar
 	private JMenuItem mEditHideLines;
 	private JMenu mEditFilterLines;
 	private JMenuItem mEditFilterMissingLines;
+	private JMenuItem mEditFilterHeterozygousLines;
+	private JMenuItem mEditFilterHomozygousLines;
 	private JMenuItem mEditCustomMap;
 
 	private JMenu mView;
@@ -172,12 +174,12 @@ public class WinMainMenuBar extends JMenuBar
 		mFileNew = getItem(Actions.fileNew, "gui.Actions.fileNew", KeyEvent.VK_N, menuShortcut);
 		mFileOpen = getItem(Actions.fileOpen, "gui.Actions.fileOpen", KeyEvent.VK_O, menuShortcut);
 		mFileSave = getItem(Actions.fileSave, "gui.Actions.fileSave", KeyEvent.VK_S, menuShortcut);
-		mFileSaveAs = getItem(Actions.fileSaveAs, "gui.Actions.fileSaveAs", 0, 0);
-		mFileOptimize = getItem(Actions.fileOptimize, "gui.Actions.fileOptimize", 0, 0);
-		mFileImport = getItem(Actions.fileImport, "gui.Actions.fileImport", 0, 0);
-		mFileImportBrapi = getItem(Actions.fileImportBrapi, "gui.Actions.fileImportBrapi", 0, 0);
-		mFileExport = getItem(Actions.fileExport, "gui.Actions.fileExport", 0, 0);
-		mFileExit = getItem(Actions.fileExit, "gui.Actions.fileExit", 0, 0);
+		mFileSaveAs = getItem(Actions.fileSaveAs, "gui.Actions.fileSaveAs");
+		mFileOptimize = getItem(Actions.fileOptimize, "gui.Actions.fileOptimize");
+		mFileImport = getItem(Actions.fileImport, "gui.Actions.fileImport");
+		mFileImportBrapi = getItem(Actions.fileImportBrapi, "gui.Actions.fileImportBrapi");
+		mFileExport = getItem(Actions.fileExport, "gui.Actions.fileExport");
+		mFileExit = getItem(Actions.fileExit, "gui.Actions.fileExit");
 
 		mFileRecent = new JMenu(RB.getString("gui.WinMainMenuBar.mFileRecent"));
 		RB.setMnemonic(mFileRecent, "gui.WinMainMenuBar.mFileRecent");
@@ -227,24 +229,26 @@ public class WinMainMenuBar extends JMenuBar
 			KeyEvent.VK_2, InputEvent.ALT_DOWN_MASK);
 		mEditModeLine = getRadioItem(Actions.editModeLine, "gui.Actions.editModeLine",
 			KeyEvent.VK_3, InputEvent.ALT_DOWN_MASK);
-		mEditSelectMarkersAll = getItem(Actions.editSelectMarkersAll, "gui.Actions.editSelectMarkersAll", 0, 0);
-		mEditSelectMarkersNone = getItem(Actions.editSelectMarkersNone, "gui.Actions.editSelectMarkersNone", 0, 0);
-		mEditSelectMarkersInvert = getItem(Actions.editSelectMarkersInvert, "gui.Actions.editSelectMarkersInvert", 0, 0);
-		mEditSelectMarkersMonomorphic = getItem(Actions.editSelectMarkersMonomorphic, "gui.Actions.editSelectMarkersMonomorphic", 0, 0);
-		mEditSelectMarkersImport = getItem(Actions.editSelectMarkersImport, "gui.Actions.editSelectMarkersImport", 0, 0);
-		mEditHideMarkers = getItem(Actions.editHideMarkers, "gui.Actions.editHideMarkers", 0, 0);
-		mEditFilterMissingMarkers = getItem(Actions.editFilterMissingMarkers, "gui.Actions.editFilterMissingMarkers", 0, 0);
-		mEditFilterMissingMarkersByLine = getItem(Actions.editFilterMissingMarkersByLine, "gui.Actions.editFilterMissingMarkersByLine", 0, 0);
-		mEditFilterHeterozygousMarkers = getItem(Actions.editFilterHeterozygousMarkers, "gui.Actions.editFilterHeterozygousMarkers", 0, 0);
-		mEditFilterHeterozygousMarkersByLine = getItem(Actions.editFilterHeterozygousMarkersByLine, "gui.Actions.editFilterHeterozygousMarkersByLine", 0, 0);
-		mEditFilterMonomorphicMarkers = getItem(Actions.editFilterMonomorphicMarkers, "gui.Actions.editFilterMonomorphicMarkers", 0, 0);
-		mEditSelectLinesAll = getItem(Actions.editSelectLinesAll, "gui.Actions.editSelectLinesAll", 0, 0);
-		mEditSelectLinesNone = getItem(Actions.editSelectLinesNone, "gui.Actions.editSelectLinesNone", 0, 0);
-		mEditSelectLinesInvert = getItem(Actions.editSelectLinesInvert, "gui.Actions.editSelectLinesInvert", 0, 0);
-		mEditSelectLinesImport = getItem(Actions.editSelectLinesImport, "gui.Actions.editSelectLinesImport", 0, 0);
-		mEditHideLines = getItem(Actions.editHideLines, "gui.Actions.editHideLines", 0, 0);
-		mEditFilterMissingLines = getItem(Actions.editFilterMissingLines, "gui.Actions.editFilterMissingLines", 0, 0);
-		mEditCustomMap = getItem(Actions.editCustomMap, "gui.Actions.editCustomMap", 0, 0);
+		mEditSelectMarkersAll = getItem(Actions.editSelectMarkersAll, "gui.Actions.editSelectMarkersAll");
+		mEditSelectMarkersNone = getItem(Actions.editSelectMarkersNone, "gui.Actions.editSelectMarkersNone");
+		mEditSelectMarkersInvert = getItem(Actions.editSelectMarkersInvert, "gui.Actions.editSelectMarkersInvert");
+		mEditSelectMarkersMonomorphic = getItem(Actions.editSelectMarkersMonomorphic, "gui.Actions.editSelectMarkersMonomorphic");
+		mEditSelectMarkersImport = getItem(Actions.editSelectMarkersImport, "gui.Actions.editSelectMarkersImport");
+		mEditHideMarkers = getItem(Actions.editHideMarkers, "gui.Actions.editHideMarkers");
+		mEditFilterMissingMarkers = getItem(Actions.editFilterMissingMarkers, "gui.Actions.editFilterMissingMarkers");
+		mEditFilterMissingMarkersByLine = getItem(Actions.editFilterMissingMarkersByLine, "gui.Actions.editFilterMissingMarkersByLine");
+		mEditFilterHeterozygousMarkers = getItem(Actions.editFilterHeterozygousMarkers, "gui.Actions.editFilterHeterozygousMarkers");
+		mEditFilterHeterozygousMarkersByLine = getItem(Actions.editFilterHeterozygousMarkersByLine, "gui.Actions.editFilterHeterozygousMarkersByLine");
+		mEditFilterMonomorphicMarkers = getItem(Actions.editFilterMonomorphicMarkers, "gui.Actions.editFilterMonomorphicMarkers");
+		mEditSelectLinesAll = getItem(Actions.editSelectLinesAll, "gui.Actions.editSelectLinesAll");
+		mEditSelectLinesNone = getItem(Actions.editSelectLinesNone, "gui.Actions.editSelectLinesNone");
+		mEditSelectLinesInvert = getItem(Actions.editSelectLinesInvert, "gui.Actions.editSelectLinesInvert");
+		mEditSelectLinesImport = getItem(Actions.editSelectLinesImport, "gui.Actions.editSelectLinesImport");
+		mEditHideLines = getItem(Actions.editHideLines, "gui.Actions.editHideLines");
+		mEditFilterMissingLines = getItem(Actions.editFilterMissingLines, "gui.Actions.editFilterMissingLines");
+		mEditFilterHeterozygousLines = getItem(Actions.editFilterHeterozygousLines, "gui.Actions.editFilterHeterozygousLines");
+		mEditFilterHomozygousLines = getItem(Actions.editFilterHomozygousLines, "gui.Actions.editFilterHomozygousLines");
+		mEditCustomMap = getItem(Actions.editCustomMap, "gui.Actions.editCustomMap");
 
 		mEditSelectMarkers.add(mEditSelectMarkersAll);
 		mEditSelectMarkers.add(mEditSelectMarkersNone);
@@ -266,7 +270,10 @@ public class WinMainMenuBar extends JMenuBar
 		mEditFilterMarkers.add(mEditFilterHeterozygousMarkersByLine);
 		mEditFilterMarkers.addSeparator();
 		mEditFilterMarkers.add(mEditFilterMonomorphicMarkers);
+
 		mEditFilterLines.add(mEditFilterMissingLines);
+		mEditFilterLines.add(mEditFilterHeterozygousLines);
+		mEditFilterLines.add(mEditFilterHomozygousLines);
 
 		mEdit.add(mEditUndo);
 		mEdit.add(mEditRedo);
@@ -293,13 +300,13 @@ public class WinMainMenuBar extends JMenuBar
 		mView = new JMenu(RB.getString("gui.WinMainMenuBar.mView"));
 		RB.setMnemonic(mView, "gui.WinMainMenuBar.mView");
 
-		mViewNewView = getItem(Actions.viewNewView, "gui.Actions.viewNewView", 0, 0);
-		mViewRenameView = getItem(Actions.viewRenameView, "gui.Actions.viewRenameView", 0, 0);
-		mViewDeleteView = getItem(Actions.viewDeleteView, "gui.Actions.viewDeleteView", 0, 0);
-		mViewToggleCanvas = getItem(Actions.viewToggleCanvas, "gui.Actions.viewToggleCanvas", 0, 0);
+		mViewNewView = getItem(Actions.viewNewView, "gui.Actions.viewNewView");
+		mViewRenameView = getItem(Actions.viewRenameView, "gui.Actions.viewRenameView");
+		mViewDeleteView = getItem(Actions.viewDeleteView, "gui.Actions.viewDeleteView");
+		mViewToggleCanvas = getItem(Actions.viewToggleCanvas, "gui.Actions.viewToggleCanvas");
 		mViewOverview = getCheckedItem(Actions.viewOverview, "gui.Actions.viewOverview", KeyEvent.VK_F7, 0);
-		mViewPageLeft = getItem(Actions.viewPageLeft, "gui.Actions.viewPageLeft", 0, 0);
-		mViewPageRight = getItem(Actions.viewPageRight, "gui.Actions.viewPageRight", 0, 0);
+		mViewPageLeft = getItem(Actions.viewPageLeft, "gui.Actions.viewPageLeft");
+		mViewPageRight = getItem(Actions.viewPageRight, "gui.Actions.viewPageRight");
 		mViewGenotypes = getRadioItem(Actions.viewGenotypes, "gui.Actions.viewGenotypes",
 			KeyEvent.VK_5, InputEvent.ALT_DOWN_MASK);
 		mViewChromosomes = getRadioItem(Actions.viewChromosomes, "gui.Actions.viewChromosomes",
@@ -337,35 +344,35 @@ public class WinMainMenuBar extends JMenuBar
 		mVizHighlight = new JMenu(RB.getString("gui.WinMainMenuBar.mVizHighlight"));
 		RB.setMnemonic(mVizHighlight, "gui.WinMainMenuBar.mVizHighlight");
 
-		mVizExportImage = getItem(Actions.vizExportImage, "gui.Actions.vizExportImage", 0, 0);
-		mVizExportData = getItem(Actions.vizExportData, "gui.Actions.vizExportData", 0, 0);
-		mVizCreatePedigree = getItem(Actions.vizCreatePedigree, "gui.Actions.vizCreatePedigree", 0, 0);
-		mVizColorCustomize = getItem(Actions.vizColorCustomize, "gui.Actions.vizColorCustomize", 0, 0);
-		mVizColorRandom = getRadioItem(Actions.vizColorRandom, "gui.Actions.vizColorRandom", 0, 0);
-		mVizColorRandomWSP = getRadioItem(Actions.vizColorRandomWSP, "gui.Actions.vizColorRandomWSP", 0, 0);
-		mVizColorNucleotide = getRadioItem(Actions.vizColorNucleotide, "gui.Actions.vizColorNucleotide", 0, 0);
-		mVizColorNucleotide01 = getRadioItem(Actions.vizColorNucleotide01, "gui.Actions.vizColorNucleotide01", 0, 0);
-		mVizColorABHData = getRadioItem(Actions.vizColorABHData, "gui.Actions.vizColorABHData", 0, 0);
-		mVizColorLineSim = getRadioItem(Actions.vizColorLineSim, "gui.Actions.vizColorLineSim", 0, 0);
-		mVizColorLineSimExact = getRadioItem(Actions.vizColorLineSimExact, "gui.Actions.vizColorLineSimExact", 0, 0);
-		mVizColorMarkerSim = getRadioItem(Actions.vizColorMarkerSim, "gui.Actions.vizColorMarkerSim", 0, 0);
-		mVizColorSimple2Color = getRadioItem(Actions.vizColorSimple2Color, "gui.Actions.vizColorSimple2Color", 0, 0);
-		mVizColorAlleleFreq = getRadioItem(Actions.vizColorAlleleFreq, "gui.Actions.vizColorAlleleFreq", 0, 0);
-		mVizColorBinned = getRadioItem(Actions.vizColorBinned, "gui.Actions.vizColorBinned", 0, 0);
-		mVizColorMagic = getRadioItem(Actions.vizColorMagic, "gui.Actions.vizColorMagic", 0, 0);
-		mVizColorParentDual = getRadioItem(Actions.vizColorParentDual, "gui.Actions.vizColorParentDual", 0, 0);
-		mVizColorParentTotal = getRadioItem(Actions.vizColorParentTotal, "gui.Actions.vizColorParentTotal", 0, 0);
-		mVizColorLineSimAny = getRadioItem(Actions.vizColorLineSimAny, "gui.Actions.vizColorLineSimAny", 0, 0);
-		mVizColorFavAllele = getRadioItem(Actions.vizColorFavAllele, "gui.Actions.vizColorFavAllele", 0, 0);
-		mVizScalingLocal = getCheckedItem(Actions.vizScalingLocal, "gui.Actions.vizScalingLocal", 0, 0);
-		mVizScalingGlobal = getCheckedItem(Actions.vizScalingGlobal, "gui.Actions.vizScalingGlobal", 0, 0);
-		mVizScalingClassic = getCheckedItem(Actions.vizScalingClassic, "gui.Actions.vizScalingClassic", 0, 0);
+		mVizExportImage = getItem(Actions.vizExportImage, "gui.Actions.vizExportImage");
+		mVizExportData = getItem(Actions.vizExportData, "gui.Actions.vizExportData");
+		mVizCreatePedigree = getItem(Actions.vizCreatePedigree, "gui.Actions.vizCreatePedigree");
+		mVizColorCustomize = getItem(Actions.vizColorCustomize, "gui.Actions.vizColorCustomize");
+		mVizColorRandom = getRadioItem(Actions.vizColorRandom, "gui.Actions.vizColorRandom");
+		mVizColorRandomWSP = getRadioItem(Actions.vizColorRandomWSP, "gui.Actions.vizColorRandomWSP");
+		mVizColorNucleotide = getRadioItem(Actions.vizColorNucleotide, "gui.Actions.vizColorNucleotide");
+		mVizColorNucleotide01 = getRadioItem(Actions.vizColorNucleotide01, "gui.Actions.vizColorNucleotide01");
+		mVizColorABHData = getRadioItem(Actions.vizColorABHData, "gui.Actions.vizColorABHData");
+		mVizColorLineSim = getRadioItem(Actions.vizColorLineSim, "gui.Actions.vizColorLineSim");
+		mVizColorLineSimExact = getRadioItem(Actions.vizColorLineSimExact, "gui.Actions.vizColorLineSimExact");
+		mVizColorMarkerSim = getRadioItem(Actions.vizColorMarkerSim, "gui.Actions.vizColorMarkerSim");
+		mVizColorSimple2Color = getRadioItem(Actions.vizColorSimple2Color, "gui.Actions.vizColorSimple2Color");
+		mVizColorAlleleFreq = getRadioItem(Actions.vizColorAlleleFreq, "gui.Actions.vizColorAlleleFreq");
+		mVizColorBinned = getRadioItem(Actions.vizColorBinned, "gui.Actions.vizColorBinned");
+		mVizColorMagic = getRadioItem(Actions.vizColorMagic, "gui.Actions.vizColorMagic");
+		mVizColorParentDual = getRadioItem(Actions.vizColorParentDual, "gui.Actions.vizColorParentDual");
+		mVizColorParentTotal = getRadioItem(Actions.vizColorParentTotal, "gui.Actions.vizColorParentTotal");
+		mVizColorLineSimAny = getRadioItem(Actions.vizColorLineSimAny, "gui.Actions.vizColorLineSimAny");
+		mVizColorFavAllele = getRadioItem(Actions.vizColorFavAllele, "gui.Actions.vizColorFavAllele");
+		mVizScalingLocal = getCheckedItem(Actions.vizScalingLocal, "gui.Actions.vizScalingLocal");
+		mVizScalingGlobal = getCheckedItem(Actions.vizScalingGlobal, "gui.Actions.vizScalingGlobal");
+		mVizScalingClassic = getCheckedItem(Actions.vizScalingClassic, "gui.Actions.vizScalingClassic");
 		mVizOverlayGenotypes = getCheckedItem(Actions.vizOverlayGenotypes, "gui.Actions.vizOverlayGenotypes",
 			KeyEvent.VK_G, menuShortcut);
-		mVizDisableGradients = getCheckedItem(Actions.vizDisableGradients, "gui.Actions.vizDisableGradients", 0, 0);
-		mVizHighlightHtZ = getCheckedItem(Actions.vizHighlightHtZ, "gui.Actions.vizHighlightHtZ", 0, 0);
-		mVizHighlightHoZ = getCheckedItem(Actions.vizHighlightHoZ, "gui.Actions.vizHighlightHoZ", 0, 0);
-		mVizHighlightGaps = getCheckedItem(Actions.vizHighlightGaps, "gui.Actions.vizHighlightGaps", 0, 0);
+		mVizDisableGradients = getCheckedItem(Actions.vizDisableGradients, "gui.Actions.vizDisableGradients");
+		mVizHighlightHtZ = getCheckedItem(Actions.vizHighlightHtZ, "gui.Actions.vizHighlightHtZ");
+		mVizHighlightHoZ = getCheckedItem(Actions.vizHighlightHoZ, "gui.Actions.vizHighlightHoZ");
+		mVizHighlightGaps = getCheckedItem(Actions.vizHighlightGaps, "gui.Actions.vizHighlightGaps");
 
 		mVizColor.add(mVizColorNucleotide);
 		mVizColor.add(mVizColorNucleotide01);
@@ -421,17 +428,17 @@ public class WinMainMenuBar extends JMenuBar
 		mAlysStatsPedVer = new JMenu(RB.getString("gui.WinMainMenuBar.mAlysStatsPedVer"));
 		RB.setMnemonic(mAlysStatsPedVer, "gui.WinMainMenuBar.mAlysStatsPedVer");
 
-		mAlysSortLinesBySimilarity = getItem(Actions.alysSortLinesBySimilarity, "gui.Actions.alysSortLinesBySimilarity", 0, 0);
-		mAlysSortLinesByTrait = getItem(Actions.alysSortLinesByTrait, "gui.Actions.alysSortLinesByTrait", 0, 0);
-		mAlysSortLinesByExternal = getItem(Actions.alysSortLinesByExternal, "gui.Actions.alysSortLinesByExternal", 0, 0);
-		mAlysSortLinesAlphabetically = getItem(Actions.alysSortLinesAlphabetically, "gui.Actions.alysSortLinesAlphabetically", 0, 0);
+		mAlysSortLinesBySimilarity = getItem(Actions.alysSortLinesBySimilarity, "gui.Actions.alysSortLinesBySimilarity");
+		mAlysSortLinesByTrait = getItem(Actions.alysSortLinesByTrait, "gui.Actions.alysSortLinesByTrait");
+		mAlysSortLinesByExternal = getItem(Actions.alysSortLinesByExternal, "gui.Actions.alysSortLinesByExternal");
+		mAlysSortLinesAlphabetically = getItem(Actions.alysSortLinesAlphabetically, "gui.Actions.alysSortLinesAlphabetically");
 
-		mAlysSimMatrix = getItem(Actions.alysSimMatrix, "gui.Actions.alysSimMatrix", 0, 0);
-		mAlysDendrogram = getItem(Actions.alysDendrogram, "gui.Actions.alysDendrogram", 0, 0);
-		mAlysPCoA = getItem(Actions.alysPCoA, "gui.Actions.alysPCoA", 0, 0);
-		mAlysMABC = getItem(Actions.alysMABC, "gui.Actions.alysMABC", 0, 0);
-		mAlysPedVer = getItem(Actions.alysPedVer, "gui.Actions.alysPedVer", 0, 0);
-		mAlysPedVerLines = getItem(Actions.alysPedVerLines, "gui.Actions.alysPedVerLines", 0, 0);
+		mAlysSimMatrix = getItem(Actions.alysSimMatrix, "gui.Actions.alysSimMatrix");
+		mAlysDendrogram = getItem(Actions.alysDendrogram, "gui.Actions.alysDendrogram");
+		mAlysPCoA = getItem(Actions.alysPCoA, "gui.Actions.alysPCoA");
+		mAlysMABC = getItem(Actions.alysMABC, "gui.Actions.alysMABC");
+		mAlysPedVer = getItem(Actions.alysPedVer, "gui.Actions.alysPedVer");
+		mAlysPedVerLines = getItem(Actions.alysPedVerLines, "gui.Actions.alysPedVerLines");
 
 		mAlysSortLines.add(mAlysSortLinesAlphabetically);
 		mAlysSortLines.addSeparator();
@@ -468,18 +475,18 @@ public class WinMainMenuBar extends JMenuBar
 		mDataTraits = new JMenu(RB.getString("gui.WinMainMenuBar.mDataTraits"));
 		RB.setMnemonic(mDataTraits, "gui.WinMainMenuBar.mDataTraits");
 
-		malysFilterQTLs = getItem(Actions.dataFilterQTLs, "gui.Actions.dataFilterQTLs", 0, 0);
-		mDataSelectGraph = getItem(Actions.dataSelectGraph, "gui.Actions.dataSelectGraph", 0, 0);
+		malysFilterQTLs = getItem(Actions.dataFilterQTLs, "gui.Actions.dataFilterQTLs");
+		mDataSelectGraph = getItem(Actions.dataSelectGraph, "gui.Actions.dataSelectGraph");
 		mDataFind = getItem(Actions.dataFind, "gui.Actions.dataFind", KeyEvent.VK_F, menuShortcut);
 
-		mDataStatistics = getItem(Actions.dataStatistics, "gui.Actions.dataStatistics", 0, 0);
-		mDataDBLineName = getItem(Actions.dataDBLineName, "gui.Actions.dataDBLineName", 0, 0);
-		mDataDBMarkerName = getItem(Actions.dataDBMarkerName, "gui.Actions.dataDBMarkerName", 0, 0);
-		mDataDBSettings = getItem(Actions.dataDBSettings, "gui.Actions.dataDBSettings", 0, 0);
-		mDataRenameDataSet = getItem(Actions.dataRenameDataSet, "gui.Actions.dataRenameDataSet", 0, 0);
-		mDataDeleteDataSet = getItem(Actions.dataDeleteDataSet, "gui.Actions.dataDeleteDataSet", 0, 0);
-		mDataSelectTraits = getItem(Actions.dataSelectTraits, "gui.Actions.dataSelectTraits", 0, 0);
-		mDataSelectTextTraits = getItem(Actions.dataSelectTextTraits, "gui.Actions.dataSelectTextTraits", 0, 0);
+		mDataStatistics = getItem(Actions.dataStatistics, "gui.Actions.dataStatistics");
+		mDataDBLineName = getItem(Actions.dataDBLineName, "gui.Actions.dataDBLineName");
+		mDataDBMarkerName = getItem(Actions.dataDBMarkerName, "gui.Actions.dataDBMarkerName");
+		mDataDBSettings = getItem(Actions.dataDBSettings, "gui.Actions.dataDBSettings");
+		mDataRenameDataSet = getItem(Actions.dataRenameDataSet, "gui.Actions.dataRenameDataSet");
+		mDataDeleteDataSet = getItem(Actions.dataDeleteDataSet, "gui.Actions.dataDeleteDataSet");
+		mDataSelectTraits = getItem(Actions.dataSelectTraits, "gui.Actions.dataSelectTraits");
+		mDataSelectTextTraits = getItem(Actions.dataSelectTextTraits, "gui.Actions.dataSelectTextTraits");
 
 		mDataDB.add(mDataDBLineName);
 		mDataDB.add(mDataDBMarkerName);
@@ -509,8 +516,8 @@ public class WinMainMenuBar extends JMenuBar
 		RB.setMnemonic(mWnd, "gui.WinMainMenuBar.mWnd");
 
 		mWndMinimize = getItem(Actions.wndMinimize, "gui.Actions.wndMinimize", KeyEvent.VK_M, menuShortcut);
-		mWndZoom = getItem(Actions.wndZoom, "gui.Actions.wndZoom", 0, 0);
-		mWndFlapjack = getCheckedItem(Actions.wndFlapjack, "gui.Actions.wndFlapjack", 0, 0);
+		mWndZoom = getItem(Actions.wndZoom, "gui.Actions.wndZoom");
+		mWndFlapjack = getCheckedItem(Actions.wndFlapjack, "gui.Actions.wndFlapjack");
 
 		mWnd.add(mWndMinimize);
 		mWnd.add(mWndZoom);
@@ -527,9 +534,9 @@ public class WinMainMenuBar extends JMenuBar
 		RB.setMnemonic(mHelp, "gui.WinMainMenuBar.mHelp");
 
 		mHelpContents = getItem(Actions.helpContents, "gui.Actions.helpContents", KeyEvent.VK_F1, 0);
-		mHelpPrefs = getItem(Actions.helpPrefs, "gui.Actions.helpPrefs", 0, 0);
-		mHelpUpdate = getItem(Actions.helpUpdate, "gui.Actions.helpUpdate", 0, 0);
-		mHelpAbout = getItem(Actions.helpAbout, "gui.Actions.helpAbout", 0, 0);
+		mHelpPrefs = getItem(Actions.helpPrefs, "gui.Actions.helpPrefs");
+		mHelpUpdate = getItem(Actions.helpUpdate, "gui.Actions.helpUpdate");
+		mHelpAbout = getItem(Actions.helpAbout, "gui.Actions.helpAbout");
 
 		mHelp.add(mHelpContents);
 		mHelp.addSeparator();
@@ -553,6 +560,11 @@ public class WinMainMenuBar extends JMenuBar
 		add(mHelp);
 	}
 
+	public static JMenuItem getItem(Action action, String key)
+	{
+		return getItem(action, key, 0, 0);
+	}
+
 	public static JMenuItem getItem(Action action, String key, int keymask, int modifiers)
 	{
 		JMenuItem item = new JMenuItem(action);
@@ -567,6 +579,11 @@ public class WinMainMenuBar extends JMenuBar
 		return item;
 	}
 
+	public static JCheckBoxMenuItem getCheckedItem(Action action, String key)
+	{
+		return getCheckedItem(action, key, 0, 0);
+	}
+
 	public static JCheckBoxMenuItem getCheckedItem(Action action, String key, int keymask, int modifiers)
 	{
 		JCheckBoxMenuItem item = new JCheckBoxMenuItem(action);
@@ -579,6 +596,11 @@ public class WinMainMenuBar extends JMenuBar
 			item.setIcon(null);
 
 		return item;
+	}
+
+	public static JRadioButtonMenuItem getRadioItem(Action action, String key)
+	{
+		return getRadioItem(action, key, 0, 0);
 	}
 
 	public static JRadioButtonMenuItem getRadioItem(Action action, String key, int keymask, int modifiers)

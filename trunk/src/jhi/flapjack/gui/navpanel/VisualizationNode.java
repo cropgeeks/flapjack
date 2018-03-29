@@ -64,6 +64,8 @@ public class VisualizationNode extends BaseNode
 			Actions.editDeleteSplitter.setEnabled(true);
 			Actions.editCustomMap.setEnabled(true);
 			Actions.editFilterMissingLines.setEnabled(true);
+			Actions.editFilterHeterozygousLines.setEnabled(true);
+			Actions.editFilterHomozygousLines.setEnabled(true);
 
 			Actions.viewNewView.setEnabled(true);
 			Actions.viewRenameView.setEnabled(true);
