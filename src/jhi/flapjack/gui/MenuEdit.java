@@ -876,7 +876,96 @@ public class MenuEdit
 				Prefs.guiMissingLinesPcnt, fml.getCount()),
 				RB.getString("gui.text.close"));
 
-			editMode(Constants.MARKERMODE);
+			editMode(Constants.LINEMODE);
+		}
+	}
+
+	void editFilterHeterozygousLines()
+	{
+		GTViewSet viewSet = gPanel.getViewSet();
+		HeterozygousLinesDialog hlDialog = new HeterozygousLinesDialog(viewSet);
+
+		if (hlDialog.isOK())
+		{
+			// Set the undo state...
+			HidLinesState state = new HidLinesState(gPanel.getViewSet(),
+				RB.getString("gui.visualization.HidLinesState.hidLines"));
+			state.createUndoState();
+
+			FilterHeterozygousLines fhl = new FilterHeterozygousLines(
+				gPanel.getViewSet(), hlDialog.getSelectedChromosomes(),
+				Prefs.guiHeterozygousLinesPcnt);
+
+			ProgressDialog dialog = new ProgressDialog(fhl,
+				RB.getString("gui.MenuEdit.fhetl.title"),
+				RB.getString("gui.MenuEdit.fhetl.label"),
+				Flapjack.winMain);
+
+			// If the operation failed or was cancelled...
+			if (dialog.getResult() != ProgressDialog.JOB_COMPLETED)
+			{
+				// As we'll now be left with some markers removed and some not,
+				// put the view back into its previous state
+				gPanel.processUndoRedo(true, state);
+				return;
+			}
+
+			gPanel.refreshView();
+
+			// Set the redo state...
+			state.createRedoState();
+			gPanel.addUndoState(state);
+
+			TaskDialog.info(RB.format("gui.MenuEdit.fhetl.summary",
+				Prefs.guiHeterozygousLinesPcnt, fhl.getCount()),
+				RB.getString("gui.text.close"));
+
+			editMode(Constants.LINEMODE);
+		}
+	}
+
+	void editFilterHomozygousLines()
+	{
+		GTViewSet viewSet = gPanel.getViewSet();
+		HomozygousLinesDialog hlDialog = new HomozygousLinesDialog(viewSet);
+
+		if (hlDialog.isOK())
+		{
+			// Set the undo state...
+			HidLinesState state = new HidLinesState(gPanel.getViewSet(),
+				RB.getString("gui.visualization.HidLinesState.hidLines"));
+			state.createUndoState();
+
+
+			FilterHomozygousLines fhl = new FilterHomozygousLines(
+				gPanel.getViewSet(), hlDialog.getSelectedChromosomes(),
+				Prefs.guiHomozygousLinesPcnt);
+
+			ProgressDialog dialog = new ProgressDialog(fhl,
+				RB.getString("gui.MenuEdit.fhoml.title"),
+				RB.getString("gui.MenuEdit.fhoml.label"),
+				Flapjack.winMain);
+
+			// If the operation failed or was cancelled...
+			if (dialog.getResult() != ProgressDialog.JOB_COMPLETED)
+			{
+				// As we'll now be left with some markers removed and some not,
+				// put the view back into its previous state
+				gPanel.processUndoRedo(true, state);
+				return;
+			}
+
+			gPanel.refreshView();
+
+			// Set the redo state...
+			state.createRedoState();
+			gPanel.addUndoState(state);
+
+			TaskDialog.info(RB.format("gui.MenuEdit.fhoml.summary",
+				Prefs.guiHomozygousLinesPcnt, fhl.getCount()),
+				RB.getString("gui.text.close"));
+
+			editMode(Constants.LINEMODE);
 		}
 	}
 }

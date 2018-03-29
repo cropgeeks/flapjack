@@ -54,6 +54,8 @@ public class Actions
 	public static AbstractAction editInsertSplitter;
 	public static AbstractAction editDeleteSplitter;
 	public static AbstractAction editFilterMissingLines;
+	public static AbstractAction editFilterHeterozygousLines;
+	public static AbstractAction editFilterHomozygousLines;
 
 	public static AbstractAction viewNewView;
 	public static AbstractAction viewRenameView;
@@ -397,6 +399,18 @@ public class Actions
 		editFilterMissingLines = new AbstractAction(RB.getString("gui.Actions.editFilterMissingLines")) {
 			public void actionPerformed(ActionEvent e) {
 				winMain.mEdit.editFilterMissingLines();
+			}
+		};
+
+		editFilterHeterozygousLines = new AbstractAction(RB.getString("gui.Actions.editFilterHeterozygousLines")) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.mEdit.editFilterHeterozygousLines();
+			}
+		};
+
+		editFilterHomozygousLines = new AbstractAction(RB.getString("gui.Actions.editFilterHomozygousLines")) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.mEdit.editFilterHomozygousLines();
 			}
 		};
 
@@ -878,6 +892,8 @@ public class Actions
 		editDeleteSplitter.setEnabled(false);
 		editCustomMap.setEnabled(false);
 		editFilterMissingLines.setEnabled(false);
+		editFilterHeterozygousLines.setEnabled(false);
+		editFilterHomozygousLines.setEnabled(false);
 
 		viewNewView.setEnabled(false);
 		viewRenameView.setEnabled(false);
