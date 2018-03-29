@@ -154,6 +154,8 @@ public class Prefs extends XMLPreferences
 
 	// Missing markers dialog
 	public static int guiMissingMarkerPcnt = 95;
+	// Missing lines dialog
+	public static int guiMissingLinesPcnt = 95;
 	// Heterozygous markers dialog
 	public static int guiHeterozygousMarkerPcnt = 95;
 

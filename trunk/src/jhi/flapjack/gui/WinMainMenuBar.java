@@ -55,6 +55,8 @@ public class WinMainMenuBar extends JMenuBar
 	private JMenuItem mEditSelectLinesInvert;
 	private JMenuItem mEditSelectLinesImport;
 	private JMenuItem mEditHideLines;
+	private JMenu mEditFilterLines;
+	private JMenuItem mEditFilterMissingLines;
 	private JMenuItem mEditCustomMap;
 
 	private JMenu mView;
@@ -214,6 +216,8 @@ public class WinMainMenuBar extends JMenuBar
 		RB.setMnemonic(mEditSelectLines, "gui.WinMainMenuBar.mEditSelectLines");
 		mEditFilterMarkers = new JMenu(RB.getString("gui.WinMainMenuBar.mEditFilterMarkers"));
 		RB.setMnemonic(mEditFilterMarkers, "gui.WinMainMenuBar.mEditFilterMarkers");
+		mEditFilterLines = new JMenu(RB.getString("gui.WinMainMenuBar.mEditFilterLines"));
+		RB.setMnemonic(mEditFilterLines, "gui.WinMainMenuBar.mEditFilterLines");
 
 		mEditUndo = getItem(Actions.editUndo, "gui.Actions.editUndo", KeyEvent.VK_Z, menuShortcut);
 		mEditRedo = getItem(Actions.editRedo, "gui.Actions.editRedo", KeyEvent.VK_Y, menuShortcut);
@@ -239,6 +243,7 @@ public class WinMainMenuBar extends JMenuBar
 		mEditSelectLinesInvert = getItem(Actions.editSelectLinesInvert, "gui.Actions.editSelectLinesInvert", 0, 0);
 		mEditSelectLinesImport = getItem(Actions.editSelectLinesImport, "gui.Actions.editSelectLinesImport", 0, 0);
 		mEditHideLines = getItem(Actions.editHideLines, "gui.Actions.editHideLines", 0, 0);
+		mEditFilterMissingLines = getItem(Actions.editFilterMissingLines, "gui.Actions.editFilterMissingLines", 0, 0);
 		mEditCustomMap = getItem(Actions.editCustomMap, "gui.Actions.editCustomMap", 0, 0);
 
 		mEditSelectMarkers.add(mEditSelectMarkersAll);
@@ -261,6 +266,7 @@ public class WinMainMenuBar extends JMenuBar
 		mEditFilterMarkers.add(mEditFilterHeterozygousMarkersByLine);
 		mEditFilterMarkers.addSeparator();
 		mEditFilterMarkers.add(mEditFilterMonomorphicMarkers);
+		mEditFilterLines.add(mEditFilterMissingLines);
 
 		mEdit.add(mEditUndo);
 		mEdit.add(mEditRedo);
@@ -275,6 +281,7 @@ public class WinMainMenuBar extends JMenuBar
 		mEdit.addSeparator();
 		mEdit.add(mEditSelectLines);
 		mEdit.add(mEditHideLines);
+		mEdit.add(mEditFilterLines);
 		mEdit.addSeparator();
 		mEdit.add(mEditCustomMap);
 

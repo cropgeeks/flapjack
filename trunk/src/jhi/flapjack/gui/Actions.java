@@ -53,6 +53,7 @@ public class Actions
 	public static AbstractAction editDuplicateLineRemove;
 	public static AbstractAction editInsertSplitter;
 	public static AbstractAction editDeleteSplitter;
+	public static AbstractAction editFilterMissingLines;
 
 	public static AbstractAction viewNewView;
 	public static AbstractAction viewRenameView;
@@ -390,6 +391,12 @@ public class Actions
 		editDeleteSplitter = new AbstractAction(RB.format("gui.Actions.editDeleteSplitter", "")) {
 			public void actionPerformed(ActionEvent e) {
 				winMain.mEdit.editDeleteSplitter();
+			}
+		};
+
+		editFilterMissingLines = new AbstractAction(RB.getString("gui.Actions.editFilterMissingLines")) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.mEdit.editFilterMissingLines();
 			}
 		};
 
@@ -870,6 +877,7 @@ public class Actions
 		editInsertSplitter.setEnabled(false);
 		editDeleteSplitter.setEnabled(false);
 		editCustomMap.setEnabled(false);
+		editFilterMissingLines.setEnabled(false);
 
 		viewNewView.setEnabled(false);
 		viewRenameView.setEnabled(false);

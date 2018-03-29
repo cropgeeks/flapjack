@@ -1,7 +1,7 @@
 // Copyright 2009-2018 Information & Computational Sciences, JHI. All rights
 // reserved. Use is subject to the accompanying licence terms.
 
-package jhi.flapjack.gui.dialog;
+package jhi.flapjack.gui.dialog.analysis;
 
 import java.awt.event.*;
 import javax.swing.*;
@@ -9,28 +9,30 @@ import javax.swing.event.*;
 
 import jhi.flapjack.data.*;
 import jhi.flapjack.gui.*;
-import jhi.flapjack.gui.dialog.analysis.*;
 
-import scri.commons.gui.RB;
+import scri.commons.gui.*;
 
-public class MissingMarkersDialog extends JDialog implements ActionListener, ChangeListener
+public abstract class PercentMissingDialog extends JDialog implements ActionListener, ChangeListener
 {
 	private final GTViewSet viewSet;
+	private final String filter;
+	private final String help;
+	private final String label;
 
 	private boolean isOK = false;
-	private int value = Prefs.guiMissingMarkerPcnt;
+	protected int value;
 
 	private ChromosomeSelectionDialog csd;
 
-	public MissingMarkersDialog(GTViewSet viewSet)
+	public PercentMissingDialog(GTViewSet viewSet, String title, String filter, String help, String label, int value)
 	{
-		super(
-			Flapjack.winMain,
-			RB.getString("gui.dialog.MissingMarkersDialog.title"),
-			true
-		);
+		super(Flapjack.winMain, title, true);
 
 		this.viewSet = viewSet;
+		this.filter = filter;
+		this.help = help;
+		this.label = label;
+		this.value = value;
 
 		initComponents();
 		initComponents2();
@@ -43,18 +45,20 @@ public class MissingMarkersDialog extends JDialog implements ActionListener, Cha
 
 	private void initComponents2()
 	{
-		RB.setText(bFilter, "gui.dialog.MissingMarkersDialog.filter");
+		bFilter.setText(filter);
 		bFilter.addActionListener(this);
 		RB.setText(bCancel, "gui.text.cancel");
 		bCancel.addActionListener(this);
 		RB.setText(bHelp, "gui.text.help");
-		FlapjackUtils.setHelp(bHelp, "filtering_markers.html");
+		FlapjackUtils.setHelp(bHelp, help);
 
 		slider.addChangeListener(this);
 		slider.setValue(value);
 
 		csd = new ChromosomeSelectionDialog(viewSet, false);
-		csdLabel.addActionListener(e -> { csd.setVisible(true); } );
+		csdLabel.addActionListener(e -> csd.setVisible(true));
+
+		formatLabel();
 	}
 
 	@Override
@@ -78,14 +82,10 @@ public class MissingMarkersDialog extends JDialog implements ActionListener, Cha
 
 	private void formatLabel()
 	{
-		percentLabel.setText(RB.format(
-			"gui.dialog.MissingMarkersDialog.percentLabel", value));
+		percentLabel.setText(RB.format(label, value));
 	}
 
-	void applySettings()
-	{
-		Prefs.guiMissingMarkerPcnt = value;
-	}
+	protected abstract void applySettings();
 
 	public boolean isOK()
 		{ return isOK; }
@@ -102,8 +102,7 @@ public class MissingMarkersDialog extends JDialog implements ActionListener, Cha
 	 */
 	@SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents()
-    {
+    private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
         panel1 = new javax.swing.JPanel();
@@ -127,7 +126,6 @@ public class MissingMarkersDialog extends JDialog implements ActionListener, Cha
         slider.setPaintLabels(true);
         slider.setPaintTicks(true);
         slider.setValue(95);
-        slider.setOpaque(false);
 
         javax.swing.GroupLayout panel1Layout = new javax.swing.GroupLayout(panel1);
         panel1.setLayout(panel1Layout);
