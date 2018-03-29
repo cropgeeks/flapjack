@@ -63,6 +63,7 @@ public class VisualizationNode extends BaseNode
 			Actions.editInsertSplitter.setEnabled(true);
 			Actions.editDeleteSplitter.setEnabled(true);
 			Actions.editCustomMap.setEnabled(true);
+			Actions.editFilterMissingLines.setEnabled(true);
 
 			Actions.viewNewView.setEnabled(true);
 			Actions.viewRenameView.setEnabled(true);

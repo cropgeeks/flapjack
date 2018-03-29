@@ -834,4 +834,49 @@ public class MenuEdit
 			Actions.projectModified();
 		}
 	}
+
+	void editFilterMissingLines()
+	{
+		GTViewSet viewSet = gPanel.getViewSet();
+		MissingLinesDialog mlDialog = new MissingLinesDialog(viewSet);
+
+		if (mlDialog.isOK())
+		{
+			// Set the undo state...
+			HidLinesState state = new HidLinesState(gPanel.getViewSet(),
+				RB.getString("gui.visualization.HidLinesState.hidLines"));
+			state.createUndoState();
+
+
+			FilterMissingLines fml = new FilterMissingLines(
+				gPanel.getViewSet(), mlDialog.getSelectedChromosomes(),
+				Prefs.guiMissingLinesPcnt);
+
+			ProgressDialog dialog = new ProgressDialog(fml,
+				RB.getString("gui.MenuEdit.fml.title"),
+				RB.getString("gui.MenuEdit.fml.label"),
+				Flapjack.winMain);
+
+			// If the operation failed or was cancelled...
+			if (dialog.getResult() != ProgressDialog.JOB_COMPLETED)
+			{
+				// As we'll now be left with some markers removed and some not,
+				// put the view back into its previous state
+				gPanel.processUndoRedo(true, state);
+				return;
+			}
+
+			gPanel.refreshView();
+
+			// Set the redo state...
+			state.createRedoState();
+			gPanel.addUndoState(state);
+
+			TaskDialog.info(RB.format("gui.MenuEdit.fml.summary",
+				Prefs.guiMissingLinesPcnt, fml.getCount()),
+				RB.getString("gui.text.close"));
+
+			editMode(Constants.MARKERMODE);
+		}
+	}
 }
