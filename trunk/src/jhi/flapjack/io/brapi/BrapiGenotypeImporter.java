@@ -8,9 +8,12 @@ import java.net.*;
 import java.util.*;
 
 import jhi.flapjack.data.*;
+import jhi.flapjack.gui.*;
 import jhi.flapjack.io.*;
 
 import jhi.brapi.api.markerprofiles.*;
+import okhttp3.*;
+import scri.commons.gui.*;
 
 public class BrapiGenotypeImporter implements IGenotypeImporter
 {
@@ -89,7 +92,8 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 			useByteStorage = false;
 			alleleCount = 0;
 
-			readData();
+			if (isOK)
+				readData();
 		}
 	}
 
@@ -177,7 +181,7 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 		in = new BufferedReader(new InputStreamReader(client.getInputStream(uri)));
 
 		// The first line is a list of marker profile IDs
-		str = in.readLine();
+		in.readLine();
 
 		while ((str = in.readLine()) != null && !str.isEmpty())
 		{
@@ -228,7 +232,27 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 		if (createLines)
 		{
 			URI uri = client.getAlleleMatrixFileById();
-			in = new BufferedReader(new InputStreamReader(client.getInputStream(uri)));
+
+			Response response = client.getResponse(uri);
+			String cl = response.header("Content-Length");
+			System.out.println(response.headers().toString());
+			System.out.println(uri);
+			// If the file is 500MB in size or larger
+			if (cl != null && Long.parseLong(cl) >= 524288000)
+			{
+				String size = FlapjackUtils.getSizeString(Long.parseLong(cl));
+				String msg = RB.format("io.BrapiGenotypeImporter.largeFileMsg",size);
+				String[] options = new String[] { RB.getString("gui.text.ok"), RB.getString("gui.text.cancel") };
+
+				if (TaskDialog.show(msg, TaskDialog.QST, 1, options) != 0)
+				{
+					response.close();
+					cancelImport();
+					return false;
+				}
+			}
+
+			in = new BufferedReader(new InputStreamReader(response.body().byteStream()));
 		}
 		else
 		{
@@ -374,5 +398,13 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 		markersByName.put(marker.getName(), mi);
 
 		return mi;
+	}
+
+	public boolean isOK()
+		{ return isOK; }
+
+	public String currentAsyncStatusMessage()
+	{
+		return client.currentAsyncStatusMessage();
 	}
 }

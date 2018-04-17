@@ -220,7 +220,7 @@ public class MenuFile
 			 RB.format("gui.MenuFile.import.message"),
 			 Flapjack.winMain);
 
-		if (dialog.failed("gui.error"))
+		if (dialog.failed("gui.error") || importer.okToRun() == false)
 			return;
 
 		// If everything was ok...

@@ -89,6 +89,11 @@ public class DataImporter extends SimpleJob
 		// Read the genotype data
 		genoImporter.importGenotypeData();
 		genoImporter.cleanUp();
+		if (genoImporter.isOK() == false)
+		{
+			cancelJob();
+			return;
+		}
 
 		if (Prefs.ioMakeAllChromosome)
 			dataSet.createSuperChromosome(RB.getString("io.DataImporter.allChromosomes"));
@@ -187,6 +192,19 @@ public class DataImporter extends SimpleJob
 	public String getMessage()
 	{
 		final NumberFormat nf = NumberFormat.getInstance();
+
+		if (genoImporter instanceof BrapiGenotypeImporter)
+		{
+			String message = ((BrapiGenotypeImporter) genoImporter).currentAsyncStatusMessage().toLowerCase();
+			if (message.equals("finished") == false)
+				return "Asynchronous stauts: " + ((BrapiGenotypeImporter) genoImporter).currentAsyncStatusMessage().toLowerCase();
+			else
+				return RB.format("io.DataImporter.message",
+					nf.format(dataSet.countChromosomeMaps()),
+					nf.format(mapImporter.getMarkerCount()),
+					nf.format(genoImporter.getLineCount()),
+					nf.format(genoImporter.getMarkerCount()));
+		}
 
 		return RB.format("io.DataImporter.message",
 			nf.format(dataSet.countChromosomeMaps()),

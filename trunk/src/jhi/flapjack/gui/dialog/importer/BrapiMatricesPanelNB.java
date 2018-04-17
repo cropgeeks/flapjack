@@ -54,19 +54,7 @@ class BrapiMatricesPanelNB extends JPanel implements IBrapiWizard
 			// Calculate and display a file size label which converts the rough size in bytes to kB, MB or GB as
 			// appropriate
 			long sizeInBytes = sampleCount * markerCount;
-			String size;
-
-			if (sizeInBytes < 1024)
-				size = sizeInBytes + " B";
-
-			else if (sizeInBytes < Math.pow(1024, 2))
-				size = nf.format(Math.round(sizeInBytes/1024f)) + " kB";
-
-			else if (sizeInBytes < Math.pow(1024, 3))
-				size = nf.format(Math.round(sizeInBytes/1024f/1024f)) + " MB";
-
-			else
-				size = nf.format(sizeInBytes/1024f/1024f/1024f) + " GB";
+			String size = FlapjackUtils.getSizeString(sizeInBytes);
 
 			lblSize.setText(RB.format("gui.dialog.importer.BrapiMatricesPanelNB.lblSize", size));
 		}

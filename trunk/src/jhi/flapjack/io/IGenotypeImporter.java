@@ -3,8 +3,6 @@
 
 package jhi.flapjack.io;
 
-import java.io.*;
-
 public interface IGenotypeImporter
 {
 	public void importGenotypeData() throws Exception;
@@ -18,4 +16,6 @@ public interface IGenotypeImporter
 	public long getBytesRead();
 
 	public void cleanUp();
+
+	public boolean isOK();
 }

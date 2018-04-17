@@ -7,10 +7,9 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 import java.net.*;
+import java.text.*;
 import javax.swing.*;
 import javax.swing.filechooser.*;
-
-import jhi.flapjack.data.*;
 
 import scri.commons.gui.*;
 import scri.commons.io.*;
@@ -194,5 +193,25 @@ public class FlapjackUtils
 		dialog.setLocationRelativeTo(Flapjack.winMain);
 		dialog.setResizable(false);
 		dialog.setVisible(visible);
+	}
+
+	public static String getSizeString(long sizeInBytes)
+	{
+		NumberFormat nf = DecimalFormat.getNumberInstance();
+		String size;
+
+		if (sizeInBytes < 1024)
+			size = sizeInBytes + " B";
+
+		else if (sizeInBytes < Math.pow(1024, 2))
+			size = nf.format(Math.round(sizeInBytes/1024f)) + " kB";
+
+		else if (sizeInBytes < Math.pow(1024, 3))
+			size = nf.format(Math.round(sizeInBytes/1024f/1024f)) + " MB";
+
+		else
+			size = nf.format(sizeInBytes/1024f/1024f/1024f) + " GB";
+
+		return size;
 	}
 }
