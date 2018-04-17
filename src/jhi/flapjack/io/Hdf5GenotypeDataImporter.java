@@ -156,4 +156,8 @@ public class Hdf5GenotypeDataImporter implements IGenotypeImporter
 	@Override
 	public long getBytesRead()
 		{ return 0; }
+
+	@Override
+	public boolean isOK()
+		{ return isOk; }
 }

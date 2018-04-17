@@ -544,4 +544,9 @@ public class GenotypeDataImporter implements IGenotypeImporter
 
 		in.close();
 	}
+
+	public boolean isOK()
+	{
+		return isOK;
+	}
 }

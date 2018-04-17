@@ -38,6 +38,8 @@ public class BrapiClient
 
 	private CallsUtils callsUtils;
 
+	private AsyncChecker.AsyncStatus status = AsyncChecker.AsyncStatus.PENDING;
+
 	public void initService()
 	{
 		baseURL = resource.getUrl();
@@ -49,8 +51,14 @@ public class BrapiClient
 
 	private String enc(String str)
 	{
-		try { return URLEncoder.encode(str, "UTF-8"); }
-		catch (UnsupportedEncodingException e) { return str; }
+		try
+		{
+			return URLEncoder.encode(str, "UTF-8");
+		}
+		catch (UnsupportedEncodingException e)
+		{
+			return str;
+		}
 	}
 
 	public void getCalls()
@@ -87,25 +95,39 @@ public class BrapiClient
 	}
 
 	public boolean hasToken()
-		{ return callsUtils.hasToken(); }
+	{
+		return callsUtils.hasToken();
+	}
 
 	public boolean hasAlleleMatrixSearchTSV()
-		{ return callsUtils.hasAlleleMatrixSearchTSV(); }
+	{
+		return callsUtils.hasAlleleMatrixSearchTSV();
+	}
 
 	public boolean hasAlleleMatrixSearchFlapjack()
-		{ return callsUtils.hasAlleleMatrixSearchFlapjack(); }
+	{
+		return callsUtils.hasAlleleMatrixSearchFlapjack();
+	}
 
 	public boolean hasMapsMapDbId()
-		{ return callsUtils.hasMapsMapDbId(); }
+	{
+		return callsUtils.hasMapsMapDbId();
+	}
 
 	public boolean hasAlleleMatrices()
-		{ return callsUtils.hasAlleleMatrices(); }
+	{
+		return callsUtils.hasAlleleMatrices();
+	}
 
 	public boolean hasStudiesSearchGET()
-		{ return callsUtils.hasStudiesSearchGET(); }
+	{
+		return callsUtils.hasStudiesSearchGET();
+	}
 
 	public boolean hasStudiesSearchPOST()
-		{ return callsUtils.hasStudiesSearchPOST(); }
+	{
+		return callsUtils.hasStudiesSearchPOST();
+	}
 
 	public boolean doAuthentication()
 		throws Exception
@@ -448,14 +470,19 @@ public class BrapiClient
 
 		// Make an initial call to check the status on the resource
 		BrapiListResource<Object> statusPoll = statusCall.execute().body();
-		AsyncChecker.AsyncStatus status = AsyncChecker.checkStatus(statusPoll.getMetadata().getStatus());
+		status = AsyncChecker.checkStatus(statusPoll.getMetadata().getStatus());
 
 		// Keep checking until the async call returns anything other than "INPROCESS"
 		while (status == AsyncChecker.AsyncStatus.PENDING || status == AsyncChecker.AsyncStatus.INPROCESS)
 		{
 			// Wait for a second before polling again
-			try { Thread.sleep(1000); }
-			catch (InterruptedException e) {}
+			try
+			{
+				Thread.sleep(1000);
+			}
+			catch (InterruptedException e)
+			{
+			}
 			// Clone the previous retrofit call so we can call it again
 			statusPoll = statusCall.clone().execute().body();
 			status = AsyncChecker.checkStatus(statusPoll.getMetadata().getStatus());
@@ -487,14 +514,14 @@ public class BrapiClient
 		ZipInputStream zis = new ZipInputStream(new BufferedInputStream(url.openStream()));
 		ZipEntry ze = zis.getNextEntry();
 
-    	while (ze != null)
+		while (ze != null)
 		{
 			BufferedOutputStream out = new BufferedOutputStream(
 				new FileOutputStream(new File(dir, ze.getName())));
 			BufferedInputStream in = new BufferedInputStream(zis);
 
 			byte[] b = new byte[4096];
-			for (int n; (n = in.read(b)) != -1;)
+			for (int n; (n = in.read(b)) != -1; )
 				out.write(b, 0, n);
 
 			out.close();
@@ -531,7 +558,19 @@ public class BrapiClient
 	InputStream getInputStream(URI uri)
 		throws Exception
 	{
-		return generator.getInputStream(uri);
+		// TODO: Don't return the bytestream directly, check status codes wherever we hit URIs
+		return generator.getResponse(uri).body().byteStream();
+	}
+
+	okhttp3.Response getResponse(URI uri)
+		throws Exception
+	{
+		return generator.getResponse(uri);
+	}
+
+	public String currentAsyncStatusMessage()
+	{
+		return status.toString();
 	}
 
 
