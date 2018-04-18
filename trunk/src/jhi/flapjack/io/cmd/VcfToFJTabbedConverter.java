@@ -128,7 +128,7 @@ public class VcfToFJTabbedConverter
 
 		String[] accessions = new String[headers.length-9];
 		accessions[0] = "Accession/Marker";
-		System.arraycopy(headers, 10, accessions, 1, accessions.length - 1);
+		System.arraycopy(headers, 9, accessions, 1, accessions.length - 1);
 
 		return accessions;
 	}
