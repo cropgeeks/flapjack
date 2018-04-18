@@ -493,7 +493,11 @@ public class BrapiClient
 			return new URI(statusPoll.getMetadata().getDatafiles().get(0));
 
 		else if (status == AsyncChecker.AsyncStatus.FAILED)
+		{
+			String errorMessage = statusPoll.getMetadata().getStatus().stream().map(Status::getMessage).collect(Collectors.joining(", "));
+			System.out.println(errorMessage);
 			throw new Exception("The BrAPI resource returned the following asynchronous status: " + status.toString());
+		}
 
 		else if (status == AsyncChecker.AsyncStatus.UNKNOWN)
 			throw new Exception("Unknown asynchronous status returned by BrAPI resource.");
