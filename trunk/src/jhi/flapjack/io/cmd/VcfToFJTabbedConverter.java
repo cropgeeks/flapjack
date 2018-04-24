@@ -5,6 +5,7 @@ package jhi.flapjack.io.cmd;
 
 import java.io.*;
 import java.util.*;
+import java.util.stream.*;
 
 import org.apache.commons.cli.*;
 
@@ -95,11 +96,11 @@ public class VcfToFJTabbedConverter
 
 						mapWriter.println(markerName + "\t" + chrName + "\t" + markerPos);
 
-						String[] genotypes = new String[markerData.length- FIRST_ACCESSION_COL];
+						String[] genotypes = new String[markerData.length- FIRST_ACCESSION_COL + 1];
 						genotypes[0] = markerName;
 
-						for (int i=1; i < genotypes.length; i++)
-							genotypes[i] = getGenotype(markerData[i + FIRST_ACCESSION_COL], markerData[3], markerData[4]);
+						for (int i=0; i < genotypes.length-1; i++)
+							genotypes[i+1] = getGenotype(markerData[i + FIRST_ACCESSION_COL], markerData[3], markerData[4]);
 
 						buffer.add(genotypes);
 
@@ -126,9 +127,9 @@ public class VcfToFJTabbedConverter
 	{
 		String[] headers = line.split("\t", -1);
 
-		String[] accessions = new String[headers.length-9];
+		String[] accessions = new String[headers.length-9 + 1];
 		accessions[0] = "Accession/Marker";
-		System.arraycopy(headers, 9, accessions, 1, accessions.length - 1);
+		System.arraycopy(headers, 9, accessions, 1, accessions.length -1);
 
 		return accessions;
 	}
