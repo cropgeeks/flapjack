@@ -197,7 +197,7 @@ public class DataImporter extends SimpleJob
 		{
 			String message = ((BrapiGenotypeImporter) genoImporter).currentAsyncStatusMessage().toLowerCase();
 			if (message.equals("finished") == false)
-				return "Asynchronous stauts: " + ((BrapiGenotypeImporter) genoImporter).currentAsyncStatusMessage().toLowerCase();
+				return "Asynchronous status: " + ((BrapiGenotypeImporter) genoImporter).currentAsyncStatusMessage().toLowerCase();
 			else
 				return RB.format("io.DataImporter.message",
 					nf.format(dataSet.countChromosomeMaps()),

@@ -7,9 +7,8 @@ import jhi.flapjack.data.*;
 
 import scri.commons.gui.*;
 
-/**
- * Created by gs40939 on 03/05/2016.
- */
+import java.util.*;
+
 public class SimulateF1 extends SimpleJob
 {
 	private GTViewSet viewSet;
@@ -32,7 +31,7 @@ public class SimulateF1 extends SimpleJob
 		AnalysisSet as = new AnalysisSet(viewSet)
 			.withViews(null)													// <-- USER STILL NEEDS TO PICK CHROMOSOMES TO WORK WITH (in dialog)
 			.withSelectedLines()
-			.withAllMarkersIncludingHidden();
+			.withAllMarkers();
 
 		simulate(as);
 	}
@@ -63,15 +62,15 @@ public class SimulateF1 extends SimpleJob
 					int p1State = as.getState(c, p1Index, m);
 					int p2State = as.getState(c, p2Index, m);
 
-					setLociForF1(f1, stateTable, c, m, p1State, p2State);
+					setLociForF1(f1, stateTable, c, as.getMarker(c, m).getIndex(), p1State, p2State);
 				}
 			}
 			// Simulate data for special chromosome
 			else
 			{
 				int specialChromsomeIndex = c;
-				int loci = 0;
 				int dummyCount = 5;
+				int loci = 0;
 
 				for (int view=0; view < as.viewCount()-1; view++)
 				{
@@ -82,12 +81,12 @@ public class SimulateF1 extends SimpleJob
 						int p2State = as.getState(view, p2Index, m);
 
 						// Set f1 loci where the parents have hets or missing data to missing data
-						setLociForF1(f1, stateTable, c, loci, p1State, p2State);
+						setLociForF1(f1, stateTable, specialChromsomeIndex, as.getMarker(c, loci).getIndex(), p1State, p2State);
 					}
 					if (view < specialChromsomeIndex -1)
 					{
-						for (int d = 0; d < dummyCount; d++, loci++)
-							f1.setLoci(c, loci, 0);
+						for (int d = 0; d < dummyCount; d++)
+							f1.setLoci(c, as.getMarker(c, loci+d).getIndex(), 0);
 					}
 				}
 			}
