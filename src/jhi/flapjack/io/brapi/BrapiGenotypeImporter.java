@@ -112,7 +112,10 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 
 		HashMap<String, Line> linesByProfileID = new HashMap<>();
 
-		if (client.hasAlleleMatrixSearchTSV())
+		if (client.hasAlleleMatrixSearchFlapjack())
+			return readFlapjackAlleleMatrix(false, profiles);
+
+		else if (client.hasAlleleMatrixSearchTSV())
 		{
 			if (mapWasProvided)
 			{
@@ -129,8 +132,7 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 
 			return readTSVAlleleMatrix(linesByProfileID, profiles);
 		}
-		else if (client.hasAlleleMatrixSearchFlapjack())
-			return readFlapjackAlleleMatrix(false, profiles);
+		
 		else
 			return readJSONAlleleMatrix(linesByProfileID, profiles);
 	}
