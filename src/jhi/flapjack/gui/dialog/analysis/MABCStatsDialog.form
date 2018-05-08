@@ -40,9 +40,9 @@
               <EmptySpace max="-2" attributes="0"/>
               <Component id="settingsPanel" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="dataPanel" max="32767" attributes="0"/>
+              <Component id="dataPanel" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="dialogPanel1" min="-2" pref="44" max="-2" attributes="0"/>
+              <Component id="dialogPanel1" min="-2" pref="50" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
