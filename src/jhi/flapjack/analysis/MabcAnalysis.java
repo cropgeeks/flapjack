@@ -459,16 +459,21 @@ public class MabcAnalysis extends SimpleJob
 
 	private void calculateOtherStats(AnalysisSet as)
 	{
+		int totalMarkers = 0;
+		for (int c = 0; c < as.viewCount(); c++)
+			for (int m = 0; m < as.markerCount(c); m++)
+				if (isDataMarker(as, c, m))
+					totalMarkers++;
+
 		for (int lineIndex=0; lineIndex < as.lineCount(); lineIndex++)
 		{
 			LineInfo lineInfo = as.getLine(lineIndex);
 			MabcResult result = lineInfo.getResults().getMabcResult();
 			int foundMarkers = usableMarkerCount(as, lineIndex);
 			int hetMarkers = hetMarkerCount(as, lineIndex);
-			int missingCount = countMissingAlleles(as, lineIndex);
 
-			result.setMarkerCount(foundMarkers);
-			result.setPercentMissing((missingCount / (double) foundMarkers) * 100);
+			result.setDataCount(foundMarkers);
+			result.setPercentData((foundMarkers/ (double) totalMarkers) * 100);
 			result.setHeterozygousCount(hetMarkers);
 			result.setPercentHeterozygous((hetMarkers / (double) foundMarkers) * 100);
 		}
@@ -487,6 +492,15 @@ public class MabcAnalysis extends SimpleJob
 			&& stateTable.isHom(as.getState(chr, dpIndex, marker));
 	}
 
+	// Usable based on parental information
+	private boolean isDataMarker(AnalysisSet as, int chr, int marker)
+	{
+		return as.getState(chr, rpIndex, marker) != 0
+			&& as.getState(chr, dpIndex, marker) != 0
+			&& stateTable.isHom(as.getState(chr, rpIndex, marker))
+			&& stateTable.isHom(as.getState(chr, dpIndex, marker));
+	}
+
 	private int usableMarkerCount(AnalysisSet as, int lineIndex)
 	{
 		int foundMarkers = 0;
@@ -497,26 +511,6 @@ public class MabcAnalysis extends SimpleJob
 					foundMarkers++;
 
 		return foundMarkers;
-	}
-
-	private int countMissingAlleles(AnalysisSet as, int lineIndex)
-	{
-		int missingCount = 0;
-		for (int c = 0; c < as.viewCount(); c++)
-		{
-			for (int m = 0; m < as.markerCount(c); m++)
-			{
-				if (as.getState(c, lineIndex, m) == 0
-					&& as.getState(c, rpIndex, m) != 0
-					&& as.getState(c, dpIndex, m) != 0
-					&& !stateTable.isHet(as.getState(c, rpIndex, m))
-					&& !stateTable.isHet(as.getState(c, dpIndex, m)))
-				{
-					missingCount++;
-				}
-			}
-		}
-		return missingCount;
 	}
 
 	private int hetMarkerCount(AnalysisSet as, int lineIndex)

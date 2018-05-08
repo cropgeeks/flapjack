@@ -10,9 +10,7 @@ import java.util.*;
 public class PedVerLinesResult extends XMLRoot
 {
 	private int dataCount;
-	private int markerCount;
-	private int missingCount;
-	private double percentMissing;
+	private double percentData;
 	private int hetCount;
 	private double percentHet;
 	private int dataTotalMatch;
@@ -23,28 +21,16 @@ public class PedVerLinesResult extends XMLRoot
 	private ArrayList<PedVerLinesParentScore> parentScores = new ArrayList<>();
 
 	public int getDataCount()
-		{ return dataCount; }
+		{  return dataCount; }
 
 	public void setDataCount(int dataCount)
 		{  this.dataCount = dataCount; }
 
-	public int getMarkerCount()
-		{  return markerCount; }
+	public double getPercentData()
+		{ return percentData; }
 
-	public void setMarkerCount(int markerCount)
-		{  this.markerCount = markerCount; }
-
-	public int getMissingCount()
-		{  return missingCount; }
-
-	public void setMissingCount(int missingCount)
-		{ this.missingCount = missingCount; }
-
-	public double getPercentMissing()
-		{ return percentMissing; }
-
-	public void setPercentMissing(double percentMissing)
-		{  this.percentMissing = percentMissing; }
+	public void setPercentData(double percentData)
+		{  this.percentData = percentData; }
 
 	public int getHetCount()
 		{  return hetCount; }

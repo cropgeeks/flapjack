@@ -8,8 +8,22 @@ import jhi.flapjack.data.results.*;
 import jhi.flapjack.gui.*;
 import jhi.flapjack.gui.table.*;
 
+import scri.commons.gui.*;
+
 public class PedVerF1sTableModel extends LineDataTableModel
 {
+	private static final int lineIndex = 0;
+	private static final int dataCountIndex = 1;
+	private static final int percDataIndex = 2;
+	private static final int hetCountIndex = 3;
+	private static final int percHetIndex = 4;
+	private static final int percDevExpectedIndex = 5;
+	private static final int countP1ContainedIndex = 6;
+	private static final int percP1ContainedIndex = 7;
+	private static final int countP2ContainedIndex = 8;
+	private static final int percP2ContainedIndex = 9;
+	private static final int countAlleleMatchIndex = 10;
+	private static final int percAlleleMatchIndex = 11;
 	private static final int selectedIndex = 12;
 	private static final int rankIndex = 13;
 	private static final int commentIndex = 14;
@@ -23,19 +37,39 @@ public class PedVerF1sTableModel extends LineDataTableModel
 		initModel();
 	}
 
-	void initModel()
+	private void initModel()
 	{
-		columnNames = new String[] { "Line", "Marker Count", "% Missing",
-			"Het Count", "% Het", "% Deviation from Expected", "Count P1 Contained",
-			"% P1 Contained", "Count P2 Contained", "% P2 Contained",
-			"Count Allele Match to Expected", "% Allele Match to Expected",
-			"Selected", "Rank", "Comments", "Don't Sort/Filter" };
+		columnNames = new String[16];
+		columnNames[lineIndex] = RB.getString("gui.pedver.PedVerF1sTableModel.line");
+		columnNames[dataCountIndex]	= RB.getString("gui.pedver.PedVerF1sTableModel.dataCount");
+		columnNames[percDataIndex] = RB.getString("gui.pedver.PedVerF1sTableModel.percData");
+		columnNames[hetCountIndex] = RB.getString("gui.pedver.PedVerF1sTableModel.hetCount");
+		columnNames[percHetIndex] = RB.getString("gui.pedver.PedVerF1sTableModel.percHet");
+		columnNames[percDevExpectedIndex] = RB.getString("gui.pedver.PedVerF1sTableModel.percDevExpected");
+		columnNames[countP1ContainedIndex] = RB.getString("gui.pedver.PedVerF1sTableModel.countP1Contained");
+		columnNames[percP1ContainedIndex] = RB.getString("gui.pedver.PedVerF1sTableModel.percP1Contained");
+		columnNames[countP2ContainedIndex] = RB.getString("gui.pedver.PedVerF1sTableModel.countP2Contained");
+		columnNames[percP2ContainedIndex] = RB.getString("gui.pedver.PedVerF1sTableModel.percP2Contained");
+		columnNames[countAlleleMatchIndex] = RB.getString("gui.pedver.PedVerF1sTableModel.countAlleleMatch");
+		columnNames[percAlleleMatchIndex] = RB.getString("gui.pedver.PedVerF1sTableModel.percAlleleMatch");
+		columnNames[selectedIndex] = RB.getString("gui.pedver.PedVerF1sTableModel.selected");
+		columnNames[rankIndex] = RB.getString("gui.pedver.PedVerF1sTableModel.rank");
+		columnNames[commentIndex] = RB.getString("gui.pedver.PedVerF1sTableModel.comments");
+		columnNames[sortIndex] = RB.getString("gui.pedver.PedVerF1sTableModel.sortFilter");
 
-		ttNames = new String[] { "Line", "Marker Count", "Percentage Missing",
-			"Heterozygous Count", "Percentage Heterozygous", "Percentage Deviation from Expected", "Count of Parent 1 Contained",
-			"Percentage of Parent 1 Contained", "Count of Parent 2 Contained", "Percentage of P2 Contained",
-			"Count of Allele Match to Expected", "Percentage of Allele Match to Expected",
-			"Selected", "Rank", "Comments", "Don't Sort/Filter" };
+		ttNames = new String[columnNames.length];
+		ttNames[percDataIndex] = RB.getString("gui.pedver.PedVerF1sTableModel.percData.tt");
+		ttNames[hetCountIndex] = RB.getString("gui.pedver.PedVerF1sTableModel.hetCount.tt");
+		ttNames[percHetIndex] = RB.getString("gui.pedver.PedVerF1sTableModel.percHet.tt");
+		ttNames[percDevExpectedIndex] = RB.getString("gui.pedver.PedVerF1sTableModel.percDevExpected.tt");
+		ttNames[percP1ContainedIndex] = RB.getString("gui.pedver.PedVerF1sTableModel.percP1Contained.tt");
+		ttNames[percP2ContainedIndex] = RB.getString("gui.pedver.PedVerF1sTableModel.percP2Contained.tt");
+		ttNames[percAlleleMatchIndex] = RB.getString("gui.pedver.PedVerF1sTableModel.percAlleleMatch.tt");
+
+
+		for (int i = 0; i < columnNames.length; i++)
+			if (ttNames[i] == null)
+				ttNames[i] = columnNames[i];
 	}
 
 	@Override
@@ -58,7 +92,7 @@ public class PedVerF1sTableModel extends LineDataTableModel
 		PedVerF1sResult stats = line.getResults().getPedVerF1sResult();
 
 		// Name, Selected and Sort can work without results
-		if (col == 0)
+		if (col == lineIndex)
 			return line;
 		else if (col == selectedIndex)
 			return line.getSelected();
@@ -72,17 +106,17 @@ public class PedVerF1sTableModel extends LineDataTableModel
 
 		switch (col)
 		{
-			case 1: return stats.getMarkerCount();
-			case 2: return stats.getPercentMissing();
-			case 3: return stats.getHeterozygousCount();
-			case 4: return stats.getPercentHeterozygous();
-			case 5: return stats.getPercentDeviationFromExpected();
-			case 6: return stats.getCountP1Contained();
-			case 7: return stats.getPercentP1Contained();
-			case 8: return stats.getCountP2Contained();
-			case 9: return stats.getPercentP2Contained();
-			case 10: return stats.getCountAlleleMatchExpected();
-			case 11: return stats.getPercentAlleleMatchExpected();
+			case dataCountIndex: return stats.getDataCount();
+			case percDataIndex: return stats.getPercentData();
+			case hetCountIndex: return stats.getHeterozygousCount();
+			case percHetIndex: return stats.getPercentHeterozygous();
+			case percDevExpectedIndex: return stats.getPercentDeviationFromExpected();
+			case countP1ContainedIndex: return stats.getCountP1Contained();
+			case percP1ContainedIndex: return stats.getPercentP1Contained();
+			case countP2ContainedIndex: return stats.getCountP2Contained();
+			case percP2ContainedIndex: return stats.getPercentP2Contained();
+			case countAlleleMatchIndex: return stats.getCountAlleleMatchExpected();
+			case percAlleleMatchIndex: return stats.getPercentAlleleMatchExpected();
 
 			case commentIndex:
 				String comment = line.getResults().getComments();
