@@ -79,6 +79,8 @@
 			classpath="C:\Program Files\Install4j\bin\ant.jar"/>
 
 		<delete>
+			<fileset dir="installer" includes="**/*.rpm"/>
+			<fileset dir="installer" includes="**/*.deb"/>
 			<fileset dir="installer" includes="**/*.exe"/>
 			<fileset dir="installer" includes="**/*.sh"/>
 			<fileset dir="installer" includes="**/*.dmg"/>
