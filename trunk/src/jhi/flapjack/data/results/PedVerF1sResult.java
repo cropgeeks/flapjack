@@ -7,8 +7,8 @@ import jhi.flapjack.data.*;
 
 public class PedVerF1sResult extends XMLRoot
 {
-	private int markerCount;
-	private double percentMissing;
+	private int dataCount;
+	private double percentData;
 	private int heterozygousCount;
 	private double percentHeterozygous;
 	private double percentDeviationFromExpected;
@@ -23,24 +23,24 @@ public class PedVerF1sResult extends XMLRoot
 	{
 	}
 
-	public int getMarkerCount()
+	public int getDataCount()
 	{
-		return markerCount;
+		return dataCount;
 	}
 
-	public void setMarkerCount(int markerCount)
+	public void setDataCount(int dataCount)
 	{
-		this.markerCount = markerCount;
+		this.dataCount = dataCount;
 	}
 
-	public double getPercentMissing()
+	public double getPercentData()
 	{
-		return percentMissing;
+		return percentData;
 	}
 
-	public void setPercentMissing(double percentMissing)
+	public void setPercentData(double percentData)
 	{
-		this.percentMissing = percentMissing;
+		this.percentData = percentData;
 	}
 
 	public int getHeterozygousCount()

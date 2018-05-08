@@ -41,7 +41,7 @@ public class PedVerLinesPanel extends JPanel implements ActionListener, ListSele
 		add(new TitlePanel(RB.getString("gui.pedver.PedVerLinesPanel.title")), BorderLayout.NORTH);
 		add(controls);
 
-		updateModel(viewSet.getDataSet(), viewSet);
+		updateModel(viewSet);
 
 		table.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
@@ -58,9 +58,9 @@ public class PedVerLinesPanel extends JPanel implements ActionListener, ListSele
 		controls.autoResize.setSelected(tableHandler.isAutoResize());
 	}
 
-	public void updateModel(DataSet dataSet, GTViewSet viewSet)
+	public void updateModel(GTViewSet viewSet)
 	{
-		model = new PedVerLinesTableModel(dataSet, viewSet);
+		model = new PedVerLinesTableModel(viewSet);
 		model.addTableModelListener(this);
 
 		table.setModel(model);

@@ -25,7 +25,7 @@ public class PedVerF1sAnalysis extends SimpleJob
 	private boolean excludeAdditionalParents;
 
 	private int f1HetCount = 0;
-	private int totalMarkerCount = 0;
+	private int usableMarkerCount = 0;
 	private double f1PercentCount = 0;
 
 	public PedVerF1sAnalysis(GTViewSet viewSet, boolean[] selectedChromosomes, int parent1Index, int parent2Index, boolean simulateF1, int f1Index, boolean excludeAdditionalParents, String name)
@@ -101,7 +101,7 @@ public class PedVerF1sAnalysis extends SimpleJob
 		prepareForVisualization();
 	}
 
-	private PedVerF1sResult calculateStatsForLine(int lineIndex)
+	private void calculateStatsForLine(int lineIndex)
 	{
 		LineInfo lineInfo = as.getLine(lineIndex);
 		PedVerF1sResult lineStat = new PedVerF1sResult();
@@ -113,10 +113,9 @@ public class PedVerF1sAnalysis extends SimpleJob
 		int p1Contained = containedInLine(lineIndex, parent1Index);
 		int p2Contained = containedInLine(lineIndex, parent2Index);
 		int matchesExpF1 = matchesExpF1(lineIndex);
-		int missingCount = countMissingAlleles(lineIndex);
 
-		lineStat.setMarkerCount(foundMarkers);
-		lineStat.setPercentMissing((missingCount / (double) totalMarkerCount) * 100);
+		lineStat.setDataCount(foundMarkers);
+		lineStat.setPercentData((foundMarkers / (double) usableMarkerCount) * 100);
 		lineStat.setHeterozygousCount(hetMarkers);
 		lineStat.setPercentHeterozygous((hetMarkers / (double)foundMarkers) * 100);
 		lineStat.setPercentDeviationFromExpected(f1PercentCount - ((hetMarkers / (double)foundMarkers) * 100));
@@ -126,8 +125,6 @@ public class PedVerF1sAnalysis extends SimpleJob
 		lineStat.setPercentP2Contained((p2Contained / (double)foundMarkers) * 100);
 		lineStat.setCountAlleleMatchExpected(matchesExpF1);
 		lineStat.setPercentAlleleMatchExpected((matchesExpF1 / (double)foundMarkers) * 100);
-
-		return lineStat;
 	}
 
 	// Loops over all the alleles in the expected F1 as identified by f1Index
@@ -142,7 +139,7 @@ public class PedVerF1sAnalysis extends SimpleJob
 			{
 				if (isUsableMarker(c, f1Index, m))
 				{
-					totalMarkerCount++;
+					usableMarkerCount++;
 
 					int stateCode = as.getState(c, f1Index, m);
 					if (stateTable.isHet(stateCode))
@@ -150,7 +147,7 @@ public class PedVerF1sAnalysis extends SimpleJob
 				}
 			}
 		}
-		f1PercentCount = (f1HetCount / (double)totalMarkerCount) * 100;
+		f1PercentCount = (f1HetCount / (double) usableMarkerCount) * 100;
 	}
 
 	// Checks to see if this allele is usable. It first checks that the allele
@@ -177,27 +174,6 @@ public class PedVerF1sAnalysis extends SimpleJob
 					foundMarkers++;
 
 		return foundMarkers;
-	}
-
-	private int countMissingAlleles(int lineIndex)
-	{
-		int missingCount = 0;
-		for (int c = 0; c < as.viewCount(); c++)
-		{
-			for (int m = 0; m < as.markerCount(c); m++)
-			{
-				if (as.getState(c, lineIndex, m) == 0
-					&& as.getState(c, parent1Index, m) != 0
-					&& as.getState(c, parent2Index, m) != 0
-					&& as.getState(c, f1Index, m) != 0
-					&& !stateTable.isHet(as.getState(c, parent1Index, m))
-					&& !stateTable.isHet(as.getState(c, parent2Index, m)))
-				{
-					missingCount++;
-				}
-			}
-		}
-		return missingCount;
 	}
 
 	private int hetMarkerCount(int lineIndex)

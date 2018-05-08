@@ -72,10 +72,8 @@ public class PedVerLinesAnalysis extends SimpleJob
 			int dataTotalMatch = dataTotalMatch(lineIndex);
 			int totalMatch = totalMatch(lineIndex);
 
-			lineStat.setDataCount(totalCount);
-			lineStat.setMissingCount(missingMarkerCount);
-			lineStat.setMarkerCount(markerCount);
-			lineStat.setPercentMissing((missingMarkerCount / (double) totalCount) * 100);
+			lineStat.setDataCount(markerCount);
+			lineStat.setPercentData((markerCount / (double) totalCount) * 100);
 			lineStat.setHetCount(hetCount);
 			lineStat.setPercentHet((hetCount / (double) markerCount) * 100);
 			lineStat.setParentScores(parentScores);

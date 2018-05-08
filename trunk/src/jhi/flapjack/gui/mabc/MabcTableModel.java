@@ -8,6 +8,8 @@ import jhi.flapjack.data.results.*;
 import jhi.flapjack.gui.*;
 import jhi.flapjack.gui.table.*;
 
+import scri.commons.gui.*;
+
 public class MabcTableModel extends LineDataTableModel
 {
 	private int chrCount, qtlCount;
@@ -16,8 +18,8 @@ public class MabcTableModel extends LineDataTableModel
 	private int rppIndex, rppTotalIndex, rppCoverageIndex;
 	private int qtlIndex, qtlStatusIndex;
 	private int selectedIndex, rankIndex, commentIndex, sortIndex;
-	private int markerCountIndex;
-	private int missingIndex;
+	private int dataCountIndex;
+	private int percData;
 	private int hetCountIndex;
 	private int hetPercIndex;
 
@@ -37,61 +39,61 @@ public class MabcTableModel extends LineDataTableModel
 		chrCount = s.getChrScores().size();
 		qtlCount = s.getQtlScores().size();
 
-		// Column indices
-		rppIndex = 1;
+
+		// New column indices
+		dataCountIndex = 1;
+		percData = 2;
+		hetCountIndex = 3;
+		hetPercIndex = 4;
+		rppIndex = 5;
 		rppTotalIndex = rppIndex + chrCount;
 		rppCoverageIndex = rppTotalIndex + 1;
 		qtlIndex = rppCoverageIndex + 1;
 		qtlStatusIndex = qtlCount > 0 ? qtlIndex + (qtlCount*2) : -1;
-		markerCountIndex = qtlCount> 0 ? qtlStatusIndex + 1 : qtlIndex;
-		missingIndex = markerCountIndex + 1;
-		hetCountIndex = missingIndex + 1;
-		hetPercIndex = hetCountIndex + 1;
-		selectedIndex = hetPercIndex + 1;
+		selectedIndex = qtlCount > 0 ? qtlStatusIndex + 1 : qtlIndex;
 		rankIndex = selectedIndex + 1;
 		commentIndex = rankIndex + 1;
 		sortIndex = commentIndex +1;
 
-
-		// TODO: UPDATE!
 		int colCount = sortIndex + 1;
 		columnNames = new String[colCount];
 		ttNames = new String[colCount];
 
 		// LineInfo column
-		columnNames[0] = "Line";
+		columnNames[0] = RB.getString("gui.mabc.MabcTableModel.line");
+
+		columnNames[dataCountIndex] =  RB.getString("gui.mabc.MabcTableModel.dataCount");
+		columnNames[percData] = RB.getString("gui.mabc.MabcTableModel.percData");
+		columnNames[hetCountIndex] = RB.getString("gui.mabc.MabcTableModel.hetCount");
+		columnNames[hetPercIndex] = RB.getString("gui.mabc.MabcTableModel.percHet");
 
 		// For each chromosome's RPP result:
 		for (int i = 0; i < s.getChrScores().size(); i++)
 		{
 			MabcChrScore cs = s.getChrScores().get(i);
-			columnNames[rppIndex+i] = "RPP (" + cs.view.getChromosomeMap().getName() + ")";
-			ttNames[rppIndex+i] = "Recurrent Parent Percentage (" + cs.view.getChromosomeMap().getName() + ")";
+			columnNames[rppIndex + i] = RB.format("gui.mabc.MabcTableModel.rpp", cs.view.getChromosomeMap().getName());
+			ttNames[rppIndex + i] = RB.format("gui.mabc.MabcTableModel.rpp.tooltip", cs.view.getChromosomeMap().getName());
 		}
 
-		columnNames[rppTotalIndex] = "RPP Total";
-		columnNames[rppCoverageIndex] = "RPP Coverage";
+		columnNames[rppTotalIndex] = RB.getString("gui.mabc.MabcTableModel.rppTotal");
+		columnNames[rppCoverageIndex] = RB.getString("gui.mabc.MabcTableModel.rppCoverage");
 
 		// QTL section of the table
 		int qtl = 0;
 		for (MabcQtlScore score: s.getQtlScores())
 		{
-			columnNames[qtlIndex+(qtl*2)] = "LD (" + score.qtl.getQTL().getName() + ")";
-			ttNames[qtlIndex+(qtl*2)] = "Linkage Drag (" + score.qtl.getQTL().getName() + ")";
-			columnNames[qtlIndex+(qtl*2)+1] = "Status (" + score.qtl.getQTL().getName() + ")";
+			columnNames[qtlIndex+(qtl*2)] = RB.format("gui.mabc.MabcTableModel.ld", score.qtl.getQTL().getName());
+			ttNames[qtlIndex+(qtl*2)] = RB.format("gui.mabc.MabcTableModel.ld.tooltip", score.qtl.getQTL().getName());
+			columnNames[qtlIndex+(qtl*2)+1] = RB.format("gui.mabc.MabcTableModel.qtlStatus", score.qtl.getQTL().getName());
 			qtl++;
 		}
 
 		if (qtlStatusIndex != -1)
-			columnNames[qtlStatusIndex] = "QTL Allele Count";
-		columnNames[selectedIndex] = "Selected";
-		columnNames[rankIndex] = "Rank";
-		columnNames[commentIndex] = "Comments";
-		columnNames[sortIndex] = "Don't Sort/Filter";
-		columnNames[markerCountIndex] =  "Marker Count";
-		columnNames[missingIndex] = "% Missing";
-		columnNames[hetCountIndex] = "Het Count";
-		columnNames[hetPercIndex] = "% Het";
+			columnNames[qtlStatusIndex] = RB.getString("gui.mabc.MabcTableModel.qtlAlleleCount");
+		columnNames[selectedIndex] = RB.getString("gui.mabc.MabcTableModel.selected");
+		columnNames[rankIndex] = RB.getString("gui.mabc.MabcTableModel.rank");
+		columnNames[commentIndex] = RB.getString("gui.mabc.MabcTableModel.comments");
+		columnNames[sortIndex] = RB.getString("gui.mabc.MabcTableModel.sortFilter");
 
 		for (int i = 0; i < columnNames.length; i++)
 			if (ttNames[i] == null)
@@ -170,11 +172,11 @@ public class MabcTableModel extends LineDataTableModel
 			return comment == null ? "" : comment;
 		}
 
-		else if (col == markerCountIndex)
-			return line.getResults().getMabcResult().getMarkerCount();
+		else if (col == dataCountIndex)
+			return line.getResults().getMabcResult().getDataCount();
 
-		else if (col == missingIndex)
-			return line.getResults().getMabcResult().getPercentMissing();
+		else if (col == percData)
+			return line.getResults().getMabcResult().getPercentData();
 
 		else if (col == hetCountIndex)
 			return line.getResults().getMabcResult().getHeterozygousCount();
@@ -194,7 +196,7 @@ public class MabcTableModel extends LineDataTableModel
 			return String.class;
 		else if (col == selectedIndex || col == sortIndex)
 			return Boolean.class;
-		else if (col == rankIndex || col == markerCountIndex || col == hetCountIndex)
+		else if (col == rankIndex || col == dataCountIndex || col == hetCountIndex)
 			return Integer.class;
 		else
 			return Double.class;
@@ -213,7 +215,6 @@ public class MabcTableModel extends LineDataTableModel
 	public void setValueAt(Object value, int row, int col)
 	{
 		LineInfo line = (LineInfo) getObjectAt(row, 0);
-		MabcResult stats = line.getResults().getMabcResult();
 
 		if (col == selectedIndex)
 			selectLine(line, (boolean)value);

@@ -8,23 +8,27 @@ import jhi.flapjack.data.results.*;
 import jhi.flapjack.gui.*;
 import jhi.flapjack.gui.table.*;
 
+import scri.commons.gui.*;
+
 class PedVerLinesTableModel extends LineDataTableModel
 {
-	private GTViewSet viewSet;
-
+	private static final int lineIndex = 0;
+	private static final int dataCountIndex = 1;
+	private static final int percDataIndex = 2;
+	private static final int hetCountIndex = 3;
+	private static final int percHetIndex = 4;
+	private static final int parentsIndex = 5;
 	private int selectedIndex;
 	private int rankIndex;
 	private int commentsIndex;
 	private int sortIndex;
-	private int parentsIndex;
 	private int dataTotalMatchIndex;
 	private int totalMatchCountIndex;
 	private int totalMatchPercentIndex;
 
-	PedVerLinesTableModel(DataSet dataSet, GTViewSet viewSet)
+	PedVerLinesTableModel(GTViewSet viewSet)
 	{
-		this.dataSet = dataSet;
-		this.viewSet = viewSet;
+		this.dataSet = viewSet.getDataSet();
 
 		setLines(viewSet.tableHandler().linesForTable());
 		initModel();
@@ -33,9 +37,7 @@ class PedVerLinesTableModel extends LineDataTableModel
 	void initModel()
 	{
 		PedVerLinesResult stats = lines.get(0).getResults().getPedVerLinesResult();
-		columnNames = new String[14 + (stats.getParentScores().size() * 3)];
-
-		parentsIndex = 7;
+		columnNames = new String[12 + (stats.getParentScores().size() * 3)];
 
 		dataTotalMatchIndex = columnNames.length - 7;
 		totalMatchCountIndex = columnNames.length - 6;
@@ -45,27 +47,25 @@ class PedVerLinesTableModel extends LineDataTableModel
 		commentsIndex = columnNames.length - 2;
 		sortIndex = columnNames.length - 1;
 
-		columnNames[0] = "Line";
-		columnNames[1] = "Data Count";
-		columnNames[2] = "Missing Count";
-		columnNames[3] = "Marker count";
-		columnNames[4] = "% Missing";
-		columnNames[5] = "Het Count";
-		columnNames[6] = "% Het";
+		columnNames[0] = RB.getString("gui.pedver.PedVerLinesTableModel.line");
+		columnNames[1] = RB.getString("gui.pedver.PedVerLinesTableModel.dataCount");
+		columnNames[2] = RB.getString("gui.pedver.PedVerLinesTableModel.percData");
+		columnNames[3] = RB.getString("gui.pedver.PedVerLinesTableModel.hetCount");
+		columnNames[4] = RB.getString("gui.pedver.PedVerLinesTableModel.percHet");
 
 		for (int i=0; i < stats.getParentScores().size(); i++)
 		{
-			columnNames[parentsIndex + (i * 3)] = "Data Parent " + (i+1) + " Match";
-			columnNames[parentsIndex + (i * 3) + 1] = "Match Parent " + (i+1) + " Count";
-			columnNames[parentsIndex + (i * 3) + 2] = "Match Parent " + (i+1) + " Percent";
+			columnNames[parentsIndex + (i * 3)] = RB.format("gui.pedver.PedVerLinesTableModel.dataParentMatch", (i+1));
+			columnNames[parentsIndex + (i * 3) + 1] = RB.format("gui.pedver.PedVerLinesTableModel.matchParentCount", (i+1));
+			columnNames[parentsIndex + (i * 3) + 2] = RB.format("gui.pedver.PedVerLinesTableModel.matchParentPercent", (i+1));
 		}
-		columnNames[dataTotalMatchIndex] = "Data Total Match";
-		columnNames[totalMatchCountIndex] = "Total Match";
-		columnNames[totalMatchPercentIndex] = "Percent Total Match";
-		columnNames[selectedIndex] = "Selected";
-		columnNames[rankIndex] = "Rank";
-		columnNames[commentsIndex] = "Comments";
-		columnNames[sortIndex] = "Don't Sort/Filter";
+		columnNames[dataTotalMatchIndex] = RB.getString("gui.pedver.PedVerLinesTableModel.dataTotalMatch");
+		columnNames[totalMatchCountIndex] = RB.getString("gui.pedver.PedVerLinesTableModel.totalMatchCount");
+		columnNames[totalMatchPercentIndex] = RB.getString("gui.pedver.PedVerLinesTableModel.percTotalMatch");
+		columnNames[selectedIndex] = RB.getString("gui.pedver.PedVerLinesTableModel.selected");
+		columnNames[rankIndex] = RB.getString("gui.pedver.PedVerLinesTableModel.rank");
+		columnNames[commentsIndex] = RB.getString("gui.pedver.PedVerLinesTableModel.comments");
+		columnNames[sortIndex] = RB.getString("gui.pedver.PedVerLinesTableModel.sortFilter");
 	}
 
 	@Override
@@ -88,7 +88,7 @@ class PedVerLinesTableModel extends LineDataTableModel
 		PedVerLinesResult stats = line.getResults().getPedVerLinesResult();
 
 		// Name, Selected and Sort can work without results
-		if (col == 0)
+		if (col == lineIndex)
 			return line;
 		else if (col == selectedIndex)
 			return line.getSelected();
@@ -100,17 +100,13 @@ class PedVerLinesTableModel extends LineDataTableModel
 		if (stats == null)
 			return null;
 
-		if (col == 1)
+		if (col == dataCountIndex)
 			return stats.getDataCount();
-		else if (col == 2)
-			return stats.getMissingCount();
-		else if (col == 3)
-			return stats.getMarkerCount();
-		else if (col == 4)
-			return stats.getPercentMissing();
-		else if (col == 5)
+		else if (col == percDataIndex)
+			return stats.getPercentData();
+		else if (col == hetCountIndex)
 			return stats.getHetCount();
-		else if (col == 6)
+		else if (col == percHetIndex)
 			return stats.getPercentHet();
 			// QTL values
 		else if (col >= parentsIndex && col < dataTotalMatchIndex)
