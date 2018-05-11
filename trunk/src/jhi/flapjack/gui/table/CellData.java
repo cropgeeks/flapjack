@@ -199,27 +199,34 @@ public class CellData
     {
         private static final Border noFocusBorder = new EmptyBorder(1, 1, 1, 1);
 
-        public BooleanRenderer() {
+        public BooleanRenderer()
+		{
             super();
             setHorizontalAlignment(JLabel.CENTER);
             setBorderPainted(true);
+            setOpaque(true);
         }
 
-        public Component getTableCellRendererComponent(JTable table, Object value,
-                                                       boolean isSelected, boolean hasFocus, int row, int column) {
-            if (isSelected) {
+        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column)
+		{
+            if (isSelected)
+            {
                 setForeground(table.getSelectionForeground());
                 super.setBackground(table.getSelectionBackground());
             }
-            else {
+            else
+			{
                 setForeground(table.getForeground());
                 setBackground(table.getBackground());
             }
-            setSelected((value != null && ((Boolean)value).booleanValue()));
+            setSelected((value != null && (Boolean) value));
 
-            if (hasFocus) {
+            if (hasFocus)
+            {
                 setBorder(UIManager.getBorder("Table.focusCellHighlightBorder"));
-            } else {
+            }
+            else
+			{
                 setBorder(noFocusBorder);
             }
 
