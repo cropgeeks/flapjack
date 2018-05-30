@@ -16,6 +16,7 @@ For more information on Flapjack, or to download the application, please visit t
    
    projects_&_data_formats
    pedigrees
+   favalleles
    import_data
    duplicate_markers
    export_data

@@ -34,10 +34,8 @@ The genotype file contains a list of variety lines, with allele data per marker 
  Line3        T         A         C
 
 .. note::
-  You can include additional headers which let Flapjack know the URLs for trying to access additional information about lines and markers held in external :doc:`databases <database_link_settings>`.
-
-.. note::
-  In a future release, additional pedigree information can be provided as headers within the genotype file. See :doc:`pedigrees` for details.
+  You can include additional headers which let Flapjack know the URLs for trying to access additional information about lines and markers held in external :doc:`databases <database_link_settings>`. You can also include headers for :doc:`pedigrees` and :doc:`favalleles`.
+  
 
 Flapjack views
 --------------
