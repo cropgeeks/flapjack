@@ -261,7 +261,7 @@ class BrapiPassPanelNB extends JPanel implements ActionListener, IBrapiWizard
 
         useStudies.setText("Filter available data by study (BrAPI /studies-search call)");
 
-        useMaps.setText("Retrieve available maps (and marker poistions) data (BrAPI /maps call)");
+        useMaps.setText("Retrieve available maps (and marker positions) data (BrAPI /maps call)");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);

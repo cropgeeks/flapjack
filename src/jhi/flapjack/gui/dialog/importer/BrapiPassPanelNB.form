@@ -201,7 +201,7 @@
         </Component>
         <Component class="javax.swing.JCheckBox" name="useMaps">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Retrieve available maps (and marker poistions) data (BrAPI /maps call)"/>
+            <Property name="text" type="java.lang.String" value="Retrieve available maps (and marker positions) data (BrAPI /maps call)"/>
           </Properties>
         </Component>
       </SubComponents>
