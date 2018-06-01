@@ -61,10 +61,103 @@ public class QTLImporter extends SimpleJob
 		is = new ProgressInputStream(new FileInputStream(file));
 		BufferedReader in = new BufferedReader(new InputStreamReader(is, "UTF-8"));
 
-		// Skip over any comment lines
+		// Read the header (if any)
 		String str = in.readLine();
-		while (str != null && str.startsWith("#"))
-			str = in.readLine();
+		if (str != null & str.startsWith("#"))
+		{
+			// Strip out whitespace
+			str = str.replaceAll("\\s+", "");
+			if (str.toLowerCase().startsWith("#fjfile=qtl-gobii"))
+				readGOBii(in);
+			else
+				readQTL(in);
+		}
+
+		// Quit before applying to the dataset if the user cancelled...
+		if (okToRun == false)
+			return;
+
+		// Work out the colors for the traits and QTLs
+		calculateTraitColors();
+
+		// Finally, assign the QTL tracks to the chromosomes
+		for (ChromosomeMap c: dataSet.getChromosomeMaps())
+		{
+			// Sort the QTLs into map order
+			ArrayList<QTL> track = chromosomes.get(c.getName());
+			Collections.sort(track);
+
+			c.setQtls(track);
+		}
+
+		// NEW STEP:
+		// Take the *sorted* QTL from the main chromosomes and duplicate them
+		// onto the all-chromosome. This is done here rather than above because
+		// if they all went onto a single track and then got sorted, different
+		// QTL from different chromosomes (but at the same local positions)
+		// would overlap, which screws up the TrackOptimiser when it runs
+		if (allMap != null)
+		{
+			ArrayList<QTL> track = new ArrayList<>();
+
+			for (ChromosomeMap map: dataSet.getChromosomeMaps())
+			{
+				if (map.isSpecialChromosome())
+					continue;
+
+				for (QTL qtl: map.getQtls())
+				{
+					// Note the QTL's chromosome is left referring to the actual
+					// chromosome at this point, so we can work out the
+					// mapOffset (for the QTLInfo wrapper) below
+					QTL clone = qtl.createClone();
+					track.add(clone);
+				}
+			}
+
+			allMap.setQtls(track);
+		}
+
+		in.close();
+
+		// And then assign QTLInfo wrappers to each of the views
+		for (GTViewSet viewSet : dataSet.getViewSets())
+		{
+			for (GTView view: viewSet.getViews())
+			{
+				boolean isSuper = view.getChromosomeMap().isSpecialChromosome();
+
+				ArrayList<QTLInfo> qtls = new ArrayList<>();
+				ArrayList<QTL> track = view.getChromosomeMap().getQtls();
+
+				for (int i = 0; i < track.size(); i++)
+				{
+					QTL qtl = track.get(i);
+
+					// If it's not a super-chromosome, then just add a wrapper
+					if (isSuper == false)
+						qtls.add(new QTLInfo(qtl, i, 0));
+
+					// Otherwise, work out what the mapOffset needs to be
+					else
+					{
+						ChromosomeMap map = qtl.getChromosomeMap();
+						double mapOffset = getMapOffset(map, viewSet);
+
+						qtls.add(new QTLInfo(qtl, i, mapOffset));
+						qtl.setChromosomeMap(view.getChromosomeMap());
+					}
+				}
+
+				view.setQTLs(qtls);
+			}
+		}
+	}
+
+	private void readQTL(BufferedReader in)
+		throws Exception
+	{
+		String str = in.readLine();
 
 		// Read and process the header (column title) line
 		String[] tokens = str.split("\t", -1);
@@ -131,86 +224,102 @@ public class QTLImporter extends SimpleJob
 
 			qtls.add(qtl);
 		}
+	}
 
-		in.close();
+	private void readGOBii(BufferedReader in)
+		throws Exception
+	{
+		HashMap<String, QTL> markerGroups = new HashMap<>();
 
-		// Quit before applying to the dataset if the user cancelled...
-		if (okToRun == false)
-			return;
+		String str = null;
 
-		// Work out the colors for the traits and QTLs
-		calculateTraitColors();
-
-		// Finally, assign the QTL tracks to the chromosomes
-		for (ChromosomeMap c: dataSet.getChromosomeMaps())
+		for (int line = 1; (str = in.readLine()) != null && okToRun; line++)
 		{
-			// Sort the QTLs into map order
-			ArrayList<QTL> track = chromosomes.get(c.getName());
-			Collections.sort(track);
+			if (str.length() == 0 || str.startsWith("#"))
+				continue;
 
-			c.setQtls(track);
-		}
+			String[] tokens = str.split("\t", -1);
 
-		// NEW STEP:
-		// Take the *sorted* QTL from the main chromosomes and duplicate them
-		// onto the all-chromosome. This is done here rather than above because
-		// if they all went onto a single track and then got sorted, different
-		// QTL from different chromosomes (but at the same local positions)
-		// would overlap, which screws up the TrackOptimiser when it runs
-		if (allMap != null)
-		{
-			ArrayList<QTL> track = new ArrayList<>();
+			// Fail if the data per line doesn't match the expected number
+			if (tokens.length != 5)
+				throw new DataFormatException(RB.format("io.DataFormatException.traitColumnError", line));
+			// Ignore the header line
+			if (str.toLowerCase().startsWith("marker_group_name"))
+				continue;
 
-			for (ChromosomeMap map: dataSet.getChromosomeMaps())
+			// MarkerName
+			String mkrName = new String(tokens[2]);
+
+			// Work out which chromosome this marker is on
+			Marker marker = null;
+			ChromosomeMap map = null;
+			for (ChromosomeMap cm: dataSet.getChromosomeMaps())
 			{
-				if (map.isSpecialChromosome())
+				// Don't search allChromosomes, and quit once a match is found
+				if (cm == allMap || map != null)
 					continue;
 
-				for (QTL qtl: map.getQtls())
-				{
-					// Note the QTL's chromosome is left referring to the actual
-					// chromosome at this point, so we can work out the
-					// mapOffset (for the QTLInfo wrapper) below
-					QTL clone = qtl.createClone();
-					track.add(clone);
-				}
+				for (Marker m: cm.getMarkers())
+					if (m.getName().equals(mkrName))
+					{
+						marker = m;
+						map = cm;
+						break;
+					}
 			}
 
-			allMap.setQtls(track);
+			// Ignore markers not on a chromosome
+			if (map == null)
+				continue;
+
+
+			// Now, let's make (or retrieve) the MarkerGroupName (QTL) object
+			String mkrGroupName = new String(tokens[0]);
+			if (markerGroups.putIfAbsent(mkrGroupName, new QTL(mkrGroupName, true)) == null)
+				featuresRead++;
+			QTL qtl = markerGroups.get(mkrGroupName);
+
+			if (qtl.getChromosomeMap() == null)
+				qtl.setChromosomeMap(map);
+			if (qtl.getChromosomeMap() != map)
+				throw new Exception("Marker group '" + mkrGroupName + "' has markers listed on more than one chromosome.");
+
+			// Update the QTL's positions based on this marker
+			qtl.setMin(Math.min(marker.getPosition(), qtl.getMin()));
+			qtl.setMax(Math.max(marker.getPosition(), qtl.getMax()));
+
+			// TODO: FavAllele information
 		}
 
-
-		// And then assign QTLInfo wrappers to each of the views
-		for (GTViewSet viewSet : dataSet.getViewSets())
+		// Now, for each QTL we've created, get it added to the tracks
+		for (QTL qtl: markerGroups.values())
 		{
-			for (GTView view: viewSet.getViews())
+			// Ignore ones that never got correct sizes
+			if (qtl.getMin() == Double.MAX_VALUE || qtl.getMax() == Double.MIN_VALUE)
+				continue;
+
+			// Set its position to the midpoint between min and max
+			double width = qtl.getMax() - qtl.getMin();
+			qtl.setPosition(qtl.getMin() + (width/2.0));
+
+			qtl.setTrait("TRAIT");
+			qtl.setExperiment("EXPERIMENT");
+			traits.put("TRAIT", Color.white);
+
+			qtl.setVNames(new String[0]);
+			qtl.setValues(new String[0]);
+
+			// Add it the correct chromosome track
+			String cName = qtl.getChromosomeMap().getName();
+			ArrayList<QTL> track = chromosomes.get(cName);
+			if (track != null)
 			{
-				boolean isSuper = view.getChromosomeMap().isSpecialChromosome();
-
-				ArrayList<QTLInfo> qtls = new ArrayList<>();
-				ArrayList<QTL> track = view.getChromosomeMap().getQtls();
-
-				for (int i = 0; i < track.size(); i++)
-				{
-					QTL qtl = track.get(i);
-
-					// If it's not a super-chromosome, then just add a wrapper
-					if (isSuper == false)
-						qtls.add(new QTLInfo(qtl, i, 0));
-
-					// Otherwise, work out what the mapOffset needs to be
-					else
-					{
-						ChromosomeMap map = qtl.getChromosomeMap();
-						double mapOffset = getMapOffset(map, viewSet);
-
-						qtls.add(new QTLInfo(qtl, i, mapOffset));
-						qtl.setChromosomeMap(view.getChromosomeMap());
-					}
-				}
-
-				view.setQTLs(qtls);
+				track.add(qtl);
+				checkChromosome(qtl, cName);
+				featuresAdded++;
 			}
+
+			qtls.add(qtl);
 		}
 	}
 

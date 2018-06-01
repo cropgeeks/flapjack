@@ -42,6 +42,13 @@ public class QTL extends XMLRoot implements Comparable<QTL>, Cloneable
 		this.name = name;
 	}
 
+	public QTL(String name, boolean positionsUnknown)
+	{
+		this.name = name;
+		this.min = Double.MAX_VALUE;
+		this.max = Double.MIN_VALUE;
+	}
+
 	protected Object clone()
 		throws CloneNotSupportedException
 	{
