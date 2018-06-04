@@ -43,6 +43,14 @@ public class FavAlleleManager extends XMLRoot
 		favAlleles.put(markerName, favIndices);
 	}
 
+	public void addFavAllelesForMarker(String markerName, int favIndex)
+	{
+		ArrayList<Integer> indices = new ArrayList<>();
+		indices.add(favIndex);
+
+		favAlleles.put(markerName, indices);
+	}
+
 	public void addUnfavAllelesForMarker(String markerName, ArrayList<Integer> unfavIndices)
 	{
 		unfavAlleles.put(markerName, unfavIndices);

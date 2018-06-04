@@ -272,6 +272,20 @@ public class QTLImporter extends SimpleJob
 			if (map == null)
 				continue;
 
+			// FavAllele info - clunky search done here because the raw data
+			// info is load post-load so we can't use StateTable.getStateCode()
+			int favAllele = -1;
+			for (int i = 0; i < dataSet.getStateTable().size(); i++)
+			{
+				AlleleState state = dataSet.getStateTable().getStates().get(i);
+				if (state.toString().equals(tokens[4]))
+				{
+					favAllele = i;
+					break;
+				}
+			}
+			if (favAllele != -1)
+				dataSet.getFavAlleleManager().addFavAllelesForMarker(mkrName, favAllele);
 
 			// Now, let's make (or retrieve) the MarkerGroupName (QTL) object
 			String mkrGroupName = new String(tokens[0]);
