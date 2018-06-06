@@ -68,7 +68,6 @@ public class SimulateF1 extends SimpleJob
 			// Simulate data for special chromosome
 			else
 			{
-				int specialChromsomeIndex = c;
 				int dummyCount = 5;
 				int loci = 0;
 
@@ -80,10 +79,14 @@ public class SimulateF1 extends SimpleJob
 						int p1State = as.getState(view, p1Index, m);
 						int p2State = as.getState(view, p2Index, m);
 
+//						System.out.println("p1Allele: " + stateTable.getAlleleState(p1State) + " p2Allele: " + stateTable.getAlleleState(p2State));
+
 						// Set f1 loci where the parents have hets or missing data to missing data
-						setLociForF1(f1, stateTable, specialChromsomeIndex, as.getMarker(c, loci).getIndex(), p1State, p2State);
+						setLociForF1(f1, stateTable, c, as.getMarker(c, loci).getIndex(), p1State, p2State);
 					}
-					if (view < specialChromsomeIndex -1)
+					// Special chromosome is last, we don't want to put dummy markers in on the last genuine chromosome
+					// hence -2
+					if (view < c -2)
 					{
 						for (int d = 0; d < dummyCount; d++)
 							f1.setLoci(c, as.getMarker(c, loci+d).getIndex(), 0);
