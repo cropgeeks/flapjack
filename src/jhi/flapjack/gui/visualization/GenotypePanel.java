@@ -393,6 +393,11 @@ public class GenotypePanel extends JPanel implements ActionListener
 
 	class ComboRenderer extends DefaultListCellRenderer
 	{
+		// Text colour that not currently highlighted
+		private Color fgColorNrm = (Color) UIManager.getColor("List.foreground");
+		// Text colour that is currently highlighted/selected
+		private Color fgColorHgh = (Color) UIManager.getColor("List.background");
+
 		public Component getListCellRendererComponent(JList list, Object value,
 			int index, boolean isSelected, boolean cellHasFocus)
 		{
@@ -404,9 +409,15 @@ public class GenotypePanel extends JPanel implements ActionListener
 			setText(map.getName());
 
 			if (map.isSpecialChromosome())
-				setForeground(isSelected ? Color.white : Color.blue);
+				setForeground(isSelected ? fgColorHgh : Color.blue);
 			else
-				setForeground(isSelected ? Color.white : Color.black);
+			{
+				// Colour up maps with QTL slightly differently
+				if (map.getQtls().size() > 0)
+					setForeground(isSelected ? fgColorHgh : Color.red.darker());
+				else
+					setForeground(isSelected ? fgColorHgh : fgColorNrm);
+			}
 
 			return c;
 		}
