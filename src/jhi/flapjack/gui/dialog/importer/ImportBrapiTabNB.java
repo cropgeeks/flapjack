@@ -3,13 +3,10 @@
 
 package jhi.flapjack.gui.dialog.importer;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.io.*;
-import javax.swing.*;
-import javax.swing.border.*;
-
 import jhi.flapjack.gui.*;
+
+import java.awt.*;
+import javax.swing.*;
 
 import scri.commons.gui.*;
 
@@ -20,7 +17,18 @@ class ImportBrapiTabNB extends JPanel
 		initComponents();
 
 		setBackground((Color)UIManager.get("fjDialogBG"));
+        jPanel1.setBackground((Color)UIManager.get("fjDialogBG"));
+
+        RB.setText(lblSummary, "gui.dialog.importer.ImportBrapiTabNB.lblSummary");
+        RB.setText(lblDescription, "gui.dialog.importer.ImportBrapiTabNB.lblDescription");
+
+        brapiLink.addActionListener(e -> visitUrl());
 	}
+
+	private void visitUrl()
+    {
+        FlapjackUtils.visitURL("http://brapi.org");
+    }
 
     /** This method is called from within the constructor to
      * initialize the form.
@@ -29,12 +37,48 @@ class ImportBrapiTabNB extends JPanel
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents()
-    {
+    private void initComponents() {
 
-        tabLabel = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        lblDescription = new javax.swing.JLabel();
+        lblSummary = new javax.swing.JLabel();
+        brapiLink = new scri.commons.gui.matisse.HyperLinkLabel();
 
-        tabLabel.setText("Something, something, something, BrAPI...");
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("BrAPI:"));
+
+        lblDescription.setText("<html>The Breeding API specifies a standard interface for plant phenotype/genotype databases to serve their data to <br/>crop breeding applications. It is a shared, open API, to be used by all data providers and data consumers who <br/>wish to participate.</html>");
+
+        lblSummary.setText("<html>The Breeding API (BrAPI) Project is an effort to create a RESTful specification to enable interoperability <br/>among plant breeding databases.</html>");
+
+        brapiLink.setText("http://brapi.org");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblSummary)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(lblDescription, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(brapiLink, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblSummary, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(lblDescription, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(brapiLink, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -42,21 +86,24 @@ class ImportBrapiTabNB extends JPanel
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(tabLabel)
-                .addContainerGap(182, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(tabLabel)
-                .addContainerGap(97, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel tabLabel;
+    private scri.commons.gui.matisse.HyperLinkLabel brapiLink;
+    private javax.swing.JLabel lblSummary;
+    private javax.swing.JLabel lblDescription;
+    private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 
 }
