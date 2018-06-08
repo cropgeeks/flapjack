@@ -48,7 +48,7 @@ public class ExportDialog extends JDialog implements ActionListener
 		RB.setText(bVisSelLines, "gui.table.ExportDialog.bVisSelLines");
 
 		RB.setText(checkHeaders, "gui.table.ExportDialog.checkHeaders");
-
+		RB.setText(checkTraits, "gui.table.ExportDialog.checkTraits");
 	}
 
 	private void initOptions()
@@ -70,6 +70,7 @@ public class ExportDialog extends JDialog implements ActionListener
 		}
 
 		checkHeaders.setSelected(Prefs.guiLDTableExportHeaders);
+		checkTraits.setSelected(Prefs.guiLDTableExportTraits);
 	}
 
 	private boolean saveOptions()
@@ -92,6 +93,7 @@ public class ExportDialog extends JDialog implements ActionListener
 			Prefs.guiLDTableExportType = 2;
 
 		Prefs.guiLDTableExportHeaders = checkHeaders.isSelected();
+		Prefs.guiLDTableExportTraits = checkTraits.isSelected();
 
 		return true;
 	}
@@ -144,7 +146,8 @@ public class ExportDialog extends JDialog implements ActionListener
 	 */
 	@SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+    private void initComponents()
+    {
 
         bGroup = new javax.swing.ButtonGroup();
         dialogPanel1 = new scri.commons.gui.matisse.DialogPanel();
@@ -159,6 +162,7 @@ public class ExportDialog extends JDialog implements ActionListener
         bVisLines = new javax.swing.JRadioButton();
         bVisSelLines = new javax.swing.JRadioButton();
         checkHeaders = new javax.swing.JCheckBox();
+        checkTraits = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -184,6 +188,8 @@ public class ExportDialog extends JDialog implements ActionListener
         bVisSelLines.setText("Only visible and selected lines");
 
         checkHeaders.setText("Include header rows with details of any active filter, sort or selection parameters");
+
+        checkTraits.setText("Include additional columns with details of any phenotypic trait information");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -213,7 +219,9 @@ public class ExportDialog extends JDialog implements ActionListener
                             .addComponent(bVisSelLines))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(checkHeaders)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(checkTraits)
+                            .addComponent(checkHeaders))
                         .addGap(0, 69, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
@@ -234,6 +242,8 @@ public class ExportDialog extends JDialog implements ActionListener
                 .addComponent(bVisSelLines)
                 .addGap(18, 18, 18)
                 .addComponent(checkHeaders)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(checkTraits)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(dialogPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -252,6 +262,7 @@ public class ExportDialog extends JDialog implements ActionListener
     private javax.swing.JRadioButton bVisLines;
     private javax.swing.JRadioButton bVisSelLines;
     private javax.swing.JCheckBox checkHeaders;
+    private javax.swing.JCheckBox checkTraits;
     private scri.commons.gui.matisse.DialogPanel dialogPanel1;
     private javax.swing.JLabel fileLabel;
     private scri.commons.gui.matisse.HistoryComboBox filename;

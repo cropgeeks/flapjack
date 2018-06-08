@@ -156,7 +156,7 @@ public class GeneratePedVerF1sStats
 		table.setViewSet(finalViewSet);
 
 		LineDataTableExporter exporter = new LineDataTableExporter(
-				table, new File(filename), 0, false);
+				table, new File(filename), 0, false, false);
 		exporter.runJob(0);
 
 		createProject.saveProject();

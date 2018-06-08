@@ -56,6 +56,9 @@ public class LineDataTable extends JTable
 		});
 	}
 
+	DataSet getDataSet()
+		{ return viewSet.getDataSet(); }
+
 	FilterColumn[] getDialogFilter()
 		{ return dialogFilter; }
 
@@ -83,7 +86,7 @@ public class LineDataTable extends JTable
 	public LineDataTableMenu getMenu()
 		{ return menu; }
 
-	LineDataTableModel getLineDataTableModel()
+	public LineDataTableModel getLineDataTableModel()
 		{ return model; }
 
 	public void addViewListener(ITableViewListener listener)
@@ -195,9 +198,10 @@ public class LineDataTable extends JTable
 		File filename = dialog.getFilename();
 		int exportType = Prefs.guiLDTableExportType;
 		boolean exportHeaders = Prefs.guiLDTableExportHeaders;
+		boolean exportTraits = Prefs.guiLDTableExportTraits;
 
 		LineDataTableExporter exporter = new LineDataTableExporter(
-			this, filename, exportType, exportHeaders);
+			this, filename, exportType, exportHeaders, exportTraits);
 
 		ProgressDialog pDialog = new ProgressDialog(exporter,
 			RB.format("gui.dialog.ExportDataDialog.exportTitle"),
@@ -308,7 +312,7 @@ public class LineDataTable extends JTable
 		Flapjack.winMain.getGenotypePanel().addUndoState(state);
 	}
 
-	void filter()
+	public void filter()
 	{
 		// Create the default filter that will remove manually hidden lines
 		ArrayList<RowFilter<LineDataTableModel,Object>> filters = createBaseFilters();

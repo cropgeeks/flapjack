@@ -18,18 +18,22 @@ import scri.commons.gui.*;
 public class LineDataTableExporter extends SimpleJob
 {
 	private LineDataTable table;
+	private DataSet dataSet;
 	private File file;
 	private int exportType;
-	private boolean exportHeaders;
+	private boolean exportHeaders, exportTraits;
 
 	private DecimalFormat df;
 
-	public LineDataTableExporter(LineDataTable table, File file, int exportType, boolean exportHeaders)
+	public LineDataTableExporter(LineDataTable table, File file, int exportType, boolean exportHeaders, boolean exportTraits)
 	{
 		this.table = table;
 		this.file = file;
 		this.exportType = exportType;
 		this.exportHeaders = exportHeaders;
+		this.exportTraits = exportTraits;
+
+		dataSet = table.getDataSet();
 
 		df = new DecimalFormat("#.#########");
 
@@ -68,6 +72,14 @@ public class LineDataTableExporter extends SimpleJob
 				headerBuilder.append("\t");
 			headerBuilder.append(table.getColumnName(col));
 		}
+		if (exportTraits)
+		{
+			for (Trait t: dataSet.getTraits())
+			{
+				headerBuilder.append("\t");
+				headerBuilder.append(t.getName());
+			}
+		}
 		out.println(headerBuilder.toString());
 
 		// Print table data
@@ -93,6 +105,16 @@ public class LineDataTableExporter extends SimpleJob
 					builder.append(getNumberString(obj));
 				else
 					builder.append(obj);
+			}
+
+			// Traits...
+			if (exportTraits)
+			{
+				for (TraitValue t: line.getLine().getTraitValues())
+				{
+					builder.append("\t");
+					builder.append(t.tableValue() == null ? "" : t.tableValue());
+				}
 			}
 
 			out.println(builder.toString());

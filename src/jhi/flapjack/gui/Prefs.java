@@ -168,6 +168,7 @@ public class Prefs extends XMLPreferences
 	// 0=export all, 1=export only visible, 2=export only visible/selected
 	public static int guiLDTableExportType = 0;
 	public static boolean guiLDTableExportHeaders = true;
+	public static boolean guiLDTableExportTraits = true;
 
 	// BrAPI Importer Options
 	public static boolean guiBrAPIUseCustom = false;

@@ -28,7 +28,7 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Component id="dialogPanel1" alignment="0" max="32767" attributes="0"/>
-          <Group type="102" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
@@ -56,8 +56,11 @@
                       </Group>
                       <EmptySpace max="32767" attributes="0"/>
                   </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <Component id="checkHeaders" min="-2" max="-2" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="checkTraits" min="-2" max="-2" attributes="0"/>
+                          <Component id="checkHeaders" alignment="0" min="-2" max="-2" attributes="0"/>
+                      </Group>
                       <EmptySpace min="0" pref="69" max="32767" attributes="0"/>
                   </Group>
               </Group>
@@ -83,6 +86,8 @@
               <Component id="bVisSelLines" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="checkHeaders" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="checkTraits" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="32767" attributes="0"/>
               <Component id="dialogPanel1" min="-2" pref="46" max="-2" attributes="0"/>
           </Group>
@@ -149,6 +154,11 @@
     <Component class="javax.swing.JCheckBox" name="checkHeaders">
       <Properties>
         <Property name="text" type="java.lang.String" value="Include header rows with details of any active filter, sort or selection parameters"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JCheckBox" name="checkTraits">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Include additional columns with details of any phenotypic trait information"/>
       </Properties>
     </Component>
   </SubComponents>
