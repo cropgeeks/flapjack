@@ -72,6 +72,10 @@ public class QTLImporter extends SimpleJob
 			else
 				readQTL(in);
 		}
+		// If there's no header (normally we'd fail), but exception for GOBII
+		else if (str != null && str.split("\t").length == 5)
+			readGOBii(in);
+
 
 		// Quit before applying to the dataset if the user cancelled...
 		if (okToRun == false)
@@ -276,7 +280,7 @@ public class QTLImporter extends SimpleJob
 			// info is load post-load so we can't use StateTable.getStateCode()
 			ArrayList<Integer> indices = new ArrayList<>();
 			// Split out the comma-delimited string (removing whitespace too)
-			String[] favAlleles = tokens[4].replaceAll(" ", "").split(",");
+			String[] favAlleles = tokens[4].replaceAll("\\s+", "").split(",");
 			for (String favAllele: favAlleles)
 			{
 				for (int i = 0; i < dataSet.getStateTable().size(); i++)
