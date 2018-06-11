@@ -179,6 +179,7 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 			}
 			fakeMapCreated = true;
 		}
+		in.close();
 
 		in = new BufferedReader(new InputStreamReader(client.getInputStream(uri)));
 
@@ -187,11 +188,10 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 
 		while ((str = in.readLine()) != null && !str.isEmpty())
 		{
-			System.out.println(str);
 			String[] tokens = str.split("\t");
 			String markerID = tokens[0].trim();
 
-			MarkerIndex index = queryMarker(markerID);//markers.get(markerID);
+			MarkerIndex index = queryMarker(markerID);
 
 			for (int j = 1; j < tokens.length; j++)
 			{
@@ -215,7 +215,10 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 			}
 
 			if (useByteStorage && stateTable.size() > 127)
+			{
+				in.close();
 				return false;
+			}
 
 			if (isOK == false)
 				break;
@@ -237,8 +240,7 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 
 			Response response = client.getResponse(uri);
 			String cl = response.header("Content-Length");
-			System.out.println(response.headers().toString());
-			System.out.println(uri);
+
 			// If the file is 500MB in size or larger
 			if (cl != null && Long.parseLong(cl) >= 524288000)
 			{
