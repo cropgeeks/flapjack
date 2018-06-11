@@ -110,7 +110,7 @@ public class BrapiMapImporter implements IMapImporter
 			BrapiMapMetaData md = client.getMapMetaData();
 			for (BrapiLinkageGroup group : md.getData())
 			{
-				ChromosomeMap.Wrapper wrapper = dataSet.getMapByName(group.getLinkageGroupId(), false);
+				ChromosomeMap.Wrapper wrapper = dataSet.getMapByName(group.getLinkageGroupName(), false);
 				wrapper.map.setLength(group.getMaxPosition());
 			}
 		}
