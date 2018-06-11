@@ -17,12 +17,12 @@ class ImportBrapiTabNB extends JPanel
 		initComponents();
 
 		setBackground((Color)UIManager.get("fjDialogBG"));
-        jPanel1.setBackground((Color)UIManager.get("fjDialogBG"));
+		jPanel1.setBackground((Color)UIManager.get("fjDialogBG"));
 
-        RB.setText(lblSummary, "gui.dialog.importer.ImportBrapiTabNB.lblSummary");
-        RB.setText(lblDescription, "gui.dialog.importer.ImportBrapiTabNB.lblDescription");
+		RB.setText(lblSummary, "gui.dialog.importer.ImportBrapiTabNB.lblSummary");
+		RB.setText(lblDescription, "gui.dialog.importer.ImportBrapiTabNB.lblDescription");
 
-        brapiLink.addActionListener(e -> visitUrl());
+		brapiLink.addActionListener(e -> visitUrl());
 	}
 
 	private void visitUrl()
@@ -37,18 +37,19 @@ class ImportBrapiTabNB extends JPanel
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+    private void initComponents()
+    {
 
         jPanel1 = new javax.swing.JPanel();
-        lblDescription = new javax.swing.JLabel();
         lblSummary = new javax.swing.JLabel();
+        lblDescription = new javax.swing.JLabel();
         brapiLink = new scri.commons.gui.matisse.HyperLinkLabel();
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("BrAPI:"));
 
-        lblDescription.setText("<html>The Breeding API specifies a standard interface for plant phenotype/genotype databases to serve their data to <br/>crop breeding applications. It is a shared, open API, to be used by all data providers and data consumers who <br/>wish to participate.</html>");
+        lblSummary.setText("<html>The Breeding API specifies a standard interface for plant phenotype/genotype databases to serve their data to <br/>crop breeding applications. It is a shared, open API, to be used by all data providers and data consumers who <br/>wish to participate.</html>");
 
-        lblSummary.setText("<html>The Breeding API (BrAPI) Project is an effort to create a RESTful specification to enable interoperability <br/>among plant breeding databases.</html>");
+        lblDescription.setText("<html>The Breeding API (BrAPI) Project is an effort to create a RESTful specification to enable interoperability <br/>among plant breeding databases.</html>");
 
         brapiLink.setText("http://brapi.org");
 
@@ -56,14 +57,12 @@ class ImportBrapiTabNB extends JPanel
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(lblSummary)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(lblDescription, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addComponent(lblDescription, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                         .addComponent(brapiLink, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
@@ -72,9 +71,9 @@ class ImportBrapiTabNB extends JPanel
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lblSummary, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
                 .addComponent(lblDescription, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(lblSummary, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(brapiLink, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -101,9 +100,9 @@ class ImportBrapiTabNB extends JPanel
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private scri.commons.gui.matisse.HyperLinkLabel brapiLink;
-    private javax.swing.JLabel lblSummary;
-    private javax.swing.JLabel lblDescription;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel lblDescription;
+    private javax.swing.JLabel lblSummary;
     // End of variables declaration//GEN-END:variables
 
 }
