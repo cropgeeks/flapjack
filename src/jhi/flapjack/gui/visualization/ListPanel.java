@@ -4,6 +4,7 @@
 package jhi.flapjack.gui.visualization;
 
 import java.awt.*;
+import java.awt.datatransfer.*;
 import java.awt.event.*;
 import java.awt.image.*;
 import java.text.*;
@@ -208,6 +209,20 @@ class ListPanel extends JPanel implements MouseMotionListener, MouseListener
 				Prefs.guiTruncateNamesLength, Prefs.guiTruncateNames, al, cl);
 		});
 
+		JMenuItem mCopyNames = new JMenuItem();
+		RB.setText(mCopyNames, "gui.visualization.ListPanel.copyNames");
+		mCopyNames.addActionListener(event ->
+		{
+			StringBuilder str = new StringBuilder();
+			String newLine = System.getProperty("line.separator");
+			for (int i = 0; i < lineTable.getRowCount(); i++)
+				str.append(lineTable.getObjectAt(i, 0) + newLine);
+
+			StringSelection selection = new StringSelection(str.toString());
+			Toolkit.getDefaultToolkit().getSystemClipboard().setContents(
+				selection, null);
+		});
+
 		JMenuItem mTruncateTraits = new JMenuItem();
 		RB.setText(mTruncateTraits, "gui.visualization.ListPanel.truncateTraits");
 		mTruncateTraits.setEnabled(viewSet.getTraits().length > 0 || viewSet.getTxtTraits().length > 0);
@@ -249,6 +264,7 @@ class ListPanel extends JPanel implements MouseMotionListener, MouseListener
 		menu.add(mSelectTextTraits);
 		menu.add(mShowTableResults);
 		menu.addSeparator();
+		menu.add(mCopyNames);
 		menu.add(mTruncateNames);
 		menu.add(mTruncateTraits);
 		menu.add(mShowScores);
