@@ -31,7 +31,6 @@ public class Prefs extends XMLPreferences
 	public static String guiMapList = "";
 	public static boolean guiMapListUseBlank = false;
 	public static String guiGenoList = "";
-	public static String guiHDF5List = "";
 	// Path to the last selected trait file
 	public static String guiTraitHistory = "";
 	public static String guiQTLHistory = "";
@@ -104,7 +103,7 @@ public class Prefs extends XMLPreferences
 	// When to check for updates
 	public static int guiUpdateSchedule = Install4j.STARTUP;
 
-	// Data import type: 0=classic, 1=brapi, 2=hdf5
+	// Data import type: 0=classic, 1=brapi
 	public static int guiImportType = DataImporter.IMPORT_CLASSIC;
 
 	public static boolean guiBrapiSkipMap = false;

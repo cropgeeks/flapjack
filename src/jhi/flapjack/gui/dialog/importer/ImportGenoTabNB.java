@@ -30,12 +30,10 @@ class ImportGenoTabNB extends javax.swing.JPanel implements ActionListener
 
 		mapButton.addActionListener(this);
 		genoButton.addActionListener(this);
-		hdf5Button.addActionListener(this);
 		optionsButton.addActionListener(this);
 
 		mapComboBox.setHistory(Prefs.guiMapList);
 		genoComboBox.setHistory(Prefs.guiGenoList);
-		hdf5ComboBox.setHistory(Prefs.guiHDF5List);
 
 		// If the user didn't pick a map last time, blank the map combo's text
 		if (Prefs.guiMapListUseBlank)
@@ -45,31 +43,13 @@ class ImportGenoTabNB extends javax.swing.JPanel implements ActionListener
 		// Apply localized text
 		RB.setText(tabLabel, "gui.dialog.NBDataImportPanel.tabLabel");
 		filePanel.setBorder(BorderFactory.createTitledBorder(RB.getString("gui.dialog.NBDataImportPanel.filePanel")));
-		RB.setText(useText, "gui.dialog.NBDataImportPanel.useText");
 		RB.setText(mapLabel, "gui.dialog.NBDataImportPanel.mapLabel");
 		mapButton.setText(RB.getString("gui.text.browse"));
 		RB.setText(genoLabel, "gui.dialog.NBDataImportPanel.genoLabel");
 		genoButton.setText(RB.getString("gui.text.browse"));
-		RB.setText(useHDF5, "gui.dialog.NBDataImportPanel.useHDF5");
-		RB.setText(hdf5Label, "gui.dialog.NBDataImportPanel.hdf5Label");
-		hdf5Button.setText(RB.getString("gui.text.browse"));
 		optionsPanel.setBorder(BorderFactory.createTitledBorder(RB.getString("gui.dialog.NBDataImportPanel.optionsPanel")));
 		RB.setText(optionsLabel, "gui.dialog.NBDataImportPanel.optionsLabel");
 		RB.setText(optionsButton, "gui.dialog.NBDataImportPanel.optionsButton");
-
-		ButtonGroup bg = new ButtonGroup();
-		bg.add(useText);
-		bg.add(useHDF5);
-		useText.setSelected(Prefs.guiImportType == 0);
-		useHDF5.setSelected(Prefs.guiImportType == 2);
-		setStates();
-
-//		mapComboBox.addActionListener(this);
-//		genoComboBox.addActionListener(this);
-//		hdf5ComboBox.addActionListener(this);
-
-		useText.addActionListener(this);
-		useHDF5.addActionListener(this);
 	}
 
 	public void actionPerformed(ActionEvent e)
@@ -80,30 +60,8 @@ class ImportGenoTabNB extends javax.swing.JPanel implements ActionListener
 		else if (e.getSource() == genoButton)
 			browse(genoComboBox);
 
-		else if (e.getSource() == hdf5Button)
-			browse(hdf5ComboBox);
-
-		else if (e.getSource() == useText || e.getSource() == useHDF5)
-			setStates();
-
 		else if (e.getSource() == optionsButton)
 			new ImportGenoAdvDialog(parent);
-	}
-
-	private void setStates()
-	{
-		Prefs.guiImportType = useHDF5.isSelected() ? DataImporter.IMPORT_HDF5 : DataImporter.IMPORT_CLASSIC;
-
-		mapLabel.setEnabled(useText.isSelected());
-		mapComboBox.setEnabled(useText.isSelected());
-		mapButton.setEnabled(useText.isSelected());
-		genoLabel.setEnabled(useText.isSelected());
-		genoComboBox.setEnabled(useText.isSelected());
-		genoButton.setEnabled(useText.isSelected());
-
-		hdf5Label.setEnabled(useHDF5.isSelected());
-		hdf5ComboBox.setEnabled(useHDF5.isSelected());
-		hdf5Button.setEnabled(useHDF5.isSelected());
 	}
 
 	private void browse(HistoryComboBox combo)
@@ -129,7 +87,7 @@ class ImportGenoTabNB extends javax.swing.JPanel implements ActionListener
 	boolean isOK()
 	{
 		// Fail if the map/genotype boxes are empty
-		if (useText.isSelected() && genoComboBox.getText().length() == 0)
+		if (genoComboBox.getText().length() == 0)
 		{
 			TaskDialog.warning(
 				RB.getString("gui.dialog.NBDataImportPanel.warn1"),
@@ -137,19 +95,11 @@ class ImportGenoTabNB extends javax.swing.JPanel implements ActionListener
 
 			return false;
 		}
-		// Fail if the HDF5 box is empty
-		else if (useHDF5.isSelected() && hdf5ComboBox.getText().length() == 0)
-		{
-			TaskDialog.warning(
-				RB.getString("gui.dialog.NBDataImportPanel.warn2"),
-				RB.getString("gui.text.ok"));
-
-			return false;
-		}
 
 		Prefs.guiMapList = mapComboBox.getHistory();
 		Prefs.guiGenoList = genoComboBox.getHistory();
-		Prefs.guiHDF5List = hdf5ComboBox.getHistory();
+		
+		Prefs.guiImportType = DataImporter.IMPORT_CLASSIC;
 
 		return true;
 	}
@@ -173,11 +123,6 @@ class ImportGenoTabNB extends javax.swing.JPanel implements ActionListener
 		return new File(genoComboBox.getText());
 	}
 
-	File getHDF5File()
-	{
-		return new File(hdf5ComboBox.getText());
-	}
-
 
 	/** This method is called from within the constructor to
 	 * initialize the form.
@@ -189,25 +134,18 @@ class ImportGenoTabNB extends javax.swing.JPanel implements ActionListener
     {
 
         filePanel = new javax.swing.JPanel();
-        useText = new javax.swing.JRadioButton();
         mapLabel = new javax.swing.JLabel();
         mapComboBox = new scri.commons.gui.matisse.HistoryComboBox();
         mapButton = new javax.swing.JButton();
         genoLabel = new javax.swing.JLabel();
         genoComboBox = new scri.commons.gui.matisse.HistoryComboBox();
         genoButton = new javax.swing.JButton();
-        useHDF5 = new javax.swing.JRadioButton();
-        hdf5ComboBox = new scri.commons.gui.matisse.HistoryComboBox();
-        hdf5Label = new javax.swing.JLabel();
-        hdf5Button = new javax.swing.JButton();
         tabLabel = new javax.swing.JLabel();
         optionsPanel = new javax.swing.JPanel();
         optionsButton = new javax.swing.JButton();
         optionsLabel = new javax.swing.JLabel();
 
         filePanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Data files to import:"));
-
-        useText.setText("Import from text files");
 
         mapLabel.setLabelFor(mapComboBox);
         mapLabel.setText("Map file (optional):");
@@ -219,13 +157,6 @@ class ImportGenoTabNB extends javax.swing.JPanel implements ActionListener
 
         genoButton.setText("Browse...");
 
-        useHDF5.setText("Import from an HDF5 file");
-
-        hdf5Label.setLabelFor(hdf5ComboBox);
-        hdf5Label.setText("HDF5 file:");
-
-        hdf5Button.setText("Browse...");
-
         javax.swing.GroupLayout filePanelLayout = new javax.swing.GroupLayout(filePanel);
         filePanel.setLayout(filePanelLayout);
         filePanelLayout.setHorizontalGroup(
@@ -233,41 +164,22 @@ class ImportGenoTabNB extends javax.swing.JPanel implements ActionListener
             .addGroup(filePanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(filePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(filePanelLayout.createSequentialGroup()
-                        .addGroup(filePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(useHDF5)
-                            .addComponent(useText))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(filePanelLayout.createSequentialGroup()
-                        .addGroup(filePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(filePanelLayout.createSequentialGroup()
-                                .addComponent(hdf5Label)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(hdf5ComboBox, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(filePanelLayout.createSequentialGroup()
-                                .addGroup(filePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(genoLabel)
-                                    .addComponent(mapLabel))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(filePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(mapComboBox, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(genoComboBox, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(filePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(genoButton, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(mapButton, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(hdf5Button, javax.swing.GroupLayout.Alignment.TRAILING))))
+                    .addComponent(genoLabel)
+                    .addComponent(mapLabel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(filePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(mapComboBox, javax.swing.GroupLayout.DEFAULT_SIZE, 369, Short.MAX_VALUE)
+                    .addComponent(genoComboBox, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(filePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(genoButton, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(mapButton, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addContainerGap())
         );
-
-        filePanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {hdf5Label, mapLabel});
-
         filePanelLayout.setVerticalGroup(
             filePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, filePanelLayout.createSequentialGroup()
+            .addGroup(filePanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(useText)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(filePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(mapLabel)
                     .addComponent(mapButton)
@@ -277,13 +189,6 @@ class ImportGenoTabNB extends javax.swing.JPanel implements ActionListener
                     .addComponent(genoLabel)
                     .addComponent(genoButton)
                     .addComponent(genoComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(useHDF5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(filePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(hdf5Label)
-                    .addComponent(hdf5ComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(hdf5Button))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -347,9 +252,6 @@ class ImportGenoTabNB extends javax.swing.JPanel implements ActionListener
     private javax.swing.JButton genoButton;
     scri.commons.gui.matisse.HistoryComboBox genoComboBox;
     private javax.swing.JLabel genoLabel;
-    private javax.swing.JButton hdf5Button;
-    scri.commons.gui.matisse.HistoryComboBox hdf5ComboBox;
-    private javax.swing.JLabel hdf5Label;
     private javax.swing.JButton mapButton;
     scri.commons.gui.matisse.HistoryComboBox mapComboBox;
     private javax.swing.JLabel mapLabel;
@@ -357,8 +259,6 @@ class ImportGenoTabNB extends javax.swing.JPanel implements ActionListener
     private javax.swing.JLabel optionsLabel;
     private javax.swing.JPanel optionsPanel;
     private javax.swing.JLabel tabLabel;
-    private javax.swing.JRadioButton useHDF5;
-    private javax.swing.JRadioButton useText;
     // End of variables declaration//GEN-END:variables
 
 }

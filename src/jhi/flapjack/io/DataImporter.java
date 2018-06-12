@@ -24,7 +24,6 @@ public class DataImporter extends SimpleJob
 {
 	public static final int IMPORT_BRAPI = 1;
 	public static final int IMPORT_CLASSIC = 0;
-	public static final int IMPORT_HDF5 = 2;
 	private DataSet dataSet = new DataSet();
 
 	// To load the map file...
@@ -34,7 +33,6 @@ public class DataImporter extends SimpleJob
 	private File genoFile;
 	private IGenotypeImporter genoImporter;
 
-	private File hdf5File;
 	private BrapiClient client;
 
 	private long totalBytes;
@@ -65,15 +63,6 @@ public class DataImporter extends SimpleJob
 		mapImporter = new BrapiMapImporter(client, dataSet);
 	}
 
-	// HDF5 loading
-	public DataImporter(File hdf5File, boolean usePrefs)
-	{
-		this.hdf5File = hdf5File;
-		this.usePrefs = usePrefs;
-
-		mapImporter = new Hdf5ChromosomeMapImporter(hdf5File, dataSet);
-	}
-
 	public DataSet getDataSet()
 		{ return dataSet; }
 
@@ -102,8 +91,7 @@ public class DataImporter extends SimpleJob
 		{
 			// Post-import stuff...
 			PostImportOperations pio = new PostImportOperations(dataSet);
-			File imported = genoFile != null ? genoFile : hdf5File;
-			pio.setName(imported);
+			pio.setName(genoFile);
 
 			// Collapse (eg) A/A into A
 			pio.collapseHomzEncodedAsHet();
@@ -148,14 +136,6 @@ public class DataImporter extends SimpleJob
 				genoImporter = new BrapiGenotypeImporter(client, dataSet,
 					bMapImporter.getMarkersHashMap(), bMapImporter.getMarkersByName(),
 					Prefs.ioMissingData, Prefs.ioHeteroSeparator);
-
-				break;
-			}
-
-			case IMPORT_HDF5:
-			{
-				ArrayList<Integer> markerChromosomes = ((Hdf5ChromosomeMapImporter)mapImporter).markerChromosomes();
-				genoImporter = new Hdf5GenotypeDataImporter(hdf5File, dataSet, mapImporter.getMarkersHashMap(), markerChromosomes);
 
 				break;
 			}

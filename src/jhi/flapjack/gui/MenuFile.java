@@ -148,7 +148,7 @@ public class MenuFile
 		if (dialog.isOK())
 		{
 			BrapiClient client = dialog.getBrapiClient();
-			importGenotypeData(null, null, null, client, true);
+			importGenotypeData(null, null, client, true);
 		}
 	}
 
@@ -169,10 +169,9 @@ public class MenuFile
 			// Import from file
 			case 1:
 			{
-				File hdf5File = dialog.getHDF5File();
 				File mapFile = dialog.getMapFile();
 				File genoFile = dialog.getGenotypeFile();
-				importGenotypeData(mapFile, genoFile, hdf5File, null, true);
+				importGenotypeData(mapFile, genoFile, null, true);
 			}
 			break;
 
@@ -195,7 +194,7 @@ public class MenuFile
 
 	// Given a map file and a genotype (dat) file, imports that data, showing a
 	// progress bar while doing so
-	private void importGenotypeData(File mapFile, File datFile, File hdf5File, BrapiClient client, boolean usePrefs)
+	private void importGenotypeData(File mapFile, File datFile, BrapiClient client, boolean usePrefs)
 	{
 		gPanel.resetBufferedState(false);
 
@@ -208,10 +207,6 @@ public class MenuFile
 
 			case DataImporter.IMPORT_BRAPI:
 				importer = new DataImporter(client, usePrefs);
-				break;
-
-			case DataImporter.IMPORT_HDF5:
-				importer = new DataImporter(hdf5File, usePrefs);
 				break;
 		}
 
@@ -392,31 +387,24 @@ public class MenuFile
 
 
 		// Is there a MAP/GENOTYPE pair that can be imported?
-		FlapjackFile mapFile = null, datFile = null, hdf5File = null;
+		FlapjackFile mapFile = null, datFile = null;
 		for (FlapjackFile fjFile: files)
 		{
 			if (fjFile.getType() == FlapjackFile.MAP && mapFile == null)
 				mapFile = fjFile;
 			if (fjFile.getType() == FlapjackFile.GENOTYPE && datFile == null)
 				datFile = fjFile;
-			if (fjFile.getType() == FlapjackFile.HDF5 && hdf5File == null)
-				hdf5File = fjFile;
 		}
 
 		if (mapFile != null && datFile != null)
 		{
 			Prefs.guiImportType = DataImporter.IMPORT_CLASSIC;
-			importGenotypeData(mapFile.getFile(), datFile.getFile(), null, null, true);
+			importGenotypeData(mapFile.getFile(), datFile.getFile(), null, true);
 		}
 		else if (datFile != null)
 		{
 			Prefs.guiImportType = DataImporter.IMPORT_CLASSIC;
-			importGenotypeData(null, datFile.getFile(), null, null, true);
-		}
-		else if (hdf5File != null)
-		{
-			Prefs.guiImportType = DataImporter.IMPORT_HDF5;
-			importGenotypeData(null, null, hdf5File.getFile(), null, true);
+			importGenotypeData(null, datFile.getFile(), null, true);
 		}
 
 
