@@ -76,7 +76,10 @@ class FindPanelNB extends JPanel implements ActionListener
 			findDialog.runSearch();
 		}
 
-		else if (e.getSource() == bSearch || e.getSource() == findComboBox)
+		else if (e.getSource() == findComboBox)
+			findDialog.runSearch();
+
+		else if (e.getSource() == bSearch)
 		{
 			Prefs.guiFindHistory = findComboBox.getHistory();
 			findDialog.runSearch();
@@ -85,7 +88,7 @@ class FindPanelNB extends JPanel implements ActionListener
 
 	private void initLinkLabel()
 	{
-		final String html = "http://java.sun.com/javase/6/docs/api/java/util/regex/Pattern.html";
+		final String html = "http://java.sun.com/javase/8/docs/api/java/util/regex/Pattern.html";
 
 		// Turns the label into a blue mouse-over clickable link to a website
 		link.setText(RB.getString("gui.dialog.NBFindPanel.link"));
