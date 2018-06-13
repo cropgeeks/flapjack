@@ -449,7 +449,6 @@ public class GTViewSet extends XMLRoot
 		for (int i=0; i < views.size(); i++)
 		{
 			GTView viewClone = views.get(i).createClone(clone, selectedLMOnly);
-			viewClone.linkMarkerInfos();
 			clone.views.add(viewClone);
 		}
 

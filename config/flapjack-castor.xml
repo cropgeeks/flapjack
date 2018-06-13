@@ -132,6 +132,9 @@
 		<field name="marker" type="jhi.flapjack.data.Marker">
 			<bind-xml reference="true" node="attribute"/>
 		</field>
+		<field name="linkedMarkerInfo" type="jhi.flapjack.data.MarkerInfo">
+			<bind-xml reference="true" node="attribute"/>
+		</field>
 	</class>
 
 	<!-- Trait -->
