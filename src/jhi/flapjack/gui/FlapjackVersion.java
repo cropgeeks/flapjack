@@ -3,11 +3,13 @@
 
 package jhi.flapjack.gui;
 
+import scri.commons.gui.*;
+
 public class FlapjackVersion
 {
 	public static void main(String[] args)
 	{
-		System.out.println("Flapjack 1.16.10.31");
+		System.out.println("Flapjack " + Install4j.getVersion(new FlapjackVersion().getClass()));
 		System.exit(0);
 	}
 }
