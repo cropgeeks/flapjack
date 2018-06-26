@@ -88,7 +88,7 @@ public class TablePanelTableModel extends LineDataTableModel
 
 			if (traitsOffset != -1)
 				for (int i = 0; i < traitsModelCols.length; i++)
-					columnNames[i + traitsOffset] = viewSet.getDataSet().getTraits().get(i).getName();
+					columnNames[i + traitsOffset] = viewSet.getDataSet().getTraits().get(traitsModelCols[i]).getName();
 
 			if (linkedOffset != -1)
 				for (int i = 0; i < linkedModelCols.length; i++)
