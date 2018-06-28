@@ -124,9 +124,19 @@ public class Trait extends XMLRoot
 		{
 			try
 			{
-				float value = nf.parse(token).floatValue();
-				type = NUMERICAL;
-				return value;
+				ParsePosition pp = new ParsePosition(0);
+				float value = nf.parse(token, pp).floatValue();
+
+				// We do the extra pp check here, to cope with categorical cases
+				// like "2e3099a2d014" or "0474d6f443ed"
+				if (type == UNKNOWN && pp.getIndex() != token.length())
+					type = CATEGORICAL;
+
+				else
+				{
+					type = NUMERICAL;
+					return value;
+				}
 			}
 			catch (Exception e) {}
 		}
