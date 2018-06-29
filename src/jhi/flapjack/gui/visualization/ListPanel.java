@@ -15,11 +15,12 @@ import javax.swing.table.*;
 
 import jhi.flapjack.data.*;
 import jhi.flapjack.gui.*;
+import jhi.flapjack.gui.dialog.*;
 import jhi.flapjack.gui.table.*;
 
 import scri.commons.gui.*;
 
-class ListPanel extends JPanel implements MouseMotionListener, MouseListener
+public class ListPanel extends JPanel implements MouseMotionListener, MouseListener
 {
 	private GTViewSet viewSet;
 	private GTView view;
@@ -82,7 +83,7 @@ class ListPanel extends JPanel implements MouseMotionListener, MouseListener
 		populateList();
 	}
 
-	private void populateList()
+	public void populateList()
 	{
 		if (view == null)
 			return;
@@ -190,24 +191,7 @@ class ListPanel extends JPanel implements MouseMotionListener, MouseListener
 
 		JMenuItem mTruncateNames = new JMenuItem();
 		RB.setText(mTruncateNames, "gui.visualization.ListPanel.truncateNames");
-		mTruncateNames.addActionListener(event ->
-		{
-			int max = viewSet.getLines().stream().map(LineInfo::name).max(Comparator.comparingInt(String::length)).get().length();
-			ActionListener al = chkEvent ->
-			{
-				Prefs.guiTruncateNames = !Prefs.guiTruncateNames;
-				populateList();
-			};
-			ChangeListener cl = changeEvent ->
-			{
-				JSlider sl = (JSlider)changeEvent.getSource();
-				Prefs.guiTruncateNamesLength = sl.getValue();
-				populateList();
-			};
-			showTruncateDialog(RB.getString("gui.visualization.ListPanel.truncateNamesDialog.title"),
-				RB.getString("gui.visualization.ListPanel.truncateNamesDialog.checkBox"), max,
-				Prefs.guiTruncateNamesLength, Prefs.guiTruncateNames, al, cl);
-		});
+		mTruncateNames.addActionListener(event -> new TruncateLongNamesDialog(viewSet, this));
 
 		JMenuItem mCopyNames = new JMenuItem();
 		RB.setText(mCopyNames, "gui.visualization.ListPanel.copyNames");
@@ -226,31 +210,7 @@ class ListPanel extends JPanel implements MouseMotionListener, MouseListener
 		JMenuItem mTruncateTraits = new JMenuItem();
 		RB.setText(mTruncateTraits, "gui.visualization.ListPanel.truncateTraits");
 		mTruncateTraits.setEnabled(viewSet.getTraits().length > 0 || viewSet.getTxtTraits().length > 0);
-		mTruncateTraits.addActionListener(event ->
-		{
-			int max = 1;
-			for (LineInfo li : viewSet.getLines())
-			{
-				int[] traits = viewSet.getTraits().length > 0 ? viewSet.getTraits() : viewSet.getTxtTraits();
-				for (int i : traits)
-					max = Math.max(max, li.getLine().getTraitValues().get(i).toString().length());
-			}
-
-			ActionListener al = chkEvent ->
-			{
-				Prefs.guiTruncateTraits = !Prefs.guiTruncateTraits;
-				populateList();
-			};
-			ChangeListener cl = changeEvent ->
-			{
-				JSlider sl = (JSlider)changeEvent.getSource();
-				Prefs.guiTruncateTraitsLength = sl.getValue();
-				populateList();
-			};
-			showTruncateDialog(RB.getString("gui.visualization.ListPanel.truncateTraitsDialog.title"),
-				RB.getString("gui.visualization.ListPanel.truncateTraitsDialog.checkBox"), max,
-				Prefs.guiTruncateTraitsLength, Prefs.guiTruncateTraits, al, cl);
-		});
+		mTruncateTraits.addActionListener(event -> new TruncateLongTraitValuesDialog(viewSet, this));
 
 		JCheckBoxMenuItem mShowScores = new JCheckBoxMenuItem();
 		RB.setText(mShowScores, "gui.visualization.ListPanel.showScores");
@@ -269,25 +229,6 @@ class ListPanel extends JPanel implements MouseMotionListener, MouseListener
 		menu.add(mTruncateTraits);
 		menu.add(mShowScores);
 		menu.show(e.getComponent(), e.getX(), e.getY());
-	}
-
-	private void showTruncateDialog(String title, String checkBoxText, int max, int current, boolean selected, ActionListener chkBoxListener, ChangeListener sliderListener)
-	{
-		JPanel sliderPanel = new JPanel(new BorderLayout());
-
-		JCheckBox chkBox = new JCheckBox();
-		chkBox.setSelected(selected);
-		chkBox.setText(checkBoxText);
-		chkBox.addActionListener(chkBoxListener);
-		sliderPanel.add(chkBox, BorderLayout.CENTER);
-
-		JSlider slider = new JSlider(1, max, Math.min(current, max));
-		slider.addChangeListener(sliderListener);
-		sliderPanel.add(slider, BorderLayout.SOUTH);
-
-		Object[] buttons = new Object[] { RB.getString("gui.text.close") };
-
-		JOptionPane.showOptionDialog(Flapjack.winMain, sliderPanel, title, JOptionPane.NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, buttons, buttons[0]);
 	}
 
 	@Override
