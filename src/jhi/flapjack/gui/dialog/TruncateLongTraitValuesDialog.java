@@ -55,6 +55,7 @@ public class TruncateLongTraitValuesDialog extends JDialog
 			.get()
 			.length();
 
+		truncateSpinner.setEnabled(Prefs.guiTruncateTraits);
 		SpinnerNumberModel model = new SpinnerNumberModel(Math.min(Prefs.guiTruncateTraitsLength, max), 1, max, 1);
 		truncateSpinner.setModel(model);
 		truncateSpinner.addChangeListener(changeEvent ->

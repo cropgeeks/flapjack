@@ -55,6 +55,7 @@ public class TruncateLongNamesDialog extends JDialog
 			.get()
 			.length();
 
+		truncateSpinner.setEnabled(Prefs.guiTruncateNames);
 		SpinnerNumberModel model = new SpinnerNumberModel(Math.min(Prefs.guiTruncateNamesLength, max), 1, max, 1);
 		truncateSpinner.setModel(model);
 		truncateSpinner.addChangeListener(changeEvent ->
