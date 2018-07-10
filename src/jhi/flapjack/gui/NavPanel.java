@@ -198,6 +198,7 @@ public class NavPanel extends JPanel
 		addMabcNode(node, viewSet);
 		addPedVerF1sNode(node, viewSet);
 		addPedVerLinesNode(node, viewSet);
+		addForwardBreedingNode(node, viewSet);
 	}
 
 	public void addBookmarkNode(GTViewSet viewSet, Bookmark bookmark)
@@ -274,6 +275,27 @@ public class NavPanel extends JPanel
 
 		if (!lines.isEmpty())
 			return lines.get(0).getResults().getPedVerLinesResult() != null;
+
+		return false;
+	}
+
+	public void addForwardBreedingNode(VisualizationNode vNode, GTViewSet viewSet)
+	{
+		if (containsForwardBreedingResults(viewSet))
+		{
+			ForwardBreedingNode node = new ForwardBreedingNode(gPanel, viewSet);
+			insert(node, vNode, vNode.getChildCount());
+		}
+	}
+
+	private boolean containsForwardBreedingResults(GTViewSet viewSet)
+	{
+		ArrayList<LineInfo> lines = viewSet.getLines();
+		if (viewSet.getLines().isEmpty())
+			lines = viewSet.getHideLines();
+
+		if (!lines.isEmpty())
+			return lines.get(0).getResults().getForwardBreedingResult() != null;
 
 		return false;
 	}

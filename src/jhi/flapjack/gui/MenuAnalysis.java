@@ -355,4 +355,27 @@ public class MenuAnalysis
 
 		Actions.projectModified();
 	}
+
+	public void gobiiForwardBreeding()
+	{
+		DataSet dataSet = navPanel.getDataSetForSelection();
+		GTViewSet viewSet = gPanel.getViewSet();
+
+		ForwardBreedingStatsDialog dialog = new ForwardBreedingStatsDialog(viewSet);
+		if (dialog.isOK() == false)
+			return;
+
+		// Retrieve information required for analysis from dialog
+		boolean[] selectedChromosomes = dialog.getSelectedChromosomes();
+
+		ForwardBreedingAnalysis stats = new ForwardBreedingAnalysis(viewSet, selectedChromosomes, "Forward Breeding Results");
+		ProgressDialog pDialog = new ProgressDialog(stats,
+			"Running Forward Breeding Stats",
+			"Running Forward Breeding stats - please be patient...",
+			Flapjack.winMain);
+
+		navPanel.addVisualizationNode(dataSet, stats.getViewSet());
+
+		Actions.projectModified();
+	}
 }
