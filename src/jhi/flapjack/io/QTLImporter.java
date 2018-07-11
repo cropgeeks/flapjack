@@ -293,11 +293,16 @@ public class QTLImporter extends SimpleJob
 					}
 				}
 			}
-			if (indices.size() > 0)
-				dataSet.getFavAlleleManager().addFavAllelesForMarker(mkrName, indices);
 
 			// Now, let's make (or retrieve) the MarkerGroupName (QTL) object
 			String mkrGroupName = new String(tokens[0]);
+
+			if (indices.size() > 0)
+			{
+				dataSet.getFavAlleleManager().addFavAllelesForMarker(mkrName, indices);
+				dataSet.getFavAlleleManager().addHaplotypeAlleles(mkrGroupName, mkrName, indices);
+			}
+
 			if (markerGroups.putIfAbsent(mkrGroupName, new QTL(mkrGroupName, true)) == null)
 				featuresRead++;
 			QTL qtl = markerGroups.get(mkrGroupName);
