@@ -84,7 +84,7 @@ public class DataImporter extends SimpleJob
 			return;
 		}
 
-		if (Prefs.ioMakeAllChromosome)
+		if (Prefs.ioMakeAllChromosome && dataSet.countChromosomeMaps() > 1)
 			dataSet.createSuperChromosome(RB.getString("io.DataImporter.allChromosomes"));
 
 		if(okToRun)
