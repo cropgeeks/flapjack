@@ -9,6 +9,10 @@ import java.util.*;
 
 public class ForwardBreedingResult extends XMLRoot
 {
+	private int dataCount;
+	private double percentData;
+	private int heterozygousCount;
+	private double percentHeterozygous;
 	private ArrayList<String> haplotypeNames = new ArrayList<>();
 	private ArrayList<Double> haplotypePartialMatch = new ArrayList<>();
 	private ArrayList<Integer> haplotypeAlleleCounts = new ArrayList<>();
@@ -19,6 +23,30 @@ public class ForwardBreedingResult extends XMLRoot
 	public ForwardBreedingResult()
 	{
 	}
+
+	public int getDataCount()
+		{ return dataCount; }
+
+	public void setDataCount(int dataCount)
+		{ this.dataCount = dataCount; }
+
+	public double getPercentData()
+		{ return percentData; }
+
+	public void setPercentData(double percentData)
+		{ this.percentData = percentData; }
+
+	public int getHeterozygousCount()
+		{ return heterozygousCount; }
+
+	public void setHeterozygousCount(int heterozygousCount)
+		{ this.heterozygousCount = heterozygousCount; }
+
+	public double getPercentHeterozygous()
+		{ return percentHeterozygous; }
+
+	public void setPercentHeterozygous(double percentHeterozygous)
+		{ this.percentHeterozygous = percentHeterozygous; }
 
 	public ArrayList<String> getHaplotypeNames()
 		{ return haplotypeNames; }

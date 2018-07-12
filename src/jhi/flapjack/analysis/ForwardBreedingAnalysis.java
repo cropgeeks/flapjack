@@ -50,6 +50,11 @@ public class ForwardBreedingAnalysis extends SimpleJob
 
 	private void runAnalysis()
 	{
+		int totalMarkers = 0;
+		for (int c = 0; c < as.viewCount(); c++)
+			for (int m = 0; m < as.markerCount(c); m++)
+				totalMarkers++;
+
 		// Determine the marker indices under each qtl and make that queryable in a HashMap
 		HashMap<String, ArrayList<Integer>> markerIndicesByQtlName = getMarkersByQtlMap();
 
@@ -61,6 +66,14 @@ public class ForwardBreedingAnalysis extends SimpleJob
 			ForwardBreedingResult result = new ForwardBreedingResult();
 			line.getResults().setForwardBreedingResult(result);
 			line.getResults().setName(name);
+
+			int foundMarkers = totalMarkers - as.missingMarkerCount(lineIndex);
+			int hetMarkers = as.hetCount(lineIndex);
+
+			result.setDataCount(foundMarkers);
+			result.setPercentData((foundMarkers/ (double) totalMarkers) * 100);
+			result.setHeterozygousCount(hetMarkers);
+			result.setPercentHeterozygous((hetMarkers / (double) foundMarkers) * 100);
 
 			// Store the qtlNames in the results object so the results table can easily use them in column headers
 			ArrayList<String> qtlNames = getQtlNames(as);

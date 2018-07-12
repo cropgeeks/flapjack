@@ -19,6 +19,11 @@ public class ForwardBreedingTableModel extends LineDataTableModel
 	private int hapWeightIndex;
 	private int averageHapMatchIndex;
 
+	private int dataCountIndex;
+	private int percData;
+	private int hetCountIndex;
+	private int hetPercIndex;
+
 	public ForwardBreedingTableModel(GTViewSet viewSet)
 	{
 		this.dataSet = viewSet.getDataSet();
@@ -36,7 +41,11 @@ public class ForwardBreedingTableModel extends LineDataTableModel
 		int hapMatchSize = results.getHaplotypeMatch().size();
 		int hapWeightSize = results.getHaplotypeWeight().size();
 
-		partialMatchIndex = 1;
+		dataCountIndex = 1;
+		percData = dataCountIndex + 1;
+		hetCountIndex = percData + 1;
+		hetPercIndex = hetCountIndex + 1;
+		partialMatchIndex = hetPercIndex + 1;
 		hapAlleleCountIndex = partialMatchIndex + partialMatchSize;
 		hapMatchIndex = hapAlleleCountIndex + hapAlleleCountSize;
 		hapWeightIndex = hapMatchIndex + hapMatchSize;
@@ -52,6 +61,10 @@ public class ForwardBreedingTableModel extends LineDataTableModel
 
 		// LineInfo column
 		columnNames[0] = RB.getString("gui.forwardbreeding.ForwardBreedingTableModel.line");
+		columnNames[dataCountIndex] = RB.getString("gui.forwardbreeding.ForwardBreedingTableModel.dataCount");
+		columnNames[percData] = RB.getString("gui.forwardbreeding.ForwardBreedingTableModel.percData");
+		columnNames[hetCountIndex] = RB.getString("gui.forwardbreeding.ForwardBreedingTableModel.hetCount");
+		columnNames[hetPercIndex] = RB.getString("gui.forwardbreeding.ForwardBreedingTableModel.percHet");
 		for (int i=0; i < partialMatchSize; i++)
 			columnNames[i + partialMatchIndex] = RB.format("gui.forwardbreeding.ForwardBreedingTableModel.partialMatch", results.getHaplotypeNames().get(i));
 		for (int i=0; i < hapAlleleCountSize; i++)
@@ -93,6 +106,14 @@ public class ForwardBreedingTableModel extends LineDataTableModel
 		// Name, Selected and Sort can work without results
 		if (col == 0)
 			return line;
+		else if (col == dataCountIndex)
+			return stats.getDataCount();
+		else if (col == percData)
+			return stats.getPercentData();
+		else if (col == hetCountIndex)
+			return stats.getHeterozygousCount();
+		else if (col == hetPercIndex)
+			return stats.getPercentHeterozygous();
 		else if (col >= partialMatchIndex && col < hapAlleleCountIndex)
 			return stats.getHaplotypePartialMatch().get(col - partialMatchIndex);
 		else if (col >= hapAlleleCountIndex && col < hapMatchIndex)
