@@ -108,14 +108,20 @@ public class PedVerF1sAnalysis extends SimpleJob
 		lineInfo.getResults().setPedVerF1sResult(lineStat);
 		lineInfo.getResults().setName(name);
 
-		int foundMarkers = usableMarkerCount(lineIndex);
-		int hetMarkers = hetMarkerCount(lineIndex);
+		int totalCount = 0;
+		for (int view = 0; view < as.viewCount(); view++)
+			totalCount += as.markerCount(view);
+
+		int missingMarkerCount = as.missingMarkerCount(lineIndex);
+
+		int foundMarkers = totalCount - missingMarkerCount;
+		int hetMarkers = as.hetCount(lineIndex);
 		int p1Contained = containedInLine(lineIndex, parent1Index);
 		int p2Contained = containedInLine(lineIndex, parent2Index);
 		int matchesExpF1 = matchesExpF1(lineIndex);
 
 		lineStat.setDataCount(foundMarkers);
-		lineStat.setPercentData((foundMarkers / (double) usableMarkerCount) * 100);
+		lineStat.setPercentData((foundMarkers / (double) totalCount) * 100);
 		lineStat.setHeterozygousCount(hetMarkers);
 		lineStat.setPercentHeterozygous((hetMarkers / (double)foundMarkers) * 100);
 		lineStat.setPercentDeviationFromExpected(f1PercentCount - ((hetMarkers / (double)foundMarkers) * 100));
@@ -137,7 +143,7 @@ public class PedVerF1sAnalysis extends SimpleJob
 		{
 			for (int m = 0; m < as.markerCount(c); m++)
 			{
-				if (isUsableMarker(c, f1Index, m))
+				if (as.getState(c, f1Index, m) != 0)
 				{
 					usableMarkerCount++;
 

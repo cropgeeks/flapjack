@@ -112,7 +112,6 @@ public class MabcAnalysis extends SimpleJob
 	// chromosome, returning the index of the marker closest to the end of the
 	// chromosome that is usable (no missing data etc)
 	private int findLastUsableMarker(AnalysisSet as, int viewIndex, int lineIndex)
-		throws Exception
 	{
 		for (int mrkIndex = as.markerCount(viewIndex)-1; mrkIndex >= 0; mrkIndex--)
 			if (as.getState(viewIndex, lineIndex, mrkIndex) != 0)
@@ -462,67 +461,20 @@ public class MabcAnalysis extends SimpleJob
 		int totalMarkers = 0;
 		for (int c = 0; c < as.viewCount(); c++)
 			for (int m = 0; m < as.markerCount(c); m++)
-				if (isDataMarker(as, c, m))
-					totalMarkers++;
+				totalMarkers++;
 
 		for (int lineIndex=0; lineIndex < as.lineCount(); lineIndex++)
 		{
 			LineInfo lineInfo = as.getLine(lineIndex);
 			MabcResult result = lineInfo.getResults().getMabcResult();
-			int foundMarkers = usableMarkerCount(as, lineIndex);
-			int hetMarkers = hetMarkerCount(as, lineIndex);
+			int foundMarkers = totalMarkers - as.missingMarkerCount(lineIndex);
+			int hetMarkers = as.hetCount(lineIndex);
 
 			result.setDataCount(foundMarkers);
 			result.setPercentData((foundMarkers/ (double) totalMarkers) * 100);
 			result.setHeterozygousCount(hetMarkers);
 			result.setPercentHeterozygous((hetMarkers / (double) foundMarkers) * 100);
 		}
-	}
-
-	// Checks to see if this allele is usable. It first checks that the allele
-	// itself isn't unknown, then checks that the parental and f1 alleles at
-	// this location aren't known. Finally it checks that the parental alleles
-	// aren't hets at this location.
-	private boolean isUsableMarker(AnalysisSet as, int chr, int line, int marker)
-	{
-		return as.getState(chr, line, marker) != 0
-			&& as.getState(chr, rpIndex, marker) != 0
-			&& as.getState(chr, dpIndex, marker) != 0
-			&& stateTable.isHom(as.getState(chr, rpIndex, marker))
-			&& stateTable.isHom(as.getState(chr, dpIndex, marker));
-	}
-
-	// Usable based on parental information
-	private boolean isDataMarker(AnalysisSet as, int chr, int marker)
-	{
-		return as.getState(chr, rpIndex, marker) != 0
-			&& as.getState(chr, dpIndex, marker) != 0
-			&& stateTable.isHom(as.getState(chr, rpIndex, marker))
-			&& stateTable.isHom(as.getState(chr, dpIndex, marker));
-	}
-
-	private int usableMarkerCount(AnalysisSet as, int lineIndex)
-	{
-		int foundMarkers = 0;
-
-		for (int c = 0; c < as.viewCount(); c++)
-			for (int m = 0; m < as.markerCount(c); m++)
-				if (isUsableMarker(as, c, lineIndex, m))
-					foundMarkers++;
-
-		return foundMarkers;
-	}
-
-	private int hetMarkerCount(AnalysisSet as, int lineIndex)
-	{
-		int hetMarkers = 0;
-
-		for (int c = 0; c < as.viewCount(); c++)
-			for (int m = 0; m < as.markerCount(c); m++)
-				if (isUsableMarker(as, c, lineIndex, m) && stateTable.isHet(as.getState(c, lineIndex, m)))
-					hetMarkers++;
-
-		return hetMarkers;
 	}
 
 	private void prepareForVisualization()
