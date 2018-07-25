@@ -2,13 +2,14 @@ package jhi.flapjack.data;
 
 import java.util.*;
 
-public class MarkerFavAlleles
+public class MarkerFavAlleles extends XMLRoot
 {
 	private Map<String, ArrayList<Integer>> markerToAlleles = new HashMap<>();
 
 	public MarkerFavAlleles()
 	{
 	}
+
 
 	// Methods required for XML serialization
 
@@ -21,6 +22,7 @@ public class MarkerFavAlleles
 	{
 		this.markerToAlleles = markerToAlleles;
 	}
+
 
 	// Other methods
 
