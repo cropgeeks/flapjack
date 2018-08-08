@@ -256,7 +256,12 @@ public class ListPanel extends JPanel implements MouseMotionListener, MouseListe
 
 				Object data = lineTable.getObjectAt(rowUnderMouse, colUnderMouse);
 				if (data != null)
-					genotypePanel.statusPanel.setResultsValues(lineName, columnName, data.toString());
+				{
+					if (data instanceof Number)
+						genotypePanel.statusPanel.setResultsValues(lineName, columnName, NumberFormat.getInstance().format(data));
+					else
+						genotypePanel.statusPanel.setResultsValues(lineName, columnName, data.toString());
+				}
 				else
 					genotypePanel.statusPanel.setResultsValues(lineName, columnName, "");
 			}
