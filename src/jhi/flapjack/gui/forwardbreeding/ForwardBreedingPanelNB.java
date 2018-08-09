@@ -40,7 +40,8 @@ public class ForwardBreedingPanelNB extends JPanel
 	 */
 	@SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+    private void initComponents()
+    {
 
         jScrollPane2 = new javax.swing.JScrollPane();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -56,10 +57,12 @@ public class ForwardBreedingPanelNB extends JPanel
         bSelect = new scri.commons.gui.matisse.MenuButton();
 
         table.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
+            new Object [][]
+            {
 
             },
-            new String [] {
+            new String []
+            {
 
             }
         ));
@@ -76,6 +79,7 @@ public class ForwardBreedingPanelNB extends JPanel
 
         autoResize.setSelected(true);
         autoResize.setText("Auto-fit columns");
+        autoResize.setOpaque(false);
 
         filterLabel.setText("Lines visible:");
 
