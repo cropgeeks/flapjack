@@ -261,7 +261,7 @@ public class ForwardBreedingAnalysis extends SimpleJob
 
 	private void changeColourScheme()
 	{
-		// TODO: What colour scheme are we going to enable?
+		viewSet.setColorScheme(ColorScheme.FAV_ALLELE);
 	}
 
 	private void addViewSetToDataSet()
