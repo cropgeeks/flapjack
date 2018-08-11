@@ -334,6 +334,22 @@ public class StatusPanelNB extends JPanel implements ActionListener, ChangeListe
 				alleleLabel.setText(data);
 			else
 				alleleLabel.setText(" ");
+
+			// TODO: Temporary hack for GOBii annual meeting. Remove or tidy up later.
+			FavAlleleManager favAlleleManager = view.getViewSet().getDataSet().getFavAlleleManager();
+			Map<String, MarkerFavAlleles> haplotypes = favAlleleManager.getHaplotypeAlleleManager();
+			MarkerFavAlleles allelesForHaplotype = haplotypes.get(qtl.getName());
+			if (allelesForHaplotype != null)
+			{
+				StateTable stateTable = view.getViewSet().getDataSet().getStateTable();
+				StringBuilder builder = new StringBuilder();
+
+				Map<String, ArrayList<Integer>> allelesByMarker = allelesForHaplotype.getMarkerToAlleles();
+				for (String markerName : allelesByMarker.keySet())
+					builder.append(stateTable.getAlleleState(allelesByMarker.get(markerName).get(0)).toString());
+
+				alleleLabel.setText(builder.toString());
+			}
 		}
 		else
 		{
