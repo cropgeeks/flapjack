@@ -18,6 +18,7 @@ public class ForwardBreedingResult extends XMLRoot
 	private ArrayList<Integer> haplotypeAlleleCounts = new ArrayList<>();
 	private ArrayList<Double> haplotypeMatch = new ArrayList<>();
 	private ArrayList<Double> haplotypeWeight = new ArrayList<>();
+	private double averageWeightedHapMatch;
 	private double averageHapMatch;
 
 	public ForwardBreedingResult()
@@ -77,6 +78,12 @@ public class ForwardBreedingResult extends XMLRoot
 
 	public void setHaplotypeWeight(ArrayList<Double> haplotypeWeight)
 		{ this.haplotypeWeight = haplotypeWeight; }
+
+	public double getAverageWeightedHapMatch()
+		{ return averageWeightedHapMatch; }
+
+	public void setAverageWeightedHapMatch(double averageWeightedHapMatch)
+		{ this.averageWeightedHapMatch = averageWeightedHapMatch; }
 
 	public double getAverageHapMatch()
 		{ return averageHapMatch; }

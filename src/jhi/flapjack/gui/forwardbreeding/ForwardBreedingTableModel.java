@@ -16,8 +16,9 @@ public class ForwardBreedingTableModel extends LineDataTableModel
 	private int partialMatchIndex;
 	private int hapAlleleCountIndex;
 	private int hapMatchIndex;
-	private int hapWeightIndex;
 	private int averageHapMatchIndex;
+	private int hapWeightIndex;
+	private int averageWeightedHapMatchIndex;
 
 	private int dataCountIndex;
 	private int percData;
@@ -48,9 +49,10 @@ public class ForwardBreedingTableModel extends LineDataTableModel
 		partialMatchIndex = hetPercIndex + 1;
 		hapAlleleCountIndex = partialMatchIndex + partialMatchSize;
 		hapMatchIndex = hapAlleleCountIndex + hapAlleleCountSize;
-		hapWeightIndex = hapMatchIndex + hapMatchSize;
-		averageHapMatchIndex = hapWeightIndex + hapWeightSize;
-		selectedIndex = averageHapMatchIndex + 1;
+		averageHapMatchIndex = hapMatchIndex + hapMatchSize;
+		hapWeightIndex = averageHapMatchIndex + 1;
+		averageWeightedHapMatchIndex = hapWeightIndex + hapWeightSize;
+		selectedIndex = averageWeightedHapMatchIndex + 1;
 		rankIndex = selectedIndex + 1;
 		commentIndex = rankIndex + 1;
 		sortIndex = commentIndex +1;
@@ -80,13 +82,15 @@ public class ForwardBreedingTableModel extends LineDataTableModel
 			columnNames[i + hapMatchIndex] = RB.format("gui.forwardbreeding.ForwardBreedingTableModel.match", results.getHaplotypeNames().get(i));
 			ttNames[i + hapMatchIndex] = RB.format("gui.forwardbreeding.ForwardBreedingTableModel.match.tt", results.getHaplotypeNames().get(i));
 		}
+		columnNames[averageHapMatchIndex] = RB.getString("gui.forwardbreeding.ForwardBreedingTableModel.average");
+		ttNames[averageHapMatchIndex] = RB.getString("gui.forwardbreeding.ForwardBreedingTableModel.average.tt");
 		for (int i=0; i < hapWeightSize; i++)
 		{
 			columnNames[i + hapWeightIndex] = RB.format("gui.forwardbreeding.ForwardBreedingTableModel.weighted", results.getHaplotypeNames().get(i));
 			ttNames[i + hapWeightIndex] = RB.format("gui.forwardbreeding.ForwardBreedingTableModel.weighted.tt", results.getHaplotypeNames().get(i));
 		}
-		columnNames[averageHapMatchIndex] = RB.getString("gui.forwardbreeding.ForwardBreedingTableModel.average");
-		ttNames[averageHapMatchIndex] = RB.getString("gui.forwardbreeding.ForwardBreedingTableModel.average.tt");
+		columnNames[averageWeightedHapMatchIndex] = RB.getString("gui.forwardbreeding.ForwardBreedingTableModel.weightedAverage");
+		ttNames[averageWeightedHapMatchIndex] = RB.getString("gui.forwardbreeding.ForwardBreedingTableModel.weightedAverage.tt");
 		columnNames[selectedIndex] = RB.getString("gui.forwardbreeding.ForwardBreedingTableModel.selected");
 		columnNames[rankIndex] = RB.getString("gui.forwardbreeding.ForwardBreedingTableModel.rank");
 		columnNames[commentIndex] = RB.getString("gui.forwardbreeding.ForwardBreedingTableModel.comments");
@@ -131,12 +135,14 @@ public class ForwardBreedingTableModel extends LineDataTableModel
 			return stats.getHaplotypePartialMatch().get(col - partialMatchIndex);
 		else if (col >= hapAlleleCountIndex && col < hapMatchIndex)
 			return stats.getHaplotypeAlleleCounts().get(col - hapAlleleCountIndex);
-		else if (col >= hapMatchIndex && col < hapWeightIndex)
+		else if (col >= hapMatchIndex && col < averageHapMatchIndex)
 			return stats.getHaplotypeMatch().get(col - hapMatchIndex);
-		else if (col >= hapWeightIndex && col < averageHapMatchIndex)
-			return stats.getHaplotypeWeight().get(col - hapWeightIndex);
-		else if (col == averageHapMatchIndex)
+		else if (col >= averageHapMatchIndex && col < hapWeightIndex)
 			return stats.getAverageHapMatch();
+		else if (col >= hapWeightIndex && col < averageWeightedHapMatchIndex)
+			return stats.getHaplotypeWeight().get(col - hapWeightIndex);
+		else if (col == averageWeightedHapMatchIndex)
+			return stats.getAverageWeightedHapMatch();
 		else if (col == selectedIndex)
 			return line.getSelected();
 		else if (col == rankIndex)

@@ -101,7 +101,13 @@ public class ForwardBreedingAnalysis extends SimpleJob
 				.collect(Collectors.toCollection(ArrayList::new));
 			result.setHaplotypeWeight(hapWeight);
 
-			double averageHapMatch = hapWeight.stream()
+			double averageWeightedHapMatch = hapWeight.stream()
+				.mapToDouble(Double::doubleValue)
+				.average()
+				.orElse(Double.NaN);
+			result.setAverageWeightedHapMatch(averageWeightedHapMatch);
+
+			double averageHapMatch = hapMatch.stream()
 				.mapToDouble(Double::doubleValue)
 				.average()
 				.orElse(Double.NaN);
