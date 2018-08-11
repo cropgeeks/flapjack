@@ -66,14 +66,27 @@ public class ForwardBreedingTableModel extends LineDataTableModel
 		columnNames[hetCountIndex] = RB.getString("gui.forwardbreeding.ForwardBreedingTableModel.hetCount");
 		columnNames[hetPercIndex] = RB.getString("gui.forwardbreeding.ForwardBreedingTableModel.percHet");
 		for (int i=0; i < partialMatchSize; i++)
+		{
 			columnNames[i + partialMatchIndex] = RB.format("gui.forwardbreeding.ForwardBreedingTableModel.partialMatch", results.getHaplotypeNames().get(i));
+			ttNames[i + partialMatchIndex] = RB.format("gui.forwardbreeding.ForwardBreedingTableModel.partialMatch.tt", results.getHaplotypeNames().get(i));
+		}
 		for (int i=0; i < hapAlleleCountSize; i++)
+		{
 			columnNames[i + hapAlleleCountIndex] = RB.format("gui.forwardbreeding.ForwardBreedingTableModel.alleleCount", results.getHaplotypeNames().get(i));
+			ttNames[i + hapAlleleCountIndex] = RB.format("gui.forwardbreeding.ForwardBreedingTableModel.alleleCount.tt", results.getHaplotypeNames().get(i));
+		}
 		for (int i=0; i < hapMatchSize; i++)
+		{
 			columnNames[i + hapMatchIndex] = RB.format("gui.forwardbreeding.ForwardBreedingTableModel.match", results.getHaplotypeNames().get(i));
+			ttNames[i + hapMatchIndex] = RB.format("gui.forwardbreeding.ForwardBreedingTableModel.match.tt", results.getHaplotypeNames().get(i));
+		}
 		for (int i=0; i < hapWeightSize; i++)
+		{
 			columnNames[i + hapWeightIndex] = RB.format("gui.forwardbreeding.ForwardBreedingTableModel.weighted", results.getHaplotypeNames().get(i));
+			ttNames[i + hapWeightIndex] = RB.format("gui.forwardbreeding.ForwardBreedingTableModel.weighted.tt", results.getHaplotypeNames().get(i));
+		}
 		columnNames[averageHapMatchIndex] = RB.getString("gui.forwardbreeding.ForwardBreedingTableModel.average");
+		ttNames[averageHapMatchIndex] = RB.getString("gui.forwardbreeding.ForwardBreedingTableModel.average.tt");
 		columnNames[selectedIndex] = RB.getString("gui.forwardbreeding.ForwardBreedingTableModel.selected");
 		columnNames[rankIndex] = RB.getString("gui.forwardbreeding.ForwardBreedingTableModel.rank");
 		columnNames[commentIndex] = RB.getString("gui.forwardbreeding.ForwardBreedingTableModel.comments");
