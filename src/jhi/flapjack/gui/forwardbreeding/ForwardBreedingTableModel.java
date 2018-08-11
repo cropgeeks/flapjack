@@ -139,6 +139,10 @@ public class ForwardBreedingTableModel extends LineDataTableModel
 			return stats.getAverageHapMatch();
 		else if (col == selectedIndex)
 			return line.getSelected();
+		else if (col == rankIndex)
+			return line.getResults().getRank();
+		else if (col == commentIndex)
+			return line.getResults().getComments();
 		else if (col == sortIndex)
 			return line.getResults().isSortToTop();
 
