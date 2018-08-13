@@ -76,7 +76,7 @@
 	<target name="install4j" depends="getversion, jar">
 		<taskdef name="install4j"
 			classname="com.install4j.Install4JTask"
-			classpath="C:\Program Files\Install4j\bin\ant.jar"/>
+			classpath="/opt/install4j7/bin/ant.jar"/>
 
 		<delete>
 			<fileset dir="installer" includes="**/*.rpm"/>

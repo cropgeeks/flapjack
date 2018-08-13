@@ -91,7 +91,7 @@ public class VcfToFJTabbedConverter
 
 						// Output marker data to mapFile
 						String markerName = markerData[0].substring(3) + "_" + markerData[1];
-						String chrName = markerData[0].substring(3);
+						String chrName = markerData[0];
 						String markerPos = markerData[1];
 
 						mapWriter.println(markerName + "\t" + chrName + "\t" + markerPos);
