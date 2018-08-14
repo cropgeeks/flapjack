@@ -89,7 +89,7 @@ public class SimulateF1 extends SimpleJob
 					if (view < c -2)
 					{
 						for (int d = 0; d < dummyCount; d++)
-							f1.setLoci(c, as.getMarker(c, loci+d).getIndex(), 0);
+							f1.setLoci(c, as.getMarker(c, loci).getIndex(), 0);
 					}
 				}
 			}
