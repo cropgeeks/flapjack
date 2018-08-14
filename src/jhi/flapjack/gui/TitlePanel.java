@@ -19,6 +19,12 @@ public class TitlePanel extends JPanel
 		this.title = title;
 	}
 
+	public void setTitle(String title)
+	{
+		this.title = title;
+		repaint();
+	}
+
 	public Dimension getPreferredSize()
 	{
 		return new Dimension(50, 20);

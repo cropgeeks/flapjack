@@ -31,6 +31,7 @@ public class NavPanel extends JPanel
 	private JTree tree;
 	private DefaultTreeModel treeModel;
 	private DefaultMutableTreeNode root;
+	private TitlePanel titlePane;
 
 	private JSplitPane hSplitPane, vSplitPane;
 
@@ -60,8 +61,9 @@ public class NavPanel extends JPanel
 		menu = new NavPanelMenu(tree);
 		tree.addMouseListener(menu);
 
+		titlePane = new TitlePanel(RB.format("gui.NavPanel.title", 0));
 		JPanel treePanel = new JPanel(new BorderLayout());
-		treePanel.add(new TitlePanel(RB.getString("gui.NavPanel.title")), BorderLayout.NORTH);
+		treePanel.add(titlePane, BorderLayout.NORTH);
 		treePanel.add(new JScrollPane(tree));
 
 		gPanel = new GenotypePanel(winMain);
@@ -107,6 +109,13 @@ public class NavPanel extends JPanel
 		treeModel = new DefaultTreeModel(root);
 		defaultNode = null;
 
+		treeModel.addTreeModelListener(new TreeModelListener() {
+			public void treeNodesChanged(TreeModelEvent e) {}
+			public void treeNodesInserted(TreeModelEvent e) { updateDataSetCount(); }
+			public void treeNodesRemoved(TreeModelEvent e) { updateDataSetCount(); }
+			public void treeStructureChanged(TreeModelEvent e) {}
+		});
+
 		updateTreeState();
 	}
 
@@ -139,6 +148,11 @@ public class NavPanel extends JPanel
 		}
 
 		Actions.projectSaved();
+	}
+
+	private void updateDataSetCount()
+	{
+		titlePane.setTitle(RB.format("gui.NavPanel.title", root.getChildCount()));
 	}
 
 	private void insert(DefaultMutableTreeNode node, DefaultMutableTreeNode parent, int index)
