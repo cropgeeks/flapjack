@@ -6,6 +6,7 @@ package jhi.flapjack.gui;
 import java.io.*;
 import java.util.*;
 import java.util.zip.*;
+import jdk.nashorn.internal.parser.*;
 
 import jhi.flapjack.analysis.*;
 import jhi.flapjack.data.*;
@@ -405,6 +406,16 @@ public class MenuFile
 		{
 			Prefs.guiImportType = DataImporter.IMPORT_CLASSIC;
 			importGenotypeData(null, datFile.getFile(), null, true);
+		}
+		else if (files.length == 1)
+		{
+			Prefs.guiImportType = DataImporter.IMPORT_CLASSIC;
+			importGenotypeData(null, files[0].getFile(), null, true);
+		}
+		else if (files.length > 1)
+		{
+			TaskDialog.error(RB.getString("gui.MenuFile.dragDropError"), RB.getString("gui.text.close"));
+			return;
 		}
 
 
