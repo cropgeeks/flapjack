@@ -84,20 +84,20 @@ public class GenotypeDataImporter implements IGenotypeImporter
 		{ return markerCount; }
 
 	@Override
-	public void importGenotypeData()
+	// Returns false if storing the data using byte arrays failed
+	public boolean importGenotypeDataAsBytes()
 		throws IOException, DataFormatException
 	{
-		if (readData(isTransposed) == false)
-		{
-			dataSet.getLines().clear();
-			stateTable.resetTable();
-			states.clear();
-			useByteStorage = false;
+		return readData(isTransposed);
+	}
 
-			lineCount = 0;
+	@Override
+	public void importGenotypeDataAsInts()
+		throws IOException, DataFormatException
+	{
+		useByteStorage = false;
 
-			readData(isTransposed);
-		}
+		readData(isTransposed);
 	}
 
 	private boolean readData(boolean isTransposed)

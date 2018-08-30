@@ -27,7 +27,7 @@ public class CalculateMarkerFrequenciesTest extends TestCase
 			dataSet, mapImporter.getMarkersHashMap(), "", "/", false, false);
 
 		mapImporter.importMap();
-		genoImporter.importGenotypeData();
+		genoImporter.importGenotypeDataAsBytes();
 	}
 
 	public void testGenotypeFrequencies()

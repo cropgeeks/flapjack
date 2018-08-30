@@ -101,6 +101,14 @@ public class CreateProject
 		return output;
 	}
 
+	private GenotypeDataImporter createGenoImporter(ChromosomeMapImporter mapImporter)
+	{
+		return new GenotypeDataImporter(
+			options.getGenotypes(), dataSet, mapImporter.getMarkersHashMap(),
+			importSettings.getMissingData(), importSettings.getHetSep(),
+			importSettings.isTransposed(), importSettings.isAllowDuplicates());
+	}
+
 	private void createProject()
 		throws Exception
 	{
@@ -109,13 +117,14 @@ public class CreateProject
 			new ChromosomeMapImporter(options.getMap(), dataSet);
 		mapImporter.importMap();
 
-		// Read the data file
-		GenotypeDataImporter genoImporter = new GenotypeDataImporter(
-			options.getGenotypes(), dataSet, mapImporter.getMarkersHashMap(),
-			importSettings.getMissingData(), importSettings.getHetSep(),
-			importSettings.isTransposed(), importSettings.isAllowDuplicates());
-
-		genoImporter.importGenotypeData();
+		// Read the data file (byte storage)
+		GenotypeDataImporter genoImporter = createGenoImporter(mapImporter);
+		if (genoImporter.importGenotypeDataAsBytes() == false)
+		{
+			// Or (re)read it using int storage if the first attempt failed
+			genoImporter = createGenoImporter(mapImporter);
+			genoImporter.importGenotypeDataAsInts();
+		}
 
 		if (importSettings.isMakeAllChrom())
 			dataSet.createSuperChromosome(RB.getString("io.DataImporter.allChromosomes"));

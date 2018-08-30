@@ -6,7 +6,6 @@ package jhi.flapjack.io;
 import java.text.*;
 import java.io.*;
 import java.lang.reflect.*;
-import java.util.*;
 import javax.swing.*;
 
 import jhi.flapjack.data.*;
@@ -73,11 +72,15 @@ public class DataImporter extends SimpleJob
 		// Read the map
 		mapImporter.importMap();
 
-		setupGenotypeImport();
-
 		// Read the genotype data
-		genoImporter.importGenotypeData();
+		genoImporter = setupGenotypeImport();
+		if (genoImporter.importGenotypeDataAsBytes() == false)
+		{
+			genoImporter = setupGenotypeImport();
+			genoImporter.importGenotypeDataAsInts();
+		}
 		genoImporter.cleanUp();
+
 		if (genoImporter.isOK() == false)
 		{
 			cancelJob();
@@ -110,41 +113,35 @@ public class DataImporter extends SimpleJob
 		System.out.println("Time taken: " + (System.currentTimeMillis() - s) + " ms");
 	}
 
-	private void setupGenotypeImport()
+	private IGenotypeImporter setupGenotypeImport()
 	{
-		switch (Prefs.guiImportType)
+		// "Normal"...
+		if (Prefs.guiImportType == IMPORT_CLASSIC)
 		{
-			case IMPORT_CLASSIC:
-			{
-				// Initializes the data importer, passing it the required options, either
-				// from the preferences (if a user file is being opened) or with preset
-				// options if we're loading the sample file (which has a set format)
-				if (usePrefs)
-					genoImporter = new GenotypeDataImporter(genoFile, dataSet,
-						mapImporter.getMarkersHashMap(), Prefs.ioMissingData,
-						Prefs.ioHeteroSeparator, Prefs.ioTransposed, Prefs.ioAllowDupLines);
-				else
-					genoImporter = new GenotypeDataImporter(genoFile, dataSet,
-						mapImporter.getMarkersHashMap(), "-", "/", false, false);
-
-				break;
-			}
-
-			case IMPORT_BRAPI:
-			{
-				BrapiMapImporter bMapImporter = (BrapiMapImporter) mapImporter;
-				genoImporter = new BrapiGenotypeImporter(client, dataSet,
-					bMapImporter.getMarkersHashMap(), bMapImporter.getMarkersByName(),
-					Prefs.ioMissingData, Prefs.ioHeteroSeparator);
-
-				break;
-			}
+			// Initializes the data importer, passing it the required options, either
+			// from the preferences (if a user file is being opened) or with preset
+			// options if we're loading the sample file (which has a set format)
+			if (usePrefs)
+				return new GenotypeDataImporter(genoFile, dataSet,
+					mapImporter.getMarkersHashMap(), Prefs.ioMissingData,
+					Prefs.ioHeteroSeparator, Prefs.ioTransposed, Prefs.ioAllowDupLines);
+			else
+				return new GenotypeDataImporter(genoFile, dataSet,
+					mapImporter.getMarkersHashMap(), "-", "/", false, false);
+		}
+		// Or BrAPI
+		else
+		{
+			BrapiMapImporter bMapImporter = (BrapiMapImporter) mapImporter;
+			return new BrapiGenotypeImporter(client, dataSet,
+				bMapImporter.getMarkersHashMap(), bMapImporter.getMarkersByName(),
+				Prefs.ioMissingData, Prefs.ioHeteroSeparator);
 		}
 	}
 
 	private void displayDuplicates()
 	{
-		if (mapImporter.getDuplicates().size() == 0)
+		if (mapImporter.getDuplicates().isEmpty())
 			return;
 
 		Runnable r = () -> { new DuplicateMarkersDialog(mapImporter.getDuplicates()); };

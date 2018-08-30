@@ -79,22 +79,20 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 		{ return alleleCount; }
 
 	@Override
-	public void importGenotypeData()
+	// Returns false if storing the data using byte arrays failed
+	public boolean importGenotypeDataAsBytes()
 		throws Exception
 	{
-		// If the first read failed, clear everything and start again using int
-		// storage rather than byte
-		if (readData() == false)
-		{
-			dataSet.getLines().clear();
-			stateTable.resetTable();
-			states.clear();
-			useByteStorage = false;
-			alleleCount = 0;
+		return readData();
+	}
 
-			if (isOK)
-				readData();
-		}
+	@Override
+	public void importGenotypeDataAsInts()
+		throws Exception
+	{
+		useByteStorage = false;
+
+		readData();
 	}
 
 	private boolean readData()
@@ -132,7 +130,7 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 
 			return readTSVAlleleMatrix(linesByProfileID, profiles);
 		}
-		
+
 		else
 			return readJSONAlleleMatrix(linesByProfileID, profiles);
 	}

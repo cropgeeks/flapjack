@@ -5,7 +5,11 @@ package jhi.flapjack.io;
 
 public interface IGenotypeImporter
 {
-	public void importGenotypeData() throws Exception;
+	public boolean importGenotypeDataAsBytes()
+		throws Exception;
+
+	public void importGenotypeDataAsInts()
+		throws Exception;
 
 	public void cancelImport();
 
