@@ -14,6 +14,7 @@ import jhi.flapjack.servlet.pcoa.*;
 
 import org.restlet.*;
 import org.restlet.engine.application.*;
+import org.restlet.resource.*;
 import org.restlet.routing.*;
 
 public class FlapjackServlet extends Application implements ServletContextListener
@@ -84,14 +85,18 @@ public class FlapjackServlet extends Application implements ServletContextListen
 		corsFilter.setAllowedCredentials(true);
 		corsFilter.setSkippingResourceForCorsOptions(false);
 
-		router.attach("/pcoa",				PCoAServerResource.class);
-		router.attach("/pcoa/",				PCoAServerResource.class);
-		router.attach("/pcoa/{id}", 		PCoAServerResource.class);
-		router.attach("/dendrogram",		DendrogramServerResource.class);
-		router.attach("/dendrogram/",		DendrogramServerResource.class);
-		router.attach("/dendrogram/{id}",	DendrogramServerResource.class);
+		attachToRouter(router, "/pcoa", PCoAServerResource.class);
+		attachToRouter(router, "/pcoa/{id}", PCoAServerResource.class);
+		attachToRouter(router, "/dendrogram", DendrogramServerResource.class);
+		attachToRouter(router, "/dendrogram/{id}", DendrogramServerResource.class);
 
 		return router;
+	}
+
+	private void attachToRouter(Router router, String url, Class<? extends ServerResource> clazz)
+	{
+		router.attach(url, clazz);
+		router.attach(url + "/", clazz);
 	}
 
 	public static File getWorkingDir(String taskId)
