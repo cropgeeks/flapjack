@@ -407,7 +407,7 @@ public class MenuFile
 			Prefs.guiImportType = DataImporter.IMPORT_CLASSIC;
 			importGenotypeData(null, datFile.getFile(), null, true);
 		}
-		else if (files.length == 1)
+		else if (files.length == 1 && !files[0].isProjectFile())
 		{
 			Prefs.guiImportType = DataImporter.IMPORT_CLASSIC;
 			importGenotypeData(null, files[0].getFile(), null, true);
