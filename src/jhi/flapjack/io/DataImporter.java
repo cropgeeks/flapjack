@@ -128,6 +128,8 @@ public class DataImporter extends SimpleJob
 			else
 				return new GenotypeDataImporter(genoFile, dataSet,
 					mapImporter.getMarkersHashMap(), "-", "/", false, false);
+
+//			return new IntertekDataImporter(genoFile, dataSet, mapImporter.getMarkersHashMap());
 		}
 		// Or BrAPI
 		else
