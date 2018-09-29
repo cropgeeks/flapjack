@@ -1,2 +1,0 @@
-AddHandler cgi-script .jnlp
-Options ExecCGI

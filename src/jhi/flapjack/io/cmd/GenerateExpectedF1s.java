@@ -56,7 +56,7 @@ public class GenerateExpectedF1s
 		}
 		catch (Exception e)
 		{
-			options.printHelp("GenerateExpectdF1s");
+			options.printHelp("GenerateExpectedF1s");
 			System.exit(1);
 		}
 	}
