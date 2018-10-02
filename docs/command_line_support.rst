@@ -7,7 +7,7 @@ The utilities are run in a different way depending on the platform used. For all
 
 ::
 
- java -cp lib/flapjack.jar jhi.flapjack.io.CreateProject <options>
+ java -cp lib/flapjack.jar jhi.flapjack.io.cmd.CreateProject <options>
 
 A description of the input file formats accepted by Flapjack is given :doc:`projects_&_data_formats`.
 
@@ -26,7 +26,7 @@ These options can be used (where they make sense) with the command line programs
  -E, --decimal-english		override locale default and use '.' as the decimal separator
  -D, --allow-duplicates		allow duplicate line names in input files
 
-createproject.exe (jhi.flapjack.io.CreateProject)
+createproject.exe (jhi.flapjack.io.cmd.CreateProject)
 -------------------------------------------------
 
 This program can be used to pre-create .flapjack project files from existing tab-delimited text files. This ability allows for the creation of project files outwith the Flapjack environment, for instance, to allow a web server (that links to a database) to make Flapjack project files available for download.
@@ -49,7 +49,7 @@ For example:
  createproject.exe -m input.map -g input.dat -p output.flapjack
 
 
-creatematrix.exe (jhi.flapjack.io.CreateMatrix)
+creatematrix.exe (jhi.flapjack.io.cmd.CreateMatrix)
 -----------------------------------------------
 
 This program will take input data files and run Flapjack's :doc:`simmatrix_creation` module upon them, outputting a matrix file for use elsewhere (eg in R).
@@ -70,7 +70,7 @@ For example:
  creatematrix.exe -g input.dat -o output.txt
 
  
-mabcstats.exe (jhi.flapjack.io.GenerateMabcStats)
+mabcstats.exe (jhi.flapjack.io.cmd.GenerateMabcStats)
 -------------------------------------------------
 
 This program will take input data files and run Flapjack's :doc:`mabc` statistics module upon them, outputting a tab-delimited text file with results similar to those shown directly in Flapjack's table view had the UI been used.
@@ -96,7 +96,7 @@ For example:
  mabcstats.exe -m input.map -g input.dat -q input.qtl -r 1 -d 2 --model weighted -o mabc.txt
 
  
-pedverf1stats.exe (jhi.flapjack.io.GeneratePedVerF1sStats)
+pedverf1stats.exe (jhi.flapjack.io.cmd.GeneratePedVerF1sStats)
 ----------------------------------------------------------
 
 This program will take input data files and run Flapjack's :doc:`pedver_f1s_known_parents` statistics module upon them, outputting a tab-delimited text file with results similar to those shown directly in Flapjack's table view had the UI been used.
@@ -120,7 +120,28 @@ For example:
  pedverf1stats.exe -m input.map -g input.dat -f 1 -s 2 -o pedver.txt
 
 
-splitproject.exe (jhi.flapjack.io.SplitProject)
+createf1.exe (jhi.flapjack.io.cmd.GenerateExpectedF1s)
+-----------------------------------------------
+
+This program can be used to take a genotype file containing a set of lines, and will generate a (new) expected F1 line by combining the alleles of two selected parental lines.
+
+The following options are available:
+
+::
+
+ -g, --genotypes <genotypes_file>	the location of the file containing genotype data (required)
+ -1, --parent-1 <index_of_line>		the index (1-based) of the first parent in the file (required)
+ -2, --parent-2 <index_of_line>		the index (1-based) of the second parent in the file (required)
+ -o, --output=<file_name>		the name of the output file that will be created (required)
+
+For example:
+
+::
+
+ createf1.exe -g sampleinputs.txt -1 1 -2 2 -o f1.txt
+ 
+ 
+ splitproject.exe (jhi.flapjack.io.cmd.SplitProject)
 -----------------------------------------------
 
 This program can be used to take an existing .flapjack project file and filter out the raw data again as a collection of tab-delimited plain text files.
