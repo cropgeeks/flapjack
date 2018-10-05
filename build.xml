@@ -91,6 +91,7 @@
 
 		<install4j projectfile="installer/flapjack.install4j"
 			release="${i4j.version}"
+			buildselected="true"
 			winKeystorePassword="${keystore.password}"
 			macKeystorePassword="${keystore.password}"/>
 	</target>
