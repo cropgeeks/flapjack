@@ -162,10 +162,10 @@ class CanvasMouseListener extends MouseInputAdapter
 
 	public void mouseWheelMoved(MouseWheelEvent e)
 	{
-		int shortcut = Toolkit.getDefaultToolkit().getMenuShortcutKeyMask();
+		int shortcut = Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx();
 
 		// CTRL/CMD down: do canvas zooming
-		if (e.getModifiers() == shortcut && Prefs.visLinkSliders)
+		if (e.getModifiersEx() == shortcut && Prefs.visLinkSliders)
 		{
 			int currentValue = gPanel.statusPanel.getZoomY();
 			gPanel.statusPanel.setZoomY(currentValue - e.getWheelRotation());

@@ -6,7 +6,6 @@ package jhi.flapjack.gui;
 import java.io.*;
 import java.util.*;
 import java.util.zip.*;
-import jdk.nashorn.internal.parser.*;
 
 import jhi.flapjack.analysis.*;
 import jhi.flapjack.data.*;

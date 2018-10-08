@@ -57,7 +57,7 @@ public class StatusPanelNB extends JPanel implements ActionListener, ChangeListe
 	private void createKeyboardShortcuts()
 	{
 		// CTRL (or CMD) keyboard shortcut
-		int shortcut = Toolkit.getDefaultToolkit().getMenuShortcutKeyMask();
+		int shortcut = Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx();
 
 		Action zoomIn = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {

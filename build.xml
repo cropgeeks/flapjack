@@ -38,7 +38,7 @@
 	<target name="compile">
 		<javac srcdir="${src}" destdir="${cls}" source="11" target="11" debug="true" includeantruntime="false">
 			<classpath refid="project.classpath"/>
-			<compilerarg line="-Xlint:deprecation" />
+			<!--<compilerarg line="-Xlint:deprecation"/>-->
 		</javac>
 	</target>
 

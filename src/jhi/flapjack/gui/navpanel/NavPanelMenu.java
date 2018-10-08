@@ -16,7 +16,6 @@ public class NavPanelMenu extends MouseInputAdapter
 	private JTree tree;
 
 	private JPopupMenu menu = new JPopupMenu();
-	private int menuShortcut;
 
 	private JMenuItem dataRenameDataSet;
 	private JMenuItem dataDeleteDataSet;
@@ -28,9 +27,6 @@ public class NavPanelMenu extends MouseInputAdapter
 	public NavPanelMenu(JTree tree)
 	{
 		this.tree = tree;
-
-		// Returns value for "CTRL" under most OSs, and the "apple" key for OS X
-		menuShortcut = Toolkit.getDefaultToolkit().getMenuShortcutKeyMask();
 
 		createItems();
 	}

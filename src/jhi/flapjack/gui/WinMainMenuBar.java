@@ -151,7 +151,7 @@ public class WinMainMenuBar extends JMenuBar
 		this.winMain = winMain;
 
 		// Returns value for "CTRL" under most OSs, and the "apple" key for OS X
-		menuShortcut = Toolkit.getDefaultToolkit().getMenuShortcutKeyMask();
+		menuShortcut = Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx();
 
 		new Actions(winMain);
 
