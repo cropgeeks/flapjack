@@ -38,8 +38,6 @@
 	<target name="compile">
 		<javac srcdir="${src}" destdir="${cls}" source="11" target="11" debug="true" includeantruntime="false">
 			<classpath refid="project.classpath"/>
-			<!-- To use the bit below (for JDK9), replace MINUSMINUS with those two characters that aren't allowed in XML comments -->
-			<!--<compilerarg line="MINUSMINUSadd-modules java.xml.bind -Xlint:deprecation" />-->
 			<compilerarg line="-Xlint:deprecation" />
 		</javac>
 	</target>
