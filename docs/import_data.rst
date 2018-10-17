@@ -24,7 +24,7 @@ The **genotype file** should contain a list of variety lines, with allele data p
 ::
 
  # fjFile = GENOTYPE
- Marker1   Marker2   Marker3
+              Marker1   Marker2   Marker3
  Line1        A         G         G
  Line2        A         -         G/T
  Line3        T         A         C
