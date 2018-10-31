@@ -11,3 +11,15 @@ For more information on Flapjack, please visit https://ics.hutton.ac.uk/flapjack
 ### Flapjack Help
 
 For help with Flapjack, including tutorials on some of its more advanced features, please visit http://flapjack.readthedocs.io/en/latest/.
+
+### Open Source Sponsors
+
+The following companies have very kindly provided open source licences for their products to assist in the development of Flapjack:
+
+https://www.ej-technologies.com/products/install4j/overview.html
+
+![](https://ics.hutton.ac.uk/resources/flapjack/ejtechnologies.png "ejtechnologies")
+
+https://lokalise.co/
+
+![](https://ics.hutton.ac.uk/resources/flapjack/lokalise.png "lokalise")
