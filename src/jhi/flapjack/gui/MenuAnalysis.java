@@ -179,8 +179,8 @@ public class MenuAnalysis
 		SimMatrix matrix = calculator.getMatrix();
 
 		// Create a title for this new matrix
-		int id = viewSet.getDataSet().getMatrixCount() + 1;
-		viewSet.getDataSet().setMatrixCount(id);
+		int id = viewSet.getDataSet().getNavPanelCounts().getOrDefault("matrixCount", 0) + 1;
+		viewSet.getDataSet().getNavPanelCounts().put("matrixCount", id);
 		String title = RB.format("gui.MenuAnalysis.simMatrix.name", id,
 			matrix.getLineInfos().size(), matrix.getLineInfos().size());
 		matrix.setTitle(title);
@@ -219,8 +219,8 @@ public class MenuAnalysis
 			return;
 
 		// Create a title for this new dendrogram
-		int id = viewSet.getDataSet().getDendrogramCount() + 1;
-		viewSet.getDataSet().setDendrogramCount(id);
+		int id = viewSet.getDataSet().getNavPanelCounts().getOrDefault("dendrogramCount", 0) + 1;
+		viewSet.getDataSet().getNavPanelCounts().put("dendrogramCount", id);
 		String title = RB.format("gui.MenuAnalysis.dendrogram.name", id,
 			matrix.getLineInfos().size());
 		dg.getDendrogram().setTitle(title);

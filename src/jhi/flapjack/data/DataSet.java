@@ -34,7 +34,8 @@ public class DataSet extends XMLRoot
 
 	// Some "global" (to the dataset) UI variables
 	// Total counts for matrices, dendrograms, etc
-	private int matrixCount, dendrogramCount, mabcCount;
+	private HashMap<String, Integer> navPanelCounts = new HashMap<>();
+
 	private boolean colorTraitTable = true;
 
 	private BinnedData bins = new BinnedData();
@@ -129,23 +130,11 @@ public class DataSet extends XMLRoot
 	public void setDbAssociation(DBAssociation dbAssociation)
 		{ this.dbAssociation = dbAssociation; }
 
-	public int getMatrixCount()
-		{ return matrixCount; }
+	public HashMap<String, Integer> getNavPanelCounts()
+		{ return navPanelCounts; }
 
-	public void setMatrixCount(int matrixCount)
-		{ this.matrixCount = matrixCount; }
-
-	public int getDendrogramCount()
-		{ return dendrogramCount; }
-
-	public void setDendrogramCount(int dendrogramCount)
-		{ this.dendrogramCount = dendrogramCount; }
-
-	public int getMabcCount()
-		{ return mabcCount; }
-
-	public void setMabcCount(int mabcCount)
-		{ this.mabcCount = mabcCount; }
+	public void setNavPanelCounts(HashMap<String, Integer> navPanelCounts)
+		{ this.navPanelCounts = navPanelCounts; }
 
 	public boolean getColorTraitTable()
 		{ return colorTraitTable; }

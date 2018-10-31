@@ -290,7 +290,9 @@ public class PedVerF1sAnalysis extends SimpleJob
 	{
 		DataSet dataSet = viewSet.getDataSet();
 
-		viewSet.setName(name);
+		int id = dataSet.getNavPanelCounts().getOrDefault("pedVerF1sCount", 0) + 1;
+		dataSet.getNavPanelCounts().put("pedVerF1sCount", id);
+		viewSet.setName(RB.format("gui.MenuAnalysis.pedVerF1s.view", id));
 
 		// Create new NavPanel components to hold the results
 		dataSet.getViewSets().add(viewSet);

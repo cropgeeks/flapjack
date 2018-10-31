@@ -512,8 +512,8 @@ public class MabcAnalysis extends SimpleJob
 		DataSet dataSet = viewSet.getDataSet();
 
 		// Create titles for the new view and its results table
-		int id = dataSet.getMabcCount() + 1;
-		dataSet.setMabcCount(id);
+		int id = dataSet.getNavPanelCounts().getOrDefault("mabcCount", 0) + 1;
+		dataSet.getNavPanelCounts().put("mabcCount", id);
 		viewSet.setName(RB.format("gui.MenuAnalysis.mabc.view", id));
 
 		// Add the results viewset to the dataset

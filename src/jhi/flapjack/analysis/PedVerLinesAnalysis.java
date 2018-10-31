@@ -214,7 +214,9 @@ public class PedVerLinesAnalysis extends SimpleJob
 	{
 		DataSet dataSet = viewSet.getDataSet();
 
-		viewSet.setName("PedVerLines View");
+		int id = dataSet.getNavPanelCounts().getOrDefault("pedVerLinesCount", 0) + 1;
+		dataSet.getNavPanelCounts().put("pedVerLinesCount", id);
+		viewSet.setName(RB.format("gui.MenuAnalysis.pedVerLines.view", id));
 
 		// Add the results viewset to the dataset
 		dataSet.getViewSets().add(viewSet);

@@ -274,7 +274,9 @@ public class ForwardBreedingAnalysis extends SimpleJob
 	{
 		DataSet dataSet = viewSet.getDataSet();
 
-		viewSet.setName(RB.getString("gui.MenuAnalysis.forwardbreeding.view"));
+		int id = dataSet.getNavPanelCounts().getOrDefault("forwardBreedingCount", 0) + 1;
+		dataSet.getNavPanelCounts().put("forwardBreedingCount", id);
+		viewSet.setName(RB.format("gui.MenuAnalysis.forwardbreeding.view", id));
 
 		// Add the results viewset to the dataset
 		dataSet.getViewSets().add(viewSet);
