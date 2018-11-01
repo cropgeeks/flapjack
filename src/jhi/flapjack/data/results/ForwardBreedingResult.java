@@ -15,6 +15,7 @@ public class ForwardBreedingResult extends XMLRoot
 	private double percentHeterozygous;
 	private ArrayList<String> haplotypeNames = new ArrayList<>();
 	private ArrayList<Double> haplotypePartialMatch = new ArrayList<>();
+	private ArrayList<Integer> haplotypeAlleleCounts = new ArrayList<>();
 	private ArrayList<Double> haplotypeMatch = new ArrayList<>();
 	private ArrayList<Double> haplotypeWeight = new ArrayList<>();
 	private double averageWeightedHapMatch;
@@ -59,6 +60,12 @@ public class ForwardBreedingResult extends XMLRoot
 
 	public void setHaplotypePartialMatch(ArrayList<Double> haplotypePartialMatch)
 		{ this.haplotypePartialMatch = haplotypePartialMatch; }
+
+	public ArrayList<Integer> getHaplotypeAlleleCounts()
+		{ return haplotypeAlleleCounts; }
+
+	public void setHaplotypeAlleleCounts(ArrayList<Integer> haplotypeAlleleCounts)
+		{ this.haplotypeAlleleCounts = haplotypeAlleleCounts; }
 
 	public ArrayList<Double> getHaplotypeMatch()
 		{ return haplotypeMatch; }

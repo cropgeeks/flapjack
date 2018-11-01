@@ -14,8 +14,9 @@ public class ForwardBreedingTableModel extends LineDataTableModel
 {
 	private int selectedIndex, rankIndex, commentIndex, sortIndex;
 	private int partialMatchIndex;
-	private int hapMatchIndex;
-	private int averageHapMatchIndex;
+	private int hapAlleleCountIndex;
+//	private int hapMatchIndex;
+//	private int averageHapMatchIndex;
 	private int hapWeightIndex;
 	private int averageWeightedHapMatchIndex;
 
@@ -37,6 +38,7 @@ public class ForwardBreedingTableModel extends LineDataTableModel
 		LineInfo line = lines.get(0);
 		ForwardBreedingResult results = line.getResults().getForwardBreedingResult();
 		int partialMatchSize = results.getHaplotypePartialMatch().size();
+//		int hapAlleleCountSize = results.getHaplotypeAlleleCounts().size();
 		int hapMatchSize = results.getHaplotypeMatch().size();
 		int hapWeightSize = results.getHaplotypeWeight().size();
 
@@ -45,9 +47,10 @@ public class ForwardBreedingTableModel extends LineDataTableModel
 		hetCountIndex = percData + 1;
 		hetPercIndex = hetCountIndex + 1;
 		partialMatchIndex = hetPercIndex + 1;
-		hapMatchIndex = partialMatchIndex + partialMatchSize;
-		averageHapMatchIndex = hapMatchIndex + hapMatchSize;
-		hapWeightIndex = averageHapMatchIndex + 1;
+//		hapAlleleCountIndex = partialMatchIndex + partialMatchSize;
+//		hapMatchIndex = partialMatchIndex + partialMatchSize;
+//		averageHapMatchIndex = hapMatchIndex + hapMatchSize;
+		hapWeightIndex = partialMatchIndex + partialMatchSize;
 		averageWeightedHapMatchIndex = hapWeightIndex + hapWeightSize;
 		selectedIndex = averageWeightedHapMatchIndex + 1;
 		rankIndex = selectedIndex + 1;
@@ -69,13 +72,18 @@ public class ForwardBreedingTableModel extends LineDataTableModel
 			columnNames[i + partialMatchIndex] = RB.format("gui.forwardbreeding.ForwardBreedingTableModel.partialMatch", results.getHaplotypeNames().get(i));
 			ttNames[i + partialMatchIndex] = RB.format("gui.forwardbreeding.ForwardBreedingTableModel.partialMatch.tt", results.getHaplotypeNames().get(i));
 		}
-		for (int i=0; i < hapMatchSize; i++)
-		{
-			columnNames[i + hapMatchIndex] = RB.format("gui.forwardbreeding.ForwardBreedingTableModel.match", results.getHaplotypeNames().get(i));
-			ttNames[i + hapMatchIndex] = RB.format("gui.forwardbreeding.ForwardBreedingTableModel.match.tt", results.getHaplotypeNames().get(i));
-		}
-		columnNames[averageHapMatchIndex] = RB.getString("gui.forwardbreeding.ForwardBreedingTableModel.average");
-		ttNames[averageHapMatchIndex] = RB.getString("gui.forwardbreeding.ForwardBreedingTableModel.average.tt");
+//		for (int i=0; i < hapAlleleCountSize; i++)
+//		{
+//			columnNames[i + hapAlleleCountIndex] = RB.format("gui.forwardbreeding.ForwardBreedingTableModel.alleleCount", results.getHaplotypeNames().get(i));
+//			ttNames[i + hapAlleleCountIndex] = RB.format("gui.forwardbreeding.ForwardBreedingTableModel.alleleCount.tt", results.getHaplotypeNames().get(i));
+//		}
+//		for (int i=0; i < hapMatchSize; i++)
+//		{
+//			columnNames[i + hapMatchIndex] = RB.format("gui.forwardbreeding.ForwardBreedingTableModel.match", results.getHaplotypeNames().get(i));
+//			ttNames[i + hapMatchIndex] = RB.format("gui.forwardbreeding.ForwardBreedingTableModel.match.tt", results.getHaplotypeNames().get(i));
+//		}
+//		columnNames[averageHapMatchIndex] = RB.getString("gui.forwardbreeding.ForwardBreedingTableModel.average");
+//		ttNames[averageHapMatchIndex] = RB.getString("gui.forwardbreeding.ForwardBreedingTableModel.average.tt");
 		for (int i=0; i < hapWeightSize; i++)
 		{
 			columnNames[i + hapWeightIndex] = RB.format("gui.forwardbreeding.ForwardBreedingTableModel.weighted", results.getHaplotypeNames().get(i));
@@ -123,12 +131,15 @@ public class ForwardBreedingTableModel extends LineDataTableModel
 			return stats.getHeterozygousCount();
 		else if (col == hetPercIndex)
 			return stats.getPercentHeterozygous();
-		else if (col >= partialMatchIndex && col < hapMatchIndex)
+//		else if (col >= partialMatchIndex && col < hapAlleleCountIndex)
+		else if (col >= partialMatchIndex && col < hapWeightIndex)
 			return stats.getHaplotypePartialMatch().get(col - partialMatchIndex);
-		else if (col >= hapMatchIndex && col < averageHapMatchIndex)
-			return stats.getHaplotypeMatch().get(col - hapMatchIndex);
-		else if (col >= averageHapMatchIndex && col < hapWeightIndex)
-			return stats.getAverageHapMatch();
+//		else if (col >= hapAlleleCountIndex && col < hapMatchIndex)
+//			return stats.getHaplotypeAlleleCounts().get(col - hapAlleleCountIndex);
+//		else if (col >= hapMatchIndex && col < averageHapMatchIndex)
+//			return stats.getHaplotypeMatch().get(col - hapMatchIndex);
+//		else if (col >= averageHapMatchIndex && col < hapWeightIndex)
+//			return stats.getAverageHapMatch();
 		else if (col >= hapWeightIndex && col < averageWeightedHapMatchIndex)
 			return stats.getHaplotypeWeight().get(col - hapWeightIndex);
 		else if (col == averageWeightedHapMatchIndex)
