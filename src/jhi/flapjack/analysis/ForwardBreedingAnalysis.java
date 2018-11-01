@@ -85,7 +85,6 @@ public class ForwardBreedingAnalysis extends SimpleJob
 
 			// A check if both phases of each allele matches the haplotype string
 			ArrayList<Integer> hapAlleleCountList = calcHapAlleleCountList(as, markerIndicesByQtlName, lineIndex);
-			result.setHaplotypeAlleleCounts(hapAlleleCountList);
 
 			// Below are additional statistics which can be calculated from those derived above...
 
@@ -93,7 +92,6 @@ public class ForwardBreedingAnalysis extends SimpleJob
 				.mapToDouble(alleleCount -> alleleCount / 2f)
 				.boxed()
 				.collect(Collectors.toCollection(ArrayList::new));
-			result.setHaplotypeMatch(hapMatch);
 
 			ArrayList<Double> hapWeight = hapMatch.stream()
 				.mapToDouble(score -> score == 0.5 ? 0.6 : score)
