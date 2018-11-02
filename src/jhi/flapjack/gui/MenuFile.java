@@ -406,7 +406,8 @@ public class MenuFile
 			Prefs.guiImportType = DataImporter.IMPORT_CLASSIC;
 			importGenotypeData(null, datFile.getFile(), null, true);
 		}
-		else if (files.length == 1 && !files[0].isProjectFile())
+		// For any other (unknown) files, have a go at genotype loading them
+		else if (files.length == 1 && files[0].getType() == FlapjackFile.UNKNOWN)
 		{
 			Prefs.guiImportType = DataImporter.IMPORT_CLASSIC;
 			importGenotypeData(null, files[0].getFile(), null, true);

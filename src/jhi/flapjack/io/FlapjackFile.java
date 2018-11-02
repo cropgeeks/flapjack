@@ -14,15 +14,14 @@ import java.util.zip.*;
 public class FlapjackFile
 {
 	public static final int UNKNOWN = 0;
-	public static final int PROJECT_XML = 1;
-	public static final int PROJECT_ZXML = 2;
-	public static final int PROJECT_BIN = 3;
-	public static final int MAP = 4;
-	public static final int GENOTYPE = 5;
-	public static final int PHENOTYPE = 6;
-	public static final int QTL = 7;
-	public static final int GRAPH = 8;
-	public static final int WIGGLE = 9;
+	public static final int PROJECT = 1;
+	public static final int MAP = 2;
+	public static final int GENOTYPE = 3;
+	public static final int PHENOTYPE = 4;
+	public static final int QTL = 5;
+	public static final int GRAPH = 6;
+	public static final int WIGGLE = 7;
+	public static final int INTERTEK = 8;
 
 	private String filename;
 	private URL url;
@@ -147,13 +146,21 @@ public class FlapjackFile
 		try
 		{
 			if (ProjectSerializerDB.isDatabase(this))
+			{
+				type = PROJECT;
 				return true;
+			}
 		}
 		catch (Exception e) {}
 
 		// Otherwise just look at the extension
-		return filename.toLowerCase().endsWith(".xml") ||
-			filename.toLowerCase().endsWith(".flapjack");
+		if (filename.toLowerCase().endsWith(".xml") || filename.toLowerCase().endsWith(".flapjack"))
+		{
+				type = PROJECT;
+				return true;
+		}
+
+		return false;
 	}
 
 	public boolean canDetermineType()
@@ -182,6 +189,9 @@ public class FlapjackFile
 				else if (isWiggle(str))
 					type = WIGGLE;
 			}
+
+			if (type == UNKNOWN && isIntertek())
+				type = INTERTEK;
 		}
 		catch (Exception e) { System.out.println(e);}
 
@@ -244,5 +254,24 @@ public class FlapjackFile
 		catch (Exception e) { e.printStackTrace(); }
 
 		return null;
+	}
+
+	// Read 32K of the file and see if we see the DNA\\Assay tag
+	private boolean isIntertek()
+	{
+		try
+		{
+			Reader rd = new InputStreamReader(getInputStream());//, "ASCII");
+	        char[] buf = new char[32*1024];
+
+			rd.read(buf);
+			rd.close();
+
+			if (new String(buf).contains("DNA \\ Assay"))
+				return true;
+		}
+		catch (Exception e) { e.printStackTrace(); }
+
+		return false;
 	}
 }
