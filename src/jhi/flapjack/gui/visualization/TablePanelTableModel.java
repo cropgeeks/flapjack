@@ -122,8 +122,10 @@ public class TablePanelTableModel extends LineDataTableModel
 
 		else if (traitsOffset != -1 && col >= traitsOffset)
 		{
-			return line.getLine().getTraitValues().get(
-				traitsModelCols[col - traitsOffset]).tableValue();
+			// Special lines (splitters, etc) have no traits
+			if (line.getLine().getTraitValues().size() > 0)
+				return line.getLine().getTraitValues().get(
+					traitsModelCols[col - traitsOffset]).tableValue();
 		}
 
 		else if (col == lineScoreIndex)
