@@ -54,7 +54,7 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" attributes="0">
+              <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="genoLabel" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -62,13 +62,21 @@
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="mapComboBox" pref="369" max="32767" attributes="0"/>
-                      <Component id="genoComboBox" max="32767" attributes="0"/>
-                  </Group>
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="genoButton" alignment="1" min="-2" max="-2" attributes="0"/>
-                      <Component id="mapButton" alignment="1" min="-2" max="-2" attributes="0"/>
+                      <Group type="102" attributes="0">
+                          <Component id="genoLabel2" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      </Group>
+                      <Group type="102" attributes="0">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="mapComboBox" pref="372" max="32767" attributes="0"/>
+                              <Component id="genoComboBox" max="32767" attributes="0"/>
+                          </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="genoButton" alignment="1" min="-2" max="-2" attributes="0"/>
+                              <Component id="mapButton" alignment="1" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -89,6 +97,8 @@
                       <Component id="genoButton" alignment="2" min="-2" max="-2" attributes="0"/>
                       <Component id="genoComboBox" alignment="2" min="-2" max="-2" attributes="0"/>
                   </Group>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="genoLabel2" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
@@ -131,6 +141,11 @@
         <Component class="javax.swing.JButton" name="genoButton">
           <Properties>
             <Property name="text" type="java.lang.String" value="Browse..."/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="genoLabel2">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="(Genotype files can be in either Flapjack or Intertek format)"/>
           </Properties>
         </Component>
       </SubComponents>

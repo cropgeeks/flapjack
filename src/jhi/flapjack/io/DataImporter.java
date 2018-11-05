@@ -118,18 +118,27 @@ public class DataImporter extends SimpleJob
 		// "Normal"...
 		if (Prefs.guiImportType == IMPORT_CLASSIC)
 		{
-			// Initializes the data importer, passing it the required options, either
-			// from the preferences (if a user file is being opened) or with preset
-			// options if we're loading the sample file (which has a set format)
-			if (usePrefs)
-				return new GenotypeDataImporter(genoFile, dataSet,
-					mapImporter.getMarkersHashMap(), Prefs.ioMissingData,
-					Prefs.ioHeteroSeparator, Prefs.ioTransposed, Prefs.ioAllowDupLines);
-			else
-				return new GenotypeDataImporter(genoFile, dataSet,
-					mapImporter.getMarkersHashMap(), "-", "/", false, false);
+			// Can we determine what type of genotype file this is?
+			FlapjackFile f = new FlapjackFile(genoFile.getPath());
+			f.canDetermineType();
 
-//			return new IntertekDataImporter(genoFile, dataSet, mapImporter.getMarkersHashMap());
+			if (f.getType() != FlapjackFile.INTERTEK)
+			{
+				// Initializes the data importer, passing it the required options, either
+				// from the preferences (if a user file is being opened) or with preset
+				// options if we're loading the sample file (which has a set format)
+				if (usePrefs)
+					return new GenotypeDataImporter(genoFile, dataSet,
+						mapImporter.getMarkersHashMap(), Prefs.ioMissingData,
+						Prefs.ioHeteroSeparator, Prefs.ioTransposed, Prefs.ioAllowDupLines);
+				else
+					return new GenotypeDataImporter(genoFile, dataSet,
+						mapImporter.getMarkersHashMap(), "-", "/", false, false);
+			}
+			else
+			{
+				return new IntertekDataImporter(genoFile, dataSet, mapImporter.getMarkersHashMap());
+			}
 		}
 		// Or BrAPI
 		else

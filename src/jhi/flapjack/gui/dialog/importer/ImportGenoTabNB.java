@@ -46,6 +46,7 @@ class ImportGenoTabNB extends javax.swing.JPanel implements ActionListener
 		RB.setText(mapLabel, "gui.dialog.NBDataImportPanel.mapLabel");
 		mapButton.setText(RB.getString("gui.text.browse"));
 		RB.setText(genoLabel, "gui.dialog.NBDataImportPanel.genoLabel");
+		RB.setText(genoLabel2, "gui.dialog.NBDataImportPanel.genoLabel2");
 		genoButton.setText(RB.getString("gui.text.browse"));
 		optionsPanel.setBorder(BorderFactory.createTitledBorder(RB.getString("gui.dialog.NBDataImportPanel.optionsPanel")));
 		RB.setText(optionsLabel, "gui.dialog.NBDataImportPanel.optionsLabel");
@@ -98,7 +99,7 @@ class ImportGenoTabNB extends javax.swing.JPanel implements ActionListener
 
 		Prefs.guiMapList = mapComboBox.getHistory();
 		Prefs.guiGenoList = genoComboBox.getHistory();
-		
+
 		Prefs.guiImportType = DataImporter.IMPORT_CLASSIC;
 
 		return true;
@@ -140,6 +141,7 @@ class ImportGenoTabNB extends javax.swing.JPanel implements ActionListener
         genoLabel = new javax.swing.JLabel();
         genoComboBox = new scri.commons.gui.matisse.HistoryComboBox();
         genoButton = new javax.swing.JButton();
+        genoLabel2 = new javax.swing.JLabel();
         tabLabel = new javax.swing.JLabel();
         optionsPanel = new javax.swing.JPanel();
         optionsButton = new javax.swing.JButton();
@@ -157,6 +159,8 @@ class ImportGenoTabNB extends javax.swing.JPanel implements ActionListener
 
         genoButton.setText("Browse...");
 
+        genoLabel2.setText("(Genotype files can be in either Flapjack or Intertek format)");
+
         javax.swing.GroupLayout filePanelLayout = new javax.swing.GroupLayout(filePanel);
         filePanel.setLayout(filePanelLayout);
         filePanelLayout.setHorizontalGroup(
@@ -168,12 +172,17 @@ class ImportGenoTabNB extends javax.swing.JPanel implements ActionListener
                     .addComponent(mapLabel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(filePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(mapComboBox, javax.swing.GroupLayout.DEFAULT_SIZE, 369, Short.MAX_VALUE)
-                    .addComponent(genoComboBox, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(filePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(genoButton, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(mapButton, javax.swing.GroupLayout.Alignment.TRAILING))
+                    .addGroup(filePanelLayout.createSequentialGroup()
+                        .addComponent(genoLabel2)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(filePanelLayout.createSequentialGroup()
+                        .addGroup(filePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(mapComboBox, javax.swing.GroupLayout.DEFAULT_SIZE, 372, Short.MAX_VALUE)
+                            .addComponent(genoComboBox, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(filePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(genoButton, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(mapButton, javax.swing.GroupLayout.Alignment.TRAILING))))
                 .addContainerGap())
         );
         filePanelLayout.setVerticalGroup(
@@ -189,6 +198,8 @@ class ImportGenoTabNB extends javax.swing.JPanel implements ActionListener
                     .addComponent(genoLabel)
                     .addComponent(genoButton)
                     .addComponent(genoComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(genoLabel2)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -252,6 +263,7 @@ class ImportGenoTabNB extends javax.swing.JPanel implements ActionListener
     private javax.swing.JButton genoButton;
     scri.commons.gui.matisse.HistoryComboBox genoComboBox;
     private javax.swing.JLabel genoLabel;
+    private javax.swing.JLabel genoLabel2;
     private javax.swing.JButton mapButton;
     scri.commons.gui.matisse.HistoryComboBox mapComboBox;
     private javax.swing.JLabel mapLabel;

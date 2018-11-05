@@ -51,7 +51,7 @@ public class IntertekDataImporter implements IGenotypeImporter
 		this.file = file;
 		this.dataSet = dataSet;
 		this.markers = markers;
-		this.ioMissingData = "-";
+		this.ioMissingData = "";
 		this.ioHeteroSeparator = ":";
 
 		stateTable = dataSet.getStateTable();
@@ -163,7 +163,7 @@ public class IntertekDataImporter implements IGenotypeImporter
 				linesByName.put(name, new ArrayList<Line>());
 
 			// Scan for "NTC" (non target control) data - ignore any lines that have this
-			if (values.length > 0 && values[1].equals("NTC"))
+			if (values.length > 1 && values[1].equals("NTC"))
 				continue;
 
 			Line line = dataSet.createLine(name, useByteStorage);
@@ -178,8 +178,16 @@ public class IntertekDataImporter implements IGenotypeImporter
 					// Replace all "unknown" states with the missing data str
 					rawAlleles = rawAlleles.replace("?", ioMissingData);
 					rawAlleles = rawAlleles.replace("Uncallable", ioMissingData);
+					rawAlleles = rawAlleles.replace("Missing", ioMissingData);
+					rawAlleles = rawAlleles.replace("DUPE", ioMissingData);
+					rawAlleles = rawAlleles.replace("Bad", ioMissingData);
+					rawAlleles = rawAlleles.replace("Unused", ioMissingData);
+					rawAlleles = rawAlleles.replace("empty", ioMissingData);
+					rawAlleles = rawAlleles.replace("Uncallable", ioMissingData);
+					rawAlleles = rawAlleles.replace("NA", ioMissingData);
+					rawAlleles = rawAlleles.replace("NN", ioMissingData);
 
-					// Intertek will code "A" as "A:A" - deal with it:
+					// Intertek will code "A" as "A/A" - deal with it:
 					String[] alleles = rawAlleles.split(ioHeteroSeparator);
 					if (alleles.length == 2)
 						if (alleles[0].equals(alleles[1]))
