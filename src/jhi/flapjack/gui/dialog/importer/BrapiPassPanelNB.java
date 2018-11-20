@@ -282,7 +282,7 @@ class BrapiPassPanelNB extends JPanel implements ActionListener, IBrapiWizard
                 .addComponent(useStudies)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(useMaps)
-                .addContainerGap(43, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         specLabel.setText("Note that Flapjack will only work with resources targetting V1.1 of the BrAPI specification.");
