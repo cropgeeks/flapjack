@@ -102,11 +102,10 @@ class BrapiMatricesPanelNB extends JPanel implements IBrapiWizard
 	@Override
 	public void onShow()
 	{
+		refreshMatrices();
+
 		dialog.enableBack(true);
 		dialog.enableNext(matricesModel != null && matricesModel.getSize() > 0);
-
-		if (matricesModel == null || matricesModel.getSize() == 0)
-			refreshMatrices();
 	}
 
 	@Override
