@@ -4,7 +4,6 @@
 package jhi.flapjack.gui.dialog.importer;
 
 import java.awt.*;
-import java.awt.event.*;
 import javax.swing.*;
 
 import jhi.flapjack.gui.*;
@@ -12,7 +11,7 @@ import jhi.flapjack.io.brapi.*;
 
 import scri.commons.gui.*;
 
-class BrapiPassPanelNB extends JPanel implements ActionListener, IBrapiWizard
+class BrapiPassPanelNB extends JPanel implements IBrapiWizard
 {
 	private BrapiClient client;
 	private BrapiImportDialog dialog;
@@ -29,20 +28,18 @@ class BrapiPassPanelNB extends JPanel implements ActionListener, IBrapiWizard
 		useStudies.setSelected(Prefs.guiBrAPIUseStudies);
 		useMaps.setSelected(Prefs.guiBrAPIUseMaps);
 
-		useAuthentication.addActionListener(this);
+		useAuthentication.addActionListener(e -> enableAuthenticationOptions());
 	}
 
-	public void actionPerformed(ActionEvent e)
+	private void enableAuthenticationOptions()
 	{
-		if (e.getSource() == useAuthentication)
-		{
-			boolean state = useAuthentication.isSelected();
+		boolean state = useAuthentication.isSelected();
 
-			userLabel.setEnabled(state);
-			passLabel.setEnabled(state);
-			username.setEnabled(state);
-			password.setEnabled(state);
-		}
+		userLabel.setEnabled(state);
+		passLabel.setEnabled(state);
+		username.setEnabled(state);
+		password.setEnabled(state);
+		saveCredentials.setEnabled(state);
 	}
 
 	boolean validateCalls()
@@ -81,6 +78,14 @@ class BrapiPassPanelNB extends JPanel implements ActionListener, IBrapiWizard
 			connectionLabel.setText("Connecting to " + client.getResource().getName());
 		else
 			connectionLabel.setText("Connecting to " + client.getResource().getUrl());
+
+		// Grab (any) previously cached auth details and fill them in
+		AuthManager.Credentials c = AuthManager.getCredentials(client.getResource().getUrl());
+		useAuthentication.setSelected(c.useAuthentication());
+		username.setText(c.getUsername());
+		password.setText(c.getPassword());
+		saveCredentials.setSelected(c.saveCredentials());
+		enableAuthenticationOptions();
 	}
 
 	@Override
@@ -97,6 +102,10 @@ class BrapiPassPanelNB extends JPanel implements ActionListener, IBrapiWizard
 	{
 		Prefs.guiBrAPIUseStudies = useStudies.isSelected();
 		Prefs.guiBrAPIUseMaps = useMaps.isSelected();
+
+		AuthManager.setCredentials(client.getResource().getUrl(),
+			useAuthentication.isSelected(), saveCredentials.isSelected(),
+			username.getText(), new String(password.getPassword()));
 
 		if (validateCalls() == false)
 			return;
@@ -182,7 +191,7 @@ class BrapiPassPanelNB extends JPanel implements ActionListener, IBrapiWizard
         passLabel = new javax.swing.JLabel();
         password = new javax.swing.JPasswordField();
         useAuthentication = new javax.swing.JCheckBox();
-        jCheckBox1 = new javax.swing.JCheckBox();
+        saveCredentials = new javax.swing.JCheckBox();
         jPanel2 = new javax.swing.JPanel();
         useStudies = new javax.swing.JCheckBox();
         useMaps = new javax.swing.JCheckBox();
@@ -208,9 +217,8 @@ class BrapiPassPanelNB extends JPanel implements ActionListener, IBrapiWizard
         useAuthentication.setText("This resource requires me to authenticate with it:");
         useAuthentication.setOpaque(false);
 
-        jCheckBox1.setText("Remember my credentials");
-        jCheckBox1.setEnabled(false);
-        jCheckBox1.setOpaque(false);
+        saveCredentials.setText("Remember my credentials");
+        saveCredentials.setOpaque(false);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -231,7 +239,7 @@ class BrapiPassPanelNB extends JPanel implements ActionListener, IBrapiWizard
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jCheckBox1)
+                                .addComponent(saveCredentials)
                                 .addGap(0, 0, Short.MAX_VALUE))
                             .addComponent(username)
                             .addComponent(password))))
@@ -253,7 +261,7 @@ class BrapiPassPanelNB extends JPanel implements ActionListener, IBrapiWizard
                     .addComponent(passLabel)
                     .addComponent(password, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jCheckBox1)
+                .addComponent(saveCredentials)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -317,11 +325,11 @@ class BrapiPassPanelNB extends JPanel implements ActionListener, IBrapiWizard
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel connectionLabel;
-    private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel passLabel;
     private javax.swing.JPasswordField password;
+    private javax.swing.JCheckBox saveCredentials;
     private javax.swing.JLabel specLabel;
     private javax.swing.JCheckBox useAuthentication;
     private javax.swing.JCheckBox useMaps;

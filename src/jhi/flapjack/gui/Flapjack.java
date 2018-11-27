@@ -209,7 +209,7 @@ public class Flapjack
 		System.exit(0);
 	}
 
-	private static File getPrefsFile()
+	public static File getPrefsFile()
 	{
 		// Ensure the .scri-bioinf folder exists
 		File fldr = new File(System.getProperty("user.home"), ".scri-bioinf");

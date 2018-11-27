@@ -183,7 +183,6 @@ public class IntertekDataImporter implements IGenotypeImporter
 					rawAlleles = rawAlleles.replace("Bad", ioMissingData);
 					rawAlleles = rawAlleles.replace("Unused", ioMissingData);
 					rawAlleles = rawAlleles.replace("empty", ioMissingData);
-					rawAlleles = rawAlleles.replace("Uncallable", ioMissingData);
 					rawAlleles = rawAlleles.replace("NA", ioMissingData);
 					rawAlleles = rawAlleles.replace("NN", ioMissingData);
 

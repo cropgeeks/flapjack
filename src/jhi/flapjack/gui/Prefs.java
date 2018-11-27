@@ -201,7 +201,7 @@ public class Prefs extends XMLPreferences
 	public static boolean visShowHetsAsH = false;
 
 	// Should the visualization canvas overlay the raw data?
-	public static boolean visShowGenotypes = false;
+	public static boolean visShowGenotypes = true;
 	// Should the visualization canvas highlight heterozygotes?
 	public static boolean visHighlightHtZ = false;
 	public static boolean visHighlightHoZ = false;
