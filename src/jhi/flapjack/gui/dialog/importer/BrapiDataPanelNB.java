@@ -80,7 +80,7 @@ class BrapiDataPanelNB extends JPanel implements IBrapiWizard
 	public String getCardName()
 		{ return "data"; }
 
-	void refreshData()
+	public boolean refreshData()
 	{
 		ProgressDialog pd = new ProgressDialog(new DataDownloader(),
 			 RB.getString("gui.dialog.importer.BrapiDataPanelNB.title"),
@@ -88,7 +88,7 @@ class BrapiDataPanelNB extends JPanel implements IBrapiWizard
 			 Flapjack.winMain);
 
 		if (pd.failed("gui.error"))
-			return;
+			return false;
 
 		catModel.removeAllElements();
 		for (XmlCategory cat: data.getCategories())
@@ -97,6 +97,8 @@ class BrapiDataPanelNB extends JPanel implements IBrapiWizard
 		int selIndex = Prefs.guiBrAPICategoryIndex;
 		if (selIndex >= 0 && selIndex < catCombo.getItemCount())
 			catCombo.setSelectedIndex(selIndex);
+
+		return true;
 	}
 
 	private class DataDownloader extends SimpleJob

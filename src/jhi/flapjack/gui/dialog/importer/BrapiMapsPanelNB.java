@@ -66,7 +66,7 @@ class BrapiMapsPanelNB extends JPanel implements IBrapiWizard
 		dialog.enableNext(index >= 0 || checkSkipMap.isSelected());
 	}
 
-	private void refreshMaps()
+	public boolean refreshData()
 	{
 		ProgressDialog pd = new ProgressDialog(new DataDownloader(),
 			 RB.getString("gui.dialog.importer.BrapiMapsPanelNB.title"),
@@ -74,7 +74,7 @@ class BrapiMapsPanelNB extends JPanel implements IBrapiWizard
 			 Flapjack.winMain);
 
 		if (pd.failed("gui.error"))
-			return;
+			return false;
 
 		// Populate the maps combo box
 		mapModel = new DefaultComboBoxModel<String>();
@@ -84,6 +84,8 @@ class BrapiMapsPanelNB extends JPanel implements IBrapiWizard
 
 		mapsCombo.setModel(mapModel);
 		displayMap();
+
+		return true;
 	}
 
 	private class DataDownloader extends SimpleJob
@@ -99,16 +101,17 @@ class BrapiMapsPanelNB extends JPanel implements IBrapiWizard
 	public void onShow()
 	{
 		dialog.enableBack(true);
-
-		if (mapModel == null || mapModel.getSize() == 0)
-			refreshMaps();
 	}
 
 	@Override
 	public void onNext()
 	{
 		if (client.hasAlleleMatrices())
-			dialog.setScreen(dialog.getMatricesPanel());
+		{
+			if (dialog.getMatricesPanel().refreshData())
+				dialog.setScreen(dialog.getMatricesPanel());
+		}
+
 		else
 			dialog.wizardCompleted();
 

@@ -42,7 +42,7 @@ class BrapiPassPanelNB extends JPanel implements IBrapiWizard
 		saveCredentials.setEnabled(state);
 	}
 
-	boolean validateCalls()
+	boolean getCallsData()
 	{
 		ProgressDialog pd = new ProgressDialog(new CallsDownloader(),
 			RB.getString("gui.dialog.importer.BrapiDataPanelNB.title2"),
@@ -93,6 +93,11 @@ class BrapiPassPanelNB extends JPanel implements IBrapiWizard
 	{
 		updateLabels();
 
+		getCallsData();
+
+		useMaps.setEnabled(client.hasMaps());
+		useStudies.setEnabled(client.hasStudiesSearchGET() || client.hasStudiesSearchPOST());
+
 		dialog.enableBack(true);
 		dialog.enableNext(true);
 	}
@@ -100,33 +105,37 @@ class BrapiPassPanelNB extends JPanel implements IBrapiWizard
 	@Override
 	public void onNext()
 	{
-		Prefs.guiBrAPIUseStudies = useStudies.isSelected();
-		Prefs.guiBrAPIUseMaps = useMaps.isSelected();
+		Prefs.guiBrAPIUseStudies = useStudies.isEnabled() && useStudies.isSelected();
+		Prefs.guiBrAPIUseMaps = useMaps.isEnabled() && useMaps.isSelected();
 
 		AuthManager.setCredentials(client.getResource().getUrl(),
 			useAuthentication.isSelected(), saveCredentials.isSelected(),
 			username.getText(), new String(password.getPassword()));
 
-		if (validateCalls() == false)
+		if (client.validateCalls() == false)
 			return;
 
-//		if (client.hasToken() && !useAuthentication.isSelected())
-//		{
-//			TaskDialog.error(
-//				RB.getString("gui.dialog.importer.BrapiPassPanelNB.requiresAuth"),
-//				RB.getString("gui.text.close"));
-//			return;
-//		}
-
-		if (useAuthentication.isSelected() && !authenticate())
+		if (useAuthentication.isSelected() && !refreshData())
 			return;
 
 		if (Prefs.guiBrAPIUseStudies)
-			dialog.setScreen(dialog.getStudiesPanel());
+		{
+			if (dialog.getStudiesPanel().refreshData())
+				dialog.setScreen(dialog.getStudiesPanel());
+		}
+
 		else if (Prefs.guiBrAPIUseMaps)
-			dialog.setScreen(dialog.getMapsPanel());
+		{
+			if (dialog.getMapsPanel().refreshData())
+				dialog.setScreen(dialog.getMapsPanel());
+		}
+
 		else if (client.hasAlleleMatrices())
-			dialog.setScreen(dialog.getMatricesPanel());
+		{
+			if (dialog.getMatricesPanel().refreshData())
+				dialog.setScreen(dialog.getMatricesPanel());
+		}
+
 		else
 			dialog.wizardCompleted();
 
@@ -141,7 +150,7 @@ class BrapiPassPanelNB extends JPanel implements IBrapiWizard
 	public String getCardName()
 		{ return "pass"; }
 
-	private boolean authenticate()
+	public boolean refreshData()
 	{
 		ProgressDialog pd = new ProgressDialog(new DataDownloader(),
 			RB.getString("gui.dialog.importer.BrapiPassPanelNB.title"),
@@ -170,7 +179,15 @@ class BrapiPassPanelNB extends JPanel implements IBrapiWizard
 			client.setUsername(username.getText());
 			client.setPassword(new String(password.getPassword()));
 
-			isAuthenticated = client.doAuthentication();
+			try
+			{
+				isAuthenticated = client.doAuthentication();
+			}
+			catch (Exception e)
+			{
+				isAuthenticated = false;
+				throw new Exception(e);
+			}
 		}
 	}
 

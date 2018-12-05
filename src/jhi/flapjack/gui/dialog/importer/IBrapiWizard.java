@@ -14,4 +14,6 @@ public interface IBrapiWizard
 	JPanel getPanel();
 
 	String getCardName();
+
+	boolean refreshData();
 }

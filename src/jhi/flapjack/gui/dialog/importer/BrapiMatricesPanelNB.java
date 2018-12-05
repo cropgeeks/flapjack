@@ -67,7 +67,7 @@ class BrapiMatricesPanelNB extends JPanel implements IBrapiWizard
 		dialog.enableNext(index >= 0);
 	}
 
-	private void refreshMatrices()
+	public boolean refreshData()
 	{
 		ProgressDialog pd = new ProgressDialog(new DataDownloader(),
 			 RB.getString("gui.dialog.importer.BrapiMatricesPanelNB.title"),
@@ -75,7 +75,7 @@ class BrapiMatricesPanelNB extends JPanel implements IBrapiWizard
 			 Flapjack.winMain);
 
 		if (pd.failed("gui.error"))
-			return;
+			return false;
 
 		// Populate the maps combo box
 		matricesModel = new DefaultComboBoxModel<String>();
@@ -88,6 +88,8 @@ class BrapiMatricesPanelNB extends JPanel implements IBrapiWizard
 
 		// TODO: Can we progress if no studies get loaded
 		dialog.enableNext(matricesModel.getSize() > 0);
+
+		return true;
 	}
 
 	private class DataDownloader extends SimpleJob
@@ -102,10 +104,7 @@ class BrapiMatricesPanelNB extends JPanel implements IBrapiWizard
 	@Override
 	public void onShow()
 	{
-		refreshMatrices();
-
 		dialog.enableBack(true);
-		dialog.enableNext(matricesModel != null && matricesModel.getSize() > 0);
 	}
 
 	@Override

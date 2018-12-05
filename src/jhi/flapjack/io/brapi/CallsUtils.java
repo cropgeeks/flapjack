@@ -81,6 +81,11 @@ class CallsUtils
 		return hasCall("token", JSON, POST);
 	}
 
+	boolean hasMaps()
+	{
+		return hasCall("maps", JSON, GET);
+	}
+
 	boolean hasMapsMapDbId()
 	{
 		return hasCall("maps/{id}", JSON, GET);

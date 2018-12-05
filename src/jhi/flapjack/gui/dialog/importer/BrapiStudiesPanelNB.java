@@ -48,7 +48,7 @@ class BrapiStudiesPanelNB extends JPanel implements IBrapiWizard
 		dialog.enableNext(index >= 0);
 	}
 
-	private void refreshStudies()
+	public boolean refreshData()
 	{
 		ProgressDialog pd = new ProgressDialog(new DataDownloader(),
 			 RB.getString("gui.dialog.importer.BrapiStudiesPanelNB.title"),
@@ -56,7 +56,7 @@ class BrapiStudiesPanelNB extends JPanel implements IBrapiWizard
 			 Flapjack.winMain);
 
 		if (pd.failed("gui.error"))
-			return;
+			return false;
 
 		// Populate the maps combo box
 		studiesModel = new DefaultComboBoxModel<String>();
@@ -69,6 +69,8 @@ class BrapiStudiesPanelNB extends JPanel implements IBrapiWizard
 
 		// TODO: Can we progress if no studies get loaded
 		dialog.enableNext(studiesModel.getSize() > 0);
+
+		return true;
 	}
 
 	private class DataDownloader extends SimpleJob
@@ -90,19 +92,23 @@ class BrapiStudiesPanelNB extends JPanel implements IBrapiWizard
 	public void onShow()
 	{
 		dialog.enableBack(true);
-		dialog.enableNext(studiesModel != null && studiesModel.getSize() > 0);
-
-		if (studiesModel == null || studiesModel.getSize() == 0)
-			refreshStudies();
 	}
 
 	@Override
 	public void onNext()
 	{
 		if (Prefs.guiBrAPIUseMaps)
-			dialog.setScreen(dialog.getMapsPanel());
+		{
+			if (dialog.getMapsPanel().refreshData())
+				dialog.setScreen(dialog.getMapsPanel());
+		}
+
 		else if (client.hasAlleleMatrices())
-			dialog.setScreen(dialog.getMatricesPanel());
+		{
+			if (dialog.getMatricesPanel().refreshData())
+				dialog.setScreen(dialog.getMatricesPanel());
+		}
+
 		else
 			dialog.wizardCompleted();
 

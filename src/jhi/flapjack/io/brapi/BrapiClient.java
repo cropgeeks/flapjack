@@ -23,6 +23,7 @@ import jhi.brapi.client.*;
 
 import retrofit2.Call;
 import retrofit2.Response;
+import scri.commons.gui.*;
 
 public class BrapiClient
 {
@@ -88,10 +89,19 @@ public class BrapiClient
 		}
 
 		callsUtils = new CallsUtils(calls);
+	}
 
+	public boolean validateCalls()
+	{
 		if (callsUtils.validate() == false)
-			throw new Exception("The selected BrAPI service does not appear to support the required functionality "
+		{
+			TaskDialog.errorWithLog("The selected BrAPI service does not appear to support the required functionality "
 				+ "for use by Flapjack (" + callsUtils.getExceptionMsg() + ").");
+
+			return false;
+		}
+
+		return true;
 	}
 
 	public boolean hasToken()
@@ -107,6 +117,11 @@ public class BrapiClient
 	public boolean hasAlleleMatrixSearchFlapjack()
 	{
 		return callsUtils.hasAlleleMatrixSearchFlapjack();
+	}
+
+	public boolean hasMaps()
+	{
+		return callsUtils.hasMaps();
 	}
 
 	public boolean hasMapsMapDbId()
