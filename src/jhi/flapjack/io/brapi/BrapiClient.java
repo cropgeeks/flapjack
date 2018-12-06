@@ -166,9 +166,7 @@ public class BrapiClient
 		}
 		else
 		{
-			String errorMessage = ErrorHandler.getMessage(generator, response);
-
-			throw new Exception(errorMessage);
+			return false;
 		}
 	}
 

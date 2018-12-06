@@ -179,15 +179,7 @@ class BrapiPassPanelNB extends JPanel implements IBrapiWizard
 			client.setUsername(username.getText());
 			client.setPassword(new String(password.getPassword()));
 
-			try
-			{
-				isAuthenticated = client.doAuthentication();
-			}
-			catch (Exception e)
-			{
-				isAuthenticated = false;
-				throw new Exception(e);
-			}
+			isAuthenticated = client.doAuthentication();
 		}
 	}
 
