@@ -7,10 +7,11 @@ import java.io.*;
 import java.util.*;
 import java.util.logging.*;
 import javax.servlet.*;
-import jhi.flapjack.servlet.api.*;
 
 import jhi.flapjack.servlet.dendrogram.*;
 import jhi.flapjack.servlet.pcoa.*;
+
+import jhi.oddjob.*;
 
 import org.restlet.*;
 import org.restlet.engine.application.*;

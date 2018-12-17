@@ -100,11 +100,11 @@ public class PCoAServerResource extends ServerResource
 		return new StringRepresentation(taskId);
 	}
 
-	@Get("html")
-	public Representation getHtml()
-	{
-		return new StringRepresentation("/pcoa - " + new Date());
-	}
+//	@Get("html")
+//	public Representation getHtml()
+//	{
+//		return new StringRepresentation("/pcoa - " + new Date());
+//	}
 
 	@Get("txt")
 	public Representation getFitAsTextFile()

@@ -104,11 +104,11 @@ public class DendrogramServerResource extends ServerResource
 		return new StringRepresentation(taskId);
 	}
 
-	@Get("html")
-	public Representation getHtml()
-	{
-		return new StringRepresentation("/dendrogram - " + new Date());
-	}
+//	@Get("html")
+//	public Representation getHtml()
+//	{
+//		return new StringRepresentation("/dendrogram - " + new Date());
+//	}
 
 	@Get("zip")
 	public Representation getDendrogramAsZipFile()

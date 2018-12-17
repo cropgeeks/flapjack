@@ -18,9 +18,8 @@ import retrofit2.converter.jackson.*;
 
 public class DendrogramClient
 {
-//	private final String baseURL = "http://ics.hutton.ac.uk/flapjack-services-test/";
-	private final String baseURL = "https://ics.hutton.ac.uk/flapjack-services-20170726/";
-//	private final String URL = "https://ics.hutton.ac.uk/flapjack-services-20160817/dendrogram/";
+	private final String baseURL = "http://minke.hutton.ac.uk:9088/flapjack-services-20170726/";
+//	private final String baseURL = "https://ics.hutton.ac.uk/flapjack-services-20170726/";
 	private String taskId;
 
 	private Retrofit retrofit;
