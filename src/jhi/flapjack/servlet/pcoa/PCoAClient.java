@@ -17,8 +17,8 @@ import retrofit2.converter.jackson.*;
 
 public class PCoAClient
 {
-	private final String baseURL = "http://minke.hutton.ac.uk:9088/flapjack-services-20170726/";
-//	private final String baseURL = "https://ics.hutton.ac.uk/flapjack-services-20170726/";
+//	private final String baseURL = "http://minke.hutton.ac.uk:9088/flapjack-services-20170726/";
+	private final String baseURL = "https://ics.hutton.ac.uk/flapjack-services-20170726/";
 	private String taskId;
 
 	private Retrofit retrofit;
