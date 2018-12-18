@@ -45,9 +45,10 @@ class BrapiMatricesPanelNB extends JPanel implements IBrapiWizard
 			int sampleCount = matrix.getSampleCount();
 			int markerCount = matrix.getMarkerCount();
 
-			String str = matrix.getName() + " - " + matrix.getMatrixDbId() + "\n"
+			String str = RB.format("gui.dialog.importer.BrapiMatricesPanelNB.matrixName", matrix.getName()) + "\n"
+				+ RB.format("gui.dialog.importer.BrapiMatricesPanelNB.matrixId", matrix.getMatrixDbId()) + "\n"
 				+ RB.format("gui.dialog.importer.BrapiMatricesPanelNB.sampleCount", nf.format(sampleCount)) + "\n"
-				+ RB.format("gui.dialog.importer.BrapiMatricesPanelNB.markerCount",nf.format(markerCount));
+				+ RB.format("gui.dialog.importer.BrapiMatricesPanelNB.markerCount", nf.format(markerCount));
 
 			text.setText(str);
 
@@ -81,7 +82,7 @@ class BrapiMatricesPanelNB extends JPanel implements IBrapiWizard
 		matricesModel = new DefaultComboBoxModel<String>();
 
 		for (BrapiAlleleMatrixDataset matrix: matrices)
-			matricesModel.addElement(matrix.getMatrixDbId() + " - " + matrix.getName());
+			matricesModel.addElement(matrix.getName());
 
 		matricesCombo.setModel(matricesModel);
 		displayMatrices();

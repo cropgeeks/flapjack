@@ -51,7 +51,9 @@ class BrapiMapsPanelNB extends JPanel implements IBrapiWizard
 
 			NumberFormat nf = DecimalFormat.getNumberInstance();
 
-			String str = "Species: " + map.getSpecies() + "\n" +
+			String str = "Name: " + map.getName() + "\n" +
+				"ID: " + map.getMapDbId() + "\n" +
+				"Species: " + map.getSpecies() + "\n" +
 				"Type: " + map.getType() + "\n" +
 				"Unit: " + map.getUnit() + "\n" +
 				"Date: " + map.getPublishedDate() + "\n" +
@@ -80,7 +82,7 @@ class BrapiMapsPanelNB extends JPanel implements IBrapiWizard
 		mapModel = new DefaultComboBoxModel<String>();
 
 		for (BrapiGenomeMap map: maps)
-			mapModel.addElement(map.getMapDbId() + " - " + map.getName());
+			mapModel.addElement(map.getName());
 
 		mapsCombo.setModel(mapModel);
 		displayMap();

@@ -40,7 +40,8 @@ class BrapiStudiesPanelNB extends JPanel implements IBrapiWizard
 			BrapiStudies study = studies.get(index);
 
 			client.setStudyID(study.getStudyDbId());
-			text.setText(study.getName() + " - " + study.getStudyDbId());
+			text.setText(RB.format("gui.dialog.importer.BrapiStudiesPanelNB.studyName", study.getName()) + "\n"
+				+ RB.format("gui.dialog.importer.BrapiStudiesPanelNB.studyId", study.getStudyDbId()));
 		}
 		else
 			text.setText("");
@@ -62,7 +63,7 @@ class BrapiStudiesPanelNB extends JPanel implements IBrapiWizard
 		studiesModel = new DefaultComboBoxModel<String>();
 
 		for (BrapiStudies study: studies)
-			studiesModel.addElement(study.getStudyDbId() + " - " + study.getName());
+			studiesModel.addElement(study.getName());
 
 		studiesCombo.setModel(studiesModel);
 		displayStudies();
