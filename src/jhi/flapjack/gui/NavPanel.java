@@ -116,6 +116,7 @@ public class NavPanel extends JPanel
 			public void treeStructureChanged(TreeModelEvent e) {}
 		});
 
+		updateDataSetCount();
 		updateTreeState();
 	}
 
@@ -152,7 +153,8 @@ public class NavPanel extends JPanel
 
 	private void updateDataSetCount()
 	{
-		titlePane.setTitle(RB.format("gui.NavPanel.title", root.getChildCount()));
+		if (titlePane != null)
+			titlePane.setTitle(RB.format("gui.NavPanel.title", root.getChildCount()));
 	}
 
 	private void insert(DefaultMutableTreeNode node, DefaultMutableTreeNode parent, int index)
