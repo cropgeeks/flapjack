@@ -68,7 +68,10 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 
 	@Override
 	public void cancelImport()
-		{ isOK = false; }
+	{
+		isOK = false;
+		client.cancel();
+	}
 
 	@Override
 	public long getLineCount()
@@ -236,25 +239,33 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 		{
 			URI uri = client.getAlleleMatrixFileById();
 
-			Response response = client.getResponse(uri);
-			String cl = response.header("Content-Length");
-
-			// If the file is 500MB in size or larger
-			if (cl != null && Long.parseLong(cl) >= 524288000)
+			if (isOK && uri != null)
 			{
-				String size = FlapjackUtils.getSizeString(Long.parseLong(cl));
-				String msg = RB.format("io.BrapiGenotypeImporter.largeFileMsg",size);
-				String[] options = new String[] { RB.getString("gui.text.ok"), RB.getString("gui.text.cancel") };
 
-				if (TaskDialog.show(msg, TaskDialog.QST, 1, options) != 0)
+				Response response = client.getResponse(uri);
+				String cl = response.header("Content-Length");
+
+				// If the file is 500MB in size or larger
+				if (cl != null && Long.parseLong(cl) >= 524288000)
 				{
-					response.close();
-					cancelImport();
-					return false;
-				}
-			}
+					String size = FlapjackUtils.getSizeString(Long.parseLong(cl));
+					String msg = RB.format("io.BrapiGenotypeImporter.largeFileMsg", size);
+					String[] options = new String[]{RB.getString("gui.text.ok"), RB.getString("gui.text.cancel")};
 
-			in = new BufferedReader(new InputStreamReader(response.body().byteStream()));
+					if (TaskDialog.show(msg, TaskDialog.QST, 1, options) != 0)
+					{
+						response.close();
+						cancelImport();
+						return false;
+					}
+				}
+
+				in = new BufferedReader(new InputStreamReader(response.body().byteStream()));
+			}
+			else
+			{
+				return false;
+			}
 		}
 		else
 		{

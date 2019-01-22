@@ -42,29 +42,6 @@ class BrapiPassPanelNB extends JPanel implements IBrapiWizard
 		saveCredentials.setEnabled(state);
 	}
 
-	boolean getCallsData()
-	{
-		ProgressDialog pd = new ProgressDialog(new CallsDownloader(),
-			RB.getString("gui.dialog.importer.BrapiDataPanelNB.title2"),
-			RB.getString("gui.dialog.importer.BrapiDataPanelNB.message2"),
-			Flapjack.winMain);
-
-		if (pd.failed("gui.error"))
-			return false;
-
-		return true;
-	}
-
-	private class CallsDownloader extends SimpleJob
-	{
-		public void runJob(int jobID)
-			throws Exception
-		{
-			client.initService();
-			client.getCalls();
-		}
-	}
-
 	void updateLabels()
 	{
 		try
@@ -92,8 +69,6 @@ class BrapiPassPanelNB extends JPanel implements IBrapiWizard
 	public void onShow()
 	{
 		updateLabels();
-
-		getCallsData();
 
 		useMaps.setEnabled(client.hasMaps());
 		useStudies.setEnabled(client.hasStudiesSearchGET() || client.hasStudiesSearchPOST());

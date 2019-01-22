@@ -76,8 +76,16 @@ public class DataImporter extends SimpleJob
 		genoImporter = setupGenotypeImport();
 		if (genoImporter.importGenotypeDataAsBytes() == false)
 		{
-			genoImporter = setupGenotypeImport();
-			genoImporter.importGenotypeDataAsInts();
+			if (genoImporter.isOK())
+			{
+				genoImporter = setupGenotypeImport();
+				genoImporter.importGenotypeDataAsInts();
+			}
+			else
+			{
+				cancelJob();
+				return;
+			}
 		}
 		genoImporter.cleanUp();
 
@@ -205,6 +213,8 @@ public class DataImporter extends SimpleJob
 	public void cancelJob()
 	{
 		super.cancelJob();
+
+		System.out.println("Cancel called");
 
 		mapImporter.cancelImport();
 		genoImporter.cancelImport();

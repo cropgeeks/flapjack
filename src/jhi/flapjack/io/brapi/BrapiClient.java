@@ -21,6 +21,7 @@ import jhi.brapi.api.markerprofiles.*;
 import jhi.brapi.api.studies.*;
 import jhi.brapi.client.*;
 
+import okhttp3.*;
 import retrofit2.Call;
 import retrofit2.Response;
 import scri.commons.gui.*;
@@ -40,6 +41,8 @@ public class BrapiClient
 	private CallsUtils callsUtils;
 
 	private AsyncChecker.AsyncStatus status = AsyncChecker.AsyncStatus.PENDING;
+
+	private volatile boolean isOk = true;
 
 	public void initService()
 	{
@@ -486,8 +489,9 @@ public class BrapiClient
 		status = AsyncChecker.checkStatus(statusPoll.getMetadata().getStatus());
 
 		// Keep checking until the async call returns anything other than "INPROCESS"
-		while (status == AsyncChecker.AsyncStatus.PENDING || status == AsyncChecker.AsyncStatus.INPROCESS)
+		while ((status == AsyncChecker.AsyncStatus.PENDING || status == AsyncChecker.AsyncStatus.INPROCESS) && isOk)
 		{
+			System.out.println("Polling - isOk: " + isOk);
 			// Wait for a second before polling again
 			try
 			{
@@ -500,6 +504,9 @@ public class BrapiClient
 			statusPoll = statusCall.clone().execute().body();
 			status = AsyncChecker.checkStatus(statusPoll.getMetadata().getStatus());
 		}
+
+		if (!isOk)
+			return null;
 
 		// Check if the call finished successfully, if so grab the datafile
 		if (status == AsyncChecker.AsyncStatus.FINISHED)
@@ -522,7 +529,7 @@ public class BrapiClient
 	public XmlBrapiProvider getBrapiProviders()
 		throws Exception
 	{
-		URL url = new URL("https://ics.hutton.ac.uk/resources/brapi/flapjack-brapi-201806-v1.1.zip");
+		URL url = new URL("https://ics.hutton.ac.uk/resources/brapi/flapjack-brapi-201901-v1.1.zip");
 
 		File dir = new File(FlapjackUtils.getCacheDir(), "brapi");
 		dir.mkdirs();
@@ -632,4 +639,10 @@ public class BrapiClient
 
 	public void setMatrixID(String matrixID)
 		{ this.matrixID = matrixID; }
+
+	public void cancel()
+	{
+		isOk = false;
+		generator.cancelAll();
+	}
 }

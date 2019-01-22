@@ -70,8 +70,43 @@ class BrapiDataPanelNB extends JPanel implements IBrapiWizard
 		else
 			client.setResource(res);
 
-		dialog.setScreen(dialog.getPassPanel());
-		dialog.getBNext().requestFocusInWindow();
+		boolean hasCallsData = getCallsData();
+
+		if (hasCallsData && client.validateCalls())
+		{
+			dialog.setScreen(dialog.getPassPanel());
+			dialog.getBNext().requestFocusInWindow();
+		}
+	}
+
+	boolean getCallsData()
+	{
+		ProgressDialog pd = new ProgressDialog(new CallsDownloader(),
+			RB.getString("gui.dialog.importer.BrapiDataPanelNB.title2"),
+			RB.getString("gui.dialog.importer.BrapiDataPanelNB.message2"),
+			Flapjack.winMain);
+
+		if (pd.failed("gui.error"))
+			return false;
+
+		return true;
+	}
+
+	private class CallsDownloader extends SimpleJob
+	{
+		public void runJob(int jobID)
+			throws Exception
+		{
+			client.initService();
+			client.getCalls();
+		}
+
+		@Override
+		public void cancelJob()
+		{
+			// Special case, we want to cancel the http request
+			client.cancel();
+		}
 	}
 
 	public JPanel getPanel()
@@ -194,6 +229,14 @@ class BrapiDataPanelNB extends JPanel implements IBrapiWizard
 		resCombo.setEnabled(!enabled);
 		resLogo.setEnabled(!enabled);
 		resText.setEnabled(!enabled);
+
+		int index = resCombo.getSelectedIndex();
+
+		if (index >= 0)
+		{
+			// Display the description text
+			res = resModel.getElementAt(index);
+		}
 	}
 
 	/**
