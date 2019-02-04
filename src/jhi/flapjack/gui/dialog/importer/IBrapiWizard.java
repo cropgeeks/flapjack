@@ -16,4 +16,6 @@ public interface IBrapiWizard
 	String getCardName();
 
 	boolean refreshData();
+
+	void onBack();
 }

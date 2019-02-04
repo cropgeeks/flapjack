@@ -117,7 +117,14 @@ class BrapiMapsPanelNB extends JPanel implements IBrapiWizard
 		else
 			dialog.wizardCompleted();
 
-		dialog.getBNext().requestFocusInWindow();}
+		dialog.getBNext().requestFocusInWindow();
+	}
+
+	@Override
+	public void onBack()
+	{
+		client.setMapID(null);
+	}
 
 	@Override
 	public JPanel getPanel()

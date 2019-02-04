@@ -118,6 +118,11 @@ class BrapiPassPanelNB extends JPanel implements IBrapiWizard
 	}
 
 	@Override
+	public void onBack()
+	{
+	}
+
+	@Override
 	public JPanel getPanel()
 		{ return this; }
 

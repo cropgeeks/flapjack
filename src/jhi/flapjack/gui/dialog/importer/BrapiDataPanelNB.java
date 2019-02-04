@@ -79,6 +79,12 @@ class BrapiDataPanelNB extends JPanel implements IBrapiWizard
 		}
 	}
 
+	@Override
+	public void onBack()
+	{
+		client.setResource(null);
+	}
+
 	boolean getCallsData()
 	{
 		ProgressDialog pd = new ProgressDialog(new CallsDownloader(),

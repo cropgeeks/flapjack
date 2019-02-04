@@ -115,6 +115,12 @@ class BrapiMatricesPanelNB extends JPanel implements IBrapiWizard
 	}
 
 	@Override
+	public void onBack()
+	{
+		client.setMatrixID(null);
+	}
+
+	@Override
 	public JPanel getPanel()
 		{ return this; }
 

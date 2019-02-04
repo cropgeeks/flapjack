@@ -109,7 +109,7 @@ public class BrapiImportDialog extends JDialog implements ActionListener
 
 		else if (e.getSource() == bBack)
 		{
-//			currentPanel.onBack();
+			currentPanel.onBack();
 			stack.pop();
 			setScreen(stack.pop());
 			bBack.requestFocusInWindow();

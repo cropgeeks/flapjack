@@ -117,6 +117,12 @@ class BrapiStudiesPanelNB extends JPanel implements IBrapiWizard
 	}
 
 	@Override
+	public void onBack()
+	{
+		client.setStudyID(null);
+	}
+
+	@Override
 	public JPanel getPanel()
 		{ return this; }
 
