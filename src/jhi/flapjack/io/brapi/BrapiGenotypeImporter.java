@@ -275,7 +275,7 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 		// The first line is a list of marker profile IDs
 		String str;
 
-		while ((str = in.readLine()) != null && !str.isEmpty())
+		while ((str = in.readLine()) != null && !str.isEmpty() && isOK)
 		{
 			if (str.startsWith("#"))
 				continue;
@@ -319,7 +319,7 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 				String name = values[0].trim();
 				Line line = dataSet.createLine(name, useByteStorage);
 
-				for (int i = 1; i < values.length; i++)
+				for (int i = 1; i < values.length && isOK; i++)
 				{
 					// Assuming a map was found that contains this marker...
 					if (mapIndex[i] != -1)

@@ -491,7 +491,6 @@ public class BrapiClient
 		// Keep checking until the async call returns anything other than "INPROCESS"
 		while ((status == AsyncChecker.AsyncStatus.PENDING || status == AsyncChecker.AsyncStatus.INPROCESS) && isOk)
 		{
-			System.out.println("Polling - isOk: " + isOk);
 			// Wait for a second before polling again
 			try
 			{
