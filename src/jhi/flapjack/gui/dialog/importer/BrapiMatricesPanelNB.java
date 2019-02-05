@@ -42,8 +42,8 @@ class BrapiMatricesPanelNB extends JPanel implements IBrapiWizard
 			BrapiAlleleMatrixDataset matrix = matrices.get(index);
 
 			client.setMatrixID(matrix.getMatrixDbId());
-			int sampleCount = matrix.getSampleCount();
-			int markerCount = matrix.getMarkerCount();
+			long sampleCount = matrix.getSampleCount();
+			long markerCount = matrix.getMarkerCount();
 
 			String str = RB.format("gui.dialog.importer.BrapiMatricesPanelNB.matrixName", matrix.getName()) + "\n"
 				+ RB.format("gui.dialog.importer.BrapiMatricesPanelNB.matrixId", matrix.getMatrixDbId()) + "\n"

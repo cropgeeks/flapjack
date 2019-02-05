@@ -200,17 +200,17 @@ public class FlapjackUtils
 		NumberFormat nf = DecimalFormat.getNumberInstance();
 		String size;
 
-		if (sizeInBytes < 1024)
+		if (sizeInBytes < 1024d)
 			size = sizeInBytes + " B";
 
 		else if (sizeInBytes < Math.pow(1024, 2))
-			size = nf.format(Math.round(sizeInBytes/1024f)) + " kB";
+			size = nf.format(Math.round(sizeInBytes/1024d)) + " kB";
 
 		else if (sizeInBytes < Math.pow(1024, 3))
-			size = nf.format(Math.round(sizeInBytes/1024f/1024f)) + " MB";
+			size = nf.format(Math.round(sizeInBytes/1024d/1024d)) + " MB";
 
 		else
-			size = nf.format(sizeInBytes/1024f/1024f/1024f) + " GB";
+			size = nf.format(sizeInBytes/1024d/1024d/1024d) + " GB";
 
 		return size;
 	}
