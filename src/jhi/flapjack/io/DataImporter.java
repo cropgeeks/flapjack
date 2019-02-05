@@ -214,8 +214,6 @@ public class DataImporter extends SimpleJob
 	{
 		super.cancelJob();
 
-		System.out.println("Cancel called");
-
 		mapImporter.cancelImport();
 		genoImporter.cancelImport();
 	}

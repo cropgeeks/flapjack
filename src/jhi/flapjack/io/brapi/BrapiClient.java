@@ -597,6 +597,11 @@ public class BrapiClient
 		return status.toString();
 	}
 
+	public void removeAuthHeader()
+	{
+		service = generator.removeAuthHeader();
+	}
+
 
 	public String getUsername()
 		{ return username; }

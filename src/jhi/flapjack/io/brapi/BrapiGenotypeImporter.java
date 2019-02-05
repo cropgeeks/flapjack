@@ -241,7 +241,6 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 
 			if (isOK && uri != null)
 			{
-
 				Response response = client.getResponse(uri);
 				String cl = response.header("Content-Length");
 

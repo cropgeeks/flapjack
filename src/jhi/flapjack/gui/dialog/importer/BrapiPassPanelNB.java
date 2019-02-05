@@ -132,6 +132,10 @@ class BrapiPassPanelNB extends JPanel implements IBrapiWizard
 
 	public boolean refreshData()
 	{
+		client.setUsername(null);
+		client.setPassword(null);
+		client.removeAuthHeader();
+
 		ProgressDialog pd = new ProgressDialog(new DataDownloader(),
 			RB.getString("gui.dialog.importer.BrapiPassPanelNB.title"),
 			RB.getString("gui.dialog.importer.BrapiPassPanelNB.message"),
