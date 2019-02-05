@@ -35,18 +35,6 @@ class CallsUtils
 			return false;
 		}
 
-		if (Prefs.guiBrAPIUseMaps && hasCall("maps", JSON, GET) == false)
-		{
-			exceptionMsg = "maps not implmented";
-			return false;
-		}
-
-		if (Prefs.guiBrAPIUseMaps && hasCall("maps/{id}/positions", JSON, GET) == false && hasCall("maps/{mapDbId}/positions", JSON, GET) == false)
-		{
-			exceptionMsg = "maps/{mapDbID}/positions not implmented";
-			return false;
-		}
-
 		// "v2" flow for genotype data extract (this is our preferred route)
 		if (hasAlleleMatrices())
 		{
