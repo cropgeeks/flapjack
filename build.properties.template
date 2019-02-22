@@ -1,6 +1,6 @@
 # Path to the extra Ant tasks defined for Install4j
 # Windows paths need a double backspace
-install4j.ant.path = C:\\Program Files\\Install4j\\bin\\ant.jar
+install4j.antpath = C:\\Program Files\\Install4j\\bin\\ant.jar
 
 # Password required for key signing with Install4j
 keystore.password =
