@@ -528,7 +528,7 @@ public class BrapiClient
 	public XmlBrapiProvider getBrapiProviders()
 		throws Exception
 	{
-		URL url = new URL("https://ics.hutton.ac.uk/resources/brapi/flapjack-brapi-201901-v1.1.zip");
+		URL url = new URL("https://ics.hutton.ac.uk/resources/brapi/flapjack-brapi-201903-v1.1.zip");
 
 		File dir = new File(FlapjackUtils.getCacheDir(), "brapi");
 		dir.mkdirs();
