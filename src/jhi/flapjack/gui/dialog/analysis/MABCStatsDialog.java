@@ -6,6 +6,7 @@ package jhi.flapjack.gui.dialog.analysis;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import javax.swing.event.*;
 
 import jhi.flapjack.data.*;
 import jhi.flapjack.gui.*;
@@ -13,8 +14,9 @@ import jhi.flapjack.gui.*;
 import scri.commons.gui.*;
 import scri.commons.gui.matisse.*;
 
-public class MABCStatsDialog extends JDialog implements ActionListener
+public class MABCStatsDialog extends JDialog implements ActionListener, ChangeListener
 {
+	private JTabbedPane tabs;
 	private MABCStatsSinglePanelNB singlePanel;
 
 	private JButton bOK, bCancel, bHelp;
@@ -30,9 +32,14 @@ public class MABCStatsDialog extends JDialog implements ActionListener
 
 		singlePanel = new MABCStatsSinglePanelNB(viewSet);
 
-		add(singlePanel);
+		tabs = new JTabbedPane();
+		tabs.addTab("Overview", createOverviewPanel());
+		tabs.addTab("Single Analysis", singlePanel);
+
+		add(tabs);
 		add(createButtons(), BorderLayout.SOUTH);
 
+		tabs.addChangeListener(this);
 		FlapjackUtils.initDialog(this, bOK, bCancel, true, singlePanel);
 	}
 
@@ -43,6 +50,7 @@ public class MABCStatsDialog extends JDialog implements ActionListener
 	{
 		bOK = new JButton("Run");
 		bOK.addActionListener(this);
+		bOK.setEnabled(false);
 
 		bCancel = new JButton(RB.getString("gui.text.close"));
 		bCancel.addActionListener(this);
@@ -75,6 +83,31 @@ public class MABCStatsDialog extends JDialog implements ActionListener
 			setVisible(false);
 	}
 
+	public void stateChanged(ChangeEvent e)
+	{
+		if (e.getSource() == tabs)
+		{
+			if (tabs.getSelectedIndex() == 0)
+				bOK.setEnabled(false);
+			else
+				bOK.setEnabled(true);
+		}
+	}
+
 	public boolean isOK()
 		{ return isOK; }
+
+	JPanel createOverviewPanel()
+	{
+		JPanel panel = new JPanel();
+		panel.setBorder(BorderFactory.createEmptyBorder(10,5,10,5));
+		JLabel label = new JLabel("<html><p>Marker Assisted Back Crossing statistics will calculate Recurrent Parent Percentages for each<br>"
+			+ "line across each chromosome, and will also display linkage drag and QTL status information if<br>"
+			+ "appropriate.</p><p>&nbsp;</p><p>"
+			+ "You can either run a single analysis that will process only the currently selected view, or a<br>"
+			+ "batch analysis that will calculate statistics for all datasets and views currently loaded.</p></html>");
+
+		panel.add(label);
+		return panel;
+	}
 }
