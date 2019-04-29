@@ -31,7 +31,7 @@ public class Project extends XMLRoot
 			dataSet.validate();
 		System.out.println("ok");
 	}
-	
+
 
 	// Methods required for XML serialization
 
@@ -64,5 +64,21 @@ public class Project extends XMLRoot
 	public void removeDataSet(DataSet dataSet)
 	{
 		dataSets.remove(dataSet);
+	}
+
+	public ArrayList<GTViewSet> retrieveAllViews()
+	{
+		ArrayList<GTViewSet> views = new ArrayList<>();
+
+		for (DataSet ds: dataSets)
+			for (GTViewSet viewSet: ds.getViewSets())
+			{
+				// if (view linked to results table) then skip
+				// see NavPanel.containsMabcResults for possible code
+
+				views.add(viewSet);
+			}
+
+		return views;
 	}
 }

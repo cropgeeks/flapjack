@@ -1,13 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JDialogFormInfo">
-  <Properties>
-    <Property name="defaultCloseOperation" type="int" value="2"/>
-  </Properties>
-  <SyntheticProperties>
-    <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
-    <SyntheticProperty name="generateCenter" type="boolean" value="false"/>
-  </SyntheticProperties>
+<Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
@@ -23,12 +16,11 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="dialogPanel1" alignment="0" max="32767" attributes="0"/>
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="settingsPanel" alignment="1" max="32767" attributes="0"/>
-                  <Component id="dataPanel" alignment="1" max="32767" attributes="0"/>
+              <Group type="103" groupAlignment="1" attributes="0">
+                  <Component id="settingsPanel" max="32767" attributes="0"/>
+                  <Component id="dataPanel" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -41,37 +33,12 @@
               <Component id="settingsPanel" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="dataPanel" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="dialogPanel1" min="-2" pref="50" max="-2" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Container class="scri.commons.gui.matisse.DialogPanel" name="dialogPanel1">
-
-      <Layout class="org.netbeans.modules.form.compat2.layouts.DesignFlowLayout">
-        <Property name="alignment" type="int" value="2"/>
-        <Property name="verticalGap" type="int" value="0"/>
-      </Layout>
-      <SubComponents>
-        <Component class="javax.swing.JButton" name="bOK">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Run"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JButton" name="bCancel">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Cancel"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JButton" name="bHelp">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Help"/>
-          </Properties>
-        </Component>
-      </SubComponents>
-    </Container>
     <Container class="javax.swing.JPanel" name="settingsPanel">
       <Properties>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
@@ -84,10 +51,10 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" attributes="0">
+              <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jLabel1" max="32767" attributes="0"/>
+                      <Component id="jLabel1" alignment="0" max="32767" attributes="0"/>
                       <Group type="102" alignment="0" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="lblParent1" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -95,13 +62,13 @@
                           </Group>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="donorCombo" max="32767" attributes="0"/>
-                              <Component id="recurrentCombo" max="32767" attributes="0"/>
+                              <Component id="donorCombo" alignment="0" max="32767" attributes="0"/>
+                              <Component id="recurrentCombo" alignment="0" max="32767" attributes="0"/>
                           </Group>
                       </Group>
-                      <Group type="102" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="bWeighted" min="-2" max="-2" attributes="0"/>
+                              <Component id="bWeighted" alignment="0" min="-2" max="-2" attributes="0"/>
                               <Component id="bUnweighted" alignment="0" min="-2" max="-2" attributes="0"/>
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace min="21" pref="21" max="-2" attributes="0"/>

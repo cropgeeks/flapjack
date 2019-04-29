@@ -274,10 +274,11 @@ public class MenuAnalysis
 			return;
 
 		// Retrieve information required for analysis from dialog
-		boolean[] selectedChromosomes = dialog.getSelectedChromosomes();
-		int rpIndex = dialog.getRecurrentParent();
-		int dpIndex = dialog.getDonorParent();
-		boolean simpleStats = dialog.isSimpleStats();
+		MABCStatsSinglePanelNB ui = dialog.getSingleUI();
+		boolean[] selectedChromosomes = ui.getSelectedChromosomes();
+		int rpIndex = ui.getRecurrentParent();
+		int dpIndex = ui.getDonorParent();
+		boolean simpleStats = ui.isSimpleStats();
 
 		// Run the stats calculations
 		MabcAnalysis stats = new MabcAnalysis(
