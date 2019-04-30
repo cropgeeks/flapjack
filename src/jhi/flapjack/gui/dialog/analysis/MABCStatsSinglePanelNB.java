@@ -164,14 +164,12 @@ public class MABCStatsSinglePanelNB extends JPanel implements ActionListener
 		{
 			jLabel3.setEnabled(true);
 			maxMrkrCoverage.setEnabled(true);
-			Prefs.guiUseSimpleMabcStats = bUnweighted.isSelected();
 		}
 
 		else if (e.getSource() == bUnweighted)
 		{
 			jLabel3.setEnabled(false);
 			maxMrkrCoverage.setEnabled(false);
-			Prefs.guiUseSimpleMabcStats = bUnweighted.isSelected();
 		}
 
 		else if (e.getSource() == chkExcludeParents)
@@ -226,6 +224,7 @@ public class MABCStatsSinglePanelNB extends JPanel implements ActionListener
 
 	boolean isOK()
 	{
+		Prefs.guiUseSimpleMabcStats = bUnweighted.isSelected();
 		Prefs.mabcMaxMrkrCoverage = (Double) maxMrkrCoverage.getValue();
 
 		// If fewer than 2 lines are selected, disable the OK button.

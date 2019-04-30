@@ -18,6 +18,7 @@ public class MABCStatsDialog extends JDialog implements ActionListener, ChangeLi
 {
 	private JTabbedPane tabs;
 	private MABCStatsSinglePanelNB singlePanel;
+	private MABCStatsBatchPanelNB batchPanel;
 
 	private JButton bOK, bCancel, bHelp;
 	private boolean isOK;
@@ -31,10 +32,12 @@ public class MABCStatsDialog extends JDialog implements ActionListener, ChangeLi
 		);
 
 		singlePanel = new MABCStatsSinglePanelNB(viewSet);
+		batchPanel = new MABCStatsBatchPanelNB();
 
 		tabs = new JTabbedPane();
 		tabs.addTab("Overview", createOverviewPanel());
 		tabs.addTab("Single Analysis", singlePanel);
+		tabs.addTab("Batch Analysis", batchPanel);
 
 		add(tabs);
 		add(createButtons(), BorderLayout.SOUTH);
