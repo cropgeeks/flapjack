@@ -266,7 +266,6 @@ public class MenuAnalysis
 	public void gobiiMABC()
 	{
 		// Single run parameters
-		DataSet dataSet = navPanel.getDataSetForSelection();
 		GTViewSet viewSet = gPanel.getViewSet();
 
 		// Batch run parameters
@@ -277,17 +276,26 @@ public class MenuAnalysis
 		if (dialog.isOK() == false)
 			return;
 
+		if (dialog.isSingle())
+			mabcSingleRun(viewSet, dialog);
+		else
+			mabcBatchRun(viewSets, dialog);
+	}
+
+	private void mabcSingleRun(GTViewSet viewSet, MABCStatsDialog dialog)
+	{
+		DataSet dataSet = navPanel.getDataSetForSelection();
+
 		// Retrieve information required for analysis from dialog
 		MABCStatsSinglePanelNB ui = dialog.getSingleUI();
 		boolean[] selectedChromosomes = ui.getSelectedChromosomes();
 		int rpIndex = ui.getRecurrentParent();
 		int dpIndex = ui.getDonorParent();
-		boolean simpleStats = ui.isSimpleStats();
 
 		// Run the stats calculations
 		MabcAnalysis stats = new MabcAnalysis(
 			viewSet, selectedChromosomes, Prefs.mabcMaxMrkrCoverage, rpIndex,
-			dpIndex, Prefs.guiMabcExcludeParents, simpleStats,
+			dpIndex, Prefs.guiMabcExcludeParents, Prefs.guiUseSimpleMabcStats,
 			RB.getString("gui.navpanel.MabcNode.node"));
 
 		ProgressDialog pDialog = new ProgressDialog(stats,
@@ -296,6 +304,27 @@ public class MenuAnalysis
 
 		// Create new NavPanel components to hold the results
 		navPanel.addVisualizationNode(dataSet, stats.getViewSet());
+
+		Actions.projectModified();
+	}
+
+	private void mabcBatchRun(ArrayList<GTViewSet> viewSets, MABCStatsDialog dialog)
+	{
+		// Retrieve information required for analysis from dialog
+		MABCStatsBatchPanelNB ui = dialog.getBatchUI();
+		boolean simpleStats = Prefs.guiUseSimpleMabcStats;
+
+		// Run the stats calculations
+		MabcBatchAnalysis stats = new MabcBatchAnalysis(
+			viewSets, Prefs.mabcMaxMrkrCoverage, Prefs.guiUseSimpleMabcStats,
+			RB.getString("gui.navpanel.MabcNode.node"));
+
+		ProgressDialog pDialog = new ProgressDialog(stats,
+			RB.getString("gui.MenuAnalysis.mabc.title"),
+			RB.getString("gui.MenuAnalysis.mabc.label"), Flapjack.winMain);
+
+		// Create new NavPanel components to hold the results
+//		navPanel.addVisualizationNode(dataSet, stats.getViewSet());
 
 		Actions.projectModified();
 	}

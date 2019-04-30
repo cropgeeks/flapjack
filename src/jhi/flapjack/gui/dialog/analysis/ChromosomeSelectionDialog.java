@@ -19,12 +19,12 @@ public class ChromosomeSelectionDialog extends JDialog implements ActionListener
 	private ChromosomeSelectionTableModel model;
 	private boolean hideAllChrs;
 
-	public ChromosomeSelectionDialog(GTViewSet viewSet, boolean hideAllChrs)
+	public ChromosomeSelectionDialog(GTViewSet viewSet, boolean hideAllChrs, boolean display)
 	{
 		super(
 			Flapjack.winMain,
 			RB.getString("gui.dialog.analysis.ChromosomeSelectionDialog.title"),
-			true
+			display
 		);
 
 		this.hideAllChrs = hideAllChrs;

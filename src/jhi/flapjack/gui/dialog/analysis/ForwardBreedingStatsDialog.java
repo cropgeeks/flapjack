@@ -34,7 +34,7 @@ public class ForwardBreedingStatsDialog extends JDialog implements ActionListene
         initComponents();
 		initComponents2();
 
-		csd = new ChromosomeSelectionDialog(viewSet, true);
+		csd = new ChromosomeSelectionDialog(viewSet, true, true);
 		csdLabel.addActionListener(e -> csd.setVisible(true));
 
 		FlapjackUtils.initDialog(this, bOK, bCancel, true,

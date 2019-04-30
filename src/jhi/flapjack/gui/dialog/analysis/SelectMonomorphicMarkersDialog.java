@@ -43,7 +43,7 @@ public class SelectMonomorphicMarkersDialog extends JDialog implements ActionLis
 		RB.setText(bCancel, "gui.text.cancel");
 		bCancel.addActionListener(this);
 
-		csd = new ChromosomeSelectionDialog(viewSet, false);
+		csd = new ChromosomeSelectionDialog(viewSet, false, true);
 		csdLabel.addActionListener(e -> { csd.setVisible(true); } );
 	}
 

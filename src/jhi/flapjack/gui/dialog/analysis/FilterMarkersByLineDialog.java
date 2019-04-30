@@ -59,7 +59,7 @@ public class FilterMarkersByLineDialog extends JDialog implements ActionListener
 
 		lineLabel.setText(label);
 
-		csd = new ChromosomeSelectionDialog(viewSet, false);
+		csd = new ChromosomeSelectionDialog(viewSet, false, true);
 		csd.hideLineSummary();
 		csdLabel.addActionListener(e -> { csd.setVisible(true); } );
 

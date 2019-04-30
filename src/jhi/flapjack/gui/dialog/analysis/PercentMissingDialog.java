@@ -55,7 +55,7 @@ public abstract class PercentMissingDialog extends JDialog implements ActionList
 		slider.addChangeListener(this);
 		slider.setValue(value);
 
-		csd = new ChromosomeSelectionDialog(viewSet, false);
+		csd = new ChromosomeSelectionDialog(viewSet, false, true);
 		csdLabel.addActionListener(e -> csd.setVisible(true));
 
 		formatLabel();

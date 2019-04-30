@@ -22,7 +22,7 @@ public class MABCStatsDialog extends JDialog implements ActionListener, ChangeLi
 	private MABCStatsBatchPanelNB batchPanel;
 
 	private JButton bOK, bCancel, bHelp;
-	private boolean isOK;
+	private boolean isOK, isSingle;
 
 	public MABCStatsDialog(GTViewSet viewSet, ArrayList<GTViewSet> viewSets)
 	{
@@ -50,6 +50,9 @@ public class MABCStatsDialog extends JDialog implements ActionListener, ChangeLi
 	public MABCStatsSinglePanelNB getSingleUI()
 		{ return singlePanel; }
 
+	public MABCStatsBatchPanelNB getBatchUI()
+		{ return batchPanel; }
+
 	private JPanel createButtons()
 	{
 		bOK = new JButton("Run");
@@ -74,11 +77,12 @@ public class MABCStatsDialog extends JDialog implements ActionListener, ChangeLi
 	{
 		if (e.getSource() == bOK)
 		{
-			// if (on this tab)
-			if (true)
-				if (singlePanel.isOK() == false)
-					return;
+			if (tabs.getSelectedComponent() == singlePanel && !singlePanel.isOK())
+				return;
+			else if (tabs.getSelectedComponent() == batchPanel && !batchPanel.isOK())
+				return;
 
+			isSingle = tabs.getSelectedComponent() == singlePanel;
 			isOK = true;
 			setVisible(false);
 		}
@@ -100,6 +104,9 @@ public class MABCStatsDialog extends JDialog implements ActionListener, ChangeLi
 
 	public boolean isOK()
 		{ return isOK; }
+
+	public boolean isSingle()
+		{ return isSingle; }
 
 	JPanel createOverviewPanel()
 	{

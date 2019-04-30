@@ -42,7 +42,7 @@ public class PedVerLinesStatsDialog extends JDialog implements ActionListener
 			.withSelectedLines()
 			.withSelectedMarkers();
 
-		csd = new ChromosomeSelectionDialog(viewSet, true);
+		csd = new ChromosomeSelectionDialog(viewSet, true, true);
 		csdLabel.addActionListener(e -> csd.setVisible(true));
 
 		setupComboBoxes(as);

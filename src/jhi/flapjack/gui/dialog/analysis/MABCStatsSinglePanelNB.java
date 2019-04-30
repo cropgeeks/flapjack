@@ -42,7 +42,7 @@ public class MABCStatsSinglePanelNB extends JPanel implements ActionListener
 		chkExcludeParents.addActionListener(this);
 		chkExcludeParents.setSelected(Prefs.guiMabcExcludeParents);
 
-		csd = new ChromosomeSelectionDialog(viewSet, true);
+		csd = new ChromosomeSelectionDialog(viewSet, true, true);
 		csdLabel.addActionListener(e -> csd.setVisible(true));
 
 		setupComboBoxes(as);
@@ -174,11 +174,6 @@ public class MABCStatsSinglePanelNB extends JPanel implements ActionListener
 
 		else if (e.getSource() == chkExcludeParents)
 			Prefs.guiMabcExcludeParents = chkExcludeParents.isSelected();
-	}
-
-	public boolean isSimpleStats()
-	{
-		return Prefs.guiUseSimpleMabcStats;
 	}
 
 	class ParentSelector extends SimpleJob
