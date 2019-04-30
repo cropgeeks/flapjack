@@ -324,7 +324,8 @@ public class MenuAnalysis
 			RB.getString("gui.MenuAnalysis.mabc.label"), Flapjack.winMain);
 
 		// Create new NavPanel components to hold the results
-//		navPanel.addVisualizationNode(dataSet, stats.getViewSet());
+		for (GTViewSet viewSet: stats.getResultViewSets())
+			navPanel.addVisualizationNode(viewSet.getDataSet(), viewSet);
 
 		Actions.projectModified();
 	}

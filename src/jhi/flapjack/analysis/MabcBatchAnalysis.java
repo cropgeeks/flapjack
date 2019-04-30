@@ -13,7 +13,7 @@ import scri.commons.gui.*;
 // Batch run multiple MABC analysis tasks
 public class MabcBatchAnalysis extends SimpleJob
 {
-	private ArrayList<GTViewSet> viewSets;
+	private ArrayList<GTViewSet> viewSets, resultViewSets;
 
 	private double maxMarkerCoverage;
 	private boolean simpleStats;
@@ -28,7 +28,11 @@ public class MabcBatchAnalysis extends SimpleJob
 		this.name = name;
 
 		maximum = viewSets.size();
+		resultViewSets = new ArrayList<>(maximum);
 	}
+
+	public ArrayList<GTViewSet> getResultViewSets()
+		{ return resultViewSets; }
 
 	@Override
 	public int getJobCount()
@@ -55,11 +59,9 @@ public class MabcBatchAnalysis extends SimpleJob
 		MabcAnalysis stats = new MabcAnalysis(
 			viewSet, selectedChromosomes, maxMarkerCoverage, rpIndex,
 			dpIndex, guiMabcExcludeParents, simpleStats, name);
-		
-		stats.runJob(0);
 
-		try { Thread.sleep(250); }
-		catch (InterruptedException e) {}
+		stats.runJob(0);
+		resultViewSets.add(stats.getViewSet());
 
 		progress++;
 	}
