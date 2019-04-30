@@ -74,7 +74,8 @@ public class Project extends XMLRoot
 			for (GTViewSet viewSet: ds.getViewSets())
 			{
 				// if (view linked to results table) then skip
-				// see NavPanel.containsMabcResults for possible code
+				if (viewSet.getTableHandler().model() != null)
+					continue;
 
 				views.add(viewSet);
 			}

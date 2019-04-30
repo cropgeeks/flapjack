@@ -265,11 +265,15 @@ public class MenuAnalysis
 
 	public void gobiiMABC()
 	{
+		// Single run parameters
 		DataSet dataSet = navPanel.getDataSetForSelection();
 		GTViewSet viewSet = gPanel.getViewSet();
 
+		// Batch run parameters
+		ArrayList<GTViewSet> viewSets = winMain.getProject().retrieveAllViews();
+
 		// Prompt the user for input variables
-		MABCStatsDialog dialog = new MABCStatsDialog(viewSet);
+		MABCStatsDialog dialog = new MABCStatsDialog(viewSet, viewSets);
 		if (dialog.isOK() == false)
 			return;
 

@@ -1,14 +1,22 @@
 package jhi.flapjack.gui.dialog.analysis;
 
 import java.awt.event.*;
+import java.util.*;
 import javax.swing.*;
 
+import jhi.flapjack.data.*;
 import jhi.flapjack.gui.*;
 
 public class MABCStatsBatchPanelNB extends JPanel implements ActionListener
 {
-	public MABCStatsBatchPanelNB()
+	private ArrayList<GTViewSet> viewSets;
+
+	public MABCStatsBatchPanelNB(ArrayList<GTViewSet> viewSets)
 	{
+		this.viewSets = viewSets;
+
+		System.out.println("Batch analysis could run on " + viewSets.size() + " datasets");
+
 		initComponents();
 		initComponents2();
 	}

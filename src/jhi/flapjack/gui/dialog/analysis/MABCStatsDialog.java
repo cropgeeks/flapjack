@@ -5,6 +5,7 @@ package jhi.flapjack.gui.dialog.analysis;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.*;
 import javax.swing.*;
 import javax.swing.event.*;
 
@@ -23,7 +24,7 @@ public class MABCStatsDialog extends JDialog implements ActionListener, ChangeLi
 	private JButton bOK, bCancel, bHelp;
 	private boolean isOK;
 
-	public MABCStatsDialog(GTViewSet viewSet)
+	public MABCStatsDialog(GTViewSet viewSet, ArrayList<GTViewSet> viewSets)
 	{
 		super(
 			Flapjack.winMain,
@@ -32,7 +33,7 @@ public class MABCStatsDialog extends JDialog implements ActionListener, ChangeLi
 		);
 
 		singlePanel = new MABCStatsSinglePanelNB(viewSet);
-		batchPanel = new MABCStatsBatchPanelNB();
+		batchPanel = new MABCStatsBatchPanelNB(viewSets);
 
 		tabs = new JTabbedPane();
 		tabs.addTab("Overview", createOverviewPanel());
