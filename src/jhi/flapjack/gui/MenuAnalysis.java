@@ -464,15 +464,30 @@ public class MenuAnalysis
 
 	public void gobiiForwardBreeding()
 	{
-		DataSet dataSet = navPanel.getDataSetForSelection();
+		// Single run parameters
 		GTViewSet viewSet = gPanel.getViewSet();
 
-		ForwardBreedingStatsDialog dialog = new ForwardBreedingStatsDialog(viewSet);
+		// Batch run parameters
+		ArrayList<GTViewSet> viewSets = winMain.getProject().retrieveAllViews();
+
+		// Prompt the user for input variables
+		ForwardBreedingStatsDialog dialog = new ForwardBreedingStatsDialog(viewSet, viewSets);
 		if (dialog.isOK() == false)
 			return;
 
+		if (dialog.isSingle())
+			forwardBreedingSingleRun(viewSet, dialog);
+		else
+			forwardBreedingBatchRun(viewSets, dialog);
+	}
+
+	private void forwardBreedingSingleRun(GTViewSet viewSet, ForwardBreedingStatsDialog dialog)
+	{
+		DataSet dataSet = navPanel.getDataSetForSelection();
+
 		// Retrieve information required for analysis from dialog
-		boolean[] selectedChromosomes = dialog.getSelectedChromosomes();
+		ForwardBreedingStatsSinglePanelNB ui = dialog.getSingleUI();
+		boolean[] selectedChromosomes = ui.getSelectedChromosomes();
 
 		ForwardBreedingAnalysis stats = new ForwardBreedingAnalysis(viewSet, selectedChromosomes, "Forward Breeding Results");
 		ProgressDialog pDialog = new ProgressDialog(stats,
@@ -481,6 +496,27 @@ public class MenuAnalysis
 			Flapjack.winMain);
 
 		navPanel.addVisualizationNode(dataSet, stats.getViewSet());
+
+		Actions.projectModified();
+	}
+
+	private void forwardBreedingBatchRun(ArrayList<GTViewSet> viewSets, ForwardBreedingStatsDialog dialog)
+	{
+		// Retrieve information required for analysis from dialog
+		ForwardBreedingStatsBatchPanelNB ui = dialog.getBatchUI();
+
+		// Run the stats calculations
+		ForwardBreedingBatchAnalysis stats = new ForwardBreedingBatchAnalysis(
+			viewSets, "Forward Breeding Results");
+
+		ProgressDialog pDialog = new ProgressDialog(stats,
+			"Running Forward Breeding Stats",
+			"Running Forward Breeding stats - please be patient...",
+			Flapjack.winMain);
+
+		// Create new NavPanel components to hold the results
+		for (GTViewSet viewSet: stats.getResultViewSets())
+			navPanel.addVisualizationNode(viewSet.getDataSet(), viewSet);
 
 		Actions.projectModified();
 	}
