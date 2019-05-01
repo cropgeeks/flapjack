@@ -10,21 +10,17 @@ import jhi.flapjack.gui.dialog.analysis.*;
 
 import scri.commons.gui.*;
 
-// Batch run multiple MABC analysis tasks
-public class MabcBatchAnalysis extends SimpleJob
+// Batch run multiple PedVerF1 analysis tasks
+public class PedVerF1sBatchAnalysis extends SimpleJob
 {
 	private ArrayList<GTViewSet> viewSets, resultViewSets;
 
-	private double maxMarkerCoverage;
-	private boolean simpleStats;
 	private String name;
 
-	public MabcBatchAnalysis(ArrayList<GTViewSet> viewSets, double maxMarkerCoverage, boolean simpleStats, String name)
+	public PedVerF1sBatchAnalysis(ArrayList<GTViewSet> viewSets, String name)
 	{
 		this.viewSets = viewSets;
 
-		this.maxMarkerCoverage = maxMarkerCoverage;
-		this.simpleStats = simpleStats;
 		this.name = name;
 
 		maximum = viewSets.size();
@@ -48,17 +44,19 @@ public class MabcBatchAnalysis extends SimpleJob
 		GTViewSet viewSet = viewSets.get(i);
 
 		// TODO: SET TO WHAT?
-		int rpIndex = 0;
-		int dpIndex = 1;
+		int p1Index = 0;
+		int p2Index = 1;
+		int f1Index = -1;
+		boolean simulateF1 = true;
 		boolean excludeParents = true;
 
 		// Use a CSD dialog (without showing it) to get a suitable selected set
 		ChromosomeSelectionDialog csd = new ChromosomeSelectionDialog(viewSet, true, false);
 		boolean[] selectedChromosomes = csd.getSelectedChromosomes();
 
-		MabcAnalysis stats = new MabcAnalysis(
-			viewSet, selectedChromosomes, maxMarkerCoverage, rpIndex,
-			dpIndex, excludeParents, simpleStats, name);
+		PedVerF1sAnalysis stats = new PedVerF1sAnalysis(viewSet,
+			selectedChromosomes, p1Index, p2Index, simulateF1, f1Index,
+			excludeParents, name);
 
 		stats.runJob(0);
 		resultViewSets.add(stats.getViewSet());

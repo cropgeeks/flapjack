@@ -384,16 +384,16 @@ public class MenuAnalysis
 		PedVerF1StatsBatchPanelNB ui = dialog.getBatchUI();
 
 		// Run the stats calculations
-//		PedVerF1BatchAnalysis stats = new PedVerF1BatchAnalysiss(
-//			viewSets, RB.getString("gui.navpanel.PedVerF1s.node"));
+		PedVerF1sBatchAnalysis stats = new PedVerF1sBatchAnalysis(
+			viewSets, RB.getString("gui.navpanel.PedVerF1s.node"));
 
-//		ProgressDialog pDialog = new ProgressDialog(stats,
-//			RB.getString("gui.MenuAnalysis.pedVerF1s.title"),
-//			RB.getString("gui.MenuAnalysis.pedVerF1s.label"), Flapjack.winMain);
+		ProgressDialog pDialog = new ProgressDialog(stats,
+			RB.getString("gui.MenuAnalysis.pedVerF1s.title"),
+			RB.getString("gui.MenuAnalysis.pedVerF1s.label"), Flapjack.winMain);
 
 		// Create new NavPanel components to hold the results
-//		for (GTViewSet viewSet: stats.getResultViewSets())
-//			navPanel.addVisualizationNode(viewSet.getDataSet(), viewSet);
+		for (GTViewSet viewSet: stats.getResultViewSets())
+			navPanel.addVisualizationNode(viewSet.getDataSet(), viewSet);
 
 		Actions.projectModified();
 	}
