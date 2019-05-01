@@ -3,28 +3,28 @@
 
 package jhi.flapjack.gui.dialog.analysis;
 
+import java.awt.*;
 import java.awt.event.*;
+import java.util.*;
 import javax.swing.*;
+import javax.swing.event.*;
 
-import jhi.flapjack.analysis.*;
 import jhi.flapjack.data.*;
 import jhi.flapjack.gui.*;
 
 import scri.commons.gui.*;
+import scri.commons.gui.matisse.*;
 
-public class PedVerLinesStatsDialog extends JDialog implements ActionListener
+public class PedVerLinesStatsDialog extends JDialog implements ActionListener, ChangeListener
 {
-	private ChromosomeSelectionDialog csd;
+	private JTabbedPane tabs;
+	private PedVerLinesStatsSinglePanelNB singlePanel;
+	private PedVerLinesStatsBatchPanelNB batchPanel;
 
-	private boolean isOK;
+	private JButton bOK, bCancel, bHelp;
+	private boolean isOK, isSingle;
 
-	private DefaultComboBoxModel<LineInfo> referenceModel;
-	private DefaultComboBoxModel<LineInfo> testModel;
-
-	/**
-	 * Creates new form PedVerStatsDialogNew
-	 */
-	public PedVerLinesStatsDialog(GTViewSet viewSet)
+	public PedVerLinesStatsDialog(GTViewSet viewSet, ArrayList<GTViewSet> viewSets)
 	{
 		super(
 			Flapjack.winMain,
@@ -32,70 +32,58 @@ public class PedVerLinesStatsDialog extends JDialog implements ActionListener
 			true
 		);
 
-		isOK = false;
+		JPanel overview = createOverviewPanel();
+		singlePanel = new PedVerLinesStatsSinglePanelNB(viewSet);
+		batchPanel = new PedVerLinesStatsBatchPanelNB(viewSets);
 
-        initComponents();
-		initComponents2();
+		tabs = new JTabbedPane();
+		tabs.addTab("Overview", overview);
+		tabs.addTab("Single Analysis", singlePanel);
+		tabs.addTab("Batch Analysis", batchPanel);
 
-		AnalysisSet as = new AnalysisSet(viewSet)
-			.withViews(null)
-			.withSelectedLines()
-			.withSelectedMarkers();
+		add(tabs);
+		add(createButtons(), BorderLayout.SOUTH);
 
-		csd = new ChromosomeSelectionDialog(viewSet, true, true);
-		csdLabel.addActionListener(e -> csd.setVisible(true));
-
-		setupComboBoxes(as);
-
-		FlapjackUtils.initDialog(this, bOK, bCancel, true,
-			getContentPane(), jPanel1, parentsPanel);
+		tabs.addChangeListener(this);
+		FlapjackUtils.initDialog(this, bOK, bCancel, true, overview, singlePanel, batchPanel);
 	}
 
-	private void setupComboBoxes(AnalysisSet as)
+	public PedVerLinesStatsSinglePanelNB getSingleUI()
+		{ return singlePanel; }
+
+	public PedVerLinesStatsBatchPanelNB getBatchUI()
+		{ return batchPanel; }
+
+	private JPanel createButtons()
 	{
-		referenceModel = createComboModelFrom(as);
-		referenceCombo.setModel(referenceModel);
-		if (as.lineCount() >= 1)
-			referenceCombo.setSelectedIndex(0);
-
-		testModel = createComboModelFrom(as);
-		testCombo.setModel(testModel);
-		if (as.lineCount() >= 2)
-			testCombo.setSelectedIndex(1);
-	}
-
-	private DefaultComboBoxModel<LineInfo> createComboModelFrom(AnalysisSet as)
-	{
-		DefaultComboBoxModel<LineInfo> model = new DefaultComboBoxModel<>();
-		for (int i = 0; i < as.lineCount(); i++)
-			model.addElement(as.getLine(i));
-
-		return model;
-	}
-
-	private void initComponents2()
-	{
-		RB.setText(bOK, "gui.dialog.analysis.PedVerLinesStatsDialog.run");
+		bOK = new JButton("Run");
 		bOK.addActionListener(this);
+		bOK.setEnabled(false);
 
-		RB.setText(bCancel, "gui.text.cancel");
+		bCancel = new JButton(RB.getString("gui.text.close"));
 		bCancel.addActionListener(this);
 
-		parentsPanel.setBorder(BorderFactory.createTitledBorder(RB.getString("gui.dialog.analysis.PedVerLinesStatsDialog.parentsPanel.title")));
-		RB.setText(lblParent1, "gui.dialog.analysis.PedVerLinesStatsDialog.parentsPanel.lblParent1");
-		RB.setText(lblParent2, "gui.dialog.analysis.PedVerLinesStatsDialog.parentsPanel.lblParent2");
-		jPanel1.setBorder(BorderFactory.createTitledBorder(RB.getString("gui.dialog.analysis.PedVerLinesStatsDialog.csd.title")));
-		RB.setText(csdLabel, "gui.dialog.analysis.PedVerLinesStatsDialog.csd.csdLabel");
+//		bHelp = new JButton(RB.getString("gui.text.help"));
+//		FlapjackUtils.setHelp(bHelp, "pedver_f1s_known_parents.html");
+
+		JPanel p1 = new DialogPanel();
+		p1.add(bOK);
+		p1.add(bCancel);
+//		p1.add(bHelp);
+
+		return p1;
 	}
 
-	public boolean isOK()
-		{ return isOK; }
-
-	@Override
 	public void actionPerformed(ActionEvent e)
 	{
 		if (e.getSource() == bOK)
 		{
+			if (tabs.getSelectedComponent() == singlePanel && !singlePanel.isOK())
+				return;
+			else if (tabs.getSelectedComponent() == batchPanel && !batchPanel.isOK())
+				return;
+
+			isSingle = tabs.getSelectedComponent() == singlePanel;
 			isOK = true;
 			setVisible(false);
 		}
@@ -104,149 +92,33 @@ public class PedVerLinesStatsDialog extends JDialog implements ActionListener
 			setVisible(false);
 	}
 
-	public int getReferenceLine()
+	public void stateChanged(ChangeEvent e)
 	{
-		return referenceCombo.getSelectedIndex();
+		if (e.getSource() == tabs)
+		{
+			if (tabs.getSelectedIndex() == 0)
+				bOK.setEnabled(false);
+			else
+				bOK.setEnabled(true);
+		}
 	}
 
-	public int getTestLine()
+	public boolean isOK()
+		{ return isOK; }
+
+	public boolean isSingle()
+		{ return isSingle; }
+
+	private JPanel createOverviewPanel()
 	{
-		return testCombo.getSelectedIndex();
+		JPanel panel = new JPanel();
+		panel.setBorder(BorderFactory.createEmptyBorder(10,5,10,5));
+		JLabel label = new JLabel("<html><p>Pedigree Verification of F1s (Known Parents) will calculate statistics for each line comparing it to<br>"
+			+ "the parents and either a supplied or simulated F1.</p><p>&nbsp;</p><p>"
+			+ "You can either run a single analysis that will process only the currently selected view, or a<br>"
+			+ "batch analysis that will calculate statistics for all datasets and views currently loaded.</p></html>");
+
+		panel.add(label);
+		return panel;
 	}
-
-	// Generates a boolean array with a true/false selected state for each of
-	// the possible chromosomes that could be used in the sort
-	public boolean[] getSelectedChromosomes()
-	{
-		return csd.getSelectedChromosomes();
-	}
-
-	/**
-	 * This method is called from within the constructor to initialize the form.
-	 * WARNING: Do NOT modify this code. The content of this method is always
-	 * regenerated by the Form Editor.
-	 */
-	@SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
-
-        parentsPanel = new javax.swing.JPanel();
-        lblParent1 = new javax.swing.JLabel();
-        referenceCombo = new javax.swing.JComboBox<>();
-        lblParent2 = new javax.swing.JLabel();
-        testCombo = new javax.swing.JComboBox<>();
-        dialogPanel1 = new scri.commons.gui.matisse.DialogPanel();
-        bOK = new javax.swing.JButton();
-        bCancel = new javax.swing.JButton();
-        jPanel1 = new javax.swing.JPanel();
-        csdLabel = new scri.commons.gui.matisse.HyperLinkLabel();
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-
-        parentsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Select lines:"));
-
-        lblParent1.setText("Select parent1:");
-        lblParent1.setToolTipText("");
-
-        lblParent2.setText("Select test line:");
-        lblParent2.setToolTipText("");
-
-        javax.swing.GroupLayout parentsPanelLayout = new javax.swing.GroupLayout(parentsPanel);
-        parentsPanel.setLayout(parentsPanelLayout);
-        parentsPanelLayout.setHorizontalGroup(
-            parentsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(parentsPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(parentsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(referenceCombo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(testCombo, 0, 348, Short.MAX_VALUE)
-                    .addGroup(parentsPanelLayout.createSequentialGroup()
-                        .addGroup(parentsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblParent1)
-                            .addComponent(lblParent2))
-                        .addGap(0, 274, Short.MAX_VALUE)))
-                .addContainerGap())
-        );
-        parentsPanelLayout.setVerticalGroup(
-            parentsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(parentsPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(lblParent1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(referenceCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblParent2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(testCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        lblParent2.getAccessibleContext().setAccessibleName("Select parent2:");
-
-        bOK.setText("Run");
-        dialogPanel1.add(bOK);
-
-        bCancel.setText("Cancel");
-        dialogPanel1.add(bCancel);
-
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Data selection settings:"));
-
-        csdLabel.setText("Select chromosomes to analyse");
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(csdLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(csdLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(dialogPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(parentsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(parentsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(dialogPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-
-        pack();
-    }// </editor-fold>//GEN-END:initComponents
-
-
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton bCancel;
-    private javax.swing.JButton bOK;
-    private scri.commons.gui.matisse.HyperLinkLabel csdLabel;
-    private scri.commons.gui.matisse.DialogPanel dialogPanel1;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JLabel lblParent1;
-    private javax.swing.JLabel lblParent2;
-    private javax.swing.JPanel parentsPanel;
-    private javax.swing.JComboBox<LineInfo> referenceCombo;
-    private javax.swing.JComboBox<LineInfo> testCombo;
-    // End of variables declaration//GEN-END:variables
 }

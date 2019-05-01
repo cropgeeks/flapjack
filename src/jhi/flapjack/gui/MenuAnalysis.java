@@ -400,20 +400,35 @@ public class MenuAnalysis
 
 	public void gobiiPedVerLines()
 	{
-		// TODO: Checks for data type? ABH, etc?
-		DataSet dataSet = navPanel.getDataSetForSelection();
+		// Single run parameters
 		GTViewSet viewSet = gPanel.getViewSet();
 
-		PedVerLinesStatsDialog dialog = new PedVerLinesStatsDialog(viewSet);
+		// Batch run parameters
+		ArrayList<GTViewSet> viewSets = winMain.getProject().retrieveAllViews();
+
+		// Prompt the user for input variables
+		PedVerLinesStatsDialog dialog = new PedVerLinesStatsDialog(viewSet, viewSets);
 		if (dialog.isOK() == false)
 			return;
 
+		if (dialog.isSingle())
+			pedVerLinesSingleRun(viewSet, dialog);
+		else
+			pedVerLinesBatchRun(viewSets, dialog);
+	}
+
+	private void pedVerLinesSingleRun(GTViewSet viewSet, PedVerLinesStatsDialog dialog)
+	{
+		// TODO: Checks for data type? ABH, etc?
+		DataSet dataSet = navPanel.getDataSetForSelection();
+
 		// Retrieve information required for analysis from dialog
-		boolean[] selectedChromosomes = dialog.getSelectedChromosomes();
+		PedVerLinesStatsSinglePanelNB ui = dialog.getSingleUI();
+		boolean[] selectedChromosomes = ui.getSelectedChromosomes();
 
 		// TODO: I've currently hacked out the dialog parental selection
-		int refIndex = dialog.getReferenceLine();
-		int testIndex = dialog.getTestLine();
+		int refIndex = ui.getReferenceLine();
+		int testIndex = ui.getTestLine();
 
 		PedVerLinesAnalysis stats = new PedVerLinesAnalysis(viewSet, selectedChromosomes, refIndex, testIndex, "PedVerLines Results");
 		ProgressDialog pDialog = new ProgressDialog(stats,
@@ -422,6 +437,27 @@ public class MenuAnalysis
 			Flapjack.winMain);
 
 		navPanel.addVisualizationNode(dataSet, stats.getViewSet());
+
+		Actions.projectModified();
+	}
+
+	private void pedVerLinesBatchRun(ArrayList<GTViewSet> viewSets, PedVerLinesStatsDialog dialog)
+	{
+		// Retrieve information required for analysis from dialog
+		PedVerLinesStatsBatchPanelNB ui = dialog.getBatchUI();
+
+		// Run the stats calculations
+		PedVerLinesBatchAnalysis stats = new PedVerLinesBatchAnalysis(
+			viewSets, "PedVerLines Results");
+
+		ProgressDialog pDialog = new ProgressDialog(stats,
+			"Running PedVer Stats",
+			"Running PedVer stats - please be patient...",
+			Flapjack.winMain);
+
+		// Create new NavPanel components to hold the results
+		for (GTViewSet viewSet: stats.getResultViewSets())
+			navPanel.addVisualizationNode(viewSet.getDataSet(), viewSet);
 
 		Actions.projectModified();
 	}
