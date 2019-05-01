@@ -332,19 +332,34 @@ public class MenuAnalysis
 
 	public void gobiiPedVer()
 	{
-		DataSet dataSet = navPanel.getDataSetForSelection();
+		// Single run parameters
 		GTViewSet viewSet = gPanel.getViewSet();
 
-		PedVerF1StatsDialog dialog = new PedVerF1StatsDialog(viewSet);
+		// Batch run parameters
+		ArrayList<GTViewSet> viewSets = winMain.getProject().retrieveAllViews();
+
+		// Prompt the user for input variables
+		PedVerF1StatsDialog dialog = new PedVerF1StatsDialog(viewSet, viewSets);
 		if (dialog.isOK() == false)
 			return;
 
+		if (dialog.isSingle())
+			pedVerF1SingleRun(viewSet, dialog);
+		else
+			pedVerF1BatchRun(viewSets, dialog);
+	}
+
+	private void pedVerF1SingleRun(GTViewSet viewSet, PedVerF1StatsDialog dialog)
+	{
+		DataSet dataSet = navPanel.getDataSetForSelection();
+
 		// Retrieve information required for analysis from dialog
-		boolean[] selectedChromosomes = dialog.getSelectedChromosomes();
-		int p1Index = dialog.getParent1();
-		int p2Index = dialog.getParent2();
-		int f1Index = dialog.getF1();
-		boolean simulateF1 = dialog.simulateF1();
+		PedVerF1StatsSinglePanelNB ui = dialog.getSingleUI();
+		boolean[] selectedChromosomes = ui.getSelectedChromosomes();
+		int p1Index = ui.getParent1();
+		int p2Index = ui.getParent2();
+		int f1Index = ui.getF1();
+		boolean simulateF1 = ui.simulateF1();
 
 		// Setup and run the stats
 		PedVerF1sAnalysis stats = new PedVerF1sAnalysis(viewSet,
@@ -359,6 +374,26 @@ public class MenuAnalysis
 		// Retrieve the newly created viewSet from the analysis class and
 		// add it to the navPanel so that it appears in the display
 		navPanel.addVisualizationNode(dataSet, stats.getViewSet());
+
+		Actions.projectModified();
+	}
+
+	private void pedVerF1BatchRun(ArrayList<GTViewSet> viewSets, PedVerF1StatsDialog dialog)
+	{
+		// Retrieve information required for analysis from dialog
+		PedVerF1StatsBatchPanelNB ui = dialog.getBatchUI();
+
+		// Run the stats calculations
+//		PedVerF1BatchAnalysis stats = new PedVerF1BatchAnalysiss(
+//			viewSets, RB.getString("gui.navpanel.PedVerF1s.node"));
+
+//		ProgressDialog pDialog = new ProgressDialog(stats,
+//			RB.getString("gui.MenuAnalysis.pedVerF1s.title"),
+//			RB.getString("gui.MenuAnalysis.pedVerF1s.label"), Flapjack.winMain);
+
+		// Create new NavPanel components to hold the results
+//		for (GTViewSet viewSet: stats.getResultViewSets())
+//			navPanel.addVisualizationNode(viewSet.getDataSet(), viewSet);
 
 		Actions.projectModified();
 	}
