@@ -32,11 +32,12 @@ public class MABCStatsDialog extends JDialog implements ActionListener, ChangeLi
 			true
 		);
 
+		JPanel overview = createOverviewPanel();
 		singlePanel = new MABCStatsSinglePanelNB(viewSet);
 		batchPanel = new MABCStatsBatchPanelNB(viewSets);
 
 		tabs = new JTabbedPane();
-		tabs.addTab("Overview", createOverviewPanel());
+		tabs.addTab("Overview", overview);
 		tabs.addTab("Single Analysis", singlePanel);
 		tabs.addTab("Batch Analysis", batchPanel);
 
@@ -44,7 +45,7 @@ public class MABCStatsDialog extends JDialog implements ActionListener, ChangeLi
 		add(createButtons(), BorderLayout.SOUTH);
 
 		tabs.addChangeListener(this);
-		FlapjackUtils.initDialog(this, bOK, bCancel, true, singlePanel);
+		FlapjackUtils.initDialog(this, bOK, bCancel, true, overview, singlePanel, batchPanel);
 	}
 
 	public MABCStatsSinglePanelNB getSingleUI()
@@ -108,7 +109,7 @@ public class MABCStatsDialog extends JDialog implements ActionListener, ChangeLi
 	public boolean isSingle()
 		{ return isSingle; }
 
-	JPanel createOverviewPanel()
+	private JPanel createOverviewPanel()
 	{
 		JPanel panel = new JPanel();
 		panel.setBorder(BorderFactory.createEmptyBorder(10,5,10,5));

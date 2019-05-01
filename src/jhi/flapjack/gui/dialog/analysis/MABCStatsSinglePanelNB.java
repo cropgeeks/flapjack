@@ -66,6 +66,8 @@ public class MABCStatsSinglePanelNB extends JPanel implements ActionListener
 		// label based on whether or not we are using the weighted calculation
 		jLabel3.setEnabled(!Prefs.guiUseSimpleMabcStats);
 		maxMrkrCoverage.setEnabled(!Prefs.guiUseSimpleMabcStats);
+
+		FlapjackUtils.initPanel(settingsPanel, dataPanel);
 	}
 
 	private void setupComboBoxes(AnalysisSet as)
