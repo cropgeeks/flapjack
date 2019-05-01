@@ -460,7 +460,7 @@ public class WinMainMenuBar extends JMenuBar
 		mAnalysis.addSeparator();
 		mAnalysis.add(mAlysMABC);
 		mAnalysis.add(mAlysStatsPedVer);
-//		mAnalysis.add(mAlysForwardBreeding);
+		mAnalysis.add(mAlysForwardBreeding);
 
 
 		add(mAnalysis);

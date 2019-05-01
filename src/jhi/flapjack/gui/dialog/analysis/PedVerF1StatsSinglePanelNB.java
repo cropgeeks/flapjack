@@ -139,7 +139,6 @@ public class PedVerF1StatsSinglePanelNB extends javax.swing.JPanel
         rdbSimulateF1 = new javax.swing.JRadioButton();
         rdbSelectF1 = new javax.swing.JRadioButton();
         f1Combo = new javax.swing.JComboBox<>();
-        jLabel1 = new javax.swing.JLabel();
         chkExcludeParents = new javax.swing.JCheckBox();
         jPanel1 = new javax.swing.JPanel();
         csdLabel = new scri.commons.gui.matisse.HyperLinkLabel();
@@ -156,8 +155,6 @@ public class PedVerF1StatsSinglePanelNB extends javax.swing.JPanel
 
         rdbSelectF1.setText("Select an F1 from the existing lines:");
 
-        jLabel1.setText("<html>Pedigree Verification of F1s (Known Parents) will calculate statistics for each line comparing<br>it to the parents and either a supplied or simulated F1.");
-
         chkExcludeParents.setText("Exclude other parental lines from analysis and view");
 
         javax.swing.GroupLayout parentsPanelLayout = new javax.swing.GroupLayout(parentsPanel);
@@ -167,7 +164,6 @@ public class PedVerF1StatsSinglePanelNB extends javax.swing.JPanel
             .addGroup(parentsPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(parentsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
                     .addGroup(parentsPanelLayout.createSequentialGroup()
                         .addComponent(lblParent1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -184,15 +180,13 @@ public class PedVerF1StatsSinglePanelNB extends javax.swing.JPanel
                             .addComponent(chkExcludeParents)
                             .addComponent(rdbSelectF1)
                             .addComponent(rdbSimulateF1))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addGap(0, 169, Short.MAX_VALUE)))
+                .addGap(14, 14, 14))
         );
         parentsPanelLayout.setVerticalGroup(
             parentsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, parentsPanelLayout.createSequentialGroup()
+            .addGroup(parentsPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
                 .addGroup(parentsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblParent1)
                     .addComponent(parent1Combo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -236,10 +230,10 @@ public class PedVerF1StatsSinglePanelNB extends javax.swing.JPanel
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(parentsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(parentsPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -259,7 +253,6 @@ public class PedVerF1StatsSinglePanelNB extends javax.swing.JPanel
     private javax.swing.JCheckBox chkExcludeParents;
     private scri.commons.gui.matisse.HyperLinkLabel csdLabel;
     private javax.swing.JComboBox<LineInfo> f1Combo;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblParent1;
     private javax.swing.JLabel lblParent2;

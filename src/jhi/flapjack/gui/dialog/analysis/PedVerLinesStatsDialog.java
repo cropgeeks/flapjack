@@ -113,8 +113,7 @@ public class PedVerLinesStatsDialog extends JDialog implements ActionListener, C
 	{
 		JPanel panel = new JPanel();
 		panel.setBorder(BorderFactory.createEmptyBorder(10,5,10,5));
-		JLabel label = new JLabel("<html><p>Pedigree Verification of F1s (Known Parents) will calculate statistics for each line comparing it to<br>"
-			+ "the parents and either a supplied or simulated F1.</p><p>&nbsp;</p><p>"
+		JLabel label = new JLabel("<html><p>Pedigree Verification of Lines (Parent Contribution) will...</p><p>&nbsp;</p><p>"
 			+ "You can either run a single analysis that will process only the currently selected view, or a<br>"
 			+ "batch analysis that will calculate statistics for all datasets and views currently loaded.</p></html>");
 
