@@ -105,6 +105,12 @@ public class Prefs extends XMLPreferences
 
 	public static boolean guiBrapiSkipMap = false;
 
+	// Last selected tab on single/batch analysis dialogs
+	public static int mabcDialogTab = 0;
+	public static int pedVerF1DialogTab = 0;
+	public static int pedVerLinesDialogTab = 0;
+	public static int forwardBreedingDialogTab = 0;
+
 	// Warning messages
 	public static boolean warnDuplicateMarkers = true;
 	public static boolean warnEditMarkerMode = true;

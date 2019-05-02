@@ -7,7 +7,6 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
 import javax.swing.*;
-import javax.swing.event.*;
 
 import jhi.flapjack.data.*;
 import jhi.flapjack.gui.*;
@@ -15,7 +14,7 @@ import jhi.flapjack.gui.*;
 import scri.commons.gui.*;
 import scri.commons.gui.matisse.*;
 
-public class MABCStatsDialog extends JDialog implements ActionListener, ChangeListener
+public class MABCStatsDialog extends JDialog implements ActionListener
 {
 	private JTabbedPane tabs;
 	private MABCStatsSinglePanelNB singlePanel;
@@ -36,15 +35,21 @@ public class MABCStatsDialog extends JDialog implements ActionListener, ChangeLi
 		singlePanel = new MABCStatsSinglePanelNB(viewSet);
 		batchPanel = new MABCStatsBatchPanelNB(viewSets);
 
+		add(createButtons(), BorderLayout.SOUTH);
+
 		tabs = new JTabbedPane();
 		tabs.addTab("Overview", overview);
 		tabs.addTab("Single Analysis", singlePanel);
 		tabs.addTab("Batch Analysis", batchPanel);
+		tabs.setSelectedIndex(Prefs.mabcDialogTab);
+		bOK.setEnabled(tabs.getSelectedIndex() != 0);
+		tabs.addChangeListener(e -> {
+			bOK.setEnabled(tabs.getSelectedIndex() != 0);
+			Prefs.mabcDialogTab = tabs.getSelectedIndex();
+		});
 
 		add(tabs);
-		add(createButtons(), BorderLayout.SOUTH);
 
-		tabs.addChangeListener(this);
 		FlapjackUtils.initDialog(this, bOK, bCancel, true, overview, singlePanel, batchPanel);
 	}
 
@@ -58,9 +63,8 @@ public class MABCStatsDialog extends JDialog implements ActionListener, ChangeLi
 	{
 		bOK = new JButton("Run");
 		bOK.addActionListener(this);
-		bOK.setEnabled(false);
 
-		bCancel = new JButton(RB.getString("gui.text.close"));
+		bCancel = new JButton(RB.getString("gui.text.cancel"));
 		bCancel.addActionListener(this);
 
 		bHelp = new JButton(RB.getString("gui.text.help"));
@@ -90,17 +94,6 @@ public class MABCStatsDialog extends JDialog implements ActionListener, ChangeLi
 
 		else if (e.getSource() == bCancel)
 			setVisible(false);
-	}
-
-	public void stateChanged(ChangeEvent e)
-	{
-		if (e.getSource() == tabs)
-		{
-			if (tabs.getSelectedIndex() == 0)
-				bOK.setEnabled(false);
-			else
-				bOK.setEnabled(true);
-		}
 	}
 
 	public boolean isOK()
