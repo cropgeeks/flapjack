@@ -47,9 +47,11 @@ public class MabcBatchAnalysis extends SimpleJob
 
 		GTViewSet viewSet = viewSets.get(i);
 
+		// If set to -1, the analysis module will either use embedded pedigree
+		// data, or lines at indices 0 and 1 if that fails
+		int rpIndex = -1;
+		int dpIndex = -1;
 		// TODO: SET TO WHAT?
-		int rpIndex = 0;
-		int dpIndex = 1;
 		boolean excludeParents = true;
 
 		// Use a CSD dialog (without showing it) to get a suitable selected set

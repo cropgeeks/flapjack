@@ -60,14 +60,34 @@ public class MabcAnalysis extends SimpleJob
 		this.stateTable = viewSet.getDataSet().getStateTable();
 	}
 
-	private void setupAnalysis()
+	private void setupAnalysis(AnalysisSet as)
 	{
+		PedManager pm = viewSet.getDataSet().getPedManager();
+
+		// Set the parents if not yet picked
+		if (rpIndex == -1)
+		{
+			for (int i = 0; i < as.lineCount(); i++)
+				if (pm.isRP(as.getLine(i)))
+					rpIndex = as.getLines().indexOf(as.getLine(i));
+
+			if (rpIndex == -1)
+				rpIndex = 0;
+		}
+		if (dpIndex == -1)
+		{
+			for (int i = 0; i < as.lineCount(); i++)
+				if (pm.isDP(as.getLine(i)))
+					dpIndex = as.getLines().indexOf(as.getLine(i));
+
+			if (dpIndex == -1)
+				dpIndex = 1;
+		}
+
 		// If the user has specified that only the parents used for the analysis
 		// should be included in the results and the view
 		if (excludeAdditionalParents)
 		{
-			PedManager pedMan = viewSet.getDataSet().getPedManager();
-
 			// Iterate backward over the viewSet so we can remove any parents
 			// that we need to
 			for (int i = viewSet.getLines().size() - 1; i >= 0; i--)
@@ -76,7 +96,7 @@ public class MabcAnalysis extends SimpleJob
 				if (i == rpIndex || i == dpIndex)
 					continue;
 
-				if (pedMan.isParent(viewSet.getLines().get(i)))
+				if (pm.isParent(viewSet.getLines().get(i)))
 				{
 					viewSet.getLines().remove(i);
 
@@ -97,13 +117,13 @@ public class MabcAnalysis extends SimpleJob
 	{
 		long s = System.currentTimeMillis();
 
-		setupAnalysis();
-
 		// This analysis will run on selected lines/markers only
 		AnalysisSet as = new AnalysisSet(viewSet)
 			.withViews(selectedChromosomes)
 			.withSelectedLines()
 			.withSelectedMarkers();
+
+		setupAnalysis(as);
 
 		calculateRPP(as);
 		calculateLinkageDrag(as);
