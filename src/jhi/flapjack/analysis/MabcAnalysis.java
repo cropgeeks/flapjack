@@ -4,6 +4,7 @@
 package jhi.flapjack.analysis;
 
 import java.util.*;
+import java.util.stream.*;
 
 import jhi.flapjack.data.*;
 import jhi.flapjack.data.pedigree.*;
@@ -96,6 +97,8 @@ public class MabcAnalysis extends SimpleJob
 	public void runJob(int index)
 		throws Exception
 	{
+		long s = System.currentTimeMillis();
+
 		// This analysis will run on selected lines/markers only
 		AnalysisSet as = new AnalysisSet(viewSet)
 			.withViews(selectedChromosomes)
@@ -106,6 +109,10 @@ public class MabcAnalysis extends SimpleJob
 		calculateLinkageDrag(as);
 		calculateOtherStats(as);
 		prepareForVisualization();
+
+		long e = System.currentTimeMillis();
+
+		System.out.println("TIME: " + (e-s) + "ms");
 	}
 
 	// Searchs backwards through a line's worth of allele data (for a single
@@ -126,7 +133,8 @@ public class MabcAnalysis extends SimpleJob
 		StateTable st = viewSet.getDataSet().getStateTable();
 
 		// For each line that we need to calculate stats for...
-		for (int lineIndex = 0; lineIndex < as.lineCount(); lineIndex++)
+//		for (int lineIndex = 0; lineIndex < as.lineCount(); lineIndex++)
+		IntStream.range(0, as.lineCount()).parallel().forEach((lineIndex) ->
 		{
 			LineInfo line = as.getLine(lineIndex);
 			MabcResult stats = new MabcResult(line);
@@ -286,7 +294,7 @@ public class MabcAnalysis extends SimpleJob
 				stats.setGenomeCoverage(1);
 			else
 				stats.setGenomeCoverage(stats.getGenomeCoverage()/genomeLength);
-		}
+		});
 	}
 
 	private void calculateLinkageDrag(AnalysisSet as)
@@ -298,7 +306,8 @@ public class MabcAnalysis extends SimpleJob
 
 
 		// For each line in the dataset
-		for (int lineIndex = 0; lineIndex < as.lineCount(); lineIndex++)
+//		for (int lineIndex = 0; lineIndex < as.lineCount(); lineIndex++)
+		IntStream.range(0, as.lineCount()).parallel().forEach((lineIndex) ->
 		{
 			// Get its MABC stats collector thing
 			LineInfo line = as.getLine(lineIndex);
@@ -405,7 +414,7 @@ public class MabcAnalysis extends SimpleJob
 					stats.setQtlStatusCount(stats.getQtlStatusCount()+score.status);
 				}
 			}
-		}
+		});
 	}
 
 	// Build a lookup table for each QTL, that tracks the left-most and
