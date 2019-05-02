@@ -58,8 +58,6 @@ public class MabcAnalysis extends SimpleJob
 		this.simpleStats = simpleStats;
 
 		this.stateTable = viewSet.getDataSet().getStateTable();
-
-		setupAnalysis();
 	}
 
 	private void setupAnalysis()
@@ -99,6 +97,8 @@ public class MabcAnalysis extends SimpleJob
 	{
 		long s = System.currentTimeMillis();
 
+		setupAnalysis();
+
 		// This analysis will run on selected lines/markers only
 		AnalysisSet as = new AnalysisSet(viewSet)
 			.withViews(selectedChromosomes)
@@ -111,7 +111,6 @@ public class MabcAnalysis extends SimpleJob
 		prepareForVisualization();
 
 		long e = System.currentTimeMillis();
-
 		System.out.println("TIME: " + (e-s) + "ms");
 	}
 

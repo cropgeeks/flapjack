@@ -3,6 +3,7 @@
 
 package jhi.flapjack.analysis;
 
+import java.util.stream.*;
 import jhi.flapjack.data.*;
 import jhi.flapjack.data.pedigree.*;
 import jhi.flapjack.data.results.*;
@@ -39,8 +40,6 @@ public class PedVerF1sAnalysis extends SimpleJob
 		this.f1Index = f1Index;
 		this.excludeAdditionalParents = excludeAdditionalParents;
 		this.name = name;
-
-		setupAnalysis();
 	}
 
 	private void setupAnalysis()
@@ -88,6 +87,10 @@ public class PedVerF1sAnalysis extends SimpleJob
 
 	public void runJob(int index)
 	{
+		long s = System.currentTimeMillis();
+
+		setupAnalysis();
+
 		as = new AnalysisSet(viewSet)
 			.withViews(selectedChromosomes)
 			.withSelectedLines()
@@ -95,10 +98,15 @@ public class PedVerF1sAnalysis extends SimpleJob
 
 		calculateExpectedF1Stats();
 
-		for (int l=0; l < as.lineCount(); l++)
+//		for (int l=0; l < as.lineCount(); l++)
+		IntStream.range(0, as.lineCount()).parallel().forEach((l) -> {
 			calculateStatsForLine(l);
+		});
 
 		prepareForVisualization();
+
+		long e = System.currentTimeMillis();
+		System.out.println("TIME: " + (e-s) + "ms");
 	}
 
 	private void calculateStatsForLine(int lineIndex)

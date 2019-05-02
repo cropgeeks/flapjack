@@ -4,6 +4,7 @@
 package jhi.flapjack.analysis;
 
 import java.util.*;
+import java.util.stream.*;
 
 import jhi.flapjack.data.*;
 import jhi.flapjack.data.results.*;
@@ -39,19 +40,22 @@ public class PedVerLinesAnalysis extends SimpleJob
 		this.parentIndices = new ArrayList<>();
 		this.parentIndices.add(p1Index);
 		this.parentIndices.add(p2Index);
-
-		moveParentsToTop();
 	}
 
 	public void runJob(int index)
 		throws Exception
 	{
+		long s = System.currentTimeMillis();
+
+		moveParentsToTop();
+
 		as = new AnalysisSet(this.viewSet)
 			.withViews(selectedChromosomes)
 			.withSelectedLines()
 			.withSelectedMarkers();
 
-		for (int lineIndex=0; lineIndex < as.lineCount(); lineIndex++)
+//		for (int lineIndex=0; lineIndex < as.lineCount(); lineIndex++)
+		IntStream.range(0, as.lineCount()).parallel().forEach((lineIndex) ->
 		{
 			LineInfo lineInfo = as.getLine(lineIndex);
 
@@ -62,7 +66,7 @@ public class PedVerLinesAnalysis extends SimpleJob
 			int totalCount = 0;
 			for (int view = 0; view < as.viewCount(); view++)
 				totalCount += as.markerCount(view);
-			
+
 			int missingMarkerCount = as.missingMarkerCount(lineIndex);
 			int markerCount = totalCount - missingMarkerCount;
 			int hetCount = as.hetCount(lineIndex);
@@ -80,9 +84,12 @@ public class PedVerLinesAnalysis extends SimpleJob
 			lineStat.setDataTotalMatch(dataTotalMatch);
 			lineStat.setTotalMatch(totalMatch);
 			lineStat.setPercentTotalMatch((totalMatch / (double) dataTotalMatch) * 100);
-		}
+		});
 
 		prepareForVisualization();
+
+		long e = System.currentTimeMillis();
+		System.out.println("TIME: " + (e-s) + "ms");
 	}
 
 	private void moveParentsToTop()

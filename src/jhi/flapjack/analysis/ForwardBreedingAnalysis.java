@@ -39,6 +39,8 @@ public class ForwardBreedingAnalysis extends SimpleJob
 	public void runJob(int index)
 		throws Exception
 	{
+		long s = System.currentTimeMillis();
+
 		as = new AnalysisSet(this.viewSet)
 			.withViews(selectedChromosomes)
 			.withSelectedLines()
@@ -46,20 +48,31 @@ public class ForwardBreedingAnalysis extends SimpleJob
 
 		runAnalysis();
 		prepareForVisualization();
+
+		long e = System.currentTimeMillis();
+		System.out.println("TIME: " + (e-s) + "ms");
 	}
 
-	private void runAnalysis()
+	private int countTotalMarkers()
 	{
 		int totalMarkers = 0;
 		for (int c = 0; c < as.viewCount(); c++)
 			for (int m = 0; m < as.markerCount(c); m++)
 				totalMarkers++;
 
+		return totalMarkers;
+	}
+
+	private void runAnalysis()
+	{
+		final int totalMarkers = countTotalMarkers();
+
 		// Determine the marker indices under each qtl and make that queryable in a HashMap
 		HashMap<String, ArrayList<Integer>> markerIndicesByQtlName = getMarkersByQtlMap();
 
 		// Generate the stats for each line
-		for (int lineIndex = 0; lineIndex < as.lineCount(); lineIndex++)
+//		for (int lineIndex = 0; lineIndex < as.lineCount(); lineIndex++)
+		IntStream.range(0, as.lineCount()).parallel().forEach((lineIndex) ->
 		{
 			// Get the line from the analysis set and set up an FB results object for it
 			LineInfo line = as.getLine(lineIndex);
@@ -112,7 +125,7 @@ public class ForwardBreedingAnalysis extends SimpleJob
 				.average()
 				.orElse(Double.NaN);
 			result.setAverageHapMatch(averageHapMatch);
-		}
+		});
 	}
 
 	// Generate a map of qtl names to lists of markerIndices of markers under that qtl. This allows us to then use
