@@ -124,8 +124,8 @@ public class PedVerF1sAnalysis extends SimpleJob
 
 		int foundMarkers = totalCount - missingMarkerCount;
 		int hetMarkers = as.hetCount(lineIndex);
-		int p1Contained = containedInLine(lineIndex, parent1Index);
-		int p2Contained = containedInLine(lineIndex, parent2Index);
+		double similarityToP1 = similarityToLine(lineIndex, parent1Index);
+		double similarityToP2 = similarityToLine(lineIndex, parent2Index);
 		int matchesExpF1 = matchesExpF1(lineIndex);
 
 		lineStat.setDataCount(foundMarkers);
@@ -133,10 +133,8 @@ public class PedVerF1sAnalysis extends SimpleJob
 		lineStat.setHeterozygousCount(hetMarkers);
 		lineStat.setPercentHeterozygous((hetMarkers / (double)foundMarkers) * 100);
 		lineStat.setPercentDeviationFromExpected(f1PercentCount - ((hetMarkers / (double)foundMarkers) * 100));
-		lineStat.setCountP1Contained(p1Contained);
-		lineStat.setPercentP1Contained((p1Contained / (double)foundMarkers) * 100);
-		lineStat.setCountP2Contained(p2Contained);
-		lineStat.setPercentP2Contained((p2Contained / (double)foundMarkers) * 100);
+		lineStat.setSimilarityToP1(similarityToP1);
+		lineStat.setSimilarityToP2(similarityToP2);
 		lineStat.setCountAlleleMatchExpected(matchesExpF1);
 		lineStat.setPercentAlleleMatchExpected((matchesExpF1 / (double)foundMarkers) * 100);
 	}
@@ -202,30 +200,33 @@ public class PedVerF1sAnalysis extends SimpleJob
 		return hetMarkers;
 	}
 
-	// Checks if the current allele has any partial match to a given comparison
-	// line. It is likely the comparison line will be one of the two parental
-	// lines.
-	private int containedInLine(int line, int comparisonLine)
+	private double similarityToLine(int line, int comparisonLine)
 	{
-		int contained = 0;
+		double score = 0;
+		int nComps = 0;
 
 		for (int c = 0; c < as.viewCount(); c++)
 		{
 			for (int m = 0; m < as.markerCount(c); m++)
 			{
-				if (isUsableMarker(c, line, m))
-				{
-					// Compare state code of the current line with the equivalent in test line
-					AlleleState testState = stateTable.getAlleleState(as.getState(c, comparisonLine, m));
-					AlleleState currState = stateTable.getAlleleState(as.getState(c, line, m));
+				nComps++;
 
-					if (currState.matchesAnyAllele(testState))
-						contained++;
-				}
+				AlleleState s1 = stateTable.getAlleleState(as.getState(c, comparisonLine, m));
+				AlleleState s2 = stateTable.getAlleleState(as.getState(c, line, m));
+
+				if (s1.matches(s2))
+					score += 1.0d;
+
+					// TODO: This is only really correct for diploid data, as
+					// A/T/A vs A/T/G should really score 0.6666
+				else if (s1.matchesAnyAllele(s2))
+					score += 0.5d;
+				else
+					score += 0;
 			}
 		}
 
-		return contained;
+		return nComps > 0 ? (score / (double)nComps) : 0;
 	}
 
 	private int matchesExpF1(int lineIndex)

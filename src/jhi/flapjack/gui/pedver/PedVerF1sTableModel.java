@@ -18,16 +18,14 @@ public class PedVerF1sTableModel extends LineDataTableModel
 	private static final int hetCountIndex = 3;
 	private static final int percHetIndex = 4;
 	private static final int percDevExpectedIndex = 5;
-	private static final int countP1ContainedIndex = 6;
-	private static final int percP1ContainedIndex = 7;
-	private static final int countP2ContainedIndex = 8;
-	private static final int percP2ContainedIndex = 9;
-	private static final int countAlleleMatchIndex = 10;
-	private static final int percAlleleMatchIndex = 11;
-	private static final int selectedIndex = 12;
-	private static final int rankIndex = 13;
-	private static final int commentIndex = 14;
-	private static final int sortIndex = 15;
+	private static final int similarityToP1Index = 6;
+	private static final int similarityToP2Index = 7;
+	private static final int countAlleleMatchIndex = 8;
+	private static final int percAlleleMatchIndex = 9;
+	private static final int selectedIndex = 10;
+	private static final int rankIndex = 11;
+	private static final int commentIndex = 12;
+	private static final int sortIndex = 13;
 
 	public PedVerF1sTableModel(GTViewSet viewSet)
 	{
@@ -46,10 +44,8 @@ public class PedVerF1sTableModel extends LineDataTableModel
 		columnNames[hetCountIndex] = RB.getString("gui.pedver.PedVerF1sTableModel.hetCount");
 		columnNames[percHetIndex] = RB.getString("gui.pedver.PedVerF1sTableModel.percHet");
 		columnNames[percDevExpectedIndex] = RB.getString("gui.pedver.PedVerF1sTableModel.percDevExpected");
-		columnNames[countP1ContainedIndex] = RB.getString("gui.pedver.PedVerF1sTableModel.countP1Contained");
-		columnNames[percP1ContainedIndex] = RB.getString("gui.pedver.PedVerF1sTableModel.percP1Contained");
-		columnNames[countP2ContainedIndex] = RB.getString("gui.pedver.PedVerF1sTableModel.countP2Contained");
-		columnNames[percP2ContainedIndex] = RB.getString("gui.pedver.PedVerF1sTableModel.percP2Contained");
+		columnNames[similarityToP1Index] = RB.getString("gui.pedver.PedVerF1sTableModel.similarityToP1");
+		columnNames[similarityToP2Index] = RB.getString("gui.pedver.PedVerF1sTableModel.similarityToP2");
 		columnNames[countAlleleMatchIndex] = RB.getString("gui.pedver.PedVerF1sTableModel.countAlleleMatch");
 		columnNames[percAlleleMatchIndex] = RB.getString("gui.pedver.PedVerF1sTableModel.percAlleleMatch");
 		columnNames[selectedIndex] = RB.getString("gui.pedver.PedVerF1sTableModel.selected");
@@ -62,8 +58,6 @@ public class PedVerF1sTableModel extends LineDataTableModel
 		ttNames[hetCountIndex] = RB.getString("gui.pedver.PedVerF1sTableModel.hetCount.tt");
 		ttNames[percHetIndex] = RB.getString("gui.pedver.PedVerF1sTableModel.percHet.tt");
 		ttNames[percDevExpectedIndex] = RB.getString("gui.pedver.PedVerF1sTableModel.percDevExpected.tt");
-		ttNames[percP1ContainedIndex] = RB.getString("gui.pedver.PedVerF1sTableModel.percP1Contained.tt");
-		ttNames[percP2ContainedIndex] = RB.getString("gui.pedver.PedVerF1sTableModel.percP2Contained.tt");
 		ttNames[percAlleleMatchIndex] = RB.getString("gui.pedver.PedVerF1sTableModel.percAlleleMatch.tt");
 
 
@@ -111,10 +105,8 @@ public class PedVerF1sTableModel extends LineDataTableModel
 			case hetCountIndex: return stats.getHeterozygousCount();
 			case percHetIndex: return stats.getPercentHeterozygous();
 			case percDevExpectedIndex: return stats.getPercentDeviationFromExpected();
-			case countP1ContainedIndex: return stats.getCountP1Contained();
-			case percP1ContainedIndex: return stats.getPercentP1Contained();
-			case countP2ContainedIndex: return stats.getCountP2Contained();
-			case percP2ContainedIndex: return stats.getPercentP2Contained();
+			case similarityToP1Index: return stats.getSimilarityToP1();
+			case similarityToP2Index: return stats.getSimilarityToP2();
 			case countAlleleMatchIndex: return stats.getCountAlleleMatchExpected();
 			case percAlleleMatchIndex: return stats.getPercentAlleleMatchExpected();
 

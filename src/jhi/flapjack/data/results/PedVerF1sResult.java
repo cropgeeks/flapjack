@@ -12,10 +12,8 @@ public class PedVerF1sResult extends XMLRoot
 	private int heterozygousCount;
 	private double percentHeterozygous;
 	private double percentDeviationFromExpected;
-	private int countP1Contained;
-	private double percentP1Contained;
-	private int countP2Contained;
-	private double percentP2Contained;
+	private double similarityToP1;
+	private double similarityToP2;
 	private int countAlleleMatchExpected;
 	private double percentAlleleMatchExpected;
 
@@ -69,49 +67,19 @@ public class PedVerF1sResult extends XMLRoot
 	}
 
 	public void setPercentDeviationFromExpected(double percentDeviationFromExpected)
-	{
-		this.percentDeviationFromExpected = percentDeviationFromExpected;
-	}
+		{ this.percentDeviationFromExpected = percentDeviationFromExpected; }
 
-	public int getCountP1Contained()
-	{
-		return countP1Contained;
-	}
+	public double getSimilarityToP1()
+		{ return similarityToP1; }
 
-	public void setCountP1Contained(int countP1Contained)
-	{
-		this.countP1Contained = countP1Contained;
-	}
+	public void setSimilarityToP1(double similarityToP1)
+		{ this.similarityToP1 = similarityToP1; }
 
-	public double getPercentP1Contained()
-	{
-		return percentP1Contained;
-	}
+	public double getSimilarityToP2()
+		{ return similarityToP2; }
 
-	public void setPercentP1Contained(double percentP1Contained)
-	{
-		this.percentP1Contained = percentP1Contained;
-	}
-
-	public int getCountP2Contained()
-	{
-		return countP2Contained;
-	}
-
-	public void setCountP2Contained(int countP2Contained)
-	{
-		this.countP2Contained = countP2Contained;
-	}
-
-	public double getPercentP2Contained()
-	{
-		return percentP2Contained;
-	}
-
-	public void setPercentP2Contained(double percentP2Contained)
-	{
-		this.percentP2Contained = percentP2Contained;
-	}
+	public void setSimilarityToP2(double similarityToP2)
+		{ this.similarityToP2 = similarityToP2; }
 
 	public int getCountAlleleMatchExpected()
 	{
