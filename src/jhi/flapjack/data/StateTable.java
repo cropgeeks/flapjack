@@ -60,8 +60,12 @@ public class StateTable extends XMLRoot
 
 		// Attempt to collapse strings like AA back down to just A
 		if (hetSepStr.isEmpty() && rawData.length() > 0)
+		{
+			// Special case for GOBii and their use of + symbol
+			rawData = rawData.replaceAll("\\+", "\\\\+");
 			if (rawData.matches(rawData.charAt(0) + "{"+rawData.length()+"}+")) // regex: X{n}+
 				rawData = "" + rawData.charAt(0);
+		}
 
 
 		// See if we already have an AlleleState for this rawData string?
