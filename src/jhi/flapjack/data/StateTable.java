@@ -132,21 +132,27 @@ public class StateTable extends XMLRoot
 	 */
 	public boolean containsNucleotides()
 	{
-		boolean A = false, C = false, G = false, T = false;
+		HashSet<String> nucStates = new HashSet<>();
 
+		// For every state in the state table...
 		for (AlleleState state: states)
 		{
-			if (state.isHomozygous() && state.homzAllele().equals("A"))
-				A = true;
-			if (state.isHomozygous() && state.homzAllele().equals("C"))
-				C = true;
-			if (state.isHomozygous() && state.homzAllele().equals("G"))
-				G = true;
-			if (state.isHomozygous() && state.homzAllele().equals("T"))
-				T = true;
+			// ... look at its individual allele state(s) (hom and het)
+			for (String aS: state.getStates())
+			{
+				if (aS.equals("A"))
+					nucStates.add("A");
+				if (aS.equals("C"))
+					nucStates.add("C");
+				if (aS.equals("G"))
+					nucStates.add("G");
+				if (aS.equals("T"))
+					nucStates.add("T");
+			}
 		}
 
-		return (A && C && G && T);
+		// Return true if we've found at least 3 of the 4 possible states
+		return (nucStates.size() >= 3);
 	}
 
 	/**
@@ -159,10 +165,13 @@ public class StateTable extends XMLRoot
 
 		for (AlleleState state: states)
 		{
-			if (state.isHomozygous() && state.homzAllele().equals("0"))
-				a0 = true;
-			if (state.isHomozygous() && state.homzAllele().equals("1"))
-				a1 = true;
+			for (String aS: state.getStates())
+			{
+				if (aS.equals("0"))
+					a0 = true;
+				if (aS.equals("1"))
+					a1 = true;
+			}
 		}
 
 		return containsNucleotides() && a0 && a1;
