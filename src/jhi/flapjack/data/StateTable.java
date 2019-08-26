@@ -61,9 +61,11 @@ public class StateTable extends XMLRoot
 		// Attempt to collapse strings like AA back down to just A
 		if (hetSepStr.isEmpty() && rawData.length() > 0)
 		{
-			// Special case for GOBii and their use of + symbol
-			rawData = rawData.replaceAll("\\+", "\\\\+");
-			if (rawData.matches(rawData.charAt(0) + "{"+rawData.length()+"}+")) // regex: X{n}+
+			HashSet<Character> chars = new HashSet<>();
+			for (char s: rawData.toCharArray())
+				chars.add(s);
+
+			if (chars.size() == 1)
 				rawData = "" + rawData.charAt(0);
 		}
 
