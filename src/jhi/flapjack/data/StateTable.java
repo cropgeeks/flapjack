@@ -85,6 +85,20 @@ public class StateTable extends XMLRoot
 		return states.size() - 1;
 	}
 
+	public int getStateCodeForGOBiiQTL(String rawData)
+	{
+		// Make a temp allelestate for this query
+		AlleleState newState = new AlleleState(rawData, "/");
+
+		for (int i = 0; i < states.size(); i++)
+			if (states.get(i).matches(newState))
+				return i;
+
+		// If it wasn't found, we need to add it to the state table
+		states.add(newState);
+		return states.size() - 1;
+	}
+
 	public int calculateHomozygousStateCount()
 	{
 		int count = 0;

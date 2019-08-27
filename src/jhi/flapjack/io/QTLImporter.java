@@ -233,6 +233,7 @@ public class QTLImporter extends SimpleJob
 	private void readGOBii(BufferedReader in)
 		throws Exception
 	{
+		StateTable st = dataSet.getStateTable();
 		HashMap<String, QTL> markerGroups = new HashMap<>();
 
 		String str = null;
@@ -276,23 +277,15 @@ public class QTLImporter extends SimpleJob
 			if (map == null)
 				continue;
 
-			// FavAllele info - clunky search done here because the raw data
-			// info is load post-load so we can't use StateTable.getStateCode()
+			// FavAllele info
 			ArrayList<Integer> indices = new ArrayList<>();
 			// Split out the comma-delimited string (removing whitespace too)
 			String[] favAlleles = tokens[4].replaceAll("\\s+", "").split(",");
+			// This now uses 'new' code in StateTable that will add any missing
+			// QTL states; deals with Kate's situations with low density data
+			// that didn't contain all states, so QTL favAlleles were not found
 			for (String favAllele: favAlleles)
-			{
-				for (int i = 0; i < dataSet.getStateTable().size(); i++)
-				{
-					AlleleState state = dataSet.getStateTable().getStates().get(i);
-					if (state.toString().equals(favAllele))
-					{
-						indices.add(i);
-						break;
-					}
-				}
-			}
+				indices.add(st.getStateCodeForGOBiiQTL(favAllele));
 
 			// Now, let's make (or retrieve) the MarkerGroupName (QTL) object
 			String mkrGroupName = new String(tokens[0]);
