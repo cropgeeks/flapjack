@@ -4,6 +4,7 @@
 package jhi.flapjack.gui;
 
 import java.awt.*;
+import java.awt.desktop.*;
 import java.awt.event.*;
 import java.io.*;
 import java.net.*;
@@ -16,9 +17,7 @@ import jhi.flapjack.io.*;
 import scri.commons.io.*;
 import scri.commons.gui.*;
 
-import apple.dts.samplecode.osxadapter.*;
-
-public class Flapjack
+public class Flapjack implements OpenFilesHandler
 {
 	private static File prefsFile = getPrefsFile();
 	private static Prefs prefs = new Prefs();
@@ -30,9 +29,6 @@ public class Flapjack
 	public static void main(String[] args)
 		throws Exception
 	{
-		// OS X: This has to be set before anything else
-		System.setProperty("com.apple.mrj.application.apple.menu.about.name", "Flapjack");
-
 		// Log some basic version/os information
 		System.out.println("Flapjack " + Install4j.getVersion(Flapjack.class) + " on "
 			+ System.getProperty("os.name")	+ " (" + System.getProperty("os.arch") + ")");
@@ -235,22 +231,13 @@ public class Flapjack
 
 	private void handleOSXStupidities()
 	{
-		try
-		{
-			// Register handlers to deal with the System menu about/quit options
-			OSXAdapter.setPreferencesHandler(this,
-				getClass().getDeclaredMethod("osxPreferences", (Class[])null));
-			OSXAdapter.setAboutHandler(this,
-				getClass().getDeclaredMethod("osxAbout", (Class[])null));
-			OSXAdapter.setQuitHandler(this,
-				getClass().getDeclaredMethod("osxShutdown", (Class[])null));
-			OSXAdapter.setFileHandler(this,
-				getClass().getDeclaredMethod("osxOpen", new Class[] { String.class }));
+		Desktop desktop = Desktop.getDesktop();
 
-			// Dock the menu bar at the top of the screen
-			System.setProperty("apple.laf.useScreenMenuBar", "true");
-		}
-		catch (Exception e) {}
+		// Register handlers to deal with the System menu about/quit options
+        desktop.setAboutHandler(e -> osxAbout());
+        desktop.setPreferencesHandler(e -> osxPreferences());
+        desktop.setQuitHandler((e,r) -> osxShutdown());
+		desktop.setOpenFileHandler(this);
 	}
 
 	/** "Preferences" on the OS X system menu. */
@@ -265,18 +252,23 @@ public class Flapjack
 		winMain.mHelp.helpAbout();
 	}
 
-	public void osxOpen(String path)
+	/** Deal with desktop-double clicking of registered files */
+	public void openFiles(OpenFilesEvent e)
 	{
-		// If Tablet is already open, then open the file straight away
+		String[] paths = new String[e.getFiles().size()];
+		for (int i = 0; i < paths.length; i++)
+			paths[i] = e.getFiles().get(i).toString();
+
+		// If Flapjack is already open, then open the file straight away
 		if (winMain != null && winMain.isVisible())
 		{
 			// TODO: If we have project modified checks, do them here too
-			winMain.mFile.fileOpen(new FlapjackFile(path));
+			winMain.mFile.fileOpen(new FlapjackFile(paths[0]));
 		}
 
 		// Otherwise, mark it for opening once Flapjack is ready
 		else
-			initialProject = new String[] { path };
+			initialProject = new String[] { paths[0] };
 	}
 
 	/** "Quit Flapjack" on the OS X system menu. */
