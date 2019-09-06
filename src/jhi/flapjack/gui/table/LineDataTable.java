@@ -15,7 +15,9 @@ import javax.swing.table.*;
 
 import jhi.flapjack.analysis.*;
 import jhi.flapjack.data.*;
+import jhi.flapjack.data.results.*;
 import jhi.flapjack.gui.*;
+import jhi.flapjack.gui.dialog.analysis.*;
 import jhi.flapjack.gui.visualization.*;
 import jhi.flapjack.gui.visualization.undo.*;
 
@@ -263,6 +265,22 @@ public class LineDataTable extends JTable
 
 		SortLinesByLineDataModel s = new SortLinesByLineDataModel(viewSet, sorter, data);
 		Flapjack.winMain.mAnalysis.runSort(s, viewSet);
+
+		model.fireTableDataChanged();
+	}
+
+	public void thresholdDialog()
+	{
+		PedVerF1sThresholds thresholds = viewSet.getLines().get(0).getResults().getPedVerF1sResult().getThresholds();
+		ThresholdDialog thresholdDialog = new ThresholdDialog(thresholds);
+		thresholdDialog.setVisible(true);
+		if (thresholdDialog.isOK() == false)
+			return;
+
+		// Once the threshold dialog has been closed by the OK button we need to update the thresholds in every
+		// ped ver f1 result
+		for (LineInfo info : viewSet.getLines())
+			info.getResults().getPedVerF1sResult().setThresholds(thresholdDialog.getThresholds());
 
 		model.fireTableDataChanged();
 	}

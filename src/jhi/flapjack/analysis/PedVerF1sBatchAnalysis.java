@@ -6,6 +6,7 @@ package jhi.flapjack.analysis;
 import java.util.*;
 
 import jhi.flapjack.data.*;
+import jhi.flapjack.data.results.*;
 import jhi.flapjack.gui.dialog.analysis.*;
 
 import scri.commons.gui.*;
@@ -53,10 +54,11 @@ public class PedVerF1sBatchAnalysis extends SimpleJob
 		// Use a CSD dialog (without showing it) to get a suitable selected set
 		ChromosomeSelectionDialog csd = new ChromosomeSelectionDialog(viewSet, true, false);
 		boolean[] selectedChromosomes = csd.getSelectedChromosomes();
+		PedVerF1sThresholds thresholds = PedVerF1sThresholds.fromUserDefaults();
 
 		PedVerF1sAnalysis stats = new PedVerF1sAnalysis(viewSet,
 			selectedChromosomes, p1Index, p2Index, simulateF1, f1Index,
-			excludeParents, name);
+			excludeParents, name, thresholds);
 
 		stats.runJob(0);
 		resultViewSets.add(stats.getViewSet());

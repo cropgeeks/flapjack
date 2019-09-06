@@ -356,6 +356,7 @@ public class MenuAnalysis
 		// Retrieve information required for analysis from dialog
 		PedVerF1StatsSinglePanelNB ui = dialog.getSingleUI();
 		boolean[] selectedChromosomes = ui.getSelectedChromosomes();
+		PedVerF1sThresholds thresholds = ui.getThresholds();
 		int p1Index = ui.getParent1();
 		int p2Index = ui.getParent2();
 		int f1Index = ui.getF1();
@@ -364,7 +365,7 @@ public class MenuAnalysis
 		// Setup and run the stats
 		PedVerF1sAnalysis stats = new PedVerF1sAnalysis(viewSet,
 			selectedChromosomes, p1Index, p2Index, simulateF1, f1Index,
-			Prefs.guiPedVerF1sExcludeParents, RB.getString("gui.navpanel.PedVerF1s.node"));
+			Prefs.guiPedVerF1sExcludeParents, RB.getString("gui.navpanel.PedVerF1s.node"), thresholds);
 
 		new ProgressDialog(stats,
 			RB.getString("gui.MenuAnalysis.pedVerF1s.title"),

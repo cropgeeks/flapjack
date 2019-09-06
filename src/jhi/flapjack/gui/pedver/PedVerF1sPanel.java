@@ -8,8 +8,10 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.event.*;
 
+import jhi.flapjack.analysis.*;
 import jhi.flapjack.data.*;
 import jhi.flapjack.gui.*;
+import jhi.flapjack.gui.dialog.analysis.*;
 import jhi.flapjack.gui.table.*;
 import scri.commons.gui.Icons;
 import scri.commons.gui.RB;
@@ -56,7 +58,7 @@ public class PedVerF1sPanel extends JPanel implements ActionListener, ListSelect
 		controls.autoResize.setSelected(tableHandler.isAutoResize());
 	}
 
-	public void updateModel(GTViewSet viewSet)
+	private void updateModel(GTViewSet viewSet)
 	{
 		model = new PedVerF1sTableModel(viewSet);
 		model.addTableModelListener(this);
@@ -80,6 +82,9 @@ public class PedVerF1sPanel extends JPanel implements ActionListener, ListSelect
 
 		else if (e.getSource() == controls.autoResize)
 			table.autoResize(controls.autoResize.isSelected(), false);
+		
+		else if (e.getSource() == controls.bThreshold)
+			table.thresholdDialog();
 	}
 
 	@Override

@@ -29,6 +29,9 @@ class PedVerF1sPanelNB extends JPanel
         
         bRank.addActionListener(panel);
 		bRank.setIcon(Icons.getIcon("RANK"));
+		
+		bThreshold.addActionListener(panel);
+		bThreshold.setIcon(Icons.getIcon("THRESHOLD"));
 
 		autoResize.addActionListener(panel);
 	}
@@ -53,6 +56,7 @@ class PedVerF1sPanelNB extends JPanel
         bFilter = new scri.commons.gui.matisse.MenuButton();
         bSelect = new scri.commons.gui.matisse.MenuButton();
         bRank = new javax.swing.JButton();
+        bThreshold = new scri.commons.gui.matisse.MenuButton();
 
         table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -66,13 +70,12 @@ class PedVerF1sPanelNB extends JPanel
 
         bSort.setText("Sort...");
 
-        bExport.setActionCommand("Export...");
         bExport.setText("Export");
+        bExport.setActionCommand("Export...");
 
         jLabel1.setText("|");
 
         autoResize.setSelected(true);
-        autoResize.setOpaque(false);
         autoResize.setText("Auto-fit columns");
 
         filterLabel.setText("Lines visible:");
@@ -83,8 +86,10 @@ class PedVerF1sPanelNB extends JPanel
 
         bSelect.setText("Select");
 
-        bRank.setEnabled(false);
         bRank.setText("Rank...");
+        bRank.setEnabled(false);
+
+        bThreshold.setText("Threshold");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -98,6 +103,8 @@ class PedVerF1sPanelNB extends JPanel
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(filterLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(bThreshold, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(bSelect, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(bRank)
@@ -110,7 +117,7 @@ class PedVerF1sPanelNB extends JPanel
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(bExport, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 598, Short.MAX_VALUE)
+            .addComponent(jScrollPane1)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -126,7 +133,8 @@ class PedVerF1sPanelNB extends JPanel
                     .addComponent(jLabel2)
                     .addComponent(bFilter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(bSelect, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(bRank))
+                    .addComponent(bRank)
+                    .addComponent(bThreshold, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -139,6 +147,7 @@ class PedVerF1sPanelNB extends JPanel
     javax.swing.JButton bRank;
     scri.commons.gui.matisse.MenuButton bSelect;
     javax.swing.JButton bSort;
+    scri.commons.gui.matisse.MenuButton bThreshold;
     javax.swing.JLabel filterLabel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

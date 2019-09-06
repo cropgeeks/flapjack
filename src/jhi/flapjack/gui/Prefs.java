@@ -111,6 +111,13 @@ public class Prefs extends XMLPreferences
 	public static int pedVerLinesDialogTab = 0;
 	public static int forwardBreedingDialogTab = 0;
 
+	// PedVerF1 threshold values
+	public static int pedVerF1HetThreshold = 0;
+	public static int pedVerF1F1Threshold = 0;
+	public static int pedVerF1ErrorThreshold = 0;
+	public static int pedVerF1ParentHetThreshold = 0;
+	public static int pedVerF1isHetThreshold = 0;
+
 	// Warning messages
 	public static boolean warnDuplicateMarkers = true;
 	public static boolean warnEditMarkerMode = true;

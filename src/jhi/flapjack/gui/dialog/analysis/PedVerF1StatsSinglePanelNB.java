@@ -7,13 +7,15 @@ import javax.swing.*;
 
 import jhi.flapjack.analysis.*;
 import jhi.flapjack.data.*;
+import jhi.flapjack.data.results.*;
 import jhi.flapjack.gui.*;
 
 import scri.commons.gui.*;
 
-public class PedVerF1StatsSinglePanelNB extends javax.swing.JPanel
+public class PedVerF1StatsSinglePanelNB extends JPanel
 {
 	private ChromosomeSelectionDialog csd;
+	private ThresholdDialog thresholdDialog;
 
 	private ButtonGroup f1Group;
 
@@ -33,6 +35,8 @@ public class PedVerF1StatsSinglePanelNB extends javax.swing.JPanel
 
 		csd = new ChromosomeSelectionDialog(viewSet, true, true);
 		csdLabel.addActionListener(e -> csd.setVisible(true));
+		thresholdDialog = new ThresholdDialog();
+		thresholdLabel.addActionListener(e -> thresholdDialog.setVisible(true));
 
 		setupF1ButtonGroup();
 		setupComboBoxes(as);
@@ -76,8 +80,8 @@ public class PedVerF1StatsSinglePanelNB extends javax.swing.JPanel
 		RB.setText(chkExcludeParents, "gui.dialog.analysis.MABCStatsDialog.chkExlcudeParents");
 		chkExcludeParents.setSelected(Prefs.guiPedVerF1sExcludeParents);
 
-		rdbSelectF1.addActionListener(e -> f1Combo.setEnabled(rdbSelectF1.isSelected()) );
-		rdbSimulateF1.addActionListener(e -> f1Combo.setEnabled(rdbSelectF1.isSelected()) );
+		rdbSelectF1.addActionListener(e -> f1Combo.setEnabled(rdbSelectF1.isSelected()));
+		rdbSimulateF1.addActionListener(e -> f1Combo.setEnabled(rdbSelectF1.isSelected()));
 	}
 
 	private void setupF1ButtonGroup()
@@ -121,6 +125,9 @@ public class PedVerF1StatsSinglePanelNB extends javax.swing.JPanel
 		return csd.getSelectedChromosomes();
 	}
 
+	public PedVerF1sThresholds getThresholds()
+		{ return thresholdDialog.getThresholds(); }
+
 	/**
 	 * This method is called from within the constructor to initialize the form.
 	 * WARNING: Do NOT modify this code. The content of this method is always
@@ -128,8 +135,7 @@ public class PedVerF1StatsSinglePanelNB extends javax.swing.JPanel
 	 */
 	@SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents()
-    {
+    private void initComponents() {
 
         parentsPanel = new javax.swing.JPanel();
         lblParent1 = new javax.swing.JLabel();
@@ -142,6 +148,7 @@ public class PedVerF1StatsSinglePanelNB extends javax.swing.JPanel
         chkExcludeParents = new javax.swing.JCheckBox();
         jPanel1 = new javax.swing.JPanel();
         csdLabel = new scri.commons.gui.matisse.HyperLinkLabel();
+        thresholdLabel = new scri.commons.gui.matisse.HyperLinkLabel();
 
         parentsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Select parents:"));
 
@@ -205,9 +212,11 @@ public class PedVerF1StatsSinglePanelNB extends javax.swing.JPanel
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Data selection settings:"));
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Other settings:"));
 
         csdLabel.setText("Select chromosomes to analyse");
+
+        thresholdLabel.setText("Select threshold settings");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -215,7 +224,9 @@ public class PedVerF1StatsSinglePanelNB extends javax.swing.JPanel
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(csdLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(csdLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(thresholdLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -223,6 +234,8 @@ public class PedVerF1StatsSinglePanelNB extends javax.swing.JPanel
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(csdLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(thresholdLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -230,11 +243,11 @@ public class PedVerF1StatsSinglePanelNB extends javax.swing.JPanel
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(parentsPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(parentsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -261,5 +274,6 @@ public class PedVerF1StatsSinglePanelNB extends javax.swing.JPanel
     private javax.swing.JPanel parentsPanel;
     private javax.swing.JRadioButton rdbSelectF1;
     private javax.swing.JRadioButton rdbSimulateF1;
+    private scri.commons.gui.matisse.HyperLinkLabel thresholdLabel;
     // End of variables declaration//GEN-END:variables
 }

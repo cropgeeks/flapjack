@@ -26,6 +26,7 @@ public class PedVerF1sTableModel extends LineDataTableModel
 	private static final int rankIndex = 11;
 	private static final int commentIndex = 12;
 	private static final int sortIndex = 13;
+	private static final int decisionIndex = 14;
 
 	public PedVerF1sTableModel(GTViewSet viewSet)
 	{
@@ -37,7 +38,7 @@ public class PedVerF1sTableModel extends LineDataTableModel
 
 	private void initModel()
 	{
-		columnNames = new String[16];
+		columnNames = new String[15];
 		columnNames[lineIndex] = RB.getString("gui.pedver.PedVerF1sTableModel.line");
 		columnNames[dataCountIndex]	= RB.getString("gui.pedver.PedVerF1sTableModel.dataCount");
 		columnNames[percDataIndex] = RB.getString("gui.pedver.PedVerF1sTableModel.percData");
@@ -52,6 +53,7 @@ public class PedVerF1sTableModel extends LineDataTableModel
 		columnNames[rankIndex] = RB.getString("gui.pedver.PedVerF1sTableModel.rank");
 		columnNames[commentIndex] = RB.getString("gui.pedver.PedVerF1sTableModel.comments");
 		columnNames[sortIndex] = RB.getString("gui.pedver.PedVerF1sTableModel.sortFilter");
+		columnNames[decisionIndex] = RB.getString("gui.pedver.PedVerF1sTableModel.decision");
 
 		ttNames = new String[columnNames.length];
 		ttNames[percDataIndex] = RB.getString("gui.pedver.PedVerF1sTableModel.percData.tt");
@@ -109,6 +111,7 @@ public class PedVerF1sTableModel extends LineDataTableModel
 			case similarityToP2Index: return stats.getSimilarityToP2();
 			case countAlleleMatchIndex: return stats.getCountAlleleMatchExpected();
 			case percAlleleMatchIndex: return stats.getPercentAlleleMatchExpected();
+			case decisionIndex: return stats.getDecision();
 
 			case commentIndex:
 				String comment = line.getResults().getComments();
@@ -163,4 +166,10 @@ public class PedVerF1sTableModel extends LineDataTableModel
 	{
 		return rankIndex;
 	}
+
+	public static int getPercHetIndex()
+		{ return percHetIndex; }
+
+	public static int getPercAlleleMatchIndex()
+		{ return percAlleleMatchIndex; }
 }

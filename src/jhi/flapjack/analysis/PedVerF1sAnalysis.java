@@ -24,10 +24,25 @@ public class PedVerF1sAnalysis extends SimpleJob
 	private boolean[] selectedChromosomes;
 	private String name;
 	private boolean excludeAdditionalParents;
+	private PedVerF1sThresholds thresholds;
 
 	private int f1HetCount = 0;
 	private int usableMarkerCount = 0;
 	private double f1PercentCount = 0;
+
+	public PedVerF1sAnalysis(GTViewSet viewSet, boolean[] selectedChromosomes, int parent1Index, int parent2Index, boolean simulateF1, int f1Index, boolean excludeAdditionalParents, String name, PedVerF1sThresholds thresholds)
+	{
+		this.viewSet =  viewSet.createClone("", true);
+		this.selectedChromosomes = selectedChromosomes;
+		this.stateTable = viewSet.getDataSet().getStateTable();
+		this.parent1Index = parent1Index;
+		this.parent2Index = parent2Index;
+		this.simulateF1 = simulateF1;
+		this.f1Index = f1Index;
+		this.excludeAdditionalParents = excludeAdditionalParents;
+		this.name = name;
+		this.thresholds = thresholds;
+	}
 
 	public PedVerF1sAnalysis(GTViewSet viewSet, boolean[] selectedChromosomes, int parent1Index, int parent2Index, boolean simulateF1, int f1Index, boolean excludeAdditionalParents, String name)
 	{
@@ -40,6 +55,8 @@ public class PedVerF1sAnalysis extends SimpleJob
 		this.f1Index = f1Index;
 		this.excludeAdditionalParents = excludeAdditionalParents;
 		this.name = name;
+		// TODO: longer term provide constructor which lets users specify custom thresholds from the command line
+		this.thresholds = PedVerF1sThresholds.fromUserDefaults();
 	}
 
 	private void setupAnalysis()
@@ -133,10 +150,14 @@ public class PedVerF1sAnalysis extends SimpleJob
 		lineStat.setHeterozygousCount(hetMarkers);
 		lineStat.setPercentHeterozygous((hetMarkers / (double)foundMarkers) * 100);
 		lineStat.setPercentDeviationFromExpected(f1PercentCount - ((hetMarkers / (double)foundMarkers) * 100));
-		lineStat.setSimilarityToP1(similarityToP1);
-		lineStat.setSimilarityToP2(similarityToP2);
+		lineStat.setSimilarityToP1(similarityToP1 * 100);
+		lineStat.setSimilarityToP2(similarityToP2 * 100);
 		lineStat.setCountAlleleMatchExpected(matchesExpF1);
 		lineStat.setPercentAlleleMatchExpected((matchesExpF1 / (double)foundMarkers) * 100);
+		lineStat.setThresholds(thresholds);
+		lineStat.setParent1Heterozygosity((as.hetCount(parent1Index) / (double)foundMarkers) * 100);
+		lineStat.setParent2Heterozygosity((as.hetCount(parent2Index) / (double)foundMarkers) * 100);
+		lineStat.setF1Heterozygosity((as.hetCount(f1Index) / (double)foundMarkers) * 100);
 	}
 
 	// Loops over all the alleles in the expected F1 as identified by f1Index
@@ -174,30 +195,6 @@ public class PedVerF1sAnalysis extends SimpleJob
 			&& as.getState(chr, f1Index, marker) != 0
 			&& stateTable.isHom(as.getState(chr, parent1Index, marker))
 			&& stateTable.isHom(as.getState(chr, parent2Index, marker));
-	}
-
-	private int usableMarkerCount(int lineIndex)
-	{
-		int foundMarkers = 0;
-
-		for (int c = 0; c < as.viewCount(); c++)
-			for (int m = 0; m < as.markerCount(c); m++)
-				if (isUsableMarker(c, lineIndex, m))
-					foundMarkers++;
-
-		return foundMarkers;
-	}
-
-	private int hetMarkerCount(int lineIndex)
-	{
-		int hetMarkers = 0;
-
-		for (int c = 0; c < as.viewCount(); c++)
-			for (int m = 0; m < as.markerCount(c); m++)
-				if (isUsableMarker(c, lineIndex, m) && stateTable.isHet(as.getState(c, lineIndex, m)))
-					hetMarkers++;
-
-		return hetMarkers;
 	}
 
 	private double similarityToLine(int line, int comparisonLine)
@@ -268,6 +265,11 @@ public class PedVerF1sAnalysis extends SimpleJob
 		p1.getResults().setSortToTop(true);
 		p2.getResults().setSortToTop(true);
 		f1.getResults().setSortToTop(true);
+
+		// Mark parents and f1s for later retrieval
+		p1.getResults().getPedVerF1sResult().setP1(true);
+		p2.getResults().getPedVerF1sResult().setP2(true);
+		f1.getResults().getPedVerF1sResult().setF1(true);
 
 		// Remove them from the list
 		viewSet.getLines().remove(p1);
