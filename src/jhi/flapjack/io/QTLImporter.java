@@ -238,6 +238,8 @@ public class QTLImporter extends SimpleJob
 
 		String str = null;
 
+		int unfavAlleleIndex = -1;
+
 		for (int line = 1; (str = in.readLine()) != null && okToRun; line++)
 		{
 			if (str.length() == 0 || str.startsWith("#"))
@@ -246,11 +248,19 @@ public class QTLImporter extends SimpleJob
 			String[] tokens = str.split("\t", -1);
 
 			// Fail if the data per line doesn't match the expected number
-			if (tokens.length != 5)
+			if (tokens.length < 5)
 				throw new DataFormatException(RB.format("io.DataFormatException.traitColumnError", line));
-			// Ignore the header line
+
+			// Check if there is unfavourable allele information in the header, then skip the header line as we don't
+			// want to process it in the same way we do data lines
 			if (str.toLowerCase().startsWith("marker_group_name"))
+			{
+				for (int i=0; i < tokens.length; i++)
+					if (tokens[i].equals("unfav_allele"))
+						unfavAlleleIndex = i;
+
 				continue;
+			}
 
 			// MarkerName
 			String mkrName = new String(tokens[2]);
@@ -296,6 +306,25 @@ public class QTLImporter extends SimpleJob
 				dataSet.getFavAlleleManager().addHaplotypeAlleles(mkrGroupName, mkrName, indices);
 			}
 
+			// Also handle potential unfavourable alleles
+			if (unfavAlleleIndex != -1)
+			{
+				// FavAllele info
+				ArrayList<Integer> unfavIndices = new ArrayList<>();
+				// Split out the comma-delimited string (removing whitespace too)
+				String[] unfavAlleles = tokens[unfavAlleleIndex].replaceAll("\\s+", "").split(",");
+				// This now uses 'new' code in StateTable that will add any missing
+				// QTL states; deals with Kate's situations with low density data
+				// that didn't contain all states, so QTL favAlleles were not found
+				for (String unfavAllele: unfavAlleles)
+					unfavIndices.add(st.getStateCodeForGOBiiQTL(unfavAllele));
+
+				if (unfavIndices.size() > 0)
+				{
+					dataSet.getFavAlleleManager().addUnfavAllelesForMarker(mkrName, unfavIndices);
+				}
+			}
+
 			if (markerGroups.putIfAbsent(mkrGroupName, new QTL(mkrGroupName, true)) == null)
 				featuresRead++;
 			QTL qtl = markerGroups.get(mkrGroupName);
@@ -308,8 +337,6 @@ public class QTLImporter extends SimpleJob
 			// Update the QTL's positions based on this marker
 			qtl.setMin(Math.min(marker.getPosition(), qtl.getMin()));
 			qtl.setMax(Math.max(marker.getPosition(), qtl.getMax()));
-
-			// TODO: FavAllele information
 		}
 
 		// Now, for each QTL we've created, get it added to the tracks
