@@ -392,11 +392,9 @@
 			<bind-xml name="hapAlleles"> <!-- en = entry -->
 				<class name="org.exolab.castor.mapping.MapItem">
 					<field name="key" type="java.lang.String">
-						<bind-xml name="k" node="attribute"/>
+						<bind-xml name="k"/>
 					</field>
-					<field name="value" type="jhi.flapjack.data.MarkerFavAlleles">
-						<bind-xml name="v" node="attribute"/>
-					</field>
+					<field name="value" type="jhi.flapjack.data.MarkerFavAlleles" />
 				</class>
 			</bind-xml>
 		</field>
