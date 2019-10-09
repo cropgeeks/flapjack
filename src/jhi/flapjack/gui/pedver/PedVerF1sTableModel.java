@@ -20,13 +20,12 @@ public class PedVerF1sTableModel extends LineDataTableModel
 	private static final int percDevExpectedIndex = 5;
 	private static final int similarityToP1Index = 6;
 	private static final int similarityToP2Index = 7;
-	private static final int countAlleleMatchIndex = 8;
-	private static final int percAlleleMatchIndex = 9;
-	private static final int selectedIndex = 10;
-	private static final int rankIndex = 11;
-	private static final int commentIndex = 12;
-	private static final int sortIndex = 13;
-	private static final int decisionIndex = 14;
+	private static final int percAlleleMatchIndex = 8;
+	private static final int selectedIndex = 9;
+	private static final int rankIndex = 10;
+	private static final int commentIndex = 11;
+	private static final int sortIndex = 12;
+	private static final int decisionIndex = 13;
 
 	public PedVerF1sTableModel(GTViewSet viewSet)
 	{
@@ -38,7 +37,7 @@ public class PedVerF1sTableModel extends LineDataTableModel
 
 	private void initModel()
 	{
-		columnNames = new String[15];
+		columnNames = new String[14];
 		columnNames[lineIndex] = RB.getString("gui.pedver.PedVerF1sTableModel.line");
 		columnNames[dataCountIndex]	= RB.getString("gui.pedver.PedVerF1sTableModel.dataCount");
 		columnNames[percDataIndex] = RB.getString("gui.pedver.PedVerF1sTableModel.percData");
@@ -47,7 +46,6 @@ public class PedVerF1sTableModel extends LineDataTableModel
 		columnNames[percDevExpectedIndex] = RB.getString("gui.pedver.PedVerF1sTableModel.percDevExpected");
 		columnNames[similarityToP1Index] = RB.getString("gui.pedver.PedVerF1sTableModel.similarityToP1");
 		columnNames[similarityToP2Index] = RB.getString("gui.pedver.PedVerF1sTableModel.similarityToP2");
-		columnNames[countAlleleMatchIndex] = RB.getString("gui.pedver.PedVerF1sTableModel.countAlleleMatch");
 		columnNames[percAlleleMatchIndex] = RB.getString("gui.pedver.PedVerF1sTableModel.percAlleleMatch");
 		columnNames[selectedIndex] = RB.getString("gui.pedver.PedVerF1sTableModel.selected");
 		columnNames[rankIndex] = RB.getString("gui.pedver.PedVerF1sTableModel.rank");
@@ -109,7 +107,6 @@ public class PedVerF1sTableModel extends LineDataTableModel
 			case percDevExpectedIndex: return stats.getPercentDeviationFromExpected();
 			case similarityToP1Index: return stats.getSimilarityToP1();
 			case similarityToP2Index: return stats.getSimilarityToP2();
-			case countAlleleMatchIndex: return stats.getCountAlleleMatchExpected();
 			case percAlleleMatchIndex: return stats.getPercentAlleleMatchExpected();
 			case decisionIndex: return stats.getDecision();
 

@@ -152,7 +152,6 @@ public class PedVerF1sAnalysis extends SimpleJob
 		lineStat.setPercentDeviationFromExpected(f1PercentCount - ((hetMarkers / (double)foundMarkers) * 100));
 		lineStat.setSimilarityToP1(similarityToP1 * 100);
 		lineStat.setSimilarityToP2(similarityToP2 * 100);
-		lineStat.setCountAlleleMatchExpected(matchesExpF1);
 		lineStat.setPercentAlleleMatchExpected((matchesExpF1 / (double)foundMarkers) * 100);
 		lineStat.setThresholds(thresholds);
 		lineStat.setParent1Heterozygosity((as.hetCount(parent1Index) / (double)foundMarkers) * 100);

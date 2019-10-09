@@ -14,7 +14,6 @@ public class PedVerF1sResult extends XMLRoot
 	private double percentDeviationFromExpected;
 	private double similarityToP1;
 	private double similarityToP2;
-	private int countAlleleMatchExpected;
 	private double percentAlleleMatchExpected;
 	private String decision;
 	private boolean p1;
@@ -155,14 +154,6 @@ public class PedVerF1sResult extends XMLRoot
 
 	public void setSimilarityToP2(double similarityToP2)
 		{ this.similarityToP2 = similarityToP2; }
-
-	public int getCountAlleleMatchExpected()
-	{
-		return countAlleleMatchExpected;
-	}
-
-	public void setCountAlleleMatchExpected(int countAlleleMatchExpected)
-		{ this.countAlleleMatchExpected = countAlleleMatchExpected; }
 
 	public double getPercentAlleleMatchExpected()
 	{
