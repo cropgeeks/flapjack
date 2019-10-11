@@ -3,13 +3,12 @@
 
 package jhi.flapjack.analysis;
 
-import java.util.*;
 import java.util.stream.*;
 
 import jhi.flapjack.data.*;
 import jhi.flapjack.data.results.*;
+import jhi.flapjack.gui.visualization.colors.*;
 
-import jhi.flapjack.gui.visualization.colors.ColorScheme;
 import scri.commons.gui.*;
 
 public class PedVerLinesAnalysis extends SimpleJob
@@ -18,9 +17,8 @@ public class PedVerLinesAnalysis extends SimpleJob
 	private boolean[] selectedChromosomes;
 	private int p1Index;
 	private int p2Index;
-	private ArrayList<Integer> parentIndices;
-
 	private AnalysisSet as;
+	private StateTable stateTable;
 
 	private String name;
 
@@ -33,13 +31,13 @@ public class PedVerLinesAnalysis extends SimpleJob
 	public PedVerLinesAnalysis(GTViewSet viewSet, boolean[] selectedChromosomes, int p1Index, int p2Index)
 	{
 		this.viewSet = viewSet.createClone("", true);
+		this.stateTable = viewSet.getDataSet().getStateTable();
 		this.p1Index = p1Index;
 		this.p2Index = p2Index;
 		this.selectedChromosomes = selectedChromosomes;
 
-		this.parentIndices = new ArrayList<>();
-		this.parentIndices.add(p1Index);
-		this.parentIndices.add(p2Index);
+		this.p1Index = p1Index;
+		this.p2Index = p2Index;
 	}
 
 	public void runJob(int index)
@@ -71,19 +69,21 @@ public class PedVerLinesAnalysis extends SimpleJob
 			int markerCount = totalCount - missingMarkerCount;
 			int hetCount = as.hetCount(lineIndex);
 
-			ArrayList<PedVerLinesParentScore> parentScores = getParentScoresForLine(lineIndex);
-
 			int dataTotalMatch = dataTotalMatch(lineIndex);
 			int totalMatch = totalMatch(lineIndex);
+
+			double similarityParent1 = similarityToLine(lineIndex, p1Index);
+			double similarityParent2 = similarityToLine(lineIndex, p2Index);
+			double similarityToParents = similarityToParents(lineIndex);
 
 			lineStat.setDataCount(markerCount);
 			lineStat.setPercentData((markerCount / (double) totalCount) * 100);
 			lineStat.setHetCount(hetCount);
 			lineStat.setPercentHet((hetCount / (double) markerCount) * 100);
-			lineStat.setParentScores(parentScores);
-			lineStat.setDataTotalMatch(dataTotalMatch);
-			lineStat.setTotalMatch(totalMatch);
 			lineStat.setPercentTotalMatch((totalMatch / (double) dataTotalMatch) * 100);
+			lineStat.setSimilarityToP1(similarityParent1 * 100);
+			lineStat.setSimilarityToP2(similarityParent2 * 100);
+			lineStat.setSimilarityToParents(similarityToParents * 100);
 		});
 
 		prepareForVisualization();
@@ -94,58 +94,25 @@ public class PedVerLinesAnalysis extends SimpleJob
 
 	private void moveParentsToTop()
 	{
-		ArrayList<LineInfo> parentLines = new ArrayList<>();
-		for (Integer parentIndex : parentIndices)
-			parentLines.add(viewSet.getLines().get(parentIndex));
+		LineInfo p1 = viewSet.getLines().get(p1Index);
+		LineInfo p2 = viewSet.getLines().get(p2Index);
 
-		// Mark the parent lines as sortToTop special cases
-		parentLines.forEach(line -> line.getResults().setSortToTop(true));
+		// Mark the parents lines as sortToTop special cases
+		p1.getResults().setSortToTop(true);
+		p2.getResults().setSortToTop(true);
 
-		// Remove the parents from the viewset
-		viewSet.getLines().removeAll(parentLines);
+		// Remove them from the list
+		viewSet.getLines().remove(p1);
+		viewSet.getLines().remove(p2);
 
-		// Then put the parents back in at the top and update our parentIndices
-		// as we've moved the parent lines in the dataset
-		for (int i=0; i < parentLines.size(); i++)
-		{
-			viewSet.getLines().add(i, parentLines.get(i));
-			parentIndices.set(i, i);
-		}
-	}
+		// Then put them back in at the top
+		viewSet.getLines().add(0, p1);
+		viewSet.getLines().add(1, p2);
+		// Move the f1 to just below the parents
 
-	private ArrayList<PedVerLinesParentScore> getParentScoresForLine(int lineIndex)
-	{
-		ArrayList<PedVerLinesParentScore> parentScores = new ArrayList<>();
-		for (Integer parent : parentIndices)
-			parentScores.add(new PedVerLinesParentScore());
-
-		for (int i=0; i < parentScores.size(); i++)
-		{
-			PedVerLinesParentScore parentScore = parentScores.get(i);
-			int dataCount = 0;
-			int matchCount = 0;
-
-			for (int c = 0; c < as.viewCount(); c++)
-			{
-				for (int m = 0; m < as.markerCount(c); m++)
-				{
-					int lineState = as.getState(c, lineIndex, m);
-					int parentState = as.getState(c, parentIndices.get(i), m);
-
-					if (lineState != 0 && parentState != 0)
-						dataCount++;
-
-					if (lineState == parentState && lineState != 0)
-						matchCount++;
-				}
-			}
-
-			parentScore.setDataParentMatch(dataCount);
-			parentScore.setMatchParentCount(matchCount);
-			parentScore.setMatchParentPercent((matchCount / (double) dataCount) * 100);
-		}
-
-		return parentScores;
+		// Reset our indexes as we've moved the lines in the dataset
+		p1Index = 0;
+		p2Index = 1;
 	}
 
 	private int dataTotalMatch(int lineIndex)
@@ -182,9 +149,8 @@ public class PedVerLinesAnalysis extends SimpleJob
 	{
 		boolean missing = false;
 
-		for (int i=0; i < parentIndices.size(); i++)
-			if (as.getState(view, i, marker) == 0)
-				missing = true;
+		if (as.getState(view, p1Index, marker) == 0 || as.getState(view, p2Index, marker) == 0)
+			missing = true;
 
 		return missing;
 	}
@@ -193,11 +159,85 @@ public class PedVerLinesAnalysis extends SimpleJob
 	{
 		boolean matches = false;
 
-		for (Integer parentIndex : parentIndices)
-			if (lineState == as.getState(view, parentIndex, marker))
-				matches = true;
+		if (lineState == as.getState(view, p1Index, marker) || lineState == as.getState(view, p2Index, marker))
+			matches = true;
 
 		return matches;
+	}
+
+	private double similarityToLine(int line, int comparisonLine)
+	{
+		double score = 0;
+		int nComps = 0;
+
+		for (int c = 0; c < as.viewCount(); c++)
+		{
+			for (int m = 0; m < as.markerCount(c); m++)
+			{
+				nComps++;
+
+				AlleleState s1 = stateTable.getAlleleState(as.getState(c, comparisonLine, m));
+				AlleleState s2 = stateTable.getAlleleState(as.getState(c, line, m));
+
+				if (s1.matches(s2))
+					score += 1.0d;
+
+					// TODO: This is only really correct for diploid data, as
+					// A/T/A vs A/T/G should really score 0.6666
+				else if (s1.matchesAnyAllele(s2))
+					score += 0.5d;
+				else
+					score += 0;
+			}
+		}
+
+		return nComps > 0 ? (score / (double)nComps) : 0;
+	}
+
+	private double similarityToParents(int line)
+	{
+		double score = 0;
+		int nComps = 0;
+		for (int c = 0; c < as.viewCount(); c++)
+		{
+			for (int m = 0; m < as.markerCount(c); m++)
+			{
+				AlleleState lineState = stateTable.getAlleleState(as.getState(c, line, m));
+				AlleleState p1State = stateTable.getAlleleState(as.getState(c, p1Index, m));
+				AlleleState p2State = stateTable.getAlleleState(as.getState(c, p2Index, m));
+
+				String[] lineAlleles = allelesFromGenotype(lineState);
+				String[] p1Alleles = allelesFromGenotype(p1State);
+				String[] p2Alleles = allelesFromGenotype(p2State);
+
+				if (lineAlleles[0].equals(p1Alleles[0]) || lineAlleles[0].equals(p2Alleles[0]))
+					score += 0.5d;
+
+				if (lineAlleles[1].equals(p1Alleles[1]) || lineAlleles[1].equals(p2Alleles[1]))
+					score +=0.5d;
+
+				nComps++;
+			}
+		}
+
+		return nComps > 0 ? (score / (double)nComps) : 0;
+	}
+
+	private String[] allelesFromGenotype(AlleleState state)
+	{
+		String[] lineAlleles = new String[2];
+		if (state.isHomozygous())
+		{
+			lineAlleles[0] = state.getState(0);
+			lineAlleles[1] = state.getState(0);
+		}
+		else
+		{
+			lineAlleles[0] = state.getState(0);
+			lineAlleles[1] = state.getState(1);
+		}
+
+		return lineAlleles;
 	}
 
 	private void prepareForVisualization()
@@ -211,9 +251,9 @@ public class PedVerLinesAnalysis extends SimpleJob
 		// Set the colour scheme to the sparent dual match scheme and update the
 		// comparison lines and indices
 		viewSet.setColorScheme(ColorScheme.PARENT_DUAL);
-		viewSet.setComparisonLineIndex(parentIndices.get(0));
+		viewSet.setComparisonLineIndex(p1Index);
 		viewSet.setComparisonLine(viewSet.getLines().get(0).getLine());
-		viewSet.setComparisonLineIndex2(parentIndices.get(1));
+		viewSet.setComparisonLineIndex2(p2Index);
 		viewSet.setComparisonLine2(viewSet.getLines().get(1).getLine());
 	}
 
