@@ -23,21 +23,23 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="dialogPanel1" alignment="0" pref="542" max="32767" attributes="0"/>
+          <Component id="dialogPanel1" alignment="0" max="32767" attributes="0"/>
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="lblPercHet" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="lblPercF1" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="lblPercError" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="lblPercParentHet" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="lblPercF1Het" alignment="0" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="lblPercHet" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="lblPercF1" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="lblPercError" alignment="0" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace min="-2" pref="62" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="sliderPercError" alignment="1" max="32767" attributes="0"/>
-                          <Component id="sliderPercHet" alignment="0" max="32767" attributes="0"/>
-                          <Component id="sliderPercF1" alignment="0" max="32767" attributes="0"/>
+                          <Component id="sliderPercHet" pref="234" max="32767" attributes="0"/>
+                          <Component id="sliderPercError" max="32767" attributes="0"/>
+                          <Component id="sliderPercF1" alignment="1" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
@@ -46,24 +48,15 @@
                           <Component id="percErrorSpinner" alignment="1" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="lblPercParentHet" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="lblPercF1Het" alignment="0" min="-2" max="-2" attributes="0"/>
-                      </Group>
+                  <Group type="102" attributes="0">
+                      <Component id="sliderPercF1Het" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="1" attributes="0">
-                              <Component id="sliderPercF1Het" max="32767" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="percF1HetSpinner" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="1" attributes="0">
-                              <Component id="sliderPercParentHet" pref="272" max="32767" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="percParentalHetSpinner" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                      </Group>
+                      <Component id="percF1HetSpinner" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Component id="sliderPercParentHet" max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="percParentalHetSpinner" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -97,7 +90,7 @@
                   <Component id="sliderPercError" alignment="2" min="-2" max="-2" attributes="0"/>
                   <Component id="percErrorSpinner" alignment="2" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="2" attributes="0">
                   <Component id="lblPercF1" alignment="2" min="-2" max="-2" attributes="0"/>
                   <Component id="sliderPercF1" alignment="2" min="-2" max="-2" attributes="0"/>
