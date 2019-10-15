@@ -109,7 +109,7 @@ public class ForwardBreedingAnalysis extends SimpleJob
 			result.setHaplotypeMatch(hapMatch);
 
 			ArrayList<Double> hapWeight = hapMatch.stream()
-				.mapToDouble(score -> score == 0.5 ? 0.6 : score)
+				.mapToDouble(score -> Double.compare(score, 0.5d) == 0 ? 0.6d : score)
 				.boxed()
 				.collect(Collectors.toCollection(ArrayList::new));
 			result.setHaplotypeWeight(hapWeight);
