@@ -62,16 +62,12 @@ public class SelectParentsDialog extends JDialog implements ActionListener
 
 		initModels();
 
-		// First run only; can we use the mouse-over info to set some default
-		// selections? This assumes we're showing the full list.
-		if (parentsOnly.isSelected() == false)
-		{
-			int index = view.mouseOverLine;
-			if (p1Model.getSize() > index)
-				p1Combo.setSelectedIndex(index);
-			if (p2Model.getSize() > (index+1))
-				p2Combo.setSelectedIndex((index+1));
-		}
+		// Automatically select the first and second line in each combo model
+		if (p1Model.getSize() >= 1)
+			p1Combo.setSelectedIndex(0);
+
+		if (p2Model.getSize() >= 2)
+			p2Combo.setSelectedIndex(1);
 
 		p1Combo.addActionListener(e -> checkStates());
 		p2Combo.addActionListener(e -> checkStates());
