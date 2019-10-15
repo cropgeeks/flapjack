@@ -29,6 +29,9 @@ class CmdOptions extends Options
 	private static final String FILE_ARG = "FILE";
 	private static final String FILE_PATH_ARG = "FILEPATH";
 
+	private static final String BATCHFILE = "b";
+	private static final String BATCHFILE_LONG = "batchfile";
+
 	CmdOptions withAdvancedOptions()
 	{
 		addOption("A", "all-chromosomes", false, "Duplicate all markers onto a single All Chromosomes chromosome for side-by-side viewing");
@@ -40,6 +43,11 @@ class CmdOptions extends Options
 		addOption("D", "allow-duplicates", false, "Allow duplicate line names");
 
 		return this;
+	}
+
+	CmdOptions withBatchOption()
+	{
+		return addOption(BATCHFILE, BATCHFILE_LONG, true, FILE_ARG, "Batch input file", true);
 	}
 
 	DataImportSettings getDataImportSettings(CommandLine line)
@@ -67,6 +75,16 @@ class CmdOptions extends Options
 		String datasetName = getDatasetName(line);
 
 		return new CreateProjectSettings(genotypes, map, traits, qtls, project, datasetName);
+	}
+
+	File getBatchInputFile(CommandLine line)
+	{
+		File inputFile = null;
+
+		if (line.hasOption(BATCHFILE))
+			inputFile = new File(line.getOptionValue(BATCHFILE));
+
+		return inputFile;
 	}
 
 	CmdOptions withGenotypeFile(boolean required)
