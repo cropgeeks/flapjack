@@ -36,6 +36,16 @@ public class AlleleState extends XMLRoot
 			isHomozygous = false;
 	}
 
+	// Should only be used from OptimnizeStateTable to collapse a multiallelic homozygous allele that has been encoded
+	// as a het to a homozygous allele
+	public AlleleState(String rawData)
+	{
+		rawData = new String(rawData.toUpperCase());
+
+		states = new String[1];
+		states[0] = rawData;
+	}
+
 	void validate()
 		throws NullPointerException
 	{

@@ -29,7 +29,7 @@ public class OptimizeStateTable
 
 			if (s.isHomzEncodedAsHet())
 			{
-				s = new AlleleState(s.getState(0), "");
+				s = new AlleleState(s.getState(0));
 				stateTable.getStates().set(i, s);
 			}
 		}
