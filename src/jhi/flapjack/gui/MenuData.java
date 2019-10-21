@@ -158,6 +158,11 @@ public class MenuData
 		}
 	}
 
+	void dataFindDataSet()
+	{
+		FindDataSetDialog dialog = new FindDataSetDialog(winMain.getProject(), navPanel);
+	}
+
 	public void dataSelectTraitsHeatmap()
 	{
 		SelectTraitsDialog dialog = new SelectTraitsDialog(gPanel.getViewSet(),

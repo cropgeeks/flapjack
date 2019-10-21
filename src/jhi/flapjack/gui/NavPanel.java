@@ -368,7 +368,7 @@ public class NavPanel extends JPanel
 	}
 
 	// Returns the data set associated with the currently selected node
-	DataSet getDataSetForSelection()
+	public DataSet getDataSetForSelection()
 	{
 		BaseNode node = (BaseNode) tree.getLastSelectedPathComponent();
 		return (node == null) ? null: node.getDataSet();
@@ -442,6 +442,15 @@ public class NavPanel extends JPanel
 		}
 
 		return (TabPanel) traitsNode.getPanel();
+	}
+
+	public void selectDataSetNode(DataSet dataSet)
+	{
+		DataSetNode node = this.findDataSetNode(dataSet);
+		System.out.println("node: " + node);
+
+		tree.setSelectionPath(new TreePath(node.getPath()));
+		tree.scrollPathToVisible(new TreePath(node.getPath()));
 	}
 
 	SimMatrixPanel getActiveSimMatrixPanel()

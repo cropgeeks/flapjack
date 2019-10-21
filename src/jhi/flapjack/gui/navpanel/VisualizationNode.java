@@ -126,6 +126,7 @@ public class VisualizationNode extends BaseNode
 			Actions.dataDBSettings.setEnabled(true);
 			Actions.dataRenameDataSet.setEnabled(true);
 			Actions.dataDeleteDataSet.setEnabled(true);
+			Actions.dataFindDataSet.setEnabled(true);
 			Actions.dataSelectTraits.setEnabled(true);
 			Actions.dataSelectTextTraits.setEnabled(true);
 			Actions.dataSelectGraph.setEnabled(true);
@@ -145,6 +146,7 @@ public class VisualizationNode extends BaseNode
 			Actions.dataDBSettings.setEnabled(true);
 			Actions.dataRenameDataSet.setEnabled(true);
 			Actions.dataDeleteDataSet.setEnabled(true);
+			Actions.dataFindDataSet.setEnabled(true);
 		}
 
 		DBAssociation db = viewSet.getDataSet().getDbAssociation();

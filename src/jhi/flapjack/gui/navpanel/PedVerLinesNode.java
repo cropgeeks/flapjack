@@ -31,6 +31,7 @@ public class PedVerLinesNode extends VisualizationChildNode
 		Actions.dataFilterQTLs.setEnabled(true);
 		Actions.dataRenameDataSet.setEnabled(true);
 		Actions.dataDeleteDataSet.setEnabled(true);
+		Actions.dataFindDataSet.setEnabled(true);
 	}
 
 	public JPanel getPanel()

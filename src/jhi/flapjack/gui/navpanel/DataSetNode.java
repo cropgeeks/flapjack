@@ -28,6 +28,7 @@ public class DataSetNode extends BaseNode
 
 		Actions.dataRenameDataSet.setEnabled(true);
 		Actions.dataDeleteDataSet.setEnabled(true);
+		Actions.dataFindDataSet.setEnabled(true);
 	}
 
 	public JPanel getPanel()

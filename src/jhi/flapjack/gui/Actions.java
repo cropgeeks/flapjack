@@ -121,6 +121,7 @@ public class Actions
 	public static AbstractAction dataDBSettings;
 	public static AbstractAction dataRenameDataSet;
 	public static AbstractAction dataDeleteDataSet;
+	public static AbstractAction dataFindDataSet;
 	public static AbstractAction dataSelectTraits;
 	public static AbstractAction dataSelectTextTraits;
 
@@ -780,6 +781,12 @@ public class Actions
 			}
 		};
 
+		dataFindDataSet = new AbstractAction(RB.getString("gui.Actions.dataFindDataSet"), getIcon("FIND")) {
+			public void actionPerformed(ActionEvent e) {
+				winMain.mData.dataFindDataSet();
+			}
+		};
+
 		dataSelectTraits = new AbstractAction(RB.getString("gui.Actions.dataSelectTraits")) {
 			public void actionPerformed(ActionEvent e) {
 				winMain.mData.dataSelectTraitsHeatmap();
@@ -965,6 +972,7 @@ public class Actions
 		dataDBSettings.setEnabled(false);
 		dataRenameDataSet.setEnabled(false);
 		dataDeleteDataSet.setEnabled(false);
+		dataFindDataSet.setEnabled(false);
 		dataSelectTraits.setEnabled(false);
 		dataSelectTextTraits.setEnabled(false);
 

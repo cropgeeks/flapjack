@@ -19,6 +19,7 @@ public class NavPanelMenu extends MouseInputAdapter
 
 	private JMenuItem dataRenameDataSet;
 	private JMenuItem dataDeleteDataSet;
+	private JMenuItem dataFindDataSet;
 	private JMenuItem viewNewView;
 	private JMenuItem viewRenameView;
 	private JMenuItem viewDeleteView;
@@ -35,6 +36,7 @@ public class NavPanelMenu extends MouseInputAdapter
 	{
 		dataRenameDataSet = WinMainMenuBar.getItem(Actions.dataRenameDataSet, "gui.Actions.dataRenameDataSet", 0, 0);
 		dataDeleteDataSet = WinMainMenuBar.getItem(Actions.dataDeleteDataSet, "gui.Actions.dataDeleteDataSet", 0, 0);
+		dataFindDataSet = WinMainMenuBar.getItem(Actions.dataFindDataSet, "gui.Actions.dataFindDataSet", 0, 0);
 		viewNewView = WinMainMenuBar.getItem(Actions.viewNewView, "gui.Actions.viewNewView", 0, 0);
 		viewRenameView = WinMainMenuBar.getItem(Actions.viewRenameView, "gui.Actions.viewRenameView", 0, 0);
 		viewDeleteView = WinMainMenuBar.getItem(Actions.viewDeleteView, "gui.Actions.viewDeleteView", 0, 0);
@@ -58,6 +60,7 @@ public class NavPanelMenu extends MouseInputAdapter
 		{
 			menu.add(dataRenameDataSet);
 			menu.add(dataDeleteDataSet);
+			menu.add(dataFindDataSet);
 			menu.addSeparator();
 			menu.add(viewNewView);
 		}
