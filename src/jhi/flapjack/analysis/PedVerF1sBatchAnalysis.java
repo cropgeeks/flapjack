@@ -16,11 +16,14 @@ public class PedVerF1sBatchAnalysis extends SimpleJob
 {
 	private ArrayList<GTViewSet> viewSets, resultViewSets;
 
+	private PedVerF1sThresholds thresholds;
+
 	private String name;
 
-	public PedVerF1sBatchAnalysis(ArrayList<GTViewSet> viewSets, String name)
+	public PedVerF1sBatchAnalysis(ArrayList<GTViewSet> viewSets, PedVerF1sThresholds thresholds, String name)
 	{
 		this.viewSets = viewSets;
+		this.thresholds = thresholds;
 
 		this.name = name;
 
@@ -54,7 +57,6 @@ public class PedVerF1sBatchAnalysis extends SimpleJob
 		// Use a CSD dialog (without showing it) to get a suitable selected set
 		ChromosomeSelectionDialog csd = new ChromosomeSelectionDialog(viewSet, true, false);
 		boolean[] selectedChromosomes = csd.getSelectedChromosomes();
-		PedVerF1sThresholds thresholds = PedVerF1sThresholds.fromUserDefaults();
 
 		PedVerF1sAnalysis stats = new PedVerF1sAnalysis(viewSet,
 			selectedChromosomes, p1Index, p2Index, simulateF1, f1Index,

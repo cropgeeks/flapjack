@@ -384,9 +384,11 @@ public class MenuAnalysis
 		// Retrieve information required for analysis from dialog
 		PedVerF1StatsBatchPanelNB ui = dialog.getBatchUI();
 
+		PedVerF1sThresholds thresholds = ui.getThresholds();
+
 		// Run the stats calculations
 		PedVerF1sBatchAnalysis stats = new PedVerF1sBatchAnalysis(
-			viewSets, RB.getString("gui.navpanel.PedVerF1s.node"));
+			viewSets, thresholds, RB.getString("gui.navpanel.PedVerF1s.node"));
 
 		ProgressDialog pDialog = new ProgressDialog(stats,
 			RB.getString("gui.MenuAnalysis.pedVerF1s.title"),

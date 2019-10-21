@@ -7,11 +7,14 @@ import java.util.*;
 import javax.swing.*;
 
 import jhi.flapjack.data.*;
+import jhi.flapjack.data.results.*;
 import jhi.flapjack.gui.*;
 
 public class PedVerF1StatsBatchPanelNB extends JPanel
 {
 	private ArrayList<GTViewSet> viewSets;
+
+	private ThresholdDialog thresholdDialog;
 
 	public PedVerF1StatsBatchPanelNB(ArrayList<GTViewSet> viewSets)
 	{
@@ -27,12 +30,18 @@ public class PedVerF1StatsBatchPanelNB extends JPanel
 	{
 		FlapjackUtils.initPanel(dataPanel);
 
-		thresholdLabel.addActionListener(e -> new ThresholdDialog());
+		thresholdDialog = new ThresholdDialog();
+		thresholdLabel.addActionListener(e -> thresholdDialog.setVisible(true));
 	}
 
 	public boolean isOK()
 	{
 		return true;
+	}
+
+	public PedVerF1sThresholds getThresholds()
+	{
+		return thresholdDialog.getThresholds();
 	}
 
 	/**
