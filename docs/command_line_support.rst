@@ -12,7 +12,7 @@ The utilities are run in a different way depending on the platform used. For all
 A description of the input file formats accepted by Flapjack is given :doc:`projects_&_data_formats`.
 
 Advanced Options
--------------------------------------------------------
+----------------
 
 These options can be used (where they make sense) with the command line programs specified below where the programs accept Flapjack files as input.
 
@@ -25,9 +25,10 @@ These options can be used (where they make sense) with the command line programs
  -T, --transposed		genotype data is transposed compared to Flapjack's default
  -E, --decimal-english		override locale default and use '.' as the decimal separator
  -D, --allow-duplicates		allow duplicate line names in input files
+ -N, --nucleotide-scheme	force the view to use the nucleotide (0/1) colour scheme regardless of imported data type
 
 createproject.exe (jhi.flapjack.io.cmd.CreateProject)
--------------------------------------------------
+-----------------------------------------------------
 
 This program can be used to pre-create .flapjack project files from existing tab-delimited text files. This ability allows for the creation of project files outwith the Flapjack environment, for instance, to allow a web server (that links to a database) to make Flapjack project files available for download.
 
@@ -50,7 +51,7 @@ For example:
 
 
 creatematrix.exe (jhi.flapjack.io.cmd.CreateMatrix)
------------------------------------------------
+---------------------------------------------------
 
 This program will take input data files and run Flapjack's :doc:`simmatrix_creation` module upon them, outputting a matrix file for use elsewhere (eg in R).
 
@@ -71,7 +72,7 @@ For example:
 
  
 mabcstats.exe (jhi.flapjack.io.cmd.GenerateMabcStats)
--------------------------------------------------
+-----------------------------------------------------
 
 This program will take input data files and run Flapjack's :doc:`mabc` statistics module upon them, outputting a tab-delimited text file with results similar to those shown directly in Flapjack's table view had the UI been used.
 
@@ -97,7 +98,7 @@ For example:
 
  
 pedverf1stats.exe (jhi.flapjack.io.cmd.GeneratePedVerF1sStats)
-----------------------------------------------------------
+--------------------------------------------------------------
 
 This program will take input data files and run Flapjack's :doc:`pedver_f1s_known_parents` statistics module upon them, outputting a tab-delimited text file with results similar to those shown directly in Flapjack's table view had the UI been used.
 
@@ -121,7 +122,7 @@ For example:
 
 
 createf1.exe (jhi.flapjack.io.cmd.GenerateExpectedF1s)
------------------------------------------------
+------------------------------------------------------
 
 This program can be used to take a genotype file containing a set of lines, and will generate a (new) expected F1 line by combining the alleles of two selected parental lines.
 
@@ -142,7 +143,7 @@ For example:
  
  
  splitproject.exe (jhi.flapjack.io.cmd.SplitProject)
------------------------------------------------
+----------------------------------------------------
 
 This program can be used to take an existing .flapjack project file and filter out the raw data again as a collection of tab-delimited plain text files.
 

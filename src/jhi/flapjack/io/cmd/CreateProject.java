@@ -133,7 +133,7 @@ public class CreateProject
 		pio.collapseHomzEncodedAsHet();
 		if (importSettings.isCollapseHeteozygotes())
 			pio.optimizeStateTable();
-		pio.createDefaultView();
+		pio.createDefaultView(importSettings.isForceNucScheme());
 
 		if (options.getDatasetName() != null)
 			pio.setName(options.getDatasetName());

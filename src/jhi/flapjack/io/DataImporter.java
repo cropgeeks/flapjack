@@ -110,7 +110,7 @@ public class DataImporter extends SimpleJob
 			if (Prefs.ioHeteroCollapse)
 				pio.optimizeStateTable();
 
-			pio.createDefaultView();
+			pio.createDefaultView(false);
 		}
 
 		System.gc();

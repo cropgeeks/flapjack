@@ -12,6 +12,7 @@ public class DataImportSettings
 	private boolean decimalEnglish = false;
 	private boolean transposed = false;
 	private boolean allowDuplicates = false;
+	private boolean forceNucScheme = false;
 
 	boolean isTransposed()
 		{ return transposed; }
@@ -54,4 +55,10 @@ public class DataImportSettings
 
 	public void setAllowDuplicates(boolean allowDuplicates)
 		{ this.allowDuplicates = allowDuplicates; }
+
+	public boolean isForceNucScheme()
+		{ return forceNucScheme; }
+
+	public void setForceNucScheme(boolean forceNucScheme)
+		{ this.forceNucScheme = forceNucScheme; }
 }

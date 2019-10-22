@@ -159,7 +159,7 @@ public class CreateProjectBatch
 		pio.collapseHomzEncodedAsHet();
 		if (importSettings.isCollapseHeteozygotes())
 			pio.optimizeStateTable();
-		pio.createDefaultView();
+		pio.createDefaultView(importSettings.isForceNucScheme());
 
 		if (dataSetName != null)
 			pio.setName(dataSetName);

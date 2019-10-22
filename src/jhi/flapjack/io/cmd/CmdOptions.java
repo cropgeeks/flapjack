@@ -39,8 +39,9 @@ class CmdOptions extends Options
 		addOption("S", "heterozygous-separator", true, "The string used to separate heterozygous alleles (default is \"/\" or use \"\" for no separator)");
 		addOption("M", "missing-data", true, "The string used to represent missing data (default is \"-\" or use \"\" for empty string)");
 		addOption("T", "transposed", false, "Genotype data is transposed compared to Flapjack's default");
-		addOption("E", "decimal-english", false, "Optional input parameter");
-		addOption("D", "allow-duplicates", false, "Allow duplicate line names");
+		addOption("E", "decimal-english", false, "Override locale default and use '.' as the decimal separator");
+		addOption("D", "allow-duplicates", false, "Allow duplicate line names in input files");
+		addOption("N", "nucleotide-scheme", false, "Force the view to use the nucleotide (0/1) colour scheme regardless of imported data type");
 
 		return this;
 	}
@@ -61,6 +62,10 @@ class CmdOptions extends Options
 
 		settings.setAllowDuplicates(line.hasOption("allow-duplicates"));
 		settings.setMakeAllChrom(line.hasOption("all-chromosomes"));
+		settings.setForceNucScheme(line.hasOption("nucleotide-scheme"));
+		settings.setDecimalEnglish(line.hasOption("decimal-english"));
+		settings.setTransposed(line.hasOption("transposed"));
+		settings.setCollapseHeteozygotes(!line.hasOption("collapse-heteozygotes"));
 
 		return settings;
 	}

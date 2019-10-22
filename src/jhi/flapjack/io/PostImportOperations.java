@@ -57,7 +57,7 @@ public class PostImportOperations
 		dataSet.setName(name);
 	}
 
-	public void createDefaultView()
+	public void createDefaultView(boolean forceNucScheme)
 	{
 		// Create (and add) a default view of the dataset
 		String name = RB.getString("gui.navpanel.VisualizationNode.defaultView");
@@ -68,6 +68,12 @@ public class PostImportOperations
 
 		int hCount = st.calculateHomozygousStateCount();
 
+
+		if (forceNucScheme)
+		{
+			viewSet.setColorScheme(ColorScheme.NUCLEOTIDE01);
+			return;
+		}
 
 		// Nucleotide
 		if (st.containsNucleotides01())
