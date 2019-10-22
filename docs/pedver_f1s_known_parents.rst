@@ -25,7 +25,7 @@ If you choose to simulate an F1, Flapjack will generate an expected F1 line from
 * ``% genotype match to expected F1`` - matching gneotypes (i.e. both alleles need to match) between the sampled F1 line and the simulated F1 as a percentage of non-missing data in both the F1 line and the simulated F1, across all markers for a sample. e.g. Sampled F1 = A/T C/C and Simulated F1 = A/T C/T is a 50% match.
 
 .. note::
- Expected F1 alleles can only be simulated if both parents have homozygous alleles. If either parent has a heterozygous call or missing data for a marker, then the expected F1 allele data cannot be simulated and will have a missing value. 
+ Expected F1 alleles can only be simulated if both parents have homozygous alleles. If either parent has a heterozygous call or missing data for a marker, then the expected F1 allele data cannot be simulated and will have a missing . 
 
 * ``Data Count and % Data`` - since for many F1 tests a small number of markers are used, and any small amount of marker failure can result in misleading analyses results, statistics are first provided for ``Data Count`` and ``% Data``. Results can therefore first be filtered by ``Data Count`` or ``% Data`` to eliminate potentially skewed results.
 
