@@ -41,10 +41,9 @@ The statistics can be used to select lines as follows;
 * ``Data Count and % Data`` - since for many F1 tests a small number of markers are used, results can first be filtered by these statistics to eliminate potentially skewed results.
 
 * ``% Het and % Het Deviation from Expected`` - an F1 made from a cross between two inbred lines will have elevated % heterozygosity compared to parents. Therefore, these two statistics will indicate whether a cross has been successfully made. There should be very little deviation in % het values between the expected F1 and the sampled F1. In the case that a putative F1 sample has low % hets and high deviation from expected, then the sample is most likely an inbred line and not a true cross.
-These 3 sets of analyses can help determine whether your putative F1 sample is a true F1 from a cross of the expected parents. 
 
 .. warning:: 
-The exact thresholds for determining whether a sampled F1 is a true F1 of the designated parents, or else the result of outcrossing or selfing, have not been defined here, as the thresholds can depend on many factors including the level of genotyping error in your experiment, or the level of genetic similarity between parents and any alternate possible parents.
+ The exact thresholds for determining whether a sampled F1 is a true F1 of the designated parents, or else the result of outcrossing or selfing, have not been defined here, as the thresholds can depend on many factors including the level of genotyping error in your experiment, or the level of genetic similarity between parents and any alternate possible parents.
 
 
 Below are various combinations of values for the statistics that can help determine whether you have a true F1, or else have a self or outcross.
