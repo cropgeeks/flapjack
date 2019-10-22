@@ -14,20 +14,21 @@ import scri.commons.gui.*;
 // Batch run multiple PedVerF1 analysis tasks
 public class PedVerF1sBatchAnalysis extends SimpleJob
 {
-	private ArrayList<GTViewSet> viewSets, resultViewSets;
+	private ArrayList<GTViewSet> resultViewSets;
 
+	private List<PedVerF1sBatchSettings> batchSettings;
 	private PedVerF1sThresholds thresholds;
 
 	private String name;
 
-	public PedVerF1sBatchAnalysis(ArrayList<GTViewSet> viewSets, PedVerF1sThresholds thresholds, String name)
+	public PedVerF1sBatchAnalysis(List<PedVerF1sBatchSettings> batchSettings, PedVerF1sThresholds thresholds, String name)
 	{
-		this.viewSets = viewSets;
+		this.batchSettings = batchSettings;
 		this.thresholds = thresholds;
 
 		this.name = name;
 
-		maximum = viewSets.size();
+		maximum = batchSettings.size();
 		resultViewSets = new ArrayList<>(maximum);
 	}
 
@@ -36,7 +37,7 @@ public class PedVerF1sBatchAnalysis extends SimpleJob
 
 	@Override
 	public int getJobCount()
-		{ return viewSets.size(); }
+		{ return batchSettings.size(); }
 
 
 	@Override
@@ -45,11 +46,12 @@ public class PedVerF1sBatchAnalysis extends SimpleJob
 	{
 		System.out.println("Running analysis " + i);
 
-		GTViewSet viewSet = viewSets.get(i);
+		PedVerF1sBatchSettings settings = batchSettings.get(i);
+		GTViewSet viewSet = settings.getViewSet();
 
 		// TODO: SET TO WHAT?
-		int p1Index = 0;
-		int p2Index = 1;
+		int p1Index = settings.getParent1Index();
+		int p2Index = settings.getParent2Index();
 		int f1Index = -1;
 		boolean simulateF1 = true;
 		boolean excludeParents = true;

@@ -124,6 +124,24 @@ public class PedManager extends XMLRoot
 		return false;
 	}
 
+	public boolean isNA(LineInfo lineInfo)
+	{
+		return isType(lineInfo, PedLineInfo.TYPE_NA);
+	}
+
+	public boolean isType(LineInfo lineInfo, int pedLineInfoType)
+	{
+		Line line = lineInfo.getLine();
+
+		for (PedLineInfo pedInfo: pedigrees)
+		{
+			if (pedInfo.getParent() == line && pedInfo.getType() == pedLineInfoType)
+				return true;
+		}
+
+		return false;
+	}
+
 	public boolean isParent(LineInfo lineInfo)
 	{
 		if (parents == null)

@@ -7,6 +7,7 @@ import java.util.*;
 import java.util.stream.*;
 
 import jhi.flapjack.data.*;
+import jhi.flapjack.data.pedigree.*;
 
 /**
  * This class is an attempt to organise the underlying data used by any analysis
@@ -187,6 +188,43 @@ public class AnalysisSet
 			totalMarkers += (long)view.markers.size();
 
 		return totalMarkers * (long)lines.size();
+	}
+
+	public int bestParentIndex(int pedLineInfoType, int excludedLineIndex)
+	{
+		PedManager pm = dataSet.getPedManager();
+
+		int bestIndex = -1;
+
+		List<LineInfo> parents = new ArrayList<>();
+
+		for (LineInfo line : lines)
+			if (pm.isType(line, pedLineInfoType))
+				parents.add(line);
+
+		int maxMarkerCount = 0;
+
+		for (LineInfo parent : parents)
+		{
+			int lineIndex = lines.indexOf(parent);
+			if (lineIndex != excludedLineIndex)
+			{
+				int markerCount = 0;
+
+				for (int viewIndex = 0; viewIndex < viewCount(); viewIndex++)
+					for (int markerIndex = 0; markerIndex < markerCount(viewIndex); markerIndex++)
+						if (getState(viewIndex, lineIndex, markerIndex) > 0)
+							markerCount++;
+
+				if (markerCount > maxMarkerCount)
+				{
+					maxMarkerCount = markerCount;
+					bestIndex = lineIndex;
+				}
+			}
+		}
+
+		return bestIndex;
 	}
 
 	private class ViewInfo

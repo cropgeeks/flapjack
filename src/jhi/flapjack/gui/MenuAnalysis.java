@@ -9,6 +9,7 @@ import java.util.stream.*;
 
 import jhi.flapjack.analysis.*;
 import jhi.flapjack.data.*;
+import jhi.flapjack.data.pedigree.*;
 import jhi.flapjack.data.results.*;
 import jhi.flapjack.gui.dialog.*;
 import jhi.flapjack.gui.dialog.analysis.*;
@@ -383,12 +384,32 @@ public class MenuAnalysis
 	{
 		// Retrieve information required for analysis from dialog
 		PedVerF1StatsBatchPanelNB ui = dialog.getBatchUI();
-
 		PedVerF1sThresholds thresholds = ui.getThresholds();
+
+		List<PedVerF1sBatchSettings> batchSettings = new ArrayList<>();
+
+		for (GTViewSet viewSet : viewSets)
+		{
+			AnalysisSet as = new AnalysisSet(viewSet)
+				.withViews(null)
+				.withSelectedLines()
+				.withSelectedMarkers();
+
+			int parent1Index = as.bestParentIndex(PedLineInfo.TYPE_NA, -1);
+			int parent2Index = as.bestParentIndex(PedLineInfo.TYPE_NA, parent1Index);
+
+			// In cases where we don't have a pedigree header fall back to the first and second line in the input file
+			if (parent1Index == -1)
+				parent1Index = 0;
+			if (parent2Index == -1)
+				parent2Index = 1;
+
+			batchSettings.add(new PedVerF1sBatchSettings(viewSet, parent1Index, parent2Index));
+		}
 
 		// Run the stats calculations
 		PedVerF1sBatchAnalysis stats = new PedVerF1sBatchAnalysis(
-			viewSets, thresholds, RB.getString("gui.navpanel.PedVerF1s.node"));
+			batchSettings, thresholds, RB.getString("gui.navpanel.PedVerF1s.node"));
 
 		ProgressDialog pDialog = new ProgressDialog(stats,
 			RB.getString("gui.MenuAnalysis.pedVerF1s.title"),
