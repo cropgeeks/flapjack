@@ -8,7 +8,7 @@ A bookmark in Flapjack is simply a tracked intersection between a line and a mar
 Creating a bookmark
 -------------------
 
-To bookmark a location, right-click an allele with the mouse, and then select ``Bookmark location`` from the popup menu that appears. The bookmark will then be added to the navigation tree on the left-hand side of the screen, underneath the node for the current view.
+To bookmark a, right-click an allele with the mouse, and then select ``Bookmark location`` from the popup menu that appears. The bookmark will then be added to the navigation tree on the left-hand side of the screen, underneath the node for the current view.
 
  |BookmarkMenu|
 
