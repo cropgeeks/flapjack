@@ -111,36 +111,6 @@ public class PedVerLinesAnalysis extends SimpleJob
 		p2Index = 1;
 	}
 
-	private int dataTotalMatch(int lineIndex)
-	{
-		int dataTotalMatch = 0;
-		for (int c = 0; c < as.viewCount(); c++)
-		{
-			for (int m = 0; m < as.markerCount(c); m++)
-			{
-				int lineState = as.getState(c, lineIndex, m);
-				if (lineState != 0 && !anyParentMissing(c, m))
-					dataTotalMatch++;
-			}
-		}
-		return dataTotalMatch;
-	}
-
-	private int totalMatch(int lineIndex)
-	{
-		int totalMatch = 0;
-		for (int c = 0; c < as.viewCount(); c++)
-		{
-			for (int m = 0; m < as.markerCount(c); m++)
-			{
-				int lineState = as.getState(c, lineIndex, m);
-				if (!anyParentMissing(c, m) && anyParentMatches(c, m , lineState))
-					totalMatch++;
-			}
-		}
-		return totalMatch;
-	}
-
 	private boolean anyParentMissing(int view, int marker)
 	{
 		boolean missing = false;
