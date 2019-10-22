@@ -84,21 +84,11 @@ public class MABCStatsSinglePanelNB extends JPanel implements ActionListener
 
 		if (pm.getPedigrees().size() > 0 && (rpModel.getSize() > 1 || dpModel.getSize() > 1))
 		{
-// TODO: How long does this take (and what about batch runs?)
-//			addWindowListener(new WindowAdapter() {
-//				public void windowOpened(WindowEvent e)
-				{
-					ParentSelector selector = new ParentSelector();
-					ProgressDialog dialog = new ProgressDialog(selector,
-						RB.getString("gui.dialog.analysis.MABCStatsDialog.parentSelectorProgress.title"),
-						RB.getString("gui.dialog.analysis.MABCStatsDialog.parentSelectorProgress.label"),
-						Flapjack.winMain);
-
-					TaskDialog.warning(
-						RB.getString("gui.dialog.analysis.MABCStatsDialog.rpdpWarning"),
-						RB.getString("gui.text.close"));
-				}
-//			});
+			ParentSelector selector = new ParentSelector();
+			ProgressDialog dialog = new ProgressDialog(selector,
+				RB.getString("gui.dialog.analysis.MABCStatsDialog.parentSelectorProgress.title"),
+				RB.getString("gui.dialog.analysis.MABCStatsDialog.parentSelectorProgress.label"),
+				Flapjack.winMain);
 		}
 
 
