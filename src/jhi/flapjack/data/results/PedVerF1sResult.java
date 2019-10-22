@@ -74,7 +74,7 @@ public class PedVerF1sResult extends XMLRoot
 					{
 						boolean maleSelf = similarityToP2 >= 85;
 
-						decision = maleSelf ? "Male self" : "Undecided hybrid mixture";
+						decision = maleSelf ? "Male self" : "Undecided inbred mixture";
 					}
 				}
 			}
