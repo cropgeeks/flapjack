@@ -69,9 +69,6 @@ public class PedVerLinesAnalysis extends SimpleJob
 			int markerCount = totalCount - missingMarkerCount;
 			int hetCount = as.hetCount(lineIndex);
 
-			int dataTotalMatch = dataTotalMatch(lineIndex);
-			int totalMatch = totalMatch(lineIndex);
-
 			double similarityParent1 = similarityToLine(lineIndex, p1Index);
 			double similarityParent2 = similarityToLine(lineIndex, p2Index);
 			double similarityToParents = similarityToParents(lineIndex);
@@ -80,7 +77,6 @@ public class PedVerLinesAnalysis extends SimpleJob
 			lineStat.setPercentData((markerCount / (double) totalCount) * 100);
 			lineStat.setHetCount(hetCount);
 			lineStat.setPercentHet((hetCount / (double) markerCount) * 100);
-			lineStat.setPercentTotalMatch((totalMatch / (double) dataTotalMatch) * 100);
 			lineStat.setSimilarityToP1(similarityParent1 * 100);
 			lineStat.setSimilarityToP2(similarityParent2 * 100);
 			lineStat.setSimilarityToParents(similarityToParents * 100);

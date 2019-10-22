@@ -11,10 +11,12 @@ public class PedVerLinesResult extends XMLRoot
 	private double percentData;
 	private int hetCount;
 	private double percentHet;
-	private double percentTotalMatch;
 	private double similarityToP1;
 	private double similarityToP2;
 	private double similarityToParents;
+
+	// Removed but left in for compatibility with old projects
+	private double percentTotalMatch;
 
 	public int getDataCount()
 		{  return dataCount; }
@@ -39,12 +41,6 @@ public class PedVerLinesResult extends XMLRoot
 
 	public void setPercentHet(double percentHet)
 		{  this.percentHet = percentHet; }
-
-	public double getPercentTotalMatch()
-		{ return percentTotalMatch; }
-
-	public void setPercentTotalMatch(double percentTotalMatch)
-		{ this.percentTotalMatch = percentTotalMatch; }
 
 	public double getSimilarityToP1()
 	{
@@ -75,4 +71,11 @@ public class PedVerLinesResult extends XMLRoot
 	{
 		this.similarityToParents = similarityToParents;
 	}
+
+	// Removed but left in for compatibility with old projects
+	public double getPercentTotalMatch()
+	{ return percentTotalMatch; }
+
+	public void setPercentTotalMatch(double percentTotalMatch)
+	{ this.percentTotalMatch = percentTotalMatch; }
 }

@@ -17,14 +17,13 @@ class PedVerLinesTableModel extends LineDataTableModel
 	private static final int percDataIndex = 2;
 	private static final int hetCountIndex = 3;
 	private static final int percHetIndex = 4;
-	private static final int totalMatchPercentIndex = 5;
-	private static final int similarityToP1Index = 6;
-	private static final int similarityToP2Index = 7;
-	private static final int similarlityToParentsIndex = 8;
-	private static final int selectedIndex = 9;
-	private static final int rankIndex = 10;
-	private static final int commentsIndex = 11;
-	private static final int sortIndex = 12;
+	private static final int similarityToP1Index = 5;
+	private static final int similarityToP2Index = 6;
+	private static final int similarlityToParentsIndex = 7;
+	private static final int selectedIndex = 8;
+	private static final int rankIndex = 9;
+	private static final int commentsIndex = 10;
+	private static final int sortIndex = 11;
 
 	PedVerLinesTableModel(GTViewSet viewSet)
 	{
@@ -36,14 +35,13 @@ class PedVerLinesTableModel extends LineDataTableModel
 
 	void initModel()
 	{
-		columnNames = new String[13];
+		columnNames = new String[12];
 
 		columnNames[lineIndex] = RB.getString("gui.pedver.PedVerLinesTableModel.line");
 		columnNames[dataCountIndex] = RB.getString("gui.pedver.PedVerLinesTableModel.dataCount");
 		columnNames[percDataIndex] = RB.getString("gui.pedver.PedVerLinesTableModel.percData");
 		columnNames[hetCountIndex] = RB.getString("gui.pedver.PedVerLinesTableModel.hetCount");
 		columnNames[percHetIndex] = RB.getString("gui.pedver.PedVerLinesTableModel.percHet");
-		columnNames[totalMatchPercentIndex] = RB.getString("gui.pedver.PedVerLinesTableModel.percTotalMatch");
 		columnNames[similarityToP1Index] = RB.getString("gui.pedver.PedVerLinesTableModel.similarityToP1");
 		columnNames[similarityToP2Index] = RB.getString("gui.pedver.PedVerLinesTableModel.similarityToP2");
 		columnNames[similarlityToParentsIndex] = RB.getString("gui.pedver.PedVerLinesTableModel.similarityToParents");
@@ -89,8 +87,6 @@ class PedVerLinesTableModel extends LineDataTableModel
 			return stats.getHetCount();
 		else if (col == percHetIndex)
 			return stats.getPercentHet();
-		else if (col == totalMatchPercentIndex)
-			return stats.getPercentTotalMatch();
 		else if (col == similarityToP1Index)
 			return stats.getSimilarityToP1();
 		else if (col == similarityToP2Index)
