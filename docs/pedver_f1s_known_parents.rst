@@ -14,7 +14,7 @@ Options
 
 If you choose to simulate an F1, Flapjack will generate an expected F1 line from the two parental lines you selected in the dialog. To do this Flapjack compares the alleles of the two parental lines to determine the alleles for the expected F1. For any allele where a parent has missing data, or a heterozygous allele the allele in the expected F1 is left as missing data. For other alleles if parent 1 has A and parent 2 has A, the expected F1 gets A as the allele for that marker. If parent 1 has A and parent 2 has T the expected F1 get A/T as the allele at that marker.
 
-* ``Data count`` - the number of markers with non-missing values.
+
 
 * ``% Data`` - the number of markers with non-missing values as a percent of the total markers for a sample.
 
