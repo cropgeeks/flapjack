@@ -100,8 +100,8 @@ public class CanvasMenu
 		mDeleteLine = WinMainMenuBar.getItem(Actions.editDeleteLine, "gui.Actions.editDeleteLine", 0, 0);
 		mDuplicateLine = WinMainMenuBar.getItem(Actions.editDuplicateLine, "gui.Actions.editDuplicateLine", 0, 0);
 		mDuplicateLineRemove = WinMainMenuBar.getItem(Actions.editDuplicateLineRemove, "gui.Actions.editDuplicateLineRemove", 0, 0);
-		mInsertSplitter = WinMainMenuBar.getItem(Actions.editInsertSplitter, "gui.Actions.editInsertLine", 0, 0);
-		mRemoveSplitter = WinMainMenuBar.getItem(Actions.editDeleteSplitter, "gui.Actions.editDeleteLine", 0, 0);
+		mInsertSplitter = WinMainMenuBar.getItem(Actions.editInsertSplitter, "gui.Actions.editInsertSplitter", 0, 0);
+		mRemoveSplitter = WinMainMenuBar.getItem(Actions.editDeleteSplitter, "gui.Actions.editDeleteSplitter", 0, 0);
 		mShowGenotypes = WinMainMenuBar.getCheckedItem(Actions.vizOverlayGenotypes, "gui.Actions.vizOverlayGenotypes", KeyEvent.VK_G, menuShortcut);
 		mDisableGradients = WinMainMenuBar.getCheckedItem(Actions.vizDisableGradients, "gui.Actions.vizDisableGradients", 0, 0);
 		mHighlightHtZ = WinMainMenuBar.getCheckedItem(Actions.vizHighlightHtZ, "gui.Actions.vizHighlightHtZ", 0, 0);
@@ -135,6 +135,7 @@ public class CanvasMenu
 		mHighlightParents = WinMainMenuBar.getItem(Actions.vizHighlightParents, "gui.Actions.vizHighlightParents", 0, 0);
 
 		mSplitLines = new JMenu(RB.getString("gui.CanvasMenu.mSplitLines"));
+		RB.setMnemonic(mSplitLines, "gui.CanvasMenu.mSplitLines");
 		mSplitLines.add(mInsertLine);
 		mSplitLines.add(mDeleteLine);
 		mSplitLines.addSeparator();
