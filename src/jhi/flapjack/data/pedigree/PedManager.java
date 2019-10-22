@@ -100,28 +100,12 @@ public class PedManager extends XMLRoot
 	// this could be written as another structure that holds a list of known RP/DP for quicker lookup
 	public boolean isRP(LineInfo lineInfo)
 	{
-		Line line = lineInfo.getLine();
-
-		for (PedLineInfo pedInfo: pedigrees)
-		{
-			if (pedInfo.getParent() == line && pedInfo.getType() == PedLineInfo.TYPE_RP)
-				return true;
-		}
-
-		return false;
+		return isType(lineInfo, PedLineInfo.TYPE_RP);
 	}
 
 	public boolean isDP(LineInfo lineInfo)
 	{
-		Line line = lineInfo.getLine();
-
-		for (PedLineInfo pedInfo: pedigrees)
-		{
-			if (pedInfo.getParent() == line && pedInfo.getType() == PedLineInfo.TYPE_DP)
-				return true;
-		}
-
-		return false;
+		return isType(lineInfo, PedLineInfo.TYPE_DP);
 	}
 
 	public boolean isNA(LineInfo lineInfo)
