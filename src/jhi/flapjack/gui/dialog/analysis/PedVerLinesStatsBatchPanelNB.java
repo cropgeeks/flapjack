@@ -25,7 +25,7 @@ public class PedVerLinesStatsBatchPanelNB extends JPanel
 
 	private void initComponents2()
 	{
-		FlapjackUtils.initPanel(dataPanel);
+		FlapjackUtils.initPanel(dataPanel, thresholdPanel);
 	}
 
 	public boolean isOK()
@@ -40,10 +40,9 @@ public class PedVerLinesStatsBatchPanelNB extends JPanel
 	 */
 	@SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+    private void initComponents()
+    {
 
-        dataPanel = new javax.swing.JPanel();
-        csdLabel = new scri.commons.gui.matisse.HyperLinkLabel();
         thresholdPanel = new javax.swing.JPanel();
         lblPercHet = new javax.swing.JLabel();
         sliderPercHet = new javax.swing.JSlider();
@@ -51,27 +50,8 @@ public class PedVerLinesStatsBatchPanelNB extends JPanel
         sliderPercF1 = new javax.swing.JSlider();
         lblPercError = new javax.swing.JLabel();
         sliderPercError = new javax.swing.JSlider();
-
-        dataPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Data selection settings:"));
-
-        csdLabel.setText("Select data sets to analyse");
-
-        javax.swing.GroupLayout dataPanelLayout = new javax.swing.GroupLayout(dataPanel);
-        dataPanel.setLayout(dataPanelLayout);
-        dataPanelLayout.setHorizontalGroup(
-            dataPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(dataPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(csdLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        dataPanelLayout.setVerticalGroup(
-            dataPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(dataPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(csdLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+        dataPanel = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
 
         thresholdPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Threshold settings:"));
 
@@ -91,7 +71,7 @@ public class PedVerLinesStatsBatchPanelNB extends JPanel
                     .addGroup(thresholdPanelLayout.createSequentialGroup()
                         .addComponent(lblPercHet)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(sliderPercHet, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                        .addComponent(sliderPercHet, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(thresholdPanelLayout.createSequentialGroup()
                         .addComponent(lblPercF1)
                         .addGap(18, 18, 18)
@@ -105,7 +85,7 @@ public class PedVerLinesStatsBatchPanelNB extends JPanel
         thresholdPanelLayout.setVerticalGroup(
             thresholdPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(thresholdPanelLayout.createSequentialGroup()
-                .addContainerGap()
+                .addContainerGap(14, Short.MAX_VALUE)
                 .addGroup(thresholdPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(lblPercHet)
                     .addComponent(sliderPercHet, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -116,7 +96,27 @@ public class PedVerLinesStatsBatchPanelNB extends JPanel
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(thresholdPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(sliderPercError, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblPercError))
+                    .addComponent(lblPercError)))
+        );
+
+        dataPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("General settings:"));
+
+        jLabel1.setText("There are no general settings applicable to a batch run of this analysis type.");
+
+        javax.swing.GroupLayout dataPanelLayout = new javax.swing.GroupLayout(dataPanel);
+        dataPanel.setLayout(dataPanelLayout);
+        dataPanelLayout.setHorizontalGroup(
+            dataPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(dataPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        dataPanelLayout.setVerticalGroup(
+            dataPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(dataPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -133,19 +133,19 @@ public class PedVerLinesStatsBatchPanelNB extends JPanel
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(dataPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(thresholdPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(thresholdPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private scri.commons.gui.matisse.HyperLinkLabel csdLabel;
     private javax.swing.JPanel dataPanel;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel lblPercError;
     private javax.swing.JLabel lblPercF1;
     private javax.swing.JLabel lblPercHet;

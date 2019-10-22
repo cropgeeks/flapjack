@@ -135,7 +135,8 @@ public class PedVerF1StatsSinglePanelNB extends JPanel
 	 */
 	@SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+    private void initComponents()
+    {
 
         parentsPanel = new javax.swing.JPanel();
         lblParent1 = new javax.swing.JLabel();
@@ -150,7 +151,7 @@ public class PedVerF1StatsSinglePanelNB extends JPanel
         csdLabel = new scri.commons.gui.matisse.HyperLinkLabel();
         thresholdLabel = new scri.commons.gui.matisse.HyperLinkLabel();
 
-        parentsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Select parents:"));
+        parentsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("General settings:"));
 
         lblParent1.setText("Select parent line 1:");
         lblParent1.setToolTipText("");

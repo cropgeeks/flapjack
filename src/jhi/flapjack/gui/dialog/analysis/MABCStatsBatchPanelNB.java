@@ -45,7 +45,7 @@ public class MABCStatsBatchPanelNB extends JPanel implements ActionListener
 		jLabel3.setEnabled(!Prefs.guiUseSimpleMabcStats);
 		maxMrkrCoverage.setEnabled(!Prefs.guiUseSimpleMabcStats);
 
-		FlapjackUtils.initPanel(settingsPanel, dataPanel);
+		FlapjackUtils.initPanel(settingsPanel);
 	}
 
 	@Override
@@ -86,8 +86,6 @@ public class MABCStatsBatchPanelNB extends JPanel implements ActionListener
         jLabel3 = new javax.swing.JLabel();
         bUnweighted = new javax.swing.JRadioButton();
         maxMrkrCoverage = new javax.swing.JSpinner();
-        dataPanel = new javax.swing.JPanel();
-        csdLabel = new scri.commons.gui.matisse.HyperLinkLabel();
 
         settingsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("General settings:"));
 
@@ -129,36 +127,13 @@ public class MABCStatsBatchPanelNB extends JPanel implements ActionListener
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        dataPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Data selection settings:"));
-
-        csdLabel.setText("Select data sets to analyse");
-
-        javax.swing.GroupLayout dataPanelLayout = new javax.swing.GroupLayout(dataPanel);
-        dataPanel.setLayout(dataPanelLayout);
-        dataPanelLayout.setHorizontalGroup(
-            dataPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(dataPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(csdLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        dataPanelLayout.setVerticalGroup(
-            dataPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(dataPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(csdLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(settingsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(dataPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(settingsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -166,8 +141,6 @@ public class MABCStatsBatchPanelNB extends JPanel implements ActionListener
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(settingsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(dataPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -176,8 +149,6 @@ public class MABCStatsBatchPanelNB extends JPanel implements ActionListener
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JRadioButton bUnweighted;
     private javax.swing.JRadioButton bWeighted;
-    private scri.commons.gui.matisse.HyperLinkLabel csdLabel;
-    private javax.swing.JPanel dataPanel;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JSpinner maxMrkrCoverage;
     private javax.swing.JPanel settingsPanel;

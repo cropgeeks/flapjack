@@ -28,7 +28,7 @@ public class PedVerF1StatsBatchPanelNB extends JPanel
 
 	private void initComponents2()
 	{
-		FlapjackUtils.initPanel(dataPanel);
+		FlapjackUtils.initPanel(dataPanel, thresholdPanel);
 
 		thresholdDialog = new ThresholdDialog();
 		thresholdLabel.addActionListener(e -> thresholdDialog.setVisible(true));
@@ -51,17 +51,17 @@ public class PedVerF1StatsBatchPanelNB extends JPanel
 	 */
 	@SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+    private void initComponents()
+    {
 
         dataPanel = new javax.swing.JPanel();
-        csdLabel = new scri.commons.gui.matisse.HyperLinkLabel();
+        jLabel1 = new javax.swing.JLabel();
+        thresholdPanel = new javax.swing.JPanel();
         thresholdLabel = new scri.commons.gui.matisse.HyperLinkLabel();
 
-        dataPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Settings:"));
+        dataPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("General settings:"));
 
-        csdLabel.setText("Select data sets to analyse");
-
-        thresholdLabel.setText("Select threshold settings");
+        jLabel1.setText("There are no general settings applicable to a batch run of this analysis type.");
 
         javax.swing.GroupLayout dataPanelLayout = new javax.swing.GroupLayout(dataPanel);
         dataPanel.setLayout(dataPanelLayout);
@@ -69,17 +69,34 @@ public class PedVerF1StatsBatchPanelNB extends JPanel
             dataPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(dataPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(dataPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(csdLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(thresholdLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(312, Short.MAX_VALUE))
+                .addComponent(jLabel1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         dataPanelLayout.setVerticalGroup(
             dataPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(dataPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(csdLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        thresholdPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Threshold settings:"));
+
+        thresholdLabel.setText("Select threshold settings");
+
+        javax.swing.GroupLayout thresholdPanelLayout = new javax.swing.GroupLayout(thresholdPanel);
+        thresholdPanel.setLayout(thresholdPanelLayout);
+        thresholdPanelLayout.setHorizontalGroup(
+            thresholdPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(thresholdPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(thresholdLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(263, Short.MAX_VALUE))
+        );
+        thresholdPanelLayout.setVerticalGroup(
+            thresholdPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(thresholdPanelLayout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(thresholdLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -90,7 +107,9 @@ public class PedVerF1StatsBatchPanelNB extends JPanel
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(dataPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(dataPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(thresholdPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -98,14 +117,17 @@ public class PedVerF1StatsBatchPanelNB extends JPanel
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(dataPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(thresholdPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private scri.commons.gui.matisse.HyperLinkLabel csdLabel;
     private javax.swing.JPanel dataPanel;
+    private javax.swing.JLabel jLabel1;
     private scri.commons.gui.matisse.HyperLinkLabel thresholdLabel;
+    private javax.swing.JPanel thresholdPanel;
     // End of variables declaration//GEN-END:variables
 }

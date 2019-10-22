@@ -107,7 +107,7 @@ public class PedVerLinesStatsSinglePanelNB extends JPanel
         jPanel1 = new javax.swing.JPanel();
         csdLabel = new scri.commons.gui.matisse.HyperLinkLabel();
 
-        parentsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Select lines:"));
+        parentsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("General settings:"));
 
         lblParent1.setText("Select parent1:");
         lblParent1.setToolTipText("");
