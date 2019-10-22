@@ -13,21 +13,23 @@ import scri.commons.gui.*;
 // Batch run multiple MABC analysis tasks
 public class MabcBatchAnalysis extends SimpleJob
 {
-	private ArrayList<GTViewSet> viewSets, resultViewSets;
+	private ArrayList<GTViewSet> resultViewSets;
+
+	private List<MABCBatchSettings> batchSettings;
 
 	private double maxMarkerCoverage;
 	private boolean simpleStats;
 	private String name;
 
-	public MabcBatchAnalysis(ArrayList<GTViewSet> viewSets, double maxMarkerCoverage, boolean simpleStats, String name)
+	public MabcBatchAnalysis(List<MABCBatchSettings> batchSettings, double maxMarkerCoverage, boolean simpleStats, String name)
 	{
-		this.viewSets = viewSets;
+		this.batchSettings = batchSettings;
 
 		this.maxMarkerCoverage = maxMarkerCoverage;
 		this.simpleStats = simpleStats;
 		this.name = name;
 
-		maximum = viewSets.size();
+		maximum = batchSettings.size();
 		resultViewSets = new ArrayList<>(maximum);
 	}
 
@@ -36,7 +38,7 @@ public class MabcBatchAnalysis extends SimpleJob
 
 	@Override
 	public int getJobCount()
-		{ return viewSets.size(); }
+		{ return batchSettings.size(); }
 
 
 	@Override
@@ -45,13 +47,12 @@ public class MabcBatchAnalysis extends SimpleJob
 	{
 		System.out.println("Running analysis " + i);
 
-		GTViewSet viewSet = viewSets.get(i);
+		MABCBatchSettings settings = batchSettings.get(i);
+		GTViewSet viewSet = settings.getViewSet();
+		
+		int rpIndex = settings.getRpIndex();
+		int dpIndex = settings.getDpIndex();
 
-		// If set to -1, the analysis module will either use embedded pedigree
-		// data, or lines at indices 0 and 1 if that fails
-		int rpIndex = -1;
-		int dpIndex = -1;
-		// TODO: SET TO WHAT?
 		boolean excludeParents = true;
 
 		// Use a CSD dialog (without showing it) to get a suitable selected set

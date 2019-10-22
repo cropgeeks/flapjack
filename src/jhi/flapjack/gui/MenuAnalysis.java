@@ -5,7 +5,6 @@ package jhi.flapjack.gui;
 
 import java.io.*;
 import java.util.*;
-import java.util.stream.*;
 
 import jhi.flapjack.analysis.*;
 import jhi.flapjack.data.*;
@@ -313,11 +312,31 @@ public class MenuAnalysis
 	{
 		// Retrieve information required for analysis from dialog
 		MABCStatsBatchPanelNB ui = dialog.getBatchUI();
-		boolean simpleStats = Prefs.guiUseSimpleMabcStats;
+
+		List<MABCBatchSettings> batchSettings = new ArrayList<>();
+
+		for (GTViewSet viewSet : viewSets)
+		{
+			AnalysisSet as = new AnalysisSet(viewSet)
+				.withViews(null)
+				.withSelectedLines()
+				.withSelectedMarkers();
+
+			int rpIndex = as.bestParentIndex(PedLineInfo.TYPE_RP, -1);
+			int dpIndex = as.bestParentIndex(PedLineInfo.TYPE_DP, -1);
+
+			// In cases where we don't have a pedigree header fall back to the first and second line in the input file
+			if (rpIndex == -1)
+				rpIndex = 0;
+			if (dpIndex == -1)
+				dpIndex = 1;
+
+			batchSettings.add(new MABCBatchSettings(viewSet, rpIndex, dpIndex));
+		}
 
 		// Run the stats calculations
 		MabcBatchAnalysis stats = new MabcBatchAnalysis(
-			viewSets, Prefs.mabcMaxMrkrCoverage, Prefs.guiUseSimpleMabcStats,
+			batchSettings, Prefs.mabcMaxMrkrCoverage, Prefs.guiUseSimpleMabcStats,
 			RB.getString("gui.navpanel.MabcNode.node"));
 
 		ProgressDialog pDialog = new ProgressDialog(stats,
