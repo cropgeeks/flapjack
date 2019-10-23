@@ -392,6 +392,9 @@ public class MenuAnalysis
 			RB.getString("gui.MenuAnalysis.pedVerF1s.label"),
 			Flapjack.winMain);
 
+		PedVerF1sBatchList list = new PedVerF1sBatchList();
+		list.add(stats.getViewSet());
+
 		// Retrieve the newly created viewSet from the analysis class and
 		// add it to the navPanel so that it appears in the display
 		navPanel.addVisualizationNode(dataSet, stats.getViewSet());
@@ -433,6 +436,9 @@ public class MenuAnalysis
 		ProgressDialog pDialog = new ProgressDialog(stats,
 			RB.getString("gui.MenuAnalysis.pedVerF1s.title"),
 			RB.getString("gui.MenuAnalysis.pedVerF1s.label"), Flapjack.winMain);
+
+		PedVerF1sBatchList list = new PedVerF1sBatchList();
+		list.add(stats.getResultViewSets());
 
 		// Create new NavPanel components to hold the results
 		for (GTViewSet viewSet: stats.getResultViewSets())

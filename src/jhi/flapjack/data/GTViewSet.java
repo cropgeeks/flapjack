@@ -70,6 +70,7 @@ public class GTViewSet extends XMLRoot
 
 	private UndoManager undoManager = new UndoManager();
 	private LinkedTableHandler tableHandler = new LinkedTableHandler(this);
+	private PedVerF1sBatchList pedVerF1sBatchList;
 
 	public GTViewSet()
 	{
@@ -308,6 +309,13 @@ public class GTViewSet extends XMLRoot
 
 	public void setTableHandler(LinkedTableHandler tableHandler)
 		{ this.tableHandler = tableHandler; }
+
+	public PedVerF1sBatchList _getPedVerF1sBatchList()
+		{ return pedVerF1sBatchList; }
+
+	public void _setPedVerF1sBatchList(PedVerF1sBatchList pedVerF1sBatchList)
+		{ this.pedVerF1sBatchList = pedVerF1sBatchList; }
+	
 
 	// Transient (non marshalled) methods
 

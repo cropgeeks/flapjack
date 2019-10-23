@@ -18,12 +18,15 @@ import scri.commons.gui.RB;
 
 public class PedVerF1sPanel extends JPanel implements ActionListener, ListSelectionListener, ITableViewListener, TableModelListener
 {
+	JTabbedPane tabs;
+
 	private LineDataTable table;
 	private PedVerF1sTableModel model;
 
 	private LinkedTableHandler tableHandler;
 
 	private PedVerF1sPanelNB controls;
+	private PedVerF1sSummaryPanelNB summaryControls;
 
 	// Variables used to 'remember' what the user picked last time they
 	// auto-selected or ranked lines
@@ -32,6 +35,7 @@ public class PedVerF1sPanel extends JPanel implements ActionListener, ListSelect
 	public PedVerF1sPanel(GTViewSet viewSet)
 	{
 		controls = new PedVerF1sPanelNB(this);
+		summaryControls = new PedVerF1sSummaryPanelNB(this, viewSet);
 
 		table = (LineDataTable) controls.table;
 		table.getSelectionModel().addListSelectionListener(this);
@@ -39,7 +43,11 @@ public class PedVerF1sPanel extends JPanel implements ActionListener, ListSelect
 
 		setLayout(new BorderLayout());
 		add(new TitlePanel("Pedigree Verification of F1s (Known Parents)"), BorderLayout.NORTH);
-		add(controls);
+
+		tabs = new JTabbedPane();
+		tabs.add(controls, "Analysis Results");
+		tabs.add(summaryControls, "Results Summary");
+		add(tabs);
 
 		updateModel(viewSet);
 
@@ -82,7 +90,7 @@ public class PedVerF1sPanel extends JPanel implements ActionListener, ListSelect
 
 		else if (e.getSource() == controls.autoResize)
 			table.autoResize(controls.autoResize.isSelected(), false);
-		
+
 		else if (e.getSource() == controls.bThreshold)
 			table.thresholdDialog();
 	}
