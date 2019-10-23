@@ -26,10 +26,10 @@ class PedVerF1sPanelNB extends JPanel
 
 		bSelect.setPopup(((LineDataTable)table).getMenu().getSelectMenu());
 		bSelect.setIcon(Icons.getIcon("AUTOSELECT"));
-        
+
         bRank.addActionListener(panel);
 		bRank.setIcon(Icons.getIcon("RANK"));
-		
+
 		bThreshold.addActionListener(panel);
 		bThreshold.setIcon(Icons.getIcon("THRESHOLD"));
 
@@ -43,7 +43,8 @@ class PedVerF1sPanelNB extends JPanel
 	 */
 	@SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+    private void initComponents()
+    {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         table = new LineDataTable();
@@ -59,10 +60,12 @@ class PedVerF1sPanelNB extends JPanel
         bThreshold = new scri.commons.gui.matisse.MenuButton();
 
         table.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
+            new Object [][]
+            {
 
             },
-            new String [] {
+            new String []
+            {
 
             }
         ));
@@ -77,6 +80,7 @@ class PedVerF1sPanelNB extends JPanel
 
         autoResize.setSelected(true);
         autoResize.setText("Auto-fit columns");
+        autoResize.setOpaque(false);
 
         filterLabel.setText("Lines visible:");
 
