@@ -118,9 +118,9 @@ public class SimilarityToEitherParentColorScheme extends ColorScheme
 			if (allele1State != null && allele2State != null)
 			{
 				if ((allele1State.matchesAnyAllele(p1AlleleState) || allele1State.matchesAnyAllele(p2AlleleState)) && (allele2State.matchesAnyAllele(p2AlleleState) || allele2State.matchesAnyAllele(p1AlleleState)))
-				{
 					return matchStates.get(state);
-				}
+//				else
+//					return noMatchStates.get(state);
 			}
 
 			if (allele1State != null && (allele1State.matchesAnyAllele(p1AlleleState) || allele1State.matchesAnyAllele(p2AlleleState)))
@@ -134,7 +134,7 @@ public class SimilarityToEitherParentColorScheme extends ColorScheme
 		}
 
 		// If it's not the same, or we can't do a comparison...
-		return gsStates.get(state);
+		return noMatchStates.get(state);
 	}
 
 	public BufferedImage getSelectedImage(int line, int marker, boolean underQTL)
