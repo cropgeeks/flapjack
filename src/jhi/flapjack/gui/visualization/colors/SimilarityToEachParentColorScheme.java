@@ -39,6 +39,8 @@ public class SimilarityToEachParentColorScheme extends ColorScheme
 	private ArrayList<ColorState> hetMismatchP1States = new ArrayList<>();
 	private ArrayList<ColorState> hetP2MismatchStates = new ArrayList<>();
 	private ArrayList<ColorState> hetMismatchP2States = new ArrayList<>();
+	private ArrayList<ColorState> hetMisGreyscaleStates = new ArrayList<>();
+	private ArrayList<ColorState> hetGreyscaleMisStates = new ArrayList<>();
 
 	// Greyscale states for when the comparison state is missing
 	private ArrayList<ColorState> gsStates = new ArrayList<>();
@@ -67,13 +69,13 @@ public class SimilarityToEachParentColorScheme extends ColorScheme
 		{
 			AlleleState state = stateTable.getAlleleState(i);
 
-			ColorState parent1, parent2, matchP1, matchP2, hetP1P2, hetP2P1, hetP1Mis, hetMisP1, hetP2Mis, hetMisP2, gs, noMatch;
+			ColorState parent1, parent2, matchP1, matchP2, hetP1P2, hetP2P1, hetP1Mis, hetMisP1,
+				hetP2Mis, hetMisP2, hetMisGs, hetGsMis, gs, noMatch;
 
 			// Use white for the default unknown state
 			if (state.isUnknown())
 			{
-				parent1 = parent2 = noMatch = matchP1 = matchP2 = hetP1P2 = hetP2P1 = hetP1Mis = hetMisP1 = hetP2Mis
-					= hetMisP2 = gs = new SimpleColorState(state, Prefs.visColorBackground, w, h);
+				parent1 = parent2 = noMatch = matchP1 = matchP2 = hetP1P2 = hetP2P1 = hetP1Mis = hetMisP1 = hetP2Mis = hetMisP2 = hetMisGs = hetGsMis = gs = new SimpleColorState(state, Prefs.visColorBackground, w, h);
 			}
 			// Homozygous states
 			else if (state.isHomozygous())
@@ -90,6 +92,8 @@ public class SimilarityToEachParentColorScheme extends ColorScheme
 				hetMisP1 = null;
 				hetP2Mis = null;
 				hetMisP2 = null;
+				hetMisGs = null;
+				hetGsMis = null;
 
 				gs = new HomozygousColorState(state, gsC, w, h);
 				noMatch = new HomozygousColorState(state, red, w, h);
@@ -110,6 +114,8 @@ public class SimilarityToEachParentColorScheme extends ColorScheme
 				hetMisP1 = new HeterozygeousColorState(state, sHz, red, mP1, w, h);
 				hetP2Mis = new HeterozygeousColorState(state, sHz, mP2, red, w, h);
 				hetMisP2 = new HeterozygeousColorState(state, sHz, red, mP2, w, h);
+				hetMisGs = new HeterozygeousColorState(state, sHz, red, gsC, w, h);
+				hetGsMis = new HeterozygeousColorState(state, sHz, gsC, red, w, h);
 
 				gs = new HeterozygeousColorState(state, sHz, gsC, gsC, w, h);
 				noMatch = new HeterozygeousColorState(state, sHz, red, red, w, h);
@@ -126,6 +132,8 @@ public class SimilarityToEachParentColorScheme extends ColorScheme
 			hetMismatchP1States.add(hetMisP1);
 			hetP2MismatchStates.add(hetP2Mis);
 			hetMismatchP2States.add(hetMisP2);
+			hetMisGreyscaleStates.add(hetMisGs);
+			hetGreyscaleMisStates.add(hetGsMis);
 
 			gsStates.add(gs);
 			noMatchStates.add(noMatch);
@@ -170,15 +178,52 @@ public class SimilarityToEachParentColorScheme extends ColorScheme
 			else if (line == p2)
 				return parentStatesAmbiguous(p1State, p2State) ? gsStates.get(state) : p2States.get(state);
 
+
+			if (childState.isHomozygous())
+			{
+				// If there is ambiguity because of the parental alleles, return a
+				// grey state
+				if (parentStatesAmbiguous(p1State, p2State))
+				{
+					if (childState.allelesContainedInParents(p1AlleleState, p2AlleleState) == false)
+						return noMatchStates.get(state);
+					else
+						return gsStates.get(state);
+				}
+
+				// Child state matches parent 1 state return a brighter version of
+				// the parent 1 colour
+				if (state == p1State)
+					return p1MatchStates.get(state);
+
+					// Child state matches parent 2 state return a brighter version of
+					// the parent 2 colour
+				else if (state == p2State)
+					return p2MatchStates.get(state);
+
+				// If the child state contains alleles which can't be found in the
+				// parents (and both parents are *not* missing) return a red state
+				if (childState.allelesContainedInParents(p1AlleleState, p2AlleleState) == false && p1State != 0 && p2State != 0)
+					return noMatchStates.get(state);
+			}
 			// The heterozygous genotypes require a lookup table. The lookup table allows us to query each allele in a
 			// genotype. This allows us to check if an allele in a het matches either the parent 1 genotype, or the
 			// parent 2 genotype.
-			if (!childState.isHomozygous())
+			else
 			{
 				boolean p1MatchAllele1 = lookupTable[state][0] == p1State;
 				boolean p2MatchAllele1 = lookupTable[state][0] == p2State;
 				boolean p1MatchAllele2 = lookupTable[state][1] == p1State;
 				boolean p2MatchAllele2 = lookupTable[state][1] == p2State;
+
+				if (parentStatesAmbiguous(p1State, p2State))
+				{
+					if (p1MatchAllele1 || p2MatchAllele1)
+						return hetGreyscaleMisStates.get(state);
+
+					if (p1MatchAllele2 || p2MatchAllele2)
+						return hetMisGreyscaleStates.get(state);
+				}
 
 				if (p1MatchAllele1 && p2MatchAllele2)
 					return hetP1P2States.get(state);
@@ -197,28 +242,6 @@ public class SimilarityToEachParentColorScheme extends ColorScheme
 
 				else if (!p2MatchAllele1 && p1MatchAllele2)
 					return hetMismatchP1States.get(state);
-			}
-			else
-			{
-				// If there is ambiguity because of the parental alleles, return a
-				// grey state
-				if (parentStatesAmbiguous(p1State, p2State))
-					return gsStates.get(state);
-
-				// Child state matches parent 1 state return a brighter version of
-				// the parent 1 colour
-				if (state == p1State)
-					return p1MatchStates.get(state);
-
-					// Child state matches parent 2 state return a brighter version of
-					// the parent 2 colour
-				else if (state == p2State)
-					return p2MatchStates.get(state);
-
-				// If the child state contains alleles which can't be found in the
-				// parents (and both parents are *not* missing) return a red state
-				if (childState.allelesContainedInParents(p1AlleleState, p2AlleleState) == false && p1State != 0 && p2State != 0)
-					return noMatchStates.get(state);
 			}
 		}
 
