@@ -113,8 +113,8 @@ Conclusion
 You've now had a chance to experiment with running a Pedigree Verification Lines analysis in Flapjack. Feel free to experiment more by applying different sorts, filters, selections, or better yet make a start on analysing your own data.
 
 
-.. _`ped-ver-tutorial.map`: http://bioinf.hutton.ac.uk/flapjack/sample-data/tutorials/ped-ver-tutorial.map
-.. _`ped-ver-tutorial.dat`: http://bioinf.hutton.ac.uk/flapjack/sample-data/tutorials/ped-ver-tutorial.dat
+.. _`ped-ver-lines.map`: http://bioinf.hutton.ac.uk/flapjack/sample-data/tutorials/ped-ver-lines.map
+.. _`ped-ver-lines.dat`: http://bioinf.hutton.ac.uk/flapjack/sample-data/tutorials/ped-ver-lines.dat
 
 .. |001-pv-import-data| image:: images/pedver_tut/001-pv-import-data.png
 .. |002-pv-initial-default-view| image:: images/pedver_tut/002-pv-initial-default-view.png
