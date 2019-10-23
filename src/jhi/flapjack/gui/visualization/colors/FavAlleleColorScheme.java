@@ -102,7 +102,8 @@ public class FavAlleleColorScheme extends ColorScheme
 		// Grab the favourable allele manager so that we can compare alleles to the favourable alleles and choose
 		// colours appropriately
 		fm = view.getViewSet().getDataSet().getFavAlleleManager();
-		createLookupTable();
+
+		lookupTable = stateTable.createAlleleLookupTable();
 	}
 
 	protected ColorState getState(int line, int marker)

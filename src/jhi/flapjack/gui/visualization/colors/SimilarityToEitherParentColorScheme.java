@@ -78,7 +78,7 @@ public class SimilarityToEitherParentColorScheme extends ColorScheme
 			het2MatchStates.add(het2Match);
 		}
 
-		createLookupTable();
+		lookupTable = stateTable.createAlleleLookupTable();
 	}
 
 	public void setColorSummaries(ArrayList<ColorSummary> colors)
@@ -135,47 +135,6 @@ public class SimilarityToEitherParentColorScheme extends ColorScheme
 
 		// If it's not the same, or we can't do a comparison...
 		return gsStates.get(state);
-	}
-
-	private void createLookupTable()
-	{
-		// Create a lookup table which has two slots for each genotype in the state table this allows us to reconstitute
-		// heterozygous alleles into a form where each half can be easily compared to homozygous alleles
-		int count = stateTable.size();
-		lookupTable = new int[count][2];
-
-		// Prefill the array with -1s which will be used to denote states which can't be found in the statetable
-		for (int i = 0; i < count; i++)
-			for (int j = 0; j < 2; j++)
-				lookupTable[i][j] = -1;
-
-		// Iterate over the state table creating the two slot array entry for each state in the table
-		for (int i = 0; i < count; i++)
-		{
-			for (int j = 0; j < 2; j++)
-			{
-				// Get the string values of the allele states (e.g. 'A', or 'A''T')
-				AlleleState state = stateTable.getAlleleState(i);
-				String[] stringAlleles = state.getStates();
-
-				// We may only hav a hom allele so we can't assume we have two strings here
-				if (j < stringAlleles.length)
-				{
-					// Make a temp state to check against the statetable
-					AlleleState newState = new AlleleState(stringAlleles[j], "/");
-					int stateCode = -1;
-					for (int k = 0; k < stateTable.size(); k++)
-						if (stateTable.getAlleleState(k).matches(newState))
-							stateCode = k;
-
-					lookupTable[i][j] = stateCode;
-
-					// If this was a homozygous genotype manually add its second allele
-					if (stringAlleles.length == 1)
-						lookupTable[i][1] = stateCode;
-				}
-			}
-		}
 	}
 
 	public BufferedImage getSelectedImage(int line, int marker, boolean underQTL)
