@@ -5,8 +5,8 @@ In this tutorial we will assume that you are using the ``ped-ver-tutorial`` data
 
 Download the data (Right click->Save Link As):
 
-* `ped-ver-tutorial.map`_
-* `ped-ver-tutorial.dat`_
+* `ped-ver-lines.map`_
+* `ped-ver-lines.dat`_
 
 Importing data
 --------------
