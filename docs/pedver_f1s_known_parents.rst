@@ -26,9 +26,9 @@ The following statistics are provided following F1 analysis in the 'Results View
 
 * ``% Het Deviation from Expected`` - the difference in % hets between the expected F1 and the sampled F1.
 
-* ``% allele match to parent 1 / parent 2`` - alleles matching betwen the sampled F1 line and the sampled parent line, as a percentage of non-missing data in both the F1 line and parent line, and across all markers for a sample. e.g. if F1 = A/A C/C and sampled P1 = A/T N/N then % allele match to P1 is 50% ie 1 allele at a marker in the sampled F1 matches a P1 allele for the same marker, out of 2 non-missing alleles available for comparison.
+* ``% Allele match to Parent 1 / Parent 2`` - alleles matching betwen the sampled F1 line and the sampled parent line, as a percentage of non-missing data in both the F1 line and parent line, and across all markers for a sample. e.g. if F1 = A/A C/C and sampled P1 = A/T N/N then % allele match to P1 is 50% ie 1 allele at a marker in the sampled F1 matches a P1 allele for the same marker, out of 2 non-missing alleles available for comparison.
 
-* ``% genotype match to expected F1`` - matching gneotypes (i.e. both alleles need to match) between the sampled F1 line and the simulated F1 as a percentage of non-missing data in both the F1 line and the simulated F1, and across all markers for a sample. e.g. if sampled F1 = A/T C/C and the simulated F1 = A/T C/T , then % genotype match to expected F1 is 50%. Only 1 marker genotype out of 2 matches at both alleles. 
+* ``% Genotype match to Expected F1`` - matching gneotypes (i.e. both alleles need to match) between the sampled F1 line and the simulated F1 as a percentage of non-missing data in both the F1 line and the simulated F1, and across all markers for a sample. e.g. if sampled F1 = A/T C/C and the simulated F1 = A/T C/T , then % genotype match to expected F1 is 50%. Only 1 marker genotype out of 2 matches at both alleles. 
 
 .. note::
  Expected F1 alleles can only be simulated if both parents have homozygous alleles. If either parent has a heterozygous call or missing data for a marker, then the expected F1 allele data cannot be simulated and will have a missing value. 
@@ -51,45 +51,45 @@ Below are various combinations of values for the statistics that can help determ
 **A true F1 from the expected parents:**
 
 +----------------------------------------------------+-----------------+
-| % Heterozygous deviation from expected F1 parent 1 | **Low**         |
+| % Heterozygous Deviation from Expected F1          | **Low**         |
 +----------------------------------------------------+-----------------+
-| % Allele match to parent 1 / parent 2              | **Medium**      |
+| % Allele Match to Parent 1 / Parent 2              | **Medium**      |
 +----------------------------------------------------+-----------------+
-| % Genotype match to expected F1                    | **High**        |
+| % Genotype Match to Expected F1                    | **High**        |
 +----------------------------------------------------+-----------------+
 
 **A self a of parent, or sample is the parent (seed mix-up):**
 
 +----------------------------------------------------+-----------------+
-| % Heterozygous deviation from expected F1 parent 1 | **High**        |
+| % Heterozygous Deviation from Expected F1          | **High**        |
 +----------------------------------------------------+-----------------+
-| % Allele match to parent 1 / parent 2              | **High**        |
+| % Allele Match to Parent 1 / Parent 2              | **High**        |
 +----------------------------------------------------+-----------------+
-| % Genotype match to expected F1                    | **Low**         |
+| % Genotype Match to Expected F1                    | **Low**         |
 +----------------------------------------------------+-----------------+
 
 **An F1 cross between parent 1 and an unknown inbred:**
 
 +----------------------------------------------------+-----------------+
-| % Heterozygous deviation from expected F1 parent 1 | **Low**         |
+| % Heterozygous Deviation from Expected F1          | **Low**         |
 +----------------------------------------------------+-----------------+
-| % Allele match to parent 1                         | **High**        |
+| % Allele Match to Parent 1                         | **High**        |
 +----------------------------------------------------+-----------------+
-| % Allele match to parent 2                         | **Low**         |
+| % Allele Match to Parent 2                         | **Low**         |
 +----------------------------------------------------+-----------------+
-| % Genotype match to expected F1                    | **Low**         |
+| % Genotype Match to Expected F1                    | **Low**         |
 +----------------------------------------------------+-----------------+
 
 **An F1 cross between two unknown inbreds:**
 
 +----------------------------------------------------+-----------------+
-| % Heterozygous deviation from expected F1 parent 1 | **Low**         |
+| % Heterozygous Deviation from Expected F1          | **Low**         |
 +----------------------------------------------------+-----------------+
-| % Allele match to parent 1                         | **Low**         |
+| % Allele Match to Parent 1                         | **Low**         |
 +----------------------------------------------------+-----------------+
-| % Allele match to parent 2                         | **Low**         |
+| % Allele mMtch to Parent 2                         | **Low**         |
 +----------------------------------------------------+-----------------+
-| % Genotype match to expected F1                    | **Low**         |
+| % Genotype Match to Expected F1                    | **Low**         |
 +----------------------------------------------------+-----------------+
 
 
