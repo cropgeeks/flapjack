@@ -1,4 +1,6 @@
-package jhi.flapjack.data;
+package jhi.flapjack.analysis;
+
+import jhi.flapjack.data.*;
 
 public class MABCBatchSettings
 {
