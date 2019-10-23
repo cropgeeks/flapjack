@@ -29,7 +29,7 @@ public abstract class ColorScheme
 	public static final int NUCLEOTIDE01 = 10;
 	public static final int MAGIC = 11;
 	public static final int LINE_SIMILARITY_EXACT_MATCH = 12;
-	public static final int PARENT_DUAL = 13;
+	public static final int SIMILARITY_TO_EACH_PARENT = 13;
 	public static final int LINE_SIMILARITY_ANY_MATCH = 14;
 	public static final int PARENT_TOTAL = 15;
 	public static final int FAV_ALLELE = 16;

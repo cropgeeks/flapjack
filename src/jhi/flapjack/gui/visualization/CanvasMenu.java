@@ -120,7 +120,7 @@ public class CanvasMenu
 		mColorLineSimExact = WinMainMenuBar.getRadioItem(Actions.vizColorLineSimExact, "gui.Actions.vizColorLineSimExact", 0, 0);
 		mColorLineSimAny = WinMainMenuBar.getRadioItem(Actions.vizColorLineSimAny, "gui.Actions.vizColorLineSimAny", 0, 0);
 		mColorFavAllele = WinMainMenuBar.getRadioItem(Actions.vizColorFavAllele, "gui.Actions.vizColorFavAllele", 0, 0);
-		mColorParentDual = WinMainMenuBar.getRadioItem(Actions.vizColorParentDual, "gui.Actions.vizColorParentDual", 0, 0);
+		mColorParentDual = WinMainMenuBar.getRadioItem(Actions.vizColorParentDual, "gui.Actions.vizColorSimilarityToEachParent", 0, 0);
 		mColorParentTotal = WinMainMenuBar.getRadioItem(Actions.vizColorParentTotal, "gui.Actions.vizColorParentTotal", 0, 0);
 		mColorMarkerSim = WinMainMenuBar.getRadioItem(Actions.vizColorMarkerSim, "gui.Actions.vizColorMarkerSim", 0, 0);
 		mColorAlleleFreq = WinMainMenuBar.getRadioItem(Actions.vizColorAlleleFreq, "gui.Actions.vizColorAlleleFreq", 0, 0);

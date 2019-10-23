@@ -361,7 +361,7 @@ public class WinMainMenuBar extends JMenuBar
 		mVizColorAlleleFreq = getRadioItem(Actions.vizColorAlleleFreq, "gui.Actions.vizColorAlleleFreq");
 		mVizColorBinned = getRadioItem(Actions.vizColorBinned, "gui.Actions.vizColorBinned");
 		mVizColorMagic = getRadioItem(Actions.vizColorMagic, "gui.Actions.vizColorMagic");
-		mVizColorParentDual = getRadioItem(Actions.vizColorParentDual, "gui.Actions.vizColorParentDual");
+		mVizColorParentDual = getRadioItem(Actions.vizColorParentDual, "gui.Actions.vizColorSimilarityToEachParent");
 		mVizColorParentTotal = getRadioItem(Actions.vizColorParentTotal, "gui.Actions.vizColorParentTotal");
 		mVizColorLineSimAny = getRadioItem(Actions.vizColorLineSimAny, "gui.Actions.vizColorLineSimAny");
 		mVizColorFavAllele = getRadioItem(Actions.vizColorFavAllele, "gui.Actions.vizColorFavAllele");

@@ -216,7 +216,7 @@ public class PedVerLinesAnalysis extends SimpleJob
 	{
 		// Set the colour scheme to the sparent dual match scheme and update the
 		// comparison lines and indices
-		viewSet.setColorScheme(ColorScheme.PARENT_DUAL);
+		viewSet.setColorScheme(ColorScheme.SIMILARITY_TO_EACH_PARENT);
 		viewSet.setComparisonLineIndex(p1Index);
 		viewSet.setComparisonLine(viewSet.getLines().get(0).getLine());
 		viewSet.setComparisonLineIndex2(p2Index);

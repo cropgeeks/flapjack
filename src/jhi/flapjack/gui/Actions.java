@@ -579,9 +579,9 @@ public class Actions
 			}
 		};
 
-		vizColorParentDual = new AbstractAction(RB.getString("gui.Actions.vizColorParentDual")) {
+		vizColorParentDual = new AbstractAction(RB.getString("gui.Actions.vizColorSimilarityToEachParent")) {
 			public void actionPerformed(ActionEvent e) {
-				winMain.mViz.vizColor(ColorScheme.PARENT_DUAL);
+				winMain.mViz.vizColor(ColorScheme.SIMILARITY_TO_EACH_PARENT);
 			}
 		};
 
