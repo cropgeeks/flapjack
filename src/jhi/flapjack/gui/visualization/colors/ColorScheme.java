@@ -31,7 +31,7 @@ public abstract class ColorScheme
 	public static final int LINE_SIMILARITY_EXACT_MATCH = 12;
 	public static final int SIMILARITY_TO_EACH_PARENT = 13;
 	public static final int LINE_SIMILARITY_ANY_MATCH = 14;
-	public static final int PARENT_TOTAL = 15;
+	public static final int SIMILARITY_TO_EITHER_PARENT = 15;
 	public static final int FAV_ALLELE = 16;
 
 	// Random (HSB model)

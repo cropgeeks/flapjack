@@ -76,7 +76,7 @@ public class MenuVisualization
 			gPanel.getView().initializeComparisons();
 		}
 
-		else if (colorScheme == ColorScheme.PARENT_TOTAL)
+		else if (colorScheme == ColorScheme.SIMILARITY_TO_EITHER_PARENT)
 		{
 			SelectParentsDialog dialog = new SelectParentsDialog(gPanel.getView());
 			if (dialog.isOK() == false)
@@ -218,7 +218,7 @@ public class MenuVisualization
 				Actions.vizColorRandomWSP.putValue(Action.SELECTED_KEY, cScheme == ColorScheme.RANDOM_WSP);
 				Actions.vizColorMagic.putValue(Action.SELECTED_KEY, cScheme == ColorScheme.MAGIC);
 				Actions.vizColorParentDual.putValue(Action.SELECTED_KEY, cScheme == ColorScheme.SIMILARITY_TO_EACH_PARENT);
-				Actions.vizColorParentTotal.putValue(Action.SELECTED_KEY, cScheme == ColorScheme.PARENT_TOTAL);
+				Actions.vizColorSimilarityToEitherParent.putValue(Action.SELECTED_KEY, cScheme == ColorScheme.SIMILARITY_TO_EITHER_PARENT);
 				Actions.vizColorLineSimAny.putValue(Action.SELECTED_KEY, cScheme == ColorScheme.LINE_SIMILARITY_ANY_MATCH);
 				Actions.vizColorFavAllele.putValue(Action.SELECTED_KEY, cScheme == ColorScheme.FAV_ALLELE);
 			}

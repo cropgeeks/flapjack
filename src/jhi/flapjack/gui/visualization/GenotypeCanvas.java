@@ -187,8 +187,8 @@ class GenotypeCanvas extends JPanel
 				cScheme = new SimilarityToEachParentColorScheme(view, boxW, boxH);
 				break;
 
-			case ColorScheme.PARENT_TOTAL:
-				cScheme = new ParentTotalMatchColorScheme(view, boxW, boxH);
+			case ColorScheme.SIMILARITY_TO_EITHER_PARENT:
+				cScheme = new SimilarityToEitherParentColorScheme(view, boxW, boxH);
 				break;
 
 			case ColorScheme.FAV_ALLELE:

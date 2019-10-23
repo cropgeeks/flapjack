@@ -80,7 +80,7 @@ public class ColorDialog extends JDialog implements ActionListener
 		comboModel.addElement(new LineSimilarityAnyColorScheme());
 		comboModel.addElement(new MarkerSimilarityColorScheme());
 		comboModel.addElement(new SimilarityToEachParentColorScheme());
-		comboModel.addElement(new ParentTotalMatchColorScheme());
+		comboModel.addElement(new SimilarityToEitherParentColorScheme());
 		comboModel.addElement(new FavAlleleColorScheme());
 		comboModel.addElement(new AlleleFrequencyColorScheme());
 		comboModel.addElement(new MagicColorScheme());
