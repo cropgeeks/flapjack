@@ -119,8 +119,6 @@ public class SimilarityToEitherParentColorScheme extends ColorScheme
 			{
 				if ((allele1State.matchesAnyAllele(p1AlleleState) || allele1State.matchesAnyAllele(p2AlleleState)) && (allele2State.matchesAnyAllele(p2AlleleState) || allele2State.matchesAnyAllele(p1AlleleState)))
 					return matchStates.get(state);
-//				else
-//					return noMatchStates.get(state);
 			}
 
 			if (allele1State != null && (allele1State.matchesAnyAllele(p1AlleleState) || allele1State.matchesAnyAllele(p2AlleleState)))
