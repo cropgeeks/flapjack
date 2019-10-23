@@ -22,30 +22,30 @@ import scri.commons.gui.*;
 public class SimilarityToEachParentColorScheme extends ColorScheme
 {
 	// Lists of alleles for parent 1 and parent 2
-	protected ArrayList<ColorState> p1States = new ArrayList<>();
-	protected ArrayList<ColorState> p2States = new ArrayList<>();
+	private ArrayList<ColorState> p1States = new ArrayList<>();
+	private ArrayList<ColorState> p2States = new ArrayList<>();
 
 	// States that exactly match the comparison
-	protected ArrayList<ColorState> p1MatchStates = new ArrayList<>();
+	private ArrayList<ColorState> p1MatchStates = new ArrayList<>();
 	// States that don't exactly match the comparison
-	protected ArrayList<ColorState> p2MatchStates = new ArrayList<>();
+	private ArrayList<ColorState> p2MatchStates = new ArrayList<>();
 
 	// Heterozygous states which match p1 + p2 and p2 + p1 respectively
-	protected ArrayList<ColorState> hetP1P2States = new ArrayList<>();
-	protected ArrayList<ColorState> hetP2P1States = new ArrayList<>();
+	private ArrayList<ColorState> hetP1P2States = new ArrayList<>();
+	private ArrayList<ColorState> hetP2P1States = new ArrayList<>();
 
 	// States which match one of the parents, but are a mismatch on another
-	protected ArrayList<ColorState> hetP1MismatchStates = new ArrayList<>();
-	protected ArrayList<ColorState> hetMismatchP1States = new ArrayList<>();
-	protected ArrayList<ColorState> hetP2MismatchStates = new ArrayList<>();
-	protected ArrayList<ColorState> hetMismatchP2States = new ArrayList<>();
+	private ArrayList<ColorState> hetP1MismatchStates = new ArrayList<>();
+	private ArrayList<ColorState> hetMismatchP1States = new ArrayList<>();
+	private ArrayList<ColorState> hetP2MismatchStates = new ArrayList<>();
+	private ArrayList<ColorState> hetMismatchP2States = new ArrayList<>();
 
 	// Greyscale states for when the comparison state is missing
-	protected ArrayList<ColorState> gsStates = new ArrayList<>();
-	protected ArrayList<ColorState> noMatchStates = new ArrayList<>();
+	private ArrayList<ColorState> gsStates = new ArrayList<>();
+	private ArrayList<ColorState> noMatchStates = new ArrayList<>();
 
 	// A lookup table which disambiguates heterozygous genotypes allowing us to match against their homozygous allele equiavalents
-	protected int[][] lookupTable;
+	private int[][] lookupTable;
 
 	/** Empty constructor that is ONLY used for color customization purposes. */
 	public SimilarityToEachParentColorScheme() {}
