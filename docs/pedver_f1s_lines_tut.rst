@@ -1,5 +1,5 @@
-Pedigree Verification (F1s Known Parents) Tutorial
-==================================================
+Pedigree Verification - Lines (parental contribution) Tutorial
+==============================================================
 
 In this tutorial we will assume that you are using the ``ped-ver-tutorial`` dataset, which contains simulated data with two parent lines and four sampled lines that we will compare against these parental lines to see if they are likely to be derived from them. You'll be working with two files, a map file (ped-ver-tutorial.map) which contains a set of 35 markers across 4 chromosomes and a genotype file (ped-ver-tutorial.dat) which contains data on a set of 6 lines (two of which are parents, 4 of which are sampled lines).
 
