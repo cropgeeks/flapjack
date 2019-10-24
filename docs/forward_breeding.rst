@@ -59,7 +59,7 @@ Complete Match (0.0, 0.6, 1.0)
   Calculated by taking the maximum matching scores for favourable alleles at each marker, 0.6 for het, 1.0 for homozygous.
 
 +---------+----------------+-----+-----+-------+-------+---------------+----------------+
-| Samples |     QTL        | Markers   | Marker Scores | Partial Match | Complete Match |
+| Samples |  Marker Group  | Markers   | Marker Scores | Partial Match | Complete Match |
 +=========+================+=====+=====+=======+=======+===============+================+
 |         |     rust_1     | m1  | m2  | m1    |   m2  |               |                |
 +---------+----------------+-----+-----+-------+-------+---------------+----------------+
