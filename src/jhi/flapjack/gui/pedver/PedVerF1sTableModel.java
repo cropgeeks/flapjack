@@ -108,7 +108,7 @@ public class PedVerF1sTableModel extends LineDataTableModel
 			case similarityToP1Index: return stats.getSimilarityToP1();
 			case similarityToP2Index: return stats.getSimilarityToP2();
 			case percAlleleMatchIndex: return stats.getPercentAlleleMatchExpected();
-			case decisionIndex: return stats.getDecision();
+			case decisionIndex: return stats.getDecisionString();
 
 			case commentIndex:
 				String comment = line.getResults().getComments();

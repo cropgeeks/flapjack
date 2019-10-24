@@ -7,15 +7,15 @@ import jhi.flapjack.data.*;
 
 public class PedVerF1sResult extends XMLRoot
 {
-	public static final String PARENT_1 = "Parent 1";
-	public static final String PARENT_2 = "Parent 2";
-	public static final String EXPECTED_F1 = "Expected F1";
-	public static final String TRUE_F1 = "True F1";
-	public static final String UNDECIDED_HYBRID = "Undecided hybrid mixture";
-	public static final String UNDECIDED_INBRED = "Undecided inbred mixture";
-	public static final String LIKE_P1 = "Like P1";
-	public static final String LIKE_P2 = "Like P2";
-	public static final String NO_DECISION = "N/A";
+	public static final int PARENT_1 = 0; //"Parent 1";
+	public static final int PARENT_2 = 1; //"Parent 2";
+	public static final int EXPECTED_F1 = 2; //"Expected F1";
+	public static final int TRUE_F1 = 3; //"True F1";
+	public static final int UNDECIDED_HYBRID = 4; //"Undecided hybrid mixture";
+	public static final int UNDECIDED_INBRED = 5; //"Undecided inbred mixture";
+	public static final int LIKE_P1 = 6; //"Like P1";
+	public static final int LIKE_P2 = 7; //"Like P2";
+	public static final int NO_DECISION = 8; //"N/A";
 
 	private int dataCount;
 	private double percentData;
@@ -25,7 +25,6 @@ public class PedVerF1sResult extends XMLRoot
 	private double similarityToP1;
 	private double similarityToP2;
 	private double percentAlleleMatchExpected;
-	private String decision;
 	private boolean p1;
 	private boolean p2;
 	private boolean f1;
@@ -40,10 +39,10 @@ public class PedVerF1sResult extends XMLRoot
 	}
 
 	// Follows the logic outlined in GOBii GR-212 to make a decision on which type of cross a line is
-	public String getDecision()
+	public int getDecision()
 	{
 		// N/A is our default for the decision, will be returned if none of the other criteria are met
-		decision = NO_DECISION;
+		int decision = NO_DECISION;
 
 		// If this line is a parent, or an F1, set its decision to the appropriate value
 		if (p1 || p2 || f1)
@@ -91,6 +90,23 @@ public class PedVerF1sResult extends XMLRoot
 		}
 
 		return decision;
+	}
+
+	public String getDecisionString()
+	{
+		switch (getDecision())
+		{
+			case 0: return "Parent 1";
+			case 1: return "Parent 2";
+			case 2: return "Expected F1";
+			case 3: return "True F1";
+			case 4: return "Undecided hybrid mixture";
+			case 5: return "Undecided inbred mixture";
+			case 6: return "Like P1";
+			case 7: return "Like P2";
+
+			default: return "N/A";
+		}
 	}
 
 	// We can only make decisions about lines if their parents are suitably inbred and the f1 is heterozygous
@@ -214,4 +230,6 @@ public class PedVerF1sResult extends XMLRoot
 
 	public void setF1Heterozygosity(double f1Heterozygosity)
 		{ this.f1Heterozygosity = f1Heterozygosity; }
+
+
 }
