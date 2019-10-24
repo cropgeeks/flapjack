@@ -5,12 +5,14 @@ package jhi.flapjack.gui.dialog.analysis;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.*;
 import javax.swing.*;
 import javax.swing.event.*;
 
 import jhi.flapjack.data.results.*;
 import jhi.flapjack.gui.*;
 
+import jhi.flapjack.gui.table.*;
 import scri.commons.gui.*;
 
 public class ThresholdDialog extends JDialog implements ActionListener, ChangeListener
@@ -23,14 +25,25 @@ public class ThresholdDialog extends JDialog implements ActionListener, ChangeLi
 	private int f1Match;
 	private int het;
 
+	private PedVerF1sThresholds thresholds;
+	private LineDataTable table;
+
 	public ThresholdDialog()
 	{
 		this(PedVerF1sThresholds.fromUserDefaults());
 	}
 
+	public ThresholdDialog(PedVerF1sThresholds thresholds, LineDataTable table)
+	{
+		this(thresholds);
+		this.table = table;
+	}
+
 	public ThresholdDialog(PedVerF1sThresholds thresholds)
 	{
 		super(Flapjack.winMain, RB.getString("gui.dialog.analysis.ThresholdSettingsDialog.title"), true);
+
+		this.thresholds = thresholds;
 
 		parentHet = thresholds.getParentHetThreshold();
 		f1Het = thresholds.getF1isHetThreshold();
@@ -85,6 +98,11 @@ public class ThresholdDialog extends JDialog implements ActionListener, ChangeLi
 		setupSlider(sliderPercError, error);
 		SpinnerNumberModel errorSpinModel = new SpinnerNumberModel(error, 0, 100, 1);
 		percErrorSpinner.setModel(errorSpinModel);
+
+		// Disable the percentage error components as we don't have this statistic yet
+		lblPercError.setVisible(false);
+		sliderPercError.setVisible(false);
+		percErrorSpinner.setVisible(false);
 
 		sliderPercF1Het.addChangeListener(this);
 		sliderPercF1.addChangeListener(this);
@@ -148,39 +166,72 @@ public class ThresholdDialog extends JDialog implements ActionListener, ChangeLi
 	public void stateChanged(ChangeEvent e)
 	{
 		if (e.getSource() == sliderPercHet)
+		{
 			het = handleSliderChange(sliderPercHet, percHetSpinner);
+			thresholds.setHetThreshold(het);
+		}
 
 		else if (e.getSource() == percHetSpinner)
+		{
 			het = handleSpinnerChange(percHetSpinner, sliderPercHet);
+			thresholds.setHetThreshold(het);
+		}
 
 		else if (e.getSource() == sliderPercF1)
+		{
 			f1Match = handleSliderChange(sliderPercF1, percF1Spinner);
+			thresholds.setF1Threshold(f1Match);
+		}
 
 		else if (e.getSource() == percF1Spinner)
+		{
 			f1Match = handleSpinnerChange(percF1Spinner, sliderPercF1);
+			thresholds.setF1Threshold(f1Match);
+		}
 
 		else if (e.getSource() == sliderPercError)
+		{
 			error = handleSliderChange(sliderPercError, percErrorSpinner);
+			thresholds.setErrorThreshold(error);
+		}
 
 		else if (e.getSource() == percErrorSpinner)
+		{
 			error = handleSpinnerChange(percErrorSpinner, sliderPercError);
+			thresholds.setErrorThreshold(error);
+		}
 
 		else if (e.getSource() == sliderPercParentHet)
+		{
 			parentHet = handleSliderChange(sliderPercParentHet, percParentalHetSpinner);
+			thresholds.setParentHetThreshold(parentHet);
+		}
 
 		else if (e.getSource() == percParentalHetSpinner)
+		{
 			parentHet = handleSpinnerChange(percParentalHetSpinner, sliderPercParentHet);
+			thresholds.setParentHetThreshold(parentHet);
+		}
 
 		else if (e.getSource() == sliderPercF1Het)
+		{
 			f1Het = handleSliderChange(sliderPercF1Het, percF1HetSpinner);
+			thresholds.setF1isHetThreshold(f1Het);
+		}
 
 		else if (e.getSource() == percF1HetSpinner)
+		{
 			f1Het = handleSpinnerChange(percF1HetSpinner, sliderPercF1Het);
+			thresholds.setF1isHetThreshold(f1Het);
+		}
+
+		if (table != null)
+			table.getLineDataTableModel().fireTableDataChanged();
 	}
 
 	public PedVerF1sThresholds getThresholds()
 	{
-		return new PedVerF1sThresholds(het, f1Match, error, parentHet, f1Het);
+		return thresholds;
 	}
 
 	public boolean isOK()

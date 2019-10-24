@@ -272,7 +272,7 @@ public class LineDataTable extends JTable
 	public void thresholdDialog()
 	{
 		PedVerF1sThresholds thresholds = viewSet.getLines().get(0).getResults().getPedVerF1sResult().getThresholds();
-		ThresholdDialog thresholdDialog = new ThresholdDialog(thresholds);
+		ThresholdDialog thresholdDialog = new ThresholdDialog(thresholds, this);
 		thresholdDialog.setVisible(true);
 		if (thresholdDialog.isOK() == false)
 			return;
