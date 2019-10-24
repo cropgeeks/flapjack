@@ -120,21 +120,22 @@ You've now had a chance to experiment with running a Pedigree Verification Lines
 .. _`ped-ver-lines.map`: http://bioinf.hutton.ac.uk/flapjack/sample-data/tutorials/ped-ver-lines.map
 .. _`ped-ver-lines.dat`: http://bioinf.hutton.ac.uk/flapjack/sample-data/tutorials/ped-ver-lines.dat
 
-.. |001-pv-import-data| image:: images/pedver_tut/001-pv-import-data.png
-.. |002-pv-initial-default-view| image:: images/pedver_tut/002-pv-initial-default-view.png
-.. |005-hets-as-h| image:: images/pedver_tut/005-hets-as-h.png
-.. |003-pv-loaded-all-chromosomes| image:: images/pedver_tut/003-pv-loaded-all-chromosomes.png
-.. |004-pv-analysis-dialog| image:: images/pedver_tut/004-pv-analysis-dialog.png
-.. |005-pv-analysis-results| image:: images/pedver_tut/005-pv-analysis-results.png
-.. |006-pv-pedverf1s-view| image:: images/pedver_tut/006-pv-pedverf1s-view.png
-.. |007-pv-filter-dialog| image:: images/pedver_tut/007-pv-filter-dialog.png
-.. |008-pv-filtered-results| image:: images/pedver_tut/008-pv-filtered-results.png
-.. |009-pv-filtered-genotypes| image:: images/pedver_tut/009-pv-filtered-genotypes.png
-.. |010-pv-sorted-results| image:: images/pedver_tut/010-pv-sorted-results.png
-.. |011-pv-sorted-genotypes| image:: images/pedver_tut/011-pv-sorted-genotypes.png
-.. |012-pv-auto-select-lines| image:: images/pedver_tut/012-pv-auto-select-lines.png
-.. |013-pv-selected-results| image:: images/pedver_tut/013-pv-selected-results.png
-.. |014-pv-selected-genotypes| image:: images/pedver_tut/014-pv-selected-genotypes.png
-.. |018-export-results-to-file| image:: images/pedver_tut/018-export-results-to-file.png
-.. |015-pv-columns-to-display| image:: images/pedver_tut/015-pv-columns-to-display.png
-.. |016-result-linked-to-genotypes| image:: images/pedver_tut/016-result-linked-to-genotypes.png
+.. |001-pv-import-data| image:: images/pedver_lines_tut/001-pv-import-data.png
+.. |002-pv-initial-default-view| image:: images/pedver_lines_tut/002-pv-initial-default-view.png
+.. |005-hets-as-h| image:: images/pedver_lines_tut/005-hets-as-h.png
+.. |003-pv-loaded-all-chromosomes| image:: images/pedver_lines_tut/003-pv-loaded-all-chromosomes.png
+.. |004-pv-analysis-dialog| image:: images/pedver_lines_tut/004-pv-analysis-dialog.png
+.. |005-pv-analysis-results| image:: images/pedver_lines_tut/005-pv-analysis-results.png
+.. |006-pv-pedverlines-view| image:: images/pedver_lines_tut/006-pv-pedverlines-view.png
+.. |006b-pv-pedverlines-view| image:: images/pedver_lines_tut/006-pv-pedverlines-view.png
+.. |007-pv-filter-dialog| image:: images/pedver_lines_tut/007-pv-filter-dialog.png
+.. |008-pv-filtered-results| image:: images/pedver_lines_tut/008-pv-filtered-results.png
+.. |009-pv-filtered-genotypes| image:: images/pedver_lines_tut/009-pv-filtered-genotypes.png
+.. |010-pv-sorted-results| image:: images/pedver_lines_tut/010-pv-sorted-results.png
+.. |011-pv-sorted-genotypes| image:: images/pedver_lines_tut/011-pv-sorted-genotypes.png
+.. |012-pv-auto-select-lines| image:: images/pedver_lines_tut/012-pv-auto-select-lines.png
+.. |013-pv-selected-results| image:: images/pedver_lines_tut/013-pv-selected-results.png
+.. |014-pv-selected-genotypes| image:: images/pedver_lines_tut/014-pv-selected-genotypes.png
+.. |018-export-results-to-file| image:: images/pedver_lines_tut/018-export-results-to-file.png
+.. |015-pv-columns-to-display| image:: images/pedver_lines_tut/015-pv-columns-to-display.png
+.. |016-result-linked-to-genotypes| image:: images/pedver_lines_tut/016-result-linked-to-genotypes.png
