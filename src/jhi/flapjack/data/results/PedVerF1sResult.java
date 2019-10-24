@@ -7,6 +7,16 @@ import jhi.flapjack.data.*;
 
 public class PedVerF1sResult extends XMLRoot
 {
+	public static final String PARENT_1 = "Parent 1";
+	public static final String PARENT_2 = "Parent 2";
+	public static final String EXPECTED_F1 = "Expected F1";
+	public static final String TRUE_F1 = "True F1";
+	public static final String UNDECIDED_HYBRID = "Undecided hybrid mixture";
+	public static final String UNDECIDED_INBRED = "Undecided inbred mixture";
+	public static final String LIKE_P1 = "Like P1";
+	public static final String LIKE_P2 = "Like P2";
+	public static final String NO_DECISION = "N/A";
+
 	private int dataCount;
 	private double percentData;
 	private int heterozygousCount;
@@ -33,19 +43,19 @@ public class PedVerF1sResult extends XMLRoot
 	public String getDecision()
 	{
 		// N/A is our default for the decision, will be returned if none of the other criteria are met
-		decision = "N/A";
+		decision = NO_DECISION;
 
 		// If this line is a parent, or an F1, set its decision to the appropriate value
 		if (p1 || p2 || f1)
 		{
 			if (p1)
-				decision = "Parent 1";
+				decision = PARENT_1;
 
 			if (p2)
-				decision = "Parent 2";
+				decision = PARENT_2;
 
 			if (f1)
-				decision = "Expected F1";
+				decision = EXPECTED_F1;
 		}
 
 		// Otherwise we have to determine what kind of line this is
@@ -60,7 +70,7 @@ public class PedVerF1sResult extends XMLRoot
 				{
 					boolean trueF1 = percentAlleleMatchExpected >= thresholds.getF1Threshold();
 
-					decision = trueF1 ? "True F1" : "Undecided hybrid mixture";
+					decision = trueF1 ? TRUE_F1 : UNDECIDED_HYBRID;
 				}
 				// Otherwise it is likely a male, or female self
 				else
@@ -68,13 +78,13 @@ public class PedVerF1sResult extends XMLRoot
 					boolean femaleSelf = similarityToP1 >= 85;
 
 					if (femaleSelf)
-						decision = "Female self";
+						decision = LIKE_P1;
 
 					else
 					{
 						boolean maleSelf = similarityToP2 >= 85;
 
-						decision = maleSelf ? "Male self" : "Undecided inbred mixture";
+						decision = maleSelf ? LIKE_P2 : UNDECIDED_INBRED;
 					}
 				}
 			}
