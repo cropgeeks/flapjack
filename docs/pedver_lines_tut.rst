@@ -116,7 +116,7 @@ You've now had a chance to experiment with running a Pedigree Verification Lines
 .. |004-pv-analysis-dialog| image:: images/pedver_lines_tut/004-pv-analysis-dialog.png
 .. |005-pv-analysis-results| image:: images/pedver_lines_tut/005-pv-analysis-results.png
 .. |006-pv-pedverlines-view| image:: images/pedver_lines_tut/006-pv-pedverlines-view.png
-.. |006b-pv-pedverlines-view| image:: images/pedver_lines_tut/006-pv-pedverlines-view.png
+.. |006b-pv-pedverlines-view| image:: images/pedver_lines_tut/006b-pv-pedverlines-view.png
 .. |007-pv-filter-dialog| image:: images/pedver_lines_tut/007-pv-filter-dialog.png
 .. |008-pv-filtered-results| image:: images/pedver_lines_tut/008-pv-filtered-results.png
 .. |009-pv-filtered-genotypes| image:: images/pedver_lines_tut/009-pv-filtered-genotypes.png
