@@ -67,6 +67,7 @@ For more information on Flapjack, or to download the application, please visit t
    pedver_f1s_known_parents_tut
    pedver_lines
    pedver_lines_tut
+   forward_breeding
    analysis_results_tables
    
 .. toctree::
