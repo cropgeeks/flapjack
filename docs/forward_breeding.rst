@@ -1,12 +1,12 @@
 Forward Breeding
-======================================
+================
 
 This analysis translates trait marker genotyping data into presence or absence of QTLs.
 
 In addition to this help page, you can also read the tutorial, which runs through the process of running the analysis and viewing the results with a sample dataset.
 
 Input file
---------
+----------
 
 **QTL file**
 
