@@ -3,15 +3,9 @@
 
 package jhi.flapjack.gui.pedver;
 
-import java.awt.*;
-import java.util.*;
 import javax.swing.table.*;
 
-import jhi.flapjack.data.*;
 import jhi.flapjack.data.results.*;
-import jhi.flapjack.gui.*;
-import jhi.flapjack.gui.visualization.*;
-import jhi.flapjack.gui.visualization.undo.*;
 
 public class AnalysisSummaryTableModel extends AbstractTableModel
 {
@@ -23,7 +17,7 @@ public class AnalysisSummaryTableModel extends AbstractTableModel
 	{
 		this.batchList = batchList;
 
-		columnNames = new String[] { "Analysis", "Parent 1", "Parent 2", "# Lines", "# Selected Lines", "% Parental Het",
+		columnNames = new String[] { "Analysis", "Parent 1", "Parent 2", "Family Size", "Proportion Selected", "% Parental Het",
 			"% F1 Het", "% Het", "% Error Rate", "% Match to F1"};
 	}
 
@@ -52,8 +46,8 @@ public class AnalysisSummaryTableModel extends AbstractTableModel
 			case 0: return summary.name();
 			case 1: return summary.parent1();
 			case 2: return summary.parent2();
-			case 3: return summary.lineCount();
-			case 4: return summary.selectedCount();
+			case 3: return summary.getFamilySize();
+			case 4: return summary.proportionSelected();
 			case 5: return summary.thresholds().getParentHetThreshold();
 			case 6: return summary.thresholds().getF1isHetThreshold();
 			case 7: return summary.thresholds().getHetThreshold();
@@ -69,6 +63,10 @@ public class AnalysisSummaryTableModel extends AbstractTableModel
 	{
 		if (col < 3)
 			return String.class;
+		else if (col == 3)
+			return Integer.class;
+		else if (col == 4)
+			return Float.class;
 		else
 			return Integer.class;
 	}
