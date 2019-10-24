@@ -10,6 +10,8 @@ import jhi.flapjack.gui.table.*;
 
 import scri.commons.gui.*;
 
+import java.awt.*;
+
 public class PedVerF1sTableModel extends LineDataTableModel
 {
 	private static final int lineIndex = 0;
@@ -26,6 +28,16 @@ public class PedVerF1sTableModel extends LineDataTableModel
 	private static final int commentIndex = 11;
 	private static final int sortIndex = 12;
 	private static final int decisionIndex = 13;
+
+	private Color parent1Color = new Color(50,136,189);
+	private Color parent2Color = new Color(102,194,165);
+	private Color expectedF1Color = new Color(230,245,152);
+	private Color trueF1Color = new Color(171,221,164);
+	private Color undecidedHybridColor = new Color(255,255,191);
+	private Color undecidedInbredColor = new Color(254,224,139);
+	private Color likeP1Color = new Color(253,174,97);
+	private Color likeP2Color = new Color(244,109,67);
+	private Color noDecisionColor = new Color(213,62,79);
 
 	public PedVerF1sTableModel(GTViewSet viewSet)
 	{
@@ -169,4 +181,33 @@ public class PedVerF1sTableModel extends LineDataTableModel
 
 	public static int getPercAlleleMatchIndex()
 		{ return percAlleleMatchIndex; }
+
+	@Override
+	public Color getDisplayColor(int row, int col)
+	{
+		if (col == 13)
+		{
+			LineInfo info = lines.get(row);
+			PedVerF1sResult result = info.getResults().getPedVerF1sResult();
+			if (result.isP1() || result.isP2() || result.isF1())
+				return super.getDisplayColor(row, col);
+
+			switch(result.getDecision())
+			{
+				case PedVerF1sResult.PARENT_1: 			return parent1Color;
+				case PedVerF1sResult.PARENT_2: 			return parent2Color;
+				case PedVerF1sResult.EXPECTED_F1: 		return expectedF1Color;
+				case PedVerF1sResult.TRUE_F1: 			return trueF1Color;
+				case PedVerF1sResult.UNDECIDED_HYBRID: 	return undecidedHybridColor;
+				case PedVerF1sResult.LIKE_P1: 			return likeP1Color;
+				case PedVerF1sResult.LIKE_P2: 			return likeP2Color;
+				case PedVerF1sResult.UNDECIDED_INBRED: 	return undecidedInbredColor;
+				case PedVerF1sResult.NO_DECISION: 		return noDecisionColor;
+
+				default: 								return null;
+			}
+		}
+
+		return null;
+	}
 }

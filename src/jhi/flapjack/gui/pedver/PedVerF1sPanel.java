@@ -60,6 +60,7 @@ public class PedVerF1sPanel extends JPanel implements ActionListener, ListSelect
 
 		tableHandler = viewSet.tableHandler();
 		tableHandler.linkTable(table, model);
+		table.setColorCells(true);
 
 		controls.autoResize.setSelected(tableHandler.isAutoResize());
 	}
