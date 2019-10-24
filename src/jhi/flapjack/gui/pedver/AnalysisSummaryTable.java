@@ -7,10 +7,13 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.table.*;
+import scri.commons.gui.*;
 
 public class AnalysisSummaryTable extends JTable
 {
 	public AnalysisSummaryTable()
 	{
+		setDefaultRenderer(Number.class,
+			new NumberFormatCellRenderer());
 	}
 }
