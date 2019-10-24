@@ -180,6 +180,7 @@ public class PedVerF1sSummary extends XMLRoot
 			.filter(line -> line != parent2)
 			.filter(line -> line != expF1)
 			.mapToDouble(line -> line.getResults().getPedVerF1sResult().getPercentData())
+			.filter(value -> !Double.isNaN(value))
 			.average()
 			.orElse(Double.NaN);
 	}
@@ -191,6 +192,7 @@ public class PedVerF1sSummary extends XMLRoot
 			.filter(line -> line != parent2)
 			.filter(line -> line != expF1)
 			.mapToDouble(line -> line.getResults().getPedVerF1sResult().getPercentHeterozygous())
+			.filter(value -> !Double.isNaN(value))
 			.average()
 			.orElse(Double.NaN);
 	}
@@ -202,6 +204,7 @@ public class PedVerF1sSummary extends XMLRoot
 			.filter(line -> line != parent2)
 			.filter(line -> line != expF1)
 			.mapToDouble(line -> line.getResults().getPedVerF1sResult().getSimilarityToP1())
+			.filter(value -> !Double.isNaN(value))
 			.average()
 			.orElse(Double.NaN);
 	}
@@ -213,6 +216,7 @@ public class PedVerF1sSummary extends XMLRoot
 			.filter(line -> line != parent2)
 			.filter(line -> line != expF1)
 			.mapToDouble(line -> line.getResults().getPedVerF1sResult().getSimilarityToP2())
+			.filter(value -> !Double.isNaN(value))
 			.average()
 			.orElse(Double.NaN);
 	}
@@ -224,6 +228,7 @@ public class PedVerF1sSummary extends XMLRoot
 			.filter(line -> line != parent2)
 			.filter(line -> line != expF1)
 			.mapToDouble(line -> line.getResults().getPedVerF1sResult().getPercentAlleleMatchExpected())
+			.filter(value -> !Double.isNaN(value))
 			.average()
 			.orElse(Double.NaN);
 	}
