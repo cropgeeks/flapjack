@@ -79,7 +79,7 @@ Click on ``PedVerF1s View 1`` if you want to see what the lines which have been 
 Sorting the results
 -------------------
 
-Return to the results table and select ``Sort`` to use the ``Advanced Sort`` dialog. Click ``Add sort level`` to add another entry to the table. Click the first entry in the ``Column`` column and select ``% Allele Match to Expected F1`` from the drop down list that appears. For the next entry select ``% Allele Match to P2``. For the last entry change its ``Order`` to be ``Smallest to largest``. Click ``Sort`` to sort the data. You should see that the data in the table and in the genotypes view has been sorted according to your criteria.
+Return to the results table and select ``Sort`` to use the ``Advanced Sort`` dialog. Click ``Add sort level`` to add another entry to the table. Click the first entry in the ``Column`` column and select ``% Genotype Match to Expected F1`` from the drop down list that appears. For the next entry select ``% Allele Match to P2``. For the last entry change its ``Order`` to be ``Smallest to largest``. Click ``Sort`` to sort the data. You should see that the data in the table and in the genotypes view has been sorted according to your criteria.
 
  |010-pv-sorted-results|
 
