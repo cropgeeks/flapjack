@@ -79,7 +79,7 @@ Click on ``PedVerF1s View 1`` if you want to see what the lines which have been 
 Sorting the results
 -------------------
 
-Return to the results table and select ``Sort`` to use the ``Advanced Sort`` dialog. Click ``Add sort level`` to add another entry to the table. Click the first entry in the ``Column`` column and select ``% Genotype Match to Expected F1`` from the drop down list that appears. For the next entry select ``% Allele Match to P2``. For the last entry change its ``Order`` to be ``Smallest to largest``. Click ``Sort`` to sort the data. You should see that the data in the table and in the genotypes view has been sorted according to your criteria.
+Return to the results table and select ``Sort`` to use the ``Advanced Sort`` dialog. Click ``Add sort level`` to add another entry to the table. Click the first entry in the ``Column`` column and select ``% Allele Match to Expected F1`` from the drop down list that appears. For the next entry select ``% Allele Match to P2``. For the last entry change its ``Order`` to be ``Smallest to largest``. Click ``Sort`` to sort the data. You should see that the data in the table and in the genotypes view has been sorted according to your criteria.
 
  |010-pv-sorted-results|
 
@@ -88,7 +88,7 @@ Return to the results table and select ``Sort`` to use the ``Advanced Sort`` dia
 Selecting within results
 ------------------------
 
-Click ``Select->Auto select`` to open the ``Auto Select Lines`` dialog. Fill the dialog in as with the ``Filter`` dialog, with values for ``% Het Deviation from Expected F1`` of ``Less than`` ``10``. Click ``Select`` to apply the selection criteria to the data in the results table. You may see a dialog informing you that Flapjack has switched to line mode. Click Ok to dismiss this. Then view the results of your selection in both the results and genotype views. You should note that there are now only 15 lines selected. Deselected lines are de-emphasised in the genotype view in Flapjack by ligthening their colour. 
+Click ``Select->Auto select`` to open the ``Auto Select Lines`` dialog. Fill the dialog in as with the ``Filter`` dialog, with values for ``% Het Deviation from Expected F1`` of ``Less than`` ``10``. Click ``Select`` to apply the selection criteria to the data in the results table. You may see a dialog informing you that Flapjack has switched to line mode. Click Ok to dismiss this. Then view the results of your selection in both the results and genotype views. Deselected lines are de-emphasised in the genotype view in Flapjack by ligthening their colour. 
 
  |012-pv-auto-select-lines|
 
