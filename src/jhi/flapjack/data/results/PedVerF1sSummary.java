@@ -101,4 +101,114 @@ public class PedVerF1sSummary extends XMLRoot
 	{
 		return lines.get(0).getResults().getPedVerF1sResult().getThresholds();
 	}
+
+	public double percentDecisionTrueF1s()
+	{
+		return (lines.stream()
+			.filter(line -> line != parent1)
+			.filter(line -> line != parent2)
+			.filter(line -> line != expF1)
+			.filter(line -> line.getResults().getPedVerF1sResult().getDecision() == PedVerF1sResult.TRUE_F1)
+			.count() / (float) familySize) * 100;
+	}
+
+	public double percentDecisionUndecidedHybrid()
+	{
+		return (lines.stream()
+			.filter(line -> line != parent1)
+			.filter(line -> line != parent2)
+			.filter(line -> line != expF1)
+			.filter(line -> line.getResults().getPedVerF1sResult().getDecision() == PedVerF1sResult.UNDECIDED_HYBRID)
+			.count() / (float) familySize) * 100;
+	}
+
+	public double percentDecisionUndecidedInbred()
+	{
+		return (lines.stream()
+			.filter(line -> line != parent1)
+			.filter(line -> line != parent2)
+			.filter(line -> line != expF1)
+			.filter(line -> line.getResults().getPedVerF1sResult().getDecision() == PedVerF1sResult.UNDECIDED_INBRED)
+			.count() / (float) familySize) * 100;
+	}
+
+	public double percentDecisionNoDecision()
+	{
+		return (lines.stream()
+			.filter(line -> line != parent1)
+			.filter(line -> line != parent2)
+			.filter(line -> line != expF1)
+			.filter(line -> line.getResults().getPedVerF1sResult().getDecision() == PedVerF1sResult.NO_DECISION)
+			.count() / (float) familySize) * 100;
+	}
+
+	public double percentDecisionLikeP1()
+	{
+		return (lines.stream()
+			.filter(line -> line != parent1)
+			.filter(line -> line != parent2)
+			.filter(line -> line != expF1)
+			.filter(line -> line.getResults().getPedVerF1sResult().getDecision() == PedVerF1sResult.LIKE_P1)
+			.count() / (float) familySize) * 100;
+	}
+
+	public double percentDecisionLikeP2()
+	{
+		return (lines.stream()
+			.filter(line -> line != parent1)
+			.filter(line -> line != parent2)
+			.filter(line -> line != expF1)
+			.filter(line -> line.getResults().getPedVerF1sResult().getDecision() == PedVerF1sResult.LIKE_P2)
+			.count() / (float) familySize) * 100;
+	}
+
+	public double percentDataAvg()
+	{
+		return lines.stream()
+			.filter(line -> line != parent1)
+			.filter(line -> line != parent2)
+			.filter(line -> line != expF1)
+			.mapToDouble(line -> line.getResults().getPedVerF1sResult().getPercentData())
+			.sum() / (float) familySize;
+	}
+
+	public double percentHetAvg()
+	{
+		return lines.stream()
+			.filter(line -> line != parent1)
+			.filter(line -> line != parent2)
+			.filter(line -> line != expF1)
+			.mapToDouble(line -> line.getResults().getPedVerF1sResult().getPercentHeterozygous())
+			.sum() / (float) familySize;
+	}
+
+	public double similarityToP1Avg()
+	{
+		return lines.stream()
+			.filter(line -> line != parent1)
+			.filter(line -> line != parent2)
+			.filter(line -> line != expF1)
+			.mapToDouble(line -> line.getResults().getPedVerF1sResult().getSimilarityToP1())
+			.sum() / (float) familySize;
+	}
+
+	public double similarityToP2Avg()
+	{
+		return lines.stream()
+			.filter(line -> line != parent1)
+			.filter(line -> line != parent2)
+			.filter(line -> line != expF1)
+			.mapToDouble(line -> line.getResults().getPedVerF1sResult().getSimilarityToP2())
+			.sum() / (float) familySize;
+	}
+
+	public double percentAlleleMatchExpectedAvg()
+	{
+		return lines.stream()
+			.filter(line -> line != parent1)
+			.filter(line -> line != parent2)
+			.filter(line -> line != expF1)
+			.mapToDouble(line -> line.getResults().getPedVerF1sResult().getPercentAlleleMatchExpected())
+			.sum() / (float) familySize;
+	}
 }
