@@ -100,17 +100,6 @@ Click ``Export`` to open the ``Export Results to File`` dialog. You can select t
 
 You can view the contents of the file in any text editor.
 
-Viewing results in the genotype view
-------------------------------------
-
-Return to the genotype view of the data (``PedVer LInes View``) and zoom in until you can comfortably read the line names which are just to the left of the genotype visualization. Right-click on the list of line names and select ``Select table results`` from the menu to open the ``Columns To Display`` dialog. This dialog allows you to select columns of data from the results table to view side by side with the genotype data. This can be good for a final visual validation of what you're seeing from the analysis results. Select ``% Allele Match to P1``, ``% Allele Match to P2``, and ``% Allele Match to P1 / P2`` by clicking the corresponding checkboxes in the dialog, then click ``OK``.
-
- |015-pv-columns-to-display|
-
- |016-result-linked-to-genotypes|
-
-You should see that there are three extra columns of data between the lines names and the genotype display. Mouseover the columns to see tooltips with the column name and value for the line under the mouse, this information is also displayed in the status panel at the bottom of the display. 
-
 Conclusion
 ----------
 
