@@ -444,15 +444,6 @@ public class NavPanel extends JPanel
 		return (TabPanel) traitsNode.getPanel();
 	}
 
-	public void selectDataSetNode(DataSet dataSet)
-	{
-		DataSetNode node = this.findDataSetNode(dataSet);
-		System.out.println("node: " + node);
-
-		tree.setSelectionPath(new TreePath(node.getPath()));
-		tree.scrollPathToVisible(new TreePath(node.getPath()));
-	}
-
 	SimMatrixPanel getActiveSimMatrixPanel()
 	{
 		return (SimMatrixPanel) hSplitPane.getRightComponent();
@@ -557,5 +548,30 @@ public class NavPanel extends JPanel
 
 		// Add the listener again so we can update the tree state as appropriate
 		tree.addTreeExpansionListener(this);
+	}
+
+	public void selectDataSetNode(DataSet dataSet)
+	{
+		DataSetNode node = this.findDataSetNode(dataSet);
+
+		tree.setSelectionPath(new TreePath(node.getPath()));
+		tree.scrollPathToVisible(new TreePath(node.getPath()));
+	}
+
+	public JPanel selectPedVerLinesNode(GTViewSet viewSet)
+	{
+		VisualizationNode vNode = findVisualizationNode(viewSet);
+
+		PedVerF1sNode pNode = null;
+		for (int i = 0; i < vNode.getChildCount(); i++)
+		{
+			if (vNode.getChildAt(i) instanceof PedVerF1sNode)
+				pNode = (PedVerF1sNode) vNode.getChildAt(i);
+		}
+
+		tree.setSelectionPath(new TreePath(pNode.getPath()));
+		tree.scrollPathToVisible(new TreePath(pNode.getPath()));
+
+		return pNode.getPanel();
 	}
 }

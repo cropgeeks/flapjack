@@ -25,6 +25,9 @@ public class AnalysisSummaryTableModel extends AbstractTableModel
 			"% Genotype Match to Expected F1" };
 	}
 
+	PedVerF1sBatchList getBatchList()
+		{ return batchList; }
+
 	@Override
 	public String getColumnName(int col)
 		{ return columnNames[col]; }

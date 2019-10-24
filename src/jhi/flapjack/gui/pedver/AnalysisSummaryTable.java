@@ -3,10 +3,12 @@
 
 package jhi.flapjack.gui.pedver;
 
-import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import javax.swing.table.*;
+
+import jhi.flapjack.data.results.*;
+import jhi.flapjack.gui.*;
+
 import scri.commons.gui.*;
 
 public class AnalysisSummaryTable extends JTable
@@ -15,5 +17,28 @@ public class AnalysisSummaryTable extends JTable
 	{
 		setDefaultRenderer(Number.class,
 			new NumberFormatCellRenderer());
+
+		addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent mouseEvent)
+			{
+				int row = rowAtPoint(mouseEvent.getPoint());
+				if (mouseEvent.getClickCount() == 2 && getSelectedRow() != -1)
+					jumpToRow(convertRowIndexToModel(row));
+			}
+		});
+	}
+
+	private void jumpToRow(int modelRow)
+	{
+		AnalysisSummaryTableModel model = (AnalysisSummaryTableModel) getModel();
+
+		PedVerF1sBatchList list = model.getBatchList();
+		PedVerF1sSummary summary = list.getSummary(modelRow);
+
+		// Selects (and returns) the panel in the nav pane
+		PedVerF1sPanel panel = (PedVerF1sPanel) Flapjack.winMain.getNavPanel().selectPedVerLinesNode(summary.getViewSet());
+		// Tell the panel we want to show the first tab
+		panel.tabs.setSelectedIndex(0);
 	}
 }

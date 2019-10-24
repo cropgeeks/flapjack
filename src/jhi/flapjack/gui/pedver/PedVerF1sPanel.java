@@ -8,13 +8,11 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.event.*;
 
-import jhi.flapjack.analysis.*;
 import jhi.flapjack.data.*;
 import jhi.flapjack.gui.*;
-import jhi.flapjack.gui.dialog.analysis.*;
 import jhi.flapjack.gui.table.*;
+
 import scri.commons.gui.Icons;
-import scri.commons.gui.RB;
 
 public class PedVerF1sPanel extends JPanel implements ActionListener, ListSelectionListener, ITableViewListener, TableModelListener
 {

@@ -14,7 +14,6 @@ public class PedVerF1sSummary extends XMLRoot
 
 	// TODO: These should be references in CASTOR
 	private LineInfo parent1, parent2, expF1;
-	private int ignoreParentsCount;
 	private int familySize;
 
 	public PedVerF1sSummary()
@@ -39,11 +38,23 @@ public class PedVerF1sSummary extends XMLRoot
 		}
 
 		// Remove parents (and expF1) from the family size
-		ignoreParentsCount = 2 + ((expF1 != null) ? 1 : 0);
+		int ignoreParentsCount = 2 + ((expF1 != null) ? 1 : 0);
 		familySize = lines.size() - ignoreParentsCount;
 	}
 
 	// XML serialization methods
+
+	public GTViewSet getViewSet()
+		{ return viewSet; }
+
+	public void setViewSet(GTViewSet viewSet)
+		{ this.viewSet = viewSet; }
+
+	public ArrayList<LineInfo> getLines()
+		{ return lines; }
+
+	public void setLines(ArrayList<LineInfo> lines)
+		{ this.lines = lines; }
 
 	public LineInfo getParent1()
 		{ return parent1; }
