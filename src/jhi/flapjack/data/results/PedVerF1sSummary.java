@@ -16,6 +16,10 @@ public class PedVerF1sSummary extends XMLRoot
 	private LineInfo parent1, parent2, expF1;
 	private int familySize;
 
+	// Don't save these!
+	private Double percentDataAvg, percentHetAvg, similarityToP1Avg,
+		similarityToP2Avg, percentAlleleMatchExpectedAvg;
+
 	public PedVerF1sSummary()
 	{
 	}
@@ -175,61 +179,86 @@ public class PedVerF1sSummary extends XMLRoot
 
 	public double percentDataAvg()
 	{
-		return lines.stream()
-			.filter(line -> line != parent1)
-			.filter(line -> line != parent2)
-			.filter(line -> line != expF1)
-			.mapToDouble(line -> line.getResults().getPedVerF1sResult().getPercentData())
-			.filter(value -> !Double.isNaN(value))
-			.average()
-			.orElse(Double.NaN);
+		if (percentDataAvg == null)
+		{
+			percentDataAvg = lines.stream()
+				.filter(line -> line != parent1)
+				.filter(line -> line != parent2)
+				.filter(line -> line != expF1)
+				.mapToDouble(line -> line.getResults().getPedVerF1sResult().getPercentData())
+				.filter(value -> !Double.isNaN(value))
+				.average()
+				.orElse(Double.NaN);
+		}
+
+		return percentDataAvg;
 	}
 
 	public double percentHetAvg()
 	{
-		return lines.stream()
-			.filter(line -> line != parent1)
-			.filter(line -> line != parent2)
-			.filter(line -> line != expF1)
-			.mapToDouble(line -> line.getResults().getPedVerF1sResult().getPercentHeterozygous())
-			.filter(value -> !Double.isNaN(value))
-			.average()
-			.orElse(Double.NaN);
+		if (percentHetAvg == null)
+		{
+			percentHetAvg = lines.stream()
+				.filter(line -> line != parent1)
+				.filter(line -> line != parent2)
+				.filter(line -> line != expF1)
+				.mapToDouble(line -> line.getResults().getPedVerF1sResult().getPercentHeterozygous())
+				.filter(value -> !Double.isNaN(value))
+				.average()
+				.orElse(Double.NaN);
+		}
+
+		return percentHetAvg;
 	}
 
 	public double similarityToP1Avg()
 	{
-		return lines.stream()
-			.filter(line -> line != parent1)
-			.filter(line -> line != parent2)
-			.filter(line -> line != expF1)
-			.mapToDouble(line -> line.getResults().getPedVerF1sResult().getSimilarityToP1())
-			.filter(value -> !Double.isNaN(value))
-			.average()
-			.orElse(Double.NaN);
+		if (similarityToP1Avg == null)
+		{
+			similarityToP1Avg = lines.stream()
+				.filter(line -> line != parent1)
+				.filter(line -> line != parent2)
+				.filter(line -> line != expF1)
+				.mapToDouble(line -> line.getResults().getPedVerF1sResult().getSimilarityToP1())
+				.filter(value -> !Double.isNaN(value))
+				.average()
+				.orElse(Double.NaN);
+		}
+
+		return similarityToP1Avg;
 	}
 
 	public double similarityToP2Avg()
 	{
-		return lines.stream()
-			.filter(line -> line != parent1)
-			.filter(line -> line != parent2)
-			.filter(line -> line != expF1)
-			.mapToDouble(line -> line.getResults().getPedVerF1sResult().getSimilarityToP2())
-			.filter(value -> !Double.isNaN(value))
-			.average()
-			.orElse(Double.NaN);
+		if (similarityToP2Avg == null)
+		{
+			return lines.stream()
+				.filter(line -> line != parent1)
+				.filter(line -> line != parent2)
+				.filter(line -> line != expF1)
+				.mapToDouble(line -> line.getResults().getPedVerF1sResult().getSimilarityToP2())
+				.filter(value -> !Double.isNaN(value))
+				.average()
+				.orElse(Double.NaN);
+		}
+
+		return similarityToP2Avg;
 	}
 
 	public double percentAlleleMatchExpectedAvg()
 	{
-		return lines.stream()
-			.filter(line -> line != parent1)
-			.filter(line -> line != parent2)
-			.filter(line -> line != expF1)
-			.mapToDouble(line -> line.getResults().getPedVerF1sResult().getPercentAlleleMatchExpected())
-			.filter(value -> !Double.isNaN(value))
-			.average()
-			.orElse(Double.NaN);
+		if (percentAlleleMatchExpectedAvg == null)
+		{
+			return lines.stream()
+				.filter(line -> line != parent1)
+				.filter(line -> line != parent2)
+				.filter(line -> line != expF1)
+				.mapToDouble(line -> line.getResults().getPedVerF1sResult().getPercentAlleleMatchExpected())
+				.filter(value -> !Double.isNaN(value))
+				.average()
+				.orElse(Double.NaN);
+		}
+
+		return percentAlleleMatchExpectedAvg;
 	}
 }
