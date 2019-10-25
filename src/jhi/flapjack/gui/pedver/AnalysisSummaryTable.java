@@ -15,7 +15,9 @@ public class AnalysisSummaryTable extends JTable
 {
 	public AnalysisSummaryTable()
 	{
-		setDefaultRenderer(Number.class,
+		setDefaultRenderer(Double.class,
+			new AnalysisSummaryTableModel.DoubleNumRenderer());
+		setDefaultRenderer(Integer.class,
 			new NumberFormatCellRenderer());
 
 		addMouseListener(new MouseAdapter() {

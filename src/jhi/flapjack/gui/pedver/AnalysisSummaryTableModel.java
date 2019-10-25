@@ -3,9 +3,13 @@
 
 package jhi.flapjack.gui.pedver;
 
+import java.awt.*;
+import javax.swing.*;
 import javax.swing.table.*;
 
 import jhi.flapjack.data.results.*;
+
+import scri.commons.gui.*;
 
 public class AnalysisSummaryTableModel extends AbstractTableModel
 {
@@ -53,11 +57,12 @@ public class AnalysisSummaryTableModel extends AbstractTableModel
 			case 0:  return summary.name();
 			case 1:  return summary.parent1();
 			case 2:  return summary.parent2();
+
 			case 3:  return summary.getFamilySize();
 			case 4:  return summary.proportionSelected();
 
-			case 5:  return summary.thresholds().getHetThreshold();
-			case 6:  return summary.thresholds().getF1Threshold();
+			case 5:  return (double) summary.thresholds().getHetThreshold();
+			case 6:  return (double) summary.thresholds().getF1Threshold();
 
 			case 7:  return summary.percentDecisionTrueF1s();
 			case 8:  return summary.percentDecisionUndecidedHybrid();
@@ -81,17 +86,57 @@ public class AnalysisSummaryTableModel extends AbstractTableModel
 	{
 		if (col < 3)
 			return String.class;
-		else if (col == 3)
-			return Integer.class;
-		else if (col == 4)
-			return Double.class;
 		else
-			return Integer.class;
+			return Double.class;
 	}
 
 	@Override
 	public int getRowCount()
 	{
 		return batchList.size();
+	}
+
+	static class DoubleNumRenderer extends NumberFormatCellRenderer
+	{
+		// White
+		static Color col1 = new Color(255,255,255);
+		// Greenish
+		static Color col2 = new Color(188,209,151);
+		static int[] c1 = new int[] { col1.getRed(), col1.getGreen(), col1.getBlue() };
+		static int[] c2 = new int[] { col2.getRed(), col2.getGreen(), col2.getBlue() };
+
+		static Color bgColSel = UIManager.getColor("Table.selectionBackground");
+		static Color bgCol = UIManager.getColor("Table.background");
+
+		@Override
+		public Component getTableCellRendererComponent(JTable table, Object obj,
+			boolean isSelected, boolean hasFocus, int row, int column)
+		{
+			super.getTableCellRendererComponent(table, obj, isSelected,
+				hasFocus, row, column);
+
+			if (obj instanceof Double)// && column >= 5)
+			{
+				double value = (double) obj;
+
+				if (value < 0 || value > 100)
+					return this;
+				value = value / 100d;
+
+				double f1 = 1f - value;
+				double f2 = value;
+
+				Color color = new Color(
+					(int) (f1 * c1[0] + f2 * c2[0]),
+					(int) (f1 * c1[1] + f2 * c2[1]),
+					(int) (f1 * c1[2] + f2 * c2[2]));
+
+				setBackground(isSelected ? color.darker() : color);
+			}
+			else
+				setBackground(isSelected ? bgColSel : bgCol);
+
+			return this;
+		}
 	}
 }
