@@ -37,10 +37,13 @@ public class PedVerF1sTableModel extends LineDataTableModel
 	private Color undecidedInbredColor = new Color(254,224,139);
 	private Color likeP1Color = new Color(253,174,97);
 	private Color likeP2Color = new Color(244,109,67);
-	private Color noDecisionColor = new Color(213,62,79);
+	private Color noDecisionColor = new Color(188,86,90);
+
+	private GTViewSet viewSet;
 
 	public PedVerF1sTableModel(GTViewSet viewSet)
 	{
+		this.viewSet = viewSet;
 		this.dataSet = viewSet.getDataSet();
 
 		setLines(viewSet.tableHandler().linesForTable());
@@ -96,6 +99,7 @@ public class PedVerF1sTableModel extends LineDataTableModel
 	{
 		LineInfo line = lines.get(row);
 		PedVerF1sResult stats = line.getResults().getPedVerF1sResult();
+		PedVerDecisions decisionMethod = viewSet._getPedVerF1sBatchList().getDecisionMethod();;
 
 		// Name, Selected and Sort can work without results
 		if (col == lineIndex)
@@ -120,7 +124,7 @@ public class PedVerF1sTableModel extends LineDataTableModel
 			case similarityToP1Index: return stats.getSimilarityToP1();
 			case similarityToP2Index: return stats.getSimilarityToP2();
 			case percAlleleMatchIndex: return stats.getPercentAlleleMatchExpected();
-			case decisionIndex: return stats.getDecisionString();
+			case decisionIndex: return decisionMethod.getDecisionString(stats);
 
 			case commentIndex:
 				String comment = line.getResults().getComments();
@@ -185,6 +189,7 @@ public class PedVerF1sTableModel extends LineDataTableModel
 	@Override
 	public Color getDisplayColor(int row, int col)
 	{
+		PedVerDecisions decisionMethod = viewSet._getPedVerF1sBatchList().getDecisionMethod();
 		if (col == 13)
 		{
 			LineInfo info = lines.get(row);
@@ -192,20 +197,7 @@ public class PedVerF1sTableModel extends LineDataTableModel
 			if (result.isP1() || result.isP2() || result.isF1())
 				return super.getDisplayColor(row, col);
 
-			switch(result.getDecision())
-			{
-				case PedVerF1sResult.PARENT_1: 			return parent1Color;
-				case PedVerF1sResult.PARENT_2: 			return parent2Color;
-				case PedVerF1sResult.EXPECTED_F1: 		return expectedF1Color;
-				case PedVerF1sResult.TRUE_F1: 			return trueF1Color;
-				case PedVerF1sResult.UNDECIDED_HYBRID: 	return undecidedHybridColor;
-				case PedVerF1sResult.LIKE_P1: 			return likeP1Color;
-				case PedVerF1sResult.LIKE_P2: 			return likeP2Color;
-				case PedVerF1sResult.UNDECIDED_INBRED: 	return undecidedInbredColor;
-				case PedVerF1sResult.NO_DECISION: 		return noDecisionColor;
-
-				default: 								return null;
-			}
+			return decisionMethod.getDecisionColor(result);
 		}
 
 		return null;

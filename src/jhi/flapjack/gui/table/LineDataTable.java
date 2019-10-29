@@ -272,15 +272,24 @@ public class LineDataTable extends JTable
 	public void thresholdDialog()
 	{
 		PedVerF1sThresholds thresholds = viewSet.getLines().get(0).getResults().getPedVerF1sResult().getThresholds();
-		ThresholdDialog thresholdDialog = new ThresholdDialog(thresholds, this);
+		ThresholdDialog thresholdDialog = new ThresholdDialog(thresholds, this, viewSet._getPedVerF1sBatchList());
 		thresholdDialog.setVisible(true);
-		if (thresholdDialog.isOK() == false)
-			return;
 
-		// Once the threshold dialog has been closed by the OK button we need to update the thresholds in every
-		// ped ver f1 result
-		for (LineInfo info : viewSet.getLines())
-			info.getResults().getPedVerF1sResult().setThresholds(thresholdDialog.getThresholds());
+		if (thresholdDialog.isOK())
+		{
+			// Once the threshold dialog has been closed by the OK button we need to update the thresholds in every
+			// ped ver f1 result
+			for (LineInfo info : viewSet.getLines())
+				info.getResults().getPedVerF1sResult().setThresholds(thresholdDialog.getThresholds());
+
+			updatePedVerDecsionModel(thresholdDialog.getDecisionModelIndex());
+		}
+	}
+
+	public void updatePedVerDecsionModel(int modelIndex)
+	{
+		System.out.println("Model Index: " + modelIndex);
+		viewSet._getPedVerF1sBatchList().selectDecisionMethod(modelIndex);
 
 		model.fireTableDataChanged();
 	}

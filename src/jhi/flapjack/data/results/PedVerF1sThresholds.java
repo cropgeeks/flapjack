@@ -41,18 +41,6 @@ public class PedVerF1sThresholds extends XMLRoot
 		return thresholds;
 	}
 
-	@Override
-	public String toString()
-	{
-		return "PedVerF1sThresholds{" +
-			"hetThreshold=" + hetThreshold +
-			", f1Threshold=" + f1Threshold +
-			", errorThreshold=" + errorThreshold +
-			", parentHetThreshold=" + parentHetThreshold +
-			", f1isHetThreshold=" + f1isHetThreshold +
-			'}';
-	}
-
 	// Methods required for XML serialization
 
 	public int getHetThreshold()

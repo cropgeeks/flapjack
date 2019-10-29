@@ -7,16 +7,6 @@ import jhi.flapjack.data.*;
 
 public class PedVerF1sResult extends XMLRoot
 {
-	public static final int PARENT_1 = 0; //"Parent 1";
-	public static final int PARENT_2 = 1; //"Parent 2";
-	public static final int EXPECTED_F1 = 2; //"Expected F1";
-	public static final int TRUE_F1 = 3; //"True F1";
-	public static final int UNDECIDED_HYBRID = 4; //"Undecided hybrid mixture";
-	public static final int UNDECIDED_INBRED = 5; //"Undecided inbred mixture";
-	public static final int LIKE_P1 = 6; //"Like P1";
-	public static final int LIKE_P2 = 7; //"Like P2";
-	public static final int NO_DECISION = 8; //"N/A";
-
 	private int dataCount;
 	private double percentData;
 	private int heterozygousCount;
@@ -38,83 +28,32 @@ public class PedVerF1sResult extends XMLRoot
 	{
 	}
 
-	// Follows the logic outlined in GOBii GR-212 to make a decision on which type of cross a line is
-	public int getDecision()
+	boolean isLineHet()
 	{
-		// N/A is our default for the decision, will be returned if none of the other criteria are met
-		int decision = NO_DECISION;
-
-		// If this line is a parent, or an F1, set its decision to the appropriate value
-		if (p1 || p2 || f1)
-		{
-			if (p1)
-				decision = PARENT_1;
-
-			if (p2)
-				decision = PARENT_2;
-
-			if (f1)
-				decision = EXPECTED_F1;
-		}
-
-		// Otherwise we have to determine what kind of line this is
-		else
-		{
-			if (canDetermineLineType(thresholds.getParentHetThreshold(), thresholds.getF1isHetThreshold()))
-			{
-				boolean lineHet = percentHeterozygous >= thresholds.getHetThreshold();
-
-				// If this line is heterozygous it can be a True F1, or an undecided hybrid mixutre
-				if (lineHet)
-				{
-					boolean trueF1 = percentAlleleMatchExpected >= thresholds.getF1Threshold();
-
-					decision = trueF1 ? TRUE_F1 : UNDECIDED_HYBRID;
-				}
-				// Otherwise it is likely a male, or female self
-				else
-				{
-					boolean femaleSelf = similarityToP1 >= 85;
-
-					if (femaleSelf)
-						decision = LIKE_P1;
-
-					else
-					{
-						boolean maleSelf = similarityToP2 >= 85;
-
-						decision = maleSelf ? LIKE_P2 : UNDECIDED_INBRED;
-					}
-				}
-			}
-		}
-
-		return decision;
+		return percentHeterozygous >= thresholds.getHetThreshold();
 	}
 
-	public String getDecisionString()
+	boolean isAlleleMatchExpected()
 	{
-		switch (getDecision())
-		{
-			case 0: return "Parent 1";
-			case 1: return "Parent 2";
-			case 2: return "Expected F1";
-			case 3: return "True F1";
-			case 4: return "Undecided hybrid mixture";
-			case 5: return "Undecided inbred mixture";
-			case 6: return "Like P1";
-			case 7: return "Like P2";
+		return percentAlleleMatchExpected >= thresholds.getF1Threshold();
+	}
 
-			default: return "N/A";
-		}
+	boolean isLikeP1()
+	{
+		return similarityToP1 >= 85;
+	}
+
+	boolean isLikeP2()
+	{
+		return similarityToP2 >= 85;
 	}
 
 	// We can only make decisions about lines if their parents are suitably inbred and the f1 is heterozygous
-	private boolean canDetermineLineType(double parentHetThreshold, double f1IsHetThreshold)
+	boolean canDetermineLineType()
 	{
-		boolean parent1Inbred = parent1Heterozygosity <= parentHetThreshold;
-		boolean parent2Inbred = parent2Heterozygosity <= parentHetThreshold;
-		boolean f1Het = f1Heterozygosity >= f1IsHetThreshold;
+		boolean parent1Inbred = parent1Heterozygosity <= thresholds.getParentHetThreshold();
+		boolean parent2Inbred = parent2Heterozygosity <= thresholds.getParentHetThreshold();
+		boolean f1Het = f1Heterozygosity >= thresholds.getF1isHetThreshold();
 
 		return parent1Inbred && parent2Inbred && f1Het;
 	}

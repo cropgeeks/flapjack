@@ -118,6 +118,9 @@ public class Prefs extends XMLPreferences
 	public static int pedVerF1ParentHetThreshold = 0;
 	public static int pedVerF1isHetThreshold = 0;
 
+	// PedVerF1 decision model
+	public static int pedVerDecisionModel = 0;
+
 	// Warning messages
 	public static boolean warnDuplicateMarkers = true;
 	public static boolean warnEditMarkerMode = true;

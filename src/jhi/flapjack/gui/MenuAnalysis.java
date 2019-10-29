@@ -377,6 +377,7 @@ public class MenuAnalysis
 		PedVerF1StatsSinglePanelNB ui = dialog.getSingleUI();
 		boolean[] selectedChromosomes = ui.getSelectedChromosomes();
 		PedVerF1sThresholds thresholds = ui.getThresholds();
+		int decisionModelIndex = ui.getDecisionModelIndex();
 		int p1Index = ui.getParent1();
 		int p2Index = ui.getParent2();
 		int f1Index = ui.getF1();
@@ -392,7 +393,7 @@ public class MenuAnalysis
 			RB.getString("gui.MenuAnalysis.pedVerF1s.label"),
 			Flapjack.winMain);
 
-		PedVerF1sBatchList list = new PedVerF1sBatchList();
+		PedVerF1sBatchList list = new PedVerF1sBatchList(decisionModelIndex);
 		list.add(stats.getViewSet());
 
 		// Retrieve the newly created viewSet from the analysis class and
@@ -407,6 +408,7 @@ public class MenuAnalysis
 		// Retrieve information required for analysis from dialog
 		PedVerF1StatsBatchPanelNB ui = dialog.getBatchUI();
 		PedVerF1sThresholds thresholds = ui.getThresholds();
+		int decisionModelIndex = ui.getDecisionModelIndex();
 
 		List<PedVerF1sBatchSettings> batchSettings = new ArrayList<>();
 
@@ -437,7 +439,7 @@ public class MenuAnalysis
 			RB.getString("gui.MenuAnalysis.pedVerF1s.title"),
 			RB.getString("gui.MenuAnalysis.pedVerF1s.label"), Flapjack.winMain);
 
-		PedVerF1sBatchList list = new PedVerF1sBatchList();
+		PedVerF1sBatchList list = new PedVerF1sBatchList(decisionModelIndex);
 		list.add(stats.getResultViewSets());
 
 		// Create new NavPanel components to hold the results

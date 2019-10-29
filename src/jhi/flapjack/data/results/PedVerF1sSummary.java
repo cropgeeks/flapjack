@@ -4,7 +4,9 @@
 package jhi.flapjack.data.results;
 
 import java.util.*;
+
 import jhi.flapjack.data.*;
+import static jhi.flapjack.data.results.PedVerDecisions.*;
 
 // Stores and tracks one or more runs/views associated with this analysis
 public class PedVerF1sSummary extends XMLRoot
@@ -20,14 +22,17 @@ public class PedVerF1sSummary extends XMLRoot
 	private Double percentDataAvg, percentHetAvg, similarityToP1Avg,
 		similarityToP2Avg, percentAlleleMatchExpectedAvg;
 
+	private PedVerDecisions decider;
+
 	public PedVerF1sSummary()
 	{
 	}
 
-	public PedVerF1sSummary(GTViewSet viewSet)
+	public PedVerF1sSummary(GTViewSet viewSet, PedVerF1sBatchList batchList)
 	{
 		this.viewSet = viewSet;
 		this.lines = viewSet.getLines();
+		this.decider = batchList.getDecisionMethod();
 
 		// Find the parents and F1
 		for (LineInfo line: lines)
@@ -123,7 +128,7 @@ public class PedVerF1sSummary extends XMLRoot
 			.filter(line -> line != parent1)
 			.filter(line -> line != parent2)
 			.filter(line -> line != expF1)
-			.filter(line -> line.getResults().getPedVerF1sResult().getDecision() == PedVerF1sResult.TRUE_F1)
+			.filter(line -> decider.getDecision(line.getResults().getPedVerF1sResult()) == TRUE_F1)
 			.count() / (float) familySize) * 100;
 	}
 
@@ -133,7 +138,7 @@ public class PedVerF1sSummary extends XMLRoot
 			.filter(line -> line != parent1)
 			.filter(line -> line != parent2)
 			.filter(line -> line != expF1)
-			.filter(line -> line.getResults().getPedVerF1sResult().getDecision() == PedVerF1sResult.UNDECIDED_HYBRID)
+			.filter(line -> decider.getDecision(line.getResults().getPedVerF1sResult()) == UNDECIDED_HYBRID)
 			.count() / (float) familySize) * 100;
 	}
 
@@ -143,7 +148,7 @@ public class PedVerF1sSummary extends XMLRoot
 			.filter(line -> line != parent1)
 			.filter(line -> line != parent2)
 			.filter(line -> line != expF1)
-			.filter(line -> line.getResults().getPedVerF1sResult().getDecision() == PedVerF1sResult.UNDECIDED_INBRED)
+			.filter(line -> decider.getDecision(line.getResults().getPedVerF1sResult()) == UNDECIDED_INBRED)
 			.count() / (float) familySize) * 100;
 	}
 
@@ -153,7 +158,7 @@ public class PedVerF1sSummary extends XMLRoot
 			.filter(line -> line != parent1)
 			.filter(line -> line != parent2)
 			.filter(line -> line != expF1)
-			.filter(line -> line.getResults().getPedVerF1sResult().getDecision() == PedVerF1sResult.NO_DECISION)
+			.filter(line -> decider.getDecision(line.getResults().getPedVerF1sResult()) == NO_DECISION)
 			.count() / (float) familySize) * 100;
 	}
 
@@ -163,7 +168,7 @@ public class PedVerF1sSummary extends XMLRoot
 			.filter(line -> line != parent1)
 			.filter(line -> line != parent2)
 			.filter(line -> line != expF1)
-			.filter(line -> line.getResults().getPedVerF1sResult().getDecision() == PedVerF1sResult.LIKE_P1)
+			.filter(line -> decider.getDecision(line.getResults().getPedVerF1sResult()) == LIKE_P1)
 			.count() / (float) familySize) * 100;
 	}
 
@@ -173,7 +178,7 @@ public class PedVerF1sSummary extends XMLRoot
 			.filter(line -> line != parent1)
 			.filter(line -> line != parent2)
 			.filter(line -> line != expF1)
-			.filter(line -> line.getResults().getPedVerF1sResult().getDecision() == PedVerF1sResult.LIKE_P2)
+			.filter(line -> decider.getDecision(line.getResults().getPedVerF1sResult()) == LIKE_P2)
 			.count() / (float) familySize) * 100;
 	}
 

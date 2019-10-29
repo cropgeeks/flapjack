@@ -23,41 +23,12 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="dialogPanel1" alignment="0" max="32767" attributes="0"/>
-          <Group type="102" alignment="0" attributes="0">
+          <Component id="dialogPanel1" alignment="0" pref="504" max="32767" attributes="0"/>
+          <Group type="102" alignment="1" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="lblPercHet" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Component id="lblPercF1" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Component id="lblPercError" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Component id="lblPercParentHet" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Component id="lblPercF1Het" alignment="0" min="-2" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="sliderPercHet" pref="234" max="32767" attributes="0"/>
-                          <Component id="sliderPercError" max="32767" attributes="0"/>
-                          <Component id="sliderPercF1" alignment="1" max="32767" attributes="0"/>
-                      </Group>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="percHetSpinner" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="percF1Spinner" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="percErrorSpinner" alignment="1" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                  </Group>
-                  <Group type="102" attributes="0">
-                      <Component id="sliderPercF1Het" max="32767" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="percF1HetSpinner" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <Component id="sliderPercParentHet" max="32767" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="percParentalHetSpinner" min="-2" max="-2" attributes="0"/>
-                  </Group>
+              <Group type="103" groupAlignment="1" attributes="0">
+                  <Component id="decisionPanel" max="32767" attributes="0"/>
+                  <Component id="thresholdPanel" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -67,36 +38,10 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="2" attributes="0">
-                  <Component id="lblPercParentHet" alignment="2" min="-2" max="-2" attributes="0"/>
-                  <Component id="sliderPercParentHet" alignment="2" min="-2" max="-2" attributes="0"/>
-                  <Component id="percParentalHetSpinner" alignment="2" min="-2" max="-2" attributes="0"/>
-              </Group>
+              <Component id="thresholdPanel" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="2" attributes="0">
-                  <Component id="lblPercF1Het" alignment="2" min="-2" max="-2" attributes="0"/>
-                  <Component id="sliderPercF1Het" alignment="2" min="-2" max="-2" attributes="0"/>
-                  <Component id="percF1HetSpinner" alignment="2" min="-2" max="-2" attributes="0"/>
-              </Group>
+              <Component id="decisionPanel" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="2" attributes="0">
-                  <Component id="lblPercHet" alignment="2" min="-2" max="-2" attributes="0"/>
-                  <Component id="sliderPercHet" alignment="2" min="-2" max="-2" attributes="0"/>
-                  <Component id="percHetSpinner" alignment="2" min="-2" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="2" attributes="0">
-                  <Component id="lblPercError" alignment="2" min="-2" max="-2" attributes="0"/>
-                  <Component id="sliderPercError" alignment="2" min="-2" max="-2" attributes="0"/>
-                  <Component id="percErrorSpinner" alignment="2" min="-2" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="2" attributes="0">
-                  <Component id="lblPercF1" alignment="2" min="-2" max="-2" attributes="0"/>
-                  <Component id="sliderPercF1" alignment="2" min="-2" max="-2" attributes="0"/>
-                  <Component id="percF1Spinner" alignment="2" min="-2" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace max="32767" attributes="0"/>
               <Component id="dialogPanel1" min="-2" pref="46" max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -115,11 +60,6 @@
             <Property name="text" type="java.lang.String" value="OK"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="bCancel">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Cancel"/>
-          </Properties>
-        </Component>
         <Component class="javax.swing.JButton" name="bHelp">
           <Properties>
             <Property name="text" type="java.lang.String" value="Help"/>
@@ -127,65 +67,209 @@
         </Component>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JLabel" name="lblPercParentHet">
+    <Container class="javax.swing.JPanel" name="thresholdPanel">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Percent Parental Heterozygosity:"/>
+        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+          <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
+            <TitledBorder title="Threshold settings:"/>
+          </Border>
+        </Property>
       </Properties>
-    </Component>
-    <Component class="javax.swing.JSlider" name="sliderPercParentHet">
-      <AuxValues>
-        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
-      </AuxValues>
-    </Component>
-    <Component class="javax.swing.JSpinner" name="percParentalHetSpinner">
-    </Component>
-    <Component class="javax.swing.JSpinner" name="percF1HetSpinner">
-    </Component>
-    <Component class="javax.swing.JSlider" name="sliderPercF1Het">
-      <AuxValues>
-        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
-      </AuxValues>
-    </Component>
-    <Component class="javax.swing.JLabel" name="lblPercF1Het">
+
+      <Layout>
+        <DimensionLayout dim="0">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" attributes="0">
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="lblPercHet" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblPercF1" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblPercError" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblPercParentHet" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblPercF1Het" alignment="0" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="sliderPercHet" pref="175" max="32767" attributes="0"/>
+                              <Component id="sliderPercError" pref="175" max="32767" attributes="0"/>
+                              <Component id="sliderPercF1" alignment="1" pref="175" max="32767" attributes="0"/>
+                          </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="percHetSpinner" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="percF1Spinner" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="percErrorSpinner" alignment="1" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="sliderPercF1Het" pref="175" max="32767" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="percF1HetSpinner" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="sliderPercParentHet" pref="175" max="32767" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="percParentalHetSpinner" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+                  <EmptySpace max="-2" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+        <DimensionLayout dim="1">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" attributes="0">
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="2" attributes="0">
+                      <Component id="lblPercParentHet" alignment="2" min="-2" max="-2" attributes="0"/>
+                      <Component id="sliderPercParentHet" alignment="2" min="-2" max="-2" attributes="0"/>
+                      <Component id="percParentalHetSpinner" alignment="2" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="2" attributes="0">
+                      <Component id="lblPercF1Het" alignment="2" min="-2" max="-2" attributes="0"/>
+                      <Component id="sliderPercF1Het" alignment="2" min="-2" max="-2" attributes="0"/>
+                      <Component id="percF1HetSpinner" alignment="2" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="2" attributes="0">
+                      <Component id="lblPercHet" alignment="2" min="-2" max="-2" attributes="0"/>
+                      <Component id="sliderPercHet" alignment="2" min="-2" max="-2" attributes="0"/>
+                      <Component id="percHetSpinner" alignment="2" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="2" attributes="0">
+                      <Component id="lblPercError" alignment="2" min="-2" max="-2" attributes="0"/>
+                      <Component id="sliderPercError" alignment="2" min="-2" max="-2" attributes="0"/>
+                      <Component id="percErrorSpinner" alignment="2" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="2" attributes="0">
+                      <Component id="lblPercF1" alignment="2" min="-2" max="-2" attributes="0"/>
+                      <Component id="sliderPercF1" alignment="2" min="-2" max="-2" attributes="0"/>
+                      <Component id="percF1Spinner" alignment="2" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="-2" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+      </Layout>
+      <SubComponents>
+        <Component class="javax.swing.JSlider" name="sliderPercF1Het">
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
+          </AuxValues>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lblPercError">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Percent Error Rate:"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JSlider" name="sliderPercError">
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
+          </AuxValues>
+        </Component>
+        <Component class="javax.swing.JSlider" name="sliderPercParentHet">
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
+          </AuxValues>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lblPercParentHet">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Percent Parental Heterozygosity (&lt;=):"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JSpinner" name="percHetSpinner">
+        </Component>
+        <Component class="javax.swing.JSlider" name="sliderPercHet">
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
+          </AuxValues>
+        </Component>
+        <Component class="javax.swing.JSpinner" name="percF1HetSpinner">
+        </Component>
+        <Component class="javax.swing.JSpinner" name="percParentalHetSpinner">
+        </Component>
+        <Component class="javax.swing.JLabel" name="lblPercF1">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Percent Match to F1 (&gt;=):"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lblPercHet">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Percent Heterozygosity (&gt;=):"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JSlider" name="sliderPercF1">
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
+          </AuxValues>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lblPercF1Het">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Percent F1 Heterozygosity (&gt;=):"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JSpinner" name="percF1Spinner">
+        </Component>
+        <Component class="javax.swing.JSpinner" name="percErrorSpinner">
+        </Component>
+      </SubComponents>
+    </Container>
+    <Container class="javax.swing.JPanel" name="decisionPanel">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Percent F1 Heterozygosity:"/>
+        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+          <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
+            <TitledBorder title="Decision model:"/>
+          </Border>
+        </Property>
       </Properties>
-    </Component>
-    <Component class="javax.swing.JLabel" name="lblPercHet">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Percent Heterozygosity:"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JSlider" name="sliderPercHet">
-      <AuxValues>
-        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
-      </AuxValues>
-    </Component>
-    <Component class="javax.swing.JSpinner" name="percHetSpinner">
-    </Component>
-    <Component class="javax.swing.JSpinner" name="percErrorSpinner">
-    </Component>
-    <Component class="javax.swing.JLabel" name="lblPercError">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Percent Error Rate:"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JLabel" name="lblPercF1">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Percent Match to F1:"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JSlider" name="sliderPercError">
-      <AuxValues>
-        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
-      </AuxValues>
-    </Component>
-    <Component class="javax.swing.JSlider" name="sliderPercF1">
-      <AuxValues>
-        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
-      </AuxValues>
-    </Component>
-    <Component class="javax.swing.JSpinner" name="percF1Spinner">
-    </Component>
+
+      <Layout>
+        <DimensionLayout dim="0">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" alignment="0" attributes="0">
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="lblDecisionModel" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="decisionModelCombo" max="32767" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+        <DimensionLayout dim="1">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" alignment="0" attributes="0">
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="lblDecisionModel" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="decisionModelCombo" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="32767" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+      </Layout>
+      <SubComponents>
+        <Component class="javax.swing.JLabel" name="lblDecisionModel">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="F1 decision model:"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JComboBox" name="decisionModelCombo">
+          <Properties>
+            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+              <StringArray count="0"/>
+            </Property>
+          </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+          </AuxValues>
+        </Component>
+      </SubComponents>
+    </Container>
   </SubComponents>
 </Form>

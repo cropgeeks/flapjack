@@ -128,6 +128,11 @@ public class PedVerF1StatsSinglePanelNB extends JPanel
 	public PedVerF1sThresholds getThresholds()
 		{ return thresholdDialog.getThresholds(); }
 
+	public int getDecisionModelIndex()
+	{
+		return thresholdDialog.getDecisionModelIndex();
+	}
+
 	/**
 	 * This method is called from within the constructor to initialize the form.
 	 * WARNING: Do NOT modify this code. The content of this method is always

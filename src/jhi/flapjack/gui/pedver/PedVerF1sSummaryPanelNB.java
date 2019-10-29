@@ -21,8 +21,9 @@ class PedVerF1sSummaryPanelNB extends JPanel
 		// summary information. This'll create a new list of size one.
 		if (viewSet._getPedVerF1sBatchList() == null)
 		{
-			// Creating dummy view
-			PedVerF1sBatchList list = new PedVerF1sBatchList();
+			// TODO: Should we use the Pref for the decision model instead?
+			// Creating dummy view with the decision model set to simple
+			PedVerF1sBatchList list = new PedVerF1sBatchList(0);
 			list.add(viewSet);
 		}
 
