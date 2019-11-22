@@ -29,16 +29,6 @@ public class PedVerF1sTableModel extends LineDataTableModel
 	private static final int sortIndex = 12;
 	private static final int decisionIndex = 13;
 
-	private Color parent1Color = new Color(50,136,189);
-	private Color parent2Color = new Color(102,194,165);
-	private Color expectedF1Color = new Color(230,245,152);
-	private Color trueF1Color = new Color(171,221,164);
-	private Color undecidedHybridColor = new Color(255,255,191);
-	private Color undecidedInbredColor = new Color(254,224,139);
-	private Color likeP1Color = new Color(253,174,97);
-	private Color likeP2Color = new Color(244,109,67);
-	private Color noDecisionColor = new Color(188,86,90);
-
 	private GTViewSet viewSet;
 
 	public PedVerF1sTableModel(GTViewSet viewSet)
