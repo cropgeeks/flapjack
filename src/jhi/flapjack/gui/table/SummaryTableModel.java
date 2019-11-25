@@ -9,7 +9,7 @@ import javax.swing.table.*;
 
 import scri.commons.gui.*;
 
-public abstract class AnalysisSummaryTableModel extends AbstractTableModel
+public abstract class SummaryTableModel extends AbstractTableModel
 {
 	protected String[] columnNames, ttNames;
 

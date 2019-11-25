@@ -12,12 +12,12 @@ import jhi.flapjack.gui.pedver.*;
 
 import scri.commons.gui.*;
 
-public class AnalysisSummaryTable extends JTable
+public class SummaryTable extends JTable
 {
-	public AnalysisSummaryTable()
+	public SummaryTable()
 	{
 		setDefaultRenderer(Double.class,
-			new AnalysisSummaryTableModel.DoubleNumRenderer());
+			new SummaryTableModel.DoubleNumRenderer());
 		setDefaultRenderer(Integer.class,
 			new NumberFormatCellRenderer());
 

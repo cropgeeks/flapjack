@@ -13,7 +13,7 @@ import scri.commons.gui.*;
 
 class PedVerF1sSummaryPanelNB extends JPanel
 {
-	private PedVerF1sAnalysisSummaryTableModel model;
+	private PedVerF1sSummaryTableModel model;
 
 	PedVerF1sSummaryPanelNB(PedVerF1sPanel panel, GTViewSet viewSet)
 	{
@@ -36,7 +36,7 @@ class PedVerF1sSummaryPanelNB extends JPanel
 
 		/////////////
 
-		model = new PedVerF1sAnalysisSummaryTableModel(viewSet._getPedVerF1sBatchList());
+		model = new PedVerF1sSummaryTableModel(viewSet._getPedVerF1sBatchList());
 		table.setModel(model);
 	}
 
@@ -51,7 +51,7 @@ class PedVerF1sSummaryPanelNB extends JPanel
     {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        table = new AnalysisSummaryTable();
+        table = new SummaryTable();
         bExport = new scri.commons.gui.matisse.MenuButton();
         autoResize = new javax.swing.JCheckBox();
 

@@ -6,11 +6,11 @@ package jhi.flapjack.gui.pedver;
 import jhi.flapjack.data.results.*;
 import jhi.flapjack.gui.table.*;
 
-public class PedVerF1sAnalysisSummaryTableModel extends AnalysisSummaryTableModel
+public class PedVerF1sSummaryTableModel extends SummaryTableModel
 {
 	private PedVerF1sBatchList batchList;
 
-	public PedVerF1sAnalysisSummaryTableModel(PedVerF1sBatchList batchList)
+	public PedVerF1sSummaryTableModel(PedVerF1sBatchList batchList)
 	{
 		this.batchList = batchList;
 
