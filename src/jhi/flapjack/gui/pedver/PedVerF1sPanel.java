@@ -16,7 +16,7 @@ import scri.commons.gui.Icons;
 
 public class PedVerF1sPanel extends JPanel implements ActionListener, ListSelectionListener, ITableViewListener, TableModelListener
 {
-	JTabbedPane tabs;
+	public JTabbedPane tabs;
 
 	private LineDataTable table;
 	private PedVerF1sTableModel model;

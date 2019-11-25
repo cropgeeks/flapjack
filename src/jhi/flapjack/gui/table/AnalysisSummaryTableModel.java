@@ -1,7 +1,7 @@
 // Copyright 2009-2019 Information & Computational Sciences, JHI. All rights
 // reserved. Use is subject to the accompanying licence terms.
 
-package jhi.flapjack.gui.pedver;
+package jhi.flapjack.gui.table;
 
 import java.awt.*;
 import javax.swing.*;
@@ -17,7 +17,7 @@ public class AnalysisSummaryTableModel extends AbstractTableModel
 
 	protected String[] columnNames, ttNames;
 
-	AnalysisSummaryTableModel(PedVerF1sBatchList batchList)
+	public AnalysisSummaryTableModel(PedVerF1sBatchList batchList)
 	{
 		this.batchList = batchList;
 
