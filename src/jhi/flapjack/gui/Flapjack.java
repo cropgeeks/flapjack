@@ -76,6 +76,8 @@ public class Flapjack implements OpenFilesHandler
 		{
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 
+			UIManager.put("Table.selectionBackground", ((Color)UIManager.get("Table.background")).darker());
+
 			// The default font size is usually stupidly large
 			UIManager.put("TextArea.font", UIManager.get("TextField.font"));
 			// I don't like focus highlights on tabs (interferes with icons)
