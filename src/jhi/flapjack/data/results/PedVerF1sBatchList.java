@@ -11,8 +11,6 @@ import jhi.flapjack.data.*;
 // Stores and tracks one or more runs/views associated with this analysis
 public class PedVerF1sBatchList extends XMLRoot
 {
-	public String info = "Batch run: " + new Date();
-
 	private ArrayList<PedVerF1sSummary> summaries = new ArrayList<>();
 
 	private PedVerDecisions decisionMethod;

@@ -302,6 +302,9 @@ public class MenuAnalysis
 			RB.getString("gui.MenuAnalysis.mabc.title"),
 			RB.getString("gui.MenuAnalysis.mabc.label"), Flapjack.winMain);
 
+		MabcBatchList list = new MabcBatchList();
+		list.add(stats.getViewSet());
+
 		// Create new NavPanel components to hold the results
 		navPanel.addVisualizationNode(dataSet, stats.getViewSet());
 
@@ -342,6 +345,9 @@ public class MenuAnalysis
 		ProgressDialog pDialog = new ProgressDialog(stats,
 			RB.getString("gui.MenuAnalysis.mabc.title"),
 			RB.getString("gui.MenuAnalysis.mabc.label"), Flapjack.winMain);
+
+		MabcBatchList list = new MabcBatchList();
+		list.add(stats.getResultViewSets());
 
 		// Create new NavPanel components to hold the results
 		for (GTViewSet viewSet: stats.getResultViewSets())
@@ -487,6 +493,9 @@ public class MenuAnalysis
 			"Running PedVer stats - please be patient...",
 			Flapjack.winMain);
 
+		PedVerLinesBatchList list = new PedVerLinesBatchList();
+		list.add(stats.getViewSet());
+
 		navPanel.addVisualizationNode(dataSet, stats.getViewSet());
 
 		Actions.projectModified();
@@ -505,6 +514,9 @@ public class MenuAnalysis
 			"Running PedVer Stats",
 			"Running PedVer stats - please be patient...",
 			Flapjack.winMain);
+
+		PedVerLinesBatchList list = new PedVerLinesBatchList();
+		list.add(stats.getResultViewSets());
 
 		// Create new NavPanel components to hold the results
 		for (GTViewSet viewSet: stats.getResultViewSets())
@@ -546,6 +558,9 @@ public class MenuAnalysis
 			"Running Forward Breeding stats - please be patient...",
 			Flapjack.winMain);
 
+		ForwardBreedingBatchList list = new ForwardBreedingBatchList();
+		list.add(stats.getViewSet());
+
 		navPanel.addVisualizationNode(dataSet, stats.getViewSet());
 
 		Actions.projectModified();
@@ -564,6 +579,9 @@ public class MenuAnalysis
 			"Running Forward Breeding Stats",
 			"Running Forward Breeding stats - please be patient...",
 			Flapjack.winMain);
+
+		ForwardBreedingBatchList list = new ForwardBreedingBatchList();
+		list.add(stats.getResultViewSets());
 
 		// Create new NavPanel components to hold the results
 		for (GTViewSet viewSet: stats.getResultViewSets())

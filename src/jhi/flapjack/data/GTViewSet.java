@@ -70,7 +70,10 @@ public class GTViewSet extends XMLRoot
 
 	private UndoManager undoManager = new UndoManager();
 	private LinkedTableHandler tableHandler = new LinkedTableHandler(this);
+	private MabcBatchList mabcBatchList;
 	private PedVerF1sBatchList pedVerF1sBatchList;
+	private PedVerLinesBatchList pedVerLinesBatchList;
+	private ForwardBreedingBatchList forwardBreedingBatchList;
 
 	public GTViewSet()
 	{
@@ -310,12 +313,31 @@ public class GTViewSet extends XMLRoot
 	public void setTableHandler(LinkedTableHandler tableHandler)
 		{ this.tableHandler = tableHandler; }
 
+	public MabcBatchList _getMabcBatchList()
+		{ return mabcBatchList; }
+
+	public void _setMabcBatchList(MabcBatchList mabcBatchList)
+		{ this.mabcBatchList = mabcBatchList; }
+
 	public PedVerF1sBatchList _getPedVerF1sBatchList()
 		{ return pedVerF1sBatchList; }
 
 	public void _setPedVerF1sBatchList(PedVerF1sBatchList pedVerF1sBatchList)
 		{ this.pedVerF1sBatchList = pedVerF1sBatchList; }
-	
+
+	public PedVerLinesBatchList _getPedVerLinesBatchList()
+		{ return pedVerLinesBatchList; }
+
+	public void _setPedVerLinesBatchList(PedVerLinesBatchList pedVerLinesBatchList)
+		{ this.pedVerLinesBatchList = pedVerLinesBatchList; }
+
+	public ForwardBreedingBatchList _getForwardBreedingBatchList()
+		{ return forwardBreedingBatchList; }
+
+	public void _setForwardBreedingBatchList(ForwardBreedingBatchList forwardBreedingBatchList)
+		{ this.forwardBreedingBatchList = forwardBreedingBatchList; }
+
+
 
 	// Transient (non marshalled) methods
 

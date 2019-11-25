@@ -8,7 +8,6 @@ import java.util.*;
 import jhi.flapjack.data.*;
 import static jhi.flapjack.data.results.PedVerDecisions.*;
 
-// Stores and tracks one or more runs/views associated with this analysis
 public class PedVerF1sSummary extends XMLRoot
 {
 	private GTViewSet viewSet;
