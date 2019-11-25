@@ -13,7 +13,7 @@ import scri.commons.gui.*;
 
 class PedVerF1sSummaryPanelNB extends JPanel
 {
-	private AnalysisSummaryTableModel model;
+	private PedVerF1sAnalysisSummaryTableModel model;
 
 	PedVerF1sSummaryPanelNB(PedVerF1sPanel panel, GTViewSet viewSet)
 	{
@@ -36,7 +36,7 @@ class PedVerF1sSummaryPanelNB extends JPanel
 
 		/////////////
 
-		model = new AnalysisSummaryTableModel(viewSet._getPedVerF1sBatchList());
+		model = new PedVerF1sAnalysisSummaryTableModel(viewSet._getPedVerF1sBatchList());
 		table.setModel(model);
 	}
 

@@ -34,7 +34,7 @@ public class AnalysisSummaryTable extends JTable
 
 	private void jumpToRow(int modelRow)
 	{
-		AnalysisSummaryTableModel model = (AnalysisSummaryTableModel) getModel();
+/*		AnalysisSummaryTableModel model = (AnalysisSummaryTableModel) getModel();
 
 		PedVerF1sBatchList list = model.getBatchList();
 		PedVerF1sSummary summary = list.getSummary(modelRow);
@@ -43,5 +43,6 @@ public class AnalysisSummaryTable extends JTable
 		PedVerF1sPanel panel = (PedVerF1sPanel) Flapjack.winMain.getNavPanel().selectPedVerLinesNode(summary.getViewSet());
 		// Tell the panel we want to show the first tab
 		panel.tabs.setSelectedIndex(0);
+*/
 	}
 }
