@@ -16,6 +16,8 @@ import scri.commons.gui.*;
 
 public class MabcPanel extends JPanel implements ActionListener, ListSelectionListener, ITableViewListener, TableModelListener
 {
+	public JTabbedPane tabs;
+
 	private LineDataTable table;
 	private MabcTableModel model;
 	private GTViewSet viewSet;
@@ -23,6 +25,7 @@ public class MabcPanel extends JPanel implements ActionListener, ListSelectionLi
 	private LinkedTableHandler tableHandler;
 
 	private MabcPanelNB controls;
+	private MabcSummaryPanelNB summaryControls;
 
 	// Variables used to 'remember' what the user picked last time they
 	// auto-selected or ranked lines
@@ -31,6 +34,7 @@ public class MabcPanel extends JPanel implements ActionListener, ListSelectionLi
 	public MabcPanel(GTViewSet viewSet)
 	{
 		controls = new MabcPanelNB(this);
+		summaryControls = new MabcSummaryPanelNB(this, viewSet);
 		this.viewSet = viewSet;
 
 		table = (LineDataTable) controls.table;
@@ -39,7 +43,11 @@ public class MabcPanel extends JPanel implements ActionListener, ListSelectionLi
 
 		setLayout(new BorderLayout());
 		add(new TitlePanel(RB.getString("gui.mabc.MabcPanel.title")), BorderLayout.NORTH);
-		add(controls);
+
+		tabs = new JTabbedPane();
+		tabs.add(controls, "Analysis Results");
+		tabs.add(summaryControls, "Results Summary");
+		add(tabs);
 
 		updateModel(viewSet);
 

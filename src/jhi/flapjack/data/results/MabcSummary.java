@@ -13,7 +13,7 @@ public class MabcSummary extends XMLRoot
 	private ArrayList<LineInfo> lines;
 
 	// TODO: These should be references in CASTOR
-	private LineInfo parent1, parent2;
+	private LineInfo dp, rp;
 	private int familySize;
 
 	// Don't save these!
@@ -34,8 +34,10 @@ public class MabcSummary extends XMLRoot
 		for (LineInfo line: lines)
 		{
 			LineResults lr =  line.getResults();
-//			if (lr.getMabcResult().
-//				parent1 = line;
+			if (lr.getMabcResult().isIsDP())
+				dp = line;
+			if (lr.getMabcResult().isIsRP())
+				rp = line;
 		}
 
 		// Remove parents from the family size
@@ -56,17 +58,17 @@ public class MabcSummary extends XMLRoot
 	public void setLines(ArrayList<LineInfo> lines)
 		{ this.lines = lines; }
 
-	public LineInfo getParent1()
-		{ return parent1; }
+	public LineInfo getDP()
+		{ return dp; }
 
-	public void setParent1(LineInfo parent1)
-		{ this.parent1 = parent1; }
+	public void setDP(LineInfo dp)
+		{ this.dp = dp; }
 
-	public LineInfo getParent2()
-		{ return parent2; }
+	public LineInfo getRP()
+		{ return rp; }
 
-	public void setParent2(LineInfo parent2)
-		{ this.parent2 = parent2; }
+	public void setRP(LineInfo rp)
+		{ this.rp = rp; }
 
 	public int getFamilySize()
 		{ return familySize; }
@@ -80,21 +82,21 @@ public class MabcSummary extends XMLRoot
 		return viewSet.getDataSet().getName() + " - " + viewSet.getName();
 	}
 
-	public String parent1()
+	public String dp()
 	{
-		return parent1.name();
+		return dp.name();
 	}
 
-	public String parent2()
+	public String rp()
 	{
-		return parent2.name();
+		return rp.name();
 	}
-	
+
 	public float proportionSelected()
 	{
 		long selectedCount = lines.stream()
-			.filter(line -> line != parent1)
-			.filter(line -> line != parent2)
+			.filter(line -> line != dp)
+			.filter(line -> line != rp)
 			.filter(LineInfo::getSelected).count();
 
 		return selectedCount / (float)familySize;

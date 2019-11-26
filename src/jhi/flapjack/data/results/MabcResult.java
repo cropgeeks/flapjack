@@ -28,6 +28,9 @@ public class MabcResult extends XMLRoot
 	private int heterozygousCount;
 	private double percentHeterozygous;
 
+	private boolean isRP;
+	private boolean isDP;
+
 	public MabcResult()
 	{
 	}
@@ -99,6 +102,19 @@ public class MabcResult extends XMLRoot
 
 	public void setPercentHeterozygous(double percentHeterozygous)
 		{ this.percentHeterozygous = percentHeterozygous; }
+
+	public boolean isIsRP()
+		{ return isRP; }
+
+	public void setIsRP(boolean isRP)
+		{ this.isRP = isRP; }
+
+	public boolean isIsDP()
+		{ return isDP; }
+
+	public void setIsDP(boolean isDP)
+		{ this.isDP = isDP; }
+	
 
 	// Other methods
 

@@ -518,6 +518,9 @@ public class MabcAnalysis extends SimpleJob
 		viewSet.getLines().get(rpIndex).getResults().setSortToTop(true);
 		viewSet.getLines().get(dpIndex).getResults().setSortToTop(true);
 
+		viewSet.getLines().get(rpIndex).getResults().getMabcResult().setIsRP(true);
+		viewSet.getLines().get(dpIndex).getResults().getMabcResult().setIsDP(true);
+
 		// Move the parent lines to the top of the display
 		LineInfo rp = viewSet.getLines().get(rpIndex);
 		LineInfo dp = viewSet.getLines().get(dpIndex);
