@@ -34,8 +34,10 @@ public class PedVerLinesSummary extends XMLRoot
 		for (LineInfo line: lines)
 		{
 			LineResults lr =  line.getResults();
-//			if (lr.getMabcResult().
-//				parent1 = line;
+			if (lr.getPedVerLinesResult().isP1())
+				parent1 = line;
+			else if (lr.getPedVerLinesResult().isP2())
+				parent2 = line;
 		}
 
 		// Remove parents from the family size

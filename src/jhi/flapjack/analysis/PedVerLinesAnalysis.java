@@ -45,8 +45,6 @@ public class PedVerLinesAnalysis extends SimpleJob
 	{
 		long s = System.currentTimeMillis();
 
-		moveParentsToTop();
-
 		as = new AnalysisSet(this.viewSet)
 			.withViews(selectedChromosomes)
 			.withSelectedLines()
@@ -82,6 +80,7 @@ public class PedVerLinesAnalysis extends SimpleJob
 			lineStat.setSimilarityToParents(similarityToParents * 100);
 		});
 
+		moveParentsToTop();
 		prepareForVisualization();
 
 		long e = System.currentTimeMillis();
@@ -96,6 +95,8 @@ public class PedVerLinesAnalysis extends SimpleJob
 		// Mark the parents lines as sortToTop special cases
 		p1.getResults().setSortToTop(true);
 		p2.getResults().setSortToTop(true);
+		p1.getResults().getPedVerLinesResult().setP1(true);
+		p2.getResults().getPedVerLinesResult().setP2(true);
 
 		// Remove them from the list
 		viewSet.getLines().remove(p1);

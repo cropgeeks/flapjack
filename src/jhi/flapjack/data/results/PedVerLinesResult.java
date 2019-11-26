@@ -14,6 +14,8 @@ public class PedVerLinesResult extends XMLRoot
 	private double similarityToP1;
 	private double similarityToP2;
 	private double similarityToParents;
+	private boolean p1;
+	private boolean p2;
 
 	// Removed but left in for compatibility with old projects
 	private double percentTotalMatch;
@@ -78,4 +80,16 @@ public class PedVerLinesResult extends XMLRoot
 
 	public void setPercentTotalMatch(double percentTotalMatch)
 	{ this.percentTotalMatch = percentTotalMatch; }
+
+	public boolean isP1()
+		{ return p1; }
+
+	public void setP1(boolean p1)
+		{ this.p1 = p1; }
+
+	public boolean isP2()
+		{ return p2; }
+
+	public void setP2(boolean p2)
+		{ this.p2 = p2; }
 }

@@ -18,12 +18,15 @@ import scri.commons.gui.*;
 
 public class PedVerLinesPanel extends JPanel implements ActionListener, ListSelectionListener, ITableViewListener, TableModelListener
 {
+	public JTabbedPane tabs;
+
 	private LineDataTable table;
 	private PedVerLinesTableModel model;
 
 	private LinkedTableHandler tableHandler;
 
 	private PedVerLinesPanelNB controls;
+	private PedVerLinesSummaryPanelNB summaryControls;
 
 	// Variables used to 'remember' what the user picked last time they
 	// auto-selected or ranked lines
@@ -32,6 +35,7 @@ public class PedVerLinesPanel extends JPanel implements ActionListener, ListSele
 	public PedVerLinesPanel(GTViewSet viewSet)
 	{
 		controls = new PedVerLinesPanelNB(this);
+		summaryControls = new PedVerLinesSummaryPanelNB(this, viewSet);
 
 		table = (LineDataTable) controls.table;
 		table.getSelectionModel().addListSelectionListener(this);
@@ -39,7 +43,11 @@ public class PedVerLinesPanel extends JPanel implements ActionListener, ListSele
 
 		setLayout(new BorderLayout());
 		add(new TitlePanel(RB.getString("gui.pedver.PedVerLinesPanel.title")), BorderLayout.NORTH);
-		add(controls);
+
+		tabs = new JTabbedPane();
+		tabs.add(controls, "Analysis Results");
+		tabs.add(summaryControls, "Results Summary");
+		add(tabs);
 
 		updateModel(viewSet);
 
