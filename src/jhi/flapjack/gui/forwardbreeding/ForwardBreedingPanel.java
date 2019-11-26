@@ -16,6 +16,8 @@ import scri.commons.gui.*;
 
 public class ForwardBreedingPanel extends JPanel implements ActionListener, ListSelectionListener, ITableViewListener, TableModelListener
 {
+	public JTabbedPane tabs;
+
 	private LineDataTable table;
 	private ForwardBreedingTableModel model;
 	private GTViewSet viewSet;
@@ -23,12 +25,14 @@ public class ForwardBreedingPanel extends JPanel implements ActionListener, List
 	private LinkedTableHandler tableHandler;
 
 	private ForwardBreedingPanelNB controls;
+	private ForwardBreedingSummaryPanelNB summaryControls;
 
 	private int rank = 1;
 
 	public ForwardBreedingPanel(GTViewSet viewSet)
 	{
 		controls = new ForwardBreedingPanelNB(this);
+		summaryControls = new ForwardBreedingSummaryPanelNB(this, viewSet);
 		this.viewSet = viewSet;
 
 		table = (LineDataTable) controls.table;
@@ -37,7 +41,11 @@ public class ForwardBreedingPanel extends JPanel implements ActionListener, List
 
 		setLayout(new BorderLayout());
 		add(new TitlePanel(RB.getString("gui.forwardbreeding.ForwardBreedingPanel.title")), BorderLayout.NORTH);
-		add(controls);
+
+		tabs = new JTabbedPane();
+		tabs.add(controls, "Analysis Results");
+		tabs.add(summaryControls, "Results Summary");
+		add(tabs);
 
 		updateModel(viewSet);
 
