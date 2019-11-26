@@ -3,12 +3,12 @@
 
 package jhi.flapjack.io.cmd;
 
+import jhi.flapjack.gui.pedver.f1s.PedVerF1sTableModel;
 import java.io.*;
 import java.util.*;
 
 import jhi.flapjack.analysis.*;
 import jhi.flapjack.data.*;
-import jhi.flapjack.gui.pedver.*;
 import jhi.flapjack.gui.table.*;
 
 import org.apache.commons.cli.*;

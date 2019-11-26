@@ -1,45 +1,51 @@
 // Copyright 2009-2019 Information & Computational Sciences, JHI. All rights
 // reserved. Use is subject to the accompanying licence terms.
 
-package jhi.flapjack.gui.pedver;
+package jhi.flapjack.gui.pedver.f1s;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.text.*;
 import javax.swing.*;
 import javax.swing.event.*;
 
 import jhi.flapjack.data.*;
-import jhi.flapjack.data.results.*;
 import jhi.flapjack.gui.*;
 import jhi.flapjack.gui.table.*;
 
-import scri.commons.gui.*;
+import scri.commons.gui.Icons;
 
-public class PedVerLinesPanel extends JPanel implements ActionListener, ListSelectionListener, ITableViewListener, TableModelListener
+public class PedVerF1sPanel extends JPanel implements ActionListener, ListSelectionListener, ITableViewListener, TableModelListener
 {
+	public JTabbedPane tabs;
+
 	private LineDataTable table;
-	private PedVerLinesTableModel model;
+	private PedVerF1sTableModel model;
 
 	private LinkedTableHandler tableHandler;
 
-	private PedVerLinesPanelNB controls;
+	private PedVerF1sPanelNB controls;
+	private PedVerF1sSummaryPanelNB summaryControls;
 
 	// Variables used to 'remember' what the user picked last time they
 	// auto-selected or ranked lines
 	private int rank = 1;
 
-	public PedVerLinesPanel(GTViewSet viewSet)
+	public PedVerF1sPanel(GTViewSet viewSet)
 	{
-		controls = new PedVerLinesPanelNB(this);
+		controls = new PedVerF1sPanelNB(this);
+		summaryControls = new PedVerF1sSummaryPanelNB(this, viewSet);
 
 		table = (LineDataTable) controls.table;
 		table.getSelectionModel().addListSelectionListener(this);
 		table.addViewListener(this);
 
 		setLayout(new BorderLayout());
-		add(new TitlePanel(RB.getString("gui.pedver.PedVerLinesPanel.title")), BorderLayout.NORTH);
-		add(controls);
+		add(new TitlePanel("Pedigree Verification of F1s (Known Parents)"), BorderLayout.NORTH);
+
+		tabs = new JTabbedPane();
+		tabs.add(controls, "Analysis Results");
+		tabs.add(summaryControls, "Results Summary");
+		add(tabs);
 
 		updateModel(viewSet);
 
@@ -54,13 +60,14 @@ public class PedVerLinesPanel extends JPanel implements ActionListener, ListSele
 
 		tableHandler = viewSet.tableHandler();
 		tableHandler.linkTable(table, model);
+		table.setColorCells(true);
 
 		controls.autoResize.setSelected(tableHandler.isAutoResize());
 	}
 
-	public void updateModel(GTViewSet viewSet)
+	private void updateModel(GTViewSet viewSet)
 	{
-		model = new PedVerLinesTableModel(viewSet);
+		model = new PedVerF1sTableModel(viewSet);
 		model.addTableModelListener(this);
 
 		table.setModel(model);
@@ -78,10 +85,13 @@ public class PedVerLinesPanel extends JPanel implements ActionListener, ListSele
 			table.exportData();
 
 		else if (e.getSource() == controls.bRank)
-			table.rankSelectedLines(rank, model.getRankIndex());
+			rank = table.rankSelectedLines(rank, model.getRankIndex());
 
 		else if (e.getSource() == controls.autoResize)
 			table.autoResize(controls.autoResize.isSelected(), false);
+
+		else if (e.getSource() == controls.bThreshold)
+			table.thresholdDialog();
 	}
 
 	@Override

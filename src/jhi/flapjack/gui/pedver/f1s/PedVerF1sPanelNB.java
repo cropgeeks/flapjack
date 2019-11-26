@@ -1,7 +1,7 @@
 // Copyright 2009-2019 Information & Computational Sciences, JHI. All rights
 // reserved. Use is subject to the accompanying licence terms.
 
-package jhi.flapjack.gui.pedver;
+package jhi.flapjack.gui.pedver.f1s;
 
 import javax.swing.*;
 
@@ -9,9 +9,9 @@ import jhi.flapjack.gui.table.*;
 
 import scri.commons.gui.*;
 
-class PedVerLinesPanelNB extends JPanel
+class PedVerF1sPanelNB extends JPanel
 {
-	PedVerLinesPanelNB(PedVerLinesPanel panel)
+	PedVerF1sPanelNB(PedVerF1sPanel panel)
 	{
 		initComponents();
 
@@ -26,9 +26,12 @@ class PedVerLinesPanelNB extends JPanel
 
 		bSelect.setPopup(((LineDataTable)table).getMenu().getSelectMenu());
 		bSelect.setIcon(Icons.getIcon("AUTOSELECT"));
-        
+
         bRank.addActionListener(panel);
 		bRank.setIcon(Icons.getIcon("RANK"));
+
+		bThreshold.addActionListener(panel);
+		bThreshold.setIcon(Icons.getIcon("THRESHOLD"));
 
 		autoResize.addActionListener(panel);
 	}
@@ -40,7 +43,8 @@ class PedVerLinesPanelNB extends JPanel
 	 */
 	@SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+    private void initComponents()
+    {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         table = new LineDataTable();
@@ -48,17 +52,20 @@ class PedVerLinesPanelNB extends JPanel
         bExport = new scri.commons.gui.matisse.MenuButton();
         jLabel1 = new javax.swing.JLabel();
         autoResize = new javax.swing.JCheckBox();
-        jLabel2 = new javax.swing.JLabel();
         filterLabel = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
         bFilter = new scri.commons.gui.matisse.MenuButton();
         bSelect = new scri.commons.gui.matisse.MenuButton();
         bRank = new javax.swing.JButton();
+        bThreshold = new scri.commons.gui.matisse.MenuButton();
 
         table.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
+            new Object [][]
+            {
 
             },
-            new String [] {
+            new String []
+            {
 
             }
         ));
@@ -66,24 +73,27 @@ class PedVerLinesPanelNB extends JPanel
 
         bSort.setText("Sort...");
 
-        bExport.setText("Export...");
+        bExport.setText("Export");
+        bExport.setActionCommand("Export...");
 
         jLabel1.setText("|");
 
         autoResize.setSelected(true);
-        autoResize.setOpaque(false);
         autoResize.setText("Auto-fit columns");
-
-        jLabel2.setText("|");
+        autoResize.setOpaque(false);
 
         filterLabel.setText("Lines visible:");
+
+        jLabel2.setText("|");
 
         bFilter.setText("Filter");
 
         bSelect.setText("Select");
 
-        bRank.setEnabled(false);
         bRank.setText("Rank...");
+        bRank.setEnabled(false);
+
+        bThreshold.setText("Threshold");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -97,6 +107,8 @@ class PedVerLinesPanelNB extends JPanel
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(filterLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(bThreshold, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(bSelect, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(bRank)
@@ -109,25 +121,24 @@ class PedVerLinesPanelNB extends JPanel
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(bExport, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 641, Short.MAX_VALUE)
+            .addComponent(jScrollPane1)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 27, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel1)
-                        .addComponent(autoResize)
-                        .addComponent(jLabel2)
-                        .addComponent(filterLabel)
-                        .addComponent(bSelect, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(bRank))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(bSort)
-                        .addComponent(bExport, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(bFilter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(bSort)
+                    .addComponent(bExport, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1)
+                    .addComponent(autoResize)
+                    .addComponent(filterLabel)
+                    .addComponent(jLabel2)
+                    .addComponent(bFilter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bSelect, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bRank)
+                    .addComponent(bThreshold, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -140,6 +151,7 @@ class PedVerLinesPanelNB extends JPanel
     javax.swing.JButton bRank;
     scri.commons.gui.matisse.MenuButton bSelect;
     javax.swing.JButton bSort;
+    scri.commons.gui.matisse.MenuButton bThreshold;
     javax.swing.JLabel filterLabel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

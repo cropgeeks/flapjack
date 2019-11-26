@@ -6,7 +6,6 @@ package jhi.flapjack.io.cmd;
 import jhi.flapjack.analysis.*;
 import jhi.flapjack.data.*;
 import jhi.flapjack.gui.forwardbreeding.*;
-import jhi.flapjack.gui.pedver.*;
 import jhi.flapjack.gui.table.*;
 import org.apache.commons.cli.*;
 import scri.commons.gui.*;

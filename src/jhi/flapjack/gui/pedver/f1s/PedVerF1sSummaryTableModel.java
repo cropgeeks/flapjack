@@ -1,7 +1,7 @@
 // Copyright 2009-2019 Information & Computational Sciences, JHI. All rights
 // reserved. Use is subject to the accompanying licence terms.
 
-package jhi.flapjack.gui.pedver;
+package jhi.flapjack.gui.pedver.f1s;
 
 import jhi.flapjack.data.results.*;
 import jhi.flapjack.gui.table.*;

@@ -8,7 +8,6 @@ import javax.swing.*;
 
 import jhi.flapjack.data.results.*;
 import jhi.flapjack.gui.*;
-import jhi.flapjack.gui.pedver.*;
 
 import scri.commons.gui.*;
 

@@ -3,11 +3,11 @@
 
 package jhi.flapjack.gui.navpanel;
 
+import jhi.flapjack.gui.pedver.f1s.PedVerF1sPanel;
 import javax.swing.*;
 
 import jhi.flapjack.data.*;
 import jhi.flapjack.gui.*;
-import jhi.flapjack.gui.pedver.*;
 import jhi.flapjack.gui.visualization.*;
 
 public class PedVerF1sNode extends VisualizationChildNode
