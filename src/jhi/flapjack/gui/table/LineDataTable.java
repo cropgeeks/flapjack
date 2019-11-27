@@ -114,7 +114,6 @@ public class LineDataTable extends JTable
 				if (index >= 0 && index < columnModel.getColumnCount())
 				{
 					int realIndex = columnModel.getColumn(index).getModelIndex();
-					String tt = getModel().getColumnName(realIndex);
 					return ((LineDataTableModel)getModel()).getToolTip(realIndex);
 				}
 				else
