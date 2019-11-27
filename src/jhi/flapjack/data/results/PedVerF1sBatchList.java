@@ -13,11 +13,37 @@ public class PedVerF1sBatchList extends XMLRoot
 {
 	private ArrayList<PedVerF1sSummary> summaries = new ArrayList<>();
 
+	// Tracks whether the table showing these results should autoresize
+	private boolean autoResize = true;
+
 	private PedVerDecisions decisionMethod;
 
 	public PedVerF1sBatchList()
 	{
 	}
+
+	// Methods required for XML serialization
+
+	public ArrayList<PedVerF1sSummary> getSummaries()
+		{ return summaries; }
+
+	public void setSummaries(ArrayList<PedVerF1sSummary> summaries)
+		{ this.summaries = summaries; }
+
+	public PedVerDecisions getDecisionMethod()
+		{ return decisionMethod; }
+
+	public void setDecisionMethod(PedVerDecisions decisionMethod)
+		{ this.decisionMethod = decisionMethod; }
+
+	public boolean isAutoResize()
+		{ return autoResize; }
+
+	public void setAutoResize(boolean autoResize)
+		{ this.autoResize = autoResize; }
+
+
+	// Other methods
 
 	public PedVerF1sBatchList(int dedisionMethodIndex)
 	{
@@ -38,19 +64,6 @@ public class PedVerF1sBatchList extends XMLRoot
 
 	public int size()
 		{ return summaries.size(); }
-
-	public PedVerF1sSummary getSummary(int index)
-		{ return summaries.get(index); }
-
-	public PedVerDecisions getDecisionMethod()
-	{
-		return decisionMethod;
-	}
-
-	public void setDecisionMethod(PedVerDecisions decisionMethod)
-	{
-		this.decisionMethod = decisionMethod;
-	}
 
 	public void selectDecisionMethod(int decisionMethodIndex)
 	{

@@ -23,7 +23,7 @@ public class ForwardBreedingSummaryTableModel extends SummaryTableModel
 	@Override
 	public Object getValueAt(int row, int col)
 	{
-		ForwardBreedingSummary summary = batchList.getSummary(row);
+		ForwardBreedingSummary summary = batchList.getSummaries().get(row);
 
 		switch (col)
 		{

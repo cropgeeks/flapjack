@@ -20,6 +20,7 @@ public class PedVerF1sPanel extends JPanel implements ActionListener, ListSelect
 
 	private LineDataTable table;
 	private PedVerF1sTableModel model;
+	private GTViewSet viewSet;
 
 	private LinkedTableHandler tableHandler;
 
@@ -34,6 +35,7 @@ public class PedVerF1sPanel extends JPanel implements ActionListener, ListSelect
 	{
 		controls = new PedVerF1sPanelNB(this);
 		summaryControls = new PedVerF1sSummaryPanelNB(this, viewSet);
+		this.viewSet = viewSet;
 
 		table = (LineDataTable) controls.table;
 		table.getSelectionModel().addListSelectionListener(this);
@@ -63,6 +65,7 @@ public class PedVerF1sPanel extends JPanel implements ActionListener, ListSelect
 		table.setColorCells(true);
 
 		controls.autoResize.setSelected(tableHandler.isAutoResize());
+		summaryControls.autoResize.setSelected(viewSet._getPedVerF1sBatchList().isAutoResize());
 	}
 
 	private void updateModel(GTViewSet viewSet)
@@ -92,6 +95,13 @@ public class PedVerF1sPanel extends JPanel implements ActionListener, ListSelect
 
 		else if (e.getSource() == controls.bThreshold)
 			table.thresholdDialog();
+
+		else if (e.getSource() == summaryControls.autoResize)
+		{
+			boolean state = summaryControls.autoResize.isSelected();
+			((SummaryTable)summaryControls.table).autoResize(state);
+			viewSet._getPedVerF1sBatchList().setAutoResize(state);
+		}
 	}
 
 	@Override

@@ -12,9 +12,30 @@ public class ForwardBreedingBatchList extends XMLRoot
 {
 	private ArrayList<ForwardBreedingSummary> summaries = new ArrayList<>();
 
+	// Tracks whether the table showing these results should autoresize
+	private boolean autoResize = true;
+
 	public ForwardBreedingBatchList()
 	{
 	}
+	
+
+	// Methods required for XML serialization
+
+	public ArrayList<ForwardBreedingSummary> getSummaries()
+		{ return summaries; }
+
+	public void setSummaries(ArrayList<ForwardBreedingSummary> summaries)
+		{ this.summaries = summaries; }
+
+	public boolean isAutoResize()
+		{ return autoResize; }
+
+	public void setAutoResize(boolean autoResize)
+		{ this.autoResize = autoResize; }
+
+
+	// Other methods
 
 	public void add(ArrayList<GTViewSet> viewSets)
 	{
@@ -30,7 +51,4 @@ public class ForwardBreedingBatchList extends XMLRoot
 
 	public int size()
 		{ return summaries.size(); }
-
-	public ForwardBreedingSummary getSummary(int index)
-		{ return summaries.get(index); }
 }

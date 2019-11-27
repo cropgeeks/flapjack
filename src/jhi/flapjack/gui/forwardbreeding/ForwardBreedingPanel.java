@@ -62,6 +62,7 @@ public class ForwardBreedingPanel extends JPanel implements ActionListener, List
 		tableHandler.linkTable(table, model);
 
 		controls.autoResize.setSelected(tableHandler.isAutoResize());
+		summaryControls.autoResize.setSelected(viewSet._getForwardBreedingBatchList().isAutoResize());
 	}
 
 	private void updateModel(GTViewSet viewset)
@@ -89,6 +90,13 @@ public class ForwardBreedingPanel extends JPanel implements ActionListener, List
 
 		else if (e.getSource() == controls.autoResize)
 			table.autoResize(controls.autoResize.isSelected(), false);
+
+		else if (e.getSource() == summaryControls.autoResize)
+		{
+			boolean state = summaryControls.autoResize.isSelected();
+			((SummaryTable)summaryControls.table).autoResize(state);
+			viewSet._getForwardBreedingBatchList().setAutoResize(state);
+		}
 	}
 
 	@Override

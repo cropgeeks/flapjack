@@ -12,9 +12,29 @@ public class MabcBatchList extends XMLRoot
 {
 	private ArrayList<MabcSummary> summaries = new ArrayList<>();
 
+	// Tracks whether the table showing these results should autoresize
+	private boolean autoResize = true;
+
 	public MabcBatchList()
 	{
 	}
+
+	// Methods required for XML serialization
+
+	public ArrayList<MabcSummary> getSummaries()
+		{ return summaries; }
+
+	public void setSummaries(ArrayList<MabcSummary> summaries)
+		{ this.summaries = summaries; }
+
+	public boolean isAutoResize()
+		{ return autoResize; }
+
+	public void setAutoResize(boolean autoResize)
+		{ this.autoResize = autoResize; }
+
+
+	// Other methods
 
 	public void add(ArrayList<GTViewSet> viewSets)
 	{
@@ -30,7 +50,4 @@ public class MabcBatchList extends XMLRoot
 
 	public int size()
 		{ return summaries.size(); }
-
-	public MabcSummary getSummary(int index)
-		{ return summaries.get(index); }
 }

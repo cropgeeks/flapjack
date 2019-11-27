@@ -99,4 +99,12 @@ public class SummaryTable extends JTable
 			setRowSorter(sorter);
 		}
 	}
+
+	public void autoResize(boolean autoResize)
+	{
+		if (autoResize)
+			setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+		else
+			setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+	}
 }

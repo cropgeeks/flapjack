@@ -28,7 +28,7 @@ public class PedVerF1sSummaryTableModel extends SummaryTableModel
 	@Override
 	public Object getValueAt(int row, int col)
 	{
-		PedVerF1sSummary summary = batchList.getSummary(row);
+		PedVerF1sSummary summary = batchList.getSummaries().get(row);
 
 		switch (col)
 		{

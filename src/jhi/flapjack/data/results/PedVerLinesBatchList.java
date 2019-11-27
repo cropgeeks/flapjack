@@ -12,9 +12,30 @@ public class PedVerLinesBatchList extends XMLRoot
 {
 	private ArrayList<PedVerLinesSummary> summaries = new ArrayList<>();
 
+	// Tracks whether the table showing these results should autoresize
+	private boolean autoResize = true;
+
 	public PedVerLinesBatchList()
 	{
 	}
+
+
+	// Methods required for XML serialization
+
+	public ArrayList<PedVerLinesSummary> getSummaries()
+		{ return summaries; }
+
+	public void setSummaries(ArrayList<PedVerLinesSummary> summaries)
+		{ this.summaries = summaries; }
+
+	public boolean isAutoResize()
+		{ return autoResize; }
+
+	public void setAutoResize(boolean autoResize)
+		{ this.autoResize = autoResize; }
+
+
+	// Other methods
 
 	public void add(ArrayList<GTViewSet> viewSets)
 	{
@@ -30,7 +51,4 @@ public class PedVerLinesBatchList extends XMLRoot
 
 	public int size()
 		{ return summaries.size(); }
-
-	public PedVerLinesSummary getSummary(int index)
-		{ return summaries.get(index); }
 }

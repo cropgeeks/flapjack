@@ -24,7 +24,7 @@ public class PedVerLinesSummaryTableModel extends SummaryTableModel
 	@Override
 	public Object getValueAt(int row, int col)
 	{
-		PedVerLinesSummary summary = batchList.getSummary(row);
+		PedVerLinesSummary summary = batchList.getSummaries().get(row);
 
 		switch (col)
 		{
