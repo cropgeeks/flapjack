@@ -15,6 +15,9 @@ import scri.commons.gui.*;
 
 public class SummaryTable extends JTable
 {
+	private SummaryTableModel model;
+	private TableRowSorter<SummaryTableModel> sorter;
+
 	public SummaryTable()
 	{
 		setDefaultRenderer(Double.class,
@@ -67,5 +70,33 @@ public class SummaryTable extends JTable
 					return null;
 			}
 		};
+	}
+
+	@Override
+	public void setModel(TableModel tm)
+	{
+		boolean firstInit = (getModel() == null);
+
+		super.setModel(tm);
+
+		// Set a default width per column (only when first creating the table)
+//		if (firstInit)
+//		{
+//			for (int i = 0; i < getColumnCount(); i++)
+//			{
+//				TableColumn column = getColumnModel().getColumn(i);
+//				column.setPreferredWidth(120);
+//			}
+//		}
+
+		// Safety net for Matisse code calling setModel with a DefaultTableModel
+		if (tm instanceof SummaryTableModel)
+		{
+			model = (SummaryTableModel) tm;
+
+			// Let the user sort by column
+			sorter = new TableRowSorter<>(model);
+			setRowSorter(sorter);
+		}
 	}
 }
