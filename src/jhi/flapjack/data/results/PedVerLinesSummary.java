@@ -17,8 +17,7 @@ public class PedVerLinesSummary extends XMLRoot
 	private int familySize;
 
 	// Don't save these!
-//	private Double percentDataAvg, percentHetAvg, similarityToP1Avg,
-//		similarityToP2Avg, percentAlleleMatchExpectedAvg;
+	private Double percentDataAvg, percentHetAvg, similarityToParentsAvg;
 
 
 	public PedVerLinesSummary()
@@ -100,5 +99,53 @@ public class PedVerLinesSummary extends XMLRoot
 			.filter(LineInfo::getSelected).count();
 
 		return selectedCount / (float)familySize;
+	}
+
+	public double percentDataAvg()
+	{
+		if (percentDataAvg == null)
+		{
+			percentDataAvg = lines.stream()
+				.filter(line -> line != parent1)
+				.filter(line -> line != parent2)
+				.mapToDouble(line -> line.getResults().getPedVerLinesResult().getPercentData())
+				.filter(value -> !Double.isNaN(value))
+				.average()
+				.orElse(Double.NaN);
+		}
+
+		return percentDataAvg;
+	}
+
+	public double percentHetAvg()
+	{
+		if (percentHetAvg == null)
+		{
+			percentHetAvg = lines.stream()
+				.filter(line -> line != parent1)
+				.filter(line -> line != parent2)
+				.mapToDouble(line -> line.getResults().getPedVerLinesResult().getPercentHet())
+				.filter(value -> !Double.isNaN(value))
+				.average()
+				.orElse(Double.NaN);
+		}
+
+		return percentHetAvg;
+	}
+
+	public double similarityToParentsAvg()
+	{
+		if (similarityToParentsAvg == null)
+		{
+			similarityToParentsAvg = lines.stream()
+				.filter(line -> line != parent1)
+				.filter(line -> line != parent2)
+				.mapToDouble(line -> line.getResults().getPedVerLinesResult().getSimilarityToParents())
+				.filter(value -> !Double.isNaN(value))
+				.average()
+				.orElse(Double.NaN);
+		}
+
+		return similarityToParentsAvg;
 	}
 }

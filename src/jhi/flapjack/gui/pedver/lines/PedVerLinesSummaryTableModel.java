@@ -15,7 +15,8 @@ public class PedVerLinesSummaryTableModel extends SummaryTableModel
 		this.batchList = batchList;
 
 		columnNames = new String[] { "Analysis", "Parent 1", "Parent 2",
-			"Family Size", "Proportion Selected" };
+			"Family Size", "Proportion Selected", "% Data Avg", "% Het Avg",
+			"% Similarity to P1/P2 Avg" };
 	}
 
 	PedVerLinesBatchList getBatchList()
@@ -34,6 +35,10 @@ public class PedVerLinesSummaryTableModel extends SummaryTableModel
 
 			case 3:  return summary.getFamilySize();
 			case 4:  return summary.proportionSelected();
+
+			case 5: return summary.percentDataAvg();
+			case 6: return summary.percentHetAvg();
+			case 7: return summary.similarityToParentsAvg();
 		}
 
 		return null;
