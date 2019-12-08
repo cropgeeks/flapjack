@@ -17,8 +17,7 @@ public class MabcSummary extends XMLRoot
 	private int familySize;
 
 	// Don't save these!
-//	private Double percentDataAvg, percentHetAvg, similarityToP1Avg,
-//		similarityToP2Avg, percentAlleleMatchExpectedAvg;
+	private Double percentDataAvg, rppTotalAvg;
 
 
 	public MabcSummary()
@@ -100,5 +99,37 @@ public class MabcSummary extends XMLRoot
 			.filter(LineInfo::getSelected).count();
 
 		return selectedCount / (float)familySize;
+	}
+
+	public double percentDataAvg()
+	{
+		if (percentDataAvg == null)
+		{
+			percentDataAvg = lines.stream()
+				.filter(line -> line != rp)
+				.filter(line -> line != dp)
+				.mapToDouble(line -> line.getResults().getMabcResult().getPercentData())
+				.filter(value -> !Double.isNaN(value))
+				.average()
+				.orElse(Double.NaN);
+		}
+
+		return percentDataAvg;
+	}
+
+	public double rppTotalAvg()
+	{
+		if (rppTotalAvg == null)
+		{
+			rppTotalAvg = lines.stream()
+				.filter(line -> line != rp)
+				.filter(line -> line != dp)
+				.mapToDouble(line -> line.getResults().getMabcResult().getRppTotal())
+				.filter(value -> !Double.isNaN(value))
+				.average()
+				.orElse(Double.NaN);
+		}
+
+		return rppTotalAvg;
 	}
 }

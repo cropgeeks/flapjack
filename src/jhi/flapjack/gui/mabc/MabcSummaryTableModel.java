@@ -15,7 +15,7 @@ public class MabcSummaryTableModel extends SummaryTableModel
 		this.batchList = batchList;
 
 		columnNames = new String[] { "Analysis", "RP", "DP",
-			"Family Size", "Proportion Selected" };
+			"Family Size", "Proportion Selected", "% Data Avg", "RPP Total Avg" };
 	}
 
 	MabcBatchList getBatchList()
@@ -34,6 +34,9 @@ public class MabcSummaryTableModel extends SummaryTableModel
 
 			case 3:  return summary.getFamilySize();
 			case 4:  return summary.proportionSelected();
+
+			case 5: return summary.percentDataAvg();
+			case 6: return summary.rppTotalAvg();
 		}
 
 		return null;
