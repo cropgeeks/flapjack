@@ -17,7 +17,7 @@ public class MabcSummary extends XMLRoot
 	private int familySize;
 
 	// Don't save these!
-	private Double percentDataAvg, rppTotalAvg;
+	private Double percentDataAvg, rppTotalAvg, qtlStatusCountAvg;
 
 
 	public MabcSummary()
@@ -131,5 +131,21 @@ public class MabcSummary extends XMLRoot
 		}
 
 		return rppTotalAvg;
+	}
+
+	public double qtlStatusCountAvg()
+	{
+		if (qtlStatusCountAvg == null)
+		{
+			qtlStatusCountAvg = lines.stream()
+				.filter(line -> line != rp)
+				.filter(line -> line != dp)
+				.mapToDouble(line -> line.getResults().getMabcResult().getQtlStatusCount())
+				.filter(value -> !Double.isNaN(value))
+				.average()
+				.orElse(Double.NaN);
+		}
+
+		return qtlStatusCountAvg;
 	}
 }
