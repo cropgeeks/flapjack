@@ -8,6 +8,7 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.table.*;
 
+import jhi.flapjack.data.*;
 import jhi.flapjack.gui.*;
 
 import scri.commons.gui.*;
@@ -17,9 +18,11 @@ public class FilterDialog extends JDialog implements ActionListener
 	private boolean isOK = false;
 	private FilterDialogTableModel model;
 
-	public static FilterDialog getFilterDialog(FilterColumn[] allCols, FilterColumn[] lastUsedCols)
+	private GTViewSet viewSet;
+
+	public static FilterDialog getFilterDialog(FilterColumn[] allCols, FilterColumn[] lastUsedCols, GTViewSet viewSet)
 	{
-		FilterDialog dialog = new FilterDialog(allCols, lastUsedCols);
+		FilterDialog dialog = new FilterDialog(allCols, lastUsedCols, viewSet);
 		dialog.infoLabel.setVisible(false);
 		dialog.setVisible(true);
 
@@ -27,9 +30,9 @@ public class FilterDialog extends JDialog implements ActionListener
 	}
 
 	// Changes the text of the dialog to make it appear like a Select dialog
-	public static FilterDialog getSelectDialog(FilterColumn[] allCols, FilterColumn[] lastUsedCols)
+	public static FilterDialog getSelectDialog(FilterColumn[] allCols, FilterColumn[] lastUsedCols, GTViewSet viewSet)
 	{
-		FilterDialog dialog = new FilterDialog(allCols, lastUsedCols);
+		FilterDialog dialog = new FilterDialog(allCols, lastUsedCols, viewSet);
 
 		dialog.setTitle(RB.getString("gui.table.FilterDialog.titleAS"));
 		RB.setText(dialog.bFilter, "gui.table.FilterDialog.bFilterAS");
@@ -40,9 +43,39 @@ public class FilterDialog extends JDialog implements ActionListener
 		return dialog;
 	}
 
+
 	private FilterDialog(FilterColumn[] allCols, FilterColumn[] lastUsedCols)
 	{
 		super(Flapjack.winMain, RB.getString("gui.table.FilterDialog.title"), true);
+
+		initComponents();
+		initTable(allCols, lastUsedCols);
+
+		RB.setText(bCancel, "gui.text.cancel");
+		RB.setText(bFilter, "gui.table.FilterDialog.bFilter");
+		RB.setText(bReset, "gui.table.FilterDialog.bReset");
+
+		RB.setText(bHelp, "gui.text.help");
+		FlapjackUtils.setHelp(bHelp, "analysis_results_tables.html#filtering-lines");
+
+		getContentPane().setBackground((Color)UIManager.get("fjDialogBG"));
+		bFilter.addActionListener(this);
+		bReset.addActionListener(this);
+		bCancel.addActionListener(this);
+
+		getRootPane().setDefaultButton(bFilter);
+		SwingUtils.addCloseHandler(this, bCancel);
+
+		pack();
+		setLocationRelativeTo(Flapjack.winMain);
+		setResizable(false);
+	}
+
+	private FilterDialog(FilterColumn[] allCols, FilterColumn[] lastUsedCols, GTViewSet viewSet)
+	{
+		super(Flapjack.winMain, RB.getString("gui.table.FilterDialog.title"), true);
+
+		this.viewSet = viewSet;
 
 		initComponents();
 		initTable(allCols, lastUsedCols);
@@ -89,6 +122,8 @@ public class FilterDialog extends JDialog implements ActionListener
 				{
 					if (model.needsBooleanFilter(row))
 						return new DefaultCellEditor(FilterColumn.booleanFilters());
+					else if (model.needsPedVerF1sFilter(row))
+						return new DefaultCellEditor(FilterColumn.pedVerF1Filters(viewSet._getPedVerF1sBatchList().getDecisionMethod()));
 					else
 						return new DefaultCellEditor(FilterColumn.numericalFilters());
 				}
@@ -155,8 +190,7 @@ public class FilterDialog extends JDialog implements ActionListener
 	 */
 	@SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents()
-    {
+    private void initComponents() {
 
         dialogPanel1 = new scri.commons.gui.matisse.DialogPanel();
         bFilter = new javax.swing.JButton();
@@ -182,12 +216,10 @@ public class FilterDialog extends JDialog implements ActionListener
         dialogPanel1.add(bHelp);
 
         table.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][]
-            {
+            new Object [][] {
 
             },
-            new String []
-            {
+            new String [] {
 
             }
         ));
@@ -204,7 +236,7 @@ public class FilterDialog extends JDialog implements ActionListener
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 480, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(infoLabel)
                         .addGap(0, 0, Short.MAX_VALUE)))

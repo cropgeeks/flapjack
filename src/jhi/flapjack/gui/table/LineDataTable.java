@@ -18,6 +18,7 @@ import jhi.flapjack.data.*;
 import jhi.flapjack.data.results.*;
 import jhi.flapjack.gui.*;
 import jhi.flapjack.gui.dialog.analysis.*;
+import jhi.flapjack.gui.pedver.f1s.*;
 import jhi.flapjack.gui.visualization.*;
 import jhi.flapjack.gui.visualization.undo.*;
 
@@ -318,7 +319,7 @@ public class LineDataTable extends JTable
 
 	public void filterDialog()
 	{
-		FilterDialog dialog = FilterDialog.getFilterDialog(model.getFilterableColumns(), dialogFilter);
+		FilterDialog dialog = FilterDialog.getFilterDialog(model.getFilterableColumns(), dialogFilter, viewSet);
 		if (dialog.isOK() == false)
 			return;
 
@@ -378,7 +379,7 @@ public class LineDataTable extends JTable
 
 	public void selectDialog()
 	{
-		FilterDialog dialog = FilterDialog.getSelectDialog(model.getFilterableColumns(), lastSelect);
+		FilterDialog dialog = FilterDialog.getSelectDialog(model.getFilterableColumns(), lastSelect, viewSet);
 		if (dialog.isOK() == false)
 			return;
 
@@ -399,6 +400,31 @@ public class LineDataTable extends JTable
 		gPanel.addUndoState(undo);
 
 		Flapjack.winMain.mEdit.editMode(Constants.LINEMODE);
+	}
+
+	public void autoSelectTrueF1s()
+	{
+		if (model instanceof PedVerF1sTableModel)
+		{
+			// Track the undo state before doing anything
+			GenotypePanel gPanel = Flapjack.winMain.getGenotypePanel();
+			SelectedLinesState undo = new SelectedLinesState(gPanel.getView(), "selected lines");
+			undo.createUndoState();
+
+			// Get the list of columns to use for selection
+			FilterColumn[] data = ((PedVerF1sTableModel)model).getFilterColsTrueF1sSelected();
+
+			// Remember it for next time in case the user runs it again
+			lastSelect = data;
+
+			model.selectLines(data, true);
+
+			// Track the redo state, then add
+			undo.createRedoState();
+			gPanel.addUndoState(undo);
+
+			Flapjack.winMain.mEdit.editMode(Constants.LINEMODE);
+		}
 	}
 
 	void selectHighlighted(Boolean state)

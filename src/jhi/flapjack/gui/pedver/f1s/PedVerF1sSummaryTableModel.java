@@ -16,9 +16,8 @@ public class PedVerF1sSummaryTableModel extends SummaryTableModel
 
 		columnNames = new String[] { "Analysis", "Parent 1", "Parent 2",
 			"Family Size", "Proportion Selected", "% Het", "% Match to F1",
-			"% True F1s", "% Undecided Hybrid", "% Like P1", "% Like P2",
-			"% Undecided Inbred", "No Decision",
-			"% Data Avg", "% Het Avg", "% Allele Match to P1 Avg", "% Allele Match to P2 Avg",
+			"% True F1s", "% Data Avg", "% Het Avg",
+			"% Allele Match to P1 Avg", "% Allele Match to P2 Avg",
 			"% Genotype Match to Expected F1" };
 	}
 
@@ -43,17 +42,17 @@ public class PedVerF1sSummaryTableModel extends SummaryTableModel
 			case 6:  return (double) summary.thresholds().getF1Threshold();
 
 			case 7:  return summary.percentDecisionTrueF1s();
-			case 8:  return summary.percentDecisionUndecidedHybrid();
-			case 9:  return summary.percentDecisionLikeP1();
-			case 10: return summary.percentDecisionLikeP2();
-			case 11: return summary.percentDecisionUndecidedInbred();
-			case 12: return summary.percentDecisionNoDecision();
+//			case 8:  return summary.percentDecisionUndecidedHybrid();
+//			case 9:  return summary.percentDecisionLikeP1();
+//			case 10: return summary.percentDecisionLikeP2();
+//			case 11: return summary.percentDecisionUndecidedInbred();
+//			case 12: return summary.percentDecisionNoDecision();
 
-			case 13: return summary.percentDataAvg();
-			case 14: return summary.percentHetAvg();
-			case 15: return summary.similarityToP1Avg();
-			case 16: return summary.similarityToP2Avg();
-			case 17: return summary.percentAlleleMatchExpectedAvg();
+			case 8: return summary.percentDataAvg();
+			case 9: return summary.percentHetAvg();
+			case 10: return summary.similarityToP1Avg();
+			case 11: return summary.similarityToP2Avg();
+			case 12: return summary.percentAlleleMatchExpectedAvg();
 		}
 
 		return null;

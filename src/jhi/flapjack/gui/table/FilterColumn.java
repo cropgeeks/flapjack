@@ -4,6 +4,8 @@
 package jhi.flapjack.gui.table;
 
 import javax.swing.*;
+
+import jhi.flapjack.data.results.*;
 import scri.commons.gui.RB;
 
 /**
@@ -16,19 +18,30 @@ public class FilterColumn extends AbstractColumn
 {
 	// Filter types
 	public static final int NONE = 0;
-	private static final int LESS_THAN = 1;
-	private static final int LESS_THAN_EQ = 2;
-	private static final int EQUAL = 3;
-	private static final int GREATER_THAN_EQ = 4;
-	private static final int GREATER_THAN = 5;
-	private static final int NOT_EQUAL = 6;
-	private static final int FALSE = 7;
-	private static final int TRUE = 8;
+	public static final int LESS_THAN = 1;
+	public static final int LESS_THAN_EQ = 2;
+	public static final int EQUAL = 3;
+	public static final int GREATER_THAN_EQ = 4;
+	public static final int GREATER_THAN = 5;
+	public static final int NOT_EQUAL = 6;
+	public static final int FALSE = 7;
+	public static final int TRUE = 8;
+	public static final int PARENT_1 = 9;
+	public static final int PARENT_2 = 10;
+	public static final int EXPECTED_F1 = 11;
+	public static final int TRUE_F1 = 12;
+	public static final int UNDECIDED_HYBRID = 13;
+	public static final int UNDECIDED_INBRED = 14;
+	public static final int LIKE_P1 = 15;
+	public static final int LIKE_P2 = 16;
+	public static final int NO_DECISION = 17;
 
 	private int filter = NONE;
 
 	// What class of column (in the main table) is this representing?
 	private boolean isBoolFilter;
+
+	private boolean isPedVerF1sFilter;
 
 	// Cutoff value for numerical filters
 	private String value;
@@ -37,12 +50,20 @@ public class FilterColumn extends AbstractColumn
 	{
 	}
 
-	FilterColumn(int colIndex, Class colClass, String name, int filter)
+	public FilterColumn(int colIndex, Class colClass, String name, int filter)
 	{
 		super(colIndex, name);
 		this.filter = filter;
 
 		isBoolFilter = colClass == Boolean.class;
+	}
+
+	public FilterColumn(int colIndex, Class colClass, String name, int filter, boolean isPedVerF1sFilter)
+	{
+		super(colIndex, name);
+		this.filter = filter;
+
+		this.isPedVerF1sFilter = isPedVerF1sFilter;
 	}
 
 	// Methods required for XML serialization
@@ -64,6 +85,12 @@ public class FilterColumn extends AbstractColumn
 
 	public void setValue(String value)
 		{ this.value = value; }
+
+	public boolean isPedVerF1sFilter()
+		{ return isPedVerF1sFilter; }
+
+	public void setPedVerF1sFilter(boolean isPedVerF1sFilter)
+		{ this.isPedVerF1sFilter = isPedVerF1sFilter; }
 
 
 	// Other methods
@@ -94,6 +121,43 @@ public class FilterColumn extends AbstractColumn
 		return combo;
 	}
 
+	static JComboBox<FilterColumn> pedVerF1Filters(PedVerDecisions decisionMethod)
+	{
+		JComboBox<FilterColumn> combo = new JComboBox<>();
+
+		if (decisionMethod instanceof PedVerDecisionsSimple)
+		{
+			combo.addItem(new FilterColumn(0, Object.class, "", PARENT_1, true));
+			combo.addItem(new FilterColumn(0, Object.class, "", PARENT_2, true));
+			combo.addItem(new FilterColumn(0, Object.class, "", EXPECTED_F1, true));
+			combo.addItem(new FilterColumn(0, Object.class, "", TRUE_F1, true));
+			combo.addItem(new FilterColumn(0, Object.class, "", NO_DECISION, true));
+		}
+		else if (decisionMethod instanceof PedVerDecisionsIntermediate)
+		{
+			combo.addItem(new FilterColumn(0, Object.class, "", PARENT_1, true));
+			combo.addItem(new FilterColumn(0, Object.class, "", PARENT_2, true));
+			combo.addItem(new FilterColumn(0, Object.class, "", EXPECTED_F1, true));
+			combo.addItem(new FilterColumn(0, Object.class, "", TRUE_F1, true));
+			combo.addItem(new FilterColumn(0, Object.class, "", UNDECIDED_HYBRID, true));
+			combo.addItem(new FilterColumn(0, Object.class, "", NO_DECISION, true));
+		}
+		else if (decisionMethod instanceof PedVerDecisionsDetailed)
+		{
+			combo.addItem(new FilterColumn(0, Object.class, "", PARENT_1, true));
+			combo.addItem(new FilterColumn(0, Object.class, "", PARENT_2, true));
+			combo.addItem(new FilterColumn(0, Object.class, "", EXPECTED_F1, true));
+			combo.addItem(new FilterColumn(0, Object.class, "", TRUE_F1, true));
+			combo.addItem(new FilterColumn(0, Object.class, "", UNDECIDED_HYBRID, true));
+			combo.addItem(new FilterColumn(0, Object.class, "", UNDECIDED_INBRED, true));
+			combo.addItem(new FilterColumn(0, Object.class, "", LIKE_P1, true));
+			combo.addItem(new FilterColumn(0, Object.class, "", LIKE_P2, true));
+			combo.addItem(new FilterColumn(0, Object.class, "", NO_DECISION, true));
+		}
+
+		return combo;
+	}
+
 	public boolean disabled()
 	{
 		// This isn't a usable filter, if:
@@ -120,7 +184,22 @@ public class FilterColumn extends AbstractColumn
 
 	RowFilter<LineDataTableModel, Object> createRowFilter()
 	{
-		if (isBoolFilter == false)
+		if (isBoolFilter)
+		{
+			// These can stay as default filters because CellData.toString()
+			// return "true" / "false" for Boolean columns
+			if (filter == FALSE)
+				return RowFilter.regexFilter(Boolean.toString(false), colIndex);
+			else
+				return RowFilter.regexFilter(Boolean.toString(true), colIndex);
+		}
+
+		else if (isPedVerF1sFilter)
+		{
+			return RowFilter.regexFilter(toString(), colIndex);
+		}
+
+		else
 		{
 			double value = Double.parseDouble(this.value);
 
@@ -170,16 +249,6 @@ public class FilterColumn extends AbstractColumn
 			}
 		}
 
-		else
-		{
-			// These can stay as default filters because CellData.toString()
-			// return "true" / "false" for Boolean columns
-			if (filter == FALSE)
-				return RowFilter.regexFilter(Boolean.toString(false), colIndex);
-			else
-				return RowFilter.regexFilter(Boolean.toString(true), colIndex);
-		}
-
 		return null;
 	}
 
@@ -193,7 +262,20 @@ public class FilterColumn extends AbstractColumn
 	// match the value of this 'filter'
 	public boolean matches(Object oEntry)
 	{
-		if (isBoolFilter == false)
+		if (isBoolFilter)
+		{
+			if (filter == FALSE)
+				return (Boolean)oEntry == false;
+			else
+				return (Boolean)oEntry == true;
+		}
+
+		else if (isPedVerF1sFilter)
+		{
+			return toString().equals(oEntry);
+		}
+
+		else
 		{
 			double entry = Double.parseDouble(oEntry.toString());
 			double value = Double.parseDouble(this.value);
@@ -207,13 +289,6 @@ public class FilterColumn extends AbstractColumn
 				case GREATER_THAN:    return entry > value;
 				case NOT_EQUAL:       return entry != value;
 			}
-		}
-		else
-		{
-			if (filter == FALSE)
-				return (Boolean)oEntry == false;
-			else
-				return (Boolean)oEntry == true;
 		}
 
 		return false;
@@ -240,6 +315,24 @@ public class FilterColumn extends AbstractColumn
 				return RB.getString("gui.table.FilterColumn.false");
 			case TRUE:
 				return RB.getString("gui.table.FilterColumn.true");
+			case PARENT_1:
+				return "Parent 1";
+			case PARENT_2:
+				return "Parent 2";
+			case EXPECTED_F1:
+				return "Expected F1";
+			case TRUE_F1:
+				return "True F1";
+			case UNDECIDED_HYBRID:
+				return "Undecided hybrid mix";
+			case UNDECIDED_INBRED:
+				return "Undecided inbred mix";
+			case LIKE_P1:
+				return "Like parent 1";
+			case LIKE_P2:
+				return "Like parent 2";
+			case NO_DECISION:
+				return "No decision";
 
 			default: return "";
 		}
@@ -259,6 +352,16 @@ public class FilterColumn extends AbstractColumn
 			case NOT_EQUAL: return "<>";
 			case FALSE: return "FALSE";
 			case TRUE: return "TRUE";
+			case PARENT_1: return "Parent 1";
+			case PARENT_2: return "Parent 2";
+			case EXPECTED_F1: return "Expected F1";
+			case TRUE_F1: return "True F1";
+			case UNDECIDED_HYBRID: return "Undecided hybrid mix";
+			case UNDECIDED_INBRED: return "Undecided inbred mix";
+			case LIKE_P1: return "Like parent 1";
+			case LIKE_P2: return "Like parent 2";
+			case NO_DECISION: return "No decision";
+
 			default: return "";
 		}
 	}
@@ -270,6 +373,7 @@ public class FilterColumn extends AbstractColumn
 		clone.name = name;
 		clone.filter = filter;
 		clone.isBoolFilter = isBoolFilter;
+		clone.isPedVerF1sFilter = isPedVerF1sFilter;
 		clone.value = value;
 
 		return clone;

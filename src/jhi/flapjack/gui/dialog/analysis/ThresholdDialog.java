@@ -126,6 +126,9 @@ public class ThresholdDialog extends JDialog implements ActionListener, ChangeLi
 			if (table != null)
 				table.updatePedVerDecsionModel(Prefs.pedVerDecisionModel);
 		});
+
+		chkTrueF1s.setSelected(Prefs.pedVerF1sAutoSelect);
+		chkTrueF1s.addActionListener(this);
 	}
 
 	private void setupSlider(JSlider slider, int value)
@@ -154,6 +157,11 @@ public class ThresholdDialog extends JDialog implements ActionListener, ChangeLi
 			Prefs.pedVerDecisionModel = decisionModelCombo.getSelectedIndex();
 
 			setVisible(false);
+		}
+
+		else if (e.getSource() == chkTrueF1s)
+		{
+			Prefs.pedVerF1sAutoSelect = chkTrueF1s.isSelected();
 		}
 	}
 
@@ -250,6 +258,11 @@ public class ThresholdDialog extends JDialog implements ActionListener, ChangeLi
 		return decisionModelCombo.getSelectedIndex();
 	}
 
+	public boolean isAutoSelectTrueF1s()
+	{
+		return chkTrueF1s.isSelected();
+	}
+
 	public boolean isOK()
 		{ return isOK; }
 
@@ -284,6 +297,7 @@ public class ThresholdDialog extends JDialog implements ActionListener, ChangeLi
         decisionPanel = new javax.swing.JPanel();
         lblDecisionModel = new javax.swing.JLabel();
         decisionModelCombo = new javax.swing.JComboBox<>();
+        chkTrueF1s = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -370,9 +384,11 @@ public class ThresholdDialog extends JDialog implements ActionListener, ChangeLi
                 .addContainerGap())
         );
 
-        decisionPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Decision model:"));
+        decisionPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Decision settings:"));
 
         lblDecisionModel.setText("F1 decision model:");
+
+        chkTrueF1s.setText("Automatically select True F1s");
 
         javax.swing.GroupLayout decisionPanelLayout = new javax.swing.GroupLayout(decisionPanel);
         decisionPanel.setLayout(decisionPanelLayout);
@@ -380,9 +396,14 @@ public class ThresholdDialog extends JDialog implements ActionListener, ChangeLi
             decisionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(decisionPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lblDecisionModel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(decisionModelCombo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(decisionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(decisionPanelLayout.createSequentialGroup()
+                        .addComponent(lblDecisionModel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(decisionModelCombo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(decisionPanelLayout.createSequentialGroup()
+                        .addComponent(chkTrueF1s)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         decisionPanelLayout.setVerticalGroup(
@@ -392,6 +413,8 @@ public class ThresholdDialog extends JDialog implements ActionListener, ChangeLi
                 .addGroup(decisionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblDecisionModel)
                     .addComponent(decisionModelCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(chkTrueF1s)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -425,6 +448,7 @@ public class ThresholdDialog extends JDialog implements ActionListener, ChangeLi
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bHelp;
     private javax.swing.JButton bOk;
+    private javax.swing.JCheckBox chkTrueF1s;
     private javax.swing.JComboBox<String> decisionModelCombo;
     private javax.swing.JPanel decisionPanel;
     private scri.commons.gui.matisse.DialogPanel dialogPanel1;

@@ -49,6 +49,11 @@ public class PedVerF1StatsBatchPanelNB extends JPanel
 		return thresholdDialog.getDecisionModelIndex();
 	}
 
+	public boolean isAutoSelectTrueF1s()
+	{
+		return thresholdDialog.isAutoSelectTrueF1s();
+	}
+
 	/**
 	 * This method is called from within the constructor to initialize the form.
 	 * WARNING: Do NOT modify this code. The content of this method is always

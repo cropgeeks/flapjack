@@ -388,6 +388,7 @@ public class MenuAnalysis
 		int p2Index = ui.getParent2();
 		int f1Index = ui.getF1();
 		boolean simulateF1 = ui.simulateF1();
+		boolean autoSelectTrueF1s = ui.isAutoSelectTrueF1s();
 
 		// Setup and run the stats
 		PedVerF1sAnalysis stats = new PedVerF1sAnalysis(viewSet,
@@ -405,6 +406,8 @@ public class MenuAnalysis
 		// Retrieve the newly created viewSet from the analysis class and
 		// add it to the navPanel so that it appears in the display
 		navPanel.addVisualizationNode(dataSet, stats.getViewSet());
+		if (autoSelectTrueF1s)
+			stats.getViewSet().getTableHandler().table().autoSelectTrueF1s();
 
 		Actions.projectModified();
 	}
@@ -415,6 +418,7 @@ public class MenuAnalysis
 		PedVerF1StatsBatchPanelNB ui = dialog.getBatchUI();
 		PedVerF1sThresholds thresholds = ui.getThresholds();
 		int decisionModelIndex = ui.getDecisionModelIndex();
+		boolean autoSelectTrueF1s = ui.isAutoSelectTrueF1s();
 
 		List<PedVerF1sBatchSettings> batchSettings = new ArrayList<>();
 
@@ -450,7 +454,11 @@ public class MenuAnalysis
 
 		// Create new NavPanel components to hold the results
 		for (GTViewSet viewSet: stats.getResultViewSets())
+		{
 			navPanel.addVisualizationNode(viewSet.getDataSet(), viewSet);
+			if (autoSelectTrueF1s)
+				viewSet.getTableHandler().table().autoSelectTrueF1s();
+		}
 
 		Actions.projectModified();
 	}
