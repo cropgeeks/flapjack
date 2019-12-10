@@ -204,7 +204,7 @@ public class PedVerF1sTableModel extends LineDataTableModel
 			Class c = getObjectColumnClass(i);
 
 			if (i == decisionIndex)
-				cols.add(new FilterColumn(i, c, columnNames[i], FilterColumn.NONE, true));
+				cols.add(new FilterColumn(i, c, columnNames[i], FilterColumn.NONE));
 
 			else if (c == Double.class || c == Float.class || c == Integer.class || c == Boolean.class)
 				cols.add(new FilterColumn(i, c, columnNames[i], FilterColumn.NONE));
@@ -224,7 +224,7 @@ public class PedVerF1sTableModel extends LineDataTableModel
 			Class c = getObjectColumnClass(i);
 
 			if (i == decisionIndex)
-				cols.add(new FilterColumn(i, c, columnNames[i], FilterColumn.TRUE_F1, true));
+				cols.add(new PedVerF1sFilterColumn(i, c, columnNames[i], PedVerF1sFilterColumn.TRUE_F1));
 
 			else if (c == Double.class || c == Float.class || c == Integer.class || c == Boolean.class)
 				cols.add(new FilterColumn(i, c, columnNames[i], FilterColumn.NONE));

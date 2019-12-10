@@ -10,7 +10,9 @@ import jhi.flapjack.gui.table.*;
 
 import scri.commons.gui.*;
 
-class PedVerLinesTableModel extends LineDataTableModel
+import java.util.*;
+
+public class PedVerLinesTableModel extends LineDataTableModel
 {
 	private static final int lineIndex = 0;
 	private static final int dataCountIndex = 1;
@@ -149,5 +151,44 @@ class PedVerLinesTableModel extends LineDataTableModel
 	int getRankIndex()
 	{
 		return rankIndex;
+	}
+
+	// Returns only those columns that make sense for filtering (by numbers)
+	public FilterColumn[] getFilterableColumns()
+	{
+		ArrayList<FilterColumn> cols = new ArrayList<>();
+
+		for (int i = 0; i < getColumnCount(); i++)
+		{
+			Class c = getObjectColumnClass(i);
+
+			if (i == decisionIndex)
+				cols.add(new FilterColumn(i, c, columnNames[i], FilterColumn.NONE));
+
+			else if (c == Double.class || c == Float.class || c == Integer.class || c == Boolean.class)
+				cols.add(new FilterColumn(i, c, columnNames[i], FilterColumn.NONE));
+		}
+
+		return cols.toArray(new FilterColumn[] {});
+	}
+
+
+	// Returns only those columns that make sense for filtering (by numbers)
+	public FilterColumn[] getFilterColsVerifiedLinesSelected()
+	{
+		ArrayList<FilterColumn> cols = new ArrayList<>();
+
+		for (int i = 0; i < getColumnCount(); i++)
+		{
+			Class c = getObjectColumnClass(i);
+
+			if (i == decisionIndex)
+				cols.add(new PedVerLinesFilterColumn(i, c, columnNames[i], PedVerLinesFilterColumn.VERIFIED));
+
+			else if (c == Double.class || c == Float.class || c == Integer.class || c == Boolean.class)
+				cols.add(new FilterColumn(i, c, columnNames[i], FilterColumn.NONE));
+		}
+
+		return cols.toArray(new FilterColumn[] {});
 	}
 }

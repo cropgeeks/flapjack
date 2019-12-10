@@ -44,7 +44,7 @@ public class PedVerLinesStatsBatchPanelNB extends JPanel
 		return pedVerLinesThresholdDialog.getThresholds();
 	}
 
-	public boolean isAutoSelectTrueF1s()
+	public boolean isAutoSelectVerifiedLines()
 	{
 		return pedVerLinesThresholdDialog.isAutoSelectVerifiedLines();
 	}

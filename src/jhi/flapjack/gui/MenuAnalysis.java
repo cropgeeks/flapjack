@@ -506,6 +506,8 @@ public class MenuAnalysis
 		list.add(stats.getViewSet());
 
 		navPanel.addVisualizationNode(dataSet, stats.getViewSet());
+		if (ui.isAutoSelectVerifiedLines())
+			stats.getViewSet().getTableHandler().table().autoSelectVerifiedLines();
 
 		Actions.projectModified();
 	}
@@ -530,7 +532,12 @@ public class MenuAnalysis
 
 		// Create new NavPanel components to hold the results
 		for (GTViewSet viewSet: stats.getResultViewSets())
+		{
 			navPanel.addVisualizationNode(viewSet.getDataSet(), viewSet);
+			if (ui.isAutoSelectVerifiedLines())
+				viewSet.getTableHandler().table().autoSelectVerifiedLines();
+		}
+
 
 		Actions.projectModified();
 	}
