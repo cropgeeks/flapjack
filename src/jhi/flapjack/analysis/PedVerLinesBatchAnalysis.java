@@ -6,6 +6,7 @@ package jhi.flapjack.analysis;
 import java.util.*;
 
 import jhi.flapjack.data.*;
+import jhi.flapjack.data.results.*;
 import jhi.flapjack.gui.dialog.analysis.*;
 
 import scri.commons.gui.*;
@@ -14,12 +15,14 @@ import scri.commons.gui.*;
 public class PedVerLinesBatchAnalysis extends SimpleJob
 {
 	private ArrayList<GTViewSet> viewSets, resultViewSets;
+	private PedVerLinesThresholds thresholds;
 
 	private String name;
 
-	public PedVerLinesBatchAnalysis(ArrayList<GTViewSet> viewSets, String name)
+	public PedVerLinesBatchAnalysis(ArrayList<GTViewSet> viewSets, PedVerLinesThresholds thresholds, String name)
 	{
 		this.viewSets = viewSets;
+		this.thresholds = thresholds;
 
 		this.name = name;
 
@@ -52,7 +55,7 @@ public class PedVerLinesBatchAnalysis extends SimpleJob
 		boolean[] selectedChromosomes = csd.getSelectedChromosomes();
 
 		PedVerLinesAnalysis stats = new PedVerLinesAnalysis(viewSet,
-			selectedChromosomes, p1Index, p2Index, name);
+			selectedChromosomes, thresholds, p1Index, p2Index, name);
 
 		stats.runJob(0);
 		resultViewSets.add(stats.getViewSet());

@@ -120,6 +120,12 @@ public class Prefs extends XMLPreferences
 
 	public static boolean pedVerF1sAutoSelect = true;
 
+	public static int pedVerLinesDataThreshold = 50;
+	public static int pedVerLinesParentHetThreshold = 20;
+	public static int pedVerLinesSimToParentsThreshold = 85;
+
+	public static boolean pedVerLinesAutoSelect = true;
+
 	// PedVerF1 decision model
 	public static int pedVerDecisionModel = 0;
 

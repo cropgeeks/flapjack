@@ -20,10 +20,11 @@ class PedVerLinesTableModel extends LineDataTableModel
 	private static final int similarityToP1Index = 5;
 	private static final int similarityToP2Index = 6;
 	private static final int similarlityToParentsIndex = 7;
-	private static final int selectedIndex = 8;
-	private static final int rankIndex = 9;
-	private static final int commentsIndex = 10;
-	private static final int sortIndex = 11;
+	private static final int rankIndex = 8;
+	private static final int commentsIndex = 9;
+	private static final int sortIndex = 10;
+	private static final int selectedIndex = 11;
+	private static final int decisionIndex = 12;
 
 	PedVerLinesTableModel(GTViewSet viewSet)
 	{
@@ -35,7 +36,7 @@ class PedVerLinesTableModel extends LineDataTableModel
 
 	void initModel()
 	{
-		columnNames = new String[12];
+		columnNames = new String[13];
 
 		columnNames[lineIndex] = RB.getString("gui.pedver.PedVerLinesTableModel.line");
 		columnNames[dataCountIndex] = RB.getString("gui.pedver.PedVerLinesTableModel.dataCount");
@@ -45,10 +46,11 @@ class PedVerLinesTableModel extends LineDataTableModel
 		columnNames[similarityToP1Index] = RB.getString("gui.pedver.PedVerLinesTableModel.similarityToP1");
 		columnNames[similarityToP2Index] = RB.getString("gui.pedver.PedVerLinesTableModel.similarityToP2");
 		columnNames[similarlityToParentsIndex] = RB.getString("gui.pedver.PedVerLinesTableModel.similarityToParents");
-		columnNames[selectedIndex] = RB.getString("gui.pedver.PedVerLinesTableModel.selected");
 		columnNames[rankIndex] = RB.getString("gui.pedver.PedVerLinesTableModel.rank");
 		columnNames[commentsIndex] = RB.getString("gui.pedver.PedVerLinesTableModel.comments");
 		columnNames[sortIndex] = RB.getString("gui.pedver.PedVerLinesTableModel.sortFilter");
+		columnNames[selectedIndex] = RB.getString("gui.pedver.PedVerLinesTableModel.selected");
+		columnNames[decisionIndex] = RB.getString("gui.pedver.PedVerLinesTableModel.decision");
 	}
 
 	@Override
@@ -97,6 +99,10 @@ class PedVerLinesTableModel extends LineDataTableModel
 		{
 			String comment = line.getResults().getComments();
 			return comment == null ? "" : comment;
+		}
+		else if (col == decisionIndex)
+		{
+			return stats.calculateDecisionString();
 		}
 
 		return null;

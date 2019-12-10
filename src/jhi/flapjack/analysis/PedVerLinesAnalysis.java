@@ -15,6 +15,7 @@ public class PedVerLinesAnalysis extends SimpleJob
 {
 	private GTViewSet viewSet;
 	private boolean[] selectedChromosomes;
+	private PedVerLinesThresholds thresholds;
 	private int p1Index;
 	private int p2Index;
 	private AnalysisSet as;
@@ -22,19 +23,20 @@ public class PedVerLinesAnalysis extends SimpleJob
 
 	private String name;
 
-	public PedVerLinesAnalysis(GTViewSet viewSet, boolean[] selectedChromosomes, int p1Index, int p2Index, String name)
+	public PedVerLinesAnalysis(GTViewSet viewSet, boolean[] selectedChromosomes, PedVerLinesThresholds thresholds, int p1Index, int p2Index, String name)
 	{
-		this(viewSet, selectedChromosomes, p1Index, p2Index);
+		this(viewSet, selectedChromosomes, thresholds, p1Index, p2Index);
 		this.name = name;
 	}
 
-	public PedVerLinesAnalysis(GTViewSet viewSet, boolean[] selectedChromosomes, int p1Index, int p2Index)
+	public PedVerLinesAnalysis(GTViewSet viewSet, boolean[] selectedChromosomes, PedVerLinesThresholds thresholds, int p1Index, int p2Index)
 	{
 		this.viewSet = viewSet.createClone("", true);
 		this.stateTable = viewSet.getDataSet().getStateTable();
 		this.p1Index = p1Index;
 		this.p2Index = p2Index;
 		this.selectedChromosomes = selectedChromosomes;
+		this.thresholds = thresholds;
 
 		this.p1Index = p1Index;
 		this.p2Index = p2Index;
@@ -78,6 +80,9 @@ public class PedVerLinesAnalysis extends SimpleJob
 			lineStat.setSimilarityToP1(similarityParent1 * 100);
 			lineStat.setSimilarityToP2(similarityParent2 * 100);
 			lineStat.setSimilarityToParents(similarityToParents * 100);
+			lineStat.setThresholds(thresholds);
+			lineStat.setParent1Heterozygosity((as.hetCount(p1Index) / (double)markerCount) * 100);
+			lineStat.setParent2Heterozygosity((as.hetCount(p2Index) / (double)markerCount) * 100);
 		});
 
 		moveParentsToTop();

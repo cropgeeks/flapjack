@@ -7,11 +7,14 @@ import java.util.*;
 import javax.swing.*;
 
 import jhi.flapjack.data.*;
+import jhi.flapjack.data.results.*;
 import jhi.flapjack.gui.*;
 
 public class PedVerLinesStatsBatchPanelNB extends JPanel
 {
 	private ArrayList<GTViewSet> viewSets;
+
+	private PedVerLinesThresholdDialog pedVerLinesThresholdDialog;
 
 	public PedVerLinesStatsBatchPanelNB(ArrayList<GTViewSet> viewSets)
 	{
@@ -26,11 +29,24 @@ public class PedVerLinesStatsBatchPanelNB extends JPanel
 	private void initComponents2()
 	{
 		FlapjackUtils.initPanel(dataPanel, thresholdPanel);
+
+		pedVerLinesThresholdDialog = new PedVerLinesThresholdDialog();
+		lblThreshold.addActionListener(e -> pedVerLinesThresholdDialog.setVisible(true));
 	}
 
 	public boolean isOK()
 	{
 		return true;
+	}
+
+	public PedVerLinesThresholds getThresholds()
+	{
+		return pedVerLinesThresholdDialog.getThresholds();
+	}
+
+	public boolean isAutoSelectTrueF1s()
+	{
+		return pedVerLinesThresholdDialog.isAutoSelectVerifiedLines();
 	}
 
 	/**
@@ -40,64 +56,13 @@ public class PedVerLinesStatsBatchPanelNB extends JPanel
 	 */
 	@SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents()
-    {
+    private void initComponents() {
 
-        thresholdPanel = new javax.swing.JPanel();
-        lblPercHet = new javax.swing.JLabel();
-        sliderPercHet = new javax.swing.JSlider();
-        lblPercF1 = new javax.swing.JLabel();
-        sliderPercF1 = new javax.swing.JSlider();
-        lblPercError = new javax.swing.JLabel();
-        sliderPercError = new javax.swing.JSlider();
         dataPanel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-
-        thresholdPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Threshold settings:"));
-
-        lblPercHet.setText("Percent Heterozygosity:");
-
-        lblPercF1.setText("Percent Match to F1:");
-
-        lblPercError.setText("Percent Error Rate:");
-
-        javax.swing.GroupLayout thresholdPanelLayout = new javax.swing.GroupLayout(thresholdPanel);
-        thresholdPanel.setLayout(thresholdPanelLayout);
-        thresholdPanelLayout.setHorizontalGroup(
-            thresholdPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(thresholdPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(thresholdPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(thresholdPanelLayout.createSequentialGroup()
-                        .addComponent(lblPercHet)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(sliderPercHet, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(thresholdPanelLayout.createSequentialGroup()
-                        .addComponent(lblPercF1)
-                        .addGap(18, 18, 18)
-                        .addComponent(sliderPercF1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(thresholdPanelLayout.createSequentialGroup()
-                        .addComponent(lblPercError)
-                        .addGap(25, 25, 25)
-                        .addComponent(sliderPercError, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap())
-        );
-        thresholdPanelLayout.setVerticalGroup(
-            thresholdPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(thresholdPanelLayout.createSequentialGroup()
-                .addContainerGap(14, Short.MAX_VALUE)
-                .addGroup(thresholdPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(lblPercHet)
-                    .addComponent(sliderPercHet, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(thresholdPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(lblPercF1)
-                    .addComponent(sliderPercF1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(thresholdPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(sliderPercError, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblPercError)))
-        );
+        thresholdPanel = new javax.swing.JPanel();
+        csdLabel = new scri.commons.gui.matisse.HyperLinkLabel();
+        lblThreshold = new scri.commons.gui.matisse.HyperLinkLabel();
 
         dataPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("General settings:"));
 
@@ -120,6 +85,33 @@ public class PedVerLinesStatsBatchPanelNB extends JPanel
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        thresholdPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Data selection settings:"));
+
+        csdLabel.setText("Select chromosomes to analyse");
+
+        lblThreshold.setText("Select threshold settings");
+
+        javax.swing.GroupLayout thresholdPanelLayout = new javax.swing.GroupLayout(thresholdPanel);
+        thresholdPanel.setLayout(thresholdPanelLayout);
+        thresholdPanelLayout.setHorizontalGroup(
+            thresholdPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(thresholdPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(thresholdPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(csdLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblThreshold, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        thresholdPanelLayout.setVerticalGroup(
+            thresholdPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(thresholdPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(csdLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblThreshold, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -137,21 +129,17 @@ public class PedVerLinesStatsBatchPanelNB extends JPanel
                 .addContainerGap()
                 .addComponent(dataPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(thresholdPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(thresholdPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private scri.commons.gui.matisse.HyperLinkLabel csdLabel;
     private javax.swing.JPanel dataPanel;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel lblPercError;
-    private javax.swing.JLabel lblPercF1;
-    private javax.swing.JLabel lblPercHet;
-    private javax.swing.JSlider sliderPercError;
-    private javax.swing.JSlider sliderPercF1;
-    private javax.swing.JSlider sliderPercHet;
+    private scri.commons.gui.matisse.HyperLinkLabel lblThreshold;
     private javax.swing.JPanel thresholdPanel;
     // End of variables declaration//GEN-END:variables
 }

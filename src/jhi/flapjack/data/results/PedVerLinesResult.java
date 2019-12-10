@@ -14,11 +14,39 @@ public class PedVerLinesResult extends XMLRoot
 	private double similarityToP1;
 	private double similarityToP2;
 	private double similarityToParents;
+	private double parent1Heterozygosity;
+	private double parent2Heterozygosity;
 	private boolean p1;
 	private boolean p2;
 
+	private PedVerLinesThresholds thresholds;
+
 	// Removed but left in for compatibility with old projects
 	private double percentTotalMatch;
+
+	public String calculateDecisionString()
+	{
+		if (p1)
+			return "Parent 1";
+
+		else if (p2)
+			return "Parent 2";
+
+		else if (percentData >= thresholds.getData()
+			&& similarityToParents >= thresholds.getSimToParents()
+			&& checkParentHeterozygosity())
+		{
+			return "Pedigree verified";
+		}
+
+		return "No decision";
+	}
+
+	public boolean checkParentHeterozygosity()
+	{
+		return parent1Heterozygosity <= thresholds.getParentHet()
+			&& parent2Heterozygosity <= thresholds.getParentHet();
+	}
 
 	public int getDataCount()
 		{  return dataCount; }
@@ -92,4 +120,22 @@ public class PedVerLinesResult extends XMLRoot
 
 	public void setP2(boolean p2)
 		{ this.p2 = p2; }
+
+	public PedVerLinesThresholds getThresholds()
+		{ return thresholds; }
+
+	public void setThresholds(PedVerLinesThresholds thresholds)
+		{ this.thresholds = thresholds; }
+
+	public double getParent1Heterozygosity()
+		{ return parent1Heterozygosity; }
+
+	public void setParent1Heterozygosity(double parent1Heterozygosity)
+		{ this.parent1Heterozygosity = parent1Heterozygosity; }
+
+	public double getParent2Heterozygosity()
+		{ return parent2Heterozygosity; }
+
+	public void setParent2Heterozygosity(double parent2Heterozygosity)
+		{ this.parent2Heterozygosity = parent2Heterozygosity; }
 }

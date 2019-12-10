@@ -490,12 +490,13 @@ public class MenuAnalysis
 		// Retrieve information required for analysis from dialog
 		PedVerLinesStatsSinglePanelNB ui = dialog.getSingleUI();
 		boolean[] selectedChromosomes = ui.getSelectedChromosomes();
+		PedVerLinesThresholds thresholds = ui.getThresholds();
 
 		// TODO: I've currently hacked out the dialog parental selection
 		int refIndex = ui.getReferenceLine();
 		int testIndex = ui.getTestLine();
 
-		PedVerLinesAnalysis stats = new PedVerLinesAnalysis(viewSet, selectedChromosomes, refIndex, testIndex, "PedVerLines Results");
+		PedVerLinesAnalysis stats = new PedVerLinesAnalysis(viewSet, selectedChromosomes, thresholds, refIndex, testIndex, "PedVerLines Results");
 		ProgressDialog pDialog = new ProgressDialog(stats,
 			"Running PedVer Stats",
 			"Running PedVer stats - please be patient...",
@@ -513,10 +514,11 @@ public class MenuAnalysis
 	{
 		// Retrieve information required for analysis from dialog
 		PedVerLinesStatsBatchPanelNB ui = dialog.getBatchUI();
+		PedVerLinesThresholds thresholds = ui.getThresholds();
 
 		// Run the stats calculations
 		PedVerLinesBatchAnalysis stats = new PedVerLinesBatchAnalysis(
-			viewSets, "PedVerLines Results");
+			viewSets, thresholds,"PedVerLines Results");
 
 		ProgressDialog pDialog = new ProgressDialog(stats,
 			"Running PedVer Stats",
