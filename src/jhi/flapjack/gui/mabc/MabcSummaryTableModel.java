@@ -19,7 +19,7 @@ public class MabcSummaryTableModel extends SummaryTableModel
 			"QTL Allele Count Avg"};
 	}
 
-	MabcBatchList getBatchList()
+	public MabcBatchList getBatchList()
 		{ return batchList; }
 
 	@Override

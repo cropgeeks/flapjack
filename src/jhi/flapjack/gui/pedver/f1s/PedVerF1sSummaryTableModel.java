@@ -21,7 +21,7 @@ public class PedVerF1sSummaryTableModel extends SummaryTableModel
 			"% Genotype Match to Expected F1" };
 	}
 
-	PedVerF1sBatchList getBatchList()
+	public PedVerF1sBatchList getBatchList()
 		{ return batchList; }
 
 	@Override

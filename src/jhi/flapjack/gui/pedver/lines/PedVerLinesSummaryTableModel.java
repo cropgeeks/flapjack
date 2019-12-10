@@ -19,7 +19,7 @@ public class PedVerLinesSummaryTableModel extends SummaryTableModel
 			"% Similarity to P1/P2 Avg" };
 	}
 
-	PedVerLinesBatchList getBatchList()
+	public PedVerLinesBatchList getBatchList()
 		{ return batchList; }
 
 	@Override

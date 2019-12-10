@@ -17,7 +17,7 @@ public class ForwardBreedingSummaryTableModel extends SummaryTableModel
 		columnNames = new String[] { "Analysis", "Family Size", "Proportion Selected" };
 	}
 
-	ForwardBreedingBatchList getBatchList()
+	public ForwardBreedingBatchList getBatchList()
 		{ return batchList; }
 
 	@Override

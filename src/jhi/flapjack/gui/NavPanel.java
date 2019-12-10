@@ -558,7 +558,29 @@ public class NavPanel extends JPanel
 		tree.scrollPathToVisible(new TreePath(node.getPath()));
 	}
 
-	public JPanel selectPedVerLinesNode(GTViewSet viewSet)
+	private JComponent setAndScrollTo(BaseNode node)
+	{
+		tree.setSelectionPath(new TreePath(node.getPath()));
+		tree.scrollPathToVisible(new TreePath(node.getPath()));
+
+		return node.getPanel();
+	}
+
+	public JComponent selectMabcNode(GTViewSet viewSet)
+	{
+		VisualizationNode vNode = findVisualizationNode(viewSet);
+
+		MabcNode pNode = null;
+		for (int i = 0; i < vNode.getChildCount(); i++)
+		{
+			if (vNode.getChildAt(i) instanceof MabcNode)
+				pNode = (MabcNode) vNode.getChildAt(i);
+		}
+
+		return setAndScrollTo(pNode);
+	}
+
+	public JComponent selectPedVerF1sNode(GTViewSet viewSet)
 	{
 		VisualizationNode vNode = findVisualizationNode(viewSet);
 
@@ -569,9 +591,34 @@ public class NavPanel extends JPanel
 				pNode = (PedVerF1sNode) vNode.getChildAt(i);
 		}
 
-		tree.setSelectionPath(new TreePath(pNode.getPath()));
-		tree.scrollPathToVisible(new TreePath(pNode.getPath()));
+		return setAndScrollTo(pNode);
+	}
 
-		return pNode.getPanel();
+	public JComponent selectPedVerLinesNode(GTViewSet viewSet)
+	{
+		VisualizationNode vNode = findVisualizationNode(viewSet);
+
+		PedVerLinesNode pNode = null;
+		for (int i = 0; i < vNode.getChildCount(); i++)
+		{
+			if (vNode.getChildAt(i) instanceof PedVerLinesNode)
+				pNode = (PedVerLinesNode) vNode.getChildAt(i);
+		}
+
+		return setAndScrollTo(pNode);
+	}
+
+	public JComponent selectForwardBreedingNode(GTViewSet viewSet)
+	{
+		VisualizationNode vNode = findVisualizationNode(viewSet);
+
+		ForwardBreedingNode pNode = null;
+		for (int i = 0; i < vNode.getChildCount(); i++)
+		{
+			if (vNode.getChildAt(i) instanceof ForwardBreedingNode)
+				pNode = (ForwardBreedingNode) vNode.getChildAt(i);
+		}
+
+		return setAndScrollTo(pNode);
 	}
 }

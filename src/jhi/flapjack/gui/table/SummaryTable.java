@@ -10,6 +10,10 @@ import javax.swing.table.*;
 
 import jhi.flapjack.data.results.*;
 import jhi.flapjack.gui.*;
+import jhi.flapjack.gui.forwardbreeding.*;
+import jhi.flapjack.gui.mabc.*;
+import jhi.flapjack.gui.pedver.f1s.*;
+import jhi.flapjack.gui.pedver.lines.*;
 
 import scri.commons.gui.*;
 
@@ -38,16 +42,51 @@ public class SummaryTable extends JTable
 
 	private void jumpToRow(int modelRow)
 	{
-/*		AnalysisSummaryTableModel model = (AnalysisSummaryTableModel) getModel();
+		SummaryTableModel model = (SummaryTableModel) getModel();
 
-		PedVerF1sBatchList list = model.getBatchList();
-		PedVerF1sSummary summary = list.getSummary(modelRow);
+		if (model instanceof MabcSummaryTableModel)
+		{
+			MabcBatchList list = ((MabcSummaryTableModel)model).getBatchList();
+			MabcSummary summary = list.getSummaries().get(modelRow);
 
-		// Selects (and returns) the panel in the nav pane
-		PedVerF1sPanel panel = (PedVerF1sPanel) Flapjack.winMain.getNavPanel().selectPedVerLinesNode(summary.getViewSet());
-		// Tell the panel we want to show the first tab
-		panel.tabs.setSelectedIndex(0);
-*/
+			// Selects (and returns) the panel in the nav pane
+			MabcPanel panel = (MabcPanel) Flapjack.winMain.getNavPanel().selectMabcNode(summary.getViewSet());
+			// Tell the panel we want to show the first tab
+			panel.tabs.setSelectedIndex(0);
+		}
+
+		else if (model instanceof PedVerF1sSummaryTableModel)
+		{
+			PedVerF1sBatchList list = ((PedVerF1sSummaryTableModel)model).getBatchList();
+			PedVerF1sSummary summary = list.getSummaries().get(modelRow);
+
+			// Selects (and returns) the panel in the nav pane
+			PedVerF1sPanel panel = (PedVerF1sPanel) Flapjack.winMain.getNavPanel().selectPedVerF1sNode(summary.getViewSet());
+			// Tell the panel we want to show the first tab
+			panel.tabs.setSelectedIndex(0);
+		}
+
+		else if (model instanceof PedVerLinesSummaryTableModel)
+		{
+			PedVerLinesBatchList list = ((PedVerLinesSummaryTableModel)model).getBatchList();
+			PedVerLinesSummary summary = list.getSummaries().get(modelRow);
+
+			// Selects (and returns) the panel in the nav pane
+			PedVerLinesPanel panel = (PedVerLinesPanel) Flapjack.winMain.getNavPanel().selectPedVerLinesNode(summary.getViewSet());
+			// Tell the panel we want to show the first tab
+			panel.tabs.setSelectedIndex(0);
+		}
+
+		else if (model instanceof ForwardBreedingSummaryTableModel)
+		{
+			ForwardBreedingBatchList list = ((ForwardBreedingSummaryTableModel)model).getBatchList();
+			ForwardBreedingSummary summary = list.getSummaries().get(modelRow);
+
+			// Selects (and returns) the panel in the nav pane
+			ForwardBreedingPanel panel = (ForwardBreedingPanel) Flapjack.winMain.getNavPanel().selectForwardBreedingNode(summary.getViewSet());
+			// Tell the panel we want to show the first tab
+			panel.tabs.setSelectedIndex(0);
+		}
 	}
 
 	// Ensures all column headers have tooltips
