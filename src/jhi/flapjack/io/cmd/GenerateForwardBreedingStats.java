@@ -97,13 +97,13 @@ public class GenerateForwardBreedingStats
 		for (int i = 0; i < chromosomes.length; i++)
 			chromosomes[i] = true;
 
-		ForwardBreedingAnalysis stats = new ForwardBreedingAnalysis(viewSet, chromosomes, RB.getString("gui.navpanel.ForwardBreeding.node"));
+		FBAnalysis stats = new FBAnalysis(viewSet, chromosomes, RB.getString("gui.navpanel.ForwardBreeding.node"));
 
 		stats.runJob(0);
 
 		GTViewSet finalViewSet = stats.getViewSet();
 
-		ForwardBreedingTableModel model = new ForwardBreedingTableModel(finalViewSet);
+		FBTableModel model = new FBTableModel(finalViewSet);
 		LineDataTable table = new LineDataTable();
 
 		table.setModel(model);

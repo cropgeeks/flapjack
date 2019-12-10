@@ -10,15 +10,15 @@ import jhi.flapjack.gui.visualization.*;
 
 import javax.swing.*;
 
-public class ForwardBreedingNode extends VisualizationChildNode
+public class FBNode extends VisualizationChildNode
 {
-	private ForwardBreedingPanel panel;
+	private FBPanel panel;
 
-	public ForwardBreedingNode(GenotypePanel gPanel, GTViewSet viewSet)
+	public FBNode(GenotypePanel gPanel, GTViewSet viewSet)
 	{
 		super(gPanel, viewSet, viewSet.getLines().get(0).getResults().getName());
 
-		panel = new ForwardBreedingPanel(viewSet);
+		panel = new FBPanel(viewSet);
 	}
 
 	public void setActions()

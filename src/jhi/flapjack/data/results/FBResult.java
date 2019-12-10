@@ -7,7 +7,7 @@ import jhi.flapjack.data.*;
 
 import java.util.*;
 
-public class ForwardBreedingResult extends XMLRoot
+public class FBResult extends XMLRoot
 {
 	private int dataCount;
 	private double percentData;
@@ -21,7 +21,7 @@ public class ForwardBreedingResult extends XMLRoot
 	private double averageWeightedHapMatch;
 	private double averageHapMatch;
 
-	public ForwardBreedingResult()
+	public FBResult()
 	{
 	}
 

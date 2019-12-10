@@ -11,17 +11,17 @@ import jhi.flapjack.gui.table.*;
 
 import scri.commons.gui.*;
 
-class ForwardBreedingSummaryPanelNB extends JPanel
+class FBSummaryPanelNB extends JPanel
 {
-	private ForwardBreedingSummaryTableModel model;
+	private FBSummaryTableModel model;
 
-	ForwardBreedingSummaryPanelNB(ForwardBreedingPanel panel, GTViewSet viewSet)
+	FBSummaryPanelNB(FBPanel panel, GTViewSet viewSet)
 	{
 		// Safety check for any results that were generated before we added
 		// summary information. This'll create a new list of size one.
-		if (viewSet._getForwardBreedingBatchList() == null)
+		if (viewSet._getFBBatchList() == null)
 		{
-			ForwardBreedingBatchList list = new ForwardBreedingBatchList();
+			FBBatchList list = new FBBatchList();
 			list.add(viewSet);
 		}
 
@@ -34,7 +34,7 @@ class ForwardBreedingSummaryPanelNB extends JPanel
 
 		/////////////
 
-		model = new ForwardBreedingSummaryTableModel(viewSet._getForwardBreedingBatchList());
+		model = new FBSummaryTableModel(viewSet._getFBBatchList());
 		table.setModel(model);
 	}
 

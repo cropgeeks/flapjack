@@ -542,7 +542,7 @@ public class MenuAnalysis
 		ArrayList<GTViewSet> viewSets = winMain.getProject().retrieveAllViews();
 
 		// Prompt the user for input variables
-		ForwardBreedingStatsDialog dialog = new ForwardBreedingStatsDialog(viewSet, viewSets);
+		FBStatsDialog dialog = new FBStatsDialog(viewSet, viewSets);
 		if (dialog.isOK() == false)
 			return;
 
@@ -552,21 +552,21 @@ public class MenuAnalysis
 			forwardBreedingBatchRun(viewSets, dialog);
 	}
 
-	private void forwardBreedingSingleRun(GTViewSet viewSet, ForwardBreedingStatsDialog dialog)
+	private void forwardBreedingSingleRun(GTViewSet viewSet, FBStatsDialog dialog)
 	{
 		DataSet dataSet = navPanel.getDataSetForSelection();
 
 		// Retrieve information required for analysis from dialog
-		ForwardBreedingStatsSinglePanelNB ui = dialog.getSingleUI();
+		FBStatsSinglePanelNB ui = dialog.getSingleUI();
 		boolean[] selectedChromosomes = ui.getSelectedChromosomes();
 
-		ForwardBreedingAnalysis stats = new ForwardBreedingAnalysis(viewSet, selectedChromosomes, "Forward Breeding Results");
+		FBAnalysis stats = new FBAnalysis(viewSet, selectedChromosomes, "Forward Breeding Results");
 		ProgressDialog pDialog = new ProgressDialog(stats,
 			"Running Forward Breeding Stats",
 			"Running Forward Breeding stats - please be patient...",
 			Flapjack.winMain);
 
-		ForwardBreedingBatchList list = new ForwardBreedingBatchList();
+		FBBatchList list = new FBBatchList();
 		list.add(stats.getViewSet());
 
 		navPanel.addVisualizationNode(dataSet, stats.getViewSet());
@@ -574,13 +574,13 @@ public class MenuAnalysis
 		Actions.projectModified();
 	}
 
-	private void forwardBreedingBatchRun(ArrayList<GTViewSet> viewSets, ForwardBreedingStatsDialog dialog)
+	private void forwardBreedingBatchRun(ArrayList<GTViewSet> viewSets, FBStatsDialog dialog)
 	{
 		// Retrieve information required for analysis from dialog
-		ForwardBreedingStatsBatchPanelNB ui = dialog.getBatchUI();
+		FBStatsBatchPanelNB ui = dialog.getBatchUI();
 
 		// Run the stats calculations
-		ForwardBreedingBatchAnalysis stats = new ForwardBreedingBatchAnalysis(
+		FBBatchAnalysis stats = new FBBatchAnalysis(
 			viewSets, "Forward Breeding Results");
 
 		ProgressDialog pDialog = new ProgressDialog(stats,
@@ -588,7 +588,7 @@ public class MenuAnalysis
 			"Running Forward Breeding stats - please be patient...",
 			Flapjack.winMain);
 
-		ForwardBreedingBatchList list = new ForwardBreedingBatchList();
+		FBBatchList list = new FBBatchList();
 		list.add(stats.getResultViewSets());
 
 		// Create new NavPanel components to hold the results

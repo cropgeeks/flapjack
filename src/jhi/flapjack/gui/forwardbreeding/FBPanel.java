@@ -14,25 +14,25 @@ import jhi.flapjack.gui.table.*;
 
 import scri.commons.gui.*;
 
-public class ForwardBreedingPanel extends JPanel implements ActionListener, ListSelectionListener, ITableViewListener, TableModelListener
+public class FBPanel extends JPanel implements ActionListener, ListSelectionListener, ITableViewListener, TableModelListener
 {
 	public JTabbedPane tabs;
 
 	private LineDataTable table;
-	private ForwardBreedingTableModel model;
+	private FBTableModel model;
 	private GTViewSet viewSet;
 
 	private LinkedTableHandler tableHandler;
 
-	private ForwardBreedingPanelNB controls;
-	private ForwardBreedingSummaryPanelNB summaryControls;
+	private FBPanelNB controls;
+	private FBSummaryPanelNB summaryControls;
 
 	private int rank = 1;
 
-	public ForwardBreedingPanel(GTViewSet viewSet)
+	public FBPanel(GTViewSet viewSet)
 	{
-		controls = new ForwardBreedingPanelNB(this);
-		summaryControls = new ForwardBreedingSummaryPanelNB(this, viewSet);
+		controls = new FBPanelNB(this);
+		summaryControls = new FBSummaryPanelNB(this, viewSet);
 		this.viewSet = viewSet;
 
 		table = (LineDataTable) controls.table;
@@ -62,12 +62,12 @@ public class ForwardBreedingPanel extends JPanel implements ActionListener, List
 		tableHandler.linkTable(table, model);
 
 		controls.autoResize.setSelected(tableHandler.isAutoResize());
-		summaryControls.autoResize.setSelected(viewSet._getForwardBreedingBatchList().isAutoResize());
+		summaryControls.autoResize.setSelected(viewSet._getFBBatchList().isAutoResize());
 	}
 
 	private void updateModel(GTViewSet viewset)
 	{
-		model = new ForwardBreedingTableModel(viewset);
+		model = new FBTableModel(viewset);
 		model.addTableModelListener(this);
 
 		table.setModel(model);
@@ -95,7 +95,7 @@ public class ForwardBreedingPanel extends JPanel implements ActionListener, List
 		{
 			boolean state = summaryControls.autoResize.isSelected();
 			((SummaryTable)summaryControls.table).autoResize(state);
-			viewSet._getForwardBreedingBatchList().setAutoResize(state);
+			viewSet._getFBBatchList().setAutoResize(state);
 		}
 	}
 

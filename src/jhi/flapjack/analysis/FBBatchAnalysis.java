@@ -11,13 +11,13 @@ import jhi.flapjack.gui.dialog.analysis.*;
 import scri.commons.gui.*;
 
 // Batch run multiple PedVerLines analysis tasks
-public class ForwardBreedingBatchAnalysis extends SimpleJob
+public class FBBatchAnalysis extends SimpleJob
 {
 	private ArrayList<GTViewSet> viewSets, resultViewSets;
 
 	private String name;
 
-	public ForwardBreedingBatchAnalysis(ArrayList<GTViewSet> viewSets, String name)
+	public FBBatchAnalysis(ArrayList<GTViewSet> viewSets, String name)
 	{
 		this.viewSets = viewSets;
 
@@ -48,7 +48,7 @@ public class ForwardBreedingBatchAnalysis extends SimpleJob
 		ChromosomeSelectionDialog csd = new ChromosomeSelectionDialog(viewSet, true, false);
 		boolean[] selectedChromosomes = csd.getSelectedChromosomes();
 
-		ForwardBreedingAnalysis stats = new ForwardBreedingAnalysis(viewSet,
+		FBAnalysis stats = new FBAnalysis(viewSet,
 			selectedChromosomes, name);
 
 		stats.runJob(0);

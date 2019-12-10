@@ -7,7 +7,7 @@ import java.util.*;
 
 import jhi.flapjack.data.*;
 
-public class ForwardBreedingSummary extends XMLRoot
+public class FBSummary extends XMLRoot
 {
 	private GTViewSet viewSet;
 	private ArrayList<LineInfo> lines;
@@ -20,11 +20,11 @@ public class ForwardBreedingSummary extends XMLRoot
 //		similarityToP2Avg, percentAlleleMatchExpectedAvg;
 
 
-	public ForwardBreedingSummary()
+	public FBSummary()
 	{
 	}
 
-	public ForwardBreedingSummary(GTViewSet viewSet, ForwardBreedingBatchList batchList)
+	public FBSummary(GTViewSet viewSet, FBBatchList batchList)
 	{
 		this.viewSet = viewSet;
 		this.lines = viewSet.getLines();

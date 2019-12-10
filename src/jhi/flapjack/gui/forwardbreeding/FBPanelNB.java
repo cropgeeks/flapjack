@@ -9,9 +9,9 @@ import jhi.flapjack.gui.table.*;
 
 import scri.commons.gui.*;
 
-public class ForwardBreedingPanelNB extends JPanel
+public class FBPanelNB extends JPanel
 {
-	public ForwardBreedingPanelNB(ForwardBreedingPanel panel)
+	public FBPanelNB(FBPanel panel)
 	{
 		initComponents();
 

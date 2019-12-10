@@ -77,13 +77,13 @@ public class SummaryTable extends JTable
 			panel.tabs.setSelectedIndex(0);
 		}
 
-		else if (model instanceof ForwardBreedingSummaryTableModel)
+		else if (model instanceof FBSummaryTableModel)
 		{
-			ForwardBreedingBatchList list = ((ForwardBreedingSummaryTableModel)model).getBatchList();
-			ForwardBreedingSummary summary = list.getSummaries().get(modelRow);
+			FBBatchList list = ((FBSummaryTableModel)model).getBatchList();
+			FBSummary summary = list.getSummaries().get(modelRow);
 
 			// Selects (and returns) the panel in the nav pane
-			ForwardBreedingPanel panel = (ForwardBreedingPanel) Flapjack.winMain.getNavPanel().selectForwardBreedingNode(summary.getViewSet());
+			FBPanel panel = (FBPanel) Flapjack.winMain.getNavPanel().selectForwardBreedingNode(summary.getViewSet());
 			// Tell the panel we want to show the first tab
 			panel.tabs.setSelectedIndex(0);
 		}

@@ -9,11 +9,11 @@ import javax.swing.*;
 import jhi.flapjack.data.*;
 import jhi.flapjack.gui.*;
 
-public class ForwardBreedingStatsBatchPanelNB extends JPanel
+public class FBStatsBatchPanelNB extends JPanel
 {
 	private ArrayList<GTViewSet> viewSets;
 
-	public ForwardBreedingStatsBatchPanelNB(ArrayList<GTViewSet> viewSets)
+	public FBStatsBatchPanelNB(ArrayList<GTViewSet> viewSets)
 	{
 		this.viewSets = viewSets;
 

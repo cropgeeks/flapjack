@@ -14,16 +14,16 @@ import jhi.flapjack.gui.*;
 import scri.commons.gui.*;
 import scri.commons.gui.matisse.*;
 
-public class ForwardBreedingStatsDialog extends JDialog implements ActionListener
+public class FBStatsDialog extends JDialog implements ActionListener
 {
 	private JTabbedPane tabs;
-	private ForwardBreedingStatsSinglePanelNB singlePanel;
-	private ForwardBreedingStatsBatchPanelNB batchPanel;
+	private FBStatsSinglePanelNB singlePanel;
+	private FBStatsBatchPanelNB batchPanel;
 
 	private JButton bOK, bCancel, bHelp;
 	private boolean isOK, isSingle;
 
-	public ForwardBreedingStatsDialog(GTViewSet viewSet, ArrayList<GTViewSet> viewSets)
+	public FBStatsDialog(GTViewSet viewSet, ArrayList<GTViewSet> viewSets)
 	{
 		super(
 			Flapjack.winMain,
@@ -32,8 +32,8 @@ public class ForwardBreedingStatsDialog extends JDialog implements ActionListene
 		);
 
 		JPanel overview = createOverviewPanel();
-		singlePanel = new ForwardBreedingStatsSinglePanelNB(viewSet);
-		batchPanel = new ForwardBreedingStatsBatchPanelNB(viewSets);
+		singlePanel = new FBStatsSinglePanelNB(viewSet);
+		batchPanel = new FBStatsBatchPanelNB(viewSets);
 
 		add(createButtons(), BorderLayout.SOUTH);
 
@@ -53,10 +53,10 @@ public class ForwardBreedingStatsDialog extends JDialog implements ActionListene
 		FlapjackUtils.initDialog(this, bOK, bCancel, true, overview, singlePanel, batchPanel);
 	}
 
-	public ForwardBreedingStatsSinglePanelNB getSingleUI()
+	public FBStatsSinglePanelNB getSingleUI()
 		{ return singlePanel; }
 
-	public ForwardBreedingStatsBatchPanelNB getBatchUI()
+	public FBStatsBatchPanelNB getBatchUI()
 		{ return batchPanel; }
 
 	private JPanel createButtons()

@@ -10,11 +10,11 @@ import jhi.flapjack.gui.*;
 
 import scri.commons.gui.*;
 
-public class ForwardBreedingStatsSinglePanelNB extends JPanel
+public class FBStatsSinglePanelNB extends JPanel
 {
 	private ChromosomeSelectionDialog csd;
 
-	public ForwardBreedingStatsSinglePanelNB(GTViewSet viewSet)
+	public FBStatsSinglePanelNB(GTViewSet viewSet)
 	{
 		initComponents();
 

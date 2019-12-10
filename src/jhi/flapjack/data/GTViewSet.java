@@ -73,7 +73,7 @@ public class GTViewSet extends XMLRoot
 	private MabcBatchList mabcBatchList;
 	private PedVerF1sBatchList pedVerF1sBatchList;
 	private PedVerLinesBatchList pedVerLinesBatchList;
-	private ForwardBreedingBatchList forwardBreedingBatchList;
+	private FBBatchList fbBatchList;
 
 	public GTViewSet()
 	{
@@ -331,11 +331,11 @@ public class GTViewSet extends XMLRoot
 	public void _setPedVerLinesBatchList(PedVerLinesBatchList pedVerLinesBatchList)
 		{ this.pedVerLinesBatchList = pedVerLinesBatchList; }
 
-	public ForwardBreedingBatchList _getForwardBreedingBatchList()
-		{ return forwardBreedingBatchList; }
+	public FBBatchList _getFBBatchList()
+		{ return fbBatchList; }
 
-	public void _setForwardBreedingBatchList(ForwardBreedingBatchList forwardBreedingBatchList)
-		{ this.forwardBreedingBatchList = forwardBreedingBatchList; }
+	public void _setFBBatchList(FBBatchList fbBatchList)
+		{ this.fbBatchList = fbBatchList; }
 
 
 

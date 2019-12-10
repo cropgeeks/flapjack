@@ -6,24 +6,24 @@ package jhi.flapjack.gui.forwardbreeding;
 import jhi.flapjack.data.results.*;
 import jhi.flapjack.gui.table.*;
 
-public class ForwardBreedingSummaryTableModel extends SummaryTableModel
+public class FBSummaryTableModel extends SummaryTableModel
 {
-	private ForwardBreedingBatchList batchList;
+	private FBBatchList batchList;
 
-	public ForwardBreedingSummaryTableModel(ForwardBreedingBatchList batchList)
+	public FBSummaryTableModel(FBBatchList batchList)
 	{
 		this.batchList = batchList;
 
 		columnNames = new String[] { "Analysis", "Family Size", "Proportion Selected" };
 	}
 
-	public ForwardBreedingBatchList getBatchList()
+	public FBBatchList getBatchList()
 		{ return batchList; }
 
 	@Override
 	public Object getValueAt(int row, int col)
 	{
-		ForwardBreedingSummary summary = batchList.getSummaries().get(row);
+		FBSummary summary = batchList.getSummaries().get(row);
 
 		switch (col)
 		{

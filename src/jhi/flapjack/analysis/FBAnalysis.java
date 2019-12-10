@@ -11,7 +11,7 @@ import scri.commons.gui.*;
 import java.util.*;
 import java.util.stream.*;
 
-public class ForwardBreedingAnalysis extends SimpleJob
+public class FBAnalysis extends SimpleJob
 {
 	private GTViewSet viewSet;
 	private boolean[] selectedChromosomes;
@@ -22,13 +22,13 @@ public class ForwardBreedingAnalysis extends SimpleJob
 
 	private String name;
 
-	public ForwardBreedingAnalysis(GTViewSet viewSet, boolean[] selectedChromosomes, String name)
+	public FBAnalysis(GTViewSet viewSet, boolean[] selectedChromosomes, String name)
 	{
 		this(viewSet, selectedChromosomes);
 		this.name = name;
 	}
 
-	public ForwardBreedingAnalysis(GTViewSet viewSet, boolean[] selectedChromosomes)
+	public FBAnalysis(GTViewSet viewSet, boolean[] selectedChromosomes)
 	{
 		this.viewSet = viewSet.createClone("", true);
 		this.selectedChromosomes = selectedChromosomes;
@@ -76,7 +76,7 @@ public class ForwardBreedingAnalysis extends SimpleJob
 		{
 			// Get the line from the analysis set and set up an FB results object for it
 			LineInfo line = as.getLine(lineIndex);
-			ForwardBreedingResult result = new ForwardBreedingResult();
+			FBResult result = new FBResult();
 			line.getResults().setForwardBreedingResult(result);
 			line.getResults().setName(name);
 

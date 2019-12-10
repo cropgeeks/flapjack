@@ -8,24 +8,24 @@ import java.util.*;
 import jhi.flapjack.data.*;
 
 // Stores and tracks one or more runs/views associated with this analysis
-public class ForwardBreedingBatchList extends XMLRoot
+public class FBBatchList extends XMLRoot
 {
-	private ArrayList<ForwardBreedingSummary> summaries = new ArrayList<>();
+	private ArrayList<FBSummary> summaries = new ArrayList<>();
 
 	// Tracks whether the table showing these results should autoresize
 	private boolean autoResize = true;
 
-	public ForwardBreedingBatchList()
+	public FBBatchList()
 	{
 	}
 	
 
 	// Methods required for XML serialization
 
-	public ArrayList<ForwardBreedingSummary> getSummaries()
+	public ArrayList<FBSummary> getSummaries()
 		{ return summaries; }
 
-	public void setSummaries(ArrayList<ForwardBreedingSummary> summaries)
+	public void setSummaries(ArrayList<FBSummary> summaries)
 		{ this.summaries = summaries; }
 
 	public boolean isAutoResize()
@@ -45,8 +45,8 @@ public class ForwardBreedingBatchList extends XMLRoot
 
 	public void add(GTViewSet viewSet)
 	{
-		summaries.add(new ForwardBreedingSummary(viewSet, this));
-		viewSet._setForwardBreedingBatchList(this);
+		summaries.add(new FBSummary(viewSet, this));
+		viewSet._setFBBatchList(this);
 	}
 
 	public int size()

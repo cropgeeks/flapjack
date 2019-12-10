@@ -10,7 +10,7 @@ import jhi.flapjack.gui.table.*;
 
 import scri.commons.gui.*;
 
-public class ForwardBreedingTableModel extends LineDataTableModel
+public class FBTableModel extends LineDataTableModel
 {
 	private int selectedIndex, rankIndex, commentIndex, sortIndex;
 	private int partialMatchIndex;
@@ -22,7 +22,7 @@ public class ForwardBreedingTableModel extends LineDataTableModel
 	private int hetCountIndex;
 	private int hetPercIndex;
 
-	public ForwardBreedingTableModel(GTViewSet viewSet)
+	public FBTableModel(GTViewSet viewSet)
 	{
 		this.dataSet = viewSet.getDataSet();
 
@@ -33,7 +33,7 @@ public class ForwardBreedingTableModel extends LineDataTableModel
 	void initModel()
 	{
 		LineInfo line = lines.get(0);
-		ForwardBreedingResult results = line.getResults().getForwardBreedingResult();
+		FBResult results = line.getResults().getForwardBreedingResult();
 		int partialMatchSize = results.getHaplotypePartialMatch().size();
 		int hapWeightSize = results.getHaplotypeWeight().size();
 
@@ -98,7 +98,7 @@ public class ForwardBreedingTableModel extends LineDataTableModel
 	public Object getObjectAt(int row, int col)
 	{
 		LineInfo line = lines.get(row);
-		ForwardBreedingResult stats = line.getResults().getForwardBreedingResult();
+		FBResult stats = line.getResults().getForwardBreedingResult();
 
 		// Name, Selected and Sort can work without results
 		if (col == 0)

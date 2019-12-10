@@ -299,7 +299,7 @@ public class NavPanel extends JPanel
 	{
 		if (containsForwardBreedingResults(viewSet))
 		{
-			ForwardBreedingNode node = new ForwardBreedingNode(gPanel, viewSet);
+			FBNode node = new FBNode(gPanel, viewSet);
 			insert(node, vNode, vNode.getChildCount());
 		}
 	}
@@ -612,11 +612,11 @@ public class NavPanel extends JPanel
 	{
 		VisualizationNode vNode = findVisualizationNode(viewSet);
 
-		ForwardBreedingNode pNode = null;
+		FBNode pNode = null;
 		for (int i = 0; i < vNode.getChildCount(); i++)
 		{
-			if (vNode.getChildAt(i) instanceof ForwardBreedingNode)
-				pNode = (ForwardBreedingNode) vNode.getChildAt(i);
+			if (vNode.getChildAt(i) instanceof FBNode)
+				pNode = (FBNode) vNode.getChildAt(i);
 		}
 
 		return setAndScrollTo(pNode);
