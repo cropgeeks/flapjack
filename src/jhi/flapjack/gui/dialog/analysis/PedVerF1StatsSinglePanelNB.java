@@ -15,7 +15,7 @@ import scri.commons.gui.*;
 public class PedVerF1StatsSinglePanelNB extends JPanel
 {
 	private ChromosomeSelectionDialog csd;
-	private ThresholdDialog thresholdDialog;
+	private PedVerF1sThresholdDialog pedVerF1sThresholdDialog;
 
 	private ButtonGroup f1Group;
 
@@ -35,8 +35,8 @@ public class PedVerF1StatsSinglePanelNB extends JPanel
 
 		csd = new ChromosomeSelectionDialog(viewSet, true, true);
 		csdLabel.addActionListener(e -> csd.setVisible(true));
-		thresholdDialog = new ThresholdDialog();
-		thresholdLabel.addActionListener(e -> thresholdDialog.setVisible(true));
+		pedVerF1sThresholdDialog = new PedVerF1sThresholdDialog();
+		thresholdLabel.addActionListener(e -> pedVerF1sThresholdDialog.setVisible(true));
 
 		setupF1ButtonGroup();
 		setupComboBoxes(as);
@@ -126,16 +126,16 @@ public class PedVerF1StatsSinglePanelNB extends JPanel
 	}
 
 	public PedVerF1sThresholds getThresholds()
-		{ return thresholdDialog.getThresholds(); }
+		{ return pedVerF1sThresholdDialog.getThresholds(); }
 
 	public int getDecisionModelIndex()
 	{
-		return thresholdDialog.getDecisionModelIndex();
+		return pedVerF1sThresholdDialog.getDecisionModelIndex();
 	}
 
 	public boolean isAutoSelectTrueF1s()
 	{
-		return thresholdDialog.isAutoSelectTrueF1s();
+		return pedVerF1sThresholdDialog.isAutoSelectTrueF1s();
 	}
 
 	/**

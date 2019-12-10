@@ -7,14 +7,13 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.event.*;
 
-import jhi.flapjack.data.*;
 import jhi.flapjack.data.results.*;
 import jhi.flapjack.gui.*;
 
 import jhi.flapjack.gui.table.*;
 import scri.commons.gui.*;
 
-public class ThresholdDialog extends JDialog implements ActionListener, ChangeListener
+public class PedVerF1sThresholdDialog extends JDialog implements ActionListener, ChangeListener
 {
 	private boolean isOK = false;
 
@@ -29,19 +28,19 @@ public class ThresholdDialog extends JDialog implements ActionListener, ChangeLi
 
 	private PedVerF1sBatchList batchList;
 
-	public ThresholdDialog()
+	public PedVerF1sThresholdDialog()
 	{
 		this(PedVerF1sThresholds.fromUserDefaults());
 	}
 
-	public ThresholdDialog(PedVerF1sThresholds thresholds, LineDataTable table, PedVerF1sBatchList batchList)
+	public PedVerF1sThresholdDialog(PedVerF1sThresholds thresholds, LineDataTable table, PedVerF1sBatchList batchList)
 	{
 		this(thresholds);
 		this.table = table;
 		this.batchList = batchList;
 	}
 
-	public ThresholdDialog(PedVerF1sThresholds thresholds)
+	public PedVerF1sThresholdDialog(PedVerF1sThresholds thresholds)
 	{
 		super(Flapjack.winMain, RB.getString("gui.dialog.analysis.ThresholdSettingsDialog.title"), true);
 		this.thresholds = thresholds;

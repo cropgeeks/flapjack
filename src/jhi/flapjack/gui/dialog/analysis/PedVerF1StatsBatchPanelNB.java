@@ -14,7 +14,7 @@ public class PedVerF1StatsBatchPanelNB extends JPanel
 {
 	private ArrayList<GTViewSet> viewSets;
 
-	private ThresholdDialog thresholdDialog;
+	private PedVerF1sThresholdDialog pedVerF1sThresholdDialog;
 
 	public PedVerF1StatsBatchPanelNB(ArrayList<GTViewSet> viewSets)
 	{
@@ -30,8 +30,8 @@ public class PedVerF1StatsBatchPanelNB extends JPanel
 	{
 		FlapjackUtils.initPanel(dataPanel, thresholdPanel);
 
-		thresholdDialog = new ThresholdDialog();
-		thresholdLabel.addActionListener(e -> thresholdDialog.setVisible(true));
+		pedVerF1sThresholdDialog = new PedVerF1sThresholdDialog();
+		thresholdLabel.addActionListener(e -> pedVerF1sThresholdDialog.setVisible(true));
 	}
 
 	public boolean isOK()
@@ -41,17 +41,17 @@ public class PedVerF1StatsBatchPanelNB extends JPanel
 
 	public PedVerF1sThresholds getThresholds()
 	{
-		return thresholdDialog.getThresholds();
+		return pedVerF1sThresholdDialog.getThresholds();
 	}
 
 	public int getDecisionModelIndex()
 	{
-		return thresholdDialog.getDecisionModelIndex();
+		return pedVerF1sThresholdDialog.getDecisionModelIndex();
 	}
 
 	public boolean isAutoSelectTrueF1s()
 	{
-		return thresholdDialog.isAutoSelectTrueF1s();
+		return pedVerF1sThresholdDialog.isAutoSelectTrueF1s();
 	}
 
 	/**

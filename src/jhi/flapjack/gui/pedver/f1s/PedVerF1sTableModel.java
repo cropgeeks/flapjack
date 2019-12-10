@@ -24,10 +24,10 @@ public class PedVerF1sTableModel extends LineDataTableModel
 	private static final int similarityToP1Index = 6;
 	private static final int similarityToP2Index = 7;
 	private static final int percAlleleMatchIndex = 8;
-	private static final int selectedIndex = 9;
-	private static final int rankIndex = 10;
-	private static final int commentIndex = 11;
-	private static final int sortIndex = 12;
+	private static final int rankIndex = 9;
+	private static final int commentIndex = 10;
+	private static final int sortIndex = 11;
+	private static final int selectedIndex = 12;
 	private static final int decisionIndex = 13;
 
 	private GTViewSet viewSet;
