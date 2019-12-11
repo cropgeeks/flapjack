@@ -5,6 +5,7 @@ package jhi.flapjack.gui.table;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.*;
 import javax.swing.*;
 import javax.swing.table.*;
 
@@ -145,5 +146,18 @@ public class SummaryTable extends JTable
 			setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 		else
 			setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+	}
+
+	public void exportData()
+	{
+		ExportSummaryDialog dialog = new ExportSummaryDialog();
+
+		if (dialog.isOK() == false)
+			return;
+
+		// Gather the options selected by the user
+		File filename = dialog.getFilename();
+		int exportType = Prefs.guiSumTableExportType;
+		boolean exportTraits = Prefs.guiSumTableExportTraits;
 	}
 }

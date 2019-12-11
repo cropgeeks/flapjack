@@ -190,6 +190,12 @@ public class Prefs extends XMLPreferences
 	public static boolean guiLDTableExportHeaders = true;
 	public static boolean guiLDTableExportTraits = true;
 
+	// SummaryTable export data dialog
+	public static String guiSumTableExportHistory = "";
+	// 0=export selected, 1=export all
+	public static int guiSumTableExportType = 0;
+	public static boolean guiSumTableExportTraits = true;
+
 	// BrAPI Importer Options
 	public static boolean guiBrAPIUseCustom = false;
 	public static String guiBrAPICustomHistory = "";

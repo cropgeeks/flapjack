@@ -97,6 +97,9 @@ public class FBPanel extends JPanel implements ActionListener, ListSelectionList
 			((SummaryTable)summaryControls.table).autoResize(state);
 			viewSet._getFBBatchList().setAutoResize(state);
 		}
+
+		else if (e.getSource() == summaryControls.bExport)
+			((SummaryTable)summaryControls.table).exportData();
 	}
 
 	@Override

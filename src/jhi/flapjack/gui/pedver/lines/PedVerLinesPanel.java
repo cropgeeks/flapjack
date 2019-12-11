@@ -100,6 +100,9 @@ public class PedVerLinesPanel extends JPanel implements ActionListener, ListSele
 			((SummaryTable)summaryControls.table).autoResize(state);
 			viewSet._getPedVerLinesBatchList().setAutoResize(state);
 		}
+
+		else if (e.getSource() == summaryControls.bExport)
+			((SummaryTable)summaryControls.table).exportData();
 	}
 
 	@Override

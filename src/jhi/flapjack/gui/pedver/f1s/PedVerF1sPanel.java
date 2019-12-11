@@ -102,6 +102,9 @@ public class PedVerF1sPanel extends JPanel implements ActionListener, ListSelect
 			((SummaryTable)summaryControls.table).autoResize(state);
 			viewSet._getPedVerF1sBatchList().setAutoResize(state);
 		}
+
+		else if (e.getSource() == summaryControls.bExport)
+			((SummaryTable)summaryControls.table).exportData();
 	}
 
 	@Override
