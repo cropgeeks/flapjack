@@ -94,6 +94,9 @@ public class PedVerLinesPanel extends JPanel implements ActionListener, ListSele
 		else if (e.getSource() == controls.autoResize)
 			table.autoResize(controls.autoResize.isSelected(), false);
 
+		else if (e.getSource() == controls.bThreshold)
+			table.pedVerLinesThresholdDialog();
+
 		else if (e.getSource() == summaryControls.autoResize)
 		{
 			boolean state = summaryControls.autoResize.isSelected();

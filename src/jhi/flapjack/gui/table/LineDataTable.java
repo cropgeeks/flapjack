@@ -271,8 +271,13 @@ public class LineDataTable extends JTable
 		model.fireTableDataChanged();
 	}
 
-	public void thresholdDialog()
+	public void pedVerF1sThresholdDialog()
 	{
+		// Track the undo state before doing anything
+		GenotypePanel gPanel = Flapjack.winMain.getGenotypePanel();
+		SelectedLinesState undo = new SelectedLinesState(gPanel.getView(), "selected lines");
+		undo.createUndoState();
+
 		PedVerF1sThresholds thresholds = viewSet.getLines().get(0).getResults().getPedVerF1sResult().getThresholds();
 		PedVerF1sThresholdDialog pedVerF1sThresholdDialog = new PedVerF1sThresholdDialog(thresholds, this);
 		pedVerF1sThresholdDialog.setVisible(true);
@@ -288,6 +293,86 @@ public class LineDataTable extends JTable
 			if (pedVerF1sThresholdDialog.isAutoSelectTrueF1s())
 				viewSet.getTableHandler().table().autoSelectTrueF1s();
 		}
+
+		// Track the redo state, then add
+		undo.createRedoState();
+		gPanel.addUndoState(undo);
+
+		Actions.projectModified();
+
+		Flapjack.winMain.mEdit.editMode(Constants.LINEMODE);
+	}
+
+	public void pedVerLinesThresholdDialog()
+	{
+		// Track the undo state before doing anything
+		GenotypePanel gPanel = Flapjack.winMain.getGenotypePanel();
+		SelectedLinesState undo = new SelectedLinesState(gPanel.getView(), "selected lines");
+		undo.createUndoState();
+
+		PedVerLinesThresholds thresholds = viewSet.getLines().get(0).getResults().getPedVerLinesResult().getThresholds();
+		PedVerLinesThresholdDialog thresholdDialog = new PedVerLinesThresholdDialog(thresholds, this);
+		thresholdDialog.setVisible(true);
+
+		if (thresholdDialog.isOK())
+		{
+			// Once the threshold dialog has been closed by the OK button we need to update the thresholds in every
+			// ped ver f1 result
+			for (LineInfo info : viewSet.getLines())
+				info.getResults().getPedVerLinesResult().setThresholds(thresholdDialog.getThresholds());
+
+			if (thresholdDialog.isAutoSelectVerifiedLines())
+				viewSet.getTableHandler().table().autoSelectVerifiedLines();
+		}
+
+		// Track the redo state, then add
+		undo.createRedoState();
+		gPanel.addUndoState(undo);
+
+		Actions.projectModified();
+
+		Flapjack.winMain.mEdit.editMode(Constants.LINEMODE);
+	}
+
+	public void mabcThresholdDialog()
+	{
+		// Track the undo state before doing anything
+		GenotypePanel gPanel = Flapjack.winMain.getGenotypePanel();
+		SelectedLinesState undo = new SelectedLinesState(gPanel.getView(), "selected lines");
+		undo.createUndoState();
+
+		// Calculates the highest possible values for the QTL allele count statistic and passes this
+		// to the threshold dialog to initialize components
+		int maxQtlAlleleCount = 0;
+		for (GTView view : viewSet.getViews())
+		{
+			for (QTLInfo qtl : view.getQTLs())
+				if (qtl.getQTL().isVisible())
+					maxQtlAlleleCount += 2;
+		}
+
+		MABCThresholds thresholds = viewSet.getLines().get(0).getResults().getMabcResult().getThresholds();
+		MABCThresholdDialog thresholdDialog = new MABCThresholdDialog(thresholds, maxQtlAlleleCount, this);
+		thresholdDialog.setVisible(true);
+
+		if (thresholdDialog.isOK())
+		{
+			// Once the threshold dialog has been closed by the OK button we need to update the thresholds in every
+			// ped ver f1 result
+			for (LineInfo info : viewSet.getLines())
+				info.getResults().getMabcResult().setThresholds(thresholdDialog.getThresholds());
+
+			if (thresholdDialog.isAutoSelect())
+				viewSet.getTableHandler().table().autoSelectMabc();
+		}
+
+		// Track the redo state, then add
+		undo.createRedoState();
+		gPanel.addUndoState(undo);
+
+		Actions.projectModified();
+
+		Flapjack.winMain.mEdit.editMode(Constants.LINEMODE);
 	}
 
 	public void updatePedVerDecsionModel(int modelIndex)
@@ -409,11 +494,6 @@ public class LineDataTable extends JTable
 	{
 		if (model instanceof PedVerF1sTableModel)
 		{
-			// Track the undo state before doing anything
-			GenotypePanel gPanel = Flapjack.winMain.getGenotypePanel();
-			SelectedLinesState undo = new SelectedLinesState(gPanel.getView(), "selected lines");
-			undo.createUndoState();
-
 			// Get the list of columns to use for selection
 			FilterColumn[] data = ((PedVerF1sTableModel)model).getFilterColsTrueF1sSelected();
 
@@ -421,12 +501,6 @@ public class LineDataTable extends JTable
 			lastSelect = data;
 
 			model.selectLines(data, true);
-
-			// Track the redo state, then add
-			undo.createRedoState();
-			gPanel.addUndoState(undo);
-
-			Flapjack.winMain.mEdit.editMode(Constants.LINEMODE);
 		}
 	}
 
@@ -434,11 +508,6 @@ public class LineDataTable extends JTable
 	{
 		if (model instanceof PedVerLinesTableModel)
 		{
-			// Track the undo state before doing anything
-			GenotypePanel gPanel = Flapjack.winMain.getGenotypePanel();
-			SelectedLinesState undo = new SelectedLinesState(gPanel.getView(), "selected lines");
-			undo.createUndoState();
-
 			// Get the list of columns to use for selection
 			FilterColumn[] data = ((PedVerLinesTableModel)model).getFilterColsVerifiedLinesSelected();
 
@@ -446,12 +515,6 @@ public class LineDataTable extends JTable
 			lastSelect = data;
 
 			model.selectLines(data, true);
-
-			// Track the redo state, then add
-			undo.createRedoState();
-			gPanel.addUndoState(undo);
-
-			Flapjack.winMain.mEdit.editMode(Constants.LINEMODE);
 		}
 	}
 
@@ -459,11 +522,6 @@ public class LineDataTable extends JTable
 	{
 		if (model instanceof MabcTableModel)
 		{
-			// Track the undo state before doing anything
-			GenotypePanel gPanel = Flapjack.winMain.getGenotypePanel();
-			SelectedLinesState undo = new SelectedLinesState(gPanel.getView(), "selected lines");
-			undo.createUndoState();
-
 			// Get the list of columns to use for selection
 			FilterColumn[] data = ((MabcTableModel)model).getFilterColsMabcSelected();
 
@@ -471,12 +529,6 @@ public class LineDataTable extends JTable
 			lastSelect = data;
 
 			model.selectLines(data, true);
-
-			// Track the redo state, then add
-			undo.createRedoState();
-			gPanel.addUndoState(undo);
-
-			Flapjack.winMain.mEdit.editMode(Constants.LINEMODE);
 		}
 	}
 

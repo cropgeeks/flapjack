@@ -26,6 +26,8 @@ public class MabcTableModel extends LineDataTableModel
 	private int hetPercIndex;
 	private int decisionIndex;
 
+	private FilterColumn filterColumn;
+
 	public MabcTableModel(GTViewSet viewSet)
 	{
 		this.dataSet = viewSet.getDataSet();
@@ -98,10 +100,13 @@ public class MabcTableModel extends LineDataTableModel
 		columnNames[rankIndex] = RB.getString("gui.mabc.MabcTableModel.rank");
 		columnNames[commentIndex] = RB.getString("gui.mabc.MabcTableModel.comments");
 		columnNames[sortIndex] = RB.getString("gui.mabc.MabcTableModel.sortFilter");
+		columnNames[decisionIndex] = RB.getString("gui.mabc.MabcTableModel.decision");
 
 		for (int i = 0; i < columnNames.length; i++)
 			if (ttNames[i] == null)
 				ttNames[i] = columnNames[i];
+
+		filterColumn = new MabcFilterColumn(decisionIndex, getObjectColumnClass(decisionIndex), columnNames[decisionIndex], MabcFilterColumn.SELECT);
 	}
 
 	@Override
@@ -301,5 +306,10 @@ public class MabcTableModel extends LineDataTableModel
 		}
 
 		return cols.toArray(new FilterColumn[] {});
+	}
+
+	public FilterColumn getFilterColumn()
+	{
+		return filterColumn;
 	}
 }

@@ -28,6 +28,9 @@ public class MabcPanelNB extends javax.swing.JPanel
 		bRank.addActionListener(panel);
 		bRank.setIcon(Icons.getIcon("RANK"));
 
+		bThreshold.addActionListener(panel);
+		bThreshold.setIcon(Icons.getIcon("THRESHOLD"));
+
 		autoResize.addActionListener(panel);
 	}
 
@@ -38,8 +41,7 @@ public class MabcPanelNB extends javax.swing.JPanel
 	 */
 	@SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents()
-    {
+    private void initComponents() {
 
         jScrollPane2 = new javax.swing.JScrollPane();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -53,14 +55,13 @@ public class MabcPanelNB extends javax.swing.JPanel
         jLabel2 = new javax.swing.JLabel();
         bFilter = new scri.commons.gui.matisse.MenuButton();
         bSelect = new scri.commons.gui.matisse.MenuButton();
+        bThreshold = new javax.swing.JButton();
 
         table.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][]
-            {
+            new Object [][] {
 
             },
-            new String []
-            {
+            new String [] {
 
             }
         ));
@@ -77,7 +78,6 @@ public class MabcPanelNB extends javax.swing.JPanel
 
         autoResize.setSelected(true);
         autoResize.setText("Auto-fit columns");
-        autoResize.setOpaque(false);
 
         filterLabel.setText("Lines visible:");
 
@@ -86,6 +86,8 @@ public class MabcPanelNB extends javax.swing.JPanel
         bFilter.setText("Filter");
 
         bSelect.setText("Select");
+
+        bThreshold.setText("Threshold");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -100,6 +102,8 @@ public class MabcPanelNB extends javax.swing.JPanel
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(filterLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(bThreshold)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(bSelect, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(bRank)
@@ -127,7 +131,8 @@ public class MabcPanelNB extends javax.swing.JPanel
                     .addComponent(filterLabel)
                     .addComponent(jLabel2)
                     .addComponent(bFilter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(bSelect, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(bSelect, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bThreshold))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -140,6 +145,7 @@ public class MabcPanelNB extends javax.swing.JPanel
     javax.swing.JButton bRank;
     scri.commons.gui.matisse.MenuButton bSelect;
     javax.swing.JButton bSort;
+    javax.swing.JButton bThreshold;
     javax.swing.JLabel filterLabel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

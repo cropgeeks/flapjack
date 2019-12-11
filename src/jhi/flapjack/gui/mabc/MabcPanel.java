@@ -93,6 +93,9 @@ public class MabcPanel extends JPanel implements ActionListener, ListSelectionLi
 		else if (e.getSource() == controls.autoResize)
 			table.autoResize(controls.autoResize.isSelected(), false);
 
+		else if (e.getSource() == controls.bThreshold)
+			table.mabcThresholdDialog();
+
 		else if (e.getSource() == summaryControls.autoResize)
 		{
 			boolean state = summaryControls.autoResize.isSelected();

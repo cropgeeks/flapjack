@@ -98,7 +98,8 @@ class FilterDialogTableModel extends AbstractTableModel
 	public boolean isCellEditable(int row, int col)
 	{
 		// We don't want to allow editing of the first column
-		return col == 1 || (col == 2 && (!needsBooleanFilter(row) && !needsPedVerF1sFilter(row) &&!needsPedVerLinesFilter(row)));
+		return col == 1 || (col == 2 && (!needsBooleanFilter(row) && !needsPedVerF1sFilter(row)
+			&& !needsPedVerLinesFilter(row) && !needsMabcFilter(row)));
 	}
 
 	@Override
@@ -147,6 +148,11 @@ class FilterDialogTableModel extends AbstractTableModel
 	boolean needsPedVerLinesFilter(int row)
 	{
 		return rows.get(row) instanceof PedVerLinesFilterColumn;
+	}
+
+	boolean needsMabcFilter(int row)
+	{
+		return rows.get(row) instanceof  MabcFilterColumn;
 	}
 
 	void clear()

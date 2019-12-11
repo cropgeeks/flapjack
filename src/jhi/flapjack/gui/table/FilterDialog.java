@@ -126,6 +126,8 @@ public class FilterDialog extends JDialog implements ActionListener
 						return new DefaultCellEditor(PedVerF1sFilterColumn.pedVerF1Filters(viewSet._getPedVerF1sBatchList().getDecisionMethod()));
 					else if (model.needsPedVerLinesFilter(row))
 						return new DefaultCellEditor(PedVerLinesFilterColumn.pedVerLinesFilters());
+					else if (model.needsMabcFilter(row))
+						return new DefaultCellEditor(MabcFilterColumn.mabcFilters());
 					else
 						return new DefaultCellEditor(FilterColumn.numericalFilters());
 				}

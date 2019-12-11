@@ -28,6 +28,9 @@ public class MABCThresholdDialog extends JDialog implements ActionListener, Chan
 
 	private int maxQtlAlleleCount;
 
+	private boolean spinnerChange = false;
+	private boolean sliderChange = false;
+
 	public MABCThresholdDialog(int maxQtlAlleleCount)
 	{
 		this(MABCThresholds.fromUserDefaults(), maxQtlAlleleCount);
@@ -74,21 +77,21 @@ public class MABCThresholdDialog extends JDialog implements ActionListener, Chan
 		// Percentage data of each line
 		DefaultBoundedRangeModel sliderPercModel = new DefaultBoundedRangeModel(percData, 0, 0, 100);
 		sliderPercData.setModel(sliderPercModel);
-		SpinnerNumberModel parentHetSpinModel = new SpinnerNumberModel(percData, 0, 100, 1);
-		percDataSpinner.setModel(parentHetSpinModel);
+		SpinnerNumberModel percDataSpinnerModel = new SpinnerNumberModel(percData, 0, 100, 1);
+		percDataSpinner.setModel(percDataSpinnerModel);
 
 		// Recurrent parent proportion in each line
 		DefaultBoundedRangeModel sliderRppModel = new DefaultBoundedRangeModel(rppTotal, 0, 0, 100);
 		sliderRPPTotal.setModel(sliderRppModel);
-		SpinnerNumberModel f1HetSpinModel = new SpinnerNumberModel(rppTotal/100d, 0, 1, 0.01);
-		percRPPTotalSpinner.setModel(f1HetSpinModel);
+		SpinnerNumberModel rppSpinnerModel = new SpinnerNumberModel(rppTotal/100d, 0d, 1d, 0.01d);
+		percRPPTotalSpinner.setModel(rppSpinnerModel);
 
 		qtlAlleleCount = Math.min(qtlAlleleCount, maxQtlAlleleCount);
 		// QTL Allele count for each line
 		DefaultBoundedRangeModel qtlModel = new DefaultBoundedRangeModel(qtlAlleleCount, 0, 0, maxQtlAlleleCount);
 		sliderQtlAlleleCount.setModel(qtlModel);
-		SpinnerNumberModel hetSpinModel = new SpinnerNumberModel(qtlAlleleCount, 0, maxQtlAlleleCount, 1);
-		qtlAlleleCountSpinner.setModel(hetSpinModel);
+		SpinnerNumberModel qtlCountSpinnerModel = new SpinnerNumberModel(qtlAlleleCount, 0, maxQtlAlleleCount, 1);
+		qtlAlleleCountSpinner.setModel(qtlCountSpinnerModel);
 
 		sliderPercData.addChangeListener(this);
 		sliderRPPTotal.addChangeListener(this);
@@ -120,6 +123,9 @@ public class MABCThresholdDialog extends JDialog implements ActionListener, Chan
 		else if (e.getSource() == chkAutoSelect)
 		{
 			Prefs.mabcAutoSelect = chkAutoSelect.isSelected();
+			// If we're already linked to a table we should automatically select lines which match the criteria
+			if (Prefs.mabcAutoSelect && table != null)
+				table.autoSelectMabc();
 		}
 	}
 
@@ -166,22 +172,32 @@ public class MABCThresholdDialog extends JDialog implements ActionListener, Chan
 			thresholds.setPercData(percData);
 		}
 
+		// The rpp slider and spinner need to be gated with a special flag because the rounding of the double number
+		// spinner can send the two way interaction a little funny
 		else if (e.getSource() == sliderRPPTotal)
 		{
 			rppTotal = sliderRPPTotal.getValue();
-			percRPPTotalSpinner.setValue(rppTotal/100d);
+			if (!spinnerChange)
+				percRPPTotalSpinner.setValue(rppTotal/100d);
 			thresholds.setRppTotal(rppTotal);
+
+			spinnerChange = false;
 		}
 
 		else if (e.getSource() == percRPPTotalSpinner)
 		{
-			rppTotal = (int)((double)percRPPTotalSpinner.getValue() * 100);
+			spinnerChange = true;
+			rppTotal = (int)((double)percRPPTotalSpinner.getValue() * 100d);
 			sliderRPPTotal.setValue(rppTotal);
 			thresholds.setRppTotal(rppTotal);
 		}
 
 		if (table != null)
+		{
 			table.getLineDataTableModel().fireTableDataChanged();
+			if (isAutoSelect())
+				table.autoSelectMabc();
+		}
 	}
 
 	public MABCThresholds getThresholds()

@@ -158,6 +158,8 @@ public class PedVerF1sThresholdDialog extends JDialog implements ActionListener,
 		else if (e.getSource() == chkTrueF1s)
 		{
 			Prefs.pedVerF1sAutoSelect = chkTrueF1s.isSelected();
+			if (Prefs.pedVerF1sAutoSelect && table != null)
+				table.autoSelectTrueF1s();
 		}
 	}
 
@@ -241,7 +243,11 @@ public class PedVerF1sThresholdDialog extends JDialog implements ActionListener,
 		}
 
 		if (table != null)
+		{
 			table.getLineDataTableModel().fireTableDataChanged();
+			if (isAutoSelectTrueF1s())
+				table.autoSelectTrueF1s();
+		}
 	}
 
 	public PedVerF1sThresholds getThresholds()

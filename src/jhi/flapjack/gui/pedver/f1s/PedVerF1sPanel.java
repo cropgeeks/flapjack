@@ -94,7 +94,7 @@ public class PedVerF1sPanel extends JPanel implements ActionListener, ListSelect
 			table.autoResize(controls.autoResize.isSelected(), false);
 
 		else if (e.getSource() == controls.bThreshold)
-			table.thresholdDialog();
+			table.pedVerF1sThresholdDialog();
 
 		else if (e.getSource() == summaryControls.autoResize)
 		{

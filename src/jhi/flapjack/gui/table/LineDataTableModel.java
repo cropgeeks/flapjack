@@ -139,6 +139,19 @@ public abstract class LineDataTableModel extends AbstractTableModel
 		fireTableDataChanged();
 	}
 
+	void selectLines(FilterColumn filter)
+	{
+		// For every line...
+		for (int i = 0; i < getRowCount(); i++)
+		{
+			LineInfo line = (LineInfo) getObjectAt(i, 0);
+			Object value = getObjectAt(i, filter.colIndex);
+			line.setSelected(filter.matches(value));
+		}
+
+		fireTableDataChanged();
+	}
+
 	void clearAllFilters()
 	{
 		// When we clear the filters on the table, we only want to restore lines

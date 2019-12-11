@@ -306,10 +306,21 @@ public class MenuAnalysis
 		MabcBatchList list = new MabcBatchList();
 		list.add(stats.getViewSet());
 
+		// Track the undo state before doing anything
+		GenotypePanel gPanel = Flapjack.winMain.getGenotypePanel();
+		SelectedLinesState undo = new SelectedLinesState(gPanel.getView(), "selected lines");
+		undo.createUndoState();
+
 		// Create new NavPanel components to hold the results
 		navPanel.addVisualizationNode(dataSet, stats.getViewSet());
 		if (ui.isAutoSelect())
 			stats.getViewSet().getTableHandler().table().autoSelectMabc();
+
+		// Track the redo state, then add
+		undo.createRedoState();
+		gPanel.addUndoState(undo);
+
+		Flapjack.winMain.mEdit.editMode(Constants.LINEMODE);
 
 		Actions.projectModified();
 	}
@@ -353,6 +364,11 @@ public class MenuAnalysis
 		MabcBatchList list = new MabcBatchList();
 		list.add(stats.getResultViewSets());
 
+		// Track the undo state before doing anything
+		GenotypePanel gPanel = Flapjack.winMain.getGenotypePanel();
+		SelectedLinesState undo = new SelectedLinesState(gPanel.getView(), "selected lines");
+		undo.createUndoState();
+
 		// Create new NavPanel components to hold the results
 		for (GTViewSet viewSet: stats.getResultViewSets())
 		{
@@ -361,6 +377,11 @@ public class MenuAnalysis
 				viewSet.getTableHandler().table().autoSelectMabc();
 		}
 
+		// Track the redo state, then add
+		undo.createRedoState();
+		gPanel.addUndoState(undo);
+
+		Flapjack.winMain.mEdit.editMode(Constants.LINEMODE);
 
 		Actions.projectModified();
 	}
@@ -412,11 +433,22 @@ public class MenuAnalysis
 		PedVerF1sBatchList list = new PedVerF1sBatchList(decisionModelIndex);
 		list.add(stats.getViewSet());
 
+		// Track the undo state before doing anything
+		GenotypePanel gPanel = Flapjack.winMain.getGenotypePanel();
+		SelectedLinesState undo = new SelectedLinesState(gPanel.getView(), "selected lines");
+		undo.createUndoState();
+
 		// Retrieve the newly created viewSet from the analysis class and
 		// add it to the navPanel so that it appears in the display
 		navPanel.addVisualizationNode(dataSet, stats.getViewSet());
 		if (autoSelectTrueF1s)
 			stats.getViewSet().getTableHandler().table().autoSelectTrueF1s();
+
+		// Track the redo state, then add
+		undo.createRedoState();
+		gPanel.addUndoState(undo);
+
+		Flapjack.winMain.mEdit.editMode(Constants.LINEMODE);
 
 		Actions.projectModified();
 	}
@@ -461,6 +493,11 @@ public class MenuAnalysis
 		PedVerF1sBatchList list = new PedVerF1sBatchList(decisionModelIndex);
 		list.add(stats.getResultViewSets());
 
+		// Track the undo state before doing anything
+		GenotypePanel gPanel = Flapjack.winMain.getGenotypePanel();
+		SelectedLinesState undo = new SelectedLinesState(gPanel.getView(), "selected lines");
+		undo.createUndoState();
+
 		// Create new NavPanel components to hold the results
 		for (GTViewSet viewSet: stats.getResultViewSets())
 		{
@@ -468,6 +505,12 @@ public class MenuAnalysis
 			if (autoSelectTrueF1s)
 				viewSet.getTableHandler().table().autoSelectTrueF1s();
 		}
+
+		// Track the redo state, then add
+		undo.createRedoState();
+		gPanel.addUndoState(undo);
+
+		Flapjack.winMain.mEdit.editMode(Constants.LINEMODE);
 
 		Actions.projectModified();
 	}
@@ -514,9 +557,20 @@ public class MenuAnalysis
 		PedVerLinesBatchList list = new PedVerLinesBatchList();
 		list.add(stats.getViewSet());
 
+		// Track the undo state before doing anything
+		GenotypePanel gPanel = Flapjack.winMain.getGenotypePanel();
+		SelectedLinesState undo = new SelectedLinesState(gPanel.getView(), "selected lines");
+		undo.createUndoState();
+
 		navPanel.addVisualizationNode(dataSet, stats.getViewSet());
 		if (ui.isAutoSelectVerifiedLines())
 			stats.getViewSet().getTableHandler().table().autoSelectVerifiedLines();
+
+		// Track the redo state, then add
+		undo.createRedoState();
+		gPanel.addUndoState(undo);
+
+		Flapjack.winMain.mEdit.editMode(Constants.LINEMODE);
 
 		Actions.projectModified();
 	}
@@ -539,6 +593,11 @@ public class MenuAnalysis
 		PedVerLinesBatchList list = new PedVerLinesBatchList();
 		list.add(stats.getResultViewSets());
 
+		// Track the undo state before doing anything
+		GenotypePanel gPanel = Flapjack.winMain.getGenotypePanel();
+		SelectedLinesState undo = new SelectedLinesState(gPanel.getView(), "selected lines");
+		undo.createUndoState();
+
 		// Create new NavPanel components to hold the results
 		for (GTViewSet viewSet: stats.getResultViewSets())
 		{
@@ -547,6 +606,11 @@ public class MenuAnalysis
 				viewSet.getTableHandler().table().autoSelectVerifiedLines();
 		}
 
+		// Track the redo state, then add
+		undo.createRedoState();
+		gPanel.addUndoState(undo);
+
+		Flapjack.winMain.mEdit.editMode(Constants.LINEMODE);
 
 		Actions.projectModified();
 	}

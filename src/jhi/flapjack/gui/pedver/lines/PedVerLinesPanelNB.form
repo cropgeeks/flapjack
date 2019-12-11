@@ -24,6 +24,8 @@
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="filterLabel" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="32767" attributes="0"/>
+              <Component id="bThreshold" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
               <Component id="bSelect" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="bRank" min="-2" max="-2" attributes="0"/>
@@ -53,6 +55,7 @@
                       <Component id="filterLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="bSelect" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="bRank" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="bThreshold" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="bSort" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -111,7 +114,6 @@
       <Properties>
         <Property name="selected" type="boolean" value="true"/>
         <Property name="text" type="java.lang.String" value="Auto-fit columns"/>
-        <Property name="opaque" type="boolean" value="false"/>
       </Properties>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
@@ -150,6 +152,14 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Rank..."/>
         <Property name="enabled" type="boolean" value="false"/>
+      </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
+      </AuxValues>
+    </Component>
+    <Component class="javax.swing.JButton" name="bThreshold">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Threshold"/>
       </Properties>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>

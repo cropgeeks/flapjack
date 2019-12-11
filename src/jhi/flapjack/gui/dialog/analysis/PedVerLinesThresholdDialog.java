@@ -124,6 +124,8 @@ public class PedVerLinesThresholdDialog extends JDialog implements ActionListene
 		else if (e.getSource() == chkVerifiedLines)
 		{
 			Prefs.pedVerLinesAutoSelect = chkVerifiedLines.isSelected();
+			if (Prefs.pedVerLinesAutoSelect && table != null)
+				table.autoSelectVerifiedLines();
 		}
 	}
 
@@ -183,7 +185,11 @@ public class PedVerLinesThresholdDialog extends JDialog implements ActionListene
 		}
 
 		if (table != null)
+		{
 			table.getLineDataTableModel().fireTableDataChanged();
+			if (Prefs.pedVerLinesAutoSelect)
+				table.autoSelectVerifiedLines();
+		}
 	}
 
 	public PedVerLinesThresholds getThresholds()
