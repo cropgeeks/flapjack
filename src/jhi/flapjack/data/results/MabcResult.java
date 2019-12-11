@@ -31,6 +31,8 @@ public class MabcResult extends XMLRoot
 	private boolean isRP;
 	private boolean isDP;
 
+	private MABCThresholds thresholds;
+
 	public MabcResult()
 	{
 	}
@@ -114,12 +116,33 @@ public class MabcResult extends XMLRoot
 
 	public void setIsDP(boolean isDP)
 		{ this.isDP = isDP; }
-	
+
+	public MABCThresholds getThresholds()
+		{ return thresholds; }
+
+	public void setThresholds(MABCThresholds thresholds)
+		{ this.thresholds = thresholds; }
 
 	// Other methods
 
 	public void updateAndAddGenomeCoverage(double value)
 	{
 		genomeCoverage += value;
+	}
+
+	public String calculateDecisionString()
+	{
+		if (isRP)
+			return "Recurrent parent";
+
+		else if (isDP)
+			return "Donor parent";
+
+		else if (percentData >= thresholds.getPercData() && (rppTotal*100) >= thresholds.getRppTotal()
+			&& qtlStatusCount >= thresholds.getQtlAlleleCount())
+			return "Select";
+
+		else
+			return "No decision";
 	}
 }

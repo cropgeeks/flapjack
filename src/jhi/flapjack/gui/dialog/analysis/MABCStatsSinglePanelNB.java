@@ -9,6 +9,7 @@ import javax.swing.*;
 import jhi.flapjack.analysis.*;
 import jhi.flapjack.data.*;
 import jhi.flapjack.data.pedigree.*;
+import jhi.flapjack.data.results.*;
 import jhi.flapjack.gui.*;
 
 import scri.commons.gui.*;
@@ -17,6 +18,7 @@ public class MABCStatsSinglePanelNB extends JPanel implements ActionListener
 {
 	private GTViewSet viewSet;
 	private ChromosomeSelectionDialog csd;
+	private MABCThresholdDialog thresholdDialog;
 
 	private AnalysisSet as;
 
@@ -47,6 +49,19 @@ public class MABCStatsSinglePanelNB extends JPanel implements ActionListener
 
 		csd = new ChromosomeSelectionDialog(viewSet, true, true);
 		csdLabel.addActionListener(e -> csd.setVisible(true));
+
+		// Calculates the highest possible values for the QTL allele count statistic and passes this
+		// to the threshold dialog to initialize components
+		int maxQtlAlleleCount = 0;
+		for (GTView view : viewSet.getViews())
+		{
+			for (QTLInfo qtl : view.getQTLs())
+				if (qtl.getQTL().isVisible())
+					maxQtlAlleleCount += 2;
+		}
+
+		thresholdDialog = new MABCThresholdDialog(maxQtlAlleleCount);
+		lblThreshold.addActionListener(e -> thresholdDialog.setVisible(true));
 
 		setupComboBoxes(as);
 
@@ -225,6 +240,16 @@ public class MABCStatsSinglePanelNB extends JPanel implements ActionListener
 		return true;
 	}
 
+	public MABCThresholds getThresholds()
+		{ return thresholdDialog.getThresholds(); }
+
+
+	public boolean isAutoSelect()
+	{
+		return thresholdDialog.isAutoSelect();
+	}
+
+
 	/**
 	 * This method is called from within the constructor to initialize the form.
 	 * WARNING: Do NOT modify this code. The content of this method is always
@@ -232,8 +257,7 @@ public class MABCStatsSinglePanelNB extends JPanel implements ActionListener
 	 */
 	@SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents()
-    {
+    private void initComponents() {
 
         settingsPanel = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
@@ -247,6 +271,7 @@ public class MABCStatsSinglePanelNB extends JPanel implements ActionListener
         chkExcludeParents = new javax.swing.JCheckBox();
         dataPanel = new javax.swing.JPanel();
         csdLabel = new scri.commons.gui.matisse.HyperLinkLabel();
+        lblThreshold = new scri.commons.gui.matisse.HyperLinkLabel();
 
         settingsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("General settings:"));
 
@@ -322,20 +347,26 @@ public class MABCStatsSinglePanelNB extends JPanel implements ActionListener
 
         csdLabel.setText("Select chromosomes to analyse");
 
+        lblThreshold.setText("Select threshold settings");
+
         javax.swing.GroupLayout dataPanelLayout = new javax.swing.GroupLayout(dataPanel);
         dataPanel.setLayout(dataPanelLayout);
         dataPanelLayout.setHorizontalGroup(
             dataPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(dataPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(csdLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(162, Short.MAX_VALUE))
+                .addGroup(dataPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(csdLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblThreshold, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         dataPanelLayout.setVerticalGroup(
             dataPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(dataPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(csdLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblThreshold, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -356,8 +387,8 @@ public class MABCStatsSinglePanelNB extends JPanel implements ActionListener
                 .addContainerGap()
                 .addComponent(settingsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(dataPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(dataPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -372,6 +403,7 @@ public class MABCStatsSinglePanelNB extends JPanel implements ActionListener
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel lblParent1;
     private javax.swing.JLabel lblParent2;
+    private scri.commons.gui.matisse.HyperLinkLabel lblThreshold;
     private javax.swing.JSpinner maxMrkrCoverage;
     private javax.swing.JComboBox<LineInfo> recurrentCombo;
     private javax.swing.JPanel settingsPanel;

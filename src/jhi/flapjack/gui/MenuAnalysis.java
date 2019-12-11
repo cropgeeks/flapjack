@@ -291,10 +291,11 @@ public class MenuAnalysis
 		boolean[] selectedChromosomes = ui.getSelectedChromosomes();
 		int rpIndex = ui.getRecurrentParent();
 		int dpIndex = ui.getDonorParent();
+		MABCThresholds thresholds = ui.getThresholds();
 
 		// Run the stats calculations
 		MabcAnalysis stats = new MabcAnalysis(
-			viewSet, selectedChromosomes, Prefs.mabcMaxMrkrCoverage, rpIndex,
+			viewSet, selectedChromosomes, thresholds, Prefs.mabcMaxMrkrCoverage, rpIndex,
 			dpIndex, Prefs.guiMabcExcludeParents, Prefs.guiUseSimpleMabcStats,
 			RB.getString("gui.navpanel.MabcNode.node"));
 
@@ -307,6 +308,8 @@ public class MenuAnalysis
 
 		// Create new NavPanel components to hold the results
 		navPanel.addVisualizationNode(dataSet, stats.getViewSet());
+		if (ui.isAutoSelect())
+			stats.getViewSet().getTableHandler().table().autoSelectMabc();
 
 		Actions.projectModified();
 	}
@@ -315,6 +318,7 @@ public class MenuAnalysis
 	{
 		// Retrieve information required for analysis from dialog
 		MABCStatsBatchPanelNB ui = dialog.getBatchUI();
+		MABCThresholds thresholds = ui.getThresholds();
 
 		List<MABCBatchSettings> batchSettings = new ArrayList<>();
 
@@ -339,7 +343,7 @@ public class MenuAnalysis
 
 		// Run the stats calculations
 		MabcBatchAnalysis stats = new MabcBatchAnalysis(
-			batchSettings, Prefs.mabcMaxMrkrCoverage, Prefs.guiUseSimpleMabcStats,
+			batchSettings, thresholds, Prefs.mabcMaxMrkrCoverage, Prefs.guiUseSimpleMabcStats,
 			RB.getString("gui.navpanel.MabcNode.node"));
 
 		ProgressDialog pDialog = new ProgressDialog(stats,
@@ -351,7 +355,12 @@ public class MenuAnalysis
 
 		// Create new NavPanel components to hold the results
 		for (GTViewSet viewSet: stats.getResultViewSets())
+		{
 			navPanel.addVisualizationNode(viewSet.getDataSet(), viewSet);
+			if (ui.isAutoSelect())
+				viewSet.getTableHandler().table().autoSelectMabc();
+		}
+
 
 		Actions.projectModified();
 	}

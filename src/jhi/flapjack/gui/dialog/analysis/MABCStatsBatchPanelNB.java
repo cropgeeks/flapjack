@@ -8,11 +8,14 @@ import java.util.*;
 import javax.swing.*;
 
 import jhi.flapjack.data.*;
+import jhi.flapjack.data.results.*;
 import jhi.flapjack.gui.*;
 
 public class MABCStatsBatchPanelNB extends JPanel implements ActionListener
 {
 	private ArrayList<GTViewSet> viewSets;
+
+	private MABCThresholdDialog thresholdDialog;
 
 	public MABCStatsBatchPanelNB(ArrayList<GTViewSet> viewSets)
 	{
@@ -45,7 +48,25 @@ public class MABCStatsBatchPanelNB extends JPanel implements ActionListener
 		jLabel3.setEnabled(!Prefs.guiUseSimpleMabcStats);
 		maxMrkrCoverage.setEnabled(!Prefs.guiUseSimpleMabcStats);
 
-		FlapjackUtils.initPanel(settingsPanel);
+		// Calculates the highest number possible for the QTL allele count statistic
+		// across all datasets in a batch and passes this in to the threshold dialog
+		int maxQtlAlleleCount = 0;
+		for (GTViewSet viewSet : viewSets)
+		{
+			int viewSetMax = 0;
+			for (GTView view : viewSet.getViews())
+			{
+				for (QTLInfo qtl : view.getQTLs())
+					if (qtl.getQTL().isVisible())
+						viewSetMax += 2;
+			}
+			maxQtlAlleleCount = Math.max(maxQtlAlleleCount, viewSetMax);
+		}
+
+		thresholdDialog = new MABCThresholdDialog(maxQtlAlleleCount);
+		lblThreshold.addActionListener(e -> thresholdDialog.setVisible(true));
+
+		FlapjackUtils.initPanel(settingsPanel, dataPanel);
 	}
 
 	@Override
@@ -71,6 +92,15 @@ public class MABCStatsBatchPanelNB extends JPanel implements ActionListener
 		return true;
 	}
 
+	public MABCThresholds getThresholds()
+	{ return thresholdDialog.getThresholds(); }
+
+
+	public boolean isAutoSelect()
+	{
+		return thresholdDialog.isAutoSelect();
+	}
+
 	/**
 	 * This method is called from within the constructor to initialize the form.
 	 * WARNING: Do NOT modify this code. The content of this method is always
@@ -78,14 +108,15 @@ public class MABCStatsBatchPanelNB extends JPanel implements ActionListener
 	 */
 	@SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents()
-    {
+    private void initComponents() {
 
         settingsPanel = new javax.swing.JPanel();
         bWeighted = new javax.swing.JRadioButton();
         jLabel3 = new javax.swing.JLabel();
         bUnweighted = new javax.swing.JRadioButton();
         maxMrkrCoverage = new javax.swing.JSpinner();
+        dataPanel = new javax.swing.JPanel();
+        lblThreshold = new scri.commons.gui.matisse.HyperLinkLabel();
 
         settingsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("General settings:"));
 
@@ -127,13 +158,36 @@ public class MABCStatsBatchPanelNB extends JPanel implements ActionListener
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        dataPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Data selection settings:"));
+
+        lblThreshold.setText("Select threshold settings");
+
+        javax.swing.GroupLayout dataPanelLayout = new javax.swing.GroupLayout(dataPanel);
+        dataPanel.setLayout(dataPanelLayout);
+        dataPanelLayout.setHorizontalGroup(
+            dataPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(dataPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblThreshold, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        dataPanelLayout.setVerticalGroup(
+            dataPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(dataPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblThreshold, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(settingsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(settingsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(dataPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -141,7 +195,9 @@ public class MABCStatsBatchPanelNB extends JPanel implements ActionListener
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(settingsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(dataPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -149,7 +205,9 @@ public class MABCStatsBatchPanelNB extends JPanel implements ActionListener
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JRadioButton bUnweighted;
     private javax.swing.JRadioButton bWeighted;
+    private javax.swing.JPanel dataPanel;
     private javax.swing.JLabel jLabel3;
+    private scri.commons.gui.matisse.HyperLinkLabel lblThreshold;
     private javax.swing.JSpinner maxMrkrCoverage;
     private javax.swing.JPanel settingsPanel;
     // End of variables declaration//GEN-END:variables

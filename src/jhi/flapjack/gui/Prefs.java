@@ -117,17 +117,24 @@ public class Prefs extends XMLPreferences
 	public static int pedVerF1ErrorThreshold = 0;
 	public static int pedVerF1ParentHetThreshold = 0;
 	public static int pedVerF1isHetThreshold = 0;
-
+	// PedVerF1 auto selection
 	public static boolean pedVerF1sAutoSelect = true;
+	// PedVerF1 decision model
+	public static int pedVerDecisionModel = 0;
 
+	// PedVerLines threshold values
 	public static int pedVerLinesDataThreshold = 50;
 	public static int pedVerLinesParentHetThreshold = 20;
 	public static int pedVerLinesSimToParentsThreshold = 85;
-
+	// PedVerLines auto selection
 	public static boolean pedVerLinesAutoSelect = true;
 
-	// PedVerF1 decision model
-	public static int pedVerDecisionModel = 0;
+	// MABC threshold values
+	public static int mabcDataThreshold = 50;
+	public static int mabcRPPTotalThreshold = 70;
+	public static int mabcQTLAlleleCountThreshold = 1;
+	// MABC auto selection
+	public static boolean mabcAutoSelect = true;
 
 	// Warning messages
 	public static boolean warnDuplicateMarkers = true;

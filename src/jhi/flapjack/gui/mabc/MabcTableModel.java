@@ -10,6 +10,8 @@ import jhi.flapjack.gui.table.*;
 
 import scri.commons.gui.*;
 
+import java.util.*;
+
 public class MabcTableModel extends LineDataTableModel
 {
 	private int chrCount, qtlCount;
@@ -22,6 +24,7 @@ public class MabcTableModel extends LineDataTableModel
 	private int percData;
 	private int hetCountIndex;
 	private int hetPercIndex;
+	private int decisionIndex;
 
 	public MabcTableModel(GTViewSet viewSet)
 	{
@@ -50,12 +53,13 @@ public class MabcTableModel extends LineDataTableModel
 		rppCoverageIndex = rppTotalIndex + 1;
 		qtlIndex = rppCoverageIndex + 1;
 		qtlStatusIndex = qtlCount > 0 ? qtlIndex + (qtlCount*2) : -1;
-		selectedIndex = qtlCount > 0 ? qtlStatusIndex + 1 : qtlIndex;
-		rankIndex = selectedIndex + 1;
+		rankIndex = qtlCount > 0 ? qtlStatusIndex + 1 : qtlIndex;
 		commentIndex = rankIndex + 1;
 		sortIndex = commentIndex +1;
+		selectedIndex = sortIndex +1;
+		decisionIndex = selectedIndex +1;
 
-		int colCount = sortIndex + 1;
+		int colCount = decisionIndex + 1;
 		columnNames = new String[colCount];
 		ttNames = new String[colCount];
 
@@ -173,16 +177,19 @@ public class MabcTableModel extends LineDataTableModel
 		}
 
 		else if (col == dataCountIndex)
-			return line.getResults().getMabcResult().getDataCount();
+			return stats.getDataCount();
 
 		else if (col == percData)
-			return line.getResults().getMabcResult().getPercentData();
+			return stats.getPercentData();
 
 		else if (col == hetCountIndex)
-			return line.getResults().getMabcResult().getHeterozygousCount();
+			return stats.getHeterozygousCount();
 
 		else if (col == hetPercIndex)
-			return line.getResults().getMabcResult().getPercentHeterozygous();
+			return stats.getPercentHeterozygous();
+
+		else if (col == decisionIndex)
+			return stats.calculateDecisionString();
 
 		return null;
 	}
@@ -255,5 +262,44 @@ public class MabcTableModel extends LineDataTableModel
 	int getRankIndex()
 	{
 		return rankIndex;
+	}
+
+	// Returns only those columns that make sense for filtering (by numbers)
+	public FilterColumn[] getFilterableColumns()
+	{
+		ArrayList<FilterColumn> cols = new ArrayList<>();
+
+		for (int i = 0; i < getColumnCount(); i++)
+		{
+			Class c = getObjectColumnClass(i);
+
+			if (i == decisionIndex)
+				cols.add(new FilterColumn(i, c, columnNames[i], FilterColumn.NONE));
+
+			else if (c == Double.class || c == Float.class || c == Integer.class || c == Boolean.class)
+				cols.add(new FilterColumn(i, c, columnNames[i], FilterColumn.NONE));
+		}
+
+		return cols.toArray(new FilterColumn[] {});
+	}
+
+
+	// Returns only those columns that make sense for filtering (by numbers)
+	public FilterColumn[] getFilterColsMabcSelected()
+	{
+		ArrayList<FilterColumn> cols = new ArrayList<>();
+
+		for (int i = 0; i < getColumnCount(); i++)
+		{
+			Class c = getObjectColumnClass(i);
+
+			if (i == decisionIndex)
+				cols.add(new MabcFilterColumn(i, c, columnNames[i], MabcFilterColumn.SELECT));
+
+			else if (c == Double.class || c == Float.class || c == Integer.class || c == Boolean.class)
+				cols.add(new FilterColumn(i, c, columnNames[i], FilterColumn.NONE));
+		}
+
+		return cols.toArray(new FilterColumn[] {});
 	}
 }

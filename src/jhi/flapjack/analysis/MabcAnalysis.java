@@ -26,6 +26,7 @@ public class MabcAnalysis extends SimpleJob
 {
 	private GTViewSet viewSet;
 	private boolean[] selectedChromosomes;
+	private MABCThresholds thresholds;
 
 	private HashMap<QTLInfo, QTLParams> qtlHash = new HashMap<>();
 
@@ -41,16 +42,17 @@ public class MabcAnalysis extends SimpleJob
 
 	private StateTable stateTable;
 
-	public MabcAnalysis(GTViewSet viewSet, boolean[] selectedChromosomes, double maxMarkerCoverage, int rpIndex, int dpIndex, boolean excludeAdditionalParents, boolean simpleStats, String name)
+	public MabcAnalysis(GTViewSet viewSet, boolean[] selectedChromosomes, MABCThresholds thresholds, double maxMarkerCoverage, int rpIndex, int dpIndex, boolean excludeAdditionalParents, boolean simpleStats, String name)
 	{
-		this(viewSet, selectedChromosomes, maxMarkerCoverage, rpIndex, dpIndex, excludeAdditionalParents, simpleStats);
+		this(viewSet, selectedChromosomes, thresholds, maxMarkerCoverage, rpIndex, dpIndex, excludeAdditionalParents, simpleStats);
 		this.name = name;
 	}
 
-	public MabcAnalysis(GTViewSet viewSet, boolean[] selectedChromosomes, double maxMarkerCoverage, int rpIndex, int dpIndex,  boolean excludeAdditionalParents, boolean simpleStats)
+	public MabcAnalysis(GTViewSet viewSet, boolean[] selectedChromosomes, MABCThresholds thresholds, double maxMarkerCoverage, int rpIndex, int dpIndex,  boolean excludeAdditionalParents, boolean simpleStats)
 	{
 		this.viewSet = viewSet.createClone("", true);
 		this.selectedChromosomes = selectedChromosomes;
+		this.thresholds = thresholds;
 		this.maxMarkerCoverage = maxMarkerCoverage;
 		this.rpIndex = rpIndex;
 		this.dpIndex = dpIndex;
@@ -502,6 +504,7 @@ public class MabcAnalysis extends SimpleJob
 			result.setPercentData((foundMarkers/ (double) totalMarkers) * 100);
 			result.setHeterozygousCount(hetMarkers);
 			result.setPercentHeterozygous((hetMarkers / (double) foundMarkers) * 100);
+			result.setThresholds(thresholds);
 		}
 	}
 

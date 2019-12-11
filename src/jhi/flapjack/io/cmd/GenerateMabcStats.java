@@ -8,6 +8,7 @@ import java.text.*;
 
 import jhi.flapjack.analysis.*;
 import jhi.flapjack.data.*;
+import jhi.flapjack.data.results.*;
 import jhi.flapjack.gui.mabc.*;
 import jhi.flapjack.gui.table.*;
 
@@ -145,7 +146,7 @@ public class GenerateMabcStats
 		for (int i = 0; i < chromosomes.length; i++)
 			chromosomes[i] = true;
 
-		MabcAnalysis stats = new MabcAnalysis(viewSet, chromosomes,
+		MabcAnalysis stats = new MabcAnalysis(viewSet, chromosomes, MABCThresholds.fromUserDefaults(),
 			maxMarkerCoverage, parent1, parent2, excludeAdditionalParents,
 			unweighted, RB.getString("gui.navpanel.MabcNode.node"));
 		stats.runJob(0);

@@ -6,6 +6,7 @@ package jhi.flapjack.analysis;
 import java.util.*;
 
 import jhi.flapjack.data.*;
+import jhi.flapjack.data.results.*;
 import jhi.flapjack.gui.dialog.analysis.*;
 
 import scri.commons.gui.*;
@@ -16,14 +17,16 @@ public class MabcBatchAnalysis extends SimpleJob
 	private ArrayList<GTViewSet> resultViewSets;
 
 	private List<MABCBatchSettings> batchSettings;
+	private MABCThresholds thresholds;
 
 	private double maxMarkerCoverage;
 	private boolean simpleStats;
 	private String name;
 
-	public MabcBatchAnalysis(List<MABCBatchSettings> batchSettings, double maxMarkerCoverage, boolean simpleStats, String name)
+	public MabcBatchAnalysis(List<MABCBatchSettings> batchSettings, MABCThresholds thresholds, double maxMarkerCoverage, boolean simpleStats, String name)
 	{
 		this.batchSettings = batchSettings;
+		this.thresholds = thresholds;
 
 		this.maxMarkerCoverage = maxMarkerCoverage;
 		this.simpleStats = simpleStats;
@@ -60,7 +63,7 @@ public class MabcBatchAnalysis extends SimpleJob
 		boolean[] selectedChromosomes = csd.getSelectedChromosomes();
 
 		MabcAnalysis stats = new MabcAnalysis(
-			viewSet, selectedChromosomes, maxMarkerCoverage, rpIndex,
+			viewSet, selectedChromosomes, thresholds, maxMarkerCoverage, rpIndex,
 			dpIndex, excludeParents, simpleStats, name);
 
 		stats.runJob(0);

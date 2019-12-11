@@ -18,6 +18,7 @@ import jhi.flapjack.data.*;
 import jhi.flapjack.data.results.*;
 import jhi.flapjack.gui.*;
 import jhi.flapjack.gui.dialog.analysis.*;
+import jhi.flapjack.gui.mabc.*;
 import jhi.flapjack.gui.pedver.f1s.*;
 import jhi.flapjack.gui.pedver.lines.*;
 import jhi.flapjack.gui.visualization.*;
@@ -440,6 +441,31 @@ public class LineDataTable extends JTable
 
 			// Get the list of columns to use for selection
 			FilterColumn[] data = ((PedVerLinesTableModel)model).getFilterColsVerifiedLinesSelected();
+
+			// Remember it for next time in case the user runs it again
+			lastSelect = data;
+
+			model.selectLines(data, true);
+
+			// Track the redo state, then add
+			undo.createRedoState();
+			gPanel.addUndoState(undo);
+
+			Flapjack.winMain.mEdit.editMode(Constants.LINEMODE);
+		}
+	}
+
+	public void autoSelectMabc()
+	{
+		if (model instanceof MabcTableModel)
+		{
+			// Track the undo state before doing anything
+			GenotypePanel gPanel = Flapjack.winMain.getGenotypePanel();
+			SelectedLinesState undo = new SelectedLinesState(gPanel.getView(), "selected lines");
+			undo.createUndoState();
+
+			// Get the list of columns to use for selection
+			FilterColumn[] data = ((MabcTableModel)model).getFilterColsMabcSelected();
 
 			// Remember it for next time in case the user runs it again
 			lastSelect = data;
