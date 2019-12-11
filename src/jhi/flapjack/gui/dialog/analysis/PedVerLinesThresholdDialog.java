@@ -24,18 +24,15 @@ public class PedVerLinesThresholdDialog extends JDialog implements ActionListene
 	private PedVerLinesThresholds thresholds;
 	private LineDataTable table;
 
-	private PedVerF1sBatchList batchList;
-
 	public PedVerLinesThresholdDialog()
 	{
 		this(PedVerLinesThresholds.fromUserDefaults());
 	}
 
-	public PedVerLinesThresholdDialog(PedVerLinesThresholds thresholds, LineDataTable table, PedVerF1sBatchList batchList)
+	public PedVerLinesThresholdDialog(PedVerLinesThresholds thresholds, LineDataTable table)
 	{
 		this(thresholds);
 		this.table = table;
-		this.batchList = batchList;
 	}
 
 	public PedVerLinesThresholdDialog(PedVerLinesThresholds thresholds)

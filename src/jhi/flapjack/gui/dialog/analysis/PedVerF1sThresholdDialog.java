@@ -26,18 +26,15 @@ public class PedVerF1sThresholdDialog extends JDialog implements ActionListener,
 	private PedVerF1sThresholds thresholds;
 	private LineDataTable table;
 
-	private PedVerF1sBatchList batchList;
-
 	public PedVerF1sThresholdDialog()
 	{
 		this(PedVerF1sThresholds.fromUserDefaults());
 	}
 
-	public PedVerF1sThresholdDialog(PedVerF1sThresholds thresholds, LineDataTable table, PedVerF1sBatchList batchList)
+	public PedVerF1sThresholdDialog(PedVerF1sThresholds thresholds, LineDataTable table)
 	{
 		this(thresholds);
 		this.table = table;
-		this.batchList = batchList;
 	}
 
 	public PedVerF1sThresholdDialog(PedVerF1sThresholds thresholds)
