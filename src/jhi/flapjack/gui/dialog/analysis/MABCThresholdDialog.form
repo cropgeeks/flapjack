@@ -27,7 +27,7 @@
           <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="thresholdPanel" alignment="1" max="32767" attributes="0"/>
+                  <Component id="thresholdPanel" max="32767" attributes="0"/>
                   <Component id="decisionPanel" alignment="0" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -40,8 +40,8 @@
               <EmptySpace max="-2" attributes="0"/>
               <Component id="thresholdPanel" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="decisionPanel" max="32767" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
+              <Component id="decisionPanel" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
               <Component id="dialogPanel1" min="-2" pref="46" max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -117,12 +117,13 @@
                       <Component id="sliderRPPTotal" alignment="2" min="-2" max="-2" attributes="0"/>
                       <Component id="percRPPTotalSpinner" alignment="2" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace max="-2" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="2" attributes="0">
                       <Component id="lblQtlAlleleCount" alignment="2" min="-2" max="-2" attributes="0"/>
                       <Component id="sliderQtlAlleleCount" alignment="2" min="-2" max="-2" attributes="0"/>
                       <Component id="qtlAlleleCountSpinner" alignment="2" min="-2" max="-2" attributes="0"/>
                   </Group>
+                  <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>

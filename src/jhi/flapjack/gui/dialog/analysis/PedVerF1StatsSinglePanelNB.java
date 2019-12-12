@@ -145,8 +145,7 @@ public class PedVerF1StatsSinglePanelNB extends JPanel
 	 */
 	@SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents()
-    {
+    private void initComponents() {
 
         parentsPanel = new javax.swing.JPanel();
         lblParent1 = new javax.swing.JLabel();
