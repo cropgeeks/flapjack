@@ -6,6 +6,8 @@ package jhi.flapjack.gui.table;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
+import java.util.*;
+import java.util.stream.*;
 import javax.swing.*;
 import javax.swing.table.*;
 
@@ -159,5 +161,55 @@ public class SummaryTable extends JTable
 		File filename = dialog.getFilename();
 		int exportType = Prefs.guiSumTableExportType;
 		boolean exportTraits = Prefs.guiSumTableExportTraits;
+
+		LineDataTableExporter exporter = new LineDataTableExporter(
+			getLineDataTables(), filename, exportType, exportTraits);
+
+		ProgressDialog pDialog = new ProgressDialog(exporter,
+			RB.format("gui.dialog.ExportDataDialog.exportTitle"),
+			RB.format("gui.dialog.ExportDataDialog.exportLabel"), Flapjack.winMain);
+
+		if (pDialog.failed("gui.error"))
+			return;
+
+		TaskDialog.showFileOpen(RB.format("gui.dialog.ExportDataDialog.exportSuccess", filename),
+			RB.getString("gui.text.open"), TaskDialog.INF, filename);
+	}
+
+	private ArrayList<LineDataTable> getLineDataTables()
+	{
+		if (model instanceof MabcSummaryTableModel)
+		{
+			MabcBatchList list = ((MabcSummaryTableModel)model).getBatchList();
+			return list.getSummaries().stream()
+				.map(s -> s.getViewSet().getTableHandler().table())
+				.collect(Collectors.toCollection(ArrayList::new));
+		}
+
+		else if (model instanceof PedVerF1sSummaryTableModel)
+		{
+			PedVerF1sBatchList list = ((PedVerF1sSummaryTableModel)model).getBatchList();
+			return list.getSummaries().stream()
+				.map(s -> s.getViewSet().getTableHandler().table())
+				.collect(Collectors.toCollection(ArrayList::new));
+		}
+
+		else if (model instanceof PedVerLinesSummaryTableModel)
+		{
+			PedVerLinesBatchList list = ((PedVerLinesSummaryTableModel)model).getBatchList();
+			return list.getSummaries().stream()
+				.map(s -> s.getViewSet().getTableHandler().table())
+				.collect(Collectors.toCollection(ArrayList::new));
+		}
+
+		else if (model instanceof FBSummaryTableModel)
+		{
+			FBBatchList list = ((FBSummaryTableModel)model).getBatchList();
+			return list.getSummaries().stream()
+				.map(s -> s.getViewSet().getTableHandler().table())
+				.collect(Collectors.toCollection(ArrayList::new));
+		}
+
+		return null;
 	}
 }
