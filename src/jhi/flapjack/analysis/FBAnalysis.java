@@ -77,8 +77,8 @@ public class FBAnalysis extends SimpleJob
 			// Get the line from the analysis set and set up an FB results object for it
 			LineInfo line = as.getLine(lineIndex);
 			FBResult result = new FBResult();
-			line.getResults().setForwardBreedingResult(result);
-			line.getResults().setName(name);
+			line.getLineResults().setForwardBreedingResult(result);
+			line.getLineResults().setName(name);
 
 			int foundMarkers = totalMarkers - as.missingMarkerCount(lineIndex);
 			int hetMarkers = as.hetCount(lineIndex);

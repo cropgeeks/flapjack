@@ -32,7 +32,7 @@ public class MabcSummary extends XMLRoot
 		// Find the parents
 		for (LineInfo line: lines)
 		{
-			LineResults lr =  line.getResults();
+			LineResults lr =  line.getLineResults();
 			if (lr.getMabcResult().isIsDP())
 				dp = line;
 			if (lr.getMabcResult().isIsRP())
@@ -108,7 +108,7 @@ public class MabcSummary extends XMLRoot
 			percentDataAvg = lines.stream()
 				.filter(line -> line != rp)
 				.filter(line -> line != dp)
-				.mapToDouble(line -> line.getResults().getMabcResult().getPercentData())
+				.mapToDouble(line -> line.getLineResults().getMabcResult().getPercentData())
 				.filter(value -> !Double.isNaN(value))
 				.average()
 				.orElse(Double.NaN);
@@ -124,7 +124,7 @@ public class MabcSummary extends XMLRoot
 			rppTotalAvg = lines.stream()
 				.filter(line -> line != rp)
 				.filter(line -> line != dp)
-				.mapToDouble(line -> line.getResults().getMabcResult().getRppTotal())
+				.mapToDouble(line -> line.getLineResults().getMabcResult().getRppTotal())
 				.filter(value -> !Double.isNaN(value))
 				.average()
 				.orElse(Double.NaN);
@@ -140,7 +140,7 @@ public class MabcSummary extends XMLRoot
 			qtlStatusCountAvg = lines.stream()
 				.filter(line -> line != rp)
 				.filter(line -> line != dp)
-				.mapToDouble(line -> line.getResults().getMabcResult().getQtlStatusCount())
+				.mapToDouble(line -> line.getLineResults().getMabcResult().getQtlStatusCount())
 				.filter(value -> !Double.isNaN(value))
 				.average()
 				.orElse(Double.NaN);

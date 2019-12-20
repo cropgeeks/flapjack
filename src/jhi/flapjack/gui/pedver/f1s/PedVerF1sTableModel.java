@@ -89,7 +89,7 @@ public class PedVerF1sTableModel extends LineDataTableModel
 	public Object getObjectAt(int row, int col)
 	{
 		LineInfo line = lines.get(row);
-		PedVerF1sResult stats = line.getResults().getPedVerF1sResult();
+		PedVerF1sResult stats = line.getLineResults().getPedVerF1sResult();
 		PedVerDecisions decisionMethod = viewSet._getPedVerF1sBatchList().getDecisionMethod();;
 
 		// Name, Selected and Sort can work without results
@@ -98,9 +98,9 @@ public class PedVerF1sTableModel extends LineDataTableModel
 		else if (col == selectedIndex)
 			return line.getSelected();
 		else if (col == sortIndex)
-			return line.getResults().isSortToTop();
+			return line.getLineResults().isSortToTop();
 		else if (col == rankIndex)
-			return line.getResults().getRank();
+			return line.getLineResults().getRank();
 
 		if (stats == null)
 			return null;
@@ -118,7 +118,7 @@ public class PedVerF1sTableModel extends LineDataTableModel
 			case decisionIndex: return decisionMethod.getDecisionString(stats);
 
 			case commentIndex:
-				String comment = line.getResults().getComments();
+				String comment = line.getLineResults().getComments();
 				return comment == null ? "" : comment;
 
 			default: return null;
@@ -153,13 +153,13 @@ public class PedVerF1sTableModel extends LineDataTableModel
 			selectLine(line, (boolean)value);
 
 		else if (col == rankIndex)
-			line.getResults().setRank((int)value);
+			line.getLineResults().setRank((int)value);
 
 		else if (col == commentIndex)
-			line.getResults().setComments((String)value);
+			line.getLineResults().setComments((String)value);
 
 		else if (col == sortIndex)
-			line.getResults().setSortToTop((boolean)value);
+			line.getLineResults().setSortToTop((boolean)value);
 
 		fireTableRowsUpdated(row, row);
 
@@ -184,7 +184,7 @@ public class PedVerF1sTableModel extends LineDataTableModel
 		if (col == 13)
 		{
 			LineInfo info = lines.get(row);
-			PedVerF1sResult result = info.getResults().getPedVerF1sResult();
+			PedVerF1sResult result = info.getLineResults().getPedVerF1sResult();
 			if (result.isP1() || result.isP2() || result.isF1())
 				return super.getDisplayColor(row, col);
 

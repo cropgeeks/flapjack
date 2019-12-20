@@ -72,7 +72,7 @@ public class PedVerLinesTableModel extends LineDataTableModel
 	public Object getObjectAt(int row, int col)
 	{
 		LineInfo line = lines.get(row);
-		PedVerLinesResult stats = line.getResults().getPedVerLinesResult();
+		PedVerLinesResult stats = line.getLineResults().getPedVerLinesResult();
 
 		// Name, Selected and Sort can work without results
 		if (col == lineIndex)
@@ -80,9 +80,9 @@ public class PedVerLinesTableModel extends LineDataTableModel
 		else if (col == selectedIndex)
 			return line.getSelected();
 		else if (col == rankIndex)
-			return line.getResults().getRank();
+			return line.getLineResults().getRank();
 		else if (col == sortIndex)
-			return line.getResults().isSortToTop();
+			return line.getLineResults().isSortToTop();
 		if (col == dataCountIndex)
 			return stats.getDataCount();
 		else if (col == percDataIndex)
@@ -99,7 +99,7 @@ public class PedVerLinesTableModel extends LineDataTableModel
 			return stats.getSimilarityToParents();
 		else if (col == commentsIndex)
 		{
-			String comment = line.getResults().getComments();
+			String comment = line.getLineResults().getComments();
 			return comment == null ? "" : comment;
 		}
 		else if (col == decisionIndex)
@@ -137,11 +137,11 @@ public class PedVerLinesTableModel extends LineDataTableModel
 		if (col == selectedIndex)
 			selectLine(line, (boolean)value);
 		else if (col == rankIndex)
-			line.getResults().setRank((int)value);
+			line.getLineResults().setRank((int)value);
 		else if (col == commentsIndex)
-			line.getResults().setComments((String)value);
+			line.getLineResults().setComments((String)value);
 		else if (col == sortIndex)
-			line.getResults().setSortToTop((boolean)value);
+			line.getLineResults().setSortToTop((boolean)value);
 
 		fireTableRowsUpdated(row, row);
 

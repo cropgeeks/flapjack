@@ -18,7 +18,7 @@ public class MabcNode extends VisualizationChildNode
 
 	public MabcNode(GenotypePanel gPanel, GTViewSet viewSet)
 	{
-		super(gPanel, viewSet, viewSet.getLines().get(0).getResults().getName());
+		super(gPanel, viewSet, viewSet.getLines().get(0).getLineResults().getName());
 
 		panel = new MabcPanel(viewSet);
 	}

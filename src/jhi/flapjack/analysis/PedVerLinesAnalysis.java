@@ -58,8 +58,8 @@ public class PedVerLinesAnalysis extends SimpleJob
 			LineInfo lineInfo = as.getLine(lineIndex);
 
 			PedVerLinesResult lineStat = new PedVerLinesResult();
-			lineInfo.getResults().setPedVerLinesResult(lineStat);
-			lineInfo.getResults().setName(name);
+			lineInfo.getLineResults().setPedVerLinesResult(lineStat);
+			lineInfo.getLineResults().setName(name);
 
 			int totalCount = 0;
 			for (int view = 0; view < as.viewCount(); view++)
@@ -98,10 +98,10 @@ public class PedVerLinesAnalysis extends SimpleJob
 		LineInfo p2 = viewSet.getLines().get(p2Index);
 
 		// Mark the parents lines as sortToTop special cases
-		p1.getResults().setSortToTop(true);
-		p2.getResults().setSortToTop(true);
-		p1.getResults().getPedVerLinesResult().setP1(true);
-		p2.getResults().getPedVerLinesResult().setP2(true);
+		p1.getLineResults().setSortToTop(true);
+		p2.getLineResults().setSortToTop(true);
+		p1.getLineResults().getPedVerLinesResult().setP1(true);
+		p2.getLineResults().getPedVerLinesResult().setP2(true);
 
 		// Remove them from the list
 		viewSet.getLines().remove(p1);

@@ -159,8 +159,8 @@ public class MabcAnalysis extends SimpleJob
 		{
 			LineInfo line = as.getLine(lineIndex);
 			MabcResult stats = new MabcResult(line);
-			line.getResults().setMabcResult(stats);
-			line.getResults().setName(name);
+			line.getLineResults().setMabcResult(stats);
+			line.getLineResults().setName(name);
 
 			// ...loop over each chromosome and work out RPP for it
 			for (int viewIndex = 0; viewIndex < as.viewCount(); viewIndex++)
@@ -332,7 +332,7 @@ public class MabcAnalysis extends SimpleJob
 		{
 			// Get its MABC stats collector thing
 			LineInfo line = as.getLine(lineIndex);
-			MabcResult stats = line.getResults().getMabcResult();
+			MabcResult stats = line.getLineResults().getMabcResult();
 
 			// For each QTL (across each of the chromosomes)
 			for (int viewIndex = 0; viewIndex < as.viewCount(); viewIndex++)
@@ -496,7 +496,7 @@ public class MabcAnalysis extends SimpleJob
 		for (int lineIndex=0; lineIndex < as.lineCount(); lineIndex++)
 		{
 			LineInfo lineInfo = as.getLine(lineIndex);
-			MabcResult result = lineInfo.getResults().getMabcResult();
+			MabcResult result = lineInfo.getLineResults().getMabcResult();
 			int foundMarkers = totalMarkers - as.missingMarkerCount(lineIndex);
 			int hetMarkers = as.hetCount(lineIndex);
 
@@ -518,11 +518,11 @@ public class MabcAnalysis extends SimpleJob
 	private void prepareParentsForVisualization()
 	{
 		// Mark the parents lines as sortToTop special cases
-		viewSet.getLines().get(rpIndex).getResults().setSortToTop(true);
-		viewSet.getLines().get(dpIndex).getResults().setSortToTop(true);
+		viewSet.getLines().get(rpIndex).getLineResults().setSortToTop(true);
+		viewSet.getLines().get(dpIndex).getLineResults().setSortToTop(true);
 
-		viewSet.getLines().get(rpIndex).getResults().getMabcResult().setIsRP(true);
-		viewSet.getLines().get(dpIndex).getResults().getMabcResult().setIsDP(true);
+		viewSet.getLines().get(rpIndex).getLineResults().getMabcResult().setIsRP(true);
+		viewSet.getLines().get(dpIndex).getLineResults().getMabcResult().setIsDP(true);
 
 		// Move the parent lines to the top of the display
 		LineInfo rp = viewSet.getLines().get(rpIndex);

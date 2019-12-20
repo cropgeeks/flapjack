@@ -33,7 +33,7 @@ public class FBTableModel extends LineDataTableModel
 	void initModel()
 	{
 		LineInfo line = lines.get(0);
-		FBResult results = line.getResults().getForwardBreedingResult();
+		FBResult results = line.getLineResults().getForwardBreedingResult();
 		int partialMatchSize = results.getHaplotypePartialMatch().size();
 		int hapWeightSize = results.getHaplotypeWeight().size();
 
@@ -98,7 +98,7 @@ public class FBTableModel extends LineDataTableModel
 	public Object getObjectAt(int row, int col)
 	{
 		LineInfo line = lines.get(row);
-		FBResult stats = line.getResults().getForwardBreedingResult();
+		FBResult stats = line.getLineResults().getForwardBreedingResult();
 
 		// Name, Selected and Sort can work without results
 		if (col == 0)
@@ -120,11 +120,11 @@ public class FBTableModel extends LineDataTableModel
 		else if (col == selectedIndex)
 			return line.getSelected();
 		else if (col == rankIndex)
-			return line.getResults().getRank();
+			return line.getLineResults().getRank();
 		else if (col == commentIndex)
-			return line.getResults().getComments();
+			return line.getLineResults().getComments();
 		else if (col == sortIndex)
-			return line.getResults().isSortToTop();
+			return line.getLineResults().isSortToTop();
 
 		// For everything else, don't show entries if stats object null
 		if (stats == null)
@@ -166,13 +166,13 @@ public class FBTableModel extends LineDataTableModel
 			selectLine(line, (boolean)value);
 
 		else if (col == rankIndex)
-			line.getResults().setRank((int)value);
+			line.getLineResults().setRank((int)value);
 
 		else if (col == commentIndex)
-			line.getResults().setComments((String)value);
+			line.getLineResults().setComments((String)value);
 
 		else if (col == sortIndex)
-			line.getResults().setSortToTop((boolean)value);
+			line.getLineResults().setSortToTop((boolean)value);
 
 		fireTableRowsUpdated(row, row);
 

@@ -91,10 +91,10 @@ public class LineInfo extends XMLRoot
 	public void setVisibility(byte visible)
 		{ this.visibility = visible; }
 
-	public LineResults getResults()
+	public LineResults getLineResults()
 		{ return results; }
 
-	public void setResults(LineResults results)
+	public void setLineResults(LineResults results)
 		{ this.results = results; }
 
 	// Other methods

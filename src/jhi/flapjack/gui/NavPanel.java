@@ -244,7 +244,7 @@ public class NavPanel extends JPanel
 			lines = viewSet.getHideLines();
 
 		if (!lines.isEmpty())
-			return lines.get(0).getResults().getMabcResult() != null;
+			return lines.get(0).getLineResults().getMabcResult() != null;
 
 		return false;
 	}
@@ -267,7 +267,7 @@ public class NavPanel extends JPanel
 			lines = viewSet.getHideLines();
 
 		if (!lines.isEmpty())
-			return lines.get(0).getResults().getPedVerF1sResult() != null;
+			return lines.get(0).getLineResults().getPedVerF1sResult() != null;
 
 		return false;
 	}
@@ -290,7 +290,7 @@ public class NavPanel extends JPanel
 			lines = viewSet.getHideLines();
 
 		if (!lines.isEmpty())
-			return lines.get(0).getResults().getPedVerLinesResult() != null;
+			return lines.get(0).getLineResults().getPedVerLinesResult() != null;
 
 		return false;
 	}
@@ -311,7 +311,7 @@ public class NavPanel extends JPanel
 			lines = viewSet.getHideLines();
 
 		if (!lines.isEmpty())
-			return lines.get(0).getResults().getForwardBreedingResult() != null;
+			return lines.get(0).getLineResults().getForwardBreedingResult() != null;
 
 		return false;
 	}

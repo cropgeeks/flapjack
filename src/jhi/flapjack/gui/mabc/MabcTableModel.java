@@ -40,7 +40,7 @@ public class MabcTableModel extends LineDataTableModel
 	{
 		// Use information from the first result to determine the UI
 		LineInfo line = lines.get(0);
-		MabcResult s = line.getResults().getMabcResult();
+		MabcResult s = line.getLineResults().getMabcResult();
 		chrCount = s.getChrScores().size();
 		qtlCount = s.getQtlScores().size();
 
@@ -126,7 +126,7 @@ public class MabcTableModel extends LineDataTableModel
 	public Object getObjectAt(int row, int col)
 	{
 		LineInfo line = lines.get(row);
-		MabcResult stats = line.getResults().getMabcResult();
+		MabcResult stats = line.getLineResults().getMabcResult();
 
 		// Name, Selected and Sort can work without results
 		if (col == 0)
@@ -134,7 +134,7 @@ public class MabcTableModel extends LineDataTableModel
 		else if (col == selectedIndex)
 			return line.getSelected();
 		else if (col == sortIndex)
-			return line.getResults().isSortToTop();
+			return line.getLineResults().isSortToTop();
 
 		// For everything else, don't show entries if stats object null
 		if (stats == null)
@@ -173,11 +173,11 @@ public class MabcTableModel extends LineDataTableModel
 			return stats.getQtlStatusCount();
 
 		else if (col == rankIndex)
-			return line.getResults().getRank();
+			return line.getLineResults().getRank();
 
 		else if (col == commentIndex)
 		{
-			String comment = line.getResults().getComments();
+			String comment = line.getLineResults().getComments();
 			return comment == null ? "" : comment;
 		}
 
@@ -232,13 +232,13 @@ public class MabcTableModel extends LineDataTableModel
 			selectLine(line, (boolean)value);
 
 		else if (col == rankIndex)
-			line.getResults().setRank((int)value);
+			line.getLineResults().setRank((int)value);
 
 		else if (col == commentIndex)
-			line.getResults().setComments((String)value);
+			line.getLineResults().setComments((String)value);
 
 		else if (col == sortIndex)
-			line.getResults().setSortToTop((boolean)value);
+			line.getLineResults().setSortToTop((boolean)value);
 
 		fireTableRowsUpdated(row, row);
 

@@ -69,7 +69,7 @@ public class MabcFilterColumn extends FilterColumn
 
 	private boolean noFilter(RowFilter.Entry<? extends LineDataTableModel, ? extends Object> entry)
 	{
-		return ((CellData)entry.getValue(0)).getLineInfo().getResults().isSortToTop();
+		return ((CellData)entry.getValue(0)).getLineInfo().getLineResults().isSortToTop();
 	}
 
 	// This is used when we're using the FilterColumn objects to auto-select

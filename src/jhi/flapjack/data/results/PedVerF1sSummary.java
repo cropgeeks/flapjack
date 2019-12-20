@@ -36,7 +36,7 @@ public class PedVerF1sSummary extends XMLRoot
 		// Find the parents and F1
 		for (LineInfo line: lines)
 		{
-			LineResults lr =  line.getResults();
+			LineResults lr =  line.getLineResults();
 			if (lr.getPedVerF1sResult().isP1())
 				parent1 = line;
 			else if (lr.getPedVerF1sResult().isP2())
@@ -118,7 +118,7 @@ public class PedVerF1sSummary extends XMLRoot
 
 	public PedVerF1sThresholds thresholds()
 	{
-		return lines.get(0).getResults().getPedVerF1sResult().getThresholds();
+		return lines.get(0).getLineResults().getPedVerF1sResult().getThresholds();
 	}
 
 	public double percentDecisionTrueF1s()
@@ -127,7 +127,7 @@ public class PedVerF1sSummary extends XMLRoot
 			.filter(line -> line != parent1)
 			.filter(line -> line != parent2)
 			.filter(line -> line != expF1)
-			.filter(line -> decider.getDecision(line.getResults().getPedVerF1sResult()) == TRUE_F1)
+			.filter(line -> decider.getDecision(line.getLineResults().getPedVerF1sResult()) == TRUE_F1)
 			.count() / (float) familySize) * 100;
 	}
 
@@ -137,7 +137,7 @@ public class PedVerF1sSummary extends XMLRoot
 			.filter(line -> line != parent1)
 			.filter(line -> line != parent2)
 			.filter(line -> line != expF1)
-			.filter(line -> decider.getDecision(line.getResults().getPedVerF1sResult()) == UNDECIDED_HYBRID)
+			.filter(line -> decider.getDecision(line.getLineResults().getPedVerF1sResult()) == UNDECIDED_HYBRID)
 			.count() / (float) familySize) * 100;
 	}
 
@@ -147,7 +147,7 @@ public class PedVerF1sSummary extends XMLRoot
 			.filter(line -> line != parent1)
 			.filter(line -> line != parent2)
 			.filter(line -> line != expF1)
-			.filter(line -> decider.getDecision(line.getResults().getPedVerF1sResult()) == UNDECIDED_INBRED)
+			.filter(line -> decider.getDecision(line.getLineResults().getPedVerF1sResult()) == UNDECIDED_INBRED)
 			.count() / (float) familySize) * 100;
 	}
 
@@ -157,7 +157,7 @@ public class PedVerF1sSummary extends XMLRoot
 			.filter(line -> line != parent1)
 			.filter(line -> line != parent2)
 			.filter(line -> line != expF1)
-			.filter(line -> decider.getDecision(line.getResults().getPedVerF1sResult()) == NO_DECISION)
+			.filter(line -> decider.getDecision(line.getLineResults().getPedVerF1sResult()) == NO_DECISION)
 			.count() / (float) familySize) * 100;
 	}
 
@@ -167,7 +167,7 @@ public class PedVerF1sSummary extends XMLRoot
 			.filter(line -> line != parent1)
 			.filter(line -> line != parent2)
 			.filter(line -> line != expF1)
-			.filter(line -> decider.getDecision(line.getResults().getPedVerF1sResult()) == LIKE_P1)
+			.filter(line -> decider.getDecision(line.getLineResults().getPedVerF1sResult()) == LIKE_P1)
 			.count() / (float) familySize) * 100;
 	}
 
@@ -177,7 +177,7 @@ public class PedVerF1sSummary extends XMLRoot
 			.filter(line -> line != parent1)
 			.filter(line -> line != parent2)
 			.filter(line -> line != expF1)
-			.filter(line -> decider.getDecision(line.getResults().getPedVerF1sResult()) == LIKE_P2)
+			.filter(line -> decider.getDecision(line.getLineResults().getPedVerF1sResult()) == LIKE_P2)
 			.count() / (float) familySize) * 100;
 	}
 
@@ -189,7 +189,7 @@ public class PedVerF1sSummary extends XMLRoot
 				.filter(line -> line != parent1)
 				.filter(line -> line != parent2)
 				.filter(line -> line != expF1)
-				.mapToDouble(line -> line.getResults().getPedVerF1sResult().getPercentData())
+				.mapToDouble(line -> line.getLineResults().getPedVerF1sResult().getPercentData())
 				.filter(value -> !Double.isNaN(value))
 				.average()
 				.orElse(Double.NaN);
@@ -206,7 +206,7 @@ public class PedVerF1sSummary extends XMLRoot
 				.filter(line -> line != parent1)
 				.filter(line -> line != parent2)
 				.filter(line -> line != expF1)
-				.mapToDouble(line -> line.getResults().getPedVerF1sResult().getPercentHeterozygous())
+				.mapToDouble(line -> line.getLineResults().getPedVerF1sResult().getPercentHeterozygous())
 				.filter(value -> !Double.isNaN(value))
 				.average()
 				.orElse(Double.NaN);
@@ -223,7 +223,7 @@ public class PedVerF1sSummary extends XMLRoot
 				.filter(line -> line != parent1)
 				.filter(line -> line != parent2)
 				.filter(line -> line != expF1)
-				.mapToDouble(line -> line.getResults().getPedVerF1sResult().getSimilarityToP1())
+				.mapToDouble(line -> line.getLineResults().getPedVerF1sResult().getSimilarityToP1())
 				.filter(value -> !Double.isNaN(value))
 				.average()
 				.orElse(Double.NaN);
@@ -240,7 +240,7 @@ public class PedVerF1sSummary extends XMLRoot
 				.filter(line -> line != parent1)
 				.filter(line -> line != parent2)
 				.filter(line -> line != expF1)
-				.mapToDouble(line -> line.getResults().getPedVerF1sResult().getSimilarityToP2())
+				.mapToDouble(line -> line.getLineResults().getPedVerF1sResult().getSimilarityToP2())
 				.filter(value -> !Double.isNaN(value))
 				.average()
 				.orElse(Double.NaN);
@@ -257,7 +257,7 @@ public class PedVerF1sSummary extends XMLRoot
 				.filter(line -> line != parent1)
 				.filter(line -> line != parent2)
 				.filter(line -> line != expF1)
-				.mapToDouble(line -> line.getResults().getPedVerF1sResult().getPercentAlleleMatchExpected())
+				.mapToDouble(line -> line.getLineResults().getPedVerF1sResult().getPercentAlleleMatchExpected())
 				.filter(value -> !Double.isNaN(value))
 				.average()
 				.orElse(Double.NaN);

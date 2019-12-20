@@ -32,7 +32,7 @@ public class PedVerLinesSummary extends XMLRoot
 		// Find the parents
 		for (LineInfo line: lines)
 		{
-			LineResults lr =  line.getResults();
+			LineResults lr =  line.getLineResults();
 			if (lr.getPedVerLinesResult().isP1())
 				parent1 = line;
 			else if (lr.getPedVerLinesResult().isP2())
@@ -108,7 +108,7 @@ public class PedVerLinesSummary extends XMLRoot
 			percentDataAvg = lines.stream()
 				.filter(line -> line != parent1)
 				.filter(line -> line != parent2)
-				.mapToDouble(line -> line.getResults().getPedVerLinesResult().getPercentData())
+				.mapToDouble(line -> line.getLineResults().getPedVerLinesResult().getPercentData())
 				.filter(value -> !Double.isNaN(value))
 				.average()
 				.orElse(Double.NaN);
@@ -124,7 +124,7 @@ public class PedVerLinesSummary extends XMLRoot
 			percentHetAvg = lines.stream()
 				.filter(line -> line != parent1)
 				.filter(line -> line != parent2)
-				.mapToDouble(line -> line.getResults().getPedVerLinesResult().getPercentHet())
+				.mapToDouble(line -> line.getLineResults().getPedVerLinesResult().getPercentHet())
 				.filter(value -> !Double.isNaN(value))
 				.average()
 				.orElse(Double.NaN);
@@ -140,7 +140,7 @@ public class PedVerLinesSummary extends XMLRoot
 			similarityToParentsAvg = lines.stream()
 				.filter(line -> line != parent1)
 				.filter(line -> line != parent2)
-				.mapToDouble(line -> line.getResults().getPedVerLinesResult().getSimilarityToParents())
+				.mapToDouble(line -> line.getLineResults().getPedVerLinesResult().getSimilarityToParents())
 				.filter(value -> !Double.isNaN(value))
 				.average()
 				.orElse(Double.NaN);

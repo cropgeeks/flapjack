@@ -80,7 +80,7 @@ public class MenuView
 					GTViewSet viewSet = vNode.getViewSet();
 					// In the case of any of our analyses we'll have to set the
 					// name on each line's LineResults entry
-					viewSet.getLines().forEach(line -> line.getResults().setName(newName));
+					viewSet.getLines().forEach(line -> line.getLineResults().setName(newName));
 				}
 				else if (vNode instanceof SimMatrixNode)
 				{

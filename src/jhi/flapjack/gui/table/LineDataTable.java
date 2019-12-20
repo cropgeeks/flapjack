@@ -278,7 +278,7 @@ public class LineDataTable extends JTable
 		SelectedLinesState undo = new SelectedLinesState(gPanel.getView(), "selected lines");
 		undo.createUndoState();
 
-		PedVerF1sThresholds thresholds = viewSet.getLines().get(0).getResults().getPedVerF1sResult().getThresholds();
+		PedVerF1sThresholds thresholds = viewSet.getLines().get(0).getLineResults().getPedVerF1sResult().getThresholds();
 		PedVerF1sThresholdDialog pedVerF1sThresholdDialog = new PedVerF1sThresholdDialog(thresholds, this);
 		pedVerF1sThresholdDialog.setVisible(true);
 
@@ -287,7 +287,7 @@ public class LineDataTable extends JTable
 			// Once the threshold dialog has been closed by the OK button we need to update the thresholds in every
 			// ped ver f1 result
 			for (LineInfo info : viewSet.getLines())
-				info.getResults().getPedVerF1sResult().setThresholds(pedVerF1sThresholdDialog.getThresholds());
+				info.getLineResults().getPedVerF1sResult().setThresholds(pedVerF1sThresholdDialog.getThresholds());
 
 			updatePedVerDecsionModel(pedVerF1sThresholdDialog.getDecisionModelIndex());
 			if (pedVerF1sThresholdDialog.isAutoSelectTrueF1s())
@@ -310,7 +310,7 @@ public class LineDataTable extends JTable
 		SelectedLinesState undo = new SelectedLinesState(gPanel.getView(), "selected lines");
 		undo.createUndoState();
 
-		PedVerLinesThresholds thresholds = viewSet.getLines().get(0).getResults().getPedVerLinesResult().getThresholds();
+		PedVerLinesThresholds thresholds = viewSet.getLines().get(0).getLineResults().getPedVerLinesResult().getThresholds();
 		PedVerLinesThresholdDialog thresholdDialog = new PedVerLinesThresholdDialog(thresholds, this);
 		thresholdDialog.setVisible(true);
 
@@ -319,7 +319,7 @@ public class LineDataTable extends JTable
 			// Once the threshold dialog has been closed by the OK button we need to update the thresholds in every
 			// ped ver f1 result
 			for (LineInfo info : viewSet.getLines())
-				info.getResults().getPedVerLinesResult().setThresholds(thresholdDialog.getThresholds());
+				info.getLineResults().getPedVerLinesResult().setThresholds(thresholdDialog.getThresholds());
 
 			if (thresholdDialog.isAutoSelectVerifiedLines())
 				viewSet.getTableHandler().table().autoSelectVerifiedLines();
@@ -351,7 +351,7 @@ public class LineDataTable extends JTable
 					maxQtlAlleleCount += 2;
 		}
 
-		MABCThresholds thresholds = viewSet.getLines().get(0).getResults().getMabcResult().getThresholds();
+		MABCThresholds thresholds = viewSet.getLines().get(0).getLineResults().getMabcResult().getThresholds();
 		MABCThresholdDialog thresholdDialog = new MABCThresholdDialog(thresholds, maxQtlAlleleCount, this);
 		thresholdDialog.setVisible(true);
 
@@ -360,7 +360,7 @@ public class LineDataTable extends JTable
 			// Once the threshold dialog has been closed by the OK button we need to update the thresholds in every
 			// ped ver f1 result
 			for (LineInfo info : viewSet.getLines())
-				info.getResults().getMabcResult().setThresholds(thresholdDialog.getThresholds());
+				info.getLineResults().getMabcResult().setThresholds(thresholdDialog.getThresholds());
 
 			if (thresholdDialog.isAutoSelect())
 				viewSet.getTableHandler().table().autoSelectMabc();
