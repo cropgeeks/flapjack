@@ -19,7 +19,7 @@ class MabcSummaryPanelNB extends JPanel
 	{
 		// Safety check for any results that were generated before we added
 		// summary information. This'll create a new list of size one.
-		if (viewSet._getMabcBatchList() == null)
+		if (viewSet.getMabcBatchList() == null)
 		{
 			MabcBatchList list = new MabcBatchList();
 			list.add(viewSet);
@@ -34,7 +34,7 @@ class MabcSummaryPanelNB extends JPanel
 
 		/////////////
 
-		model = new MabcSummaryTableModel(viewSet._getMabcBatchList());
+		model = new MabcSummaryTableModel(viewSet.getMabcBatchList());
 		table.setModel(model);
 	}
 

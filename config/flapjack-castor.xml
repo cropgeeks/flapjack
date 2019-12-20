@@ -322,6 +322,87 @@
 	<class name="jhi.flapjack.data.results.PedVerLinesResult" extends="jhi.flapjack.data.XMLRoot" auto-complete="true">
 	</class>
 
+	<!-- MabcBatchList -->
+	<class name="jhi.flapjack.data.results.MabcBatchList" extends="jhi.flapjack.data.XMLRoot" auto-complete="true">
+		<field name="summaries" type="jhi.flapjack.data.results.MabcSummary" collection="arraylist"/>
+	</class>
+
+	<!-- MabcSummary -->
+	<class name="jhi.flapjack.data.results.MabcSummary" extends="jhi.flapjack.data.XMLRoot" auto-complete="true">
+		<field name="viewSet" type="jhi.flapjack.data.GTViewSet">
+			<bind-xml reference="true" node="attribute"/>
+		</field>
+		<field name="lines" type="jhi.flapjack.data.LineInfo" collection="arraylist">
+			<bind-xml reference="true" node="attribute"/>
+		</field>
+		<field name="dP" type="jhi.flapjack.data.LineInfo">
+			<bind-xml reference="true" node="attribute"/>
+		</field>
+		<field name="rP" type="jhi.flapjack.data.LineInfo">
+			<bind-xml reference="true" node="attribute"/>
+		</field>
+	</class>
+
+	<!-- PedVerF1sBatchList -->
+	<class name="jhi.flapjack.data.results.PedVerF1sBatchList" extends="jhi.flapjack.data.XMLRoot" auto-complete="true">
+		<field name="summaries" type="jhi.flapjack.data.results.PedVerF1sSummary" collection="arraylist"/>
+	</class>
+
+	<!-- PedVerF1sSummary -->
+	<class name="jhi.flapjack.data.results.PedVerF1sSummary" extends="jhi.flapjack.data.XMLRoot" auto-complete="true">
+		<field name="viewSet" type="jhi.flapjack.data.GTViewSet">
+			<bind-xml reference="true" node="attribute"/>
+		</field>
+		<field name="lines" type="jhi.flapjack.data.LineInfo" collection="arraylist">
+			<bind-xml reference="true" node="attribute"/>
+		</field>
+		<field name="parent1" type="jhi.flapjack.data.LineInfo">
+			<bind-xml reference="true" node="attribute"/>
+		</field>
+		<field name="parent2" type="jhi.flapjack.data.LineInfo">
+			<bind-xml reference="true" node="attribute"/>
+		</field>
+		<field name="expF1" type="jhi.flapjack.data.LineInfo">
+			<bind-xml reference="true" node="attribute"/>
+		</field>
+	</class>
+
+	<!-- PedVerLinesBatchList -->
+	<class name="jhi.flapjack.data.results.PedVerLinesBatchList" extends="jhi.flapjack.data.XMLRoot" auto-complete="true">
+		<field name="summaries" type="jhi.flapjack.data.results.PedVerLinesSummary" collection="arraylist"/>
+	</class>
+
+	<!-- PedVerLinesSummary -->
+	<class name="jhi.flapjack.data.results.PedVerLinesSummary" extends="jhi.flapjack.data.XMLRoot" auto-complete="true">
+		<field name="viewSet" type="jhi.flapjack.data.GTViewSet">
+			<bind-xml reference="true" node="attribute"/>
+		</field>
+		<field name="lines" type="jhi.flapjack.data.LineInfo" collection="arraylist">
+			<bind-xml reference="true" node="attribute"/>
+		</field>
+		<field name="parent1" type="jhi.flapjack.data.LineInfo">
+			<bind-xml reference="true" node="attribute"/>
+		</field>
+		<field name="parent2" type="jhi.flapjack.data.LineInfo">
+			<bind-xml reference="true" node="attribute"/>
+		</field>
+	</class>
+
+	<!-- FBBatchList -->
+	<class name="jhi.flapjack.data.results.FBBatchList" extends="jhi.flapjack.data.XMLRoot" auto-complete="true">
+		<field name="summaries" type="jhi.flapjack.data.results.FBSummary" collection="arraylist"/>
+	</class>
+
+	<!-- FBSummary -->
+	<class name="jhi.flapjack.data.results.FBSummary" extends="jhi.flapjack.data.XMLRoot" auto-complete="true">
+		<field name="viewSet" type="jhi.flapjack.data.GTViewSet">
+			<bind-xml reference="true" node="attribute"/>
+		</field>
+		<field name="lines" type="jhi.flapjack.data.LineInfo" collection="arraylist">
+			<bind-xml reference="true" node="attribute"/>
+		</field>
+	</class>
+
 	<!-- FBResult -->
 	<class name="jhi.flapjack.data.results.FBResult" extends="jhi.flapjack.data.XMLRoot" auto-complete="true">
 		<field name="haplotypeNames" type="string" collection="arraylist"/>

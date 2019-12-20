@@ -46,7 +46,7 @@ public class FBBatchList extends XMLRoot
 	public void add(GTViewSet viewSet)
 	{
 		summaries.add(new FBSummary(viewSet, this));
-		viewSet._setFBBatchList(this);
+		viewSet.setFBBatchList(this);
 	}
 
 	public int size()

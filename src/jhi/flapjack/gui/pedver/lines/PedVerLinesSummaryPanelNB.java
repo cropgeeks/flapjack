@@ -19,7 +19,7 @@ class PedVerLinesSummaryPanelNB extends JPanel
 	{
 		// Safety check for any results that were generated before we added
 		// summary information. This'll create a new list of size one.
-		if (viewSet._getPedVerLinesBatchList() == null)
+		if (viewSet.getPedVerLinesBatchList() == null)
 		{
 			// TODO: Should we use the Pref for the decision model instead?
 			// Creating dummy view with the decision model set to simple
@@ -36,7 +36,7 @@ class PedVerLinesSummaryPanelNB extends JPanel
 
 		/////////////
 
-		model = new PedVerLinesSummaryTableModel(viewSet._getPedVerLinesBatchList());
+		model = new PedVerLinesSummaryTableModel(viewSet.getPedVerLinesBatchList());
 		table.setModel(model);
 	}
 

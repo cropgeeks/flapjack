@@ -313,28 +313,28 @@ public class GTViewSet extends XMLRoot
 	public void setTableHandler(LinkedTableHandler tableHandler)
 		{ this.tableHandler = tableHandler; }
 
-	public MabcBatchList _getMabcBatchList()
+	public MabcBatchList getMabcBatchList()
 		{ return mabcBatchList; }
 
-	public void _setMabcBatchList(MabcBatchList mabcBatchList)
+	public void setMabcBatchList(MabcBatchList mabcBatchList)
 		{ this.mabcBatchList = mabcBatchList; }
 
-	public PedVerF1sBatchList _getPedVerF1sBatchList()
+	public PedVerF1sBatchList getPedVerF1sBatchList()
 		{ return pedVerF1sBatchList; }
 
-	public void _setPedVerF1sBatchList(PedVerF1sBatchList pedVerF1sBatchList)
+	public void setPedVerF1sBatchList(PedVerF1sBatchList pedVerF1sBatchList)
 		{ this.pedVerF1sBatchList = pedVerF1sBatchList; }
 
-	public PedVerLinesBatchList _getPedVerLinesBatchList()
+	public PedVerLinesBatchList getPedVerLinesBatchList()
 		{ return pedVerLinesBatchList; }
 
-	public void _setPedVerLinesBatchList(PedVerLinesBatchList pedVerLinesBatchList)
+	public void setPedVerLinesBatchList(PedVerLinesBatchList pedVerLinesBatchList)
 		{ this.pedVerLinesBatchList = pedVerLinesBatchList; }
 
-	public FBBatchList _getFBBatchList()
+	public FBBatchList getFBBatchList()
 		{ return fbBatchList; }
 
-	public void _setFBBatchList(FBBatchList fbBatchList)
+	public void setFBBatchList(FBBatchList fbBatchList)
 		{ this.fbBatchList = fbBatchList; }
 
 

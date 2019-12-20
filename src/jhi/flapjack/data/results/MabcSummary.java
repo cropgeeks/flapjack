@@ -12,8 +12,7 @@ public class MabcSummary extends XMLRoot
 	private GTViewSet viewSet;
 	private ArrayList<LineInfo> lines;
 
-	// TODO: These should be references in CASTOR
-	private LineInfo dp, rp;
+	private LineInfo dP, rP;
 	private int familySize;
 
 	// Don't save these!
@@ -34,9 +33,9 @@ public class MabcSummary extends XMLRoot
 		{
 			LineResults lr =  line.getLineResults();
 			if (lr.getMabcResult().isIsDP())
-				dp = line;
+				dP = line;
 			if (lr.getMabcResult().isIsRP())
-				rp = line;
+				rP = line;
 		}
 
 		// Remove parents from the family size
@@ -58,16 +57,16 @@ public class MabcSummary extends XMLRoot
 		{ this.lines = lines; }
 
 	public LineInfo getDP()
-		{ return dp; }
+		{ return dP; }
 
 	public void setDP(LineInfo dp)
-		{ this.dp = dp; }
+		{ this.dP = dp; }
 
 	public LineInfo getRP()
-		{ return rp; }
+		{ return rP; }
 
 	public void setRP(LineInfo rp)
-		{ this.rp = rp; }
+		{ this.rP = rp; }
 
 	public int getFamilySize()
 		{ return familySize; }
@@ -83,19 +82,19 @@ public class MabcSummary extends XMLRoot
 
 	public String dp()
 	{
-		return dp.name();
+		return dP.name();
 	}
 
 	public String rp()
 	{
-		return rp.name();
+		return rP.name();
 	}
 
 	public float proportionSelected()
 	{
 		long selectedCount = lines.stream()
-			.filter(line -> line != dp)
-			.filter(line -> line != rp)
+			.filter(line -> line != dP)
+			.filter(line -> line != rP)
 			.filter(LineInfo::getSelected).count();
 
 		return selectedCount / (float)familySize;
@@ -106,8 +105,8 @@ public class MabcSummary extends XMLRoot
 		if (percentDataAvg == null)
 		{
 			percentDataAvg = lines.stream()
-				.filter(line -> line != rp)
-				.filter(line -> line != dp)
+				.filter(line -> line != rP)
+				.filter(line -> line != dP)
 				.mapToDouble(line -> line.getLineResults().getMabcResult().getPercentData())
 				.filter(value -> !Double.isNaN(value))
 				.average()
@@ -122,8 +121,8 @@ public class MabcSummary extends XMLRoot
 		if (rppTotalAvg == null)
 		{
 			rppTotalAvg = lines.stream()
-				.filter(line -> line != rp)
-				.filter(line -> line != dp)
+				.filter(line -> line != rP)
+				.filter(line -> line != dP)
 				.mapToDouble(line -> line.getLineResults().getMabcResult().getRppTotal())
 				.filter(value -> !Double.isNaN(value))
 				.average()
@@ -138,8 +137,8 @@ public class MabcSummary extends XMLRoot
 		if (qtlStatusCountAvg == null)
 		{
 			qtlStatusCountAvg = lines.stream()
-				.filter(line -> line != rp)
-				.filter(line -> line != dp)
+				.filter(line -> line != rP)
+				.filter(line -> line != dP)
 				.mapToDouble(line -> line.getLineResults().getMabcResult().getQtlStatusCount())
 				.filter(value -> !Double.isNaN(value))
 				.average()

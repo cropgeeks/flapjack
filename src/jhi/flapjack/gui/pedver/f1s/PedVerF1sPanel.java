@@ -65,7 +65,7 @@ public class PedVerF1sPanel extends JPanel implements ActionListener, ListSelect
 		table.setColorCells(true);
 
 		controls.autoResize.setSelected(tableHandler.isAutoResize());
-		summaryControls.autoResize.setSelected(viewSet._getPedVerF1sBatchList().isAutoResize());
+		summaryControls.autoResize.setSelected(viewSet.getPedVerF1sBatchList().isAutoResize());
 	}
 
 	private void updateModel(GTViewSet viewSet)
@@ -100,7 +100,7 @@ public class PedVerF1sPanel extends JPanel implements ActionListener, ListSelect
 		{
 			boolean state = summaryControls.autoResize.isSelected();
 			((SummaryTable)summaryControls.table).autoResize(state);
-			viewSet._getPedVerF1sBatchList().setAutoResize(state);
+			viewSet.getPedVerF1sBatchList().setAutoResize(state);
 		}
 
 		else if (e.getSource() == summaryControls.bExport)

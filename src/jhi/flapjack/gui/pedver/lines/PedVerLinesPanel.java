@@ -66,7 +66,7 @@ public class PedVerLinesPanel extends JPanel implements ActionListener, ListSele
 		tableHandler.linkTable(table, model);
 
 		controls.autoResize.setSelected(tableHandler.isAutoResize());
-		summaryControls.autoResize.setSelected(viewSet._getPedVerLinesBatchList().isAutoResize());
+		summaryControls.autoResize.setSelected(viewSet.getPedVerLinesBatchList().isAutoResize());
 	}
 
 	public void updateModel(GTViewSet viewSet)
@@ -101,7 +101,7 @@ public class PedVerLinesPanel extends JPanel implements ActionListener, ListSele
 		{
 			boolean state = summaryControls.autoResize.isSelected();
 			((SummaryTable)summaryControls.table).autoResize(state);
-			viewSet._getPedVerLinesBatchList().setAutoResize(state);
+			viewSet.getPedVerLinesBatchList().setAutoResize(state);
 		}
 
 		else if (e.getSource() == summaryControls.bExport)

@@ -377,7 +377,7 @@ public class LineDataTable extends JTable
 
 	public void updatePedVerDecsionModel(int modelIndex)
 	{
-		viewSet._getPedVerF1sBatchList().selectDecisionMethod(modelIndex);
+		viewSet.getPedVerF1sBatchList().selectDecisionMethod(modelIndex);
 
 		model.fireTableDataChanged();
 	}

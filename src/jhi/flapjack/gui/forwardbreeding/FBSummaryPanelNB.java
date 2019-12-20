@@ -19,7 +19,7 @@ class FBSummaryPanelNB extends JPanel
 	{
 		// Safety check for any results that were generated before we added
 		// summary information. This'll create a new list of size one.
-		if (viewSet._getFBBatchList() == null)
+		if (viewSet.getFBBatchList() == null)
 		{
 			FBBatchList list = new FBBatchList();
 			list.add(viewSet);
@@ -34,7 +34,7 @@ class FBSummaryPanelNB extends JPanel
 
 		/////////////
 
-		model = new FBSummaryTableModel(viewSet._getFBBatchList());
+		model = new FBSummaryTableModel(viewSet.getFBBatchList());
 		table.setModel(model);
 	}
 

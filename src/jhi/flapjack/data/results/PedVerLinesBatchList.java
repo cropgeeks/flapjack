@@ -46,7 +46,7 @@ public class PedVerLinesBatchList extends XMLRoot
 	public void add(GTViewSet viewSet)
 	{
 		summaries.add(new PedVerLinesSummary(viewSet, this));
-		viewSet._setPedVerLinesBatchList(this);
+		viewSet.setPedVerLinesBatchList(this);
 	}
 
 	public int size()

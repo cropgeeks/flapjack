@@ -45,7 +45,7 @@ public class MabcBatchList extends XMLRoot
 	public void add(GTViewSet viewSet)
 	{
 		summaries.add(new MabcSummary(viewSet, this));
-		viewSet._setMabcBatchList(this);
+		viewSet.setMabcBatchList(this);
 	}
 
 	public int size()

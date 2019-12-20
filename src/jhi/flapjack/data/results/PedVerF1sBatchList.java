@@ -59,7 +59,7 @@ public class PedVerF1sBatchList extends XMLRoot
 	public void add(GTViewSet viewSet)
 	{
 		summaries.add(new PedVerF1sSummary(viewSet, this));
-		viewSet._setPedVerF1sBatchList(this);
+		viewSet.setPedVerF1sBatchList(this);
 	}
 
 	public int size()

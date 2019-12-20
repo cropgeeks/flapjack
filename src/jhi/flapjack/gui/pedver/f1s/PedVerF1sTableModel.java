@@ -90,7 +90,7 @@ public class PedVerF1sTableModel extends LineDataTableModel
 	{
 		LineInfo line = lines.get(row);
 		PedVerF1sResult stats = line.getLineResults().getPedVerF1sResult();
-		PedVerDecisions decisionMethod = viewSet._getPedVerF1sBatchList().getDecisionMethod();;
+		PedVerDecisions decisionMethod = viewSet.getPedVerF1sBatchList().getDecisionMethod();;
 
 		// Name, Selected and Sort can work without results
 		if (col == lineIndex)
@@ -180,7 +180,7 @@ public class PedVerF1sTableModel extends LineDataTableModel
 	@Override
 	public Color getDisplayColor(int row, int col)
 	{
-		PedVerDecisions decisionMethod = viewSet._getPedVerF1sBatchList().getDecisionMethod();
+		PedVerDecisions decisionMethod = viewSet.getPedVerF1sBatchList().getDecisionMethod();
 		if (col == 13)
 		{
 			LineInfo info = lines.get(row);

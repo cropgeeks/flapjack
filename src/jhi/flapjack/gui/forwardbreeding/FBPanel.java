@@ -62,7 +62,7 @@ public class FBPanel extends JPanel implements ActionListener, ListSelectionList
 		tableHandler.linkTable(table, model);
 
 		controls.autoResize.setSelected(tableHandler.isAutoResize());
-		summaryControls.autoResize.setSelected(viewSet._getFBBatchList().isAutoResize());
+		summaryControls.autoResize.setSelected(viewSet.getFBBatchList().isAutoResize());
 	}
 
 	private void updateModel(GTViewSet viewset)
@@ -95,7 +95,7 @@ public class FBPanel extends JPanel implements ActionListener, ListSelectionList
 		{
 			boolean state = summaryControls.autoResize.isSelected();
 			((SummaryTable)summaryControls.table).autoResize(state);
-			viewSet._getFBBatchList().setAutoResize(state);
+			viewSet.getFBBatchList().setAutoResize(state);
 		}
 
 		else if (e.getSource() == summaryControls.bExport)
