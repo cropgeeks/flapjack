@@ -314,6 +314,27 @@
 		</field>
     </class>
 
+    <!-- MabcFilterColumn -->
+    <class name="jhi.flapjack.gui.table.MabcFilterColumn" extends="jhi.flapjack.gui.table.FilterColumn" auto-complete="true">
+        <field name="value" type="string">
+            <bind-xml node="attribute"/>
+        </field>
+    </class>
+
+	<!-- PedVerF1sFilterColumn -->
+	<class name="jhi.flapjack.gui.table.PedVerF1sFilterColumn" extends="jhi.flapjack.gui.table.FilterColumn" auto-complete="true">
+		<field name="value" type="string">
+			<bind-xml node="attribute"/>
+		</field>
+	</class>
+
+	<!-- PedVerLinesFilterColumn -->
+	<class name="jhi.flapjack.gui.table.PedVerLinesFilterColumn" extends="jhi.flapjack.gui.table.FilterColumn" auto-complete="true">
+		<field name="value" type="string">
+			<bind-xml node="attribute"/>
+		</field>
+	</class>
+
 	<!-- PedVerF1sResult -->
 	<class name="jhi.flapjack.data.results.PedVerF1sResult" extends="jhi.flapjack.data.XMLRoot" auto-complete="true">
 	</class>
