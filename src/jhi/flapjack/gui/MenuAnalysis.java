@@ -303,6 +303,10 @@ public class MenuAnalysis
 			RB.getString("gui.MenuAnalysis.mabc.title"),
 			RB.getString("gui.MenuAnalysis.mabc.label"), Flapjack.winMain);
 
+		// If the operation failed or was cancelled...
+		if (pDialog.failed("gui.error"))
+			return;
+
 		MabcBatchList list = new MabcBatchList();
 		list.add(stats.getViewSet());
 
@@ -360,6 +364,10 @@ public class MenuAnalysis
 		ProgressDialog pDialog = new ProgressDialog(stats,
 			RB.getString("gui.MenuAnalysis.mabc.title"),
 			RB.getString("gui.MenuAnalysis.mabc.label"), Flapjack.winMain);
+
+		// If the operation failed or was cancelled...
+		if (pDialog.failed("gui.error"))
+			return;
 
 		MabcBatchList list = new MabcBatchList();
 		list.add(stats.getResultViewSets());
@@ -425,10 +433,14 @@ public class MenuAnalysis
 			selectedChromosomes, p1Index, p2Index, simulateF1, f1Index,
 			Prefs.guiPedVerF1sExcludeParents, RB.getString("gui.navpanel.PedVerF1s.node"), thresholds);
 
-		new ProgressDialog(stats,
+		ProgressDialog pDialog = new ProgressDialog(stats,
 			RB.getString("gui.MenuAnalysis.pedVerF1s.title"),
 			RB.getString("gui.MenuAnalysis.pedVerF1s.label"),
 			Flapjack.winMain);
+
+		// If the operation failed or was cancelled...
+		if (pDialog.failed("gui.error"))
+			return;
 
 		PedVerF1sBatchList list = new PedVerF1sBatchList(decisionModelIndex);
 		list.add(stats.getViewSet());
@@ -489,6 +501,10 @@ public class MenuAnalysis
 		ProgressDialog pDialog = new ProgressDialog(stats,
 			RB.getString("gui.MenuAnalysis.pedVerF1s.title"),
 			RB.getString("gui.MenuAnalysis.pedVerF1s.label"), Flapjack.winMain);
+
+		// If the operation failed or was cancelled...
+		if (pDialog.failed("gui.error"))
+			return;
 
 		PedVerF1sBatchList list = new PedVerF1sBatchList(decisionModelIndex);
 		list.add(stats.getResultViewSets());
@@ -554,6 +570,10 @@ public class MenuAnalysis
 			"Running PedVer stats - please be patient...",
 			Flapjack.winMain);
 
+		// If the operation failed or was cancelled...
+		if (pDialog.failed("gui.error"))
+			return;
+
 		PedVerLinesBatchList list = new PedVerLinesBatchList();
 		list.add(stats.getViewSet());
 
@@ -589,6 +609,10 @@ public class MenuAnalysis
 			"Running PedVer Stats",
 			"Running PedVer stats - please be patient...",
 			Flapjack.winMain);
+
+		// If the operation failed or was cancelled...
+		if (pDialog.failed("gui.error"))
+			return;
 
 		PedVerLinesBatchList list = new PedVerLinesBatchList();
 		list.add(stats.getResultViewSets());
@@ -648,6 +672,10 @@ public class MenuAnalysis
 			"Running Forward Breeding stats - please be patient...",
 			Flapjack.winMain);
 
+		// If the operation failed or was cancelled...
+		if (pDialog.failed("gui.error"))
+			return;
+
 		FBBatchList list = new FBBatchList();
 		list.add(stats.getViewSet());
 
@@ -669,6 +697,10 @@ public class MenuAnalysis
 			"Running Forward Breeding Stats",
 			"Running Forward Breeding stats - please be patient...",
 			Flapjack.winMain);
+
+		// If the operation failed or was cancelled...
+		if (pDialog.failed("gui.error"))
+			return;
 
 		FBBatchList list = new FBBatchList();
 		list.add(stats.getResultViewSets());
