@@ -162,7 +162,7 @@ public class SummaryTable extends JTable
 		int exportType = Prefs.guiSumTableExportType;
 		boolean exportTraits = Prefs.guiSumTableExportTraits;
 
-		LineDataTableExporter exporter = new LineDataTableExporter(
+		LineDataTableBatchExporter exporter = new LineDataTableBatchExporter(
 			getLineDataTables(), filename, exportType, exportTraits);
 
 		ProgressDialog pDialog = new ProgressDialog(exporter,

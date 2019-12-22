@@ -6,7 +6,6 @@ package jhi.flapjack.gui.table;
 import java.io.*;
 import java.text.*;
 import java.util.*;
-import java.util.stream.*;
 import javax.swing.*;
 
 import jhi.flapjack.data.*;
@@ -18,14 +17,8 @@ import scri.commons.gui.*;
  */
 public class LineDataTableExporter extends SimpleJob
 {
-	// Objects used for a single export
 	private LineDataTable table;
 	private DataSet dataSet;
-
-	// Objects used for a batch export
-	private ArrayList<LineDataTable> tables;
-	private ArrayList<DataSet> dataSets;
-
 	private File file;
 	private int exportType;
 	private boolean exportHeaders, exportTraits;
@@ -59,21 +52,6 @@ public class LineDataTableExporter extends SimpleJob
 		}
 	}
 
-	public LineDataTableExporter(ArrayList<LineDataTable> tables, File file, int exportType, boolean exportTraits)
-	{
-		this.tables = tables;
-		this.file = file;
-		this.exportType = exportType;
-		this.exportHeaders = false;
-		this.exportTraits = exportTraits;
-
-		dataSets = tables.stream()
-			.map(LineDataTable::getDataSet)
-			.collect(Collectors.toCollection(ArrayList::new));
-
-		df = new DecimalFormat("#.#########");
-	}
-
 	@Override
 	public void runJob(int i) throws Exception
 	{
@@ -83,38 +61,20 @@ public class LineDataTableExporter extends SimpleJob
 		if (exportHeaders)
 			printInfoHeaders(out);
 
-		// Single run
-		if (tables == null)
-			printTable(out, table, dataSet);
-
-		// Batch run
-		else
-		{
-			for (int t = 0; t < tables.size(); t++)
-			{
-				printTable(out, tables.get(t), dataSets.get(t));
-			}
-		}
-
-		out.close();
-	}
-
-	private void printTable(PrintWriter out, LineDataTable myTable, DataSet myDataSet)
-	{
 		// Print table header
 		StringBuilder headerBuilder = new StringBuilder();
-		for (int col = 0; col < myTable.getColumnCount(); col++)
+		for (int col = 0; col < table.getColumnCount(); col++)
 		{
-			if (myTable.skipExport(col))
+			if (table.skipExport(col))
 				continue;
 
 			if (headerBuilder.length() > 0)
 				headerBuilder.append("\t");
-			headerBuilder.append(myTable.getColumnName(col));
+			headerBuilder.append(table.getColumnName(col));
 		}
 		if (exportTraits)
 		{
-			for (Trait t: myDataSet.getTraits())
+			for (Trait t: dataSet.getTraits())
 			{
 				headerBuilder.append("\t");
 				headerBuilder.append(t.getName());
@@ -123,23 +83,23 @@ public class LineDataTableExporter extends SimpleJob
 		out.println(headerBuilder.toString());
 
 		// Print table data
-		for (int row = 0; row < myTable.getRowCount(); row++)
+		for (int row = 0; row < table.getRowCount(); row++)
 		{
-			int col0 = myTable.convertColumnIndexToView(0);
-			LineInfo line = (LineInfo)myTable.getObjectAt(row, col0);
+			int col0 = table.convertColumnIndexToView(0);
+			LineInfo line = (LineInfo)table.getObjectAt(row, col0);
 			if (exportType == 2 && !line.getSelected())
 				continue;
 
 			StringBuilder builder = new StringBuilder();
-			for (int col=0; col < myTable.getColumnCount(); col++)
+			for (int col=0; col < table.getColumnCount(); col++)
 			{
-				if (myTable.skipExport(col))
+				if (table.skipExport(col))
 					continue;
 
 				if (builder.length() > 0)
 					builder.append("\t");
 
-				Object obj = myTable.getObjectAt(row, col);
+				Object obj = table.getObjectAt(row, col);
 
 				if (obj instanceof Float || obj instanceof Double)
 					builder.append(getNumberString(obj));
@@ -159,6 +119,8 @@ public class LineDataTableExporter extends SimpleJob
 
 			out.println(builder.toString());
 		}
+
+		out.close();
 	}
 
 	private void printInfoHeaders(PrintWriter out)
