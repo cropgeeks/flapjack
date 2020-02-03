@@ -4,10 +4,10 @@
 package jhi.flapjack.io.brapi;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
-import jhi.brapi.api.calls.*;
 import jhi.flapjack.gui.*;
+
+import jhi.brapi.api.core.serverinfo.*;
 
 class CallsUtils
 {
@@ -58,7 +58,7 @@ class CallsUtils
 	boolean hasCall(String signature, String datatype, String method)
 	{
 		for (BrapiCall call : calls)
-			if (call.getCall().equals(signature) && call.hasDataType(datatype) && call.hasMethod(method))
+			if (call.getService().equals(signature) && call.hasDataType(datatype) && call.hasMethod(method))
 				return true;
 
 		return false;
