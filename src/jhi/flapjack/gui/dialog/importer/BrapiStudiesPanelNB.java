@@ -9,14 +9,14 @@ import javax.swing.*;
 import jhi.flapjack.gui.*;
 import jhi.flapjack.io.brapi.*;
 
-import jhi.brapi.api.studies.*;
+import jhi.brapi.api.core.studies.*;
 
 import scri.commons.gui.*;
 
 class BrapiStudiesPanelNB extends JPanel implements IBrapiWizard
 {
 	private BrapiClient client;
-	private List<BrapiStudies> studies;
+	private List<Study> studies;
 	private BrapiImportDialog dialog;
 
 	private DefaultComboBoxModel<String> studiesModel;
@@ -37,10 +37,10 @@ class BrapiStudiesPanelNB extends JPanel implements IBrapiWizard
 
 		if (index >= 0)
 		{
-			BrapiStudies study = studies.get(index);
+			Study study = studies.get(index);
 
 			client.setStudyID(study.getStudyDbId());
-			text.setText(RB.format("gui.dialog.importer.BrapiStudiesPanelNB.studyName", study.getName()) + "\n"
+			text.setText(RB.format("gui.dialog.importer.BrapiStudiesPanelNB.studyName", study.getStudyName()) + "\n"
 				+ RB.format("gui.dialog.importer.BrapiStudiesPanelNB.studyId", study.getStudyDbId()));
 		}
 		else
@@ -62,8 +62,8 @@ class BrapiStudiesPanelNB extends JPanel implements IBrapiWizard
 		// Populate the maps combo box
 		studiesModel = new DefaultComboBoxModel<String>();
 
-		for (BrapiStudies study: studies)
-			studiesModel.addElement(study.getName());
+		for (Study study: studies)
+			studiesModel.addElement(study.getStudyName());
 
 		studiesCombo.setModel(studiesModel);
 		displayStudies();
