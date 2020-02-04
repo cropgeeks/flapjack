@@ -104,7 +104,7 @@ class BrapiDataPanelNB extends JPanel implements IBrapiWizard
 			throws Exception
 		{
 			client.initService();
-			client.getCalls();
+			client.getServerInfo();
 		}
 
 		@Override

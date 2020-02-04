@@ -71,7 +71,7 @@ class BrapiPassPanelNB extends JPanel implements IBrapiWizard
 		updateLabels();
 
 		useMaps.setEnabled(client.hasMaps());
-		useStudies.setEnabled(client.hasStudiesSearchGET() || client.hasStudiesSearchPOST());
+		useStudies.setEnabled(client.hasStudiesSearch());
 
 		dialog.enableBack(true);
 		dialog.enableNext(true);
@@ -105,11 +105,12 @@ class BrapiPassPanelNB extends JPanel implements IBrapiWizard
 				dialog.setScreen(dialog.getMapsPanel());
 		}
 
-		else if (client.hasAlleleMatrices())
-		{
-			if (dialog.getMatricesPanel().refreshData())
-				dialog.setScreen(dialog.getMatricesPanel());
-		}
+		// TODO: BrAPI v2 calls
+//		else if (client.hasAlleleMatrices())
+//		{
+//			if (dialog.getMatricesPanel().refreshData())
+//				dialog.setScreen(dialog.getMatricesPanel());
+//		}
 
 		else
 			dialog.wizardCompleted();
@@ -286,7 +287,7 @@ class BrapiPassPanelNB extends JPanel implements IBrapiWizard
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        specLabel.setText("Note that Flapjack will only work with resources targetting V1.1 of the BrAPI specification.");
+        specLabel.setText("Note that Flapjack will only work with resources targetting V2.0 of the BrAPI specification.");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);

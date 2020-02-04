@@ -18,7 +18,6 @@ import jhi.brapi.api.core.studies.*;
 import jhi.brapi.api.genotyping.genomemaps.*;
 import jhi.brapi.client.*;
 
-import retrofit2.Call;
 import retrofit2.Response;
 import scri.commons.gui.*;
 
@@ -45,6 +44,8 @@ public class BrapiClient
 		baseURL = resource.getUrl();
 		baseURL = baseURL.endsWith("/") ? baseURL : baseURL + "/";
 
+		baseURL = "https://ics.hutton.ac.uk/germinate-demo/cactuar-dev-iain/brapi/v2/";
+
 		generator = new RetrofitServiceGenerator(baseURL, resource.getCertificate());
 		service = generator.generate(null);
 	}
@@ -61,7 +62,7 @@ public class BrapiClient
 		}
 	}
 
-	public void getCalls()
+	public void getServerInfo()
 		throws Exception
 	{
 		BrapiServerInfo serverInfo = new BrapiServerInfo();
@@ -103,16 +104,6 @@ public class BrapiClient
 		return callsUtils.hasToken();
 	}
 
-	public boolean hasAlleleMatrixSearchTSV()
-	{
-		return callsUtils.hasAlleleMatrixSearchTSV();
-	}
-
-	public boolean hasAlleleMatrixSearchFlapjack()
-	{
-		return callsUtils.hasAlleleMatrixSearchFlapjack();
-	}
-
 	public boolean hasMaps()
 	{
 		return callsUtils.hasMaps();
@@ -123,19 +114,9 @@ public class BrapiClient
 		return callsUtils.hasMapsMapDbId();
 	}
 
-	public boolean hasAlleleMatrices()
+	public boolean hasStudiesSearch()
 	{
-		return callsUtils.hasAlleleMatrices();
-	}
-
-	public boolean hasStudiesSearchGET()
-	{
-		return callsUtils.hasStudiesSearchGET();
-	}
-
-	public boolean hasStudiesSearchPOST()
-	{
-		return callsUtils.hasStudiesSearchPOST();
+		return callsUtils.hasStudiesSearch();
 	}
 
 	public boolean doAuthentication()

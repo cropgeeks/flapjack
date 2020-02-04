@@ -10,8 +10,6 @@ import javax.swing.*;
 import jhi.flapjack.gui.*;
 import jhi.flapjack.io.brapi.*;
 
-import jhi.brapi.api.allelematrices.*;
-
 import scri.commons.gui.*;
 
 class BrapiMatricesPanelNB extends JPanel implements IBrapiWizard

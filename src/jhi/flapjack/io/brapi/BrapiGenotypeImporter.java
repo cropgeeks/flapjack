@@ -11,7 +11,7 @@ import jhi.flapjack.data.*;
 import jhi.flapjack.gui.*;
 import jhi.flapjack.io.*;
 
-import jhi.brapi.api.markerprofiles.*;
+//import jhi.brapi.api.markerprofiles.*;
 import okhttp3.*;
 import scri.commons.gui.*;
 
@@ -144,10 +144,10 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 	public long getBytesRead()
 		{ return 0; }
 
-	private boolean readTSVAlleleMatrix(HashMap<String, Line> linesByProfileID, List<BrapiMarkerProfile> profiles)
+/*	private boolean readTSVAlleleMatrix(HashMap<String, Line> linesByProfileID, List<BrapiMarkerProfile> profiles)
 		throws Exception
 	{
-/*		URI uri = client.getAlleleMatrixFileByProfiles(profiles, "tsv");
+		URI uri = client.getAlleleMatrixFileByProfiles(profiles, "tsv");
 		// We need to add the authorization token to the headers of requests from this client
 		BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream(uri)));
 
@@ -230,14 +230,12 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 		in.close();
 
 		return true;
-*/
-		return false;
 	}
 
 	private boolean readFlapjackAlleleMatrix(boolean createLines, List<BrapiMarkerProfile> profiles)
 		throws Exception
 	{
-/*		BufferedReader in = null;
+		BufferedReader in = null;
 
 		if (createLines)
 		{
@@ -345,15 +343,12 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 		in.close();
 
 		return true;
-*/
-
-		return false;
 	}
 
 	private boolean readJSONAlleleMatrix(HashMap<String, Line> linesByProfileID, List<BrapiMarkerProfile> profiles)
 		throws Exception
 	{
-/*		// Now retrieve the allele data using the /brapi/allelematrix call
+		// Now retrieve the allele data using the /brapi/allelematrix call
 		List<BrapiAlleleMatrix> matrixList = client.getAlleleMatrix(profiles);
 
 		for (int m = 0; m < matrixList.size(); m++)
@@ -388,9 +383,8 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 		}
 
 		return true;
-*/
-		return false;
 	}
+*/
 
 	private MarkerIndex queryMarker(String name)
 	{

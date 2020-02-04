@@ -63,7 +63,7 @@ class BrapiStudiesPanelNB extends JPanel implements IBrapiWizard
 		studiesModel = new DefaultComboBoxModel<String>();
 
 		for (Study study: studies)
-			studiesModel.addElement(study.getStudyName());
+			studiesModel.addElement(study.getStudyDbId() + ": " + study.getStudyName());
 
 		studiesCombo.setModel(studiesModel);
 		displayStudies();
@@ -79,7 +79,7 @@ class BrapiStudiesPanelNB extends JPanel implements IBrapiWizard
 		public void runJob(int jobID)
 			throws Exception
 		{
-			if (client.hasStudiesSearchGET())
+			if (client.hasStudiesSearch())
 				studies = client.getStudies();
 
 			// TODO: for now assume that if we don't have the get, we use the POST as the validation should catch
@@ -104,11 +104,12 @@ class BrapiStudiesPanelNB extends JPanel implements IBrapiWizard
 				dialog.setScreen(dialog.getMapsPanel());
 		}
 
-		else if (client.hasAlleleMatrices())
-		{
-			if (dialog.getMatricesPanel().refreshData())
-				dialog.setScreen(dialog.getMatricesPanel());
-		}
+		// TODO: BrAPI v2 calls
+//		else if (client.hasAlleleMatrices())
+//		{
+//			if (dialog.getMatricesPanel().refreshData())
+//				dialog.setScreen(dialog.getMatricesPanel());
+//		}
 
 		else
 			dialog.wizardCompleted();

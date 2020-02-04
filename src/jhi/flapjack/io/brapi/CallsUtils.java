@@ -13,7 +13,7 @@ class CallsUtils
 {
 	private static final String GET = "GET";
 	private static final String POST = "POST";
-	private static final String JSON = "json";
+	private static final String JSON = "application/json";
 	private static final String TSV = "tsv";
 	private static final String FLAPJACK = "flapjack";
 
@@ -24,35 +24,23 @@ class CallsUtils
 	CallsUtils(List<BrapiCall> calls)
 	{
 		this.calls = calls;
+
+		for (BrapiCall call: calls)
+			System.out.println("CALL: " + call.getService());
 	}
 
 	boolean validate()
 	{
 		// First validate the calls that MUST be present
-		if (Prefs.guiBrAPIUseStudies && hasStudiesSearchGET() == false && hasStudiesSearchPOST() == false)
+		if (Prefs.guiBrAPIUseStudies && hasStudiesSearch() == false)
 		{
-			exceptionMsg = "studies-search not implemented";
+			exceptionMsg = "studies not implemented";
 			return false;
 		}
 
-		// "v2" flow for genotype data extract (this is our preferred route)
-		if (hasAlleleMatrices())
-		{
-			if (hasAlleleMatrixSearchFlapjack() == false)
-			{
-				exceptionMsg = "no Flapjack format support in allelematrix-search";
-				return false;
-			}
+		// TODO: BrAPI v2 calls
 
-			return true;
-		}
-
-		// or "v1"
-		// TODO: Put a proper error messages in the false cases here
-		else if (hasCall("markerprofiles", JSON, GET))
-			return (hasCall("allelematrix-search", JSON, POST) || hasAlleleMatrixSearchTSV() || hasAlleleMatrixSearchFlapjack());
-
-		return false;
+		return true;
 	}
 
 	boolean hasCall(String signature, String datatype, String method)
@@ -79,26 +67,8 @@ class CallsUtils
 		return hasCall("maps/{id}", JSON, GET);
 	}
 
-	boolean hasAlleleMatrices()
-	{
-		return hasCall("allelematrices", JSON, GET);
-	}
-
-	boolean hasAlleleMatrixSearchTSV()
-	{
-		return hasCall("allelematrix-search", TSV, POST);
-	}
-
-	boolean hasAlleleMatrixSearchFlapjack()
-	{
-		return hasCall("allelematrix-search", FLAPJACK, POST);
-	}
-
-	boolean hasStudiesSearchGET()
-		{ return hasCall("studies-search", JSON, GET); }
-
-	boolean hasStudiesSearchPOST()
-		{ return hasCall("studies-search", JSON, POST); }
+	boolean hasStudiesSearch()
+		{ return hasCall("studies", JSON, GET); }
 
 	public String getExceptionMsg()
 		{ return exceptionMsg; }
