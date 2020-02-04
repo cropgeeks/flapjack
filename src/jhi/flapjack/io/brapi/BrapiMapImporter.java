@@ -10,7 +10,7 @@ import jhi.flapjack.data.*;
 import jhi.flapjack.gui.*;
 import jhi.flapjack.io.*;
 
-import jhi.brapi.api.genomemaps.*;
+import jhi.brapi.api.genotyping.genomemaps.*;
 
 public class BrapiMapImporter implements IMapImporter
 {
@@ -59,18 +59,18 @@ public class BrapiMapImporter implements IMapImporter
 
 		NumberFormat nf = NumberFormat.getInstance();
 
-		List<BrapiMarkerPosition> list = client.getMapMarkerData();
+		List<MarkerPosition> list = client.getMapMarkerData();
 
 		HashMap<String,String> namesToIDs = new HashMap<>();
 
-		for (BrapiMarkerPosition bm: list)
+		for (MarkerPosition bm: list)
 		{
 			namesToIDs.put(bm.getMarkerName(), bm.getMarkerDbId());
 
 			// Each MapEntry represents a marker: its name, chromosome, and
 			// location on chromosome
 
-			double position = nf.parse(bm.getLocation()).doubleValue();
+			double position = nf.parse(bm.getPosition()).doubleValue();
 			String chromosome = bm.getLinkageGroupName();
 
 			Marker marker = new Marker(bm.getMarkerName(), position);
@@ -107,12 +107,13 @@ public class BrapiMapImporter implements IMapImporter
 		// BRAPI maps/id call, do so and set the length for each chromosome
 		if (isOK && client.hasMapsMapDbId())
 		{
-			BrapiMapMetaData md = client.getMapMetaData();
-			for (BrapiLinkageGroup group : md.getData())
-			{
-				ChromosomeMap.Wrapper wrapper = dataSet.getMapByName(group.getLinkageGroupName(), false);
-				wrapper.map.setLength(group.getMaxPosition());
-			}
+// TODO: BrAPI v2 fixes
+//			BrapiMapMetaData md = client.getMapMetaData();
+//			for (BrapiLinkageGroup group : md.getData())
+//			{
+//				ChromosomeMap.Wrapper wrapper = dataSet.getMapByName(group.getLinkageGroupName(), false);
+//				wrapper.map.setLength(group.getMaxPosition());
+//			}
 		}
 
 		if (isOK)
