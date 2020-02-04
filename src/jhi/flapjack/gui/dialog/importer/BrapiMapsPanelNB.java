@@ -12,12 +12,12 @@ import jhi.flapjack.io.brapi.*;
 
 import scri.commons.gui.*;
 
-import jhi.brapi.api.genomemaps.*;
+import jhi.brapi.api.genotyping.genomemaps.*;
 
 class BrapiMapsPanelNB extends JPanel implements IBrapiWizard
 {
 	private BrapiClient client;
-	private List<BrapiGenomeMap> maps;
+	private List<GenomeMap> maps;
 
 	private BrapiImportDialog dialog;
 
@@ -45,15 +45,14 @@ class BrapiMapsPanelNB extends JPanel implements IBrapiWizard
 
 		if (index >= 0)
 		{
-			BrapiGenomeMap map = maps.get(index);
+			GenomeMap map = maps.get(index);
 
 			client.setMapID("" + map.getMapDbId());
 
 			NumberFormat nf = DecimalFormat.getNumberInstance();
 
-			String str = "Name: " + map.getName() + "\n" +
+			String str = "Name: " + map.getMapName() + "\n" +
 				"ID: " + map.getMapDbId() + "\n" +
-				"Species: " + map.getSpecies() + "\n" +
 				"Type: " + map.getType() + "\n" +
 				"Unit: " + map.getUnit() + "\n" +
 				"Date: " + map.getPublishedDate() + "\n" +
@@ -81,8 +80,8 @@ class BrapiMapsPanelNB extends JPanel implements IBrapiWizard
 		// Populate the maps combo box
 		mapModel = new DefaultComboBoxModel<String>();
 
-		for (BrapiGenomeMap map: maps)
-			mapModel.addElement(map.getName());
+		for (GenomeMap map: maps)
+			mapModel.addElement(map.getMapName());
 
 		mapsCombo.setModel(mapModel);
 		displayMap();
