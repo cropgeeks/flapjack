@@ -17,7 +17,7 @@ import scri.commons.gui.*;
 class BrapiMatricesPanelNB extends JPanel implements IBrapiWizard
 {
 	private BrapiClient client;
-	private List<BrapiAlleleMatrixDataset> matrices;
+//	private List<BrapiAlleleMatrixDataset> matrices;
 	private BrapiImportDialog dialog;
 
 	private DefaultComboBoxModel<String> matricesModel;
@@ -34,7 +34,7 @@ class BrapiMatricesPanelNB extends JPanel implements IBrapiWizard
 
 	private void displayMatrices()
 	{
-		NumberFormat nf = DecimalFormat.getNumberInstance();
+/*		NumberFormat nf = DecimalFormat.getNumberInstance();
 		int index = matricesCombo.getSelectedIndex();
 
 		if (index >= 0)
@@ -66,11 +66,12 @@ class BrapiMatricesPanelNB extends JPanel implements IBrapiWizard
 		}
 
 		dialog.enableNext(index >= 0);
+*/
 	}
 
 	public boolean refreshData()
 	{
-		ProgressDialog pd = new ProgressDialog(new DataDownloader(),
+/*		ProgressDialog pd = new ProgressDialog(new DataDownloader(),
 			 RB.getString("gui.dialog.importer.BrapiMatricesPanelNB.title"),
 			 RB.getString("gui.dialog.importer.BrapiMatricesPanelNB.message"),
 			 Flapjack.winMain);
@@ -89,7 +90,7 @@ class BrapiMatricesPanelNB extends JPanel implements IBrapiWizard
 
 		// TODO: Can we progress if no studies get loaded
 		dialog.enableNext(matricesModel.getSize() > 0);
-
+*/
 		return true;
 	}
 
@@ -98,7 +99,7 @@ class BrapiMatricesPanelNB extends JPanel implements IBrapiWizard
 		public void runJob(int jobID)
 			throws Exception
 		{
-			matrices = client.getMatrices();
+//			matrices = client.getMatrices();
 		}
 	}
 
