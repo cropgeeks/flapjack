@@ -101,7 +101,7 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 	private boolean readData()
 		throws Exception
 	{
-		// Simpler (v2) use case where we just need to ask for the allelematrix
+/*		// Simpler (v2) use case where we just need to ask for the allelematrix
 		// which will return a Flapjack formatted genotypes file
 		if (client.hasAlleleMatrices())
 			return readFlapjackAlleleMatrix(true, null);
@@ -136,6 +136,8 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 
 		else
 			return readJSONAlleleMatrix(linesByProfileID, profiles);
+*/
+		return false;
 	}
 
 	@Override
@@ -145,7 +147,7 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 	private boolean readTSVAlleleMatrix(HashMap<String, Line> linesByProfileID, List<BrapiMarkerProfile> profiles)
 		throws Exception
 	{
-		URI uri = client.getAlleleMatrixFileByProfiles(profiles, "tsv");
+/*		URI uri = client.getAlleleMatrixFileByProfiles(profiles, "tsv");
 		// We need to add the authorization token to the headers of requests from this client
 		BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream(uri)));
 
@@ -228,12 +230,14 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 		in.close();
 
 		return true;
+*/
+		return false;
 	}
 
 	private boolean readFlapjackAlleleMatrix(boolean createLines, List<BrapiMarkerProfile> profiles)
 		throws Exception
 	{
-		BufferedReader in = null;
+/*		BufferedReader in = null;
 
 		if (createLines)
 		{
@@ -341,12 +345,15 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 		in.close();
 
 		return true;
+*/
+
+		return false;
 	}
 
 	private boolean readJSONAlleleMatrix(HashMap<String, Line> linesByProfileID, List<BrapiMarkerProfile> profiles)
 		throws Exception
 	{
-		// Now retrieve the allele data using the /brapi/allelematrix call
+/*		// Now retrieve the allele data using the /brapi/allelematrix call
 		List<BrapiAlleleMatrix> matrixList = client.getAlleleMatrix(profiles);
 
 		for (int m = 0; m < matrixList.size(); m++)
@@ -381,6 +388,8 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 		}
 
 		return true;
+*/
+		return false;
 	}
 
 	private MarkerIndex queryMarker(String name)
