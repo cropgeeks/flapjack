@@ -63,6 +63,8 @@ class BrapiStudiesPanelNB extends JPanel implements IBrapiWizard
 			table.setModel(new DefaultTableModel(data, columnNames));
 			table.getColumnModel().getColumn(0).setPreferredWidth(25);
 		}
+		else
+			table.setModel(new DefaultTableModel());
 
 		dialog.enableNext(index >= 0);
 	}

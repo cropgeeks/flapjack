@@ -6,6 +6,7 @@ package jhi.flapjack.gui.dialog.importer;
 import java.text.*;
 import java.util.*;
 import javax.swing.*;
+import javax.swing.table.*;
 
 import jhi.flapjack.gui.*;
 import jhi.flapjack.io.brapi.*;
@@ -51,18 +52,22 @@ class BrapiMapsPanelNB extends JPanel implements IBrapiWizard
 
 			NumberFormat nf = DecimalFormat.getNumberInstance();
 
-			String str = "Name: " + map.getMapName() + "\n" +
-				"ID: " + map.getMapDbId() + "\n" +
-				"Type: " + map.getType() + "\n" +
-				"Unit: " + map.getUnit() + "\n" +
-				"Date: " + map.getPublishedDate() + "\n" +
-				"Markers: " + nf.format(map.getMarkerCount()) + "\n" +
-				"Chromosomes: " + map.getLinkageGroupCount();
+			String[] columnNames = { "Field", "Description" };
+			Object[][] data = {
+				{ "ID", map.getMapDbId() },
+				{ "Name", map.getMapName() },
+				{ "Type", map.getType() },
+				{ "Unit", map.getUnit() },
+				{ "Date", map.getPublishedDate() },
+				{ "Markers", nf.format(map.getMarkerCount()) },
+				{ "Chromosomes", map.getLinkageGroupCount() }
+			};
 
-			text.setText(str);
+			table.setModel(new DefaultTableModel(data, columnNames));
+			table.getColumnModel().getColumn(0).setPreferredWidth(25);
 		}
 		else
-			text.setText("");
+			table.setModel(new DefaultTableModel());
 
 		dialog.enableNext(index >= 0 || checkSkipMap.isSelected());
 	}
@@ -81,7 +86,7 @@ class BrapiMapsPanelNB extends JPanel implements IBrapiWizard
 		mapModel = new DefaultComboBoxModel<String>();
 
 		for (GenomeMap map: maps)
-			mapModel.addElement(map.getMapName());
+			mapModel.addElement(map.getMapDbId() + ": " + map.getMapName());
 
 		mapsCombo.setModel(mapModel);
 		displayMap();
@@ -147,10 +152,10 @@ class BrapiMapsPanelNB extends JPanel implements IBrapiWizard
         jPanel2 = new javax.swing.JPanel();
         mapsLabel = new javax.swing.JLabel();
         mapsCombo = new javax.swing.JComboBox<>();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        text = new javax.swing.JTextArea();
         detailsLabel = new javax.swing.JLabel();
         checkSkipMap = new javax.swing.JCheckBox();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        table = new javax.swing.JTable();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -160,14 +165,13 @@ class BrapiMapsPanelNB extends JPanel implements IBrapiWizard
         mapsLabel.setLabelFor(mapsCombo);
         mapsLabel.setText("Available maps:");
 
-        text.setEditable(false);
-        text.setColumns(20);
-        text.setRows(5);
-        jScrollPane1.setViewportView(text);
-
         detailsLabel.setText("Details:");
 
         checkSkipMap.setText("Skip using a map (not recommended) - a 'dummy' chromosome will hold markers instead");
+
+        table.setModel(new DefaultTableModel());
+        table.setToolTipText("");
+        jScrollPane2.setViewportView(table);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -176,15 +180,15 @@ class BrapiMapsPanelNB extends JPanel implements IBrapiWizard
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(mapsLabel)
                         .addGap(11, 11, 11)
                         .addComponent(mapsCombo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(checkSkipMap)
-                            .addComponent(detailsLabel))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jScrollPane2)
+                            .addComponent(checkSkipMap, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(detailsLabel, javax.swing.GroupLayout.Alignment.LEADING))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -198,8 +202,8 @@ class BrapiMapsPanelNB extends JPanel implements IBrapiWizard
                 .addGap(18, 18, 18)
                 .addComponent(detailsLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 127, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 132, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(checkSkipMap)
                 .addContainerGap())
         );
@@ -215,7 +219,7 @@ class BrapiMapsPanelNB extends JPanel implements IBrapiWizard
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
@@ -227,9 +231,9 @@ class BrapiMapsPanelNB extends JPanel implements IBrapiWizard
     private javax.swing.JCheckBox checkSkipMap;
     private javax.swing.JLabel detailsLabel;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JComboBox<String> mapsCombo;
     private javax.swing.JLabel mapsLabel;
-    private javax.swing.JTextArea text;
+    private javax.swing.JTable table;
     // End of variables declaration//GEN-END:variables
 }
