@@ -44,8 +44,6 @@ public class BrapiClient
 		baseURL = resource.getUrl();
 		baseURL = baseURL.endsWith("/") ? baseURL : baseURL + "/";
 
-		baseURL = "https://ics.hutton.ac.uk/germinate-demo/cactuar-dev-iain/brapi/v2/";
-
 		generator = new RetrofitServiceGenerator(baseURL, resource.getCertificate());
 		service = generator.generate(null);
 	}
@@ -298,7 +296,7 @@ public class BrapiClient
 	public XmlBrapiProvider getBrapiProviders()
 		throws Exception
 	{
-		URL url = new URL("https://ics.hutton.ac.uk/resources/brapi/flapjack-brapi-201903-v1.1.zip");
+		URL url = new URL("https://ics.hutton.ac.uk/resources/brapi/flapjack-brapi-202002-v2.0.zip");
 
 		File dir = new File(FlapjackUtils.getCacheDir(), "brapi");
 		dir.mkdirs();
