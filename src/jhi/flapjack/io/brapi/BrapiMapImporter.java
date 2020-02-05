@@ -107,8 +107,9 @@ public class BrapiMapImporter implements IMapImporter
 		// BRAPI maps/id call, do so and set the length for each chromosome
 		if (isOK && client.hasMapsMapDbId())
 		{
-// TODO: BrAPI v2 fixes
-//			BrapiMapMetaData md = client.getMapMetaData();
+// TODO: BrAPI v2 fixes - will have to call /maps/{id}/{linkagegroup} [n] times
+			// to get the max position for each chromosome
+//			GenomeMap md = client.getMapMetaData();
 //			for (BrapiLinkageGroup group : md.getData())
 //			{
 //				ChromosomeMap.Wrapper wrapper = dataSet.getMapByName(group.getLinkageGroupName(), false);

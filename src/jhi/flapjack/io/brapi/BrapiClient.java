@@ -204,30 +204,6 @@ public class BrapiClient
 		return markerPositionList;
 	}
 
-	public GenomeMap getMapMetaData()
-		throws Exception
-	{
-		GenomeMap genomeMap = new GenomeMap();
-
-		Pager pager = new Pager();
-
-		Response<BrapiBaseResource<GenomeMap>> response = service.getMapById(enc(mapID), pager.getPageSize(), pager.getPage()).execute();
-
-		if (response.isSuccessful())
-		{
-			BrapiBaseResource<GenomeMap> responseBody = response.body();
-			genomeMap = responseBody.getResult();
-		}
-		else
-		{
-			String errorMessage = ErrorHandler.getMessage(generator, response);
-
-			throw new Exception(errorMessage);
-		}
-
-		return genomeMap;
-	}
-
 	// Returns a list of available studies
 	public List<Study> getStudies()
 		throws Exception
@@ -263,34 +239,7 @@ public class BrapiClient
 	public List<Study> getStudiesByPost()
 		throws Exception
 	{
-		List<Study> studiesList = new ArrayList<>();
-		Pager pager = new Pager();
-
-		BrapiStudiesPost post = new BrapiStudiesPost();
-		post.setStudyTypes(Collections.singletonList("genotype"));
-
-		while (pager.isPaging())
-		{
-			Response<BrapiListResource<Study>> response = service.getStudiesPost(post)
-				.execute();
-
-			if (response.isSuccessful())
-			{
-				BrapiListResource<Study> studies = response.body();
-
-				studiesList.addAll(studies.data());
-				pager.paginate(studies.getMetadata());
-			}
-			else
-			{
-				String errorMessage = ErrorHandler.getMessage(generator, response);
-
-				throw new Exception(errorMessage);
-			}
-
-		}
-
-		return studiesList;
+		throw new UnsupportedOperationException("Not supported yet.");
 	}
 
 	public XmlBrapiProvider getBrapiProviders()

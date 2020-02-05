@@ -101,7 +101,15 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 	private boolean readData()
 		throws Exception
 	{
-/*		// Simpler (v2) use case where we just need to ask for the allelematrix
+
+		return true;
+	}
+
+/*
+	private boolean readData()
+		throws Exception
+	{
+		// Simpler (v2) use case where we just need to ask for the allelematrix
 		// which will return a Flapjack formatted genotypes file
 		if (client.hasAlleleMatrices())
 			return readFlapjackAlleleMatrix(true, null);
@@ -136,9 +144,8 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 
 		else
 			return readJSONAlleleMatrix(linesByProfileID, profiles);
-*/
-		return false;
 	}
+*/
 
 	@Override
 	public long getBytesRead()
