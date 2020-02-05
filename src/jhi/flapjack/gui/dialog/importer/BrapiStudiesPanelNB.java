@@ -5,6 +5,7 @@ package jhi.flapjack.gui.dialog.importer;
 
 import java.util.*;
 import javax.swing.*;
+import javax.swing.table.*;
 
 import jhi.flapjack.gui.*;
 import jhi.flapjack.io.brapi.*;
@@ -40,11 +41,28 @@ class BrapiStudiesPanelNB extends JPanel implements IBrapiWizard
 			Study study = studies.get(index);
 
 			client.setStudyID(study.getStudyDbId());
-			text.setText(RB.format("gui.dialog.importer.BrapiStudiesPanelNB.studyName", study.getStudyName()) + "\n"
-				+ RB.format("gui.dialog.importer.BrapiStudiesPanelNB.studyId", study.getStudyDbId()));
+
+			String[] columnNames = { "Field", "Description" };
+			Object[][] data = {
+				{ RB.getString("gui.dialog.importer.BrapiStudiesPanelNB.studyId"),
+				  study.getStudyDbId() },
+				{ RB.getString("gui.dialog.importer.BrapiStudiesPanelNB.studyName"),
+				  study.getStudyName() },
+				{ RB.getString("gui.dialog.importer.BrapiStudiesPanelNB.studyActive"),
+				  study.isActive() },
+				{ RB.getString("gui.dialog.importer.BrapiStudiesPanelNB.studyDescription"),
+				  study.getStudyDescription() },
+				{ RB.getString("gui.dialog.importer.BrapiStudiesPanelNB.studyType"),
+				  study.getStudyType() },
+				{ RB.getString("gui.dialog.importer.BrapiStudiesPanelNB.studyStart"),
+				  study.getStartDate() },
+				{ RB.getString("gui.dialog.importer.BrapiStudiesPanelNB.studyEnd"),
+				  study.getEndDate() }
+			};
+
+			table.setModel(new DefaultTableModel(data, columnNames));
+			table.getColumnModel().getColumn(0).setPreferredWidth(25);
 		}
-		else
-			text.setText("");
 
 		dialog.enableNext(index >= 0);
 	}
@@ -144,11 +162,12 @@ class BrapiStudiesPanelNB extends JPanel implements IBrapiWizard
         jPanel2 = new javax.swing.JPanel();
         mapsLabel = new javax.swing.JLabel();
         studiesCombo = new javax.swing.JComboBox<>();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        text = new javax.swing.JTextArea();
         detailsLabel = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        table = new javax.swing.JTable();
 
         setBackground(new java.awt.Color(255, 255, 255));
+        setPreferredSize(new java.awt.Dimension(499, 276));
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Study selection:"));
@@ -156,12 +175,10 @@ class BrapiStudiesPanelNB extends JPanel implements IBrapiWizard
         mapsLabel.setLabelFor(studiesCombo);
         mapsLabel.setText("Available studies:");
 
-        text.setEditable(false);
-        text.setColumns(20);
-        text.setRows(5);
-        jScrollPane1.setViewportView(text);
-
         detailsLabel.setText("Details:");
+
+        table.setModel(new DefaultTableModel());
+        jScrollPane2.setViewportView(table);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -170,14 +187,14 @@ class BrapiStudiesPanelNB extends JPanel implements IBrapiWizard
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(mapsLabel)
                         .addGap(11, 11, 11)
                         .addComponent(studiesCombo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(detailsLabel)
-                        .addGap(0, 405, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane2))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -190,7 +207,7 @@ class BrapiStudiesPanelNB extends JPanel implements IBrapiWizard
                 .addGap(18, 18, 18)
                 .addComponent(detailsLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 153, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 178, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -216,9 +233,9 @@ class BrapiStudiesPanelNB extends JPanel implements IBrapiWizard
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel detailsLabel;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel mapsLabel;
     private javax.swing.JComboBox<String> studiesCombo;
-    private javax.swing.JTextArea text;
+    private javax.swing.JTable table;
     // End of variables declaration//GEN-END:variables
 }
