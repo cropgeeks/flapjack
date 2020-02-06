@@ -15,6 +15,7 @@ import jhi.brapi.api.*;
 import jhi.brapi.api.authentication.*;
 import jhi.brapi.api.core.serverinfo.*;
 import jhi.brapi.api.core.studies.*;
+import jhi.brapi.api.genotyping.callsets.*;
 import jhi.brapi.api.genotyping.genomemaps.*;
 import jhi.brapi.client.*;
 
@@ -240,6 +241,37 @@ public class BrapiClient
 		throws Exception
 	{
 		throw new UnsupportedOperationException("Not supported yet.");
+	}
+
+	// Returns the details (markers, chromosomes, positions) for a given map
+	public List<CallSet> getCallsets()
+		throws Exception
+	{
+		List<CallSet> callsetList = new ArrayList<>();
+		Pager pager = new Pager();
+
+		while (pager.isPaging())
+		{
+			Response<BrapiListResource<CallSet>> response = service.getCallSets(null, null, "3", null, null, pager.getPageSize(), pager.getPage())
+				.execute();
+
+			if (response.isSuccessful())
+			{
+				BrapiListResource<CallSet> callset = response.body();
+
+				callsetList.addAll(callset.data());
+				pager.paginate(callset.getMetadata());
+			}
+			else
+			{
+				String errorMessage = ErrorHandler.getMessage(generator, response);
+
+				throw new Exception(errorMessage);
+			}
+
+		}
+
+		return callsetList;
 	}
 
 	public XmlBrapiProvider getBrapiProviders()

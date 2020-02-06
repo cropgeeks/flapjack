@@ -35,6 +35,7 @@ public class DataImporter extends SimpleJob
 	private BrapiClient client;
 
 	private long totalBytes;
+	private static int MAX_SCALE = 5555;
 
 	private boolean usePrefs;
 
@@ -48,7 +49,7 @@ public class DataImporter extends SimpleJob
 			totalBytes += mapFile.length();
 		totalBytes = genoFile.length();
 
-		maximum = 5555;
+		maximum = MAX_SCALE;
 
 		mapImporter = new ChromosomeMapImporter(mapFile, dataSet);
 	}
@@ -152,7 +153,7 @@ public class DataImporter extends SimpleJob
 		else
 		{
 			BrapiMapImporter bMapImporter = (BrapiMapImporter) mapImporter;
-			return new BrapiGenotypeImporter(client, dataSet,
+			return new BrapiGenotypeImporter(this, client, dataSet,
 				bMapImporter.getMarkersHashMap(), bMapImporter.getMarkersByName(),
 				Prefs.ioMissingData, Prefs.ioHeteroSeparator);
 		}
@@ -171,7 +172,7 @@ public class DataImporter extends SimpleJob
 
 	@Override
 	public int getMaximum()
-		{ return 5555; }
+		{ return MAX_SCALE; }
 
 
 	@Override
@@ -181,7 +182,7 @@ public class DataImporter extends SimpleJob
 		long genoBytes = genoImporter.getBytesRead();
 		long bytesRead = mapBytes + genoBytes;
 
-		return Math.round((bytesRead / (float) totalBytes) * 5555);
+		return Math.round((bytesRead / (float) totalBytes) * MAX_SCALE);
 	}
 
 	@Override
@@ -189,18 +190,18 @@ public class DataImporter extends SimpleJob
 	{
 		final NumberFormat nf = NumberFormat.getInstance();
 
-		if (genoImporter instanceof BrapiGenotypeImporter)
-		{
-			String message = ((BrapiGenotypeImporter) genoImporter).currentAsyncStatusMessage().toLowerCase();
-			if (message.equals("finished") == false)
-				return "Asynchronous status: " + ((BrapiGenotypeImporter) genoImporter).currentAsyncStatusMessage().toLowerCase();
-			else
-				return RB.format("io.DataImporter.message",
-					nf.format(dataSet.countChromosomeMaps()),
-					nf.format(mapImporter.getMarkerCount()),
-					nf.format(genoImporter.getLineCount()),
-					nf.format(genoImporter.getMarkerCount()));
-		}
+//		if (genoImporter instanceof BrapiGenotypeImporter)
+//		{
+//			String message = ((BrapiGenotypeImporter) genoImporter).currentAsyncStatusMessage().toLowerCase();
+//			if (message.equals("finished") == false)
+//				return "Asynchronous status: " + ((BrapiGenotypeImporter) genoImporter).currentAsyncStatusMessage().toLowerCase();
+//			else
+//				return RB.format("io.DataImporter.message",
+//					nf.format(dataSet.countChromosomeMaps()),
+//					nf.format(mapImporter.getMarkerCount()),
+//					nf.format(genoImporter.getLineCount()),
+//					nf.format(genoImporter.getMarkerCount()));
+//		}
 
 		return RB.format("io.DataImporter.message",
 			nf.format(dataSet.countChromosomeMaps()),
@@ -217,4 +218,10 @@ public class DataImporter extends SimpleJob
 		mapImporter.cancelImport();
 		genoImporter.cancelImport();
 	}
+
+	public void setTotalBytes(long totalBytes)
+		{ this.totalBytes = totalBytes; }
+
+	public void setMaximum()
+		{ maximum = MAX_SCALE; }
 }
