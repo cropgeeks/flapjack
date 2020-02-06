@@ -107,15 +107,6 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 	private boolean readData()
 		throws Exception
 	{
-		List<CallSet> callsets = client.getCallsets();
-
-//		for (CallSet callset: callsets)
-//		{
-//			String name = callset.getCallSetName();
-//
-//			Line line = dataSet.createLine(name, useByteStorage);
-//		}
-
 		return readFlapjackFile();
 	}
 
@@ -130,6 +121,16 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 		{
 			if (f.getDataFormat().equals("Flapjack"))
 				uri = new URI(f.getFileUrl());
+		}
+
+		// Temporary hack to at least return line name information
+		// THIS SHOULD BE REMOVED POST ICRISAT HACKATHON
+		if (uri == null)
+		{
+			for (CallSet callset: client.getCallsets())
+				dataSet.createLine(callset.getCallSetName(), useByteStorage);
+
+			return true;
 		}
 
 		// TODO: Better warning if no flapjack format/url found?
