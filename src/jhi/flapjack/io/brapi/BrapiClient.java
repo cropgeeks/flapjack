@@ -252,7 +252,7 @@ public class BrapiClient
 
 		while (pager.isPaging())
 		{
-			Response<BrapiListResource<CallSet>> response = service.getCallSets(null, null, "3", null, null, pager.getPageSize(), pager.getPage())
+			Response<BrapiListResource<CallSet>> response = service.getCallSets(null, null, studyID, null, null, pager.getPageSize(), pager.getPage())
 				.execute();
 
 			if (response.isSuccessful())
