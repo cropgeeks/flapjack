@@ -124,12 +124,8 @@ class BrapiStudiesPanelNB extends JPanel implements IBrapiWizard
 				dialog.setScreen(dialog.getMapsPanel());
 		}
 
-		// TODO: BrAPI v2 calls
-//		else if (client.hasAlleleMatrices())
-//		{
-//			if (dialog.getMatricesPanel().refreshData())
-//				dialog.setScreen(dialog.getMatricesPanel());
-//		}
+		else if (dialog.getMatricesPanel().refreshData())
+			dialog.setScreen(dialog.getMatricesPanel());
 
 		else
 			dialog.wizardCompleted();

@@ -105,12 +105,8 @@ class BrapiPassPanelNB extends JPanel implements IBrapiWizard
 				dialog.setScreen(dialog.getMapsPanel());
 		}
 
-		// TODO: BrAPI v2 calls
-//		else if (client.hasAlleleMatrices())
-//		{
-//			if (dialog.getMatricesPanel().refreshData())
-//				dialog.setScreen(dialog.getMatricesPanel());
-//		}
+		else if (dialog.getMatricesPanel().refreshData())
+			dialog.setScreen(dialog.getMatricesPanel());
 
 		else
 			dialog.wizardCompleted();
@@ -262,7 +258,7 @@ class BrapiPassPanelNB extends JPanel implements IBrapiWizard
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Additional connection options:"));
 
-        useStudies.setText("Filter available data by study (BrAPI /studies-search call)");
+        useStudies.setText("Filter available data by study (BrAPI /studies call)");
 
         useMaps.setText("Retrieve available maps (and marker positions) data (BrAPI /maps call)");
 

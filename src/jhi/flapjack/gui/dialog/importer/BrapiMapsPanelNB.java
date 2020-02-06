@@ -112,15 +112,8 @@ class BrapiMapsPanelNB extends JPanel implements IBrapiWizard
 	@Override
 	public void onNext()
 	{
-		// TODO: BrAPI v2 calls
-//		if (client.hasAlleleMatrices())
-//		{
-//			if (dialog.getMatricesPanel().refreshData())
-//				dialog.setScreen(dialog.getMatricesPanel());
-//		}
-//
-//		else
-			dialog.wizardCompleted();
+		if (dialog.getMatricesPanel().refreshData())
+			dialog.setScreen(dialog.getMatricesPanel());
 
 		dialog.getBNext().requestFocusInWindow();
 	}

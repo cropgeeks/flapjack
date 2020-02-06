@@ -7,6 +7,7 @@ import java.io.*;
 import java.net.*;
 import java.util.*;
 import jhi.brapi.api.genotyping.callsets.*;
+import jhi.brapi.api.genotyping.variantsets.*;
 
 import jhi.flapjack.data.*;
 import jhi.flapjack.gui.*;
@@ -122,9 +123,17 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 		throws Exception
 	{
 		BufferedReader in = null;
+		URI uri = null;
 
-//		URI uri = client.getAlleleMatrixFileById();
-		URI uri = new URI("https://ics.hutton.ac.uk/resources/brapi/data/cactuar-demo.txt");
+		VariantSet vSet = client.getVariantSet();
+		for (Format f: vSet.getAvailableFormats())
+		{
+			if (f.getDataFormat().equals("Flapjack"))
+				uri = new URI(f.getFileUrl());
+		}
+
+		// TODO: Better warning if no flapjack format/url found?
+
 
 		if (isOK && uri != null)
 		{
@@ -148,8 +157,6 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 					return false;
 				}
 			}
-
-	//		in = new BufferedReader(new InputStreamReader(response.body().byteStream()));
 
 			is = new ProgressInputStream(response.body().byteStream());
 			in = new BufferedReader(new InputStreamReader(is, "UTF-8"));
@@ -204,7 +211,6 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 
 				String name = values[0].trim();
 				Line line = dataSet.createLine(name, useByteStorage);
-				System.out.println("line: " + line.getName());
 
 				for (int i = 1; i < values.length && isOK; i++)
 				{

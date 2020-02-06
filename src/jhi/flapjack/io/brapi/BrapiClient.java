@@ -17,6 +17,7 @@ import jhi.brapi.api.core.serverinfo.*;
 import jhi.brapi.api.core.studies.*;
 import jhi.brapi.api.genotyping.callsets.*;
 import jhi.brapi.api.genotyping.genomemaps.*;
+import jhi.brapi.api.genotyping.variantsets.*;
 import jhi.brapi.client.*;
 
 import retrofit2.Response;
@@ -32,7 +33,7 @@ public class BrapiClient
 	private XmlResource resource;
 
 	private String username, password;
-	private String mapID, studyID, methodID, matrixID;
+	private String mapID, studyID, variantSetID;
 
 	private CallsUtils callsUtils;
 
@@ -243,7 +244,6 @@ public class BrapiClient
 		throw new UnsupportedOperationException("Not supported yet.");
 	}
 
-	// Returns the details (markers, chromosomes, positions) for a given map
 	public List<CallSet> getCallsets()
 		throws Exception
 	{
@@ -272,6 +272,60 @@ public class BrapiClient
 		}
 
 		return callsetList;
+	}
+
+	public List<VariantSet> getVariantSets()
+		throws Exception
+	{
+		List<VariantSet> vList = new ArrayList<>();
+		Pager pager = new Pager();
+
+		while (pager.isPaging())
+		{
+			Response<BrapiListResource<VariantSet>> response = service.getVariantSets(null, null, studyID, null, null, pager.getPageSize(), pager.getPage())
+				.execute();
+
+			if (response.isSuccessful())
+			{
+				BrapiListResource<VariantSet> variantSet = response.body();
+
+				vList.addAll(variantSet.data());
+				pager.paginate(variantSet.getMetadata());
+			}
+			else
+			{
+				String errorMessage = ErrorHandler.getMessage(generator, response);
+
+				throw new Exception(errorMessage);
+			}
+
+		}
+
+		return vList;
+	}
+
+	public VariantSet getVariantSet()
+		throws Exception
+	{
+		VariantSet variantSet = null;
+
+		Response<BrapiBaseResource<VariantSet>> response = service.getVariantSetById(variantSetID)
+			.execute();
+
+		if (response.isSuccessful())
+		{
+			BrapiBaseResource<VariantSet> r = response.body();
+
+			variantSet = r.getResult();
+		}
+		else
+		{
+			String errorMessage = ErrorHandler.getMessage(generator, response);
+
+			throw new Exception(errorMessage);
+		}
+
+		return variantSet;
 	}
 
 	public XmlBrapiProvider getBrapiProviders()
@@ -366,12 +420,6 @@ public class BrapiClient
 	public void setPassword(String password)
 		{ this.password = password; }
 
-	public String getMethodID()
-		{ return methodID; }
-
-	public void setMethodID(String methodID)
-		{ this.methodID = methodID;	}
-
 	public XmlResource getResource()
 		{ return resource; }
 
@@ -390,11 +438,11 @@ public class BrapiClient
 	public void setStudyID(String studyID)
 		{ this.studyID = studyID; }
 
-	public String getMatrixID()
-		{ return matrixID; }
+	public String getVariantSetID()
+		{ return variantSetID; }
 
-	public void setMatrixID(String matrixID)
-		{ this.matrixID = matrixID; }
+	public void setVariantSetID(String variantSetID)
+		{ this.variantSetID = variantSetID; }
 
 	public void cancel()
 	{

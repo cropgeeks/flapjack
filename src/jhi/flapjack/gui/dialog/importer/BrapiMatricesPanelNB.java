@@ -6,6 +6,8 @@ package jhi.flapjack.gui.dialog.importer;
 import java.text.*;
 import java.util.*;
 import javax.swing.*;
+import javax.swing.table.*;
+import jhi.brapi.api.genotyping.variantsets.*;
 
 import jhi.flapjack.gui.*;
 import jhi.flapjack.io.brapi.*;
@@ -15,10 +17,10 @@ import scri.commons.gui.*;
 class BrapiMatricesPanelNB extends JPanel implements IBrapiWizard
 {
 	private BrapiClient client;
-//	private List<BrapiAlleleMatrixDataset> matrices;
+	private List<VariantSet> variantSets;
 	private BrapiImportDialog dialog;
 
-	private DefaultComboBoxModel<String> matricesModel;
+	private DefaultComboBoxModel<String> variantsModel;
 
 	public BrapiMatricesPanelNB(BrapiClient client, BrapiImportDialog dialog)
 	{
@@ -27,28 +29,37 @@ class BrapiMatricesPanelNB extends JPanel implements IBrapiWizard
 
 		initComponents();
 
-		matricesCombo.addActionListener(e -> displayMatrices() );
+		variantsCombo.addActionListener(e -> displayVariantSets() );
 	}
 
-	private void displayMatrices()
+	private void displayVariantSets()
 	{
-/*		NumberFormat nf = DecimalFormat.getNumberInstance();
-		int index = matricesCombo.getSelectedIndex();
+		NumberFormat nf = DecimalFormat.getNumberInstance();
+		int index = variantsCombo.getSelectedIndex();
 
 		if (index >= 0)
 		{
-			BrapiAlleleMatrixDataset matrix = matrices.get(index);
+			VariantSet variantSet = variantSets.get(index);
 
-			client.setMatrixID(matrix.getMatrixDbId());
-			long sampleCount = matrix.getSampleCount();
-			long markerCount = matrix.getMarkerCount();
+			client.setVariantSetID("" + variantSet.getVariantSetDbId());
 
-			String str = RB.format("gui.dialog.importer.BrapiMatricesPanelNB.matrixName", matrix.getName()) + "\n"
-				+ RB.format("gui.dialog.importer.BrapiMatricesPanelNB.matrixId", matrix.getMatrixDbId()) + "\n"
-				+ RB.format("gui.dialog.importer.BrapiMatricesPanelNB.sampleCount", nf.format(sampleCount)) + "\n"
-				+ RB.format("gui.dialog.importer.BrapiMatricesPanelNB.markerCount", nf.format(markerCount));
+			long sampleCount = variantSet.getCallSetCount();
+			long markerCount = variantSet.getVariantCount();
 
-			text.setText(str);
+			String[] columnNames = { "Field", "Description" };
+			Object[][] data = {
+				{ RB.getString("gui.dialog.importer.BrapiMatricesPanelNB.matrixId"),
+				  variantSet.getVariantSetDbId() },
+				{ RB.getString("gui.dialog.importer.BrapiMatricesPanelNB.matrixName"),
+				  variantSet.getVariantSetName() },
+				{ RB.getString("gui.dialog.importer.BrapiMatricesPanelNB.sampleCount"),
+				  nf.format(sampleCount) },
+				{ RB.getString("gui.dialog.importer.BrapiMatricesPanelNB.markerCount"),
+				  nf.format(markerCount) }
+			};
+
+			table.setModel(new DefaultTableModel(data, columnNames));
+			table.getColumnModel().getColumn(0).setPreferredWidth(25);
 
 			// Calculate and display a file size label which converts the rough size in bytes to kB, MB or GB as
 			// appropriate
@@ -59,17 +70,16 @@ class BrapiMatricesPanelNB extends JPanel implements IBrapiWizard
 		}
 		else
 		{
-			text.setText("");
+			table.setModel(new DefaultTableModel());
 			lblSize.setText("");
 		}
 
 		dialog.enableNext(index >= 0);
-*/
 	}
 
 	public boolean refreshData()
 	{
-/*		ProgressDialog pd = new ProgressDialog(new DataDownloader(),
+		ProgressDialog pd = new ProgressDialog(new DataDownloader(),
 			 RB.getString("gui.dialog.importer.BrapiMatricesPanelNB.title"),
 			 RB.getString("gui.dialog.importer.BrapiMatricesPanelNB.message"),
 			 Flapjack.winMain);
@@ -78,17 +88,17 @@ class BrapiMatricesPanelNB extends JPanel implements IBrapiWizard
 			return false;
 
 		// Populate the maps combo box
-		matricesModel = new DefaultComboBoxModel<String>();
+		variantsModel = new DefaultComboBoxModel<String>();
 
-		for (BrapiAlleleMatrixDataset matrix: matrices)
-			matricesModel.addElement(matrix.getName());
+		for (VariantSet variantSet: variantSets)
+			variantsModel.addElement(variantSet.getVariantSetDbId() + ": " + variantSet.getVariantSetName());
 
-		matricesCombo.setModel(matricesModel);
-		displayMatrices();
+		variantsCombo.setModel(variantsModel);
+		displayVariantSets();
 
 		// TODO: Can we progress if no studies get loaded
-		dialog.enableNext(matricesModel.getSize() > 0);
-*/
+		dialog.enableNext(variantsModel.getSize() > 0);
+
 		return true;
 	}
 
@@ -97,7 +107,7 @@ class BrapiMatricesPanelNB extends JPanel implements IBrapiWizard
 		public void runJob(int jobID)
 			throws Exception
 		{
-//			matrices = client.getMatrices();
+			variantSets = client.getVariantSets();
 		}
 	}
 
@@ -116,7 +126,7 @@ class BrapiMatricesPanelNB extends JPanel implements IBrapiWizard
 	@Override
 	public void onBack()
 	{
-		client.setMatrixID(null);
+		client.setVariantSetID(null);
 	}
 
 	@Override
@@ -134,32 +144,31 @@ class BrapiMatricesPanelNB extends JPanel implements IBrapiWizard
 	 */
 	@SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+    private void initComponents()
+    {
 
         jPanel2 = new javax.swing.JPanel();
         matricesLabel = new javax.swing.JLabel();
-        matricesCombo = new javax.swing.JComboBox<>();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        text = new javax.swing.JTextArea();
+        variantsCombo = new javax.swing.JComboBox<>();
         detailsLabel = new javax.swing.JLabel();
         lblSize = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        table = new javax.swing.JTable();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Matrix selection:"));
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Variant set selection:"));
 
-        matricesLabel.setLabelFor(matricesCombo);
-        matricesLabel.setText("Available matrices:");
-
-        text.setEditable(false);
-        text.setColumns(20);
-        text.setRows(5);
-        jScrollPane1.setViewportView(text);
+        matricesLabel.setLabelFor(variantsCombo);
+        matricesLabel.setText("Available variant sets:");
 
         detailsLabel.setText("Details:");
 
         lblSize.setText("Flapjack estimates the file will be at least %1 in size");
+
+        table.setModel(new DefaultTableModel());
+        jScrollPane2.setViewportView(table);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -168,16 +177,16 @@ class BrapiMatricesPanelNB extends JPanel implements IBrapiWizard
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 447, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(matricesLabel)
                         .addGap(11, 11, 11)
-                        .addComponent(matricesCombo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(variantsCombo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(detailsLabel)
                             .addComponent(lblSize))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 111, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -186,14 +195,14 @@ class BrapiMatricesPanelNB extends JPanel implements IBrapiWizard
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(matricesLabel)
-                    .addComponent(matricesCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(variantsCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(detailsLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblSize)
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -218,10 +227,10 @@ class BrapiMatricesPanelNB extends JPanel implements IBrapiWizard
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel detailsLabel;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblSize;
-    private javax.swing.JComboBox<String> matricesCombo;
     private javax.swing.JLabel matricesLabel;
-    private javax.swing.JTextArea text;
+    private javax.swing.JTable table;
+    private javax.swing.JComboBox<String> variantsCombo;
     // End of variables declaration//GEN-END:variables
 }

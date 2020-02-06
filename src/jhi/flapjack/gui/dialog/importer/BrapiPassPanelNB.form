@@ -201,7 +201,7 @@
       <SubComponents>
         <Component class="javax.swing.JCheckBox" name="useStudies">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Filter available data by study (BrAPI /studies-search call)"/>
+            <Property name="text" type="java.lang.String" value="Filter available data by study (BrAPI /studies call)"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JCheckBox" name="useMaps">
