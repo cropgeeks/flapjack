@@ -14,7 +14,7 @@ import jhi.flapjack.io.brapi.*;
 
 import scri.commons.gui.*;
 
-class BrapiMatricesPanelNB extends JPanel implements IBrapiWizard
+class BrapiVariantSetsPanelNB extends JPanel implements IBrapiWizard
 {
 	private BrapiClient client;
 	private List<VariantSet> variantSets;
@@ -22,7 +22,7 @@ class BrapiMatricesPanelNB extends JPanel implements IBrapiWizard
 
 	private DefaultComboBoxModel<String> variantsModel;
 
-	public BrapiMatricesPanelNB(BrapiClient client, BrapiImportDialog dialog)
+	public BrapiVariantSetsPanelNB(BrapiClient client, BrapiImportDialog dialog)
 	{
 		this.client = client;
 		this.dialog = dialog;
@@ -48,13 +48,13 @@ class BrapiMatricesPanelNB extends JPanel implements IBrapiWizard
 
 			String[] columnNames = { "Field", "Description" };
 			Object[][] data = {
-				{ RB.getString("gui.dialog.importer.BrapiMatricesPanelNB.matrixId"),
+				{ RB.getString("gui.dialog.importer.BrapiVariantsSetsPanelNB.matrixId"),
 				  variantSet.getVariantSetDbId() },
-				{ RB.getString("gui.dialog.importer.BrapiMatricesPanelNB.matrixName"),
+				{ RB.getString("gui.dialog.importer.BrapiVariantsSetsPanelNB.matrixName"),
 				  variantSet.getVariantSetName() },
-				{ RB.getString("gui.dialog.importer.BrapiMatricesPanelNB.sampleCount"),
+				{ RB.getString("gui.dialog.importer.BrapiVariantsSetsPanelNB.sampleCount"),
 				  nf.format(sampleCount) },
-				{ RB.getString("gui.dialog.importer.BrapiMatricesPanelNB.markerCount"),
+				{ RB.getString("gui.dialog.importer.BrapiVariantsSetsPanelNB.markerCount"),
 				  nf.format(markerCount) }
 			};
 
@@ -66,7 +66,7 @@ class BrapiMatricesPanelNB extends JPanel implements IBrapiWizard
 			long sizeInBytes = sampleCount * markerCount;
 			String size = FlapjackUtils.getSizeString(sizeInBytes);
 
-			lblSize.setText(RB.format("gui.dialog.importer.BrapiMatricesPanelNB.lblSize", size));
+			lblSize.setText(RB.format("gui.dialog.importer.BrapiVariantsSetsPanelNB.lblSize", size));
 		}
 		else
 		{
@@ -80,8 +80,8 @@ class BrapiMatricesPanelNB extends JPanel implements IBrapiWizard
 	public boolean refreshData()
 	{
 		ProgressDialog pd = new ProgressDialog(new DataDownloader(),
-			 RB.getString("gui.dialog.importer.BrapiMatricesPanelNB.title"),
-			 RB.getString("gui.dialog.importer.BrapiMatricesPanelNB.message"),
+			 RB.getString("gui.dialog.importer.BrapiVariantsSetsPanelNB.title"),
+			 RB.getString("gui.dialog.importer.BrapiVariantsSetsPanelNB.message"),
 			 Flapjack.winMain);
 
 		if (pd.failed("gui.error"))
@@ -135,7 +135,7 @@ class BrapiMatricesPanelNB extends JPanel implements IBrapiWizard
 
 	@Override
 	public String getCardName()
-		{ return "matrices"; }
+		{ return "variantSets"; }
 
 	/**
 	 * This method is called from within the constructor to initialize the form.

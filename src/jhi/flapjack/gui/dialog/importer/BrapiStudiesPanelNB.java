@@ -124,8 +124,8 @@ class BrapiStudiesPanelNB extends JPanel implements IBrapiWizard
 				dialog.setScreen(dialog.getMapsPanel());
 		}
 
-		else if (dialog.getMatricesPanel().refreshData())
-			dialog.setScreen(dialog.getMatricesPanel());
+		else if (dialog.getVariantSetsPanel().refreshData())
+			dialog.setScreen(dialog.getVariantSetsPanel());
 
 		else
 			dialog.wizardCompleted();

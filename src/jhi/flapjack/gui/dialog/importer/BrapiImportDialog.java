@@ -23,7 +23,7 @@ public class BrapiImportDialog extends JDialog implements ActionListener
 	private IBrapiWizard passPanel;
 	private IBrapiWizard mapsPanel;
 	private IBrapiWizard studiesPanel;
-	private IBrapiWizard matricesPanel;
+	private IBrapiWizard variantSetsPanel;
 
 	private IBrapiWizard currentPanel;
 	private Stack<IBrapiWizard> stack = new Stack<>();
@@ -45,14 +45,14 @@ public class BrapiImportDialog extends JDialog implements ActionListener
 		passPanel = new BrapiPassPanelNB(client, this);
 		mapsPanel = new BrapiMapsPanelNB(client, this);
 		studiesPanel = new BrapiStudiesPanelNB(client, this);
-		matricesPanel = new BrapiMatricesPanelNB(client, this);
+		variantSetsPanel = new BrapiVariantSetsPanelNB(client, this);
 
 		panel.setLayout(cards);
 		panel.add(dataPanel.getPanel(), dataPanel.getCardName());
 		panel.add(passPanel.getPanel(), passPanel.getCardName());
 		panel.add(mapsPanel.getPanel(), mapsPanel.getCardName());
 		panel.add(studiesPanel.getPanel(), studiesPanel.getCardName());
-		panel.add(matricesPanel.getPanel(), matricesPanel.getCardName());
+		panel.add(variantSetsPanel.getPanel(), variantSetsPanel.getCardName());
 
 		add(panel);
 		add(createButtons(), BorderLayout.SOUTH);
@@ -152,8 +152,8 @@ public class BrapiImportDialog extends JDialog implements ActionListener
 	IBrapiWizard getStudiesPanel()
 		{ return studiesPanel; }
 
-	IBrapiWizard getMatricesPanel()
-		{ return matricesPanel; }
+	IBrapiWizard getVariantSetsPanel()
+		{ return variantSetsPanel; }
 
 	public JButton getBNext()
 		{ return bNext; }

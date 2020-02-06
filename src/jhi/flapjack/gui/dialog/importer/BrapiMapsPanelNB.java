@@ -112,8 +112,8 @@ class BrapiMapsPanelNB extends JPanel implements IBrapiWizard
 	@Override
 	public void onNext()
 	{
-		if (dialog.getMatricesPanel().refreshData())
-			dialog.setScreen(dialog.getMatricesPanel());
+		if (dialog.getVariantSetsPanel().refreshData())
+			dialog.setScreen(dialog.getVariantSetsPanel());
 
 		dialog.getBNext().requestFocusInWindow();
 	}
