@@ -178,9 +178,6 @@ public class DataImporter extends SimpleJob
 	@Override
 	public int getValue()
 	{
-		if (totalBytes == 0)
-			return 0;
-		
 		long mapBytes = mapImporter.getBytesRead();
 		long genoBytes = genoImporter.getBytesRead();
 		long bytesRead = mapBytes + genoBytes;
@@ -192,19 +189,6 @@ public class DataImporter extends SimpleJob
 	public String getMessage()
 	{
 		final NumberFormat nf = NumberFormat.getInstance();
-
-//		if (genoImporter instanceof BrapiGenotypeImporter)
-//		{
-//			String message = ((BrapiGenotypeImporter) genoImporter).currentAsyncStatusMessage().toLowerCase();
-//			if (message.equals("finished") == false)
-//				return "Asynchronous status: " + ((BrapiGenotypeImporter) genoImporter).currentAsyncStatusMessage().toLowerCase();
-//			else
-//				return RB.format("io.DataImporter.message",
-//					nf.format(dataSet.countChromosomeMaps()),
-//					nf.format(mapImporter.getMarkerCount()),
-//					nf.format(genoImporter.getLineCount()),
-//					nf.format(genoImporter.getMarkerCount()));
-//		}
 
 		return RB.format("io.DataImporter.message",
 			nf.format(dataSet.countChromosomeMaps()),
@@ -223,8 +207,8 @@ public class DataImporter extends SimpleJob
 	}
 
 	public void setTotalBytes(long totalBytes)
-		{ this.totalBytes = totalBytes; }
-
-	public void setMaximum()
-		{ maximum = MAX_SCALE; }
+	{
+		this.totalBytes = totalBytes;
+		maximum = MAX_SCALE;
+	}
 }

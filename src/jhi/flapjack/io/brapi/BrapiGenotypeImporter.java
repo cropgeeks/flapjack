@@ -135,6 +135,11 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 
 		// TODO: Better warning if no flapjack format/url found?
 
+		if (client.getTotalLines() != 0 && client.getTotalMarkers() != 0)
+		{
+			long expAlleles = client.getTotalLines() * client.getTotalMarkers();
+			importer.setTotalBytes(expAlleles);
+		}
 
 		if (isOK && uri != null)
 		{
@@ -144,12 +149,6 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 			long contentLength = 0;
 			try { contentLength = Long.parseLong(cl); }
 			catch (NumberFormatException ne) {}
-
-			if (contentLength != 0)
-			{
-				importer.setTotalBytes(contentLength);
-				importer.setMaximum();
-			}
 
 			// If the file is 500MB in size or larger
 			if (cl != null && contentLength >= 524288000)
@@ -248,7 +247,7 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 
 	@Override
 	public long getBytesRead()
-		{ return (is == null) ? 0 : is.getBytesRead(); }
+		{ return alleleCount; }
 
 	private MarkerIndex queryMarker(String name)
 	{

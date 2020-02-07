@@ -41,10 +41,12 @@ class BrapiVariantSetsPanelNB extends JPanel implements IBrapiWizard
 		{
 			VariantSet variantSet = variantSets.get(index);
 
-			client.setVariantSetID("" + variantSet.getVariantSetDbId());
-
 			long sampleCount = variantSet.getCallSetCount();
 			long markerCount = variantSet.getVariantCount();
+
+			client.setVariantSetID("" + variantSet.getVariantSetDbId());
+			client.setTotalLines(sampleCount);
+			client.setTotalMarkers(markerCount);
 
 			String[] columnNames = { "Field", "Description" };
 			Object[][] data = {

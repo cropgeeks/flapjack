@@ -34,6 +34,7 @@ public class BrapiClient
 
 	private String username, password;
 	private String mapID, studyID, variantSetID;
+	private long totalMarkers, totalLines;
 
 	private CallsUtils callsUtils;
 
@@ -443,6 +444,26 @@ public class BrapiClient
 
 	public void setVariantSetID(String variantSetID)
 		{ this.variantSetID = variantSetID; }
+
+	public long getTotalMarkers()
+	{
+		return totalMarkers;
+	}
+
+	public void setTotalMarkers(long totalMarkers)
+	{
+		this.totalMarkers = totalMarkers;
+	}
+
+	public long getTotalLines()
+	{
+		return totalLines;
+	}
+
+	public void setTotalLines(long totalLines)
+	{
+		this.totalLines = totalLines;
+	}
 
 	public void cancel()
 	{
