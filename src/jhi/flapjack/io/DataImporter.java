@@ -178,6 +178,9 @@ public class DataImporter extends SimpleJob
 	@Override
 	public int getValue()
 	{
+		if (totalBytes == 0)
+			return 0;
+		
 		long mapBytes = mapImporter.getBytesRead();
 		long genoBytes = genoImporter.getBytesRead();
 		long bytesRead = mapBytes + genoBytes;

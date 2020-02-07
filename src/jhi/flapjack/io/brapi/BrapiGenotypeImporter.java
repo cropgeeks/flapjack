@@ -141,13 +141,20 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 			Response response = client.getResponse(uri);
 			String cl = response.header("Content-Length");
 
-			importer.setTotalBytes(Long.parseLong(cl));
-			importer.setMaximum();
+			long contentLength = 0;
+			try { contentLength = Long.parseLong(cl); }
+			catch (NumberFormatException ne) {}
+
+			if (contentLength != 0)
+			{
+				importer.setTotalBytes(contentLength);
+				importer.setMaximum();
+			}
 
 			// If the file is 500MB in size or larger
-			if (cl != null && Long.parseLong(cl) >= 524288000)
+			if (cl != null && contentLength >= 524288000)
 			{
-				String size = FlapjackUtils.getSizeString(Long.parseLong(cl));
+				String size = FlapjackUtils.getSizeString(contentLength);
 				String msg = RB.format("io.BrapiGenotypeImporter.largeFileMsg", size);
 				String[] options = new String[]{RB.getString("gui.text.ok"), RB.getString("gui.text.cancel")};
 
