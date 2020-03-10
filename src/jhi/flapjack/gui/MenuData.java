@@ -75,16 +75,17 @@ public class MenuData
 
 			try
 			{
-				String lineURL = URLEncoder.encode(line.getName(), "UTF-8");
-				String url = db.getLineSearch().replace("$LINE", lineURL);
+				String lineName = URLEncoder.encode(line.getName(), "UTF-8")
+					.replaceAll("\\+", "%20")
+					.replaceAll("\\/", "%2F");
+				String url = db.getLineSearch().replace("$LINE", lineName);
+
 				if (url.indexOf("?") == -1)
 					url += "?application=flapjack";
 				else
 					url += "&application=flapjack";
 
-				System.out.println("URL String: " + url.toString());
-
-				FlapjackUtils.visitURL(url.toString());
+				FlapjackUtils.visitURL(url);
 			}
 			catch (Exception e) {}
 		}
@@ -102,8 +103,11 @@ public class MenuData
 
 			try
 			{
-				String markerURL = URLEncoder.encode(marker.getName(), "UTF-8");
-				String url = db.getMarkerSearch().replace("$MARKER", markerURL);
+				String markerName = URLEncoder.encode(marker.getName(), "UTF-8")
+					.replaceAll("\\+", "%20")
+					.replaceAll("\\/", "%2F");
+				String url = db.getMarkerSearch().replace("$MARKER", markerName);
+
 				if (url.indexOf("?") == -1)
 					url += "?application=flapjack";
 				else
