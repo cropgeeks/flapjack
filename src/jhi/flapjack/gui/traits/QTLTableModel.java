@@ -101,7 +101,7 @@ class QTLTableModel extends AbstractTableModel
 		if (col == 0)
 			return QTL.class;
 		else if (col >= 2 && col <= 4)
-			return Float.class;
+			return Double.class;
 		else if (col == 7)
 			return Boolean.class;
 
