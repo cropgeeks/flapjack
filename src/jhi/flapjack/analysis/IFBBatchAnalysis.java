@@ -10,14 +10,14 @@ import jhi.flapjack.gui.dialog.analysis.*;
 
 import scri.commons.gui.*;
 
-// Batch run multiple FB analysis tasks
-public class FBBatchAnalysis extends SimpleJob
+// Batch run multiple IFB analysis tasks
+public class IFBBatchAnalysis extends SimpleJob
 {
 	private ArrayList<GTViewSet> viewSets, resultViewSets;
 
 	private String name;
 
-	public FBBatchAnalysis(ArrayList<GTViewSet> viewSets, String name)
+	public IFBBatchAnalysis(ArrayList<GTViewSet> viewSets, String name)
 	{
 		this.viewSets = viewSets;
 
@@ -48,7 +48,7 @@ public class FBBatchAnalysis extends SimpleJob
 		ChromosomeSelectionDialog csd = new ChromosomeSelectionDialog(viewSet, true, false);
 		boolean[] selectedChromosomes = csd.getSelectedChromosomes();
 
-		FBAnalysis stats = new FBAnalysis(viewSet,
+		IFBAnalysis stats = new IFBAnalysis(viewSet,
 			selectedChromosomes, name);
 
 		stats.runJob(0);

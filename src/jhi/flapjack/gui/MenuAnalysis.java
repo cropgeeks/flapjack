@@ -759,23 +759,23 @@ public class MenuAnalysis
 
 	private void IFBBatchRun(ArrayList<GTViewSet> viewSets, IFBStatsDialog dialog)
 	{
-/*		// Retrieve information required for analysis from dialog
-		FBStatsBatchPanelNB ui = dialog.getBatchUI();
+		// Retrieve information required for analysis from dialog
+		IFBStatsBatchPanelNB ui = dialog.getBatchUI();
 
 		// Run the stats calculations
-		FBBatchAnalysis stats = new FBBatchAnalysis(
-			viewSets, "Forward Breeding Results");
+		IFBBatchAnalysis stats = new IFBBatchAnalysis(
+			viewSets, "Indexed Forward Breeding Results");
 
 		ProgressDialog pDialog = new ProgressDialog(stats,
-			"Running Forward Breeding Stats",
-			"Running Forward Breeding stats - please be patient...",
+			"Running Indexed Forward Breeding Stats",
+			"Running Indexed Forward Breeding stats - please be patient...",
 			Flapjack.winMain);
 
 		// If the operation failed or was cancelled...
 		if (pDialog.failed("gui.error"))
 			return;
 
-		FBBatchList list = new FBBatchList();
+		IFBBatchList list = new IFBBatchList();
 		list.add(stats.getResultViewSets());
 
 		// Create new NavPanel components to hold the results
@@ -783,6 +783,5 @@ public class MenuAnalysis
 			navPanel.addVisualizationNode(viewSet.getDataSet(), viewSet);
 
 		Actions.projectModified();
-*/
 	}
 }
