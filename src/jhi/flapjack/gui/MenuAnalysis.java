@@ -711,4 +711,9 @@ public class MenuAnalysis
 
 		Actions.projectModified();
 	}
+
+	public void gobiiIFB()
+	{
+
+	}
 }

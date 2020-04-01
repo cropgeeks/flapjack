@@ -111,6 +111,7 @@ public class Actions
 	public static AbstractAction alysPedVer;
 	public static AbstractAction alysPedVerLines;
 	public static AbstractAction alysForwardBreeding;
+	public static AbstractAction alysIFB;
 
 	public static AbstractAction dataFilterQTLs;
 	public static AbstractAction dataSelectGraph;
@@ -726,6 +727,11 @@ public class Actions
 			}
 		};
 
+		alysIFB = new AbstractAction(RB.getString("gui.Actions.alysIFB")) {
+			public void actionPerformed(ActionEvent actionEvent) {
+				winMain.mAnalysis.gobiiIFB();
+			}
+		};
 
 		dataFilterQTLs = new AbstractAction(RB.getString("gui.Actions.dataFilterQTLs"), getIcon("TRAITS")) {
 			public void actionPerformed(ActionEvent e) {
@@ -961,6 +967,7 @@ public class Actions
 		alysPedVer.setEnabled(false);
 		alysPedVerLines.setEnabled(false);
 		alysForwardBreeding.setEnabled(false);
+		alysIFB.setEnabled(false);
 
 		dataFilterQTLs.setEnabled(false);
 		dataSelectGraph.setEnabled(false);

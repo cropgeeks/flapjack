@@ -122,6 +122,7 @@ public class WinMainMenuBar extends JMenuBar
 	private JMenuItem mAlysPedVer;
 	private JMenuItem mAlysPedVerLines;
 	private JMenuItem mAlysForwardBreeding;
+	private JMenuItem mAlysIFB;
 
 	private JMenu mData;
 	private JMenuItem malysFilterQTLs;
@@ -441,6 +442,7 @@ public class WinMainMenuBar extends JMenuBar
 		mAlysPedVer = getItem(Actions.alysPedVer, "gui.Actions.alysPedVer");
 		mAlysPedVerLines = getItem(Actions.alysPedVerLines, "gui.Actions.alysPedVerLines");
 		mAlysForwardBreeding = getItem(Actions.alysForwardBreeding, "gui.Actions.alysForwardBreeding");
+		mAlysIFB = getItem(Actions.alysIFB, "gui.Actions.alysIFB");
 
 		mAlysSortLines.add(mAlysSortLinesAlphabetically);
 		mAlysSortLines.addSeparator();
@@ -461,6 +463,7 @@ public class WinMainMenuBar extends JMenuBar
 		mAnalysis.add(mAlysMABC);
 		mAnalysis.add(mAlysStatsPedVer);
 		mAnalysis.add(mAlysForwardBreeding);
+		mAnalysis.add(mAlysIFB);
 
 
 		add(mAnalysis);
