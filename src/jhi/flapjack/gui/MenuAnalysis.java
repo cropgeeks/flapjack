@@ -733,29 +733,28 @@ public class MenuAnalysis
 
 	private void IFBSingleRun(GTViewSet viewSet, IFBStatsDialog dialog)
 	{
-	/*	DataSet dataSet = navPanel.getDataSetForSelection();
+		DataSet dataSet = navPanel.getDataSetForSelection();
 
 		// Retrieve information required for analysis from dialog
-		FBStatsSinglePanelNB ui = dialog.getSingleUI();
+		IFBStatsSinglePanelNB ui = dialog.getSingleUI();
 		boolean[] selectedChromosomes = ui.getSelectedChromosomes();
 
-		FBAnalysis stats = new FBAnalysis(viewSet, selectedChromosomes, "Forward Breeding Results");
+		IFBAnalysis stats = new IFBAnalysis(viewSet, selectedChromosomes, "Indexed Forward Breeding Results");
 		ProgressDialog pDialog = new ProgressDialog(stats,
-			"Running Forward Breeding Stats",
-			"Running Forward Breeding stats - please be patient...",
+			"Running Indexed Forward Breeding Stats",
+			"Running Indexed Forward Breeding stats - please be patient...",
 			Flapjack.winMain);
 
 		// If the operation failed or was cancelled...
 		if (pDialog.failed("gui.error"))
 			return;
 
-		FBBatchList list = new FBBatchList();
+		IFBBatchList list = new IFBBatchList();
 		list.add(stats.getViewSet());
 
 		navPanel.addVisualizationNode(dataSet, stats.getViewSet());
 
 		Actions.projectModified();
-*/
 	}
 
 	private void IFBBatchRun(ArrayList<GTViewSet> viewSets, IFBStatsDialog dialog)

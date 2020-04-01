@@ -18,8 +18,8 @@ public class LineResults extends XMLRoot
 
 	private PedVerF1sResult pedVerF1sResult;
 	private PedVerLinesResult pedVerLinesResult;
-
 	private FBResult forwardBreedingResult;
+	private IFBResult ifbResult;
 
 	// (Hopefully) common variables shared by multiple results types; a line can
 	// have a rank (to assist in selection (that itself is held in the LineInfo)
@@ -73,6 +73,12 @@ public class LineResults extends XMLRoot
 
 	public void setForwardBreedingResult(FBResult forwardBreedingResult)
 		{ this.forwardBreedingResult = forwardBreedingResult; }
+
+	public IFBResult getIFBResult()
+		{ return ifbResult; }
+
+	public void setIFBResult(IFBResult ifbResult)
+		{ this.ifbResult = ifbResult; }
 
 	public int getRank()
 		{ return rank; }

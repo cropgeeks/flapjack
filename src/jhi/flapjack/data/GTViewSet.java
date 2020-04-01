@@ -74,6 +74,7 @@ public class GTViewSet extends XMLRoot
 	private PedVerF1sBatchList pedVerF1sBatchList;
 	private PedVerLinesBatchList pedVerLinesBatchList;
 	private FBBatchList fbBatchList;
+	private IFBBatchList ifbBatchList;
 
 	public GTViewSet()
 	{
@@ -337,6 +338,11 @@ public class GTViewSet extends XMLRoot
 	public void setFBBatchList(FBBatchList fbBatchList)
 		{ this.fbBatchList = fbBatchList; }
 
+	public IFBBatchList getIFBBatchList()
+		{ return ifbBatchList; }
+
+	public void setIFBBatchList(IFBBatchList ifbBatchList)
+		{ this.ifbBatchList = ifbBatchList; }
 
 
 	// Transient (non marshalled) methods
