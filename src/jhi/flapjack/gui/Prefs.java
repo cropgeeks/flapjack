@@ -110,6 +110,7 @@ public class Prefs extends XMLPreferences
 	public static int pedVerF1DialogTab = 0;
 	public static int pedVerLinesDialogTab = 0;
 	public static int forwardBreedingDialogTab = 0;
+	public static int ifbDialogTab = 0;
 
 	// PedVerF1 threshold values
 	public static int pedVerF1HetThreshold = 0;
