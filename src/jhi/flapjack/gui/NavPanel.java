@@ -215,6 +215,7 @@ public class NavPanel extends JPanel
 		addPedVerF1sNode(node, viewSet);
 		addPedVerLinesNode(node, viewSet);
 		addForwardBreedingNode(node, viewSet);
+		addIfbNode(node, viewSet);
 	}
 
 	public void addBookmarkNode(GTViewSet viewSet, Bookmark bookmark)
@@ -312,6 +313,31 @@ public class NavPanel extends JPanel
 
 		if (!lines.isEmpty())
 			return lines.get(0).getLineResults().getForwardBreedingResult() != null;
+
+		return false;
+	}
+
+	public void addIfbNode(VisualizationNode vNode, GTViewSet viewSet)
+	{
+		System.out.println("Checking for IFB node");
+
+		if (containsIfbResults(viewSet))
+		{
+			System.out.println("Contains IFB node");
+
+			IFBNode node = new IFBNode(gPanel, viewSet);
+			insert(node, vNode, vNode.getChildCount());
+		}
+	}
+
+	private boolean containsIfbResults(GTViewSet viewSet)
+	{
+		ArrayList<LineInfo> lines = viewSet.getLines();
+		if (viewSet.getLines().isEmpty())
+			lines = viewSet.getHideLines();
+
+		if (!lines.isEmpty())
+			return lines.get(0).getLineResults().getIFBResult() != null;
 
 		return false;
 	}

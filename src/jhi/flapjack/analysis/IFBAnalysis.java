@@ -55,6 +55,14 @@ public class IFBAnalysis extends SimpleJob
 
 	private void runAnalysis()
 	{
+		IntStream.range(0, as.lineCount()).parallel().forEach((lineIndex) ->
+		{
+			// Get the line from the analysis set and set up an FB results object for it
+			LineInfo line = as.getLine(lineIndex);
+			IFBResult result = new IFBResult();
+			line.getLineResults().setIFBResult(result);
+			line.getLineResults().setName(name);
+		});
 	}
 
 	private void prepareForVisualization()
