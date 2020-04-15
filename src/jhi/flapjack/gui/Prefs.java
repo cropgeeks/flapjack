@@ -45,6 +45,9 @@ public class Prefs extends XMLPreferences
 	// Use UK English decimal mark settings
 	public static boolean guiDecimalEnglish = false;
 
+	// Should an imported QTL file be applied to all data sets
+	public static boolean guiQTLApplyToAll = false;
+
 	public static String guiPedigreeList = "";
 
 	// How many projects have been created

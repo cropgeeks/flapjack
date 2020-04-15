@@ -36,11 +36,13 @@ class ImportFeaturesTabNB extends JPanel implements ActionListener
 
 		bBrowse.addActionListener(this);
 		browseComboBox.setHistory(Prefs.guiQTLHistory);
+		applyToAll.setSelected(Prefs.guiQTLApplyToAll);
 
 		panel.setEnabled(isEnabled);
 		label.setEnabled(isEnabled);
 		browseComboBox.setEnabled(isEnabled);
 		bBrowse.setEnabled(isEnabled);
+		applyToAll.setEnabled(isEnabled);
 	}
 
 	boolean isOK()
@@ -54,6 +56,7 @@ class ImportFeaturesTabNB extends JPanel implements ActionListener
 		}
 
 		Prefs.guiQTLHistory = browseComboBox.getHistory();
+		Prefs.guiQTLApplyToAll = applyToAll.isSelected();
 
 		return true;
 	}
@@ -98,6 +101,7 @@ class ImportFeaturesTabNB extends JPanel implements ActionListener
         label = new javax.swing.JLabel();
         bBrowse = new javax.swing.JButton();
         browseComboBox = new scri.commons.gui.matisse.HistoryComboBox();
+        applyToAll = new javax.swing.JCheckBox();
         tabLabel = new javax.swing.JLabel();
 
         panel.setBorder(javax.swing.BorderFactory.createTitledBorder("Features file to import:"));
@@ -107,17 +111,24 @@ class ImportFeaturesTabNB extends JPanel implements ActionListener
 
         bBrowse.setText("Browse...");
 
+        applyToAll.setText("Apply this file to ALL data sets in the current project");
+
         javax.swing.GroupLayout panelLayout = new javax.swing.GroupLayout(panel);
         panel.setLayout(panelLayout);
         panelLayout.setHorizontalGroup(
             panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(label)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(browseComboBox, javax.swing.GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(bBrowse)
+                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelLayout.createSequentialGroup()
+                        .addComponent(applyToAll)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(panelLayout.createSequentialGroup()
+                        .addComponent(label)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(browseComboBox, javax.swing.GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(bBrowse)))
                 .addContainerGap())
         );
         panelLayout.setVerticalGroup(
@@ -128,6 +139,8 @@ class ImportFeaturesTabNB extends JPanel implements ActionListener
                     .addComponent(label)
                     .addComponent(bBrowse)
                     .addComponent(browseComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(applyToAll)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -157,6 +170,7 @@ class ImportFeaturesTabNB extends JPanel implements ActionListener
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JCheckBox applyToAll;
     private javax.swing.JButton bBrowse;
     scri.commons.gui.matisse.HistoryComboBox browseComboBox;
     private javax.swing.JLabel label;

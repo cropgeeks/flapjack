@@ -260,26 +260,40 @@ public class MenuFile
 
 	private void importQTLData(File file)
 	{
-		DataSet dataSet = navPanel.getDataSetForSelection();
+		DataSet current = navPanel.getDataSetForSelection();
+		int qtlCount = 0;
 
-		// Import the data using the standard progress bar dialog...
-		QTLImporter importer = new QTLImporter(file, dataSet);
-		ProgressDialog dialog = new ProgressDialog(importer,
-			RB.format("gui.MenuFile.importQTLs.dialogTitle"),
-			RB.format("gui.MenuFile.importQTLs.dialogLabel"),
-			Flapjack.winMain);
+		for (DataSet dataSet: winMain.getProject().getDataSets())
+		{
+			if (Prefs.guiQTLApplyToAll || dataSet == current)
+			{
+				// Import the data using the standard progress bar dialog...
+				QTLImporter importer = new QTLImporter(file, dataSet);
+				ProgressDialog dialog = new ProgressDialog(importer,
+					RB.format("gui.MenuFile.importQTLs.dialogTitle"),
+					RB.format("gui.MenuFile.importQTLs.dialogLabel"),
+					Flapjack.winMain);
 
-		// If the operation failed or was cancelled...
-		if (dialog.failed("gui.error"))
-			return;
+				qtlCount = importer.getFeaturesRead();
 
-		TabPanel ttp = navPanel.getTraitsPanel(dataSet, true);
-		ttp.getQTLTab().updateModel();
-		Actions.projectModified();
+				// If the operation failed or was cancelled...
+				if (dialog.failed("gui.error"))
+					return;
 
-		TaskDialog.info(RB.format("gui.MenuFile.importQTLs.success",
-			importer.getFeaturesRead(), importer.getFeaturesAdded()),
-			RB.getString("gui.text.close"));
+				TabPanel ttp = navPanel.getTraitsPanel(dataSet, true);
+				ttp.getQTLTab().updateModel();
+				Actions.projectModified();
+
+				if (Prefs.guiQTLApplyToAll == false)
+					TaskDialog.info(RB.format("gui.MenuFile.importQTLs.success",
+						qtlCount, importer.getFeaturesAdded()),
+						RB.getString("gui.text.close"));
+			}
+		}
+
+		if (Prefs.guiQTLApplyToAll)
+			TaskDialog.info(RB.format("gui.MenuFile.importQTLs.success2",
+				qtlCount), RB.getString("gui.text.close"));
 	}
 
 	private GraphImporter setupGraphImporter(File file, DataSet dataSet)
