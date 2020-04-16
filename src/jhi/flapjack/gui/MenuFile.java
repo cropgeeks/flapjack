@@ -180,7 +180,7 @@ public class MenuFile
 				break;
 
 			// Import QTL data
-			case 3: importQTLData(dialog.getFeaturesFile());
+			case 3: importQTLData(dialog.getFeaturesFile(), false);
 				break;
 
 			case 4: importGraphData(dialog.getGraphsFile());
@@ -258,14 +258,18 @@ public class MenuFile
 			RB.getString("gui.text.close"));
 	}
 
-	private void importQTLData(File file)
+	private void importQTLData(File file, boolean isDrag)
 	{
+		boolean applyToAll = Prefs.guiQTLApplyToAll;
+		if (isDrag)
+			applyToAll = false;
+
 		DataSet current = navPanel.getDataSetForSelection();
 		int qtlCount = 0;
 
 		for (DataSet dataSet: winMain.getProject().getDataSets())
 		{
-			if (Prefs.guiQTLApplyToAll || dataSet == current)
+			if (applyToAll || dataSet == current)
 			{
 				// Import the data using the standard progress bar dialog...
 				QTLImporter importer = new QTLImporter(file, dataSet);
@@ -284,14 +288,14 @@ public class MenuFile
 				ttp.getQTLTab().updateModel();
 				Actions.projectModified();
 
-				if (Prefs.guiQTLApplyToAll == false)
+				if (applyToAll == false)
 					TaskDialog.info(RB.format("gui.MenuFile.importQTLs.success",
 						qtlCount, importer.getFeaturesAdded()),
 						RB.getString("gui.text.close"));
 			}
 		}
 
-		if (Prefs.guiQTLApplyToAll)
+		if (applyToAll)
 			TaskDialog.info(RB.format("gui.MenuFile.importQTLs.success2",
 				qtlCount), RB.getString("gui.text.close"));
 	}
@@ -440,7 +444,7 @@ public class MenuFile
 				importTraitData(fjFile.getFile());
 
 			else if (fjFile.getType() == FlapjackFile.QTL)
-				importQTLData(fjFile.getFile());
+				importQTLData(fjFile.getFile(), true);
 
 			else if (fjFile.getType() == FlapjackFile.GRAPH)
 				importGraphData(fjFile.getFile());
