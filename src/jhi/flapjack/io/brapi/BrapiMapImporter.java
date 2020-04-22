@@ -65,7 +65,7 @@ public class BrapiMapImporter implements IMapImporter
 
 		for (MarkerPosition bm: list)
 		{
-			namesToIDs.put(bm.getMarkerName(), bm.getMarkerDbId());
+			namesToIDs.put(bm.getVariantName(), bm.getVariantDbId());
 
 			// Each MapEntry represents a marker: its name, chromosome, and
 			// location on chromosome
@@ -73,10 +73,10 @@ public class BrapiMapImporter implements IMapImporter
 			double position = nf.parse(bm.getPosition()).doubleValue();
 			String chromosome = bm.getLinkageGroupName();
 
-			Marker marker = new Marker(bm.getMarkerName(), position);
+			Marker marker = new Marker(bm.getVariantName(), position);
 
 			// Check to see if this marker already exists (in any map)?
-			MarkerIndex index = markers.get(bm.getMarkerDbId());
+			MarkerIndex index = markers.get(bm.getVariantDbId());
 			if (index != null)
 			{
 				if (Prefs.warnDuplicateMarkers)
@@ -96,8 +96,8 @@ public class BrapiMapImporter implements IMapImporter
 				// what BRAPI returns, but we've used the hash above to map between names and IDs
 				// *************
 				MarkerIndex mi = new MarkerIndex(w.index, 0);
-				markers.put(bm.getMarkerDbId(), mi);
-				markersByName.put(bm.getMarkerName(), mi);
+				markers.put(bm.getVariantDbId(), mi);
+				markersByName.put(bm.getVariantName(), mi);
 
 				markerCount++;
 			}

@@ -5,8 +5,6 @@ package jhi.flapjack.io.brapi;
 
 import java.util.*;
 
-import jhi.flapjack.gui.*;
-
 import jhi.brapi.api.core.serverinfo.*;
 
 class CallsUtils
@@ -24,15 +22,12 @@ class CallsUtils
 	CallsUtils(List<BrapiCall> calls)
 	{
 		this.calls = calls;
-
-		for (BrapiCall call: calls)
-			System.out.println("CALL: " + call.getService());
 	}
 
 	boolean validate()
 	{
 		// First validate the calls that MUST be present
-		if (Prefs.guiBrAPIUseStudies && hasStudiesSearch() == false)
+		if (hasStudiesSearch() == false)
 		{
 			exceptionMsg = "studies not implemented";
 			return false;
