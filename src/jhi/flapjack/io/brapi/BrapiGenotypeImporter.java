@@ -120,7 +120,7 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 		for (Format f: vSet.getAvailableFormats())
 		{
 			if (f.getDataFormat().equals("Flapjack"))
-				uri = new URI(f.getFileUrl());
+				uri = new URI(f.getFileURL());
 		}
 
 		// Temporary hack to at least return line name information
