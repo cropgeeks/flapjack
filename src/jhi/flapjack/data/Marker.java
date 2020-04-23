@@ -19,6 +19,9 @@ public class Marker extends XMLRoot implements Comparable<Marker>
 	private float[] frequencies;
 	private static String[] alleles;
 
+	// Additional GOBii/QTL properties linked to this Marker
+	private MarkerProperties properties;
+
 	public Marker()
 	{
 	}
@@ -80,6 +83,11 @@ public class Marker extends XMLRoot implements Comparable<Marker>
 	public void setRealPosition(double realPosition)
 		{ this.realPosition = realPosition; }
 
+	public MarkerProperties getProperties()
+		{ return properties; }
+
+	public void setProperties(MarkerProperties properties)
+		{ this.properties = properties; }
 
 
 	// Other methods
