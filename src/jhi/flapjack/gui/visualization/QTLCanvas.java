@@ -209,8 +209,8 @@ class QTLCanvas extends JPanel implements PropertyChangeListener
 	// Draws an individual feature
 	private void drawQTL(Graphics2D g, QTLInfo qtlInfo, int trackNum, boolean grouped)
 	{
-		int minX = getPixelPosition(qtlInfo.min());
-		int maxX = getPixelPosition(qtlInfo.max());
+		int minX = getPixelPosition(qtlInfo.min()) -1;
+		int maxX = getPixelPosition(qtlInfo.max()) +1;
 
 		Color c = qtlInfo.getQTL().getDisplayColor();
 		Color c1 = c.brighter();
@@ -220,7 +220,7 @@ class QTLCanvas extends JPanel implements PropertyChangeListener
 		// Its interior...
 //			g.setPaint(f.getDisplayColor());
 //			g.setPaint(new GradientPaint(0, 5, Color.white, 0, 25, Color.lightGray));
-		g.fillRect(minX, 5, (maxX-minX+1), 10);
+		g.fillRect(minX, 5, (maxX-minX), 10);
 
 		// Its outline...
 		if (grouped)
@@ -229,7 +229,7 @@ class QTLCanvas extends JPanel implements PropertyChangeListener
 			g.setColor(Color.red);
 		else
 			g.setColor(Color.lightGray);
-		g.drawRect(minX, 5, (maxX-minX+1), 10);
+		g.drawRect(minX, 5, (maxX-minX), 10);
 
 		int x = getPixelPosition(qtlInfo.displayPosition());
 		g.drawLine(x, 2, x, 18);
@@ -330,7 +330,7 @@ class QTLCanvas extends JPanel implements PropertyChangeListener
 						QTLInfo qtl = fg.get(fIndex);
 
 						int mouseX = e.getX() - xOffset;
-						if (getPixelPosition(qtl.min()) <= mouseX && getPixelPosition(qtl.max()) >= mouseX)
+						if ((getPixelPosition(qtl.min())-1) <= mouseX && (getPixelPosition(qtl.max())+1) >= mouseX)
 //						if (qtl.min() <= mapPos && qtl.max() >= mapPos)
 						{
 							match = qtl;
