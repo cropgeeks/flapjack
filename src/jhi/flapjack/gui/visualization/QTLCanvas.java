@@ -170,7 +170,7 @@ class QTLCanvas extends JPanel implements PropertyChangeListener
 
 					for (QTLInfo qtlInfo: fg)
 						// Don't draw features it they are offscreeen
-						if (qtlInfo.max() > mSPos && qtlInfo.min() < mEPos)
+						if (qtlInfo.max() >= mSPos && qtlInfo.min() <= mEPos)
 							drawQTL(g, qtlInfo, trackNum, grouped);
 				}
 			}
