@@ -68,8 +68,8 @@
 		<field name="marker" type="jhi.flapjack.data.Marker">
 			<bind-xml reference="true" node="attribute"/>
 		</field>
-		<field name="favAlleles" type="integer" collection="arraylist">
-		<field name="unfavAlleles" type="integer" collection="arraylist">
+		<field name="favAlleles" type="integer" collection="arraylist"/>
+		<field name="unfavAlleles" type="integer" collection="arraylist"/>
 		<field name="platform" type="string">
 			<bind-xml node="attribute"/>
 		</field>
