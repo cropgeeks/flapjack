@@ -384,7 +384,7 @@ public class QTLImporter extends SimpleJob
 		for (QTL qtl: markerGroups.values())
 		{
 			// Ignore ones that never got correct sizes
-			if (qtl.getMin() == Double.MAX_VALUE || qtl.getMax() == Double.MIN_VALUE)
+			if (qtl.getMin() == -1 || qtl.getMax() == -1)
 				continue;
 
 			// Set its position to the midpoint between min and max

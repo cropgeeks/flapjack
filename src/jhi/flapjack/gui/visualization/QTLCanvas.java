@@ -157,7 +157,7 @@ class QTLCanvas extends JPanel implements PropertyChangeListener
 			if (fgIndex != -1)
 			{
 				// ...then linear search to find the left-most feature group
-				while (fgIndex > 0 && trackData.get(fgIndex-1).getMax() > mSPos)
+				while (fgIndex > 0 && trackData.get(fgIndex-1).getMax() >= mSPos)
 					fgIndex--;
 
 				// Draw each feature group
