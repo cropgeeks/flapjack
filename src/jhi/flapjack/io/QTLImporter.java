@@ -236,6 +236,7 @@ public class QTLImporter extends SimpleJob
 		StateTable st = dataSet.getStateTable();
 		HashMap<String, QTL> markerGroups = new HashMap<>();
 
+		String[] headers = null;
 		String str = null;
 
 		int unfavAlleleIndex = -1;
@@ -245,22 +246,18 @@ public class QTLImporter extends SimpleJob
 			if (str.length() == 0 || str.startsWith("#"))
 				continue;
 
+			if (str.toLowerCase().startsWith("marker_group_name"))
+			{
+				headers = str.split("\t", -1);
+				continue;
+			}
+
 			String[] tokens = str.split("\t", -1);
 
 			// Fail if the data per line doesn't match the expected number
 			if (tokens.length < 5)
 				throw new DataFormatException(RB.format("io.DataFormatException.traitColumnError", line));
 
-			// Check if there is unfavourable allele information in the header, then skip the header line as we don't
-			// want to process it in the same way we do data lines
-			if (str.toLowerCase().startsWith("marker_group_name"))
-			{
-				for (int i=0; i < tokens.length; i++)
-					if (tokens[i].equals("unfav_allele"))
-						unfavAlleleIndex = i;
-
-				continue;
-			}
 
 			// MarkerName
 			String mkrName = new String(tokens[2]);
@@ -287,6 +284,17 @@ public class QTLImporter extends SimpleJob
 			if (map == null)
 				continue;
 
+			// Now, let's make (or retrieve) the MarkerGroupName (QTL) object
+			String mkrGroupName = new String(tokens[0]);
+
+			// And a MarkerProperties object to store the info being read
+			MarkerProperties properties = new MarkerProperties(marker);
+			marker.setProperties(properties);
+
+			properties.setGermplasmGroup(new String(tokens[1]));
+			properties.setPlatform(new String(tokens[3]));
+
+
 			// FavAllele info
 			ArrayList<Integer> indices = new ArrayList<>();
 			// Split out the comma-delimited string (removing whitespace too)
@@ -297,33 +305,64 @@ public class QTLImporter extends SimpleJob
 			for (String favAllele: favAlleles)
 				indices.add(st.getStateCodeForGOBiiQTL(favAllele));
 
-			// Now, let's make (or retrieve) the MarkerGroupName (QTL) object
-			String mkrGroupName = new String(tokens[0]);
-
 			if (indices.size() > 0)
 			{
 				dataSet.getFavAlleleManager().addFavAllelesForMarker(mkrName, indices);
 				dataSet.getFavAlleleManager().addHaplotypeAlleles(mkrGroupName, mkrName, indices);
+				properties.setFavAlleles(indices);
 			}
 
-			// Also handle potential unfavourable alleles
-			if (unfavAlleleIndex != -1)
+			// For all remaining columns:
+			for (int t = 5; t < tokens.length; t++)
 			{
-				// FavAllele info
-				ArrayList<Integer> unfavIndices = new ArrayList<>();
-				// Split out the comma-delimited string (removing whitespace too)
-				String[] unfavAlleles = tokens[unfavAlleleIndex].replaceAll("\\s+", "").split(",");
-				// This now uses 'new' code in StateTable that will add any missing
-				// QTL states; deals with Kate's situations with low density data
-				// that didn't contain all states, so QTL favAlleles were not found
-				for (String unfavAllele: unfavAlleles)
-					unfavIndices.add(st.getStateCodeForGOBiiQTL(unfavAllele));
-
-				if (unfavIndices.size() > 0)
+				if (headers[t].toLowerCase().equals("unfav_allele"))
 				{
-					dataSet.getFavAlleleManager().addUnfavAllelesForMarker(mkrName, unfavIndices);
+					ArrayList<Integer> unfavIndices = new ArrayList<>();
+					// Split out the comma-delimited string (removing whitespace too)
+					String[] unfavAlleles = tokens[t].replaceAll("\\s+", "").split(",");
+					// This now uses 'new' code in StateTable that will add any missing
+					// QTL states; deals with Kate's situations with low density data
+					// that didn't contain all states, so QTL favAlleles were not found
+					for (String unfavAllele: unfavAlleles)
+						unfavIndices.add(st.getStateCodeForGOBiiQTL(unfavAllele));
+
+					if (unfavIndices.size() > 0)
+					{
+						dataSet.getFavAlleleManager().addUnfavAllelesForMarker(mkrName, unfavIndices);
+						properties.setUnfavAlleles(unfavIndices);
+					}
+				}
+
+				else if (headers[t].toLowerCase().equals("allele_name"))
+					properties.setAlleleName(new String(tokens[t]));
+
+				else if (headers[t].toLowerCase().equals("priority_marker"))
+					properties.setPriorityMarker(tokens[t].equalsIgnoreCase("yes"));
+
+				else if (headers[t].toLowerCase().equals("breeding_value"))
+					properties.setPriorityMarker(tokens[t].equalsIgnoreCase("yes"));
+
+				else if (headers[t].toLowerCase().equals("model"))
+				{
+					if (tokens[t].equalsIgnoreCase("additive"))
+						properties.setModel(MarkerProperties.ADDITIVE);
+					else if (tokens[t].equalsIgnoreCase("dominant"))
+						properties.setModel(MarkerProperties.DOMINANT);
+				}
+
+				else if (headers[t].toLowerCase().equals("substitution_effect"))
+				{
+					if (tokens[t].equalsIgnoreCase("na") == false)
+						properties.setSubEffect(nf.parse(tokens[t]).doubleValue());
+				}
+
+				else if (headers[t].toLowerCase().equals("relative_weight"))
+				{
+					if (tokens[t].equalsIgnoreCase("na") == false)
+						properties.setRelWeight(nf.parse(tokens[t]).doubleValue());
 				}
 			}
+
 
 			if (markerGroups.putIfAbsent(mkrGroupName, new QTL(mkrGroupName, true)) == null)
 				featuresRead++;
@@ -335,8 +374,10 @@ public class QTLImporter extends SimpleJob
 				throw new Exception("Marker group '" + mkrGroupName + "' has markers listed on more than one chromosome.");
 
 			// Update the QTL's positions based on this marker
-			qtl.setMin(Math.min(marker.getPosition(), qtl.getMin()));
-			qtl.setMax(Math.max(marker.getPosition(), qtl.getMax()));
+			if (qtl.getMax() == -1 || marker.getPosition() < qtl.getMin())
+				qtl.setMin(marker.getPosition());
+			if (qtl.getMax() == -1 || marker.getPosition() > qtl.getMax())
+				qtl.setMax(marker.getPosition());
 		}
 
 		// Now, for each QTL we've created, get it added to the tracks

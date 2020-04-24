@@ -73,6 +73,9 @@
 		<field name="platform" type="string">
 			<bind-xml node="attribute"/>
 		</field>
+		<field name="germplasmGroup" type="string">
+			<bind-xml node="attribute"/>
+		</field>
 		<field name="alleleName" type="string">
 			<bind-xml node="attribute"/>
 		</field>

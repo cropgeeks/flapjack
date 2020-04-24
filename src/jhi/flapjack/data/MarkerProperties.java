@@ -19,6 +19,7 @@ public class MarkerProperties extends XMLRoot
 	private ArrayList<Integer> favAlleles = new ArrayList<>();
 	private ArrayList<Integer> unfavAlleles = new ArrayList<>();
 
+	private String germplasmGroup;
 	private String platform;
 	private String alleleName;
 	private boolean priorityMarker;
@@ -56,6 +57,12 @@ public class MarkerProperties extends XMLRoot
 
 	public void setUnfavAlleles(ArrayList<Integer> unfavAlleles)
 		{ this.unfavAlleles = unfavAlleles; }
+
+	public String getGermplasmGroup()
+		{ return germplasmGroup; }
+
+	public void setGermplasmGroup(String germplasmGroup)
+		{ this.germplasmGroup = germplasmGroup; }
 
 	public String getPlatform()
 		{ return platform; }
