@@ -19,6 +19,9 @@ public class IFBQTLScore extends XMLRoot
 	// This is a consensus call across all markers that lie under this QTL
 	private int refAlleleMatchCount;
 
+	// Display string for the reference allele
+	private String alleleName = "-";
+
 	public IFBQTLScore()
 	{
 	}
@@ -45,4 +48,10 @@ public class IFBQTLScore extends XMLRoot
 
 	public void setRefAlleleMatchCount(int refAlleleMatchCount)
 		{ this.refAlleleMatchCount = refAlleleMatchCount; }
+
+	public String getAlleleName()
+		{ return alleleName; }
+
+	public void setAlleleName(String alleleName)
+		{ this.alleleName = alleleName; }
 }

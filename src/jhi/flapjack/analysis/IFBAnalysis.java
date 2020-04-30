@@ -129,11 +129,12 @@ public class IFBAnalysis extends SimpleJob
 				System.out.println(" " + qtlScore.getQtl().getName());
 				for (IFBMarkerScore mScore: qtlScore.getMarkerScores())
 				{
-					System.out.println("  " + mScore.getProperties().getMarker().getName());
-					System.out.println("  " + mScore.getRefAlleleMatchCount());
+	//				System.out.println("  " + mScore.getProperties().getMarker().getName());
+	//				System.out.println("  " + mScore.getRefAlleleMatchCount());
 				}
 
 				calculateMode(qtlScore);
+				calculateRefAlleleDisplay(qtlScore);
 			}
 		});
 	}
@@ -210,5 +211,36 @@ public class IFBAnalysis extends SimpleJob
 		}
 
 		System.out.println(" refMatch: " + qtlScore.getRefAlleleMatchCount());
+	}
+
+	// Looks across the markers associated with a QTL and decides what String to
+	// display when showing Umesh:Step 4 display matrix
+	private void calculateRefAlleleDisplay(IFBQTLScore qtlScore)
+	{
+		String str = "-";
+
+		// Set the string to the first marker's value - just so we have something
+		// to use...
+		if (qtlScore.getMarkerScores().size() > 0)
+			str = qtlScore.getMarkerScores().get(0).getProperties().getAlleleName();
+
+		// ...in case we can't find a priority marker, whose value we'd really
+		// rather use
+		for (IFBMarkerScore markerScore: qtlScore.getMarkerScores())
+		{
+			MarkerProperties properties = markerScore.getProperties();
+
+			if (properties.isPriorityMarker())
+				str = properties.getAlleleName();
+		}
+
+		switch (qtlScore.getRefAlleleMatchCount())
+		{
+			case 0: System.out.println("-/-"); break;
+			case 1: System.out.println(str + "/-"); break;
+			case 2: System.out.println(str + "/" + str); break;
+		}
+
+		qtlScore.setAlleleName(str);
 	}
 }
