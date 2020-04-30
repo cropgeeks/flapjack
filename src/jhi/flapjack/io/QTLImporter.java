@@ -340,7 +340,7 @@ public class QTLImporter extends SimpleJob
 					properties.setPriorityMarker(tokens[t].equalsIgnoreCase("yes"));
 
 				else if (headers[t].toLowerCase().equals("breeding_value"))
-					properties.setPriorityMarker(tokens[t].equalsIgnoreCase("yes"));
+					properties.setBreedingValue(tokens[t].equalsIgnoreCase("yes"));
 
 				else if (headers[t].toLowerCase().equals("model"))
 				{
@@ -378,6 +378,9 @@ public class QTLImporter extends SimpleJob
 				qtl.setMin(marker.getPosition());
 			if (qtl.getMax() == -1 || marker.getPosition() > qtl.getMax())
 				qtl.setMax(marker.getPosition());
+
+			// Associate the QTL with the MarkerProperties for this marker
+			properties.setQtl(qtl);
 		}
 
 		// Now, for each QTL we've created, get it added to the tracks

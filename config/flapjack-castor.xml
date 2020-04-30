@@ -68,6 +68,9 @@
 		<field name="marker" type="jhi.flapjack.data.Marker">
 			<bind-xml reference="true" node="attribute"/>
 		</field>
+		<field name="qtl" type="jhi.flapjack.data.QTL">
+			<bind-xml reference="true" node="attribute"/>
+		</field>
 		<field name="favAlleles" type="integer" collection="arraylist"/>
 		<field name="unfavAlleles" type="integer" collection="arraylist"/>
 		<field name="platform" type="string">
@@ -483,6 +486,22 @@
 
 	<!-- IFBResult -->
 	<class name="jhi.flapjack.data.results.IFBResult" extends="jhi.flapjack.data.XMLRoot" auto-complete="true">
+		<field name="qtlScores" type="jhi.flapjack.data.results.IFBQTLScore" collection="arraylist"/>
+	</class>
+
+	<!-- IFBQTLScore -->
+	<class name="jhi.flapjack.data.results.IFBQTLScore" extends="jhi.flapjack.data.XMLRoot" auto-complete="true">
+		<field name="qtl" type="jhi.flapjack.data.QTL">
+			<bind-xml reference="true" node="attribute"/>
+		</field>
+		<field name="markerScores" type="jhi.flapjack.data.results.IFBMarkerScore" collection="arraylist"/>
+	</class>
+
+	<!-- IFBMarkerScore -->
+	<class name="jhi.flapjack.data.results.IFBMarkerScore" extends="jhi.flapjack.data.XMLRoot" auto-complete="true">
+		<field name="properties" type="jhi.flapjack.data.MarkerProperties">
+			<bind-xml reference="true" node="attribute"/>
+		</field>
 	</class>
 
 	<!-- PedManager -->

@@ -9,15 +9,16 @@ import java.util.*;
 
 public class IFBResult extends XMLRoot
 {
-	private int dataCount;
+	private ArrayList<IFBQTLScore> qtlScores = new ArrayList<>();
 
 	public IFBResult()
 	{
 	}
 
-	public int getDataCount()
-		{ return dataCount; }
+	public ArrayList<IFBQTLScore> getQtlScores()
+		{ return qtlScores; }
 
-	public void setDataCount(int dataCount)
-		{ this.dataCount = dataCount; }
+	public void setQtlScores(ArrayList<IFBQTLScore> qtlScores)
+		{ this.qtlScores = qtlScores; }
+
 }

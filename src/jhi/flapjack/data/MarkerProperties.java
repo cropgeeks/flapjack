@@ -15,6 +15,8 @@ public class MarkerProperties extends XMLRoot
 
 	// A reference to the Marker these properties relate to
 	private Marker marker;
+	// A reference to the QTL (halotype group) associated with the marker
+	private QTL qtl;
 
 	private ArrayList<Integer> favAlleles = new ArrayList<>();
 	private ArrayList<Integer> unfavAlleles = new ArrayList<>();
@@ -45,6 +47,12 @@ public class MarkerProperties extends XMLRoot
 
 	public void setMarker(Marker marker)
 		{ this.marker = marker; }
+
+	public QTL getQtl()
+		{ return qtl; }
+
+	public void setQtl(QTL qtl)
+		{ this.qtl = qtl; }
 
 	public ArrayList<Integer> getFavAlleles()
 		{ return favAlleles; }
