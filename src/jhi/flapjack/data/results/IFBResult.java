@@ -11,6 +11,9 @@ public class IFBResult extends XMLRoot
 {
 	private ArrayList<IFBQTLScore> qtlScores = new ArrayList<>();
 
+	private double mbvTotal;
+	private double wmbvTotal;
+
 	public IFBResult()
 	{
 	}
@@ -21,4 +24,15 @@ public class IFBResult extends XMLRoot
 	public void setQtlScores(ArrayList<IFBQTLScore> qtlScores)
 		{ this.qtlScores = qtlScores; }
 
+	public double getMbvTotal()
+		{ return mbvTotal; }
+
+	public void setMbvTotal(double mbvTotal)
+		{ this.mbvTotal = mbvTotal; }
+
+	public double getWmbvTotal()
+		{ return wmbvTotal; }
+
+	public void setWmbvTotal(double wmbvTotal)
+		{ this.wmbvTotal = wmbvTotal; }
 }
