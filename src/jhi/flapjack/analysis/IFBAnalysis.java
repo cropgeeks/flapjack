@@ -120,8 +120,8 @@ public class IFBAnalysis extends SimpleJob
 				}
 			}
 
-			// UMESH Step 3b (see /docs/ifb)
-			// Calculate mode per QTL
+			// Sum up the MBV and wMBV as we go along
+			double mbvTotal = 0, wmbvTotal = 0;
 
 			System.out.println("\nLine: " + line.name());
 			for (IFBQTLScore qtlScore: result.getQtlScores())
@@ -133,9 +133,23 @@ public class IFBAnalysis extends SimpleJob
 	//				System.out.println("  " + mScore.getRefAlleleMatchCount());
 				}
 
+				determineMarkerProperties(qtlScore);
 				calculateMode(qtlScore);
-				calculateRefAlleleDisplay(qtlScore);
+
+				System.out.println("  " + qtlScore.qtlGenotype());
+
+				calculateMolecularBreedingValue(qtlScore);
+
+				mbvTotal += qtlScore.getMolecularBreedingValue();
+				wmbvTotal += qtlScore.getWeightedMolecularBreedingValue();
 			}
+
+			result.setMbvTotal(mbvTotal);
+			result.setWmbvTotal(wmbvTotal);
+
+			System.out.println("");
+			System.out.println("Sum_MBV:  " + result.getMbvTotal());
+			System.out.println("Sum_wMBV: " + result.getWmbvTotal());
 		});
 	}
 
@@ -165,13 +179,13 @@ public class IFBAnalysis extends SimpleJob
 	public GTViewSet getViewSet()
 		{ return viewSet; }
 
+	// UMESH Step 3b (see /docs/ifb)
+	// Calculate mode per QTL
 	// Looks across the various IFBMarkerScore objects held by this qtl object
 	// and determines the mode, ie, the most common value (where the value per
 	// marker was its count of allele matches to the reference)
 	private void calculateMode(IFBQTLScore qtlScore)
 	{
-		System.out.println("Calculating mode for " + qtlScore.getQtl().getName());
-
 		// Build a map counting the number of times each value appears
 		Map<Integer, Integer> map = new HashMap<Integer, Integer>();
 		for (IFBMarkerScore markerScore: qtlScore.getMarkerScores())
@@ -210,37 +224,57 @@ public class IFBAnalysis extends SimpleJob
 			}
 		}
 
-		System.out.println(" refMatch: " + qtlScore.getRefAlleleMatchCount());
+		System.out.println("  refMatch: " + qtlScore.getRefAlleleMatchCount());
 	}
 
-	// Looks across the markers associated with a QTL and decides what String to
-	// display when showing Umesh:Step 4 display matrix
-	private void calculateRefAlleleDisplay(IFBQTLScore qtlScore)
+	// Finds and sets an appropriate MarkerProperties object for each QTL. A QTL
+	// may have several markers underlying it, but we want to identify the
+	// (first) priority marker and use its Properties for all calculations
+	private void determineMarkerProperties(IFBQTLScore qtlScore)
 	{
-		String str = "-";
-
-		// Set the string to the first marker's value - just so we have something
-		// to use...
+		// Set equal to the first one...
 		if (qtlScore.getMarkerScores().size() > 0)
-			str = qtlScore.getMarkerScores().get(0).getProperties().getAlleleName();
+			qtlScore.setProperties(qtlScore.getMarkerScores().get(0).getProperties());
 
 		// ...in case we can't find a priority marker, whose value we'd really
 		// rather use
 		for (IFBMarkerScore markerScore: qtlScore.getMarkerScores())
 		{
-			MarkerProperties properties = markerScore.getProperties();
-
-			if (properties.isPriorityMarker())
-				str = properties.getAlleleName();
+			if (markerScore.getProperties().isPriorityMarker())
+				qtlScore.setProperties(markerScore.getProperties());
 		}
+	}
 
-		switch (qtlScore.getRefAlleleMatchCount())
+	// UMESH Step 5 (see /docs/ifb/)
+	private void calculateMolecularBreedingValue(IFBQTLScore qtlScore)
+	{
+		MarkerProperties props = qtlScore.getProperties();
+
+		// We don't need to calculate this QTL marked with "breeding value NO"
+		if (props.isBreedingValue() == false)
+			return;
+
+		double mbv;
+
+		// If the model is ADDITIVE, multiple doseage by substitution effect
+		if (props.getModel() == MarkerProperties.ADDITIVE)
+			mbv = (double) qtlScore.getRefAlleleMatchCount() * props.getSubEffect();
+
+		// If not, recode dosage >0 as 2 before multiplying
+		else
 		{
-			case 0: System.out.println("-/-"); break;
-			case 1: System.out.println(str + "/-"); break;
-			case 2: System.out.println(str + "/" + str); break;
+			if (qtlScore.getRefAlleleMatchCount() > 0)
+				mbv = 2d * props.getSubEffect();
+			else
+				mbv = 0;
 		}
 
-		qtlScore.setAlleleName(str);
+		qtlScore.setMolecularBreedingValue(mbv);
+
+		// Step 6 for weighted MBV:
+		double wMBV = mbv * props.getRelWeight();
+		qtlScore.setWeightedMolecularBreedingValue(wMBV);
+
+		System.out.println("  mbv: " + mbv + ", " + wMBV);
 	}
 }

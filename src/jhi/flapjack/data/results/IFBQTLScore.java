@@ -19,8 +19,14 @@ public class IFBQTLScore extends XMLRoot
 	// This is a consensus call across all markers that lie under this QTL
 	private int refAlleleMatchCount;
 
-	// Display string for the reference allele
-	private String alleleName = "-";
+	// Direct reference to an identified MarkerProperties object we can use for
+	// IFB calculations
+	private MarkerProperties properties;
+
+	// MolecularBreedingValue
+	private double molecularBreedingValue;
+	// WeightedMBV
+	private double weightedMolecularBreedingValue;
 
 	public IFBQTLScore()
 	{
@@ -49,9 +55,37 @@ public class IFBQTLScore extends XMLRoot
 	public void setRefAlleleMatchCount(int refAlleleMatchCount)
 		{ this.refAlleleMatchCount = refAlleleMatchCount; }
 
-	public String getAlleleName()
-		{ return alleleName; }
+	public MarkerProperties getProperties()
+		{ return properties; }
 
-	public void setAlleleName(String alleleName)
-		{ this.alleleName = alleleName; }
+	public void setProperties(MarkerProperties properties)
+		{ this.properties = properties; }
+
+	public double getMolecularBreedingValue()
+		{ return molecularBreedingValue; }
+
+	public void setMolecularBreedingValue(double molecularBreedingValue)
+		{ this.molecularBreedingValue = molecularBreedingValue; }
+
+	public double getWeightedMolecularBreedingValue()
+		{ return weightedMolecularBreedingValue; }
+
+	public void setWeightedMolecularBreedingValue(double weightedMolecularBreedingValue)
+		{ this.weightedMolecularBreedingValue = weightedMolecularBreedingValue; }
+
+
+	// Non-XML methods
+	public String qtlGenotype()
+	{
+		String str = properties.getAlleleName();
+
+		switch (refAlleleMatchCount)
+		{
+			case 0: return "-/-";
+			case 1: return str + "/-";
+			case 2: return str + "/" + str;
+		}
+
+		return "-/-";
+	}
 }
