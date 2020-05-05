@@ -9,7 +9,10 @@ import java.util.*;
 
 public class IFBResult extends XMLRoot
 {
+	// All QTLs
 	private ArrayList<IFBQTLScore> qtlScores = new ArrayList<>();
+	// Just the ones having mbv values
+	private ArrayList<IFBQTLScore> mbvScores = new ArrayList<>();
 
 	private double mbvTotal;
 	private double wmbvTotal;
@@ -35,4 +38,10 @@ public class IFBResult extends XMLRoot
 
 	public void setWmbvTotal(double wmbvTotal)
 		{ this.wmbvTotal = wmbvTotal; }
+
+	public ArrayList<IFBQTLScore> getMbvScores()
+		{ return mbvScores; }
+
+	public void setMbvScores(ArrayList<IFBQTLScore> mbvScores)
+		{ this.mbvScores = mbvScores; }
 }

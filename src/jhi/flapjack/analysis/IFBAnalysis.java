@@ -3,14 +3,13 @@
 
 package jhi.flapjack.analysis;
 
+import java.util.*;
+import java.util.stream.*;
+
 import jhi.flapjack.data.*;
 import jhi.flapjack.data.results.*;
-import jhi.flapjack.gui.visualization.colors.*;
-import scri.commons.gui.*;
 
-import java.util.*;
-import java.util.Map.Entry;
-import java.util.stream.*;
+import scri.commons.gui.*;
 
 public class IFBAnalysis extends SimpleJob
 {
@@ -123,22 +122,25 @@ public class IFBAnalysis extends SimpleJob
 			// Sum up the MBV and wMBV as we go along
 			double mbvTotal = 0, wmbvTotal = 0;
 
-			System.out.println("\nLine: " + line.name());
+//			System.out.println("\nLine: " + line.name());
 			for (IFBQTLScore qtlScore: result.getQtlScores())
 			{
-				System.out.println(" " + qtlScore.getQtl().getName());
+//				System.out.println(" " + qtlScore.getQtl().getName());
 				for (IFBMarkerScore mScore: qtlScore.getMarkerScores())
 				{
-	//				System.out.println("  " + mScore.getProperties().getMarker().getName());
-	//				System.out.println("  " + mScore.getRefAlleleMatchCount());
+//					System.out.println("  " + mScore.getProperties().getMarker().getName());
+//					System.out.println("  " + mScore.getRefAlleleMatchCount());
 				}
 
 				determineMarkerProperties(qtlScore);
 				calculateMode(qtlScore);
 
-				System.out.println("  " + qtlScore.qtlGenotype());
+//				System.out.println("  " + qtlScore.qtlGenotype());
 
-				calculateMolecularBreedingValue(qtlScore);
+				// If we managed to calculate an MBV, add the score object to the
+				// separate list tracking just those QTLs with scores
+				if (calculateMolecularBreedingValue(qtlScore))
+					result.getMbvScores().add(qtlScore);
 
 				mbvTotal += qtlScore.getMolecularBreedingValue();
 				wmbvTotal += qtlScore.getWeightedMolecularBreedingValue();
@@ -147,9 +149,9 @@ public class IFBAnalysis extends SimpleJob
 			result.setMbvTotal(mbvTotal);
 			result.setWmbvTotal(wmbvTotal);
 
-			System.out.println("");
-			System.out.println("Sum_MBV:  " + result.getMbvTotal());
-			System.out.println("Sum_wMBV: " + result.getWmbvTotal());
+//			System.out.println("");
+//			System.out.println("Sum_MBV:  " + result.getMbvTotal());
+//			System.out.println("Sum_wMBV: " + result.getWmbvTotal());
 		});
 	}
 
@@ -224,7 +226,7 @@ public class IFBAnalysis extends SimpleJob
 			}
 		}
 
-		System.out.println("  refMatch: " + qtlScore.getRefAlleleMatchCount());
+//		System.out.println("  refMatch: " + qtlScore.getRefAlleleMatchCount());
 	}
 
 	// Finds and sets an appropriate MarkerProperties object for each QTL. A QTL
@@ -246,13 +248,13 @@ public class IFBAnalysis extends SimpleJob
 	}
 
 	// UMESH Step 5 (see /docs/ifb/)
-	private void calculateMolecularBreedingValue(IFBQTLScore qtlScore)
+	private boolean calculateMolecularBreedingValue(IFBQTLScore qtlScore)
 	{
 		MarkerProperties props = qtlScore.getProperties();
 
 		// We don't need to calculate this QTL marked with "breeding value NO"
 		if (props.isBreedingValue() == false)
-			return;
+			return false;
 
 		double mbv;
 
@@ -275,6 +277,8 @@ public class IFBAnalysis extends SimpleJob
 		double wMBV = mbv * props.getRelWeight();
 		qtlScore.setWeightedMolecularBreedingValue(wMBV);
 
-		System.out.println("  mbv: " + mbv + ", " + wMBV);
+//		System.out.println("  mbv: " + mbv + ", " + wMBV);
+
+		return true;
 	}
 }

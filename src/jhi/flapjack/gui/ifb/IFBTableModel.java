@@ -3,6 +3,7 @@
 
 package jhi.flapjack.gui.ifb;
 
+import java.util.*;
 import jhi.flapjack.data.*;
 import jhi.flapjack.data.results.*;
 import jhi.flapjack.gui.*;
@@ -12,7 +13,9 @@ import scri.commons.gui.*;
 
 public class IFBTableModel extends LineDataTableModel
 {
+	private int qtlCount;
 	private int selectedIndex, rankIndex, commentIndex, sortIndex;
+	private int qtlIndex, mbvIndex, wmbvIndex;
 
 	public IFBTableModel(GTViewSet viewSet)
 	{
@@ -26,11 +29,18 @@ public class IFBTableModel extends LineDataTableModel
 	{
 		LineInfo line = lines.get(0);
 		IFBResult results = line.getLineResults().getIFBResult();
+		ArrayList<IFBQTLScore> qtlScores = results.getQtlScores();
 
-		selectedIndex = 1;
+		qtlCount = qtlScores.size();
+
+		qtlIndex = 1;
+		mbvIndex = qtlIndex + qtlCount;
+		wmbvIndex = mbvIndex + 1;
+
+		selectedIndex = wmbvIndex + 1;
 		rankIndex = selectedIndex + 1;
 		commentIndex = rankIndex + 1;
-		sortIndex = commentIndex +1;
+		sortIndex = commentIndex + 1;
 
 		int colCount = sortIndex + 1;
 		columnNames = new String[colCount];
@@ -38,6 +48,15 @@ public class IFBTableModel extends LineDataTableModel
 
 		// LineInfo column
 		columnNames[0] = RB.getString("gui.ifb.IFBTableModel.line");
+
+		// QTL (display columns)
+		for (int i = qtlIndex; i < qtlIndex+qtlCount; i++)
+			columnNames[i] = qtlScores.get(i-qtlIndex).getQtl().getName();
+
+		// MBV/wMBV
+		columnNames[mbvIndex] = "Molecular Breeding Value";
+		columnNames[wmbvIndex] = "Weighted Molecular Breeding Value";
+
 		columnNames[selectedIndex] = RB.getString("gui.ifb.IFBTableModel.selected");
 		columnNames[rankIndex] = RB.getString("gui.ifb.IFBTableModel.rank");
 		columnNames[commentIndex] = RB.getString("gui.ifb.IFBTableModel.comments");
@@ -79,6 +98,14 @@ public class IFBTableModel extends LineDataTableModel
 		else if (col == sortIndex)
 			return line.getLineResults().isSortToTop();
 
+		else if (col >= qtlIndex && col < qtlIndex+qtlCount)
+			return stats.getQtlScores().get(col-qtlIndex).qtlGenotype();
+
+		else if (col == mbvIndex)
+			return stats.getMbvTotal();
+		else if (col == wmbvIndex)
+			return stats.getWmbvTotal();
+
 		// For everything else, don't show entries if stats object null
 		if (stats == null)
 			return null;
@@ -97,6 +124,10 @@ public class IFBTableModel extends LineDataTableModel
 			return Boolean.class;
 		else if (col == rankIndex)
 			return Integer.class;
+
+		else if (col >= qtlIndex && col < qtlIndex+qtlCount)
+			return String.class;
+
 		else
 			return Double.class;
 	}
