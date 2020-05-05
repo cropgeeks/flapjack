@@ -26,7 +26,7 @@ public class MarkerProperties extends XMLRoot
 	private String alleleName;
 	private boolean priorityMarker;
 	private boolean breedingValue;
-	private int model = NA;
+	private int model = ADDITIVE;
 	private double subEffect;
 	private double relWeight;
 
