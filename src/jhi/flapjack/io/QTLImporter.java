@@ -230,6 +230,9 @@ public class QTLImporter extends SimpleJob
 		}
 	}
 
+	// This format is a little clunky, in that there are three required columns
+	// (marker_group_name, marker_name, and fav_allele) but everything else is
+	// optional (or has defaults) and the columns can be in any order too
 	private void readGOBii(BufferedReader in)
 		throws Exception
 	{
@@ -246,7 +249,8 @@ public class QTLImporter extends SimpleJob
 			if (str.length() == 0 || str.startsWith("#"))
 				continue;
 
-			if (str.toLowerCase().startsWith("marker_group_name"))
+			// First non empty line (not starting with #) should be the headers
+			if (headers == null)
 			{
 				headers = str.split("\t", -1);
 				continue;
@@ -255,12 +259,18 @@ public class QTLImporter extends SimpleJob
 			String[] tokens = str.split("\t", -1);
 
 			// Fail if the data per line doesn't match the expected number
-			if (tokens.length < 5)
+			if (tokens.length < 3)
 				throw new DataFormatException(RB.format("io.DataFormatException.traitColumnError", line));
 
 
 			// MarkerName
-			String mkrName = new String(tokens[2]);
+			String mkrName = null;
+			for (int t = 0; t < tokens.length; t++)
+				if (headers[t].toLowerCase().equals("marker_name"))
+					mkrName = new String(tokens[t]);
+
+			if (mkrName == null)
+				continue;
 
 			// Work out which chromosome this marker is on
 			Marker marker = null;
@@ -284,21 +294,32 @@ public class QTLImporter extends SimpleJob
 			if (map == null)
 				continue;
 
-			// Now, let's make (or retrieve) the MarkerGroupName (QTL) object
-			String mkrGroupName = new String(tokens[0]);
 
-			// And a MarkerProperties object to store the info being read
+			// Now, let's make (or retrieve) the MarkerGroupName (QTL) object
+			String mkrGroupName = null;
+			for (int t = 0; t < tokens.length; t++)
+				if (headers[t].toLowerCase().equals("marker_group_name"))
+					mkrGroupName = new String(tokens[t]);
+
+			if (mkrGroupName == null)
+				continue;
+
+			int favAlleleIndex = -1;
+			for (int t = 0; t < tokens.length; t++)
+				if (headers[t].toLowerCase().equals("fav_allele") || headers[t].toLowerCase().equals("favorable_allele"))
+					favAlleleIndex = t;
+			if (favAlleleIndex == -1)
+				continue;
+
+			// If we're all good at this point (three required cols) then make
+			// a MarkerProperties object to hold everything
 			MarkerProperties properties = new MarkerProperties(marker);
 			marker.setProperties(properties);
-
-			properties.setGermplasmGroup(new String(tokens[1]));
-			properties.setPlatform(new String(tokens[3]));
-
 
 			// FavAllele info
 			ArrayList<Integer> indices = new ArrayList<>();
 			// Split out the comma-delimited string (removing whitespace too)
-			String[] favAlleles = tokens[4].replaceAll("\\s+", "").split(",");
+			String[] favAlleles = tokens[favAlleleIndex].replaceAll("\\s+", "").split(",");
 			// This now uses 'new' code in StateTable that will add any missing
 			// QTL states; deals with Kate's situations with low density data
 			// that didn't contain all states, so QTL favAlleles were not found
@@ -312,10 +333,16 @@ public class QTLImporter extends SimpleJob
 				properties.setFavAlleles(indices);
 			}
 
-			// For all remaining columns:
-			for (int t = 5; t < tokens.length; t++)
+			// For all remaining (optional) columns:
+			for (int t = 0; t < tokens.length; t++)
 			{
-				if (headers[t].toLowerCase().equals("unfav_allele"))
+				if (headers[t].toLowerCase().equals("germplasm_group"))
+					properties.setGermplasmGroup(new String(tokens[t]));
+
+				else if (headers[t].toLowerCase().equals("platform"))
+					properties.setPlatform(new String(tokens[t]));
+
+				else if (headers[t].toLowerCase().equals("unfav_allele"))
 				{
 					ArrayList<Integer> unfavIndices = new ArrayList<>();
 					// Split out the comma-delimited string (removing whitespace too)
@@ -363,6 +390,12 @@ public class QTLImporter extends SimpleJob
 				}
 			}
 
+			// If there is no allele name, substitute with fav_allele value
+			if (properties.getAlleleName() == null)
+			{
+				int state = properties.getFavAlleles().get(0);
+				properties.setAlleleName(st.getAlleleState(state).toString());
+			}
 
 			if (markerGroups.putIfAbsent(mkrGroupName, new QTL(mkrGroupName, true)) == null)
 				featuresRead++;
