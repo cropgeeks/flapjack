@@ -333,7 +333,7 @@ public class QTLImporter extends SimpleJob
 					}
 				}
 
-				else if (headers[t].toLowerCase().equals("allele_name"))
+				else if (headers[t].toLowerCase().equals("trait_allele_name"))
 					properties.setAlleleName(new String(tokens[t]));
 
 				else if (headers[t].toLowerCase().equals("priority_marker"))
