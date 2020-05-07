@@ -1,5 +1,5 @@
 Pedigree Verification Lines (parental contribution)
-=========================================
+===================================================
 
 This analysis provides several key statistics to determine whether a sampled line is a progeny of the expected, or designated, parents. 
 
