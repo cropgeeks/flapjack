@@ -14,7 +14,7 @@ public class IFBSummaryTableModel extends SummaryTableModel
 	{
 		this.batchList = batchList;
 
-		columnNames = new String[] { "Analysis", "Family Size", "Proportion Selected" };
+		columnNames = new String[] { "Analysis", "Family Size", "Proportion Selected", "MinMBVSelected", "MaxMBVSelected", "AvgMBVSelected" };
 	}
 
 	public IFBBatchList getBatchList()
@@ -31,6 +31,11 @@ public class IFBSummaryTableModel extends SummaryTableModel
 
 			case 1:  return summary.getFamilySize();
 			case 2:  return summary.proportionSelected();
+
+			case 3:  return summary.minMBVSelected();
+			case 4:  return summary.maxMBVSelected();
+			case 5:  return summary.avgMBVSelected();
+
 		}
 
 		return null;

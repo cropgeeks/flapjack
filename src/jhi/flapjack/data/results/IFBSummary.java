@@ -66,4 +66,31 @@ public class IFBSummary extends XMLRoot
 
 		return selectedCount / (float)familySize;
 	}
+
+	public double minMBVSelected()
+	{
+		return lines.stream()
+			.filter(LineInfo::getSelected)
+			.mapToDouble(li -> li.getLineResults().getIFBResult().getMbvTotal())
+			.min()
+			.orElse(Double.NaN);
+	}
+
+	public double maxMBVSelected()
+	{
+		return lines.stream()
+			.filter(LineInfo::getSelected)
+			.mapToDouble(li -> li.getLineResults().getIFBResult().getMbvTotal())
+			.max()
+			.orElse(Double.NaN);
+	}
+
+	public double avgMBVSelected()
+	{
+		return lines.stream()
+			.filter(LineInfo::getSelected)
+			.mapToDouble(li -> li.getLineResults().getIFBResult().getMbvTotal())
+			.average()
+			.orElse(Double.NaN);
+	}
 }
