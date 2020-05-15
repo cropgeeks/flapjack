@@ -306,7 +306,7 @@ public class QTLImporter extends SimpleJob
 
 			int favAlleleIndex = -1;
 			for (int t = 0; t < tokens.length; t++)
-				if (headers[t].toLowerCase().equals("fav_allele") || headers[t].toLowerCase().equals("favorable_allele"))
+				if (headers[t].toLowerCase().equals("fav_allele") || headers[t].toLowerCase().equals("favorable_alleles"))
 					favAlleleIndex = t;
 			if (favAlleleIndex == -1)
 				continue;
