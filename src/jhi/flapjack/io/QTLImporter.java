@@ -311,6 +311,9 @@ public class QTLImporter extends SimpleJob
 			if (favAlleleIndex == -1)
 				continue;
 
+			if (tokens[favAlleleIndex].isBlank())
+				throw new DataFormatException(RB.format("io.DataFormatException.gobbi.qtl.error2", line));
+
 			// If we're all good at this point (three required cols) then make
 			// a MarkerProperties object to hold everything
 			MarkerProperties properties = new MarkerProperties(marker);
@@ -332,6 +335,9 @@ public class QTLImporter extends SimpleJob
 				dataSet.getFavAlleleManager().addHaplotypeAlleles(mkrGroupName, mkrName, indices);
 				properties.setFavAlleles(indices);
 			}
+
+			boolean hasSubEffect = false;
+			boolean hasRelWeight = false;
 
 			// For all remaining (optional) columns:
 			for (int t = 0; t < tokens.length; t++)
@@ -361,7 +367,10 @@ public class QTLImporter extends SimpleJob
 				}
 
 				else if (headers[t].toLowerCase().equals("trait_allele_name"))
-					properties.setAlleleName(new String(tokens[t]));
+				{
+					if (tokens[t].isBlank() == false)
+						properties.setAlleleName(new String(tokens[t]));
+				}
 
 				else if (headers[t].toLowerCase().equals("priority_marker"))
 					properties.setPriorityMarker(tokens[t].equalsIgnoreCase("yes"));
@@ -379,14 +388,20 @@ public class QTLImporter extends SimpleJob
 
 				else if (headers[t].toLowerCase().equals("substitution_effect"))
 				{
-					if (tokens[t].equalsIgnoreCase("na") == false)
+					try {
 						properties.setSubEffect(nf.parse(tokens[t]).doubleValue());
+						hasSubEffect = true;
+					}
+					catch (Exception e) {}
 				}
 
 				else if (headers[t].toLowerCase().equals("relative_weight"))
 				{
-					if (tokens[t].equalsIgnoreCase("na") == false)
+					try {
 						properties.setRelWeight(nf.parse(tokens[t]).doubleValue());
+						hasRelWeight = true;
+					}
+					catch (Exception e) {}
 				}
 			}
 
@@ -396,6 +411,9 @@ public class QTLImporter extends SimpleJob
 				int state = properties.getFavAlleles().get(0);
 				properties.setAlleleName(st.getAlleleState(state).toString());
 			}
+
+			if (properties.isBreedingValue() && (hasSubEffect == false || hasRelWeight == false))
+				throw new DataFormatException(RB.format("io.DataFormatException.gobbi.qtl.error1", line));
 
 			if (markerGroups.putIfAbsent(mkrGroupName, new QTL(mkrGroupName, true)) == null)
 				featuresRead++;

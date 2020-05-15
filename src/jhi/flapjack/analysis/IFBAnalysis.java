@@ -18,7 +18,6 @@ public class IFBAnalysis extends SimpleJob
 
 	private AnalysisSet as;
 	private StateTable stateTable;
-	private FavAlleleManager favAlleleManager;
 
 	private String name;
 
@@ -33,7 +32,6 @@ public class IFBAnalysis extends SimpleJob
 		this.viewSet = viewSet.createClone("", true);
 		this.selectedChromosomes = selectedChromosomes;
 		this.stateTable = viewSet.getDataSet().getStateTable();
-		this.favAlleleManager = viewSet.getDataSet().getFavAlleleManager();
 	}
 
 	public void runJob(int index)
@@ -58,7 +56,7 @@ public class IFBAnalysis extends SimpleJob
 		// Create a lookup table for easily matching single alleles
 		int[][] lookupTable = stateTable.createAlleleLookupTable();
 
-		IntStream.range(0, as.lineCount())/*.parallel()*/.forEach((lineIndex) ->
+		IntStream.range(0, as.lineCount()).forEach((lineIndex) ->
 		{
 			// Get the line from the analysis set and set up an IFB results object for it
 			LineInfo line = as.getLine(lineIndex);
@@ -78,9 +76,11 @@ public class IFBAnalysis extends SimpleJob
 					// If this Marker has MarkerProperties, then we can continue
 					MarkerInfo mi = as.getMarker(viewIndex, mrkIndex);
 					MarkerProperties props = mi.getMarker().getProperties();
-					QTL qtl = props.getQtl();
+					if (props == null)
+						continue;
 
-					if (props == null || qtl == null || props.getFavAlleles().size() == 0)
+					QTL qtl = props.getQtl();
+					if (qtl == null || props.getFavAlleles().size() == 0)
 						continue;
 
 					// Get (or create) an IFBQTLScore that covers this marker
