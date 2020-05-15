@@ -25,7 +25,7 @@ There are three **required** columns:
 
 - **marker_group_name** - the name of the QTL being defined
 - **marker_name** - the name of a marker whose position information (chromosome location) will be used to define the QTL's range (haplotype)
-- **fav_allele** - (or **favorable_allele**) defines the favourable allele for this marker
+- **fav_allele** - (or **favorable_alleles**) defines the favourable allele for this marker
 
 All other columns are optional, but if provided, can be used as input parameters for an Indexed Forward Breeding (IFB) Analysis.
 
