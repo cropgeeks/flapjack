@@ -209,8 +209,8 @@ class QTLCanvas extends JPanel implements PropertyChangeListener
 	// Draws an individual feature
 	private void drawQTL(Graphics2D g, QTLInfo qtlInfo, int trackNum, boolean grouped)
 	{
-		int minX = getPixelPosition(qtlInfo.min()) -1;
-		int maxX = getPixelPosition(qtlInfo.max()) +1;
+		int minX = getPixelPosition(qtlInfo.min()) -2;
+		int maxX = getPixelPosition(qtlInfo.max()) +2;
 
 		Color c = qtlInfo.getQTL().getDisplayColor();
 		Color c1 = c.brighter();
@@ -330,7 +330,7 @@ class QTLCanvas extends JPanel implements PropertyChangeListener
 						QTLInfo qtl = fg.get(fIndex);
 
 						int mouseX = e.getX() - xOffset;
-						if ((getPixelPosition(qtl.min())-1) <= mouseX && (getPixelPosition(qtl.max())+1) >= mouseX)
+						if ((getPixelPosition(qtl.min())-2) <= mouseX && (getPixelPosition(qtl.max())+2) >= mouseX)
 //						if (qtl.min() <= mapPos && qtl.max() >= mapPos)
 						{
 							match = qtl;
