@@ -77,7 +77,10 @@ public class IFBAnalysis extends SimpleJob
 					MarkerInfo mi = as.getMarker(viewIndex, mrkIndex);
 					MarkerProperties props = mi.getMarker().getProperties();
 					if (props == null)
+					{
+						processNonQTLMarker(result, viewIndex, lineIndex, mrkIndex);
 						continue;
+					}
 
 					QTL qtl = props.getQtl();
 					if (qtl == null || props.getFavAlleles().size() == 0)
@@ -280,5 +283,20 @@ public class IFBAnalysis extends SimpleJob
 //		System.out.println("  mbv: " + mbv + ", " + wMBV);
 
 		return true;
+	}
+
+	// Works out details (for IFBResult storage) for a marker that isn't under
+	// a QTL. We still need to track all markers not under a QTL because they
+	// need to be displayed in the table :(
+	private void processNonQTLMarker(IFBResult result, int viewIndex, int lineIndex, int mrkIndex)
+	{
+		MarkerInfo mi = as.getMarker(viewIndex, mrkIndex);
+
+		String mkrName = mi.getMarker().getName();
+		int state = as.getState(viewIndex, lineIndex, mrkIndex);
+
+		IFBQTLScore score = new IFBQTLScore(mkrName, state);
+
+		result.getMkrScores().add(score);
 	}
 }

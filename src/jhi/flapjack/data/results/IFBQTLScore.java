@@ -28,6 +28,10 @@ public class IFBQTLScore extends XMLRoot
 	// WeightedMBV
 	private double weightedMolecularBreedingValue;
 
+	// "Fake" marker score info
+	private String markerName;
+	private int markerStateCode;
+
 	public IFBQTLScore()
 	{
 	}
@@ -35,6 +39,13 @@ public class IFBQTLScore extends XMLRoot
 	public IFBQTLScore(QTL qtl)
 	{
 		this.qtl = qtl;
+	}
+
+	// Used to store a "fake" marker score, for markers not under a QTL
+	public IFBQTLScore(String markerName, int markerStateCode)
+	{
+		this.markerName = markerName;
+		this.markerStateCode = markerStateCode;
 	}
 
 	public QTL getQtl()
@@ -73,6 +84,18 @@ public class IFBQTLScore extends XMLRoot
 	public void setWeightedMolecularBreedingValue(double weightedMolecularBreedingValue)
 		{ this.weightedMolecularBreedingValue = weightedMolecularBreedingValue; }
 
+	public String getMarkerName()
+		{ return markerName; }
+
+	public void setMarkerName(String markerName)
+		{ this.markerName = markerName; }
+
+	public int getMarkerStateCode()
+		{ return markerStateCode; }
+
+	public void setMarkerStateCode(int markerStateCode)
+		{ this.markerStateCode = markerStateCode; }
+
 
 	// Non-XML methods
 	public String qtlGenotype()
@@ -87,5 +110,11 @@ public class IFBQTLScore extends XMLRoot
 		}
 
 		return "-/-";
+	}
+
+	public String getMarkerAlleles(StateTable st)
+	{
+		AlleleState as = st.getAlleleState(markerStateCode);
+		return as.toString();
 	}
 }

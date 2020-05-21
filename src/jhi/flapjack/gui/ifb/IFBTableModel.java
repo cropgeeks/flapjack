@@ -13,13 +13,17 @@ import scri.commons.gui.*;
 
 public class IFBTableModel extends LineDataTableModel
 {
+	private StateTable st;
+
 	private int qtlCount;
+	private int mkrCount;
 	private int selectedIndex, rankIndex, commentIndex, sortIndex;
-	private int qtlIndex, mbvIndex, wmbvIndex;
+	private int qtlIndex, mkrIndex, mbvIndex, wmbvIndex;
 
 	public IFBTableModel(GTViewSet viewSet)
 	{
 		this.dataSet = viewSet.getDataSet();
+		st = dataSet.getStateTable();
 
 		setLines(viewSet.tableHandler().linesForTable());
 		initModel();
@@ -29,13 +33,20 @@ public class IFBTableModel extends LineDataTableModel
 	{
 		LineInfo line = lines.get(0);
 		IFBResult results = line.getLineResults().getIFBResult();
+
 		ArrayList<IFBQTLScore> qtlScores = results.getQtlScores();
+		ArrayList<IFBQTLScore> markers = results.getMkrScores();
 
 		qtlCount = qtlScores.size();
+		mkrCount = markers.size();
 
 		qtlIndex = 1;
-		mbvIndex = qtlIndex + qtlCount;
+		mkrIndex = qtlIndex + qtlCount;
+		mbvIndex = mkrIndex + mkrCount;
 		wmbvIndex = mbvIndex + 1;
+
+		System.out.println("mkrIndex:" + mkrIndex);
+		System.out.println("mbvIndex:" + mbvIndex);
 
 		selectedIndex = wmbvIndex + 1;
 		rankIndex = selectedIndex + 1;
@@ -52,6 +63,9 @@ public class IFBTableModel extends LineDataTableModel
 		// QTL (display columns)
 		for (int i = qtlIndex; i < qtlIndex+qtlCount; i++)
 			columnNames[i] = qtlScores.get(i-qtlIndex).getQtl().getName();
+		// Marker (display columns)
+		for (int i = mkrIndex; i < mkrIndex+mkrCount; i++)
+			columnNames[i] = markers.get(i-mkrIndex).getMarkerName();
 
 		// MBV/wMBV
 		columnNames[mbvIndex] = "Molecular Breeding Value";
@@ -101,6 +115,9 @@ public class IFBTableModel extends LineDataTableModel
 		else if (col >= qtlIndex && col < qtlIndex+qtlCount)
 			return stats.getQtlScores().get(col-qtlIndex).qtlGenotype();
 
+		else if (stats.getMkrScores().size() > 0 && col >= mkrIndex && col < mkrIndex+mkrCount)
+			return stats.getMkrScores().get(col-mkrIndex).getMarkerAlleles(st);
+
 		else if (col == mbvIndex)
 			return stats.getMbvTotal();
 		else if (col == wmbvIndex)
@@ -125,7 +142,7 @@ public class IFBTableModel extends LineDataTableModel
 		else if (col == rankIndex)
 			return Integer.class;
 
-		else if (col >= qtlIndex && col < qtlIndex+qtlCount)
+		else if (col < mbvIndex)
 			return String.class;
 
 		else
