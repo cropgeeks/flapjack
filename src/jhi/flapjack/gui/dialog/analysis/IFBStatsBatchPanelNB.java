@@ -25,11 +25,15 @@ public class IFBStatsBatchPanelNB extends JPanel
 
 	private void initComponents2()
 	{
+		checkNonQTLMarkers.setSelected(Prefs.guiIFBIncludeNonQTLMarkers);
+
 		FlapjackUtils.initPanel(dataPanel);
 	}
 
 	public boolean isOK()
 	{
+		Prefs.guiIFBIncludeNonQTLMarkers = checkNonQTLMarkers.isSelected();
+
 		return true;
 	}
 
@@ -44,11 +48,11 @@ public class IFBStatsBatchPanelNB extends JPanel
     {
 
         dataPanel = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        checkNonQTLMarkers = new javax.swing.JCheckBox();
 
         dataPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("General settings:"));
 
-        jLabel1.setText("There are no general settings applicable to a batch run of this analysis type.");
+        checkNonQTLMarkers.setText("Include stats on markers not under a QTL (not recommended for large data sets)");
 
         javax.swing.GroupLayout dataPanelLayout = new javax.swing.GroupLayout(dataPanel);
         dataPanel.setLayout(dataPanelLayout);
@@ -56,14 +60,14 @@ public class IFBStatsBatchPanelNB extends JPanel
             dataPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(dataPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
+                .addComponent(checkNonQTLMarkers)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         dataPanelLayout.setVerticalGroup(
             dataPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(dataPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
+                .addComponent(checkNonQTLMarkers)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -81,13 +85,13 @@ public class IFBStatsBatchPanelNB extends JPanel
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(dataPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(101, Short.MAX_VALUE))
+                .addContainerGap(100, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JCheckBox checkNonQTLMarkers;
     private javax.swing.JPanel dataPanel;
-    private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 }

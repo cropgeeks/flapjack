@@ -115,6 +115,8 @@ public class Prefs extends XMLPreferences
 	public static int forwardBreedingDialogTab = 0;
 	public static int ifbDialogTab = 0;
 
+	public static boolean guiIFBIncludeNonQTLMarkers = false;
+
 	// PedVerF1 threshold values
 	public static int pedVerF1HetThreshold = 0;
 	public static int pedVerF1F1Threshold = 0;

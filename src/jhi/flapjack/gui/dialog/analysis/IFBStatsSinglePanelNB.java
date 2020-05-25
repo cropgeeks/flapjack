@@ -21,6 +21,8 @@ public class IFBStatsSinglePanelNB extends JPanel
 		jPanel1.setBorder(BorderFactory.createTitledBorder(RB.getString("gui.dialog.analysis.IFBStatsDialog.csd.title")));
 		RB.setText(csdLabel, "gui.dialog.analysis.IFBStatsDialog.csd.csdLabel");
 
+		checkNonQTLMarkers.setSelected(Prefs.guiIFBIncludeNonQTLMarkers);
+
 		csd = new ChromosomeSelectionDialog(viewSet, true, true);
 		csdLabel.addActionListener(e -> csd.setVisible(true));
 
@@ -28,7 +30,11 @@ public class IFBStatsSinglePanelNB extends JPanel
 	}
 
 	public boolean isOK()
-		{ return true; }
+	{
+		Prefs.guiIFBIncludeNonQTLMarkers = checkNonQTLMarkers.isSelected();
+
+		return true;
+	}
 
 	// Generates a boolean array with a true/false selected state for each of
 	// the possible chromosomes that could be used in the sort
@@ -50,7 +56,7 @@ public class IFBStatsSinglePanelNB extends JPanel
         jPanel1 = new javax.swing.JPanel();
         csdLabel = new scri.commons.gui.matisse.HyperLinkLabel();
         genPanel = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        checkNonQTLMarkers = new javax.swing.JCheckBox();
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Data selection settings:"));
 
@@ -75,7 +81,7 @@ public class IFBStatsSinglePanelNB extends JPanel
 
         genPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("General settings:"));
 
-        jLabel1.setText("There are no general settings applicable to this analysis type.");
+        checkNonQTLMarkers.setText("Include stats on markers not under a QTL (not recommended for large data sets)");
 
         javax.swing.GroupLayout genPanelLayout = new javax.swing.GroupLayout(genPanel);
         genPanel.setLayout(genPanelLayout);
@@ -83,15 +89,15 @@ public class IFBStatsSinglePanelNB extends JPanel
             genPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(genPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
+                .addComponent(checkNonQTLMarkers)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         genPanelLayout.setVerticalGroup(
             genPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(genPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, genPanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(checkNonQTLMarkers)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -118,9 +124,9 @@ public class IFBStatsSinglePanelNB extends JPanel
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JCheckBox checkNonQTLMarkers;
     private scri.commons.gui.matisse.HyperLinkLabel csdLabel;
     private javax.swing.JPanel genPanel;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }

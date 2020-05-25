@@ -88,6 +88,7 @@ public class MABCStatsBatchPanelNB extends JPanel implements ActionListener
 	public boolean isOK()
 	{
 		Prefs.guiUseSimpleMabcStats = bUnweighted.isSelected();
+		Prefs.mabcMaxMrkrCoverage = (Double) maxMrkrCoverage.getValue();
 
 		return true;
 	}

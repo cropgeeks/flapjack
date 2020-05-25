@@ -8,6 +8,7 @@ import java.util.stream.*;
 
 import jhi.flapjack.data.*;
 import jhi.flapjack.data.results.*;
+import jhi.flapjack.gui.*;
 
 import scri.commons.gui.*;
 
@@ -290,6 +291,9 @@ public class IFBAnalysis extends SimpleJob
 	// need to be displayed in the table :(
 	private void processNonQTLMarker(IFBResult result, int viewIndex, int lineIndex, int mrkIndex)
 	{
+		if (Prefs.guiIFBIncludeNonQTLMarkers == false)
+			return;
+
 		MarkerInfo mi = as.getMarker(viewIndex, mrkIndex);
 
 		String mkrName = mi.getMarker().getName();
