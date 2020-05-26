@@ -242,8 +242,6 @@ public class QTLImporter extends SimpleJob
 		String[] headers = null;
 		String str = null;
 
-		int unfavAlleleIndex = -1;
-
 		for (int line = 1; (str = in.readLine()) != null && okToRun; line++)
 		{
 			if (str.length() == 0 || str.startsWith("#"))
@@ -348,7 +346,7 @@ public class QTLImporter extends SimpleJob
 				else if (headers[t].toLowerCase().equals("platform"))
 					properties.setPlatform(new String(tokens[t]));
 
-				else if (headers[t].toLowerCase().equals("unfav_allele"))
+				else if (headers[t].toLowerCase().equals("unfav_allele") || headers[t].toLowerCase().equals("unfavorable_alleles"))
 				{
 					ArrayList<Integer> unfavIndices = new ArrayList<>();
 					// Split out the comma-delimited string (removing whitespace too)
@@ -366,10 +364,16 @@ public class QTLImporter extends SimpleJob
 					}
 				}
 
-				else if (headers[t].toLowerCase().equals("trait_allele_name"))
+				else if (headers[t].toLowerCase().equals("trait_allele_name_ref"))
 				{
 					if (tokens[t].isBlank() == false)
 						properties.setAlleleName(new String(tokens[t]));
+				}
+
+				else if (headers[t].toLowerCase().equals("trait_allele_name_alt"))
+				{
+					if (tokens[t].isBlank() == false)
+						properties.setAlleleNameAlt(new String(tokens[t]));
 				}
 
 				else if (headers[t].toLowerCase().equals("priority_marker"))

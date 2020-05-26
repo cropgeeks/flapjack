@@ -24,6 +24,7 @@ public class MarkerProperties extends XMLRoot
 	private String germplasmGroup;
 	private String platform;
 	private String alleleName;
+	private String alleleNameAlt = "-";
 	private boolean priorityMarker;
 	private boolean breedingValue;
 	private int model = ADDITIVE;
@@ -83,6 +84,12 @@ public class MarkerProperties extends XMLRoot
 
 	public void setAlleleName(String alleleName)
 		{ this.alleleName = alleleName; }
+
+	public String getAlleleNameAlt()
+		{ return alleleNameAlt; }
+
+	public void setAlleleNameAlt(String alleleNameAlt)
+		{ this.alleleNameAlt = alleleNameAlt; }
 
 	public boolean isPriorityMarker()
 		{ return priorityMarker; }
