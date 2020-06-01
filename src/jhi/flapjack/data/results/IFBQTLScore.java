@@ -100,16 +100,17 @@ public class IFBQTLScore extends XMLRoot
 	// Non-XML methods
 	public String qtlGenotype()
 	{
-		String str = properties.getAlleleName();
+		String ref = properties.getAlleleName();
+		String alt = properties.getAlleleNameAlt();
 
 		switch (refAlleleMatchCount)
 		{
-			case 0: return "-/-";
-			case 1: return str + "/-";
-			case 2: return str + "/" + str;
+			case 0: return alt + "/" + alt;    //   -/-
+			case 1: return ref + "/" + alt;    //   +/-
+			case 2: return ref + "/" + ref;    //   +/+
 		}
 
-		return "-/-";
+		return alt + "/" + alt;
 	}
 
 	public String getMarkerAlleles(StateTable st)
