@@ -105,9 +105,10 @@ public class IFBQTLScore extends XMLRoot
 
 		switch (refAlleleMatchCount)
 		{
-			case 0: return alt + "/" + alt;    //   -/-
-			case 1: return ref + "/" + alt;    //   +/-
-			case 2: return ref + "/" + ref;    //   +/+
+			case -1: return "NA";
+			case 0:  return alt + "/" + alt;    //   -/-
+			case 1:  return ref + "/" + alt;    //   +/-
+			case 2:  return ref + "/" + ref;    //   +/+
 		}
 
 		return alt + "/" + alt;

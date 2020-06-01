@@ -112,8 +112,15 @@ public class IFBAnalysis extends SimpleJob
 
 					int favAllele = props.getFavAlleles().get(0);
 					int state = as.getState(viewIndex, lineIndex, mrkIndex);
-					int count = 0;
 
+					// Special case for missing data
+					if (state == 0)
+					{
+						score.setRefAlleleMatchCount(-1);
+						continue;
+					}
+
+					int count = 0;
 					// Check both alleles
 					for (int i = 0; i < 2; i++)
 						if (lookupTable[state][i] == favAllele)
@@ -198,34 +205,46 @@ public class IFBAnalysis extends SimpleJob
 		{
 			int value = markerScore.getRefAlleleMatchCount();
 
+			// Missing data? Don't use it to calculate mode
+			if (value == -1)
+				continue;
+
 			Integer count = map.get(value);
 			map.put(value, count != null ? count+1 : 1);
 		}
 
-		// We're tracking allele states, so only have counts of 0, 1, or 2
-		Integer zero = map.get(0) != null ? map.get(0) : -1;
-		Integer one = map.get(1) != null ? map.get(1) : -1;
-		Integer two = map.get(2) != null ? map.get(2) : -1;
+		// If the map is size=0, then it must all have been missing data. We'll
+		// just use the value from the priority marker
+		if (map.size() == 0)
+			qtlScore.setRefAlleleMatchCount(-1);
 
-		// Did we find more 0s?
-		if (zero > one && zero > two)
-			qtlScore.setRefAlleleMatchCount(0);
-		// Or 1s?
-		else if (one > zero && one > two)
-			qtlScore.setRefAlleleMatchCount(1);
-		// Or 2s?
-		else if (two > zero && two > one)
-			qtlScore.setRefAlleleMatchCount(2);
-		// Or not clear winner
 		else
 		{
-			// Use the value from PriorityMarker instead
-			for (IFBMarkerScore markerScore: qtlScore.getMarkerScores())
+			// We're tracking allele states, so only have counts of 0, 1, or 2
+			Integer zero = map.get(0) != null ? map.get(0) : -1;
+			Integer one = map.get(1) != null ? map.get(1) : -1;
+			Integer two = map.get(2) != null ? map.get(2) : -1;
+
+			// Did we find more 0s?
+			if (zero > one && zero > two)
+				qtlScore.setRefAlleleMatchCount(0);
+			// Or 1s?
+			else if (one > zero && one > two)
+				qtlScore.setRefAlleleMatchCount(1);
+			// Or 2s?
+			else if (two > zero && two > one)
+				qtlScore.setRefAlleleMatchCount(2);
+			// Or no clear winner
+			else
 			{
-				if (markerScore.getProperties().isPriorityMarker())
+				// Use the value from PriorityMarker instead
+				for (IFBMarkerScore markerScore: qtlScore.getMarkerScores())
 				{
-					int refAlleleMatchCount = markerScore.getRefAlleleMatchCount();
-					qtlScore.setRefAlleleMatchCount(refAlleleMatchCount);
+					if (markerScore.getProperties().isPriorityMarker())
+					{
+						int refAlleleMatchCount = markerScore.getRefAlleleMatchCount();
+						qtlScore.setRefAlleleMatchCount(refAlleleMatchCount);
+					}
 				}
 			}
 		}
