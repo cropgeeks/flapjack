@@ -415,6 +415,17 @@ public class QTLImporter extends SimpleJob
 				int state = properties.getFavAlleles().get(0);
 				properties.setAlleleName(st.getAlleleState(state).toString());
 			}
+			// If there is no alt allele name, substitute with unfav allele or "-"
+			if (properties.getAlleleNameAlt() == null)
+			{
+				if (properties.getUnfavAlleles().size() > 0)
+				{
+					int state = properties.getUnfavAlleles().get(0);
+					properties.setAlleleNameAlt(st.getAlleleState(state).toString());
+				}
+				else
+					properties.setAlleleNameAlt("-");
+			}
 
 			if (properties.isBreedingValue() && (hasSubEffect == false || hasRelWeight == false))
 				throw new DataFormatException(RB.format("io.DataFormatException.gobbi.qtl.error1", line));

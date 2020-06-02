@@ -24,7 +24,7 @@ public class MarkerProperties extends XMLRoot
 	private String germplasmGroup;
 	private String platform;
 	private String alleleName;
-	private String alleleNameAlt = "-";
+	private String alleleNameAlt;
 	private boolean priorityMarker;
 	private boolean breedingValue;
 	private int model = ADDITIVE;
