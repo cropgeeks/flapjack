@@ -20,7 +20,7 @@ public class Marker extends XMLRoot implements Comparable<Marker>
 	private static String[] alleles;
 
 	// Additional GOBii/QTL properties linked to this Marker
-	private MarkerProperties properties;
+	private ArrayList<MarkerProperties> properties;
 
 	public Marker()
 	{
@@ -83,10 +83,10 @@ public class Marker extends XMLRoot implements Comparable<Marker>
 	public void setRealPosition(double realPosition)
 		{ this.realPosition = realPosition; }
 
-	public MarkerProperties getProperties()
+	public ArrayList<MarkerProperties> getProperties()
 		{ return properties; }
 
-	public void setProperties(MarkerProperties properties)
+	public void setProperties(ArrayList<MarkerProperties> properties)
 		{ this.properties = properties; }
 
 
@@ -140,5 +140,13 @@ public class Marker extends XMLRoot implements Comparable<Marker>
 		int result = Objects.hash(name, position, realPosition);
 		result = 31 * result + Arrays.hashCode(frequencies);
 		return result;
+	}
+
+	public void addMarkerProperties(MarkerProperties mp)
+	{
+		if (properties == null)
+			properties = new ArrayList<MarkerProperties>();
+
+		properties.add(mp);
 	}
 }

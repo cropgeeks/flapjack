@@ -61,6 +61,7 @@
 		<field name="name" type="string">
 			<bind-xml node="attribute"/>
 		</field>
+		<field name="properties" type="jhi.flapjack.data.MarkerProperties" collection="arraylist"/>
 	</class>
 
 	<!-- MarkerProperties -->

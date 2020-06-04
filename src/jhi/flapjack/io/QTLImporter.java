@@ -52,6 +52,10 @@ public class QTLImporter extends SimpleJob
 			// And also look for the all-chromosome if it exists
 			if (c.isSpecialChromosome())
 				allMap = c;
+
+			// Clear any existing MarkerProperties/linked QTL from the markers
+			for (Marker m: c.getMarkers())
+				m.setProperties(null);
 		}
 	}
 
@@ -315,7 +319,6 @@ public class QTLImporter extends SimpleJob
 			// If we're all good at this point (three required cols) then make
 			// a MarkerProperties object to hold everything
 			MarkerProperties properties = new MarkerProperties(marker);
-			marker.setProperties(properties);
 
 			// FavAllele info
 			ArrayList<Integer> indices = new ArrayList<>();
@@ -447,6 +450,8 @@ public class QTLImporter extends SimpleJob
 
 			// Associate the QTL with the MarkerProperties for this marker
 			properties.setQtl(qtl);
+			// And add to the marker's list
+			marker.addMarkerProperties(properties);
 		}
 
 		// Now, for each QTL we've created, get it added to the tracks

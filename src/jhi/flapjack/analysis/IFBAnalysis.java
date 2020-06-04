@@ -76,57 +76,62 @@ public class IFBAnalysis extends SimpleJob
 				{
 					// If this Marker has MarkerProperties, then we can continue
 					MarkerInfo mi = as.getMarker(viewIndex, mrkIndex);
-					MarkerProperties props = mi.getMarker().getProperties();
-					if (props == null)
+					ArrayList<MarkerProperties> list = mi.getMarker().getProperties();
+
+					if (list == null)
 					{
 						processNonQTLMarker(result, viewIndex, lineIndex, mrkIndex);
 						continue;
 					}
 
-					QTL qtl = props.getQtl();
-					if (qtl == null || props.getFavAlleles().size() == 0)
-						continue;
-
-					// Get (or create) an IFBQTLScore that covers this marker
-					IFBQTLScore qtlScore = new IFBQTLScore(qtl);
-					if (qtlScores.get(qtl) == null)
+					// then, for each QTL this marker is under
+					for (MarkerProperties props: list)
 					{
-						qtlScores.put(qtl, qtlScore);
-						result.getQtlScores().add(qtlScore);
+						QTL qtl = props.getQtl();
+						if (qtl == null || props.getFavAlleles().size() == 0)
+							continue;
+
+						// Get (or create) an IFBQTLScore that covers this marker
+						IFBQTLScore qtlScore = new IFBQTLScore(qtl);
+						if (qtlScores.get(qtl) == null)
+						{
+							qtlScores.put(qtl, qtlScore);
+							result.getQtlScores().add(qtlScore);
+						}
+						else
+							qtlScore = qtlScores.get(qtl);
+
+
+						// UMESH Step 3a (see /docs/ifb/)
+						// Calculate dosage for each favorable allele
+						//   We're looping over the markers of this line, checking
+						//   each genotype against the favorable allele for each
+						//   marker of interest (via MarkerProperties). For each
+						//   allele match, increment the score, eg if favAllele=A
+						//   and genotype A/A=2; A/T=1; T/T=0 etc
+
+						// Make a new MarkerScore object to hold the count
+						IFBMarkerScore score = new IFBMarkerScore(props);
+						qtlScore.getMarkerScores().add(score);
+
+						int favAllele = props.getFavAlleles().get(0);
+						int state = as.getState(viewIndex, lineIndex, mrkIndex);
+
+						// Special case for missing data
+						if (state == 0)
+						{
+							score.setRefAlleleMatchCount(-1);
+							continue;
+						}
+
+						int count = 0;
+						// Check both alleles
+						for (int i = 0; i < 2; i++)
+							if (lookupTable[state][i] == favAllele)
+							count++;
+
+						score.setRefAlleleMatchCount(count);
 					}
-					else
-						qtlScore = qtlScores.get(qtl);
-
-
-					// UMESH Step 3a (see /docs/ifb/)
-					// Calculate dosage for each favorable allele
-					//   We're looping over the markers of this line, checking
-					//   each genotype against the favorable allele for each
-					//   marker of interest (via MarkerProperties). For each
-					//   allele match, increment the score, eg if favAllele=A
-					//   and genotype A/A=2; A/T=1; T/T=0 etc
-
-					// Make a new MarkerScore object to hold the count
-					IFBMarkerScore score = new IFBMarkerScore(props);
-					qtlScore.getMarkerScores().add(score);
-
-					int favAllele = props.getFavAlleles().get(0);
-					int state = as.getState(viewIndex, lineIndex, mrkIndex);
-
-					// Special case for missing data
-					if (state == 0)
-					{
-						score.setRefAlleleMatchCount(-1);
-						continue;
-					}
-
-					int count = 0;
-					// Check both alleles
-					for (int i = 0; i < 2; i++)
-						if (lookupTable[state][i] == favAllele)
-						count++;
-
-					score.setRefAlleleMatchCount(count);
 				}
 			}
 
