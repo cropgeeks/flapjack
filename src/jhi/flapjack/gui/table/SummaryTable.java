@@ -14,6 +14,7 @@ import javax.swing.table.*;
 import jhi.flapjack.data.results.*;
 import jhi.flapjack.gui.*;
 import jhi.flapjack.gui.forwardbreeding.*;
+import jhi.flapjack.gui.ifb.*;
 import jhi.flapjack.gui.mabc.*;
 import jhi.flapjack.gui.pedver.f1s.*;
 import jhi.flapjack.gui.pedver.lines.*;
@@ -87,6 +88,17 @@ public class SummaryTable extends JTable
 
 			// Selects (and returns) the panel in the nav pane
 			FBPanel panel = (FBPanel) Flapjack.winMain.getNavPanel().selectForwardBreedingNode(summary.getViewSet());
+			// Tell the panel we want to show the first tab
+			panel.tabs.setSelectedIndex(0);
+		}
+
+		else if (model instanceof IFBSummaryTableModel)
+		{
+			IFBBatchList list = ((IFBSummaryTableModel)model).getBatchList();
+			IFBSummary summary = list.getSummaries().get(modelRow);
+
+			// Selects (and returns) the panel in the nav pane
+			IFBPanel panel = (IFBPanel) Flapjack.winMain.getNavPanel().selectIFBNode(summary.getViewSet());
 			// Tell the panel we want to show the first tab
 			panel.tabs.setSelectedIndex(0);
 		}
@@ -205,6 +217,14 @@ public class SummaryTable extends JTable
 		else if (model instanceof FBSummaryTableModel)
 		{
 			FBBatchList list = ((FBSummaryTableModel)model).getBatchList();
+			return list.getSummaries().stream()
+				.map(s -> s.getViewSet().getTableHandler().table())
+				.collect(Collectors.toCollection(ArrayList::new));
+		}
+
+		else if (model instanceof IFBSummaryTableModel)
+		{
+			IFBBatchList list = ((IFBSummaryTableModel)model).getBatchList();
 			return list.getSummaries().stream()
 				.map(s -> s.getViewSet().getTableHandler().table())
 				.collect(Collectors.toCollection(ArrayList::new));

@@ -647,4 +647,18 @@ public class NavPanel extends JPanel
 
 		return setAndScrollTo(pNode);
 	}
+
+	public JComponent selectIFBNode(GTViewSet viewSet)
+	{
+		VisualizationNode vNode = findVisualizationNode(viewSet);
+
+		IFBNode pNode = null;
+		for (int i = 0; i < vNode.getChildCount(); i++)
+		{
+			if (vNode.getChildAt(i) instanceof IFBNode)
+				pNode = (IFBNode) vNode.getChildAt(i);
+		}
+
+		return setAndScrollTo(pNode);
+	}
 }
