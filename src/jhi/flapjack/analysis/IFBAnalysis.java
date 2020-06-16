@@ -9,6 +9,7 @@ import java.util.stream.*;
 import jhi.flapjack.data.*;
 import jhi.flapjack.data.results.*;
 import jhi.flapjack.gui.*;
+import jhi.flapjack.gui.visualization.colors.*;
 
 import scri.commons.gui.*;
 
@@ -179,7 +180,7 @@ public class IFBAnalysis extends SimpleJob
 
 	private void changeColourScheme()
 	{
-//		viewSet.setColorScheme(ColorScheme.FAV_ALLELE);
+		viewSet.setColorScheme(ColorScheme.FAV_ALLELE);
 	}
 
 	private void addViewSetToDataSet()
