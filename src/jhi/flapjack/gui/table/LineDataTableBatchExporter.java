@@ -45,38 +45,45 @@ public class LineDataTableBatchExporter extends SimpleJob
 
 		for (int t = 0; t < tables.size(); t++)
 		{
-			printTable(out, tables.get(t), dataSets.get(t));
-			out.println();
+			printTable(out, t, tables.get(t), dataSets.get(t));
+//			out.println();
 		}
 
 		out.close();
 	}
 
-	private void printTable(PrintWriter out, LineDataTable myTable, DataSet myDataSet)
+	private void printTable(PrintWriter out, int dataSetIndex, LineDataTable myTable, DataSet myDataSet)
 	{
 		// Dataset name
-		out.println("# Dataset\t" + myDataSet.getName());
+//		out.println("# Dataset\t" + myDataSet.getName());
 
 		// Print table header
-		StringBuilder headerBuilder = new StringBuilder();
-		for (int col = 0; col < myTable.getColumnCount(); col++)
+		if (dataSetIndex == 0)
 		{
-			if (myTable.skipExport(col))
-				continue;
+			StringBuilder headerBuilder = new StringBuilder();
 
-			if (headerBuilder.length() > 0)
-				headerBuilder.append("\t");
-			headerBuilder.append(myTable.getColumnName(col));
-		}
-		if (exportTraits)
-		{
-			for (Trait t: myDataSet.getTraits())
+			// Initial column will now hold dataset name
+			headerBuilder.append("DataSet");
+
+			for (int col = 0; col < myTable.getColumnCount(); col++)
 			{
-				headerBuilder.append("\t");
-				headerBuilder.append(t.getName());
+				if (myTable.skipExport(col))
+					continue;
+
+				if (headerBuilder.length() > 0)
+					headerBuilder.append("\t");
+				headerBuilder.append(myTable.getColumnName(col));
 			}
+			if (exportTraits)
+			{
+				for (Trait t: myDataSet.getTraits())
+				{
+					headerBuilder.append("\t");
+					headerBuilder.append(t.getName());
+				}
+			}
+			out.println(headerBuilder.toString());
 		}
-		out.println(headerBuilder.toString());
 
 		// Print table data
 		for (int row = 0; row < myTable.getRowCount(); row++)
@@ -87,6 +94,9 @@ public class LineDataTableBatchExporter extends SimpleJob
 				continue;
 
 			StringBuilder builder = new StringBuilder();
+
+			builder.append(myDataSet.getName());
+
 			for (int col=0; col < myTable.getColumnCount(); col++)
 			{
 				if (myTable.skipExport(col))

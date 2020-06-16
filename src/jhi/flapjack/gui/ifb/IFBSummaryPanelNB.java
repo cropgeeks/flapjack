@@ -65,7 +65,7 @@ class IFBSummaryPanelNB extends JPanel
         ));
         jScrollPane1.setViewportView(table);
 
-        bExport.setText("Export");
+        bExport.setText("Export all results...");
         bExport.setActionCommand("Export...");
 
         autoResize.setSelected(true);
