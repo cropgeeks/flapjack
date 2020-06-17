@@ -319,12 +319,8 @@ public class NavPanel extends JPanel
 
 	public void addIfbNode(VisualizationNode vNode, GTViewSet viewSet)
 	{
-		System.out.println("Checking for IFB node");
-
 		if (containsIfbResults(viewSet))
 		{
-			System.out.println("Contains IFB node");
-
 			IFBNode node = new IFBNode(gPanel, viewSet);
 			insert(node, vNode, vNode.getChildCount());
 		}

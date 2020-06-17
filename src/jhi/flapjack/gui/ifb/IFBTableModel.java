@@ -45,9 +45,6 @@ public class IFBTableModel extends LineDataTableModel
 		mbvIndex = mkrIndex + mkrCount;
 		wmbvIndex = mbvIndex + 1;
 
-		System.out.println("mkrIndex:" + mkrIndex);
-		System.out.println("mbvIndex:" + mbvIndex);
-
 		selectedIndex = wmbvIndex + 1;
 		rankIndex = selectedIndex + 1;
 		commentIndex = rankIndex + 1;
