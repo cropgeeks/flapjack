@@ -41,7 +41,8 @@ public class MabcPanelNB extends javax.swing.JPanel
 	 */
 	@SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+    private void initComponents()
+    {
 
         jScrollPane2 = new javax.swing.JScrollPane();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -58,10 +59,12 @@ public class MabcPanelNB extends javax.swing.JPanel
         bThreshold = new javax.swing.JButton();
 
         table.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
+            new Object [][]
+            {
 
             },
-            new String [] {
+            new String []
+            {
 
             }
         ));
@@ -78,6 +81,7 @@ public class MabcPanelNB extends javax.swing.JPanel
 
         autoResize.setSelected(true);
         autoResize.setText("Auto-fit columns");
+        autoResize.setOpaque(false);
 
         filterLabel.setText("Lines visible:");
 

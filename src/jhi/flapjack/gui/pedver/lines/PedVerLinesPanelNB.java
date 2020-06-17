@@ -26,7 +26,7 @@ class PedVerLinesPanelNB extends JPanel
 
 		bSelect.setPopup(((LineDataTable)table).getMenu().getSelectMenu());
 		bSelect.setIcon(Icons.getIcon("AUTOSELECT"));
-        
+
         bRank.addActionListener(panel);
 		bRank.setIcon(Icons.getIcon("RANK"));
 
@@ -43,7 +43,8 @@ class PedVerLinesPanelNB extends JPanel
 	 */
 	@SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+    private void initComponents()
+    {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         table = new LineDataTable();
@@ -59,10 +60,12 @@ class PedVerLinesPanelNB extends JPanel
         bThreshold = new javax.swing.JButton();
 
         table.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
+            new Object [][]
+            {
 
             },
-            new String [] {
+            new String []
+            {
 
             }
         ));
@@ -76,6 +79,7 @@ class PedVerLinesPanelNB extends JPanel
 
         autoResize.setSelected(true);
         autoResize.setText("Auto-fit columns");
+        autoResize.setOpaque(false);
 
         jLabel2.setText("|");
 
@@ -116,7 +120,7 @@ class PedVerLinesPanelNB extends JPanel
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(bExport, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 641, Short.MAX_VALUE)
+            .addComponent(jScrollPane1)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

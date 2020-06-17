@@ -97,9 +97,6 @@ public class IFBPanel extends JPanel implements ActionListener, ListSelectionLis
 			((SummaryTable)summaryControls.table).autoResize(state);
 			viewSet.getIFBBatchList().setAutoResize(state);
 		}
-
-		else if (e.getSource() == summaryControls.bExport)
-			((SummaryTable)summaryControls.table).exportData();
 	}
 
 	@Override

@@ -95,7 +95,7 @@
     </Component>
     <Component class="scri.commons.gui.matisse.MenuButton" name="bExport">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Export"/>
+        <Property name="text" type="java.lang.String" value="Export..."/>
         <Property name="actionCommand" type="java.lang.String" value="Export..."/>
       </Properties>
       <AuxValues>

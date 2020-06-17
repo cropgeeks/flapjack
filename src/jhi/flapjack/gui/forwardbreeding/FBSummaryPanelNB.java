@@ -27,7 +27,7 @@ class FBSummaryPanelNB extends JPanel
 
 		initComponents();
 
-		bExport.addActionListener(panel);
+		bExport.setPopup(((SummaryTable)table).getExportMenu());
 		bExport.setIcon(Icons.getIcon("EXPORTTRAITS"));
 
 		autoResize.addActionListener(panel);
@@ -65,7 +65,7 @@ class FBSummaryPanelNB extends JPanel
         ));
         jScrollPane1.setViewportView(table);
 
-        bExport.setText("Export all results...");
+        bExport.setText("Export");
         bExport.setActionCommand("Export...");
 
         autoResize.setSelected(true);

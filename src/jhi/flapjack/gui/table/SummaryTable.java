@@ -188,6 +188,11 @@ public class SummaryTable extends JTable
 			RB.getString("gui.text.open"), TaskDialog.INF, filename);
 	}
 
+	private void exportBatchSummary()
+	{
+
+	}
+
 	private ArrayList<LineDataTable> getLineDataTables()
 	{
 		if (model instanceof MabcSummaryTableModel)
@@ -231,5 +236,25 @@ public class SummaryTable extends JTable
 		}
 
 		return null;
+	}
+
+	public JPopupMenu getExportMenu()
+	{
+		JPopupMenu menu = new JPopupMenu();
+		createExportMenu(menu);
+		return menu;
+	}
+
+	private void createExportMenu(JComponent menu)
+	{
+		JMenuItem mExportAll = new JMenuItem("Export all analysis results...");
+		mExportAll.setIcon(Icons.getIcon("EXPORTTRAITS"));
+		mExportAll.addActionListener(e -> exportData());
+
+		JMenuItem mExport = new JMenuItem("Export results summary...");
+		mExport.addActionListener(e -> exportBatchSummary());
+
+		menu.add(mExportAll);
+		menu.add(mExport);
 	}
 }
