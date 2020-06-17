@@ -190,7 +190,25 @@ public class SummaryTable extends JTable
 
 	private void exportBatchSummary()
 	{
+		ExportBatchSummaryDialog dialog = new ExportBatchSummaryDialog();
 
+		if (dialog.isOK() == false)
+			return;
+
+		// Gather the options selected by the user
+		File filename = dialog.getFilename();
+
+		SummaryTableExporter exporter = new SummaryTableExporter(this, filename);
+
+		ProgressDialog pDialog = new ProgressDialog(exporter,
+			RB.format("gui.dialog.ExportDataDialog.exportTitle"),
+			RB.format("gui.dialog.ExportDataDialog.exportLabel"), Flapjack.winMain);
+
+		if (pDialog.failed("gui.error"))
+			return;
+
+		TaskDialog.showFileOpen(RB.format("gui.dialog.ExportDataDialog.exportSuccess", filename),
+			RB.getString("gui.text.open"), TaskDialog.INF, filename);
 	}
 
 	private ArrayList<LineDataTable> getLineDataTables()
