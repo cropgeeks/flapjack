@@ -164,7 +164,7 @@ public class SummaryTable extends JTable
 
 	public void exportData()
 	{
-		ExportSummaryDialog dialog = new ExportSummaryDialog();
+		ExportAllResultsDialog dialog = new ExportAllResultsDialog();
 
 		if (dialog.isOK() == false)
 			return;

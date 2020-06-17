@@ -12,19 +12,19 @@ import jhi.flapjack.gui.*;
 
 import scri.commons.gui.*;
 
-public class ExportSummaryDialog extends JDialog implements ActionListener
+public class ExportAllResultsDialog extends JDialog implements ActionListener
 {
 	private boolean isOK = false;
 
-	public ExportSummaryDialog()
+	public ExportAllResultsDialog()
 	{
-		super(Flapjack.winMain, RB.getString("gui.table.ExportSummaryDialog.title"), true);
+		super(Flapjack.winMain, RB.getString("gui.table.ExportAllResultsDialog.title"), true);
 
 		initComponents();
 		initComponents2();
 
 		RB.setText(bCancel, "gui.text.cancel");
-		RB.setText(bExport, "gui.table.ExportSummaryDialog.bExport");
+		RB.setText(bExport, "gui.table.ExportAllResultsDialog.bExport");
 		RB.setText(bHelp, "gui.text.help");
 		FlapjackUtils.setHelp(bHelp, "analysis_results_tables.html#exporting-to-a-file");
 
@@ -39,13 +39,13 @@ public class ExportSummaryDialog extends JDialog implements ActionListener
 
 	private void initComponents2()
 	{
-		RB.setText(fileLabel, "gui.table.ExportSummaryDialog.fileLabel");
+		RB.setText(fileLabel, "gui.table.ExportAllResultsDialog.fileLabel");
 		RB.setText(bBrowse, "gui.text.browse");
-		RB.setText(label, "gui.table.ExportSummaryDialog.label");
-		RB.setText(selectLabel, "gui.table.ExportSummaryDialog.selectLabel");
-		RB.setText(bAllLines, "gui.table.ExportSummaryDialog.bAllLines");
-		RB.setText(bSelectedLines, "gui.table.ExportSummaryDialog.bSelectedLines");
-		RB.setText(checkTraits, "gui.table.ExportSummaryDialog.checkTraits");
+		RB.setText(label, "gui.table.ExportAllResultsDialog.label");
+		RB.setText(selectLabel, "gui.table.ExportAllResultsDialog.selectLabel");
+		RB.setText(bAllLines, "gui.table.ExportAllResultsDialog.bAllLines");
+		RB.setText(bSelectedLines, "gui.table.ExportAllResultsDialog.bSelectedLines");
+		RB.setText(checkTraits, "gui.table.ExportAllResultsDialog.checkTraits");
 	}
 
 	private void initOptions()
