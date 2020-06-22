@@ -51,8 +51,12 @@ public abstract class SummaryTableModel extends AbstractTableModel
 			{
 				double value = (double) obj;
 
-				if (value < 0 || value > 100)
+				if (value < 0 || value > 100 || Double.isNaN(value))
+				{
+					setBackground(isSelected ? bgColSel : bgCol);
 					return this;
+				}
+
 				value = value / 100d;
 
 				double f1 = 1f - value;
