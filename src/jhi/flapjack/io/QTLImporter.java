@@ -379,9 +379,6 @@ public class QTLImporter extends SimpleJob
 						properties.setAlleleNameAlt(new String(tokens[t]));
 				}
 
-				else if (headers[t].toLowerCase().equals("priority_marker"))
-					properties.setPriorityMarker(tokens[t].equalsIgnoreCase("yes"));
-
 				else if (headers[t].toLowerCase().equals("breeding_value"))
 					properties.setBreedingValue(tokens[t].equalsIgnoreCase("yes"));
 

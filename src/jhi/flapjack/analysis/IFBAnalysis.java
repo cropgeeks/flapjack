@@ -139,20 +139,20 @@ public class IFBAnalysis extends SimpleJob
 			// Sum up the MBV and wMBV as we go along
 			double mbvTotal = 0, wmbvTotal = 0;
 
-//			System.out.println("\nLine: " + line.name());
+			System.out.println("\nLine: " + line.name());
 			for (IFBQTLScore qtlScore: result.getQtlScores())
 			{
-//				System.out.println(" " + qtlScore.getQtl().getName());
+				System.out.println(" " + qtlScore.getQtl().getName());
 				for (IFBMarkerScore mScore: qtlScore.getMarkerScores())
 				{
-//					System.out.println("  " + mScore.getProperties().getMarker().getName());
-//					System.out.println("  " + mScore.getRefAlleleMatchCount());
+					System.out.println("  " + mScore.getProperties().getMarker().getName());
+					System.out.println("  " + mScore.getRefAlleleMatchCount());
 				}
 
 				determineMarkerProperties(qtlScore);
 				calculateMode(qtlScore);
 
-//				System.out.println("  " + qtlScore.qtlGenotype());
+				System.out.println("  " + qtlScore.qtlGenotype());
 
 				// If we managed to calculate an MBV, add the score object to the
 				// separate list tracking just those QTLs with scores
@@ -166,9 +166,9 @@ public class IFBAnalysis extends SimpleJob
 			result.setMbvTotal(mbvTotal);
 			result.setWmbvTotal(wmbvTotal);
 
-//			System.out.println("");
-//			System.out.println("Sum_MBV:  " + result.getMbvTotal());
-//			System.out.println("Sum_wMBV: " + result.getWmbvTotal());
+			System.out.println("");
+			System.out.println("Sum_MBV:  " + result.getMbvTotal());
+			System.out.println("Sum_wMBV: " + result.getWmbvTotal());
 		});
 	}
 
@@ -243,19 +243,13 @@ public class IFBAnalysis extends SimpleJob
 			// Or no clear winner
 			else
 			{
-				// Use the value from PriorityMarker instead
-				for (IFBMarkerScore markerScore: qtlScore.getMarkerScores())
-				{
-					if (markerScore.getProperties().isPriorityMarker())
-					{
-						int refAlleleMatchCount = markerScore.getRefAlleleMatchCount();
-						qtlScore.setRefAlleleMatchCount(refAlleleMatchCount);
-					}
-				}
+				// The first marker is treated as the priority marker
+				int refAlleleMatchCount = qtlScore.getMarkerScores().get(0).getRefAlleleMatchCount();
+				qtlScore.setRefAlleleMatchCount(refAlleleMatchCount);
 			}
 		}
 
-//		System.out.println("  refMatch: " + qtlScore.getRefAlleleMatchCount());
+		System.out.println("  refMatch: " + qtlScore.getRefAlleleMatchCount());
 	}
 
 	// Finds and sets an appropriate MarkerProperties object for each QTL. A QTL
@@ -269,11 +263,11 @@ public class IFBAnalysis extends SimpleJob
 
 		// ...in case we can't find a priority marker, whose value we'd really
 		// rather use
-		for (IFBMarkerScore markerScore: qtlScore.getMarkerScores())
-		{
-			if (markerScore.getProperties().isPriorityMarker())
-				qtlScore.setProperties(markerScore.getProperties());
-		}
+//		for (IFBMarkerScore markerScore: qtlScore.getMarkerScores())
+//		{
+//			if (markerScore.getProperties().isPriorityMarker())
+//				qtlScore.setProperties(markerScore.getProperties());
+//		}
 	}
 
 	// UMESH Step 5 (see /docs/ifb/)
@@ -306,7 +300,7 @@ public class IFBAnalysis extends SimpleJob
 		double wMBV = mbv * props.getRelWeight();
 		qtlScore.setWeightedMolecularBreedingValue(wMBV);
 
-//		System.out.println("  mbv: " + mbv + ", " + wMBV);
+		System.out.println("  mbv: " + mbv + ", " + wMBV);
 
 		return true;
 	}

@@ -25,7 +25,6 @@ public class MarkerProperties extends XMLRoot
 	private String platform;
 	private String alleleName;
 	private String alleleNameAlt;
-	private boolean priorityMarker;
 	private boolean breedingValue;
 	private int model = ADDITIVE;
 	private double subEffect;
@@ -90,12 +89,6 @@ public class MarkerProperties extends XMLRoot
 
 	public void setAlleleNameAlt(String alleleNameAlt)
 		{ this.alleleNameAlt = alleleNameAlt; }
-
-	public boolean isPriorityMarker()
-		{ return priorityMarker; }
-
-	public void setPriorityMarker(boolean priorityMarker)
-		{ this.priorityMarker = priorityMarker; }
 
 	public boolean isBreedingValue()
 		{ return breedingValue; }
