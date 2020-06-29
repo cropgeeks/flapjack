@@ -83,9 +83,6 @@
 		<field name="alleleName" type="string">
 			<bind-xml node="attribute"/>
 		</field>
-		<field name="priorityMarker" type="boolean">
-			<bind-xml node="attribute"/>
-		</field>
 		<field name="breedingValue" type="boolean">
 			<bind-xml node="attribute"/>
 		</field>
