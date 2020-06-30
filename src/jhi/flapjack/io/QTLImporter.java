@@ -294,7 +294,10 @@ public class QTLImporter extends SimpleJob
 
 			// Ignore markers not on a chromosome
 			if (map == null)
+			{
+				System.out.println("\"" + mkrName + "\" not found in any chromosome map");
 				continue;
+			}
 
 
 			// Now, let's make (or retrieve) the MarkerGroupName (QTL) object

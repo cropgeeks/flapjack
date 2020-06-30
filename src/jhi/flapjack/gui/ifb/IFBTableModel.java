@@ -116,9 +116,19 @@ public class IFBTableModel extends LineDataTableModel
 			return stats.getMkrScores().get(col-mkrIndex).getMarkerAlleles(st);
 
 		else if (col == mbvIndex)
-			return stats.getMbvTotal();
+		{
+			if (stats.isMbvValid())
+				return stats.getMbvTotal();
+			else
+				return Double.NaN;
+		}
 		else if (col == wmbvIndex)
-			return stats.getWmbvTotal();
+		{
+			if (stats.isMbvValid())
+				return stats.getWmbvTotal();
+			else
+				return Double.NaN;
+		}
 
 		// For everything else, don't show entries if stats object null
 		if (stats == null)

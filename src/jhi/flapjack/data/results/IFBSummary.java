@@ -71,6 +71,7 @@ public class IFBSummary extends XMLRoot
 	{
 		return lines.stream()
 			.filter(LineInfo::getSelected)
+			.filter(li -> li.getLineResults().getIFBResult().isMbvValid())
 			.mapToDouble(li -> li.getLineResults().getIFBResult().getMbvTotal())
 			.min()
 			.orElse(Double.NaN);
@@ -80,6 +81,7 @@ public class IFBSummary extends XMLRoot
 	{
 		return lines.stream()
 			.filter(LineInfo::getSelected)
+			.filter(li -> li.getLineResults().getIFBResult().isMbvValid())
 			.mapToDouble(li -> li.getLineResults().getIFBResult().getMbvTotal())
 			.max()
 			.orElse(Double.NaN);
@@ -89,6 +91,7 @@ public class IFBSummary extends XMLRoot
 	{
 		return lines.stream()
 			.filter(LineInfo::getSelected)
+			.filter(li -> li.getLineResults().getIFBResult().isMbvValid())
 			.mapToDouble(li -> li.getLineResults().getIFBResult().getMbvTotal())
 			.average()
 			.orElse(Double.NaN);

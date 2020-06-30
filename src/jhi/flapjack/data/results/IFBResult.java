@@ -17,6 +17,10 @@ public class IFBResult extends XMLRoot
 	// 'Fake' (markers not under a QTL) information
 	private ArrayList<IFBQTLScore> mkrScores = new ArrayList<>();
 
+	// Only set to true if we have a valid refAlleleCount for each QTL
+	private boolean mbvValid;
+
+	// Holds sums of MBV/wMBV across all QTL
 	private double mbvTotal;
 	private double wmbvTotal;
 
@@ -41,6 +45,12 @@ public class IFBResult extends XMLRoot
 
 	public void setMkrScores(ArrayList<IFBQTLScore> mkrScores)
 		{ this.mkrScores = mkrScores; }
+
+	public boolean isMbvValid()
+		{ return mbvValid; }
+
+	public void setMbvValid(boolean mbvValid)
+		{ this.mbvValid = mbvValid; }
 
 	public double getMbvTotal()
 		{ return mbvTotal; }

@@ -129,7 +129,7 @@ public class IFBAnalysis extends SimpleJob
 						// Check both alleles
 						for (int i = 0; i < 2; i++)
 							if (lookupTable[state][i] == favAllele)
-							count++;
+								count++;
 
 						score.setRefAlleleMatchCount(count);
 					}
@@ -139,20 +139,20 @@ public class IFBAnalysis extends SimpleJob
 			// Sum up the MBV and wMBV as we go along
 			double mbvTotal = 0, wmbvTotal = 0;
 
-			System.out.println("\nLine: " + line.name());
+//			System.out.println("\nLine: " + line.name());
 			for (IFBQTLScore qtlScore: result.getQtlScores())
 			{
-				System.out.println(" " + qtlScore.getQtl().getName());
-				for (IFBMarkerScore mScore: qtlScore.getMarkerScores())
-				{
-					System.out.println("  " + mScore.getProperties().getMarker().getName());
-					System.out.println("  " + mScore.getRefAlleleMatchCount());
-				}
+//				System.out.println(" " + qtlScore.getQtl().getName());
+//				for (IFBMarkerScore mScore: qtlScore.getMarkerScores())
+//				{
+//					System.out.println("  " + mScore.getProperties().getMarker().getName());
+//					System.out.println("  " + mScore.getRefAlleleMatchCount());
+//				}
 
 				determineMarkerProperties(qtlScore);
 				calculateMode(qtlScore);
 
-				System.out.println("  " + qtlScore.qtlGenotype());
+//				System.out.println("  " + qtlScore.qtlGenotype());
 
 				// If we managed to calculate an MBV, add the score object to the
 				// separate list tracking just those QTLs with scores
@@ -163,12 +163,21 @@ public class IFBAnalysis extends SimpleJob
 				wmbvTotal += qtlScore.getWeightedMolecularBreedingValue();
 			}
 
+			boolean mbvValid = true;
+			for (IFBQTLScore qtlScore: result.getMbvScores())
+				if (qtlScore.getRefAlleleMatchCount() == -1)
+					mbvValid = false;
+
+			result.setMbvValid(mbvValid);
 			result.setMbvTotal(mbvTotal);
 			result.setWmbvTotal(wmbvTotal);
 
-			System.out.println("");
-			System.out.println("Sum_MBV:  " + result.getMbvTotal());
-			System.out.println("Sum_wMBV: " + result.getWmbvTotal());
+//			System.out.println("");
+//			System.out.println("Sum_MBV:  " + result.getMbvTotal());
+//			System.out.println("Sum_wMBV: " + result.getWmbvTotal());
+
+//			if (true)
+//				System.exit(1);
 		});
 	}
 
@@ -249,7 +258,7 @@ public class IFBAnalysis extends SimpleJob
 			}
 		}
 
-		System.out.println("  refMatch: " + qtlScore.getRefAlleleMatchCount());
+//		System.out.println("  refMatch: " + qtlScore.getRefAlleleMatchCount());
 	}
 
 	// Finds and sets an appropriate MarkerProperties object for each QTL. A QTL
@@ -281,6 +290,8 @@ public class IFBAnalysis extends SimpleJob
 
 		double mbv;
 
+//		System.out.println("  props.getSubEffect()=" + props.getSubEffect() + ", props.getRelWeight()=" + props.getRelWeight());
+
 		// If the model is ADDITIVE, multiple doseage by substitution effect
 		if (props.getModel() == MarkerProperties.ADDITIVE)
 			mbv = (double) qtlScore.getRefAlleleMatchCount() * props.getSubEffect();
@@ -300,7 +311,7 @@ public class IFBAnalysis extends SimpleJob
 		double wMBV = mbv * props.getRelWeight();
 		qtlScore.setWeightedMolecularBreedingValue(wMBV);
 
-		System.out.println("  mbv: " + mbv + ", " + wMBV);
+//		System.out.println("  mbv: " + mbv + ", " + wMBV);
 
 		return true;
 	}
