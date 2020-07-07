@@ -51,6 +51,7 @@ public class Trait extends XMLRoot
 
 		this.name = this.name.replace("_#NUM", "");
 		this.name = this.name.replace("_#CAT", "");
+		this.name = this.name.trim();
 	}
 
 	void validate()
