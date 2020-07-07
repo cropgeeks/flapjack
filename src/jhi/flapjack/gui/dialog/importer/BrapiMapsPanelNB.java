@@ -31,12 +31,6 @@ class BrapiMapsPanelNB extends JPanel implements IBrapiWizard
 
 		initComponents();
 
-		checkSkipMap.setSelected(Prefs.guiBrapiSkipMap);
-		checkSkipMap.addActionListener(e -> {
-			Prefs.guiBrapiSkipMap = checkSkipMap.isSelected();
-			displayMap();
-		});
-
 		mapsCombo.addActionListener(e -> displayMap());
 	}
 
@@ -69,7 +63,7 @@ class BrapiMapsPanelNB extends JPanel implements IBrapiWizard
 		else
 			table.setModel(new DefaultTableModel());
 
-		dialog.enableNext(index >= 0 || checkSkipMap.isSelected());
+		dialog.enableNext(index >= 0);
 	}
 
 	public boolean refreshData()
@@ -146,7 +140,6 @@ class BrapiMapsPanelNB extends JPanel implements IBrapiWizard
         mapsLabel = new javax.swing.JLabel();
         mapsCombo = new javax.swing.JComboBox<>();
         detailsLabel = new javax.swing.JLabel();
-        checkSkipMap = new javax.swing.JCheckBox();
         jScrollPane2 = new javax.swing.JScrollPane();
         table = new javax.swing.JTable();
 
@@ -159,8 +152,6 @@ class BrapiMapsPanelNB extends JPanel implements IBrapiWizard
         mapsLabel.setText("Available maps:");
 
         detailsLabel.setText("Details:");
-
-        checkSkipMap.setText("Skip using a map (not recommended) - a 'dummy' chromosome will hold markers instead");
 
         table.setModel(new DefaultTableModel());
         table.setToolTipText("");
@@ -179,10 +170,8 @@ class BrapiMapsPanelNB extends JPanel implements IBrapiWizard
                         .addGap(11, 11, 11)
                         .addComponent(mapsCombo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(checkSkipMap)
-                            .addComponent(detailsLabel, javax.swing.GroupLayout.Alignment.LEADING))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addComponent(detailsLabel)
+                        .addGap(0, 422, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -195,9 +184,7 @@ class BrapiMapsPanelNB extends JPanel implements IBrapiWizard
                 .addGap(18, 18, 18)
                 .addComponent(detailsLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 167, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(checkSkipMap)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -221,7 +208,6 @@ class BrapiMapsPanelNB extends JPanel implements IBrapiWizard
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JCheckBox checkSkipMap;
     private javax.swing.JLabel detailsLabel;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane2;
