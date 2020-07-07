@@ -44,12 +44,13 @@ public class Trait extends XMLRoot
 
 		experiment = RB.getString("data.Trait.notDefined");
 
-//		if (name.equals("EAR - DENSITY"))
-//		{
-//			colors.put("FLAPJACK_LW", Color.yellow);
-//			colors.put("FLAPJACK_HG", Color.orange);
-//			colors.put("lax", Color.pink);
-//		}
+		if (name.contains("_#NUM"))
+			type = NUMERICAL;
+		else if (name.contains("_#CAT"))
+			type = CATEGORICAL;
+
+		this.name = this.name.replace("_#NUM", "");
+		this.name = this.name.replace("_#CAT", "");
 	}
 
 	void validate()

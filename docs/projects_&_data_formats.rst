@@ -54,13 +54,15 @@ A data set can optionally also store information on one or more ``traits`` that 
 ::
 
  # fjFile = PHENOTYPE
-              Trait1       Trait1       Trait2
-              Experiment1  Experiment2  Experiment1
- Line1        50           High         Short
- Line2        2.3          High         Medium
- Line3        99.3         Low          Long
+              Trait1        Trait2        Trait3       Trait4 _#CAT
+              Experiment1   Experiment2   Experiment1  Experiment2
+ Line1        50            High          Short        23
+ Line2        2.3           High          Medium       Average 
+ Line3        99.3          Low           Long         Average
 
 Trait data for a single trait can be either numerical or categorical. The line containing experiment information for each trait is optional.
+
+Flapjack will determine whether a column contains numerical or categorical data by looking at the first line's data. However, if for example, you have primarily categorical data but the first line contains a number, then you can override this by including ``_#CAT`` in the column's title (see example Trait4 above). Similarly, you can enforce numerical data by using ``_NUM``.
 
 QTLs
 ----
@@ -76,6 +78,8 @@ A data set can also optionally store information on one or more ``QTLs`` that ar
  QTL3  2H          10        8        13.5     Temp    Exp1        99.2            low
 
 The **Name** to **Experiment** columns are required and must be included and listed in the order shown. After that, each QTL may have zero or more optional columns of numerical or textual data that can be included too.
+
+Also see the :doc:`gobii_qtl`.
 
 Graphs
 ------
