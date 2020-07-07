@@ -62,7 +62,7 @@ A data set can optionally also store information on one or more ``traits`` that 
 
 Trait data for a single trait can be either numerical or categorical. The line containing experiment information for each trait is optional.
 
-Flapjack will determine whether a column contains numerical or categorical data by looking at the first line's data. However, if for example, you have primarily categorical data but the first line contains a number, then you can override this by including ``_#CAT`` in the column's title (see example Trait4 above). Similarly, you can enforce numerical data by using ``_NUM``.
+Flapjack will determine whether a column contains numerical or categorical data by looking at the first line's data. However, if for example, you have primarily categorical data but the first line contains a number, then you can override this by including ``_#CAT`` in the column's title (see example Trait4 above). Similarly, you can enforce numerical data by using ``_#NUM``.
 
 QTLs
 ----
