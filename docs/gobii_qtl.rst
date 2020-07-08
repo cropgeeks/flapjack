@@ -33,8 +33,11 @@ All other columns are optional, but if provided, can be used as input parameters
 - **platform** - currently unused by Flapjack, defines the technology used to create this marker
 - **unfav_allele** - (or **unfavorable_alleles**)
 - **trait_allele_name_ref** - 
-- **priority_marker** - identifies the priority marker for a given QTL/haplotype, whose properties will be used in preference of those from other markers when there is no consensus between markers during an IFB analysis
 - **breeding_value** -
 - **model** -
 - **substitution_effect** -
 - **relative_weight** -
+
+.. note::
+  The first marker listed for each qtl will be used as a 'priority marker', meaning its values for breeding value, model, substitution effect and relative weight will be used for all Indexed Forward Breeding calculations.
+
