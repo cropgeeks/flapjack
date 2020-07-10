@@ -339,9 +339,15 @@ public class BrapiClient
 		List<CallSetCallsDetail> list = new ArrayList<>();
 		TokenPager pager = new TokenPager();
 
+		int page = 0;
+
 		while (pager.isPaging())
 		{
-			Response<BrapiMasterDetailResourcePageToken<CallSetCalls>> response = service.getVariantSetCalls(studyID, pager.getPageSize(), pager.getPageToken())
+			// Be VERY careful here with the page token pagination method
+			// We only have the *current* page's infomation, so the next page we
+			// need to ask for is pager.getNextPageToken() even though the
+			// method parameter itself is just called pageToken
+			Response<BrapiMasterDetailResourcePageToken<CallSetCalls>> response = service.getVariantSetCalls(studyID, pager.getPageSize(), pager.getNextPageToken())
 				.execute();
 
 			if (response.isSuccessful())
@@ -351,10 +357,19 @@ public class BrapiClient
 				list.addAll(r.getResult().getData());
 				pager.paginate(r.getMetadata());
 
-				System.out.println("list size is " + list.size());
+/*				System.out.println("data paged:");
+				System.out.println("  getNextPageToken: " + pager.getNextPageToken());
+				System.out.println("  getPageToken:     " + pager.getPageToken());
+				System.out.println("  getPrevPageToken: " + pager.getPrevPageToken());
+				System.out.println("  getPageSize:      " + pager.getPageSize());
+				System.out.println("  getTotalPages:    " + pager.getTotalPages());
 
+				System.out.println("list size is " + list.size());
+*/
 				ioHeteroSeparator = r.getResult().getSepUnphased();
 				ioMissingData = r.getResult().getUnknownString();
+
+				System.out.println("Processed page " + (++page) + " out of " + pager.getTotalPages());
 			}
 			else
 			{
