@@ -116,6 +116,13 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 		BufferedReader in = null;
 		URI uri = null;
 
+		// Attempt to set progress tracking info
+		if (client.getTotalLines() != 0 && client.getTotalMarkers() != 0)
+		{
+			long expAlleles = client.getTotalLines() * client.getTotalMarkers();
+			importer.setTotalBytes(expAlleles);
+		}
+
 		VariantSet vSet = client.getVariantSet();
 		for (Format f: vSet.getAvailableFormats())
 		{
@@ -123,25 +130,12 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 				uri = new URI(f.getFileURL());
 		}
 
-		// Temporary hack to at least return line name information
-		// THIS SHOULD BE REMOVED POST ICRISAT HACKATHON
-		if (uri == null)
-		{
-			for (CallSet callset: client.getCallsets())
-				dataSet.createLine(callset.getCallSetName(), useByteStorage);
-
-			return true;
-		}
-
 		// TODO: Better warning if no flapjack format/url found?
+		if (uri == null)
+			return readJSON();
 
-		if (client.getTotalLines() != 0 && client.getTotalMarkers() != 0)
-		{
-			long expAlleles = client.getTotalLines() * client.getTotalMarkers();
-			importer.setTotalBytes(expAlleles);
-		}
 
-		if (isOK && uri != null)
+		if (isOK)
 		{
 			Response response = client.getResponse(uri);
 			String cl = response.header("Content-Length");
@@ -245,6 +239,60 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 		return true;
 	}
 
+	private boolean readJSON()
+		throws Exception
+	{
+		// Parse over the pages (and pages) of line x marker x genotype objects
+		System.out.println("Calling /variantsets/{id}/calls");
+
+		List<CallSetCallsDetail> list = client.getCallSetCallsDetails();
+
+		ioHeteroSeparator = client.getIoHeteroSeparator();
+		ioMissingData = client.getIoMissingData();
+
+		// Initial loop to query the markers and build a map if needed
+		// TODO: THIS IS INCREDIBLY INEFFICIENT
+		//  An alternative might be to use the (known?) marker count and initialize
+		//  a map of that size (but with what marker names?), which would allow
+		//  the Line.GenotypeData objects to be pre-created but you'd still have
+		//  a problem with marker names as the initial map wouldn't have them
+		for (CallSetCallsDetail detail: list)
+		{
+			if (isOK == false)
+				break;
+
+			queryMarker(detail.getVariantName());
+		}
+		fakeMapCreated = true;
+
+		// Temp object for tracking the line objects
+		HashMap<String,Line> linesByName = new HashMap<String,Line>();
+
+		for (CallSetCallsDetail detail: list)
+		{
+			if (isOK == false)
+				break;
+
+			// Fetch (or create) the line
+			Line line = linesByName.computeIfAbsent(detail.getCallSetName(), k -> dataSet.createLine(k, useByteStorage));
+
+			// Fetch the marker
+			MarkerIndex mi = queryMarker(detail.getVariantName());
+
+			// Now assign the allele
+			String genotype = detail.getGenotype().getValues().get(0);
+			Integer stateCode = states.computeIfAbsent(genotype, k -> stateTable.getStateCode(k, true, ioMissingData, ioHeteroSeparator));
+
+			line.setLoci(mi.mapIndex, mi.mkrIndex, stateCode);
+			alleleCount++;
+
+			if (useByteStorage && stateTable.size() > 127)
+				return false;
+		}
+
+		return true;
+	}
+
 	@Override
 	public long getBytesRead()
 		{ return alleleCount; }
@@ -261,7 +309,7 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 		if (markersByName.get(name) != null)
 			return null;
 
-		// Its position will just be based no how many we've added so far
+		// Its position will just be based on how many we've added so far
 		int position = markersByName.size();
 		Marker marker = new Marker(name, position);
 

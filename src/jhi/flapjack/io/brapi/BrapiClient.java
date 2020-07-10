@@ -35,6 +35,7 @@ public class BrapiClient
 	private String username, password;
 	private String mapID, studyID, variantSetID;
 	private long totalMarkers, totalLines;
+	private String ioMissingData, ioHeteroSeparator;
 
 	private CallsUtils callsUtils;
 
@@ -269,7 +270,6 @@ public class BrapiClient
 
 				throw new Exception(errorMessage);
 			}
-
 		}
 
 		return callsetList;
@@ -327,6 +327,44 @@ public class BrapiClient
 		}
 
 		return variantSet;
+	}
+
+	// Returns a list of CallSetCallsDetail objects, where each object defines
+	// an intersection of line/marker (and hence allele) information
+	//
+	// BRAPI: /variantsets/{variantSetDbId}/calls
+	public List<CallSetCallsDetail> getCallSetCallsDetails()
+		throws Exception
+	{
+		List<CallSetCallsDetail> list = new ArrayList<>();
+		TokenPager pager = new TokenPager();
+
+		while (pager.isPaging())
+		{
+			Response<BrapiMasterDetailResourcePageToken<CallSetCalls>> response = service.getVariantSetCalls(studyID, pager.getPageSize(), pager.getPageToken())
+				.execute();
+
+			if (response.isSuccessful())
+			{
+				BrapiMasterDetailResourcePageToken<CallSetCalls> r = response.body();
+
+				list.addAll(r.getResult().getData());
+				pager.paginate(r.getMetadata());
+
+				System.out.println("list size is " + list.size());
+
+				ioHeteroSeparator = r.getResult().getSepUnphased();
+				ioMissingData = r.getResult().getUnknownString();
+			}
+			else
+			{
+				String errorMessage = ErrorHandler.getMessage(generator, response);
+
+				throw new Exception(errorMessage);
+			}
+		}
+
+		return list;
 	}
 
 	public XmlBrapiProvider getBrapiProviders()
@@ -470,4 +508,10 @@ public class BrapiClient
 		isOk = false;
 		generator.cancelAll();
 	}
+
+	public String getIoMissingData()
+		{ return ioMissingData; }
+
+	public String getIoHeteroSeparator()
+		{ return ioHeteroSeparator; }
 }
