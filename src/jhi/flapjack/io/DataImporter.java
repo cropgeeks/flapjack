@@ -194,7 +194,7 @@ public class DataImporter extends SimpleJob
 			nf.format(dataSet.countChromosomeMaps()),
 			nf.format(mapImporter.getMarkerCount()),
 			nf.format(genoImporter.getLineCount()),
-			nf.format(genoImporter.getMarkerCount()));
+			nf.format(genoImporter.getAlleleCount()));
 	}
 
 	@Override

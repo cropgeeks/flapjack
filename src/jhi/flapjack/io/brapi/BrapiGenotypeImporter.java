@@ -47,6 +47,8 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 	private boolean mapWasProvided;
 	private boolean fakeMapCreated = false;
 
+	private boolean isBrapiStreaming = false;
+
 	public BrapiGenotypeImporter(DataImporter importer, BrapiClient client, DataSet dataSet, HashMap<String, MarkerIndex> markers,
 		 HashMap<String, MarkerIndex> markersByName, String ioMissingData, String ioHeteroSeparator)
 	{
@@ -81,11 +83,21 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 
 	@Override
 	public long getLineCount()
-		{ return dataSet.getLines().size(); }
+	{
+		if (isBrapiStreaming)
+			return client.jsonLineCount();
+		else
+			return dataSet.getLines().size();
+	}
 
 	@Override
-	public long getMarkerCount()
-		{ return alleleCount; }
+	public long getAlleleCount()
+	{
+		if (isBrapiStreaming)
+			return client.jsonAlleleCount();
+		else
+			return alleleCount;
+	}
 
 	@Override
 	// Returns false if storing the data using byte arrays failed
@@ -242,10 +254,17 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 	private boolean readJSON()
 		throws Exception
 	{
+		// Create somewhere to file-cache the incoming data
+		String GID = SystemUtils.createGUID(12);
+		File cacheFile = new File(FlapjackUtils.getCacheDir(), GID + ".brapi");
+		cacheFile.deleteOnExit();
+
 		// Parse over the pages (and pages) of line x marker x genotype objects
 		System.out.println("Calling /variantsets/{id}/calls");
 
-		List<CallSetCallsDetail> list = client.getCallSetCallsDetails();
+		isBrapiStreaming = true;
+		HashMap<String,String> jsonMarkers = client.getCallSetCallsDetails(cacheFile);
+		isBrapiStreaming = false;
 
 		ioHeteroSeparator = client.getIoHeteroSeparator();
 		ioMissingData = client.getIoMissingData();
@@ -256,46 +275,61 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 		//  a map of that size (but with what marker names?), which would allow
 		//  the Line.GenotypeData objects to be pre-created but you'd still have
 		//  a problem with marker names as the initial map wouldn't have them
-		for (CallSetCallsDetail detail: list)
+		for (String markerName: jsonMarkers.keySet())
 		{
 			if (isOK == false)
 				break;
 
-			queryMarker(detail.getVariantName());
+			queryMarker(markerName);
 		}
 		fakeMapCreated = true;
 
 		// Temp object for tracking the line objects
 		HashMap<String,Line> linesByName = new HashMap<String,Line>();
 
-		for (CallSetCallsDetail detail: list)
+		BufferedReader in = new BufferedReader(new FileReader(cacheFile));
+		String str = in.readLine();
+
+		while (str != null)
 		{
 			if (isOK == false)
 				break;
+			if (str.isBlank())
+				continue;
+
+			String[] tokens = str.split("\t");
 
 			// Fetch (or create) the line
-			Line line = linesByName.computeIfAbsent(detail.getCallSetName(), k -> dataSet.createLine(k, useByteStorage));
+			Line line = linesByName.computeIfAbsent(new String(tokens[0]), k -> dataSet.createLine(k, useByteStorage));
 
 			// Fetch the marker
-			MarkerIndex mi = queryMarker(detail.getVariantName());
+			MarkerIndex mi = queryMarker(new String(tokens[1]));
 
 			// Now assign the allele
-			String genotype = detail.getGenotype().getValues().get(0);
-			Integer stateCode = states.computeIfAbsent(genotype, k -> stateTable.getStateCode(k, true, ioMissingData, ioHeteroSeparator));
+			Integer stateCode = states.computeIfAbsent(new String(tokens[2]), k -> stateTable.getStateCode(k, true, ioMissingData, ioHeteroSeparator));
 
 			line.setLoci(mi.mapIndex, mi.mkrIndex, stateCode);
 			alleleCount++;
 
 			if (useByteStorage && stateTable.size() > 127)
 				return false;
+
+			str = in.readLine();
 		}
+
+		in.close();
 
 		return true;
 	}
 
 	@Override
 	public long getBytesRead()
-		{ return alleleCount; }
+	{
+		if (isBrapiStreaming)
+			return client.jsonAlleleCount();
+		else
+			return alleleCount;
+	}
 
 	private MarkerIndex queryMarker(String name)
 	{

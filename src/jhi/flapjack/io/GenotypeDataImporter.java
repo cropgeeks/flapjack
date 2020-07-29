@@ -34,7 +34,7 @@ public class GenotypeDataImporter implements IGenotypeImporter
 	private String ioHeteroSeparator;
 
 	private long lineCount = 0;
-	private long markerCount;
+	private long alleleCount;
 
 	private boolean useByteStorage = true;
 
@@ -80,8 +80,8 @@ public class GenotypeDataImporter implements IGenotypeImporter
 		{ return dataSet.getLines().size(); }
 
 	@Override
-	public long getMarkerCount()
-		{ return markerCount; }
+	public long getAlleleCount()
+		{ return alleleCount; }
 
 	@Override
 	// Returns false if storing the data using byte arrays failed
@@ -260,7 +260,7 @@ public class GenotypeDataImporter implements IGenotypeImporter
 					// Then apply them to the marker data
 					line.setLoci(mapIndex[i], mkrIndex[i], stateCode);
 
-					markerCount++;
+					alleleCount++;
 				}
 			}
 
@@ -495,7 +495,7 @@ public class GenotypeDataImporter implements IGenotypeImporter
 					// Then apply them to the marker data
 					dataSet.getLines().get(i-1).setLoci(index.mapIndex, index.mkrIndex, stateCode);
 
-					markerCount++;
+					alleleCount++;
 				}
 			}
 

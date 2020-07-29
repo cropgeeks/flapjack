@@ -43,6 +43,10 @@ public class BrapiClient
 
 	private volatile boolean isOk = true;
 
+	// Used for matrix/json streaming to track the objects we've received
+	private HashMap<String,String> markers, lines;
+	private long alleles = 0;
+
 	public void initService()
 	{
 		baseURL = resource.getUrl();
@@ -333,14 +337,20 @@ public class BrapiClient
 	// an intersection of line/marker (and hence allele) information
 	//
 	// BRAPI: /variantsets/{variantSetDbId}/calls
-	public List<CallSetCallsDetail> getCallSetCallsDetails()
+	public HashMap<String,String> getCallSetCallsDetails(File cacheFile)
 		throws Exception
 	{
-		List<CallSetCallsDetail> list = new ArrayList<>();
+		// Reset counters
+		markers = new HashMap<String,String>();
+		lines = new HashMap<String,String>();
+		alleles = 0;
+
+		BufferedWriter out = new BufferedWriter(new FileWriter(cacheFile));
+
+//		List<CallSetCallsDetail> list = new ArrayList<>();
 		TokenPager pager = new TokenPager();
 
 		int page = 0;
-
 		while (pager.isPaging())
 		{
 			// Be VERY careful here with the page token pagination method
@@ -354,8 +364,24 @@ public class BrapiClient
 			{
 				BrapiMasterDetailResourcePageToken<CallSetCalls> r = response.body();
 
-				list.addAll(r.getResult().getData());
+//				list.addAll(r.getResult().getData());
 				pager.paginate(r.getMetadata());
+
+				// Cache each line/marker/allele intersection to disk
+				for (CallSetCallsDetail detail: r.getResult().getData())
+				{
+//					try { Thread.sleep(10); }
+//					catch (Exception e) {}
+
+					lines.put(detail.getCallSetName(), "");
+					markers.put(detail.getVariantName(), "");
+					alleles++;
+
+					out.write(detail.getCallSetName() + "\t"
+						+ detail.getVariantName() + "\t"
+						+ detail.getGenotype().getValues().get(0));
+					out.newLine();
+				}
 
 /*				System.out.println("data paged:");
 				System.out.println("  getNextPageToken: " + pager.getNextPageToken());
@@ -375,11 +401,14 @@ public class BrapiClient
 			{
 				String errorMessage = ErrorHandler.getMessage(generator, response);
 
+				out.close();
 				throw new Exception(errorMessage);
 			}
 		}
 
-		return list;
+		out.close();
+
+		return markers;
 	}
 
 	public XmlBrapiProvider getBrapiProviders()
@@ -529,4 +558,13 @@ public class BrapiClient
 
 	public String getIoHeteroSeparator()
 		{ return ioHeteroSeparator; }
+
+	public int jsonMarkerCount()
+		{ return markers.size(); }
+
+	public int jsonLineCount()
+		{ return lines.size(); }
+
+	public long jsonAlleleCount()
+		{ return alleles; }
 }

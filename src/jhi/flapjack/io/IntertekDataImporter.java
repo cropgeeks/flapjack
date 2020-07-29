@@ -74,7 +74,7 @@ public class IntertekDataImporter implements IGenotypeImporter
 		{ return dataSet.getLines().size(); }
 
 	@Override
-	public long getMarkerCount()
+	public long getAlleleCount()
 		{ return markerCount; }
 
 	@Override

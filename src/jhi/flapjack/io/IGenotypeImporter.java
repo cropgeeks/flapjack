@@ -15,7 +15,7 @@ public interface IGenotypeImporter
 
 	public long getLineCount();
 
-	public long getMarkerCount();
+	public long getAlleleCount();
 
 	public long getBytesRead();
 
