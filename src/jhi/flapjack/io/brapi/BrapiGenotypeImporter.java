@@ -288,9 +288,9 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 		HashMap<String,Line> linesByName = new HashMap<String,Line>();
 
 		BufferedReader in = new BufferedReader(new FileReader(cacheFile));
-		String str = in.readLine();
+		String str = null;
 
-		while (str != null)
+		while ((str = in.readLine()) != null)
 		{
 			if (isOK == false)
 				break;
@@ -298,6 +298,8 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 				continue;
 
 			String[] tokens = str.split("\t");
+			if (tokens.length != 3)
+				continue;
 
 			// Fetch (or create) the line
 			Line line = linesByName.computeIfAbsent(new String(tokens[0]), k -> dataSet.createLine(k, useByteStorage));
@@ -313,8 +315,6 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 
 			if (useByteStorage && stateTable.size() > 127)
 				return false;
-
-			str = in.readLine();
 		}
 
 		in.close();

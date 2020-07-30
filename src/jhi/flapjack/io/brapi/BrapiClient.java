@@ -370,9 +370,6 @@ public class BrapiClient
 				// Cache each line/marker/allele intersection to disk
 				for (CallSetCallsDetail detail: r.getResult().getData())
 				{
-//					try { Thread.sleep(10); }
-//					catch (Exception e) {}
-
 					lines.put(detail.getCallSetName(), "");
 					markers.put(detail.getVariantName(), "");
 					alleles++;
