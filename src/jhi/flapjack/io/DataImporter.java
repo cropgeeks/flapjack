@@ -103,7 +103,7 @@ public class DataImporter extends SimpleJob
 		{
 			// Post-import stuff...
 			PostImportOperations pio = new PostImportOperations(dataSet);
-			pio.setName(genoFile);
+			pio.setName(genoFile, client);
 
 			// Collapse (eg) A/A into A
 			pio.collapseHomzEncodedAsHet();

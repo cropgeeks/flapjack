@@ -45,6 +45,7 @@ class BrapiVariantSetsPanelNB extends JPanel implements IBrapiWizard
 			long markerCount = variantSet.getVariantCount();
 
 			client.setVariantSetID("" + variantSet.getVariantSetDbId());
+			client.setVariantSetName(variantSet.getVariantSetName());
 			client.setTotalLines(sampleCount);
 			client.setTotalMarkers(markerCount);
 

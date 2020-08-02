@@ -8,6 +8,7 @@ import java.io.*;
 import jhi.flapjack.analysis.*;
 import jhi.flapjack.data.*;
 import jhi.flapjack.gui.visualization.colors.*;
+import jhi.flapjack.io.brapi.*;
 
 import scri.commons.gui.*;
 
@@ -34,7 +35,7 @@ public class PostImportOperations
 		c.optimize(false);
 	}
 
-	public void setName(File importFile)
+	public void setName(File importFile, BrapiClient client)
 	{
 		if (importFile != null)
 		{
@@ -46,13 +47,15 @@ public class PostImportOperations
 
 			setName(name);
 		}
-		else
-			setName("BRAPI");
+		else if (client != null)
+		{
+			setName(client.getVariantSetName());
+		}
 	}
 
 	public void setName(String name)
 	{
-		name += " " + dataSet.countLines() + "x" + dataSet.countGenuineMarkers();
+		name += " (" + dataSet.countLines() + "x" + dataSet.countGenuineMarkers() + ")";
 
 		dataSet.setName(name);
 	}

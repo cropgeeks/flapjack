@@ -164,7 +164,7 @@ public class CreateProjectBatch
 		if (dataSetName != null)
 			pio.setName(dataSetName);
 		else
-			pio.setName(projectFile.getFile());
+			pio.setName(projectFile.getFile(), null);
 
 		project.addDataSet(dataSet);
 	}

@@ -138,7 +138,7 @@ public class CreateProject
 		if (options.getDatasetName() != null)
 			pio.setName(options.getDatasetName());
 		else if (options.getProject() != null)
-			pio.setName(options.getProject().getFile());
+			pio.setName(options.getProject().getFile(), null);
 
 		project.addDataSet(dataSet);
 	}

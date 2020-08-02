@@ -33,7 +33,7 @@ public class BrapiClient
 	private XmlResource resource;
 
 	private String username, password;
-	private String mapID, studyID, variantSetID;
+	private String mapID, studyID, variantSetID, variantSetName;
 	private long totalMarkers, totalLines;
 	private String ioMissingData, ioHeteroSeparator;
 
@@ -523,6 +523,12 @@ public class BrapiClient
 
 	public void setVariantSetID(String variantSetID)
 		{ this.variantSetID = variantSetID; }
+
+	public String getVariantSetName()
+		{ return variantSetName; }
+
+	public void setVariantSetName(String variantSetName)
+		{ this.variantSetName = variantSetName; }
 
 	public long getTotalMarkers()
 	{
