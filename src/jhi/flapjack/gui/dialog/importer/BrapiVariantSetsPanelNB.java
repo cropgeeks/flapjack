@@ -49,6 +49,8 @@ class BrapiVariantSetsPanelNB extends JPanel implements IBrapiWizard
 			client.setTotalLines(sampleCount);
 			client.setTotalMarkers(markerCount);
 
+			dialog.enableNext(sampleCount > 0 || markerCount > 0);
+
 			String[] columnNames = { "Field", "Description" };
 			Object[][] data = {
 				{ RB.getString("gui.dialog.importer.BrapiVariantsSetsPanelNB.matrixId"),
@@ -77,7 +79,7 @@ class BrapiVariantSetsPanelNB extends JPanel implements IBrapiWizard
 			lblSize.setText("");
 		}
 
-		dialog.enableNext(index >= 0);
+//		dialog.enableNext(index >= 0);
 	}
 
 	public boolean refreshData()
