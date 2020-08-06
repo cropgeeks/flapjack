@@ -351,13 +351,13 @@ public class BrapiClient
 		TokenPager pager = new TokenPager();
 
 		int page = 0;
-		while (pager.isPaging())
+		while (pager.isPaging() && isOk)
 		{
 			// Be VERY careful here with the page token pagination method
 			// We only have the *current* page's infomation, so the next page we
 			// need to ask for is pager.getNextPageToken() even though the
 			// method parameter itself is just called pageToken
-			Response<BrapiMasterDetailResourcePageToken<CallSetCalls>> response = service.getVariantSetCalls(studyID, pager.getPageSize(), pager.getNextPageToken())
+			Response<BrapiMasterDetailResourcePageToken<CallSetCalls>> response = service.getVariantSetCalls(variantSetID, pager.getPageSize(), pager.getNextPageToken())
 				.execute();
 
 			if (response.isSuccessful())
