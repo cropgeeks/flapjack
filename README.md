@@ -1,3 +1,7 @@
+
+![GitHub](https://img.shields.io/github/license/cropgeeks/flapjack?style=flat-square)
+![GitHub last commit](https://img.shields.io/github/last-commit/cropgeeks/flapjack?style=flat-square)
+
 # Flapjack
 
 Flapjack is a multi-platform application providing interactive visualizations of high-throughput genotype data, allowing for rapid navigation and comparisons between lines, markers and chromosomes.
