@@ -24,7 +24,8 @@ public class LineDataTableBatchExporter extends SimpleJob
 
 	private DecimalFormat df;
 
-	private String[] extraCols = { "col1", "col2", "col3" };
+	// TODO: Need details from Liz
+	private String[] extraCols = null; //{ "col1", "col2", "col3" };
 
 	public LineDataTableBatchExporter(ArrayList<LineDataTable> tables, File file, int exportType, boolean exportTraits)
 	{
@@ -129,7 +130,7 @@ public class LineDataTableBatchExporter extends SimpleJob
 					builder.append(t.tableValue() == null ? "" : t.tableValue());
 				}
 			}
-			
+
 			if (extraCols != null)
 				for (String col: extraCols)
 					builder.append("\t");
