@@ -18,7 +18,7 @@ public class IFBTableModel extends LineDataTableModel
 	private int qtlCount;
 	private int mkrCount;
 	private int selectedIndex, rankIndex, commentIndex, sortIndex;
-	private int qtlIndex, mkrIndex, mbvIndex, wmbvIndex;
+	private int qtlIndex, mkrIndex, mbvCountIndex, mbvIndex, wmbvIndex;
 
 	public IFBTableModel(GTViewSet viewSet)
 	{
@@ -42,7 +42,8 @@ public class IFBTableModel extends LineDataTableModel
 
 		qtlIndex = 1;
 		mkrIndex = qtlIndex + qtlCount;
-		mbvIndex = mkrIndex + mkrCount;
+		mbvCountIndex = mkrIndex + mkrCount;
+		mbvIndex = mbvCountIndex + 1;
 		wmbvIndex = mbvIndex + 1;
 
 		selectedIndex = wmbvIndex + 1;
@@ -65,6 +66,7 @@ public class IFBTableModel extends LineDataTableModel
 			columnNames[i] = markers.get(i-mkrIndex).getMarkerName();
 
 		// MBV/wMBV
+		columnNames[mbvCountIndex] = "# QTLs used for MBV";
 		columnNames[mbvIndex] = "Molecular Breeding Value";
 		columnNames[wmbvIndex] = "Weighted Molecular Breeding Value";
 
@@ -115,19 +117,22 @@ public class IFBTableModel extends LineDataTableModel
 		else if (stats.getMkrScores().size() > 0 && col >= mkrIndex && col < mkrIndex+mkrCount)
 			return stats.getMkrScores().get(col-mkrIndex).getMarkerAlleles(st);
 
+		else if (col == mbvCountIndex)
+			return stats.getQtlsUsedForMBV();
+
 		else if (col == mbvIndex)
 		{
-			if (stats.isMbvValid())
+//			if (stats.isMbvValid())
 				return stats.getMbvTotal();
-			else
-				return Double.NaN;
+//			else
+//				return Double.NaN;
 		}
 		else if (col == wmbvIndex)
 		{
-			if (stats.isMbvValid())
+//			if (stats.isMbvValid())
 				return stats.getWmbvTotal();
-			else
-				return Double.NaN;
+//			else
+//				return Double.NaN;
 		}
 
 		// For everything else, don't show entries if stats object null

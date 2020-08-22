@@ -157,17 +157,26 @@ public class IFBAnalysis extends SimpleJob
 				// If we managed to calculate an MBV, add the score object to the
 				// separate list tracking just those QTLs with scores
 				if (calculateMolecularBreedingValue(qtlScore))
+				{
 					result.getMbvScores().add(qtlScore);
 
-				mbvTotal += qtlScore.getMolecularBreedingValue();
-				wmbvTotal += qtlScore.getWeightedMolecularBreedingValue();
+					mbvTotal += qtlScore.getMolecularBreedingValue();
+					wmbvTotal += qtlScore.getWeightedMolecularBreedingValue();
+				}
 			}
 
 			boolean mbvValid = true;
+			// Keeps track of how many QTL were used to calculate the MBV
+			int qtlsUsedForMBV = 0;
 			for (IFBQTLScore qtlScore: result.getMbvScores())
+			{
 				if (qtlScore.getRefAlleleMatchCount() == -1)
 					mbvValid = false;
+				else
+					qtlsUsedForMBV++;
+			}
 
+			result.setQtlsUsedForMBV(qtlsUsedForMBV);
 			result.setMbvValid(mbvValid);
 			result.setMbvTotal(mbvTotal);
 			result.setWmbvTotal(wmbvTotal);
@@ -306,6 +315,7 @@ public class IFBAnalysis extends SimpleJob
 		}
 
 		qtlScore.setMolecularBreedingValue(mbv);
+//		System.out.println("mbv is " + mbv);
 
 		// Step 6 for weighted MBV:
 		double wMBV = mbv * props.getRelWeight();

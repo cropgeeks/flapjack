@@ -24,6 +24,10 @@ public class IFBResult extends XMLRoot
 	private double mbvTotal;
 	private double wmbvTotal;
 
+	// A count of how many valid QTLs were used to get the MBV - this might not
+	// be the same as mbvScores.size() as some of them could be NaN
+	private int qtlsUsedForMBV;
+
 	public IFBResult()
 	{
 	}
@@ -63,4 +67,10 @@ public class IFBResult extends XMLRoot
 
 	public void setWmbvTotal(double wmbvTotal)
 		{ this.wmbvTotal = wmbvTotal; }
+
+	public int getQtlsUsedForMBV()
+		{ return qtlsUsedForMBV; }
+
+	public void setQtlsUsedForMBV(int qtlsUsedForMBV)
+		{ this.qtlsUsedForMBV = qtlsUsedForMBV; }
 }
