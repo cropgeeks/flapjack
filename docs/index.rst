@@ -78,6 +78,7 @@ For more information on Flapjack, or to download the application, please visit t
    preferences
    tips_&_shortcuts
    command_line_support
+   allocating_memory
    
 
 .. _Flapjack web site: https://ics.hutton.ac.uk/flapjack
