@@ -138,6 +138,7 @@ public class IFBAnalysis extends SimpleJob
 
 			// Sum up the MBV and wMBV as we go along
 			double mbvTotal = 0, wmbvTotal = 0;
+			double mbvTotal2 = 0, wmbvTotal2 = 0;
 
 //			System.out.println("\nLine: " + line.name());
 			for (IFBQTLScore qtlScore: result.getQtlScores())
@@ -160,9 +161,12 @@ public class IFBAnalysis extends SimpleJob
 				{
 					result.getMbvScores().add(qtlScore);
 
-					mbvTotal += qtlScore.getMolecularBreedingValue();
-					wmbvTotal += qtlScore.getWeightedMolecularBreedingValue();
+					mbvTotal2 += qtlScore.getMolecularBreedingValue();
+					wmbvTotal2 += qtlScore.getWeightedMolecularBreedingValue();
 				}
+
+				mbvTotal += qtlScore.getMolecularBreedingValue();
+				wmbvTotal += qtlScore.getWeightedMolecularBreedingValue();
 			}
 
 			boolean mbvValid = true;
@@ -176,10 +180,22 @@ public class IFBAnalysis extends SimpleJob
 					qtlsUsedForMBV++;
 			}
 
+			// Molecular Breeding Value (Non missing): as new version but want adjust for number of QTLs
+			//   Molecular Breeding value / no of total QTL non-missing data)*number of QTL in the model
+			// This needs to count all (eventual) columns that will be displayed
+			int qtlCount = result.getQtlScores().size() + result.getMkrScores().size();
+			mbvTotal2 = mbvTotal2 / qtlsUsedForMBV * qtlCount;
+			// Weighted Molecular Breeding Value (Non-missing): as new version but want adjust for number of QTLs
+			//   Weighted Molecular Breeding value / no of total QTL non-missing data)*number of QTL in the model
+			wmbvTotal2 = wmbvTotal2 / qtlsUsedForMBV * qtlCount;
+
+
 			result.setQtlsUsedForMBV(qtlsUsedForMBV);
 			result.setMbvValid(mbvValid);
 			result.setMbvTotal(mbvTotal);
+			result.setMbvTotal2(mbvTotal2);
 			result.setWmbvTotal(wmbvTotal);
+			result.setWmbvTotal2(wmbvTotal2);
 
 //			System.out.println("");
 //			System.out.println("Sum_MBV:  " + result.getMbvTotal());

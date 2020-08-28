@@ -23,6 +23,9 @@ public class IFBResult extends XMLRoot
 	// Holds sums of MBV/wMBV across all QTL
 	private double mbvTotal;
 	private double wmbvTotal;
+	// Holds sums of MBV/wMBV adjusted for QTL with no missing data
+	private double mbvTotal2;
+	private double wmbvTotal2;
 
 	// A count of how many valid QTLs were used to get the MBV - this might not
 	// be the same as mbvScores.size() as some of them could be NaN
@@ -67,6 +70,18 @@ public class IFBResult extends XMLRoot
 
 	public void setWmbvTotal(double wmbvTotal)
 		{ this.wmbvTotal = wmbvTotal; }
+
+	public double getMbvTotal2()
+		{ return mbvTotal2; }
+
+	public void setMbvTotal2(double mbvTotal2)
+		{ this.mbvTotal2 = mbvTotal2; }
+
+	public double getWmbvTotal2()
+		{ return wmbvTotal2; }
+
+	public void setWmbvTotal2(double wmbvTotal2)
+		{ this.wmbvTotal2 = wmbvTotal2; }
 
 	public int getQtlsUsedForMBV()
 		{ return qtlsUsedForMBV; }

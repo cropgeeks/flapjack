@@ -19,6 +19,7 @@ public class IFBTableModel extends LineDataTableModel
 	private int mkrCount;
 	private int selectedIndex, rankIndex, commentIndex, sortIndex;
 	private int qtlIndex, mkrIndex, mbvCountIndex, mbvIndex, wmbvIndex;
+	private int mbvIndex2, wmbvIndex2;
 
 	public IFBTableModel(GTViewSet viewSet)
 	{
@@ -42,11 +43,14 @@ public class IFBTableModel extends LineDataTableModel
 
 		qtlIndex = 1;
 		mkrIndex = qtlIndex + qtlCount;
-		mbvCountIndex = mkrIndex + mkrCount;
-		mbvIndex = mbvCountIndex + 1;
-		wmbvIndex = mbvIndex + 1;
 
-		selectedIndex = wmbvIndex + 1;
+		mbvIndex = mkrIndex + mkrCount;
+		wmbvIndex = mbvIndex + 1;
+		mbvCountIndex = wmbvIndex + 1;
+		mbvIndex2 = mbvCountIndex + 1;
+		wmbvIndex2 = mbvIndex2 + 1;
+
+		selectedIndex = wmbvIndex2 + 1;
 		rankIndex = selectedIndex + 1;
 		commentIndex = rankIndex + 1;
 		sortIndex = commentIndex + 1;
@@ -66,9 +70,11 @@ public class IFBTableModel extends LineDataTableModel
 			columnNames[i] = markers.get(i-mkrIndex).getMarkerName();
 
 		// MBV/wMBV
-		columnNames[mbvCountIndex] = "# QTLs used for MBV";
 		columnNames[mbvIndex] = "Molecular Breeding Value";
 		columnNames[wmbvIndex] = "Weighted Molecular Breeding Value";
+		columnNames[mbvCountIndex] = "# QTLs used for MBV";
+		columnNames[mbvIndex2] = "Molecular Breeding Value (Non Missing)";
+		columnNames[wmbvIndex2] = "Weighted Molecular Breeding Value (Non Missing)";
 
 		columnNames[selectedIndex] = RB.getString("gui.ifb.IFBTableModel.selected");
 		columnNames[rankIndex] = RB.getString("gui.ifb.IFBTableModel.rank");
@@ -122,18 +128,22 @@ public class IFBTableModel extends LineDataTableModel
 
 		else if (col == mbvIndex)
 		{
-//			if (stats.isMbvValid())
+			if (stats.isMbvValid())
 				return stats.getMbvTotal();
-//			else
-//				return Double.NaN;
+			else
+				return Double.NaN;
 		}
 		else if (col == wmbvIndex)
 		{
-//			if (stats.isMbvValid())
+			if (stats.isMbvValid())
 				return stats.getWmbvTotal();
-//			else
-//				return Double.NaN;
+			else
+				return Double.NaN;
 		}
+		else if (col == mbvIndex2)
+			return stats.getMbvTotal2();
+		else if (col == wmbvIndex2)
+			return stats.getWmbvTotal2();
 
 		// For everything else, don't show entries if stats object null
 		if (stats == null)
