@@ -193,7 +193,7 @@ public class QTLImporter extends SimpleJob
 
 			// Its name and chromosome
 			QTL qtl = new QTL(new String(tokens[0]));
-			String cName = tokens[1];
+			String cName = tokens[1].trim();
 
 			// Position values
 			// Position values
@@ -269,7 +269,7 @@ public class QTLImporter extends SimpleJob
 			String mkrName = null;
 			for (int t = 0; t < tokens.length; t++)
 				if (headers[t].toLowerCase().equals("marker_name"))
-					mkrName = new String(tokens[t]);
+					mkrName = new String(tokens[t].trim());
 
 			if (mkrName == null)
 				continue;
@@ -304,7 +304,7 @@ public class QTLImporter extends SimpleJob
 			String mkrGroupName = null;
 			for (int t = 0; t < tokens.length; t++)
 				if (headers[t].toLowerCase().equals("marker_group_name"))
-					mkrGroupName = new String(tokens[t]);
+					mkrGroupName = new String(tokens[t].trim());
 
 			if (mkrGroupName == null)
 				continue;
@@ -346,17 +346,19 @@ public class QTLImporter extends SimpleJob
 			// For all remaining (optional) columns:
 			for (int t = 0; t < tokens.length; t++)
 			{
+				String TOKEN = tokens[t].trim();
+
 				if (headers[t].toLowerCase().equals("germplasm_group"))
-					properties.setGermplasmGroup(new String(tokens[t]));
+					properties.setGermplasmGroup(new String(TOKEN));
 
 				else if (headers[t].toLowerCase().equals("platform"))
-					properties.setPlatform(new String(tokens[t]));
+					properties.setPlatform(new String(TOKEN));
 
 				else if (headers[t].toLowerCase().equals("unfav_allele") || headers[t].toLowerCase().equals("unfavorable_alleles"))
 				{
 					ArrayList<Integer> unfavIndices = new ArrayList<>();
 					// Split out the comma-delimited string (removing whitespace too)
-					String[] unfavAlleles = tokens[t].replaceAll("\\s+", "").split(",");
+					String[] unfavAlleles = TOKEN.replaceAll("\\s+", "").split(",");
 					// This now uses 'new' code in StateTable that will add any missing
 					// QTL states; deals with Kate's situations with low density data
 					// that didn't contain all states, so QTL favAlleles were not found
@@ -372,31 +374,31 @@ public class QTLImporter extends SimpleJob
 
 				else if (headers[t].toLowerCase().equals("trait_allele_name_ref"))
 				{
-					if (tokens[t].isBlank() == false)
-						properties.setAlleleName(new String(tokens[t]));
+					if (TOKEN.isBlank() == false)
+						properties.setAlleleName(new String(TOKEN.trim()));
 				}
 
 				else if (headers[t].toLowerCase().equals("trait_allele_name_alt"))
 				{
-					if (tokens[t].isBlank() == false)
-						properties.setAlleleNameAlt(new String(tokens[t]));
+					if (TOKEN.isBlank() == false)
+						properties.setAlleleNameAlt(new String(TOKEN.trim()));
 				}
 
 				else if (headers[t].toLowerCase().equals("breeding_value"))
-					properties.setBreedingValue(tokens[t].equalsIgnoreCase("yes"));
+					properties.setBreedingValue(TOKEN.equalsIgnoreCase("yes"));
 
 				else if (headers[t].toLowerCase().equals("model"))
 				{
-					if (tokens[t].equalsIgnoreCase("additive"))
+					if (TOKEN.equalsIgnoreCase("additive"))
 						properties.setModel(MarkerProperties.ADDITIVE);
-					else if (tokens[t].equalsIgnoreCase("dominant"))
+					else if (TOKEN.equalsIgnoreCase("dominant"))
 						properties.setModel(MarkerProperties.DOMINANT);
 				}
 
 				else if (headers[t].toLowerCase().equals("substitution_effect"))
 				{
 					try {
-						properties.setSubEffect(nf.parse(tokens[t]).doubleValue());
+						properties.setSubEffect(nf.parse(TOKEN).doubleValue());
 						hasSubEffect = true;
 					}
 					catch (Exception e) {}
@@ -405,7 +407,7 @@ public class QTLImporter extends SimpleJob
 				else if (headers[t].toLowerCase().equals("relative_weight"))
 				{
 					try {
-						properties.setRelWeight(nf.parse(tokens[t]).doubleValue());
+						properties.setRelWeight(nf.parse(TOKEN).doubleValue());
 						hasRelWeight = true;
 					}
 					catch (Exception e) {}
