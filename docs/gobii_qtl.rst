@@ -11,15 +11,15 @@ As with all Flapjack input files, the formatting is tab-delimited and looks as f
 ::
 
  # fjFile = QTL-GOBii
- marker_group_name   germplasm_group   marker_name   platform   fav_allele   unfav_allele   trait_allele_name_ref   priority_marker   breeding_value   model     substitution_effect   relative_weight
- QGpc.cd1-2B.1                         QGpc.cd1-2B.1 KASP       A                           +                       YES               YES              Additive  2.1                   0.4
- QGpc.cd1-7B.2                         QGpc.cd1-7B.2 KASP       G                           +                       YES               YES              Dominant  1.3                   0.4
- Sb3                                   gwp2334       KASP       T                           +                       NO                YES              Additive  -1.4                  0.2
- Sb3                                   gwp2343       KASP       G                           +                       YES               YES              Additive  -1.4                  0.2
- Sb3                                   gwp1223       KASP       C                           +                       NO                YES              Additive  -1.4                  0.2
- Lr68                                  gwp45542      KASP       C                           +                       YES               NO               NA        NA                    NA
- Lr68                                  gwp44341      KASP       T                           +                       NO                NO               NA        NA                    NA
- Yr7                                   gwp45565      KASP       G                           Yr7                     YES               NO               NA        NA                    NA
+ marker_group_name   marker_name     germplasm_group   platform   fav_allele   unfav_allele   fav_allele_trait_name   unfav_allele_trait_name   breeding_value   model      substitution_effect   relative_weight
+ QGpc.cd1-2B.1       QGpc.cd1-2B.1                     KASP       A                           +                                                 YES              Additive   2.1                   0.4
+ QGpc.cd1-7B.2       QGpc.cd1-7B.2                     KASP       G                           +                                                 YES              Dominant   1.3                   0.4
+ Sb3                 gwp2334                           KASP       T                           +                                                 NO               Additive   -1.4                  0.2
+ Sb3                 gwp2343                           KASP       G                           +                                                 YES              Additive   -1.4                  0.2
+ Sb3                 gwp1223                           KASP       C                           +                                                 NO               Additive   -1.4                  0.2
+ Lr68                gwp45542                          KASP       C                           +                                                 YES              NA         NA                    NA
+ Lr68                gwp44341                          KASP       T                           +                                                 NO               NA         NA                    NA
+ Yr7                 gwp45565                          KASP       G                           Yr7                                               YES              NA         NA                    NA
 
 There are three **required** columns:
 
@@ -32,7 +32,8 @@ All other columns are optional, but if provided, can be used as input parameters
 - **germplasm_group** - currently unused by Flapjack, defines the germplasm group this marker belongs to
 - **platform** - currently unused by Flapjack, defines the technology used to create this marker
 - **unfav_allele** - (or **unfavorable_alleles**)
-- **trait_allele_name_ref** - 
+- **fav_allele_trait_name** - 
+- **unfav_allele_trait_name** - 
 - **breeding_value** -
 - **model** -
 - **substitution_effect** -

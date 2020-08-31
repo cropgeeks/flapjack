@@ -372,13 +372,13 @@ public class QTLImporter extends SimpleJob
 					}
 				}
 
-				else if (headers[t].toLowerCase().equals("trait_allele_name_ref"))
+				else if (headers[t].toLowerCase().equals("fav_allele_trait_name"))
 				{
 					if (TOKEN.isBlank() == false)
 						properties.setAlleleName(new String(TOKEN.trim()));
 				}
 
-				else if (headers[t].toLowerCase().equals("trait_allele_name_alt"))
+				else if (headers[t].toLowerCase().equals("unfav_allele_trait_name"))
 				{
 					if (TOKEN.isBlank() == false)
 						properties.setAlleleNameAlt(new String(TOKEN.trim()));
