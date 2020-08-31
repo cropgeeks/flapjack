@@ -182,8 +182,10 @@ public class IFBAnalysis extends SimpleJob
 
 			// Molecular Breeding Value (Non missing): as new version but want adjust for number of QTLs
 			//   Molecular Breeding value / no of total QTL non-missing data)*number of QTL in the model
-			// This needs to count all (eventual) columns that will be displayed
-			int qtlCount = result.getQtlScores().size() + result.getMkrScores().size();
+			// if needed to count all (eventual) columns that will be displayed, then re-add commented out section
+			int qtlCount = result.getQtlScores().size(); // + result.getMkrScores().size();
+
+
 			mbvTotal2 = mbvTotal2 / qtlsUsedForMBV * qtlCount;
 			// Weighted Molecular Breeding Value (Non-missing): as new version but want adjust for number of QTLs
 			//   Weighted Molecular Breeding value / no of total QTL non-missing data)*number of QTL in the model
