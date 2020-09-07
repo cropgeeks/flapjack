@@ -255,10 +255,17 @@ public class QTLImporter extends SimpleJob
 			if (headers == null)
 			{
 				headers = str.split("\t", -1);
+				// Trim the headers
+				for (int h = 0; h < headers.length; h++)
+					headers[h] = headers[h].trim();
+
 				continue;
 			}
 
 			String[] tokens = str.split("\t", -1);
+			// Trim the tokens
+			for (int t = 0; t < tokens.length; t++)
+				tokens[t] = tokens[t].trim();
 
 			// Fail if the data per line doesn't match the expected number
 			if (tokens.length < 3)
@@ -269,7 +276,7 @@ public class QTLImporter extends SimpleJob
 			String mkrName = null;
 			for (int t = 0; t < tokens.length; t++)
 				if (headers[t].toLowerCase().equals("marker_name"))
-					mkrName = new String(tokens[t].trim());
+					mkrName = new String(tokens[t]);
 
 			if (mkrName == null)
 				continue;
@@ -304,7 +311,7 @@ public class QTLImporter extends SimpleJob
 			String mkrGroupName = null;
 			for (int t = 0; t < tokens.length; t++)
 				if (headers[t].toLowerCase().equals("marker_group_name"))
-					mkrGroupName = new String(tokens[t].trim());
+					mkrGroupName = new String(tokens[t]);
 
 			if (mkrGroupName == null)
 				continue;
@@ -346,7 +353,7 @@ public class QTLImporter extends SimpleJob
 			// For all remaining (optional) columns:
 			for (int t = 0; t < tokens.length; t++)
 			{
-				String TOKEN = tokens[t].trim();
+				String TOKEN = tokens[t];
 
 				if (headers[t].toLowerCase().equals("germplasm_group"))
 					properties.setGermplasmGroup(new String(TOKEN));
@@ -375,13 +382,13 @@ public class QTLImporter extends SimpleJob
 				else if (headers[t].toLowerCase().equals("fav_allele_trait_name"))
 				{
 					if (TOKEN.isBlank() == false)
-						properties.setAlleleName(new String(TOKEN.trim()));
+						properties.setAlleleName(new String(TOKEN));
 				}
 
 				else if (headers[t].toLowerCase().equals("unfav_allele_trait_name"))
 				{
 					if (TOKEN.isBlank() == false)
-						properties.setAlleleNameAlt(new String(TOKEN.trim()));
+						properties.setAlleleNameAlt(new String(TOKEN));
 				}
 
 				else if (headers[t].toLowerCase().equals("breeding_value"))
