@@ -319,15 +319,18 @@ public class IFBAnalysis extends SimpleJob
 
 //		System.out.println("  props.getSubEffect()=" + props.getSubEffect() + ", props.getRelWeight()=" + props.getRelWeight());
 
+		// Make any substitution effects positive
+		double subEffect = Math.abs(props.getSubEffect());
+
 		// If the model is ADDITIVE, multiple doseage by substitution effect
 		if (props.getModel() == MarkerProperties.ADDITIVE)
-			mbv = (double) qtlScore.getRefAlleleMatchCount() * props.getSubEffect();
+			mbv = (double) qtlScore.getRefAlleleMatchCount() * subEffect;
 
 		// If not, recode dosage >0 as 2 before multiplying
 		else
 		{
 			if (qtlScore.getRefAlleleMatchCount() > 0)
-				mbv = 2d * props.getSubEffect();
+				mbv = 2d * subEffect;
 			else
 				mbv = 0;
 		}
