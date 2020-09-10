@@ -67,32 +67,32 @@ public class IFBSummary extends XMLRoot
 		return selectedCount / (float)familySize;
 	}
 
-	public double minMBVSelected()
+	public double minWeightedMBVSelected()
 	{
 		return lines.stream()
 			.filter(LineInfo::getSelected)
 			.filter(li -> li.getLineResults().getIFBResult().isMbvValid())
-			.mapToDouble(li -> li.getLineResults().getIFBResult().getMbvTotal())
+			.mapToDouble(li -> li.getLineResults().getIFBResult().getWmbvTotal())
 			.min()
 			.orElse(Double.NaN);
 	}
 
-	public double maxMBVSelected()
+	public double maxWeightedMBVSelected()
 	{
 		return lines.stream()
 			.filter(LineInfo::getSelected)
 			.filter(li -> li.getLineResults().getIFBResult().isMbvValid())
-			.mapToDouble(li -> li.getLineResults().getIFBResult().getMbvTotal())
+			.mapToDouble(li -> li.getLineResults().getIFBResult().getWmbvTotal())
 			.max()
 			.orElse(Double.NaN);
 	}
 
-	public double avgMBVSelected()
+	public double avgWeightedMBVSelected()
 	{
 		return lines.stream()
 			.filter(LineInfo::getSelected)
 			.filter(li -> li.getLineResults().getIFBResult().isMbvValid())
-			.mapToDouble(li -> li.getLineResults().getIFBResult().getMbvTotal())
+			.mapToDouble(li -> li.getLineResults().getIFBResult().getWmbvTotal())
 			.average()
 			.orElse(Double.NaN);
 	}
