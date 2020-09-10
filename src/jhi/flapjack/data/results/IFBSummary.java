@@ -96,4 +96,32 @@ public class IFBSummary extends XMLRoot
 			.average()
 			.orElse(Double.NaN);
 	}
+
+	// Same as the above, but this time on Non Missing (NM) data
+	public double minWeightedMBVSelectedNM()
+	{
+		return lines.stream()
+			.filter(LineInfo::getSelected)
+			.mapToDouble(li -> li.getLineResults().getIFBResult().getWmbvTotal2())
+			.min()
+			.orElse(Double.NaN);
+	}
+
+	public double maxWeightedMBVSelectedNM()
+	{
+		return lines.stream()
+			.filter(LineInfo::getSelected)
+			.mapToDouble(li -> li.getLineResults().getIFBResult().getWmbvTotal2())
+			.max()
+			.orElse(Double.NaN);
+	}
+
+	public double avgWeightedMBVSelectedNM()
+	{
+		return lines.stream()
+			.filter(LineInfo::getSelected)
+			.mapToDouble(li -> li.getLineResults().getIFBResult().getWmbvTotal2())
+			.average()
+			.orElse(Double.NaN);
+	}
 }
