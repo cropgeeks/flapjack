@@ -4,6 +4,7 @@
 package jhi.flapjack.data.results;
 
 import java.util.*;
+import java.util.stream.*;
 
 import jhi.flapjack.data.*;
 
@@ -123,5 +124,37 @@ public class IFBSummary extends XMLRoot
 			.mapToDouble(li -> li.getLineResults().getIFBResult().getWmbvTotal2())
 			.average()
 			.orElse(Double.NaN);
+	}
+
+	// Provides the proportion of:
+	//  - selected lines
+	//  - where the QTL (in question), has a refAlleleMatchCount > 0
+	public double getQTLFreq(String qtlName)
+	{
+		List<LineInfo> selectedLines = lines.stream()
+            .filter(LineInfo::getSelected)
+            .collect(Collectors.toList());
+
+		// Total number of selected lines
+		double total = selectedLines.size();
+
+		// Count of (those) lines having positive allele match to reference
+		double count = selectedLines.stream()
+            .filter(li -> {
+            	IFBQTLScore r = li.getLineResults().getIFBResult().qtlScoreByByName(qtlName);
+            	return r == null ? false : r.getRefAlleleMatchCount() > 0;
+            })
+            .count();
+
+		// Return as a proportion
+		return count / total;
+
+
+//		return lines.stream()
+//			.filter(LineInfo::getSelected)
+//			.filter(li -> li.getLineResults().getIFBResult().qtlScoreByByName(qtlName) != null)
+//			.filter(li -> li.getLineResults().getIFBResult().qtlScoreByByName(qtlName).getRefAlleleMatchCount() > 0)
+//			.count();
+
 	}
 }

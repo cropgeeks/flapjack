@@ -88,4 +88,14 @@ public class IFBResult extends XMLRoot
 
 	public void setQtlsUsedForMBV(int qtlsUsedForMBV)
 		{ this.qtlsUsedForMBV = qtlsUsedForMBV; }
+
+	// Attempts to return the IFBQTLScore object that matches the given QTL name
+	public IFBQTLScore qtlScoreByByName(String name)
+	{
+		for (IFBQTLScore score: qtlScores)
+			if (score.getQtl().getName().equals(name))
+				return score;
+
+		return null;
+	}
 }
