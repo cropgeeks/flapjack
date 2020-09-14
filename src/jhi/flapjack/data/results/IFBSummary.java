@@ -131,6 +131,14 @@ public class IFBSummary extends XMLRoot
 	//  - where the QTL (in question), has a refAlleleMatchCount > 0
 	public double getQTLFreq(String qtlName)
 	{
+		// Get the index of the QTL for this dataset
+		// This makes it faster when iterating over all lines (below) as we
+		// don't need to search for it every time
+		int index = lines.get(0).getLineResults().getIFBResult().qtlScoreIndexByName(qtlName);
+
+		if (index == -1)
+			return Double.NaN;
+
 		List<LineInfo> selectedLines = lines.stream()
 			.filter(LineInfo::getSelected)
 			.collect(Collectors.toList());
@@ -141,7 +149,7 @@ public class IFBSummary extends XMLRoot
 		// Count of (those) lines having positive allele match to reference
 		double count = selectedLines.stream()
 			.filter(li -> {
-				IFBQTLScore r = li.getLineResults().getIFBResult().qtlScoreByByName(qtlName);
+				IFBQTLScore r = li.getLineResults().getIFBResult().getQtlScores().get(index);
 				return r == null ? false : r.getRefAlleleMatchCount() > 0;
 			})
 			.count();
