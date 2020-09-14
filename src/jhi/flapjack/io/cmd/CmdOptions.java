@@ -35,7 +35,7 @@ class CmdOptions extends Options
 	CmdOptions withAdvancedOptions()
 	{
 		addOption("A", "all-chromosomes", false, "Duplicate all markers onto a single All Chromosomes chromosome for side-by-side viewing");
-		addOption("C", "collapse-heteozygotes", false, "Don't distinguish between heterozygous alleles (eg treat A/T the same as T/A)");
+		addOption("K", "skip-collapsing-heteozygotes", false, "Don't collapse heterozygous alleles (eg treat A/T different from T/A)");
 		addOption("S", "heterozygous-separator", true, "The string used to separate heterozygous alleles (default is \"/\" or use \"\" for no separator)");
 		addOption("M", "missing-data", true, "The string used to represent missing data (default is \"-\" or use \"\" for empty string)");
 		addOption("T", "transposed", false, "Genotype data is transposed compared to Flapjack's default");
@@ -65,7 +65,7 @@ class CmdOptions extends Options
 		settings.setForceNucScheme(line.hasOption("nucleotide-scheme"));
 		settings.setDecimalEnglish(line.hasOption("decimal-english"));
 		settings.setTransposed(line.hasOption("transposed"));
-		settings.setCollapseHeteozygotes(!line.hasOption("collapse-heteozygotes"));
+		settings.setCollapseHeteozygotes(!line.hasOption("skip-collapsing-heteozygotes"));
 
 		return settings;
 	}

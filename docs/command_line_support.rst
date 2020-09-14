@@ -19,7 +19,7 @@ These options can be used (where they make sense) with the command line programs
 ::
 
  -A, --all-chromosomes		duplicate all markers onto a single All Chromosomes chromosome for side-by-side viewing
- -C, --collapse-heteozygotes	don't distinguish between heterozygous alleles (eg treat A/T the same as T/A)
+ -K, --skip-collapsing-heteozygotes		don't collapse heterozygous alleles (eg treat A/T different from T/A)
  -S, --heterozygous-separator	the string used to separate heterozygous alleles (default is / or use "" for no separator
  -M, --missing-data		the string used to represent missing data (default is - or use "" for empty string
  -T, --transposed		genotype data is transposed compared to Flapjack's default
@@ -142,8 +142,9 @@ For example:
  createf1.exe -g sampleinputs.txt -1 1 -2 2 -o f1.txt
  
  
- splitproject.exe (jhi.flapjack.io.cmd.SplitProject)
-----------------------------------------------------
+
+splitproject.exe (jhi.flapjack.io.cmd.SplitProject)
+---------------------------------------------------
 
 This program can be used to take an existing .flapjack project file and filter out the raw data again as a collection of tab-delimited plain text files.
 
