@@ -60,7 +60,7 @@ public class IFBSummaryTableModel extends SummaryTableModel
 		// Dynamic columns (ie, they change based on the QTL that were analysed)
 		int cIndex = COLCOUNT;
 		for (String key: qtlNames)
-			columnNames[cIndex++] = key;
+			columnNames[cIndex++] = key + " (FIFA)";
 	}
 
 	public IFBBatchList getBatchList()
