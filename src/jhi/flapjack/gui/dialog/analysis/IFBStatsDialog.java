@@ -68,13 +68,13 @@ public class IFBStatsDialog extends JDialog implements ActionListener
 		bCancel = new JButton(RB.getString("gui.text.cancel"));
 		bCancel.addActionListener(this);
 
-//		bHelp = new JButton(RB.getString("gui.text.help"));
-//		FlapjackUtils.setHelp(bHelp, "pedver_f1s_known_parents.html");
+		bHelp = new JButton(RB.getString("gui.text.help"));
+		FlapjackUtils.setHelp(bHelp, "ifb.html");
 
 		JPanel p1 = new DialogPanel();
 		p1.add(bOK);
 		p1.add(bCancel);
-//		p1.add(bHelp);
+		p1.add(bHelp);
 
 		return p1;
 	}
@@ -107,9 +107,13 @@ public class IFBStatsDialog extends JDialog implements ActionListener
 	{
 		JPanel panel = new JPanel();
 		panel.setBorder(BorderFactory.createEmptyBorder(10,5,10,5));
-		JLabel label = new JLabel("<html><p>Indexed ForwardBreeding will...</p><p>&nbsp;</p><p>"
-			+ "You can either run a single analysis that will process only the currently selected view, or a<br>"
-			+ "batch analysis that will calculate statistics for all datasets and views currently loaded.</p></html>");
+		JLabel label = new JLabel("<html><p>This analysis calculates breeding "
+			+ "value and weight breeding value (index) along with named<br> QTL / "
+			+ "gene genotypes from the provided genotypic data.</p><p>&nbsp;</p><p>"
+			+ "You can either run a single analysis that will process only the "
+			+ "currently selected view, or a<br>batch analysis that will "
+			+ "calculate statistics for all datasets and views currently "
+			+ "loaded.</p></html>");
 
 		panel.add(label);
 		return panel;
