@@ -1,6 +1,9 @@
 Indexed Forward Breeding
 ========================
 
+.. warning::
+  The information on this page refers to an as yet unreleased version of Flapjack.
+
 This analysis calculates breeding value and weighted breeding value (indexed) along with named QTL/gene genotypes from the provided genotypic data.
 
 In addition to genotype data, you must provide additional input parameters formatted as a :doc:`gobii_qtl` input file. A map file is optional for this analysis.
