@@ -327,12 +327,20 @@ public class IFBAnalysis extends SimpleJob
 			mbv = (double) qtlScore.getRefAlleleMatchCount() * subEffect;
 
 		// If not, recode dosage >0 as 2 before multiplying
-		else
+		else if (props.getModel() == MarkerProperties.DOMINANT)
 		{
 			if (qtlScore.getRefAlleleMatchCount() > 0)
 				mbv = 2d * subEffect;
 			else
 				mbv = 0;
+		}
+
+		else //if (props.getModel() == MarkerProperties.RECESSIVE)
+		{
+			if (qtlScore.getRefAlleleMatchCount() < 2)
+				mbv = 0;
+			else
+				mbv = 2d * subEffect;
 		}
 
 		qtlScore.setMolecularBreedingValue(mbv);

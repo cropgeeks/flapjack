@@ -400,6 +400,8 @@ public class QTLImporter extends SimpleJob
 						properties.setModel(MarkerProperties.ADDITIVE);
 					else if (TOKEN.equalsIgnoreCase("dominant"))
 						properties.setModel(MarkerProperties.DOMINANT);
+					else if (TOKEN.equalsIgnoreCase("recessive"))
+						properties.setModel(MarkerProperties.RECESSIVE);
 				}
 
 				else if (headers[t].toLowerCase().equals("substitution_effect"))

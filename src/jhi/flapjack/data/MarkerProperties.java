@@ -12,6 +12,7 @@ public class MarkerProperties extends XMLRoot
 	public static final int NA = 0;
 	public static final int ADDITIVE = 1;
 	public static final int DOMINANT = 2;
+	public static final int RECESSIVE = 3;
 
 	// A reference to the Marker these properties relate to
 	private Marker marker;
