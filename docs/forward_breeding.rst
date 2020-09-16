@@ -10,18 +10,20 @@ Input files
 
 **QTL file**
 
+Forward Breeding analysis requires additional input parameters that can be provided via a :doc:`gobii_qtl` formatted file.
+
 The QTL file is a tab-delimited file that contains the association between QTL and markers including their favourable and unfavourable alleles.
 
 This is how the file looks like::
 
  # fjFile = qtl-gobii
- marker_group_name     germplasm_group  marker_name  platform  fav_allele  unfav_allele
- rust_1                rust             m1           SNPChief  A           T
- rust_1                rust             m2           SNPChief  A           T
- sub_1                 submergence      m3           SNPChief  A           T
- sub_1                 submergence      m4           SNPChief  T           A
- dwarf-allele1         height           m5           Casper    AAT         A
- waxy                  grain quality    m6           Casper    +           -
+ marker_group_name  marker_name  germplasm_group  platform  fav_allele  unfav_allele
+ rust_1             m1           rust             SNPChief  A           T
+ rust_1             m2           rust             SNPChief  A           T
+ sub_1              m3           submergence      SNPChief  A           T
+ sub_1              m4           submergence      SNPChief  T           A
+ dwarf-allele1      m5           height           Casper    AAT         A
+ waxy               m6           grain quality    Casper    +           -
 
 The ``# fjFile = qtl-gobii`` line is only required for importing the QTL file by dragging and dropping it into the Flapjack application. The line containing the column names is required. The column names does not need to match exactly as showed above, although they need to follow the exact arrangement. The first 5 columns (until ``fav_allele``) are required to be in the file.
 
@@ -32,11 +34,9 @@ The ``# fjFile = qtl-gobii`` line is only required for importing the QTL file by
 +-----------------------+----------------------------------------------------------------------------+
 | ``marker_group_name`` | Defines the grouping of markers, or to which QTL markers are associated    |
 +-----------------------+----------------------------------------------------------------------------+
-| ``(any column name)`` | Optional. Any free text, this column is not used in the analysis           |
-+-----------------------+----------------------------------------------------------------------------+
 | ``marker_name``       | Marker name that matches with the dataset                                  |
 +-----------------------+----------------------------------------------------------------------------+
-| ``(any column name)`` | Optional. Any free text, this column is not used in the analysis           |
+| ``germplasm_group``   | Optional. Any free text, this column is not used in the analysis           |
 +-----------------------+----------------------------------------------------------------------------+
 | ``fav_allele``        | The allele of a marker that indicates the desirable status of the QTL      |
 +-----------------------+----------------------------------------------------------------------------+
@@ -45,7 +45,7 @@ The ``# fjFile = qtl-gobii`` line is only required for importing the QTL file by
 
 **Map file**
 
-Map file is optional for this analysis. It follows the standard Flapjack Map file format.
+A map file is optional for this analysis. It follows the standard Flapjack Map file format.
 
 Output Statistics
 -----------------
