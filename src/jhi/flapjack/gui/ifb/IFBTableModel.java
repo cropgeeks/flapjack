@@ -46,11 +46,11 @@ public class IFBTableModel extends LineDataTableModel
 
 		mbvIndex = mkrIndex + mkrCount;
 		wmbvIndex = mbvIndex + 1;
-		mbvCountIndex = wmbvIndex + 1;
-		mbvIndex2 = mbvCountIndex + 1;
+		mbvIndex2 = wmbvIndex + 1;
 		wmbvIndex2 = mbvIndex2 + 1;
+		mbvCountIndex = wmbvIndex2 + 1;
 
-		selectedIndex = wmbvIndex2 + 1;
+		selectedIndex = mbvCountIndex + 1;
 		rankIndex = selectedIndex + 1;
 		commentIndex = rankIndex + 1;
 		sortIndex = commentIndex + 1;
