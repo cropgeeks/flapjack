@@ -15,15 +15,15 @@ Outside of the usual data set and chromosome selection settings, there is only a
 Output statistics
 -----------------
 
-Once an anlysis has run, you will be presented with a table of output results, linked to a new visualization view that will default to the Favourable Alleles colour scheme.
+Once an anlysis has run, you will be presented with a table of output results, linked to a new visualization view that will default to the Favourable Alleles colour scheme that is used in the standar Forward Breeding analysis.
 
 The table's columns are dynamic, and will change based on your input data:
 
 - **Line** - the name of the line this row's results relate to
-- **QTL / Gene marker** - one column is provided for each marker group listed in the QTL input file's marker_group_name column. Genotypes (eg A/A, A/T, G/G, G/C, +/-) are translated to QTL / gene allele genotypes (eg Lr31+/Lr31-, allele1/allele2) as defined by the fav_allele_trait_name and unfav_allele_trait_name columns
+- **QTL / Gene marker** - one column is provided for each marker group listed in the QTL input file marker_group_name column. Genotypes (eg A/A, A/T, G/G, G/C, +/-) are translated to QTL / gene allele genotypes (eg Lr31+/Lr31-, allele1/allele2) as defined by the fav_allele_trait_name and unfav_allele_trait_name columns
 
 .. note::
-  If fav_allele_trait_name and unfav_allele_trait_name are undefined, Flapjack will copy the allele names for the first marker in the marker group.
+  If fav_allele_trait_name and unfav_allele_trait_name are undefined, Flapjack will use the genotype allele calls.
 
 .. note::
   When multiple markers are present in each marker group, Flapjack will build a consensus to determine a QTL's genotype. When no consensus is possible (for example two homozygous markers for the favorable allele and two homozygous markers for the unfavorable allele), the tie breaker would be the first marker for the marker group listed in the QTL file.
@@ -62,9 +62,9 @@ where the additional term ``Wl`` = weights at QTL ``l``
 .. warning::
   For each situation, you should think about weights and their impact on the selection decisions.
 
-- **Molecular Breeding Value (Non-missing)** - this calculation is the same as Molecular Breeding Value but only on all non-missing data and weighted against the number of QTL/Genes used in that calculation.
+- **Molecular Breeding Value (Non-missing)** - this calculation is the same as Molecular Breeding Value but only using non-missing data and weighted against the number of QTL/Genes used in that calculation.
 
-- **Weighted molecular breeding value (Non-missing)** - this calculation is the same as Weighted Molecular Breeding Value but only on all non-missing data and weighted against the number of QTL/Genes used in that calculation.
+- **Weighted molecular breeding value (Non-missing)** - this calculation is the same as Weighted Molecular Breeding Value but only using non-missing data and weighted against the number of QTL/Genes used in that calculation.
 
 - **#QTLs used for MBV** - the number of QTL/Genes used in calculating the Molecular Breeding Value (Non-missing) and Weighted Molecular Breeding Value (Non-missing) columns.
 
