@@ -36,10 +36,10 @@ All other columns are optional, but if provided, can be used as input parameters
 - **unfav_allele** - (or **unfavorable_alleles**) - 
 - **fav_allele_trait_name** - the name of favorable QTL/gene allele name that will be included in indexed forward breeding output tables for indexed forward breeding analysis. If no favorable allele name is provided, the marker allele name of the first marker in the marker group is used
 - **unfav_allele_trait_name** - the name of unfavorable QTL/gene allele name that will be included in indexed forward breeding output tables for indexed forward breeding analysis. If no unfavorable allele name is provided, the marker allele name of the first marker in the marker group is used
-- **breeding_value** - specifies whether a marker group will be included in calculations of breeding value and weighted breeding value
+- **breeding_value** - specifies whether a marker group will be included in calculations of breeding value and weighted breeding value. Accepted values are YES or NO.
 - **model** (required if breeding_value is YES) - the genetic model for favorable alleles in a marker group. Allowed values are "Additive", "Dominant", or "Recessive"
-- **substitution_effect** - defines the substitution effect; a change in phenotypic value when one unfavorable allele is substituted with one favorable allele at each QTL
-- **relative_weight** (required if breeding_value is YES) - the weight provided to each QTL. The weight can be anything a breeder wants to use, such as economic or preference to calculate index for a selection. If you don't want to weight breeding values, this can be set to 1. 
+- **substitution_effect** (required if breeding_value is YES) - defines the substitution effect; a change in phenotypic value when one unfavorable allele is substituted with one favorable allele at each QTL
+- **relative_weight** (required if breeding_value is YES) - the weight provided to each QTL. The weight can be anything a breeder wants to use, such as economic or preference to calculate index for a selection. If you don't want to weight breeding values, values can all be set to 1. 
 
 .. note::
   The first marker listed for each qtl will be used as a 'priority marker', meaning its values for breeding_value, model, substitution_effect and relative_weight will be used for all Indexed Forward Breeding calculations.
