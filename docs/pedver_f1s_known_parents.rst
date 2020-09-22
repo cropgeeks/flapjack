@@ -26,7 +26,7 @@ The following statistics are provided following F1 analysis in the 'Results View
 
 * ``% Het Deviation from Expected`` - the difference in % hets between the expected F1 and the sampled F1.
 
-* ``% Allele match to Parent 1 / Parent 2`` - alleles matching betwen the sampled F1 line and the sampled parent line, as a percentage of non-missing data in both the F1 line and parent line, and across all markers for a sample. e.g. if F1 = A/A C/C and sampled P1 = A/T N/N then % allele match to P1 is 50% ie 1 allele at a marker in the sampled F1 matches a P1 allele for the same marker, out of 2 non-missing alleles available for comparison.
+* ``% Allele match to Parent 1 / Parent 2`` - alleles matching between the sampled F1 line and the sampled parent line, as a percentage of non-missing data in both the F1 line and parent line, and across all markers for a sample. e.g. if F1 = A/A C/C and sampled P1 = A/T N/N then % allele match to P1 is 50% ie 1 allele at a marker in the sampled F1 matches a P1 allele for the same marker, out of 2 non-missing alleles available for comparison.
 
 * ``% Genotype match to Expected F1`` - matching gneotypes (i.e. both alleles need to match) between the sampled F1 line and the simulated F1 as a percentage of non-missing data in both the F1 line and the simulated F1, and across all markers for a sample. e.g. if sampled F1 = A/T C/C and the simulated F1 = A/T C/T , then % genotype match to expected F1 is 50%. Only 1 marker genotype out of 2 matches at both alleles. 
 
