@@ -196,6 +196,7 @@ public class PedVerF1sAnalysis extends SimpleJob
 			&& stateTable.isHom(as.getState(chr, parent2Index, marker));
 	}
 
+	// Compares two lines, *not* counting missing data
 	private double similarityToLine(int line, int comparisonLine)
 	{
 		double score = 0;
@@ -205,10 +206,14 @@ public class PedVerF1sAnalysis extends SimpleJob
 		{
 			for (int m = 0; m < as.markerCount(c); m++)
 			{
-				nComps++;
-
 				AlleleState s1 = stateTable.getAlleleState(as.getState(c, comparisonLine, m));
 				AlleleState s2 = stateTable.getAlleleState(as.getState(c, line, m));
+
+				// Ignore markers with missing data
+				if (s1.isUnknown() || s2.isUnknown())
+					continue;
+
+				nComps++;
 
 				if (s1.matches(s2))
 					score += 1.0d;
