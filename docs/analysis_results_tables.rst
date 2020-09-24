@@ -1,7 +1,7 @@
 Analysis Results Tables
 =======================
 
-For certain types of analysis, such as :doc:`mabc` or :doc:`pedver_f1s_known_parents` Flapjack will present you with a results table. While the content of this table differs between analyses, you can interact with the table in the same way regardless of the analysis you have run. You can select, filter and sort lines, directly in the table, or through dialogs (for more complex options) and also export the data to a file.
+For certain types of analysis, such as :doc:`mabc`, :doc:`pedver_f1s_known_parents`, :doc:`pedver_lines`, :doc:`forward_breeding`, or :doc:`ifb` Flapjack will present you with a results table. While the content of this table differs between analyses, you can interact with the table in the same way regardless of the analysis you have run. You can select, filter and sort lines, directly in the table, or through dialogs (for more complex options) and also export the data to a file.
 
 This is a very powerful view because all lines shown in the table will reflect their sort order, filtered state, and selection state with the main visualization. This means you could, for example, sort the lines using the table and have that order reflected in the main view, or sort the main visualization and have that order automatically apply to the table.
 
