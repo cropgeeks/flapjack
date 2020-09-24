@@ -137,6 +137,7 @@ public class PedVerLinesAnalysis extends SimpleJob
 		return matches;
 	}
 
+	//Compares two lines and returns percentage similarity, excluding unknown data on either line.
 	private double similarityToLine(int line, int comparisonLine)
 	{
 		double score = 0;
@@ -146,10 +147,13 @@ public class PedVerLinesAnalysis extends SimpleJob
 		{
 			for (int m = 0; m < as.markerCount(c); m++)
 			{
-				nComps++;
-
 				AlleleState s1 = stateTable.getAlleleState(as.getState(c, comparisonLine, m));
 				AlleleState s2 = stateTable.getAlleleState(as.getState(c, line, m));
+
+				if(s1.isUnknown() || s2.isUnknown())
+					continue;
+
+				nComps++;
 
 				if (s1.matches(s2))
 					score += 1.0d;
