@@ -19,11 +19,11 @@ The following statistics are provided;
 
 * ``% Het`` - the number of markers with heteozygous genotypes as a percent of the total markers for a sample.
 
-* ``% Allele Match to P1``  - alleles in the sampled line that match an allele in P1, as a percentage of non-missing data in both the sampled line and P1, across all markers for a sample. e.g. Sampled line = A/T C/C and P1 = A/T C/T is a 75% match.
+* ``% Allele Match to P1``  - alleles matching between the sampled line and the parent line, as a percentage of non-missing data in both the sampled line and P1, across all markers for a sample. e.g. Sampled line = A/T, C/C and P1 = A/T, C/T is a 75% match.
 
-* ``% Allele Match to P2`` - alleles in the sampled line that match an allele in P2, as a percentage of non-missing data in both the sampled line and P2, across all markers for a sample. e.g. Sampled line = A/A C/T and P2 = A/T C/T is a 100% match.
+* ``% Allele Match to P2`` - alleles matching between the sampled line and the parent line, as a percentage of non-missing data in both the sampled line and P2, across all markers for a sample. e.g. Sampled line = A/A, C/T and P2 = A/T, C/T is a 75% match.
 
-* ``% Allele Match to P1 / P2`` - alleles in the sampled line that match an allele in EITHER P1 OR P2, as a percentage of non-missing data in both the sampled line and either parent, across all markers for a sample. e.g. Sampled line = A/T C/C, P1 = T/T A/A and P2 = A/A T/T is a 25% match.
+* ``% Allele Match to P1 / P2`` - alleles in the sampled line that match an allele in EITHER P1 OR P2, as a percentage of non-missing data in both the sampled line and either parent, across all markers for a sample. e.g. Sampled line = A/T C/C, P1 = T/T C/G and P2 = T/T C/C is a 75% match.
 
 These statistics can be used to filter results;
 
