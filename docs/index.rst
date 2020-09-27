@@ -71,6 +71,7 @@ For more information on Flapjack, or to download the application, please visit t
    forward_breeding
    ifb
    analysis_results_tables
+   batch_analysis
    
 .. toctree::
    :maxdepth: 2
