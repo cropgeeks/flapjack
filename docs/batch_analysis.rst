@@ -32,7 +32,7 @@ To launch a batch analysis, pick your analysis from the ``Analysis`` menu as nor
   The options you see here will differ depending on the chosen analysis type.
 
 .. important::
-  You may see less options here compared to running a single analysis. This is because data set specific parameters - such as choosing parental lines - cannot be selected when running a batch analysis. Depending on the parameter, Flapjack may make a best guess or use meta data in the originally imported raw data to make these selections for you.
+  You may see less options here compared to running a single analysis. This is because data set specific parameters - such as choosing parental lines - cannot be selected when running a batch analysis. Flapjack will either use :doc:`pedigrees` in the originally imported raw data to make these selections for you, or will set the first and second lines found as parents.
 
 Once you have made any parameter selected, launch the analysis using ``Run`` and - once complete - you will see that Flapjack has applied the analysis to each data set, and has creatied a view to hold the results for each one:
 
@@ -51,9 +51,6 @@ To view the Batch Analysis Summary, you should select the second tab above the t
 .. |BatchSummaryView| image:: images/BatchSummaryView.png
 
 Here, each data set (or view) that was processed is listed, along with a summary of data side wide statistics, such as averages or minimum/maximums that apply to the various columns within the ``Analyis Results`` view for that data set.
-
-.. note::
-  Many of the summary values shown in this table only apply to any currently **selected** lines within the ``Analyis Results`` view. If you change which lines are selected, then these summary values will update too.
 
 .. tip::
   You can quickly jump to the ``Analyis Results`` view for any data set by **double clicking** its row within the ``Results Summary`` view.
