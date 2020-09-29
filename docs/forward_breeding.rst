@@ -1,6 +1,9 @@
 Forward Breeding
 ================
 
+.. tip::
+  You can run this analysis as a :doc:`batch_analysis` across multiple data sets (or views) at once.
+
 This analysis translates trait marker genotyping data into presence or absence of QTLs.
 
 In addition to this help page, you can also read the tutorial, which runs through the process of running the analysis and viewing the results with a sample dataset.

@@ -1,6 +1,9 @@
 Marker Assisted Back Crossing
 =============================
 
+.. tip::
+  You can run this analysis as a :doc:`batch_analysis` across multiple data sets (or views) at once.
+
 Marker Assisted Back Crossing statistics will calculate Recurrent Parent Percentages for each line across each chromosome, and will also display linkage drag and QTL status information if appropriate.
 
 You can run an MABC analysis by selecting ``Analysis->Marker assisted back crossing`` from the menubar.

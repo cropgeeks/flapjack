@@ -1,6 +1,9 @@
 Pedigree Verification (F1s Known Parents)
 =========================================
 
+.. tip::
+  You can run this analysis as a :doc:`batch_analysis` across multiple data sets (or views) at once.
+
 This analysis provides several key statistics to determine whether a putative F1 sample is a true F1 cross.
 
 In addition to this help page, you can also read the :doc:`pedver_f1s_known_parents_tut`, which runs through the process of running the analysis and viewing the results with a sample dataset.

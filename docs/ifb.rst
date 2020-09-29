@@ -1,6 +1,9 @@
 Indexed Forward Breeding
 ========================
 
+.. tip::
+  You can run this analysis as a :doc:`batch_analysis` across multiple data sets (or views) at once.
+
 .. warning::
   The information on this page refers to an as yet unreleased version of Flapjack.
 
