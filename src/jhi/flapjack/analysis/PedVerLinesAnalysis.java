@@ -178,19 +178,39 @@ public class PedVerLinesAnalysis extends SimpleJob
 		{
 			for (int m = 0; m < as.markerCount(c); m++)
 			{
-				AlleleState lineState = stateTable.getAlleleState(as.getState(c, line, m));
-				AlleleState p1State = stateTable.getAlleleState(as.getState(c, p1Index, m));
-				AlleleState p2State = stateTable.getAlleleState(as.getState(c, p2Index, m));
+				int lineState = as.getState(c, line, m);
+				int p1State = as.getState(c, p1Index, m);
+				int p2State = as.getState(c, p2Index, m);
 
-				String[] lineAlleles = allelesFromGenotype(lineState);
-				String[] p1Alleles = allelesFromGenotype(p1State);
-				String[] p2Alleles = allelesFromGenotype(p2State);
+				// Ignore missing data
+				if (lineState == 0 || (p1State == 0 && p2State == 0))
+					continue;
 
-				if (lineAlleles[0].equals(p1Alleles[0]) || lineAlleles[0].equals(p2Alleles[0]))
+				AlleleState lineAllele = stateTable.getAlleleState(lineState);
+				AlleleState p1Allele = stateTable.getAlleleState(p1State);
+				AlleleState p2Allele = stateTable.getAlleleState(p2State);
+
+				String[] lineAlleles = allelesFromGenotype(lineAllele);
+				String[] p1Alleles = allelesFromGenotype(p1Allele);
+				String[] p2Alleles = allelesFromGenotype(p2Allele);
+
+
+			//	A/T
+
+			//	A/A
+			//	C/G scores 0.5
+
+					// if the first allele in the line matches any allele in the parentS - 0.5
+					// if the second allele in the line matches any allele in the parentS - 0.5
+					// rename col to % allele match to p1/p2
+
+				if (lineAlleles[0].equals(p1Alleles[0]) || lineAlleles[0].equals(p1Alleles[1]) ||
+					lineAlleles[0].equals(p2Alleles[0]) || lineAlleles[0].equals(p2Alleles[1]))
 					score += 0.5d;
 
-				if (lineAlleles[1].equals(p1Alleles[1]) || lineAlleles[1].equals(p2Alleles[1]))
-					score +=0.5d;
+				if (lineAlleles[1].equals(p1Alleles[0]) || lineAlleles[1].equals(p1Alleles[1]) ||
+					lineAlleles[1].equals(p2Alleles[0]) || lineAlleles[1].equals(p2Alleles[1]))
+					score += 0.5d;
 
 				nComps++;
 			}

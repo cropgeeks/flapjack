@@ -73,3 +73,9 @@ where the additional term ``Wl`` = weights at QTL ``l``
 
 .. note::
   Molecular Breeding Value / Weighted Molecular Breeding Value will produce NaN (not a number) values if QTL genotype in any of the loci included in the model is NA. When there are many QTLs used in breeding value calculations this becomes more likely, thus resulting in the total breeding value also being NaN. As a solution, Flapjack provides the Molecular Breeding Value (Non-missing) / Weighted Molecular Breeding Value (Non-missing) columns, calculated by omitting missing values and weighting the total score to make it comparable. We suggest using these two columns with caution.
+
+
+Batch analysis results summary
+------------------------------
+
+When viewing the ``Results Summary`` table for a :doc:`batch_analysis`, in additional to the usual columns summarising selected columns of the ``Analysis Results`` table (at a data set level), there will also be an extra ``FIFA`` column listed for each QTL. These represent the **frequency of individuals with at least one favourable allele**.
