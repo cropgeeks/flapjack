@@ -13,6 +13,8 @@ public class PedVerLinesResult extends XMLRoot
 	private double percentHet;
 	private double similarityToP1;
 	private double similarityToP2;
+	private double derivedP1;
+	private double derivedP2;
 	private double similarityToParents;
 	private double parent1Heterozygosity;
 	private double parent2Heterozygosity;
@@ -138,4 +140,17 @@ public class PedVerLinesResult extends XMLRoot
 
 	public void setParent2Heterozygosity(double parent2Heterozygosity)
 		{ this.parent2Heterozygosity = parent2Heterozygosity; }
+
+	public double getDerivedP1()
+		{ return derivedP1; }
+
+	public void setDerivedP1(double derivedP1)
+		{ this.derivedP1 = derivedP1; }
+
+	public double getDerivedP2()
+		{ return derivedP2; }
+
+	public void setDerivedP2(double derivedP2)
+		{ this.derivedP2 = derivedP2; }
+
 }

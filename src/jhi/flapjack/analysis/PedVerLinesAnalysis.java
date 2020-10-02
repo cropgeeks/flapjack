@@ -72,6 +72,8 @@ public class PedVerLinesAnalysis extends SimpleJob
 			double similarityParent1 = similarityToLine(lineIndex, p1Index);
 			double similarityParent2 = similarityToLine(lineIndex, p2Index);
 			double similarityToParents = similarityToParents(lineIndex);
+			double derivedParent1 = derived(lineIndex, p1Index);
+			double derivedParent2 = derived(lineIndex, p2Index);
 
 			lineStat.setDataCount(markerCount);
 			lineStat.setPercentData((markerCount / (double) totalCount) * 100);
@@ -83,6 +85,8 @@ public class PedVerLinesAnalysis extends SimpleJob
 			lineStat.setThresholds(thresholds);
 			lineStat.setParent1Heterozygosity((as.hetCount(p1Index) / (double)markerCount) * 100);
 			lineStat.setParent2Heterozygosity((as.hetCount(p2Index) / (double)markerCount) * 100);
+			lineStat.setDerivedP1(derivedParent1 * 100);
+			lineStat.setDerivedP2(derivedParent2 * 100);
 		});
 
 		moveParentsToTop();
@@ -135,6 +139,49 @@ public class PedVerLinesAnalysis extends SimpleJob
 			matches = true;
 
 		return matches;
+	}
+
+	// Compares two lines and returns likilhood derived from parent
+	private double derived(int line, int parentLine)
+	{
+		double score = 0;
+		int nComps = 0;
+
+		for (int c = 0; c < as.viewCount(); c++)
+		{
+			for (int m = 0; m < as.markerCount(c); m++)
+			{
+				int lineState = as.getState(c, line, m);
+				int pState = as.getState(c, p1Index, m);
+
+				// Ignore missing data
+				if (lineState == 0 || pState == 0)
+					continue;
+
+				AlleleState lineAllele = stateTable.getAlleleState(lineState);
+				AlleleState pAllele = stateTable.getAlleleState(pState);
+
+				String[] lineAlleles = allelesFromGenotype(lineAllele);
+				String[] p1Alleles = allelesFromGenotype(pAllele);
+
+// One last request that I am not too bothered about getting into this release, but just to mention it;
+// The lasts 2 stats would be for (1) % allele derived P1 and (2) % allele derived P2
+// Where % allele derived P1;
+// - ignore lines with missing data or parent is missing
+// - if line.allele1 matches any allele in P1; score += 05
+// - if line.allele2 matches any allele in P1; score += 05
+
+				if (lineAlleles[0].equals(p1Alleles[0]) || lineAlleles[0].equals(p1Alleles[1]))
+					score += 0.5d;
+
+				if (lineAlleles[1].equals(p1Alleles[0]) || lineAlleles[1].equals(p1Alleles[1]))
+					score += 0.5d;
+
+				nComps++;
+			}
+		}
+
+		return nComps > 0 ? (score / (double)nComps) : 0;
 	}
 
 	//Compares two lines and returns percentage similarity, excluding unknown data on either line.

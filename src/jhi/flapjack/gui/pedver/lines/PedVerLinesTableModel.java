@@ -21,12 +21,14 @@ public class PedVerLinesTableModel extends LineDataTableModel
 	private static final int percHetIndex = 4;
 	private static final int similarityToP1Index = 5;
 	private static final int similarityToP2Index = 6;
-	private static final int similarlityToParentsIndex = 7;
-	private static final int rankIndex = 8;
-	private static final int commentsIndex = 9;
-	private static final int sortIndex = 10;
-	private static final int selectedIndex = 11;
-	private static final int decisionIndex = 12;
+	private static final int derivedP1Index = 7;
+	private static final int derivedP2Index = 8;
+	private static final int similarlityToParentsIndex = 9;
+	private static final int rankIndex = 10;
+	private static final int commentsIndex = 11;
+	private static final int sortIndex = 12;
+	private static final int selectedIndex = 13;
+	private static final int decisionIndex = 14;
 
 	PedVerLinesTableModel(GTViewSet viewSet)
 	{
@@ -38,7 +40,7 @@ public class PedVerLinesTableModel extends LineDataTableModel
 
 	void initModel()
 	{
-		columnNames = new String[13];
+		columnNames = new String[15];
 
 		columnNames[lineIndex] = RB.getString("gui.pedver.PedVerLinesTableModel.line");
 		columnNames[dataCountIndex] = RB.getString("gui.pedver.PedVerLinesTableModel.dataCount");
@@ -47,6 +49,8 @@ public class PedVerLinesTableModel extends LineDataTableModel
 		columnNames[percHetIndex] = RB.getString("gui.pedver.PedVerLinesTableModel.percHet");
 		columnNames[similarityToP1Index] = RB.getString("gui.pedver.PedVerLinesTableModel.similarityToP1");
 		columnNames[similarityToP2Index] = RB.getString("gui.pedver.PedVerLinesTableModel.similarityToP2");
+		columnNames[derivedP1Index] = RB.getString("gui.pedver.PedVerLinesTableModel.derivedP1Index");
+		columnNames[derivedP2Index] = RB.getString("gui.pedver.PedVerLinesTableModel.derivedP2Index");
 		columnNames[similarlityToParentsIndex] = RB.getString("gui.pedver.PedVerLinesTableModel.similarityToParents");
 		columnNames[rankIndex] = RB.getString("gui.pedver.PedVerLinesTableModel.rank");
 		columnNames[commentsIndex] = RB.getString("gui.pedver.PedVerLinesTableModel.comments");
@@ -95,6 +99,10 @@ public class PedVerLinesTableModel extends LineDataTableModel
 			return stats.getSimilarityToP1();
 		else if (col == similarityToP2Index)
 			return stats.getSimilarityToP2();
+		else if (col == derivedP1Index)
+			return stats.getDerivedP1();
+		else if (col == derivedP2Index)
+			return stats.getDerivedP2();
 		else if (col == similarlityToParentsIndex)
 			return stats.getSimilarityToParents();
 		else if (col == commentsIndex)
