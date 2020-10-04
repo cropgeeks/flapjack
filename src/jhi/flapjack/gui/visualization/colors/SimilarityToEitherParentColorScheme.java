@@ -110,6 +110,8 @@ public class SimilarityToEitherParentColorScheme extends ColorScheme
 			else if (state == p1State || state == p2State)
 				return matchStates.get(state);
 
+			if (lookupTable[state][0] == -1 || lookupTable[state][1] == -1)
+				return noMatchStates.get(state);
 
 			AlleleState allele1State = stateTable.getAlleleState(lookupTable[state][0]);
 			AlleleState allele2State = stateTable.getAlleleState(lookupTable[state][1]);

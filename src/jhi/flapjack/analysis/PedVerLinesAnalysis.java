@@ -152,7 +152,7 @@ public class PedVerLinesAnalysis extends SimpleJob
 			for (int m = 0; m < as.markerCount(c); m++)
 			{
 				int lineState = as.getState(c, line, m);
-				int pState = as.getState(c, p1Index, m);
+				int pState = as.getState(c, parentLine, m);
 
 				// Ignore missing data
 				if (lineState == 0 || pState == 0)
@@ -162,7 +162,7 @@ public class PedVerLinesAnalysis extends SimpleJob
 				AlleleState pAllele = stateTable.getAlleleState(pState);
 
 				String[] lineAlleles = allelesFromGenotype(lineAllele);
-				String[] p1Alleles = allelesFromGenotype(pAllele);
+				String[] pAlleles = allelesFromGenotype(pAllele);
 
 // One last request that I am not too bothered about getting into this release, but just to mention it;
 // The lasts 2 stats would be for (1) % allele derived P1 and (2) % allele derived P2
@@ -171,10 +171,10 @@ public class PedVerLinesAnalysis extends SimpleJob
 // - if line.allele1 matches any allele in P1; score += 05
 // - if line.allele2 matches any allele in P1; score += 05
 
-				if (lineAlleles[0].equals(p1Alleles[0]) || lineAlleles[0].equals(p1Alleles[1]))
+				if (lineAlleles[0].equals(pAlleles[0]) || lineAlleles[0].equals(pAlleles[1]))
 					score += 0.5d;
 
-				if (lineAlleles[1].equals(p1Alleles[0]) || lineAlleles[1].equals(p1Alleles[1]))
+				if (lineAlleles[1].equals(pAlleles[0]) || lineAlleles[1].equals(pAlleles[1]))
 					score += 0.5d;
 
 				nComps++;
