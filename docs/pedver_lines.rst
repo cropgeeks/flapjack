@@ -38,7 +38,7 @@ These statistics can be used to filter results;
 
 * ``% Het`` - % het data can be used to assess whether the expected generation has been sampled eg if sampling is on fixed lines, and a sampled line has unexpectedly high hets, this line could be filtered out from being selected.   
 
-* ``% Allele Match to P1 / P2`` - this is the key test for whether a sampled line is derived from the expected parents. If there is a low match, the other tests can be used to determine whether the sampled line is a self, or seed mix-up, or is derived from one parent, but not the other. 
+* ``% Allele Match to P1 / P2`` - this is the key test for whether a sampled line is derived from the expected parents. If there is a low match, then the other tests can be used to determine whether the sampled line is a self, or seed mix-up, or is derived from one parent, but not the other. 
 
 
 .. |PedVerF1sKnownParentsDialog| image:: images/PedVerF1sKnownParentsDialog.png
