@@ -1,9 +1,6 @@
 GOBii QTL Format
 ================
 
-.. warning::
-  The information on this page refers to an as yet unreleased version of Flapjack.
-  
 In addition to the Flapjack's standard QTL format (described on :doc:`projects_&_data_formats`) it also supports an extended QTL format that was developed in colloboration with the GOBii project.
 
 The primary use of this format is to supply additional input parameters for the :doc:`forward_breeding` and :doc:`ifb` analysis modules.
