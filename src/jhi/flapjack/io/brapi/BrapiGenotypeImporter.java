@@ -138,7 +138,7 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 		VariantSet vSet = client.getVariantSet();
 		for (Format f: vSet.getAvailableFormats())
 		{
-			if (f.getDataFormat().equals("Flapjack"))
+			if (f.getDataFormat().equalsIgnoreCase("flapjack"))
 				uri = new URI(f.getFileURL());
 		}
 
