@@ -101,6 +101,8 @@ public class IntertekDataImporter implements IGenotypeImporter
 
 		linesByName = new HashMap<String, ArrayList<Line>>();
 
+		String sep = determineSeparator();
+
 		is = new ProgressInputStream(new FileInputStream(file));
 
 		BufferedReader in = new BufferedReader(new InputStreamReader(is, "UTF-8"));
@@ -116,7 +118,7 @@ public class IntertekDataImporter implements IGenotypeImporter
 
 		// Split the first line up into an array of marker names (we ignore the
 		// first element as it's a redundant column header: i=1 in loop below)
-		String[] markerNames = str.split("\t");
+		String[] markerNames = str.split(sep);
 
 		// Now work out the map indices of these markers and the indices within
 		// the map itself. This speeds up loading by pre-caching this data so we
@@ -150,7 +152,7 @@ public class IntertekDataImporter implements IGenotypeImporter
 
 			lineCount++;
 
-			String[] values = str.split("\t");
+			String[] values = str.split(sep);
 
 			if (values.length == 0)
 				continue;
@@ -255,5 +257,38 @@ public class IntertekDataImporter implements IGenotypeImporter
 	public boolean isOK()
 	{
 		return isOK;
+	}
+
+	// Reads (to up) the first 25 lines of the file and determines if it's using
+	// tab or comma seperation. Basically, if we see even just one tab, then
+	// that's what we're going with
+	private String determineSeparator()
+	{
+		try
+		{
+			BufferedReader in = new BufferedReader(new FileReader(file));
+
+			String str = in.readLine();
+			int count = 1;
+
+			while (str != null && count < 25)
+			{
+				if (str.contains("\t"))
+				{
+					in.close();
+					return "\t";
+				}
+
+				str = in.readLine();
+				count++;
+			}
+
+			in.close();
+		}
+		catch (Exception e)
+		{
+		}
+
+		return ",";
 	}
 }
