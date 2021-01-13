@@ -109,8 +109,8 @@ public class FBAnalysis extends SimpleJob
 			result.setHaplotypeMatch(hapMatch);
 
 			ArrayList<Double> hapWeight = hapMatch.stream()
-				.mapToDouble(score -> Double.compare(score, 0.5d) == 0 ? 0.6d : score)
-				.boxed()
+//				.mapToDouble(score -> Double.compare(score, 0.5d) == 0 ? 0.6d : score)
+//				.boxed()
 				.collect(Collectors.toCollection(ArrayList::new));
 			result.setHaplotypeWeight(hapWeight);
 
