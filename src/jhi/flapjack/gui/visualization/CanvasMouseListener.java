@@ -175,12 +175,24 @@ class CanvasMouseListener extends MouseInputAdapter
 		else
 		{
 			CanvasController controller = gPanel.getController();
-
 			JScrollBar sBar = null;
-			if (controller.getVBar().isVisible())
-				sBar = controller.getVBar();
-			else if (controller.getHBar().isVisible())
-				sBar = controller.getHBar();
+
+			if (e.getModifiersEx() != MouseWheelEvent.SHIFT_DOWN_MASK)
+			{
+				// "Normal" scrolling - control the vBar first
+				if (controller.getVBar().isVisible())
+					sBar = controller.getVBar();
+				else if (controller.getHBar().isVisible())
+					sBar = controller.getHBar();
+			}
+			else
+			{
+				// "Shift" held down - control the hBar first
+				if (controller.getHBar().isVisible())
+					sBar = controller.getHBar();
+				else if (controller.getVBar().isVisible())
+					sBar = controller.getVBar();
+			}
 
 			if (sBar != null)
 			{
