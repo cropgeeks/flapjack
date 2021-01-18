@@ -172,7 +172,7 @@ public class IFBAnalysis extends SimpleJob
 			boolean mbvValid = true;
 			// Keeps track of how many QTL were used to calculate the MBV
 			int qtlsUsedForMBV = 0;
-			for (IFBQTLScore qtlScore: result.getMbvScores())
+			for (IFBQTLScore qtlScore: result.getQtlScores())
 			{
 				if (qtlScore.getRefAlleleMatchCount() == -1)
 					mbvValid = false;
@@ -309,6 +309,10 @@ public class IFBAnalysis extends SimpleJob
 	// UMESH Step 5 (see /docs/ifb/)
 	private boolean calculateMolecularBreedingValue(IFBQTLScore qtlScore)
 	{
+		// QTLs where every marker is missing will have a null score
+		if (qtlScore.getRefAlleleMatchCount() == -1)
+			return false;
+
 		MarkerProperties props = qtlScore.getProperties();
 
 		// We don't need to calculate this QTL marked with "breeding value NO"
