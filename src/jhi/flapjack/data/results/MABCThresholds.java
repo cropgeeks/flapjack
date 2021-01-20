@@ -8,6 +8,7 @@ import jhi.flapjack.gui.*;
 
 public class MABCThresholds extends XMLRoot
 {
+	// If adding fields, update clone() method below
 	private int percData;
 	private int rppTotal;
 	private int qtlAlleleCount;
@@ -33,6 +34,16 @@ public class MABCThresholds extends XMLRoot
 		thresholds.setQtlAlleleCount(Prefs.mabcQTLAlleleCountThreshold);
 
 		return thresholds;
+	}
+
+	public MABCThresholds clone()
+	{
+		MABCThresholds clone = new MABCThresholds();
+		clone.percData = this.percData;
+		clone.rppTotal = this.rppTotal;
+		clone.qtlAlleleCount = this.qtlAlleleCount;
+
+		return clone;
 	}
 
 	// Methods required for XML serialization

@@ -8,6 +8,7 @@ import jhi.flapjack.gui.*;
 
 public class PedVerF1sThresholds extends XMLRoot
 {
+	// If adding fields, update clone() method below
 	private int hetThreshold;
 	private int f1Threshold;
 	private int errorThreshold;
@@ -39,6 +40,18 @@ public class PedVerF1sThresholds extends XMLRoot
 		thresholds.setParentHetThreshold(Prefs.pedVerF1ParentHetThreshold);
 
 		return thresholds;
+	}
+
+	public PedVerF1sThresholds clone()
+	{
+		PedVerF1sThresholds clone = new PedVerF1sThresholds();
+		clone.hetThreshold = this.hetThreshold;
+		clone.f1Threshold = this.f1Threshold;
+		clone.errorThreshold = this.errorThreshold;
+		clone.parentHetThreshold = this.parentHetThreshold;
+		clone.f1isHetThreshold = this.f1isHetThreshold;
+
+		return clone;
 	}
 
 	// Methods required for XML serialization

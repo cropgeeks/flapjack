@@ -60,9 +60,12 @@ public class PedVerF1sBatchAnalysis extends SimpleJob
 		ChromosomeSelectionDialog csd = new ChromosomeSelectionDialog(viewSet, true, false);
 		boolean[] selectedChromosomes = csd.getSelectedChromosomes();
 
+		// Clone the common thresholds into a per-dataset object
+		PedVerF1sThresholds t = thresholds.clone();
+
 		PedVerF1sAnalysis stats = new PedVerF1sAnalysis(viewSet,
 			selectedChromosomes, p1Index, p2Index, simulateF1, f1Index,
-			excludeParents, name, thresholds);
+			excludeParents, name, t);
 
 		stats.runJob(0);
 		resultViewSets.add(stats.getViewSet());

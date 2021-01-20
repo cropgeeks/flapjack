@@ -8,6 +8,7 @@ import jhi.flapjack.gui.*;
 
 public class PedVerLinesThresholds extends XMLRoot
 {
+	// If adding fields, update clone() method below
 	private int data;
 	private int parentHet;
 	private int simToParents;
@@ -33,6 +34,16 @@ public class PedVerLinesThresholds extends XMLRoot
 		thresholds.setSimToParents(Prefs.pedVerLinesSimToParentsThreshold);
 
 		return thresholds;
+	}
+
+	public PedVerLinesThresholds clone()
+	{
+		PedVerLinesThresholds clone = new PedVerLinesThresholds();
+		clone.data = this.data;
+		clone.parentHet = this.parentHet;
+		clone.simToParents = this.simToParents;
+
+		return clone;
 	}
 
 

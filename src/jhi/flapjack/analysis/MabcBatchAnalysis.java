@@ -52,7 +52,7 @@ public class MabcBatchAnalysis extends SimpleJob
 
 		MABCBatchSettings settings = batchSettings.get(i);
 		GTViewSet viewSet = settings.getViewSet();
-		
+
 		int rpIndex = settings.getRpIndex();
 		int dpIndex = settings.getDpIndex();
 
@@ -62,8 +62,11 @@ public class MabcBatchAnalysis extends SimpleJob
 		ChromosomeSelectionDialog csd = new ChromosomeSelectionDialog(viewSet, true, false);
 		boolean[] selectedChromosomes = csd.getSelectedChromosomes();
 
+		// Clone the common thresholds into a per-dataset object
+		MABCThresholds t = thresholds.clone();
+
 		MabcAnalysis stats = new MabcAnalysis(
-			viewSet, selectedChromosomes, thresholds, maxMarkerCoverage, rpIndex,
+			viewSet, selectedChromosomes, t, maxMarkerCoverage, rpIndex,
 			dpIndex, excludeParents, simpleStats, name);
 
 		stats.runJob(0);
