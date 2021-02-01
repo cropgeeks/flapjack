@@ -186,10 +186,10 @@ public class IFBAnalysis extends SimpleJob
 			int qtlCount = result.getQtlScores().size(); // + result.getMkrScores().size();
 
 
-			mbvTotal2 = mbvTotal2 / qtlsUsedForMBV * qtlCount;
+			mbvTotal2 = mbvTotal2 / qtlsUsedForMBV;// * qtlCount;
 			// Weighted Molecular Breeding Value (Non-missing): as new version but want adjust for number of QTLs
 			//   Weighted Molecular Breeding value / no of total QTL non-missing data)*number of QTL in the model
-			wmbvTotal2 = wmbvTotal2 / qtlsUsedForMBV * qtlCount;
+			wmbvTotal2 = wmbvTotal2 / qtlsUsedForMBV;// * qtlCount;
 
 
 			result.setQtlsUsedForMBV(qtlsUsedForMBV);
