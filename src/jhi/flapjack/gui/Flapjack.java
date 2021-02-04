@@ -64,8 +64,8 @@ public class Flapjack implements OpenFilesHandler
 		Install4j i4j = new Install4j("9131-7045-2417-5931", "418");
 
 		i4j.setUser(Prefs.guiUpdateSchedule, Prefs.flapjackID, Prefs.rating);
-		i4j.setURLs("http://bioinf.hutton.ac.uk/flapjack/installers/updates.xml",
-				    "http://bioinf.hutton.ac.uk/flapjack/logs/flapjack.pl");
+		i4j.setURLs("https://bioinf.hutton.ac.uk/flapjack/installers/updates.xml",
+				    "https://bioinf.hutton.ac.uk/flapjack/logs/flapjack.pl");
 
 		i4j.doStartUpCheck(Flapjack.class);
 	}

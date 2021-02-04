@@ -48,7 +48,7 @@ class AboutPanelNB extends javax.swing.JPanel implements ActionListener
 		jhiIcon.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent event)
 			{
-				FlapjackUtils.visitURL("http://www.hutton.ac.uk");
+				FlapjackUtils.visitURL("https://www.hutton.ac.uk");
 			}
 		});
 	}

@@ -89,7 +89,7 @@ public class PCoASettingsDialog extends JDialog implements ActionListener
 			setVisible(false);
 
 		else if (e.getSource() == curlywhirlyLinkLabel)
-			FlapjackUtils.visitURL("http://ics.hutton.ac.uk/curlywhirly");
+			FlapjackUtils.visitURL("https://ics.hutton.ac.uk/curlywhirly");
 	}
 
 	public String getNoDimensions()

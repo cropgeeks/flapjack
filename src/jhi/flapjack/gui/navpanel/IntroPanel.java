@@ -82,7 +82,7 @@ public class IntroPanel extends JPanel
 
 	   huttonLabel.addActionListener(new ActionListener() {
 		   public void actionPerformed(ActionEvent e) {
-			   FlapjackUtils.visitURL("http://www.hutton.ac.uk");
+			   FlapjackUtils.visitURL("https://www.hutton.ac.uk");
 		   }
 	   });
 

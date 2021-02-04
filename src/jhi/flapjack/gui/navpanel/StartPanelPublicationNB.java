@@ -26,7 +26,7 @@ public class StartPanelPublicationNB extends javax.swing.JPanel implements Actio
 	{
 		if(e.getSource() == linkLabel)
 		{
-			FlapjackUtils.visitURL("http://ics.hutton.ac.uk/flapjack/papers-and-presentations/");
+			FlapjackUtils.visitURL("https://ics.hutton.ac.uk/flapjack/papers-and-presentations/");
 		}
 	}
 
