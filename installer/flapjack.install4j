@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<install4j version="8.0.8" transformSequenceNumber="8">
+<install4j version="8.0.10" transformSequenceNumber="8">
   <directoryPresets config="../keys/apple_cert.p12" />
   <application name="Flapjack" applicationId="9131-7045-2417-5931" mediaDir="." shrinkRuntime="false" shortName="flapjack" publisher="The James Hutton Institute" publisherWeb="https://www.hutton.ac.uk" version="x.xx.xx.xx" allPathsRelative="true" macVolumeId="c00051f261301646" javaMinVersion="11">
     <languages skipLanguageSelection="true">
@@ -16,7 +16,7 @@
     <codeSigning macEnabled="true" macPkcs12File="../keys/apple_cert.p12" windowsEnabled="true" windowsKeySource="windows">
       <windowsKeystoreIdentifier issuer="GlobalSign Extended Validation CodeSigning CA - SHA256 - G3" serial="7a0a38112ef50939be9f2665" subject="The James Hutton Institute" />
     </codeSigning>
-    <jreBundles jdkProviderId="AdoptOpenJDK" release="openjdk11/jdk-11.0.8+10" />
+    <jreBundles jdkProviderId="AdoptOpenJDK" release="openjdk11/jdk-11.0.10+9_openj9-0.24.0" />
   </application>
   <files>
     <mountPoints>
@@ -535,7 +535,7 @@ context.goForward(1, true, true);
               </action>
               <action id="423" beanClass="com.install4j.runtime.beans.actions.update.CheckForUpdateAction" actionElevationType="none" failureStrategy="quit">
                 <serializedBean>
-                  <property name="url" type="string">https://ics.hutton.ac.uk/flapjack/installers/updates.xml</property>
+                  <property name="url" type="string">https://bioinf.hutton.ac.uk/flapjack/installers/updates.xml</property>
                   <property name="variable" type="string">updateDescriptor</property>
                 </serializedBean>
               </action>
