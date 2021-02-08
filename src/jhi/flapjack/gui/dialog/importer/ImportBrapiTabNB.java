@@ -27,7 +27,7 @@ class ImportBrapiTabNB extends JPanel
 
 	private void visitUrl()
     {
-        FlapjackUtils.visitURL("http://brapi.org");
+        FlapjackUtils.visitURL("https://brapi.org");
     }
 
     /** This method is called from within the constructor to
@@ -51,7 +51,7 @@ class ImportBrapiTabNB extends JPanel
 
         lblDescription.setText("<html>The Breeding API (BrAPI) Project is an effort to create a RESTful specification to enable interoperability <br/>among plant breeding databases.</html>");
 
-        brapiLink.setText("http://brapi.org");
+        brapiLink.setText("https://brapi.org");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);

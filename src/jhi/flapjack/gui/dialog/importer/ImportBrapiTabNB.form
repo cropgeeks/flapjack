@@ -87,7 +87,7 @@
         </Component>
         <Component class="scri.commons.gui.matisse.HyperLinkLabel" name="brapiLink">
           <Properties>
-            <Property name="text" type="java.lang.String" value="http://brapi.org"/>
+            <Property name="text" type="java.lang.String" value="https://brapi.org"/>
           </Properties>
         </Component>
       </SubComponents>

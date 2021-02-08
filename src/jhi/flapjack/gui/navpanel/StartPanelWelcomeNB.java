@@ -33,7 +33,7 @@ public class StartPanelWelcomeNB extends javax.swing.JPanel implements ActionLis
 			FlapjackUtils.sendFeedback();
 
 		else if (e.getSource() == twitterLabel)
-			FlapjackUtils.visitURL("http://twitter.com/cropgeeks");
+			FlapjackUtils.visitURL("https://twitter.com/cropgeeks");
 	}
 
     /** This method is called from within the constructor to
