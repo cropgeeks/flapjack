@@ -16,7 +16,7 @@
     <codeSigning macEnabled="true" macPkcs12File="../keys/apple_cert.p12" windowsEnabled="true" windowsKeySource="windows">
       <windowsKeystoreIdentifier issuer="GlobalSign Extended Validation CodeSigning CA - SHA256 - G3" serial="7a0a38112ef50939be9f2665" subject="The James Hutton Institute" />
     </codeSigning>
-    <jreBundles jdkProviderId="AdoptOpenJDK" release="openjdk11/jdk-11.0.10+9_openj9-0.24.0" />
+    <jreBundles jdkProviderId="AdoptOpenJDK" release="openjdk11/jdk-11.0.10+9" />
   </application>
   <files>
     <mountPoints>
@@ -1228,7 +1228,5 @@ context.goForward(1, true, true);
     <mediaSet refId="1234" />
     <mediaSet refId="126" />
     <mediaSet refId="1246" />
-    <mediaSet refId="1878" />
-    <mediaSet refId="1893" />
   </buildIds>
 </install4j>
