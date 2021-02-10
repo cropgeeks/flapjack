@@ -3,6 +3,8 @@ Flapjack Help
 
 For more information on Flapjack, or to download the application, please visit the `Flapjack web site`_.
 
+.. tip::
+  We now have a range of :doc:`videos` that you can watch to learn how to use Flapjack.
 
 .. toctree::
    :maxdepth: 2
@@ -72,6 +74,7 @@ For more information on Flapjack, or to download the application, please visit t
    ifb
    analysis_results_tables
    batch_analysis
+   videos
    
 .. toctree::
    :maxdepth: 2
