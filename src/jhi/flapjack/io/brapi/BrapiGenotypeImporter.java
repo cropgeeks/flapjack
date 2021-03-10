@@ -6,8 +6,6 @@ package jhi.flapjack.io.brapi;
 import java.io.*;
 import java.net.*;
 import java.util.*;
-import jhi.brapi.api.genotyping.callsets.*;
-import jhi.brapi.api.genotyping.variantsets.*;
 
 import jhi.flapjack.data.*;
 import jhi.flapjack.gui.*;
@@ -17,6 +15,7 @@ import jhi.flapjack.io.*;
 import okhttp3.*;
 import scri.commons.gui.*;
 import scri.commons.io.*;
+import uk.ac.hutton.ics.brapi.resource.genotyping.variant.*;
 
 public class BrapiGenotypeImporter implements IGenotypeImporter
 {
@@ -139,7 +138,7 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 		for (Format f: vSet.getAvailableFormats())
 		{
 			if (f.getDataFormat().equalsIgnoreCase("flapjack"))
-				uri = new URI(f.getFileURL());
+				uri = f.getFileURL();
 		}
 
 		// TODO: Better warning if no flapjack format/url found?

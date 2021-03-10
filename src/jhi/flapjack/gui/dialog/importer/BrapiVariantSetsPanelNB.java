@@ -7,12 +7,12 @@ import java.text.*;
 import java.util.*;
 import javax.swing.*;
 import javax.swing.table.*;
-import jhi.brapi.api.genotyping.variantsets.*;
 
 import jhi.flapjack.gui.*;
 import jhi.flapjack.io.brapi.*;
 
 import scri.commons.gui.*;
+import uk.ac.hutton.ics.brapi.resource.genotyping.variant.VariantSet;
 
 class BrapiVariantSetsPanelNB extends JPanel implements IBrapiWizard
 {

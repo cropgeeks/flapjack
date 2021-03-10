@@ -13,12 +13,12 @@ import jhi.flapjack.io.brapi.*;
 
 import scri.commons.gui.*;
 
-import jhi.brapi.api.genotyping.genomemaps.*;
+import uk.ac.hutton.ics.brapi.resource.genotyping.map.Map;
 
 class BrapiMapsPanelNB extends JPanel implements IBrapiWizard
 {
 	private BrapiClient client;
-	private List<GenomeMap> maps;
+	private List<Map> maps;
 
 	private BrapiImportDialog dialog;
 
@@ -40,7 +40,7 @@ class BrapiMapsPanelNB extends JPanel implements IBrapiWizard
 
 		if (index >= 0)
 		{
-			GenomeMap map = maps.get(index);
+			Map map = maps.get(index);
 
 			client.setMapID("" + map.getMapDbId());
 
@@ -79,7 +79,7 @@ class BrapiMapsPanelNB extends JPanel implements IBrapiWizard
 		// Populate the maps combo box
 		mapModel = new DefaultComboBoxModel<String>();
 
-		for (GenomeMap map: maps)
+		for (Map map: maps)
 			mapModel.addElement(map.getMapDbId() + ": " + map.getMapName());
 
 		mapsCombo.setModel(mapModel);

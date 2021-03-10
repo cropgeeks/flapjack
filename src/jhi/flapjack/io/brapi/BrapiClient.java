@@ -5,28 +5,29 @@ package jhi.flapjack.io.brapi;
 
 import java.io.*;
 import java.net.*;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.zip.*;
 import javax.xml.bind.*;
 
 import jhi.flapjack.gui.*;
 
-import jhi.brapi.api.*;
-import jhi.brapi.api.authentication.*;
-import jhi.brapi.api.core.serverinfo.*;
-import jhi.brapi.api.core.studies.*;
-import jhi.brapi.api.genotyping.callsets.*;
-import jhi.brapi.api.genotyping.genomemaps.*;
-import jhi.brapi.api.genotyping.variantsets.*;
-import jhi.brapi.client.*;
-
 import retrofit2.Response;
 import scri.commons.gui.*;
+import uk.ac.hutton.ics.brapi.client.*;
+import uk.ac.hutton.ics.brapi.resource.base.*;
+import uk.ac.hutton.ics.brapi.resource.core.serverinfo.ServerInfo;
+import uk.ac.hutton.ics.brapi.resource.core.study.Study;
+import uk.ac.hutton.ics.brapi.resource.genotyping.call.*;
+import uk.ac.hutton.ics.brapi.resource.genotyping.map.*;
+import uk.ac.hutton.ics.brapi.resource.genotyping.map.Map;
+import uk.ac.hutton.ics.brapi.resource.genotyping.variant.VariantSet;
 
 public class BrapiClient
 {
 	private RetrofitServiceGenerator generator;
-	private RetrofitService service;
+	private BrapiCoreService coreService;
+	private BrapiGenotypingService genotypeService;
 	private String baseURL;
 
 	// The resource selected by the user for use
@@ -53,40 +54,35 @@ public class BrapiClient
 		baseURL = baseURL.endsWith("/") ? baseURL : baseURL + "/";
 
 		generator = new RetrofitServiceGenerator(baseURL, resource.getCertificate());
-		service = generator.generate(null);
+		genotypeService = generator.generateGenotype(null);
+		coreService = generator.generateCore(null);
 	}
 
 	private String enc(String str)
 	{
-		try
-		{
-			return URLEncoder.encode(str, "UTF-8");
-		}
-		catch (UnsupportedEncodingException e)
-		{
-			return str;
-		}
+		return URLEncoder.encode(str, StandardCharsets.UTF_8);
 	}
 
 	public void getServerInfo()
 		throws Exception
 	{
-		BrapiServerInfo serverInfo = new BrapiServerInfo();
+		ServerInfo serverInfo = new ServerInfo();
 
-		Response<BrapiBaseResource<BrapiServerInfo>> response = service.getServerInfo(null)
-			.execute();
+		Response<BaseResult<ServerInfo>> response = coreService.getServerInfo(null, 0, Integer.MAX_VALUE)
+																   .execute();
 
 		if (response.isSuccessful())
 		{
-			BrapiBaseResource<BrapiServerInfo> serverInfoResponse = response.body();
+			BaseResult<ServerInfo> serverInfoResponse = response.body();
 
 			serverInfo = serverInfoResponse.getResult();
 		}
 		else
 		{
-			String errorMessage = ErrorHandler.getMessage(generator, response);
-
-			throw new Exception(errorMessage);
+//			String errorMessage = ErrorHandler.getMessage(generator, response);
+//
+//			throw new Exception(errorMessage);
+			throw new Exception("Generic BrAPI error");
 		}
 
 		callsUtils = new CallsUtils(serverInfo.getCalls());
@@ -128,53 +124,56 @@ public class BrapiClient
 	public boolean doAuthentication()
 		throws Exception
 	{
-		if (username == null && password == null)
-			return false;
+//		if (username == null && password == null)
+//			return false;
+//
+//		BrapiTokenLoginPost tokenPost = new BrapiTokenLoginPost(username, password, "password", "flapjack");
+//
+//		Response<BrapiSessionToken> response = genotypeService.getAuthToken(tokenPost).execute();
+//
+//		if (response.isSuccessful())
+//		{
+//			BrapiSessionToken token = response.body();
+//
+//			if (token == null)
+//				return false;
+//
+//			genotypeService = generator.generate(token.getAccess_token());
+//			return true;
+//		}
+//		else
+//		{
+//			return false;
+//		}
 
-		BrapiTokenLoginPost tokenPost = new BrapiTokenLoginPost(username, password, "password", "flapjack");
-
-		Response<BrapiSessionToken> response = service.getAuthToken(tokenPost).execute();
-
-		if (response.isSuccessful())
-		{
-			BrapiSessionToken token = response.body();
-
-			if (token == null)
-				return false;
-
-			service = generator.generate(token.getAccess_token());
-			return true;
-		}
-		else
-		{
-			return false;
-		}
+		return true;
 	}
 
 	// Returns a list of available maps
-	public List<GenomeMap> getMaps()
+	public List<Map> getMaps()
 		throws Exception
 	{
-		List<GenomeMap> mapList = new ArrayList<>();
+		List<Map> mapList = new ArrayList<>();
 		Pager pager = new Pager();
 
 		while (pager.isPaging())
 		{
-			Response<BrapiListResource<GenomeMap>> response = service.getMaps(null, null, null, null, null, null, null, pager.getPageSize(), pager.getPage())
-				.execute();
+			Response<BaseResult<ArrayResult<Map>>> response = genotypeService.getMaps(null, null, null, null, null, null, null, null, pager.getPage(), pager.getPageSize())
+																 .execute();
 
 			if (response.isSuccessful())
 			{
-				BrapiListResource<GenomeMap> maps = response.body();
+				BaseResult<ArrayResult<Map>> maps = response.body();
 
-				mapList.addAll(maps.data());
+				mapList.addAll(maps.getResult().getData());
 				pager.paginate(maps.getMetadata());
 			}
 			else
 			{
-				String errorMessage = ErrorHandler.getMessage(generator, response);
-
-				throw new Exception(errorMessage);
+//				String errorMessage = ErrorHandler.getMessage(generator, response);
+//
+//				throw new Exception(errorMessage);
+				throw new Exception("Generic BrAPI error");
 			}
 		}
 
@@ -190,21 +189,22 @@ public class BrapiClient
 
 		while (pager.isPaging())
 		{
-			Response<BrapiListResource<MarkerPosition>> response = service.getMarkerPositions(enc(mapID), null, null, null, null, pager.getPageSize(), pager.getPage())
-				.execute();
+			Response<BaseResult<ArrayResult<MarkerPosition>>> response = genotypeService.getMarkerPositions(enc(mapID), null, null, null, null, pager.getPage(), pager.getPageSize())
+																			.execute();
 
 			if (response.isSuccessful())
 			{
-				BrapiListResource<MarkerPosition> markerPositions = response.body();
+				BaseResult<ArrayResult<MarkerPosition>> markerPositions = response.body();
 
-				markerPositionList.addAll(markerPositions.data());
+				markerPositionList.addAll(markerPositions.getResult().getData());
 				pager.paginate(markerPositions.getMetadata());
 			}
 			else
 			{
-				String errorMessage = ErrorHandler.getMessage(generator, response);
-
-				throw new Exception(errorMessage);
+//				String errorMessage = ErrorHandler.getMessage(generator, response);
+//
+//				throw new Exception(errorMessage);
+				throw new Exception("Generic BrAPI error");
 			}
 
 		}
@@ -221,23 +221,24 @@ public class BrapiClient
 
 		while (pager.isPaging())
 		{
-			Response<BrapiListResource<Study>> response = service.getStudies(null, "genotype", null, null,
-				null, null, null, null, null, null, null, null, null, null,
-				null,  pager.getPageSize(), pager.getPage())
-				.execute();
+			Response<BaseResult<ArrayResult<Study>>> response = coreService.getStudies(null, "genotype", null, null,
+				null, null, null, null, null, null, null, null, null, null, null, null,
+				null, pager.getPage(), pager.getPageSize())
+																   .execute();
 
 			if (response.isSuccessful())
 			{
-				BrapiListResource<Study> studies = response.body();
+				BaseResult<ArrayResult<Study>> studies = response.body();
 
-				studiesList.addAll(studies.data());
+				studiesList.addAll(studies.getResult().getData());
 				pager.paginate(studies.getMetadata());
 			}
 			else
 			{
-				String errorMessage = ErrorHandler.getMessage(generator, response);
-
-				throw new Exception(errorMessage);
+//				String errorMessage = ErrorHandler.getMessage(generator, response);
+//
+//				throw new Exception(errorMessage);
+				throw new Exception("Generic BrAPI error");
 			}
 		}
 
@@ -258,21 +259,22 @@ public class BrapiClient
 
 		while (pager.isPaging())
 		{
-			Response<BrapiListResource<CallSet>> response = service.getCallSets(null, null, studyID, null, null, pager.getPageSize(), pager.getPage())
-				.execute();
+			Response<BaseResult<ArrayResult<CallSet>>> response = genotypeService.getCallsets(null, null, studyID, null, null, pager.getPage(), pager.getPageSize())
+																	 .execute();
 
 			if (response.isSuccessful())
 			{
-				BrapiListResource<CallSet> callset = response.body();
+				BaseResult<ArrayResult<CallSet>> callset = response.body();
 
-				callsetList.addAll(callset.data());
+				callsetList.addAll(callset.getResult().getData());
 				pager.paginate(callset.getMetadata());
 			}
 			else
 			{
-				String errorMessage = ErrorHandler.getMessage(generator, response);
-
-				throw new Exception(errorMessage);
+//				String errorMessage = ErrorHandler.getMessage(generator, response);
+//
+//				throw new Exception(errorMessage);
+				throw new Exception("Generic BrAPI error");
 			}
 		}
 
@@ -287,21 +289,22 @@ public class BrapiClient
 
 		while (pager.isPaging())
 		{
-			Response<BrapiListResource<VariantSet>> response = service.getVariantSets(null, null, studyID, null, null, pager.getPageSize(), pager.getPage())
-				.execute();
+			Response<BaseResult<ArrayResult<VariantSet>>> response = genotypeService.getVariantSets(null, null, studyID, null, null, pager.getPage(), pager.getPageSize())
+																		.execute();
 
 			if (response.isSuccessful())
 			{
-				BrapiListResource<VariantSet> variantSet = response.body();
+				BaseResult<ArrayResult<VariantSet>> variantSet = response.body();
 
-				vList.addAll(variantSet.data());
+				vList.addAll(variantSet.getResult().getData());
 				pager.paginate(variantSet.getMetadata());
 			}
 			else
 			{
-				String errorMessage = ErrorHandler.getMessage(generator, response);
-
-				throw new Exception(errorMessage);
+//				String errorMessage = ErrorHandler.getMessage(generator, response);
+//
+//				throw new Exception(errorMessage);
+				throw new Exception("Generic BrAPI error");
 			}
 
 		}
@@ -314,20 +317,21 @@ public class BrapiClient
 	{
 		VariantSet variantSet = null;
 
-		Response<BrapiBaseResource<VariantSet>> response = service.getVariantSetById(variantSetID)
-			.execute();
+		Response<BaseResult<VariantSet>> response = genotypeService.getVariantSetById(variantSetID)
+																   .execute();
 
 		if (response.isSuccessful())
 		{
-			BrapiBaseResource<VariantSet> r = response.body();
+			BaseResult<VariantSet> r = response.body();
 
 			variantSet = r.getResult();
 		}
 		else
 		{
-			String errorMessage = ErrorHandler.getMessage(generator, response);
-
-			throw new Exception(errorMessage);
+//			String errorMessage = ErrorHandler.getMessage(generator, response);
+//
+//			throw new Exception(errorMessage);
+			throw new Exception("Generic BrAPI error");
 		}
 
 		return variantSet;
@@ -348,7 +352,7 @@ public class BrapiClient
 		BufferedWriter out = new BufferedWriter(new FileWriter(cacheFile));
 
 //		List<CallSetCallsDetail> list = new ArrayList<>();
-		TokenPager pager = new TokenPager();
+		Pager pager = new Pager();
 
 		int page = 0;
 		while (pager.isPaging() && isOk)
@@ -357,18 +361,18 @@ public class BrapiClient
 			// We only have the *current* page's infomation, so the next page we
 			// need to ask for is pager.getNextPageToken() even though the
 			// method parameter itself is just called pageToken
-			Response<BrapiMasterDetailResourcePageToken<CallSetCalls>> response = service.getVariantSetCalls(variantSetID, pager.getPageSize(), pager.getNextPageToken())
-				.execute();
+			Response<TokenBaseResult<CallResult<Call>>> response = genotypeService.getVariantSetByIdCalls(variantSetID, null, null, null, null, pager.getNextPageToken(), pager.getPageSize())
+																									 .execute();
 
 			if (response.isSuccessful())
 			{
-				BrapiMasterDetailResourcePageToken<CallSetCalls> r = response.body();
+				TokenBaseResult<CallResult<Call>> r = response.body();
 
 //				list.addAll(r.getResult().getData());
 				pager.paginate(r.getMetadata());
 
 				// Cache each line/marker/allele intersection to disk
-				for (CallSetCallsDetail detail: r.getResult().getData())
+				for (Call detail: r.getResult().getData())
 				{
 					lines.put(detail.getCallSetName(), "");
 					markers.put(detail.getVariantName(), "");
@@ -396,10 +400,10 @@ public class BrapiClient
 			}
 			else
 			{
-				String errorMessage = ErrorHandler.getMessage(generator, response);
-
+//				String errorMessage = ErrorHandler.getMessage(generator, response);
 				out.close();
-				throw new Exception(errorMessage);
+//				throw new Exception(errorMessage);
+				throw new Exception("Generic BrAPI error");
 			}
 		}
 
@@ -451,24 +455,13 @@ public class BrapiClient
 		Pager pager = new Pager();
 
 		// Check if the studies call requires authentication
-		int responseCode = service.getStudies(null, "genotype", null, null,
-			null, null, null, null, null, null, null, null, null, null,
-			null,  pager.getPageSize(), pager.getPage())
-			.execute().code();
+		int responseCode = coreService.getStudies(null, "genotype", null, null,
+			null, null, null, null, null, null, null, null, null, null, null, null, null,
+			pager.getPage(), pager.getPageSize())
+										  .execute().code();
 
 		// 401 and 403 represent the two possible unauthorized / unauthenticated response codes
 		return responseCode == 401 || responseCode == 403;
-	}
-
-	// Use the okhttp client we configured our retrofit service with. This means
-	// the client is configured with any authentication tokens and any custom
-	// certificates that may be required to interact with the current BrAPI
-	// resource
-	InputStream getInputStream(URI uri)
-		throws Exception
-	{
-		// TODO: Don't return the bytestream directly, check status codes wherever we hit URIs
-		return generator.getResponse(uri).body().byteStream();
 	}
 
 	okhttp3.Response getResponse(URI uri)
@@ -484,7 +477,8 @@ public class BrapiClient
 
 	public void removeAuthHeader()
 	{
-		service = generator.removeAuthHeader();
+		genotypeService = generator.removeGenotypeAuthHeader();
+		coreService = generator.removeCoreAuthHeader();
 	}
 
 

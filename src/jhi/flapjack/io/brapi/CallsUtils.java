@@ -5,7 +5,7 @@ package jhi.flapjack.io.brapi;
 
 import java.util.*;
 
-import jhi.brapi.api.core.serverinfo.*;
+import uk.ac.hutton.ics.brapi.resource.base.BrapiCall;
 
 class CallsUtils
 {
@@ -41,7 +41,7 @@ class CallsUtils
 	boolean hasCall(String signature, String datatype, String method)
 	{
 		for (BrapiCall call : calls)
-			if (call.getService().equals(signature) && call.hasDataType(datatype) && call.hasMethod(method))
+			if (call.getService().equals(signature) && call.hasDataType(BrapiCall.DataType.getFromString(datatype)) && call.hasMethod(BrapiCall.Method.valueOf(method)))
 				return true;
 
 		return false;

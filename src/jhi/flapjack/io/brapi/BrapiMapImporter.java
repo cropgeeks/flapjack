@@ -10,7 +10,7 @@ import jhi.flapjack.data.*;
 import jhi.flapjack.gui.*;
 import jhi.flapjack.io.*;
 
-import jhi.brapi.api.genotyping.genomemaps.*;
+import uk.ac.hutton.ics.brapi.resource.genotyping.map.MarkerPosition;
 
 public class BrapiMapImporter implements IMapImporter
 {
@@ -70,7 +70,7 @@ public class BrapiMapImporter implements IMapImporter
 			// Each MapEntry represents a marker: its name, chromosome, and
 			// location on chromosome
 
-			double position = nf.parse(bm.getPosition()).doubleValue();
+			double position = bm.getPosition();
 			String chromosome = bm.getLinkageGroupName();
 
 			Marker marker = new Marker(bm.getVariantName(), position);
