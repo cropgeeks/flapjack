@@ -88,7 +88,7 @@ class FindPanelNB extends JPanel implements ActionListener
 
 	private void initLinkLabel()
 	{
-		final String html = "https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/regex/Pattern.html";
+		final String html = "https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/regex/Pattern.html#sum";
 
 		// Turns the label into a blue mouse-over clickable link to a website
 		link.setText(RB.getString("gui.dialog.NBFindPanel.link"));
