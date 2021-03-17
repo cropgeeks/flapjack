@@ -289,7 +289,7 @@ public class BrapiClient
 
 		while (pager.isPaging())
 		{
-			Response<BaseResult<ArrayResult<VariantSet>>> response = genotypeService.getVariantSets(null, null, studyID, null, null, pager.getPage(), pager.getPageSize())
+			Response<BaseResult<ArrayResult<VariantSet>>> response = genotypeService.getVariantSets(null, null, null, studyID, null, pager.getPage(), pager.getPageSize())
 																		.execute();
 
 			if (response.isSuccessful())
