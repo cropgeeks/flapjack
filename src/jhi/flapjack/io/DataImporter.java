@@ -107,6 +107,8 @@ public class DataImporter extends SimpleJob
 
 			// Collapse (eg) A/A into A
 			pio.collapseHomzEncodedAsHet();
+			// Change ABH data into A and B and A/B
+			pio.detectABH();
 			// Collapse heterozyous states
 			if (Prefs.ioHeteroCollapse)
 				pio.optimizeStateTable();

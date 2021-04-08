@@ -157,6 +157,7 @@ public class CreateProjectBatch
 
 		PostImportOperations pio = new PostImportOperations(dataSet);
 		pio.collapseHomzEncodedAsHet();
+		pio.detectABH();
 		if (importSettings.isCollapseHeteozygotes())
 			pio.optimizeStateTable();
 		pio.createDefaultView(importSettings.isForceNucScheme());

@@ -35,6 +35,12 @@ public class PostImportOperations
 		c.optimize(false);
 	}
 
+	public void detectABH()
+	{
+		OptimizeStateTable c = new OptimizeStateTable(dataSet);
+		c.detectABH();
+	}
+
 	public void setName(File importFile, BrapiClient client)
 	{
 		if (importFile != null)
@@ -91,8 +97,8 @@ public class PostImportOperations
 			viewSet.setColorScheme(ColorScheme.BINNED_10);
 
 		// ABH
-		else if (dataSet.getStateTable().containsABHData())
-			viewSet.setColorScheme(ColorScheme.ABH_DATA);
+//		else if (dataSet.getStateTable().containsABHData())
+//			viewSet.setColorScheme(ColorScheme.ABH_DATA);
 		// Two colour
 		else if (hCount > 0 && hCount < 10)
 			viewSet.setColorScheme(ColorScheme.SIMPLE_TWO_COLOR);

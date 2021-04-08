@@ -37,6 +37,23 @@ public class OptimizeStateTable
 		optimize(true);
 	}
 
+	public void detectABH()
+	{
+		if (stateTable.containsABHData() == false)
+			return;
+
+		for (int i = 1; i < stateTable.size(); i++)
+		{
+			AlleleState s = stateTable.getAlleleState(i);
+
+			if (s.isHomozygous() && s.homzAllele().equals("H"))
+			{
+				s = new AlleleState("A/B", "/");
+				stateTable.getStates().set(i, s);
+			}
+		}
+	}
+
 	public void optimize(boolean compareHomzOnly)
 	{
 		// This lookup table will hold remapped references to the AlleleState
