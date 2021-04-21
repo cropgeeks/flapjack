@@ -306,6 +306,11 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 			// Fetch the marker
 			MarkerIndex mi = queryMarker(new String(tokens[1]));
 
+			// Ignore markers that aren't on the map we have (if no map was imported then
+			// everything will load because a dummy map is built)
+			if (mi == null)
+				continue;
+
 			// Now assign the allele
 			Integer stateCode = states.computeIfAbsent(new String(tokens[2]), k -> stateTable.getStateCode(k, true, ioMissingData, ioHeteroSeparator));
 

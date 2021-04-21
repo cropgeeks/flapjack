@@ -78,14 +78,12 @@ public class BrapiClient
 			BaseResult<ServerInfo> serverInfoResponse = response.body();
 
 			serverInfo = serverInfoResponse.getResult();
+
+			if (serverInfo == null)
+				throwError(0, null);
 		}
 		else
-		{
-//			String errorMessage = ErrorHandler.getMessage(generator, response);
-//
-//			throw new Exception(errorMessage);
-			throw new Exception("Generic BrAPI error");
-		}
+			throwError(response.code(), response.message());
 
 		callsUtils = new CallsUtils(serverInfo.getCalls());
 	}
@@ -165,16 +163,14 @@ public class BrapiClient
 			{
 				BaseResult<ArrayResult<Map>> maps = response.body();
 
+				if (maps == null)
+					throwError(0, null);
+
 				mapList.addAll(maps.getResult().getData());
 				pager.paginate(maps.getMetadata());
 			}
 			else
-			{
-//				String errorMessage = ErrorHandler.getMessage(generator, response);
-//
-//				throw new Exception(errorMessage);
-				throw new Exception("Generic BrAPI error");
-			}
+				throwError(response.code(), response.message());
 		}
 
 		return mapList;
@@ -196,17 +192,14 @@ public class BrapiClient
 			{
 				BaseResult<ArrayResult<MarkerPosition>> markerPositions = response.body();
 
+				if (markerPositions == null)
+					throwError(0, null);
+
 				markerPositionList.addAll(markerPositions.getResult().getData());
 				pager.paginate(markerPositions.getMetadata());
 			}
 			else
-			{
-//				String errorMessage = ErrorHandler.getMessage(generator, response);
-//
-//				throw new Exception(errorMessage);
-				throw new Exception("Generic BrAPI error");
-			}
-
+				throwError(response.code(), response.message());
 		}
 
 		return markerPositionList;
@@ -230,16 +223,14 @@ public class BrapiClient
 			{
 				BaseResult<ArrayResult<Study>> studies = response.body();
 
+				if (studies == null)
+					throwError(0, null);
+
 				studiesList.addAll(studies.getResult().getData());
 				pager.paginate(studies.getMetadata());
 			}
 			else
-			{
-//				String errorMessage = ErrorHandler.getMessage(generator, response);
-//
-//				throw new Exception(errorMessage);
-				throw new Exception("Generic BrAPI error");
-			}
+				throwError(response.code(), response.message());
 		}
 
 		return studiesList;
@@ -266,16 +257,14 @@ public class BrapiClient
 			{
 				BaseResult<ArrayResult<CallSet>> callset = response.body();
 
+				if (callset == null)
+					throwError(0, null);
+
 				callsetList.addAll(callset.getResult().getData());
 				pager.paginate(callset.getMetadata());
 			}
 			else
-			{
-//				String errorMessage = ErrorHandler.getMessage(generator, response);
-//
-//				throw new Exception(errorMessage);
-				throw new Exception("Generic BrAPI error");
-			}
+				throwError(response.code(), response.message());
 		}
 
 		return callsetList;
@@ -296,17 +285,14 @@ public class BrapiClient
 			{
 				BaseResult<ArrayResult<VariantSet>> variantSet = response.body();
 
+				if (variantSet == null)
+					throwError(0, null);
+
 				vList.addAll(variantSet.getResult().getData());
 				pager.paginate(variantSet.getMetadata());
 			}
 			else
-			{
-//				String errorMessage = ErrorHandler.getMessage(generator, response);
-//
-//				throw new Exception(errorMessage);
-				throw new Exception("Generic BrAPI error");
-			}
-
+				throwError(response.code(), response.message());
 		}
 
 		return vList;
@@ -319,22 +305,29 @@ public class BrapiClient
 
 		Response<BaseResult<VariantSet>> response = genotypeService.getVariantSetById(variantSetID)
 																   .execute();
-
 		if (response.isSuccessful())
 		{
 			BaseResult<VariantSet> r = response.body();
 
 			variantSet = r.getResult();
+
+			if (variantSet == null)
+				throwError(0, null);
 		}
 		else
-		{
-//			String errorMessage = ErrorHandler.getMessage(generator, response);
-//
-//			throw new Exception(errorMessage);
-			throw new Exception("Generic BrAPI error");
-		}
+			throwError(response.code(), response.message());
 
 		return variantSet;
+	}
+
+	private void throwError(int code, String responseMessage)
+		throws Exception
+	{
+		if (responseMessage != null)
+			throw new Exception("There was an error communicating with the server:\n  HTTP status code: "
+				+ code+ "\n  HTTP status msg:  " + responseMessage);
+		else
+			throw new Exception("Flapjack could not process the data returned by the server.");
 	}
 
 	// Returns a list of CallSetCallsDetail objects, where each object defines
@@ -374,6 +367,9 @@ public class BrapiClient
 				// Cache each line/marker/allele intersection to disk
 				for (Call detail: r.getResult().getData())
 				{
+					if (detail == null)
+						throwError(0, null);
+
 					lines.put(detail.getCallSetName(), "");
 					markers.put(detail.getVariantName(), "");
 					alleles++;
@@ -399,12 +395,7 @@ public class BrapiClient
 				System.out.println("Processed page " + (++page) + " out of " + pager.getTotalPages());
 			}
 			else
-			{
-//				String errorMessage = ErrorHandler.getMessage(generator, response);
-				out.close();
-//				throw new Exception(errorMessage);
-				throw new Exception("Generic BrAPI error");
-			}
+				throwError(response.code(), response.message());
 		}
 
 		out.close();
