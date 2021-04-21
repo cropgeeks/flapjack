@@ -28,6 +28,7 @@ public class BrapiClient
 	private RetrofitServiceGenerator generator;
 	private BrapiCoreService coreService;
 	private BrapiGenotypingService genotypeService;
+	private TokenService tokenService;
 	private String baseURL;
 
 	// The resource selected by the user for use
@@ -56,6 +57,7 @@ public class BrapiClient
 		generator = new RetrofitServiceGenerator(baseURL, resource.getCertificate());
 		genotypeService = generator.generateGenotype(null);
 		coreService = generator.generateCore(null);
+		tokenService = generator.generateToken();
 	}
 
 	private String enc(String str)
@@ -124,29 +126,27 @@ public class BrapiClient
 	public boolean doAuthentication()
 		throws Exception
 	{
-//		if (username == null && password == null)
-//			return false;
-//
-//		BrapiTokenLoginPost tokenPost = new BrapiTokenLoginPost(username, password, "password", "flapjack");
-//
-//		Response<BrapiSessionToken> response = genotypeService.getAuthToken(tokenPost).execute();
-//
-//		if (response.isSuccessful())
-//		{
-//			BrapiSessionToken token = response.body();
-//
-//			if (token == null)
-//				return false;
-//
-//			genotypeService = generator.generate(token.getAccess_token());
-//			return true;
-//		}
-//		else
-//		{
-//			return false;
-//		}
+		if (username == null && password == null)
+			return false;
 
-		return true;
+		BrapiTokenLoginPost tokenPost = new BrapiTokenLoginPost(username, password, "password", "flapjack");
+
+		Response<BrapiSessionToken> response = tokenService.getAuthToken(tokenPost).execute();
+
+		if (response.isSuccessful())
+		{
+			BrapiSessionToken token = response.body();
+
+			if (token == null)
+				return false;
+
+			genotypeService = generator.generateGenotype(token.getAccess_token());
+			coreService = generator.generateCore(token.getAccess_token());
+
+			return true;
+		}
+
+		return false;
 	}
 
 	// Returns a list of available maps

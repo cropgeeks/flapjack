@@ -1,11 +1,6 @@
 package jhi.flapjack.io.brapi;
 
-import javax.net.ssl.*;
-import java.io.*;
 import java.net.*;
-import java.security.*;
-import java.security.cert.*;
-import java.security.cert.Certificate;
 import java.util.concurrent.*;
 
 import com.fasterxml.jackson.databind.*;
@@ -35,6 +30,27 @@ public class RetrofitServiceGenerator
 
 	public BrapiGenotypingService generateGenotype(String authToken)
 	{
+		initClient(authToken);
+
+		return buildGenotypeService(baseURL, httpClient);
+	}
+
+	public BrapiCoreService generateCore(String authToken)
+	{
+		initClient(authToken);
+
+		return buildCoreService(baseURL, httpClient);
+	}
+
+	public TokenService generateToken()
+	{
+		initClient(null);
+
+		return buildTokenService(baseURL, httpClient);
+	}
+
+	private void initClient(String authToken)
+	{
 		authHeader = buildInterceptor(authToken);
 
 		// Tweak to make the timeout on Retrofit connections last longer
@@ -48,53 +64,9 @@ public class RetrofitServiceGenerator
 		// trust manager and keystore
 		try
 		{
-			httpClient = initCertificate(httpClient, certificate);
+//			httpClient = initCertificate(httpClient, certificate);
 		}
 		catch (Exception e) { e.printStackTrace(); }
-
-		return buildGenotypeService(baseURL, httpClient);
-	}
-
-	public BrapiCoreService generateCore(String authToken)
-	{
-		authHeader = buildInterceptor(authToken);
-
-		// Tweak to make the timeout on Retrofit connections last longer
-		httpClient = new OkHttpClient.Builder()
-			.readTimeout(60, TimeUnit.SECONDS)
-			.connectTimeout(60, TimeUnit.SECONDS)
-			.addNetworkInterceptor(authHeader)
-			.build();
-
-		// If the resource has an associated certificate, ensure it is in the
-		// trust manager and keystore
-		try
-		{
-			httpClient = initCertificate(httpClient, certificate);
-		}
-		catch (Exception e) { e.printStackTrace(); }
-
-		return buildCoreService(baseURL, httpClient);
-	}
-
-	public BrapiGenotypingService removeGenotypeAuthHeader()
-	{
-		OkHttpClient.Builder builder = httpClient.newBuilder();
-		builder.networkInterceptors().remove(authHeader);
-
-		httpClient = builder.build();
-
-		return buildGenotypeService(baseURL, httpClient);
-	}
-
-	public BrapiCoreService removeCoreAuthHeader()
-	{
-		OkHttpClient.Builder builder = httpClient.newBuilder();
-		builder.networkInterceptors().remove(authHeader);
-
-		httpClient = builder.build();
-
-		return buildCoreService(baseURL, httpClient);
 	}
 
 	private Interceptor buildInterceptor(String authToken)
@@ -121,7 +93,82 @@ public class RetrofitServiceGenerator
 		return inter;
 	}
 
-	private OkHttpClient initCertificate(OkHttpClient client, String certificate)
+	public BrapiGenotypingService removeGenotypeAuthHeader()
+	{
+		removeAuthHeader();
+		return buildGenotypeService(baseURL, httpClient);
+	}
+
+	public BrapiCoreService removeCoreAuthHeader()
+	{
+		removeAuthHeader();
+		return buildCoreService(baseURL, httpClient);
+	}
+
+	// Removes all authentication info (eg user changed password so it's all
+	// going to get reinitialised)
+	private void removeAuthHeader()
+	{
+		OkHttpClient.Builder builder = httpClient.newBuilder();
+		builder.networkInterceptors().remove(authHeader);
+		httpClient = builder.build();
+	}
+
+	private void initMapper(String baseURL, OkHttpClient client)
+	{
+		ObjectMapper mapper = new ObjectMapper()
+			.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+		this.retrofit = (new retrofit2.Retrofit.Builder())
+			.baseUrl(baseURL)
+			.addConverterFactory(JacksonConverterFactory.create(mapper))
+			.client(client)
+			.build();
+	}
+
+	private BrapiGenotypingService buildGenotypeService(String baseURL, OkHttpClient client)
+	{
+		initMapper(baseURL, client);
+
+		return retrofit.create(BrapiGenotypingService.class);
+	}
+
+	private BrapiCoreService buildCoreService(String baseURL, OkHttpClient client)
+	{
+		initMapper(baseURL, client);
+
+		return retrofit.create(BrapiCoreService.class);
+	}
+
+	private TokenService buildTokenService(String baseURL, OkHttpClient client)
+	{
+		initMapper(baseURL, client);
+
+		return retrofit.create(TokenService.class);
+	}
+
+	public Response getResponse(URI uri)
+		throws Exception
+	{
+		Request request = new Request.Builder()
+			.url(uri.toURL())
+			.build();
+
+		return httpClient.newCall(request).execute();
+	}
+
+	Retrofit getRetrofit()
+	{
+		return retrofit;
+	}
+
+	public void cancelAll()
+	{
+		httpClient.dispatcher().cancelAll();
+	}
+
+	// This was needed for dealing with self-signed certs; BrAPI spec states that
+	// all services should be on proper HTTPS so this isn't needed (outwith testing)
+/*	private OkHttpClient initCertificate(OkHttpClient client, String certificate)
 			throws Exception
 	{
 		if (certificate == null || certificate.isEmpty())
@@ -154,50 +201,5 @@ public class RetrofitServiceGenerator
 
 		return client;
 	}
-
-	private BrapiGenotypingService buildGenotypeService(String baseURL, OkHttpClient client)
-	{
-		ObjectMapper mapper = new ObjectMapper()
-			.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-		this.retrofit = (new retrofit2.Retrofit.Builder())
-			.baseUrl(baseURL)
-			.addConverterFactory(JacksonConverterFactory.create(mapper))
-			.client(client)
-			.build();
-
-		return retrofit.create(BrapiGenotypingService.class);
-	}
-
-	private BrapiCoreService buildCoreService(String baseURL, OkHttpClient client)
-	{
-		ObjectMapper mapper = new ObjectMapper()
-			.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-		this.retrofit = (new retrofit2.Retrofit.Builder())
-			.baseUrl(baseURL)
-			.addConverterFactory(JacksonConverterFactory.create(mapper))
-			.client(client)
-			.build();
-
-		return retrofit.create(BrapiCoreService.class);
-	}
-
-	public Response getResponse(URI uri)
-		throws Exception
-	{
-		Request request = new Request.Builder()
-			.url(uri.toURL())
-			.build();
-
-		return httpClient.newCall(request).execute();
-	}
-
-	Retrofit getRetrofit()
-	{
-		return retrofit;
-	}
-
-	public void cancelAll()
-	{
-		httpClient.dispatcher().cancelAll();
-	}
+*/
 }
