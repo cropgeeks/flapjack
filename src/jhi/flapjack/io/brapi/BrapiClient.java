@@ -29,7 +29,7 @@ public class BrapiClient
 	private BrapiCoreService coreService;
 	private BrapiGenotypingService genotypeService;
 	private TokenService tokenService;
-	private String baseURL;
+	String baseURL;
 
 	// The resource selected by the user for use
 	private XmlResource resource;

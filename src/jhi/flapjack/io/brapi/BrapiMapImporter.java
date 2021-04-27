@@ -19,7 +19,7 @@ public class BrapiMapImporter implements IMapImporter
 
 	// Each marker's name is stored (only while loading) in a hashmap, along
 	// with the index of the chromosome it is associated with
-	private HashMap<String, MarkerIndex> markers = new HashMap<>();
+	private HashMap<String, MarkerIndex> markersByDBId = new HashMap<>();
 	private HashMap<String, MarkerIndex> markersByName = new HashMap<>();
 	private long markerCount = 0;
 
@@ -35,9 +35,6 @@ public class BrapiMapImporter implements IMapImporter
 
 	@Override
 	public HashMap<String, MarkerIndex> getMarkersHashMap()
-		{ return markers; }
-
-	public HashMap<String, MarkerIndex> getMarkersByName()
 		{ return markersByName; }
 
 	@Override
@@ -76,7 +73,7 @@ public class BrapiMapImporter implements IMapImporter
 			Marker marker = new Marker(bm.getVariantName(), position);
 
 			// Check to see if this marker already exists (in any map)?
-			MarkerIndex index = markers.get(bm.getVariantDbId());
+			MarkerIndex index = markersByDBId.get(bm.getVariantDbId());
 			if (index != null)
 			{
 				if (Prefs.warnDuplicateMarkers)
@@ -96,7 +93,7 @@ public class BrapiMapImporter implements IMapImporter
 				// what BRAPI returns, but we've used the hash above to map between names and IDs
 				// *************
 				MarkerIndex mi = new MarkerIndex(w.index, 0);
-				markers.put(bm.getVariantDbId(), mi);
+				markersByDBId.put(bm.getVariantDbId(), mi);
 				markersByName.put(bm.getVariantName(), mi);
 
 				markerCount++;
@@ -122,7 +119,7 @@ public class BrapiMapImporter implements IMapImporter
 
 		Collections.sort(dataSet.getChromosomeMaps());
 
-		System.out.println("markers.size() = " + markers.size());
+		System.out.println("markers.size() = " + markersByDBId.size());
 
 		// Once the data is loaded, we need to update the hashmap with the
 		// index (within each map) of each marker, so that the genotype importer
@@ -133,7 +130,7 @@ public class BrapiMapImporter implements IMapImporter
 			int mkrIndex = 0;
 			for (Marker marker: map)
 			{
-				MarkerIndex mi = markers.get(namesToIDs.get(marker.getName()));
+				MarkerIndex mi = markersByDBId.get(namesToIDs.get(marker.getName()));
 				mi.mkrIndex = mkrIndex++;
 				mi.mapIndex = mapIndex;
 			}

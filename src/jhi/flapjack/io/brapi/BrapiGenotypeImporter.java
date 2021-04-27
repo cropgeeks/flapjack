@@ -19,6 +19,13 @@ import uk.ac.hutton.ics.brapi.resource.genotyping.variant.*;
 
 public class BrapiGenotypeImporter implements IGenotypeImporter
 {
+	private static final int UNKNOWN = 0;
+	private static final int DOWNLOADING_JSON = 1;
+	private static final int READING_JSON = 2;
+	private static final int DOWNLOADING_FLAPJACK = 3;
+	private static final int READING_FLAPJACK = 4;
+	private int state = UNKNOWN;
+
 	private ProgressInputStream is;
 	private DataImporter importer;
 	private DataSet dataSet;
@@ -27,7 +34,6 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 	// Each marker's name is stored (only while loading) in a hashmap, along
 	// with the index of the chromosome it is associated with
 	private HashMap<String, MarkerIndex> markers;
-	private HashMap<String, MarkerIndex> markersByName;
 
 	// Stores known states as we find them so we don't have to keep working them
 	// out for each allele
@@ -46,16 +52,18 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 	private boolean mapWasProvided;
 	private boolean fakeMapCreated = false;
 
-	private boolean isBrapiStreaming = false;
+	//File created from BrAPI format = flapjack response (data downloads into this)
+	private File cacheFile;
+	private GenotypeDataImporter gdi;
+	private long bytesRead;
 
 	public BrapiGenotypeImporter(DataImporter importer, BrapiClient client, DataSet dataSet, HashMap<String, MarkerIndex> markers,
-		 HashMap<String, MarkerIndex> markersByName, String ioMissingData, String ioHeteroSeparator)
+		 String ioMissingData, String ioHeteroSeparator)
 	{
 		this.importer = importer;
 		this.client = client;
 		this.dataSet = dataSet;
 		this.markers = markers;
-		this.markersByName = markersByName;
 		this.ioMissingData = ioMissingData;
 		this.ioHeteroSeparator = ioHeteroSeparator;
 
@@ -64,7 +72,7 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 
 		stateTable = dataSet.getStateTable();
 
-		mapWasProvided = markersByName.size() > 0;
+		mapWasProvided = markers.size() > 0;
 	}
 
 	@Override
@@ -83,19 +91,25 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 	@Override
 	public long getLineCount()
 	{
-		if (isBrapiStreaming)
+		if (state == DOWNLOADING_JSON)
 			return client.jsonLineCount();
-		else
+		else if (state == READING_JSON || state == READING_FLAPJACK)
 			return dataSet.getLines().size();
+		else
+			return 0;
 	}
 
 	@Override
 	public long getAlleleCount()
 	{
-		if (isBrapiStreaming)
+		if (state == DOWNLOADING_JSON)
 			return client.jsonAlleleCount();
-		else
+		else if (state == READING_JSON)
 			return alleleCount;
+		else if (state == READING_FLAPJACK)
+			return gdi.getAlleleCount();
+		else
+			return 0;
 	}
 
 	@Override
@@ -118,12 +132,6 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 	private boolean readData()
 		throws Exception
 	{
-		return readFlapjackFile();
-	}
-
-	private boolean readFlapjackFile()
-		throws Exception
-	{
 		BufferedReader in = null;
 		URI uri = null;
 
@@ -134,17 +142,36 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 			importer.setTotalBytes(expAlleles);
 		}
 
+		int format = -1; // 0=flapjack; 1=flapjack-transposed
+
 		VariantSet vSet = client.getVariantSet();
 		for (Format f: vSet.getAvailableFormats())
 		{
+			System.out.println("Found format: " + f.getDataFormat());
+
 			if (f.getDataFormat().equalsIgnoreCase("flapjack"))
+			{
+				format = 0;
 				uri = f.getFileURL();
+			}
+			else if (f.getDataFormat().equalsIgnoreCase("flapjack-transposed"))
+			{
+				format = 1;
+				uri = f.getFileURL();
+			}
 		}
+
+		System.out.println(uri);
 
 		// TODO: Better warning if no flapjack format/url found?
 		if (uri == null)
+		{
+			System.out.println("Reading from BrAPI-JSON");
 			return readJSON();
+		}
 
+		if (uri.isAbsolute() == false)
+			uri = new URI(client.baseURL + uri.getPath());
 
 		if (isOK)
 		{
@@ -170,13 +197,61 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 				}
 			}
 
-			is = new ProgressInputStream(response.body().byteStream());
-			in = new BufferedReader(new InputStreamReader(is, "UTF-8"));
+			if (cacheFile == null)
+			{
+				String GID = SystemUtils.createGUID(12);
+				cacheFile = new File(FlapjackUtils.getCacheDir(), GID + ".genotype");
+				cacheFile.deleteOnExit();
+
+				is = new ProgressInputStream(response.body().byteStream());
+				//in = new BufferedReader(new InputStreamReader(is, "UTF-8"));
+
+				state = DOWNLOADING_FLAPJACK;
+				BufferedOutputStream out = new BufferedOutputStream(
+					new FileOutputStream(cacheFile));
+				BufferedInputStream inS = new BufferedInputStream(is);
+
+				byte[] b = new byte[4096];
+				for (int n; (n = inS.read(b)) != -1; )
+				{
+//					try { Thread.sleep(10); }
+//					catch (Exception e) {}
+
+					out.write(b, 0, n);
+//					bytesRead += 4096;
+				}
+
+				out.close();
+				is.close();
+
+				state = READING_FLAPJACK;
+				System.out.println("Reading from Flapjack file");
+				gdi = new GenotypeDataImporter(cacheFile, dataSet, markers, ioMissingData, ioHeteroSeparator, (format == 1), false);
+
+				if (useByteStorage)
+					return gdi.importGenotypeDataAsBytes();
+				else
+				{
+					gdi.importGenotypeDataAsInts();
+					return true;
+				}
+			}
+
 		}
 		else
 			return false;
 
+//		if (format == 0)
+//			return readFlapjack(in);
+//		else if (format == 1)
+//			return readFlapjackTransposed(in);
 
+		return false;
+	}
+
+/*	private boolean readFlapjack(BufferedReader in)
+		throws Exception
+	{
 		// The first line is a list of marker names
 		String str;
 
@@ -250,6 +325,14 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 		return true;
 	}
 
+	private boolean readFlapjackTransposed(BufferedReader in)
+		throws Exception
+	{
+		System.out.println("File is");
+
+		throw new Exception("Not implemented yet");
+	}
+*/
 	private boolean readJSON()
 		throws Exception
 	{
@@ -261,9 +344,9 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 		// Parse over the pages (and pages) of line x marker x genotype objects
 		System.out.println("Calling /variantsets/{id}/calls");
 
-		isBrapiStreaming = true;
+		state = DOWNLOADING_JSON;
 		HashMap<String,String> jsonMarkers = client.getCallSetCallsDetails(cacheFile);
-		isBrapiStreaming = false;
+		state = READING_JSON;
 
 		ioHeteroSeparator = client.getIoHeteroSeparator();
 		ioMissingData = client.getIoMissingData();
@@ -329,26 +412,32 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 	@Override
 	public long getBytesRead()
 	{
-		if (isBrapiStreaming)
+		if (state == DOWNLOADING_JSON)
 			return client.jsonAlleleCount();
-		else
+		else if (state == READING_JSON)
 			return alleleCount;
+		else if (state == DOWNLOADING_FLAPJACK)
+			return bytesRead;
+		else if (state == READING_FLAPJACK)
+			return gdi.getBytesRead();
+		else
+			return 0;
 	}
 
 	private MarkerIndex queryMarker(String name)
 	{
 		// If a map was provided, then just use the hashtable
 		if (mapWasProvided || fakeMapCreated)
-			return markersByName.get(name);
+			return markers.get(name);
 
 		// Otherwise, we're into the special case for no map
 
 		// Make sure it's not a duplicate marker
-		if (markersByName.get(name) != null)
+		if (markers.get(name) != null)
 			return null;
 
 		// Its position will just be based on how many we've added so far
-		int position = markersByName.size();
+		int position = markers.size();
 		Marker marker = new Marker(name, position);
 
 		// There's only one map, so just grab it and add the marker to it
@@ -358,8 +447,8 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 		map.setLength(position);
 
 		// We can set the ChrIndex to 0 as we know there's only one
-		MarkerIndex mi = new MarkerIndex(0, markersByName.size());
-		markersByName.put(marker.getName(), mi);
+		MarkerIndex mi = new MarkerIndex(0, markers.size());
+		markers.put(marker.getName(), mi);
 
 		return mi;
 	}

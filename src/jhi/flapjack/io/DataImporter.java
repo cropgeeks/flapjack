@@ -156,7 +156,7 @@ public class DataImporter extends SimpleJob
 		{
 			BrapiMapImporter bMapImporter = (BrapiMapImporter) mapImporter;
 			return new BrapiGenotypeImporter(this, client, dataSet,
-				bMapImporter.getMarkersHashMap(), bMapImporter.getMarkersByName(),
+				bMapImporter.getMarkersHashMap(),
 				Prefs.ioMissingData, Prefs.ioHeteroSeparator);
 		}
 	}
