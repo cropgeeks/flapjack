@@ -214,6 +214,9 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 				byte[] b = new byte[4096];
 				for (int n; (n = inS.read(b)) != -1; )
 				{
+					//If the job is cancelled, exit the loop and stop reading.
+					if(!isOK) { break; }
+
 //					try { Thread.sleep(10); }
 //					catch (Exception e) {}
 
