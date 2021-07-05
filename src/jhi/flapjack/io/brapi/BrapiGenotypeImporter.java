@@ -176,7 +176,20 @@ public class BrapiGenotypeImporter implements IGenotypeImporter
 		if (isOK)
 		{
 			Response response = client.getResponse(uri);
-			String cl = response.header("Content-Length");
+            java.util.logging.Logger LOG = java.util.logging.Logger.getLogger(getClass().getName());
+            while (response.code() == javax.servlet.http.HttpServletResponse.SC_ACCEPTED) {
+                String body = response.body().string();
+                LOG.info(response.code() + " -> " + body);
+                response.close();
+//                if (TaskDialog.show("Remote file is being generated. " + body, TaskDialog.QST, 1, new String[]{RB.getString("gui.text.ok"), RB.getString("gui.text.cancel")}) != 0) {
+//                    response.close();
+//                    cancelImport();
+//                    return false;
+//                }
+                Thread.sleep(5000);
+                response = client.getResponse(uri);
+            }
+            String cl = response.header("Content-Length");
 
 			long contentLength = 0;
 			try { contentLength = Long.parseLong(cl); }
