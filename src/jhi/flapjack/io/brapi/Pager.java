@@ -73,7 +73,7 @@ public class Pager
 	{
 		TokenPagination p = metadata.getPagination();
 
-		if (p.getTotalPages() == 0 || p.getCurrentPage() == p.getTotalPages() - 1)
+		if (p.getTotalPages() == 0 || p.getCurrentPage() == p.getTotalPages() - 1 || p.getNextPageToken() == null)
 			isPaging = false;
 
 			// Update the pageSize and page variables as we haven't yet reached the

@@ -126,6 +126,8 @@ public class DataImporter extends SimpleJob
 
 	private IGenotypeImporter setupGenotypeImport()
 	{
+		dataSet.getLines().clear();
+		
 		// "Normal"...
 		if (Prefs.guiImportType == IMPORT_CLASSIC)
 		{

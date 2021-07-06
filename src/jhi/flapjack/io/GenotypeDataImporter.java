@@ -166,6 +166,8 @@ public class GenotypeDataImporter implements IGenotypeImporter
 		BufferedReader in = new BufferedReader(new InputStreamReader(is, "UTF-8"));
 
 		String str = in.readLine();
+		if (str == null)	// happens when BrAPI import has been cancelled
+			return false;
 
 		// Preprocess the file, looking for any header information
 		while (str.length() == 0 || str.startsWith("#"))
