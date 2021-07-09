@@ -152,7 +152,11 @@ public class PedVerF1sAnalysis extends SimpleJob
 		lineStat.setPercentDeviationFromExpected(f1PercentCount - ((hetMarkers / (double)foundMarkers) * 100));
 		lineStat.setSimilarityToP1(similarityToP1 * 100);
 		lineStat.setSimilarityToP2(similarityToP2 * 100);
-		lineStat.setPercentAlleleMatchExpected((matchesExpF1 / (double)foundMarkers) * 100);
+
+		// Number of comparisons we can do with this line against the F1
+		double f1Comps = getF1ComparisonCount(lineIndex);
+		lineStat.setPercentAlleleMatchExpected((matchesExpF1 / (double)f1Comps) * 100);
+
 		lineStat.setThresholds(thresholds);
 		lineStat.setParent1Heterozygosity((as.hetCount(parent1Index) / (double)foundMarkers) * 100);
 		lineStat.setParent2Heterozygosity((as.hetCount(parent2Index) / (double)foundMarkers) * 100);
@@ -194,6 +198,31 @@ public class PedVerF1sAnalysis extends SimpleJob
 			&& as.getState(chr, f1Index, marker) != 0
 			&& stateTable.isHom(as.getState(chr, parent1Index, marker))
 			&& stateTable.isHom(as.getState(chr, parent2Index, marker));
+	}
+
+	// A comparison is only possible if both the line and the F1 have data at
+	// a given marker position. If either is unknown, then it's not possible to
+	// compare them.
+	private int getF1ComparisonCount(int line)
+	{
+		int nComps = 0;
+
+		for (int c = 0; c < as.viewCount(); c++)
+		{
+			for (int m = 0; m < as.markerCount(c); m++)
+			{
+				AlleleState s1 = stateTable.getAlleleState(as.getState(c, f1Index, m));
+				AlleleState s2 = stateTable.getAlleleState(as.getState(c, line, m));
+
+				// Ignore markers with missing data
+				if (s1.isUnknown() || s2.isUnknown())
+					continue;
+
+				nComps++;
+			}
+		}
+
+		return nComps;
 	}
 
 	// Compares two lines, *not* counting missing data
