@@ -103,3 +103,23 @@ Prepared by `Dr Clay Sneller <https://hcs.osu.edu/our-people/dr-clay-sneller>`_ 
   </video>
 
 |
+
+**Module 8.1 - Batch Analysis** (`Download <https://ics.hutton.ac.uk/resources/flapjack/videos/Flapjack%20Training%20Module%208.1%20-%20Batch%20Analysis.mp4>`_)
+
+.. raw:: html
+
+  <video controls preload="none" width="640" height="330">
+    <source src="https://ics.hutton.ac.uk/resources/flapjack/videos/Flapjack%20Training%20Module%208.1%20-%20Batch%20Analysis.mp4" type="video/mp4">
+  </video>
+
+|
+
+**Module 8.2 - Consensus and Splitting Tool (CAST)** (`Download <https://ics.hutton.ac.uk/resources/flapjack/videos/Flapjack%20Training%20Module%208.2%20-%20Consensus%20and%20Analysis%20Tool.mp4>`_)
+
+.. raw:: html
+
+  <video controls preload="none" width="640" height="330">
+    <source src="https://ics.hutton.ac.uk/resources/flapjack/videos/Flapjack%20Training%20Module%208.2%20-%20Consensus%20and%20Analysis%20Tool.mp4" type="video/mp4">
+  </video>
+
+|
