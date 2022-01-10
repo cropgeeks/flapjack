@@ -45,7 +45,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'Flapjack'
-copyright = u'2021, Information and Computational Sciences, The James Hutton Institute'
+copyright = u'2022, Information and Computational Sciences, The James Hutton Institute'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
