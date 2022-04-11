@@ -63,6 +63,7 @@ jobs:
     #    uses a compiled language
 
     - run: |
+       mkdir classes
        ant jar
     #   make bootstrap
     #   make release
