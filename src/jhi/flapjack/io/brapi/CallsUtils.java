@@ -38,13 +38,15 @@ class CallsUtils
 		return true;
 	}
 
-	boolean hasCall(String signature, String datatype, String method)
+	boolean hasCall(String signature, String contentType, String method)
 	{
-		for (BrapiCall call : calls)
-			if (call.getService().equals(signature) && call.hasDataType(BrapiCall.DataType.getFromString(datatype)) && call.hasMethod(BrapiCall.Method.valueOf(method)))
-				return true;
+        for (BrapiCall call : calls)
+        {
+          if (call.getService().equals(signature) && call.hasContentType(BrapiCall.ContentType.getFromString(contentType)) && call.hasMethod(BrapiCall.Method.valueOf(method)))
+              return true;
+        }
 
-		return false;
+        return false;     
 	}
 
 	boolean hasToken()

@@ -354,12 +354,12 @@ public class BrapiClient
 			// We only have the *current* page's infomation, so the next page we
 			// need to ask for is pager.getNextPageToken() even though the
 			// method parameter itself is just called pageToken
-			Response<TokenBaseResult<CallResult<Call>>> response = genotypeService.getVariantSetByIdCalls(variantSetID, null, null, null, null, pager.getNextPageToken(), pager.getPageSize())
+			Response<BaseResult<CallResult<Call>>> response = genotypeService.getVariantSetByIdCalls(variantSetID, null, null, null, null, pager.getNextPageToken(), pager.getPageSize())
 																									 .execute();
 
 			if (response.isSuccessful())
 			{
-				TokenBaseResult<CallResult<Call>> r = response.body();
+				BaseResult<CallResult<Call>> r = response.body();
 
 //				list.addAll(r.getResult().getData());
 				pager.paginate(r.getMetadata());
@@ -376,7 +376,7 @@ public class BrapiClient
 
 					out.write(detail.getCallSetName() + "\t"
 						+ detail.getVariantName() + "\t"
-						+ detail.getGenotype().getValues().get(0));
+						+ detail.getGenotypeValue());
 					out.newLine();
 				}
 

@@ -48,7 +48,7 @@ class BrapiStudiesPanelNB extends JPanel implements IBrapiWizard
 				{ RB.getString("gui.dialog.importer.BrapiStudiesPanelNB.studyName"),
 				  study.getStudyName() },
 				{ RB.getString("gui.dialog.importer.BrapiStudiesPanelNB.studyActive"),
-				  study.isActive() },
+				  study.getActive() },
 				{ RB.getString("gui.dialog.importer.BrapiStudiesPanelNB.studyDescription"),
 				  study.getStudyDescription() },
 				{ RB.getString("gui.dialog.importer.BrapiStudiesPanelNB.studyType"),

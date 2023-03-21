@@ -51,7 +51,7 @@ public class Pager
 	{
 		Pagination p = metadata.getPagination();
 
-		if (p.getTotalPages() == 0 || p.getCurrentPage() == p.getTotalPages() - 1)
+		if (p.getTotalPages() == 0 || p.getPage() == p.getTotalPages() - 1)
 			isPaging = false;
 
 		// Update the pageSize and page variables as we haven't yet reached the
@@ -59,7 +59,7 @@ public class Pager
 		else
 		{
 			pageSize = p.getPageSize();
-			page = (p.getCurrentPage() + 1);
+			page = (p.getPage() + 1);
 			totalPages = p.getTotalPages();
 		}
 	}
@@ -72,7 +72,7 @@ public class Pager
 	 *                  represnet the Metadata block return from a BrAPI
 	 *                  implementation
 	 */
-	public void paginate(TokenMetadata metadata)
+	/*public void paginate(TokenMetadata metadata)
 	{
 		TokenPagination p = metadata.getPagination();
 
@@ -90,7 +90,7 @@ public class Pager
 			nextPageToken = p.getNextPageToken();
 			prevPageToken = p.getPrevPageToken();
 		}
-	}
+	}*/
 
 	public boolean isPaging()
 		{ return isPaging; }
