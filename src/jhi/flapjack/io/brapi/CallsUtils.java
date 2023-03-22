@@ -42,12 +42,29 @@ class CallsUtils
 	{
         for (BrapiCall call : calls)
         {
-          if (call.getService().equals(signature) && call.hasContentType(BrapiCall.ContentType.getFromString(contentType)) && call.hasMethod(BrapiCall.Method.valueOf(method)))
-              return true;
+          if (hasService(call, signature) && (hasContentType(call, contentType) || hasDataType(call, contentType)) && hasMethod(call, method)) {
+            return true;
+          }
         }
 
         return false;     
 	}
+    
+    boolean hasService(BrapiCall call, String signature) {
+        return call.getService().equals(signature);
+    }
+    
+    boolean hasContentType(BrapiCall call, String contenttype) {
+        return call.hasContentType(BrapiCall.ContentType.getFromString(contenttype));
+    }
+    
+    boolean hasDataType(BrapiCall call, String datatype) {
+        return call.hasDataType(BrapiCall.DataType.getFromString(datatype));
+    }
+    
+    boolean hasMethod(BrapiCall call, String method) {
+        return call.hasMethod(BrapiCall.Method.valueOf(method)); 
+    }
 
 	boolean hasToken()
 	{
