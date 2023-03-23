@@ -65,12 +65,16 @@ public class BrapiClient
 		return URLEncoder.encode(str, StandardCharsets.UTF_8);
 	}
 
+    /*
+    Calls BrAPI endpoint /serverinfo
+    https://brapicore21.docs.apiary.io/#/reference/server-info/get-serverinfo
+    */
 	public void getServerInfo()
 		throws Exception
 	{
 		ServerInfo serverInfo = new ServerInfo();
 
-		Response<BaseResult<ServerInfo>> response = coreService.getServerInfo(null, 0, Integer.MAX_VALUE)
+		Response<BaseResult<ServerInfo>> response = coreService.getServerInfo(null, null, 0, Integer.MAX_VALUE)
 																   .execute();
 
 		if (response.isSuccessful())
@@ -147,6 +151,10 @@ public class BrapiClient
 		return false;
 	}
 
+    /* 
+    Calls BrAPI endpoint /maps
+    https://brapigenotyping21.docs.apiary.io/#/reference/genome-maps/get-maps
+    */
 	// Returns a list of available maps
 	public List<Map> getMaps()
 		throws Exception
@@ -176,6 +184,10 @@ public class BrapiClient
 		return mapList;
 	}
 
+    /*
+    Calls BrAPI endpoint /markerpositions
+    https://brapigenotyping21.docs.apiary.io/#/reference/genome-maps/get-markerpositions
+    */
 	// Returns the details (markers, chromosomes, positions) for a given map
 	public List<MarkerPosition> getMapMarkerData()
 		throws Exception
@@ -205,6 +217,10 @@ public class BrapiClient
 		return markerPositionList;
 	}
 
+    /*
+    Calls BrAPI endpoint /studies
+    https://brapicore21.docs.apiary.io/#/reference/study/get-studies
+    */
 	// Returns a list of available studies
 	public List<Study> getStudies()
 		throws Exception
@@ -251,6 +267,10 @@ public class BrapiClient
 		throw new UnsupportedOperationException("Not supported yet.");
 	}
 
+    /*
+    Calls BrAPI endpoint /callsets
+    https://brapigenotyping21.docs.apiary.io/#/reference/call-sets/get-callsets
+    */
 	public List<CallSet> getCallsets()
 		throws Exception
 	{
@@ -279,6 +299,10 @@ public class BrapiClient
 		return callsetList;
 	}
 
+    /*
+    Calls BrAPI endpoint /variantsets
+    https://brapigenotyping21.docs.apiary.io/#/reference/variant-sets/get-variantsets
+    */
 	public List<VariantSet> getVariantSets()
 		throws Exception
 	{
@@ -307,6 +331,10 @@ public class BrapiClient
 		return vList;
 	}
 
+    /*
+    Calls BrAPI endpoint /variantsets/{variantSetDbId}
+    https://brapigenotyping21.docs.apiary.io/#/reference/variant-sets/get-variantsets-variant-set-db-id
+    */
 	public VariantSet getVariantSet()
 		throws Exception
 	{
@@ -339,10 +367,13 @@ public class BrapiClient
 			throw new Exception("Flapjack could not process the data returned by the server.");
 	}
 
+    /*
+    Calls BrAPI endpoint /variantsets/{variantSetDbId}/callsets
+    https://brapigenotyping21.docs.apiary.io/#/reference/variant-sets/get-variantsets-variant-set-db-id-callsets
+    */
 	// Returns a list of CallSetCallsDetail objects, where each object defines
 	// an intersection of line/marker (and hence allele) information
 	//
-	// BRAPI: /variantsets/{variantSetDbId}/calls
 	public HashMap<String,String> getCallSetCallsDetails(File cacheFile)
 		throws Exception
 	{
@@ -389,15 +420,6 @@ public class BrapiClient
 					out.newLine();
 				}
 
-/*				System.out.println("data paged:");
-				System.out.println("  getNextPageToken: " + pager.getNextPageToken());
-				System.out.println("  getPageToken:     " + pager.getPageToken());
-				System.out.println("  getPrevPageToken: " + pager.getPrevPageToken());
-				System.out.println("  getPageSize:      " + pager.getPageSize());
-				System.out.println("  getTotalPages:    " + pager.getTotalPages());
-
-				System.out.println("list size is " + list.size());
-*/
 				ioHeteroSeparator = r.getResult().getSepUnphased();
 				ioMissingData = r.getResult().getUnknownString();
 
@@ -449,6 +471,10 @@ public class BrapiClient
 		return (XmlBrapiProvider) jaxbUnmarshaller.unmarshal(xml);
 	}
 
+    /*
+    Calls BrAPI endpoint /studies
+    https://brapicore21.docs.apiary.io/#/reference/study/get-studies
+    */
 	public boolean requiresAuthentication()
 		throws Exception
 	{
