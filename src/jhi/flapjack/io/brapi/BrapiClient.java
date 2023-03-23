@@ -214,7 +214,8 @@ public class BrapiClient
 
 		while (pager.isPaging())
 		{
-			Response<BaseResult<ArrayResult<Study>>> response = coreService.getStudies(null, "genotype", null, null,
+            //Second parameter is for filtering results by studyType, reverted to "null" to include all values while awaiting a set of standard terminologies in the BrAPI standard.
+			Response<BaseResult<ArrayResult<Study>>> response = coreService.getStudies(null, null, null, null,
 				null, null, null, null, null, null, null, null, null, null, null, null,
 				null, pager.getPage(), pager.getPageSize())
 																   .execute();
@@ -225,8 +226,16 @@ public class BrapiClient
 
 				if (studies == null)
 					throwError(0, null);
+                //studyType is not currently using restricted terms so filtering all studies by ones containing something which could indicate genotype data in the meantime.
+                
+                for (Study study : studies.getResult().getData()) {
+                    if (study.getStudyType().toLowerCase().contains("gen")) {
+                        studiesList.add(study);
+                    }
+                }
 
-				studiesList.addAll(studies.getResult().getData());
+                //When studyType or similar field is restricted, this can be filtered in the BrAPI call and adding all studies again will be appropriate.
+				//studiesList.addAll(studies.getResult().getData());
 				pager.paginate(studies.getMetadata());
 			}
 			else
