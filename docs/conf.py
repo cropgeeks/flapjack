@@ -14,7 +14,6 @@
 
 import sys
 import os
-import sphinx_rtd_theme
 
 # Define the canonical URL if you are using a custom domain on Read the Docs
 html_baseurl = os.environ.get("READTHEDOCS_CANONICAL_URL", "")
